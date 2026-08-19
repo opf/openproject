@@ -7,7 +7,10 @@ hy:
         bim_snippet: BIM հատված
         reference_links: Տեղեկատու հղումներ
         stage: Փուլ
+        status_id: Status
         viewpoint: Դիտակետ
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC նիշք
         ifc_attachment: IFC նիշք

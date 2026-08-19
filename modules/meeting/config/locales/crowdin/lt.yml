@@ -57,6 +57,8 @@ lt:
         position: Position
         presenter: Pateikėjas
         title: Pavadinimas
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Pakviesti

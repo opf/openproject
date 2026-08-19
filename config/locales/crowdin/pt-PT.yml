@@ -236,6 +236,7 @@ pt-PT:
         project_creation_wizard_status_when_submitted: Estado quando enviado
         project_creation_wizard_work_package_comment: Comentário no pacote de trabalho
         project_creation_wizard_work_package_type: Tipo de pacote de trabalho
+        project_types: Types
         public_value:
           false: privado
           title: Visibilidade
@@ -275,6 +276,8 @@ pt-PT:
         start_gate_name: Nome da porta de fase inicial
       project_custom_field:
         custom_field_section: Secção
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Pacotes de trabalho secundários
         column_names: Colunas
@@ -342,18 +345,26 @@ pt-PT:
       token/named:
         token_name: Nome do token
       type:
-        attribute_groups: Configuração do formulário
-        children: Variants
         color: Cor
-        dependent_configuration_links: Tipos associados
-        description: Texto padrão para a descrição
-        is_default: Ativado para novos projetos por padrão
         is_in_roadmap: Apresentado no roteiro por defeito
         is_milestone: É um marco
-        parent: Tipo de pai
-        patterns: Padrões
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Tipo de origem
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
@@ -549,6 +560,7 @@ pt-PT:
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
         taken: já está a ser utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
@@ -719,8 +731,6 @@ pt-PT:
               blank: Selecione um projeto.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -811,25 +821,34 @@ pt-PT:
               blank: Forneça um nome de token
               format: "%{message}"
               in_use: Este nome de token já está a ser utilizado, selecione um diferente
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Foi utilizado um atributo de pacote de trabalho inválido.
-              attribute_unknown_name: 'Foi utilizado um atributo de pacote de trabalho inválido: %{attribute}'
-              duplicate_group: O nome de grupo '%{group}' foi usado mais de uma vez. Os nomes de grupos têm de ser exclusivos.
-              group_without_name: O nome do grupo não pode ficar em branco
-              query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
-            parent:
-              cannot_be_self: não pode ser o próprio tipo.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: deve ser, por si só, um tipo de nível superior. Os tipos só podem ser aninhados num único nível.
-              standard_type_must_be_root: não pode ser definido para o tipo padrão.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -935,6 +954,9 @@ pt-PT:
             start_date:
               cannot_be_null: não pode ser definido como nulo porque a data de término e a duração são conhecidas.
               violates_relationships: só pode ser definida como %{soonest_start} ou posterior de modo a não violar as relações do pacote de trabalho.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: é inválido porque não existe o status atual deste tipo.
               status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador actual.
@@ -1007,6 +1029,9 @@ pt-PT:
       type:
         one: Tipo
         other: Tipos
+      type_variant:
+        one: Variant
+        other: Variants
       user: Utilizador
       version: Versão
       wiki: Wiki
@@ -1802,6 +1827,7 @@ pt-PT:
     start_date: Data de início
     state: Estado
     status: Situação
+    status_id: Status
     subject: Assunto
     summary: Resumo
     template: Modelo
@@ -2559,7 +2585,6 @@ pt-PT:
   error_can_not_delete_entry: Não é possível apagar a entrada
   error_can_not_delete_in_use_archived_undisclosed: Também existem pacotes de trabalho em projetos arquivados. Tem de pedir a um administrador que efetue a eliminação para ver quais são os projetos afetados.
   error_can_not_delete_in_use_archived_work_packages: 'Também existem pacotes de trabalho em projetos arquivados. Tem de reativar os seguintes projetos antes de poder alterar o atributo dos respetivos pacotes de trabalho: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Tipos de padrão não podem ser eliminados.
   error_can_not_delete_type:
     explanation: Este tipo contém pacotes de trabalho e não pode ser eliminado. Pode ver todos os pacotes de trabalho afetados <a target="_blank" href="%{url}">nesta vista</a>.
   error_can_not_find_all_resources: Não foi possível encontrar todos os recursos relacionados a esta solicitação.
@@ -4272,7 +4297,6 @@ pt-PT:
   notice_auth_stage_error: O estágio de autenticação '%{stage}' falhou.
   notice_auth_stage_verification_error: Não foi possível verificar o estágio '%{stage}'.
   notice_auth_stage_wrong_stage: Era esperado que terminasse o estágio de autenticação '%{expected}', mas foi recebido '%{actual}'.
-  notice_automatic_set_of_standard_type: Defina o tipo por defeito automaticamente.
   notice_bad_request: Pedido inválido.
   notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a senha.
   notice_custom_options_deleted: A opção '%{option_value}' e suas %{num_deleted} ocorrências foram eliminadas.
@@ -5916,10 +5940,11 @@ pt-PT:
   total_progress: Progresso total
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Criar tipo
       create_variant: Criar variante
       fields:
-        inherited_from_parent_html: Herdado do tipo pai <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Terminar
       placeholder_description: Este passo estará disponível em breve.
       progress_label: Passo %{number} de %{total}
@@ -5931,7 +5956,7 @@ pt-PT:
         project_attributes: Atributos do projeto
         projects: Projetos
         workflows: Fluxos de trabalho
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -5956,6 +5981,7 @@ pt-PT:
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos em gráficos de Gantt ou tabelas de pacotes de trabalho. Portanto é recomendado usar uma cor forte.
       export_configuration:
@@ -6026,6 +6052,13 @@ pt-PT:
         actions:
           label_disable_all: Desativar tudo
           label_enable_all: Ativar tudo
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Selecione os atributos do projeto que pretende ativar para este tipo de pacote de trabalho. Os atributos do projeto ativados são apresentados num separador distinto nos pacotes de trabalho deste tipo. Os utilizadores com as permissões necessárias podem ver e editar esses atributos nesse separador.
         disabled: Disabled
         exclusions:
@@ -6622,18 +6655,18 @@ pt-PT:
           label: Função de origem
         target_role_ids:
           label: Funções de destino
-        target_type_ids:
-          label: 'Tipos de destino:'
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             one: O fluxo de trabalho foi copiado com sucesso para a função '%{role_name}'.
             other: O fluxo de trabalho foi copiado com sucesso para %{count} funções.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: O fluxo de trabalho foi copiado com sucesso para o tipo '%{type_name}'.
-            other: O fluxo de trabalho foi copiado com sucesso para %{count} tipos.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copiar fluxo de trabalho de "%{source_type}"
     form:

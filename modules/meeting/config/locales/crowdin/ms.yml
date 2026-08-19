@@ -54,6 +54,8 @@ ms:
         position: Position
         presenter: Penyampai
         title: Tajuk
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Dihadiri
         invited: Telah dijemput

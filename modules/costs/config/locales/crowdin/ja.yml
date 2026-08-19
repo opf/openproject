@@ -266,7 +266,7 @@ ja:
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: 開始/終了時間を必須とする
-  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力を必須にします。
+  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力が必須となる。
   setting_enforce_without_allow: 開始時間と終了時間を要求することは許可されていないとできません
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
   setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.

@@ -55,6 +55,8 @@ bg:
         position: Position
         presenter: Презентатор
         title: Заглавие
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

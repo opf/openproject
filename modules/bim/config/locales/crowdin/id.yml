@@ -7,7 +7,10 @@ id:
         bim_snippet: Cuplikan BIM
         reference_links: Tautan rujukan
         stage: Tahapan
+        status_id: Status
         viewpoint: Sudut pandang
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: berkas IFC
         ifc_attachment: berkas IFC

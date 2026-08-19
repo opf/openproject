@@ -55,6 +55,8 @@ el:
         position: Position
         presenter: Παρουσιαστής
         title: Τίτλος
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Συμμετείχα
         invited: Καλεσμένος/η

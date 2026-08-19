@@ -55,6 +55,8 @@ fa:
         position: Position
         presenter: Presenter
         title: عنوان
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited
