@@ -63,16 +63,18 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
     end
   end
 
-  it "shows the filter criteria builder on the filter step" do
+  it "shows the placeholder user picker on the filter step" do
     click_on I18n.t("resource_management.work_package_list.subheader.allocate")
 
     within_dialog do
       choose I18n.t("resource_management.allocate_resource_dialog.kind.filter.label")
       click_on I18n.t("button_next")
 
-      expect(page).to have_field(ResourceAllocation.human_attribute_name(:filter_name))
-      # The blank UserQuery filter form renders its "add filter" selector.
-      expect(page).to have_css(".op-filters-form")
+      expect(page).to have_text(ResourceAllocation.human_attribute_name(:placeholder_user))
+      # Criteria are picked, not described here, so the step offers the
+      # catalogue rather than a filter builder.
+      expect(page).to have_css("opce-user-autocompleter")
+      expect(page).to have_no_css(".op-filters-form")
     end
   end
 
