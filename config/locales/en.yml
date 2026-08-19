@@ -3453,6 +3453,7 @@ en:
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: "New member"
+  label_member_of_group: "Member of group"
   label_member_of_project: "Member of project"
   label_member_plural: "Members"
   label_member_role: "Project role"

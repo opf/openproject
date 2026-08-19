@@ -28,38 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
+require "spec_helper"
 
-  def self.model
-    User
+RSpec.describe Queries::Users::Selects::MemberOfGroup do
+  shared_let(:user) { create(:user) }
+  shared_let(:group) { create(:group, members: [user]) }
+  shared_let(:department) { create(:department, members: [user]) }
+
+  let(:query) { UserQuery.new(name: "Users").tap { it.select(:member_of_group) } }
+
+  current_user { create(:admin) }
+
+  describe ".key" do
+    it "is :member_of_group" do
+      expect(described_class.key).to eq(:member_of_group)
+    end
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  describe "#caption" do
+    it "is the member of group label" do
+      expect(described_class.new(:member_of_group).caption).to eq(I18n.t(:label_member_of_group))
+    end
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::CustomFieldFilter
+  it "eager loads the group memberships without the departments" do
+    result = query.results.to_a.detect { it == user }
 
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::MemberOfGroup
-    select Queries::Users::Selects::MemberOfProject
-    select Queries::Users::Selects::Status
-    select Queries::Users::Selects::CustomField
+    expect(result.association(:regular_groups)).to be_loaded
+    expect(result.regular_groups).to contain_exactly(group)
   end
 end

@@ -289,6 +289,9 @@ RSpec.describe UserQuery do
       expect(Queries::Register.selects[described_class]).to include(
         Queries::Users::Selects::Default,
         Queries::Users::Selects::Department,
+        Queries::Users::Selects::MemberOfGroup,
+        Queries::Users::Selects::MemberOfProject,
+        Queries::Users::Selects::Status,
         Queries::Users::Selects::CustomField
       )
     end

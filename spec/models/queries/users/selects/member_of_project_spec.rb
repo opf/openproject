@@ -28,38 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
+require "spec_helper"
 
-  def self.model
-    User
+RSpec.describe Queries::Users::Selects::MemberOfProject do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => [:view_project] }) }
+
+  let(:query) { UserQuery.new(name: "Users").tap { it.select(:member_of_project) } }
+
+  current_user { create(:admin) }
+
+  describe ".key" do
+    it "is :member_of_project" do
+      expect(described_class.key).to eq(:member_of_project)
+    end
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  describe "#caption" do
+    it "is the member of project label" do
+      expect(described_class.new(:member_of_project).caption).to eq(I18n.t(:label_member_of_project))
+    end
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::CustomFieldFilter
+  it "eager loads the projects" do
+    result = query.results.to_a.detect { it == user }
 
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::MemberOfGroup
-    select Queries::Users::Selects::MemberOfProject
-    select Queries::Users::Selects::Status
-    select Queries::Users::Selects::CustomField
+    expect(result.association(:projects)).to be_loaded
+    expect(result.projects).to contain_exactly(project)
   end
 end

@@ -74,6 +74,14 @@ module Users
       helpers.full_user_status user
     end
 
+    def member_of_group
+      joined_names user.regular_groups
+    end
+
+    def member_of_project
+      joined_names user.projects
+    end
+
     def button_links
       [status_link].compact
     end
@@ -119,6 +127,10 @@ module Users
 
     def column_attribute(column)
       column.respond_to?(:attribute) ? column.attribute : column
+    end
+
+    def joined_names(records)
+      records.map(&:name).sort.join(", ")
     end
 
     def custom_field_column_subject

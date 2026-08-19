@@ -32,12 +32,22 @@ require "rails_helper"
 
 RSpec.describe Users::TableComponent, type: :component do
   shared_let(:admin) { create(:admin) }
-  shared_let(:member_of_department) { create(:user, login: "with-department") }
-  shared_let(:without_department) { create(:user, login: "without-department") }
-  shared_let(:department) { create(:department, lastname: "Research", members: [member_of_department]) }
+  shared_let(:project) { create(:project, name: "Apple") }
+  shared_let(:other_project) { create(:project, name: "Banana") }
+  shared_let(:user) do
+    create(:user,
+           login: "connected",
+           status: :locked,
+           member_with_permissions: { project => [:view_project], other_project => [:view_project] })
+  end
+  shared_let(:lonely_user) { create(:user, login: "unconnected") }
+  shared_let(:department) { create(:department, lastname: "Research", members: [user]) }
+  shared_let(:group) { create(:group, lastname: "Reviewers", members: [user]) }
+
+  let(:selects) { %i[login department member_of_group member_of_project status] }
 
   let(:query) do
-    UserQuery.new(name: "Users").tap { it.select(:login, :department) }
+    UserQuery.new(name: "Users").tap { it.select(*selects) }
   end
 
   before do
@@ -47,12 +57,39 @@ RSpec.describe Users::TableComponent, type: :component do
     render_inline(described_class.new(rows: query, current_user: admin))
   end
 
-  it "renders the department column header" do
-    expect(page).to have_css("th", text: User.human_attribute_name(:department))
+  it "renders a header for every selected column" do
+    captions = [User.human_attribute_name(:login),
+                User.human_attribute_name(:department),
+                I18n.t(:label_member_of_group),
+                I18n.t(:label_member_of_project),
+                I18n.t(:label_status)]
+
+    captions.each { expect(page).to have_css("th", text: it) }
   end
 
-  it "renders the department of each user" do
+  it "renders the department" do
     expect(page).to have_css("td.department", text: department.name, count: 1)
-    expect(page).to have_css("tr.user td.department", count: 3)
+  end
+
+  it "renders the groups without the department" do
+    expect(page).to have_css("td.member_of_group", text: group.name, count: 1)
+    expect(page).to have_no_css("td.member_of_group", text: department.name)
+  end
+
+  it "renders the projects in alphabetical order" do
+    expect(page).to have_css("td.member_of_project", text: "Apple, Banana", count: 1)
+  end
+
+  it "renders the status" do
+    expect(page).to have_css("td.status", text: I18n.t(:status_locked), count: 1)
+    expect(page).to have_css("td.status", text: I18n.t(:status_active), count: 2)
+  end
+
+  it "leaves the cells of an unconnected user empty" do
+    row = page.find("tr.user", text: lonely_user.login)
+
+    expect(row.find("td.department").text).to be_blank
+    expect(row.find("td.member_of_group").text).to be_blank
+    expect(row.find("td.member_of_project").text).to be_blank
   end
 end
