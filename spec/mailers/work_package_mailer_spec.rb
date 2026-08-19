@@ -72,8 +72,7 @@ RSpec.describe WorkPackageMailer do
                       type: build_stubbed(:type_standard),
                       project:,
                       assigned_to: assignee,
-                      identifier: "PROJ-42",
-                      sequence_number: 42)
+                      identifier: "PROJ-42")
       end
 
       it "has a subject with semantic identifier and no # prefix" do
@@ -205,8 +204,7 @@ RSpec.describe WorkPackageMailer do
                         type: build_stubbed(:type_standard),
                         project:,
                         assigned_to: assignee,
-                        identifier: "PROJ-42",
-                        sequence_number: 42)
+                        identifier: "PROJ-42")
         end
 
         it "includes the semantic identifier without # prefix in the subject" do
@@ -242,8 +240,7 @@ RSpec.describe WorkPackageMailer do
                         type: build_stubbed(:type_standard),
                         project:,
                         assigned_to: assignee,
-                        identifier: "PROJ-42",
-                        sequence_number: 42)
+                        identifier: "PROJ-42")
         end
 
         it "includes the semantic identifier without # prefix in the subject" do
@@ -269,7 +266,7 @@ RSpec.describe WorkPackageMailer do
       end
 
       context "with multiple versions disabled (legacy behaviour)",
-              with_flag: { work_package_multiple_versions: false } do
+              with_settings: { work_package_multiple_versions: false } do
         let(:target_versions) { [version_a] }
 
         it "labels the row 'Version' and shows the single target version" do
@@ -279,7 +276,6 @@ RSpec.describe WorkPackageMailer do
       end
 
       context "with multiple versions enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         let(:target_versions) { [version_b, version_a] }
 

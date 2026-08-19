@@ -30,7 +30,10 @@ de:
         no_results: Nichts Neues zu berichten.
       not_available: Dieses Widget ist nicht verfügbar.
       project_timeline:
-        no_lifecycle_results: No life cycle phases
+        footer_actions_label: Details ansehen
+        gantt_link: Meilensteine als Gantt
+        no_results_title: No project timeline content configured
+        sprints_link: Sprintübersicht
         title: Projektzeitleiste
         title_portfolio: Zeitleiste des Portfolios
         title_program: Zeitleiste des Programms

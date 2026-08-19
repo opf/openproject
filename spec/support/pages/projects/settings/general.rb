@@ -48,7 +48,7 @@ module Pages
 
         def click_copy_action
           page.find_test_selector("project-settings-more-menu").click
-          page.find(:menuitem, "Copy").click # TODO: scope to More menu
+          page.find(:menuitem, "Duplicate").click # TODO: scope to More menu
         end
 
         # Waits for the "Background job status" dialog shown after a copy is

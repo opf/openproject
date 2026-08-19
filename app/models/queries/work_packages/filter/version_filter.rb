@@ -38,14 +38,13 @@ class Queries::WorkPackages::Filter::VersionFilter <
     WorkPackage.human_attribute_name("version")
   end
 
-  def joins
-    case operator
-    when "o", "c", "l"
-      :version
-    end
-  end
-
   def self.key
     :version_id
+  end
+
+  # `version_id` and `target_version_id` replace one another; stored keys are
+  # translated on read, see Query::DeprecatedVersionFilter.
+  def available?
+    !Setting::WorkPackageMultipleVersions.active?
   end
 end

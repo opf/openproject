@@ -41,7 +41,45 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  copy_workflow_from = maybe_integer(params.dig(:type, :copy_workflow_from)).value_or(nil)
-  render WorkPackageTypes::SettingsComponent.new(@type, copy_workflow_from:)
-%>
+<%# The pre-variants creation form, reached only while the variants feature flag is
+    off. Deliberately inline and standalone rather than sharing the Details tab's form:
+    it keeps the old behaviour frozen and is deleted along with this whole flow once
+    the flag goes away. With the flag off a type has no parent, so nothing is inherited. %>
+<% copy_workflow_from = maybe_integer(params.dig(:type, :copy_workflow_from)).value_or(nil) %>
+<%= primer_form_with(url: types_path, method: :post, model: @type) do |f| %>
+  <%= render_inline_form(f) do |type_form|
+        type_form.text_field(
+          name: :name,
+          value: model.own_name,
+          label: Type.human_attribute_name(:name),
+          placeholder: I18n.t(:label_name),
+          input_width: :medium,
+          required: true,
+          validation_message: model.errors.messages_for(:name).to_sentence.presence
+        )
+
+        type_form.color_select_list(
+          name: :color_id,
+          label: Color.model_name.human,
+          input_width: :medium,
+          caption: I18n.t("types.edit.details.type_color_text")
+        )
+
+        type_form.check_box(name: :is_milestone, label: Type.human_attribute_name(:is_milestone))
+        type_form.check_box(name: :is_in_roadmap, label: Type.human_attribute_name(:is_in_roadmap))
+        type_form.check_box(name: :is_default, label: Type.human_attribute_name(:is_default))
+
+        type_form.select_list(
+          name: :copy_workflow_from,
+          input_width: :medium,
+          label: I18n.t(:label_copy_workflow_from),
+          include_blank: true
+        ) do |other_types|
+          Type.find_each do |type|
+            other_types.option(value: type.id, label: type.name, selected: type.id == copy_workflow_from)
+          end
+        end
+
+        type_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
+      end %>
+<% end %>

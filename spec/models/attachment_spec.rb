@@ -394,7 +394,7 @@ RSpec.describe Attachment do
       end
     end
 
-    context "when another text subtype has no charset stored" do
+    context "when another text variant has no charset stored" do
       let(:content_type) { "text/x-ruby" }
 
       it "falls back to Setting.attachment_default_charset" do

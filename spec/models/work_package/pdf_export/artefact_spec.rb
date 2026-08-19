@@ -262,4 +262,62 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       end
     end
   end
+
+  describe "linked form configuration", with_flag: { type_variants: true } do
+    let(:source_type) do
+      create(:type_bug).tap do |t|
+        t.attribute_groups = t.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        t.save!
+      end
+    end
+    # type_bug is looked up by name (see the factory's initialize_with), so a second
+    # plain create(:type_bug) here would resolve to the SAME row as source_type and
+    # make link! reject itself as a cycle. A distinct name keeps it a separate type.
+    let(:type) do
+      create(:type_bug, name: "Bug (linked)").tap do |t|
+        t.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      end
+    end
+
+    it "renders the source type's groups for the linked type's work package" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(source_type.attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
+    end
+  end
+
+  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+    let(:type) do
+      create(:type_bug).tap do |t|
+        t.attribute_groups = t.default_attribute_groups + [["root_group", %w(assignee)]]
+        t.save!
+      end
+    end
+    let(:variant) do
+      create(:type, name: "Bug variant", parent: type).tap do |v|
+        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        v.save!
+      end
+    end
+    # The work package stores the root; the project is what resolves the variant.
+    let(:project) do
+      create(:project,
+             name: "Artefact project",
+             types: [variant],
+             public: true,
+             active: true)
+    end
+
+    def group_caption(owner, key)
+      owner.attribute_groups.find { |group| group.key == key }.translated_key
+    end
+
+    it "renders the variant's groups" do
+      expect(pdf_strings.join(" ")).to include(group_caption(variant, "variant_group"))
+    end
+
+    it "does not render the root's groups" do
+      expect(pdf_strings.join(" ")).not_to include(group_caption(type, "root_group"))
+    end
+  end
 end

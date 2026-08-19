@@ -45,24 +45,25 @@ RSpec.describe "Work package table target versions column", :js do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { Components::WorkPackages::Columns.new }
 
-  let!(:work_package) do
-    create(:work_package, project:).tap do |wp|
-      wp.target_version_ids_replacements = [version_one.id, version_two.id]
-      wp.save!
-    end
-  end
-
-  let!(:query) do
-    create(:query, user:, project:, column_names: %w[id subject target_versions])
-  end
-
   before do
     login_as(user)
   end
 
+  def work_package_with_target_versions(*versions)
+    create(:work_package, project:).tap do |wp|
+      wp.target_version_ids_replacements = versions.map(&:id)
+      wp.save!
+    end
+  end
+
   context "with multiple versions active",
-          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
+    let!(:work_package) { work_package_with_target_versions(version_one, version_two) }
+
+    let!(:query) do
+      create(:query, user:, project:, column_names: %w[id subject target_versions])
+    end
+
     it "shows all target versions and allows editing them inline" do
       wp_table.visit_query query
       wp_table.expect_work_package_listed work_package
@@ -95,9 +96,37 @@ RSpec.describe "Work package table target versions column", :js do
       columns.expect_checked "Target versions"
       columns.expect_column_not_available(/^Version$/)
     end
+
+    context "with a query saved while the feature was still inactive" do
+      let!(:query) do
+        create(:query,
+               user:,
+               project:,
+               column_names: %w[id subject version],
+               group_by: "version",
+               sort_criteria: [%w[version asc]])
+      end
+
+      it "keeps showing the column, now as target versions" do
+        wp_table.visit_query query
+        wp_table.expect_work_package_listed work_package
+
+        expect(page).to have_css(".wp-table--table-header", text: "TARGET VERSIONS")
+
+        field = wp_table.edit_field(work_package, :targetVersions)
+        field.expect_text version_one.name
+        field.expect_text version_two.name
+
+        columns.open_modal
+        columns.expect_checked "Target versions"
+      end
+    end
   end
 
-  context "with multiple versions inactive" do
+  context "with multiple versions inactive",
+          with_settings: { work_package_multiple_versions: false } do
+    let!(:work_package) { work_package_with_target_versions(version_one) }
+
     let!(:query) do
       create(:query, user:, project:, column_names: %w[id subject version])
     end

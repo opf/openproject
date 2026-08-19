@@ -39,8 +39,8 @@ RSpec.describe "invitations", :js do
 
       visit user_path(user)
       click_on I18n.t(:label_send_invitation)
-      expect(page).to have_text "An invitation has been sent to holly@openproject.com."
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
+      expect(page).to have_text "An invitation has been sent to holly@openproject.com."
 
       # Logout admin
       visit signout_path
@@ -52,7 +52,7 @@ RSpec.describe "invitations", :js do
       # Visit invitation link with correct token
       visit account_activate_path(token: Token::Invitation.last.value)
 
-      expect(page).to have_css(".spot-modal--header", text: "Welcome to OpenProject")
+      expect(page).to have_test_selector("registration-form")
     end
   end
 

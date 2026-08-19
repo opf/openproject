@@ -338,7 +338,7 @@ RSpec.describe UserMailer do
 
     it_behaves_like "mail is sent" do
       it "includes a link to reset" do
-        url = account_lost_password_url(host: Setting.host_name, token: token.value)
+        url = account_password_recovery_url(host: Setting.host_name, token: token.value)
 
         expect(html_body)
           .to have_link(url,

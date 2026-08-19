@@ -77,7 +77,6 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        types: source_types,
         work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
@@ -88,6 +87,7 @@ module Projects
 
       only_allowed_parent_id(attributes)
         .merge(source_custom_field_attributes)
+        .merge(source_project_types_attribute)
         .merge(target_project_params)
     end
 
@@ -156,8 +156,18 @@ module Projects
       source.status&.attributes
     end
 
-    def source_types
-      source.types
+    # Omitted when the caller names the types itself: project_types and type_ids write the same
+    # rows, so passing both would have them fight over the target's families.
+    def source_project_types_attribute
+      return {} if target_project_params.keys.intersect?(%w[types type_ids])
+
+      { project_types: source_project_types }
+    end
+
+    # Whole rows rather than #types, which would yield the roots only and drop which variant
+    # each family resolves to. Assigning them to the target sets their project on save.
+    def source_project_types
+      source.project_types.map(&:dup)
     end
 
     def source_custom_fields

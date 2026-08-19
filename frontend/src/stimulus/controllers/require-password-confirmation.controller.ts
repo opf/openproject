@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
@@ -38,7 +36,7 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   declare services:Promise<PickedServices<'pathHelperService'>>;
 
   private formListener:(evt:SubmitEvent) => unknown = this.onFormSubmit.bind(this);
-  private dialogCloseListener:(evt:Event) => unknown = this.onDialogClose.bind(this);
+  private dialogCloseListener:(evt:CustomEvent) => unknown = this.onDialogClose.bind(this);
   private dialogSubmitListener:(evt:CustomEvent) => unknown = this.onConfirmationSubmit.bind(this);
 
   private activeDialog = false;
@@ -54,8 +52,14 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   connect() {
     super.connect();
 
-    this.element.addEventListener('submit', this.formListener);
-    document.addEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
+    // Capture phase so we run before other submit interceptors on the same form
+    // (notably CKEditor-augmented textareas), which can otherwise re-submit via
+    // Turbo and bypass the confirmation dialog.
+    this.element.addEventListener('submit', this.formListener, { capture: true });
+    // Use the shared Primer/Turbo `dialog:close` event. The dialog's own Stimulus
+    // controller may be disconnected (DOM removed) during `close` before it can
+    // emit a custom event, which would leave activeDialog stuck true after cancel.
+    document.addEventListener('dialog:close', this.dialogCloseListener);
     document.addEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
 
     this.submitButton = this.element.querySelector("button[type='submit']");
@@ -66,12 +70,17 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
   disconnect() {
     super.disconnect();
 
-    this.element.removeEventListener('submit', this.formListener);
-    document.removeEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
+    this.element.removeEventListener('submit', this.formListener, { capture: true });
+    document.removeEventListener('dialog:close', this.dialogCloseListener);
     document.removeEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
   }
 
-  private onDialogClose(_event:Event) {
+  private onDialogClose(event:CustomEvent) {
+    const dialog = (event.detail as { dialog?:HTMLElement }|undefined)?.dialog;
+    if (dialog?.id !== 'password-confirmation-dialog') {
+      return;
+    }
+
     this.activeDialog = false;
   }
 

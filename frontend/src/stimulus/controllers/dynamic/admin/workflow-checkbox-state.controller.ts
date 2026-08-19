@@ -1,34 +1,34 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
+import { useMeta } from 'stimulus-use';
 
 const PRISTINE_STATE_KEY = 'workflow-pristine-state';
 const STATUS_STATE_KEY = 'workflow-status-state';
@@ -53,7 +53,7 @@ interface SavedState {
  *     via document-level event delegation, so it works even after the EditComponent
  *     is replaced by a turbo-stream after the frame content loads.
  */
-export default class WorkflowCheckboxStateController extends Controller<HTMLFormElement> {
+export default class WorkflowCheckboxStateController extends Controller<HTMLElement> {
   static targets = [ 'confirmationDialog', 'ignoreButton', 'saveButton' ];
   declare readonly confirmationDialogTarget:HTMLDialogElement;
   declare readonly ignoreButtonTarget:HTMLButtonElement;
@@ -62,18 +62,34 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
   static values = {
     hasStatusChanges: Boolean,
     hasCheckboxChanges: Boolean,
-    isDirty: Boolean
+    isDirty: Boolean,
+    saveUrl: String
   };
 
   declare hasStatusChangesValue:boolean;
   declare hasCheckboxChangesValue:boolean;
   declare isDirtyValue:boolean;
+  declare saveUrlValue:string;
+
+  static metaNames = ['csrf-token'];
+  declare readonly csrfToken:string;
 
   private initialCheckboxState:CheckboxesState = {};
 
+  // The form belongs to the host page and encloses this element. Captured on connect
+  // because disconnect() runs once this element is already detached, where walking up
+  // to the form is no longer possible.
+  private form:HTMLFormElement | null = null;
+
   connect() {
+    // Populates this.csrfToken from the page's meta tag; without it the background save
+    // is rejected as a forgery and the session is reset.
+    useMeta(this, { suffix: false });
+
+    this.form = this.element.closest('form');
+
     this.element.addEventListener('change', this.onCheckboxChange);
-    this.element.addEventListener('submit', this.onFormSubmit);
+    this.form?.addEventListener('submit', this.onFormSubmit);
 
     this.initialCheckboxState = this.popState(PRISTINE_STATE_KEY) ?? this.captureState();
     this.pushState(PRISTINE_STATE_KEY, this.initialCheckboxState);
@@ -103,17 +119,64 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
     }
 
     document.removeEventListener('click', this.onConfirmationTriggerClick, true);
-    this.element.removeEventListener('submit', this.onFormSubmit);
+    this.form?.removeEventListener('submit', this.onFormSubmit);
     this.element.removeEventListener('change', this.onCheckboxChange);
+    this.form = null;
   }
 
   private onFormSubmit = () => {
+    this.markSaved();
+  };
+
+  private markSaved() {
     this.popState(STATUS_STATE_KEY);
     this.popState(PRISTINE_STATE_KEY);
     this.initialCheckboxState = this.captureState();
     this.hasCheckboxChangesValue = false;
     this.hasStatusChangesValue = false;
-  };
+  }
+
+  /**
+   * Persists the matrix against its own endpoint without navigating anywhere.
+   *
+   * Submitting the enclosing form is not an option here: it belongs to the host page, so
+   * it would advance the creation wizard instead of leaving the user on the editor they
+   * are still working in. Resolves to whether the matrix was stored.
+   */
+  private async save():Promise<boolean> {
+    if (!this.saveUrlValue) return false;
+
+    const response = await fetch(this.saveUrlValue, {
+      method: 'PATCH',
+      body: this.matrixFormData(),
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+        'X-CSRF-Token': this.csrfToken,
+      },
+    });
+
+    const html = await response.text();
+    if (html) renderStreamMessage(html);
+
+    if (!response.ok) return false;
+
+    this.markSaved();
+    return true;
+  }
+
+  // Mirrors what a real submit of these inputs would send: unchecked boxes are simply
+  // absent, which is how the server reads "transition not allowed".
+  private matrixFormData():FormData {
+    const data = new FormData();
+
+    this.element.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+      if (input.type === 'checkbox' && !input.checked) return;
+
+      data.append(input.name, input.value);
+    });
+
+    return data;
+  }
 
   private get formKey():string {
     const typeId = this.formValue('type_id');
@@ -203,9 +266,12 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
       sessionStorage.removeItem(STATUS_STATE_KEY);
 
       const src = turboFrame.getAttribute('src') ?? '';
-      const url = new URL(src);
-      // Reload only with original params
+      const url = new URL(src, window.location.origin);
+      // Reload the same view, dropping only the pending status selection. The transition
+      // tab travels as a query param, so it has to be carried over explicitly.
       const params = new URLSearchParams();
+      const tab = url.searchParams.get('tab');
+      if (tab) params.set('tab', tab);
       url.searchParams.getAll('role_ids[]').forEach((id) => params.append('role_ids[]', id));
       url.search = params.toString();
       turboFrame.setAttribute('src', url.toString());
@@ -219,9 +285,11 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
 
   private onSaveChanges = (originalTarget:HTMLElement, originalEvent:Event) => {
     return () => {
-      this.element.requestSubmit();
-
-      this.closeAndProceed(originalTarget, originalEvent);
+      void this.save().then((stored) => {
+        // Leave the dialog open on failure: the flash explains why, and the pending
+        // changes are still there to retry with.
+        if (stored) this.closeAndProceed(originalTarget, originalEvent);
+      });
     };
   };
 
@@ -309,41 +377,29 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLForm
   // Trigger navigation with dirty-state confirmation.
   //
 
-  navigateTo(url:string) {
-    if (this.isDirtyValue) {
-      this.confirmThenNavigate(url);
-    } else {
-      this.frameNavigateTo(url);
+  confirmNavigation(navigate:() => void) {
+    if (!this.isDirtyValue) {
+      navigate();
+      return;
     }
-  }
 
-  private confirmThenNavigate(url:string) {
     this.openConfirmationDialog(
       () => {
         this.hasCheckboxChangesValue = false;
         this.hasStatusChangesValue = false;
         this.confirmationDialogTarget.close();
-        setTimeout(() => { this.frameNavigateTo(url); }, 0);
+        setTimeout(navigate, 0);
       },
       () => {
-        this.element.requestSubmit();
-        this.confirmationDialogTarget.close();
-        // Delay to allow the flash message from the form submission to appear.
-        setTimeout(() => { this.frameNavigateTo(url); }, 1000);
+        // Navigate only once the matrix is actually stored, so that switching tab or role
+        // cannot race the write and discard it. On failure the dialog stays open.
+        void this.save().then((stored) => {
+          if (!stored) return;
+
+          this.confirmationDialogTarget.close();
+          navigate();
+        });
       },
     );
-  }
-
-  // This keeps the url in the /tabs/:tab/edit format consistently,
-  // rather than doing a Turbo.visit which changes the format.
-  // It also keeps history usable, similar to data-turbo-action="advance".
-  private frameNavigateTo(url:string) {
-    const turboFrame = this.element.closest('turbo-frame') as HTMLElement | null;
-    if (turboFrame) {
-      turboFrame.setAttribute('src', url);
-      history.pushState({}, '', url);
-    } else {
-      Turbo.visit(url);
-    }
   }
 }

@@ -77,7 +77,7 @@ RSpec.describe "Board reference work package spec",
 
     # Filter for Version
     filters.open
-    filters.add_filter_by("Version", "is (OR)", version.name)
+    filters.add_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     sleep 2
 
     # Reference an existing work package
@@ -92,7 +92,7 @@ RSpec.describe "Board reference work package spec",
 
     # Reload work package expect version to be applied by filter
     work_package.reload
-    expect(work_package.version_id).to eq version.id
+    expect(work_package.target_versions).to contain_exactly(version)
   end
 
   context "with a subproject and work packages within it (Regression #31613)" do

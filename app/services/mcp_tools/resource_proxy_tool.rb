@@ -39,10 +39,6 @@ module McpTools
         @resource
       end
 
-      def resource_schema(schema_definition)
-        output_schema(JsonSchemaLoader.new.load(schema_definition))
-      end
-
       def resource_annotations
         annotations read_only: true, idempotent: true, destructive: false
       end

@@ -28,6 +28,8 @@
 
 module TimeEntries
   class DeleteContract < ::DeleteContract
+    include PastMonthRestriction
+
     delete_permission -> {
       edit_all = user.allowed_in_project?(:edit_time_entries, model.project)
       edit_own = if model.entity.is_a?(WorkPackage)

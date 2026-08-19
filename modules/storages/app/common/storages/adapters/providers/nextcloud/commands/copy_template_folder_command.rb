@@ -75,7 +75,7 @@ module Storages
               info "Checking if #{destination_url} does not already exists."
               response = http.head(destination_url)
 
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
@@ -97,7 +97,7 @@ module Storages
             end
 
             def handle_response(response)
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }

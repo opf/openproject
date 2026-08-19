@@ -40,6 +40,7 @@ module Wikis
                      .create_page_and_link(
                        title:,
                        parent_identifier:,
+                       parent_type:,
                        linkable_type: linkable.class.name,
                        linkable_id: linkable.id
                      )
@@ -49,6 +50,7 @@ module Wikis
     let(:linkable) { build_stubbed(:work_package) }
     let(:title) { "My Page" }
     let(:parent_identifier) { "MySpace.Parent" }
+    let(:parent_type) { :page }
     let(:page_identifier) { "#{parent_identifier}.MyPage" }
     let(:provider) { instance_double(Provider, id: 1) }
     let(:auth_strategy) { instance_double(Adapters::AuthenticationStrategies::BearerToken) }
@@ -103,7 +105,7 @@ module Wikis
     end
 
     context "when auth strategy fails" do
-      let(:token_error) { Adapters::Results::Error.new(source: self, code: :missing_token) }
+      let(:token_error) { SimpleError.new(source: self, code: :missing_token) }
 
       before do
         allow(provider).to receive(:auth_strategy_for)
@@ -119,7 +121,7 @@ module Wikis
 
     context "when the create page command fails" do
       let(:command_error) do
-        Adapters::Results::Error.new(source: Adapters::Providers::XWiki::Commands::CreatePage, code: :not_found)
+        SimpleError.new(source: Adapters::Providers::XWiki::Commands::CreatePage, code: :not_found)
       end
 
       before do
