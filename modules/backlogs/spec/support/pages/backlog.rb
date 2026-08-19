@@ -383,7 +383,7 @@ module Pages
         expect(menu).to have_css(batch_group)
         expect_menu_invoker_name(
           invoker,
-          I18n.t("js.backlogs.action_menu.batch_menu_label", count: selected_count)
+          I18n.t("js.backlogs.action_menu.menu_label", count: selected_count)
         )
       else
         expect(menu).to have_css(singular_group)
