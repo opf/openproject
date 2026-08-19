@@ -27,14 +27,13 @@
 #++
 
 class LaborBudgetItem < ApplicationRecord
+  extend DeprecatedAlias
+
   belongs_to :budget
-  belongs_to :user
   belongs_to :principal, foreign_key: "user_id"
 
-  include ::Costs::DeletedUserFallback
-
   validates :comments, length: { maximum: 255, allow_nil: true }
-  validates :user, presence: true
+  validates :principal, presence: true
   validates :budget, presence: true
   validates :hours, numericality: { allow_nil: false }
   validate :user_is_member_of_budget_project
@@ -49,6 +48,15 @@ class LaborBudgetItem < ApplicationRecord
   scope :visible_costs, lambda { |*args|
     visible(args.first || User.current)
   }
+
+  # The item outlives the principal it budgets, so a removed one still reads
+  # back the way a deleted user does.
+  def principal
+    super || (DeletedUser.first if user_id.present?)
+  end
+
+  deprecated_alias :user, :principal
+  deprecated_alias :user=, :principal=
 
   def costs
     amount || calculated_costs
