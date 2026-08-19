@@ -41,23 +41,6 @@ module OAuthClients
       @config = configuration
     end
 
-    # Main method to initiate the OAuth2 flow called by a "client" component
-    # that wants to access OAuth2 protected resources.
-    # Returns an OAuthClientToken object or a String in case a renew is required.
-    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
-    # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
-    def get_access_token(state: nil)
-      # Check for an already existing token from last call
-      token = get_existing_token
-      return ServiceResult.success(result: token) if token.present?
-
-      # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
-      # a token.
-      @redirect_url = @config.authorization_uri(state:)
-
-      ServiceResult.failure(result: @redirect_url)
-    end
-
     # rubocop:disable Metrics/AbcSize
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.

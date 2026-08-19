@@ -45,47 +45,6 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
   let(:instance) { described_class.new(user:, configuration:) }
 
-  # The first step in the OAuth2 flow is to produce a URL for the
-  # user to authenticate and authorize access at the OAuth2 provider
-  # (Nextcloud).
-  describe "#get_access_token" do
-    subject { instance.get_access_token }
-
-    context "with no OAuthClientToken present" do
-      it "returns a redirection URL" do
-        expect(subject.success).to be_falsy
-        expect(subject.result).to be_a String
-        # Details of string are tested above in section #get_authorization_uri
-      end
-    end
-
-    context "with no OAuthClientToken present and state parameters" do
-      subject { instance.get_access_token(state: "some_state") }
-
-      it "returns the redirect URL" do
-        allow(configuration).to receive(:scope).and_return(%w[email])
-
-        expect(subject.success).to be_falsy
-        expect(subject.result).to be_a String
-        expect(subject.result).to include oauth_client.integration.host
-        expect(subject.result).to include "&state=some_state"
-        expect(subject.result).to include "&scope=email"
-      end
-    end
-
-    context "with an OAuthClientToken present" do
-      before do
-        oauth_client_token
-      end
-
-      it "returns the OAuthClientToken" do
-        expect(subject).to be_truthy
-        expect(subject.result).to be_a OAuthClientToken # The one and only...
-        expect(subject.result).to eql oauth_client_token
-      end
-    end
-  end
-
   # In the second step the Authorization Server (Nextcloud) redirects
   # to a "callback" endpoint on the OAuth2 client (OpenProject):
   # https://<openproject-server>/oauth_clients/8/callback?state=&code=7kRGJ...jG3KZ
