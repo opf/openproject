@@ -2086,8 +2086,8 @@ describe('Sortable lists item controller', () => {
             js: {
               backlogs: {
                 action_menu: {
-                  batch_menu_label: {
-                    one: 'Actions for 1 selected work package',
+                  menu_label: {
+                    one: 'Work package actions',
                     other: 'Actions for %{count} selected work packages',
                   },
                 },
@@ -2116,20 +2116,13 @@ describe('Sortable lists item controller', () => {
 
       async function mountRenamableMenu({
         withKey = true,
-        withSingularLabel = true,
         tooltipText = 'Work package actions',
       } = {}) {
         const { el } = renderItemWithMenu(1);
         if (withKey) {
           el.setAttribute(
-            'data-sortable-lists--item-batch-menu-label-key-value',
-            'js.backlogs.action_menu.batch_menu_label',
-          );
-        }
-        if (withSingularLabel) {
-          el.setAttribute(
-            'data-sortable-lists--item-singular-menu-label-value',
-            'Work package actions',
+            'data-sortable-lists--item-menu-label-key-value',
+            'js.backlogs.action_menu.menu_label',
           );
         }
         const { invoker, tooltip } = attachMenuInvoker(el, tooltipText);
@@ -2244,18 +2237,6 @@ describe('Sortable lists item controller', () => {
         expect(tooltip.textContent).toBe('Work package actions');
       });
 
-      it('leaves the name alone when no singular name is provided', async () => {
-        const {
-          el, tooltip, popover, controller, root, actionScopeFor,
-        } = await mountRenamableMenu({ withSingularLabel: false });
-        const scope:ActionScope = { kind: 'batch', items: [el] };
-        actionScopeFor.mockReturnValue(scope);
-        controller.connectRoot(root);
-        openMenu(popover);
-
-        expect(tooltip.textContent).toBe('Work package actions');
-      });
-
       // Server-side the menu is labelled by its invoker button, whose own name
       // comes from a further aria-labelledby at the tooltip — and accessible
       // name references do not chain, so the menu resolves to nothing. Follow
@@ -2293,7 +2274,7 @@ describe('Sortable lists item controller', () => {
 
       // A consumer that names no batch scope still gets a named menu: the
       // reference is repointed whatever the labels say.
-      it('names the menu when no batch label key is configured', async () => {
+      it('names the menu when no label key is configured', async () => {
         const { el } = await mountRenamableMenu({ withKey: false });
 
         expect(menuName(el)).toBe('Work package actions');
