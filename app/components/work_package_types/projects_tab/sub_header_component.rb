@@ -46,7 +46,8 @@ module WorkPackageTypes
         {
           controller: "filter--filters-form",
           "filter--filters-form-perform-turbo-requests-value": true,
-          "filter--filters-form-clear-button-id-value": clear_button_id
+          "filter--filters-form-clear-button-id-value": clear_button_id,
+          "filter--filters-form-current-filters-value": serialized_filters
         }
       end
 
@@ -60,6 +61,10 @@ module WorkPackageTypes
       end
 
       def name_filter_key = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
+
+      def serialized_filters
+        OpPrimer::QuickFilter.serialize(query.filters).to_json
+      end
 
       def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
 

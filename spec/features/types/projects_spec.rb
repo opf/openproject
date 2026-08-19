@@ -76,6 +76,10 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     end
   end
 
+  def current_url_filters
+    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  end
+
   it "lists every variant's projects at type level and narrows to one inside a variant" do
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
@@ -91,6 +95,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     search_projects("Labor")
 
     expect_listed(on_firmware)
+    expect(current_url_filters).to include("name_and_identifier")
   end
 
   it "narrows the table to the variants picked in the quick filter" do
@@ -99,19 +104,55 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     keep_only(firmware)
 
     expect_listed(on_firmware)
+    expect(current_url_filters).to include("type_variant_id")
   end
 
-  # The two controls write the one filters param, so typing must not drop the picked variant.
-  it "keeps the picked variant while a name is typed" do
+  # The two controls write the one filters param, so each has to narrow what the other left rather
+  # than replacing it.
+  it "cannot reach a project outside the picked variants by typing its name" do
     visit edit_type_projects_path(type_id: type.id)
 
     keep_only(hardware, firmware)
 
-    expect_listed(on_hardware, on_firmware)
+    search_projects("Book")
 
-    search_projects("Found")
+    within "#project-table" do
+      expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
+    end
+    expect_listed
+    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+  end
+
+  it "keeps the typed name when a variant is picked afterwards" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    # Matches Bookshop on the base variant and Laboratory on the firmware one.
+    search_projects("bo")
+
+    expect_listed(on_base, on_firmware)
+
+    keep_only(firmware)
+
+    expect_listed(on_firmware)
+    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+  end
+
+  it "keeps the picked variants when the name is cleared again" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    keep_only(hardware)
+
+    search_projects("nothing matches this")
+
+    within "#project-table" do
+      expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
+    end
+
+    find_by_id("type-projects-filters-clear-button").click
 
     expect_listed(on_hardware)
+    expect(current_url_filters).to include("type_variant_id")
+    expect(current_url_filters).not_to include("name_and_identifier")
   end
 
   it "says nothing matched rather than inviting an add, once a search has been made" do
