@@ -242,13 +242,13 @@ en:
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: "Changed after start"
+              heading: "Scope change"
               story_points_change: "+%{added} / -%{removed} story points"
             completed:
               heading: "Completed"
             initially_planned:
               heading: "Initially planned"
-            show_all: "Show all"
+            show_all: "View all"
             unfinished:
               heading: "Unfinished"
           closed_work_packages: "Closed work packages"
