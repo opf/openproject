@@ -5402,6 +5402,7 @@ cs:
   setting_default_language: Výchozí jazyk
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_disable_password_login: Zakázat ověřování hesla
   setting_display_subprojects_work_packages: Automaticky zobrazit úkoly podprojektu v hlavním projektu

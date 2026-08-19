@@ -488,7 +488,7 @@ ru:
         before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
         blank_nested: должно быть установлено свойство '%{property}'.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: не допускается. Пожалуйста, используйте адрес электронной почты из другого домена.
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
@@ -5385,6 +5385,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию

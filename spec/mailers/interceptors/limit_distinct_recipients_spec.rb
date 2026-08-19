@@ -48,7 +48,7 @@ RSpec.describe Interceptors::LimitDistinctRecipients do
     end
   end
 
-  context "when a limit is configured", with_settings: { outbound_mail_limits: 1 } do
+  context "when a limit is configured", with_settings: { mail_recipient_limits: 1 } do
     it "keeps the first distinct recipient and drops later ones" do
       intercept!
       expect(mail.to).to eq ["one@example.com"]
@@ -92,9 +92,9 @@ RSpec.describe Interceptors::LimitDistinctRecipients do
 
       it "logs a warning with the drop payload" do
         expect(OpenProject.logger).to have_received(:warn).with(
-          a_string_including("Dropped to recipients over outbound mail limit"),
+          a_string_including("Dropped to recipients over mail recipient limit"),
           hash_including(
-            reference: :outbound_mail_limit,
+            reference: :mail_recipient_limit,
             payload: hash_including(field: :to, dropped_count: 1, limit: 1)
           )
         )

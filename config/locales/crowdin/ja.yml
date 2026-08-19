@@ -5191,6 +5191,7 @@ ja:
   setting_default_language: デフォルトの言語
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 差分の表示行数の上限
   setting_disable_password_login: パスワード認証を無効にする
   setting_display_subprojects_work_packages: デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する

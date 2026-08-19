@@ -5400,6 +5400,7 @@ he:
   setting_default_language: Default language
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default

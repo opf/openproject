@@ -33,7 +33,7 @@ module Cron
     queue_with_priority :low
 
     def perform
-      return unless OpenProject::OutboundMailLimit.enabled?
+      return unless OpenProject::MailRecipientLimit.enabled?
 
       OutboundMailRecipient.cleanup!
     end

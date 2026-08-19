@@ -5260,6 +5260,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents

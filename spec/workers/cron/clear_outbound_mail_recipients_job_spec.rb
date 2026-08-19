@@ -37,7 +37,7 @@ RSpec.describe Cron::ClearOutboundMailRecipientsJob, type: :job do
     expect { described_class.perform_now }.not_to change(OutboundMailRecipient, :count)
   end
 
-  context "when the limit is enabled", with_settings: { outbound_mail_limits: 10 } do
+  context "when the limit is enabled", with_settings: { mail_recipient_limits: 10 } do
     it "deletes recipients from previous days and keeps today's" do
       create(:outbound_mail_recipient, mail: "old@example.com", sent_on: Date.yesterday)
       today = create(:outbound_mail_recipient, mail: "today@example.com", sent_on: Date.current)

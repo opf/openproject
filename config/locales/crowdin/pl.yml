@@ -5387,6 +5387,7 @@ pl:
   setting_default_language: Język domyślny
   setting_default_projects_modules: Domyślnie włączone moduły dla nowych projektów
   setting_default_projects_public: Nowe projekty są publiczne (domyślnie)
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksymalna wyświetlana liczba linii różnic
   setting_disable_password_login: Wyłącz uwierzytelnianie hasłem
   setting_display_subprojects_work_packages: Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie

@@ -5202,6 +5202,7 @@ ko:
   setting_default_language: 기본 언어
   setting_default_projects_modules: 새 프로젝트에 대해 기본적으로 활성화된 모듈
   setting_default_projects_public: 새 프로젝트는 기본적으로 공용입니다.
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
   setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
