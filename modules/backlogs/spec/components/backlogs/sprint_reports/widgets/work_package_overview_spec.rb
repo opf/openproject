@@ -69,14 +69,14 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     it "renders a heading, count and story points for each block" do
       expect(rendered_component).to have_css(".op-wp-overview--blocks")
       expect(rendered_component).to have_text("Initially planned")
-      expect(rendered_component).to have_text("Changed after start")
+      expect(rendered_component).to have_text("Scope change")
       expect(rendered_component).to have_text("Completed")
       expect(rendered_component).to have_text("Unfinished")
       expect(rendered_component).to have_text("5")
       expect(rendered_component).to have_text("13 story points")
       expect(rendered_component).to have_text("+4 / -1")
       expect(rendered_component).to have_text("+6 / -2 story points")
-      expect(rendered_component).to have_text("Show all", count: 4)
+      expect(rendered_component).to have_text("View all", count: 4)
 
       expect(rendered_component).to have_no_css(".blankslate")
     end
@@ -86,8 +86,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       expect(rendered_component).to have_css(".color-fg-muted", text: "2")
     end
 
-    it "links each block's 'Show all' to the work packages table filtered to the sprint" do
-      query_props = rendered_component.css("a", text: "Show all").map do |link|
+    it "links each block's 'View all' to the work packages table filtered to the sprint" do
+      query_props = rendered_component.css("a", text: "View all").map do |link|
         JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first)
       end
 
@@ -141,7 +141,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       end
 
       it "reports no scope change, since the work package never moved in or out of the sprint" do
-        expect(block_count("Changed after start")).to eq("+0 / -0")
+        expect(block_count("Scope change")).to eq("+0 / -0")
       end
 
       it "shows a counter in the title for the total number of work packages" do
@@ -160,7 +160,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       it "excludes the work package from every breakdown box" do
         expect(block_count("Initially planned")).to eq("0")
-        expect(block_count("Changed after start")).to eq("+0 / -0")
+        expect(block_count("Scope change")).to eq("+0 / -0")
         expect(block_count("Completed")).to eq("0")
         expect(block_count("Unfinished")).to eq("0")
       end
