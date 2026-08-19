@@ -224,34 +224,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     });
   }
 
-  private constrainGroupedDropdownToEditorWidth(_editor:ICKEditorInstance) {
-    const host = this.elementRef.nativeElement;
-
-    const editorWidth = () => {
-      const editorEl = host.querySelector<HTMLElement>('.ck-editor') ?? host;
-      return Math.floor(editorEl.getBoundingClientRect().width);
-    };
-
-    const apply = () => {
-      const width = editorWidth();
-
-      const panels = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          '.ck.ck-dropdown__panel'
-        )
-      );
-
-      for (const panel of panels) {
-        panel.style.maxWidth = `${width - 8}px`;
-
-      }
-    };
-
-    fromEvent(host, 'click')
-      .pipe(this.untilDestroyed())
-      .subscribe(() => setTimeout(apply));
-  }
-
   public setup(editor:ICKEditorInstance) {
     this.setupMarkingReadonlyWhenTextareaIsDisabled(editor);
 
@@ -268,8 +240,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     editor.ui.focusTracker.on('change:isFocused', (_evt:unknown, _name:string, _isFocused:boolean) => {
       this.setLabel();
     });
-    this.constrainGroupedDropdownToEditorWidth(editor);
-
     return editor;
   }
 
