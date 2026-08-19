@@ -65,8 +65,8 @@ RSpec.describe ResourceAllocations::AssignService, type: :model do
   end
 
   it "keeps the allocation generic: the requested resource is untouched" do
-    expect { service_call }.not_to change { allocation.reload.user_resource_id }
-    expect(allocation.user_resource.user_filter).to be_present
+    expect { service_call }.not_to change { allocation.reload.placeholder_user_id }
+    expect(allocation.placeholder_user.user_filter).to be_present
     expect(allocation).to be_filter_based
   end
 

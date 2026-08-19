@@ -60,7 +60,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
     render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
 
     expect(page).to have_text("20h")
-    expect(page).to have_text(allocation.user_resource.name)
+    expect(page).to have_text(allocation.placeholder_user.name)
   end
 
   describe "the candidate badge" do
