@@ -127,12 +127,17 @@ module Backlogs
 
           {
             heading: t(".blocks.changed_after_start.heading"),
-            count: t(".blocks.changed_after_start.count_change", added: data.added_count, removed: data.removed_count),
+            count: t(".blocks.changed_after_start.count_change_html",
+                     added: data.added_count, removed: data.removed_count, divider: divider_text),
             story_points: t(".blocks.changed_after_start.story_points_change",
                             added: data.added_story_points, removed: data.removed_story_points),
             count_color: nil,
             show_all_path: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
           }
+        end
+
+        def divider_text
+          render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :light)) { "/" }
         end
 
         def show_all_path(timestamps:, status_filter_operator: nil)
