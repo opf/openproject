@@ -87,4 +87,36 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
       expect(response.body).to include("Blocked")
     end
   end
+
+  describe "the toggle label after the project set changes some other way" do
+    def add(project)
+      post link_type_projects_path(type_id: type.id),
+           params: { project_ids: [{ nodeId: project.id.to_s }.to_json] },
+           as: :turbo_stream
+    end
+
+    def remove(project)
+      delete unlink_type_projects_path(type_id: type.id, project_id: project.id), as: :turbo_stream
+    end
+
+    it "offers to disable once the last remaining project has been added" do
+      create(:project_type, project: one, type:)
+
+      add(other)
+
+      expect(variant.reload.projects).to contain_exactly(one, other)
+      expect(response.body).to include(I18n.t("types.edit.projects.disable_all"))
+      expect(response.body).not_to include(I18n.t("types.edit.projects.enable_all"))
+    end
+
+    it "offers to enable again once one project has been removed from the full set" do
+      [one, other].each { |project| create(:project_type, project:, type:) }
+
+      remove(other)
+
+      expect(variant.reload.projects).to contain_exactly(one)
+      expect(response.body).to include(I18n.t("types.edit.projects.enable_all"))
+      expect(response.body).not_to include(I18n.t("types.edit.projects.disable_all"))
+    end
+  end
 end

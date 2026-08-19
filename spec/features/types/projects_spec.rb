@@ -109,4 +109,20 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     # Scoped to this type: the project factory enables the default types on every project.
     expect(inside.reload.project_types.where(type_id: type.id)).to be_empty
   end
+
+  it "flips the toggle label when the add dialog completes the set" do
+    lone_type = create(:type, name: "Chore")
+    Project.where.not(id: parent.id).find_each { |project| create(:project_type, project:, type: lone_type) }
+
+    visit edit_type_projects_path(type_id: lone_type.id)
+
+    expect(page).to have_test_selector("type-projects-enable-all",
+                                       text: I18n.t("types.edit.projects.enable_all"))
+
+    add_projects(parent, include_sub_items: false)
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_test_selector("type-projects-enable-all",
+                                       text: I18n.t("types.edit.projects.disable_all"))
+  end
 end

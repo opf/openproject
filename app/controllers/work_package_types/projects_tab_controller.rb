@@ -72,7 +72,7 @@ module WorkPackageTypes
       result = apply_to(projects)
 
       close_dialog_via_turbo_stream("##{ProjectsTab::AddFormComponent::DIALOG_ID}")
-      refresh_table
+      refresh_projects
 
       if result.success?
         render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
@@ -88,7 +88,7 @@ module WorkPackageTypes
                  .new(user: current_user, model: @linked_project)
                  .call(variant: @variant)
 
-      result.on_success { refresh_table }
+      result.on_success { refresh_projects }
       result.on_failure { render_error_flash_message_via_turbo_stream(message: removal_refusal_message(result)) }
 
       respond_to_with_turbo_streams(status: result)
@@ -119,8 +119,7 @@ module WorkPackageTypes
                  remove_from(@variant.projects)
                end
 
-      refresh_table
-      replace_via_turbo_stream(component: ProjectsTab::SubHeaderComponent.new(variant: @variant))
+      refresh_projects
       result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
 
       respond_to_with_turbo_streams(status: result)
@@ -191,7 +190,7 @@ module WorkPackageTypes
       close_dialog_via_turbo_stream(
         "##{::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}"
       )
-      refresh_table
+      refresh_projects
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("projects.settings.types.switch_dialog.success", type: target.composite_name)
       )
@@ -212,12 +211,13 @@ module WorkPackageTypes
       )
     end
 
-    def refresh_table
+    def refresh_projects
       update_via_turbo_stream(
         component: ProjectsTab::TableComponent.new(
           query: @query, params: params.merge(variant: @variant, url_for_action: :edit)
         )
       )
+      replace_via_turbo_stream(component: ProjectsTab::SubHeaderComponent.new(variant: @variant))
     end
 
     def refuse_empty_selection
