@@ -138,6 +138,24 @@ RSpec.describe Queries::Copy::FiltersMapper do
     end
   end
 
+  describe "with a filter hash array holding the target versions filter" do
+    let(:filters) do
+      [
+        { "targetVersion" => { "operator" => "=", "values" => ["3"] } }
+      ]
+    end
+
+    subject { instance.map_filters(filters) }
+
+    before do
+      state.version_id_lookup = { 3 => 33 }
+    end
+
+    it "maps the filter values" do
+      expect(subject[0]["targetVersion"]["values"]).to eq(["33"])
+    end
+  end
+
   describe "with a symbolized filter hash array" do
     let(:filters) do
       [
