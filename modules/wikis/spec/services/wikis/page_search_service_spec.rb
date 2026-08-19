@@ -107,40 +107,49 @@ RSpec.describe Wikis::PageSearchService do
       expect(search_results.first).to be_a(Wikis::Adapters::Results::PageSearchTreeNode)
     end
 
-    it "has disabled wiki root nodes" do
+    it "has wiki root nodes" do
       expect(subject).to be_success
       search_results = subject.value!
 
       expect(search_results.size).to eq(2)
       expect(search_results[0].type).to eq(:wiki)
-      expect(search_results[0].enabled).to be_falsey
+      expect(search_results[0].identifier).to eq(page_hierarchies[0].wiki.identifier)
       expect(search_results[1].type).to eq(:wiki)
-      expect(search_results[1].enabled).to be_falsey
+      expect(search_results[1].identifier).to eq(page_hierarchies[1].wiki.identifier)
     end
 
-    it "has disabled ancestor nodes" do
+    it "has ancestor nodes" do
       expect(subject).to be_success
       search_results = subject.value!
 
       ancestor_page = search_results[0].children[0]
       expect(ancestor_page.type).to eq(:page)
       expect(ancestor_page.identifier).to eq(page_hierarchies[0].ancestors[0].identifier)
-      expect(ancestor_page.enabled).to be_falsey
     end
 
-    it "has enabled search result nodes" do
+    it "has the search result nodes below their ancestors" do
       expect(subject).to be_success
       search_results = subject.value!
 
       first_page = search_results[0].children[0].children[0]
       expect(first_page.type).to eq(:page)
       expect(first_page.identifier).to eq(page_hierarchies[0].page.identifier)
-      expect(first_page.enabled).to be_truthy
 
       second_page = search_results[1].children[0]
       expect(second_page.type).to eq(:page)
       expect(second_page.identifier).to eq(page_hierarchies[1].page.identifier)
-      expect(second_page.enabled).to be_truthy
+    end
+
+    it "identifies every node by its type and identifier" do
+      expect(subject).to be_success
+      search_results = subject.value!
+
+      key = Wikis::Adapters::Results::PageSearchTreeNode::Key
+
+      expect(search_results[0].key)
+        .to eq(key.new(type: :wiki, identifier: page_hierarchies[0].wiki.identifier))
+      expect(search_results[1].children[0].key)
+        .to eq(key.new(type: :page, identifier: page_hierarchies[1].page.identifier))
     end
 
     context "if the search results contains an ancestor of another contained page" do
@@ -155,19 +164,28 @@ RSpec.describe Wikis::PageSearchService do
         ]
       end
 
-      it "enables the ancestor" do
+      it "inserts the ancestor only once" do
         expect(subject).to be_success
         search_results = subject.value!
+
+        expect(search_results[0].children.size).to eq(1)
 
         ancestor_node = search_results[0].children[0]
         expect(ancestor_node.type).to eq(:page)
         expect(ancestor_node.identifier).to eq(ancestor.identifier)
-        expect(ancestor_node.enabled).to be_truthy
 
-        page_node = search_results[0].children[0].children[0]
+        page_node = ancestor_node.children[0]
         expect(page_node.type).to eq(:page)
         expect(page_node.identifier).to eq(page.identifier)
-        expect(page_node.enabled).to be_truthy
+      end
+    end
+
+    context "if the search result is empty" do
+      let(:page_hierarchies) { [] }
+
+      it "returns an empty array" do
+        expect(subject).to be_success
+        expect(subject.value!).to be_empty
       end
     end
 
@@ -222,15 +240,6 @@ RSpec.describe Wikis::PageSearchService do
         expect(subject).to eq(search_wikis_result)
       end
     end
-
-    context "if the search result is empty" do
-      let(:page_hierarchies) { [] }
-
-      it "returns an empty array" do
-        expect(subject).to be_success
-        expect(subject.value!).to be_empty
-      end
-    end
   end
 
   context "when the query is a URL" do
@@ -252,7 +261,6 @@ RSpec.describe Wikis::PageSearchService do
       expect(search_results.first.type).to eq(:page)
       expect(search_results.first.name).to eq(page_info.title)
       expect(search_results.first.children).to be_empty
-      expect(search_results.first.enabled).to be_truthy
     end
 
     it "passes the URL along" do
