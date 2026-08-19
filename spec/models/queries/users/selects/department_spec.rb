@@ -28,47 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Selects::Base
-  include ActiveModel::Validations
+require "spec_helper"
 
-  def self.key
-    raise SubclassResponsibilityError
-  end
-
-  def self.available?
-    true
-  end
-
-  def self.all_available
-    if available?
-      [new(key)]
-    else
-      []
+RSpec.describe Queries::Users::Selects::Department do
+  describe ".key" do
+    it "is :department" do
+      expect(described_class.key).to eq(:department)
     end
   end
 
-  def caption
-    model = self.class.name.split("::")[1].singularize.constantize
-    model.human_attribute_name(attribute)
+  describe "#caption" do
+    it "is the user attribute name" do
+      expect(described_class.new(:department).caption).to eq(User.human_attribute_name(:department))
+    end
   end
 
-  attr_accessor :attribute
+  describe "selecting it on a UserQuery" do
+    shared_let(:user) { create(:user) }
+    shared_let(:department) { create(:department, members: [user]) }
 
-  def initialize(attribute)
-    self.attribute = attribute
-  end
+    let(:query) { UserQuery.new(name: "Users") }
 
-  def available?
-    true
-  end
+    current_user { create(:admin) }
 
-  def apply_to(query_scope)
-    includes ? query_scope.includes(includes) : query_scope
-  end
+    it "is available" do
+      expect(UserQuery.new.available_selects).to include(an_instance_of(described_class))
+    end
 
-  private
+    it "resolves to the select" do
+      query.select(:department)
 
-  def includes
-    nil
+      expect(query.selects.last).to be_a(described_class)
+    end
+
+    it "eager loads the departments" do
+      query.select(:department)
+
+      expect(query.results.to_a.map { it.association(:departments) }).to all(be_loaded)
+    end
+
+    it "does not eager load them when not selected" do
+      associations = query.results.to_a.map { it.association(:departments) }
+
+      expect(associations).to be_present
+      expect(associations.none?(&:loaded?)).to be(true)
+    end
   end
 end

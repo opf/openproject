@@ -28,40 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
+require "spec_helper"
 
-  def self.model
-    User
+RSpec.describe Queries::Users::Selects::ConsentedAt do
+  describe ".key" do
+    it "is :consented_at" do
+      expect(described_class.key).to eq(:consented_at)
+    end
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  describe "#caption" do
+    it "is the user attribute name" do
+      expect(described_class.new(:consented_at).caption).to eq(User.human_attribute_name(:consented_at))
+    end
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::ConsentedAtFilter
-    filter Queries::Users::Filters::CustomFieldFilter
+  context "when consent is required", with_settings: { consent_required: true } do
+    it "is available" do
+      expect(UserQuery.new.available_selects).to include(an_instance_of(described_class))
+    end
 
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
+    it "is selectable" do
+      query = UserQuery.new(name: "Users").tap { it.select(:consented_at) }
 
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::ConsentedAt
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::MemberOfGroup
-    select Queries::Users::Selects::MemberOfProject
-    select Queries::Users::Selects::Status
-    select Queries::Users::Selects::CustomField
+      expect(query.selects.last).to be_a(described_class)
+    end
+  end
+
+  context "when consent is not required", with_settings: { consent_required: false } do
+    it "is not available" do
+      expect(UserQuery.new.available_selects).not_to include(an_instance_of(described_class))
+    end
+
+    it "does not resolve to the select" do
+      query = UserQuery.new(name: "Users").tap { it.select(:consented_at) }
+
+      expect(query.selects.last).to be_a(Queries::Selects::NotExistingSelect)
+    end
   end
 end

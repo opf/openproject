@@ -28,47 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Selects::Base
-  include ActiveModel::Validations
-
+class Queries::Users::Selects::Status < Queries::Selects::Base
   def self.key
-    raise SubclassResponsibilityError
-  end
-
-  def self.available?
-    true
-  end
-
-  def self.all_available
-    if available?
-      [new(key)]
-    else
-      []
-    end
+    :status
   end
 
   def caption
-    model = self.class.name.split("::")[1].singularize.constantize
-    model.human_attribute_name(attribute)
-  end
-
-  attr_accessor :attribute
-
-  def initialize(attribute)
-    self.attribute = attribute
-  end
-
-  def available?
-    true
-  end
-
-  def apply_to(query_scope)
-    includes ? query_scope.includes(includes) : query_scope
-  end
-
-  private
-
-  def includes
-    nil
+    I18n.t(:label_status)
   end
 end

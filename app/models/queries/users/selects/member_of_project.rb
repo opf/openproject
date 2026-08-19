@@ -28,40 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
-
-  def self.model
-    User
+class Queries::Users::Selects::MemberOfProject < Queries::Selects::Base
+  def self.key
+    :member_of_project
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  def caption
+    I18n.t(:label_member_of_project)
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::ConsentedAtFilter
-    filter Queries::Users::Filters::CustomFieldFilter
+  private
 
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::ConsentedAt
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::MemberOfGroup
-    select Queries::Users::Selects::MemberOfProject
-    select Queries::Users::Selects::Status
-    select Queries::Users::Selects::CustomField
+  def includes
+    :projects
   end
 end
