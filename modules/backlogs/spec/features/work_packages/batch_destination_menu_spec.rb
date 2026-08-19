@@ -76,12 +76,6 @@ RSpec.describe "Backlogs batch destination menus",
       destination_sprint,
       items: [destination_story, bucket_story, sprint_story]
     )
-    backlogs_page.expect_persisted_sprint_order(
-      destination_sprint,
-      destination_story,
-      bucket_story,
-      sprint_story
-    )
     backlogs_page.expect_polite_announcement(
       I18n.t(
         "backlogs.work_packages.move_collection.moved_announcement",
@@ -93,6 +87,12 @@ RSpec.describe "Backlogs batch destination menus",
       )
     )
     backlogs_page.expect_no_selected_cards
+
+    backlogs_page.visit!
+    backlogs_page.expect_sprint_items_in_order(
+      destination_sprint,
+      items: [destination_story, bucket_story, sprint_story]
+    )
   end
 
   it "replaces the old selection when an unselected card invokes a destination action" do
@@ -109,10 +109,15 @@ RSpec.describe "Backlogs batch destination menus",
 
     backlogs_page.move_to_backlog_inbox(invoker)
 
-    backlogs_page.expect_persisted_inbox_order(invoker)
-    backlogs_page.expect_persisted_bucket_order(bucket, selected_bucket_story)
-    backlogs_page.expect_persisted_sprint_order(first_sprint, selected_sprint_story)
+    backlogs_page.expect_inbox_items_in_order(items: [invoker])
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
+    backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
     backlogs_page.expect_no_selected_cards
+
+    backlogs_page.visit!
+    backlogs_page.expect_inbox_items_in_order(items: [invoker])
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
+    backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
   end
 
   it "offers a partly occupied destination and gathers the whole batch at its end" do
@@ -139,11 +144,15 @@ RSpec.describe "Backlogs batch destination menus",
       option: destination_sprint.name
     )
 
-    backlogs_page.expect_persisted_sprint_order(
+    backlogs_page.expect_sprint_items_in_order(
       destination_sprint,
-      destination_story,
-      bucket_story,
-      selected_destination_story
+      items: [destination_story, bucket_story, selected_destination_story]
+    )
+
+    backlogs_page.visit!
+    backlogs_page.expect_sprint_items_in_order(
+      destination_sprint,
+      items: [destination_story, bucket_story, selected_destination_story]
     )
   end
 
@@ -210,7 +219,7 @@ RSpec.describe "Backlogs batch destination menus",
     )
     backlogs_page.expect_no_destination_dialog
     backlogs_page.expect_selected_cards_in_order(first_story, second_story)
-    backlogs_page.expect_persisted_bucket_order(bucket, first_story, second_story)
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
   end
 
   it "rejects the complete batch atomically and retains its selection" do
@@ -236,7 +245,10 @@ RSpec.describe "Backlogs batch destination menus",
              work_package: second_story.reload.to_fs(:caption),
              reason: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
     )
-    backlogs_page.expect_persisted_bucket_order(bucket, first_story, second_story)
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
     backlogs_page.expect_selected_cards_in_order(first_story, second_story)
+
+    backlogs_page.visit!
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
   end
 end
