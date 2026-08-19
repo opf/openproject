@@ -33,12 +33,12 @@ require_module_spec_helper
 
 RSpec.describe Wikis::SearchPagesResultComponent, type: :component do
   subject do
-    render_inline(described_class.new(tree_nodes, builder:, form_name: "wiki_page_selection", **options))
+    render_inline(described_class.new(tree_nodes, builder:, form_name: "wiki_page_selection", wikis_selectable:))
     page
   end
 
   let(:builder) { ActionView::Helpers::FormBuilder.new("", nil, vc_test_controller.view_context, {}) }
-  let(:options) { {} }
+  let(:wikis_selectable) { false }
 
   let(:page_node) do
     Wikis::Adapters::Results::PageSearchTreeNode.new(identifier: "42", type: :page, name: "A page", children: [])
@@ -63,7 +63,7 @@ RSpec.describe Wikis::SearchPagesResultComponent, type: :component do
   end
 
   context "when wikis are selectable" do
-    let(:options) { { wikis_selectable: true } }
+    let(:wikis_selectable) { true }
 
     it "allows selecting the wiki" do
       expect(subject).to have_no_css("[data-node-id='wiki:1'][aria-disabled='true']")

@@ -37,7 +37,7 @@ module Wikis
 
     attr_reader :builder, :form_name, :wikis_selectable
 
-    def initialize(model = [], builder:, form_name:, wikis_selectable: false, **)
+    def initialize(model = [], builder:, form_name:, wikis_selectable:, **)
       @builder = builder
       @form_name = form_name
       @wikis_selectable = wikis_selectable
