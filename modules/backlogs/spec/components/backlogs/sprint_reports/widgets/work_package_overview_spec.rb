@@ -37,6 +37,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
   context "when the sprint has a date range set" do
+    current_user { build_stubbed(:user) }
+
     let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
     let(:planned) do
       SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, from_date: sprint.start_date)
@@ -54,6 +56,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
 
     before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+
       allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
       allow(breakdown).to receive_messages(
         initially_planned: planned,
@@ -127,7 +131,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
 
     context "when the current user can view the project's work packages" do
-      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+      let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
 
       current_user { create(:user, member_with_roles: { project => role }) }
 
@@ -150,7 +154,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
 
     context "when the current user has no permission to view the project's work packages" do
-      let(:role) { create(:project_role, permissions: []) }
+      let(:role) { create(:project_role, permissions: [:view_sprints]) }
 
       current_user { create(:user, member_with_roles: { project => role }) }
 
@@ -169,10 +173,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(title_counter_text).to eq("0")
       end
     end
+
+    context "when the current user lacks permission to view sprints at all" do
+      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+
+      current_user { create(:user, member_with_roles: { project => role }) }
+
+      it "does not render the widget" do
+        expect(rendered_component.to_html).to be_blank
+      end
+    end
   end
 
   context "when the sprint has no date range set" do
     let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+
+    current_user { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+    end
 
     it "renders a blankslate" do
       expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
