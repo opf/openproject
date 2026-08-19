@@ -134,6 +134,13 @@ module OpenProject
               label: :label_criteria
             },
             {
+              name: "matching_users",
+              partial: "placeholder_users/matching_users",
+              path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :matching_users) },
+              label: :label_matching_users,
+              only_if: ->(context) { context[:placeholder_user]&.user_filter.present? }
+            },
+            {
               name: "memberships",
               partial: "individual_principals/memberships",
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
