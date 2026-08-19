@@ -79,6 +79,10 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        rate:
+          attributes:
+            principal:
+              invalid: "must be a user or a placeholder user."
         time_entry:
           cannot_log_for_this_work_package: "Cannot log time for this work package."
           duplicate_ongoing: "An ongoing time entry already exists for this user."
