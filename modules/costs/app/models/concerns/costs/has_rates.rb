@@ -44,7 +44,7 @@ module Costs
     end
 
     def current_rate(project = nil, include_default: true)
-      rate_at(Date.today, project, include_default:)
+      rate_at(Time.zone.today, project, include_default:)
     end
 
     # kept for backwards compatibility
@@ -53,7 +53,7 @@ module Costs
     end
 
     def current_default_rate
-      ::DefaultHourlyRate.at_for_user(Date.today, id)
+      ::DefaultHourlyRate.at_for_user(Time.zone.today, id)
     end
 
     # kept for backwards compatibility
@@ -66,7 +66,7 @@ module Costs
 
       return unless rate_attributes
 
-      rate_attributes.each do |_index, attributes|
+      rate_attributes.each_value do |attributes|
         attributes[:rate] = Rate.parse_number_string(attributes[:rate])
 
         if project.nil?
@@ -79,14 +79,8 @@ module Costs
     end
 
     def set_existing_rates(project, rates_attributes)
-      if project.nil?
-        default_rates.reject(&:new_record?).each do |rate|
-          update_rate(rate, rates_attributes[rate.id.to_s], project_rate: false)
-        end
-      else
-        rates.reject { |r| r.new_record? || r.project_id != project.id }.each do |rate|
-          update_rate(rate, rates_attributes[rate.id.to_s], project_rate: true)
-        end
+      persisted_rates_for(project).each do |rate|
+        update_rate(rate, rates_attributes[rate.id.to_s], project_rate: project.present?)
       end
     end
 
@@ -97,6 +91,14 @@ module Costs
     end
 
     private
+
+    def persisted_rates_for(project)
+      if project.nil?
+        default_rates.reject(&:new_record?)
+      else
+        rates.reject { |rate| rate.new_record? || rate.project_id != project.id }
+      end
+    end
 
     def update_rate(rate, attributes, project_rate: true)
       if attributes && attributes[:rate].present?
