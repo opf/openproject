@@ -67,8 +67,9 @@ RSpec.describe Users::TableComponent, type: :component do
     captions.each { expect(page).to have_css("th", text: it) }
   end
 
-  it "renders the department" do
+  it "renders the department with a briefcase icon" do
     expect(page).to have_css("td.department", text: department.name, count: 1)
+    expect(page).to have_css("td.department .octicon-briefcase", count: 1)
   end
 
   it "renders the groups without the department" do

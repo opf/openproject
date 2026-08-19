@@ -74,6 +74,17 @@ module Users
       helpers.full_user_status user
     end
 
+    def department
+      return if user.department.nil?
+
+      safe_join(
+        [
+          render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted, mr: 1)),
+          user.department.name
+        ]
+      )
+    end
+
     def member_of_group
       joined_names user.regular_groups
     end
