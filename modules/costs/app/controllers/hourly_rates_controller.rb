@@ -144,19 +144,15 @@ class HourlyRatesController < ApplicationController
   end
 
   # Rates hang off users and placeholder users alike, so the lookup is over
-  # principals and the type is checked rather than assumed.
+  # principals rather than users.
   def find_user
     @user = if params[:id].blank?
               User.current
             elsif @project
-              principals_with_rates.in_project(@project).find(params.expect(:id))
+              Principal.with_rates.in_project(@project).find(params.expect(:id))
             else
-              principals_with_rates.find(params.expect(:id))
+              Principal.with_rates.find(params.expect(:id))
             end
-  end
-
-  def principals_with_rates
-    Principal.visible.where(type: %w[User PlaceholderUser])
   end
 
   def edit_principal_rates_path

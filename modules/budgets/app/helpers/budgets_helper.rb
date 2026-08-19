@@ -55,8 +55,8 @@ module BudgetsHelper
     }
   end
 
-  # Groups and placeholder users cannot hold an hourly rate and are therefore
-  # budgeted with 0.0 costs, but they are valid assignees (wp/74197).
+  # Groups cannot hold an hourly rate and are therefore budgeted with 0.0 costs,
+  # but they are valid assignees (wp/74197).
   def labor_budget_item_user_filters(project)
     [
       { name: "type", operator: "=", values: %w[User Group PlaceholderUser] },
