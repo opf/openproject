@@ -88,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do
               breakdown_blocks.each do |block|
                 concat(
-                  render(Primer::Box.new) do
+                  render(Primer::Box.new(classes: "op-wp-overview--block")) do
                     safe_join(
                       [
                         flex_layout(align_items: :center) do |flex|
