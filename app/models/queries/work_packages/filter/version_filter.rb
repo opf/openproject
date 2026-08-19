@@ -41,4 +41,10 @@ class Queries::WorkPackages::Filter::VersionFilter <
   def self.key
     :version_id
   end
+
+  # `version_id` and `target_version_id` replace one another; stored keys are
+  # translated on read, see Query::DeprecatedVersionFilter.
+  def available?
+    !Setting::WorkPackageMultipleVersions.active?
+  end
 end
