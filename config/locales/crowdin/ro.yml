@@ -5327,6 +5327,7 @@ ro:
   setting_default_language: Limbă implicită
   setting_default_projects_modules: Module activate implicit la creare proiect
   setting_default_projects_public: Proiectele noi sunt implicit publice
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Numărul maxim de linii afișate în comparație
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Afișare pachete de lucru din subproiecte pe pagina proiectului principal

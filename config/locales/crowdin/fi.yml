@@ -5260,6 +5260,7 @@ fi:
   setting_default_language: Vakiokieli
   setting_default_projects_modules: Oletusmodulit uusille projketeille
   setting_default_projects_public: Uudet projektit ovat oletuksena julkisia
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Oletuksena näytä aliprojektien tehtävät pääprojektissa

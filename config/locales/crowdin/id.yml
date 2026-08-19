@@ -5187,6 +5187,7 @@ id:
   setting_default_language: Bahasa default
   setting_default_projects_modules: Modul default aktif untuk Project baru
   setting_default_projects_public: Project baru default untuk publik
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maks. tampilan baris diff
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Tampilkan Paket-Penugasan pada Sub-Project secara default

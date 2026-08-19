@@ -5250,6 +5250,7 @@ sv:
   setting_default_language: Standardspråk
   setting_default_projects_modules: Standardmoduler för nya projekt
   setting_default_projects_public: Nya projekt är offentliga som standard
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max antal diff rader som visas
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Visa arbetspaket för delprojekt på huvudprojekt som standard

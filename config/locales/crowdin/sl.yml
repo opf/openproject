@@ -5429,6 +5429,7 @@ sl:
   setting_default_language: Privzeti jezik
   setting_default_projects_modules: Privzeti omogočeni moduli za nove projekte
   setting_default_projects_public: Novi projekti so privzeto javni
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksimalno število prikazanih vrstic različnosti
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Privzeto prikazuj delovne pakete podprojektov na glavnem projektu

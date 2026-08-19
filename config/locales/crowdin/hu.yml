@@ -5366,6 +5366,7 @@ hu:
   setting_default_language: Alapértelmezett nyelv
   setting_default_projects_modules: Az új projektekben alapértelmezetten engedélyezett modulok
   setting_default_projects_public: Új projektek nyilvánosak alapértelmezetten
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: A különböző sorok megjelenítésének maximális száma
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Megjelenítendő alprojektek, feladatcsoportok a fő projekt alapértelmezett beállítása szerint

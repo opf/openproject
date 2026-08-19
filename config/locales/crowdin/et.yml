@@ -5260,6 +5260,7 @@ et:
   setting_default_language: Vaikimisi keel
   setting_default_projects_modules: Uue projekti vaikimisi moodulid
   setting_default_projects_public: Uued projektid on vaikimisi avalikud
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Enim korraga näidatavaid erinevusi
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Kuva ka alamprojektide teemad peaprojekti teemade juures

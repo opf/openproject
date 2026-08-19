@@ -5262,6 +5262,7 @@ si:
   setting_default_language: පෙරනිමි භාෂාව
   setting_default_projects_modules: නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල
   setting_default_projects_public: නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: ප්රදර්ශනය diff රේඛා උපරිම සංඛ්යාව
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: පෙරනිමියෙන් ප්රධාන ව්යාපෘතිවල උප ව්යාපෘති වැඩ පැකේජ ප්රදර්ශනය කරන්න
