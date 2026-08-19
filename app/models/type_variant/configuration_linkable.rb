@@ -48,6 +48,7 @@ class TypeVariant
       end
 
       validate :sources_would_not_create_a_cycle
+      validate :sources_stay_within_project_scope
       before_destroy :ensure_nothing_links_here
     end
 
@@ -417,6 +418,16 @@ class TypeVariant
         next if source_id.blank?
 
         errors.add(:"#{aspect}_source_id", :would_create_cycle) if reaches_self?(source_id, aspect)
+      end
+    end
+
+    # A variant may only link to a global type or another variant from the same project
+    def sources_stay_within_project_scope
+      TypeVariant::ASPECTS.each do |aspect|
+        source = source_for(aspect)
+        next if source.nil? || source.project_id.nil? || source.project_id == project_id
+
+        errors.add(:"#{aspect}_source_id", :source_out_of_project_scope)
       end
     end
 

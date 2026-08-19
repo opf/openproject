@@ -598,4 +598,43 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
         .to contain_exactly(owner_field.id)
     end
   end
+
+  describe "keeping links within project scope" do
+    shared_let(:family) { create(:type) }
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+
+    let(:global_variant) { create(:type_variant, type: family, variant_name: "Global") }
+    let(:project_variant) { create(:type_variant, type: family, project:, variant_name: "Owned") }
+
+    it "lets a project variant borrow from a global source" do
+      project_variant.defaults_source = family.default_variant
+
+      expect(project_variant).to be_valid
+    end
+
+    it "lets a project variant borrow from one of its own project's variants" do
+      sibling = create(:type_variant, type: family, project:, variant_name: "Sibling")
+      project_variant.defaults_source = sibling
+
+      expect(project_variant).to be_valid
+    end
+
+    it "refuses a global variant borrowing from a project-owned source" do
+      expect(global_variant).to be_valid
+
+      global_variant.defaults_source = project_variant
+
+      expect(global_variant).not_to be_valid
+      expect(global_variant.errors[:defaults_source_id]).to be_present
+    end
+
+    it "refuses borrowing from another project's variant" do
+      foreign = create(:type_variant, type: family, project: other_project, variant_name: "Foreign")
+      project_variant.defaults_source = foreign
+
+      expect(project_variant).not_to be_valid
+      expect(project_variant.errors[:defaults_source_id]).to be_present
+    end
+  end
 end

@@ -58,6 +58,7 @@ class TypeVariant < ApplicationRecord
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
 
   belongs_to :type
+  belongs_to :project, optional: true
 
   # Which workflows we are defining ourselves
   has_many :own_workflows,
@@ -96,6 +97,7 @@ class TypeVariant < ApplicationRecord
             unless: :is_default_variant?
   validate :base_variant_has_no_name
   validate :only_one_variant_enabled_in_new_projects
+  validate :project_variant_is_not_a_default
 
   scopes :with_effective_configuration, :with_effective_source
 
@@ -103,6 +105,10 @@ class TypeVariant < ApplicationRecord
 
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
+
+  scope :global, -> { where(project_id: nil) }
+  scope :project_specific, -> { where.not(project_id: nil) }
+  scope :available_in, ->(project) { where(project_id: [nil, project.id]) }
 
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }
@@ -228,5 +234,12 @@ class TypeVariant < ApplicationRecord
     siblings = siblings.where.not(id:) if persisted?
 
     errors.add(:enabled_in_new_projects, :taken) if siblings.exists?
+  end
+
+  def project_variant_is_not_a_default
+    return if project_id.nil?
+
+    errors.add(:is_default_variant, :not_allowed_for_project_variant) if is_default_variant?
+    errors.add(:enabled_in_new_projects, :not_allowed_for_project_variant) if enabled_in_new_projects?
   end
 end

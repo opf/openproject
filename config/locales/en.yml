@@ -370,6 +370,7 @@ en:
         defaults_source: "Defaults source"
         enabled_in_new_projects: "Active in new projects"
         form_configuration_source: "Form configuration source"
+        is_default_variant: "Default configuration"
         patterns: "Patterns"
         pdf_export_source: "PDF export source"
         project_attributes_source: "Project attributes source"
@@ -846,20 +847,28 @@ en:
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
             defaults_source_id:
+              source_out_of_project_scope: "must be a global configuration or another variant in this project."
               would_create_cycle: "would link these configurations in a loop."
             enabled_in_new_projects:
+              not_allowed_for_project_variant: "cannot be set for a project-specific configuration."
               taken: "is already set for another configuration of this type."
             form_configuration_source_id:
+              source_out_of_project_scope: "must be a global configuration or another variant in this project."
               would_create_cycle: "would link these configurations in a loop."
+            is_default_variant:
+              not_allowed_for_project_variant: "cannot be set for a project-specific configuration."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
             pdf_export_source_id:
+              source_out_of_project_scope: "must be a global configuration or another variant in this project."
               would_create_cycle: "would link these configurations in a loop."
             project_attributes_source_id:
+              source_out_of_project_scope: "must be a global configuration or another variant in this project."
               would_create_cycle: "would link these configurations in a loop."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
             workflows_source_id:
+              source_out_of_project_scope: "must be a global configuration or another variant in this project."
               would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:

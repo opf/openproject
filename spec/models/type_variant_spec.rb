@@ -198,4 +198,49 @@ RSpec.describe TypeVariant, with_flag: { type_variants: true } do
         .to raise_error(ArgumentError)
     end
   end
+
+  describe "a project-specific variant" do
+    shared_let(:project) { create(:project) }
+
+    it "cannot be a type's base configuration" do
+      variant = build(:type_variant, type: bug, project:, variant_name: nil, is_default_variant: true)
+
+      expect(variant).not_to be_valid
+      expect(variant.errors[:is_default_variant]).to be_present
+    end
+
+    it "cannot be the type set to be enabled in new projects" do
+      variant = build(:type_variant, type: bug, project:, enabled_in_new_projects: true)
+
+      expect(variant).not_to be_valid
+      expect(variant.errors[:enabled_in_new_projects]).to be_present
+    end
+
+    it "shares a namespace with the type's global variants" do
+      create(:type_variant, type: bug, variant_name: "Hardware")
+      variant = build(:type_variant, type: bug, project:, variant_name: "Hardware")
+
+      expect(variant).not_to be_valid
+      expect(variant.errors[:variant_name]).to be_present
+    end
+  end
+
+  describe "scopes by ownership" do
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:global_variant) { create(:type_variant, type: bug, variant_name: "Global") }
+    shared_let(:project_variant) { create(:type_variant, type: bug, project:, variant_name: "Owned") }
+
+    it "separates global from project-owned variants" do
+      expect(described_class.global).to include(bug.default_variant, global_variant)
+      expect(described_class.global).not_to include(project_variant)
+      expect(described_class.project_specific).to contain_exactly(project_variant)
+    end
+
+    it "offers a project its own + global variants" do
+      expect(described_class.available_in(project))
+        .to include(bug.default_variant, global_variant, project_variant)
+      expect(described_class.available_in(other_project)).not_to include(project_variant)
+    end
+  end
 end
