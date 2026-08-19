@@ -1,11 +1,9 @@
 ---
-
 title: OpenProject 17.8.0
 sidebar_navigation:
 title: 17.8.0
 release_version: 17.8.0
 release_date: 2026-09-02
-
 ---
 
 # OpenProject 17.8.0
@@ -18,7 +16,7 @@ We released [OpenProject 17.8.0](https://community.openproject.org/versions/2313
 
 OpenProject 17.8 brings powerful new possibilities for connecting AI assistants with your project work: the **MCP Server can now create and update work packages**, add comments, and manage work package relations. The release also introduces **multiple target versions per work package**, adds **sprints and milestones to the project timeline**, and brings further improvements to wikis, Backlogs, meetings, and administration.
 
-And there is good news for Community users: **date alerts are now available in the free Community edition**. This feature lets users receive notifications ahead of a work package's start or due date and was previously part of the Basic Enterprise plan.
+And there is good news for Community users: **displaying relations in the work package table is now available in the free Community edition**. This makes it easier to see and work with relationships between work packages directly from the table.
 
 Take a look at our release video showing the most important features introduced in OpenProject 17.8:
 
@@ -28,108 +26,111 @@ Take a look at our release video showing the most important features introduced 
 
 [feature: mcp_server ]
 
-![placeholder]()
+![AI assistant creating a work package in OpenProject with the MCP Server](openproject_release_notes_17.8_mcp_server_create_work_package.png)
+UPDATE
 
-OpenProject 17.8 significantly extends the capabilities of the [MCP Server](https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
+OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/integrations/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
 
-The new `create_work_package` and `update_work_package` MCP tools follow the same permissions and business rules as the regular OpenProject UI and API. This includes required fields and `lock_version` checks.
+The new `create_work_package` and `update_work_package` MCP tools follow the same permissions and business rules as the regular OpenProject UI and API. This includes required fields and `lock_version` checks for updates.
 
 The MCP Server also gains several additional capabilities:
 
-* **Work package comments:** AI assistants can list existing comments, including emoji reactions, and create new comments.
-* **Work package relations:** Relations can now be created, modified, and deleted. Relations are also included in responses, allowing assistants to understand dependencies between work packages.
-* **Custom fields:** Custom fields are now returned with their proper names and can be set when creating or updating work packages. Possible values for hierarchy-type custom fields can also be retrieved.
-* **Custom hierarchy items:** A dedicated MCP tool allows assistants to look up valid hierarchy values.
-* **Pagination metadata:** Collection responses now include information such as page size and total count, making questions such as "How many work packages exist?" easier to answer without additional requests.
+- **Work package comments:** AI assistants can list existing comments, including emoji reactions, and create new comments.
+- **Work package relations:** Relations can now be created, modified, and deleted. Relations are also included in responses, allowing assistants to understand dependencies between work packages.
+- **Custom fields:** Custom fields can now be properly identified and set when creating or updating work packages. Possible values for hierarchy-type custom fields can also be retrieved.
+- **Pagination metadata:** Collection responses now include information such as page size and total count, making questions such as "How many work packages exist?" easier to answer without additional requests.
 
-Responses from the MCP Server have also been streamlined to reduce unnecessary information sent to AI assistants. Unneeded HAL links and the HTML representation of formattable properties such as descriptions and comments are removed from responses. Output schemas have also been removed from MCP tool definitions.
+Responses from the MCP Server have also been streamlined to reduce unnecessary information sent to AI assistants. Unnecessary action links and the HTML representation of formattable properties such as descriptions and comments are removed from responses. Output schemas have also been removed from MCP tool definitions.
 
 Internally, MCP tools and resources are now registered through a registry pattern, making the server easier to extend in the future.
 
-### Date alerts now available in the Community edition
+### Display relations in the work package table now available in the Community edition
 
-**Date alerts are now available to all OpenProject users in the free Community edition**.
+**Displaying [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies/) in the work package table is now available to all OpenProject users in the free Community edition**.
 
-Date alerts allow users to receive notifications ahead of a work package's start or due date. They can help teams keep track of approaching deadlines and upcoming work without having to check individual work packages manually.
-
-Until now, date alerts were available as part of the Basic Enterprise plan. With OpenProject 17.8, the feature moves to the Community edition.
+Displaying relations as columns in the work package table makes it easier to see how work packages are connected without having to open individual work packages.
 
 ### Assign multiple target versions to a work package
 
-![placeholder]()
+OpenProject 17.8 introduces **multiple target versions for work packages**. The existing **Version** field is renamed to **Target versions** and changes from a single-value field to a multi-value field. This allows a work package to be assigned to several versions at the same time, for example when a fix is included in several release lines or a feature spans multiple milestones.
 
-OpenProject 17.8 starts the transition from the existing **Version** field to a new **Target versions** field that can contain multiple values.
+![Multiple target versions assigned to a work package](openproject_release_notes_17.8_multiple_target_versions.png)
+UPDATE
 
-This means a work package can be assigned to several target versions instead of only one.
-
-Administrators can manually enable the new functionality under *Administration → Work packages → Versions and categories*. Target versions and Categories can be migrated separately ahead of the automatic rollout planned for a future release.
+For existing OpenProject installations, this conversion does not happen automatically with the 17.8 update. Administrators can enable it manually under *Administration → Work packages → Versions and categories*. New installations have multiple target versions enabled by default.
 
 > [!IMPORTANT]
-> The migration is one-way and cannot be reverted.
+> Enabling multiple target versions is a one-way conversion and cannot be reverted.
 
-After migrating Target versions, users can assign several target versions to a work package, and version boards support multiple target versions per card. New OpenProject installations have multi-value target versions enabled by default.
+![Versions and categories in OpenProject administration](openproject_release_notes_17.8_versions_and_categories.png)
 
-Existing functionality such as roadmaps, bulk editing, project copying, queries, and filters continues to work during the transition.
+Existing version assignments are preserved during the conversion. Users who only assign one version to a work package can continue working as before, while the **Target versions** field can now also contain several values.
+
+Existing functionality such as roadmaps, version boards, bulk editing, project copying, queries, filters, exports, and notifications continues to work with target versions.
+
+For API clients, a new `targetVersions` property contains all assigned target versions. The existing single-value `version` property remains available for compatibility, but integrations that manage version assignments should migrate to `targetVersions`.
+
+For more information about the change, migration options, and API compatibility, see the [multiple target versions documentation](../../system-admin-guide/work-packages/versions-and-categories#multiple-target-versions/).
 
 OpenProject 17.8 also extends CKEditor's attribute value macros with a `singleline` and `multiline` layout argument. This allows multi-value attributes to be displayed either as a comma-separated line within a sentence or as a list.
 
 ### Configurable global restrictions for time entries
 
-![placeholder]()
-
 Administrators can now configure **global restrictions for time entries** under *Administration → Time & Costs → Time*.
+
+![Global restrictions for time entries in OpenProject administration](openproject_release_notes_17.8_time_entry_restrictions.png)
 
 For example, administrators can:
 
-* limit the number of hours allowed in an individual time entry,
-* limit the number of hours a user can log per day,
-* restrict time entries to a user's defined working hours,
-* prevent time from being logged on non-working days,
-* prevent entries from being added to months that have already ended.
+- limit the number of hours allowed in an individual time entry,
+- limit the number of hours a user can log per day,
+- restrict time entries to a user's defined working hours,
+- prevent time from being logged on non-working days,
+- prevent entries from being added to months that have already ended.
 
 All validations are disabled by default, so existing OpenProject behavior remains unchanged after updating.
 
 Project-specific overrides are not yet included and are planned as a future enhancement.
 
+For more information about recording time in OpenProject, see the [time tracking documentation](../../user-guide/time-and-costs/time-tracking/).
+
+
 ### Backlogs and agile improvements
 
-![placeholder]()
+OpenProject 17.8 brings several improvements to [Backlogs and sprints](../../user-guide/backlogs-scrum/).
 
-The **sprint goal** is now displayed prominently at the top of the sprint report, making the objective of the sprint visible when reviewing its progress.
+Users can now change **sprints and backlog buckets using bulk edit**, making it easier to reorganize multiple work packages at once.
 
 Changes to a work package's **backlog bucket** are now recorded in the Activity tab, just like changes to sprint assignments.
 
-Users can also change **sprints and backlog buckets using bulk edit**, making it easier to reorganize multiple work packages at once.
+![Changes to a backlog bucket shown under activity tab of a work package in OpenProject](openproject_release_notes_17.8_backlog_bucket_changes_shown_under_activity_tab.png)
 
-Dragging a Backlogs card outside the browser window now provides external applications with a usable OpenProject work package link. For example, a card can be dragged into a chat application, another browser window, or a rich text editor. The generated link is the same URL provided by **Copy URL to clipboard**.
+Sprint and backlog bucket cards can now be **dragged into external applications**. Depending on the target application, dropping a card into a chat, text editor, another browser window, or rich-text editor provides a usable link to the OpenProject work package.
 
-For new OpenProject installations, the default **Epic** and **User story** work package types now include an embedded related work package table showing their children. This makes the relationship between higher-level work items and their child work packages easier for new users to discover.
+When creating a new Scrum demo project, the default **Epic** and **User story** work package types now include an embedded related work package table showing their children. This makes it easier to see related work directly on the work package page and demonstrates how embedded related work package tables can be used.
+
 
 ### Wiki improvements
 
-![placeholder]()
+OpenProject 17.8 brings further improvements to the [project wiki](../../user-guide/wiki/).
 
-OpenProject 17.8 brings another round of improvements to the built-in **project wiki**, making wiki pages easier to find, navigate, create, and link.
+The term **internal wiki** has been consistently replaced with **project wiki** throughout the interface, making the distinction from external wiki integrations such as XWiki clearer.
 
-A new **All wiki pages** entry in the global menu provides an overview of the wikis a user can access. This is a first step towards a more comprehensive global wiki page index.
+The project wiki settings remain accessible even when project wikis have been disabled instance-wide, with an explanation of why the feature is unavailable.
 
-When selecting a wiki page, for example while creating a link, users can now **browse the wiki hierarchy as a tree** instead of having to search only by page title.
+![Adding a parent page to a newly created wiki page from the Wiki tab in a work package in OpenProject](openproject_release_notes_17.8_wiki_new_page_creation_parent.png)
 
-The Create page dialog also lets users select a **wiki itself as the parent**, making it possible to create root pages directly. The parent-selection step is now simply labeled **Parent**.
+The [create and edit page](../../user-guide/wiki/create-edit-wiki/) has been updated with a modernized user interface.
 
-Further improvements include:
+![Creating a project wiki page with the updated interface](openproject_release_notes_17.8_wiki_create_page.png)
 
-* The project wiki settings remain accessible even when project wikis have been disabled instance-wide, with an explanation of why the feature is unavailable.
-* Wiki link and creation macros, such as **Existing wiki page** and **New wiki page**, are available in more rich text editors, including meeting descriptions, outcomes, and comments.
-* The project wiki sidebar now uses a reusable, filterable tree view. Pages are collapsed by default and can be expanded individually, while search results include breadcrumbs to make pages easier to locate.
-* The create and edit page has been updated with a modernized user interface.
-* The term **internal wiki** has been consistently replaced with **project wiki** throughout the interface, making the distinction from external wiki integrations such as XWiki clearer.
+Finally, wiki link and creation macros, such as **Existing wiki page** and **New wiki page**, are available in more rich text editors, including meeting descriptions, outcomes, comments, wiki page content, and text custom fields.
 
 ### Milestones and sprints are displayed in the project timeline widget
 
-![placeholder]()
+The **[Project timeline](../../user-guide/projects/project-home/)** widget on the project overview now provides a more complete picture of important project dates by displaying **milestones and sprints alongside project phases**.
 
-The **Project timeline** widget on the project overview now provides a more complete picture of important project dates by displaying **milestones and sprints alongside project phases**.
+![Milestones and sprints displayed in the project timeline widget](openproject_release_notes_17.8_project_timeline_milestones_sprints.png)
 
 Milestones are displayed below the project phases and link directly to their work package full view. A footer link also lets users open all milestones in the Gantt chart.
 
@@ -154,11 +155,11 @@ The BlockNote editor extensions additionally support a separate `proxyUrl` along
 
 ### Meeting activity visible directly in work packages
 
-![placeholder]()
-
-The connection between meetings and work packages is more visible.
+The connection between [meetings](../../user-guide/meetings/) and work packages is more visible.
 
 The **Activity** tab of a work package now shows when the work package was **added to a meeting, removed from a meeting, moved between meetings, or discussed in a meeting**. This also applies to meeting templates and meeting series.
+
+![Meeting updates displayed in the Activity tab of a work package](openproject_release_notes_17.8_work_package_meeting_activity.png)
 
 This gives users important meeting context directly in the work package without requiring them to open the separate Meetings tab.
 
@@ -174,7 +175,7 @@ The **More actions** menus on the project Overview and under *Project settings �
 
 The authentication setting controlling who can create projects now includes a note explaining that users may be able to see project identifiers.
 
-The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface.
+The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface. For more information, see the [two-factor authentication (2FA) documentation](../../system-admin-guide/authentication/two-factor-authentication/).
 
 ## Important updates and breaking changes
 
