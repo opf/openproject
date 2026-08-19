@@ -26,62 +26,58 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { refreshMenuAvailability } from './menu-availability';
+import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
+import { SortableActionMenu } from './action-menu';
 
 function fixture(hideUnavailable = true) {
   const list = document.createElement('ul');
-  list.innerHTML = '<li role="separator"></li><li data-sortable-lists-destinations=\'[ { "type": "inbox", "id": null } ]\'></li><li></li><anchored-position popover="auto"></anchored-position>';
-  const [divider, destination, moveMenu] = Array.from(list.querySelectorAll('li'));
+  list.innerHTML = '<li role="separator"></li><li></li><li></li><anchored-position popover="auto"></anchored-position>';
+  const [groupDivider, destination, moveSubmenu] = Array.from(list.querySelectorAll('li'));
   const moveItem = document.createElement('li');
-  moveItem.setAttribute('data-sortable-lists-item-direction-param', 'top');
-  moveMenu.append(moveItem);
+  moveSubmenu.append(moveItem);
   const menu = {
     showItem: (item:HTMLElement) => item.removeAttribute('hidden'),
     hideItem: (item:HTMLElement) => item.setAttribute('hidden', ''),
     enableItem: (item:HTMLElement) => item.removeAttribute('aria-disabled'),
     disableItem: (item:HTMLElement) => item.setAttribute('aria-disabled', 'true'),
-  };
-  const input:Parameters<typeof refreshMenuAvailability>[0] = {
-    menu,
-    scope: { kind: 'batch', items: [document.createElement('div'), document.createElement('div')] },
-    itemOrderable: true,
+  } as ActionMenuElement;
+  const projection = new SortableActionMenu(menu, hideUnavailable, null);
+  const elements = {
     destinationItems: [destination],
     moveItems: [moveItem],
-    moveMenu,
-    divider,
-    hideUnavailable,
-    identifier: 'sortable-lists-item',
-    availableDestinations: vi.fn(() => []),
-    moveAvailability: vi.fn(() => ({ top: false, up: false, down: false, bottom: false })),
+    moveSubmenu,
+    groupDivider,
+    invokerGroup: null,
+    batchGroup: null,
   };
-  return { input, divider, destination, moveMenu, moveItem };
+  const scope = { batch: false, count: 1 };
+  const availability = { destinationItem: () => false, moveItem: () => false };
+  return { projection, elements, scope, availability, destination, moveSubmenu, moveItem, groupDivider };
 }
 
 describe('menu availability projection', () => {
   it('ignores the trailing overlay when every real action is hidden', () => {
-    const { input, divider, destination, moveMenu, moveItem } = fixture();
-    refreshMenuAvailability(input);
-    for (const element of [divider, destination, moveMenu, moveItem]) {
+    const { projection, elements, scope, availability, groupDivider, destination, moveSubmenu, moveItem } = fixture();
+    projection.project(elements, scope, availability);
+    for (const element of [groupDivider, destination, moveSubmenu, moveItem]) {
       expect(element.hasAttribute('hidden')).toBe(true);
     }
-    expect(input.moveAvailability).toHaveBeenCalled();
   });
 
   it('restores the position group when the batch becomes positionable', () => {
-    const { input, divider, moveMenu, moveItem } = fixture();
-    refreshMenuAvailability(input);
-    input.moveAvailability = vi.fn(() => ({ top: true, up: true, down: false, bottom: false }));
-    refreshMenuAvailability(input);
-    for (const element of [divider, moveMenu, moveItem]) {
+    const { projection, elements, scope, availability, groupDivider, moveSubmenu, moveItem } = fixture();
+    projection.project(elements, scope, availability);
+    projection.project(elements, scope, { ...availability, moveItem: () => true });
+    for (const element of [groupDivider, moveSubmenu, moveItem]) {
       expect(element.hasAttribute('hidden')).toBe(false);
     }
   });
 
   it('disables unavailable actions without hiding the group separator', () => {
-    const { input, divider, destination, moveMenu, moveItem } = fixture(false);
-    refreshMenuAvailability(input);
-    expect(divider.hasAttribute('hidden')).toBe(false);
-    for (const element of [destination, moveMenu, moveItem]) {
+    const { projection, elements, scope, availability, groupDivider, destination, moveSubmenu, moveItem } = fixture(false);
+    projection.project(elements, scope, availability);
+    expect(groupDivider.hasAttribute('hidden')).toBe(false);
+    for (const element of [destination, moveSubmenu, moveItem]) {
       expect(element.getAttribute('aria-disabled')).toBe('true');
       expect(element.hasAttribute('hidden')).toBe(false);
     }
