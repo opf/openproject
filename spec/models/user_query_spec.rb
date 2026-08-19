@@ -284,5 +284,13 @@ RSpec.describe UserQuery do
         Queries::Users::Orders::GroupOrder
       )
     end
+
+    it "registers selects as a side-effect of loading the class" do
+      expect(Queries::Register.selects[described_class]).to include(
+        Queries::Users::Selects::Default,
+        Queries::Users::Selects::Department,
+        Queries::Users::Selects::CustomField
+      )
+    end
   end
 end

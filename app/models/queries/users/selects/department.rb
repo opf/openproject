@@ -28,35 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
-
-  def self.model
-    User
+class Queries::Users::Selects::Department < Queries::Selects::Base
+  def self.key
+    :department
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
-  end
+  private
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::CustomFieldFilter
-
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::CustomField
+  def includes
+    :departments
   end
 end

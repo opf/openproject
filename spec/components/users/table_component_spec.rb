@@ -28,35 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserQuery < PersistedQuery
-  scope :visible, ->(user = User.current) { where(principal: user) }
+require "rails_helper"
 
-  def self.model
-    User
+RSpec.describe Users::TableComponent, type: :component do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:member_of_department) { create(:user, login: "with-department") }
+  shared_let(:without_department) { create(:user, login: "without-department") }
+  shared_let(:department) { create(:department, lastname: "Research", members: [member_of_department]) }
+
+  let(:query) do
+    UserQuery.new(name: "Users").tap { it.select(:login, :department) }
   end
 
-  def default_scope
-    # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user.visible
+  before do
+    login_as(admin)
+    vc_test_controller.action_name = "index"
+    vc_test_controller.request.path_parameters = { controller: "users", action: "index" }
+    render_inline(described_class.new(rows: query, current_user: admin))
   end
 
-  register_query do
-    filter Queries::Users::Filters::NameFilter
-    filter Queries::Users::Filters::AnyNameAttributeFilter
-    filter Queries::Users::Filters::GroupFilter
-    filter Queries::Users::Filters::MemberFilter
-    filter Queries::Users::Filters::StatusFilter
-    filter Queries::Users::Filters::LoginFilter
-    filter Queries::Users::Filters::BlockedFilter
-    filter Queries::Users::Filters::CustomFieldFilter
+  it "renders the department column header" do
+    expect(page).to have_css("th", text: User.human_attribute_name(:department))
+  end
 
-    order Queries::Users::Orders::DefaultOrder
-    order Queries::Users::Orders::NameOrder
-    order Queries::Users::Orders::GroupOrder
-    order Queries::Users::Orders::CustomFieldOrder
-
-    select Queries::Users::Selects::Default
-    select Queries::Users::Selects::Department
-    select Queries::Users::Selects::CustomField
+  it "renders the department of each user" do
+    expect(page).to have_css("td.department", text: department.name, count: 1)
+    expect(page).to have_css("tr.user td.department", count: 3)
   end
 end
