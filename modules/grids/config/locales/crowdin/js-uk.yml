@@ -37,7 +37,9 @@ uk:
           accessible_gate: 'Контрольна точка етапу «%{name}»: %{date}'
           accessible_phase: 'Етап «%{name}»: %{date}'
           tooltip_type_gate: Контрольна точка етапу
+          tooltip_type_milestone: Віха
           tooltip_type_phase: Етап
+          tooltip_type_sprint: Спринт
         subprojects:
           title: Піделементи
         time_entries_current_user:

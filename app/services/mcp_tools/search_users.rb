@@ -51,23 +51,13 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("user_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       users = apply_filters(User.visible.not_builtin, filters)
-      users = apply_pagination(users, page)
+      users, total = apply_pagination(users, page)
 
       {
-        items: users.map { |user| API::V3::Users::UserRepresenter.create(user, current_user:) }
+        items: users.map { |user| API::V3::Users::UserRepresenter.create(user, current_user:) },
+        total:
       }
     end
   end

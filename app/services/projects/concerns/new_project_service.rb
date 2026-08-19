@@ -51,13 +51,13 @@ module Projects::Concerns
     # based on the setting ('new_project_user_role_id')
     # defined in the administration. Will either create a new membership
     # or add a role to an already existing one.
-    def set_default_role(new_project)
+    def set_default_role(new_project) # rubocop:disable Metrics/AbcSize
       role = ProjectRole.in_new_project
 
       return unless role && new_project.persisted?
 
       # Assuming the members are loaded anyway
-      user_member = new_project.members.detect { |m| m.principal == user }
+      user_member = new_project.member_users.detect { |m| m.principal == user }
 
       if user_member
         Members::UpdateService

@@ -48,7 +48,7 @@ module Wikis
       private
 
       def new_or_changed_wiki
-        @wiki = Wiki.find_or_initialize_by(project: @project, start_page: "Wiki")
+        @wiki = Wiki.find_or_initialize_by(project: @project) { |w| w.start_page = "Wiki" }
         @wiki.enabled = params.require(:value) unless @wiki.new_record?
 
         @wiki

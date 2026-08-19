@@ -105,6 +105,8 @@ class Widget::Filters < Widget::Base
       render_widget User, f, to: html
     elsif f_cls == CostQuery::Filter::WorkPackageId
       render_widget WorkPackage, f, to: html
+    elsif f_cls == CostQuery::Filter::VersionId && Setting::WorkPackageMultipleVersions.active?
+      render_widget Version, f, to: html
     # Handling of generic widgets
     elsif f_cls.heavy?
       render_widget Heavy, f, to: html

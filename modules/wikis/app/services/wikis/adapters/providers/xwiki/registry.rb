@@ -68,6 +68,7 @@ module Wikis
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
             register(:search_pages, Queries::SearchPages)
+            register(:search_wikis, Queries::SearchWikis)
           end
 
           namespace("validators") do

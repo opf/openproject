@@ -175,7 +175,7 @@ module OpenProject::Meeting
 
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
-    patches [:Project]
+    patches %i[Project Journal]
     patch_with_namespace :BasicData, :SettingSeeder
 
     replace_principal_references "Meeting" => %i[author_id],

@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+        header.with_menu(button_arguments: { aria: { label: t(".label_actions") } }) do |menu|
           with_item_group(menu) do
             if can_open_edit_dialog?
               menu.with_item(
@@ -126,6 +126,14 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :a,
                 href: project_backlogs_sprint_burndown_chart_path(project, sprint),
                 disabled: !sprint.date_range_set?
+              ) do |item|
+                item.with_leading_visual_icon(icon: :graph)
+              end
+            elsif show_report_link?
+              menu.with_item(
+                label: t("backlogs.label_sprint_report"),
+                tag: :a,
+                href: project_backlogs_sprint_report_path(project, sprint)
               ) do |item|
                 item.with_leading_visual_icon(icon: :graph)
               end
