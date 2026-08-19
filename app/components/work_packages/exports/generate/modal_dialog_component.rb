@@ -117,12 +117,9 @@ module WorkPackages
           ActiveModel::Type::Boolean.new.cast(stored[key])
         end
 
-        # The auto-detected locale match always wins so a Type-level default set by whoever
-        # configured it doesn't override a correct match for an exporting user on a different
-        # locale; only fall back to the Type default, then the "-" placeholder, when there is none.
         def hyphenation_language_for(stored)
-          hyphenation_language_by_locale&.fetch(:value) ||
-            resolve_setting(stored, :hyphenation_language, nil) ||
+          resolve_setting(stored, :hyphenation_language, nil) ||
+            hyphenation_language_by_locale&.fetch(:value) ||
             hyphenation_options[0][:value]
         end
       end

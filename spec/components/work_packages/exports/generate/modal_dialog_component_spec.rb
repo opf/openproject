@@ -90,7 +90,7 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
       end
     end
 
-    context "when the type has a stored hyphenation_language but the current locale has a match" do
+    context "when the type has a stored hyphenation_language and the current locale also has a match" do
       before do
         I18n.locale = :en
         type.default_variant.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
@@ -99,8 +99,8 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
 
       after { I18n.locale = I18n.default_locale }
 
-      it "prefers the auto-detected locale match over the Type's stored language" do
-        expect(component.attributes_settings[:hyphenation_language]).to eq("en")
+      it "prefers the Type's stored language over the auto-detected locale match" do
+        expect(component.attributes_settings[:hyphenation_language]).to eq("fr")
       end
     end
   end
