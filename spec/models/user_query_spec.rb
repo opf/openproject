@@ -273,7 +273,8 @@ RSpec.describe UserQuery do
       expect(Queries::Register.filters[described_class]).to include(
         Queries::Users::Filters::NameFilter,
         Queries::Users::Filters::StatusFilter,
-        Queries::Users::Filters::GroupFilter
+        Queries::Users::Filters::GroupFilter,
+        Queries::Users::Filters::ConsentedAtFilter
       )
     end
 

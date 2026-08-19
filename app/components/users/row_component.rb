@@ -70,6 +70,10 @@ module Users
       helpers.format_time user.created_at
     end
 
+    def consented_at
+      helpers.format_time user.consented_at unless user.consented_at.nil?
+    end
+
     def status
       helpers.full_user_status user
     end

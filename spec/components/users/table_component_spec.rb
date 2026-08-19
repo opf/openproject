@@ -38,6 +38,7 @@ RSpec.describe Users::TableComponent, type: :component do
     create(:user,
            login: "connected",
            status: :locked,
+           consented_at: Time.zone.parse("2026-03-04T10:00:00Z"),
            member_with_permissions: { project => [:view_project], other_project => [:view_project] })
   end
   shared_let(:lonely_user) { create(:user, login: "unconnected") }
@@ -84,6 +85,23 @@ RSpec.describe Users::TableComponent, type: :component do
   it "renders the status" do
     expect(page).to have_css("td.status", text: I18n.t(:status_locked), count: 1)
     expect(page).to have_css("td.status", text: I18n.t(:status_active), count: 2)
+  end
+
+  context "with the consent column", with_settings: { consent_required: true } do
+    let(:selects) { %i[login consented_at] }
+
+    it "renders the formatted consent time of a user who consented" do
+      expect(page).to have_css("th", text: User.human_attribute_name(:consented_at))
+      expect(page).to have_css("td.consented_at",
+                               text: ApplicationController.helpers.format_time(user.consented_at),
+                               count: 1)
+    end
+
+    it "leaves the cell empty for a user who never consented" do
+      row = page.find("tr.user", text: lonely_user.login)
+
+      expect(row.find("td.consented_at").text).to be_blank
+    end
   end
 
   it "leaves the cells of an unconnected user empty" do
