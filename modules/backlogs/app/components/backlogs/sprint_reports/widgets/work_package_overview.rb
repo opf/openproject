@@ -32,6 +32,7 @@ module Backlogs
   module SprintReports
     module Widgets
       class WorkPackageOverview < Grids::WidgetComponent
+        include Backlogs::CommonHelper
         include Backlogs::SprintsHelper
 
         param :sprint
@@ -47,6 +48,8 @@ module Backlogs
         end
 
         def title_text = t("backlogs.show_work_package_overview")
+
+        def render? = user_allowed?(:view_sprints)
 
         def show_widget_content? = sprint.date_range_set?
 
