@@ -85,6 +85,23 @@ RSpec.describe UpdateQueryFromParamsService,
             .to eql(["1", "2"])
         end
       end
+
+      context "for both interchangeable version filters",
+              with_settings: { work_package_multiple_versions: true } do
+        let(:params) do
+          { filters: [{ field: "version_id", operator: "=", values: ["1"] },
+                      { field: "target_version_id", operator: "=", values: ["2"] }] }
+        end
+
+        it "sets the available one once" do
+          subject
+
+          expect(query.filters.map(&:name))
+            .to eql([:target_version_id])
+          expect(query.filters[0].values)
+            .to eql(["2"])
+        end
+      end
     end
 
     describe "sort_by" do

@@ -595,6 +595,32 @@ RSpec.describe "POST /api/v3/queries/form",
     end
   end
 
+  describe "with both interchangeable version filters",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: %w[version targetVersion].map do |filter_id|
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/#{filter_id}" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version.id) }]
+            }
+          }
+        end
+      }
+    end
+
+    it "renders the available version filter only once" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/targetVersion"
+    end
+  end
+
   describe "posting to a project-query form with a CF present only there (Regression #29873)" do
     let(:custom_field) do
       create(
