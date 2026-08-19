@@ -437,7 +437,7 @@ module ::ResourceManagement
     def selected_placeholder_user(placeholder_user_id)
       return if placeholder_user_id.blank?
 
-      PlaceholderUser.visible(current_user).find_by(id: placeholder_user_id)
+      PlaceholderUser.allocatable(current_user).find_by(id: placeholder_user_id)
     end
 
     def preselected_work_package

@@ -228,7 +228,11 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "for a filter-criteria placeholder" do
-      let!(:existing) { create(:placeholder_user, name: "Senior Developer") }
+      # Only a placeholder describing who it stands for can be allocated against.
+      let!(:existing) do
+        filters = UserQuery.new.tap { |query| query.where("name", "~", ["dev"]) }.filters
+        create(:placeholder_user, name: "Senior Developer", user_filter: filters)
+      end
 
       subject(:perform) do
         post project_resource_allocations_path(project),
