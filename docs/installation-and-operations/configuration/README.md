@@ -719,7 +719,7 @@ OPENPROJECT_REGISTRATION__RATE__LIMIT="10"
 OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
 ```
 
-##### Distinct recipient cap (disabled by default)
+##### Mail recipient limits (disabled by default)
 
 Limits how many distinct email addresses OpenProject will send mail to per day.
 `0` (the default) disables this form of rate limiting. 
@@ -727,7 +727,7 @@ Limits how many distinct email addresses OpenProject will send mail to per day.
 Addresses exceeding this are dropped before delivery, so this covers every mailer (registration, invitations, shares, meetings, notifications).
 
 ```shell
-OPENPROJECT_OUTBOUND__MAIL__LIMITS="30"
+OPENPROJECT_MAIL__RECIPIENT__LIMITS="30"
 ```
 
 ##### API v3 rate limiting (disabled by default)
