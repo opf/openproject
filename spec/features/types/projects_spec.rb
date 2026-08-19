@@ -34,11 +34,96 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
+  shared_let(:firmware) { create(:type_variant, type:, variant_name: "Firmware") }
 
-  shared_let(:parent) { create(:project, name: "Foundry") }
-  shared_let(:child) { create(:project, name: "Laboratory", parent:, types: [hardware]) }
+  shared_let(:on_base) { create(:project, name: "Bookshop", types: [type]) }
+  shared_let(:on_hardware) { create(:project, name: "Foundry", types: [hardware]) }
+  shared_let(:on_firmware) { create(:project, name: "Laboratory", types: [firmware]) }
+
+  shared_let(:parent) { create(:project, name: "Depot") }
+  shared_let(:child) { create(:project, name: "Kiln", parent:, types: [hardware]) }
 
   current_user { admin }
+
+  # The subheader search starts collapsed as an icon button, as it does on the projects list.
+  def search_projects(term)
+    click_button accessible_name: I18n.t("projects.index.search.label")
+    fill_in "name_and_identifier", with: term
+  end
+
+  # Every variant is selected at type level, so isolating one means clearing the others.
+  def keep_only(*variants)
+    find_test_selector("quick-filter-select-panel-button").click
+
+    type.variants.in_display_order.each do |variant|
+      # By value, not by label: the base variant's "Bug" is a prefix of "Bug: Hardware".
+      option = find("[role='option'][data-value='#{variant.id}'], " \
+                    "[role='option']:has([data-value='#{variant.id}'])")
+      selected = option[:"aria-selected"] == "true"
+      option.click if selected != variants.include?(variant)
+    end
+
+    within("[data-controller='quick-filter--select-panel']") { click_link_or_button I18n.t(:button_apply) }
+  end
+
+  def expect_listed(*projects)
+    within "#project-table" do
+      projects.each { |project| expect(page).to have_text(project.name) }
+
+      ([on_base, on_hardware, on_firmware] - projects).each do |absent|
+        expect(page).to have_no_text(absent.name)
+      end
+    end
+  end
+
+  it "lists every variant's projects at type level and narrows to one inside a variant" do
+    visit edit_type_projects_path(type_id: type.id)
+    expect_listed(on_base, on_hardware, on_firmware)
+
+    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    expect_listed(on_hardware)
+  end
+
+  it "narrows the table as a project name is typed" do
+    visit edit_type_projects_path(type_id: type.id)
+    expect_listed(on_base, on_hardware, on_firmware)
+
+    search_projects("Labor")
+
+    expect_listed(on_firmware)
+  end
+
+  it "narrows the table to the variants picked in the quick filter" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    keep_only(firmware)
+
+    expect_listed(on_firmware)
+  end
+
+  # The two controls write the one filters param, so typing must not drop the picked variant.
+  it "keeps the picked variant while a name is typed" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    keep_only(hardware, firmware)
+
+    expect_listed(on_hardware, on_firmware)
+
+    search_projects("Found")
+
+    expect_listed(on_hardware)
+  end
+
+  it "says nothing matched rather than inviting an add, once a search has been made" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    search_projects("nothing matches this")
+
+    within "#project-table" do
+      expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
+      expect(page).to have_no_text(I18n.t("types.edit.projects.empty_state.description"))
+    end
+  end
 
   def add_projects(project, include_sub_items:)
     find_test_selector("type-projects-add-button").click
@@ -92,7 +177,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   end
 
   it "leaves sub-projects out unless they are asked for" do
-    outside = create(:project, name: "Warehouse")
+    outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
     visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
@@ -108,6 +193,15 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
 
     # Scoped to this type: the project factory enables the default types on every project.
     expect(inside.reload.project_types.where(type_id: type.id)).to be_empty
+  end
+
+  it "offers the variant filter at type level but not inside a variant" do
+    visit edit_type_projects_path(type_id: type.id)
+    expect(page).to have_test_selector("quick-filter-select-panel-button")
+
+    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    expect(page).to have_no_test_selector("quick-filter-select-panel-button")
+    expect(page).to have_test_selector("type-projects-add-button")
   end
 
   it "flips the toggle label when the add dialog completes the set" do

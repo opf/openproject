@@ -33,6 +33,9 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include TypeDeactivationErrorMessage
 
+    VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
+    NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
+
     before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
     before_action :load_linked_project, only: %i[unlink new_switch switch]
 
@@ -40,7 +43,17 @@ module WorkPackageTypes
       :types
     end
 
-    def edit; end
+    helper_method :projects_table_component, :sub_header_component
+
+    def edit
+      respond_to do |format|
+        format.html
+        format.turbo_stream do
+          update_via_turbo_stream(component: projects_table_component)
+          respond_with_turbo_streams
+        end
+      end
+    end
 
     def update
       result = sync_projects(desired_project_ids)
@@ -96,7 +109,7 @@ module WorkPackageTypes
 
     def new_switch
       respond_with_dialog ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent.new(
-        project: @linked_project, source: @variant, url: switch_path
+        project: @linked_project, source: applied_variant, url: switch_path
       )
     end
 
@@ -104,7 +117,7 @@ module WorkPackageTypes
       target = @type.variants.find_by(id: params[:target_id])
       result = ::Projects::Types::SwitchVariantService
                  .new(user: current_user, model: @linked_project)
-                 .call(source: @variant, target:)
+                 .call(source: applied_variant, target:)
 
       result.on_success { on_switched(target) }
       result.on_failure { on_switch_refused(target, result) }
@@ -129,14 +142,56 @@ module WorkPackageTypes
 
     def load_query
       @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
-        query.where(:type_variant_id, "=", [@variant.id.to_s])
+        query.where(:type_variant_id, "=", filtered_variant_ids)
+        query.where(:name_and_identifier, "~", [project_name_term]) if project_name_term.present?
         query.select(:name)
         query.order("lft" => "asc")
       end
     end
 
+    # The text input and the variant panel both write the one `filters` param, which is what lets
+    # them narrow the table together rather than overwriting each other.
+
+    def project_name_term
+      @project_name_term ||= values_for(NAME_FILTER_KEY).first.to_s.strip
+    end
+
+    def filtered_variant_ids
+      (requested_variant_ids & own_variant_ids).presence || default_variant_ids
+    end
+
+    def default_variant_ids
+      params[:variant_id].present? ? [@variant.id.to_s] : own_variant_ids
+    end
+
+    def own_variant_ids
+      @own_variant_ids ||= @type.variants.pluck(:id).map(&:to_s)
+    end
+
+    def requested_variant_ids = values_for(VARIANT_FILTER_KEY)
+
+    def values_for(filter_key)
+      requested_filters
+        .select { |filter| filter[:attribute].to_s == filter_key }
+        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
+    end
+
+    # Parsed by the app's own parser rather than by hand: the filter form writes
+    # `name ~ "term"` by default and only switches to JSON when told to, and both reach here.
+    def requested_filters
+      return @requested_filters if defined?(@requested_filters)
+
+      @requested_filters = params[:filters].blank? ? [] : Array(::Queries::ParamsParser.parse(params)[:filters])
+    rescue StandardError
+      @requested_filters = []
+    end
+
     def load_linked_project
       @linked_project = ::Project.find(params.expect(:project_id))
+    end
+
+    def applied_variant
+      @applied_variant ||= @linked_project.type_variant(@type)
     end
 
     def switch_path
@@ -203,8 +258,8 @@ module WorkPackageTypes
       update_via_turbo_stream(
         component: ::Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
           project: @linked_project,
-          source: @variant,
-          selected: target || @variant,
+          source: applied_variant,
+          selected: target || applied_variant,
           validation_message: message,
           url: switch_path
         )
@@ -212,12 +267,20 @@ module WorkPackageTypes
     end
 
     def refresh_projects
-      update_via_turbo_stream(
-        component: ProjectsTab::TableComponent.new(
-          query: @query, params: params.merge(variant: @variant, url_for_action: :edit)
-        )
+      update_via_turbo_stream(component: projects_table_component)
+      replace_via_turbo_stream(component: sub_header_component)
+    end
+
+    # Built in one place so the first render and every stream that replaces it cannot drift.
+    def sub_header_component
+      ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query)
+    end
+
+    def projects_table_component
+      ProjectsTab::TableComponent.new(
+        query: @query,
+        params: params.merge(variant: @variant, filtered: requested_filters.any?, url_for_action: :edit)
       )
-      replace_via_turbo_stream(component: ProjectsTab::SubHeaderComponent.new(variant: @variant))
     end
 
     def refuse_empty_selection
@@ -294,7 +357,7 @@ module WorkPackageTypes
     end
 
     def removal_refusal_message(result)
-      return type_deactivation_error_message(@variant, project: @linked_project) if blocked?(@linked_project)
+      return type_deactivation_error_message(applied_variant, project: @linked_project) if blocked?(@linked_project)
 
       "#{@linked_project.name}: #{result.errors.full_messages.to_sentence}"
     end

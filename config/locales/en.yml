@@ -6314,6 +6314,7 @@ en:
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.

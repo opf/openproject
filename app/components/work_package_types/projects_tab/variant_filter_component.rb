@@ -30,27 +30,36 @@
 
 module WorkPackageTypes
   module ProjectsTab
-    class TableComponent < ::Projects::TableComponent
-      include ::Projects::Concerns::TableComponent::StreamablePaginationLinksConstraints
+    class VariantFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+      def initialize(type:, variant:, query:)
+        @type = type
+        @variant = variant
 
-      def columns
-        @columns ||= query.selects.grep_v(Queries::Selects::NotExistingSelect)
+        super(name: TypeVariant.model_name.human, query:, filter_key: :type_variant_id, path_args: [])
+
+        type.variants.in_display_order.each do |sibling|
+          with_item(label: "#{sibling.composite_name} (#{project_counts[sibling.id]})", value: sibling.id)
+        end
       end
 
-      def sortable? = false
+      private
 
-      def use_quick_action_table_headers? = false
+      def project_counts
+        @project_counts ||= Hash.new(0).merge(
+          ProjectType.where(type_id: @type.id).group(:variant_id).count
+        )
+      end
 
-      def variant = params[:variant]
+      def base_url = tab_path(base_url_params)
 
-      # Inviting the admin to add a project reads as a lie when they have just searched for one:
-      # the table is empty because of the filter, not because the variant has no projects.
-      def empty_row_message
-        if params[:filtered]
-          I18n.t("types.edit.projects.empty_state.no_results")
-        else
-          I18n.t("types.edit.projects.empty_state.description")
-        end
+      def item_href(value)
+        selected = other_filters + [{ @filter_key.to_s => { "operator" => @operator, "values" => [value.to_s] } }]
+
+        tab_path(filters: selected.to_json)
+      end
+
+      def tab_path(params)
+        helpers.edit_type_projects_path(**@variant.path_args, **params)
       end
     end
   end

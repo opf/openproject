@@ -28,7 +28,30 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
-  <%= render(Primer::OpenProject::SubHeader.new(test_selector: "type-projects-sub-header")) do |sub_header| %>
+  <%= render(
+        Primer::OpenProject::SubHeader.new(
+          test_selector: "type-projects-sub-header",
+          data: filters_form_attributes
+        )
+      ) do |sub_header| %>
+    <%
+      sub_header.with_filter_input(
+        name: name_filter_key,
+        label: t("projects.index.search.label"),
+        value: name_filter_value,
+        placeholder: t("projects.index.search.placeholder"),
+        leading_visual: { icon: :search, size: :small },
+        clear_button_id:,
+        data: name_filter_attributes
+      )
+    %>
+
+    <% if variant_filter_available? %>
+      <% sub_header.with_quick_filter do %>
+        <%= render(variant_filter_component) %>
+      <% end %>
+    <% end %>
+
     <%
       sub_header.with_action_button(
         scheme: :primary,
