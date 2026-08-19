@@ -34,10 +34,11 @@ module ResourceAllocations
           required: true,
           autocomplete_options: {
             component: "opce-user-autocompleter",
-            url: ::API::V3::Utilities::PathHelper::ApiV3Path.placeholder_users,
+            # The endpoint is already scoped to what may be allocated against,
+            # so the criteria and permission rules are not repeated here.
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users,
             resource: "principals",
             searchKey: "any_name_attribute",
-            filters: [{ name: "has_user_filter", operator: "=", values: ["t"] }],
             multiple: false,
             focusDirectly: false,
             appendTo: "##{@dialog_id}",
