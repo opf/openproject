@@ -28,11 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :hourly_rate do
-    principal factory: %i[user]
-    project
-    valid_from { Time.zone.today }
-    rate { 50.0 }
+module Costs::Patches::PlaceholderUserPatch
+  def self.included(base) # :nodoc:
+    base.send(:include, Costs::HasRates)
   end
 end
