@@ -132,9 +132,11 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     end
 
     describe "#update_artefact_export" do
+      let(:param_key) { TypeVariant.model_name.param_key.to_sym }
+
       it "stores a valid artefact export mode and responds with a turbo stream" do
         put :update_artefact_export,
-            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
+            params: { type_id: wp_type.id, param_key => { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
@@ -144,7 +146,16 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "rejects an invalid mode" do
         put :update_artefact_export,
-            params: { type_id: wp_type.id, type: { artefact_export_mode: "bogus" } },
+            params: { type_id: wp_type.id, param_key => { artefact_export_mode: "bogus" } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+      end
+
+      it "rejects a request that nests the mode under an unrelated params key" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream
 
         expect(response).to have_http_status(:unprocessable_entity)
