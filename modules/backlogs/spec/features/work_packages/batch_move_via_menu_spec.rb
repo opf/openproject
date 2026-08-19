@@ -70,10 +70,6 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       work_packages: [stories[2], stories[3], stories[0], stories[1], stories[4], stories[5]]
     )
     backlogs_page.expect_polite_announcement("2 work packages moved to positions 1 through 2 of 6")
-    backlogs_page.expect_persisted_sprint_order(
-      sprint,
-      stories[2], stories[3], stories[0], stories[1], stories[4], stories[5]
-    )
     backlogs_page.expect_no_selected_cards
 
     backlogs_page.select_contiguous_cards(stories[2], stories[3])
@@ -83,9 +79,11 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       sprint,
       work_packages: [stories[0], stories[2], stories[3], stories[1], stories[4], stories[5]]
     )
-    backlogs_page.expect_persisted_sprint_order(
+
+    backlogs_page.visit!
+    backlogs_page.expect_work_packages_in_sprint_in_order(
       sprint,
-      stories[0], stories[2], stories[3], stories[1], stories[4], stories[5]
+      work_packages: [stories[0], stories[2], stories[3], stories[1], stories[4], stories[5]]
     )
   end
 
@@ -101,10 +99,6 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       sprint,
       work_packages: [stories[0], stories[1], stories[4], stories[5], stories[2], stories[3]]
     )
-    backlogs_page.expect_persisted_sprint_order(
-      sprint,
-      stories[0], stories[1], stories[4], stories[5], stories[2], stories[3]
-    )
     backlogs_page.expect_no_selected_cards
 
     backlogs_page.select_contiguous_cards(stories[2], stories[3])
@@ -114,9 +108,11 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       sprint,
       work_packages: [stories[0], stories[1], stories[4], stories[2], stories[3], stories[5]]
     )
-    backlogs_page.expect_persisted_sprint_order(
+
+    backlogs_page.visit!
+    backlogs_page.expect_work_packages_in_sprint_in_order(
       sprint,
-      stories[0], stories[1], stories[4], stories[2], stories[3], stories[5]
+      work_packages: [stories[0], stories[1], stories[4], stories[2], stories[3], stories[5]]
     )
   end
 
@@ -133,7 +129,12 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       work_packages: [stories[1], stories[0], stories[2]]
     )
     backlogs_page.expect_polite_announcement("#{stories[1].to_fs(:caption)} moved to position 1 of 3")
-    backlogs_page.expect_persisted_sprint_order(sprint, stories[1], stories[0], stories[2])
+
+    backlogs_page.visit!
+    backlogs_page.expect_work_packages_in_sprint_in_order(
+      sprint,
+      work_packages: [stories[1], stories[0], stories[2]]
+    )
   end
 
   it "omits positional actions for sparse and cross-list selections" do
@@ -165,7 +166,12 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       sprint,
       work_packages: [stories[0], stories[3], stories[1], stories[2]]
     )
-    backlogs_page.expect_persisted_sprint_order(sprint, stories[0], stories[3], stories[1], stories[2])
+
+    backlogs_page.visit!
+    backlogs_page.expect_work_packages_in_sprint_in_order(
+      sprint,
+      work_packages: [stories[0], stories[3], stories[1], stories[2]]
+    )
   end
 
   it "omits one-step actions at truncation boundaries and block no-ops" do
