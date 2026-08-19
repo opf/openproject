@@ -49,6 +49,11 @@ class PlaceholderUser < Principal
 
   scopes :visible
 
+  # A cleared filter is stored as NULL, which `<>` excludes as intended.
+  scope :with_criteria, -> {
+    joins(:placeholder_user_detail).where("placeholder_user_details.user_filter <> '[]'::jsonb")
+  }
+
   # Columns required for formatting the placeholder user's name.
   def self.columns_for_name(_formatter = nil)
     [:lastname]
