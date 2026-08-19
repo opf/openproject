@@ -28,30 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Selects placeholder users by whether they describe the kind of person they
-# stand for.
-class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
-  include Queries::Filters::Shared::BooleanFilter
+module OpenProject::ResourceManagement::Patches::PlaceholderUserPatch
+  def self.included(base) # :nodoc:
+    base.class_eval do
+      # Allocating against a placeholder only needs to know what it stands for,
+      # which is a lower bar than the administrative rules of `visible`: someone
+      # who may allocate has no reason to be able to manage placeholders.
+      scope :allocatable, ->(user = User.current) {
+        next none unless user.allowed_in_any_project?(:allocate_user_resources)
 
-  def self.key
-    :has_user_filter
-  end
-
-  def human_name
-    I18n.t(:label_criteria)
-  end
-
-  def apply_to(query_scope)
-    if filtering_for_true?
-      query_scope.where(id: with_criteria)
-    else
-      query_scope.where.not(id: with_criteria)
+        with_criteria
+      }
     end
-  end
-
-  private
-
-  def with_criteria
-    PlaceholderUser.with_criteria.select(:id)
   end
 end
