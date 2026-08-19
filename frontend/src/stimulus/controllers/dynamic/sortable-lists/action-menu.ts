@@ -28,10 +28,9 @@
 
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 
-export interface ActionMenuLabels {
-  singular:string;
-  batchKey:string;
-}
+// The plural form that names one card's own menu. A batch of one is that same
+// menu, so it never counts a selection down to "1 selected work package".
+const SINGULAR_COUNT = 1;
 
 // The menu's own elements, re-read by the caller on every projection so a
 // morph that replaces the subtree is picked up without rebuilding anything.
@@ -70,7 +69,7 @@ export class SortableActionMenu {
   constructor(
     private readonly menu:ActionMenuElement,
     private readonly hideUnavailable:boolean,
-    private readonly labels:ActionMenuLabels|null,
+    private readonly labelKey:string|null,
   ) {}
 
   get isOpen():boolean {
@@ -95,13 +94,13 @@ export class SortableActionMenu {
 
   closed():void {
     this.open = false;
-    this.rename(false, 0);
+    this.rename(SINGULAR_COUNT);
   }
 
   // A Turbo restore resurrects the tooltip as snapshotted, batch name and
   // all; a closed menu always presents the singular one.
   settleName():void {
-    this.rename(false, 0);
+    this.rename(SINGULAR_COUNT);
   }
 
   project(elements:ActionMenuElements, scope:ActionMenuScope, availability:ActionAvailability):void {
@@ -194,7 +193,7 @@ export class SortableActionMenu {
     // `.ActionListContent`, which a divider does not have.
     groupDivider?.toggleAttribute('hidden', batch || !batchActionsPresented);
 
-    this.rename(batch, scope.count);
+    this.rename(batch ? scope.count : SINGULAR_COUNT);
   }
 
   // Primer's focus zone stops managing exactly the element `hidden` lands on,
@@ -260,16 +259,14 @@ export class SortableActionMenu {
   // accessible name — icon_button.rb drops the button's aria-label and points
   // aria-labelledby at the <tool-tip> — so writing aria-label would be inert.
   // The batch name shows only while the menu is open; any projection with the
-  // popover closed settles back on the server-rendered singular name.
-  private rename(batch:boolean, count:number):void {
+  // popover closed settles back on the singular form.
+  private rename(count:number):void {
     const tooltip = this.nameSource();
-    if (!tooltip || !this.labels) {
+    if (!tooltip || !this.labelKey) {
       return;
     }
 
-    tooltip.textContent = batch && this.open
-      ? I18n.t(this.labels.batchKey, { count })
-      : this.labels.singular;
+    tooltip.textContent = I18n.t(this.labelKey, { count: this.open ? count : SINGULAR_COUNT });
   }
 
   // Primer labels the list by the invoker button, and accessible-name
