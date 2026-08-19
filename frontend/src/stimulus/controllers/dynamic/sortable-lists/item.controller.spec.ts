@@ -1106,10 +1106,10 @@ describe('Sortable lists item controller', () => {
         y: 0,
         top: 0,
         left: 0,
-        right: 328,
-        bottom: 72,
-        width: 328,
-        height: 72,
+        right: 336,
+        bottom: 88,
+        width: 336,
+        height: 88,
         toJSON: vi.fn(),
       });
 
