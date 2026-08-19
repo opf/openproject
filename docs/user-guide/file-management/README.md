@@ -30,14 +30,14 @@ Please refer to [Nextcloud integration user guide](./nextcloud-integration) for 
 
 For the initial setup please refer to the [Nextcloud integration setup guide](../../system-admin-guide/integrations/nextcloud/).
 
+## OneDrive integration (Enterprise add-on)
+
 [feature: one_drive_sharepoint_file_storage]
 
 > [!NOTE]
-> This feature includes using both OneDrive and SharePoint integrations.
+> This Enterprise add-on includes both the OneDrive and SharePoint integrations.
 
-## OneDrive integration (Enterprise add-on)
-
-You can also use OneDrive integration to link OpenProject work packages directly to the files stored in your OneDrive repository.
+You can use the OneDrive integration to link OpenProject work packages directly to the files stored in your OneDrive repository.
 
 Please refer to [OneDrive integration user guide](./one-drive-integration) for further instructions on using the integration.
 

@@ -6,9 +6,9 @@ description: Learn how to configure notifications and email alerts in OpenProjec
 keywords: my account, account settings, notifications, email, alert, update, reminder, email reminder
 ---
 
-#  Notification and email
+# Notification and email
 
-To configure the notification settings which you receive from the system, navigate to **Account settings** and choose **Notification and email** from the menu.
+To configure the notifications and email reminders you receive from OpenProject, open **Account settings** and choose **Notification and email**.
 
 ## Notification settings
 
@@ -16,13 +16,11 @@ To configure the notification settings which you receive from the system, naviga
 
 ![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
 
-In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../notifications/notification-settings/).
-
-Please also see our detailed [in-app notifications](../../notifications/) guide to gain a general understanding.
+To learn how the Notification center works, see [In-app notifications](../../notifications/). To choose which events notify you, see [Notification settings](../../notifications/notification-settings/).
 
 ## Email reminders
 
-To configure the email reminders which you receive from the system, switch to the **email reminders tab.** Your system administrator can also set them for you or change the global default settings.
+To configure email reminders, switch to the **Email reminders** tab. Your system administrator can also configure these settings for you or change the global defaults.
 
 ![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
 
@@ -30,7 +28,7 @@ To configure the email reminders which you receive from the system, switch to th
 
 You can choose between several email reminders.
 
-Default: Enable daily email reminders: 2am, Monday - Friday.
+By default, daily email reminders are enabled at 2:00 a.m., Monday through Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
@@ -41,9 +39,9 @@ You can also opt-in to receive **email alerts for other items (that are not work
 
 - **News added** - ...adds or updates news in the [News Page](../../news/)
 - **Comment on a news item** - ...adds a comment on a news item
-- **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
+- **Documents added** - ...adds a document to the project
 - **New forum message** - ...sends a new message into the [Forum](../../forums/)
 - **Wiki page added** - ...adds a new [Wiki page](../../wiki/)
 - **Wiki page updated** - ...updates a [Wiki page](../../wiki/)
-- **Membership added** - ...adds you to a new [Work package](../../../getting-started/work-packages-introduction/)
-- **Membership updated** - ...updates your membership associations
+- **Membership added** - ...adds you as a [member of a project](../../members/)
+- **Membership updated** - ...updates your project membership

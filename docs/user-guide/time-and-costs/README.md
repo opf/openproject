@@ -8,17 +8,20 @@ keywords: Time tracking, cost tracking, cost reporting
 
 # Time tracking and cost reporting
 
-Time and costs functionality in OpenProject allows keeping track of the resources,  both in terms of labor and budgets. With OpenProject you can always keep control of the time and costs planned for and spent on the projects.
+The time and costs functionality in OpenProject helps you track labor and budgets. You can compare the time and costs planned for a project with what was actually spent.
 
 Create budgets, log time and costs on specific work packages and create time and cost reports based on your needs.
 
 | Topic                                | Content                                     |
 |--------------------------------------|:--------------------------------------------|
-| [Progress tracking](progress-tracking)| How to track progress for work packages     |
-| [Time tracking](time-tracking)       | How to log time to work packages.           |
-| [My time tracking module](my-time-tracking) | How to log time in my tracking module |
-| [Cost tracking](cost-tracking)       | How to track unit costs spent in a project. |
-| [Time and cost reporting](reporting) | How to create time and cost reports.        |
+| [Progress tracking](progress-tracking) | Track progress for work packages. |
+| [Time tracking](time-tracking) | Log time from a work package or with the timer. |
+| [My time tracking](my-time-tracking) | Review and manage your own time entries across projects in list or calendar view. |
+| [Cost tracking](cost-tracking) | Track unit costs spent in a project. |
+| [Time and cost reporting](reporting) | Create time and cost reports. |
+
+> [!TIP]
+> Use **Time tracking** to log time for a specific work package. Use **My time tracking** to review and edit your own time entries across projects.
 
 ## Time tracking, cost tracking and reporting video tutorial
 
