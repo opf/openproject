@@ -7,7 +7,10 @@ pl:
         bim_snippet: Fragment kodu BIM
         reference_links: Linki referencyjne
         stage: Etap
+        status_id: Status
         viewpoint: Punkt widzenia
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Plik IFC
         ifc_attachment: Plik IFC

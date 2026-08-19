@@ -55,6 +55,8 @@ fr:
         position: Position
         presenter: Responsable
         title: Titre
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Participations
         invited: Invité

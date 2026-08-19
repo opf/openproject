@@ -24,7 +24,7 @@ ro:
       two_factor_authentication/device/sms: Telefon mobil
       two_factor_authentication/device/totp: Aplicația Authenticator
       two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Continuă
+  button_continue: Continuaţi
   button_make_active: Activate
   button_make_default: Marcați ca implicit
   button_otp_by_sms: SMS
