@@ -1571,7 +1571,7 @@ de:
           planned_changes:
             heading: Änderungen in zukünftigen Releases
             renamed: Das Feld „Version“ wird in „Zielversionen“ umbenannt.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird so angepasst, dass mehrere Werte möglich sind.
           recent_changes:
             documentation_html: Weitere Informationen zu dieser Änderung und zur Aktualisierung von API-Clients finden Sie in <a href="%{link}" target="_blank" rel="noopener">unserer Dokumentation</a>.
             heading: Aktuelle Änderungen
@@ -5285,6 +5285,7 @@ de:
   setting_default_language: Standard-Sprache
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
   setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen

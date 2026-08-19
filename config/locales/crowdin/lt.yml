@@ -5423,6 +5423,7 @@ lt:
   setting_default_language: Numatytoji kalba
   setting_default_projects_modules: Pagal nutylėjimą naujame projekte įjungti moduliai
   setting_default_projects_public: Nauji projektai yra vieši pagal nutylėjimą
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksimalus rodomas pakeitimų eilučių skaičius
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose.

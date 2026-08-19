@@ -55,6 +55,8 @@ hy:
         position: Դիրք
         presenter: Զեկուցող
         title: Վերնագիր
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ներկա
         invited: Հրավիրված

@@ -55,6 +55,8 @@ fil:
         position: Position
         presenter: Presenter
         title: Pamagat
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

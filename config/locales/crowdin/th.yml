@@ -5216,6 +5216,7 @@ th:
   setting_default_language: ภาษาเริ่มต้น
   setting_default_projects_modules: ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่
   setting_default_projects_public: โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: จำนวนบรรทัดที่แตกต่างที่แสดงได้สูงสุด
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: ค่าเริ่มต้น จะแสดงชุดภารกิจของโครงการย่อย ในโครงการหลัก

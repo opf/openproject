@@ -55,6 +55,8 @@ hu:
         position: Position
         presenter: Bemutató
         title: Cím
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Részt vett
         invited: Meghívott

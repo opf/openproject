@@ -5219,6 +5219,7 @@ zh-TW:
   setting_default_language: 預設語言
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_default_projects_public: 新專案預設為公開
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件

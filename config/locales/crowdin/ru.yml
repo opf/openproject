@@ -499,7 +499,7 @@ ru:
         before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
         blank_nested: должно быть установлено свойство '%{property}'.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: не допускается. Пожалуйста, используйте адрес электронной почты из другого домена.
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
@@ -5411,6 +5411,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -6189,11 +6190,11 @@ ru:
           label_enable_all: Включить все
         blankslate:
           independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: После того как вы [создадите атрибуты проекта](administration_url), они станут видны здесь и их можно будет добавить к типу.
+            title: Нет доступных атрибутов проекта
           linked:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: С данным типом не связано ни одного атрибута проекта.
+            title: Атрибуты проекта не настроены
         description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
         disabled: Отключено
         exclusions:

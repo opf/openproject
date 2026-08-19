@@ -54,6 +54,8 @@ ja:
         position: Position
         presenter: 発表者
         title: タイトル
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: 出席
         invited: 招待済み

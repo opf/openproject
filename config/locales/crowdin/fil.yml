@@ -5282,6 +5282,7 @@ fil:
   setting_default_language: Default na linggwahe
   setting_default_projects_modules: I-default ang pinaganang mga modyul para sa bagong proyekto
   setting_default_projects_public: Bagong proyektong ay publiko sa pamamagitan ng default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Mataas na bilang ng naka-display na linya
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Ipakita ang mga subproject ng work package sa pangunahing proyekto sa pamamagitan ng default

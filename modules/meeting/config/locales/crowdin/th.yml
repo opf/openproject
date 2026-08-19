@@ -54,6 +54,8 @@ th:
         position: Position
         presenter: Presenter
         title: ชื่อเรื่อง
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited
