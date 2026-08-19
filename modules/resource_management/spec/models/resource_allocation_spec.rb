@@ -113,7 +113,7 @@ RSpec.describe ResourceAllocation do
 
   describe "#user_assigned? / #filter_based? / #needs_principal_assignment?" do
     let(:assignee) { build_stubbed(:user) }
-    let(:user_resource) { build_stubbed(:user_resource) }
+    let(:placeholder_user) { build_stubbed(:placeholder_user) }
 
     context "with an explicit user allocation" do
       subject(:allocation) { described_class.new(principal: assignee) }
@@ -124,7 +124,7 @@ RSpec.describe ResourceAllocation do
     end
 
     context "with an unassigned filter placeholder" do
-      subject(:allocation) { described_class.new(user_resource:, principal: nil) }
+      subject(:allocation) { described_class.new(placeholder_user:, principal: nil) }
 
       it { is_expected.not_to be_user_assigned }
       it { is_expected.to be_filter_based }
@@ -132,7 +132,7 @@ RSpec.describe ResourceAllocation do
     end
 
     context "with a filter placeholder that has a principal assigned" do
-      subject(:allocation) { described_class.new(user_resource:, principal: assignee) }
+      subject(:allocation) { described_class.new(placeholder_user:, principal: assignee) }
 
       it { is_expected.to be_user_assigned }
       it { is_expected.to be_filter_based }
@@ -328,7 +328,7 @@ RSpec.describe ResourceAllocation do
         other_project = create(:project)
         allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
         member_filter = UserQuery.new.tap { |q| q.where(:member, "=", [other_project.id.to_s]) }.filters
-        allocation.user_resource.user_filter += member_filter
+        allocation.placeholder_user.user_filter += member_filter
         member = developer(member_of: project)
         developer(member_of: other_project)
 
@@ -465,7 +465,7 @@ RSpec.describe ResourceAllocation do
       end
 
       it "does not require a principal for a filter placeholder" do
-        allocation.user_resource = build_stubbed(:user_resource)
+        allocation.placeholder_user = build_stubbed(:placeholder_user)
         allocation.principal = nil
         expect(allocation).to be_valid
       end
@@ -569,7 +569,7 @@ RSpec.describe ResourceAllocation do
 
       context "when filter-based (with a user resource)" do
         before do
-          allocation.user_resource = build_stubbed(:user_resource)
+          allocation.placeholder_user = build_stubbed(:placeholder_user)
           allocation.principal = nil
         end
 
@@ -591,14 +591,14 @@ RSpec.describe ResourceAllocation do
 
     it "is absent for an explicit allocation" do
       allocation = create(:resource_allocation, entity: work_package)
-      expect(allocation.reload.user_resource).to be_nil
+      expect(allocation.reload.placeholder_user).to be_nil
       expect(allocation).not_to be_filter_based
     end
 
     it "round-trips the custom-field filters from the :with_user_filter trait" do
       allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
 
-      filters = allocation.reload.user_resource.user_filter
+      filters = allocation.reload.placeholder_user.user_filter
       expect(filters.size).to eq(2)
 
       job_title = UserCustomField.find_by(name: "Job title")

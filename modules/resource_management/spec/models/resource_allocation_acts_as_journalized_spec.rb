@@ -80,11 +80,11 @@ RSpec.describe ResourceAllocation do
       end
 
       it "tracks the requested user resource" do
-        resource = create(:user_resource, name: "Full stack Developer (DE-EN)")
-        allocation.update!(user_resource: resource)
+        placeholder = create(:placeholder_user, name: "Full stack Developer (DE-EN)")
+        allocation.update!(placeholder_user: placeholder)
 
-        expect(allocation.last_journal.data.user_resource_id).to eq(resource.id)
-        expect(allocation.last_journal.details).to include("user_resource_id" => [nil, resource.id])
+        expect(allocation.last_journal.data.placeholder_user_id).to eq(placeholder.id)
+        expect(allocation.last_journal.details).to include("placeholder_user_id" => [nil, placeholder.id])
       end
 
       it "renders the allocated_time change in hours, not minutes" do

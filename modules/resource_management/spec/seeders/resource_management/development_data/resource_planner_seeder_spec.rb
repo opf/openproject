@@ -127,11 +127,11 @@ RSpec.describe ResourceManagement::DevelopmentData::ResourcePlannerSeeder do
     end
 
     it "creates a filter-based allocation without a concrete user" do
-      generic = ResourceAllocation.where.not(user_resource_id: nil).first
+      generic = ResourceAllocation.where.not(placeholder_user_id: nil).first
 
       expect(generic).to have_attributes(principal: nil, entity: upload)
-      expect(generic.user_resource.name).to eq("Software Developer")
-      expect(generic.user_resource.user_filter).to be_present
+      expect(generic.placeholder_user.name).to eq("Software Developer")
+      expect(generic.placeholder_user.user_filter).to be_present
     end
 
     it "overbooks Wanda through two overlapping full allocations" do
