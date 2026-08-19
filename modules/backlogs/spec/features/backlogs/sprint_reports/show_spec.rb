@@ -80,8 +80,12 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       expect(widget_boxes[0]).to have_text("Add sprint goal widget")
     end
 
-    it "renders the burndown chart widget second" do
-      expect(widget_boxes[1]).to have_css("opce-burndown-chart")
+    it "renders the work package overview widget second" do
+      expect(widget_boxes[1]).to have_text("Work packages within the sprint")
+    end
+
+    it "renders the burndown chart widget third" do
+      expect(widget_boxes[2]).to have_css("opce-burndown-chart")
     end
   end
 end
