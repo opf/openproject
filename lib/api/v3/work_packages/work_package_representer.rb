@@ -496,7 +496,9 @@ module API
                  writable: false,
                  uncacheable: true,
                  getter: ->(*) do
-                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                   variant = type_variant
+
+                   (variant.present? && project&.available_custom_fields_for_variant(variant.id)&.any?) || false
                  end
 
         associated_resource :category

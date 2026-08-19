@@ -31,6 +31,7 @@
 # All actions either update the workflow matrix editor's internal representation or render dialogs to ensure
 # that the editor can be modified regardless of the context it is used in
 class Workflows::MatrixController < ApplicationController
+  include WorkPackageTypes::AddressesVariant
   include OpTurbo::ComponentStream
 
   layout false
@@ -41,7 +42,8 @@ class Workflows::MatrixController < ApplicationController
 
   def show
     unless turbo_frame_request?
-      redirect_to edit_type_workflow_path(type, role_ids: params[:role_ids], tab: matrix_context.tab)
+      redirect_to edit_type_workflow_path(**variant.path_args,
+                                          role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end
 
@@ -70,8 +72,8 @@ class Workflows::MatrixController < ApplicationController
 
   private
 
-  def type
-    @type ||= ::Type.find(params.expect(:type_id))
+  def variant
+    @variant ||= addressed_variant
   end
 
   def matrix_context
@@ -80,7 +82,7 @@ class Workflows::MatrixController < ApplicationController
 
   def build_matrix_context
     Workflows::MatrixContext.new(
-      type:,
+      variant:,
       tab: params[:tab],
       role_ids: params[:role_ids],
       status_ids: params[:status_ids],
@@ -94,7 +96,7 @@ class Workflows::MatrixController < ApplicationController
 
   def persist_matrix
     Workflows::MatrixUpdateService
-      .new(type:, roles: matrix_context.roles, tab: matrix_context.tab)
+      .new(variant:, roles: matrix_context.roles, tab: matrix_context.tab)
       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
   end
 

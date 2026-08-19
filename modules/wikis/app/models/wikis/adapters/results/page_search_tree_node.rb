@@ -45,15 +45,48 @@ module Wikis::Adapters::Results
       def page? = type == :page
     end
 
-    attr_reader :identifier, :type, :name, :children
+    attr_reader :identifier, :type, :name, :enabled, :key
 
-    def initialize(identifier:, type:, name:, children:)
+    class << self
+      def root
+        new(identifier: "root", type: :root, name: "root", enabled: false)
+      end
+
+      def wiki(identifier, name)
+        new(identifier:, type: :wiki, name:, enabled: false)
+      end
+
+      def page(identifier, name, enabled:)
+        new(identifier:, type: :page, name:, enabled:)
+      end
+    end
+
+    def initialize(identifier:, type:, name:, enabled:)
+      @key = Key.new(type:, identifier:)
       @identifier = identifier
       @type = type
       @name = name
-      @children = children
+      @children = {}
+      @enabled = enabled
     end
 
-    def key = Key.new(type:, identifier:)
+    def children = @children.values
+
+    # @param node [PageSearchTreeNode] the node to be added
+    # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
+    # @return [PageSearchTreeNode] the added node or the already existing equivalent node
+    def find_or_add_child(node)
+      raise ArgumentError unless node.is_a? self.class
+
+      @children[node.key] ||= node
+    end
+
+    def enable
+      @enabled = true
+    end
+
+    def ==(other)
+      key == other.key
+    end
   end
 end

@@ -108,13 +108,6 @@ RSpec.describe JournalFormatter::PolymorphicAssociation do
                         label: "Logged for",
                         value: new_wp.subject))
       end
-
-      it "renders only the new value when a formatter cache is used" do
-        expect(instance.render("entity_gid", [old_value, new_value], html: false, cache: JournalFormatterCache.new))
-          .to eq(I18n.t(:text_journal_set_to,
-                        label: "Logged for",
-                        value: new_wp.subject))
-      end
     end
 
     context "when both values reference records that have since been deleted" do

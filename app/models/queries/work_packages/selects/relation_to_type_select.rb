@@ -44,7 +44,7 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
     if !granted_by_enterprise_token
       []
     elsif context
-      context.types
+      context.enabled_types
     else
       Type.all
     end.map { |type| new(type) }

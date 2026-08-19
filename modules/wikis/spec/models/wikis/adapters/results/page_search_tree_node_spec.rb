@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Results::PageSearchTreeNode do
   describe "#key" do
-    subject { described_class.new(identifier: "42", type: :page, name: "A page", children: []).key }
+    subject { described_class.page("42", "A page", enabled: true).key }
 
     it "consists of the node's type and identifier" do
       expect(subject).to eq(described_class::Key.new(type: :page, identifier: "42"))

@@ -83,7 +83,8 @@ module OpenProject::Backlogs
                                      }
 
             define_method :backlogs_constraint_passed? do |attribute|
-              !represented.type || represented.type.passes_attribute_constraint?(attribute, project: represented.project)
+              !represented.type_variant ||
+                represented.type_variant.passes_attribute_constraint?(attribute, project: represented.project)
             end
           end
         end

@@ -33,44 +33,50 @@ module ::TypesHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
   def types_tabs
+    variant_args = type_variant_tab_args
+
     [
       {
         name: "details",
-        path: edit_type_details_path(type_id: @type.id),
+        path: edit_type_details_path(**variant_args),
         label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",
-        path: edit_type_defaults_path(type_id: @type.id),
+        path: edit_type_defaults_path(**variant_args),
         label: I18n.t("types.edit.defaults.tab")
       },
       {
         name: "form_configuration",
-        path: edit_type_form_configuration_path(@type),
+        path: edit_type_form_configuration_path(**variant_args),
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
         name: "workflow",
-        path: edit_type_workflow_path(@type),
+        path: edit_type_workflow_path(**variant_args),
         label: I18n.t("types.edit.workflow.tab")
       },
       {
         name: "project_attributes",
-        path: edit_type_project_attributes_path(@type),
+        path: edit_type_project_attributes_path(**variant_args),
         label: I18n.t("types.edit.project_attributes.tab")
       },
       {
         name: "projects",
-        path: edit_type_projects_path(@type),
+        path: edit_type_projects_path(**variant_args),
         label: I18n.t("types.edit.projects.tab")
       },
       {
         name: "export_configuration",
-        path: edit_type_pdf_export_template_index_path(type_id: @type.id),
+        path: edit_type_pdf_export_template_index_path(**variant_args),
         label: I18n.t("types.edit.export_configuration.tab"),
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
     ]
+  end
+
+  def type_variant_tab_args
+    @variant&.path_args || { type_id: @type.id }
   end
   # rubocop:enable Rails/HelperInstanceVariable
 
@@ -107,15 +113,15 @@ module ::TypesHelper
 
   ##
   # Collect active and inactive form configuration groups for editing.
-  def form_configuration_groups(type)
-    available = type.work_package_attributes
+  def form_configuration_groups(variant)
+    available = variant.work_package_attributes
     # First we create a complete list of all attributes.
     # Later we will remove those that are members of an attribute group.
     # This way attributes that were created after the las group definitions
     # will fall back into the inactives group.
     inactive = available.clone
 
-    active_form = get_active_groups(type, available, inactive)
+    active_form = get_active_groups(variant, available, inactive)
     inactive_form = inactive
                       .map { |key, attribute| attr_form_map(key, attribute) }
                       .sort_by { |attr| attr[:translation] }
@@ -155,8 +161,8 @@ module ::TypesHelper
   # Collect active attributes from the current form configuration.
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
-  def get_active_groups(type, available, inactive)
-    type.attribute_groups.map do |group|
+  def get_active_groups(variant, available, inactive)
+    variant.attribute_groups.map do |group|
       {
         key: group.key,
         type: group.group_type,
@@ -181,7 +187,7 @@ module ::TypesHelper
       key:,
       is_cf: CustomField.custom_field_attribute?(key),
       is_required: represented[:required] && !represented[:has_default],
-      translation: Type.translated_attribute_name(key, represented),
+      translation: TypeVariant.translated_attribute_name(key, represented),
       field_format_label: field_format_label(represented)
     }
   end

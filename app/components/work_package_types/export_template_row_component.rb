@@ -34,11 +34,11 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:, template:, readonly: false)
+    def initialize(variant:, template:, readonly: false)
       super
 
       @template = template
-      @type = type
+      @variant = variant
       @readonly = readonly
     end
 

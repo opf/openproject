@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
-  <%= primer_form_with(url: switch_path, method: :post) do |form| %>
+  <%= primer_form_with(url:, method: :post) do |form| %>
     <%= render(Primer::Alpha::Dialog::Body.new) do %>
       <%= flex_layout(direction: :column) do |body| %>
         <% body.with_row(mb: 3) do %>

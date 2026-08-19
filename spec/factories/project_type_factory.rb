@@ -32,5 +32,7 @@ FactoryBot.define do
   factory :project_type do
     project
     type
+    # Always names a configuration; a type without a chosen variant uses its base one.
+    variant { type.default_variant }
   end
 end

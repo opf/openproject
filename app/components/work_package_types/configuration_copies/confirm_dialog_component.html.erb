@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_confirmation_message do |message| %>
     <% message.with_heading(tag: :h2) { t("types.edit.reuse_mode.copy.confirm_dialog.title") } %>
     <% message.with_description_content(
-         t("types.edit.reuse_mode.copy.confirm_dialog.description_html", source_name: tag.strong(source.name))
+         t("types.edit.reuse_mode.copy.confirm_dialog.description_html", source_name: tag.strong(source.composite_name))
        ) %>
   <% end %>
 

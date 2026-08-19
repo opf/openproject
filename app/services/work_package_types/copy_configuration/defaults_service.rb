@@ -33,11 +33,12 @@ module WorkPackageTypes
     class DefaultsService < BaseService
       private
 
-      def aspect = Type::ConfigurationLink::DEFAULTS
+      def aspect = TypeVariant::DEFAULTS
 
       def copy_from(source)
         # deep_dup keeps the copy from aliasing the source's stored value.
-        type.update!(patterns: source.patterns.deep_dup, description: source.description)
+        variant.update!(patterns: source.patterns.deep_dup,
+                        default_work_package_description: source.default_work_package_description)
       end
     end
   end

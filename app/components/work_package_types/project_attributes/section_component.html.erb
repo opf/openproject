@@ -52,7 +52,7 @@
         list.with_item(data: { "filter--filter-list-target": "searchItem" }) do
           render(
             WorkPackageTypes::ProjectAttributes::RowComponent.new(
-              type: @type,
+              variant: @variant,
               project_custom_field:,
               linked:,
               exclusion_state:

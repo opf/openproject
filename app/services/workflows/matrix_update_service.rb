@@ -29,28 +29,28 @@
 #++
 
 module Workflows
-  # Rewrites one tab of a type's transition matrix for every selected role, delegating
+  # Rewrites one tab of a variant's transition matrix for every selected role, delegating
   # the per-role write to BulkUpdateService so that either all roles are updated or none.
   #
   # Accepts the matrix straight from the submitted form, so that every context showing
-  # the matrix — the workflow tab, the variant creation wizard — persists it identically.
+  # the matrix — the workflow tab, the type creation wizard — persists it identically.
   class MatrixUpdateService
-    def initialize(type:, roles:, tab:)
-      @type = type
+    def initialize(variant:, roles:, tab:)
+      @variant = variant
       @roles = roles
       @tab = tab
     end
 
-    # A linked type reuses its source's transitions and must never have its own rewritten.
+    # A linked variant reuses its source's transitions and must never have its own rewritten.
     def call(status: nil, indeterminate_status: nil)
-      return ServiceResult.success if type.linked?(Type::ConfigurationLink::WORKFLOWS)
+      return ServiceResult.success if variant.linked?(TypeVariant::WORKFLOWS)
 
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
     end
 
     private
 
-    attr_reader :type, :roles, :tab
+    attr_reader :variant, :roles, :tab
 
     def persist(transitions:, indeterminate:)
       results = []
@@ -70,7 +70,7 @@ module Workflows
                            restore_indeterminate(transitions, indeterminate, role)
                          end
 
-      BulkUpdateService.new(role:, type:, tab:).call(role_transitions)
+      BulkUpdateService.new(role:, variant:, tab:).call(role_transitions)
     end
 
     # With several roles selected, a transition only some of them share renders as an
@@ -98,7 +98,7 @@ module Workflows
     # written: a role's write only ever touches its own rows.
     def saved_transitions
       @saved_transitions ||= Workflow
-                               .where(type_id: type.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
+                               .where(type_variant_id: variant.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
                                .pluck(:role_id, :old_status_id, :new_status_id)
                                .to_set
     end

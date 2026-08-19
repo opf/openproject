@@ -54,7 +54,7 @@ module OpenProject::TextFormatting::Filters::Macros
       class_name = macro["data-classes"] == "button" ? "button" : nil
 
       if type_name.present?
-        type = project.types.find_by(name: type_name)
+        type = project.enabled_types.find_by(name: type_name)
         if type.nil?
           raise I18n.t(
             "macros.create_work_package_link.errors.invalid_type",

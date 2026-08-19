@@ -30,10 +30,10 @@
 
 module Projects
   module Types
-    # Moves a project from the member of a type family it uses to another one, in either
-    # direction: a sibling variant, the shared root, or a variant of the root it uses. The
-    # project's work packages are untouched: they store the root either way, so the switch is
-    # a change of which configuration the project resolves to, not a retype.
+    # Moves a project from the variant of a type it applies to another one of the same type,
+    # in either direction: a sibling variant or the type's base. The project's work packages
+    # are untouched: they store the type either way, so the switch is a change of which
+    # configuration the project resolves to, not a retype.
     class SwitchVariantService < BaseService
       def initialize(user:, model:, contract_class: SwitchVariantContract)
         super
@@ -56,13 +56,7 @@ module Projects
       end
 
       def switch(target)
-        current_project_type = model.project_types.find_by!(type_id: target.root_id)
-
-        if target.variant?
-          current_project_type.update!(variant: target)
-        else
-          current_project_type.update!(variant: nil)
-        end
+        model.project_types.find_by!(type_id: target.type_id).update!(variant: target)
 
         enable_work_package_custom_fields(target)
       end

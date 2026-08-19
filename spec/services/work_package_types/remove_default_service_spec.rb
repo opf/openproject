@@ -33,46 +33,49 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::RemoveDefaultService do
   let(:user) { create(:admin) }
 
-  subject(:service) { described_class.new(type:, user:) }
+  subject(:service) { described_class.new(variant:, user:) }
 
   describe "#call" do
-    context "when the type is the default" do
-      let(:type) { create(:type, is_default: true) }
+    context "when the variant carries the flag" do
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:variant) { type.default_variant }
 
       it "clears the flag" do
         expect(service.call).to be_success
-        expect(type.reload).not_to be_is_default
+        expect(variant.reload).not_to be_enabled_in_new_projects
       end
     end
 
-    context "when the type is not the default" do
-      let(:type) { create(:type, is_default: false) }
+    context "when the variant does not carry the flag" do
+      let(:variant) { create(:type).default_variant }
 
       it "leaves it unmarked" do
         expect(service.call).to be_success
-        expect(type.reload).not_to be_is_default
+        expect(variant.reload).not_to be_enabled_in_new_projects
       end
     end
 
-    context "with a default elsewhere in the family" do
-      let(:root) { create(:type, is_default: true) }
-      let(:type) { create(:type, parent: root, is_default: true) }
+    context "with another type carrying the flag" do
+      let!(:other_type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:variant) { type.default_variant }
 
-      it "only clears the flag on the given type" do
+      it "only clears the flag on the given variant" do
         expect(service.call).to be_success
-        expect(type.reload).not_to be_is_default
-        expect(root.reload).to be_is_default
+        expect(variant.reload).not_to be_enabled_in_new_projects
+        expect(other_type.default_variant.reload).to be_enabled_in_new_projects
       end
     end
 
-    context "when the type is invalid" do
-      let(:type) { create(:type, is_default: true) }
+    context "when the variant is invalid" do
+      let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
+      let(:variant) { type.default_variant }
 
-      before { type.update_column(:name, "") }
+      before { allow(variant).to receive(:valid?).and_return(false) }
 
       it "fails and leaves the flag untouched" do
         expect(service.call).to be_failure
-        expect(type.reload).to be_is_default
+        expect(variant.reload).to be_enabled_in_new_projects
       end
     end
   end

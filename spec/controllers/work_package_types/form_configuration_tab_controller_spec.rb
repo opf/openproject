@@ -104,8 +104,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
         expect(response).to redirect_to(edit_type_form_configuration_path(type))
 
         type.reload
-        expect(type.attribute_groups.count).to eq(1)
-        expect(type.attribute_groups.first.key).to eql("People")
+        expect(type.default_variant.attribute_groups.count).to eq(1)
+        expect(type.default_variant.attribute_groups.first.key).to eql("People")
       end
 
       context "with invalid parameters" do

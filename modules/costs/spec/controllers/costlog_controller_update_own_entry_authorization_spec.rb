@@ -9,7 +9,7 @@ RSpec.describe CostlogController, "update authorization for own-entry permission
   let(:victim) { create(:user) }
   let(:acting_user) { create(:user) }
   let(:work_package) do
-    create(:work_package, project:, author: victim, type: project.types.first)
+    create(:work_package, project:, author: victim, type: project.enabled_types.first)
   end
   let(:cost_type) { create(:cost_type) }
   let!(:cost_entry) do

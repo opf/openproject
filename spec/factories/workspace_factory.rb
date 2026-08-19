@@ -35,10 +35,6 @@ FactoryBot.define do
       disable_modules { [] }
       members { [] }
 
-      # Transient on purpose. Assigning the `types` association writes the member handed in
-      # straight into the in-memory collection, so a variant stays there while the association
-      # itself reads the roots the project_types rows name — the two then disagree. Building the
-      # rows and naming (root, variant) explicitly keeps the association the single answer.
       types { [] }
     end
 
@@ -52,26 +48,33 @@ FactoryBot.define do
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
+      # Most specs never name a type but still expect their project to hold work packages, so a
+      # project gets the Default type unless the caller opts out. `build(:type_default)` finds the
+      # existing one where there already is one, so projects in the same example share it.
       enabled_types = evaluator.types
-      if enabled_types.empty? && !evaluator.no_types
-        enabled_types = [Type.where(is_standard: true).first || build(:type_standard)]
-      end
+      enabled_types = [build(:type_default)] if enabled_types.empty? && !evaluator.no_types
 
-      # Assigned through the association rather than by building project_types directly, so that
-      # #types answers before the project is saved — the work package factory reads it during its
-      # own build. Only the roots go in; the variant is then named on the join records the
-      # assignment built, which are the same objects the save inserts.
-      project.types = enabled_types.map(&:root)
-      project.project_types.zip(enabled_types).each do |project_type, requested|
-        project_type.variant = requested if requested.variant?
+      # Callers name either a type or one of its variants. A type contributes its base
+      # variant, which is the configuration it uses where none was chosen.
+      #
+      # An unsaved type has no base variant yet — it creates one on save — and the join row
+      # cannot be inserted without one, so it is persisted first.
+      enabled_types.each { |requested| requested.save! if requested.new_record? }
+
+      project.project_types = enabled_types.map do |requested|
+        ProjectType.new(type: type_of(requested), variant: variant_of(requested))
       end
     end
 
     callback(:after_stub) do |project, evaluator|
       # No rows exist to read back from, and assigning the association on a record that already
       # looks persisted would insert them for real.
-      project.association(:types).target = evaluator.types.map(&:root)
-      project.association(:types).loaded!
+      project.association(:project_types).target = evaluator.types.map do |requested|
+        ProjectType.new(type: type_of(requested)).tap do |project_type|
+          project_type.variant = requested if requested.is_a?(TypeVariant)
+        end
+      end
+      project.association(:project_types).loaded!
     end
 
     callback(:after_create) do |project, evaluator|
@@ -122,4 +125,19 @@ FactoryBot.define do
       end
     end
   end
+end
+
+# A workspace factory accepts a type or one of its variants wherever types are named.
+def type_of(requested)
+  requested.is_a?(TypeVariant) ? requested.type : requested
+end
+
+def variant_of(requested)
+  return requested if requested.is_a?(TypeVariant)
+
+  requested.default_variant || requested.variants.detect(&:is_default_variant?)
+end
+
+def enabled_types_of(project)
+  project.project_types.filter_map(&:type).sort_by { |type| type.position || 0 }
 end

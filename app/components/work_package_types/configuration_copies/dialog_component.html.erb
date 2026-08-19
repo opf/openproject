@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= primer_form_with(url: confirm_path, method: :post) do |form| %>
     <%= render(Primer::Alpha::Dialog::Body.new(classes: "Overlay-body_autocomplete_height")) do %>
       <%= render(Primer::Beta::Text.new(tag: :p)) { t("types.edit.reuse_mode.copy.dialog.description") } %>
-      <%= render(WorkPackageTypes::ConfigurationCopies::SourceForm.new(form, type:)) %>
+      <%= render(WorkPackageTypes::ConfigurationCopies::SourceForm.new(form, variant:)) %>
     <% end %>
 
     <%= render(Primer::Alpha::Dialog::Footer.new) do %>

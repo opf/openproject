@@ -36,11 +36,11 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <% if addable_types.any? %>
+  <% if addable_variants.any? %>
     <%= primer_form_with(url: create_path, method: :post) do |form| %>
       <%= render(Primer::Alpha::Dialog::Body.new(classes: "Overlay-body_autocomplete_height")) do %>
         <%= render(Primer::Beta::Text.new(tag: :p)) { t("projects.settings.types.add_dialog.description") } %>
-        <%= render(Projects::Settings::WorkPackages::Types::AddForm.new(form, types: addable_types)) %>
+        <%= render(Projects::Settings::WorkPackages::Types::AddForm.new(form, variants: addable_variants)) %>
       <% end %>
 
       <%= render(Primer::Alpha::Dialog::Footer.new) do %>

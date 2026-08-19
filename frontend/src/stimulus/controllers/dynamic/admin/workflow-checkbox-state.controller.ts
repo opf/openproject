@@ -63,13 +63,15 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
     hasStatusChanges: Boolean,
     hasCheckboxChanges: Boolean,
     isDirty: Boolean,
-    saveUrl: String
+    saveUrl: String,
+    variantId: String
   };
 
   declare hasStatusChangesValue:boolean;
   declare hasCheckboxChangesValue:boolean;
   declare isDirtyValue:boolean;
   declare saveUrlValue:string;
+  declare variantIdValue:string;
 
   static metaNames = ['csrf-token'];
   declare readonly csrfToken:string;
@@ -179,13 +181,8 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   }
 
   private get formKey():string {
-    const typeId = this.formValue('type_id');
     const roleIds = this.formValues('role_ids[]').sort().join(',');
-    return `${typeId}-${roleIds}`;
-  }
-
-  private formValue(name:string):string {
-    return this.element.querySelector<HTMLInputElement>(`input[name="${name}"]`)!.value;
+    return `${this.variantIdValue}-${roleIds}`;
   }
 
   private formValues(name:string):string[] {

@@ -29,32 +29,32 @@
 #++
 
 module WorkPackageTypes
-  # Marks a type or variant as the default for new projects. The flag is unique
-  # within a family, so the previous holder among the root and its variants is
-  # unmarked in the same transaction.
+  # Marks the configuration new projects start a type with. A new project applies one
+  # configuration per type, so the sibling that held the flag is unmarked in the same
+  # transaction — otherwise the promotion would only trip the variant's own validation.
   class MakeDefaultService
-    def initialize(type:, user:)
-      @type = type
+    def initialize(variant:, user:)
+      @variant = variant
       @user = user
     end
 
     def call
-      Type.transaction do
-        previous_defaults.each { |member| member.update!(is_default: false) }
-        type.update!(is_default: true)
+      TypeVariant.transaction do
+        previous_default&.update!(enabled_in_new_projects: false)
+        variant.update!(enabled_in_new_projects: true)
       end
 
-      ServiceResult.success(result: type)
+      ServiceResult.success(result: variant)
     rescue ActiveRecord::RecordInvalid => e
-      ServiceResult.failure(result: type, errors: e.record.errors)
+      ServiceResult.failure(result: variant, errors: e.record.errors)
     end
 
     private
 
-    attr_reader :type, :user
+    attr_reader :variant, :user
 
-    def previous_defaults
-      type.family.select { |member| member != type && member.is_default? }
+    def previous_default
+      TypeVariant.where(type_id: variant.type_id).enabled_in_new_projects.where.not(id: variant.id).first
     end
   end
 end
