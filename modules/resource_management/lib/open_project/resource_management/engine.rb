@@ -133,5 +133,13 @@ module OpenProject::ResourceManagement
            last: true,
            caption: :label_resource_management
     end
+
+    add_api_path :allocatable_placeholder_users do
+      "#{root}/allocatable_placeholder_users"
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::AllocatablePlaceholderUsers::AllocatablePlaceholderUsersAPI
+    end
   end
 end

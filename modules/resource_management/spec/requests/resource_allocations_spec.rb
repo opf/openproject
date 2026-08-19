@@ -95,7 +95,7 @@ RSpec.describe "ResourceAllocations requests",
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("resource_allocation[placeholder_user_id]")
-        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.placeholder_users)
+        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users)
       end
     end
 
