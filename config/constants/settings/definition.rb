@@ -879,6 +879,10 @@ module Settings
         default: nil,
         format: :string
       },
+      project_specific_variants_enabled: {
+        description: "Allow project administrators to create and manage work package type variants scoped to their project",
+        default: false
+      },
       rails_asset_host: {
         description: "Custom asset hostname for serving assets (e.g., Cloudfront)",
         format: :string,

@@ -4829,6 +4829,7 @@ en:
     Allows users to manage their own working times, and personal non-working days.
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_manage_project_activities: "Manage project activities"
+  permission_manage_project_variants: "Manage project-specific work package type variants"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"

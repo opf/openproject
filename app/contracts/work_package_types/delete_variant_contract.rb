@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   class DeleteVariantContract < ::ModelContract
-    include RequiresAdminGuard
+    include VariantManagementGuard
 
     def self.model = TypeVariant
 
