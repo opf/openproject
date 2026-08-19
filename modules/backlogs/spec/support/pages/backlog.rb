@@ -808,7 +808,7 @@ module Pages
 
     def expect_destination_dialog(dialog_title, work_packages:)
       within_modal dialog_title do
-        expect(page).to have_text(I18n.t(:label_x_work_packages, count: work_packages.size))
+        work_packages.each { |work_package| expect(page).to have_text(work_package.subject) }
         expect(all("input[name='ids[]']", visible: :all).map(&:value))
           .to eq(work_packages.map { |work_package| work_package.id.to_s })
       end
