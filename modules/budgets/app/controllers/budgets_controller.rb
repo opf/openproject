@@ -181,12 +181,13 @@ class BudgetsController < ApplicationController
 
   def update_labor_budget_item # rubocop:disable Metrics/AbcSize
     @element_id = params[:element_id]
-    user = User.visible.in_project(@project).find_by(id: params[:user_id])
+    # A group is budgetable but carries no rate, so it falls through to 0.0.
+    principal = Principal.with_rates.in_project(@project).find_by(id: params[:user_id])
 
-    if user && params[:hours]
+    if principal && params[:hours]
       hours = Rate.parse_hours_string_to_number(params[:hours])
       @costs = begin
-        hours * user.rate_at(params[:fixed_date], @project).rate
+        hours * principal.rate_at(params[:fixed_date], @project).rate
       rescue StandardError
         0.0
       end
