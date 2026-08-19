@@ -32,9 +32,10 @@ en:
     backlogs:
       action_menu:
         # A complete standalone string per plural form, never the singular
-        # name plus a suffix.
-        batch_menu_label:
-          one: "Actions for 1 selected work package"
+        # name plus a suffix. `one` names the menu of a single card, so it
+        # says what that menu does rather than counting a selection of one.
+        menu_label:
+          one: "Work package actions"
           other: "Actions for %{count} selected work packages"
       announcements:
         batch_too_large: "Cannot move %{count} work packages at once. Select no more than %{max}."
