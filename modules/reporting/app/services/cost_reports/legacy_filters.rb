@@ -50,11 +50,15 @@ module CostReports
     end
 
     def quoted(values)
-      quoted = values.compact.map { |value| %("#{value.to_s.gsub('"', '\"')}") }
+      quoted = values.compact.map { |value| %("#{escaped(value)}") }
 
       return quoted.join if quoted.size <= 1
 
       "[#{quoted.join(',')}]"
+    end
+
+    def escaped(value)
+      value.to_s.gsub(/[\\"]/) { |character| "\\#{character}" }
     end
 
     def axis(dimensions)

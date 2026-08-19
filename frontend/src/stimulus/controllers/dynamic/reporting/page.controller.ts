@@ -811,7 +811,7 @@ export default class PageController extends Controller {
   }
 
   private compactValues(values:string[]):string {
-    const quoted = values.map((value) => `"${value.replace(/"/g, '\\"')}"`);
+    const quoted = values.map((value) => `"${value.replace(/["\\]/g, '\\$&')}"`);
 
     if (quoted.length <= 1) {
       return quoted.join('');
