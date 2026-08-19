@@ -208,6 +208,10 @@ en:
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Remaining work"
+
+    selected_work_packages_component:
+      label: "Selected items:"
+
     sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"
 

@@ -54,7 +54,8 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
   it "renders an ordered collection form targeting the move path via PUT", :aggregate_failures do
     render_component
 
-    expect(page).to have_text(I18n.t(:label_x_work_packages, count: 2))
+    expect(page).to have_text(second.subject)
+    expect(page).to have_text(first.subject)
     expect(page.all("input[name='ids[]']", visible: :all).map(&:value))
       .to eq([second.id.to_s, first.id.to_s])
     expect(page).to have_element(:form, action: move_path, method: "post")
@@ -65,12 +66,12 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
     )
   end
 
-  # The count sits in its own paragraph above the select, so it only reaches a
-  # screen reader as the field's context through this reference.
+  # The visible list carries no count, so it only reaches a screen reader as
+  # the field's context through this reference.
   it "describes the sprint select by the selected-count label" do
     render_component
 
-    label = page.find_css("p##{described_class::SELECTION_LABEL_ID}").first
+    label = page.find_css("##{described_class::SELECTION_LABEL_ID}").first
     expect(label.text).to include(I18n.t(:label_x_work_packages, count: 2))
     expect(page).to have_css(
       "select[name='list_id'][aria-describedby~='#{described_class::SELECTION_LABEL_ID}']",

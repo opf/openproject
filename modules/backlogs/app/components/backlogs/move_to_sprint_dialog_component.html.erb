@@ -27,26 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Primer::Alpha::Dialog.new(title: t(".title"), id: DIALOG_ID, size: :medium)) do |d|
-    d.with_header(variant: :large)
+<%= render(Primer::Alpha::Dialog.new(title: t(".title"), id: DIALOG_ID, size: :medium)) do |d| %>
+  <% d.with_header(variant: :large) %>
 
-    d.with_body do
-      selected_work_packages = work_packages
-      selected_work_packages_label = t(:label_x_work_packages, count: selected_work_packages.size)
-      available_sprints = sprints
-      sprint_list_type = destination_list_type
-
+  <% d.with_body do %>
+    <%=
       primer_form_with(
         url: move_action,
         method: :put,
         id: FORM_ID,
         data: { turbo_stream: true }
       ) do |f|
+        selected_work_packages = work_packages
+        available_sprints = sprints
+        sprint_list_type = destination_list_type
+
         render_inline_form(f) do |form|
-          form.html_content do
-            render(Primer::Beta::Text.new(tag: :p, id: SELECTION_LABEL_ID, mb: 3)) { selected_work_packages_label }
-          end
           selected_work_packages.each do |work_package|
             form.hidden(name: "ids[]", value: work_package.id)
           end
@@ -63,9 +59,21 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       end
-    end
+    %>
 
-    d.with_footer(mt: 2) do
+    <%=
+      render(
+        Backlogs::SelectedWorkPackagesComponent.new(
+          work_packages:,
+          description_id: SELECTION_LABEL_ID,
+          mt: 3
+        )
+      )
+    %>
+  <% end %>
+
+  <% d.with_footer(mt: 2) do %>
+    <%=
       component_collection do |buttons|
         buttons.with_component(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) do
           t(:button_cancel)
@@ -77,6 +85,6 @@ See COPYRIGHT and LICENSE files for more details.
           t(:button_move)
         end
       end
-    end
-  end
-%>
+    %>
+  <% end %>
+<% end %>
