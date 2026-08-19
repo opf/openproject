@@ -38,7 +38,6 @@
     "@stylistic/eslint-plugin": "^5.3.1",
     "@types/node": "^25.9.5",
     "eslint": "^10.6.0",
-    "eslint-plugin-headers": "^1.3.4",
     "globals": "^17.7.0",
     "msw": "^2.12.7",
     "typescript": "^6.0.3",

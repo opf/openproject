@@ -2,24 +2,12 @@ const path = require('node:path');
 const fs = require('node:fs');
 const { upperFirst, camelCase } = require('lodash-es');
 
-// Derived from COPYRIGHT_short so the generated module cannot drift away from the text
-// the `headers/header-format` ESLint rule enforces.
-const copyrightHeader = [
-  '//-- copyright',
-  ...fs.readFileSync(path.join(__dirname, '..', 'COPYRIGHT_short'), 'utf8')
-    .trimEnd()
-    .split(/\r?\n/)
-    .map((line) => line ? `// ${line}` : '//'),
-  '//++',
-].join('\n');
-
 const LINKED_PLUGINS_MODULE_TEMPLATE = (plugins) => {
   const importableName = (name) => upperFirst(camelCase(name));
   const frontendPlugins = plugins.map(([name]) => [name, importableName(name)]);
 
-  return `${copyrightHeader}
-
-import {NgModule} from '@angular/core';
+  return `
+import {NgModule} from "@angular/core";
 ${
   frontendPlugins
     .map(([actualName, moduleName]) =>
