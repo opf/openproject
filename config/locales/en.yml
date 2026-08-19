@@ -3458,6 +3458,7 @@ en:
   label_managed_by_ldap: "Managed by LDAP synchronization"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_mapping_for: "Mapping for: %{attribute}"
+  label_matching_users: "Matching users"
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
