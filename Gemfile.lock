@@ -899,10 +899,10 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.36.0)
-    openproject-octicons_helper (19.36.0)
+    openproject-octicons (19.37.0)
+    openproject-octicons_helper (19.37.0)
       actionview
-      openproject-octicons (= 19.36.0)
+      openproject-octicons (= 19.37.0)
       railties
     openproject-primer_view_components (0.91.1)
       actionview (>= 7.2.0)
@@ -1679,8 +1679,8 @@ DEPENDENCIES
   openproject-ldap_departments!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.36.0)!
-  openproject-octicons_helper (~> 19.36.0)!
+  openproject-octicons (~> 19.37.0)!
+  openproject-octicons_helper (~> 19.37.0)!
   openproject-openid_connect!
   openproject-primer_view_components (~> 0.91.1)!
   openproject-recaptcha!
@@ -1842,7 +1842,6 @@ CHECKSUMS
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
-  bundler (4.0.16) sha256=d6ca5dd440c24f9abce9844cf44cc8e18c6a553de65a47efb4544137af92c47d
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2
@@ -2057,8 +2056,8 @@ CHECKSUMS
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)
   openproject-meeting (1.0.0)
-  openproject-octicons (19.36.0) sha256=7a1beef93d3d93df0c4c68de3708be481ce3d8a7c9f56c72a94d17d150559792
-  openproject-octicons_helper (19.36.0) sha256=e4c737107fec97d2c1511a84aa7d351327a33fdb4afbe150600fc5c1caf7c3c2
+  openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
+  openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
   openproject-openid_connect (1.0.0)
   openproject-primer_view_components (0.91.1) sha256=0a9efef77a73872dbcd5bb4e47badf7446cf44b12b08a22be4b5f40891dcba29
   openproject-recaptcha (1.0.0)

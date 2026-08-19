@@ -53,6 +53,49 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_fl
     expect(response).to have_http_status(:ok)
   end
 
+  it "renders the projects tab with a project applying the variant" do
+    project = create(:project, name: "Bookshop", types: [variant])
+
+    get edit_type_projects_path(type_id: type.id, variant_id: variant.id)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(project.name)
+  end
+
+  it "asks for confirmation before removing a project" do
+    project = create(:project, name: "Bookshop", types: [variant])
+
+    get edit_type_projects_path(type_id: type.id, variant_id: variant.id)
+
+    confirmation = I18n.t("types.edit.projects.actions.confirm_remove", project: project.name, type: type.name)
+
+    expect(response.body).to include(CGI.escapeHTML(confirmation))
+  end
+
+  it "renders the add projects dialog" do
+    get new_link_type_projects_path(type_id: type.id, variant_id: variant.id), as: :turbo_stream
+
+    expect(response).to have_http_status(:ok)
+  end
+
+  it "renders the project tree the add dialog picks from" do
+    create(:project, name: "Bookshop")
+
+    get tree_type_projects_path(type_id: type.id, variant_id: variant.id, name: "project_ids")
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Bookshop")
+  end
+
+  it "renders the switch dialog for a listed project" do
+    project = create(:project, types: [variant])
+
+    get new_switch_type_projects_path(type_id: type.id, variant_id: variant.id, project_id: project.id),
+        as: :turbo_stream
+
+    expect(response).to have_http_status(:ok)
+  end
+
   it "creates a named variant" do
     post creation_wizard_types_path(type_id: type.id), params: { type_variant: { variant_name: "Hardware" } }
     expect(response).to have_http_status(:see_other)

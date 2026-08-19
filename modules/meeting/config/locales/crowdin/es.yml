@@ -55,6 +55,8 @@ es:
         position: Posición
         presenter: Responsable
         title: Título
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ha asistido
         invited: Invitado

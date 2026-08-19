@@ -501,6 +501,7 @@ cs:
         before_or_equal_to: musí být před nebo rovno %{date}.
         blank: nemůže být prázdné.
         blank_nested: musí mít nastavenou vlastnost '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: je povinné. Nelze odstranit.
         cant_link_a_work_package_with_a_descendant: Pracovní balíček nemůže být propojen s jedním z jeho podúkolů.
         circular_dependency: Tento vztah by vytvořil kruhovou závislost.
@@ -1626,7 +1627,7 @@ cs:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -3038,16 +3039,11 @@ cs:
         field_updated: "%{field} aktualizováno"
         header: změny od %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Režim výpočtu průběhu nastaven na základě stavu
       status_excluded_from_totals_set_to_false_message: nyní zahrnuty v součtech hierarchie
       status_excluded_from_totals_set_to_true_message: nyní vyloučen z součtů hierarchie
@@ -3084,14 +3080,14 @@ cs:
       dates_changed: Data změněna
       default_attribute_written: Zápis atributů pouze pro čtení
       import: Importováno
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Výpočet průběhu byl aktualizován
       status_changed: Stav '%{status_name}'
       system_update: 'Aktualizace systémem OpenProject:'
@@ -3984,7 +3980,6 @@ cs:
         invalid_type: Nenalezen typ s názvem '%{type}' v projektu '%{project}".
         no_project_context: Volání create_work_package_link makra z kontextu vnějšího projektu.
       link_name: Nový pracovní balíček
-      link_name_type: Nový %{type_name}
     errors:
       missing_or_invalid_parameter: Chybějící nebo neplatný makroparametr.
     include_wiki_page:
@@ -5433,6 +5428,7 @@ cs:
   setting_default_language: Výchozí jazyk
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_disable_password_login: Zakázat ověřování hesla
   setting_display_subprojects_work_packages: Automaticky zobrazit úkoly podprojektu v hlavním projektu
@@ -6215,6 +6211,13 @@ cs:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

@@ -55,6 +55,8 @@ si:
         position: Position
         presenter: Presenter
         title: මාතෘකාව
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

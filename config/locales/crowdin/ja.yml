@@ -501,6 +501,7 @@ ja:
         before_or_equal_to: は%{date}より以前にしてください。
         blank: は空白にすることができません。
         blank_nested: プロパティ '%{property}' が設定されている必要があります。
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必須です。削除できません。
         cant_link_a_work_package_with_a_descendant: 親子関係にあるワークパッケージ間で関係の設定はできません。
         circular_dependency: この関係は循環依存になります。
@@ -1545,7 +1546,7 @@ ja:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2873,16 +2874,11 @@ ja:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: 進捗計算モードをステータスベースに設定
       status_excluded_from_totals_set_to_false_message: 階層合計に含まれるようになった
       status_excluded_from_totals_set_to_true_message: 階層全体から除外されています
@@ -2919,14 +2915,14 @@ ja:
       dates_changed: 日付を変更
       default_attribute_written: 読み取り専用属性が書き込まれました
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 進捗の計算が更新されました
       status_changed: 状態 '%{status_name}'
       system_update: OpenProject システムの更新：
@@ -3807,7 +3803,6 @@ ja:
         invalid_type: プロジェクト '%{project}' に名前 '%{type}' のタイプが見つかりません。
         no_project_context: 外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。
       link_name: 新しいワークパッケージ
-      link_name_type: 新しい %{type_name}
     errors:
       missing_or_invalid_parameter: マクロパラメータがないか無効です。
     include_wiki_page:
@@ -5219,6 +5214,7 @@ ja:
   setting_default_language: デフォルトの言語
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 差分の表示行数の上限
   setting_disable_password_login: パスワード認証を無効にする
   setting_display_subprojects_work_packages: デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する
@@ -6000,6 +5996,13 @@ ja:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

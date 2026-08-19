@@ -52,8 +52,10 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
     it { expect(response).to redirect_to(project_settings_types_path(project.identifier)) }
 
     it "shows an error message with a link to the affected work packages" do
-      expect(sanitize_string(flash[:error]))
-        .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+      refusal = %(Unable to remove "#{type.name}" from project "#{project.name}" \
+because it's still in use by work packages)
+
+      expect(sanitize_string(flash[:error].first)).to include(refusal)
       expect(flash[:error].first)
         .to include(work_packages_path(query_props: { f: [
           { n: "type", o: "=", v: [type.id] },

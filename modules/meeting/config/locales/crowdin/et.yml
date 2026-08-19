@@ -55,6 +55,8 @@ et:
         position: Position
         presenter: Esitleja
         title: Pealkiri
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Kutsutud

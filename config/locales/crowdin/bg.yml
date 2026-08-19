@@ -499,6 +499,7 @@ bg:
         before_or_equal_to: трябва да бъде преди или е равно на %{date}.
         blank: не може да бъде празно.
         blank_nested: трябва да бъде зададено свойството '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: е необходимо. Не може да бъде изтрит.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде свързан с една от неговите подзадачи.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
@@ -1570,7 +1571,7 @@ bg:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2924,16 +2925,11 @@ bg:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Режим на изчисление на напредъка, зададен на базата на състоянието
       status_excluded_from_totals_set_to_false_message: сега са включени в общите суми на йерархията
       status_excluded_from_totals_set_to_true_message: сега са изключени от общите стойности на йерархията
@@ -2970,14 +2966,14 @@ bg:
       dates_changed: Промяна на датите
       default_attribute_written: Записани атрибути само за четене
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Актуализирано изчисление на напредъка
       status_changed: Състояние '%{status_name}'
       system_update: 'Актуализация на системата OpenProject:'
@@ -3862,7 +3858,6 @@ bg:
         invalid_type: Не е намерен тип с име '%{type}' в проекта '%{project}'.
         no_project_context: Извикване на макроса create_work_package_link извън контекста на проекта.
       link_name: Нов работен пакет
-      link_name_type: Нов %{type_name}
     errors:
       missing_or_invalid_parameter: Липсващ или невалиден макропараметър.
     include_wiki_page:
@@ -5285,6 +5280,7 @@ bg:
   setting_default_language: Език по подразбиране
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
@@ -6067,6 +6063,13 @@ bg:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

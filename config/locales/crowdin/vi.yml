@@ -499,6 +499,7 @@ vi:
         before_or_equal_to: phải có trước hay tương đương với %{date}
         blank: không được để trống
         blank_nested: cần phải đặt thuộc tính '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
@@ -1543,7 +1544,7 @@ vi:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2871,16 +2872,11 @@ vi:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ được đặt thành dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số thứ bậc
       status_excluded_from_totals_set_to_true_message: hiện đã bị loại khỏi tổng số thứ bậc
@@ -2917,14 +2913,14 @@ vi:
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Đã cập nhật tính toán tiến độ
       status_changed: Trạng thái '%{status_name}'
       system_update: 'Cập nhật hệ thống OpenProject:'
@@ -3807,7 +3803,6 @@ vi:
         invalid_type: Không tìm thấy loại nào có tên '%{type}' trong dự án '%{project}'.
         no_project_context: Gọi macro create_work_package_link từ ngữ cảnh bên ngoài dự án.
       link_name: Work package mới
-      link_name_type: Mới %{type_name}
     errors:
       missing_or_invalid_parameter: Các tham số macro thiếu hoặc không hợp lệ.
     include_wiki_page:
@@ -5229,6 +5224,7 @@ vi:
   setting_default_language: Ngôn ngữ mặc định
   setting_default_projects_modules: Các mô-đun được bật mặc định cho các dự án mới
   setting_default_projects_public: Các dự án mới được công khai theo mặc định
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
   setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định
@@ -6011,6 +6007,13 @@ vi:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

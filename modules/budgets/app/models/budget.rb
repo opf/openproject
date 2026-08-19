@@ -225,7 +225,7 @@ class Budget < ApplicationRecord
   def correct_labor_attributes!(attributes)
     return unless attributes
 
-    attributes[:hours] = Rate.parse_number_string_to_number(attributes[:hours])
+    attributes[:hours] = Rate.parse_hours_string_to_number(attributes[:hours])
     attributes[:amount] = Rate.parse_number_string(attributes[:amount])
   end
 

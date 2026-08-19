@@ -27,8 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
-<%= render WorkPackageTypes::ProjectsComponent.new(@type, variant: @variant, projects: @projects) %>
+<%= render(WorkPackageTypes::ProjectsTab::SubHeaderComponent.new(variant: @variant)) %>
+
+<%=
+  render(
+    WorkPackageTypes::ProjectsTab::TableComponent.new(
+      query: @query,
+      params: params.merge(variant: @variant, url_for_action: :edit)
+    )
+  )
+%>

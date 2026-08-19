@@ -55,6 +55,8 @@
         position: Position
         presenter: Foredragsholder
         title: Tittel
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invitert

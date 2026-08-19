@@ -55,6 +55,8 @@ de:
         position: Position
         presenter: Referent
         title: Titel
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Teilgenommen
         invited: Eingeladen

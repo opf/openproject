@@ -499,6 +499,7 @@ zh-TW:
         before_or_equal_to: 必須在 %{date} 以前
         blank: 不可空白
         blank_nested: '需要設置屬性  ''%{property}'' '
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必需項，不能刪除
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
@@ -1543,7 +1544,7 @@ zh-TW:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2875,16 +2876,11 @@ zh-TW:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_excluded_from_totals_set_to_false_message: 現在包含在層次結構總計中
       status_excluded_from_totals_set_to_true_message: 現在不包含在層次結構總計中
@@ -2921,14 +2917,14 @@ zh-TW:
       dates_changed: 日期變更
       default_attribute_written: 已寫入只讀屬性
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 更新計算後的進度
       status_changed: 狀態 '%{status_name}'
       system_update: OpenProject 系統更新：
@@ -3809,7 +3805,6 @@ zh-TW:
         invalid_type: 在專案 "%{project}" 中找不到名稱為 "%{type}" 的類型。
         no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。
       link_name: 新增工作套件
-      link_name_type: 新增 %{type_name}
     errors:
       missing_or_invalid_parameter: 丟失或無效的宏參數。
     include_wiki_page:
@@ -5224,6 +5219,7 @@ zh-TW:
   setting_default_language: 預設語言
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_default_projects_public: 新專案預設為公開
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件
@@ -6006,6 +6002,13 @@ zh-TW:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:

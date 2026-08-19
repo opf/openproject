@@ -55,6 +55,8 @@ tr:
         position: Konum
         presenter: Sunucu
         title: Başlık
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Katıldığım
         invited: Davet edilen

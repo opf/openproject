@@ -55,6 +55,8 @@ fi:
         position: Position
         presenter: Presenter
         title: Otsikko
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

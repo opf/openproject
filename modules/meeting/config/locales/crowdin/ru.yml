@@ -57,6 +57,8 @@ ru:
         position: Позиция
         presenter: Ведущий
         title: Заголовок
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Участвовал
         invited: Приглашённые
@@ -329,12 +331,12 @@ ru:
         heading: Отменить это событие?
         title: Отменить это событие
       occurrence_past:
-        confirm_button: Delete occurrence
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirm_button: Удалить повторение
+        confirmation_message_html: 'Это действие нельзя отменить. Пожалуйста, действуйте с осторожностью.
 
           '
-        heading: Delete this occurrence?
-        title: Delete occurrence
+        heading: Удалить это вхождение?
+        title: Удалить повторение
       one_time:
         confirmation_message_html: 'Это действие не обратимо. Пожалуйста, действуйте с осторожностью.
 
@@ -551,13 +553,13 @@ ru:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: Первое мероприятие этой серии состоится %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: В результате серия заканчивается %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        few: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: В результате будет одно предстоящее событие
+        few: В результате будет %{count} предстоящих события
+        many: В результате будет %{count} предстоящих событий
+        other: В результате будет %{count} предстоящих событий
+      occurrences_capped: В результате получается более %{count} предстоящих событий
     day_of_month_skipping_info: Месяцы, в которых число дней меньше, чем %{monthly_day}, будут пропущены
     delete_dialog:
       confirmation_message_html:
@@ -682,7 +684,7 @@ ru:
         '
       title: Разница часового пояса
   text_add_work_package_to_meeting_description: Пакет работ может быть добавлен к одному или нескольким совещаниям для обсуждения. Любые заметки об этом также видны здесь.
-  text_add_work_package_to_meeting_form: Рабочий пакет будет добавлен в выбранное совещание или бэклог в качестве пункта повестки дня.
+  text_add_work_package_to_meeting_form: Пакет работ будет добавлен в выбранное совещание или бэклог в качестве пункта повестки дня.
   text_agenda_backlog: 'Этот список невыполненных работ уникален для данного разового собрания. Вы можете перетаскивать элементы, чтобы добавлять или удалять их из повестки дня собрания.
 
     '
@@ -751,5 +753,5 @@ ru:
 
     '
   text_work_package_add_to_meeting_hint: Используйте кнопку "Добавить к совещанию", чтобы добавить этот пакет работ к предстоящему совещанию.
-  text_work_package_has_no_past_meeting_agenda_items: Этот рабочий пакет не был добавлен в качестве пункта повестки дня на прошлом совещании.
+  text_work_package_has_no_past_meeting_agenda_items: Этот пакет работ не был добавлен в качестве пункта повестки дня на прошлом совещании.
   text_work_package_has_no_upcoming_meeting_agenda_items: Этот пакет работ пока не включен в повестку предстоящего совещания.

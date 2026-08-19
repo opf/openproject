@@ -33,7 +33,8 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include TypeDeactivationErrorMessage
 
-    before_action :load_projects, only: %i[edit enable_all_projects]
+    before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
+    before_action :load_linked_project, only: %i[unlink new_switch switch]
 
     current_menu_item [:edit, :update] do
       :types
@@ -47,91 +48,229 @@ module WorkPackageTypes
       if result.success?
         redirect_to edit_type_projects_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
       else
-        flash_error(result, desired_project_ids)
-        load_projects
+        flash.now[:error] = aggregate_refusal_message(result)
         render :edit, status: :unprocessable_entity
       end
     end
 
-    def enable_all_projects
-      desired = params[:value] == "1" ? @projects.pluck(:id) : []
-      result = sync_projects(desired)
+    def new_link
+      respond_with_dialog ProjectsTab::AddDialogComponent.new(variant: @variant)
+    end
+
+    def tree
+      render ProjectsTab::TreeComponent.new(variant: @variant,
+                                            nodes: ::Project.build_projects_hierarchy(candidate_projects),
+                                            builder: tree_form_builder,
+                                            form_name: params[:name]),
+             layout: false
+    end
+
+    def link
+      projects = ::Project.where(id: selected_project_ids)
+      return refuse_empty_selection if projects.empty?
+
+      result = apply_to(projects)
+
+      close_dialog_via_turbo_stream("##{ProjectsTab::AddFormComponent::DIALOG_ID}")
+      refresh_projects
 
       if result.success?
-        replace_via_turbo_stream(component: ProjectsComponent.new(@type, variant: @variant, projects: @projects))
-        respond_with_turbo_streams
+        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       else
-        flash_error(result, desired)
-        render :edit, status: :unprocessable_entity
+        render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result))
       end
+
+      respond_to_with_turbo_streams(status: result)
+    end
+
+    def unlink
+      result = ::Projects::Types::RemoveService
+                 .new(user: current_user, model: @linked_project)
+                 .call(variant: @variant)
+
+      result.on_success { refresh_projects }
+      result.on_failure { render_error_flash_message_via_turbo_stream(message: removal_refusal_message(result)) }
+
+      respond_to_with_turbo_streams(status: result)
+    end
+
+    def new_switch
+      respond_with_dialog ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent.new(
+        project: @linked_project, source: @variant, url: switch_path
+      )
+    end
+
+    def switch
+      target = @type.variants.find_by(id: params[:target_id])
+      result = ::Projects::Types::SwitchVariantService
+                 .new(user: current_user, model: @linked_project)
+                 .call(source: @variant, target:)
+
+      result.on_success { on_switched(target) }
+      result.on_failure { on_switch_refused(target, result) }
+
+      respond_to_with_turbo_streams(status: result)
+    end
+
+    def enable_all_projects
+      result = if params[:value] == "1"
+                 apply_to(::Project.where.not(id: @variant.projects.select(:id)))
+               else
+                 remove_from(@variant.projects)
+               end
+
+      refresh_projects
+      result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
+
+      respond_to_with_turbo_streams(status: result)
     end
 
     private
 
-    # Updates one project at a time through Projects::Types
-    #
-    # A checked project is applying this variant, resulting in three cases:
-    # 1. Adding a new type with this variant
-    # 2. Switching another variant
-    # 3. Removing when unchecked (only possible if no work packages exist)
+    def load_query
+      @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
+        query.where(:type_variant_id, "=", [@variant.id.to_s])
+        query.select(:name)
+        query.order("lft" => "asc")
+      end
+    end
+
+    def load_linked_project
+      @linked_project = ::Project.find(params.expect(:project_id))
+    end
+
+    def switch_path
+      switch_type_projects_path(**@variant.path_args, project_id: @linked_project.id)
+    end
+
     def sync_projects(desired)
       applying = @variant.projects.pluck(:id)
-      using_type = @type.projects.pluck(:id)
 
-      ServiceResult.success(result: @type).tap do |aggregated|
-        add_variant(aggregated, desired - using_type)
-        switch_variant(aggregated, (desired & using_type) - applying)
-        remove_type(aggregated, applying - desired)
+      new_aggregate.tap do |aggregated|
+        apply_to(::Project.where(id: desired - applying), into: aggregated)
+        remove_from(::Project.where(id: applying - desired), into: aggregated)
       end
     end
 
-    def add_variant(aggregated, project_ids)
-      apply(aggregated, project_ids) do |project|
+    def apply_to(projects, into: new_aggregate)
+      projects.find_each { |project| into.add_dependent!(add_or_switch(project)) }
+
+      into
+    end
+
+    def add_or_switch(project)
+      applied = applied_variant_of(project)
+
+      if applied.nil?
         ::Projects::Types::AddService.new(user: current_user, model: project).call(variant: @variant)
-      end
-    end
-
-    def switch_variant(aggregated, project_ids)
-      apply(aggregated, project_ids) do |project|
+      elsif applied == @variant
+        ServiceResult.success(result: project)
+      else
         ::Projects::Types::SwitchVariantService
           .new(user: current_user, model: project)
-          .call(source: project.type_variant(@type), target: @variant)
+          .call(source: applied, target: @variant)
       end
     end
 
-    def remove_type(aggregated, project_ids)
-      apply(aggregated, project_ids) do |project|
-        ::Projects::Types::RemoveService.new(user: current_user, model: project).call(variant: @variant)
+    def applied_variant_of(project)
+      project.project_types.find_by(type_id: @type.id)&.variant
+    end
+
+    def remove_from(projects, into: new_aggregate)
+      projects.find_each do |project|
+        into.add_dependent!(::Projects::Types::RemoveService.new(user: current_user, model: project).call(variant: @variant))
       end
+
+      into
     end
 
-    def apply(aggregated, project_ids)
-      Project.where(id: project_ids).find_each do |project|
-        aggregated.add_dependent!(yield(project))
-      end
+    def new_aggregate = ServiceResult.success(result: @variant)
+
+    def on_switched(target)
+      close_dialog_via_turbo_stream(
+        "##{::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}"
+      )
+      refresh_projects
+      render_success_flash_message_via_turbo_stream(
+        message: I18n.t("projects.settings.types.switch_dialog.success", type: target.composite_name)
+      )
     end
 
-    def flash_error(result, project_ids)
-      deactivated_project_ids = deactivated_project_ids_with_work_packages(project_ids)
+    def on_switch_refused(target, result)
+      message = result.errors.messages_for(:types).first
+      return if message.blank?
 
-      flash.now[:error] = if deactivated_project_ids.any?
-                            type_deactivation_error_message(@type, project_ids: deactivated_project_ids)
-                          else
-                            project_error_messages(result)
-                          end
+      update_via_turbo_stream(
+        component: ::Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
+          project: @linked_project,
+          source: @variant,
+          selected: target || @variant,
+          validation_message: message,
+          url: switch_path
+        )
+      )
     end
 
-    # The services report against the project they were called on, so the project has to be named
-    # for the message to be actionable when several were submitted at once.
-    def project_error_messages(result)
-      result.dependent_results
-            .reject(&:success?)
-            .map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }
-            .to_sentence
+    def refresh_projects
+      update_via_turbo_stream(
+        component: ProjectsTab::TableComponent.new(
+          query: @query, params: params.merge(variant: @variant, url_for_action: :edit)
+        )
+      )
+      replace_via_turbo_stream(component: ProjectsTab::SubHeaderComponent.new(variant: @variant))
     end
 
-    def load_projects
-      @projects = Project.all
+    def refuse_empty_selection
+      update_via_turbo_stream(
+        component: ProjectsTab::AddFormComponent.new(
+          variant: @variant,
+          validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
+        ),
+        status: :bad_request
+      )
+      respond_with_turbo_streams
+    end
+
+    def tree_form_builder
+      ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
+    end
+
+    def candidate_projects
+      scope = ::Project.order(:lft)
+      return scope.to_a if filter_term.blank?
+
+      matching = scope.where("LOWER(projects.name) LIKE LOWER(?)", "%#{sanitized_filter_term}%")
+      (matching.to_a + ancestors_of(matching)).uniq(&:id).sort_by(&:lft)
+    end
+
+    def ancestors_of(projects)
+      return [] if projects.empty?
+
+      ::Project.where(
+        "EXISTS (SELECT 1 FROM projects descendants WHERE descendants.id IN (:ids) " \
+        "AND projects.lft < descendants.lft AND projects.rgt > descendants.rgt)",
+        ids: projects.map(&:id)
+      ).to_a
+    end
+
+    def filter_term = params[:query].to_s.strip
+
+    def sanitized_filter_term = ActiveRecord::Base.sanitize_sql_like(filter_term)
+
+    def selected_project_ids
+      ids = Array(params[ProjectsTab::AddFormComponent::FIELD_NAME]).filter_map { |node| node_id_from(node) }
+
+      params[:include_sub_items] == "1" ? with_descendants(ids) : ids
+    end
+
+    def node_id_from(payload)
+      JSON.parse(payload)["nodeId"].presence&.to_i
+    rescue JSON::ParserError, TypeError
+      nil
+    end
+
+    def with_descendants(project_ids)
+      ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
     end
 
     # TODO: once the input is correctly delivered, read params.expect(type: [:project_ids])
@@ -141,13 +280,29 @@ module WorkPackageTypes
         Array(JSON.parse(params.expect(type: [:project_ids])[:project_ids])).compact_blank.map(&:to_i)
     end
 
-    def deactivated_project_ids_with_work_packages(desired)
-      deactivated_project_ids = @variant.projects.pluck(:id) - desired
+    def aggregate_refusal_message(result)
+      refused = result.dependent_results.reject(&:success?)
+      blocked = blocked_project_ids(refused.map { |failed| failed.result.id })
 
-      WorkPackage
-        .where(type_id: @type.id, project_id: deactivated_project_ids)
-        .distinct
-        .pluck(:project_id)
+      return blocked_message(blocked) if blocked.any?
+
+      refused.map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }.to_sentence
     end
+
+    def blocked_message(project_ids)
+      helpers.join_flash_messages(type_deactivation_error_messages(@variant, project_ids:))
+    end
+
+    def removal_refusal_message(result)
+      return type_deactivation_error_message(@variant, project: @linked_project) if blocked?(@linked_project)
+
+      "#{@linked_project.name}: #{result.errors.full_messages.to_sentence}"
+    end
+
+    def blocked_project_ids(project_ids)
+      WorkPackage.where(type_id: @type.id, project_id: project_ids).distinct.pluck(:project_id)
+    end
+
+    def blocked?(project) = WorkPackage.exists?(type_id: @type.id, project_id: project.id)
   end
 end

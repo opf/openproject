@@ -499,6 +499,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         blank_nested: musi mieć ustawioną właściwość '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: jest wymagane. Nie można usunąć.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
@@ -1624,7 +1625,7 @@ pl:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -3032,16 +3033,11 @@ pl:
         field_updated: Zaktualizowano %{field}
         header: zmiany wprowadzone przez %{author}
         set_with_diff: Ustawiono pole %{field} (%{link})
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_excluded_from_totals_set_to_false_message: teraz uwzględniono w sumach hierarchii
       status_excluded_from_totals_set_to_true_message: teraz wyłączono z sum hierarchii
@@ -3078,14 +3074,14 @@ pl:
       dates_changed: Daty zostały zmienione
       default_attribute_written: Zapisano atrybuty tylko do odczytu
       import: Zaimportowano
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Zaktualizowano obliczenie postępu
       status_changed: Status „%{status_name}”
       system_update: 'Aktualizacja systemu OpenProjekt:'
@@ -3977,7 +3973,6 @@ pl:
         invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project} '.
         no_project_context: Wywołanie makra create_work_package_link spoza kontekstu projektu.
       link_name: Nowy pakiet roboczy
-      link_name_type: Nowy %{type_name}
     errors:
       missing_or_invalid_parameter: Brakujący lub błędny parametr makra.
     include_wiki_page:
@@ -5418,6 +5413,7 @@ pl:
   setting_default_language: Język domyślny
   setting_default_projects_modules: Domyślnie włączone moduły dla nowych projektów
   setting_default_projects_public: Nowe projekty są publiczne (domyślnie)
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksymalna wyświetlana liczba linii różnic
   setting_disable_password_login: Wyłącz uwierzytelnianie hasłem
   setting_display_subprojects_work_packages: Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie
@@ -6198,6 +6194,13 @@ pl:
         actions:
           label_disable_all: Wyłącz wszystkie
           label_enable_all: Włącz wszystkie
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
         disabled: Disabled
         exclusions:

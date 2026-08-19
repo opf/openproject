@@ -54,6 +54,8 @@ vi:
         position: Position
         presenter: Người trình bày
         title: tiêu đề
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: đã tham dự
         invited: Đã mời

@@ -499,6 +499,7 @@ uk:
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
@@ -1628,7 +1629,7 @@ uk:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -3042,16 +3043,11 @@ uk:
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
         set_with_diff: Поле «%{field}» налаштовано (%{link})
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
@@ -3088,14 +3084,14 @@ uk:
       dates_changed: Дати змінено
       default_attribute_written: Атрибути лише для читання записано
       import: Імпортовано
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Обчислення прогресу оновлено
       status_changed: Статус «%{status_name}»
       system_update: Оновлення системи OpenProject
@@ -3986,7 +3982,6 @@ uk:
         invalid_type: Не знайдено жодного типу з назвою %{type} в проекті %{project}.
         no_project_context: Виклик макросу create_work_package_link із зовнішнього контексту проекту.
       link_name: Новий пакет робіт
-      link_name_type: Новий %{type_name}
     errors:
       missing_or_invalid_parameter: Відсутній або неприпустимий параметр макросу.
     include_wiki_page:
@@ -5434,6 +5429,7 @@ uk:
   setting_default_language: Мова за замовчуванням
   setting_default_projects_modules: Включені по замовчуванню модулі для нових проектів
   setting_default_projects_public: Нові проекти є загальнодоступними
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Відображається максимальна кількість рядків diff
   setting_disable_password_login: Вимкнути автентифікацію за допомогою пароля
   setting_display_subprojects_work_packages: Дисплей підпроекти пакети робіт на основні проекти за замовчуванням
@@ -6213,6 +6209,13 @@ uk:
         actions:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Disabled
         exclusions:
