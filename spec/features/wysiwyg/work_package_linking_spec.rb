@@ -53,7 +53,7 @@ RSpec.describe "Wysiwyg work package linking", :js, :selenium do
       expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.id}")
 
       # Save wiki page
-      click_on "Create"
+      click_on "Save"
 
       expect_flash(message: "Successful creation.")
 
@@ -65,7 +65,7 @@ RSpec.describe "Wysiwyg work package linking", :js, :selenium do
     it "renders double hash work package references as quickinfo macros when editing" do
       editor.set_markdown "###{work_package.id}"
 
-      click_on "Create"
+      click_on "Save"
 
       expect_flash(message: "Successful creation.")
 

@@ -109,13 +109,10 @@ module AllMeetings
         )
 
         attendee_from_event = attendee(event)
-        status = partstat(attendee_from_event)
+        response.participation_status = partstat(attendee_from_event)
+        response.comment = comment(attendee_from_event, event)
 
-        if status.present?
-          response.participation_status = status
-          response.comment = comment(attendee_from_event, event)
-          response.save!
-        end
+        response.save!
       end
 
       ServiceResult.success
@@ -137,9 +134,7 @@ module AllMeetings
     end
 
     def partstat(attendee)
-      return nil if attendee.blank?
-
-      attendee.ical_params["partstat"]&.first&.downcase
+      attendee.ical_params["partstat"].first.downcase
     end
 
     def comment(attendee, event)
@@ -156,12 +151,10 @@ module AllMeetings
     def update_participation_status(meeting, event)
       attendee_from_event = attendee(event)
 
-      status = partstat(attendee_from_event)
-
-      if status.present?
+      if attendee_from_event.present?
         participant = meeting.participants.find_by!(user: user)
         participant.update!(
-          participation_status: status,
+          participation_status: partstat(attendee_from_event),
           comment: comment(attendee_from_event, event)
         )
       else

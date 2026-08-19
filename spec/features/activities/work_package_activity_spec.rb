@@ -52,16 +52,23 @@ RSpec.describe "Work package activity", :js do
 
   current_user { admin }
 
-  # speed up the polling interval from 10s to 1s for the test duration
-  context "when the progress values are changed",
-          with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+  context "when the progress values are changed" do
     before do
+      # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS from 10s to 1s
+      # to speed up the polling interval for test duration
+      # TODO: Redefine interval as a setting?
+      ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+
       parent_page.visit!
       popover.open
       popover.set_values(work: "100", remaining_time: "5")
       popover.save
       parent_page.expect_and_dismiss_toaster(message: "Successful update.")
       parent_page.wait_for_activity_tab
+    end
+
+    after do
+      ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
     end
 
     it "displays changed attributes in the activity tab" do

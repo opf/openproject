@@ -58,7 +58,7 @@ RSpec.describe "Wysiwyg bold behavior", :js do
         editor.click_and_type_slowly "some text ", bold_keystroke, "with bold"
 
         # Save wiki page
-        click_on "Create"
+        click_on "Save"
 
         expect_flash(message: "Successful creation.")
 

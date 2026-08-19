@@ -29,9 +29,15 @@
 #++
 
 class Setting
+  # Single gate for the "multiple (target) versions" feature: active only when
+  # both the user-facing setting and the experimental feature flag are enabled.
+  # Call sites (views, contracts, services) should ask this predicate rather than
+  # reading either gate directly, so the phased rollout (adding the admin switch,
+  # then dropping the flag) only ever touches this method.
   module WorkPackageMultipleVersions
     def self.active?
-      Setting.work_package_multiple_versions?
+      Setting.work_package_multiple_versions? &&
+        OpenProject::FeatureDecisions.work_package_multiple_versions_active?
     end
   end
 end

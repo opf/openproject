@@ -35,16 +35,16 @@ RSpec.describe CustomActions::Conditions::Type do
     let(:key) { :type }
 
     describe "#allowed_values" do
-      it "is the list of all types, labelled by their composite name" do
-        root = build_stubbed(:type, name: "Task")
-        sub = build_stubbed(:type, name: "Bug", parent: root)
+      it "is the list of all types" do
+        types = [build_stubbed(:type),
+                 build_stubbed(:type)]
         allow(Type)
-          .to receive(:preload)
-          .and_return([root, sub])
+          .to receive(:select)
+          .and_return(types)
 
         expect(instance.allowed_values)
-          .to eql([{ value: root.id, label: "Task" },
-                   { value: sub.id, label: "Task: Bug" }])
+          .to eql([{ value: types.first.id, label: types.first.name },
+                   { value: types.last.id, label: types.last.name }])
       end
     end
 

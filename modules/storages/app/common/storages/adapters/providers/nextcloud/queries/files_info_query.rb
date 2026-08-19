@@ -53,7 +53,7 @@ module Storages
 
             def files_info(http, file_ids)
               response = http.post(UrlBuilder.url(@storage.uri, FILES_INFO_PATH), json: { fileIds: file_ids })
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(source: self.class, payload: response)
 
               case response
               in { status: 200..299 }
@@ -63,7 +63,7 @@ module Storages
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error)
+                Failure(error.with(code: :error))
               end
             end
 

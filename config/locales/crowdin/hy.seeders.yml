@@ -504,20 +504,6 @@ hy:
           name: Օգտատիրոջ պատմություն
         item_6:
           name: Վրիպակ
-      global_queries:
-        item_0:
-          name: Էպիկի դուստր տարրեր՝ օգտատիրոջ պատմություններ և վրիպակներ
-        item_1:
-          name: Օգտատիրոջ պատմության դուստր տարրեր՝ առաջադրանքներ
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: Օգտատիրոջ պատմություններ և վրիպակներ
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Առաջադրանքներ
       welcome:
         title: Բարի գալուստ OpenProject
         text: |

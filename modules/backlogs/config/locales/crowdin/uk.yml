@@ -50,7 +50,6 @@ uk:
         story_points: Сторі-поінти
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Щоб запустити спринт, необхідно вказати дату початку й завершення.
         must_be_in_planning: має бути на етапі планування, перш ніж його можна буде почати.
         only_one_active_sprint_allowed: дозволяється лише один активний спринт для кожного проєкту.
@@ -61,11 +60,9 @@ uk:
               locked_by_multiple_active_sprints: не можна змінювати, поки запущено кілька активних спринтів.
               requires_no_sharing: 'можна вмикати, лише якщо для спринту вибрано таке налаштування спільного доступу: «Не надавати доступ».'
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: не можна змінювати, поки ввімкнено кілька активних спринтів.
               share_all_projects_already_taken: не можна налаштувати, оскільки проєкт «%{name}» уже надає спільний доступ усім проєктам.
               share_all_projects_already_taken_anonymous: не можна налаштувати, оскільки інший проєкт вже надає спільний доступ усім проєктам.
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: використовує спринти, до яких надано доступ. Власні спринти створювати не можна.
         sprint:
           attributes:
@@ -164,7 +161,6 @@ uk:
     label_burndown_chart: Діаграма згорання завдань
     label_is_done_status: Стан %{status_name} означає виконано
     label_sprint_board: Дошка спринту
-    label_sprint_report: Звіт про спринт
     move_to_bucket_dialog_component:
       title: Перемістити в сегмент беклогу
     move_to_sprint_dialog_component:
@@ -196,7 +192,6 @@ uk:
       label_start_sprint: Почати спринт
       start_sprint_disabled_reason_active_sprint: Інший спринт уже розпочато.
       start_sprint_disabled_reason_missing_dates: Щоб запустити спринт, необхідно вказати дату початку й завершення.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: Це спринт з іншого проєкту, який не підтримує використання кількох активних спринтів.
     sprint_form:
       goal_caption: Ціль спринту є унікальною для цього проєкту й не поширюється на інші проєкти, що використовують той самий спринт.
@@ -204,15 +199,6 @@ uk:
     sprint_form_component:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
       shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
-    sprint_reports:
-      page_header_component:
-        breadcrumb: Звіт
-        title: Звіт про %{sprint}
-    sprints:
-      row_component:
-        action_menu:
-          edit_sprint: Змінити спринт
-          sprint_report: Звіт про спринт
     sprints_component:
       blankslate:
         create_and_manage_description_html: Щоб почати планувати спринт, створіть його тут або перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.

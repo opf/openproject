@@ -46,7 +46,6 @@ class Reports::VersionReport < Reports::Report
   end
 
   def title
-    attribute = Setting::WorkPackageMultipleVersions.active? ? :target_version : :version
-    @title ||= WorkPackage.human_attribute_name(attribute)
+    @title ||= WorkPackage.human_attribute_name(:version)
   end
 end

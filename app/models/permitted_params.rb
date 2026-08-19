@@ -571,6 +571,7 @@ class PermittedParams
           :done_ratio,
           :due_date,
           :estimated_hours,
+          :version_id,
           { target_version_ids: [] },
           :budget_id,
           :parent_id,
@@ -593,14 +594,14 @@ class PermittedParams
           :journal_notes,
           :lock_version
         ],
-        move_work_package: [
-          :assigned_to_id,
-          :responsible_id,
-          :start_date,
-          :due_date,
-          :status_id,
-          { target_version_ids: [] },
-          :priority_id
+        move_work_package: %i[
+          assigned_to_id
+          responsible_id
+          start_date
+          due_date
+          status_id
+          version_id
+          priority_id
         ],
         oauth_application: [
           :name,

@@ -639,26 +639,6 @@ RSpec.describe WorkPackage::SemanticIdentifier do
     end
   end
 
-  describe ".sequence_number_from_identifier" do
-    it "extracts the sequence number from a valid semantic identifier" do
-      expect(described_class.sequence_number_from_identifier("MYPROJ-42")).to eq(42)
-    end
-
-    it "tolerates a prefix containing digits and underscores" do
-      expect(described_class.sequence_number_from_identifier("A1_B2-7")).to eq(7)
-    end
-
-    it "raises ArgumentError for a blank identifier" do
-      expect { described_class.sequence_number_from_identifier(nil) }
-        .to raise_error(ArgumentError, /not a valid semantic identifier/)
-    end
-
-    it "raises ArgumentError for a malformed identifier" do
-      expect { described_class.sequence_number_from_identifier("MYPROJ-abc") }
-        .to raise_error(ArgumentError, /not a valid semantic identifier/)
-    end
-  end
-
   describe ".format_display_id" do
     it "returns the semantic identifier unchanged when it carries letters" do
       expect(described_class.format_display_id("MYPROJ-1")).to eq("MYPROJ-1")

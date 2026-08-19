@@ -117,24 +117,16 @@ module Backlogs
       work_packages.filter_map(&:story_points).sum
     end
 
-    # Starting a sprint can be blocked by three independent rules:
-    # - `project` is set to receive shared sprints and `sprint` is one of its
-    #   own (see StartContract) - unconditionally, regardless of
-    #   allow_multiple_active_sprints
+    # Starting a sprint can be blocked by two independent rules, each gated by
+    # its own project's allow_multiple_active_sprints setting:
     # - the project that actually owns `sprint` already has another active
     #   sprint of its own (the DB-level uniqueness constraint), even if that
-    #   other sprint isn't shared with (and is thus invisible to) `project`,
-    #   unless the owner allows multiple active sprints
+    #   other sprint isn't shared with (and is thus invisible to) `project`
     # - `project` (the project this component is rendered for) already shows
     #   another active sprint on its board - native or shared, as long as it's
-    #   visible here, unless `project` allows multiple active sprints
+    #   visible here
     def project_is_allowed_to_activate_sprint?
-      !owned_sprint_blocked_by_receiving? &&
-        owner_allows_another_active_sprint? && project_allows_another_active_sprint?
-    end
-
-    def owned_sprint_blocked_by_receiving?
-      sprint.owned_by?(project) && project.receive_shared_sprints?
+      owner_allows_another_active_sprint? && project_allows_another_active_sprint?
     end
 
     def owner_allows_another_active_sprint?
@@ -158,9 +150,7 @@ module Backlogs
     def start_sprint_disabled_reason
       return unless disable_start_sprint_action?
 
-      if owned_sprint_blocked_by_receiving?
-        t(".start_sprint_disabled_reason_receiving_shared_sprints")
-      elsif !sprint.date_range_set?
+      if !sprint.date_range_set?
         t(".start_sprint_disabled_reason_missing_dates")
       elsif sprint.owned_by?(project) || project_has_another_active_visible_sprint?
         t(".start_sprint_disabled_reason_active_sprint")
@@ -191,12 +181,7 @@ module Backlogs
     end
 
     def show_burndown_link?
-      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active?
-    end
-
-    def show_report_link?
-      OpenProject::FeatureDecisions.sprint_reports_active? &&
-        user_allowed?(:view_sprints)
+      sprint.active?
     end
 
     def can_open_edit_dialog?

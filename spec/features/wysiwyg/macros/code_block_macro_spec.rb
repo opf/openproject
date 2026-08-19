@@ -75,7 +75,7 @@ RSpec.describe "Wysiwyg code block macro", :js, :selenium do
           expect(container).to have_css(".op-uc-code-block--language", text: "ruby", count: 2)
         end
 
-        click_on "Create"
+        click_on "Save"
         expect_and_dismiss_flash(message: "Successful creation.")
 
         # Expect output widget
@@ -107,7 +107,7 @@ RSpec.describe "Wysiwyg code block macro", :js, :selenium do
 
           expect(container).to have_css(".op-uc-code-block", text: "asdf")
 
-          click_on "Create"
+          click_on "Save"
           expect_and_dismiss_flash(message: "Successful creation.")
 
           wp = WikiPage.last
@@ -153,7 +153,7 @@ RSpec.describe "Wysiwyg code block macro", :js, :selenium do
         end
 
         # Save wiki page
-        click_on "Create"
+        click_on "Save"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 

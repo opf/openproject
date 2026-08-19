@@ -1,30 +1,32 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
+/*
+ * -- copyright
+ * openproject is an open source project management software.
+ * copyright (c) the openproject gmbh
+ *
+ * this program is free software; you can redistribute it and/or
+ * modify it under the terms of the gnu general public license version 3.
+ *
+ * openproject is a fork of chiliproject, which is a fork of redmine. the copyright follows:
+ * copyright (c) 2006-2013 jean-philippe lang
+ * copyright (c) 2010-2013 the chiliproject team
+ *
+ * this program is free software; you can redistribute it and/or
+ * modify it under the terms of the gnu general public license
+ * as published by the free software foundation; either version 2
+ * of the license, or (at your option) any later version.
+ *
+ * this program is distributed in the hope that it will be useful,
+ * but without any warranty; without even the implied warranty of
+ * merchantability or fitness for a particular purpose.  see the
+ * gnu general public license for more details.
+ *
+ * you should have received a copy of the gnu general public license
+ * along with this program; if not, write to the free software
+ * foundation, inc., 51 franklin street, fifth floor, boston, ma  02110-1301, usa.
+ *
+ * see copyright and license files for more details.
+ * ++
+ */
 
 import { HocuspocusProvider, onAwarenessUpdateParameters, onStatelessParameters } from '@hocuspocus/provider';
 import * as Turbo from '@hotwired/turbo';

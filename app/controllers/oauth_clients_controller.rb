@@ -147,7 +147,7 @@ class OAuthClientsController < ApplicationController
   def extract_error_messages(error)
     error = error.to_active_model_errors if error.respond_to?(:to_active_model_errors)
 
-    if error.is_a?(SimpleError)
+    if error.is_a?(::Wikis::Adapters::Results::Error)
       ["An unexpected error occurred: #{error.code}, #{error.source}"]
     else
       error.map(&:full_message)

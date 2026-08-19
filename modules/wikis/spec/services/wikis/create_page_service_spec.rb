@@ -103,7 +103,7 @@ module Wikis
     end
 
     context "when auth strategy fails" do
-      let(:token_error) { SimpleError.new(source: self, code: :missing_token) }
+      let(:token_error) { Adapters::Results::Error.new(source: self, code: :missing_token) }
 
       before do
         allow(provider).to receive(:auth_strategy_for)
@@ -119,7 +119,7 @@ module Wikis
 
     context "when the create page command fails" do
       let(:command_error) do
-        SimpleError.new(source: Adapters::Providers::XWiki::Commands::CreatePage, code: :not_found)
+        Adapters::Results::Error.new(source: Adapters::Providers::XWiki::Commands::CreatePage, code: :not_found)
       end
 
       before do

@@ -1,89 +1,26 @@
 .op-draggable-autocomplete
   &--selected
-    position: relative
     display: flex
     flex-wrap: wrap
     padding-bottom: 1rem
-    padding-inline-end: 6px
-
-    // Container-append cue: an accent line in the list's inline-end padding
-    // while the sortable-lists engine flags this root as the active drop
-    // container (data-drop-container="active"), meaning the drag would
-    // append at the end of the list rather than land next to a chip.
-    &[data-drop-container]::after
-      content: ''
-      position: absolute
-      top: 0
-      bottom: 1rem
-      inset-inline-end: 0
-      width: 2px
-      background: var(--fgColor-accent)
-      pointer-events: none
-      z-index: 1
 
   &--item
-    position: relative
     padding: 5px
     margin-right: 5px
     margin-bottom: 5px
     min-width: 50px
     border: 1px solid var(--borderColor-default)
     background: var(--button-default-bgColor-rest)
-    cursor: grab
-    user-select: none
+    cursor: move
     display: flex
     align-items: center
     justify-content: space-between
 
-    &:active
-      cursor: grabbing
-
-    &[data-dragging]
-      opacity: 0.4
-
-    // Drop indicator: a vertical accent line on the left/right edge of the
-    // chip the dragged item would be inserted next to. Driven by the
-    // data-drop-position host attribute of the sortable-lists item directive.
-    &[data-drop-position]::after
-      content: ''
-      position: absolute
-      top: 0
-      bottom: 0
-      width: 2px
-      background: var(--fgColor-accent)
-      pointer-events: none
-      z-index: 1
-
-    &[data-drop-position="left"]::after
-      left: -4px
-
-    &[data-drop-position="right"]::after
-      right: -4px
-
-  // Colors and the round hover target are borrowed from Primer's Token remove
-  // button, so the action reads as its own target rather than part of the
-  // chip's drag surface.
   &--remove-item
-    display: inline-flex
-    align-items: center
-    justify-content: center
-    width: 16px
-    height: 16px
-    margin-inline-start: 5px
-    padding: 0
-    border: none
-    border-radius: var(--borderRadius-full)
-    background: transparent
-    color: var(--fgColor-muted)
+    font-size: 8px
+    color: #999
+    padding-left: 5px
     cursor: pointer
-
-    &:hover,
-    &:focus-visible
-      background-color: var(--control-transparent-bgColor-hover)
-      color: var(--fgColor-default)
-
-    &:active
-      background-color: var(--control-transparent-bgColor-active)
 
 // Hack to allow the ng-select dropdown bound to this id to be positioned correctly.
 // The ng-select needs to be bound to the id because the component is currently used in a modal.

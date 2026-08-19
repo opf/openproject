@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,7 +45,7 @@ describe('APIv3Service', () => {
     service = TestBed.inject(ApiV3Service);
   });
 
-  function encodeParams(object:Record<string, string>) {
+  function encodeParams(object:any) {
     return new URLSearchParams(object).toString();
   }
 
@@ -59,7 +59,7 @@ describe('APIv3Service', () => {
     it('should provide a path to work package query on subject or ID', () => {
       let params = {
         filters: '[{"typeahead":{"operator":"**","values":["bogus"]}}]',
-        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+        sortBy: '[["updatedAt","desc"]]',
         offset: '1',
         pageSize: '10',
       };
@@ -68,7 +68,7 @@ describe('APIv3Service', () => {
 
       params = {
         filters: '[{"id":{"operator":"=","values":["1234"]}}]',
-        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+        sortBy: '[["updatedAt","desc"]]',
         offset: '1',
         pageSize: '10',
       };

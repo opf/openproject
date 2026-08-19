@@ -58,7 +58,6 @@ module OpenProject::Backlogs
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
-                     "backlogs/sprint_reports": :show,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
@@ -242,8 +241,6 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
-      require "open_project/backlogs/hooks/work_package_hook"
-
       %i[position story_points sprint backlog_bucket].each do |attribute|
         ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end

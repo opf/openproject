@@ -154,7 +154,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         context "with semantic work package identifiers",
                 with_settings: { work_packages_identifier: "semantic" } do
           let(:work_package) do
-            build_stubbed(:work_package, bcf_issue: bcf_topic, identifier: "PROJ-7")
+            build_stubbed(:work_package, bcf_issue: bcf_topic, identifier: "PROJ-7", sequence_number: 7)
           end
 
           it "uses the semantic identifier in the payload" do

@@ -340,135 +340,6 @@ module Pages
       dismiss_menu(work_package)
     end
 
-    def work_package_card(work_package)
-      find(work_package_card_selector(work_package))
-    end
-
-    # Right-clicks near the card's top-left corner: the offset keeps the
-    # pointer off the subject link and the actions menu button, both of which
-    # keep their native context menu on purpose.
-    def right_click_work_package_card(work_package)
-      work_package_card(work_package).right_click(x: 6, y: 6, offset: :position)
-    end
-
-    # The card's own actions button, right-clicked. It is the one interactive
-    # descendant that does not keep the browser's context menu: the control
-    # whose whole job is to open this menu opens it here too.
-    def right_click_work_package_menu_button(work_package)
-      within_work_package(work_package) do
-        find(:button, accessible_name: "Work package actions").right_click
-      end
-    end
-
-    # Sends keys to whatever currently holds focus. Capybara's
-    # `element.send_keys` focuses its receiver first, which would destroy the
-    # very focus state a menu-dismissal assertion is trying to observe.
-    def send_keys_to_focused_element(*keys)
-      page.driver.browser.action.send_keys(*keys).perform
-    end
-
-    def send_work_package_card_keys(work_package, keys)
-      work_package_card(work_package).send_keys(*keys)
-    end
-
-    def within_work_package_context_menu(work_package, &)
-      within(menu_owner_overlay_selector(work_package)) do
-        yield page.find(:menu)
-      end
-    end
-
-    def expect_no_work_package_context_menu(work_package)
-      expect(page)
-        .to have_no_css(menu_owner_overlay_selector(work_package), visible: :visible)
-    end
-
-    def expect_work_package_card_focused(work_package)
-      expect(page)
-        .to have_css(work_package_card_selector(work_package), focused: true)
-    end
-
-    # The presenter takes the overlay's `anchor` idref away for the duration of
-    # a contextual invocation, so its absence is what distinguishes a menu
-    # opened at the pointer (or on the card) from one opened at the More
-    # button, without measuring pixels.
-    # `page.document` rather than `page`: both are called while the menu is
-    # open, and the More button case runs inside a `within` scoped to the menu
-    # itself, where a plain `page` query would search the menu's descendants.
-    def expect_menu_anchored_contextually(work_package)
-      expect(page.document)
-        .to have_css("#{menu_owner_overlay_selector(work_package)}:not([anchor])")
-    end
-
-    def expect_menu_anchored_at_button(work_package)
-      expect(page.document)
-        .to have_css("#{menu_owner_overlay_selector(work_package)}[anchor]")
-    end
-
-    # Where the open menu sits relative to its card, rounded to whole pixels.
-    # A menu anchored on the card keeps this constant however the page scrolls;
-    # one pinned to a point in the viewport drifts by the scroll distance.
-    def work_package_menu_offset_from_card(work_package)
-      offset = page.evaluate_script(<<~JS)
-        (() => {
-          const overlay = document.querySelector('#{menu_owner_overlay_selector(work_package)}');
-          const card = document.querySelector('#{work_package_card_selector(work_package)}');
-
-          if (!overlay || !card) { return null; }
-
-          const overlayRect = overlay.getBoundingClientRect();
-          const cardRect = card.getBoundingClientRect();
-
-          return {
-            top: Math.round(overlayRect.top - cardRect.top),
-            left: Math.round(overlayRect.left - cardRect.left)
-          };
-        })()
-      JS
-
-      raise "No open menu for work package #{work_package.id}" if offset.nil?
-
-      offset.symbolize_keys
-    end
-
-    # Scrolls whatever actually scrolls this card — the window on a short page,
-    # an overflowing ancestor otherwise — and answers how far the card moved in
-    # viewport space, direction ignored, so a caller can tell a real scroll from
-    # a silent no-op on a page that never overflowed.
-    def scroll_past_work_package_card(work_package, distance:)
-      page.evaluate_script(<<~JS)
-        (() => {
-          const card = document.querySelector('#{work_package_card_selector(work_package)}');
-          const before = card.getBoundingClientRect().top;
-
-          let scroller = document.scrollingElement;
-
-          for (let node = card.parentElement; node; node = node.parentElement) {
-            const overflowY = getComputedStyle(node).overflowY;
-
-            if (/(auto|scroll)/.test(overflowY) && node.scrollHeight > node.clientHeight) {
-              scroller = node;
-              break;
-            }
-          }
-
-          // Whichever direction has room: opening the menu scrolls the card
-          // into view, which may already have the scroller at one end, and
-          // scrolling further that way is a silent no-op.
-          const room = scroller.scrollHeight - scroller.clientHeight;
-          const target = scroller.scrollTop + #{distance} <= room
-            ? scroller.scrollTop + #{distance}
-            : scroller.scrollTop - #{distance};
-
-          // Explicitly instant: a scroll container inheriting
-          // `scroll-behavior: smooth` would animate the change, and the rect
-          // read below would still see the old position.
-          scroller.scrollTo({ top: Math.max(0, target), behavior: 'instant' });
-
-          return Math.abs(Math.round(before - card.getBoundingClientRect().top));
-        })()
-      JS
-    end
-
     def click_in_work_package_menu(work_package, item_name, wait: true)
       within_work_package_menu(work_package) do |submenu|
         wait_for_turbo_stream(wait:) do
@@ -982,20 +853,6 @@ module Pages
       test_selector("work-package-#{work_package.id}")
     end
 
-    # `.op-work-package-card` is the class the card component itself owns;
-    # `.Box-card` is a Primer modifier it happens to compose today, so it is
-    # not something a Backlogs page object should be matching on.
-    def work_package_card_selector(work_package)
-      "#{work_package_selector(work_package)} .op-work-package-card"
-    end
-
-    # Generic over every menu owner `dismiss_menu` handles (sprint, bucket,
-    # work package): `dom_target` needs nothing work-package-specific, so this
-    # is the one place that convention lives.
-    def menu_owner_overlay_selector(menu_owner)
-      "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
-    end
-
     def draggable_work_package_selector(work_package)
       "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
     end
@@ -1070,8 +927,22 @@ module Pages
 
       scroll_backlogs_source_into_view(source)
 
-      target_x, target_y = selenium_target_point(target.native.rect, edge:)
-      perform_native_drag(source:, target_x:, target_y:)
+      source_rect = source.native.rect
+      target_rect = target.native.rect
+      target_x, target_y = selenium_target_point(target_rect, edge:)
+      source_x, source_y = selenium_element_center(source_rect)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold(source.native)
+        .pause(duration: 0.1)
+        .move_by(target_x - source_x, target_y - source_y)
+        .pause(duration: 0.1)
+        .release
+        .perform
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -1093,6 +964,13 @@ module Pages
         else
           rect.y + (rect.height / 2)
         end
+      ].map(&:round)
+    end
+
+    def selenium_element_center(rect)
+      [
+        rect.x + (rect.width / 2),
+        rect.y + (rect.height / 2)
       ].map(&:round)
     end
 
@@ -1411,7 +1289,8 @@ module Pages
     end
 
     def dismiss_menu(menu_owner)
-      selector = menu_owner_overlay_selector(menu_owner)
+      overlay_id = "#{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
+      selector = "##{overlay_id}"
 
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)

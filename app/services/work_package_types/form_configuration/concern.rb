@@ -44,10 +44,8 @@ module WorkPackageTypes
       attr_reader :type,
                   :user
 
-      # `type` here is the member whose form configuration is being edited, so the reads below
-      # take its own groups on purpose — resolving a variant would edit the wrong member.
       def active_groups
-        type.attribute_groups.reject { |group| group.key.to_s == "__empty" } # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
+        type.attribute_groups.reject { |group| group.key.to_s == "__empty" }
       end
 
       def find_group(group_key)
@@ -55,7 +53,7 @@ module WorkPackageTypes
       end
 
       def find_attribute_group(group_key)
-        type.attribute_groups.find do |group| # rubocop:disable OpenProject/UseEffectiveTypeForConfiguration
+        type.attribute_groups.find do |group|
           group.group_type == :attribute && group_identifier_match?(group, group_key)
         end
       end

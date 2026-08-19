@@ -118,37 +118,45 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
   end
 
   def render_relation_group(title:, relation_group:, &)
-    render(
-      OpenProject::Common::BorderBoxListComponent.new(
-        container: "op-relation-group-#{relation_group.type}",
-        padding: :condensed,
-        test_selector: "op-relation-group-#{relation_group.type}"
-      )
-    ) do |list|
+    render(border_box_container(
+             padding: :condensed,
+             data: { test_selector: "op-relation-group-#{relation_group.type}" }
+           )) do |border_box|
       if relation_group.type.child? && should_render_add_child?
-        render_children_header(list, title, relation_group.count)
+        render_children_header(border_box, title, relation_group.count)
       else
-        render_header(list, title, relation_group.count)
+        render_header(border_box, title, relation_group.count)
       end
 
-      render_items(list, relation_group.all_relation_items, &)
+      render_items(border_box, relation_group.all_relation_items, &)
     end
   end
 
-  def render_header(list, title, count)
-    list.with_header(title:, count:, py: 3, title_arguments: { font_size: :normal })
+  def render_header(border_box, title, count)
+    border_box.with_header(py: 3) do
+      concat render(Primer::Beta::Text.new(mr: 2, font_size: :normal, font_weight: :bold)) { title }
+      concat render(Primer::Beta::Counter.new(count:, round: true, scheme: :primary))
+    end
   end
 
-  def render_children_header(list, title, count)
-    list.with_header(title:, count:, py: 3, title_arguments: { font_size: :normal }) do |header|
-      header.with_menu(menu_id: ADD_CHILD_ACTION_MENU) do |menu|
-        menu.with_show_button do |button|
-          button.with_leading_visual_icon(icon: :plus)
-          button.with_trailing_action_icon(icon: :"triangle-down")
-          t("work_package_relations_tab.label_add_child_button")
+  def render_children_header(border_box, title, count) # rubocop:disable Metrics/AbcSize
+    border_box.with_header(py: 3) do
+      flex_layout(justify_content: :space_between, align_items: :center) do |header|
+        header.with_column(mr: 2) do
+          concat render(Primer::Beta::Text.new(mr: 2, font_size: :normal, font_weight: :bold)) { title }
+          concat render(Primer::Beta::Counter.new(count:, round: true, scheme: :primary))
         end
+        header.with_column do
+          render(Primer::Alpha::ActionMenu.new(menu_id: ADD_CHILD_ACTION_MENU)) do |menu|
+            menu.with_show_button do |button|
+              button.with_leading_visual_icon(icon: :plus)
+              button.with_trailing_action_icon(icon: :"triangle-down")
+              t("work_package_relations_tab.label_add_child_button")
+            end
 
-        render_add_relations_menu_items(menu, ADD_CHILD_MENU_TYPES)
+            render_add_relations_menu_items(menu, ADD_CHILD_MENU_TYPES)
+          end
+        end
       end
     end
   end
@@ -207,11 +215,11 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
     I18n.t("#{I18N_NAMESPACE}.relations.#{relation_type}_description")
   end
 
-  def render_items(list, relation_items)
+  def render_items(border_box, relation_items)
     relation_items.each do |relation_item|
       relation = relation_item.relation || relation_item.related
       visibility = relation_item.visibility
-      list.with_item(
+      border_box.with_row(
         test_selector: row_test_selector(relation, visibility),
         data: data_attribute(relation)
       ) do

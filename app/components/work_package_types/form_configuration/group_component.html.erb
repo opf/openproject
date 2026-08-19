@@ -41,8 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
             first: first?,
             last: last?,
             edit_mode: edit_mode?,
-            form_model: @form_model,
-            readonly: readonly?
+            form_model: @form_model
           )
         )
       end
@@ -52,13 +51,11 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
               group: @group,
-              ee_available: ee_available?,
-              readonly: readonly?,
-              exclusions: @exclusions
+              ee_available: ee_available?
             )
           )
         end
-      elsif attributes.empty? && !readonly?
+      elsif attributes.empty?
         box.with_row(data: { "empty-list-item": true }) do
           flex_layout(align_items: :center) do |empty_row|
             empty_row.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
@@ -69,29 +66,24 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         end
-      elsif !attributes.empty?
+      else
         attributes.each_with_index do |attribute, index|
-          row_data = if readonly?
-                       {}
-                     else
-                       {
-                         attr_key: attribute[:key],
-                         attr_translation: attribute[:translation],
-                         attr_is_cf: attribute[:is_cf],
-                         "draggable-id": attribute[:key],
-                         "draggable-type": "attribute",
-                         "drop-url": row_drop_path(attribute)
-                       }
-                     end
-          box.with_row(data: row_data) do
+          box.with_row(
+            data: {
+              attr_key: attribute[:key],
+              attr_translation: attribute[:translation],
+              attr_is_cf: attribute[:is_cf],
+              "draggable-id": attribute[:key],
+              "draggable-type": "attribute",
+              "drop-url": row_drop_path(attribute)
+            }
+          ) do
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
                 type: @type,
                 index:,
-                total_count: attributes.length,
-                readonly: readonly?,
-                exclusions: @exclusions
+                total_count: attributes.length
               )
             )
           end

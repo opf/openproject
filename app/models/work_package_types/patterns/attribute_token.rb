@@ -32,8 +32,8 @@ module WorkPackageTypes
   module Patterns
     AttributeToken = Data.define(:key, :label_fn, :resolve_fn, :formatter) do
       def label_with_context
-        attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
-        I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label: label)
+        attribute_context = I18n.t("types.edit.subject_configuration.token.context.#{context}")
+        I18n.t("types.edit.subject_configuration.token.label_with_context", attribute_context:, attribute_label: label)
       end
 
       def label(*)

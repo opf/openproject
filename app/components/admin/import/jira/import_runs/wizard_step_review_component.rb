@@ -33,25 +33,11 @@ module Admin::Import::Jira::ImportRuns
     include OpPrimer::ComponentHelpers
     include Admin::Import::Jira::ImportRunsHelper
 
-    def imported_stats
+    def imported_data
       [
-        stat_entry(:projects, imported_projects.count, url: imported_projects_url),
-        stat_entry(:work_packages, imported_work_packages.count, url: imported_work_packages_url),
-        stat_entry(:users_and_groups, imported_users_and_groups.count),
-        stat_entry(:other_settings, imported_other_settings.count)
+        { label: projects_label(imported_projects.count), checked: true, url: imported_projects_url },
+        { label: work_packages_label(imported_work_packages.count), checked: true, url: imported_work_packages_url }
       ].compact
-    end
-
-    def stat_entry(key, value, url: nil)
-      return if value.zero?
-
-      scope = "admin.jira.run.wizard.sections.import_result.stats.#{key}"
-      {
-        label: I18n.t(:"#{scope}.label"),
-        value:,
-        subtitle: I18n.t(:"#{scope}.subtitle"),
-        url:
-      }
     end
 
     def imported_projects
@@ -85,16 +71,6 @@ module Admin::Import::Jira::ImportRuns
         project_ids = imported_projects.pluck(:op_entity_id).map(&:to_s)
         helpers.work_packages_path(query_props: { f: [{ n: "project", o: "=", v: project_ids }] }.to_json)
       end
-    end
-
-    def imported_users_and_groups
-      @imported_users_and_groups ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: %w[User Group], uses_existing: false)
-    end
-
-    def imported_other_settings
-      @imported_other_settings ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: %w[Type Status IssuePriority WorkPackageCustomField], uses_existing: false)
     end
   end
 end

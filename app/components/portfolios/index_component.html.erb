@@ -3,17 +3,33 @@
     flex_layout do |index_container|
       index_container.with_row do
         render(
-          OpenProject::Common::BorderBoxListComponent.new(
-            container: "op-portfolios--portfolios",
-            position: :relative,
+          border_box_container(
             mb: 4,
-            test_selector: "op-portfolios--portfolios"
+            data: {
+              "test-selector": "op-portfolios--portfolios"
+            }
           )
-        ) do |list|
+        ) do |component|
+          if portfolios.empty?
+            component.with_row do
+              render(
+                Primer::Beta::Text.new(
+                  data: {
+                    "test-selector": "op-portfolios--portfolios-placeholder"
+                  }
+                )
+              ) do
+                I18n.t(:no_results_title_text)
+              end
+            end
+          end
+
           portfolios.each do |portfolio|
-            list.with_item(
+            component.with_row(
               classes: "portfolio",
-              test_selector: "op-portfolios--portfolio-#{portfolio.id}"
+              data: {
+                test_selector: "op-portfolios--portfolio-#{portfolio.id}"
+              }
             ) do
               render(Portfolios::DetailsComponent.new(portfolio:, current_user: @current_user))
             end

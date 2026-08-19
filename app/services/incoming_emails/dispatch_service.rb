@@ -286,8 +286,6 @@ module IncomingEmails
       options[:allow_override] << :status unless options[:issue].has_key?(:status)
       # Version overridable by default
       options[:allow_override] << :version unless options[:issue].has_key?(:version)
-      # Target versions follow the same rule as the deprecated single version
-      options[:allow_override] << :target_versions unless options[:issue].has_key?(:target_versions)
       # Type overridable by default
       options[:allow_override] << :type unless options[:issue].has_key?(:type)
       # Priority overridable by default

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -118,18 +118,6 @@ describe('sortable lists drag preview', () => {
       expect(preview.style.width).toEqual('320px');
       expect(preview.hasAttribute('data-preview')).toBe(true);
       expect(preview.hasAttribute('data-controller')).toBe(false);
-    });
-
-    it('zeroes the clone margin so source spacing utilities render no whitespace', () => {
-      const target = withWidth(previewTarget(), 320);
-      target.classList.add('mt-3');
-      const container = document.createElement('div');
-
-      renderDragPreview({ previewTarget: target, sourceElement: target, container });
-
-      const preview = container.firstElementChild as HTMLElement;
-
-      expect(preview.style.margin).toEqual('0px');
     });
 
     it('leaves the width unset when the preview target has no measured width', () => {

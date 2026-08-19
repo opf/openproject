@@ -49,7 +49,7 @@ module Storages
             def http_options = { headers: { "Accept" => "application/json" } }.deep_merge(ocs_api_request_headers)
 
             def handle_response(response)
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(source: self.class, payload: response)
 
               case response
               in { status: 200..299 }
@@ -59,7 +59,7 @@ module Storages
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error)
+                Failure(error.with(code: error))
               end
             end
 
@@ -68,7 +68,7 @@ module Storages
                 file_name = file_info.name
                 return Success(file_name) if file_name.present?
 
-                Failure(SimpleError.new(source: self.class, payload: file_info, code: :not_found))
+                Failure(Results::Error.new(source: self.class, payload: file_info, code: :not_found))
               end
             end
 

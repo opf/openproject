@@ -237,27 +237,4 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
       expect(deleted_item.work_package_id).to be_nil
     end
   end
-
-  describe "copying a recurring series occurrence as a one-time meeting" do
-    shared_let(:recurring_meeting) { create(:recurring_meeting, project:, author: user) }
-    let(:meeting) do
-      create(:recurring_meeting_occurrence,
-             recurring_meeting:,
-             project:)
-    end
-
-    # Simulate a series occurrence being copied as a one-time meeting
-    let(:attributes) { { recurring_meeting_id: nil } }
-
-    it "creates a valid one-time meeting without the recurrence metadata" do
-      expect(meeting).to be_recurring
-      expect(meeting.recurrence_start_time).to be_present
-
-      expect(service_result).to be_success
-      expect(copy).not_to be_recurring
-      expect(copy.recurring_meeting_id).to be_nil
-      expect(copy.recurrence_start_time).to be_nil
-      expect(copy.template).to be(false)
-    end
-  end
 end

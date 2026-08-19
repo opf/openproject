@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <div class="form--fieldset">
-  <div class="form--fieldset-legend"><%= @report.title %></div>
+  <div class="form--fieldset-legend"><%= @report.report_type %></div>
 
   <%= render partial: "report", locals: { statuses: @statuses,
                                           rows: @rows,

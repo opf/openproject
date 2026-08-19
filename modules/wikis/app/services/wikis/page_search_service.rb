@@ -48,7 +48,7 @@ module Wikis
           ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
         )
       else
-        search_by_query(query)
+        search_by_query(query).fmap { build_result_tree(it) }
       end
     end
 
@@ -73,19 +73,9 @@ module Wikis
     def search_by_query(query)
       Adapters::Input::SearchPages.build(query:).bind do |input_data|
         provider.auth_strategy_for(user).bind do |auth_strategy|
-          matching_pages(input_data:, auth_strategy:).bind do |pages|
-            matching_wikis(input_data:, auth_strategy:).fmap { build_result_tree(pages:, wikis: it) }
-          end
+          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
         end
       end
-    end
-
-    def matching_pages(input_data:, auth_strategy:)
-      provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
-    end
-
-    def matching_wikis(input_data:, auth_strategy:)
-      provider.resolve("queries.search_wikis").call(input_data:, auth_strategy:)
     end
 
     def to_tree_node(page:, enabled:)
@@ -96,24 +86,22 @@ module Wikis
                                                 enabled:)
     end
 
-    def build_result_tree(pages:, wikis:)
+    def build_result_tree(pages)
       root = Adapters::Results::PageSearchTreeNode.new(identifier: "root",
                                                        type: :root,
                                                        name: "root",
                                                        children: [],
                                                        enabled: false)
-      accumulator = { root:, all_nodes: [root] }
 
-      wikis.each { insert_wiki_node(accumulator, it) }
-      pages.each { insert_page_hierarchy(accumulator, it) }
+      tree_construct = pages.reduce({ root:, all_nodes: [root] }) do |acc, page|
+        insert_wiki_node(acc, page.wiki)
+        insert_ancestor_nodes(acc, page)
+        insert_page_node(acc, page)
 
-      root.children
-    end
+        acc
+      end
 
-    def insert_page_hierarchy(accumulator, page_hierarchy)
-      insert_wiki_node(accumulator, page_hierarchy.wiki)
-      insert_ancestor_nodes(accumulator, page_hierarchy)
-      insert_page_node(accumulator, page_hierarchy)
+      tree_construct[:root].children
     end
 
     def insert_wiki_node(accumulator, wiki)

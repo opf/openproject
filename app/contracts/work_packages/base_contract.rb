@@ -46,6 +46,10 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
+    attribute :version_id,
+              permission: :assign_versions do
+      validate_version_is_assignable
+    end
     attribute :target_versions,
               permission: :assign_versions do
       validate_target_versions_are_assignable
@@ -57,7 +61,7 @@ module WorkPackages
 
     validate :validate_no_reopen_on_closed_version
     validate :validate_versions_permission
-    validate :validate_target_versions_length
+    validate :validate_target_versions_and_legacy_version_id
 
     attribute :project_id
 
@@ -139,7 +143,7 @@ module WorkPackages
 
     validates :subject,
               presence: true,
-              unless: -> { model.effective_type&.replacement_pattern_defined_for?(:subject) }
+              unless: -> { model.type&.replacement_pattern_defined_for?(:subject) }
     validates :subject, length: { maximum: 255 }
 
     validates :due_date,
@@ -388,6 +392,12 @@ module WorkPackages
       end
     end
 
+    def validate_version_is_assignable
+      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
+        errors.add :version_id, :inclusion
+      end
+    end
+
     # Only user-requested overrides need the permission; system-initiated
     # overrides (e.g. clearing versions not shared with the project the work
     # package is moved to) are exempt, like change_by_system attributes.
@@ -410,13 +420,31 @@ module WorkPackages
       model.override_observed_in_versions? && !model.system_version_override?("observed_in")
     end
 
-    # target_versions behaves as a single value while the multiple-versions feature is disabled
+    # While the deprecated single version_id column coexists with target_versions,
+    # the two must not contradict each other. This enforces both constraints of
+    # that transitional period in one place:
+    #   * target_versions behaves as a single value (at most one entry) unless the
+    #     multiple-versions feature is enabled, and
+    #   * version_id and target_versions may both be written in one request as
+    #     long as they agree; only an actual contradiction is rejected.
+    def validate_target_versions_and_legacy_version_id
+      return unless model.override_target_versions?
+
+      validate_target_versions_length
+      validate_version_and_target_version_not_contradict
+    end
+
     def validate_target_versions_length
       return if Setting::WorkPackageMultipleVersions.active?
-      return unless model.override_target_versions?
 
       if model.target_version_ids_replacements.length > 1
         errors.add :base, :target_versions_only_allow_single_value
+      end
+    end
+
+    def validate_version_and_target_version_not_contradict
+      if model.version_id_changed? && model.version_id != model.target_version_ids_replacements.first
+        errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end
 
@@ -565,9 +593,7 @@ module WorkPackages
     end
 
     def validate_no_reopen_on_closed_version
-      return unless model.effective_target_versions.any?(&:closed?)
-
-      if model.reopened?
+      if model.version_id && model.reopened? && model.version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
       end
     end
@@ -738,18 +764,16 @@ module WorkPackages
     end
 
     def closed_version_and_status?(status = model.status)
-      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
+      model.version&.closed? && status.is_closed?
     end
 
     def new_statuses_by_workflow(status)
-      return Status.none unless model.type
-
-      workflows = model.effective_type
-                       .workflows
-                       .from_status(status.id,
-                                    user_roles.map(&:id),
-                                    author: user_is_author?,
-                                    assignee: user_was_or_is_assignee?)
+      workflows = Workflow
+                  .from_status(status.id,
+                               model.type_id,
+                               user_roles.map(&:id),
+                               user_is_author?,
+                               user_was_or_is_assignee?)
 
       Status.where(id: workflows.select(:new_status_id))
     end
@@ -782,7 +806,7 @@ module WorkPackages
     def auto_generated_attributes_writable? = false
 
     def auto_generated_attribute_names
-      model.effective_type&.enabled_patterns.to_h.keys.map(&:to_s)
+      (model.type && model.type.enabled_patterns&.keys&.map(&:to_s)) || []
     end
   end
 end

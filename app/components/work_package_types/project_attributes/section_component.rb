@@ -17,34 +17,35 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field_section:, project_custom_fields:, linked: false, exclusion_state: nil)
-        super()
+      def initialize(type:, project_custom_field_section:, project_custom_fields:)
+        super
 
         @type = type
         @project_custom_field_section = project_custom_field_section
         @project_custom_fields = project_custom_fields
-        @linked = linked
-        @exclusion_state = exclusion_state
       end
 
       private
 
-      attr_reader :linked, :exclusion_state
-
       def enable_all_path
-        bulk_path(:enable_all_of_section)
+        enable_all_of_section_type_project_attributes_path(
+          @type,
+          project_custom_field_type_mapping: bulk_action_params
+        )
       end
 
       def disable_all_path
-        bulk_path(:disable_all_of_section)
+        disable_all_of_section_type_project_attributes_path(
+          @type,
+          project_custom_field_type_mapping: bulk_action_params
+        )
       end
 
-      def bulk_path(action)
-        send(
-          :"#{action}_type_project_attributes_path",
-          @type,
-          project_custom_field_type_mapping: { type_id: @type.id, custom_field_section_id: @project_custom_field_section.id }
-        )
+      def bulk_action_params
+        {
+          type_id: @type.id,
+          custom_field_section_id: @project_custom_field_section.id
+        }
       end
 
       def wrapper_uniq_by

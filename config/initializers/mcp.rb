@@ -32,11 +32,9 @@ MCP.configure do |config|
   config.exception_reporter = lambda do |exception, server_context|
     cause = exception.cause
     message = "Unhandled exception occured during MCP request: #{exception}"
-    message += if cause
-                 ", caused by #{cause} at #{cause.backtrace.first}"
-               else
-                 " at #{exception.backtrace.first}"
-               end
+    if cause
+      message += ", caused by #{cause} at #{cause.backtrace.first}"
+    end
 
     Rails.logger.error message
     OpenProject::Appsignal.trace_exception(exception, server_context) if OpenProject::Appsignal.enabled?
@@ -45,28 +43,17 @@ MCP.configure do |config|
 end
 
 Rails.application.config.after_initialize do
-  McpTools.register McpTools::CreateWorkPackage,
-                    McpTools::CreateWorkPackageComment,
-                    McpTools::CreateWorkPackageRelation,
-                    McpTools::CurrentUser,
-                    McpTools::DeleteWorkPackageRelation,
+  McpTools.register McpTools::CurrentUser,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
-                    McpTools::ListWorkPackageComments,
-                    McpTools::ListWorkPackageRelations,
-                    McpTools::SearchCustomFields,
-                    McpTools::SearchCustomFieldItems,
                     McpTools::SearchPortfolios,
                     McpTools::SearchPrograms,
                     McpTools::SearchProjects,
                     McpTools::SearchUsers,
                     McpTools::SearchVersions,
-                    McpTools::SearchWorkPackages,
-                    McpTools::UpdateWorkPackage,
-                    McpTools::UpdateWorkPackageRelation
+                    McpTools::SearchWorkPackages
 
   McpResources.register McpResources::CurrentUser,
-                        McpResources::CustomField,
                         McpResources::Project,
                         McpResources::Status,
                         McpResources::StatusList,

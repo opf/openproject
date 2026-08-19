@@ -46,14 +46,14 @@ module HealthReports
 
     attr_reader :i18n_scope
 
-    def summary_scheme(check_tally)
+    def summary_icon(check_tally)
       case check_tally
       in { failure: 1.. }
-        :critical
+        { icon: :alert, color: :danger }
       in { warning: 1.. }
-        :warning
+        { icon: :alert, color: :attention }
       else
-        :success
+        { icon: :"check-circle", color: :success }
       end
     end
 

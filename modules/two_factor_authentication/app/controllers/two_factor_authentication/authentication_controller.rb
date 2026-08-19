@@ -46,6 +46,7 @@ module ::TwoFactorAuthentication
       session[:authenticated_user_force_2fa] = service.needs_registration?
 
       if service.needs_registration?
+        flash[:info] = I18n.t("two_factor_authentication.forced_registration.required_to_add_device")
         redirect_to new_forced_2fa_device_path
       elsif !service.requires_token?
         complete_stage_redirect

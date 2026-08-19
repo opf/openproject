@@ -159,6 +159,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
   end
 
   context "with the target versions column",
+          with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
     let(:version_one) { create(:version, project:, name: "1.0") }
     let(:version_two) { create(:version, project:, name: "2.0") }
@@ -185,25 +186,6 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       loaded = instance.work_packages.to_a
 
       expect { loaded.each { it.target_versions.map(&:name) } }.to have_a_query_limit(0)
-    end
-  end
-
-  context "with the deprecated version column (multiple versions feature off)",
-          with_settings: { work_package_multiple_versions: false } do
-    let(:version_one) { create(:version, project:, name: "1.0") }
-    let!(:work_package) do
-      create(:work_package, project:, type: type_a, version: version_one)
-    end
-    let(:options) { {} }
-    let(:query) do
-      create(:query, project:, user:, column_names: %i(subject version))
-    end
-
-    it "exports the version name from the target_versions data" do
-      headers, values = CSV.parse instance.export!.content
-      pairs = headers.zip(values).to_h
-
-      expect(pairs["Version"]).to eq "1.0"
     end
   end
 

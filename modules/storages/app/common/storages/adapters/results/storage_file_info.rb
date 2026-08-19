@@ -74,10 +74,13 @@ module Storages
         def to_storage_file = StorageFile.build(**to_h, created_by_name: owner_name)
 
         def clean_location
-          return nil if location.nil?
-          return location if location.starts_with? "/"
+          return if location.nil?
 
-          "/#{location}"
+          if location.starts_with? "/"
+            CGI.unescape(location)
+          else
+            CGI.unescape("/#{location}")
+          end
         end
 
         def self.from_id(file_id)

@@ -32,28 +32,23 @@
 
       <div
         class="op-draggable-autocomplete--selected"
-        opSortableLists
-        opSortableListsAxis="horizontal"
-        (opSortableListsDrop)="reorder($event)"
+        dragula="columns"
+        [(dragulaModel)]="selectedOptions"
         >
-        @for (item of selectedOptions; track item.id) {
-          <div
-            class="op-draggable-autocomplete--item"
-            [opSortableListsItem]="item.id"
-          >
+        @for (item of selectedOptions; track item) {
+          <div class="op-draggable-autocomplete--item">
             <span
               class="op-draggable-autocomplete--item-text"
               [textContent]="item.name"
             ></span>
             @if (isRemovable(item)) {
-              <button
-                type="button"
+              <div
+                tabindex="0"
                 (click)="remove(item)"
-                class="op-draggable-autocomplete--remove-item"
-                [attr.aria-label]="removeLabel(item)"
-              >
-                <svg octicon icon="x" size="xsmall" aria-hidden="true"></svg>
-              </button>
+                (keydown.enter)="remove(item)"
+                (keydown.space)="remove(item)"
+                class="op-draggable-autocomplete--remove-item icon-remove"
+              ></div>
             }
           </div>
         }

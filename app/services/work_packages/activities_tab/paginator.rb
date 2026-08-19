@@ -159,7 +159,6 @@ class WorkPackages::ActivitiesTab::Paginator
     case filter
     when Filters::ONLY_COMMENTS then apply_comments_only_filter(visible_journals)
     when Filters::ONLY_CHANGES then apply_changes_only_filter(with_changesets(visible_journals))
-    when Filters::HIDE_MEETINGS then with_changesets(visible_journals.without_meeting_causes)
     else with_changesets(visible_journals)
     end
   end
@@ -225,7 +224,7 @@ class WorkPackages::ActivitiesTab::Paginator
   end
 
   def visible_journals
-    work_package.journals.internal_visible.meeting_cause_visible
+    work_package.journals.internal_visible
   end
 
   def locate_anchor_by_sequence_version(sequence_version)

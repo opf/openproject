@@ -592,9 +592,9 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to eql(status)
         end
 
-        it "sets the target version" do
-          expect(subject.target_versions)
-            .to contain_exactly(version)
+        it "sets the version" do
+          expect(subject.version)
+            .to eql(version)
         end
 
         it "sets the estimated_hours" do
@@ -954,7 +954,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         it "assigns the status to the created work package" do
           expect(subject.status).to eq(status)
-          expect(subject.target_versions).to contain_exactly(version)
+          expect(subject.version).to eq(version)
           expect(subject.priority).to eq priority_low
         end
       end
@@ -1206,7 +1206,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           expect(subject.subject).to eq("New ticket with full attributes")
           expect(subject.type).to eq(feature_type)
           expect(subject.status).to eq(resolved_status)
-          expect(subject.target_versions).to contain_exactly(version)
+          expect(subject.version).to eq(version)
           expect(subject.priority).to eq(urgent_priority)
           expect(subject.assigned_to).to eq(user)
           expect(subject.responsible).to eq(user)
@@ -1231,7 +1231,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.subject).to eq("Neues Arbeitspaket")
             expect(subject.type).to eq(feature_type)
             expect(subject.status).to eq(resolved_status)
-            expect(subject.target_versions).to contain_exactly(version)
+            expect(subject.version).to eq(version)
             expect(subject.priority).to eq(urgent_priority)
             expect(subject.assigned_to).to eq(user)
             expect(subject.responsible).to eq(user)
@@ -1241,94 +1241,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.remaining_hours).to eq(10.5)
             expect(subject.category).to eq(stock_category)
           end
-        end
-      end
-    end
-
-    context "when setting target versions from keywords" do
-      let(:permissions) { %i[add_work_packages edit_work_packages view_work_packages assign_versions] }
-      let!(:user) do
-        create(:user,
-               mail: "JSmith@somenet.foo",
-               firstname: "John",
-               lastname: "Smith",
-               member_with_permissions: { project => permissions })
-      end
-      let!(:alpha) { create(:version, name: "alpha", project:) }
-      let!(:beta) { create(:version, name: "beta", project:) }
-
-      context "when the multiple-versions feature is enabled",
-              with_settings: { work_package_multiple_versions: true } do
-        subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
-
-        it "assigns every named target version" do
-          expect(subject.target_versions)
-            .to contain_exactly(alpha, beta)
-        end
-
-        it "removes the keyword from the description" do
-          expect(subject.description)
-            .not_to match(/^Target versions:/i)
-        end
-      end
-
-      context "when the multiple-versions feature is disabled",
-              with_settings: { work_package_multiple_versions: false } do
-        context "with a single named version" do
-          subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
-
-          it "assigns the target version" do
-            expect(subject.target_versions)
-              .to contain_exactly(alpha)
-          end
-        end
-
-        context "with several named versions" do
-          subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
-
-          it "is refused by the single-value rule rather than silently dropped" do
-            expect(subject)
-              .not_to be_persisted
-            expect(subject.errors.symbols_for(:base))
-              .to include(:target_versions_only_allow_single_value)
-          end
-        end
-      end
-
-      context "when both version and target versions keywords are present",
-              with_settings: { work_package_multiple_versions: true } do
-        subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: "onlinestore" }) }
-
-        it "lets the target versions keyword win" do
-          expect(subject.target_versions)
-            .to contain_exactly(beta)
-        end
-
-        it "removes both keywords from the description" do
-          expect(subject.description)
-            .not_to match(/^Version:/i)
-          expect(subject.description)
-            .not_to match(/^Target versions:/i)
-        end
-      end
-
-      context "when replying to a work package that already has target versions" do
-        let!(:work_package) do
-          create(:work_package, project:).tap do |wp|
-            wp.work_package_versions.create!(version_id: alpha.id, kind: "target")
-            wp.work_package_versions.create!(version_id: beta.id, kind: "target")
-          end
-        end
-
-        before do
-          allow(WorkPackage).to receive(:find_by).with(id: 555).and_return(work_package)
-        end
-
-        it "replaces the whole target version set with the named version" do
-          submit_email("wp_reply_setting_version.eml", issue: { project: "onlinestore" })
-
-          expect(work_package.reload.target_versions)
-            .to contain_exactly(alpha)
         end
       end
     end

@@ -134,9 +134,9 @@ ru:
   permission_delete_bcf: Удалить задачи BCF
   permission_manage_bcf: Импорт и управление проблемами BCF
   permission_manage_bcf_explanation: |
-    Позволяет решать проблемы BCF, включая массовый импорт и обновления.
-    BCF импортирует файлы метаданных в ресурсы проекта и может создавать или обновлять пакеты работ
-    и комментарии, используя значения автора и метки времени из импортируемого файла, эффективно действует от имени пользователей.
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
   permission_manage_ifc_models: Импорт моделей IFC и управление ими
   permission_view_ifc_models: Просмотр моделей IFC
   permission_view_linked_issues: Просмотр проблем BCF

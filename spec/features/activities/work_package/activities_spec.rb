@@ -429,13 +429,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
   end
 
   context "when multiple users are commenting on a workpackage" do
-    # speed up the polling interval to 1s for the test duration
-    context "when the user has permissions to see internal comments",
-            with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+    context "when the user has permissions to see internal comments" do
       current_user { admin }
       let(:work_package) { create(:work_package, project:, author: admin) }
 
       before do
+        # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+        # to speed up the polling interval for test duration
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+
         # for some reason the journal is set to the "Anonymous"
         # although the work_package is created by the admin
         # so we need to update the journal to the admin manually to simulate the real world case
@@ -443,6 +445,10 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         wp_page.visit!
         wp_page.wait_for_activity_tab
+      end
+
+      after do
+        ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
       end
 
       it "shows the comment of another user without browser reload" do
@@ -478,13 +484,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
     end
 
-    # speed up the polling interval to 1s for the test duration
-    context "when the user does not have permissions to see internal comments",
-            with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+    context "when the user does not have permissions to see internal comments" do
       current_user { member }
       let(:work_package) { create(:work_package, project:, author: admin) }
 
       before do
+        # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+        # to speed up the polling interval for test duration
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+
         # for some reason the journal is set to the "Anonymous"
         # although the work_package is created by the admin
         # so we need to update the journal to the admin manually to simulate the real world case
@@ -492,6 +500,10 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         wp_page.visit!
         wp_page.wait_for_activity_tab
+      end
+
+      after do
+        ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
       end
 
       it "does not show the comment of another user if they don't have permissions to see it" do
@@ -1206,12 +1218,14 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
     end
 
-    # speed up the polling interval to 1s for the test duration
-    context "when sorting set to asc",
-            with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+    context "when sorting set to asc" do
       let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
 
       before do
+        # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+        # to speed up the polling interval for test duration
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+
         wp_page.visit!
         wp_page.wait_for_activity_tab
       end
@@ -1325,9 +1339,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
   end
 
-  # speed up the polling interval to 1s for the test duration
-  describe "work package attribute updates",
-           with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+  describe "work package attribute updates" do
     let(:work_package) { create(:work_package, project:, author: admin) }
 
     let!(:first_comment_by_member) do
@@ -1338,6 +1350,13 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
     before do
       work_package.update!(subject: "Subject before update")
+      # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+      # to speed up the polling interval for test duration
+      ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+    end
+
+    after do
+      ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
     end
 
     it "shows the updated work package attribute without reload" do
@@ -1415,10 +1434,18 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
   end
 
-  # speed up the polling interval to 1s for the test duration
-  describe "conflict handling",
-           with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
+  describe "conflict handling" do
     let(:work_package) { create(:work_package, project:, author: admin) }
+
+    before do
+      # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+      # to speed up the polling interval for test duration
+      ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+    end
+
+    after do
+      ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
+    end
 
     it "raises a conflict warning when the work package is updated by another user while the current user is editing" do
       using_session(:admin) do

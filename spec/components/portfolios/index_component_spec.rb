@@ -52,15 +52,13 @@ RSpec.describe Portfolios::IndexComponent, type: :component do
 
   describe "Portfolios" do
     context "when the query returns a result" do
-      it_behaves_like "rendering Box", row_count: 2, header: false
-
-      it "renders a row per portfolio", :aggregate_failures do
-        expect(rendered_component).to have_css(".Box-row.portfolio", text: portfolio_a.name)
-        expect(rendered_component).to have_css(".Box-row.portfolio", text: portfolio_b.name)
+      it "renders a list" do
+        expect(subject).to have_test_selector("op-portfolios--portfolio-#{portfolio_a.id}")
+        expect(subject).to have_test_selector("op-portfolios--portfolio-#{portfolio_b.id}")
       end
 
-      it "renders no empty state once portfolios exist" do
-        expect(rendered_component).to have_no_css(".blankslate")
+      it "does not render a placeholder" do
+        expect(subject).not_to have_test_selector("op-portfolios--portfolios-placeholder")
       end
     end
 
@@ -69,11 +67,13 @@ RSpec.describe Portfolios::IndexComponent, type: :component do
       let!(:portfolio_a) { create(:project) }
       let!(:portfolio_b) { create(:project) }
 
-      it_behaves_like "rendering an empty Border Box List",
-                      heading: I18n.t(:label_nothing_display), header: false
+      it "does not render a list" do
+        expect(subject).not_to have_test_selector("op-portfolios--portfolio-#{portfolio_a.id}")
+        expect(subject).not_to have_test_selector("op-portfolios--portfolio-#{portfolio_b.id}")
+      end
 
-      it "does not render a portfolio row" do
-        expect(rendered_component).to have_no_css(".Box-row.portfolio")
+      it "renders a placeholder" do
+        expect(subject).to have_test_selector("op-portfolios--portfolios-placeholder")
       end
     end
   end

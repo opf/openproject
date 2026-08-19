@@ -25,7 +25,7 @@
   <% end %>
 
   <div class="op-step-wizard-footer--actions-right">
-    <%= render(Primer::Beta::Button.new(tag: :a, href: cancel_href)) { I18n.t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: types_path)) { I18n.t(:button_cancel) } %>
 
     <%= render(
           Primer::Beta::Button.new(

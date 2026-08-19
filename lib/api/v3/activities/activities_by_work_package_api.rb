@@ -45,7 +45,6 @@ module API
             journals = @work_package
               .journals
               .internal_visible
-              .meeting_cause_visible
               .includes(:data,
                         :customizable_journals,
                         :attachable_journals,

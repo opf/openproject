@@ -4,7 +4,6 @@
 
 - `./src/` - Frontend code
   - `./src/app/` - Legacy Angular modules/components
-  - `./src/common/` - Framework-agnostic modules (the `core-common` alias), importable from both Angular and Stimulus. Code belongs here when it depends on neither framework and both sides need it; a helper only Stimulus controllers use belongs in `./src/stimulus/helpers/` instead.
   - `./src/stimulus/` - Stimulus controllers
   - `./src/turbo/` - Turbo integration
 

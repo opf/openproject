@@ -51,7 +51,7 @@ module Wikis
           token = OAuthClientToken.for_user_and_client(@user, @provider.oauth_client).first
           return Success(token) if token
 
-          Failure(SimpleError.new(source: self.class, code: :missing_token))
+          Failure(Results::Error.new(source: self.class, code: :missing_token))
         end
       end
     end

@@ -40,14 +40,8 @@ RSpec.describe WorkPackage::Exports::Formatters::TargetVersions do
       expect(described_class.apply?(:target_versions, :xls)).to be true
     end
 
-    it "returns true for the deprecated :version column, exporting the same data" do
-      expect(described_class.apply?(:version, :pdf)).to be true
-      expect(described_class.apply?(:version, :csv)).to be true
-      expect(described_class.apply?(:version, :xls)).to be true
-    end
-
     it "returns false for other attributes" do
-      expect(described_class.apply?(:subject, :pdf)).to be false
+      expect(described_class.apply?(:version, :pdf)).to be false
     end
   end
 

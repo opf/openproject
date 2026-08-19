@@ -37,9 +37,7 @@ id:
           accessible_gate: 'Phase gate %{name}: %{date}'
           accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
         subprojects:
           title: Subitem
         time_entries_current_user:

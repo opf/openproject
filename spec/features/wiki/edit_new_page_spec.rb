@@ -41,7 +41,7 @@ RSpec.describe "Editing a new wiki page", :js do
   it "allows creating a wiki page from link" do
     visit project_wiki_path(project, id: :foobar)
     expect(page).to have_field "page_title", with: "Foobar"
-    click_on "Create"
+    click_on "Save"
 
     expect_flash(message: "Successful creation.", wait: 10)
   end

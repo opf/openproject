@@ -70,7 +70,6 @@ module Backlogs
         current_user:,
         interactive: true,
         scheme: :transparent,
-        empty_state_behavior: :dynamic,
         **@system_arguments
       )
     end

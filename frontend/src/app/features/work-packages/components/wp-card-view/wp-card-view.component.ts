@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild, OnDestroy, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -60,21 +32,8 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import type {
-  SortableListsDropEvent,
-  SortableListsRemovedEvent,
-} from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
-
-export interface WorkPackageAddedResult {
-  /**
-   * Whether the handler itself persisted this work package's membership in
-   * the target query. Action boards do; free boards rely on ordered work
-   * package persistence for membership.
-   */
-  membershipPersisted:boolean;
-}
 
 @Component({
   selector: 'wp-card-view',
@@ -107,19 +66,9 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public dragInto:boolean;
 
-  /** Stable list id for callers managing more than one card view under a shared root (e.g. boards) */
-  @Input() public listId?:string;
-
   @Input() public highlightingMode:CardHighlightingMode;
 
-  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<WorkPackageAddedResult>;
-
-  /**
-   * Whether this list's order IS its membership, as on a free board. A failed
-   * order removal then leaves the card in both queries for real, so the source
-   * side must show that rather than keep its optimistic removal.
-   */
-  @Input() public orderIsMembership = false;
+  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
 
   @Input() public showStatusButton = true;
 
@@ -148,11 +97,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public trackByHref = trackByHrefAndProperty('lockVersion');
-
-  private static nextListId = 0;
-
-  /** Default list id when the caller (e.g. wp-grid) does not pass one via `listId` */
-  private readonly internalListId = `wp-card-view-list-${WorkPackageCardViewComponent.nextListId += 1}`;
 
   public query:QueryResource;
 
@@ -216,6 +160,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   ngAfterViewInit() {
     this.cardDragDrop.init(this);
 
+    // Register Drag & Drop only on desktop
+    if (!this.deviceService.isMobile) {
+      this.cardDragDrop.registerDragAndDrop();
+    }
+
     // Register event handlers for the cards
     const registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
     if (registry instanceof CardViewHandlerRegistry) {
@@ -255,24 +204,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   async onCardSaved(wp:WorkPackageResource) {
     await this.cardDragDrop.onCardSaved(wp);
-  }
-
-  /** Desktop-only, gated by the caller's drag-out check and never for an unsaved (new) card */
-  public itemCanDrag = (wp:WorkPackageResource):boolean => !this.deviceService.isMobile && this.canDragOutOf(wp) && !isNewResource(wp);
-
-  public acceptsDrops = ():boolean => this.dragInto;
-
-  public handleDrop(event:SortableListsDropEvent):void {
-    this.cardDragDrop.handleDrop(event);
-  }
-
-  public handleRemoved(event:SortableListsRemovedEvent):void {
-    this.cardDragDrop.handleRemoved(event);
-  }
-
-  /** Falls back to a stable per-instance id when the caller does not manage more than one list */
-  public get resolvedListId():string {
-    return this.listId ?? this.internalListId;
   }
 
   public classes() {

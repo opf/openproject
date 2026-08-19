@@ -90,7 +90,7 @@ RSpec.describe "Wiki unicode title spec", :js do
 
     # Set value
     find(".ck-content").base.send_keys(wiki_body)
-    click_button "Create"
+    click_button "Save"
 
     expect(page).to have_test_selector("wiki-page-header-title", text: "Wiki")
     expect(page).to have_css("a.wiki-page", count: 5)

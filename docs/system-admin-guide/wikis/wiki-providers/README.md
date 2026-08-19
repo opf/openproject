@@ -1,20 +1,20 @@
 ---
 sidebar_navigation:
-  title: External wiki providers
+  title: Wiki providers
   priority: 100
 description: External wiki providers for OpenProject
 keywords: wikis, xwiki, wiki integration, wiki provider, external wiki
 ---
 
-# External wiki providers
+# Wiki providers
 
 OpenProject lets you connect external wiki providers to your instance, making wiki content available throughout
 OpenProject.
 
-To manage external wiki providers, navigate to **Administration → Wikis → External wiki providers**. This page lists
-all configured providers. Click **+ Wiki provider** to add a new provider from the list of supported options.
+To manage wiki providers, navigate to **Administration → Wikis → Wiki providers**. This page lists all configured
+providers. Click **+ Wiki provider** to add a new provider from the list of supported options.
 
-![External wiki providers administration page](openproject_system_guide_wikis_wiki_providers.png)
+![Wiki providers administration page](openproject_system_guide_wikis_wiki_providers.png)
 
 Once configured, a wiki provider is available across your entire OpenProject instance.
 

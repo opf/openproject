@@ -32,14 +32,8 @@ module Backlogs::Sprints
   class StartContract < ::BaseContract
     validate :validate_permission
     validate :validate_status_in_planning
-
-    # The in_planning status is already validated. If it's not in_planning,
-    # stop running the rest of validations in order to avoid stacking error messages.
-    with_options if: -> { model.in_planning? } do
-      validate :validate_dates_present
-      validate :validate_only_one_active_sprint, unless: -> { model.allow_multiple_active_sprints? }
-      validate :validate_not_receiving_shared_sprints
-    end
+    validate :validate_dates_present
+    validate :validate_only_one_active_sprint, unless: -> { model.allow_multiple_active_sprints? }
 
     def self.can_start_or_complete?(user:, sprint:)
       user.allowed_in_project?(:start_complete_sprint, sprint.project)
@@ -65,24 +59,17 @@ module Backlogs::Sprints
     end
 
     def validate_dates_present
+      return unless model.in_planning?
       return if model.start_date? && model.finish_date?
 
       errors.add :base, :dates_required
     end
 
     def validate_only_one_active_sprint
-      return if Sprint.for_project(model.project).active.where.not(id: model.id).none?
+      return unless model.in_planning?
+      return unless Sprint.where(project: model.project).active.where.not(id: model.id).exists?
 
       errors.add :status, :only_one_active_sprint_allowed
-    end
-
-    # A project's own sprints shouldn't be started if the project is set to receive sprints.
-    # Ignoring the multiple active sprints settings, because that is available only when
-    # the project is not sharing sprints.
-    def validate_not_receiving_shared_sprints
-      return unless model.project.receive_shared_sprints?
-
-      errors.add :status, :cannot_start_while_receiving_shared_sprints
     end
   end
 end

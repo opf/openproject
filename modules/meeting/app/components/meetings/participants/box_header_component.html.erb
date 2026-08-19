@@ -1,0 +1,31 @@
+<%=
+  flex_layout(align_items: :center, justify_content: :space_between) do |flex|
+    flex.with_column do
+      flex_layout(align_items: :center) do |participants|
+        participants.with_column do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("meeting.participants.label.participants") }
+        end
+        participants.with_column(ml: 2) do
+          render(Primer::Beta::Counter.new(count: @meeting.participants.count, round: true, scheme: :primary))
+        end
+      end
+    end
+
+    if show_mark_all_attended?
+      flex.with_column do
+        render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            scheme: :invisible,
+            href: mark_all_attended_project_meeting_participants_path(@meeting.project, @meeting),
+            align_self: :center,
+            data: { "turbo-method": :post }
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: :"op-people-all-assigned")
+          I18n.t("meeting.participants.label.mark_all_as_attended")
+        end
+      end
+    end
+  end
+%>

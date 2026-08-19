@@ -5,13 +5,10 @@
   @media screen and (min-width: $breakpoint-lg)
     @include extended-content--left
 
-  // Mobile tab layout: full-bleed left too (squished desktop keeps its padding above).
-  #content-body:has(.op-document-view:not(.document-page-layout_desktop-device))
-    padding-left: 0
-
-  // Desktop only: drop the breadcrumb offset (nested header); mobile keeps the default 30px to clear the toggler.
-  #wrapper .hidden-navigation .document-page-layout_desktop-device .PageHeader-contextBar
-    margin-left: 0
+  @media screen and (min-width: $breakpoint-lg)
+    // Do not offset the breadcrumbs within documents as page header is nested within main layout
+    #wrapper .hidden-navigation .PageHeader-contextBar
+      margin-left: 0
 
 .op-document-view
   .PageHeader
@@ -33,42 +30,5 @@
       padding-left: var(--base-size-16, 1rem)
       padding-right: var(--base-size-16, 1rem)
 
-  // Desktop: align the title with the editor body (column base-size-16 + gutter).
-  &--header
-    @media screen and (min-width: $breakpoint-lg)
-      padding-left: calc(var(--base-size-16, 1rem) + #{$blocknote-side-menu-gutter})
-
-  // Narrow desktop: --editor's column padding is min-width-gated, so the body sits on the gutter alone.
-  &.document-page-layout_desktop-device
-    @media screen and (max-width: $breakpoint-lg)
-      .op-document-view--header
-        padding-left: $blocknote-side-menu-gutter
-
-  // Mobile: margin for the title/breadcrumb (the editor body stays full-bleed for a tight "+").
-  &:not(.document-page-layout_desktop-device) .op-document-view--header
-    padding-left: var(--base-size-16, 1rem)
-
-  .document-page-layout--right-content
-    padding-inline: var(--base-size-16, 1rem)
-
-  &:not(.document-page-layout_desktop-device) .document-page-layout--right-content
-    padding-inline: var(--base-size-16, 1rem) 0
-
-  &:not(.document-page-layout_desktop-device) .document-page-layout--right-content:has(op-block-note)
-    padding-inline: 0
-
-  // Notices sit beside the editor, not in it — add the gutter so they line up with the body.
-  &--editor-notice
-    padding-left: $blocknote-side-menu-gutter
-
-  // Mobile: align the notice with the title and tabs' margin, not the editor gutter.
-  &:not(.document-page-layout_desktop-device) .op-document-view--editor-notice
-    padding-left: var(--base-size-16, 1rem)
-
   .UnderlineNav
     padding-left: var(--base-size-16, 1rem)
-
-  // Mobile: tabs flush to the grey baseline (padding 0), bar margin so it's off the screen edge.
-  &:not(.document-page-layout_desktop-device) .UnderlineNav
-    padding-left: 0
-    margin-left: var(--base-size-16, 1rem)

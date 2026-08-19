@@ -39,7 +39,7 @@ FactoryBot.define do
 
     factory :type_with_workflow, class: "Type" do
       callback(:after_build) do |t|
-        t.own_workflows = [build(:workflow_with_default_status)]
+        t.workflows = [build(:workflow_with_default_status)]
       end
     end
 

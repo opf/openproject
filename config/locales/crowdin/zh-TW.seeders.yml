@@ -511,20 +511,6 @@ zh-TW:
           name: 使用者需求
         item_6:
           name: 錯誤
-      global_queries:
-        item_0:
-          name: 'Epic children: User stories and bugs'
-        item_1:
-          name: 'User story children: Tasks'
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: User stories and bugs
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Tasks
       welcome:
         title: 歡迎使用OpenProject
         text: |

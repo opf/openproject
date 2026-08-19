@@ -37,6 +37,8 @@ module WorkPackages
       include WorkPackages::ActivitiesTab::SharedHelpers
       include WorkPackages::ActivitiesTab::StimulusControllers
 
+      DEFAULT_POLLING_INTERVAL_IN_MS = 10_000
+
       def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: Filters::ALL, resolved_anchor: nil)
         super
 
@@ -125,7 +127,9 @@ module WorkPackages
       end
 
       def polling_interval
-        Setting.work_packages_activities_tab_polling_interval_in_ms
+        return DEFAULT_POLLING_INTERVAL_IN_MS unless Rails.env.test?
+
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || DEFAULT_POLLING_INTERVAL_IN_MS
       end
 
       def adding_comment_allowed?

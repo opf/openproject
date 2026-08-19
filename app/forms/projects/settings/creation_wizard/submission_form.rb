@@ -59,12 +59,11 @@ module Projects
             required: true,
             input_width: :large
           ) do |list|
-            # Statuses of the selected WP type, as the project's own variant configures them —
-            # the same member Projects::SettingsContract validates the choice against.
+            # Statuses of the selected WP type
             type_id = model.project_creation_wizard_work_package_type_id
 
             if type_id.present?
-              type = model.effective_type(Type.find_by(id: type_id))
+              type = Type.find_by(id: type_id)
               type&.statuses&.each do |status|
                 list.option(
                   value: status.id,

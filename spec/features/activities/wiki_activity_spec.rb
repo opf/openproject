@@ -53,7 +53,7 @@ RSpec.describe "Wiki Activity", :js do
 
     editor.set_markdown("First content")
 
-    click_button "Create"
+    click_button "Save"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 

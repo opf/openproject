@@ -99,21 +99,27 @@
   &[data-drop-container="refused"]
     outline-color: var(--borderColor-danger-muted)
 
+  // The empty-state row only makes sense while it is alone in the list. Hiding
+  // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
+  // a flicker between the drop and the server render removing it.
+  > .Box-list > .Box-row[data-empty-list-item]:not(:only-child)
+    display: none
+
 .op-border-box-list-header
   display: grid
-  grid-template-columns: minmax(0, 1fr) auto auto auto
-  grid-template-areas: "heading label actions menu" "description description description description"
+  grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
+  grid-template-areas: "heading actions menu" "description description description"
   align-items: center
 
   &_collapsible
-    grid-template-areas: "heading label actions menu"
+    grid-template-areas: "heading actions menu"
 
   &_with-drag-handle
-    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto
-    grid-template-areas: "drag_handle heading label actions menu" ". description description description description"
+    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
+    grid-template-areas: "drag_handle heading actions menu" ". description description description"
     margin-left: calc(-1 * var(--stack-padding-normal))
     &.op-border-box-list-header_collapsible
-      grid-template-areas: "drag_handle heading label actions menu"
+      grid-template-areas: "drag_handle heading actions menu"
 
   &--drag_handle
     align-self: center
@@ -124,51 +130,18 @@
   &--heading
     min-width: 0
 
-  &--label,
   &--actions,
   &--menu
     margin-left: var(--stack-gap-normal)
-
-  &--actions,
-  &--menu
     align-self: flex-start
-
-  &--actions
-    display: flex
-    align-items: center
-    gap: var(--stack-gap-condensed)
-
-  &--label
-    display: flex
-    align-items: center
-    // A label's text is not length-constrained,
-    // so cap it (roughly 35 characters' worth)
-    .Label
-      max-width: 200px
-      @include text-shortener
-
-    @media screen and (max-width: $breakpoint-sm)
-      display: none
 
   &--heading-line
     display: flex
     align-items: center
     gap: var(--stack-gap-condensed)
-    // Reserve the height of a medium control so headers whose action
-    // buttons toggle (e.g. hidden while filtering) keep a stable height.
-    min-height: var(--control-medium-size)
 
     .Box-title
       min-width: 0
-
-    // Let an embedded breadcrumb trail shrink instead of overflowing the row
-    > nav
-      min-width: 0
-
-      // The current crumb stands in for the title, so it carries the
-      // title's weight
-      .breadcrumb-item-selected
-        font-weight: var(--base-text-weight-semibold, 600)
 
   &--description
     margin-top: var(--op-border-box-list-header-row-gap)

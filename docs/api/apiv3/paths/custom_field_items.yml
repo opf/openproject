@@ -1,4 +1,4 @@
-# /api/v3/custom_fields/{id}/items
+# /api/v3/custom_field/{id}/items
 ---
 get:
   summary: Get the custom field hierarchy items
@@ -9,11 +9,11 @@ get:
     The hierarchy is a tree structure of hierarchy items. It is represented as a flat list of items, where each item
     has a reference to its parent and children. The list is ordered in a depth-first manner. The first item is the
     requested parent. If parent was unset, the root item is returned as first element.
-
+    
     Passing the `depth` query parameter allows to limit the depth of the hierarchy. If the depth is unset, the full
     hierarchy tree is returned. If the depth is set to `0`, only the requested parent is returned. Any other positive
     integer will return the number of children levels specified by this value.
-
+    
     This endpoint only returns, if the custom field is of type `hierarchy`.
   parameters:
     - name: id

@@ -34,12 +34,12 @@ module Storages
       module Sharepoint
         class Base
           include TaggedLogging
-          include Dry::Monads::Result(SimpleError)
+          include Dry::Monads::Result(Results::Error)
 
           # @param storage [Storages::SharepointStorage]
           # @param auth_strategy [Result(Input::Strategy)]
           # @param input_data [Data]
-          # @return [Success, Failure(SimpleError)]
+          # @return [Success, Failure(Results::Error)]
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
           end
@@ -72,7 +72,7 @@ module Storages
 
           def request_uri = raise SubclassResponsibilityError
 
-          # @param error [SimpleError]
+          # @param error [Results::Error]
           # @return [void]
           def log_storage_error(error, context = {})
             data = case error.payload

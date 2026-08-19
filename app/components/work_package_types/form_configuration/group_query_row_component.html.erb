@@ -3,7 +3,7 @@
     row.with_column(flex_layout: true, align_items: :center, flex: 1) do |left|
       left.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
       left.with_column(flex: 1) do
-        if ee_available? && !readonly?
+        if ee_available?
           render(
             Primer::Beta::Button.new(
               scheme: :link,
@@ -20,11 +20,7 @@
       end
     end
 
-    if exclusion_toggle.render?
-      row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
-    end
-
-    if ee_available? && !readonly?
+    if ee_available?
       row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(

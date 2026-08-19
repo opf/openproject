@@ -17,40 +17,22 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      ASPECT = Type::ConfigurationLink::PROJECT_ATTRIBUTES
-
-      def initialize(type:, project_custom_field:, linked: false, exclusion_state: nil)
-        super()
+      def initialize(type:, project_custom_field:)
+        super
 
         @type = type
         @project_custom_field = project_custom_field
-        @linked = linked
-        @exclusion_state = exclusion_state
+        @project_custom_field_type_mappings = type.project_custom_field_type_mappings
       end
 
       private
-
-      attr_reader :linked
 
       def wrapper_uniq_by
         @project_custom_field.id
       end
 
-      # Linked mode disables an inherited attribute by excluding it
-      # Independent mode toggles the type's own mapping directly
-      def exclusion_toggle
-        WorkPackageTypes::ExclusionToggleComponent.new(
-          exclusions: @exclusion_state,
-          element_key: @project_custom_field.attribute_name,
-          label: t("types.edit.project_attributes.exclusions.attribute_label", attribute: @project_custom_field.name),
-          aspect: ASPECT,
-          off_label: t("types.edit.project_attributes.disabled"),
-          test_selector: "toggle-type-project-attribute-#{@project_custom_field.id}"
-        )
-      end
-
       def active_for_type?
-        @type.project_custom_field_type_mappings.any? do |mapping|
+        @project_custom_field_type_mappings.any? do |mapping|
           mapping.custom_field_id == @project_custom_field.id
         end
       end

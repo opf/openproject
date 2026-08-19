@@ -50,8 +50,7 @@ module Admin
                 # a single custom field section, and not a list of sections. Calling first?
                 # and last? method in the component will not result in an N+1 in this case.
                 project_custom_field_section:
-              ),
-              method: :morph
+              )
             )
           end
 
@@ -67,8 +66,7 @@ module Admin
             replace_via_turbo_stream(
               component: ::Settings::ProjectCustomFieldSections::IndexComponent.new(
                 project_custom_field_sections:
-              ),
-              method: :morph
+              )
             )
           end
         end

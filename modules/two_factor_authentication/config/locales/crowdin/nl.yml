@@ -126,7 +126,7 @@ nl:
     error_no_device: Geen geregistreerd 2FA-apparaat gevonden voor deze gebruiker, ondanks dat dit vereist is voor dit voorbeeld.
     error_no_matching_strategy: Er is geen overeenkomende 2FA-strategie beschikbaar voor deze gebruiker. Neem contact op met uw beheerder.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Voor een actief beveiligingsbeleid moet u authenticatie met twee factoren inschakelen. Gebruik het volgende formulier om een apparaat te registreren.
     label_2fa_disabled: Twee-factor-authenticatie is niet actief
     label_2fa_enabled: Twee-factor-authenticatie is actief
     label_default_device: Standaard 2FA-apparaat

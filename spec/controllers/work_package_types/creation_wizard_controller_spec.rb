@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes: true } do
   render_views
 
   shared_let(:parent_type) { create(:type, name: "Bug") }
@@ -52,14 +52,14 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     end
 
     describe "POST create" do
-      it "creates the variant and advances to the next step" do
+      it "creates the sub-type and advances to the next step" do
         expect do
           post :create, params: { type: { name: "Critical", parent_id: parent_type.id } }
         end.to change(Type, :count).by(1)
 
-        variant = Type.find_by!(name: "Critical")
-        expect(variant.parent).to eq(parent_type)
-        expect(response).to redirect_to(type_creation_wizard_path(variant, step: :defaults))
+        subtype = Type.find_by!(name: "Critical")
+        expect(subtype.parent).to eq(parent_type)
+        expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
       end
 
       context "with invalid params" do
@@ -73,12 +73,11 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       end
     end
 
-    describe "existing variant" do
-      shared_let(:variant) { create(:type, name: "Critical", parent: parent_type) }
-      shared_let(:role) { create(:project_role) }
+    describe "existing sub-type" do
+      shared_let(:subtype) { create(:type, name: "Critical", parent: parent_type) }
 
       describe "GET show" do
-        before { get :show, params: { type_id: variant.id, step: :projects } }
+        before { get :show, params: { type_id: subtype.id, step: :projects } }
 
         it { expect(response).to have_http_status(:ok) }
 
@@ -90,41 +89,49 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       describe "GET show for every step" do
         WorkPackageTypes::Wizard::Steps.all.each do |step|
           it "renders the #{step} step without error" do
-            get :show, params: { type_id: variant.id, step: }
+            get :show, params: { type_id: subtype.id, step: }
 
             expect(response).to have_http_status(:ok)
           end
         end
       end
 
-      describe "GET show with an unrecognised step" do
-        it "falls back to the first step" do
-          get :show, params: { type_id: variant.id, step: "does-not-exist" }
-
-          expect(assigns(:current_step)).to eq(WorkPackageTypes::Wizard::Steps.first)
-        end
-      end
-
       describe "PATCH update on the details step" do
         it "updates and advances to the next step" do
-          patch :update, params: { type_id: variant.id, step: :details, type: { name: "Blocker" } }
+          patch :update, params: { type_id: subtype.id, step: :details, type: { name: "Blocker" } }
 
-          expect(variant.reload.own_name).to eq("Blocker")
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :defaults))
+          expect(subtype.reload.name).to eq("Blocker")
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
         end
       end
 
       describe "PATCH update on the workflows step" do
-        # The wizard step only advances as the matrix saves via its own turbo endpoint
-        it "advances to the next step" do
-          patch :update, params: { type_id: variant.id, step: :workflows }
+        shared_let(:workflow_source) { create(:type, name: "Task") }
+        shared_let(:status) { create(:status) }
+        shared_let(:role) { create(:project_role) }
+        shared_let(:workflow) do
+          create(:workflow, type: workflow_source, role:, old_status: status, new_status: status)
+        end
 
-          expect(response).to redirect_to(type_creation_wizard_path(variant, step: :projects))
+        it "copies workflows from the chosen source and advances" do
+          expect do
+            patch :update, params: { type_id: subtype.id, step: :workflows,
+                                     type: { copy_workflow_from: workflow_source.id } }
+          end.to change { subtype.reload.workflows.count }.from(0).to(1)
+
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
+        end
+
+        it "advances without copying when no source is chosen" do
+          patch :update, params: { type_id: subtype.id, step: :workflows, type: { copy_workflow_from: "" } }
+
+          expect(subtype.reload.workflows).to be_empty
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
         end
       end
 
       describe "PATCH update on the last step" do
-        before { patch :update, params: { type_id: variant.id, step: WorkPackageTypes::Wizard::Steps.last } }
+        before { patch :update, params: { type_id: subtype.id, step: WorkPackageTypes::Wizard::Steps.last } }
 
         it { expect(response).to redirect_to(types_path) }
 
@@ -143,7 +150,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     end
   end
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
+  context "when the sub-types feature is disabled", with_flag: { subtypes: false } do
     let(:user) { create(:admin) }
 
     describe "GET new" do

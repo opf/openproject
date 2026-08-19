@@ -57,7 +57,7 @@ module WorkPackageTypes
       expect(model.changes).to be_empty
     end
 
-    it "defaults to the UpdateDetailsContract" do
+    it "defaults to the UpdateSettingsContract" do
       params = { patterns: { subject: { blueprint: "{{author}}", enabled: true } } }
 
       result = service.call(params)
@@ -201,6 +201,55 @@ module WorkPackageTypes
         expect(result).to be_failure
         expect(result.errors[:attribute_groups].to_sentence)
           .to eq(I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
+      end
+    end
+
+    context "when adding the type to a project" do
+      let(:projects) { create_list(:project, 2) }
+      let(:active_project) { create(:project) }
+      let(:new_project) { create(:project) }
+      let(:project_ids) do
+        { project_ids: [*[active_project, new_project].map { it.id.to_s }, ""] }
+      end
+      let(:contract_class) { UpdateProjectsContract }
+
+      before do
+        groups = { attribute_groups: [
+          { "type" => "attribute",
+            "name" => "group1",
+            "attributes" => [{ "key" => cf1.attribute_name }, { "key" => cf2.attribute_name }] }
+        ] }
+
+        type.projects << active_project
+        described_class.new(model:, user:, contract_class: UpdateFormConfigurationContract).call(groups)
+      end
+
+      it "enables the custom field on the newly added project" do
+        expect { service.call(project_ids) }.to change { Project.find(new_project.id).work_package_custom_field_ids }
+                                                  .from([]).to([cf1.id, cf2.id])
+      end
+
+      it "does not enable the custom fields on the already added project" do
+        expect { service.call(project_ids) }.not_to change { Project.find(active_project.id).work_package_custom_field_ids }
+                                                      .from([])
+      end
+    end
+
+    context "when removing the type from a project with work packages" do
+      let(:contract_class) { UpdateProjectsContract }
+      let(:project) { create(:project, types: [type]) }
+      let!(:work_package) { create(:work_package, project:, type:) }
+      let(:params) { { project_ids: [] } }
+
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
+
+      it "fails and keeps the type active in the project" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.messages_for(:project_ids))
+          .to contain_exactly(I18n.t(:error_can_not_deactivate_type,
+                                     type: type.name,
+                                     work_packages_link: I18n.t(:label_work_package_plural).downcase))
+        expect(project.reload.types).to include(type)
       end
     end
   end

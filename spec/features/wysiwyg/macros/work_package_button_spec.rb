@@ -86,7 +86,7 @@ RSpec.describe "Wysiwyg work package button spec", :js do
         end
 
         # Save wiki page
-        click_on "Create"
+        click_on "Save"
 
         expect_flash(message: "Successful creation.")
 

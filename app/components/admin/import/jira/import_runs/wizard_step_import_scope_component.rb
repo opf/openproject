@@ -33,8 +33,56 @@ module Admin::Import::Jira::ImportRuns
     include OpPrimer::ComponentHelpers
     include Admin::Import::Jira::ImportRunsHelper
 
+    def import_stats_available
+      [
+        projects_label(available_projects_count),
+        issues_label(available_issues_count),
+        statuses_label(available_statuses_count),
+        types_label(available_types_count),
+        users_label(available_users_count)
+      ].compact.map { |label| { label:, checked: true } }
+    end
+
+    def server_info
+      info = model.available["server_info"]
+      return nil unless info
+
+      render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+        safe_join([
+                    info["serverTitle"],
+                    " ",
+                    info["version"],
+                    " ",
+                    render(Primer::Beta::Link.new(href: model.jira.url, target: "_blank")) do |link|
+                      link.with_trailing_visual_icon(icon: :"link-external")
+                      info["baseUrl"]
+                    end
+                  ])
+      end
+    end
+
     def selected_projects_count
       model.projects&.count || 0
+    end
+
+    def available_projects_count
+      model.available["projects"]&.count
+    end
+
+    def available_issues_count
+      model.available["total_issues"]
+    end
+
+    def available_statuses_count
+      model.available["total_statuses"]
+    end
+
+    def available_types_count
+      model.available["total_issue_types"]
+    end
+
+    def available_users_count
+      model.available["total_users"]
     end
   end
 end

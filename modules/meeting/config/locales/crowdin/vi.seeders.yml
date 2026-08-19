@@ -9,7 +9,7 @@ vi:
         demo-project:
           meeting_series:
             item_0:
-              title: Hàng tuần
+              title: hàng tuần
           meeting_agenda_items:
             item_0:
               title: tin tốt

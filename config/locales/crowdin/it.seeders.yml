@@ -504,20 +504,6 @@ it:
           name: User story
         item_6:
           name: Bug
-      global_queries:
-        item_0:
-          name: 'Elementi subordinati dell''epic: storie utente e bug'
-        item_1:
-          name: 'Elementi subordinati della storia utente: attività'
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: Storie utente e bug
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Attività
       welcome:
         title: Benvenuto su OpenProject!
         text: |

@@ -56,7 +56,7 @@ class Journable::WithHistoricAttributes
       @work_package_ids_of_query_at_timestamp[query][timestamp]
     end
 
-    def load_journal_associations(journalized = journables)
+    def load_custom_values(journalized = journables)
       journal_ids = begin
         journalized.map(&:journal_id)
       rescue NoMethodError
@@ -66,33 +66,16 @@ class Journable::WithHistoricAttributes
               "ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)"
       end
 
-      load_custom_value_associations(journalized, journal_ids)
-      load_target_versions_associations(journalized, journal_ids)
-
-      journalized
-    end
-
-    private
-
-    def load_custom_value_associations(journalized, journal_ids)
       customizable_journals_by_journal_id = load_customizable_journals_by_journal_id(journal_ids)
 
       journalized.each do |work_package|
         customizable_journals = Array(customizable_journals_by_journal_id[work_package.journal_id])
         set_custom_value_association_from_journal!(work_package:, customizable_journals:)
       end
+      journalized
     end
 
-    def load_target_versions_associations(journalized, journal_ids)
-      return unless journalized_class.method_defined?(:target_versions)
-
-      version_journals_by_journal_id = load_version_journals_by_journal_id(journal_ids)
-
-      journalized.each do |work_package|
-        version_journals = Array(version_journals_by_journal_id[work_package.journal_id])
-        set_target_versions_association_from_journal!(work_package:, version_journals:)
-      end
-    end
+    private
 
     def work_package_ids_of_query_at_timestamp_calculation(query, timestamp)
       query = query.dup
@@ -114,7 +97,7 @@ class Journable::WithHistoricAttributes
 
     def journalized_at_timestamp(tms)
       journalized = (currently_invisible_journalized_at_timestamp(tms) + currently_visible_journalized_at_timestamp(tms))
-      load_journal_associations(journalized)
+      load_custom_values(journalized)
     end
 
     def currently_invisible_journalized_at_timestamp(timestamp)
@@ -136,13 +119,6 @@ class Journable::WithHistoricAttributes
         .group_by(&:journal_id)
     end
 
-    def load_version_journals_by_journal_id(journal_ids)
-      Journal::WorkPackageVersionJournal
-        .where(journal_id: journal_ids, kind: "target")
-        .includes(:version)
-        .group_by(&:journal_id)
-    end
-
     def set_custom_value_association_from_journal!(work_package:, customizable_journals:)
       # Build the associated customizable_journals as custom values, this way the historic work packages
       # will behave just as the normal ones. Additionally set the reverse customized association
@@ -153,13 +129,6 @@ class Journable::WithHistoricAttributes
 
       work_package.association(:custom_values).loaded!
       work_package.association(:custom_values).target = historic_custom_values
-    end
-
-    def set_target_versions_association_from_journal!(work_package:, version_journals:)
-      historic_versions = version_journals.filter_map(&:version).sort_by(&:id)
-
-      work_package.association(:target_versions).loaded!
-      work_package.association(:target_versions).target = historic_versions
     end
 
     attr_accessor :journables

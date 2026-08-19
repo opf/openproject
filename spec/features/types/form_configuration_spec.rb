@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "form configuration", :js, :selenium,
-               with_settings: { work_package_multiple_versions: false } do
+RSpec.describe "form configuration", :js, :selenium do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 
@@ -249,25 +248,6 @@ RSpec.describe "form configuration", :js, :selenium,
         find_by_id("work-packages--edit-actions-cancel").click
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
-      end
-
-      context "with multiple versions enabled",
-              with_settings: { work_package_multiple_versions: true } do
-        it "offers target versions in place of the deprecated version" do
-          form.expect_group "details",
-                            "Details",
-                            { key: :category, translation: "Category" },
-                            { key: :date, translation: "Date" },
-                            { key: :priority, translation: "Priority" },
-                            { key: :target_versions, translation: "Target versions" }
-
-          form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
-          form.expect_inactive(:target_versions)
-
-          form.save_changes
-
-          expect(persisted_attribute_order(type, :details)).not_to include("target_versions")
-        end
       end
 
       context "with field format labels" do

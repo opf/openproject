@@ -4,8 +4,12 @@
   ) do |menu|
     menu.with_item(
       label: t("button_copy_link_to_clipboard"),
-      tag: :"clipboard-copy",
-      content_arguments: { value: activity_url(journal) }
+      tag: :button,
+      content_arguments: {
+        data: {
+          action: "click->work-packages--activities-tab--item#copyActivityUrlToClipboard"
+        }
+      }
     ) do |item|
       item.with_leading_visual_icon(icon: :copy)
     end

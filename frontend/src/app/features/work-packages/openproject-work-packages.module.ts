@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -300,9 +300,6 @@ import {
   WorkPackageFormAttributeGroupComponent,
 } from 'core-app/features/work-packages/components/wp-form-group/wp-attribute-group.component';
 import { WorkPackagesGridComponent } from 'core-app/features/work-packages/components/wp-grid/wp-grid.component';
-import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
-import { OpSortableListsListDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-list.directive';
-import { OpSortableListsItemDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
 import {
   WorkPackageSplitViewToolbarComponent,
 } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
@@ -442,10 +439,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
     WorkPackageIsolatedQuerySpaceDirective,
     OpenprojectEnterpriseModule,
-
-    OpSortableListsDirective,
-    OpSortableListsListDirective,
-    OpSortableListsItemDirective,
   ],
   providers: [
     // Notification service
@@ -690,9 +683,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewComponent,
     BackButtonComponent,
     OpWpDatePickerModalComponent,
-
-    // Needed so boards can put its lists under a shared sortable root.
-    OpSortableListsDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -143,7 +143,7 @@ module Storages
             end
 
             def handle_response(response)
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(payload: response, source: self.class)
 
               case response
               in { status: 200 }
@@ -159,7 +159,7 @@ module Storages
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               else
-                Failure(error)
+                Failure(error.with(code: :error))
               end
             end
 

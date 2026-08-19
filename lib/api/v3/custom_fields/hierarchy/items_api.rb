@@ -34,6 +34,30 @@ module API
           include Dry::Monads[:result]
 
           helpers do
+            def flatten_tree_hash(hash)
+              flat_list = []
+              queue = [hash.merge({ depth: -1 })]
+
+              # From the service we get a hashed tree like this:
+              # {:a => {:b => {:c1 => {:d1 => {}}, :c2 => {:d2 => {}}}, :b2 => {}}}
+              #
+              # We flatten it depth first to this result list:
+              # [:a, :b, :c1, :d1, :c2, :d2, :b2]
+
+              while queue.any?
+                current = queue.shift
+                depth = current[:depth]
+                item, children = current.shift
+
+                flat_list << HierarchicalItemAggregate.new(item:, depth:)
+
+                queue.unshift(current) unless current.keys == [:depth]
+                queue.unshift(children.merge({ depth: depth + 1 })) unless children.empty?
+              end
+
+              flat_list
+            end
+
             def item_list(query)
               hierarchy_root = get_hierarchy_root(query)
 
@@ -47,16 +71,18 @@ module API
             end
 
             def flat_tree(item, depth)
-              ::CustomFields::Hierarchy::HierarchicalItemService
-                .new
-                .hashed_subtree(item:, depth:)
-                .either(
-                  ->(value) { ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(value) },
-                  ->(error) do
-                    msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
-                    raise ::API::Errors::SafeInternalError.new(msg)
-                  end
-                )
+              sub_tree = ::CustomFields::Hierarchy::HierarchicalItemService
+                           .new
+                           .hashed_subtree(item:, depth:)
+                           .either(
+                             ->(value) { value },
+                             ->(error) do
+                               msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
+                               raise ::API::Errors::SafeInternalError.new(msg)
+                             end
+                           )
+
+              flatten_tree_hash(sub_tree)
             end
 
             def get_hierarchy_root(query)

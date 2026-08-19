@@ -30,7 +30,6 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::TargetVersionNormalization
   include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
@@ -148,17 +147,11 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def attributes_for_create
-    attributes = permitted_params.move_work_package
-    # target_version_ids is an array param and must not be run through the scalar
-    # "none"/blank magic value transforms below.
-    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
-
-    attributes = attributes
+    permitted_params
+      .move_work_package
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
       .transform_values { |v| v == "none" ? nil : v }
       .to_h
-    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
-    attributes
   end
 end

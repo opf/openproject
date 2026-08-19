@@ -159,40 +159,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      describe "wiki default value" do
-        context "when enabling wikis by default", with_settings: { default_projects_wiki: true } do
-          it "enables the wiki" do
-            expect(subject.result.wiki).to be_enabled
-          end
-
-          context "and when the project already has a disabled wiki" do
-            before do
-              project.build_wiki(enabled: false)
-            end
-
-            it "keeps the wiki disabled" do
-              expect(subject.result.wiki).not_to be_enabled
-            end
-          end
-        end
-
-        context "when disabling wikis by default", with_settings: { default_projects_wiki: false } do
-          it "creates the wiki, but disabled" do
-            expect(subject.result.wiki).not_to be_enabled
-          end
-
-          context "and when the project already has an enabled wiki" do
-            before do
-              project.build_wiki(enabled: true)
-            end
-
-            it "keeps the wiki enabled" do
-              expect(subject.result.wiki).to be_enabled
-            end
-          end
-        end
-      end
-
       describe "enabled_module_names default value", with_settings: { default_projects_modules: ["lorem", "ipsum"] } do
         context "with a value for enabled_module_names provided" do
           let(:call_attributes) do
@@ -260,7 +226,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
 
           it "does not alter the types" do
-            expect(subject.result.project_types.map(&:type))
+            expect(subject.result.types)
               .to match_array other_types
           end
 
@@ -270,68 +236,15 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context "with a value for project_types provided" do
-          let(:other_types) { [create(:type)] }
-          let(:call_attributes) do
-            {
-              project_types: other_types.map { |type| ProjectType.new(type:) }
-            }
-          end
-
-          it "does not alter the types" do
-            expect(subject.result.project_types.map(&:type))
-              .to match_array other_types
-          end
-
-          include_examples "setting custom field defaults" do
-            let(:types) { other_types }
-          end
-        end
-
         context "with no value for types provided" do
           it "sets the default types" do
-            expect(subject.result.project_types.map(&:type_id))
-              .to match_array default_types.map(&:id)
-          end
-
-          it "does not resolve a variant" do
-            expect(subject.result.project_types.map(&:variant_id))
-              .to all(be_nil)
+            expect(subject.result.types)
+              .to match_array default_types
           end
 
           include_examples "setting custom field defaults" do
             let(:default_types) { [create(:type)] }
             let(:types) { default_types }
-          end
-        end
-
-        context "with a variant being the default", with_flag: { type_variants: true } do
-          let(:root) { create(:type) }
-          let(:variant) { create(:type, parent: root, is_default: true) }
-          let(:default_types) { [variant] }
-
-          it "enables the family and resolves it to the variant" do
-            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-              .to contain_exactly([root.id, variant.id])
-          end
-
-          context "with the variant feature being inactive", with_flag: { type_variants: false } do
-            it "enables the family without resolving it to the variant" do
-              expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-                .to contain_exactly([root.id, nil])
-            end
-          end
-        end
-
-        context "with the root and one of its variants being the default",
-                with_flag: { type_variants: true } do
-          let(:root) { create(:type, is_default: true) }
-          let(:variant) { create(:type, parent: root, is_default: true) }
-          let(:default_types) { [root, variant] }
-
-          it "enables the family once, resolved to the variant" do
-            expect(subject.result.project_types.map { |pt| [pt.type_id, pt.variant_id] })
-              .to contain_exactly([root.id, variant.id])
           end
         end
 
@@ -343,7 +256,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
 
           it "does not alter the types modules" do
-            expect(subject.result.project_types.map { |pt| pt.type.name })
+            expect(subject.result.types.map(&:name))
               .to match_array %w(lorem)
           end
 

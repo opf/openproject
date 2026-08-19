@@ -94,12 +94,6 @@ get:
     - description: |-
         JSON specifying sort criteria.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
-
-        A special `exactMatch` key is available when combined with a `typeahead`
-        filter: sorting by `exactMatch` `desc` ranks work packages whose id, sequence number or
-        identifier is an exact match for the typeahead search term first,
-        regardless of any other sort criteria. Combine it with a secondary
-        criterion to break ties, e.g. `[["exactMatch", "desc"], ["updatedAt", "desc"]]`.
       example: '[["status", "asc"]]'
       in: query
       name: sortBy

@@ -84,7 +84,7 @@ RSpec.describe "Work package sharing invited users",
     visit signout_path
     visit link
 
-    expect(page).to have_test_selector("registration-form")
+    expect(page).to have_text "Create a new account"
     password = SecureRandom.hex(16)
 
     fill_in "Password", with: password

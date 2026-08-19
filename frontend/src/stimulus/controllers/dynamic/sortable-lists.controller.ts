@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -52,7 +52,6 @@ import {
   resolveItemId,
   resolveItemLabel,
   resolveItemPosition,
-  resolveItemType,
   resolveMoveAvailability,
   restoreRowPositions,
   rowOf,
@@ -72,8 +71,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   static values = {
     moveUrlTemplate: String,
-    moveUrlTemplates: Object,
-    optimistic: { type: Boolean, default: false },
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -82,9 +79,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
-  declare readonly moveUrlTemplatesValue:Record<string, string>;
-  declare readonly hasMoveUrlTemplatesValue:boolean;
-  declare readonly optimisticValue:boolean;
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
@@ -206,7 +200,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
+    const moveUrl = this.resolveMoveUrl({ itemId });
     const sourceRow = rowOf(list.rowsContainer, itemElement);
     if (!moveUrl || !sourceRow) {
       return;
@@ -227,18 +221,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.ownerListOf(itemElement)?.element ?? null;
   }
 
-  // The owning list of an item is the innermost list outlet containing its
-  // element: in nested topologies (a section item hosting a field list) the
-  // item is contained by every ancestor list, and only the innermost one
-  // holds its row.
   private ownerListOf(itemElement:HTMLElement) {
-    const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
-
-    return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
-  }
-
-  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
-    return this.ownerListOf(itemElement)?.rowsContainer ?? null;
+    return this.sortableListsListOutlets.find((list) => list.element.contains(itemElement)) ?? null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
@@ -257,7 +241,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
+    const moveUrl = this.resolveMoveUrl(source.data);
     if (!moveUrl) {
       debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
@@ -273,9 +257,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const sourceList = this.ownerListOf(source.element);
-    const sourceRow = sourceList ? rowOf(sourceList.rowsContainer, source.element) : null;
-    if (!sourceRow) {
+    // The dragged source row is still resolved as an <li>, the one place the
+    // subsystem is not yet tag-agnostic: reaching its rows container structurally
+    // needs the source list (not the root) on the item payload. Backlogs rows are
+    // <li>, so this holds today; generalising it is a tracked follow-up.
+    const sourceRow = source.element.closest('li');
+    if (!(sourceRow instanceof HTMLElement)) {
       debugLog('sortable-lists: ignoring drop, could not resolve the source row element');
       return;
     }
@@ -358,31 +345,19 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // The template must expand to a same-origin relative URL: the expansion is
   // reduced to path + search + hash, so an absolute template's origin would
   // be dropped silently.
-  private resolveMoveUrl({ itemId, type }:{ itemId:string; type:string|null }):string|null {
-    const template = this.moveUrlTemplateFor(type);
-    if (!template) {
+  private resolveMoveUrl(data:{ itemId:string }):string|null {
+    if (!this.hasMoveUrlTemplateValue) {
       return null;
     }
 
-    const expanded = parseTemplate(template).expand({ id: itemId });
+    const expanded = parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
     const url = new URL(expanded, window.location.href);
-    // Only consumers whose success response is event-only (Backlogs) opt in;
-    // morph-reconciled surfaces need the server to stream the canonical order.
-    if (this.optimisticValue) {
-      url.searchParams.set('optimistic', 'true');
-    }
+    // Both drag and menu moves share this path and are flagged optimistic=true
+    // (the move is already applied in the DOM), so the server skips the frame
+    // reload for a same-list move.
+    url.searchParams.set('optimistic', 'true');
 
     return `${url.pathname}${url.search}${url.hash}`;
-  }
-
-  // The dragged item's type keys the template: the move endpoint belongs to
-  // the item being moved, not to the destination list.
-  private moveUrlTemplateFor(type:string|null):string|null {
-    if (type !== null && this.hasMoveUrlTemplatesValue && this.moveUrlTemplatesValue[type]) {
-      return this.moveUrlTemplatesValue[type];
-    }
-
-    return this.hasMoveUrlTemplateValue ? this.moveUrlTemplateValue : null;
   }
 
   private async moveItem({

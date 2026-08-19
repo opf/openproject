@@ -122,7 +122,7 @@ module Costs
       # Menu extensions
       menu :admin_menu,
            :admin_costs,
-           { controller: "/admin/time_settings", action: :show },
+           { controller: "/admin/costs_settings", action: :show },
            if: Proc.new { User.current.admin? },
            caption: :project_module_costs,
            after: :enterprise,
@@ -130,9 +130,9 @@ module Costs
 
       menu :admin_menu,
            :costs_settings,
-           { controller: "/admin/time_settings", action: :show },
+           { controller: "/admin/costs_settings", action: :show },
            if: Proc.new { User.current.admin? },
-           caption: :label_defaults_and_limits,
+           caption: :label_defaults,
            parent: :admin_costs
 
       menu :admin_menu,
@@ -176,12 +176,6 @@ module Costs
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
       ::Settings::Definition.add "allow_tracking_start_and_end_times", default: false, format: :boolean
       ::Settings::Definition.add "enforce_tracking_start_and_end_times", default: false, format: :boolean
-      ::Settings::Definition.add "time_entries_max_hours_per_entry", default: 0, format: :integer, allowed: (0..)
-      ::Settings::Definition.add "time_entries_max_hours_per_day", default: 0, format: :integer, allowed: (0..)
-      ::Settings::Definition.add "time_entries_prohibit_logging_on_non_working_days", default: false, format: :boolean
-      ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
-      ::Settings::Definition.add "time_entries_prohibit_logging_for_past_months", default: false, format: :boolean
-      ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false

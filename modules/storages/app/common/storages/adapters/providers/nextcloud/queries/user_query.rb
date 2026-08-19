@@ -47,19 +47,19 @@ module Storages
             private
 
             def handle_response(response)
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(source: self.class, payload: response)
               case response
               in { status: 200..299 }
                 handle_success_response(response)
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error)
+                Failure(error.with(code: :error))
               end
             end
 
             def handle_success_response(response)
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(source: self.class, payload: response)
               xml = Nokogiri::XML(response.body.to_s)
               statuscode = xml.xpath("/ocs/meta/statuscode").text
 
@@ -67,7 +67,7 @@ module Storages
               when "100"
                 Success({ id: xml.xpath("/ocs/data/id").text })
               else
-                Failure(error)
+                Failure(error.with(code: :error))
               end
             end
           end

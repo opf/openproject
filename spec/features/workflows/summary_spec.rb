@@ -51,7 +51,7 @@ RSpec.describe "Workflow summary", :js do
   end
 
   it "displays a simple summary" do
-    expect(page).to have_heading "Workflow summary"
+    expect(page).to have_heading "Summary"
 
     within :table do
       expect(page).to have_selector :row, "Ungeziefer"

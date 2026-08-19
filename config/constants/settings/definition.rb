@@ -372,7 +372,7 @@ module Settings
       },
       default_projects_modules: {
         default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
+          base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
           if Setting.real_time_text_collaboration_enabled?
             base_modules + %w[documents]
           else
@@ -383,9 +383,6 @@ module Settings
       },
       default_projects_public: {
         default: false
-      },
-      default_projects_wiki: {
-        default: true
       },
       demo_projects_available: {
         default: false
@@ -966,14 +963,6 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
-      mail_recipient_limits: {
-        format: :integer,
-        default: 0,
-        writable: false,
-        allowed: (0..),
-        description: "Maximum distinct recipients an instance may send emails to per day. " \
-                     "Mails to addresses over that limit will be dropped. 0 equals unlimited recipients."
-      },
       rate_limiting: {
         default: {},
         description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."
@@ -982,21 +971,6 @@ module Settings
         default: {
           "en" => ""
         }
-      },
-      registration_rate_limit: {
-        format: :integer,
-        default: 0,
-        writable: false,
-        allowed: (0..),
-        description: "Maximum unauthenticated POST /account/register requests per hour. " \
-                     "Counted per client IP by default, or per instance (host_name) when " \
-                     "registration_rate_limit_per_ip is false. 0 disables the limit."
-      },
-      registration_rate_limit_per_ip: {
-        format: :boolean,
-        default: true,
-        writable: false,
-        description: "Count registration rate limits per client IP. Set to false to count based on hostname itself."
       },
       remote_storage_upload_host: {
         format: :string,
@@ -1394,13 +1368,7 @@ module Settings
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,
-        default: true
-      },
-      work_packages_activities_tab_polling_interval_in_ms: {
-        description: "Interval in milliseconds at which the work package activities tab polls for updates.",
-        format: :integer,
-        default: 10_000,
-        allowed: 1000..10_000
+        default: false
       },
       work_packages_projects_export_limit: {
         default: 500

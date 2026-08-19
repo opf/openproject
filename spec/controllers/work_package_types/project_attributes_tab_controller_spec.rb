@@ -153,50 +153,5 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         expect(response.body).to include("Project attributes could not be updated.")
       end
     end
-
-    context "when the type is linked", with_flag: { type_variants: true } do
-      let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
-      let(:source) { create(:type) }
-      let(:link) { type.configuration_links.find_by(aspect:) }
-      let(:params) do
-        {
-          type_id: type.id,
-          project_custom_field_type_mapping: {
-            type_id: type.id,
-            custom_field_section_id: project_custom_field_section.id
-          }
-        }
-      end
-
-      before do
-        source.project_custom_fields << project_custom_field
-        type.link!(aspect, source:)
-      end
-
-      describe "PUT disable_all_of_section" do
-        it "excludes the section's inherited attributes on the link" do
-          expect(link.excluded_elements).to be_empty
-
-          put :disable_all_of_section, params: params, format: :turbo_stream
-
-          expect(response).to have_http_status(:ok)
-          expect(link.reload.excluded_elements).to contain_exactly(project_custom_field.attribute_name)
-          expect(type.project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
-        end
-      end
-
-      describe "PUT enable_all_of_section" do
-        before { link.update!(excluded_elements: [project_custom_field.attribute_name]) }
-
-        it "re-inherits the section's attributes" do
-          put :enable_all_of_section, params: params, format: :turbo_stream
-
-          expect(response).to have_http_status(:ok)
-          expect(link.reload.excluded_elements).to be_empty
-          expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
-            .to contain_exactly(project_custom_field.id)
-        end
-      end
-    end
   end
 end

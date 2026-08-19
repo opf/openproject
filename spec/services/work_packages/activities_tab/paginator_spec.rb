@@ -827,45 +827,6 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       end
     end
 
-    context "with :hide_meetings filter" do
-      shared_let(:meeting) { create(:meeting, project:) }
-
-      let(:initial_journal) { work_package.journals.find_by(version: 1) }
-      let!(:change_journal) do
-        work_package.update!(subject: "Updated subject")
-        work_package.journals.order(:version).last
-      end
-      let!(:comment_journal) do
-        work_package.add_journal(user:, notes: "A comment")
-        work_package.save!
-        work_package.journals.order(:version).last
-      end
-      let!(:meeting_journal) do
-        Journals::CreateService
-          .new(work_package, user)
-          .call(cause: Journal::CausedByMeetingAgendaItemAdded.new(meeting))
-        work_package.journals.reload.order(:version).last
-      end
-
-      before do
-        params[:filter] = :hide_meetings
-      end
-
-      it "excludes meeting activity journals" do
-        _pagy, records = paginator.call
-
-        expect(records.map(&:id)).not_to include(meeting_journal.id)
-      end
-
-      it "keeps everything else" do
-        expect(change_journal.get_changes).to have_key("subject")
-
-        _pagy, records = paginator.call
-
-        expect(records.map(&:id)).to include(initial_journal.id, change_journal.id, comment_journal.id)
-      end
-    end
-
     context "with an unrecognised filter value" do
       let(:initial_journal) { work_package.journals.find_by(version: 1) }
       let!(:journal_with_notes) do

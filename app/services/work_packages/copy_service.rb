@@ -80,13 +80,11 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
 
   def copied_attributes(work_package, override)
     overwritten_attributes = override.stringify_keys
-    writable_attributes = writable_work_package_attributes(work_package)
 
     attributes = work_package
                    .attributes
-                   .slice(*writable_attributes)
+                   .slice(*writable_work_package_attributes(work_package))
                    .merge("custom_field_values" => work_package.custom_value_attributes)
-                   .merge(version_reference_attributes(work_package, writable_attributes))
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
@@ -100,20 +98,6 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
 
   def writable_work_package_attributes(work_package)
     instantiate_contract(work_package, user).writable_attributes
-  end
-
-  def version_reference_attributes(work_package, writable_attributes)
-    attributes = {}
-
-    if writable_attributes.include?("target_versions")
-      attributes["target_version_ids"] = work_package.target_version_ids.presence
-    end
-
-    if writable_attributes.include?("observed_in_versions")
-      attributes["observed_in_version_ids"] = work_package.observed_in_version_ids.presence
-    end
-
-    attributes.compact
   end
 
   def remove_author_watcher(copied)

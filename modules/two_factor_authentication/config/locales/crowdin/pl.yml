@@ -126,7 +126,7 @@ pl:
     error_no_device: Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia.
     error_no_matching_strategy: Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem.
     forced_registration:
-      required_to_add_device: Administrator wymusza uwierzytelnianie dwuskładnikowe w tym wystąpieniu. Aby się zalogować, dodaj metodę uwierzytelniania dwuskładnikowego.
+      required_to_add_device: Aktywna polityka bezpieczeństwa wymaga włączenia uwierzytelniania dwuskładnikowego. Użyj poniższego formularza, aby zarejestrować urządzenie.
     label_2fa_disabled: Uwierzytelnianie dwuskładnikowe nie jest aktywne
     label_2fa_enabled: Uwierzytelnianie dwuskładnikowe jest aktywne
     label_default_device: Domyślne urządzenie 2FA

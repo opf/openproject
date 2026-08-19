@@ -59,14 +59,8 @@ module WorkPackages
           @journal_details ||= journal.details
         end
 
-        # A formatter may render a change as nothing, so what is worth heading is
-        # what comes out of them rather than what went in.
-        def rendered_details
-          @rendered_details ||= journal_details.filter_map { |detail| journal.render_detail(detail).presence }
-        end
-
         def has_details?
-          rendered_details.any?
+          @has_details ||= journal_details.any?
         end
 
         def render_details_header(details_container)
@@ -222,7 +216,10 @@ module WorkPackages
         end
 
         def render_journal_details(details_container_inner)
-          rendered_details.each { |rendered_detail| render_single_detail(details_container_inner, rendered_detail) }
+          journal_details.each do |detail|
+            rendered_detail = journal.render_detail(detail)
+            render_single_detail(details_container_inner, rendered_detail) if rendered_detail.present?
+          end
         end
 
         def render_single_detail(container, rendered_detail)

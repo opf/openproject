@@ -86,6 +86,12 @@ module McpTools
         @input_schema
       end
 
+      def output_schema(schema = nil)
+        @output_schema = schema if schema.present?
+
+        @output_schema
+      end
+
       ##
       # Defines a filter for selecting results through input parameters. Only one of filter_proc and filter_class are allowed at
       # the same time. If none is provided, a default where-based filter is created, using name as the filtered attribute name.
@@ -124,14 +130,6 @@ module McpTools
         @filters ||= {}
       end
 
-      def output_filter(filter_class)
-        output_filters << filter_class
-      end
-
-      def output_filters
-        @output_filters ||= []
-      end
-
       def annotations(read_only:, idempotent:, destructive:)
         @annotations = {
           read_only_hint: read_only,
@@ -148,13 +146,17 @@ module McpTools
         @annotations
       end
 
-      def tool(title:, description:)
+      def tool
+        config = McpConfiguration.find_by(identifier: qualified_name)
+        return nil if config.nil?
+
         implementation = self
         MCP::Tool.define(
           name:,
-          title:,
-          description:,
+          title: config.title,
+          description: config.description,
           input_schema:,
+          output_schema:,
           annotations: read_annotations
         ) do |server_context: {}, **opts|
           implementation.new(server_context:, tool_context: self).handle_request(**opts)
@@ -170,6 +172,12 @@ module McpTools
     def handle_request(**)
       result = call(**)
 
+      if Rails.env.local? && @tool_context.output_schema
+        # We are only validating the output during development, so we can see errors during dev, but do not break the
+        # API in production due to minor schema differences.
+        @tool_context.output_schema.validate_result(JSON.parse(result.to_json))
+      end
+
       format_response(result)
     end
 
@@ -181,7 +189,6 @@ module McpTools
     end
 
     def format_response(result)
-      result = self.class.output_filters.inject(JSON.parse(result.to_json)) { |r, f| f.filter(r) }
       plain = render_plain_content? ? format_content(result) : []
       structured_content = render_structured_content? ? format_structured_content(result) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)
@@ -225,13 +232,12 @@ module McpTools
     end
 
     def apply_pagination(scope, page)
-      total = scope.count
-      return [scope, total] unless self.class.pagination_enabled?
+      return scope unless self.class.pagination_enabled?
 
       page_number = page || 1
       page_size = self.class.page_size
 
-      [scope.offset((page_number - 1) * page_size).limit(page_size), total]
+      scope.offset((page_number - 1) * page_size).limit(page_size)
     end
   end
 end

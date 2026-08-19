@@ -51,8 +51,6 @@ module Backlogs
           [:work_package_count, { caption: Sprint.human_attribute_name(:work_packages) }]
         ]
       end
-
-      def has_actions? = true
     end
   end
 end

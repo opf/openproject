@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::SearchUsers do
-  subject(:mcp_request) do
+  subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -75,12 +75,12 @@ RSpec.describe McpTools::SearchUsers do
     it_behaves_like "MCP text tool"
 
     it "finds all users without filters" do
-      mcp_request
+      subject
       expect(parsed_results.dig("structuredContent", "items").size).to eq(3)
     end
 
     it "responds with properly formatted users" do
-      mcp_request
+      subject
       parsed_results.dig("structuredContent", "items").each do |u|
         expect(u.to_json).to match_json_schema.from_docs("user_model")
       end
@@ -90,7 +90,7 @@ RSpec.describe McpTools::SearchUsers do
       let(:call_args) { { search_term: "Karl Kabauter" } }
 
       it "finds the user" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
       end
@@ -100,7 +100,7 @@ RSpec.describe McpTools::SearchUsers do
       let(:call_args) { { search_term: "Kabauter Karl" } }
 
       it "finds the user" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
       end
@@ -110,7 +110,7 @@ RSpec.describe McpTools::SearchUsers do
       let(:call_args) { { search_term: "klko@example.com" } }
 
       it "finds the user" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_klara.id)
       end
@@ -119,7 +119,7 @@ RSpec.describe McpTools::SearchUsers do
         let(:global_permissions) { %i[view_all_principals] }
 
         it "finds the no one" do
-          mcp_request
+          subject
           expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
         end
       end
@@ -129,7 +129,7 @@ RSpec.describe McpTools::SearchUsers do
       let(:call_args) { { search_term: "kaba" } }
 
       it "finds the user" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
       end
@@ -139,7 +139,7 @@ RSpec.describe McpTools::SearchUsers do
       let(:global_permissions) { %i[] }
 
       it "only finds itself" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(user.id)
       end
@@ -158,20 +158,15 @@ RSpec.describe McpTools::SearchUsers do
       end
 
       it "returns only results up to the page size" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(user_count)
       end
 
       context "if another page is requested" do
         let(:call_args) { { search_term: "Konrad", page: 2 } }
 
         it "returns the requested page" do
-          mcp_request
+          subject
           expect(parsed_results.dig("structuredContent", "items").size).to eq(overspilling_users)
         end
       end
@@ -180,7 +175,7 @@ RSpec.describe McpTools::SearchUsers do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      mcp_request
+      subject
       expect(last_response).to have_http_status(404)
     end
   end

@@ -3,9 +3,9 @@ name: ERB lint
 on:
   pull_request:
     paths:
-      - "**/*.erb"
-      - ".erb_lint.yml"
-      - ".erb_linters/**"
+      - '**/*.erb'
+      - '.erb_lint.yml'
+      - '.erb_linters/**'
 
 jobs:
   erb-lint:
@@ -20,7 +20,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Ruby
-        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
+        uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
         with:
           bundler-cache: true
       - name: Run ERB lint

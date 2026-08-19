@@ -502,20 +502,6 @@ es:
           name: Historia de usuario
         item_6:
           name: Error
-      global_queries:
-        item_0:
-          name: 'Elementos secundarios épicos: historias de usuarios y errores'
-        item_1:
-          name: 'Subelementos de una historia de usuario: Tareas'
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: Historias de usuario y errores
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Tareas
       welcome:
         title: "¡Le damos la bienvenida a OpenProject!"
         text: |

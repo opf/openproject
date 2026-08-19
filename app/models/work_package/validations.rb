@@ -40,5 +40,17 @@ module WorkPackage::Validations
 
     validates :due_date, date: { allow_blank: true }
     validates :start_date, date: { allow_blank: true }
+
+    scope :eager_load_for_validation, -> {
+      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
+               { parent: :type },
+               :custom_values,
+               { type: :custom_fields },
+               :priority,
+               :status,
+               :author,
+               :category,
+               :version)
+    }
   end
 end

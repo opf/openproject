@@ -110,10 +110,6 @@ $arrow-left-width: 36px
     &:hover
       text-decoration: none
 
-  a.TreeViewItemContent
-    &, &:visited, &:hover, &:focus, &:active
-      text-decoration: none
-
   .toggler
     width: $arrow-left-width
     height: var(--main-menu-item-height)
@@ -133,7 +129,7 @@ $arrow-left-width: 36px
   .toggler:hover
     @include main-menu-hover(false)
 
-  a:not(.Button):not(.TreeViewItemContent)
+  a:not(.Button)
     border: 1px solid transparent
 
     &.selected, &.selected + a
@@ -161,6 +157,7 @@ $arrow-left-width: 36px
 // -------------------- CHILD menu items ---------------------------
 .main-menu--children
   display: none
+  padding: 10px 0
   width: 100%
 
   &.unattached
@@ -252,17 +249,12 @@ a.main-menu--parent-node:not(.Button)
         .main-menu--children
           display: block
           height: calc(100% - #{var(--main-menu-item-height)})
-          padding: 10px 0
           overflow: auto
 
           li
             display: list-item
             &.partial
               height: 100%
-
-              .op-sidemenu-filterable-tree
-                height: 100%
-                overflow: hidden
 
     &.open
       > li

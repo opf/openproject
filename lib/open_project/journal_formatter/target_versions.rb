@@ -52,7 +52,7 @@ class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAss
       next if value.blank? || klass.nil?
 
       value.to_s.split(",")
-           .filter_map { |id| name_or_placeholder(associated_object(klass, id.to_i, cache:)) }
+           .filter_map { |id| associated_object(klass, id.to_i, cache:)&.name }
            .join(", ")
            .presence
     end

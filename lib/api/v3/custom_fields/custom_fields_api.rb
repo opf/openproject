@@ -38,8 +38,6 @@ module API
               @custom_field = CustomField.visible.find(params[:id])
             end
 
-            get &API::V3::Utilities::Endpoints::Show.new(model: CustomField).mount
-
             mount Hierarchy::ItemsAPI
           end
         end

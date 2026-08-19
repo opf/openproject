@@ -35,17 +35,13 @@ module Workflows
 
     DIALOG_ID = "workflows-status-removal-dialog"
 
-    def initialize(context:)
+    def initialize(roles:, type:, tab:, status_ids:, removed_count:)
       super
-      @context = context
+      @roles = roles
+      @type = type
+      @tab = tab
+      @status_ids = Array(status_ids).flatten.map(&:to_i)
+      @removed_count = removed_count
     end
-
-    private
-
-    attr_reader :context
-
-    delegate :type, :tab, :roles, :requested_status_ids, :removed_displayed_status_ids, to: :context
-
-    def removed_count = removed_displayed_status_ids.size
   end
 end

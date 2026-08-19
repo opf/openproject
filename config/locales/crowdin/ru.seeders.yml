@@ -95,19 +95,19 @@ ru:
           name: Срочно
       departments:
         item_0:
-          name: Маркетинг и коммуникации
+          name: Marketing & Communications
         item_1:
-          name: Связи с общественностью
+          name: Public Relations
         item_2:
-          name: Дизайн и контент
+          name: Design & Content
         item_3:
-          name: Мероприятия и операционная деятельность
+          name: Events & Operations
         item_4:
-          name: Веб и ИТ
+          name: Web & IT
         item_5:
-          name: Финансы и администрация
+          name: Finance & Administration
         item_6:
-          name: Контроль качества
+          name: Quality Assurance
       projects:
         demo-project:
           name: Демо-проект
@@ -197,23 +197,23 @@ ru:
                 item_2:
                   subject: Настройка сайта конференции
             item_2:
-              subject: Протестировать и оценить качество веб-сайта конференции
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Конференция
+              subject: Conference
             item_4:
-              subject: Последующие задачи
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Загрузить презентации на сайт
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Вечеринка для сторонников конференции :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *  [ ] Пиво
-                    *  [ ] Закуски
-                    *  [ ] Музыка
-                    *  [ ] Еще больше пива
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
             item_5:
-              subject: Завершение проекта
+              subject: End of project
           wiki: |
             _В этой вики Вы можете совместно создавать и редактировать страницы и подстраницы для создания вики-проекта._
 
@@ -337,7 +337,7 @@ ru:
                     1. *Пригласите новых участников в свой проект*: &rightarrow; Перейдите к [Участники]({{opSetting:base_url}}/projects/your-scrum-project/members) в меню проекта.
                     2. *Просмотрите бэклог Вашего продукта и бэклог спринта*: &rightarrow; Перейдите к [Бэклог]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) в меню проекта.
                     3. *Просмотрите Вашу доску задач*: &rightarrow; Перейдите к [Бэклоги]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Нажмите стрелку вправо на Этапы &rightarrow; Выберите [Панель задач](##sprint:scrum_project__version__sprint_1).
-                    4. *Создайте новый пакет работ*: &rightarrow; Перейдите в раздел [Пакеты работ &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    4. *Создайте новый рабочий пакет*: &rightarrow; Перейдите в раздел [Рабочие пакеты &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Создайте и обновите план проекта*: &rightarrow; Перейдите к разделу [План проекта](##query:scrum_project__query__project_plan) в меню проекта.
                     6. *Создайте вики спринта*: &rightarrow; Перейдите в раздел [Бэклоги]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и откройте вики спринта из правого выпадающего меню в спринте. Вы можете отредактировать шаблон [wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) в соответствии со своими потребностями.
                     7. *Активируйте дополнительные модули*: &rightarrow; Перейдите в раздел [Настройки проекта &rightarrow; Модули]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
@@ -504,20 +504,6 @@ ru:
           name: Описание пользователя
         item_6:
           name: Ошибка
-      global_queries:
-        item_0:
-          name: 'Epic children: пользовательские истории и ошибки'
-        item_1:
-          name: 'Пользовательская история: Задачи'
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: Пользовательские истории и ошибки
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Задачи
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |

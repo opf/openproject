@@ -274,8 +274,8 @@ RSpec.describe VersionsController do
         expect(assigns(:issues)).to include work_package
       end
 
-      it "renders the work packages graph" do
-        expect(response.body).to include("opce-wp-overview-graph")
+      it "does not render the work packages graph, which still queries by the single-version filter" do
+        expect(response.body).not_to include("opce-wp-overview-graph")
       end
     end
 

@@ -30,10 +30,7 @@ pt-BR:
         no_results: Nada de novo para relatar.
       not_available: Este widget não está disponível.
       project_timeline:
-        footer_actions_label: Ver mais detalhes
-        gantt_link: Marcos do gráfico de Gantt
-        no_results_title: Nenhum conteúdo da linha do tempo do projeto foi configurado
-        sprints_link: Visão geral dos sprints
+        no_lifecycle_results: Nenhuma fase do ciclo de vida
         title: Cronograma do projeto
         title_portfolio: Linha do tempo do portfólio
         title_program: Linha do tempo do programa

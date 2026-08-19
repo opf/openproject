@@ -126,7 +126,7 @@ vi:
     error_no_device: Không có thiết bị 2FA đăng ký cho người dùng này, mặc dù được yêu cầu cho trường hợp này được tìm thấy.
     error_no_matching_strategy: Không có chiến lược 2FA sẵn có nào phù hợp với người dùng này. Xin vui lòng liên hệ với administratior của bạn.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Chính sách bảo mật đang hoạt động yêu cầu bạn kích hoạt xác thực hai yếu tố. Vui lòng sử dụng mẫu sau để đăng ký thiết bị.
     label_2fa_disabled: Xác thực 2 yếu tố không hoạt động
     label_2fa_enabled: Xác thực 2 nhân tố đang được sử dụng
     label_default_device: Thiết bị 2FA mặc định

@@ -1,53 +1,13 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 const path = require('node:path');
 const fs = require('node:fs');
 const { upperFirst, camelCase } = require('lodash-es');
-
-// Derived from COPYRIGHT_short so the generated module cannot drift away from the text
-// the `headers/header-format` ESLint rule enforces.
-const copyrightHeader = [
-  '//-- copyright',
-  ...fs.readFileSync(path.join(__dirname, '..', 'COPYRIGHT_short'), 'utf8')
-    .trimEnd()
-    .split(/\r?\n/)
-    .map((line) => line ? `// ${line}` : '//'),
-  '//++',
-].join('\n');
 
 const LINKED_PLUGINS_MODULE_TEMPLATE = (plugins) => {
   const importableName = (name) => upperFirst(camelCase(name));
   const frontendPlugins = plugins.map(([name]) => [name, importableName(name)]);
 
-  return `${copyrightHeader}
-
-import {NgModule} from '@angular/core';
+  return `
+import {NgModule} from "@angular/core";
 ${
   frontendPlugins
     .map(([actualName, moduleName]) =>

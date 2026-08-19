@@ -29,7 +29,7 @@
 #++
 
 # @deprecated Bulk-assigning the full set of type ids is being replaced by the
-#   granular Projects::Types::AddService, RemoveService and SwitchVariantService.
+#   granular Projects::Types::AddService, RemoveService and SwitchSubtypeService.
 #   This service remains only until the project settings UI is migrated to them.
 class UpdateProjectsTypesService < BaseProjectService
   def call(type_ids) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -40,14 +40,14 @@ class UpdateProjectsTypesService < BaseProjectService
                          :in_use_by_work_packages,
                          types: missing_types(type_ids).map(&:name).join(", "))
       false
-    elsif any_type_is_a_variant?(type_ids) && !OpenProject::FeatureDecisions.type_variants_active?
-      project.errors.add(:types, :cannot_assign_variants_yet)
+    elsif any_type_is_a_subtype?(type_ids) && !OpenProject::FeatureDecisions.subtypes_active?
+      project.errors.add(:types, :cannot_assign_subtypes_yet)
       false
-    elsif multiple_variants_of_parent?(type_ids)
-      project.errors.add(:types, :cannot_assign_multiple_variants_of_parent)
+    elsif multiple_subtypes_of_parent?(type_ids)
+      project.errors.add(:types, :cannot_assign_multiple_subtypes_of_parent)
       false
-    elsif variant_and_parent_enabled?(type_ids)
-      project.errors.add(:types, :cannot_assign_variant_and_parent)
+    elsif subtype_and_parent_enabled?(type_ids)
+      project.errors.add(:types, :cannot_assign_subtype_and_parent)
       false
     else
       update_project_types(type_ids)
@@ -67,11 +67,11 @@ class UpdateProjectsTypesService < BaseProjectService
     end
   end
 
-  def any_type_is_a_variant?(type_ids)
+  def any_type_is_a_subtype?(type_ids)
     Type.where(id: type_ids).where.not(parent_id: nil).exists?
   end
 
-  def multiple_variants_of_parent?(type_ids)
+  def multiple_subtypes_of_parent?(type_ids)
     Type
       .reorder(nil)
       .where(id: type_ids)
@@ -81,7 +81,7 @@ class UpdateProjectsTypesService < BaseProjectService
       .exists?
   end
 
-  def variant_and_parent_enabled?(type_ids)
+  def subtype_and_parent_enabled?(type_ids)
     parent_ids = Type.where(id: type_ids).pluck(:parent_id).compact
 
     parent_ids.intersect?(type_ids.map(&:to_i))
@@ -101,15 +101,7 @@ class UpdateProjectsTypesService < BaseProjectService
 
   def update_project_types(type_ids)
     new_types_to_add = type_ids - project.type_ids
-    # TODO: should go through Projects::Types::AddService and RemoveService, which own the
-    # family conflict rules and the custom field enabling this reimplements.
     project.type_ids = type_ids
-    project.work_package_custom_field_ids |= custom_field_ids_of(new_types_to_add)
-  end
-
-  # Type#custom_fields resolves the form configuration link, so a type inheriting its
-  # configuration contributes the fields it actually shows rather than the none it owns.
-  def custom_field_ids_of(type_ids)
-    ::Type.where(id: type_ids).flat_map { |type| type.custom_fields.ids }.uniq
+    project.work_package_custom_field_ids |= WorkPackageCustomField.joins(:types).where(types: { id: new_types_to_add }).ids
   end
 end

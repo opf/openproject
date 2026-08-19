@@ -31,7 +31,7 @@
 module Workflows::PageHeaders
   class SummaryComponent < BaseComponent
     def page_breadcrumb
-      { href: types_path, text: t(:label_type_plural) }
+      { href: workflows_path, text: t(:label_workflow_plural) }
     end
 
     def title

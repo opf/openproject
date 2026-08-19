@@ -77,7 +77,7 @@ module Storages
               end
 
               def handle_response(response)
-                error = SimpleError.new(source: self.class, payload: response, code: :error)
+                error = Results::Error.new(source: self.class, payload: response)
 
                 case response
                 in { status: 200..299 }
@@ -91,7 +91,7 @@ module Storages
                 in { status: 401 }
                   Failure(error.with(code: :unauthorized))
                 else
-                  Failure(error)
+                  Failure(error.with(code: :error))
                 end
               end
 
@@ -157,7 +157,7 @@ module Storages
                     ancestors.push(drive_root(drive_name))
                   else
                     ancestors.push(
-                      @transformer.build_ancestor(component, "#{ancestors.last.location}/#{CGI.unescape(component)}")
+                      @transformer.build_ancestor(component, "#{CGI.unescape(ancestors.last.location)}/#{component}")
                     )
                   end
                 end

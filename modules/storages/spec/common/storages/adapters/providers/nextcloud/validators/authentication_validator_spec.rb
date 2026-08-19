@@ -62,7 +62,7 @@ module Storages
               end
 
               it "returns a failure if the remote call failed" do
-                error = SimpleError.new(code: :unauthorized, source: self)
+                error = Results::Error.new(code: :unauthorized, source: self)
                 Registry.stub("nextcloud.queries.user", ->(_) { Failure(error) })
 
                 result = validator.call

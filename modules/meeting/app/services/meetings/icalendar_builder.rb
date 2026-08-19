@@ -276,8 +276,9 @@ module Meetings
       all_times.each do |timezone, times|
         calendar.timezone do |tz|
           tz.tzid = timezone.tzinfo.canonical_identifier
+          transitions = timezone.tzinfo.transitions_up_to(times.max + 6.months, times.min - 6.months)
 
-          relevant_transitions(timezone.tzinfo, times).each do |tr|
+          transitions.each do |tr|
             if tr.offset.dst?
               tz.daylight { |d| transition_to_component(d, tr) }
             else
@@ -286,17 +287,6 @@ module Meetings
           end
         end
       end
-    end
-
-    # `transitions_up_to(to, from)` only returns transitions at or after `from`, so a
-    # fixed lookback (e.g. `times.min - 6.months`) can skip past the transition that
-    # established the offset currently in effect. When that happens the VTIMEZONE has
-    # no observance preceding the event and clients fall back to the wrong offset
-    def relevant_transitions(tzinfo, times)
-      transitions = tzinfo.transitions_up_to(times.max + 6.months, times.min)
-      active = tzinfo.transitions_up_to(times.min).last
-      transitions.unshift(active) if active
-      transitions
     end
 
     def transition_to_component(component, transition)

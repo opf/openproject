@@ -1,12 +1,6 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
     flex_layout do |flex|
-      flex.with_row(mb: 3) do
-        render(Primer::Beta::Text.new(tag: :p, color: :muted)) do
-          t("types.edit.project_attributes.description")
-        end
-      end
-
       flex.with_row do
         render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
           subheader.with_filter_input(
@@ -28,15 +22,13 @@
         end
       end
 
-      visible_sections.each do |project_custom_field_section, project_custom_fields|
+      @project_custom_field_sections.each do |project_custom_field_section, project_custom_fields|
         flex.with_row do
           render(
             WorkPackageTypes::ProjectAttributes::SectionComponent.new(
               type: @type,
               project_custom_field_section:,
-              project_custom_fields:,
-              linked: linked?,
-              exclusion_state:
+              project_custom_fields:
             )
           )
         end

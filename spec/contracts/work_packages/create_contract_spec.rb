@@ -95,7 +95,7 @@ RSpec.describe WorkPackages::CreateContract do
       it "can write #{attribute}", :aggregate_failures do
         expect(contract.writable_attributes).to include(attribute.to_s)
 
-        work_package.send(:"#{attribute}=", resolve_written_value(value))
+        work_package.send(:"#{attribute}=", value)
         expect(validated_contract.errors[attribute]).to be_empty
       end
     end
@@ -104,17 +104,10 @@ RSpec.describe WorkPackages::CreateContract do
       it "can not write #{attribute}", :aggregate_failures do
         expect(contract.writable_attributes).not_to include(attribute.to_s)
 
-        work_package.send(:"#{attribute}=", resolve_written_value(value))
+        work_package.send(:"#{attribute}=", value)
         expect(validated_contract).not_to be_valid
         expect(validated_contract.errors[attribute]).to include "was attempted to be written but is not writable."
       end
-    end
-
-    # Values may be given as a callable so they can be derived from the example's own
-    # state. Writing a literal id risks matching what the attribute already holds, in
-    # which case nothing changes and the contract has nothing to object to.
-    def resolve_written_value(value)
-      value.respond_to?(:call) ? instance_exec(&value) : value
     end
 
     context "when enabled for admin", with_settings: { apiv3_write_readonly_attributes: true } do
@@ -122,7 +115,7 @@ RSpec.describe WorkPackages::CreateContract do
 
       it_behaves_like "can write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can write", :author_id, 1234
     end
 
     context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
@@ -130,19 +123,19 @@ RSpec.describe WorkPackages::CreateContract do
 
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can not write", :author_id, 1234
     end
 
     context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can not write", :author_id, 1234
     end
 
     context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can not write", :author_id, 1234
     end
   end
 

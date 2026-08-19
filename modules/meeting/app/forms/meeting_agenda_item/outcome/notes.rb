@@ -39,7 +39,6 @@ class MeetingAgendaItem::Outcome::Notes < ApplicationForm
       rich_text_options: {
         resource:,
         editor_type: "constrained",
-        macros: "wiki",
         storageKey: "meeting-agenda-#{object.meeting_agenda_item&.id || 'new'}-outcome-#{object.id || 'new'}",
         showAttachments: false
       }

@@ -1,6 +1,6 @@
 <%= flex_layout do |list| %>
   <% steps.each do |step| %>
-    <% list.with_row(mb: 2, test_selector: "wizard-step-#{step}") do %>
+    <% list.with_row(mb: 2) do %>
       <%= flex_layout(align_items: :center) do |row| %>
         <% row.with_column(mr: 2) do %>
           <%= render(Primer::Beta::Octicon.new(icon: leading_icon(step), color: current?(step) ? :accent : :muted)) %>
@@ -16,7 +16,7 @@
 
         <% row.with_column(ml: 2) do %>
           <% if completed?(step) %>
-            <%= render(Primer::Beta::Octicon.new(icon: linked?(step) ? :link : :pencil, color: :accent)) %>
+            <%= render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)) %>
           <% elsif current?(step) %>
             <%= render(Primer::Beta::Octicon.new(icon: :"dot-fill", color: :accent)) %>
           <% else %>

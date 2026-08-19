@@ -34,7 +34,7 @@ module Wikis
         case error
         in Dry::Validation::Result => failure
           failure.errors(full: true).to_h.values.flatten.join(" ")
-        in SimpleError => err
+        in Adapters::Results::Error => err
           if I18n.exists?("wikis.errors.#{err.code}")
             I18n.t("wikis.errors.#{err.code}")
           else

@@ -312,32 +312,6 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         end
       end
 
-      context "when the moved work package has a version not shared with the target project" do
-        let(:source_version) { create(:version, project:) }
-        let(:target_version) { create(:version, project: target_project) }
-
-        before do
-          target_project.types << work_package.type
-          target_project.save
-          work_package.target_versions = [source_version]
-
-          post :create,
-               params: {
-                 ids: [work_package.id],
-                 new_project_id: target_project.id,
-                 target_version_ids: [target_version.id]
-               }
-          work_package.reload
-        end
-
-        # The project change clears the (now unassignable) source version via the
-        # system, which must not clash with the user-assigned target version.
-        it "moves the work package and swaps in the target version" do
-          expect(work_package.project_id).to eq(target_project.id)
-          expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
-        end
-      end
-
       context "to another type" do
         before do
           post :create,
@@ -470,7 +444,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did not change the version" do
-            expect(subject.target_versions.pluck(:id)).to eq(work_package.target_versions.pluck(:id))
+            expect(subject.version_id).to eq(work_package.version_id)
           end
 
           it "did not change the assignee" do
@@ -510,7 +484,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,
-                   target_version_ids: [target_version.id],
+                   version_id: target_version.id,
                    start_date:,
                    due_date:
                  }
@@ -547,8 +521,8 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did change the version" do
-            subject.each do |work_package|
-              expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
+            subject.map(&:version_id).each do |id|
+              expect(id).to eq(target_version.id)
             end
           end
 

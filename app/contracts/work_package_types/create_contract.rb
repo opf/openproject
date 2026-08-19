@@ -31,7 +31,7 @@
 module WorkPackageTypes
   class CreateContract < BaseContract
     attribute :description
-    with_options(writable: -> { !model.variant? }) do
+    with_options(writable: -> { !model.subtype? }) do
       attribute :color_id
       attribute :is_default
       attribute :is_in_roadmap
@@ -39,6 +39,7 @@ module WorkPackageTypes
     end
     attribute :name
     attribute :parent_id
+    attribute :project_ids
     attribute :attribute_groups
 
     validates :is_default, :is_milestone, :is_in_roadmap, inclusion: { in: [true, false] }

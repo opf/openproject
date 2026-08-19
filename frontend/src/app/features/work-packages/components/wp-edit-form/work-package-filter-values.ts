@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -36,28 +8,6 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-
-/**
- * Some filter ids write to a work package attribute of a different name.
- *
- * Both version filters write the multi-valued targetVersions attribute:
- *   * "version" is the deprecated single-version filter, still used by stored
- *     board queries and saved user queries.
- *   * "targetVersion" is the APIv3 name of the target_version_id filter key.
- *     PropertyNameConverter strips the _id suffix, so the filter id is singular
- *     even though the attribute it writes is a collection.
- */
-export function attributeNameForFilter(filterId:string):string {
-  switch (filterId) {
-    case 'onlySubproject':
-      return 'project';
-    case 'version':
-    case 'targetVersion':
-      return 'targetVersions';
-    default:
-      return filterId;
-  }
-}
 
 export class WorkPackageFilterValues {
   @LazyInject() currentUser:CurrentUserService;
@@ -122,11 +72,9 @@ export class WorkPackageFilterValues {
    * @private
    */
   private applyFirstValue(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
-    const attributeName = attributeNameForFilter(filter.id);
-
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
-    if (this.filterAlreadyApplied(change, filter, attributeName)) {
+    if (this.filterAlreadyApplied(change, filter)) {
       return;
     }
 
@@ -135,6 +83,7 @@ export class WorkPackageFilterValues {
 
     // Avoid empty values
     if (value) {
+      const attributeName = this.mapFilterToAttribute(filter);
       this.setValueFor(change, attributeName, value);
     }
   }
@@ -147,16 +96,16 @@ export class WorkPackageFilterValues {
    * @private
    */
   private setToNull(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
-    const attributeName = attributeNameForFilter(filter.id);
+    const attributeName = this.mapFilterToAttribute(filter);
 
-    this.setValue(change, attributeName, this.isMultiValueAttribute(attributeName) ? [] : { href: null });
+    this.setValue(change, attributeName, { href: null });
   }
 
   private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:string|HalResource):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.setValue(change, field, this.isMultiValueAttribute(field) ? [newValue] : newValue);
+      this.setValue(change, field, newValue);
     }
   }
 
@@ -189,12 +138,8 @@ export class WorkPackageFilterValues {
    * Avoid applying filter values when changeset already matches one of the selected values
    * @param filter
    */
-  private filterAlreadyApplied(
-    change:WorkPackageChangeset|Record<string, unknown>,
-    filter:{ id:string, values:unknown[] },
-    attributeName:string,
-  ):boolean {
-    const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
+  private filterAlreadyApplied(change:WorkPackageChangeset|Record<string, unknown>, filter:{ id:string, values:unknown[] }):boolean {
+    const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
     const current = Array.isArray(value) ? value : [value];
 
     for (let i = 0; i < filter.values.length; i++) {
@@ -208,7 +153,20 @@ export class WorkPackageFilterValues {
     return false;
   }
 
-  private isMultiValueAttribute(attributeName:string):boolean {
-    return attributeName === 'targetVersions';
+  /**
+   * Some filter ids need to be mapped to a different attribute name
+   * in order to be processed correctly.
+   *
+   * @param filter The filter to map
+   * @returns An attribute name string to set
+   * @private
+   */
+  private mapFilterToAttribute(filter:any):string {
+    if (filter.id === 'onlySubproject') {
+      return 'project';
+    }
+
+    // Default to returning the filter id
+    return filter.id;
   }
 }

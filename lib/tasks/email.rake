@@ -230,18 +230,14 @@ namespace :redmine do
     private
 
     def options_from_env
-      { issue: issue_defaults_from_env }.tap do |options|
-        %w[allow_override unknown_user no_permission_check].each do |key|
-          options[key.to_sym] = ENV[key] if ENV[key]
-        end
-      end
-    end
+      { issue: {} }.tap do |options|
+        default_fields = ENV.fetch("default_fields", "").split
+        default_fields |= %w[project status type category priority assigned_to version]
+        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field].present? }
 
-    def issue_defaults_from_env
-      fields = ENV.fetch("default_fields", "").split
-      fields |= %w[project status type category priority assigned_to version target_versions]
-      fields.each_with_object({}) do |field, issue|
-        issue[field.to_sym] = ENV[field] if ENV[field].present?
+        options[:allow_override] = ENV["allow_override"] if ENV["allow_override"]
+        options[:unknown_user] = ENV["unknown_user"] if ENV["unknown_user"]
+        options[:no_permission_check] = ENV["no_permission_check"] if ENV["no_permission_check"]
       end
     end
   end

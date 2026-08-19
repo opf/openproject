@@ -58,6 +58,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group with the parent work package in it" do
+      expect(render_component).to have_test_selector("op-relation-group-parent")
       expect(render_component).to have_list "Parent"
 
       list = page.find(:list, "Parent")
@@ -74,7 +75,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group" do
-      expect(render_component).to have_list "Children"
+      expect(render_component).to have_test_selector("op-relation-group-child")
     end
 
     it "renders the relations in child creation order" do
@@ -98,7 +99,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     TABLE
 
     it "renders the relations group" do
-      expect(render_component).to have_list "Predecessors (before)"
+      expect(render_component).to have_test_selector("op-relation-group-follows")
     end
 
     it "renders the relations in relation creation order" do

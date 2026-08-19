@@ -36,13 +36,12 @@ module Queries
         include UnpersistedQuery
 
         # Static queries selectable via the query_id param, mapping each id
-        # to the scope narrowing it stands for. The order is the order of the
-        # entries in the sidebar.
+        # to the scope narrowing it stands for.
         STATIC_QUERIES = {
-          "all" => ->(scope) { scope },
-          "main" => ->(scope) { scope.where(parent_id: nil) }
+          "main" => ->(scope) { scope.where(parent_id: nil) },
+          "all" => ->(scope) { scope }
         }.freeze
-        DEFAULT_QUERY = "all"
+        DEFAULT_QUERY = "main"
 
         def self.normalized_query_id(value)
           STATIC_QUERIES.key?(value.to_s) ? value.to_s : DEFAULT_QUERY

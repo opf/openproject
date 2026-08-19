@@ -36,6 +36,7 @@ module McpTools
     name "current_user"
 
     resource McpResources::CurrentUser
+    resource_schema "user_model"
     resource_annotations
   end
 end

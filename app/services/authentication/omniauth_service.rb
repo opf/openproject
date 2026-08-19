@@ -48,7 +48,7 @@ module Authentication
       self.contract = ::Authentication::OmniauthAuthHashContract.new(auth_hash)
     end
 
-    def call(additional_user_params = nil) # rubocop:disable Metrics/AbcSize
+    def call(additional_user_params = nil)
       inspect_response(Logger::DEBUG)
 
       unless contract.validate
@@ -68,7 +68,8 @@ module Authentication
 
       # Create or update the user from omniauth
       # and assign non-nil parameters from the registration form - if any
-      update_user_from_omniauth!((additional_user_params || {}).compact)
+      assignable_params = (additional_user_params || {}).compact
+      update_user_from_omniauth!(assignable_params)
 
       # If we have a new or invited user, we still need to register them
       call = activate_user!

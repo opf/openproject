@@ -645,7 +645,7 @@ RSpec.describe Meetings::IcalendarBuilder,
       expect(vtimezone_block).to be_present
       standard_count = vtimezone_block.scan("BEGIN:STANDARD").size
       daylight_count = vtimezone_block.scan("BEGIN:DAYLIGHT").size
-      expect(standard_count).to eq(3)
+      expect(standard_count).to eq(4)
       expect(daylight_count).to eq(4)
     end
 
@@ -657,30 +657,7 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
   end
 
-  context "for a meeting shortly before a DST change (Bug OP-19787)" do
-    subject(:builder) { described_class.new(timezone:) }
-
-    let(:parsed_calendar) { Icalendar::Calendar.parse(builder.to_ical).first }
-    # Europe/Berlin switches from CEST (+02:00) to CET (+01:00) on 2026-10-25
-    let(:meeting) { create(:meeting, :author_participates, start_time: Time.zone.parse("2026-09-30 09:00"), duration: 1.0) }
-
-    it "emits a VTIMEZONE observance in effect at the meeting start, resolving to summer time (+0200)" do
-      builder.add_single_meeting_event(meeting:)
-
-      tz = parsed_calendar.timezones.first
-      event_start = ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-09-30 09:00")
-
-      observances = (tz.standards + tz.daylights)
-      preceding = observances
-                    .select { |o| o.dtstart.to_time <= event_start }
-                    .max_by { |o| o.dtstart.to_time }
-
-      expect(preceding).to be_present
-      expect(preceding.tzoffsetto.value_ical).to eq("+0200")
-    end
-  end
-
-  context "with multiple recurring meetings in different timezones" do
+  context "with mutlipple recurring meetings in different timezones" do
     let(:project) { create(:project) }
     let(:user) do
       create(:user, firstname: "John", lastname: "Doe", member_with_permissions: { project => [:view_meetings] })

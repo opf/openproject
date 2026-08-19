@@ -37,9 +37,7 @@ zh-CN:
           accessible_gate: 阶段关口 %{name}：%{date}
           accessible_phase: 阶段 %{name}：%{date}
           tooltip_type_gate: 阶段关口
-          tooltip_type_milestone: 里程碑
           tooltip_type_phase: 阶段
-          tooltip_type_sprint: 冲刺
         subprojects:
           title: 子项目
         time_entries_current_user:

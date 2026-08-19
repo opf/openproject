@@ -1,0 +1,143 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%=
+    render Primer::OpenProject::SubHeader.new do |subheader|
+      if @type && @available_roles.any?
+        subheader.with_filter_component do
+          render(
+            Primer::Alpha::SelectPanel.new(
+              select_variant: :multiple,
+              fetch_strategy: :local,
+              title: t("admin.workflows.role_selector.title"),
+              data: data_attributes
+            )
+          ) do |panel|
+            panel.with_show_button(scheme: :secondary) do |button|
+              button.with_trailing_visual_icon(icon: :"triangle-down")
+              if @roles.many?
+                t("admin.workflows.role_selector.roles", count: @roles.size)
+              elsif @roles.one?
+                t("admin.workflows.role_selector.label", role: @roles.first.name)
+              else
+                t("admin.workflows.role_selector.no_role")
+              end
+            end
+            @available_roles.each do |available_role|
+              panel.with_item(
+                label: available_role.name,
+                active: @roles.include?(available_role),
+                item_id: available_role.id
+              )
+            end
+            panel.with_footer(show_divider: true) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  data: { action: "click->admin--workflow-role-select#apply" }
+                )
+              ) { t(:button_apply) }
+            end
+          end
+        end
+      end
+
+      subheader.with_action_button(
+        tag: :a,
+        scheme: :secondary,
+        leading_icon: :plus,
+        label: t("admin.workflows.status_button"),
+        href: helpers.status_dialog_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id), status_ids: @statuses.pluck(:id).presence),
+        data: { controller: "async-dialog" }
+      ) do
+        t("admin.workflows.status_button")
+      end
+    end
+  %>
+
+  <% if @statuses.any? %>
+    <%= form_tag(
+          workflow_tab_path(@type),
+          id: form_id,
+          method: :patch,
+          autocomplete: "off",
+          data: {
+            controller: "admin--workflow-checkbox-state",
+            "admin--workflow-checkbox-state-has-status-changes-value": @has_status_changes
+          }
+        ) do %>
+        <%= hidden_field_tag "type_id", @type.id %>
+        <% @roles.each do |role| %>
+          <%= hidden_field_tag "role_ids[]", role.id %>
+        <% end %>
+        <%= hidden_field_tag "tab", @tab %>
+
+        <%= helpers.render_tabs helpers.workflow_tabs(@type) %>
+
+        <div class="workflow-save-bar">
+          <%=
+            render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
+              t(:button_save)
+            end
+          %>
+        </div>
+
+        <%=
+          render(
+            Primer::OpenProject::FeedbackDialog.new(
+              title: t("admin.workflows.leave_confirmation.title"),
+              data: {
+                "admin--workflow-checkbox-state-target": "confirmationDialog"
+              }
+            )
+          ) do |dialog|
+            dialog.with_feedback_message(icon_arguments: { icon: :none }) do |message|
+              message.with_heading(tag: :h2) { t("admin.workflows.leave_confirmation.title") }
+              message.with_description_content(t("admin.workflows.leave_confirmation.description"))
+            end
+
+            dialog.with_footer do
+              component_collection do |footer|
+                footer.with_component(
+                  Primer::Beta::Button.new(scheme: :danger, data: { "admin--workflow-checkbox-state-target": "ignoreButton" })
+                ) { t("admin.workflows.leave_confirmation.ignore") }
+
+                footer.with_component(
+                  Primer::Beta::Button.new(scheme: :primary, data: { "admin--workflow-checkbox-state-target": "saveButton" })
+                ) { t("admin.workflows.leave_confirmation.save") }
+              end
+            end
+          end
+        %>
+      <% end %>
+  <% else %>
+    <%= render Workflows::BlankslateComponent.new(roles: @roles, type: @type, tab: @tab) %>
+  <% end %>
+<% end %>

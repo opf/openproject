@@ -74,7 +74,7 @@ RSpec.describe Workflows::CopiesController do
 
   describe "#new" do
     let(:params) do
-      { type_id: source_type.id.to_s, source_role_id: source_role&.id }
+      { workflow_type_id: source_type.id.to_s, source_role_id: source_role&.id }
     end
 
     before do

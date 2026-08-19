@@ -78,7 +78,6 @@ jobs:
             openprojectci,
             psatyal,
             samachon,
-            schm,
             shiroginne,
             toy,
             tiroessler,
@@ -92,8 +91,7 @@ jobs:
             fereshtehnm,
             thykel,
             j-racsko,
-            FeliciaMundhenke2904,
-            tinexw
+            FeliciaMundhenke2904
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
           remote-organization-name: opf
           remote-repository-name: legal

@@ -37,9 +37,7 @@ lv:
           accessible_gate: 'Phase gate %{name}: %{date}'
           accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
         subprojects:
           title: Subitems
         time_entries_current_user:

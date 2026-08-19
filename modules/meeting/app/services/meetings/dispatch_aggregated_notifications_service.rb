@@ -167,10 +167,9 @@ module Meetings
 
     def send_series_updated(recipient, actor, added_names:, removed_names:)
       series = meeting.recurring_meeting
-      # This aggregated service only sends participant-only updates for series.
-      # We can safely exclude the old_schedule from the changes hash.
       MeetingSeriesMailer.updated(series, recipient, actor,
-                                  changes: { old_location: series.template&.location },
+                                  changes: { old_schedule: series.full_schedule_in_words,
+                                             old_location: series.location },
                                   added_participants: added_names,
                                   removed_participants: removed_names).deliver_later
     end

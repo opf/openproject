@@ -181,8 +181,8 @@ RSpec.describe "Edit", :js do
   end
 
   context "with a shared sprint" do
-    let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
-    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS) }
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
     let!(:first_sprint) do
       create(:sprint,
              name: "Shared Sprint",

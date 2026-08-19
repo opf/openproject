@@ -24,7 +24,6 @@ while true; do
 			priority="${IMAP_ATTR_PRIORITY}" \
 			status="${IMAP_ATTR_STATUS}" \
 			version="${IMAP_ATTR_VERSION}" \
-			target_versions="${IMAP_ATTR_TARGET_VERSIONS}" \
 			type="${IMAP_ATTR_TYPE}" \
 			assigned_to="${IMAP_ATTR_ASSIGNED_TO}" \
 			unknown_user="${IMAP_UNKNOWN_USER}" \

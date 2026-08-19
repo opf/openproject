@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 import { Injectable, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -39,7 +11,6 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
   Observable,
@@ -54,19 +25,15 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
-   * The list-defining filter stays "version" (stored in board queries), while
-   * assigning a card writes the targetVersions attribute (see attributeName).
+   * The work package show view writes the version via the targetVersions
+   * attribute, while dragging a card between lists still writes the
+   * deprecated version attribute. Watch both so either change moves the card.
    *
-   * Both keys have to be watched: with Setting::WorkPackageMultipleVersions
-   * disabled, Type::Attributes still offers the deprecated single "version" in
-   * the work package form, so an edit in the full or split view commits that
-   * key and a card would otherwise stay in its old list until a page reload.
-   *
-   * TODO: reduce this to the default [this.attributeName] once the deprecated
-   * version attribute is no longer offered in the form.
+   * TODO: Reduce to targetVersions once boards write it as well
+   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
    */
-  override get watchedAttributes():string[] {
-    return [this.attributeName, this.filterName];
+  get watchedAttributes():string[] {
+    return [this.filterName, 'targetVersions'];
   }
 
   resourceName = 'version';
@@ -93,10 +60,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
-
-      this.writable$ = createForm()
-        .then((form:FormResource) => (form.schema[this.attributeName] as IFieldSchema).writable);
+      this.writable$ = query.results.createWorkPackage()
+        .then((form:FormResource) => form.schema.version.writable);
     }
 
     return this.writable$;

@@ -104,7 +104,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
           new_project_id: target.id,
           new_type_id: type.id,
           status_id: status.id,
-          "target_version_ids[]": version.id,
+          version_id: version.id,
           priority_id: priority.id,
           assigned_to_id: assignee.id,
           responsible_id: "none",

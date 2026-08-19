@@ -50,7 +50,7 @@ module Storages
             def url = UrlBuilder.url(@storage.uri, "/ocs/v2.php/cloud/capabilities")
 
             def handle_response(response)
-              error = SimpleError.new(source: self.class, payload: response, code: :error)
+              error = Results::Error.new(source: self.class, payload: response)
 
               case response
               in { status: 200..299 }
@@ -59,7 +59,7 @@ module Storages
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               else
-                Failure(error)
+                Failure(error.with(code: :error))
               end
             end
 

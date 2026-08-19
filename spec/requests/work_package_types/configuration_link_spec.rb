@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work package type configuration source",
                :skip_csrf,
                type: :rails_request,
-               with_flag: { type_variants: true } do
+               with_flag: { subtypes: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -42,18 +42,17 @@ RSpec.describe "Work package type configuration source",
 
   before { login_as admin }
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "renders the tab's own editor without the reuse mode banner" do
+  context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    it "renders the tab's own editor without the reuse mode toggle" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("Independent mode")
-      expect(response.body).not_to include("Linked mode")
+      expect(response.body).not_to include("These settings belong to this type")
     end
 
-    it "blocks the switch endpoint" do
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.id }
+    it "blocks the update endpoint" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: source.id }
 
       expect(response).to have_http_status(:not_found)
       expect(type).not_to be_linked(aspect)
@@ -61,18 +60,18 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "rendering the tabs" do
-    it "renders the PDF tab with the reuse mode banner in independent mode" do
+    it "renders the PDF tab with the mode toggle" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Independent")
     end
 
-    it "renders the subject tab with the reuse mode banner in independent mode" do
-      get edit_type_defaults_path(type_id: type.id)
+    it "renders the subject tab with the mode toggle" do
+      get edit_type_subject_configuration_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Independent")
     end
 
     it "shows the type's own editor when Independent" do
@@ -81,152 +80,87 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("PDF Export templates")
     end
 
-    it "shows the linked banner and links to the source type when Linked" do
+    it "includes the irreversibility warning for switching an Independent type to Linked" do
+      get edit_type_pdf_export_template_index_path(type_id: type.id)
+
+      expect(response.body).to include("The current settings are discarded and work packages of this type may be affected.")
+    end
+
+    it "hides the editor and shows the source picker when Linked" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("Linked mode")
-      expect(response.body).to include(source.name)
+      expect(response.body).to include("Source type")
+      expect(response.body).not_to include("PDF Export templates")
     end
 
-    it "shows a read-only preview instead of the editable editor when Linked" do
+    it "explains the copy-on-adopt when a Linked type may switch to Independent" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      # the preview lists the templates but drops the editable enable/disable actions
-      expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("enable-all-pdf-export-templates")
+      expect(response.body).to include("then removes the link. You can edit them freely afterwards.")
     end
   end
 
-  describe "read-only preview of a Linked aspect" do
-    it "shows the inherited subject pattern and links to the source" do
-      source.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
-      type.link!(Type::ConfigurationLink::DEFAULTS, source:)
+  describe "PUT update" do
+    it "links the aspect to the chosen source" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: source.id }
 
-      get edit_type_defaults_path(type_id: type.id)
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
-      expect(response.body).to include("PR-{{id}}")
-      expect(response.body).to include(edit_type_details_path(type_id: source.id))
-    end
-  end
-
-  describe "GET dialog" do
-    it "renders the linked source picker" do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
-      expect(response.body).to include("Switch")
+      expect(response).to be_redirect
+      expect(type.source_for(aspect)).to eq(source)
     end
 
-    it "lists every source by composite name, families kept together, the parent flagged" do
-      parent = create(:type, name: "Feature")
-      create(:type, name: "Small", parent:)
-      create(:type, name: "Big", parent:)
-      variant = create(:type, name: "Mobile", parent:)
+    it "switches the aspect back to independent" do
+      type.link!(aspect, source:)
 
-      get type_configuration_link_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "independent" }
 
-      expect(source_option_labels).to eq(
-        [type.name, source.name, "Feature (parent)", "Feature: Big", "Feature: Small"]
-      )
-    end
-
-    it "is not found for an unknown aspect" do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "POST confirm" do
-    it "renders the switch-configuration confirmation when currently Independent" do
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: source.id },
-           as: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("closeDialog")
-      expect(response.body).to include("Switch configuration mode?")
-      expect(response.body).to include("I understand that this will override the current settings")
-    end
-
-    it "renders the change-source confirmation when currently Linked" do
-      type.link!(aspect, source: create(:type))
-      other = create(:type, name: "Feature")
-
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: other.id },
-           as: :turbo_stream
-
-      expect(response.body).to include("Change source type?")
-      expect(response.body).to include("Feature")
-    end
-
-    it "flashes an error when no source was picked" do
-      post type_configuration_link_confirm_path(type_id: type.id, aspect:),
-           params: { source_id: "" },
-           as: :turbo_stream
-
-      expect(response.body).not_to include("Switch configuration mode?")
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.invalid_source"))
-    end
-  end
-
-  describe "POST switch" do
-    it "links the aspect, closes the dialog and dispatches the reload event" do
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.id },
-           as: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(type.reload.source_for(aspect)).to eq(source)
-      expect(response.body).to include("closeDialog")
-      expect(response.body).to include("dispatchEvent")
-      expect(response.body)
-        .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.success"))
-    end
-
-    it "flashes an error and links nothing on a cyclic source" do
-      create(:type_configuration_link, type: source, source: type, aspect:)
-
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.id },
-           as: :turbo_stream
-
-      expect(response.body).not_to include("dispatchEvent")
+      expect(response).to be_redirect
       expect(type.reload).not_to be_linked(aspect)
+    end
+
+    it "adopts a source's config when switching to independent with a source" do
+      configured = create(:type)
+      configured.pdf_export_templates.disable_all
+      configured.save!
+
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "independent", source_id: configured.id }
+
+      expect(type.reload).not_to be_linked(aspect)
+      expect(type.export_templates_disabled).to eq(configured.export_templates_disabled)
+    end
+
+    it "does not persist an invalid (self) source and flashes an alert" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: type.id }
+
+      expect(type).not_to be_linked(aspect)
+      expect(flash[:alert]).to be_present
+      expect(flash[:notice]).to be_blank
+    end
+
+    it "does not link when no source was picked" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: "" }
+
+      expect(type).not_to be_linked(aspect)
+      expect(flash[:alert]).to be_present
+      expect(flash[:notice]).to be_blank
     end
 
     it "requires admin" do
       login_as create(:user)
 
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.id },
-           as: :turbo_stream
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: source.id }
 
       expect(response).not_to be_successful
-      expect(type.reload).not_to be_linked(aspect)
+      expect(type).not_to be_linked(aspect)
     end
-  end
-
-  # A decorated autocompleter ships its options to the Angular component as a
-  # JSON payload rather than rendering them as markup.
-  def source_option_labels
-    autocompleter = Nokogiri::HTML5.fragment(response.body).at_css("opce-autocompleter")
-
-    JSON.parse(autocompleter["data-items"]).pluck("name")
   end
 end

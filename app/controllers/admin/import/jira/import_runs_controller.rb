@@ -32,7 +32,6 @@ module Admin::Import::Jira
   class ImportRunsController < ApplicationController
     include OpTurbo::ComponentStream
     include ImportRuns::ComponentStreams
-    include ImportRuns::SelectProjectsDialog
 
     layout "admin"
 
@@ -59,11 +58,8 @@ module Admin::Import::Jira
     end
 
     def continue
-      step = params[:step]
-      change_step(step) unless @jira_import.status_running?
-      stream_wizard do
-        open_select_projects_dialog if step.present? && step.to_sym == :configure && @jira_import.in_state?(:configuring)
-      end
+      change_step(params[:step]) unless @jira_import.status_running?
+      stream_wizard
     rescue StandardError => e
       handle_error(e)
     end

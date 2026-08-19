@@ -124,10 +124,10 @@ RSpec.describe "API v3 Work package form resource" do
               .at_path("_embedded/schema/subject/writable")
           end
 
-          it "denotes target versions to be writable" do
+          it "denotes version to be writable" do
             expect(subject)
               .to be_json_eql(true)
-              .at_path("_embedded/schema/targetVersions/writable")
+              .at_path("_embedded/schema/version/writable")
           end
 
           it "denotes string custom_field to be writable" do
@@ -549,7 +549,7 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "handling people", "responsible"
             end
 
-            describe "version", with_settings: { work_package_multiple_versions: false } do
+            describe "version" do
               let(:path) { "_embedded/payload/_links/version/href" }
               let(:target_version) { create(:version, project:, start_date: Time.zone.today - 2.days) }
               let(:other_version) { create(:version, project:, start_date: Time.zone.today - 1.day) }
@@ -581,29 +581,6 @@ RSpec.describe "API v3 Work package form resource" do
 
                 it "responds with updated work package version" do
                   expect(subject.body).to be_json_eql(version_link.to_json).at_path(path)
-                end
-              end
-            end
-
-            describe "targetVersions" do
-              let(:path) { "_embedded/payload/_links/targetVersions" }
-              let(:target_version) { create(:version, project:) }
-              let(:version_parameter) do
-                { _links: { targetVersions: [{ href: api_v3_paths.version(target_version.id) }] } }
-              end
-              let(:params) { valid_params.merge(version_parameter) }
-
-              context "for a valid version" do
-                include_context "with post request"
-
-                it_behaves_like "valid payload"
-
-                it_behaves_like "having no errors"
-
-                it "echoes the requested target versions although they are not persisted yet" do
-                  expect(subject.body)
-                    .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
-                    .at_path("#{path}/0/href")
                 end
               end
             end
@@ -931,7 +908,7 @@ RSpec.describe "API v3 Work package form resource" do
 
         it { is_expected.to have_json_path("_embedded/payload/lockVersion") }
 
-        it { is_expected.to have_json_path("_embedded/payload/_links/targetVersions") }
+        it { is_expected.to have_json_path("_embedded/payload/_links/version") }
 
         it { is_expected.not_to have_json_path("_embedded/payload/subject") }
       end
@@ -944,10 +921,10 @@ RSpec.describe "API v3 Work package form resource" do
           .at_path("_embedded/schema/subject/writable")
       end
 
-      it "denotes target versions to be writable" do
+      it "denotes version to be writable" do
         expect(subject)
           .to be_json_eql(true)
-          .at_path("_embedded/schema/targetVersions/writable")
+          .at_path("_embedded/schema/version/writable")
       end
 
       it "denotes custom_field to not be writable" do

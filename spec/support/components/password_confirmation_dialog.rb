@@ -52,15 +52,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_test_selector(test_selector)
-    end
-
-    def cancel
-      expect_open
-      page.within_test_selector(test_selector) do
-        click_on I18n.t("button_cancel")
-      end
-      expect_closed
+      expect(page).to have_no_test_selector(test_selector)
     end
 
     def submit_button

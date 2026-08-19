@@ -1,6 +1,6 @@
 <%= render(FormControl.new(input: @input)) do %>
   <%= content_tag(:div, **@field_wrap_arguments) do %>
-    <%= builder.hidden_field :color_id, disabled: @input.disabled? %>
+    <%= builder.hidden_field :color_id %>
     <%= angular_component_tag(
           "opce-colors-autocompleter",
           class: "colors-autocomplete form--select-container",

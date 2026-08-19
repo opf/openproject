@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 import { Board } from 'core-app/features/boards/board/board';
 import { ComponentType } from '@angular/cdk/portal';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -39,7 +11,7 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { attributeNameForFilter, WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Observable } from 'rxjs';
@@ -74,22 +46,11 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
-   * The work package attribute written when a card is assigned to a list.
-   * Usually the filter name, but it may differ from it while a deprecated
-   * attribute is replaced (e.g. the version filter writes targetVersions).
-   * Derived from the same mapping WorkPackageFilterValues applies, so the
-   * attribute this service writes and the one it reports can never disagree.
-   */
-  get attributeName():string {
-    return attributeNameForFilter(this.filterName);
-  }
-
-  /**
    * The work package attributes whose changes may move a work package
    * between the lists of the board.
    */
   get watchedAttributes():string[] {
-    return [this.attributeName];
+    return [this.filterName];
   }
 
   /**
@@ -261,7 +222,7 @@ export abstract class BoardActionService {
    */
   canMove(workPackage:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(workPackage);
-    const fieldSchema = schema[this.attributeName] as IFieldSchema;
+    const fieldSchema = schema[this.filterName] as IFieldSchema;
     return fieldSchema?.writable;
   }
 
@@ -270,10 +231,10 @@ export abstract class BoardActionService {
    */
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     // Ensure attribute remains writable in the form
-    if (!changeset.isWritable(this.attributeName)) {
+    if (!changeset.isWritable(this.filterName)) {
       throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(this.attributeName) },
+        { attribute: changeset.humanName(this.filterName) },
       ));
     }
 

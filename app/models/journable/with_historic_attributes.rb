@@ -120,8 +120,8 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       end
     end
 
-    def load_journal_associations(journalized)
-      Loader.new(journalized).load_journal_associations
+    def load_custom_values(journalized)
+      Loader.new(journalized).load_custom_values
     end
 
     private
@@ -262,34 +262,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       )
     )
 
-    merge_target_versions_changes!(changes, historic_journable)
-
     changes
-  end
-
-  def merge_target_versions_changes!(changes, historic_journable)
-    return unless __getobj__.respond_to?(:target_versions)
-
-    changes.delete("version_id")
-    changes.merge!(target_versions_changes(historic_journable))
-  end
-
-  def target_versions_changes(historic_journable)
-    old_ids = sorted_target_version_ids(historic_journable)
-    new_ids = sorted_target_version_ids(__getobj__)
-
-    {}.tap do |changes|
-      changes["version_id"] = [old_ids.first, new_ids.first] if old_ids.first != new_ids.first
-      changes["target_versions"] = [old_ids, new_ids].map { joined_version_ids(it) } if old_ids != new_ids
-    end
-  end
-
-  def sorted_target_version_ids(work_package)
-    work_package.target_versions.map(&:id).sort
-  end
-
-  def joined_version_ids(ids)
-    ids.join(",").presence
   end
 
   def changed_attributes_at_timestamp(timestamp)

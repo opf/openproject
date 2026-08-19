@@ -31,7 +31,7 @@
 module OpenIDConnect
   module UserTokens
     class TokenRequest
-      include Dry::Monads::Result(SimpleError)
+      include Dry::Monads::Result(TokenOperationError)
 
       attr_reader :provider
 
@@ -59,7 +59,7 @@ module OpenIDConnect
 
       def request_token(form:)
         response = authenticated_request.post(provider.token_endpoint, form:)
-        error = SimpleError.new(payload: response, source: self.class, code: :error)
+        error = TokenOperationError.new(payload: response, source: self.class)
 
         case response
         in status: 200
@@ -69,7 +69,7 @@ module OpenIDConnect
         in status: 403
           Failure(error.with(code: :forbidden))
         else
-          Failure(error)
+          Failure(error.with(code: :error))
         end
       end
 

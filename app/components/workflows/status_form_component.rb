@@ -32,19 +32,17 @@ module Workflows
   class StatusFormComponent < ApplicationComponent
     FORM_ID = "status-selection-form"
 
-    def initialize(context:)
+    def initialize(all_statuses:, current_statuses:, roles:, type:, tab:)
       super
-      @context = context
+      @all_statuses = all_statuses
+      @current_statuses = current_statuses
+      @roles = roles
+      @type = type
+      @tab = tab
     end
 
     def dialog_id
       StatusDialogComponent::DIALOG_ID
     end
-
-    private
-
-    attr_reader :context
-
-    delegate :type, :tab, :roles, to: :context
   end
 end

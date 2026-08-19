@@ -186,52 +186,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         expect(token.call(work_package)).to eq("03.10.2025")
       end
     end
-
-    context "for a variant" do
-      let(:root_type) { create(:type, name: "Task") }
-      let(:variant) { create(:type, name: "Bug", parent: root_type) }
-      let(:sub_work_package) { build_stubbed(:work_package, type: variant) }
-
-      subject { described_class.new.partitioned_tokens_for_type(variant) }
-
-      it "resolves the type token to the root type's name" do
-        enabled, = subject
-        token = detect(enabled, :type)
-
-        expect(token.call(sub_work_package)).to eq("Task")
-      end
-    end
-
-    context "for versions" do
-      shared_let(:second_version) { create(:version, project:) }
-
-      before do
-        create(:work_package_version, work_package:, version: second_version, kind: :target)
-      end
-
-      context "when work package multiple versions is active",
-              with_settings: { work_package_multiple_versions: true } do
-        it "renders an array of values" do
-          enabled, = subject
-          token = detect(enabled, :version)
-
-          expect(token.call(work_package)).to eq("#{version.name}, #{second_version.name}")
-        end
-
-        it "label is target versions" do
-          enabled, = subject
-          expect(detect(enabled, :version)&.label).to eq("Target versions")
-        end
-      end
-
-      context "when work package multiple versions is not active",
-              with_settings: { work_package_multiple_versions: false } do
-        it "label is version" do
-          enabled, = subject
-          expect(detect(enabled, :version)&.label).to eq("Version")
-        end
-      end
-    end
   end
 
   private

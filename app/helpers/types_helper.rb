@@ -35,14 +35,9 @@ module ::TypesHelper
   def types_tabs
     [
       {
-        name: "details",
-        path: edit_type_details_path(type_id: @type.id),
-        label: I18n.t("types.edit.details.tab")
-      },
-      {
-        name: "defaults",
-        path: edit_type_defaults_path(type_id: @type.id),
-        label: I18n.t("types.edit.defaults.tab")
+        name: "settings",
+        path: edit_type_settings_path(@type),
+        label: I18n.t("types.edit.settings.tab")
       },
       {
         name: "form_configuration",
@@ -50,14 +45,15 @@ module ::TypesHelper
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
-        name: "workflow",
-        path: edit_type_workflow_path(@type),
-        label: I18n.t("types.edit.workflow.tab")
-      },
-      {
         name: "project_attributes",
         path: edit_type_project_attributes_path(@type),
         label: I18n.t("types.edit.project_attributes.tab")
+      },
+      {
+        name: "subject_configuration",
+        path: edit_type_subject_configuration_path(type_id: @type.id),
+        label: I18n.t("types.edit.subject_configuration.tab"),
+        enterprise_feature: :work_package_subject_generation
       },
       {
         name: "projects",
@@ -72,6 +68,7 @@ module ::TypesHelper
       }
     ]
   end
+
   # rubocop:enable Rails/HelperInstanceVariable
 
   def icon_for_type(type)
@@ -91,18 +88,7 @@ module ::TypesHelper
 
     content_tag(:span, " ",
                 class: css_class,
-                style: "background-color: #{color}",
-                **accessible_type_icon_attributes(type))
-  end
-
-  # The diamond shape is the only thing distinguishing a milestone from an
-  # ordinary type, so it needs a text equivalent. role="img" is what lets the
-  # title count as the accessible name on an otherwise roleless span. Ordinary
-  # types say nothing: the type name follows in the adjacent text.
-  def accessible_type_icon_attributes(type)
-    return { aria: { hidden: true } } unless type.is_milestone?
-
-    { role: "img", title: I18n.t("types.milestone_indicator") }
+                style: "background-color: #{color}")
   end
 
   ##
@@ -138,7 +124,6 @@ module ::TypesHelper
     return nil unless group.group_type == :query
 
     query = group.attributes
-    return nil if query.blank?
 
     # Reduce the query to its valid subset to avoid errors loading the form
     query.valid_subset!
@@ -161,19 +146,10 @@ module ::TypesHelper
         key: group.key,
         type: group.group_type,
         name: group.translated_key,
-        element_key: exclusion_element_key(group),
         attributes: active_group_attributes_map(group, available, inactive),
         query: query_to_query_props(group)
       }
     end
-  end
-
-  # The key a query group is excluded by. Attribute groups have none, their rows carry their own,
-  # and neither does a group whose query was deleted: the key is derived from the query id.
-  def exclusion_element_key(group)
-    return nil unless group.group_type == :query && group.query.present?
-
-    group.query_attribute_name.to_s
   end
 
   def attr_form_map(key, represented)

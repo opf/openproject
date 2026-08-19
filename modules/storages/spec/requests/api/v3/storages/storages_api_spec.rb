@@ -295,7 +295,7 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
         end
 
         context "when authorization fails" do
-          let(:user_query_result) { Failure(SimpleError.new(code: :unauthorized, source: self)) }
+          let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: self)) }
 
           it_behaves_like "a storage authorization result",
                           expected: API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
@@ -303,7 +303,7 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
         end
 
         context "when authorization fails with an error" do
-          let(:user_query_result) { Failure(SimpleError.new(code: :error, source: self)) }
+          let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: self)) }
 
           it_behaves_like "a storage authorization result",
                           expected: API::V3::Storages::URN_CONNECTION_ERROR,

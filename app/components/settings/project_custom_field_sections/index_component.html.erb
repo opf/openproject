@@ -1,10 +1,10 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
     if @project_custom_field_sections.any?
-      flex_layout(data: sections_list_data) do |flex|
+      flex_layout(classes: "dragula-container", data: { "allowed-drop-type": "section" }.merge(drop_target_config)) do |flex|
         @project_custom_field_sections.each do |section|
           flex.with_row(
-            data: section_item_data(section)
+            data: draggable_item_config(section)
           ) do
             render(row_component_class.new(project_custom_field_section: section, first_and_last:))
           end

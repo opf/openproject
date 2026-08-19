@@ -40,10 +40,6 @@ module Wikis
                )) { wiki_page.title }
       end
 
-      def parent
-        wiki_page.parent&.title || "-"
-      end
-
       def project_name
         wiki_page.wiki.project.name
       end

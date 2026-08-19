@@ -37,6 +37,7 @@ module McpTools
     name "list_statuses"
 
     resource McpResources::StatusList
+    resource_schema "status_collection_model"
     resource_annotations
   end
 end

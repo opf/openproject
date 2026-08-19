@@ -31,26 +31,13 @@
 class Projects::Settings::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
 
-  def initialize(project:, current_user: User.current)
+  def initialize(project:)
     super
 
     @project = project
-    @current_user = current_user
   end
 
-  attr_reader :project, :current_user
+  attr_reader :project
 
   delegate :public?, to: :project
-
-  private
-
-  def allowed_to_copy?
-    current_user.allowed_in_project?(:copy_projects, project)
-  end
-
-  def favorited?
-    return @favorited if defined?(@favorited)
-
-    @favorited = project.favorited_by?(current_user)
-  end
 end

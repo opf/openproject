@@ -91,7 +91,7 @@ RSpec.describe Reminders::NotificationMailer do
     context "with semantic mode",
             with_settings: { work_packages_identifier: "semantic" } do
       let(:work_package) do
-        build_stubbed(:work_package, identifier: "PROJ-42")
+        build_stubbed(:work_package, identifier: "PROJ-42", sequence_number: 42)
       end
 
       it "shows the semantic identifier without # prefix in the mail body" do

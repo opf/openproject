@@ -41,9 +41,7 @@ module API
         end
 
         def writable_attributes
-          attributes = super + %w[date]
-          attributes += %w[version] if attributes.include?("targetVersions") && !Setting::WorkPackageMultipleVersions.active?
-          attributes
+          super + %w[date]
         end
 
         def load_complete_model(model)

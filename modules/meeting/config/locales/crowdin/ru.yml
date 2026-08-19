@@ -329,12 +329,12 @@ ru:
         heading: Отменить это событие?
         title: Отменить это событие
       occurrence_past:
-        confirm_button: Удалить повторение
-        confirmation_message_html: 'Это действие нельзя отменить. Пожалуйста, действуйте с осторожностью.
+        confirm_button: Delete occurrence
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
 
           '
-        heading: Удалить это вхождение?
-        title: Удалить повторение
+        heading: Delete this occurrence?
+        title: Delete occurrence
       one_time:
         confirmation_message_html: 'Это действие не обратимо. Пожалуйста, действуйте с осторожностью.
 
@@ -440,13 +440,13 @@ ru:
           disable: Отключить уведомления по электронной почте
           enable: Включить уведомления по электронной почте
         message:
-          disable: Если у них уже было приглашение на эту встречу, оно, возможно, уже утратило актуальность.
-          enable: После включения, все участники будут немедленно отсылаться по электронной почте.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Once enabled, an email will be sent out immediately to all participants.
         title:
           disable: Отключить обновления календаря по электронной почте?
           enable: Включить обновления календаря по электронной почте?
-      disabled: Участники не будут получать по электронной почте уведомления с информацией об изменениях даты, времени или списка участников.
-      enabled: Все участники получат обновленные приглашения в календаре с информацией об изменениях даты, времени или списка участников.
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         description:
           change_via_template: Чтобы изменить это, отредактируйте шаблон серии.
@@ -549,16 +549,16 @@ ru:
     name: Совещание OpenProject
   project_module_meetings: Совещания
   recurring_meeting:
-    actual_first_occurrence_mismatch_html: Первое мероприятие этой серии состоится %{first_occurrence}
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
     caption:
-      ends_on: В результате серия заканчивается %{date}
+      ends_on: This results in a series ending on %{date}
       occurrences:
-        one: В результате будет одно предстоящее событие
-        few: В результате будет %{count} предстоящих события
-        many: В результате будет %{count} предстоящих событий
-        other: В результате будет %{count} предстоящих событий
-      occurrences_capped: В результате получается более %{count} предстоящих событий
-    day_of_month_skipping_info: Месяцы, в которых число дней меньше, чем %{monthly_day}, будут пропущены
+        one: This results in 1 upcoming occurrence
+        few: This results in %{count} upcoming occurrences
+        many: This results in %{count} upcoming occurrences
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
         one: 'Удаление <strong>%{title}</strong> также удалит одно вхождение в эту серию. Это действие необратимо. Пожалуйста, действуйте с осторожностью.
@@ -573,7 +573,7 @@ ru:
       heading: Удалить эту серию совещаний навсегда?
       title: Удалить серию совещаний
     end_after:
-      iterations: После числа событий
+      iterations: After a number of occurrences
       never: Никогда
       specific_date: После определенной даты
     end_series_dialog:
@@ -608,9 +608,9 @@ ru:
       full: "%{base} в %{time}, заканчивается %{end_date}"
       full_past: "%{base} в %{time}, закончился %{end_date}"
       monthly_day: Ежемесячно в %{day} день
-      monthly_day_interval: Каждые %{interval} месяцев в %{day}
-      monthly_nth_weekday: Ежемесячно на %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Каждый %{interval} месяц в %{ordinal} %{weekday}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
       never_ending: "%{base} в %{time}"
       weekly: Каждую неделю в %{weekday}
       weekly_interval: Каждые %{interval} недель в %{weekday}
@@ -623,14 +623,14 @@ ru:
         second: второй
         third: третий
       ordinal_options:
-        first: Первый
-        fourth: Четвертый
-        last: Последний
-        second: Второй
-        third: Третий
+        first: First
+        fourth: Fourth
+        last: Last
+        second: Second
+        third: Third
     occurrence:
       error_no_next: Следующее событие для этого совещания не состоится.
-      error_template_draft: Шаблон серии встреч все еще находится в режиме черновика.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Первое событие этой серии совещаний уже произошло.
       first_created: 'Первое совещание было успешно создано из шаблона. Все последующие совещания будут создаваться автоматически в момент предыдущего.
 
@@ -682,7 +682,7 @@ ru:
         '
       title: Разница часового пояса
   text_add_work_package_to_meeting_description: Пакет работ может быть добавлен к одному или нескольким совещаниям для обсуждения. Любые заметки об этом также видны здесь.
-  text_add_work_package_to_meeting_form: Пакет работ будет добавлен в выбранное совещание или бэклог в качестве пункта повестки дня.
+  text_add_work_package_to_meeting_form: Рабочий пакет будет добавлен в выбранное совещание или бэклог в качестве пункта повестки дня.
   text_agenda_backlog: 'Этот список невыполненных работ уникален для данного разового собрания. Вы можете перетаскивать элементы, чтобы добавлять или удалять их из повестки дня собрания.
 
     '
@@ -751,5 +751,5 @@ ru:
 
     '
   text_work_package_add_to_meeting_hint: Используйте кнопку "Добавить к совещанию", чтобы добавить этот пакет работ к предстоящему совещанию.
-  text_work_package_has_no_past_meeting_agenda_items: Этот пакет работ не был добавлен в качестве пункта повестки дня на прошлом совещании.
+  text_work_package_has_no_past_meeting_agenda_items: Этот рабочий пакет не был добавлен в качестве пункта повестки дня на прошлом совещании.
   text_work_package_has_no_upcoming_meeting_agenda_items: Этот пакет работ пока не включен в повестку предстоящего совещания.

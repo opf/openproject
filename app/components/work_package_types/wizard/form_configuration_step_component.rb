@@ -40,24 +40,14 @@ module WorkPackageTypes
       end
 
       def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     type: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
-        end
+        render(WorkPackageTypes::FormConfigurationComponent.new(
+                 type: model,
+                 form_attributes: helpers.form_configuration_groups(model),
+                 no_filter_query:
+               ))
       end
 
       private
-
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :form_configuration)
-      end
 
       def no_filter_query
         ::API::V3::Queries::QueryParamsRepresenter

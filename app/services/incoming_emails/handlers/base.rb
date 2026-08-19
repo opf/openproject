@@ -178,7 +178,7 @@ module IncomingEmails::Handlers
         # Work package attribute translations
         I18n.with_locale(lang) do
           %i[assigned_to category due_date estimated_hours parent priority
-             remaining_hours responsible start_date status type version target_versions project].each do |attr|
+             remaining_hours responsible start_date status type version project].each do |attr|
             translations[attr] = ::WorkPackage.human_attribute_name(attr)
           end
         end

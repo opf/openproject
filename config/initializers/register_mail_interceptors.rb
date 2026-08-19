@@ -33,7 +33,6 @@
 Rails.application.reloader.to_prepare do
   ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
   ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
   # following needs to be the last interceptor
   ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
 end

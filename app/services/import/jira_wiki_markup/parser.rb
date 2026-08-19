@@ -583,11 +583,7 @@ module Import
 
         params = {}
         raw.split("|").each do |segment|
-          part = segment.strip
-          next if part.empty?
-          next unless part.include?("=")
-
-          key, value = part.split("=", 2)
+          key, value = segment.strip.split("=", 2)
           params[key.strip] = value&.strip
         end
         params

@@ -126,7 +126,7 @@ cs:
     error_no_device: Žádné registrované 2FA zařízení pro tohoto uživatele nebylo nalezeno, přestože bylo nezbytné pro tuto instanci.
     error_no_matching_strategy: Žádná odpovídající 2FA strategie pro tohoto uživatele. Obraťte se prosím na svého administrátora.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Aktivní bezpečnostní politika vyžaduje, abyste povolili dvoufaktorové ověřování. Pro registraci zařízení použijte následující formulář.
     label_2fa_disabled: Dvoufázové ověřování není aktivní
     label_2fa_enabled: Dvoufázové ověřování je aktivní
     label_default_device: Výchozí 2FA zařízení

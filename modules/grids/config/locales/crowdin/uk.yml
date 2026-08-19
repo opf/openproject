@@ -32,10 +32,7 @@ uk:
         no_results: Нічого нового для звітування.
       not_available: Цей віджет недоступний.
       project_timeline:
-        footer_actions_label: Дізнатися більше
-        gantt_link: Віхи (діаграма Ґанта)
-        no_results_title: Вміст часової шкали проєкту не налаштовано
-        sprints_link: Огляд спринтів
+        no_lifecycle_results: Немає етапів життєвого циклу
         title: Часова шкала проєкту
         title_portfolio: Часова шкала портфеля
         title_program: Часова шкала програми

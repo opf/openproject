@@ -33,7 +33,7 @@ module Projects::Scopes::NotSharingSprints
 
   class_methods do
     def not_sharing_sprints
-      with_settings(sprint_sharing: Projects::SprintSettings::NO_SHARING)
+      with_settings(sprint_sharing: Projects::SprintSharing::NO_SHARING)
         .or(with_settings(sprint_sharing: ""))
         .or(with_settings(sprint_sharing: nil))
     end

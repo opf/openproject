@@ -37,22 +37,14 @@ module OpenProject::TextFormatting
     #   workPackageValue:subject      # Outputs the actual subject of #1234 of the current work package 1234 if applicable
     #   workPackageValue:1234:subject # Outputs the actual subject of #1234
     #
-    #   workPackageValue:1234:targetVersions:singleline # Outputs the values of #1234 on a single line
-    #   workPackageValue:1234:targetVersions:multiline  # Outputs the values of #1234 on multiple lines (default)
-    #
     #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
     #   projectValue:statusExplanation # Outputs current project value for "Status description"
     class AttributeMacros < RegexMatcher
-      # Reserved keywords of the optional layout argument. An attribute with
-      # such a name can still be referenced by quoting it.
-      LAYOUTS = %w[multiline singleline].freeze
-
       def self.regexp
         %r{
-          (?<model>\w+)(?<type>Label|Value) # The model type we try to reference
-          (?::(?:(?<id>[^":\s]+)|"(?<quoted_id>[^"]+)"))? # Optional: An ID or subject reference
-          (?::(?<attribute>[^":\s.]+|"(?<quoted_attribute>[^"]+)")) # The attribute name we're trying to reference
-          (?::(?<layout>#{LAYOUTS.join('|')})\b)? # Optional: A layout argument (whole keyword only)
+          (\w+)(Label|Value) # The model type we try to reference
+          (?::(?:([^"\s]+)|"([^"]+)"))? # Optional: An ID or subject reference
+          (?::([^"\s.]+|"([^"]+)")) # The attribute name we're trying to reference
         }x
       end
 
@@ -90,40 +82,19 @@ module OpenProject::TextFormatting
       end
 
       def self.process_match(match, _matched_string, context)
-        type = match[:type].downcase
+        # Leading string before match
+        macro_attributes = {
+          model: match[1],
+          id: match[4] || match[3],
+          attribute: match[6] || match[5]
+        }
+        type = match[2].downcase
+
+        macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
 
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
                                                   "",
-                                                  data: extract_macro_attributes(match, context).compact
-      end
-
-      def self.extract_macro_attributes(match, context)
-        macro_attributes = {
-          model: match[:model],
-          id: match[:quoted_id] || match[:id],
-          attribute: match[:quoted_attribute] || match[:attribute],
-          layout: match[:layout]
-        }
-
-        macro_attributes = reinterpret_as_relative_embed(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
-        macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
-        macro_attributes
-      end
-
-      ##
-      # In the relative form (workPackageValue:targetVersions:singleline), the
-      # regex binds the attribute to the id slot and the layout keyword to the
-      # attribute slot. A bare attribute matching a reserved layout keyword
-      # marks that form, so shift the segments into a relative embed.
-      def self.reinterpret_as_relative_embed(macro_attributes, quoted_attribute:)
-        return macro_attributes if macro_attributes[:layout] || quoted_attribute || macro_attributes[:id].nil?
-        return macro_attributes unless LAYOUTS.include?(macro_attributes[:attribute])
-
-        macro_attributes.merge(
-          layout: macro_attributes[:attribute],
-          attribute: macro_attributes[:id],
-          id: nil
-        )
+                                                  data: macro_attributes
       end
     end
   end

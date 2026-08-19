@@ -53,13 +53,23 @@ module McpTools
       }
     )
 
+    output_schema(
+      type: :object,
+      required: ["items"],
+      properties: {
+        items: {
+          type: :array,
+          items: JsonSchemaLoader.new.load("program_model")
+        }
+      }
+    )
+
     def call(page: nil, **filters)
       filtered = apply_filters(Project.program.visible, filters)
-      programs, total = apply_pagination(filtered, page)
+      programs = apply_pagination(filtered, page)
 
       {
-        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
-        total:
+        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
       }
     end
   end

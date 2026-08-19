@@ -31,14 +31,12 @@
 module VersionsHelper
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
-    selected_versions = Array(selected)
-    grouped = versions_by_project(versions + selected_versions)
-    selected_ids = selected_versions.map(&:id)
+    grouped = versions_by_project((versions + [selected]).compact)
 
     if grouped.size > 1
-      grouped_options_for_select(grouped, selected_ids)
+      grouped_options_for_select(grouped, selected&.id)
     else
-      options_for_select(grouped.values.first || [], selected_ids)
+      options_for_select(grouped.values.first || [], selected&.id)
     end
   end
 

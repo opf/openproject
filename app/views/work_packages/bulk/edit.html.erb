@@ -135,7 +135,7 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
             <%# TODO: allow editing versions when multiple projects %>
-            <%# Always write through target_version_ids; the feature only toggles single vs. multiple select. %>
+            <%# Always write through target_version_ids (version_id is synced from it on save); the feature only toggles single vs. multiple select. %>
             <% multiple_versions = Setting::WorkPackageMultipleVersions.active? %>
             <div class="form--field">
               <%= styled_label_tag :work_package_target_version_ids,

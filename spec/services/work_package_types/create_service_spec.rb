@@ -64,7 +64,7 @@ RSpec.describe WorkPackageTypes::CreateService, type: :model do
     let(:parent) { create(:type) }
     let(:params) do
       {
-        name: "Variant",
+        name: "Sub-type",
         parent_id: parent.id,
         is_milestone: false,
         is_in_roadmap: true,

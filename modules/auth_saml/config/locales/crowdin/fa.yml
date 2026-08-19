@@ -3,12 +3,12 @@ fa:
   activerecord:
     attributes:
       saml/provider:
-        assertion_consumer_service_url: آدرس ACS (سرویس احراز هویت سخت افزاری)
+        assertion_consumer_service_url: آدرس ACS(سرویس احراز هویت سخت افزاری)
         authn_requests_signed: امضای سخت افزاری درخواست احراز هویت
         certificate: مدرک استفاده شده توسط OpenProject درخواست های احراز هویت سخت افزاری
         digest_method: الگوریتم خلاصه سازی در رمزنگاری
         display_name: نام
-        format: قالب‎ بندی
+        format: قالب‎بندی
         icon: نماد دلخواه
         identifier: شناسه
         idp_cert: مدرک عمومی سرور احراز هویت
@@ -33,7 +33,7 @@ fa:
           invalid_private_key: 'یک کلید خصوصی با قالب PEM معتبر نیست: %{additional_message}'
           unmatched_private_key: متعلق به مدرک ارائه شده نیست
   saml:
-    delete_heading: این ارائه‌دهنده SAML حذف شود؟
+    delete_heading: حذف این ارائه‌دهنده SAML؟
     delete_title: حذف ارائه‌دهنده SAML
     info:
       description: 'جهت پیکربندی ابزار احراز هویت سخت افزاری از این پارامترها استفاده نمایید.
@@ -68,7 +68,7 @@ fa:
       idp_slo_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
 
         '
-      idp_sso_service_url: 'آدرس اینترنتی نقطه پایانی ورود به سیستم ارائه دهنده هویت.
+      idp_sso_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
 
         '
       limit_self_registration: 'در صورت فعال بودن، کاربران تنها در صورتی می توانند با استفاده از این ارائه دهنده ثبت نام کنند که تنظیمات ثبت نام خود اجازه می دهد.

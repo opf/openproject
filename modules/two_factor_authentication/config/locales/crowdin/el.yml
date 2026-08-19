@@ -126,7 +126,7 @@ el:
     error_no_device: Δεν βρέθηκαν καταχωρημένες 2FA συσκευές για αυτό τον χρήστη, παρόλο που απαιτείται για αυτό το στιγμιότυπο.
     error_no_matching_strategy: Δεν βρέθηκε διαθέσιμη στρατηγική 2FA για αυτό τον χρήστη που να ταιριάζει. Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Μια ενεργή πολιτική ασφαλείας απαιτεί να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων. Παρακαλούμε χρησιμοποιήστε την ακόλουθη φόρμα για να καταχωρήσετε μια συσκευή.
     label_2fa_disabled: Η ταυτοποίηση δύο παραγόντων δεν είναι ενεργή
     label_2fa_enabled: Η ταυτοποίηση δύο παραγόντων είναι ενεργή
     label_default_device: Προεπιλεγμένη συσκευή 2FA

@@ -84,7 +84,7 @@ class MeetingsController < ApplicationController
         )
         turbo_streams << turbo_stream.push_state(current_url)
 
-        render turbo_stream: resolve_turbo_streams
+        render turbo_stream: turbo_streams
       end
     end
   end
@@ -118,7 +118,7 @@ class MeetingsController < ApplicationController
       format.turbo_stream do
         update_header_component_via_turbo_stream(state: :edit)
 
-        render turbo_stream: resolve_turbo_streams
+        render turbo_stream: @turbo_streams
       end
       format.html do
         render :edit

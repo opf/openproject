@@ -32,19 +32,11 @@ module Admin::Import::Jira::ImportRuns
   class StreamableStatusBadgeComponent < ApplicationComponent
     include OpTurbo::Streamable
 
-    def initialize(jira_import, **system_arguments)
+    def initialize(status, **system_arguments)
       super
 
-      @jira_import = jira_import
+      @status = status
       @system_arguments = system_arguments
-    end
-
-    def last_changed_date
-      if @jira_import.last_transition
-        @jira_import.last_transition.created_at
-      else
-        @jira_import.updated_at
-      end
     end
   end
 end

@@ -3,8 +3,6 @@
 module OpenProject
   module RateLimiting
     class Base
-      include RecognizedRoute
-
       class << self
         def rule_name
           name.demodulize.underscore

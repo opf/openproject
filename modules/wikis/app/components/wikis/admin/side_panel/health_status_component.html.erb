@@ -37,9 +37,8 @@ See COPYRIGHT and LICENSE files for more details.
           container.with_row do
             header = summary_header
 
-            render(Primer::OpenProject::InlineMessage.new(scheme: header[:scheme])) do
-              header[:text]
-            end
+            concat(render(Primer::Beta::Octicon.new(icon: header[:icon], color: header[:icon_color], mr: 2)))
+            concat(render(Primer::Beta::Text.new(font_weight: :bold)) { header[:text] })
           end
 
           container.with_row(mt: 2) do

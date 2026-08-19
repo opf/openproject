@@ -126,7 +126,7 @@ ca:
     error_no_device: No s'ha trobat cap dispositiu 2FA registrat per a aquest usuari tot i ser necessari per a aquesta instància.
     error_no_matching_strategy: No hi ha cap estratègia 2FA coincident disponible per aquest usuari. Si us plau, contacta el teu administrador.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Una política de seguretat activa requereix que activis l'autentificació en dos passos. Si us plau, segueix el formulari següent per tal de registrar un dispositiu.
     label_2fa_disabled: Autentificació de dos passos no habilitada
     label_2fa_enabled: Autenticació de dos passos habilitada
     label_default_device: Dispositiu de 2FA per defecte

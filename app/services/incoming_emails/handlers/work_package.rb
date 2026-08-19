@@ -164,7 +164,7 @@ module IncomingEmails::Handlers
         "start_date" => wp_start_date_from_keywords,
         "status_id" => wp_status_from_keywords,
         "type_id" => wp_type_from_keywords(work_package),
-        "target_version_ids" => wp_target_version_ids_from_keywords(work_package)
+        "version_id" => wp_version_from_keywords(work_package)
       }.compact_blank!
     end
 
@@ -205,24 +205,8 @@ module IncomingEmails::Handlers
       Principal.possible_assignee(work_package.project).where(id: Principal.like(keyword)).first.try(:id)
     end
 
-    # Both keywords are always read so neither leaks into the description or
-    # journal note; the target versions keyword takes precedence over the
-    # deprecated single-version one when both are supplied.
-    def wp_target_version_ids_from_keywords(work_package)
-      target = get_keyword(:target_versions)
-      legacy = get_keyword(:version)
-      keyword = target.presence || legacy
-      return if keyword.blank?
-
-      matching_version_ids(work_package, keyword)
-    end
-
-    # The single-value limit is enforced by the contract, so the full
-    # comma-separated list is parsed here regardless of the feature flag.
-    def matching_version_ids(work_package, keyword)
-      names = keyword.split(",").map(&:strip).compact_blank
-      versions_by_name = work_package.project.shared_versions.index_by { |version| version.name.downcase }
-      names.filter_map { |name| versions_by_name[name.downcase]&.id }
+    def wp_version_from_keywords(work_package)
+      lookup_case_insensitive_key(work_package.project.shared_versions, :version, Arel.sql("#{Version.table_name}.name"))
     end
 
     def wp_start_date_from_keywords

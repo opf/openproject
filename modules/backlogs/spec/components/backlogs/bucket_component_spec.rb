@@ -73,11 +73,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
 
-      it "parks the empty-state prototype in a template for the dynamic controller" do
-        expect(rendered_component)
-          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
-      end
-
       it "renders the bucket box id derived from the bucket" do
         expect(rendered_component).to have_css(".Box#backlog_bucket_#{backlog_bucket.id}")
       end
@@ -126,6 +121,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders one shared-card row per work package" do
+        expect(rendered_component).to have_css(".Box-row", count: 1)
         expect(rendered_component).to have_text("Bucket Work Package")
         expect(rendered_component).to have_text("##{work_package.id}")
       end
@@ -163,7 +159,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         end
 
         expect(rendered_component).to have_css(".op-work-package-card") do |card|
-          expect(card["data-controller"].split).to include("backlogs--work-package")
+          expect(card["data-controller"]).to eq("backlogs--work-package")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
           expect(card["data-backlogs--work-package-split-url-value"])
             .to end_with(project_backlogs_backlog_details_path(project, work_package))
@@ -174,7 +170,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Backlog bucket is empty"
 
       it "renders the bucket empty-state blankslate" do

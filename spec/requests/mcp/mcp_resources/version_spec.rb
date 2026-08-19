@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpResources::Version do
-  subject(:mcp_request) do
+  subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -65,7 +65,7 @@ RSpec.describe McpResources::Version do
     it_behaves_like "MCP text resource response"
 
     it "responds with a properly formatted version" do
-      mcp_request
+      subject
       text_content = parsed_results.fetch("contents").first
       version = text_content.fetch("text")
       expect(version).to match_json_schema.from_docs("version_read_model")
@@ -92,7 +92,7 @@ RSpec.describe McpResources::Version do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      mcp_request
+      subject
       expect(last_response).to have_http_status(404)
     end
   end

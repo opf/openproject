@@ -40,112 +40,95 @@ class Workflows::Copies::Form < ApplicationForm
 
   form do |copy|
     another_type_at_first = @source_role.nil?
-
-    unless type_variants_enabled?
-      copy.advanced_radio_button_group(name: :mode) do |radio_group|
-        radio_group.radio_button(
-          value: "from_type",
-          checked: another_type_at_first,
-          label: helpers.t("workflows.copies.form.mode.from_type.label"),
-          caption: helpers.t("workflows.copies.form.mode.from_type.caption"),
-          data: {
-            target_name: "mode",
-            "show-when-value-selected-target": "cause"
-          }
-        )
-        radio_group.radio_button(
-          value: "from_role",
-          checked: !another_type_at_first,
-          label: helpers.t("workflows.copies.form.mode.from_role.label"),
-          caption: helpers.t("workflows.copies.form.mode.from_role.caption"),
-          data: {
-            target_name: "mode",
-            "show-when-value-selected-target": "cause"
-          }
-        )
-      end
-
-      copy.group(
-        hidden: !another_type_at_first,
+    copy.advanced_radio_button_group(name: :mode) do |radio_group|
+      radio_group.radio_button(
+        value: "from_type",
+        checked: another_type_at_first,
+        label: helpers.t("workflows.copies.form.mode.from_type.label"),
+        caption: helpers.t("workflows.copies.form.mode.from_type.caption"),
         data: {
           target_name: "mode",
-          value: "from_type",
-          "show-when-value-selected-target": "effect"
+          "show-when-value-selected-target": "cause"
         }
-      ) do |from_type|
-        from_type.autocompleter(
-          name: "target_type_ids",
-          required: true,
-          include_blank: false,
-          label: helpers.t("workflows.copies.form.target_type_ids.label"),
-          autocomplete_options: {
-            multiple: true,
-            decorated: true,
-            closeOnSelect: false,
-            appendTo: @append_to,
-            dropdownPosition: "top",
-            data: {
-              "test-selector": "target_types_autocomplete"
-            }
+      )
+      radio_group.radio_button(
+        value: "from_role",
+        checked: !another_type_at_first,
+        label: helpers.t("workflows.copies.form.mode.from_role.label"),
+        caption: helpers.t("workflows.copies.form.mode.from_role.caption"),
+        data: {
+          target_name: "mode",
+          "show-when-value-selected-target": "cause"
+        }
+      )
+    end
+
+    copy.group(
+      hidden: !another_type_at_first,
+      data: {
+        target_name: "mode",
+        value: "from_type",
+        "show-when-value-selected-target": "effect"
+      }
+    ) do |from_type|
+      from_type.autocompleter(
+        name: "target_type_ids",
+        required: true,
+        include_blank: false,
+        label: helpers.t("workflows.copies.form.target_type_ids.label"),
+        autocomplete_options: {
+          multiple: true,
+          decorated: true,
+          closeOnSelect: false,
+          appendTo: @append_to,
+          dropdownPosition: "top",
+          data: {
+            "test-selector": "target_types_autocomplete"
           }
-        ) do |target_list|
-          @other_types.each do |other_type|
-            target_list.option(label: other_type.name, value: other_type.id)
-          end
+        }
+      ) do |target_list|
+        @other_types.each do |other_type|
+          target_list.option(label: other_type.name, value: other_type.id)
         end
       end
     end
 
-    from_role_group_data =
-      if type_variants_enabled?
-        {}
-      else
-        { target_name: "mode", value: "from_role", "show-when-value-selected-target": "effect" }
-      end
-
     copy.group(
-      hidden: !type_variants_enabled? && another_type_at_first,
-      data: from_role_group_data
+      hidden: another_type_at_first,
+      data: {
+        target_name: "mode",
+        value: "from_role",
+        "show-when-value-selected-target": "effect"
+      }
     ) do |from_role|
-      unless type_variants_enabled?
-        source_label = helpers.t("workflows.copies.form.source_role_id.label")
-        required = another_type_at_first
-        disabled = !another_type_at_first
-        from_role.select_list(name: :source_role_id, label: source_label, required:, disabled:) do |source_role_list|
-          @all_roles.each do |role|
-            source_role_list.option(label: role.name, value: role.id, selected: role == @source_role)
-          end
+      source_label = helpers.t("workflows.copies.form.source_role_id.label")
+      required = another_type_at_first
+      disabled = !another_type_at_first
+      from_role.select_list(name: :source_role_id, label: source_label, required:, disabled:) do |source_role_list|
+        @all_roles.each do |role|
+          source_role_list.option(label: role.name, value: role.id, selected: role == @source_role)
         end
       end
-
-      target_roles_options = {
-        multiple: true,
-        decorated: true,
-        closeOnSelect: false,
-        appendTo: @append_to,
-        data: {
-          "test-selector": "target_roles_autocomplete"
-        }
-      }
-      target_roles_options[:dropdownPosition] = "top" unless type_variants_enabled?
-
       from_role.autocompleter(
         name: "target_role_ids",
         required: true,
         include_blank: false,
         label: helpers.t("workflows.copies.form.target_role_ids.label"),
-        autocomplete_options: target_roles_options
+        autocomplete_options: {
+          multiple: true,
+          decorated: true,
+          closeOnSelect: false,
+          dropdownPosition: "top",
+          appendTo: @append_to,
+          data: {
+            "test-selector": "target_roles_autocomplete"
+          }
+        }
       ) do |target_list|
         @all_roles.each do |role|
           target_list.option(label: role.name, value: role.id)
         end
       end
     end
-  end
-
-  private
-
-  def type_variants_enabled?
-    OpenProject::FeatureDecisions.type_variants_active?
   end
 end

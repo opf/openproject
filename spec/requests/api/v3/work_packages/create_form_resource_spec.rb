@@ -110,45 +110,6 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
-  describe "with targetVersions (e.g. when duplicating a work package)" do
-    shared_let(:version) { create(:version, project:) }
-
-    let(:parameters) do
-      {
-        _links: {
-          project: {
-            href: "/api/v3/projects/#{project.id}"
-          },
-          version: {
-            href: api_v3_paths.version(version.id)
-          },
-          targetVersions: [
-            { href: api_v3_paths.version(version.id) }
-          ]
-        },
-        subject: "lorem ipsum"
-      }
-    end
-
-    it "has 0 validation errors" do
-      expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
-    end
-
-    it "echoes the target versions in the payload although they are not persisted yet" do
-      expect(subject.body)
-        .to be_json_eql(api_v3_paths.version(version.id).to_json)
-        .at_path("_embedded/payload/_links/targetVersions/0/href")
-    end
-
-    context "when multiple versions is inactive", with_settings: { work_package_multiple_versions: false } do
-      it "also echoes the deprecated version in the payload" do
-        expect(subject.body)
-          .to be_json_eql(api_v3_paths.version(version.id).to_json)
-          .at_path("_embedded/payload/_links/version/href")
-      end
-    end
-  end
-
   describe "custom fields" do
     context "when the custom field is required" do
       shared_let(:required_custom_field) do

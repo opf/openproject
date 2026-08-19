@@ -285,8 +285,8 @@ de:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} Mitglied dieses Projekts entspricht den Filterkriterien der Zuweisung."
-          other: "%{count} Mitglieder dieses Projekts entsprechen den Filterkriterien der Zuweisung."
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Arbeitspaket hinzufügen
         configure_view: Ansicht konfigurieren

@@ -1,11 +1,6 @@
 <div #container
   data-test-selector="op-wp-card-view"
-  [ngClass]="classes()"
-  opSortableListsList
-  [opSortableListsListId]="resolvedListId"
-  [opSortableListsListAccepts]="acceptsDrops"
-  (opSortableListsDrop)="handleDrop($event)"
-  (opSortableListsRemoved)="handleRemoved($event)">
+  [ngClass]="classes()">
   @if (inReference) {
     <div
       class="wp-inline-create--reference-container">
@@ -27,8 +22,6 @@
       [draggable]="this.canDragOutOf(wp)"
       [orientation]="orientation"
       [shrinkOnMobile]="shrinkOnMobile"
-      [opSortableListsItem]="wp.id!"
-      [opSortableListsItemCanDrag]="itemCanDrag(wp)"
       (onRemove)="removeCard(wp)"
       (stateLinkClicked)="stateLinkClicked.emit($event)" />
     @if (shrinkOnMobile) {

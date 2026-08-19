@@ -502,20 +502,6 @@ fr:
           name: User story
         item_6:
           name: Bug
-      global_queries:
-        item_0:
-          name: 'Sous-éléments de l''epic : user stories et bugs'
-        item_1:
-          name: 'Sous-éléments d''une user story : tâches'
-      type_configuration:
-        item_0:
-          form_configuration:
-            item_0:
-              group_name: User stories et bugs
-        item_1:
-          form_configuration:
-            item_0:
-              group_name: Tâches
       welcome:
         title: Bienvenue sur OpenProject !
         text: |

@@ -34,13 +34,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <% if allocations.any? %>
       <%= body.with_row do %>
-        <%= render(
-              OpenProject::Common::BorderBoxListComponent.new(
-                container: "resource-allocations-#{work_package.id}"
-              )
-            ) do |list| %>
+        <%= render(Primer::Beta::BorderBox.new) do |box| %>
           <% allocations.each do |allocation| %>
-            <% list.with_item do %>
+            <% box.with_row do %>
               <%= render ResourceAllocations::ListItemComponent.new(
                     allocation:,
                     project:,

@@ -67,13 +67,13 @@ module Storages
                   Success(drive.id)
                 else
                   info "Drive #{drive_name} not found"
-                  Failure(error(code: :not_found, payload: drives))
+                  Failure(error.with(code: :not_found, payload: drives))
                 end
               end
             end
 
-            def error(code:, payload: nil)
-              SimpleError.new(source: self.class, code:, payload:)
+            def error
+              Results::Error.new(source: self.class)
             end
 
             def split_drive_and_folder(folder)

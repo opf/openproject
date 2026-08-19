@@ -49,7 +49,7 @@ module Wikis::Adapters
     end
 
     def failure(code:)
-      Failure(SimpleError.new(source: self.class, code:))
+      Failure(Results::Error.new(source: self.class, code:))
     end
   end
 end

@@ -7,7 +7,7 @@
 @if (!!resource) {
   <display-field [resource]="resource"
     containerType="single-view"
-    [displayFieldOptions]="{ writable: false, layout: layout }"
+    [displayFieldOptions]="{ writable: false }"
     [fieldName]="fieldName" />
   <span class="sr-only" [textContent]="ariaContext"></span>
 }

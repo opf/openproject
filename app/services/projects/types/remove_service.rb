@@ -39,15 +39,13 @@ module Projects
         if used_by_work_packages?(type)
           failure(:in_use_by_work_packages, types: type.name)
         else
-          model.project_types.where(type_id: type.root_id).destroy_all
+          model.types.delete(type)
           service_call
         end
       end
 
-      # Work packages store the root, so a variant has to be checked against the family
-      # rather than against its own id.
       def used_by_work_packages?(type)
-        WorkPackage.exists?(project: model, type_id: type.root_id)
+        WorkPackage.exists?(project: model, type:)
       end
     end
   end

@@ -12,8 +12,9 @@
   </span>
   <a
     class="op-timer-account-menu--wp-details"
-    [href]="PathHelper.workPackagePath(timer.entity.id!)"
+    uiSref="work-packages.show"
+    [uiParams]="{ workPackageId: timer.entity.id }"
     >
-    {{ entityName(timer) }}
+    #{{ timer.entity.id }}:  {{ timer.entity.name }}
   </a>
 }

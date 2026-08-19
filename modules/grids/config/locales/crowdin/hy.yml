@@ -30,10 +30,7 @@ hy:
         no_results: Նոր նորություններ չկան։
       not_available: Այս վիջեթը հասանելի չէ։
       project_timeline:
-        footer_actions_label: Տեսնել ավելի մանրամասն
-        gantt_link: Հանգրվանների Գանտի գծապատկեր
-        no_results_title: Նախագծի ժամանակագծի բովանդակությունը կազմաձևված չէ
-        sprints_link: Սպրինտների ընդհանուր տեսք
+        no_lifecycle_results: Կենսացիկլի փուլեր չկան
         title: Նախագծի ժամանակագիծ
         title_portfolio: Պորտֆոլիոյի ժամանակագիծ
         title_program: Ծրագրի ժամանակագիծ

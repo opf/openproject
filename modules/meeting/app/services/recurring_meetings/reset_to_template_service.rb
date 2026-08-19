@@ -39,7 +39,6 @@ module RecurringMeetings
   class ResetToTemplateService < ::BaseServices::BaseCallable
     include ::Shared::ServiceContext
     include ::Contracted
-    include ::MeetingAgendaItems::JournalizeWorkPackageActivity
 
     attr_reader :user, :meeting, :extra_params
 
@@ -91,7 +90,6 @@ module RecurringMeetings
           { title: template.title, location: template.location, duration: template.duration }
             .merge(extra_params)
         )
-        journalize_copied_agenda(meeting)
       end
 
       true

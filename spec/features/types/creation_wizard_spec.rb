@@ -30,10 +30,14 @@
 
 require "spec_helper"
 
-RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true } do
+RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
   shared_let(:admin) { create(:admin) }
-  shared_let(:bug_type) { create(:type, name: "Bug", color: create(:color)) }
-  shared_let(:project_role) { create(:project_role) }
+  shared_let(:bug_type) { create(:type, name: "Bug") }
+  shared_let(:epic_type) { create(:type, name: "Epic") }
+
+  let(:independent_label) { I18n.t("types.edit.configuration_link.independent.label") }
+  let(:linked_label) { I18n.t("types.edit.configuration_link.linked.label") }
+  let(:source_label) { I18n.t("types.edit.configuration_link.source.label") }
 
   before { login_as(admin) }
 
@@ -44,7 +48,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     find(".CollapsibleHeader", text: bug_type.name)
       .find(:button, aria: { expanded: false })
       .click
-    click_on I18n.t("types.index.add_variant", name: bug_type.name)
+    click_on I18n.t("types.index.add_subtype", name: bug_type.name)
   end
 
   def inherited_caption
@@ -53,113 +57,115 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     )
   end
 
-  # There is no flash message; a step's sidebar marker resolving to its reuse-mode icon
-  # is what tells us its submission was accepted. A completed step shows the chain icon
-  # when its aspect is Linked and the pencil when Independent. Asserting the completed step's own
-  # state (rather than the next step's content) keeps the specs correct if the order changes.
-  def expect_step_saved(step, linked: true)
-    within_test_selector("wizard-step-#{step}") do
-      expect(page).to have_css(linked ? ".octicon-link" : ".octicon-pencil")
-    end
-  end
-
   def complete_details_step(name)
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    expect_step_saved(:details, linked: false)
-
-    bug_type.children.find_by(name:).tap { |variant| expect(variant).to be_present }
+    bug_type.children.find_by(name:).tap { |subtype| expect(subtype).to be_present }
   end
 
-  it "guides the admin through creating a variant with defaults" do
+  # Reuse mode is per-aspect, so each step carries its own selector.
+  def choose_linked_source(source)
+    choose linked_label
+    select source.name, from: source_label
+  end
+
+  it "guides the admin through creating a sub-type with defaults" do
     start_wizard
 
-    # Step 1 - Details: the core settings are inherited from the parent and shown read-only.
+    # Step 1 - Details: identity only, so no reuse mode to choose. The core settings
+    # are inherited from the parent and shown read-only.
+    expect(page).to have_no_text(independent_label)
     expect(page).to have_text(inherited_caption, count: 3)
     expect(page).to have_field(Type.human_attribute_name(:is_milestone), disabled: true)
     expect(page).to have_field(Type.human_attribute_name(:is_in_roadmap), disabled: true)
     expect(page).to have_css(".colors-autocomplete .ng-select-disabled")
 
-    variant = complete_details_step("Critical")
+    subtype = complete_details_step("Critical")
 
-    # Step 2 - Defaults: linked to the parent on creation, so it renders read-only and
-    # the footer, not a Save button, drives submission.
-    expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
-    expect(page).to have_no_button(I18n.t(:button_save))
-    click_on I18n.t(:button_continue)
+    # Step 2 - Form configuration: every step from here offers the reuse mode selector.
+    expect(page).to have_text(independent_label)
+    expect(page).to have_text(linked_label)
 
-    # Step 3 - Form configuration: linked to the parent on creation, so it renders read-only.
-    expect(page).to have_heading("Form configuration") # the main content, not the sidebar entry
-    expect(page).to have_text("Linked mode")
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:form_configuration)
-
-    # Step 4 - Project attributes: linked to the parent on creation, so it renders read-only.
-    expect(page).to have_heading("Project attributes") # the main content, not the sidebar entry
-    expect(page).to have_text("Linked mode")
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:project_attributes)
-
-    # Step 5 - Workflow: the matrix has no Save of its own, Continue persists it.
-    expect(page).to have_text("Linked mode")
-    expect(page).to have_no_button "Save"
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:workflows)
-
-    # Step 6 - Projects
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:projects, linked: false)
-
-    # Step 7 - PDF generation: linked to the parent on creation, so it renders read-only.
-    expect(page).to have_heading("PDF generation") # the main content, not the sidebar entry
-    expect(page).to have_text("Linked mode")
+    click_on I18n.t(:button_continue) # -> Workflows
+    click_on I18n.t(:button_continue) # -> Automations
+    click_on I18n.t(:button_continue) # -> Projects
+    click_on I18n.t(:button_continue) # -> PDF generation
     click_on I18n.t("types.creation_wizard.finish")
 
-    expect_flash(message: "Variant created successfully.")
     expect(page).to have_current_path(types_path)
-    expect(variant.reload.parent).to eq(bug_type)
+    expect(subtype.reload.parent).to eq(bug_type)
   end
 
-  it "creates a root type with the core settings editable" do
-    visit types_path
-    click_on I18n.t("activerecord.attributes.work_package.type")
+  describe "reuse mode" do
+    it "defaults the aspects a sub-type does not inherit yet to Independent" do
+      start_wizard
+      subtype = complete_details_step("Critical")
 
-    expect(page).to have_text(I18n.t("types.creation_wizard.create_type"))
-    expect(page).to have_no_text(inherited_caption)
-    expect(page).to have_field(Type.human_attribute_name(:is_milestone), disabled: false)
+      # PDF export defaults to Linked-to-parent on creation, so it is asserted separately.
+      independent_steps = WorkPackageTypes::Wizard::Steps::STEP_ASPECTS.except(:pdf)
 
-    fill_in Type.human_attribute_name(:name), with: "Incident"
-    check Type.human_attribute_name(:is_milestone)
-    click_on I18n.t(:button_continue)
+      independent_steps.each_value do |aspect|
+        expect(page).to have_checked_field(independent_label)
+        expect(subtype).not_to be_linked(aspect)
 
-    expect_step_saved(:details, linked: false)
-    expect(Type.find_by(name: "Incident")).to have_attributes(parent: nil, is_milestone: true)
-  end
+        click_on I18n.t(:button_continue)
+      end
+    end
 
-  it "persists the defaults step through the wizard footer once the aspect is independent" do
-    start_wizard
-    variant = complete_details_step("Critical")
+    it "keeps the PDF aspect a sub-type inherits from its parent Linked" do
+      start_wizard
+      subtype = complete_details_step("Critical")
 
-    # Independent mode is what makes the fields editable; linked mode renders read-only.
-    variant.configuration_links.where(aspect: Type::ConfigurationLink::DEFAULTS).destroy_all
-    visit type_creation_wizard_path(variant, step: :defaults)
+      visit type_creation_wizard_path(subtype, step: :pdf)
 
-    Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
-    click_on I18n.t(:button_continue)
+      expect(page).to have_checked_field(linked_label)
+      expect(page).to have_select(source_label, selected: bug_type.name)
+      expect(subtype.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(bug_type)
+    end
 
-    expect_step_saved(:defaults, linked: false)
-    expect(variant.reload.description).to eq("Reproduce the bug first")
-  end
+    it "preselects the parent as the source rather than the first available type" do
+      start_wizard
+      complete_details_step("Critical")
 
-  it "links the aspects a variant inherits from its parent on creation" do
-    start_wizard
-    variant = complete_details_step("Critical")
+      # The picker is revealed only once Linked is chosen.
+      choose linked_label
 
-    # Reuse mode is no longer chosen in the wizard: a new variant simply defaults
-    # to Linked-to-parent for the aspects it inherits (see Type::ConfigurationLinkable).
-    Type::ConfigurationLink::ASPECTS.each do |aspect|
-      expect(variant.source_for(aspect)).to eq(bug_type)
+      expect(page).to have_select(source_label, selected: bug_type.name)
+    end
+
+    it "links only the aspect whose step was set to Linked" do
+      start_wizard
+      subtype = complete_details_step("Critical")
+
+      # Step 2 - Form configuration: link it to Epic rather than the default parent.
+      choose_linked_source(epic_type)
+      click_on I18n.t(:button_continue) # -> Workflows
+
+      expect(subtype.source_for(Type::ConfigurationLink::FORM_CONFIGURATION)).to eq(epic_type)
+
+      # The remaining steps keep their default, so they stay Independent.
+      click_on I18n.t(:button_continue) # -> Automations
+      click_on I18n.t(:button_continue) # -> Projects
+      click_on I18n.t(:button_continue) # -> PDF generation
+      click_on I18n.t("types.creation_wizard.finish")
+
+      expect(subtype.reload).to be_linked(Type::ConfigurationLink::FORM_CONFIGURATION)
+      expect(subtype).not_to be_linked(Type::ConfigurationLink::WORKFLOWS)
+      expect(subtype).not_to be_linked(Type::ConfigurationLink::AUTOMATIONS)
+      expect(subtype).not_to be_linked(Type::ConfigurationLink::PROJECTS)
+    end
+
+    it "links an aspect to the parent when Linked is chosen with the default source" do
+      start_wizard
+      subtype = complete_details_step("Critical")
+
+      click_on I18n.t(:button_continue) # -> Workflows
+
+      choose linked_label
+      click_on I18n.t(:button_continue) # -> Automations
+
+      expect(subtype.source_for(Type::ConfigurationLink::WORKFLOWS)).to eq(bug_type)
     end
   end
 end

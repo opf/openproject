@@ -32,10 +32,7 @@ ru:
         no_results: Ничего нового для отчета.
       not_available: Этот виджет недоступен.
       project_timeline:
-        footer_actions_label: Подробнее
-        gantt_link: Диаграмма Ганта с этапами
-        no_results_title: Параметры сроков реализации проекта не настроены
-        sprints_link: Обзор спринтов
+        no_lifecycle_results: Нет фаз жизненного цикла
         title: График проекта
         title_portfolio: График портфолио
         title_program: График программы

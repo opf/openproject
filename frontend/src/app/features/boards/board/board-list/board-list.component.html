@@ -48,9 +48,7 @@
       </div>
       <wp-card-view [dragOutOfHandler]="canDragOutOfHandler"
         [dragInto]="canDragInto"
-        [listId]="listId"
         [workPackageAddedHandler]="workPackageAddedHandler"
-        [orderIsMembership]="board.isFree"
         [cardsRemovable]="board.isFree && canDragOutOf"
         [showInfoButton]="true"
         [highlightingMode]="board.highlightingMode"

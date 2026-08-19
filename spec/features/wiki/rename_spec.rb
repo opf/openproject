@@ -68,7 +68,7 @@ RSpec.describe "Wiki page", :js do
     end
 
     # But the application uses the new name preferably
-    within_test_selector("wiki-sidemenu-tree") do
+    within(".menu-wiki-pages-tree") do
       click_link rename_name
     end
 

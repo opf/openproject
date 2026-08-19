@@ -504,7 +504,7 @@ RSpec.describe Query,
     end
   end
 
-  describe ".available_columns", with_settings: { work_package_multiple_versions: false } do
+  describe ".available_columns" do
     let(:type) { create(:type) }
     let(:custom_field) { create(:list_wp_custom_field, types: [type], projects: [project]) }
 

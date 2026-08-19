@@ -1,36 +1,9 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-//
-// See COPYRIGHT and LICENSE files for more details.
-//++
-
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicModule } from 'ng-dynamic-component';
 import { CommonModule } from '@angular/common';
+import { DragulaModule } from 'ng2-dragula';
 
 import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/button/invite-user-button.module';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
@@ -73,10 +46,6 @@ import {
   OpAutocompleterFooterTemplateDirective,
 } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 import { OpSearchHighlightDirective } from 'core-app/shared/directives/search-highlight.directive';
-import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
-import {
-  OpSortableListsItemDirective,
-} from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
 import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
@@ -93,7 +62,6 @@ import {
   ProjectPhaseAutocompleterComponent,
 } from './project-phase-autocompleter/project-phase-autocompleter.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
-import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -121,6 +89,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   imports: [
     CommonModule,
     NgSelectModule,
+    DragulaModule,
     FormsModule,
     ReactiveFormsModule,
 
@@ -128,10 +97,6 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
     IconModule,
-    DynamicIconDirective,
-
-    OpSortableListsDirective,
-    OpSortableListsItemDirective,
   ],
   exports: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
   declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,

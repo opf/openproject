@@ -35,7 +35,6 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
               :groupable_join,
               :groupable_select,
               :group_by_column_name,
-              :group_by_class_name,
               :summable,
               :default_order,
               :association,
@@ -81,11 +80,8 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     @displayable.nil? || @displayable
   end
 
-  # `query` is passed through to a Proc-valued `sortable` so its SQL can depend on the
-  # owning query (e.g. the live value of an active filter) rather than being fixed at
-  # column-definition time.
-  def sortable(query = nil)
-    resolved = @sortable.respond_to?(:call) ? @sortable.call(query) : @sortable
+  def sortable
+    resolved = @sortable.respond_to?(:call) ? @sortable.call : @sortable
     name_or_value_or_false(resolved)
   end
 
@@ -140,7 +136,6 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
       summable_work_packages_select
       association
       group_by_column_name
-      group_by_class_name
       null_handling
       default_order
     ].each do |attribute|

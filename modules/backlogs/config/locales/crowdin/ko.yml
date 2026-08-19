@@ -50,7 +50,6 @@ ko:
         story_points: 스토리 포인트
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: 스프린트를 시작하려면 시작 날짜와 완료 날짜가 필요합니다.
         must_be_in_planning: "- 시작하려면 계획 단계에 있어야 합니다."
         only_one_active_sprint_allowed: 프로젝트당 하나의 활성 스프린트만 허용됩니다.
@@ -61,11 +60,9 @@ ko:
               locked_by_multiple_active_sprints: "- 여러 활성 스프린트가 실행 중인 동안에는 변경할 수 없습니다."
               requires_no_sharing: "- 스프린트 공유가 ‘공유 안 함’으로 설정된 경우에만 활성화할 수 있습니다."
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: "- 여러 활성 스프린트가 활성화된 동안에는 변경할 수 없습니다."
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: "- 공유 스프린트를 받고 있습니다. 자체 스프린트는 생성할 수 없습니다."
         sprint:
           attributes:
@@ -155,7 +152,6 @@ ko:
     label_burndown_chart: 번다운 차트
     label_is_done_status: "%{status_name} 상태는 완료를 의미합니다."
     label_sprint_board: 스프린트 보드
-    label_sprint_report: 스프린트 보고서
     move_to_bucket_dialog_component:
       title: 백로그 버킷으로 이동
     move_to_sprint_dialog_component:
@@ -184,7 +180,6 @@ ko:
       label_start_sprint: 스프린트 시작
       start_sprint_disabled_reason_active_sprint: 다른 스프린트가 이미 활성화되어 있습니다.
       start_sprint_disabled_reason_missing_dates: 스프린트를 시작하려면 시작 날짜와 종료 날짜가 필요합니다.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: 이 스프린트는 여러 활성 스프린트를 지원하지 않는 다른 프로젝트에 속해 있습니다.
     sprint_form:
       goal_caption: 이 스프린트 목표는 본 프로젝트에만 해당되며, 이 스프린트를 사용하는 다른 프로젝트와는 공유되지 않습니다.
@@ -192,15 +187,6 @@ ko:
     sprint_form_component:
       shared_sprint_info_banner: 공유 스프린트입니다. 수정 사항은 이 스프린트를 사용하는 모든 프로젝트에 반영됩니다.
       shared_sprint_warning_banner: 공유 스프린트입니다. 이 스프린트를 편집하는 데 필요한 권한이 없습니다.
-    sprint_reports:
-      page_header_component:
-        breadcrumb: 보고서
-        title: "%{sprint} 보고서"
-    sprints:
-      row_component:
-        action_menu:
-          edit_sprint: 스프린트 편집
-          sprint_report: 스프린트 보고서
     sprints_component:
       blankslate:
         create_and_manage_description_html: 스프린트 계획을 시작하려면 여기에서 스프린트를 만들거나 %{settings_link}(으)로 이동하여 다른 프로젝트의 스프린트를 받아보세요.

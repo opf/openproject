@@ -173,7 +173,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     it "shows the author matrix when switching to the author tab" do
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       within "#workflow_form_author" do
         expect(page).to have_field workflow_checkbox(1, 2), checked: true
@@ -182,7 +182,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     it "shows the assignee matrix when switching to the assignee tab" do
-      switch_transition_tab "User is assignee"
+      click_link "User is assignee"
 
       within "#workflow_form_assignee" do
         expect(page).to have_field workflow_checkbox(0, 2), checked: true
@@ -195,13 +195,13 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       within_dialog "Save changes before continuing?" do
         click_button "Ignore changes"
       end
 
-      switch_transition_tab "Default transitions"
+      click_link "Default transitions"
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -213,7 +213,7 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       within_dialog "Save changes before continuing?" do
         click_button "Save changes and continue"
@@ -231,7 +231,7 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       within_dialog "Save changes before continuing?" do
         find(".close-button").click
@@ -249,7 +249,7 @@ RSpec.describe "Workflow edit", :js do
       add_status_via_dialog(statuses[2])
       expect(page).to have_field workflow_checkbox(0, 2)
 
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -263,7 +263,7 @@ RSpec.describe "Workflow edit", :js do
 
       expect(page).to have_no_field workflow_checkbox(0, 1)
 
-      switch_transition_tab "User is author"
+      click_link "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -617,7 +617,9 @@ RSpec.describe "Workflow edit", :js do
 
   context "with copy dialog" do
     it "allows navigating to any Copy page", :js do
-      click_on "Copy"
+      within ".PageHeader-actions" do
+        click_on "Copy"
+      end
 
       expect(page).to have_dialog "Copy workflow"
     end
@@ -720,69 +722,6 @@ RSpec.describe "Workflow edit", :js do
         end
 
         expect(page).to have_field workflow_checkbox(0, 1)
-      end
-    end
-  end
-
-  describe "when the workflow is linked from a source" do
-    let(:source_type) { create(:type) }
-    let!(:source_workflow) do
-      create(:workflow, role_id: role.id,
-                        type_id: source_type.id,
-                        old_status_id: statuses[0].id,
-                        new_status_id: statuses[1].id,
-                        author: false,
-                        assignee: false)
-    end
-
-    before do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
-      visit_workflow_edit(roles: [role])
-    end
-
-    it "shows the source's transitions read-only without editing actions" do
-      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
-      expect(page).to have_field(workflow_checkbox(1, 0), disabled: true)
-      expect(page).to have_no_button "Save"
-
-      within "#workflow-table" do
-        expect(page).to have_no_link "Status"
-        expect(page).to have_no_link "Copy"
-      end
-    end
-  end
-
-  describe "reuse mode banner", with_flag: { type_variants: true } do
-    let(:source_type) { create(:type, name: "Feature") }
-
-    context "when the workflow configuration is independent" do
-      before { visit_workflow_edit(roles: [role]) }
-
-      it "shows the independent banner offering to switch to linked, or to copy from type" do
-        expect(page).to have_text("Independent mode")
-        expect(page).to have_link("Switch to linked mode")
-        expect(page).to have_link("Copy from type")
-      end
-    end
-
-    context "when the workflow configuration is linked to a source" do
-      before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
-        visit_workflow_edit(roles: [role])
-      end
-
-      it "shows the linked banner naming the source with change and switch actions" do
-        expect(page).to have_text("Linked mode")
-        expect(page).to have_link("Change source type")
-        expect(page).to have_link("Switch to independent mode")
-      end
-    end
-
-    context "when the variants feature is disabled", with_flag: { type_variants: false } do
-      before { visit_workflow_edit(roles: [role]) }
-
-      it "does not show the reuse mode banner" do
-        expect(page).to have_no_text("Independent mode")
       end
     end
   end

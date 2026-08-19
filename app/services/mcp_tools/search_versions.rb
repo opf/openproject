@@ -55,13 +55,23 @@ module McpTools
       }
     )
 
+    output_schema(
+      type: :object,
+      required: ["items"],
+      properties: {
+        items: {
+          type: :array,
+          items: JsonSchemaLoader.new.load("version_read_model")
+        }
+      }
+    )
+
     def call(page: nil, **filters)
       filtered = apply_filters(Version.visible, filters)
-      versions, total = apply_pagination(filtered, page)
+      versions = apply_pagination(filtered, page)
 
       {
-        items: versions.map { |v| API::V3::Versions::VersionRepresenter.create(v, current_user:) },
-        total:
+        items: versions.map { |v| API::V3::Versions::VersionRepresenter.create(v, current_user:) }
       }
     end
   end

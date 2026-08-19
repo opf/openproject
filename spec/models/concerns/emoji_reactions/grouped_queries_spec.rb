@@ -220,9 +220,7 @@ RSpec.describe EmojiReactions::GroupedQueries do
     context "when no reactable exists in the grouped results" do
       it "returns an empty hash" do
         result = described_class.grouped_emoji_reactions_by_reactable(reactable: wp_journal1)
-        # Derived rather than hardcoded: the results are keyed by journal id, and a literal
-        # could turn out to be one of them.
-        non_existent_id = Journal.maximum(:id) + 1
+        non_existent_id = 1234
 
         expect(result[non_existent_id]).to eq({})
       end

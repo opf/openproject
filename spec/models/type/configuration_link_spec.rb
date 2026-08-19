@@ -36,19 +36,25 @@ RSpec.describe Type::ConfigurationLink do
       expect(subject).to define_enum_for(:aspect)
         .with_values(
           pdf_export: "pdf_export",
-          defaults: "defaults",
+          patterns: "patterns",
           workflows: "workflows",
-          form_configuration: "form_configuration",
-          project_attributes: "project_attributes"
+          automations: "automations",
+          projects: "projects",
+          form_configuration: "form_configuration"
         )
         .backed_by_column_of_type(:string)
     end
 
     it "exposes the aspect identifiers as constants" do
       expect(described_class::ASPECTS)
-        .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS,
-                            described_class::WORKFLOWS, described_class::FORM_CONFIGURATION,
-                            described_class::PROJECT_ATTRIBUTES)
+        .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS,
+                            described_class::WORKFLOWS, described_class::AUTOMATIONS,
+                            described_class::PROJECTS, described_class::FORM_CONFIGURATION)
+    end
+
+    it "links only the aspects whose linked behaviour is implemented to the parent by default" do
+      expect(described_class::DEFAULT_PARENT_LINK_ASPECTS)
+        .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS)
     end
 
     it "rejects an unknown aspect" do
@@ -62,7 +68,7 @@ RSpec.describe Type::ConfigurationLink do
     it "links a type to the source type it borrows from" do
       type = create(:type)
       source = create(:type)
-      link = create(:type_configuration_link, type:, source:, aspect: described_class::DEFAULTS)
+      link = create(:type_configuration_link, type:, source:, aspect: described_class::PATTERNS)
 
       expect(link.type).to eq(type)
       expect(link.source).to eq(source)
@@ -73,50 +79,15 @@ RSpec.describe Type::ConfigurationLink do
     let(:type) { create(:type) }
 
     it "requires a source" do
-      link = build(:type_configuration_link, type:, source: nil, aspect: described_class::DEFAULTS)
+      link = build(:type_configuration_link, type:, source: nil, aspect: described_class::PATTERNS)
 
       expect(link).not_to be_valid
     end
-  end
 
-  describe "cycle detection" do
-    let(:aspect) { described_class::DEFAULTS }
-    let(:a) { create(:type) }
-    let(:b) { create(:type) }
-    let(:c) { create(:type) }
+    it "rejects a link whose source is the type itself" do
+      link = build(:type_configuration_link, type:, source: type, aspect: described_class::PATTERNS)
 
-    def link(type, source, on_aspect: aspect)
-      create(:type_configuration_link, type:, source:, aspect: on_aspect)
-    end
-
-    it "rejects a self-link (the degenerate 1-cycle)" do
-      expect(build(:type_configuration_link, type: a, source: a, aspect:)).not_to be_valid
-    end
-
-    it "rejects a direct 2-cycle (A->B then B->A)" do
-      link(a, b)
-
-      expect(build(:type_configuration_link, type: b, source: a, aspect:)).not_to be_valid
-    end
-
-    it "rejects a longer cycle (A->B->C then C->A)" do
-      link(a, b)
-      link(b, c)
-
-      expect(build(:type_configuration_link, type: c, source: a, aspect:)).not_to be_valid
-    end
-
-    it "allows a diamond (A->C and B->C share a source without looping)" do
-      link(a, c)
-
-      expect(build(:type_configuration_link, type: b, source: c, aspect:)).to be_valid
-    end
-
-    it "keeps aspects isolated (A->B on defaults, B->A on pdf_export)" do
-      link(a, b, on_aspect: described_class::DEFAULTS)
-
-      expect(build(:type_configuration_link, type: b, source: a, aspect: described_class::PDF_EXPORT))
-        .to be_valid
+      expect(link).not_to be_valid
     end
   end
 
@@ -133,7 +104,7 @@ RSpec.describe Type::ConfigurationLink do
     end
 
     it "allows the other aspect to coexist for the same type" do
-      other = build(:type_configuration_link, type:, source:, aspect: described_class::DEFAULTS)
+      other = build(:type_configuration_link, type:, source:, aspect: described_class::PATTERNS)
 
       expect(other).to be_valid
     end

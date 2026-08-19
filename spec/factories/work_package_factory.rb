@@ -35,19 +35,11 @@ FactoryBot.define do
       days { WorkPackages::Shared::Days.for(self) }
       journals { nil }
       now { Time.zone.now }
-      version { nil }
     end
 
     priority
     project factory: :project_with_types
     status
-    # Semantic identifier and its sequence number always travel together (see
-    # WorkPackage::SemanticIdentifier). Derive the sequence number from the
-    # identifier ("PROJ-42" → 42) so specs only need to set the identifier, using
-    # the same inversion as the functional code. An explicit sequence_number
-    # override still wins.
-    identifier { nil }
-    sequence_number { identifier && WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier) }
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
@@ -108,9 +100,9 @@ FactoryBot.define do
     # The persistence services mirror version_id into a kind: "target" join row,
     # so every saved work package with a version also has one. Factories skip
     # the services, so the row is created here to match.
-    callback(:after_create) do |work_package, evaluator|
-      if evaluator.version
-        work_package.work_package_versions.find_or_create_by!(version_id: evaluator.version.id, kind: "target")
+    callback(:after_create) do |work_package|
+      if work_package.version_id
+        work_package.work_package_versions.find_or_create_by!(version_id: work_package.version_id, kind: "target")
       end
     end
 

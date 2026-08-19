@@ -277,15 +277,9 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
 
         expect(english_mail.html_part.body).to include("Every day")
         expect(english_mail.html_part.body).not_to include("Jeden Tag")
-        expect(english_mail.html_part.body).not_to include("Old schedule")
-        expect(english_mail.html_part.body).not_to include("New schedule")
-        expect(english_mail.html_part.body).to include("Old location")
-        expect(english_mail.html_part.body).to include("New location")
 
         expect(german_mail.html_part.body).to include("Jeden Tag")
         expect(german_mail.html_part.body).not_to include("Every day")
-        expect(german_mail.html_part.body).not_to include("Alter Zeitplan")
-        expect(german_mail.html_part.body).not_to include("Neuer Zeitplan")
       end
     end
   end

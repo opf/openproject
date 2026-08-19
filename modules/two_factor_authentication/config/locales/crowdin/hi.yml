@@ -126,7 +126,7 @@ hi:
     error_no_device: इस उदाहरण के लिए आवश्यक होने के बावजूद, इस उपयोगकर्ता के लिए कोई पंजीकृत 2FA डिवाइस नहीं मिला ।
     error_no_matching_strategy: इस उपयोगकर्ता के लिए कोई मेल खाती 2FA रणनीति उपलब्ध नहीं है । कृपया अपने administratior से संपर्क करें ।
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.
     label_2fa_disabled: Two-factor authentication not active
     label_2fa_enabled: दो-चरण प्रमाणीकरण
     label_default_device: Default 2FA device

@@ -166,7 +166,7 @@ class User < Principal
 
   acts_as_customizable admin_only_allowed: true
 
-  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input, :consent_check
+  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input
 
   validates :login,
             :firstname,
@@ -415,8 +415,7 @@ class User < Principal
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    # using #any? instead of #exists? so that it also works on unpersisted auth provider links
-    user_auth_provider_links.any?
+    user_auth_provider_links.exists?
   end
 
   #

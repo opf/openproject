@@ -30,8 +30,6 @@
 
 module MeetingAgendaItems
   class ConvertToWorkPackageService
-    include JournalizeWorkPackageActivity
-
     attr_reader :user, :project
 
     def initialize(user:, project:)
@@ -76,8 +74,6 @@ module MeetingAgendaItems
           raise ActiveRecord::Rollback
         end
 
-        journalize_added(meeting_agenda_item)
-
         result = ServiceResult.success(result: work_package)
       end
 
@@ -85,10 +81,6 @@ module MeetingAgendaItems
     end
 
     private
-
-    def journalize_added(meeting_agenda_item)
-      journalize_agenda_item(meeting_agenda_item, Journal::CausedByMeetingAgendaItemAdded.new(meeting_agenda_item.meeting))
-    end
 
     def build_description(meeting_agenda_item)
       meeting_agenda_item.notes.to_s.strip.presence

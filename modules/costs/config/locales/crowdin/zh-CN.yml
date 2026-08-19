@@ -75,12 +75,7 @@ zh-CN:
         time_entry:
           cannot_log_for_this_work_package: 无法记录该工作包的时间。
           duplicate_ongoing: 此用户已存在一个进行中的时间记录。
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
           invalid_time: 必须在 00:00-23:59之间。
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作包 #%{id} 不是重新分配成本条目的有效目标。'
           nullify_is_not_valid_for_cost_entries: 无法将成本条目分配到项目。
@@ -113,8 +108,6 @@ zh-CN:
   button_log_costs: 记录单位成本
   button_log_time: 日志
   button_stop_timer: 停止计时器
-  button_update_limits: Update limits
-  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: 已记录在项目上
   caption_default: 基本
   caption_default_rate_history_for: "%{user} 的基本费率历史记录"
@@ -160,14 +153,13 @@ zh-CN:
         view_details: 查看实际成本详细信息
   description_costs_settings: 定义所有项目成本的理想格式。
   description_date_for_new_rate: 新费率的日期
-  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
-  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  description_time_settings: 定义记录项目时间必须填写哪些字段。
   ee:
     features:
-      time_entry_time_restrictions: Time entry restrictions
+      time_entry_time_restrictions: 需要准确的时间跟踪
     upsell:
       time_entry_time_restrictions:
-        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+        description: 通过要求在记录时间时提供确切的开始和结束时间来改进你的时间跟踪。
   group_by_others: 不在任何组中
   label_available_cost_types_projects: 可用的成本类型项目
   label_between: 介于
@@ -182,7 +174,6 @@ zh-CN:
   label_current_default_rate: 当前基本费率
   label_date_on: 日期
   label_day: 天
-  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: 已删除的成本类型
   label_display_cost_entries: 显示单位成本
   label_display_time_entries: 显示已上报工时
@@ -198,6 +189,7 @@ zh-CN:
   label_less_or_equal: "<="
   label_list: 列表
   label_log_costs: 记录单位成本
+  label_mandatory_fields: 必填字段
   label_month: 月
   label_my_time_tracking: 我的工时记录
   label_new_time_entry_activity: 新时间条目活动
@@ -218,11 +210,9 @@ zh-CN:
   label_show: 显示
   label_specific_day: 第 %{day} 天
   label_specific_month: "%{month} 月"
-  label_start_and_finished: Start and finish times
   label_status_finished: 已完成
   label_time: 时间
   label_time_entry_activity_form_description: 对该时间条目活动的更改将反映的所有启用的项目中。
-  label_time_entry_restrictions: Limits
   label_timer_since: "%{time} 开始"
   label_today_capitalized: 今天
   label_units: 成本单位
@@ -268,18 +258,6 @@ zh-CN:
   setting_enforce_tracking_start_and_end_times: 需要开始和完成时间
   setting_enforce_tracking_start_and_end_times_caption: 记录时间时强制输入开始和结束时间。
   setting_enforce_without_allow: 如果不允许，则无法要求开始和结束时间
-  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: 将已上报的工时和成本提交到项目中
   text_destroy_cost_entries_question: 您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？
   text_destroy_time_and_cost_entries: 删除已上报的工时和成本

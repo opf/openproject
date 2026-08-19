@@ -35,13 +35,13 @@ module Workflows
 
     DIALOG_ID = "workflows-status-dialog"
 
-    def initialize(context:)
+    def initialize(all_statuses:, current_statuses:, roles:, type:, tab:)
       super
-      @context = context
+      @all_statuses = all_statuses
+      @current_statuses = current_statuses
+      @roles = roles
+      @type = type
+      @tab = tab
     end
-
-    private
-
-    attr_reader :context
   end
 end

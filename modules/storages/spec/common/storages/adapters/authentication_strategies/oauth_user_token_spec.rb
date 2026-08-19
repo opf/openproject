@@ -149,7 +149,7 @@ module Storages
         end
 
         def error(code)
-          Failure(SimpleError.new(source: "EXECUTING_QUERY", code:))
+          Failure(Results::Error.new(source: "EXECUTING_QUERY", code:))
         end
       end
     end

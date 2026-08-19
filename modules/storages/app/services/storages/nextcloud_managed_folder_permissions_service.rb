@@ -174,7 +174,7 @@ module Storages
     end
 
     def collision_error
-      SimpleError.new(source: self.class, code: :folder_id_collision)
+      ::Storages::Adapters::Results::Error.new(source: self.class, code: :folder_id_collision)
     end
 
     ### Model Scopes

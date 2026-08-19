@@ -577,59 +577,13 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
-        # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter,
-                            show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
-                            getter: ->(*) {
-                              next unless embed_link?(:version)
-
-                              version = represented.effective_target_versions.first
-                              next unless version
-
-                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
-                            },
-                            link: ->(*) {
-                              next if Setting::WorkPackageMultipleVersions.active?
-
-                              version = represented.effective_target_versions.first
-                              next({ href: nil }) if version.nil?
-
-                              ::API::Decorators::LinkObject
-                                .new(version,
-                                     property_name: :itself,
-                                     path: :version,
-                                     getter: :id,
-                                     title_attribute: :name)
-                                .to_hash
-                            },
-                            setter: ->(fragment:, **) do
-                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
-                            end
+                            representer: ::API::V3::Versions::VersionRepresenter
 
         associated_resources :target_versions,
                              v3_path: :version,
                              representer: ::API::V3::Versions::VersionRepresenter,
-                             getter: ->(*) {
-                               next unless embed_link?(:target_versions)
-
-                               represented.effective_target_versions.map do |version|
-                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
-                               end
-                             },
-                             link: ->(*) {
-                               represented.effective_target_versions.map do |version|
-                                 ::API::Decorators::LinkObject
-                                   .new(version,
-                                        property_name: :itself,
-                                        path: :version,
-                                        getter: :id,
-                                        title_attribute: :name)
-                                   .to_hash
-                               end
-                             },
                              setter: ->(fragment:, **) do
                                represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
@@ -874,8 +828,7 @@ module API
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
-           Setting::WorkPackageIdentifier.semantic?,
-           Setting::WorkPackageMultipleVersions.active?]
+           Setting::WorkPackageIdentifier.semantic?]
         end
 
         def load_complete_model(model)

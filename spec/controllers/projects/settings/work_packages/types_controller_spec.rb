@@ -35,14 +35,14 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
 
   current_user { user }
 
-  describe "PATCH #bulk_update" do
+  describe "PATCH #update" do
     let(:type) { create(:type_bug) }
     let(:other_type) { create(:type_task) }
     let(:project) { create(:project, types: [type, other_type]) }
     let!(:work_package) { create(:work_package, project:, type:) }
 
     before do
-      patch :bulk_update,
+      patch :update,
             params: {
               project_id: project.identifier,
               project: { type_ids: [other_type.id.to_s] }
@@ -63,49 +63,6 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
 
     it "keeps the type active in the project" do
       expect(project.reload.types).to include(type)
-    end
-  end
-
-  describe "POST #create" do
-    shared_let(:type) { create(:type_bug) }
-
-    let(:project) { create(:project, types: []) }
-
-    context "with the type variants feature active", with_flag: { type_variants: true } do
-      it "reports a missing type rather than raising" do
-        post :create, params: { project_id: project.identifier }, format: :turbo_stream
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include("The selected type could not be found.")
-      end
-
-      it "activates the type" do
-        post :create, params: { project_id: project.identifier, type_id: type.id }, format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(project.reload.types).to include(type)
-      end
-    end
-
-    context "with the type variants feature inactive", with_flag: { type_variants: false } do
-      it "renders 404" do
-        post :create, params: { project_id: project.identifier, type_id: type.id }, format: :turbo_stream
-
-        expect(response).to have_http_status(:not_found)
-      end
-    end
-  end
-
-  describe "DELETE #destroy", with_flag: { type_variants: true } do
-    shared_let(:type) { create(:type_bug) }
-
-    let(:project) { create(:project, types: [type]) }
-
-    it "reports a missing type rather than raising" do
-      delete :destroy, params: { project_id: project.identifier, id: 0 }, format: :turbo_stream
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("The selected type could not be found.")
     end
   end
 end

@@ -153,7 +153,7 @@ RSpec.describe "POST /api/v3/queries/form",
       end
     end
 
-    describe "columns", with_settings: { work_package_multiple_versions: false } do
+    describe "columns" do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do
@@ -246,7 +246,7 @@ RSpec.describe "POST /api/v3/queries/form",
       }
     end
 
-    describe "columns", with_settings: { work_package_multiple_versions: false } do
+    describe "columns" do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do

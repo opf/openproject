@@ -66,7 +66,6 @@ module NoResultsHelper
              title_text:,
              action_text:,
              action_url:
-           },
-           formats: [:html]
+           }
   end
 end

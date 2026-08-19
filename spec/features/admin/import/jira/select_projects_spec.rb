@@ -54,7 +54,7 @@ RSpec.describe "Jira import select projects modal", :js do
   end
 
   let(:modal_id) { Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID }
-  let(:filter_label) { I18n.t(:"admin.jira.run.wizard.select_projects.filter_projects") }
+  let(:filter_label) { I18n.t(:"admin.jira.run.wizard.select_dialog.filter_projects") }
 
   before do
     allow(Import::JiraInstanceMetaDataJob).to receive(:perform_later)
@@ -140,12 +140,12 @@ RSpec.describe "Jira import select projects modal", :js do
     before { open_select_projects_modal }
 
     it "checks and unchecks all visible projects" do
-      click_on I18n.t(:"admin.jira.run.wizard.select_projects.button_select_all")
+      click_on I18n.t(:button_check_all)
       expect(page).to have_field("Project Alpha", checked: true)
       expect(page).to have_field("Project Beta", checked: true)
       expect(page).to have_field("Gamma Project", checked: true)
 
-      click_on I18n.t(:"admin.jira.run.wizard.select_projects.button_unselect_all")
+      click_on I18n.t(:button_uncheck_all)
       expect(page).to have_field("Project Alpha", checked: false)
       expect(page).to have_field("Project Beta", checked: false)
       expect(page).to have_field("Gamma Project", checked: false)
@@ -154,16 +154,16 @@ RSpec.describe "Jira import select projects modal", :js do
     it "scopes bulk check and uncheck to visible filtered projects" do
       fill_in filter_label, with: "Alpha"
       expect(page).to have_no_field("Project Beta")
-      click_on I18n.t(:"admin.jira.run.wizard.select_projects.button_select_all")
+      click_on I18n.t(:button_check_all)
       clear_filter
       expect(page).to have_field("Project Alpha", checked: true)
       expect(page).to have_field("Project Beta", checked: false)
       expect(page).to have_field("Gamma Project", checked: false)
 
-      click_on I18n.t(:"admin.jira.run.wizard.select_projects.button_select_all")
+      click_on I18n.t(:button_check_all)
       fill_in filter_label, with: "Alpha"
       expect(page).to have_no_field("Project Beta")
-      click_on I18n.t(:"admin.jira.run.wizard.select_projects.button_unselect_all")
+      click_on I18n.t(:button_uncheck_all)
       clear_filter
       expect(page).to have_field("Project Alpha", checked: false)
       expect(page).to have_field("Project Beta", checked: true)
@@ -213,9 +213,7 @@ RSpec.describe "Jira import select projects modal", :js do
 
     it "discards changes when cancelled" do
       check "Project Alpha"
-      within("##{modal_id}") do
-        click_on I18n.t(:button_cancel)
-      end
+      click_on I18n.t(:button_cancel)
       expect(page).to have_no_css("##{modal_id}[open]")
       expect(jira_import.reload.projects).to be_empty
     end

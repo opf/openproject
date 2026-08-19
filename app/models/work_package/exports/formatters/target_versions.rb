@@ -31,10 +31,8 @@
 module WorkPackage::Exports
   module Formatters
     class TargetVersions < ::Exports::Formatters::Default
-      # Also covers the deprecated version column, which exports the same
-      # target_versions data while the single-version UI is active.
       def self.apply?(attribute, _export_format)
-        %i[target_versions version].include?(attribute.to_sym)
+        attribute.to_sym == :target_versions
       end
 
       def retrieve_value(object)

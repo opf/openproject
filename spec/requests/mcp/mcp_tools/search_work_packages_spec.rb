@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::SearchWorkPackages do
-  subject(:mcp_request) do
+  subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -92,36 +92,14 @@ RSpec.describe McpTools::SearchWorkPackages do
     it_behaves_like "MCP text tool"
 
     it "finds all work packages without filters" do
-      mcp_request
+      subject
       expect(result_items.size).to eq(2)
     end
 
     it "responds with properly formatted work packages" do
-      mcp_request
+      subject
       result_items.each do |work_package|
         expect(work_package.to_json).to match_json_schema.from_docs("work_package_model")
-      end
-    end
-
-    it "removes html from the description" do
-      subject
-      result_items.each do |work_package|
-        expect(work_package.fetch("description")).not_to have_key("html")
-      end
-    end
-
-    it "removes unnecessary links from work packages, such as purely action-based links" do
-      subject
-      result_items.each do |work_package|
-        # Spec is based on the assumption that we might have to increase this number over time, but rather not reduce it.
-        # When you are here to increase it, maybe reflect on whether we should've filtered more links by now.
-        expect(work_package.fetch("_links").size).to be < 40
-
-        # it keeps non-action links, because they are still useful (non-exhaustive examples) ...
-        expect(work_package.fetch("_links").keys).to include("status", "type", "assignee")
-
-        # ... but rejects links that merely tell the client "what's possible to do" (non-exhaustive examples)
-        expect(work_package.fetch("_links").keys).not_to include("logTime", "generate_pdf", "copy")
       end
     end
 
@@ -129,7 +107,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { id: work_package_a.id } }
 
       it "finds the work package" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(work_package_a.id)
       end
@@ -141,7 +119,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { project_id: project.id } }
 
       it "finds only work packages in the specified project" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(2)
         expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
       end
@@ -153,7 +131,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { status_id: status.id } }
 
       it "finds only work packages with the specified status" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(2)
         expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
       end
@@ -165,7 +143,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { type_id: type.id } }
 
       it "finds only work packages with the specified type" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(2)
         expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
       end
@@ -176,7 +154,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { assigned_to_id: assignee.id } }
 
         it "finds only work packages assigned to the specified user" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(1)
           expect(result_items.first["id"]).to eq(work_package_a.id)
         end
@@ -186,7 +164,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { assigned_to_id: nil } }
 
         it "finds only unassigned work packages" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(1)
           expect(result_items.first["id"]).to eq(work_package_b.id)
         end
@@ -197,35 +175,30 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { author_id: author.id } }
 
       it "finds only work packages created by the specified user" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(work_package_a.id)
       end
     end
 
-    # Both params dispatch to the `with_target_version` / `without_target_version`
-    # scopes; the query semantics (incl. observed_in divergence) are covered in
-    # spec/models/work_package_spec.rb. Here we only assert the wiring: each param
-    # reaches the right scope. `version_id` is the deprecated alias for the new
-    # `target_version_id`, so both behave identically.
-    %i[version_id target_version_id].each do |filter_name|
-      describe "filtering by #{filter_name}" do
-        context "with a version id" do
-          let(:call_args) { { filter_name => version.id } }
+    describe "filtering by version_id" do
+      context "when searching for work packages with a specific version" do
+        let(:call_args) { { version_id: version.id } }
 
-          it "returns work packages targeting that version" do
-            mcp_request
-            expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
-          end
+        it "finds only work packages with the specified version" do
+          subject
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(work_package_a.id)
         end
+      end
 
-        context "with null" do
-          let(:call_args) { { filter_name => nil } }
+      context "when searching for work packages without a version" do
+        let(:call_args) { { version_id: nil } }
 
-          it "returns work packages without a target version" do
-            mcp_request
-            expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
-          end
+        it "finds only work packages without a version" do
+          subject
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(work_package_b.id)
         end
       end
     end
@@ -235,7 +208,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { subject: "First Work Package" } }
 
         it "finds the work package" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(1)
           expect(result_items.first["id"]).to eq(work_package_a.id)
         end
@@ -245,7 +218,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { subject: "First" } }
 
         it "finds the work package" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(1)
           expect(result_items.first["id"]).to eq(work_package_a.id)
         end
@@ -255,7 +228,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { subject: "first work" } }
 
         it "finds the work package" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(1)
           expect(result_items.first["id"]).to eq(work_package_a.id)
         end
@@ -265,7 +238,7 @@ RSpec.describe McpTools::SearchWorkPackages do
         let(:call_args) { { subject: "Work Package" } }
 
         it "finds all matching work packages" do
-          mcp_request
+          subject
           expect(result_items.size).to eq(2)
         end
       end
@@ -275,7 +248,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:call_args) { { project_id: project.id, assigned_to_id: assignee.id } }
 
       it "applies all filters" do
-        mcp_request
+        subject
         expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(work_package_a.id)
       end
@@ -285,7 +258,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       let(:user) { create(:user) }
 
       it "does not find any work packages" do
-        mcp_request
+        subject
         expect(result_items).to be_empty
       end
     end
@@ -309,20 +282,15 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
 
       it "returns only results up to the page size" do
-        mcp_request
+        subject
         expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(work_packages_count)
       end
 
       context "if another page is requested" do
         let(:call_args) { { subject: "Stormtrooper", page: 2 } }
 
         it "returns the requested page" do
-          mcp_request
+          subject
           expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_work_packages)
         end
       end
@@ -331,7 +299,7 @@ RSpec.describe McpTools::SearchWorkPackages do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds with a 404" do
-      mcp_request
+      subject
       expect(last_response).to have_http_status(404)
     end
   end

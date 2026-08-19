@@ -141,42 +141,6 @@ RSpec.describe(
       copied_work_package
     end
 
-    describe "the variant a family resolves to", with_flag: { type_variants: true } do
-      shared_let(:root_type) { create(:type, name: "Copied root") }
-      shared_let(:variant) { create(:type, name: "Copied variant", parent: root_type) }
-
-      before { source.project_types.create!(type: root_type, variant:) }
-
-      it "copies the resolved variant, not just the root the project uses" do
-        expect(subject).to be_success
-
-        copied = project_copy.project_types.find_by(type: root_type)
-
-        expect(copied.variant).to eq(variant)
-        expect(copied.effective_type).to eq(variant)
-      end
-
-      it "keeps the copy pointing at its own project" do
-        expect(subject).to be_success
-
-        expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
-      end
-
-      context "when the caller names the types itself" do
-        shared_let(:other_type) { create(:type, name: "Chosen type") }
-
-        let(:target_project_params) { { "name" => "Copy", "identifier" => "copy", "type_ids" => [other_type.id] } }
-
-        # project_types and type_ids write the same rows, so the source's must stand aside
-        # rather than compete with what the caller asked for.
-        it "uses the caller's types instead of the source's" do
-          expect(subject).to be_success
-
-          expect(project_copy.types).to contain_exactly(other_type)
-        end
-      end
-    end
-
     shared_examples_for "copies public attribute" do
       describe "#public" do
         before do
@@ -618,11 +582,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to include group
-          expect(source.members.count).to eq 3
+          expect(source.member_principals.count).to eq 3
 
           expect(subject).to be_success
 
-          expect(project_copy.members.count).to eq 3
+          expect(project_copy.member_principals.count).to eq 3
           expect(project_copy.groups).to include group
           expect(project_copy.users).to include current_user
           expect(project_copy.users).to include user
@@ -733,7 +697,7 @@ RSpec.describe(
           let!(:assigned_version) { create(:version, name: "Assigned Issues", project: source, status: "open") }
 
           before do
-            source_wp.target_versions = [assigned_version]
+            source_wp.update!(version: assigned_version)
             assigned_version.update!(status: "closed")
           end
 
@@ -741,9 +705,9 @@ RSpec.describe(
             expect(subject).to be_success
 
             wp = copy_of(source_wp)
-            expect(wp.target_versions.first.name).to eq "Assigned Issues"
-            expect(wp.target_versions.first).to be_closed
-            expect(wp.target_versions.first.id).not_to eq assigned_version.id
+            expect(wp.version.name).to eq "Assigned Issues"
+            expect(wp.version).to be_closed
+            expect(wp.version.id).not_to eq assigned_version.id
           end
         end
 
@@ -753,7 +717,12 @@ RSpec.describe(
           let(:version_two) { create(:version, name: "Target Two", project: source, status: "open") }
 
           before do
-            source_wp.target_versions = [version_one, version_two]
+            source_wp.work_package_versions.where(kind: "target").delete_all
+            # Contract validation rejects more than one target version, so we bypass it
+            # here to exercise the copy remapping of multiple target versions
+            [version_one, version_two].each do |v|
+              source_wp.work_package_versions.create!(version_id: v.id, kind: "target")
+            end
           end
 
           it "copies the target_versions remapped to the copied project's versions" do
@@ -775,7 +744,10 @@ RSpec.describe(
           let(:observed_two) { create(:version, name: "Observed Two", project: source, status: "open") }
 
           before do
-            source_wp.observed_in_versions = [observed_one, observed_two]
+            source_wp.work_package_versions.where(kind: "observed_in").delete_all
+            [observed_one, observed_two].each do |v|
+              source_wp.work_package_versions.create!(version_id: v.id, kind: "observed_in")
+            end
           end
 
           it "copies the observed_in_versions remapped to the copied project's versions" do
@@ -818,8 +790,9 @@ RSpec.describe(
 
           before do
             source_wp.work_package_versions.delete_all
-            source_wp.target_versions = [assigned_version]
-            source_wp.observed_in_versions = [observed_version]
+            # Saving the version also creates the target association
+            source_wp.update!(version: assigned_version)
+            source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
           end
 
           it "copies the work package without any version assignments" do
@@ -827,6 +800,7 @@ RSpec.describe(
 
             wp = copy_of(source_wp)
             expect(wp).not_to be_nil
+            expect(wp.version).to be_nil
             expect(wp.target_versions).to be_empty
             expect(wp.observed_in_versions).to be_empty
           end
@@ -1071,6 +1045,26 @@ RSpec.describe(
           end
         end
 
+        context "with versions" do
+          let(:version) { create(:version, project: source) }
+          let(:version2) { create(:version, project: source) }
+
+          let(:only_args) { %w[versions work_packages] }
+
+          before do
+            work_package.update_column(:version_id, version.id)
+            work_package2.update_column(:version_id, version2.id)
+            work_package3
+          end
+
+          it "assigns the work packages to copies of the versions" do
+            expect(subject).to be_success
+            expect(copy_of(work_package).version.name).to eq version.name
+            expect(copy_of(work_package2).version.name).to eq version2.name
+            expect(copy_of(work_package3).version).to be_nil
+          end
+        end
+
         context "when work_package is assigned to somebody" do
           let(:assigned_user) do
             create(:user,
@@ -1306,9 +1300,7 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_present
-        expect(project_copy.wiki.enabled?).to eq(source.wiki.enabled?)
-        expect(project_copy.wiki.pages.count).to eq 0
+        expect(project_copy.wiki).to be_nil
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0
@@ -1353,11 +1345,11 @@ RSpec.describe(
           expect(source.users).to include current_user
           expect(source.users).to include user
           expect(project_copy.groups).to be_empty
-          expect(source.members.count).to eq 4
+          expect(source.member_principals.count).to eq 4
 
           expect(subject).to be_success
 
-          expect(project_copy.members.count).to eq 1
+          expect(project_copy.member_principals.count).to eq 1
           expect(project_copy.groups).to be_empty
           expect(project_copy.users).to contain_exactly current_user
 

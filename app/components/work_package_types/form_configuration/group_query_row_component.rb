@@ -33,26 +33,10 @@ module WorkPackageTypes
     class GroupQueryRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, ee_available:, readonly: false, exclusions: nil)
+      def initialize(group:, ee_available:)
         super
         @group = group
         @ee_available = ee_available
-        @readonly = readonly
-        @exclusions = exclusions
-      end
-
-      def readonly?
-        @readonly
-      end
-
-      # A query group holds a single query, so its key excludes the whole section rather than a row,
-      # which is why the label names the section.
-      def exclusion_toggle
-        @exclusion_toggle ||= ExclusionToggleComponent.new(
-          exclusions: @exclusions,
-          element_key: @group[:element_key],
-          label: t("types.edit.form_configuration.exclusions.section_label", section: @group[:name])
-        )
       end
 
       private

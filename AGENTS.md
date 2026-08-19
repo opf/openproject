@@ -75,27 +75,6 @@ erb_lint {files}
 bundle exec lefthook install
 ```
 
-### JavaScript and TypeScript Copyright Headers
-
-All first-party JavaScript and TypeScript files must use the canonical compact
-line-comment copyright header generated from `COPYRIGHT_short`:
-
-```typescript
-//-- copyright
-// OpenProject is an open source project management software.
-// ...
-//++
-
-```
-
-Use `//-- copyright` and `//++` exactly as shown. Prefix non-empty body lines
-with `// `, prefix empty body lines with `//`, and leave one blank line between
-the header and the source code. Do not compose or reformat the header manually.
-
-Run `rake copyright:update_typescript` to add or repair headers in `.ts` and
-`.tsx` files. Run `rake copyright:update_js` for `.js`, `.mjs`, and `.cjs`
-files. Both commands accept an optional path argument.
-
 ## Commit Messages
 - First line: < 72 characters, then blank line, then detailed description
 - Reference work packages when applicable

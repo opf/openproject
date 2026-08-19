@@ -48,7 +48,8 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
     end
 
     describe "version and target_versions columns" do
-      context "with the setting enabled",
+      context "with the feature flag and the setting enabled",
+              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         it "replaces the version column with the target_versions column" do
           names = described_class.instances.map(&:name)
@@ -57,24 +58,29 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
           expect(names).not_to include :version
         end
 
-        it "is displayable, sortable and groupable" do
+        it "is displayable but neither sortable nor groupable" do
           column = described_class.instances.find { it.name == :target_versions }
 
           expect(column).to be_displayable
-          expect(column).to be_sortable
-          expect(column).to be_groupable
+          expect(column).not_to be_sortable
+          expect(column).not_to be_groupable
           expect(column.caption).to eq WorkPackage.human_attribute_name(:target_versions)
         end
+      end
 
-        it "sorts and groups via the work_package_versions join rows" do
-          column = described_class.instances.find { it.name == :target_versions }
+      context "with the feature flag disabled",
+              with_flag: { work_package_multiple_versions: false },
+              with_settings: { work_package_multiple_versions: true } do
+        it "keeps the version column" do
+          names = described_class.instances.map(&:name)
 
-          expect(Array(column.sortable)).to all include("work_package_versions")
-          expect(column.groupable).to include("work_package_versions")
+          expect(names).to include :version
+          expect(names).not_to include :target_versions
         end
       end
 
       context "with the setting disabled",
+              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: false } do
         it "keeps the version column" do
           names = described_class.instances.map(&:name)
@@ -82,13 +88,16 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
           expect(names).to include :version
           expect(names).not_to include :target_versions
         end
+      end
 
-        it "sorts and groups the version column via the work_package_versions join rows" do
-          column = described_class.instances.find { it.name == :version }
+      context "with the feature flag and the setting disabled",
+              with_flag: { work_package_multiple_versions: false },
+              with_settings: { work_package_multiple_versions: false } do
+        it "keeps the version column" do
+          names = described_class.instances.map(&:name)
 
-          expect(column.sortable).to include("work_package_versions")
-          expect(column.groupable).to include("work_package_versions")
-          expect(column.groupable).not_to include("#{WorkPackage.table_name}.version_id")
+          expect(names).to include :version
+          expect(names).not_to include :target_versions
         end
       end
     end

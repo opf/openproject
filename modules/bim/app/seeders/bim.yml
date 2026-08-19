@@ -200,7 +200,6 @@ global_queries:
       - project
 type_configuration:
   - type: :default_type_summary_task
-    merge_form_configuration: true
     form_configuration:
       - t_group_name: "Children"
         query: :global_query__children

@@ -35,7 +35,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
 
       def initialize(group:, type: nil, ee_available: false, first: false, last: false, edit_mode: false,
-                     form_model: nil, readonly: false, exclusions: nil)
+                     form_model: nil)
         super(group)
         @group = group
         @type = type
@@ -44,8 +44,6 @@ module WorkPackageTypes
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
-        @readonly = readonly
-        @exclusions = exclusions
         @instance_uid = SecureRandom.hex(4)
       end
 
@@ -55,10 +53,6 @@ module WorkPackageTypes
 
       def edit_mode?
         @edit_mode
-      end
-
-      def readonly?
-        @readonly
       end
 
       def query_group?
@@ -101,7 +95,7 @@ module WorkPackageTypes
       end
 
       def draggable_item_config
-        return {} if readonly? || @group[:key].blank? || temporary_group?
+        return {} if @group[:key].blank? || temporary_group?
 
         {
           "draggable-id": @group[:key],
@@ -111,7 +105,7 @@ module WorkPackageTypes
       end
 
       def row_drop_target_config
-        return {} if readonly? || query_group? || @group[:key].blank? || temporary_group?
+        return {} if query_group? || @group[:key].blank? || temporary_group?
 
         {
           "admin--type-form-configuration--rows-drag-and-drop-target": "container",

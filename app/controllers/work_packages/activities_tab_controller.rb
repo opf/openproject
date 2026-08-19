@@ -236,7 +236,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @journal = @work_package
       .journals
       .internal_visible
-      .without_meeting_causes
       .find(params[:id])
   rescue ActiveRecord::RecordNotFound
     respond_with_error(I18n.t("label_not_found"))

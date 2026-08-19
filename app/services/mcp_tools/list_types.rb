@@ -36,6 +36,7 @@ module McpTools
     name "list_types"
 
     resource McpResources::TypeList
+    resource_schema "types_model"
     resource_annotations
   end
 end
