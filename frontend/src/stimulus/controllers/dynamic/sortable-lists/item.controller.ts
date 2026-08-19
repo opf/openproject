@@ -59,6 +59,12 @@ import {
   sortableItemSelector,
   type DestinationIdentity,
 } from './list-dom';
+import {
+  SortableActionMenu,
+  type ActionAvailability,
+  type ActionMenuElements,
+  type ActionMenuLabels,
+} from './action-menu';
 import { renderDragPreview } from './preview';
 import { scopeIds, type ActionScope } from './selection-orchestrator';
 
@@ -147,7 +153,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
-  private menuOpen = false;
+  private menu?:SortableActionMenu;
+  private projectedMenuElement?:ActionMenuElement;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -155,18 +162,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if (!this.hasMenuElement || event.target !== this.menuElement.popoverElement) {
+    const menu = this.actionMenu;
+    if (!menu?.ownsPopoverEvent(event)) {
       return;
     }
 
     const { newState } = event as ToggleEvent;
     if (newState === 'open') {
-      this.menuOpen = true;
+      menu.opening();
       this.refreshActionAvailability();
-      this.rescueOpenFocus();
+      menu.opened();
     } else if (newState === 'closed') {
-      this.menuOpen = false;
-      this.refreshMenuLabel(false, 0);
+      menu.closed();
     }
   };
 
@@ -178,14 +185,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
   };
 
   private readonly onMenuBeforeToggle = (event:Event):void => {
-    if (
-      (event as ToggleEvent).newState === 'open'
-      && this.hasMenuElement
-      && event.target === this.menuElement.popoverElement
-    ) {
-      this.menuOpen = true;
-      this.prepareActionMenu();
+    const menu = this.actionMenu;
+    if ((event as ToggleEvent).newState !== 'open' || !menu?.ownsPopoverEvent(event)) {
+      return;
     }
+
+    menu.opening();
+    this.prepareActionMenu();
   };
 
   connect():void {
@@ -194,9 +200,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.element.addEventListener('contextual-action-menu:beforeOpen', this.onContextualBeforeOpen);
     this.element.addEventListener('beforetoggle', this.onMenuBeforeToggle, true);
     this.element.addEventListener('toggle', this.onMenuToggle, true);
-    // A Turbo restore resurrects the tooltip as snapshotted, batch name and
-    // all; a closed menu always presents the singular one.
-    this.refreshMenuLabel(false, 0);
+    this.actionMenu?.settleName();
   }
 
   disconnect():void {
@@ -233,7 +237,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+    if (!this.actionMenu?.isItemActionable(item)) {
       return;
     }
 
@@ -274,7 +278,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+    if (!this.actionMenu?.isItemActionable(item)) {
       return;
     }
 
@@ -590,37 +594,83 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private refreshActionAvailability(preparedScope?:ActionScope):void {
     const root = this.root;
-    if (!root || !this.hasMenuElement) {
+    const menu = this.actionMenu;
+    if (!root || !menu) {
       return;
     }
 
     const scope = preparedScope ?? root.actionScopeFor(this.element);
-    const presentedDestinations = this.refreshDestinationAvailability(root, scope);
-    const presentedMoveActions = this.refreshMoveMenuAvailability(root, scope);
 
-    this.refreshActionGroups(scope, presentedDestinations + presentedMoveActions);
+    menu.project(
+      this.menuElements(),
+      { batch: scope.kind === 'batch' && scope.items.length > 1, count: scope.items.length },
+      this.actionAvailability(root, scope),
+    );
   }
 
-  // Both projections return how many actions the menu is presenting, not how
-  // many are executable: with hideUnavailable off, unavailable items stay on
-  // screen disabled, and the group toggle must count them as presented.
-  private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):number {
-    let available = 0;
+  // Rebuilt whenever a morph hands the blessing a new element, carrying the
+  // open state across so a morph mid-popover does not read as a fresh close.
+  private get actionMenu():SortableActionMenu|null {
+    if (!this.hasMenuElement) {
+      return null;
+    }
 
-    for (const item of this.destinationItemTargets) {
-      const candidates = this.destinationCandidates(item);
-      const enabled = !(
-        scope.kind === 'refused' && !isOrderableItem(this.element)
-      ) && candidates.length > 0
-        && root.availableDestinations(scope, candidates).length > 0;
-
-      this.setAvailability(item, enabled);
-      if (enabled) {
-        available += 1;
+    if (this.projectedMenuElement !== this.menuElement) {
+      const wasOpen = this.menu?.isOpen ?? false;
+      this.projectedMenuElement = this.menuElement;
+      this.menu = new SortableActionMenu(this.menuElement, this.hideUnavailableValue, this.menuLabels());
+      if (wasOpen) {
+        this.menu.opening();
       }
     }
 
-    return this.hideUnavailableValue ? available : this.destinationItemTargets.length;
+    return this.menu ?? null;
+  }
+
+  // A consumer that names neither scope keeps the server-rendered name in both.
+  private menuLabels():ActionMenuLabels|null {
+    if (!this.hasBatchMenuLabelKeyValue || !this.hasSingularMenuLabelValue) {
+      return null;
+    }
+
+    return { batchKey: this.batchMenuLabelKeyValue, singular: this.singularMenuLabelValue };
+  }
+
+  private menuElements():ActionMenuElements {
+    return {
+      destinationItems: this.destinationItemTargets,
+      moveItems: this.moveItemTargets,
+      moveSubmenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
+      invokerGroup: this.hasInvokerGroupTarget ? this.invokerGroupTarget : null,
+      batchGroup: this.hasBatchGroupTarget ? this.batchGroupTarget : null,
+      groupDivider: this.hasGroupDividerTarget ? this.groupDividerTarget : null,
+    };
+  }
+
+  // A card that is not itself orderable offers no action in a singular scope:
+  // it is an addressable position, not something a menu can move.
+  private actionAvailability(root:SortableListsRoot, scope:ActionScope):ActionAvailability {
+    if (scope.kind === 'refused' && !isOrderableItem(this.element)) {
+      return { destinationItem: () => false, moveItem: () => false };
+    }
+
+    // Null availability means the item is not in a list yet.
+    const moves = root.moveAvailability(this.element);
+
+    return {
+      destinationItem: (item) => {
+        const candidates = this.destinationCandidates(item);
+        return candidates.length > 0 && root.availableDestinations(scope, candidates).length > 0;
+      },
+      moveItem: moves
+        // Outside a Stimulus action there is no event.params, so read the
+        // param's backing attribute directly.
+        ? (item) => {
+          const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
+          return isMoveDirection(direction) && moves[direction];
+        }
+        : null,
+    };
   }
 
   private destinationCandidates(item:HTMLElement):DestinationIdentity[] {
@@ -634,184 +684,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return destinations.length === candidates.length ? destinations : [];
     } catch {
       return [];
-    }
-  }
-
-  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):number {
-    if (scope.kind === 'refused' && !isOrderableItem(this.element)) {
-      for (const item of this.moveItemTargets) {
-        this.setAvailability(item, false);
-      }
-      if (this.hasMoveMenuTarget) {
-        this.setAvailability(this.moveMenuTarget, false);
-      }
-      return this.hideUnavailableValue ? 0 : this.renderedMoveActionCount();
-    }
-
-    // Null availability means the item is not in a list yet; leave the menu
-    // alone until the outlet wiring settles.
-    const availability = root.moveAvailability(this.element);
-    if (!availability) {
-      return this.presentedMoveActionCount();
-    }
-
-    let available = 0;
-    for (const item of this.moveItemTargets) {
-      // Outside a Stimulus action there is no event.params, so read the
-      // param's backing attribute directly.
-      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
-      const enabled = isMoveDirection(direction) && availability[direction];
-      this.setAvailability(item, enabled);
-      if (enabled) {
-        available += 1;
-      }
-    }
-
-    if (this.hasMoveMenuTarget) {
-      this.setAvailability(this.moveMenuTarget, available > 0);
-      return this.hideUnavailableValue && available === 0 ? 0 : 1;
-    }
-
-    return this.hideUnavailableValue ? available : this.renderedMoveActionCount();
-  }
-
-  // A nested submenu presents as one action; flat move items count each.
-  private renderedMoveActionCount():number {
-    return this.hasMoveMenuTarget ? 1 : this.moveItemTargets.length;
-  }
-
-  private presentedMoveActionCount():number {
-    if (this.hasMoveMenuTarget) {
-      return this.moveMenuTarget.hasAttribute('hidden') ? 0 : 1;
-    }
-
-    return this.moveItemTargets.filter((item) => !item.hasAttribute('hidden')).length;
-  }
-
-  private refreshActionGroups(scope:ActionScope, presentedBatchActionCount:number):void {
-    const batch = scope.kind === 'batch' && scope.items.length > 1;
-    const batchActionsPresented = presentedBatchActionCount > 0;
-
-    if (this.hasInvokerGroupTarget) {
-      if (batch && batchActionsPresented) {
-        this.rescueFocusFrom(this.invokerGroupTarget);
-      }
-      this.hideGroup(this.invokerGroupTarget, batch && batchActionsPresented);
-    }
-
-    if (this.hasBatchGroupTarget) {
-      if (!batchActionsPresented) {
-        this.rescueFocusFrom(this.batchGroupTarget);
-      }
-      this.hideGroup(this.batchGroupTarget, !batchActionsPresented);
-    }
-
-    // The divider only separates anything while both groups show. It never
-    // goes through setAvailability: `disableItem` writes to the item's
-    // `.ActionListContent`, which a divider does not have.
-    if (this.hasGroupDividerTarget) {
-      this.groupDividerTarget.toggleAttribute(
-        'hidden',
-        (batch && batchActionsPresented) || !batchActionsPresented,
-      );
-    }
-
-    this.refreshMenuLabel(batch && batchActionsPresented, scope.items.length);
-  }
-
-  // Primer's focus zone stops managing exactly the element `hidden` lands on,
-  // so hiding a group alone leaves its items in the zone for the arrows to
-  // step onto. A group that comes back is repopulated by the availability
-  // pass, which sets each item's own hidden state before this runs.
-  private hideGroup(group:HTMLElement, hidden:boolean):void {
-    group.toggleAttribute('hidden', hidden);
-
-    if (!hidden) {
-      return;
-    }
-
-    for (const item of group.querySelectorAll<HTMLElement>('[role="menuitem"]')) {
-      item.toggleAttribute('hidden', true);
-    }
-  }
-
-  // Hiding the group that holds focus would fling focus to the body, and
-  // Primer closes the whole menu when focus leaves it. Park focus on the
-  // first menu item that stays presented before the group disappears.
-  private rescueFocusFrom(group:HTMLElement):void {
-    const active = this.element.ownerDocument.activeElement;
-    if (!(active instanceof HTMLElement) || !group.contains(active) || !this.hasMenuElement) {
-      return;
-    }
-
-    const fallback = Array.from(this.menuElement.querySelectorAll<HTMLElement>('[role="menuitem"]'))
-      .find((item) => !group.contains(item) && !item.closest('[hidden]'));
-    fallback?.focus();
-  }
-
-  // The invoker is a Primer IconButton whose label-type tooltip owns the
-  // accessible name — icon_button.rb drops the button's aria-label and points
-  // aria-labelledby at the <tool-tip> — so writing aria-label would be inert.
-  // The batch name shows only while the menu is open; any projection with the
-  // popover closed settles back on the server-rendered singular name.
-  private refreshMenuLabel(batch:boolean, count:number):void {
-    const invoker = this.hasMenuElement ? this.menuElement.invokerElement : null;
-    const labelId = invoker?.getAttribute('aria-labelledby');
-    const tooltip = labelId ? this.element.ownerDocument.getElementById(labelId) : null;
-    if (!tooltip || !this.hasBatchMenuLabelKeyValue || !this.hasSingularMenuLabelValue) {
-      return;
-    }
-
-    tooltip.textContent = batch && this.menuOpen
-      ? I18n.t(this.batchMenuLabelKeyValue, { count })
-      : this.singularMenuLabelValue;
-  }
-
-  // Primer's open-time focus matches `:not([hidden]) > [role=menuitem]`, one
-  // level deep: a singular item whose group alone is hidden still matches,
-  // and focusing it no-ops. Primer schedules that focus a frame after the
-  // toggle, so the correction runs a frame later still.
-  private rescueOpenFocus():void {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (!this.menuOpen || !this.hasMenuElement) {
-          return;
-        }
-
-        const active = this.element.ownerDocument.activeElement;
-        if (
-          active instanceof HTMLElement
-          && this.menuElement.contains(active)
-          && active.getAttribute('role') === 'menuitem'
-          && !active.closest('[hidden]')
-        ) {
-          return;
-        }
-
-        const fallback = Array.from(this.menuElement.querySelectorAll<HTMLElement>('[role="menuitem"]'))
-          .find((item) => !item.closest('[hidden]'));
-        fallback?.focus();
-      });
-    });
-  }
-
-  // Availability goes through the action-menu element's API: disableItem sets the
-  // ActionListItem--disabled class plus aria-disabled on the item's content, and
-  // hideItem toggles hidden. It operates on any descendant li, including the ones
-  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
-  private setAvailability(item:HTMLElement, available:boolean):void {
-    const menu = this.menuElement;
-
-    if (this.hideUnavailableValue) {
-      if (available) {
-        menu.showItem(item);
-      } else {
-        menu.hideItem(item);
-      }
-    } else if (available) {
-      menu.enableItem(item);
-    } else {
-      menu.disableItem(item);
     }
   }
 }

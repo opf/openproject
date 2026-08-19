@@ -1376,7 +1376,14 @@ describe('Sortable lists item controller', () => {
         + ' data-action="click->sortable-lists--item#move"><button></button></li>'
       )).join('');
       batchGroup.appendChild(parent);
-      menuElement.append(invokerGroup, divider, batchGroup);
+      // Primer's list wrapper: role=menu labelled by the invoker button, which
+      // is where the unnamed-menu bug lives — the button's own name comes from
+      // a further aria-labelledby, and those do not chain.
+      const list = document.createElement('ul');
+      list.setAttribute('role', 'menu');
+      list.setAttribute('aria-labelledby', `${idNumber}-menu-button`);
+      list.append(invokerGroup, divider, batchGroup);
+      menuElement.append(list);
       el.appendChild(menuElement);
 
       const menu:FakeActionMenu = {
@@ -2247,6 +2254,49 @@ describe('Sortable lists item controller', () => {
         openMenu(popover);
 
         expect(tooltip.textContent).toBe('Work package actions');
+      });
+
+      // Server-side the menu is labelled by its invoker button, whose own name
+      // comes from a further aria-labelledby at the tooltip — and accessible
+      // name references do not chain, so the menu resolves to nothing. Follow
+      // the reference the assistive technology would, not the tooltip text.
+      const menuName = (el:HTMLElement):string|null => {
+        const labelId = el.querySelector('[role="menu"]')?.getAttribute('aria-labelledby');
+        return labelId ? el.ownerDocument.getElementById(labelId)?.textContent ?? null : null;
+      };
+
+      it('names the menu itself, not only its invoker', async () => {
+        const {
+          el, popover, controller, root, actionScopeFor,
+        } = await mountRenamableMenu();
+        const batchScope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+        actionScopeFor.mockReturnValue(batchScope);
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(menuName(el)).toBe('Actions for 2 selected work packages');
+
+        popover.dispatchEvent(new ToggleEvent('toggle', { newState: 'closed', oldState: 'open' }));
+
+        expect(menuName(el)).toBe('Work package actions');
+      });
+
+      it('names the menu for a singular scope', async () => {
+        const {
+          el, popover, controller, root,
+        } = await mountRenamableMenu();
+        controller.connectRoot(root);
+        openMenu(popover);
+
+        expect(menuName(el)).toBe('Work package actions');
+      });
+
+      // A consumer that names no batch scope still gets a named menu: the
+      // reference is repointed whatever the labels say.
+      it('names the menu when no batch label key is configured', async () => {
+        const { el } = await mountRenamableMenu({ withKey: false });
+
+        expect(menuName(el)).toBe('Work package actions');
       });
     });
 
