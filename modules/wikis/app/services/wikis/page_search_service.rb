@@ -89,7 +89,7 @@ module Wikis
     end
 
     def to_tree_node(page:, enabled:)
-      Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, enabled)
+      Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, enabled:)
     end
 
     def build_result_tree(page_hierarchies, wikis)
@@ -112,7 +112,7 @@ module Wikis
       wiki_node = Adapters::Results::PageSearchTreeNode.wiki(wiki.identifier, wiki.name)
 
       unless existing_nodes[wiki_node.key]
-        root_node.add_child(wiki_node)
+        root_node.find_or_add_child(wiki_node)
         existing_nodes[wiki_node.key] = wiki_node
       end
     end
@@ -126,7 +126,7 @@ module Wikis
         ancestor_node = to_tree_node(page: current, enabled: false)
 
         existing_nodes.fetch(ancestor_node.key) do
-          previous.add_child(ancestor_node)
+          previous.find_or_add_child(ancestor_node)
           existing_nodes[ancestor_node.key] = ancestor_node
         end
       end
@@ -139,7 +139,7 @@ module Wikis
       return if enable_if_node_exists(existing_nodes, new_node)
 
       parent_node = find_parent(existing_nodes, ancestors, wiki)
-      parent_node.add_child(new_node)
+      parent_node.find_or_add_child(new_node)
       existing_nodes[new_node.key] = new_node
     end
 

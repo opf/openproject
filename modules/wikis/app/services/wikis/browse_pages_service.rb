@@ -54,12 +54,12 @@ module Wikis
         page_hierarchy => { page:, wiki: }
 
         parent_node = if parent_identifier.blank?
-                        root_node.add_child(Adapters::Results::PageSearchTreeNode.wiki(wiki.identifier, wiki.name))
+                        root_node.find_or_add_child(Adapters::Results::PageSearchTreeNode.wiki(wiki.identifier, wiki.name))
                       else
                         root_node
                       end
 
-        parent_node.add_child(Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, true))
+        parent_node.find_or_add_child(Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, enabled: true))
       end
 
       Success(root_node.children)

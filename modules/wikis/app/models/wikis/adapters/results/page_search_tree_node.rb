@@ -43,7 +43,7 @@ module Wikis::Adapters::Results
         new(identifier:, type: :wiki, name:, enabled: false)
       end
 
-      def page(identifier, name, enabled)
+      def page(identifier, name, enabled:)
         new(identifier:, type: :page, name:, enabled:)
       end
     end
@@ -62,7 +62,7 @@ module Wikis::Adapters::Results
     # @param node [PageSearchTreeNode] the node to be added
     # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
     # @return [PageSearchTreeNode] the added node or the already existing equivalent node
-    def add_child(node)
+    def find_or_add_child(node)
       raise ArgumentError unless node.is_a? self.class
 
       @children[node.key] ||= node
