@@ -36,6 +36,22 @@
 class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
   ACTIVE_STATUS = 1 # Principal.statuses[:active]
 
+  # Filters are ANDed and their values are a set, so neither order carries
+  # meaning — but jsonb compares arrays positionally. Allocations are therefore
+  # grouped and matched on this canonical form rather than the raw column.
+  CANONICAL_FILTER = <<~SQL.squish
+    (SELECT COALESCE(jsonb_agg(
+              jsonb_build_object(
+                'attribute', element->>'attribute',
+                'operator', element->>'operator',
+                'values', COALESCE((SELECT jsonb_agg(value ORDER BY value)
+                                    FROM jsonb_array_elements(element->'values') value), '[]'::jsonb)
+              )
+              ORDER BY element->>'attribute', element->>'operator'
+            ), '[]'::jsonb)
+     FROM jsonb_array_elements(user_filter) element)
+  SQL
+
   def up
     taken_names = select_values("SELECT lastname FROM users WHERE type = 'PlaceholderUser'").to_set
 
@@ -43,7 +59,8 @@ class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
       name = unique_name(request["base_name"], taken_names)
       taken_names << name
 
-      link_allocations(create_placeholder_user(name, request["user_filter"]), request["user_filter"])
+      principal_id = create_placeholder_user(name, request["user_filter"])
+      link_allocations(principal_id, request["canonical_filter"])
     end
   end
 
@@ -61,32 +78,46 @@ class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
 
   private
 
-  # One resource per distinct filter. Where the merged allocations disagree on
-  # the label, the most used one wins (alphabetical on a tie, so that repeated
-  # runs on the same data produce the same names). Allocations predating
-  # `filter_name` have none and fall back to a shared label; names are truncated
-  # to leave room for the " (2)" suffix within the 256 character limit.
+  # One placeholder per distinct filter. Where the merged allocations disagree
+  # on the label, the most used one wins (alphabetical on a tie, so that
+  # repeated runs on the same data produce the same names). Allocations
+  # predating `filter_name` have none and fall back to a shared label; names are
+  # truncated to leave room for the " (2)" suffix within the 256 character limit.
+  #
+  # The filter stored on the placeholder is taken verbatim from one of the
+  # merged allocations, so the criteria read back exactly as they were entered.
   def merged_requests
     select_all(<<~SQL.squish)
       WITH requests AS (
-        SELECT user_filter,
+        SELECT id,
+               #{CANONICAL_FILTER} AS canonical_filter,
                LEFT(COALESCE(NULLIF(filter_name, ''), 'Resource request'), 250) AS base_name
         FROM resource_allocations
         WHERE principal_explicit = false
           AND user_filter IS NOT NULL
           AND user_filter <> '[]'::jsonb
-      ), ranked AS (
-        SELECT user_filter,
+      ), labelled AS (
+        SELECT canonical_filter,
                base_name,
-               ROW_NUMBER() OVER (PARTITION BY user_filter ORDER BY COUNT(*) DESC, base_name ASC) AS name_rank,
-               SUM(COUNT(*)) OVER (PARTITION BY user_filter) AS usages
+               COUNT(*) AS usages,
+               MIN(id) AS representative_id
         FROM requests
-        GROUP BY user_filter, base_name
+        GROUP BY canonical_filter, base_name
+      ), ranked AS (
+        SELECT canonical_filter,
+               base_name,
+               representative_id,
+               ROW_NUMBER() OVER (PARTITION BY canonical_filter ORDER BY usages DESC, base_name ASC) AS name_rank,
+               SUM(usages) OVER (PARTITION BY canonical_filter) AS total_usages
+        FROM labelled
       )
-      SELECT user_filter, base_name
+      SELECT ranked.canonical_filter,
+             ranked.base_name,
+             allocations.user_filter
       FROM ranked
-      WHERE name_rank = 1
-      ORDER BY base_name, usages DESC, user_filter
+      JOIN resource_allocations allocations ON allocations.id = ranked.representative_id
+      WHERE ranked.name_rank = 1
+      ORDER BY ranked.base_name, ranked.total_usages DESC, ranked.canonical_filter
     SQL
   end
 
@@ -115,12 +146,13 @@ class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
 
   # `principal_id` is left alone: a staffed allocation keeps its user and gains
   # the placeholder it was originally requested as.
-  def link_allocations(principal_id, user_filter)
+  def link_allocations(principal_id, canonical_filter)
     execute(<<~SQL.squish)
       UPDATE resource_allocations
       SET placeholder_user_id = #{principal_id}
       WHERE principal_explicit = false
-        AND user_filter = #{quote(user_filter)}::jsonb
+        AND user_filter IS NOT NULL
+        AND #{CANONICAL_FILTER} = #{quote(canonical_filter)}::jsonb
     SQL
   end
 end
