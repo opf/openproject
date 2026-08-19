@@ -220,8 +220,8 @@ RSpec.describe "Staffing requests",
       expect(earlier_allocation.principal).to eq(matching_user)
       expect(earlier_allocation.principal_assigned_by).to eq(user)
       expect(earlier_allocation).to be_filter_based
-      expect(earlier_allocation.user_resource.name).to eq("Earlier developer")
-      expect(earlier_allocation.user_resource.user_filter).to be_present
+      expect(earlier_allocation.placeholder_user.name).to eq("Earlier developer")
+      expect(earlier_allocation.placeholder_user.user_filter).to be_present
     end
 
     it "rejects a user that does not match the filter" do

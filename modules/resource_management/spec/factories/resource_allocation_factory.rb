@@ -75,11 +75,11 @@ FactoryBot.define do
         end
       end
 
-      # Allocations asking for the same thing share one resource, so that
+      # Allocations asking for the same thing share one placeholder, so that
       # several generic allocations in a spec do not collide on the name.
-      user_resource do
-        UserResource.find_by(lastname: filter_name) ||
-          create(:user_resource, name: filter_name, user_filter: generic_filters)
+      placeholder_user do
+        PlaceholderUser.find_by(lastname: filter_name) ||
+          create(:placeholder_user, name: filter_name, user_filter: generic_filters)
       end
     end
   end

@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe UserResource do
-  subject(:user_resource) { create(:user_resource, name: "Senior Developer") }
+RSpec.describe PlaceholderUser do
+  subject(:placeholder_user) { create(:placeholder_user, name: "Senior Developer") }
 
   def filters_for(field, operator, values)
     UserQuery.new.tap { |query| query.where(field, operator, values) }.filters
@@ -43,35 +43,32 @@ RSpec.describe UserResource do
     end
 
     it "requires the name to be unique" do
-      user_resource
+      placeholder_user
       expect(described_class.new(name: "Senior Developer",
                                  user_filter: filters_for("name", "~", ["dev"]))).not_to be_valid
     end
 
-    # Without filters the resource would stand for every user in the instance.
-    it "requires at least one filter" do
-      resource = described_class.new(name: "Anyone at all")
-
-      expect(resource).not_to be_valid
-      expect(resource.errors[:user_filter]).to be_present
+    # A placeholder that just holds a seat in a plan describes nobody.
+    it "does not require a filter" do
+      expect(described_class.new(name: "Anyone at all")).to be_valid
     end
   end
 
   describe "the user filter" do
     it "round-trips through the detail table as deserialized filters" do
-      user_resource.update!(user_filter: filters_for("name", "~", ["dev"]))
+      placeholder_user.update!(user_filter: filters_for("name", "~", ["dev"]))
 
-      reloaded = described_class.find(user_resource.id)
+      reloaded = described_class.find(placeholder_user.id)
 
-      expect(reloaded.detail).to be_a(UserResourceDetail)
+      expect(reloaded.detail).to be_a(PlaceholderUserDetail)
       expect(reloaded.user_filter.map { |f| [f.name, f.operator, f.values] })
         .to eq([[:name, "~", ["dev"]]])
     end
 
     it "is reported through the owner's dirty tracking" do
-      user_resource.user_filter = filters_for("name", "~", ["other"])
+      placeholder_user.user_filter = filters_for("name", "~", ["other"])
 
-      expect(user_resource.changed).to include("user_filter")
+      expect(placeholder_user.changed).to include("user_filter")
     end
   end
 
@@ -82,17 +79,17 @@ RSpec.describe UserResource do
     current_user { create(:admin) }
 
     it "returns the users the filter describes" do
-      user_resource.update!(user_filter: filters_for("name", "~", ["Eloper"]))
+      placeholder_user.update!(user_filter: filters_for("name", "~", ["Eloper"]))
 
-      expect(user_resource.candidate_query.results).to contain_exactly(matching)
+      expect(placeholder_user.candidate_query.results).to contain_exactly(matching)
     end
 
     it "narrows the candidates to the project's members" do
       project = create(:project, members: { matching => create(:project_role) })
-      user_resource.update!(user_filter: filters_for("name", "~", ["e"]))
+      placeholder_user.update!(user_filter: filters_for("name", "~", ["e"]))
 
-      expect(user_resource.candidate_query.results).to include(matching, other)
-      expect(user_resource.candidate_query(project:).results).to contain_exactly(matching)
+      expect(placeholder_user.candidate_query.results).to include(matching, other)
+      expect(placeholder_user.candidate_query(project:).results).to contain_exactly(matching)
     end
 
     # Membership is applied last, so it wins over a `member` value that made it
@@ -100,15 +97,15 @@ RSpec.describe UserResource do
     it "overrides a member filter smuggled into the stored criteria" do
       project = create(:project, members: { matching => create(:project_role) })
       other_project = create(:project, members: { other => create(:project_role) })
-      user_resource.update!(user_filter: filters_for("member", "=", [other_project.id.to_s]))
+      placeholder_user.update!(user_filter: filters_for("member", "=", [other_project.id.to_s]))
 
-      expect(user_resource.candidate_query(project:).results).to contain_exactly(matching)
+      expect(placeholder_user.candidate_query(project:).results).to contain_exactly(matching)
     end
   end
 
   describe "#candidate_count" do
     let!(:matching) { create(:user, firstname: "Dev", lastname: "Eloper") }
-    let(:resource) { create(:user_resource, name: "Developers", user_filter: filters_for("name", "~", ["Eloper"])) }
+    let(:resource) { create(:placeholder_user, name: "Developers", user_filter: filters_for("name", "~", ["Eloper"])) }
 
     current_user { create(:admin) }
 
@@ -137,8 +134,8 @@ RSpec.describe UserResource do
     let!(:developer) { create(:user, firstname: "Dev", lastname: "Eloper") }
     let!(:designer) { create(:user, firstname: "Des", lastname: "Igner") }
 
-    let(:developers) { create(:user_resource, name: "Developers", user_filter: filters_for("name", "~", ["Eloper"])) }
-    let(:designers) { create(:user_resource, name: "Designers", user_filter: filters_for("name", "~", ["Igner"])) }
+    let(:developers) { create(:placeholder_user, name: "Developers", user_filter: filters_for("name", "~", ["Eloper"])) }
+    let(:designers) { create(:placeholder_user, name: "Designers", user_filter: filters_for("name", "~", ["Igner"])) }
 
     current_user { create(:admin) }
 
@@ -183,17 +180,17 @@ RSpec.describe UserResource do
     current_user { create(:admin) }
 
     it "is not returned by scopes that select actual users" do
-      expect(User.where(id: user_resource.id)).to be_empty
-      expect(Principal.human.where(id: user_resource.id)).to be_empty
-      expect(Principal.find(user_resource.id)).to eq(user_resource)
+      expect(User.where(id: placeholder_user.id)).to be_empty
+      expect(Principal.human.where(id: placeholder_user.id)).to be_empty
+      expect(Principal.find(placeholder_user.id)).to eq(placeholder_user)
     end
 
     # UserQuery's default scope is User.user.visible, so a resource can never
     # match its own filter or another resource's.
     it "is not a candidate for any user filter" do
-      user_resource.update!(user_filter: filters_for("name", "~", ["Senior"]))
+      placeholder_user.update!(user_filter: filters_for("name", "~", ["Senior"]))
 
-      expect(user_resource.candidate_query.results).to be_empty
+      expect(placeholder_user.candidate_query.results).to be_empty
     end
   end
 end

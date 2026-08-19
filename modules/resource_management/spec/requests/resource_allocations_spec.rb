@@ -90,12 +90,12 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "with allocation_kind=filter" do
-      it "renders the allocation step with a resource autocompleter" do
+      it "renders the allocation step with a placeholder user autocompleter" do
         get step_project_resource_allocations_path(project, allocation_kind: "filter"), as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("resource_allocation[user_resource_id]")
-        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.user_resources)
+        expect(response.body).to include("resource_allocation[placeholder_user_id]")
+        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.placeholder_users)
       end
     end
 
@@ -214,7 +214,7 @@ RSpec.describe "ResourceAllocations requests",
         expect(allocation.principal).to eq(assignee)
         expect(allocation).not_to be_filter_based
         expect(allocation.allocated_time).to eq(40 * 60)
-        expect(allocation.user_resource).to be_nil
+        expect(allocation.placeholder_user).to be_nil
         expect(allocation.requested_by).to eq(user)
       end
 
@@ -228,14 +228,14 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "for a filter-criteria placeholder" do
-      let!(:existing) { create(:user_resource, name: "Senior Developer") }
+      let!(:existing) { create(:placeholder_user, name: "Senior Developer") }
 
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: {
                allocation_kind: "filter",
                resource_allocation: {
-                 user_resource_id: existing.id,
+                 placeholder_user_id: existing.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
                  date_range: "2026-03-02 - 2026-03-03",
@@ -245,13 +245,13 @@ RSpec.describe "ResourceAllocations requests",
              as: :turbo_stream
       end
 
-      it "links the picked resource without creating another one" do
+      it "links the picked placeholder without creating another one" do
         expect { perform }.to change(ResourceAllocation, :count).by(1)
-          .and not_change(UserResource, :count)
+          .and not_change(PlaceholderUser, :count)
 
         allocation = ResourceAllocation.last
         expect(allocation.principal).to be_nil
-        expect(allocation.user_resource).to eq(existing)
+        expect(allocation.placeholder_user).to eq(existing)
         expect(allocation).to be_filter_based
         expect(allocation).to be_needs_principal_assignment
       end
