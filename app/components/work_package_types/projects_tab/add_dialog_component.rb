@@ -28,42 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # The switch dialog's form. Separate from the dialog so a refused switch can replace
-        # it: replacing the dialog component would swap out the <dialog> element and close it.
-        class SwitchFormComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+module WorkPackageTypes
+  module ProjectsTab
+    class AddDialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-          # Two places switch a project's variant through the same service, so each names the
-          # route it posts to rather than one of them being the default.
-          def initialize(project:, source:, url:, selected: source, validation_message: nil)
-            super()
+      def initialize(variant:)
+        super()
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-            @validation_message = validation_message
-          end
-
-          private
-
-          attr_reader :project, :source, :url, :selected, :validation_message
-
-          def available_targets
-            source.type.variants.in_display_order
-          end
-
-          # Constant lookup in a compiled template does not walk the enclosing modules.
-          def dialog_id
-            SwitchDialogComponent::DIALOG_ID
-          end
-        end
+        @variant = variant
       end
+
+      private
+
+      attr_reader :variant
+
+      def dialog_id = AddFormComponent::DIALOG_ID
+
+      def form_id = AddFormComponent::FORM_ID
+
+      def title = I18n.t(:label_add_projects)
     end
   end
 end

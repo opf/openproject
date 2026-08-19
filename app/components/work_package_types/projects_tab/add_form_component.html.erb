@@ -27,17 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%= component_wrapper do %>
+  <%= primer_form_with(**form_arguments) do |form| %>
+    <% if validation_message.present? %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mb: 3)) { validation_message } %>
+    <% end %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
-<%= render(WorkPackageTypes::ProjectsTab::SubHeaderComponent.new(variant: @variant)) %>
-
-<%=
-  render(
-    WorkPackageTypes::ProjectsTab::TableComponent.new(
-      query: @query,
-      params: params.merge(variant: @variant, url_for_action: :edit)
-    )
-  )
-%>
+    <%= render(WorkPackageTypes::ProjectsTab::AddProjectsForm.new(form, tree_src:)) %>
+  <% end %>
+<% end %>

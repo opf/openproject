@@ -27,17 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%= component_wrapper(tag: "tr", class: row_css_class) do %>
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>">
+      <%= column_value(column) %>
+    </td>
+  <% end %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
-<%= render(WorkPackageTypes::ProjectsTab::SubHeaderComponent.new(variant: @variant)) %>
-
-<%=
-  render(
-    WorkPackageTypes::ProjectsTab::TableComponent.new(
-      query: @query,
-      params: params.merge(variant: @variant, url_for_action: :edit)
-    )
-  )
-%>
+  <td class="buttons">
+    <% button_links.each do |link| %>
+      <%= link %>
+    <% end %>
+  </td>
+<% end %>

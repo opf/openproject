@@ -28,30 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+require "rails_helper"
 
-          DIALOG_ID = "project-types-switch-dialog"
+RSpec.describe WorkPackageTypes::ProjectsTab::AddDialogComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-          def initialize(project:, source:, url:)
-            super()
+  shared_let(:type) { create(:type) }
 
-            @project = project
-            @source = source
-            @url = url
-          end
+  let(:variant) { type.default_variant }
 
-          private
+  before { render_inline(described_class.new(variant:)) }
 
-          attr_reader :project, :source, :url
-        end
-      end
-    end
+  it "keeps the form inside the body, with the footer outside it" do
+    expect(page).to have_css(".Overlay-body form##{WorkPackageTypes::ProjectsTab::AddFormComponent::FORM_ID}")
+    expect(page).to have_no_css(".Overlay-footer form")
+  end
+
+  it "submits that form from the footer by id" do
+    expect(page).to have_css(
+      ".Overlay-footer button[type=submit][form='#{WorkPackageTypes::ProjectsTab::AddFormComponent::FORM_ID}']"
+    )
+  end
+
+  it "posts to the variant's link action" do
+    expect(page).to have_css("form[action='#{link_type_projects_path(**variant.path_args)}']")
+  end
+
+  it "names the tree's form field after the field the controller expects" do
+    expect(page).to have_css(
+      "input[data-target='tree-view.formInputPrototype']" \
+      "[name='#{WorkPackageTypes::ProjectsTab::AddFormComponent::FIELD_NAME}[]']",
+      visible: :all
+    )
   end
 end

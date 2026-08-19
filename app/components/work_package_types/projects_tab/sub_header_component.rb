@@ -28,41 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # The switch dialog's form. Separate from the dialog so a refused switch can replace
-        # it: replacing the dialog component would swap out the <dialog> element and close it.
-        class SwitchFormComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+module WorkPackageTypes
+  module ProjectsTab
+    class SubHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-          # Two places switch a project's variant through the same service, so each names the
-          # route it posts to rather than one of them being the default.
-          def initialize(project:, source:, url:, selected: source, validation_message: nil)
-            super()
+      def initialize(variant:)
+        super()
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-            @validation_message = validation_message
-          end
+        @variant = variant
+      end
 
-          private
+      private
 
-          attr_reader :project, :source, :url, :selected, :validation_message
+      attr_reader :variant
 
-          def available_targets
-            source.type.variants.in_display_order
-          end
+      def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
 
-          # Constant lookup in a compiled template does not walk the enclosing modules.
-          def dialog_id
-            SwitchDialogComponent::DIALOG_ID
-          end
-        end
+      def toggle_all_path
+        url_helpers.enable_all_type_projects_path(**variant.path_args, value: enabled_everywhere? ? "0" : "1")
+      end
+
+      def toggle_all_label
+        enabled_everywhere? ? I18n.t("types.edit.projects.disable_all") : I18n.t("types.edit.projects.enable_all")
+      end
+
+      def toggle_all_icon = enabled_everywhere? ? :"x-circle" : :"check-circle"
+
+      def toggle_all_available? = variant.default?
+
+      def enabled_everywhere?
+        return @enabled_everywhere unless @enabled_everywhere.nil?
+
+        @enabled_everywhere = ProjectType.where(variant_id: variant.id).count == ::Project.count
       end
     end
   end

@@ -27,17 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
+  <% dialog.with_body(classes: "Overlay-body_autocomplete_height") do %>
+    <%= render(WorkPackageTypes::ProjectsTab::AddFormComponent.new(variant:)) %>
+  <% end %>
 
-<%= render(WorkPackageTypes::ProjectsTab::SubHeaderComponent.new(variant: @variant)) %>
-
-<%=
-  render(
-    WorkPackageTypes::ProjectsTab::TableComponent.new(
-      query: @query,
-      params: params.merge(variant: @variant, url_for_action: :edit)
-    )
-  )
-%>
+  <% dialog.with_footer(show_divider: true) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, form: form_id, type: :submit)) { t(:button_add) } %>
+  <% end %>
+<% end %>
