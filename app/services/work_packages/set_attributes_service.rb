@@ -240,7 +240,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.type&.description
+    work_package.description = work_package.effective_type&.description
   end
 
   def default_description?
@@ -275,7 +275,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     model.change_by_system do
-      set_versions_to_nil
+      clear_unassignable_versions
       reassign_category
       set_parent_to_nil
       clear_semantic_identifier
@@ -369,18 +369,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
-  def set_versions_to_nil
-    if work_package.version &&
-       work_package.project&.shared_versions&.exclude?(work_package.version)
-      work_package.version = nil
-    end
-
-    clear_unassignable_versions
-  end
-
   def clear_unassignable_versions
-    return unless work_package.persisted?
-
     assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
 
     %w[target observed_in].each do |kind|
@@ -392,8 +381,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements ||
-      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    current_ids = current_replacements || persisted_version_ids(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -406,6 +394,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
+  end
+
+  def persisted_version_ids(kind)
+    return [] unless work_package.persisted?
+
+    work_package.work_package_versions.where(kind:).pluck(:version_id)
   end
 
   def set_parent_to_nil
@@ -447,7 +441,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
     if work_package.type_id_changed?
-      reassign_status work_package.type.statuses(include_default: true)
+      reassign_status work_package.effective_type.statuses(include_default: true)
     end
   end
 

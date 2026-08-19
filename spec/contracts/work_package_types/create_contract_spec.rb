@@ -111,7 +111,7 @@ module WorkPackageTypes
       end
     end
 
-    describe "inherited core settings on a sub-type" do
+    describe "inherited core settings on a variant" do
       let(:parent) { create(:type) }
 
       context "when core settings are provided" do
@@ -137,7 +137,7 @@ module WorkPackageTypes
         end
       end
 
-      context "when only the sub-type's own attributes are set" do
+      context "when only the variant's own attributes are set" do
         let(:attributes) { { name: "Variant", parent_id: parent.id } }
 
         it "is valid" do

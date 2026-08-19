@@ -504,6 +504,20 @@ pl:
           name: Wpis użytkownika
         item_6:
           name: Błąd
+      global_queries:
+        item_0:
+          name: 'Niezwykłe elementy podrzędne: historie użytkowników i błędy'
+        item_1:
+          name: 'Elementy podrzędne historii użytkownika: zadania'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Historie użytkowników i błędy
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Zadania
       welcome:
         title: Witamy w OpenProject!
         text: |

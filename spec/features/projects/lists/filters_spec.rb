@@ -152,8 +152,10 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                            development_project,
                                            public_project)
 
-      accept_alert do
-        projects_page.click_menu_item_of("Archive", parent_project)
+      projects_page.click_menu_item_of("Archive", parent_project)
+
+      within("#archive-project-dialog") do
+        click_on "Archive"
       end
       wait_for_reload
 

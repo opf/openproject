@@ -39,6 +39,7 @@ RSpec.describe Workflows::Copies::Form, type: :forms do
   let(:other_types) { create_list(:type, 4) }
   let(:all_roles) { create_list(:project_role, 4) }
 
+  # TODO: Remove with type_variants feature flag
   shared_examples "a copy form with conditional fields" do |another_type_at_first:|
     it "renders radio buttons to choose the mode" do
       expect(page).to have_field("Copy to another type", checked: another_type_at_first)
@@ -86,6 +87,31 @@ RSpec.describe Workflows::Copies::Form, type: :forms do
       expect(page).to have_select "Source role", disabled: true do |select|
         selected_option_text = select.all("option[selected=selected]").map(&:text)
         expect(selected_option_text).to contain_exactly(source_role.name)
+      end
+    end
+  end
+
+  describe "with the type_variants feature flag enabled", with_flag: { type_variants: true } do
+    let(:source_role) { all_roles.sample }
+
+    it "does not render the mode radio buttons" do
+      expect(page).to have_no_field("Copy to another type")
+      expect(page).to have_no_field("Copy to other roles")
+    end
+
+    it "does not render the Target types autocompleter" do
+      expect(page).to have_no_css "opce-autocompleter[data-test-selector=\"target_types_autocomplete\"]"
+    end
+
+    it "does not render the Source role select list" do
+      expect(page).to have_no_select "Source role"
+    end
+
+    it "renders the Target roles autocompleter" do
+      data_attributes = "[data-test-selector=\"target_roles_autocomplete\"][data-multiple=\"true\"]"
+      expect(page).to have_css "opce-autocompleter#{data_attributes}" do |autocompleter|
+        options_text = JSON.parse(autocompleter["data-items"]).map { |item| item["name"] }
+        expect(options_text).to match_array(all_roles.map(&:name))
       end
     end
   end

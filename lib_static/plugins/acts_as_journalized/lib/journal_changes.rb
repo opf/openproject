@@ -48,7 +48,7 @@ module JournalChanges
 
     merged = changes.reduce({}.with_indifferent_access, :merge!)
 
-    @changes = suppress_mirrored_version_change(merged)
+    @changes = suppress_version_change(merged)
   end
 
   def get_cause_changes
@@ -187,12 +187,11 @@ module JournalChanges
 
   private
 
-  # While the deprecated version_id column mirrors the target versions, a
-  # version change diffs under both keys; only the target_versions
-  # representation is rendered. Historical journals render the same way,
-  # since every versioned journal has a backfilled target snapshot.
-  def suppress_mirrored_version_change(changes)
-    changes.delete("version_id") if changes.key?("target_versions")
+  # The version_id column is no longer written, so a diff on it never reflects a real
+  # change. target_versions is the journaled representation, and historical journals
+  # render from it too, since every versioned journal has a backfilled target snapshot.
+  def suppress_version_change(changes)
+    changes.delete("version_id")
 
     changes
   end

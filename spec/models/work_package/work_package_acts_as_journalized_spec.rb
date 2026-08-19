@@ -66,7 +66,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :priority,
                          "project_id" => :project,
                          "category_id" => :category,
-                         "version_id" => :version,
+                         "target_version_ids_replacements" => -> { [version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -179,7 +179,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -255,7 +255,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -334,7 +334,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -563,20 +563,6 @@ RSpec.describe WorkPackage do
 
           expect(journable.last_journal.details["target_versions"])
             .to eq([nil, version.id.to_s])
-        end
-      end
-
-      # While the deprecated version_id column mirrors the target versions,
-      # every version change produces both a version_id and a target_versions
-      # diff. Only the target_versions representation is exposed.
-      context "when changing the version via the legacy version field" do
-        it "journals the change as target versions only" do
-          journable.update!(version:)
-
-          expect(journable.last_journal.details["target_versions"])
-            .to eq([nil, version.id.to_s])
-          expect(journable.last_journal.details)
-            .not_to have_key("version_id")
         end
       end
 

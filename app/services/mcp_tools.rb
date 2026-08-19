@@ -38,8 +38,10 @@ module McpTools
       @all ||= []
     end
 
-    def enabled
-      McpConfiguration.where(enabled: true).pluck(:identifier).filter_map { |name| tools_by_name[name] }
+    def enabled_mcp_tools
+      McpConfiguration.where(enabled: true).filter_map do |config|
+        tools_by_name[config.identifier]&.tool(title: config.title, description: config.description)
+      end
     end
 
     def tools_by_name

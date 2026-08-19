@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +47,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Board, BoardWidgetOption } from 'core-app/features/boards/board/board';
@@ -66,7 +94,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   readonly apiV3Service = inject(ApiV3Service);
   readonly Boards = inject(BoardService);
   readonly boardListCrossSelectionService = inject(BoardListCrossSelectionService);
-  readonly Drag = inject(DragAndDropService);
   readonly apiv3Service = inject(ApiV3Service);
   readonly QueryUpdated = inject(QueryUpdatedService);
   readonly pathHelper = inject(PathHelperService);
@@ -87,13 +114,18 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   /** Container reference */
   public _container:HTMLElement;
 
+  /** Shared sortable root spanning all board lists, for cross-column card drags */
+  @ViewChild(OpSortableListsDirective) private sortableRoot?:OpSortableListsDirective;
+
   @ViewChild('container')
   set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
       if (this._container === undefined) {
-        this.Drag.addScrollContainer(v.nativeElement);
+        // Deferred one microtask so `sortableRoot` (same element, resolved in
+        // the same query pass) is guaranteed to be set before this runs.
+        void Promise.resolve().then(() => this.sortableRoot?.addScrollContainer(v.nativeElement));
       }
       setTimeout(() => (this._container = v.nativeElement));
     }

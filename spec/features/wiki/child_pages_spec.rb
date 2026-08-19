@@ -49,7 +49,7 @@ RSpec.describe "wiki child pages", :js, :selenium do
 
     find(".ck-content").set("The child page's content")
 
-    click_button "Save"
+    click_button "Create"
 
     # hierarchy displayed in the breadcrumb
     within('[data-test-selector="wiki-page-header-breadcrumbs"]') do
@@ -57,8 +57,10 @@ RSpec.describe "wiki child pages", :js, :selenium do
     end
 
     # hierarchy displayed in the sidebar
-    expect(page).to have_css(".pages-hierarchy", text: parent_page.title)
-    expect(page).to have_css(".pages-hierarchy", text: child_page_name)
+    within_test_selector("wiki-sidemenu-tree") do
+      expect(page).to have_link(parent_page.title)
+      expect(page).to have_link(child_page_name)
+    end
 
     # on toc page
     visit index_project_wiki_index_path(project)

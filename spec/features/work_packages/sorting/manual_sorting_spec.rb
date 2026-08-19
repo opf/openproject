@@ -333,6 +333,9 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
 
+      # Dragging with no prior selection must not leave the row selected
+      expect(page).to have_no_css(".wp-table--row.-checked")
+
       wp_table.expect_and_dismiss_toaster message: "Successful creation."
 
       query = Query.last
@@ -343,6 +346,75 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.drag_and_drop_work_package from: 0, to: 2
 
       expect_query_order(query, [work_package3.id, work_package1.id, work_package2.id])
+    end
+
+    it "keeps the source row visible as a placeholder and collapses multi-selection" do
+      # Multi-select rows 1 and 2 via ctrl-click on the ID cells (established pattern).
+      # loading_indicator_saveguard between the two clicks mirrors
+      # select_work_package_row_spec's helpers: without it, the second
+      # click can race the first selection's render and replace it
+      # instead of adding to it.
+      first_target = find(".work-package-table--container tr:nth-of-type(1) .wp-table--cell-td.id")
+      loading_indicator_saveguard
+      first_target.click
+      loading_indicator_saveguard
+      # :meta (not :control) mirrors select_work_package_row_spec's helper: the
+      # click handler accepts either modifier, but :control replaces the
+      # selection on macOS drivers instead of extending it.
+      ctrl_target = find(".work-package-table--container tr:nth-of-type(2) .wp-table--cell-td.id")
+      page.driver.browser.action.key_down(:meta).click(ctrl_target.native).key_up(:meta).perform
+      expect(page).to have_css(".wp-table--row.-checked", count: 2)
+
+      # Probe: records mid-drag state; the Selenium chain itself is atomic.
+      # A reference to the source row is captured the first time it matches so that
+      # later ticks can judge that same node: if it disconnects from the DOM while
+      # still carrying data-dragging, the row was removed mid-drag (a failure). A
+      # settled drop removes the data-dragging attribute first, so "attribute gone,
+      # element still connected" is normal and must not be flagged.
+      page.execute_script(<<~JS)
+        window.opDndProbe = { sawSource: false, sourceStayedVisible: true, sourceStayedDimmed: true, midDragSelectedIds: null };
+        let capturedSource = null;
+        window.opDndProbeObserver = new MutationObserver(() => {
+          const current = document.querySelector('.wp-table--row[data-dragging="source"]');
+          if (current) {
+            capturedSource = current;
+            window.opDndProbe.sawSource = true;
+            window.opDndProbe.sourceStayedVisible &&= current.getBoundingClientRect().height > 0;
+            // ~0.4 per the data-dragging="source" rule: a bare < 1 would also
+            // accept a fully transparent (invisible) row.
+            const opacity = parseFloat(getComputedStyle(current).opacity);
+            window.opDndProbe.sourceStayedDimmed &&= opacity > 0.3 && opacity < 0.5;
+            window.opDndProbe.midDragSelectedIds = Array.from(
+              document.querySelectorAll('.wp-table--row.-checked'),
+              (row) => row.dataset.workPackageId,
+            );
+          } else if (capturedSource && !capturedSource.isConnected && capturedSource.hasAttribute('data-dragging')) {
+            // Left the DOM while still marked as the drag source: removed mid-drag.
+            window.opDndProbe.sourceStayedVisible = false;
+          }
+        });
+        window.opDndProbeObserver.observe(document.body,
+          { subtree: true, attributes: true, childList: true, attributeFilter: ['data-dragging', 'class'] });
+      JS
+
+      wp_table.drag_and_drop_work_package from: 0, to: 2
+      loading_indicator_saveguard
+
+      probe = page.evaluate_script(<<~JS)
+        (() => { window.opDndProbeObserver.disconnect(); delete window.opDndProbeObserver;
+                 const p = window.opDndProbe; delete window.opDndProbe; return p; })()
+      JS
+
+      expect(probe["sawSource"]).to be(true), "source row never carried data-dragging=source"
+      expect(probe["sourceStayedVisible"]).to be(true), "source row left the DOM or collapsed mid-drag"
+      expect(probe["sourceStayedDimmed"]).to be(true), "source row was not rendered at ~0.4 opacity mid-drag"
+      expect(probe["midDragSelectedIds"]).to eq([work_package1.id.to_s]),
+                                             "selection did not collapse to the dragged row during the drag"
+
+      # Drop settled: marker gone, collapsed selection persists
+      expect(page).to have_no_css(".wp-table--row[data-dragging]")
+      expect(page).to have_css(".wp-table--row.-checked", count: 1)
+      expect(find(".wp-table--row.-checked")["data-work-package-id"]).to eq(work_package1.id.to_s)
     end
 
     it "saves the changed order in a previously saved query" do

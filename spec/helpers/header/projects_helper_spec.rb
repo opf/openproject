@@ -46,6 +46,16 @@ RSpec.describe Header::ProjectsHelper do
       end
     end
 
+    context "with a blank name" do
+      let(:name) { "" }
+      let(:query_terms) { ["Project"] }
+
+      it "returns an empty HTML-safe string" do
+        expect(result).to eq ""
+        expect(result).to be_html_safe
+      end
+    end
+
     context "when no term matches" do
       let(:name) { "My Project" }
       let(:query_terms) { ["foo"] }

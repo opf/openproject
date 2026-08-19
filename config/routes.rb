@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
     match "/account/lost_password", action: "lost_password", via: %i[get post]
+    get "/account/password_recovery", action: "password_recovery"
+    post "/account/set_recovered_password", action: "set_recovered_password"
     match "/account/register", action: "register", via: %i[get post patch]
     get "/account/activate", action: "activate"
 
@@ -184,12 +186,47 @@ Rails.application.routes.draw do
       put :enable_all_of_section
       put :disable_all_of_section
     end
-    resource :settings, controller: "settings_tab", only: %i[update edit]
-    resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
+    resource :details, controller: "details_tab", only: %i[update edit]
+    resource :defaults, controller: "defaults_tab", only: %i[update edit]
 
-    resources :configuration_links, only: %i[update], param: :aspect
+    nested do
+      scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+        get :dialog
+        post :confirm
+        post :copy
+      end
+
+      scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+        post :toggle
+      end
+    end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+
+    resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
+        get :status_dialog
+        post :confirm_statuses
+      end
+
+      resource :copy, only: %i[new], controller: "/workflows/copies" do
+        # TODO: Remove with type_variants feature flag
+        resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
+        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+      end
+    end
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
@@ -207,13 +244,18 @@ Rails.application.routes.draw do
     end
 
     collection do
-      post "move/:id", action: "move"
+      post "move/:id", action: "move", as: :move
       get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
       post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
+      get :menu
       put :drop
+      post :make_default
+      post :remove_default
+      post :duplicate
     end
   end
 
@@ -391,7 +433,11 @@ Rails.application.routes.draw do
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
-          resource :types, only: %i[show update]
+          resources :types, only: %i[index new create destroy] do
+            patch :bulk_update, on: :collection
+
+            resource :switch, only: %i[new create], controller: "types/switches"
+          end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
@@ -455,6 +501,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
@@ -470,7 +517,6 @@ Rails.application.routes.draw do
         post :protect
         get :select_main_menu_item, to: "wiki_menu_items#select_main_menu_item"
         post :replace_main_menu_item, to: "wiki_menu_items#replace_main_menu_item"
-        get :menu
       end
     end
 
@@ -718,6 +764,11 @@ Rails.application.routes.draw do
         get :status, on: :member
         get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
       end
+      resource :versions_and_categories, controller: "/admin/settings/versions_and_categories", only: %i[show] do
+        post :enable_multiple_versions, on: :member
+        get :status, on: :member
+        get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
+      end
       resources :work_package_priorities, except: [:show] do
         member do
           put :move
@@ -940,26 +991,6 @@ Rails.application.routes.draw do
         patch :update_organization_name
       end
     end
-  end
-
-  resources :workflows, only: %i[index edit], param: :type_id do
-    scope module: :workflows do
-      resources :tabs, only: %i[edit update], param: :tab do # params[:tab] used in TabsHelper
-        member do
-          get :status_dialog
-          post :confirm_statuses
-        end
-      end
-      resource :copy, only: %i[new] do
-        scope module: :copies do
-          resource :from_type, only: %i[create]
-          resource :from_role, only: %i[create]
-        end
-      end
-    end
-  end
-  namespace :workflows do
-    resource :summary, only: %i[show]
   end
 
   namespace :work_packages do

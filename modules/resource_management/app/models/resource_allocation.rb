@@ -59,8 +59,10 @@ class ResourceAllocation < ApplicationRecord
   register_journal_formatted_fields "state", formatter_key: :plaintext
   register_journal_formatted_fields "start_date", "end_date", formatter_key: :datetime
   register_journal_formatted_fields "allocated_time", formatter_key: :allocated_time
+  # An allocation is about these people, so naming them does not depend on the
+  # reader sharing a project with them.
   register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
-                                    formatter_key: :named_association
+                                    formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
   register_journal_formatted_fields "filter_name", formatter_key: :plaintext
 

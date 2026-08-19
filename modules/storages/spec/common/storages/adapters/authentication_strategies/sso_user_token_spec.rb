@@ -62,7 +62,7 @@ module Storages
         end
 
         context "if fetching access token fails" do
-          let(:error) { Results::Error.new(code: :error, source: self) }
+          let(:error) { SimpleError.new(code: :error, source: self) }
           let(:access_token_result) { Failure(error) }
 
           it "must not yield and return failure" do
@@ -74,7 +74,7 @@ module Storages
 
             failure = result.failure
             expect(failure.code).to eq(:unauthorized)
-            expect(failure).to be_a(Results::Error)
+            expect(failure).to be_a(SimpleError)
           end
         end
       end

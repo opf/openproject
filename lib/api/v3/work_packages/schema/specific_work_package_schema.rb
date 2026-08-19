@@ -45,6 +45,7 @@ module API
           delegate :project_id,
                    :project,
                    :type,
+                   :effective_type,
                    :id,
                    :milestone?,
                    :available_custom_fields,

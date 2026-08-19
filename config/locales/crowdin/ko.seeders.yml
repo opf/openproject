@@ -459,6 +459,20 @@ ko:
           name: 사용자 이야기
         item_6:
           name: 버그
+      global_queries:
+        item_0:
+          name: '에픽 자식: 사용자 스토리 및 버그'
+        item_1:
+          name: '사용자 스토리 자식: 작업'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: 사용자 스토리 및 버그
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: 작업
       welcome:
         title: OpenProject에 오신 것을 환영합니다!
         text: |

@@ -556,6 +556,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href) { "/api/v3/types/#{work_package.type_id}" }
         let(:title) { work_package.type.name }
       end
+
+      context "for a variant" do
+        let(:type) { build_stubbed(:type, name: "Bug", parent: build_stubbed(:type, name: "Task")) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "type" }
+          let(:href) { "/api/v3/types/#{work_package.type_id}" }
+          let(:title) { "Task" }
+        end
+      end
     end
 
     describe "author" do
@@ -679,7 +689,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "version" do
+    describe "version", with_settings: { work_package_multiple_versions: false } do
       let(:embedded_path) { "_embedded/version" }
       let(:href_path) { "_links/version/href" }
 
@@ -690,10 +700,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context "when version is set" do
-        let!(:version) { create(:version, project: workspace) }
+        let(:version) { build_stubbed(:version, project: workspace) }
 
         before do
-          work_package.version = version
+          allow(work_package).to receive(:target_versions).and_return([version])
         end
 
         it_behaves_like "has a titled link" do
@@ -705,6 +715,19 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it "has the version embedded" do
           expect(subject).to be_json_eql("Version".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+        let(:version) { build_stubbed(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "renders neither the deprecated version link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/version")
+          expect(subject).not_to have_json_path("_embedded/version")
         end
       end
     end
@@ -741,6 +764,32 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .at_path("_embedded/targetVersions/0/_type")
           expect(subject)
             .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
+        end
+      end
+
+      context "when versions are assigned but not yet persisted" do
+        let!(:version) { create(:version, project: workspace) }
+        let!(:other_version) { create(:version, project: workspace) }
+
+        before do
+          work_package.target_version_ids_replacements = [other_version.id, version.id]
+        end
+
+        it "renders the pending versions in their requested order" do
+          expect(subject).to have_json_size(2).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(other_version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/1/href")
+        end
+
+        it "embeds the pending versions" do
+          expect(subject).to have_json_size(2).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql(other_version.name.to_json)
             .at_path("_embedded/targetVersions/0/name")
         end
       end
@@ -1902,6 +1951,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         semantic_key = representer.json_cache_key
 
         expect(semantic_key).not_to eq(classic_key)
+      end
+
+      it "changes when multiple versions is toggled" do
+        with_settings(work_package_multiple_versions: false)
+        single_version_key = representer.json_cache_key
+
+        with_settings(work_package_multiple_versions: true)
+        multiple_versions_key = representer.json_cache_key
+
+        expect(multiple_versions_key).not_to eq(single_version_key)
       end
 
       it "factors in the eager loaded cache_checksum" do
