@@ -40,7 +40,7 @@ RSpec.describe "type PDF export template settings", :js do
   end
 
   it "edits, saves, and resets a template's settings, and can be left via Cancel" do
-    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+    click_link_or_button type.default_variant.pdf_export_templates.find("attributes").label
 
     fill_in "footer_text", with: "Custom footer text"
     select "Landscape", from: "page_orientation"
@@ -51,7 +51,7 @@ RSpec.describe "type PDF export template settings", :js do
     expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes"))
       .to include(footer_text: "Custom footer text", page_orientation: "landscape")
 
-    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+    click_link_or_button type.default_variant.pdf_export_templates.find("attributes").label
     expect(page).to have_field("footer_text", with: "Custom footer text")
 
     accept_confirm do
@@ -62,7 +62,7 @@ RSpec.describe "type PDF export template settings", :js do
     expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
-  it "is reachable via the template name link (not just the edit-settings icon), with the page title and " \
+  it "is reachable via the template name link, with the page title and " \
      "breadcrumb reflecting where it is" do
     template = type.default_variant.pdf_export_templates.find("attributes")
     click_link_or_button template.label
@@ -81,7 +81,7 @@ RSpec.describe "type PDF export template settings", :js do
   end
 
   it "leaves the settings unchanged when navigating away via Cancel" do
-    page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+    click_link_or_button type.default_variant.pdf_export_templates.find("attributes").label
 
     fill_in "footer_text", with: "Unsaved footer text"
     click_link_or_button I18n.t(:button_cancel)
@@ -101,7 +101,7 @@ RSpec.describe "type PDF export template settings", :js do
     end
 
     it "shows the inherited settings with disabled fields" do
-      page.find("[data-test-selector='edit-settings-pdf-export-template-row-attributes']").click
+      click_link_or_button type.default_variant.pdf_export_templates.find("attributes").label
 
       expect(page).to have_field("footer_text", with: "Source footer", disabled: true)
       expect(page).to have_button(I18n.t(:button_save), disabled: true)
