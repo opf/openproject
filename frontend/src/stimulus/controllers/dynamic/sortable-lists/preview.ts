@@ -62,13 +62,16 @@ const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const
 // element would have painted, so it cannot be a custom element.
 const BATCH_BADGE_CLASS = 'op-sortable-lists-drag-preview-batch-badge';
 
-// The badge's overhang as container padding, so nothing paints past the
-// border box: Firefox folds such overflow into the drag snapshot and shifts
-// its origin off the grab offset. Inline because Pragmatic inline-resets the
-// popover container (padding: 0 among others) before handing it to render(),
-// and only a later inline write outranks that. The item controller reads the
-// padding back off the container to compensate the grab offset.
+const BATCH_STACK_CLASS = 'op-sortable-lists-drag-preview-stack';
+
+// Reserved as container padding so nothing paints past the border box: Firefox
+// folds such overflow into the drag snapshot and shifts its origin off the grab
+// offset. Written inline because Pragmatic inline-resets the container before
+// render(), and only a later inline write outranks that; the item controller
+// reads the top padding back to compensate the grab offset. Mirrors
+// `$op-drag-badge-overhang` and `$op-drag-stack-overhang` in drag_and_drop.sass.
 const BATCH_BADGE_OVERHANG_PX = 8;
+const DRAG_STACK_OVERHANG_PX = 16;
 
 export function renderDragPreview({
   previewTarget,
@@ -108,11 +111,14 @@ export function renderDragPreview({
   container.append(preview);
 
   if (batchSize > 1) {
+    preview.classList.add(BATCH_STACK_CLASS);
+
     // Anchors the badge to the container rather than whatever ancestor
-    // Pragmatic mounts it under, and pads it for the overhang.
+    // Pragmatic mounts it under. Nothing paints past the card's left edge.
     container.style.position = 'relative';
     container.style.paddingTop = `${BATCH_BADGE_OVERHANG_PX}px`;
-    container.style.paddingRight = `${BATCH_BADGE_OVERHANG_PX}px`;
+    container.style.paddingRight = `${DRAG_STACK_OVERHANG_PX}px`;
+    container.style.paddingBottom = `${DRAG_STACK_OVERHANG_PX}px`;
     renderBatchBadge(container, batchSize);
   }
 }

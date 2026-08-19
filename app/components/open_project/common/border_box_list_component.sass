@@ -313,6 +313,15 @@
     .-browser-firefox &
       box-shadow: none
 
+  // The stack and the lift share the one box-shadow property, so both are
+  // declared here or one replaces the other.
+  &[data-preview].op-sortable-lists-drag-preview-stack
+    box-shadow: op-drag-stack-shadows(), var(--shadow-floating-medium)
+
+    // Blur-free and inside the reserved overhang, so only the lift has to go.
+    .-browser-firefox &
+      box-shadow: op-drag-stack-shadows()
+
 .Box--condensed .Box-card
   padding: var(--stack-padding-condensed) var(--stack-padding-normal)
 

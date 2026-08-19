@@ -181,6 +181,7 @@ describe('sortable lists drag preview', () => {
         expect(container.querySelector(badgeSelector)).toBeNull();
         expect(container.style.paddingTop).toEqual('');
         expect(container.style.paddingRight).toEqual('');
+        expect(container.style.paddingBottom).toEqual('');
       });
 
       it('adds no badge when batchSize is explicitly 1', () => {
@@ -257,7 +258,64 @@ describe('sortable lists drag preview', () => {
 
         expect(container.style.position).toEqual('relative');
         expect(container.style.paddingTop).toEqual('8px');
-        expect(container.style.paddingRight).toEqual('8px');
+        expect(container.style.paddingRight).toEqual('16px');
+        expect(container.style.paddingBottom).toEqual('16px');
+        expect(container.style.paddingLeft).toEqual('0px');
+      });
+    });
+
+    describe('batch stack', () => {
+      const stackClass = 'op-sortable-lists-drag-preview-stack';
+
+      it('leaves the clone unstacked for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        const preview = container.querySelector('[data-preview]');
+
+        expect(preview?.classList.contains(stackClass)).toBe(false);
+      });
+
+      it('leaves the clone unstacked when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        const preview = container.querySelector('[data-preview]');
+
+        expect(preview?.classList.contains(stackClass)).toBe(false);
+      });
+
+      it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
+        const target = withWidth(previewTarget(), 320);
+        target.classList.add('op-card');
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const preview = container.querySelector('[data-preview]');
+
+        expect(preview?.classList.contains(stackClass)).toBe(true);
+        expect(preview?.classList.contains('op-card')).toBe(true);
+      });
+
+      it('adds no element for the layers, so the container holds only the clone and the badge', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.querySelectorAll('[data-preview]')).toHaveLength(1);
+        expect(container.children).toHaveLength(2);
       });
     });
   });
