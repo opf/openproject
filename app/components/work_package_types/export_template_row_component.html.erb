@@ -66,19 +66,6 @@ See COPYRIGHT and LICENSE files for more details.
         end
         render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
       end
-      item_information.with_column do
-        render(
-          Primer::Beta::IconButton.new(
-            icon: :gear,
-            tag: :a,
-            scheme: :invisible,
-            href: edit_settings_path,
-            aria: { label: I18n.t("types.edit.export_configuration.templates.settings.edit_link") },
-            test_selector: "edit-settings-pdf-export-template-row-#{@template.id}",
-            data: { "turbo-frame": "_top" }
-          )
-        )
-      end
     end
   end
 %>
