@@ -14,6 +14,7 @@ export type FieldKind =
   | 'date'
   | 'select'
   | 'typeahead'
+  | 'multiSelect'
   | 'unsupported';
 
 export interface AllowedValue {
@@ -44,7 +45,7 @@ export interface FormField {
   allowedValuesHref?:string;
 }
 
-export type FieldValue = string | boolean;
+export type FieldValue = string | boolean | string[];
 export type FieldValues = Record<string, FieldValue>;
 export type FieldErrors = Record<string, string>;
 export type FieldLabels = Record<string, string>;
@@ -187,6 +188,7 @@ export function allowedValuesHrefOf(property:SchemaProperty):string | undefined 
 }
 
 export function buildField(key:string, property:SchemaProperty):FormField {
+  const multiple = property.type.startsWith('[]');
   const field:FormField = {
     key,
     label: property.name,
@@ -199,12 +201,17 @@ export function buildField(key:string, property:SchemaProperty):FormField {
 
   // An href belongs under `_links` even when the schema leaves the location out.
   const allowedValues = allowedValuesOf(property);
-  if (allowedValues) return { ...field, kind: 'select', isLink: true, allowedValues };
+  if (allowedValues) {
+    return { ...field, kind: multiple ? 'multiSelect' : 'select', isLink: true, allowedValues };
+  }
 
   const allowedValuesHref = allowedValuesHrefOf(property);
-  if (allowedValuesHref) return { ...field, kind: 'typeahead', isLink: true, allowedValuesHref };
+  if (allowedValuesHref) {
+    return { ...field, kind: multiple ? 'multiSelect' : 'typeahead', isLink: true, allowedValuesHref };
+  }
 
-  if (property.type.startsWith('[]')) return field;
+  // Several values of a kind with no picker: nothing but a notice.
+  if (multiple) return field;
 
   return {
     ...field,
@@ -256,8 +263,13 @@ export function extraRequiredFields(schema:WorkPackageSchema | undefined):FormFi
   return fields;
 }
 
+export function hrefsOf(value:FieldValue | undefined):string[] {
+  return Array.isArray(value) ? value : [];
+}
+
 export function isValueFilled(field:FormField, value:FieldValue | undefined):boolean {
   if (field.kind === 'checkbox') return true;
+  if (field.kind === 'multiSelect') return hrefsOf(value).length > 0;
   return typeof value === 'string' && value.trim().length > 0;
 }
 
@@ -359,13 +371,21 @@ function hangsOnType(key:string):boolean {
   return dependencyOf(key) === 'type';
 }
 
-function holds(field:FormField | undefined, value:FieldValue):boolean {
-  if (!field || field.kind === 'unsupported') return false;
-  if (field.kind === 'checkbox') return typeof value === 'boolean';
-  if (typeof value !== 'string') return false;
+function heldValue(field:FormField | undefined, value:FieldValue):FieldValue | undefined {
+  if (!field || field.kind === 'unsupported') return undefined;
+  if (field.kind === 'checkbox') return typeof value === 'boolean' ? value : undefined;
+
+  if (field.kind === 'multiSelect') {
+    if (!Array.isArray(value) || !field.allowedValues) return undefined;
+
+    const held = value.filter((href) => allowedValueOf(field, href) !== undefined);
+    return held.length > 0 ? held : undefined;
+  }
+
+  if (typeof value !== 'string') return undefined;
   // The choices of one type are not the choices of the next.
-  if (field.kind === 'select') return allowedValueOf(field, value) !== undefined;
-  return true;
+  if (field.kind === 'select') return allowedValueOf(field, value) !== undefined ? value : undefined;
+  return value;
 }
 
 function surviving<T>(entries:Record<string, T>, survives:(key:string, entry:T) => boolean):Record<string, T> {
@@ -374,7 +394,19 @@ function surviving<T>(entries:Record<string, T>, survives:(key:string, entry:T) 
 
 /** Of what was filled in, what the reshaped form can still hold. */
 export function survivingValues(fields:FormField[], values:FieldValues):FieldValues {
-  return surviving(values, (key, value) => !hangsOnType(key) || holds(fieldNamed(fields, key), value));
+  const held:FieldValues = {};
+
+  for (const [key, value] of Object.entries(values)) {
+    if (!hangsOnType(key)) {
+      held[key] = value;
+      continue;
+    }
+
+    const survivor = heldValue(fieldNamed(fields, key), value);
+    if (survivor !== undefined) held[key] = survivor;
+  }
+
+  return held;
 }
 
 /** The labels of the surviving values; only a typeahead stands in need of one. */
@@ -408,7 +440,9 @@ export function buildCreatePayload(
     if (field.kind === 'unsupported') continue;
 
     const value = values[field.key];
-    if (field.isLink) {
+    if (field.kind === 'multiSelect') {
+      links[field.key] = hrefsOf(value).map((href) => ({ href }));
+    } else if (field.isLink) {
       if (typeof value === 'string' && value.trim().length > 0) {
         links[field.key] = { href: value };
       } else {

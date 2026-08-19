@@ -15,6 +15,7 @@ export interface PickerOptionsInput {
   href:string;
   query:string;
   isOpen:boolean;
+  values?:AllowedValue[];
   favoredOnly?:boolean;
   nested?:boolean;
 }
@@ -26,12 +27,16 @@ export interface PickerOptions {
   expand:(hrefs:string[]) => void;
 }
 
+function matching(values:AllowedValue[], query:string):AllowedValue[] {
+  const term = query.trim().toLowerCase();
+  return term ? values.filter((value) => value.label.toLowerCase().includes(term)) : values;
+}
+
 function askApi(href:string, query:string, favoredOnly:boolean, nested:boolean):Promise<AllowedValue[]> {
   return fetchAllowedValues(href, query, { favoredOnly, nested }).then(({ resources, filtered }) => {
-    const term = filtered ? '' : query.trim().toLowerCase();
+    const term = filtered ? '' : query;
 
-    return toAllowedValues(resources)
-      .filter((option) => !term || option.label.toLowerCase().includes(term))
+    return matching(toAllowedValues(resources), term)
       .filter((option) => !favoredOnly || option.favored);
   });
 }
@@ -53,10 +58,11 @@ export function usePickerOptions({
   href,
   query,
   isOpen,
+  values,
   favoredOnly = false,
   nested = false,
 }:PickerOptionsInput):PickerOptions {
-  const [values, setValues] = useState<AllowedValue[]>([]);
+  const [fetched, setFetched] = useState<AllowedValue[]>([]);
   const [loaded, setLoaded] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
 
@@ -66,8 +72,10 @@ export function usePickerOptions({
     if (hrefs.length > 0) setExpanded((current) => new Set([...current, ...hrefs]));
   };
 
+  const listedBySchema = values !== undefined;
+
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || listedBySchema) return;
 
     let active = true;
 
@@ -75,13 +83,13 @@ export function usePickerOptions({
       remember(asked, () => askApi(href, query, favoredOnly, nested))
         .then((found) => {
           if (!active) return;
-          setValues(found);
+          setFetched(found);
           if (query.trim()) expand(found.flatMap((option) => option.ancestors ?? []));
         })
         .catch((error:unknown) => {
           if (!active) return;
           console.error('[create work package] Failed to load allowed values:', error);
-          setValues([]);
+          setFetched([]);
         })
         .finally(() => {
           if (active) setLoaded(asked);
@@ -99,9 +107,12 @@ export function usePickerOptions({
       active = false;
       clearTimeout(timer);
     };
-  }, [href, query, isOpen, favoredOnly, nested, asked]);
+  }, [href, query, isOpen, favoredOnly, nested, asked, listedBySchema]);
 
-  const options = useMemo(() => listedValues(values, expanded), [values, expanded]);
+  const options = useMemo(
+    () => listedValues(values ? matching(values, query) : fetched, expanded),
+    [values, query, fetched, expanded]
+  );
 
   const toggleExpanded = (target:string) => {
     setExpanded((current) => {
@@ -111,5 +122,5 @@ export function usePickerOptions({
     });
   };
 
-  return { options, loading: loaded !== asked, toggleExpanded, expand };
+  return { options, loading: !listedBySchema && loaded !== asked, toggleExpanded, expand };
 }

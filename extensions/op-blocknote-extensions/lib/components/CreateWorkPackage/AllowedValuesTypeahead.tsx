@@ -66,11 +66,16 @@ export const AllowedValuesTypeahead = ({
     onChange(option.href, option.label);
   };
 
+  const open = () => {
+    clearTimeout(blurTimerRef.current);
+    setIsOpen(true);
+  };
+
   const clear = () => {
     selectionRef.current = { value: '', label: '' };
     setQuery('');
     setFocusedIndex(null);
-    setIsOpen(true);
+    open();
     inputEl?.focus();
     if (value) onChange('');
   };
@@ -80,7 +85,7 @@ export const AllowedValuesTypeahead = ({
       case 'ArrowDown':
         event.preventDefault();
         if (!isOpen) {
-          setIsOpen(true);
+          open();
           break;
         }
         setFocusedIndex(Math.max(0, Math.min(activeIndex + 1, options.length - 1)));
@@ -123,13 +128,13 @@ export const AllowedValuesTypeahead = ({
         spellCheck={false}
         placeholder={placeholder}
         value={query}
-        onFocus={() => setIsOpen(true)}
+        onFocus={open}
         // A click on the already focused field fires no focus event.
-        onClick={() => setIsOpen(true)}
+        onClick={open}
         onChange={(event) => {
           setQuery(event.target.value);
           setFocusedIndex(0);
-          setIsOpen(true);
+          open();
           if (value) onChange('');
         }}
         onKeyDown={handleKeyDown}

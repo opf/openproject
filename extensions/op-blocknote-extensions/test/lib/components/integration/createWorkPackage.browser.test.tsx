@@ -2,10 +2,17 @@ import { afterEach, describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
+import {
+  fillRequiredFields,
+  openCreateModal,
+  pickProject,
+  pickValues,
+  selectOptionNamed,
+} from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 import { requestsDuring } from '../../../helpers/requestHelpers';
-import { mockCreatedWorkPackage } from '../../../mocks/handlers';
+import { createFormFor, mockCreatedWorkPackage, reviewersSchema } from '../../../mocks/handlers';
+import type { FormRequestBody } from '../../../mocks/handlers';
 
 afterEach(() => worker.resetHandlers());
 
@@ -306,6 +313,108 @@ describe('Create work package', () => {
       customField1: { href: '/api/v3/users/7' },
       customField3: { href: '/api/v3/custom_options/7' },
     });
+  });
+
+  it('holds every value picked for a multi select and submits each as a link', async () => {
+    let body:Record<string, unknown> = {};
+    worker.use(
+      http.post('http://localhost:3000/api/v3/work_packages', async ({ request }) => {
+        body = await request.json() as Record<string, unknown>;
+        return HttpResponse.json(mockCreatedWorkPackage, { status: 201 });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    await pickValues('Labels *', 'Security');
+
+    await expect.element(page.getByRole('button', { name: 'Remove Accessibility' })).toBeVisible();
+    await expect.element(page.getByRole('button', { name: 'Remove Security' })).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    expect(body._links).toMatchObject({
+      customField4: [
+        { href: '/api/v3/custom_options/11' },
+        { href: '/api/v3/custom_options/13' },
+      ],
+    });
+  });
+
+  it('still names what a multi select holds after the type reshapes the form', async () => {
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+    await pickValues('Labels *', 'Security');
+
+    // "Bug" asks for the very same attributes as "Task".
+    await selectOptionNamed('Type *', 'Bug');
+
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
+    await expect.element(page.getByRole('button', { name: 'Remove Accessibility' })).toBeVisible();
+    await expect.element(page.getByRole('button', { name: 'Remove Security' })).toBeVisible();
+  });
+
+  it('offers a value the multi select already holds no second time', async () => {
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    await userEvent.click(page.getByLabelText('Labels *'));
+
+    await expect.element(page.getByRole('option', { name: 'Performance' })).toBeVisible();
+    await expect.element(page.getByRole('option', { name: 'Accessibility' })).not.toBeInTheDocument();
+  });
+
+  it('gives a value of a multi select back, down to the last one', async () => {
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    await userEvent.click(page.getByRole('button', { name: 'Remove Accessibility' }));
+
+    await expect.element(page.getByRole('button', { name: 'Remove Accessibility' })).not.toBeInTheDocument();
+
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+    const labels = page.getByLabelText('Labels *');
+    await expect.element(labels).toHaveFocus();
+    await expect.element(labels).toHaveAccessibleDescription('This field is required.');
+  });
+
+  it('searches the API for the values of a multi select that links to them', async () => {
+    let body:Record<string, unknown> = {};
+    worker.use(
+      http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) => {
+        const form = createFormFor(await request.json() as FormRequestBody);
+        const { schema } = form._embedded;
+        if (schema.customField4) schema.customField5 = reviewersSchema;
+        return HttpResponse.json(form);
+      }),
+      http.post('http://localhost:3000/api/v3/work_packages', async ({ request }) => {
+        body = await request.json() as Record<string, unknown>;
+        return HttpResponse.json(mockCreatedWorkPackage, { status: 201 });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    await userEvent.fill(page.getByLabelText('Reviewers *'), 'Peter');
+    await expect.element(page.getByRole('option', { name: 'Peter Lang' })).toBeVisible();
+    await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).not.toBeInTheDocument();
+    await userEvent.click(page.getByRole('option', { name: 'Peter Lang' }));
+
+    await expect.element(page.getByRole('button', { name: 'Remove Peter Lang' })).toBeVisible();
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    expect(body._links).toMatchObject({ customField5: [{ href: '/api/v3/users/8' }] });
   });
 
   it('removes the placeholder again when the modal is dismissed, and takes the cursor back', async () => {

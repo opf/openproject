@@ -113,11 +113,27 @@ const departmentSchema = {
 
 const TYPE_WITHOUT_DEPARTMENT = '/api/v3/types/3';
 
-interface FormRequestBody {
+const labelsSchema = {
+  type: '[]CustomOption', name: 'Labels', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: {
+    allowedValues: [
+      { href: '/api/v3/custom_options/11', title: 'Accessibility' },
+      { href: '/api/v3/custom_options/12', title: 'Performance' },
+      { href: '/api/v3/custom_options/13', title: 'Security' },
+    ],
+  },
+};
+
+export const reviewersSchema = {
+  type: '[]User', name: 'Reviewers', required: true, hasDefault: false, writable: true, location: '_links',
+  _links: { allowedValues: { href: '/api/v3/principals' } },
+};
+
+export interface FormRequestBody {
   _links?:Record<string, { href?:string }>;
 }
 
-function createFormFor(body:FormRequestBody) {
+export function createFormFor(body:FormRequestBody) {
   const projectHref = body._links?.project?.href;
   const typeHref = body._links?.type?.href;
 
@@ -138,6 +154,7 @@ function createFormFor(body:FormRequestBody) {
       customField2: needsDocumentationSchema,
       // The types of a project do not all bring the same attributes.
       ...(typeHref === TYPE_WITHOUT_DEPARTMENT ? {} : { customField3: departmentSchema }),
+      customField4: labelsSchema,
     });
     links.type = { href: typeHref };
     links.status = { href: '/api/v3/statuses/1' };

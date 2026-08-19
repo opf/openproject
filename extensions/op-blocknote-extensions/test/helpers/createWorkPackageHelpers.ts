@@ -46,6 +46,15 @@ export async function selectOptionNamed(label:string, option:string) {
   await userEvent.selectOptions(page.getByLabelText(label), target);
 }
 
+// The list closes on every pick, so it is opened again for the next value.
+export async function pickValues(label:string, ...options:string[]) {
+  for (const option of options) {
+    await userEvent.click(page.getByLabelText(label));
+    await expect.element(page.getByRole('option', { name: option })).toBeVisible();
+    await userEvent.click(page.getByRole('option', { name: option }));
+  }
+}
+
 export async function fillRequiredFields(subject:string) {
   await userEvent.fill(page.getByLabelText('Subject *'), subject);
   await pickProject();
@@ -59,4 +68,6 @@ export async function fillRequiredFields(subject:string) {
   await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
 
   await selectOptionNamed('Department *', 'Design');
+
+  await pickValues('Labels *', 'Accessibility');
 }

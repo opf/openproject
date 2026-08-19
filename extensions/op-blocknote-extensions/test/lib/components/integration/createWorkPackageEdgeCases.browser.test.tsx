@@ -9,6 +9,7 @@ afterEach(() => worker.resetHandlers());
 
 const SCROLL_STEP = 40;
 const MAX_LIST_GAP = 4;
+const PICKER_CLOSE_DELAY = 150;
 
 async function settledFieldRows() {
   const panel = page.getByTestId('create-wp-modal').element();
@@ -464,6 +465,43 @@ describe('Create work package - form and editor boundaries', () => {
     } finally {
       hostStyles.remove();
     }
+  });
+
+  it('keeps a picker open when the focus leaves it and comes straight back', async () => {
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    for (const label of ['Supervisor *', 'Labels *']) {
+      const input = page.getByLabelText(label).element() as HTMLInputElement;
+
+      await userEvent.click(page.getByLabelText(label));
+      await expect.element(page.getByTestId(`${input.id}-list-popover`)).toBeVisible();
+
+      input.blur();
+      input.focus();
+
+      await new Promise((resolve) => setTimeout(resolve, PICKER_CLOSE_DELAY * 2));
+      await expect.element(page.getByTestId(`${input.id}-list-popover`)).toBeVisible();
+    }
+  });
+
+  it('shows the focus on the multi select field, which its input gives up', async () => {
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
+
+    const input = page.getByLabelText('Labels *').element();
+    const field = input.parentElement!;
+
+    await userEvent.click(page.getByLabelText('Labels *'));
+    await expect.element(page.getByLabelText('Labels *')).toHaveFocus();
+
+    // The ring the input sheds has to be answered by the field around it.
+    expect(getComputedStyle(input).outlineStyle).toBe('none');
+    const fieldOutline = getComputedStyle(field);
+    expect(fieldOutline.outlineStyle).not.toBe('none');
+    expect(parseFloat(fieldOutline.outlineWidth)).toBeGreaterThan(0);
   });
 
   it('gives both pickers the same arrows and shape', async () => {
