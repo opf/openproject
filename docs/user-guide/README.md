@@ -23,7 +23,7 @@ This guide explains OpenProject's features from a user's perspective. If you are
 | Track time and costs | [Time and costs](time-and-costs/) |
 | Collaborate with my team | [Meetings](meetings/), [Wiki](wiki/) or [File management](file-management/) |
 
-## How OpenProject is organized
+## Overview of modules in OpenProject
 
 Your work in OpenProject can be organized into multiple projects. Each project has its own members and project roles. Projects can also be configured individually by enabling or disabling features called *modules*.
 
