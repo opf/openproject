@@ -36,7 +36,7 @@ class CostReports::ScheduleExportService
   end
 
   def call(format:, report_name:, report_params:, project:, cost_types:)
-    export_storage = ::CostReports::Export.create
+    export_storage = ::CostReports::Export.create!
     job = schedule_export(format, export_storage, report_name, report_params, project, cost_types)
 
     ServiceResult.success result: job.job_id
