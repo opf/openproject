@@ -79,6 +79,10 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        rate:
+          attributes:
+            principal:
+              invalid: "must be a user or a placeholder user."
         time_entry:
           attributes:
             entity:
