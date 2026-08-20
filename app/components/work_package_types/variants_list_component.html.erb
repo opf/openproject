@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         page.with_row do
-          helpers.turbo_frame_tag(FRAME_ID) do
+          helpers.turbo_frame_tag(FRAME_ID, target: "_top") do
             render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: "type-variants",
