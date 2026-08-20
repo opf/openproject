@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Login Troubleshooting
-  priority: 700
+  priority: 780
 description: Resolve the most common issues logging in to the OpenProject Mobile app.
 keywords: Mobile App Login Troubleshooting, log in error, mobile app troubleshooting, mobile app error
 ---
