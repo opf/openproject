@@ -236,6 +236,7 @@ pl:
         project_creation_wizard_status_when_submitted: Status w chwili przesłania
         project_creation_wizard_work_package_comment: Komentarz do pakietu roboczego
         project_creation_wizard_work_package_type: Typy pakietu roboczego
+        project_types: Types
         public_value:
           false: prywatne
           title: Widoczność
@@ -255,6 +256,7 @@ pl:
         templated_value:
           false: odznaczono jako szablon
           true: oznaczono jako szablon
+        type_variant: Work package type variant
         types: Typy
         versions: Wersje
         work_packages: Zadania
@@ -275,6 +277,8 @@ pl:
         start_gate_name: Nazwa bramki fazy początkowej
       project_custom_field:
         custom_field_section: Sekcja
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Podrzędne pakiety robocze
         column_names: Kolumny
@@ -342,18 +346,26 @@ pl:
       token/named:
         token_name: Nazwa tokena
       type:
-        attribute_groups: Konfiguracja formularza
-        children: Variants
         color: Kolor
-        dependent_configuration_links: Powiązane typy
-        description: Domyślny tekst opisu
-        is_default: Domyślnie aktywny dla nowych projektów
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_milestone: Jest Kamieniem Milowym
-        parent: Typ nadrzędny
-        patterns: Wzorce
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Typ źródłowy
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrator
         auth_source: Źródło uwierzytelniania
@@ -488,6 +500,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         blank_nested: musi mieć ustawioną właściwość '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: jest wymagane. Nie można usunąć.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
@@ -548,6 +561,7 @@ pl:
         regex_match_failed: nie pasuje do wyrażenia regularnego %{expression}.
         smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej długości.
         ssrf_filtered: narusza zasady tego wystąpienia OpenProject dotyczące SSRF.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: koliduje z istniejącym dniem wolnym od pracy w całym systemie dla tej daty.
         taken: zostały już podjęte.
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
@@ -720,8 +734,6 @@ pl:
               blank: Wybierz projekt.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -812,25 +824,34 @@ pl:
               blank: Podaj nazwę tokena
               format: "%{message}"
               in_use: Ta nazwa tokena jest już używana, wybierz inną
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
-              attribute_unknown_name: Użyto nieprawidłowego atrybutu pakietu roboczego. %{attribute}
-              duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup muszą być niepowtarzalne.
-              group_without_name: Nazwa grupy nie może być pusta.
-              query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
-            parent:
-              cannot_be_self: nie może być samym typem.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: musi być typem najwyższego poziomu. Typy można zagnieżdżać tylko o jeden poziom w głąb.
-              standard_type_must_be_root: nie można ustawić dla typu standardowego.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Co najmniej jeden atrybut wewnątrz pola jest nieprawidłowy. Popraw atrybuty przed zapisaniem.
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -938,6 +959,9 @@ pl:
             start_date:
               cannot_be_null: nie można ustawić na wartość zero, ponieważ data zakończenia i czas trwania są znane.
               violates_relationships: aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie.
               status_transition_invalid: jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika.
@@ -1038,6 +1062,11 @@ pl:
         few: Typy
         many: Typy
         other: Typy
+      type_variant:
+        one: Variant
+        few: Variants
+        many: Variants
+        other: Variants
       user: Użytkownik
       version: Wersja
       wiki: Wiki
@@ -1859,6 +1888,7 @@ pl:
     start_date: Data rozpoczęcia
     state: Stan
     status: Status
+    status_id: Status
     subject: Temat
     summary: Podsumowanie
     template: Szablon
@@ -2650,18 +2680,17 @@ pl:
   error_attribute_not_highlightable: 'Atrybuty, których nie można wyróżnić: %{attributes}'
   error_auth_source_sso_failed: Pojedyncze logowanie (SSO) dla użytkownika '%{value}' nie powiodło się
   error_can_not_archive_project: 'Tego projektu nie można zarchiwizować: %{errors}'
-  error_can_not_deactivate_type: Nie można dezaktywować typu %{type}, ponieważ jest nadal używany przez %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: W projektach są również pakiety robocze, których nie widać.
   error_can_not_delete_custom_field: Nie można usunąć pola niestandardowego
   error_can_not_delete_entry: Nie można usunąć wpisu
   error_can_not_delete_in_use_archived_undisclosed: Są również pakiety robocze w zarchiwizowanych projektach. Aby zobaczyć, których projektów to dotyczy, musisz poprosić administratora o wykonanie usunięcia.
   error_can_not_delete_in_use_archived_work_packages: 'Pakiety robocze są również w zarchiwizowanych projektach. Musisz najpierw reaktywować następujące projekty, zanim będzie można zmienić atrybut odpowiednich pakietów roboczych: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Nie można usunąć standardowych typów.
   error_can_not_delete_type:
     explanation: Ten typ zawiera pakiety robocze i nie może być usunięty. Wszystkie włączone pakiety robocze można zobaczyć w <a target="_blank" href="%{url}">tym widoku</a>.
   error_can_not_find_all_resources: Nie można znaleźć wszystkich zasobów związanych z tym żądaniem.
   error_can_not_invite_user: Nie można wysłać zaproszenia do użytkownika.
   error_can_not_remove_role: Ta Rola jest używana i nie można jej usunąć.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Nie można otworzyć pakietu roboczego przypisanego do zamkniętej wersji
   error_can_not_unarchive_project: 'Nie można cofnąć archiwizacji tego projektu: %{errors}'
   error_check_user_and_role: Wybierz użytkownika i rolę.
@@ -2950,15 +2979,16 @@ pl:
     blocks:
       community: Społeczność OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nowy moduł zarządzania zasobami, służący do planowania wydajności i obsady kadrowej (plan Premium).
-            line_1: Lepsze zarządzanie organizacyjne dzięki działom, atrybutom użytkowników, takim jak stanowiska oraz godzinom pracy.
-            line_2: Wiele aktywnych sprintów bez udostępniania (plan Basic).
-            line_3: Ulepszony backlog i sprinty z wieloma wybieranymi filtrami, ulepszonym przeciąganiem i upuszczeniem oraz możliwością dodawania istniejących pakietów roboczych.
-            line_4: Eksport artefaktów PM²/PMflex oraz nowy widżet umożliwiający przegląd faz i bramek projektów.
-            line_5: Globalny indeks stron wiki oraz łatwiejsza nawigacja między powiązanymi stronami.
-          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
@@ -3428,6 +3458,7 @@ pl:
   label_me: ja
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_new: Nowy członek
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Członkowie
   label_member_role: Rola w projekcie
@@ -3945,7 +3976,6 @@ pl:
         invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project} '.
         no_project_context: Wywołanie makra create_work_package_link spoza kontekstu projektu.
       link_name: Nowy pakiet roboczy
-      link_name_type: Nowy %{type_name}
     errors:
       missing_or_invalid_parameter: Brakujący lub błędny parametr makra.
     include_wiki_page:
@@ -4399,7 +4429,6 @@ pl:
   notice_auth_stage_error: Etap uwierzytelniania '%{stage}' nie powiódł się.
   notice_auth_stage_verification_error: Nie można zweryfikować etapu '%{stage}'.
   notice_auth_stage_wrong_stage: Oczekiwano ukończenia etapu uwierzytelniania '%{expected}', ale zwrócono '%{actual}'.
-  notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_bad_request: Nieprawidłowe żądanie.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_custom_options_deleted: Opcja '%{option_value}' i jej %{num_deleted} wystąpień zostały usunięte.
@@ -5387,6 +5416,7 @@ pl:
   setting_default_language: Język domyślny
   setting_default_projects_modules: Domyślnie włączone moduły dla nowych projektów
   setting_default_projects_public: Nowe projekty są publiczne (domyślnie)
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksymalna wyświetlana liczba linii różnic
   setting_disable_password_login: Wyłącz uwierzytelnianie hasłem
   setting_display_subprojects_work_packages: Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie
@@ -6055,10 +6085,11 @@ pl:
   total_progress: Całkowity postęp
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Utwórz typ
       create_variant: Utwórz wariant
       fields:
-        inherited_from_parent_html: Dziedziczone z typu nadrzędnego <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Zakończ
       placeholder_description: Ten krok będzie wkrótce dostępny.
       progress_label: Krok %{number} z %{total}
@@ -6070,7 +6101,7 @@ pl:
         project_attributes: Atrybuty projektu
         projects: Projekty
         workflows: Przepływy pracy
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Wariant: %{name}'
       defaults:
@@ -6095,6 +6126,7 @@ pl:
             work_package: Pakiet roboczy
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Szczegóły
         type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
       export_configuration:
@@ -6165,6 +6197,13 @@ pl:
         actions:
           label_disable_all: Wyłącz wszystkie
           label_enable_all: Włącz wszystkie
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
         disabled: Disabled
         exclusions:
@@ -6172,6 +6211,17 @@ pl:
         filter: Wyszukaj według sekcji lub nazwy
         tab: Atrybuty projektu
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Włącz dla wszystkich projektów
         select_projects: Wybierz projekty
         select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
@@ -6785,8 +6835,8 @@ pl:
           label: Rola źródłowa
         target_role_ids:
           label: Role docelowe
-        target_type_ids:
-          label: Typy docelowe
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
@@ -6794,13 +6844,13 @@ pl:
             few: Przepływ pracy został skopiowany do %{count} ról.
             many: Przepływ pracy został skopiowany do %{count} ról.
             other: Przepływ pracy został skopiowany do %{count} roli.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Przepływ pracy został skopiowany do typu „%{type_name}”.
-            few: Przepływ pracy został skopiowany do %{count} typów.
-            many: Przepływ pracy został skopiowany do %{count} typów.
-            other: Przepływ pracy został skopiowany do %{count} typu.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Kopiuj przepływ pracy z „%{source_type}”
     form:

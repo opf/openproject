@@ -67,13 +67,15 @@ RSpec.describe "Workflow edit", :js do
     expect(page)
       .to have_field workflow_checkbox(1, 0), checked: true
 
-    expect(Workflow.where(type_id: type.id, role_id: role.id).count).to be 2
+    expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id).count).to be 2
 
-    w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id).first
+    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[0].id,
+                       new_status_id: statuses[1].id).first
     assert !w.author
     assert !w.assignee
 
-    w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                       new_status_id: statuses[0].id).first
     assert !w.author
     assert !w.assignee
   end
@@ -99,15 +101,19 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_id: type.id, role_id: role.id, author: true).count).to be 2
+      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, author: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                         new_status_id: statuses[0].id).first
       assert w.author
       assert !w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id,
+      w = Workflow.where(role_id: role.id,
+                         type_variant_id: type.default_variant.id,
+                         old_status_id: statuses[0].id,
+                         new_status_id: statuses[1].id,
                          author: false).first
       assert !w.author
       assert !w.assignee
@@ -135,15 +141,19 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_id: type.id, role_id: role.id, assignee: true).count).to be 2
+      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, assignee: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[1].id, new_status_id: statuses[0].id).first
+      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
+                         new_status_id: statuses[0].id).first
       assert !w.author
       assert w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: statuses[0].id, new_status_id: statuses[1].id,
+      w = Workflow.where(role_id: role.id,
+                         type_variant_id: type.default_variant.id,
+                         old_status_id: statuses[0].id,
+                         new_status_id: statuses[1].id,
                          assignee: false).first
       assert !w.author
       assert !w.assignee
@@ -736,7 +746,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     before do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
       visit_workflow_edit(roles: [role])
     end
 
@@ -767,7 +777,7 @@ RSpec.describe "Workflow edit", :js do
 
     context "when the workflow configuration is linked to a source" do
       before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
         visit_workflow_edit(roles: [role])
       end
 

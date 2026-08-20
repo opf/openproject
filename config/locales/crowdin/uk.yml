@@ -236,6 +236,7 @@ uk:
         project_creation_wizard_status_when_submitted: Статус на момент подання
         project_creation_wizard_work_package_comment: Коментар до пакета робіт
         project_creation_wizard_work_package_type: Тип пакета робіт
+        project_types: Types
         public_value:
           false: приватний
           title: Видимість
@@ -255,6 +256,7 @@ uk:
         templated_value:
           false: не позначено як шаблон
           true: позначено як шаблон
+        type_variant: Work package type variant
         types: Типи
         versions: Версії
         work_packages: Пакет робіт
@@ -275,6 +277,8 @@ uk:
         start_gate_name: Назва початкової контрольної точки етапу
       project_custom_field:
         custom_field_section: Розділ
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Дочірні пакети робіт
         column_names: Стовпці
@@ -342,18 +346,26 @@ uk:
       token/named:
         token_name: Ім’я маркера
       type:
-        attribute_groups: Конфігурація форми
-        children: Variants
         color: Колір
-        dependent_configuration_links: Зв’язані типи
-        description: Текст за умовчанням для опису
-        is_default: Активовано для нових проектів за замовчуванням
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
-        parent: Батьківський тип
-        patterns: Шаблони
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Вихідний тип
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -488,6 +500,7 @@ uk:
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
@@ -548,6 +561,7 @@ uk:
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
@@ -724,8 +738,6 @@ uk:
               blank: Виберіть проєкт.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -816,25 +828,34 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Використовується недійсний атрибут робочого пакету.
-              attribute_unknown_name: Недійсний атрибут робочого пакета:%{attribute}
-              duplicate_group: Назва групи %{group} використовується більше одного разу. Назви груп повинні бути унікальними.
-              group_without_name: Ім’я групи не може бути порожнім.
-              query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
-            parent:
-              cannot_be_self: не може бути самим типом.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
-              standard_type_must_be_root: не може встановлюватися для стандартного типу.
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -942,6 +963,9 @@ uk:
             start_date:
               cannot_be_null: не може мати нульове значення, оскільки задано дату початку й тривалість.
               violates_relationships: може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: недійсний, оскільки поточного стану не існує в цьому типі.
               status_transition_invalid: є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача.
@@ -1042,6 +1066,11 @@ uk:
         few: Типи
         many: Типи
         other: Типи
+      type_variant:
+        one: Variant
+        few: Variants
+        many: Variants
+        other: Variants
       user: Користувач
       version: Версія
       wiki: Wiki
@@ -1863,6 +1892,7 @@ uk:
     start_date: Початок
     state: Стан
     status: Статус
+    status_id: Status
     subject: Тема
     summary: Резюме
     template: Шаблон
@@ -2658,18 +2688,17 @@ uk:
   error_attribute_not_highlightable: 'Атрибут(и) не виділено: %{attributes}'
   error_auth_source_sso_failed: 'Єдиний вхід (SSO) для користувача %{value} не вдалося '
   error_can_not_archive_project: 'Цей проєкт не можна архівувати: %{errors}'
-  error_can_not_deactivate_type: 'Не вдалося деактивувати тип «%{type}», оскільки він усе ще використовується тут: %{work_packages_link}'
   error_can_not_deactivate_type_invisible_projects: У проєктах також є пакети робіт, які ви не бачите.
   error_can_not_delete_custom_field: Неможливо видалити спеціальне поле
   error_can_not_delete_entry: Неможливо видалити запис
   error_can_not_delete_in_use_archived_undisclosed: Пакети робіт також містяться в архівних проєктах. Попросіть адміністратора виконати операцію видалення, щоб дізнатися, яких проєктів це стосується.
   error_can_not_delete_in_use_archived_work_packages: 'Пакети робіт також містяться в архівних проєктах. Спочатку потрібно повторно активувати ці проєкти, а потім – змінити атрибут відповідних пакетів робіт: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартні типи неможливо видалити.
   error_can_not_delete_type:
     explanation: Цей тип містить пакети робіт, і його не можна видалити. Переглянути всі пошкоджені пакети робіт можна в <a target="_blank" href="%{url}">цьому поданні</a>.
   error_can_not_find_all_resources: Не вдалося знайти всі відповідні ресурси для цього запиту.
   error_can_not_invite_user: Не вдалося надіслати запрошення користувачеві.
   error_can_not_remove_role: Ця роль використовується і не може бути видалений.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет робіт покладених на закритій версії не може бути відкритий
   error_can_not_unarchive_project: 'Цей проєкт не можна розархівувати: %{errors}'
   error_check_user_and_role: Будь ласка виберіть користувача і роль.
@@ -2960,15 +2989,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: новий модуль керування ресурсами для планування завантаження й забезпечення кадрами (у межах тарифного плану Premium);
-            line_1: поліпшений організаційний менеджмент завдяки підрозділам, атрибутам користувачів, зокрема посадам, і робочим годинам;
-            line_2: підтримка кількох активних спринтів, якщо вимкнено спільний доступ (у межах тарифного плану Basic);
-            line_3: фільтри з підтримкою множинного вибору для зручнішої роботи з беклогом і спринтами, покращена функція «перетягнути й відпустити», а також можливість додавати наявні пакети робіт;
-            line_4: експорт артефактів PM²/PMflex і новий віджет для огляду етапів і контрольних точок проєктів;
-            line_5: глобальний індекс сторінок Wiki й зручніша навігація пов’язаними сторінками.
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3382,7 +3412,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -3438,6 +3468,7 @@ uk:
   label_me: мені
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_new: Новий учасник
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Учасники
   label_member_role: Роль у проєкті
@@ -3954,7 +3985,6 @@ uk:
         invalid_type: Не знайдено жодного типу з назвою %{type} в проекті %{project}.
         no_project_context: Виклик макросу create_work_package_link із зовнішнього контексту проекту.
       link_name: Новий пакет робіт
-      link_name_type: Новий %{type_name}
     errors:
       missing_or_invalid_parameter: Відсутній або неприпустимий параметр макросу.
     include_wiki_page:
@@ -4407,7 +4437,6 @@ uk:
   notice_auth_stage_error: Етап автентифікації %{stage} не вдався.
   notice_auth_stage_verification_error: Не вдалося підтвердити етап %{stage}.
   notice_auth_stage_wrong_stage: Передбачається завершити етап аутентифікації%{expected}, але %{actual} returned.
-  notice_automatic_set_of_standard_type: Встановіть стандартний тип автоматично.
   notice_bad_request: Неправильний Запит.
   notice_can_t_change_password: Для даного облікового запису використовується джерело зовнішньої аутентифікації. Неможливо змінити пароль.
   notice_custom_options_deleted: Варіант %{option_value}  і його %{num_deleted} вилучень було видалено.
@@ -5403,6 +5432,7 @@ uk:
   setting_default_language: Мова за замовчуванням
   setting_default_projects_modules: Включені по замовчуванню модулі для нових проектів
   setting_default_projects_public: Нові проекти є загальнодоступними
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Відображається максимальна кількість рядків diff
   setting_disable_password_login: Вимкнути автентифікацію за допомогою пароля
   setting_display_subprojects_work_packages: Дисплей підпроекти пакети робіт на основні проекти за замовчуванням
@@ -6070,10 +6100,11 @@ uk:
   total_progress: Загальний прогрес
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Створити тип
       create_variant: Створити варіант
       fields:
-        inherited_from_parent_html: Успадковано від батьківського типу <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Завершити
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
@@ -6085,7 +6116,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         workflows: Робочі процеси
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
       defaults:
@@ -6110,6 +6141,7 @@ uk:
             work_package: Пакет робіт
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
       export_configuration:
@@ -6180,6 +6212,13 @@ uk:
         actions:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Disabled
         exclusions:
@@ -6187,6 +6226,17 @@ uk:
         filter: Пошук за розділом або назвою
         tab: Атрибути проєктів
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
@@ -6800,8 +6850,8 @@ uk:
           label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_type_ids:
-          label: Цільові типи
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
@@ -6809,13 +6859,13 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:

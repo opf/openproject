@@ -85,7 +85,9 @@ module API
         def format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          Duration.new(seconds: hours * 3600).iso8601
+          # Duration.new (ruby-duration gem) truncates :seconds via Float#to_i rather than
+          # rounding -- round explicitly first.
+          Duration.new(seconds: (hours * 3600).round).iso8601
         end
 
         def parse_duration_to_hours(duration, property_name, allow_nil: false)
@@ -104,7 +106,8 @@ module API
         def format_duration_from_days(days, allow_nil: false)
           return nil if days.nil? && allow_nil
 
-          Duration.new(seconds: days * 3600 * 24).iso8601
+          # Same Duration.new truncation caveat as format_duration_from_hours above.
+          Duration.new(seconds: (days * 3600 * 24).round).iso8601
         end
 
         def parse_duration_to_days(duration, property_name, allow_nil: false)

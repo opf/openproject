@@ -65,41 +65,41 @@ module WorkPackageTypes
 
     def build_variant_for(project_type, user)
       project = project_type.project
-      type = project_type.effective_type
+      applied = project_type.variant
 
       ApplicationRecord.transaction do
-        result = BuildVariantFromProjectService.new(user:, type:).call(project:)
-        rollback(project, type, result) if result.failure?
+        result = BuildVariantFromProjectService.new(user:, variant: applied).call(project:)
+        rollback(project, applied, result) if result.failure?
 
-        # The service returns the type it was given when the project narrows nothing, which is the
-        # signal that no variant is needed here.
-        next @unchanged += 1 if result.result == type
+        # The service returns the variant it was given when the project narrows nothing, which is
+        # the signal that no variant is needed here.
+        next @unchanged += 1 if result.result == applied
 
-        resolve(project, type, result.result, user)
+        resolve(project, applied, result.result, user)
       end
     end
 
-    def resolve(project, type, variant, user)
+    def resolve(project, applied, variant, user)
       result = Projects::Types::SwitchVariantService
                  .new(user:, model: project, contract_class: EmptyContract)
-                 .call(source: type, target: variant)
+                 .call(source: applied, target: variant)
 
-      rollback(project, type, result) if result.failure?
+      rollback(project, applied, result) if result.failure?
 
       @built += 1
     end
 
-    def rollback(project, type, result)
-      log_failure(project, type, result)
+    def rollback(project, variant, result)
+      log_failure(project, variant, result)
 
       raise ActiveRecord::Rollback
     end
 
-    def log_failure(project, type, result)
+    def log_failure(project, variant, result)
       @failed += 1
 
       Rails.logger.error do
-        "[#{self.class.name}] Skipped #{type.composite_name} in project #{project.identifier}: " \
+        "[#{self.class.name}] Skipped #{variant.composite_name} in project #{project.identifier}: " \
           "#{result.errors.full_messages.join(', ')}"
       end
     end

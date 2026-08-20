@@ -236,6 +236,7 @@ sr:
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: private
           title: Visibility
@@ -255,6 +256,7 @@ sr:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Types
         versions: Versions
         work_packages: Work Packages
@@ -275,6 +277,8 @@ sr:
         start_gate_name: Start phase gate name
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Child work packages
         column_names: Columns
@@ -342,18 +346,26 @@ sr:
       token/named:
         token_name: Token name
       type:
-        attribute_groups: Form configuration
-        children: Variants
         color: Color
-        dependent_configuration_links: Linked types
-        description: Default text for description
-        is_default: Activated for new projects by default
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
-        parent: Parent type
-        patterns: Patterns
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Administrator
         auth_source: Authentication source
@@ -488,6 +500,7 @@ sr:
         before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
@@ -548,6 +561,7 @@ sr:
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum length.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
@@ -719,8 +733,6 @@ sr:
               blank: Please select a project.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -811,7 +823,7 @@ sr:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
@@ -819,17 +831,26 @@ sr:
               duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -936,6 +957,9 @@ sr:
             start_date:
               cannot_be_null: can not be set to null as finish date and duration are known.
               violates_relationships: can only be set to %{soonest_start} or later so as not to violate the work package's relationships.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: is invalid because the current status does not exist in this type.
               status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
@@ -1022,6 +1046,10 @@ sr:
         one: Type
         few: Types
         other: Types
+      type_variant:
+        one: Variant
+        few: Variants
+        other: Variants
       user: User
       version: Verzija
       wiki: Wiki
@@ -1830,6 +1858,7 @@ sr:
     start_date: Start date
     state: State
     status: Status
+    status_id: Status
     subject: Subject
     summary: Summary
     template: Template
@@ -2602,18 +2631,17 @@ sr:
   error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
   error_can_not_archive_project: 'This project cannot be archived: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Unable to delete custom field
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_in_use_archived_undisclosed: There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standard types cannot be deleted.
   error_can_not_delete_type:
     explanation: This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_can_not_invite_user: Failed to send invitation to user.
   error_can_not_remove_role: This role is in use and cannot be deleted.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: A work package assigned to a closed version cannot be reopened
   error_can_not_unarchive_project: 'This project cannot be unarchived: %{errors}'
   error_check_user_and_role: Please choose a user and a role.
@@ -2900,14 +2928,15 @@ sr:
     blocks:
       community: OpenProject community
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3378,6 +3407,7 @@ sr:
   label_me: me
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: New member
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Members
   label_member_role: Project role
@@ -3892,7 +3922,6 @@ sr:
         invalid_type: No type found with name '%{type}' in project '%{project}'.
         no_project_context: Calling create_work_package_link macro from outside project context.
       link_name: New work package
-      link_name_type: New %{type_name}
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:
@@ -4339,7 +4368,6 @@ sr:
   notice_auth_stage_error: Authentication stage '%{stage}' failed.
   notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
   notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}', but '%{actual}' returned.
-  notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_bad_request: Bad Request.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences were deleted.
@@ -5331,6 +5359,7 @@ sr:
   setting_default_language: Default language
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
@@ -6001,10 +6030,11 @@ sr:
   total_progress: Total progress
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -6016,7 +6046,7 @@ sr:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -6041,6 +6071,7 @@ sr:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -6111,6 +6142,13 @@ sr:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6118,6 +6156,17 @@ sr:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6720,7 +6769,7 @@ sr:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
@@ -6728,10 +6777,10 @@ sr:
             one: Successfully copied workflow to '%{role_name}' role.
             few: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             few: Successfully copied workflow to %{count} types.
             other: Successfully copied workflow to %{count} types.
       new:

@@ -89,4 +89,29 @@ RSpec.describe BudgetsHelper do
       end
     end
   end
+
+  describe "#labor_budget_item_user_filters" do
+    let(:project) { build_stubbed(:project) }
+
+    subject(:filters) { helper.labor_budget_item_user_filters(project) }
+
+    # Groups and placeholder users are budgeted with 0.0 costs as they cannot
+    # hold an hourly rate, but they remain valid assignees (wp/74197).
+    it "offers every principal type that can be assigned" do
+      expect(filters)
+        .to include(a_hash_including(name: "type", values: %w[User Group PlaceholderUser]))
+    end
+
+    it "excludes locked principals" do
+      expect(filters)
+        .to include(a_hash_including(name: "status",
+                                     operator: "!",
+                                     values: [Principal.statuses["locked"].to_s]))
+    end
+
+    it "restricts the candidates to members of the project" do
+      expect(filters)
+        .to include(a_hash_including(name: "member", operator: "=", values: [project.id.to_s]))
+    end
+  end
 end

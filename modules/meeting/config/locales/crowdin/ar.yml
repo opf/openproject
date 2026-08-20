@@ -59,6 +59,8 @@ ar:
         position: Position
         presenter: Presenter
         title: العنوان
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

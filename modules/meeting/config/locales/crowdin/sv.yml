@@ -55,6 +55,8 @@ sv:
         position: Position
         presenter: Presentatör
         title: Titel
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Deltog
         invited: Inbjuden

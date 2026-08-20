@@ -161,7 +161,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту
@@ -208,7 +208,7 @@ ru:
           aria_label_project_attribute: Динамический атрибут проекта, размещенный с помощью макроса.
           aria_label_with_name: "%{name}: %{description}"
           aria_label_work_package_attribute: Динамический атрибут пакета работ, размещенный с помощью макроса.
-          aria_label_work_package_link: Динамическая ссылка на рабочий пакет, размещенная с помощью макроса.
+          aria_label_work_package_link: Динамическая ссылка на пакет работ, размещенная с помощью макроса.
           invalid_attribute: Выбранный атрибут '%{name}' не существует.
           nested_macro: Этот макрос рекурсивно ссылается на %{model} %{id}.
           not_found: Запрошенный ресурс не найден

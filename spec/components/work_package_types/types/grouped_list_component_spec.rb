@@ -50,4 +50,48 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_css(".blankslate")
     end
   end
+
+  describe "the label marking what new projects start with" do
+    let(:root_type) { create(:type, name: "Task") }
+    let!(:variant) { create(:type_variant, type: root_type, variant_name: "Hardware") }
+    let(:label_text) { I18n.t("types.index.enabled_in_new_projects") }
+    let(:variant_label_text) do
+      I18n.t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
+    end
+
+    subject(:rendered_component) do
+      with_request_url "/types" do
+        render_inline(described_class.new(types: Type.where(id: root_type.id).page(1).per_page(10),
+                                          expanded_type_id: root_type.id))
+      end
+    end
+
+    context "when no variant of the type carries the flag" do
+      it "renders nowhere", :aggregate_failures do
+        expect(rendered_component).to have_no_css(".Label", text: label_text)
+        expect(rendered_component).to have_no_css(".Label", text: variant_label_text)
+      end
+    end
+
+    context "when the base variant carries it" do
+      before { root_type.default_variant.update!(enabled_in_new_projects: true) }
+
+      it "marks the group header only: the base variant has no row of its own", :aggregate_failures do
+        expect(rendered_component).to have_css(".Box-header .Label", text: label_text)
+        expect(rendered_component).to have_no_css(".Box-row .Label", text: label_text)
+      end
+    end
+
+    context "when a named variant carries it" do
+      before { variant.update!(enabled_in_new_projects: true) }
+
+      it "names the variant in the group header, which stays visible when collapsed" do
+        expect(rendered_component).to have_css(".Box-header .Label", text: variant_label_text)
+      end
+
+      it "marks the variant's own row too" do
+        expect(rendered_component).to have_css(".Box-row .Label", text: label_text)
+      end
+    end
+  end
 end

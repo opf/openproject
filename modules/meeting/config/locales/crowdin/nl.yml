@@ -55,6 +55,8 @@ nl:
         position: Positie
         presenter: Presentator
         title: Titel
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Deelgenomen
         invited: Uitgenodigd

@@ -35,87 +35,87 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
   shared_let(:role) { create(:project_role) }
   shared_let(:statuses) { create_list(:status, 2) }
 
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
 
-  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+  subject(:service_call) { described_class.new(variant:, user: admin).call(source:) }
 
   describe "#call" do
     context "with a source" do
-      let(:source) { create(:type) }
+      let(:source) { create(:type).default_variant }
 
       before do
-        create(:workflow, role_id: role.id, type_id: source.id,
+        create(:workflow, type: source, role_id: role.id,
                           old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                           author: false, assignee: false)
       end
 
-      it "copies the source's transitions onto the type" do
+      it "copies the source's transitions onto the variant" do
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
 
-    context "when the type already has transitions" do
-      let(:source) { create(:type) }
+    context "when the variant already has transitions" do
+      let(:source) { create(:type).default_variant }
 
       before do
-        create(:workflow, role_id: role.id, type_id: type.id,
+        create(:workflow, type: variant, role_id: role.id,
                           old_status_id: statuses[1].id, new_status_id: statuses[0].id,
                           author: false, assignee: false)
-        create(:workflow, role_id: role.id, type_id: source.id,
+        create(:workflow, type: source, role_id: role.id,
                           old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                           author: false, assignee: false)
       end
 
-      it "replaces the type's transitions with the source's" do
+      it "replaces the variant's transitions with the source's" do
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[1].id, new_status_id: statuses[0].id)).to be(false)
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
 
     context "when the source resolves through a link", with_flag: { type_variants: true } do
-      let(:owner) { create(:type) }
-      let(:source) { create(:type) }
+      let(:owner) { create(:type).default_variant }
+      let(:source) { create(:type).default_variant }
 
       before do
-        create(:workflow, role_id: role.id, type_id: owner.id,
+        create(:workflow, type: owner, role_id: role.id,
                           old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                           author: false, assignee: false)
-        source.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+        link_configuration(source, source: owner, aspect: TypeVariant::WORKFLOWS)
       end
 
       it "adopts the resolved owner's transitions" do
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
 
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
 
     context "when the source resolves through a longer chain", with_flag: { type_variants: true } do
-      let(:owner) { create(:type) }
-      let(:middle) { create(:type) }
-      let(:source) { create(:type) }
+      let(:owner) { create(:type).default_variant }
+      let(:middle) { create(:type).default_variant }
+      let(:source) { create(:type).default_variant }
 
       before do
-        create(:workflow, role_id: role.id, type_id: owner.id,
+        create(:workflow, type: owner, role_id: role.id,
                           old_status_id: statuses[0].id, new_status_id: statuses[1].id,
                           author: false, assignee: false)
-        middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
-        source.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+        link_configuration(middle, source: owner, aspect: TypeVariant::WORKFLOWS)
+        link_configuration(source, source: middle, aspect: TypeVariant::WORKFLOWS)
       end
 
       it "adopts the resolved owner's transitions" do
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
@@ -123,13 +123,13 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
     context "with an invalid source" do
       let(:source) { nil }
 
-      it "fails without changing the type" do
+      it "fails without changing the variant" do
         expect(service_call).not_to be_success
       end
     end
 
-    context "when the source is the type itself" do
-      let(:source) { type }
+    context "when the source is the variant itself" do
+      let(:source) { variant }
 
       it "fails" do
         expect(service_call).not_to be_success

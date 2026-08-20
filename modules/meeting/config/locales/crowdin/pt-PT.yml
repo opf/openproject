@@ -55,6 +55,8 @@ pt-PT:
         position: Posição
         presenter: Apresentador
         title: Título
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Participou
         invited: Convidados

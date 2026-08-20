@@ -38,25 +38,22 @@ module Projects
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          def initialize(project:, source:, selected: source, validation_message: nil)
+          def initialize(project:, source:, url:, selected: source, validation_message: nil)
             super()
 
             @project = project
             @source = source
+            @url = url
             @selected = selected
             @validation_message = validation_message
           end
 
           private
 
-          attr_reader :project, :source, :selected, :validation_message
-
-          def switch_path
-            project_settings_work_packages_type_switch_path(project, source)
-          end
+          attr_reader :project, :source, :url, :selected, :validation_message
 
           def available_targets
-            source.family
+            source.type.variants.in_display_order
           end
 
           # Constant lookup in a compiled template does not walk the enclosing modules.

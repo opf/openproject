@@ -59,7 +59,7 @@ module WorkPackages
         end
 
         def templates_options
-          work_package.type.pdf_export_templates.list_enabled
+          work_package.type_variant.pdf_export_templates.list_enabled
         end
 
         def hyphenation_default
