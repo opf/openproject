@@ -1379,14 +1379,13 @@ en:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_caption: "Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme."
-      color_theme_custom: "(Custom)"
       color_groups:
         base_colors: "Base colors"
         main_menu: "Main lateral menu"
         top_header_colors: "Top header colors"
-      edit_color: "Edit %{color}"
+      color_theme: "Color theme"
+      color_theme_caption: "Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme."
+      color_theme_custom: "(Custom)"
       colors:
         accent-color: "Accent"
         header-bg-color: "Header background"
@@ -1394,6 +1393,7 @@ en:
         main-menu-bg-selected-background: "Main menu when selected"
         primary-button-color: "Primary button"
       custom_colors: "Custom colors"
+      edit_color: "Edit %{color}"
       fonts:
         file_is_invalid: "is not a valid TTF font file."
         file_too_large: "is too large (maximum size is %{count} MB)."

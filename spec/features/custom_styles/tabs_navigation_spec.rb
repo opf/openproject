@@ -107,11 +107,15 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "interface")
     end
 
-    it "redirects to branding tab" do
+    it "redirects to branding tab", :js do
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
-
       expect(page).to have_test_selector("color-theme-select")
+
+      # select a color theme and redirect to the branding tab
+      select("OpenProject Navy Blue", from: "theme")
+      expect_flash(message: I18n.t(:notice_successful_update))
+      expect(page).to have_current_path custom_style_path(tab: "branding")
 
       # remove the logo and redirect to the branding tab
       custom_style.send :remove_logo!
