@@ -246,7 +246,9 @@ describe('sortable lists drag preview', () => {
 
       // The padding holds the badge's overhang inside the container's border
       // box. It has to be written inline and after Pragmatic's own popover
-      // reset (padding: 0), which the pre-zeroed padding here reproduces.
+      // reset (padding: 0), which the pre-zeroed padding here reproduces. The
+      // widths stay in drag_and_drop.sass, so what is written is a reference
+      // to its tokens rather than a length.
       it('pads the container inline past Pragmatic popover reset for a multi-card drag', () => {
         const target = withWidth(previewTarget(), 320);
         const container = document.createElement('div');
@@ -257,9 +259,9 @@ describe('sortable lists drag preview', () => {
         });
 
         expect(container.style.position).toEqual('relative');
-        expect(container.style.paddingTop).toEqual('8px');
-        expect(container.style.paddingRight).toEqual('22px');
-        expect(container.style.paddingBottom).toEqual('22px');
+        expect(container.style.paddingTop).toEqual('var(--op-drag-badge-overhang)');
+        expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
         expect(container.style.paddingLeft).toEqual('0px');
       });
     });
@@ -304,7 +306,9 @@ describe('sortable lists drag preview', () => {
         expect(stackDepth(container)).toEqual(depth);
       });
 
-      it('caps the depth so a large batch stacks no deeper than four cards', () => {
+      // Capping how deep the stack draws belongs to the stylesheet, which
+      // holds every depth past its layers at the deepest one it has.
+      it('passes a large batch through uncapped', () => {
         const target = withWidth(previewTarget(), 320);
         const container = document.createElement('div');
 
@@ -312,7 +316,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 27,
         });
 
-        expect(stackDepth(container)).toEqual('3');
+        expect(stackDepth(container)).toEqual('26');
       });
 
       it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
