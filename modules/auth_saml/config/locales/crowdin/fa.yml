@@ -3,16 +3,16 @@ fa:
   activerecord:
     attributes:
       saml/provider:
-        assertion_consumer_service_url: آدرس ACS(سرویس احراز هویت سخت افزاری)
+        assertion_consumer_service_url: آدرس ACS (سرویس احراز هویت سخت افزاری)
         authn_requests_signed: امضای سخت افزاری درخواست احراز هویت
         certificate: مدرک استفاده شده توسط OpenProject درخواست های احراز هویت سخت افزاری
         digest_method: الگوریتم خلاصه سازی در رمزنگاری
         display_name: نام
-        format: قالب‎بندی
+        format: قالب‎ بندی
         icon: نماد دلخواه
         identifier: شناسه
         idp_cert: مدرک عمومی سرور احراز هویت
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: شناسهٔ موجودیت Entity ID ارائه‌دهندهٔ هویت
         idp_slo_service_url: مسیر خروج سرور احراز هویت
         idp_sso_service_url: مسیر ورود سرور احراز هویت
         limit_self_registration: محدودیت ثبت
@@ -33,8 +33,8 @@ fa:
           invalid_private_key: 'یک کلید خصوصی با قالب PEM معتبر نیست: %{additional_message}'
           unmatched_private_key: متعلق به مدرک ارائه شده نیست
   saml:
-    delete_heading: Delete this SAML provider?
-    delete_title: Delete SAML provider
+    delete_heading: این ارائه‌دهنده SAML حذف شود؟
+    delete_title: حذف ارائه‌دهنده SAML
     info:
       description: 'جهت پیکربندی ابزار احراز هویت سخت افزاری از این پارامترها استفاده نمایید.
 
@@ -62,13 +62,13 @@ fa:
       idp_cert: 'گواهی عمومی ارائه دهنده هویت با قالب X509 PEM را وارد کنید. می توانید چندین گواهی را با جدا کردن آنها با یک خط جدید وارد کنید.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'اختیاری: زمانی مفید است که URL اطلاعات متا به یک مجموعه فدرال با تعداد زیادی ورودی اشاره کند. شناسهٔ نهاد ارائه‌دهندهٔ هویت مؤسسهٔ خود را وارد کنید. برای URLهای اطلاعات متای تک‌نهادی آن را خالی بگذارید.
 
         '
-      idp_slo_service_url: 'The URL of the identity provider logout endpoint.
+      idp_slo_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
 
         '
-      idp_sso_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
+      idp_sso_service_url: 'آدرس اینترنتی نقطه پایانی ورود به سیستم ارائه دهنده هویت.
 
         '
       limit_self_registration: 'در صورت فعال بودن، کاربران تنها در صورتی می توانند با استفاده از این ارائه دهنده ثبت نام کنند که تنظیمات ثبت نام خود اجازه می دهد.
@@ -192,7 +192,7 @@ fa:
       singular: ارائه دهنده سخت‌افزار احراز هویت
       upsell:
         description: OpenProject را به یک ارائه دهنده هویت SAML متصل کنید
-        title: Single Sign-On (SSO) with SAML
+        title: ورود یکپارچه (SSO) با SAML
     settings:
       metadata_none: من فراداده ندارم
       metadata_url: آدرس فراداده

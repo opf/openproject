@@ -120,7 +120,7 @@ zh-CN:
     button_cancel: 取消
     button_change_project: 移至另一个项目
     button_check_all: 全选
-    button_clear: Clear
+    button_clear: 清除
     button_close: 关闭
     button_close_details: 关闭详情视图
     button_collapse_all: 全部折叠
@@ -205,10 +205,10 @@ zh-CN:
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
-          aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_project_attribute: 通过宏放置的动态项目特性。
+          aria_label_with_name: "%{name}：%{description}"
+          aria_label_work_package_attribute: 通过宏放置的动态工作包特性。
+          aria_label_work_package_link: 通过宏放置的指向某个工作包的动态链接。
           invalid_attribute: 所选属性 '%{name}' 不存在。
           nested_macro: 该宏递归引用 %{model} %{id}。
           not_found: 无法找到请求的资源
@@ -805,12 +805,12 @@ zh-CN:
       sorting_disabled: 排序被禁用
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_item_label: 条目
+        fallback_list_name: 另一个列表
+        move_failed_check_position: 移动失败。请检查该条目的当前位置。
+        move_failed_rolled_back: 移动失败。%{label} 已回到其先前位置。
+        moved: "%{label} 已移至位置 %{position}，总计 %{total}"
+        moved_to_list: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
     spot:
       drop_modal:
         close: 关闭模式
@@ -1035,7 +1035,7 @@ zh-CN:
         filters: 筛选器
         group: 分组按照
         group_by: 汇总结果根据
-        group_by_disabled_by_hierarchy: 分组依据已禁用，因为层次结构模式处于活动状态。
+        group_by_disabled_by_hierarchy: 分组依据已禁用，因为层次结构模式处于有效状态。
         hide_column: 隐藏列
         hierarchy_disabled_by_group_by: 层次结构模式已禁用，因为结果依据 %{column} 分组。
         insert_columns: 插入列

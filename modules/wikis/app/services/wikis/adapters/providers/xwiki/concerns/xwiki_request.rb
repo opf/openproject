@@ -51,7 +51,7 @@ module Wikis
               include Dry::Monads[:result]
 
               def fetch_json(json_hash, *keys)
-                failure = Failure(Results::Error.new(source: self, code: :invalid_response))
+                failure = Failure(SimpleError.new(source: self, code: :invalid_response))
 
                 keys.inject(json_hash) do |json, key|
                   case json

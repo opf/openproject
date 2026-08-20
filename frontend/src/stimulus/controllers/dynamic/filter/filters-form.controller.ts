@@ -1,33 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- *
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
@@ -42,11 +39,13 @@ interface PrimerTextFieldElement extends HTMLElement {
   inputElement:HTMLInputElement;
 }
 
-interface InternalFilterValue {
+export interface InternalFilterValue {
   name:string;
   operator:string;
   value:string[];
 }
+
+type SerializedFilter = Record<string, { operator:string; values:unknown[] }>;
 
 type FilterFunc<T> = (_value:T) => boolean;
 
@@ -88,6 +87,7 @@ export default class FiltersFormController extends Controller {
     performTurboRequests: { type: Boolean, default: false },
     clearButtonId: String,
     urlPathName: String,
+    currentFilters: Array,
   };
 
   declare displayFiltersValue:boolean;
@@ -95,6 +95,7 @@ export default class FiltersFormController extends Controller {
   declare performTurboRequestsValue:boolean;
   declare readonly clearButtonIdValue:string;
   declare urlPathNameValue:string;
+  declare currentFiltersValue:SerializedFilter[];
   declare hasFilterFormTarget:boolean;
 
   private formLoadedResolver:(() => void)|null = () => null;
@@ -105,6 +106,7 @@ export default class FiltersFormController extends Controller {
 
   private boundListener:() => void;
   private boundClearListener:(event:MouseEvent) => void;
+  private sentFilters:string|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -394,6 +396,33 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  serializedFiltersWith(additions:InternalFilterValue[] = [], { except }:{ except?:string } = {}):string {
+    const filters = this.currentFilters().filter((filter) => filter.name !== except);
+    return this.buildFiltersParam([...filters, ...additions]);
+  }
+
+  private currentFilters():InternalFilterValue[] {
+    // Owned filters are filters that we see in this form,
+    // and those we want to update with the actual value present in the filter form
+    const ownedFilterNames = new Set(
+      [...this.simpleFilterTargets, ...this.filterTargets]
+        .map((filter) => filter.getAttribute('data-filter-name'))
+        .filter((name):name is string => name !== null),
+    );
+
+    // Unowned filter might be additional information, keys, params that we do not know in this form
+    // we will simply reflect them again so they do not change.
+    const unownedFilters = this.currentFiltersValue.flatMap((filter) => (
+      Object.entries(filter).map(([name, options]) => ({
+        name,
+        operator: options.operator,
+        value: options.values.map(String),
+      }))
+    )).filter((filter) => !ownedFilterNames.has(filter.name));
+
+    return [...unownedFilters, ...this.parseFilters()];
+  }
+
   sendForm() {
     // When we want the filter content to be written to a hidden input, do this.
     // When we do not also want the turbo requests, we can exit early here. Otherwise the automatic redirect
@@ -407,9 +436,9 @@ export default class FiltersFormController extends Controller {
     }
 
     const params = new URLSearchParams(window.location.search);
-    const newFilters = this.buildFiltersParam(this.parseFilters());
+    const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === params.get('filters')) {
+    if (newFilters === (this.sentFilters ?? params.get('filters'))) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
@@ -417,14 +446,23 @@ export default class FiltersFormController extends Controller {
 
     // Remove the page parameter when changing filters, so that pagination resets
     params.delete('page');
-    params.set('filters', newFilters);
+    if (newFilters) {
+      params.set('filters', newFilters);
+    } else {
+      params.delete('filters');
+    }
     const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
     showElement(loadingIndicator);
 
     const pathName = this.urlPathNameValue || window.location.pathname;
-    const url = `${pathName}?${params.toString()}`;
+    const search = params.toString();
+    const url = `${pathName}${search ? `?${search}` : ''}`;
+    const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
     if (this.performTurboRequestsValue) {
+      const previousFilters = this.sentFilters;
+      this.sentFilters = newFilters;
+
       fetch(url, {
         headers: {
           Accept: 'text/vnd.turbo-stream.html',
@@ -433,9 +471,13 @@ export default class FiltersFormController extends Controller {
         .then((response:Response) => response.text())
         .then((html:string) => {
           renderStreamMessage(html);
+          if (this.sentFilters === newFilters) {
+            window.history.replaceState(window.history.state, '', browserUrl);
+          }
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
+          this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
         });
@@ -445,7 +487,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private writeFiltersToHiddenInput() {
-    this.filtersInputTarget.value = this.buildFiltersParam(this.parseFilters());
+    this.filtersInputTarget.value = this.buildFiltersParam(this.currentFilters());
   }
 
   private parseFilters():InternalFilterValue[] {

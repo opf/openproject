@@ -134,7 +134,8 @@ RSpec.describe "Work package type project attributes", :js do
       end
     end
 
-    expect(type.reload.project_custom_fields).to contain_exactly(boolean_project_custom_field, string_project_custom_field)
+    expect(type.default_variant.reload.project_custom_fields).to contain_exactly(boolean_project_custom_field,
+                                                                                 string_project_custom_field)
 
     project_attributes_page.within_section(input_section) do
       page.find_test_selector("disable-all-type-project-attributes-#{input_section.id}").click
@@ -150,7 +151,7 @@ RSpec.describe "Work package type project attributes", :js do
       end
     end
 
-    expect(type.reload.project_custom_fields).to be_empty
+    expect(type.default_variant.reload.project_custom_fields).to be_empty
   end
 
   it "filters the project attributes by name with given user input" do
@@ -198,6 +199,80 @@ RSpec.describe "Work package type project attributes", :js do
       expect(custom_fields.size).to eq(2)
       expect(custom_fields[0].text).to include("String field")
       expect(custom_fields[1].text).to include("Boolean field")
+    end
+  end
+
+  describe "in linked mode", with_flag: { type_variants: true } do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+    let(:source_type) { create(:type, name: "Source type") }
+    let(:linked_type) { create(:type, name: "Linked type") }
+    let(:linked_type_page) { Pages::Types::ProjectAttributes.new(linked_type) }
+    let(:link) { variant_of(linked_type) }
+
+    def active_custom_field_ids
+      linked_type.default_variant.project_custom_field_type_mappings.map(&:custom_field_id)
+    end
+
+    before do
+      # Source activates Boolean + String, List stays deactivated
+      source_type.default_variant.project_custom_fields << [boolean_project_custom_field, string_project_custom_field]
+      link_configuration(linked_type, source: source_type, aspect:)
+      linked_type_page.visit!
+    end
+
+    it "shows the source-active attributes as toggles and hides the source-deactivated ones" do
+      linked_type_page.within_attribute(boolean_project_custom_field) do
+        linked_type_page.expect_checked_state
+      end
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_checked_state
+      end
+
+      expect(page).to have_no_text("List field")
+      expect(page).to have_no_css("[data-test-selector='type-project-attribute-section-#{select_section.id}']")
+    end
+
+    it "disables an inherited attribute for the variant via its toggle" do
+      expect(active_custom_field_ids)
+        .to contain_exactly(boolean_project_custom_field.id, string_project_custom_field.id)
+
+      linked_type_page.toggle(string_project_custom_field)
+
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_unchecked_state
+      end
+
+      linked_type_page.visit!
+      linked_type_page.within_attribute(string_project_custom_field) do
+        linked_type_page.expect_unchecked_state
+      end
+
+      expect(excluded_configuration_elements(link, aspect: aspect)).to eq([string_project_custom_field.attribute_name])
+      expect(active_custom_field_ids).to contain_exactly(boolean_project_custom_field.id)
+    end
+
+    it "hides attributes an ancestor variant disabled" do
+      # A -> B -> C
+      type_b = create(:type, name: "Type B")
+      link_configuration(type_b, source: source_type, aspect:)
+      exclude_configuration_elements(type_b, aspect: aspect, elements: [boolean_project_custom_field.attribute_name])
+      type_c = create(:type, name: "Type C")
+      link_configuration(type_c, source: type_b, aspect:)
+
+      Pages::Types::ProjectAttributes.new(type_c).visit!
+
+      # Boolean was disabled by B and is hidden on C
+      expect(page).to have_no_text("Boolean field")
+      # String is still inherited and controllable on C
+      expect(page).to have_text("String field")
+    end
+
+    it "still lists all attributes for the independent source type" do
+      Pages::Types::ProjectAttributes.new(source_type).visit!
+
+      expect(page).to have_text("Boolean field")
+      expect(page).to have_text("String field")
+      expect(page).to have_text("List field")
     end
   end
 end

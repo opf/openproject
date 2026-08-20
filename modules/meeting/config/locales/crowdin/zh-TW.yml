@@ -54,6 +54,8 @@ zh-TW:
         position: Position
         presenter: 簡報者
         title: 標題
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: 已出席
         invited: 已邀請

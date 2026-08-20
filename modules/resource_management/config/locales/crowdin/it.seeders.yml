@@ -8,14 +8,14 @@ it:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Allocazioni del team
             work_package_list:
-              name: Work packages
+              name: Macro-attività
             work_package_timeline:
-              name: Work package timeline
+              name: Sequenza temporale della macro-attività
             user_card:
-              name: Team members
+              name: Membri del team
             user_timeline:
-              name: Team timeline
+              name: Sequenza temporale del team
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Sviluppatore software

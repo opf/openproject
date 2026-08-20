@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -178,6 +178,15 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         this.untilDestroyed(),
       )
       .subscribe((evt:SubmitEvent) => {
+        // Another handler (e.g. require-password-confirmation) already owns this
+        // submit. Still flush editor → textarea so a later confirmed submit has
+        // the latest content, but do not re-submit — Turbo's navigator.submitForm
+        // would bypass that other handler and POST without confirmation.
+        if (evt.defaultPrevented) {
+          this.syncToTextarea();
+          return;
+        }
+
         evt.preventDefault();
         void this.saveForm(evt);
       });
@@ -214,7 +223,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         (evt.submitter as HTMLInputElement).disabled = false;
       }
 
-      if (this.turboMode && !this.formElement.dataset.action) {
+      // Honor the form's data-turbo="false" even when this component was created
+      // with turboMode (Primer rich_text_area default). Turbo's submitForm skips
+      // the submit event and would bypass other submit interceptors.
+      const turboDisabled = this.formElement.dataset.turbo === 'false';
+      if (this.turboMode && !turboDisabled && !this.formElement.dataset.action) {
         navigator.submitForm(this.formElement, evt?.submitter ?? undefined);
       } else {
         this.formElement.requestSubmit(evt?.submitter);

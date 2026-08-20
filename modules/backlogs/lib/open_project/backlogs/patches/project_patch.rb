@@ -30,7 +30,7 @@
 
 module OpenProject::Backlogs::Patches::ProjectPatch
   extend ActiveSupport::Concern
-  include Projects::SprintSharing
+  include Projects::SprintSettings
 
   included do
     has_and_belongs_to_many :done_statuses, join_table: "done_statuses_for_project", class_name: "::Status"
@@ -43,5 +43,9 @@ module OpenProject::Backlogs::Patches::ProjectPatch
 
   def backlogs_enabled?
     module_enabled? "backlogs"
+  end
+
+  def many_active_sprints?
+    sprints.active.many?
   end
 end

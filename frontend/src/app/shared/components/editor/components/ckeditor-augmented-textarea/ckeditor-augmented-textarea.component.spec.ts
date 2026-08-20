@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -72,5 +72,37 @@ describe('CkeditorAugmentedTextareaComponent', () => {
     form.dispatchEvent(new Event('refresh-on-form-changes:beforeSnapshot'));
 
     expect(sync).toHaveBeenCalledTimes(1);
+  });
+
+  describe('form submit interception', () => {
+    let form:HTMLFormElement;
+    let sync:ReturnType<typeof vi.spyOn>;
+    let saveForm:ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      form = document.createElement('form');
+      component.formElement = form;
+      sync = vi.spyOn(component, 'syncToTextarea').mockImplementation(() => undefined);
+      saveForm = vi.spyOn(component, 'saveForm').mockResolvedValue(undefined);
+      (component as unknown as { registerFormSubmitListener():void }).registerFormSubmitListener();
+    });
+
+    it('delegates to saveForm when submit is not already prevented', () => {
+      const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+      form.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(saveForm).toHaveBeenCalledWith(event);
+      expect(sync).not.toHaveBeenCalled();
+    });
+
+    it('only syncs when another handler already prevented default', () => {
+      const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+      event.preventDefault();
+      form.dispatchEvent(event);
+
+      expect(saveForm).not.toHaveBeenCalled();
+      expect(sync).toHaveBeenCalledTimes(1);
+    });
   });
 });

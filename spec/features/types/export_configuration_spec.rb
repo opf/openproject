@@ -33,6 +33,7 @@ require "spec_helper"
 RSpec.describe "type export configuration tab", :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
 
   let!(:project) { create(:project, types: [type]) }
 
@@ -41,62 +42,76 @@ RSpec.describe "type export configuration tab", :js do
     visit edit_type_pdf_export_template_index_path(type)
   end
 
-  def within_pdf_export_template_container(template_id, &)
-    within("[data-test-selector='pdf-export-template-row-#{template_id}']", &)
+  def within_pdf_export_template_container(template, &)
+    within_test_selector("pdf-export-template-row-#{template.id}", &)
   end
 
-  def toggle_pdf_export_template(template_id)
-    page
-      .find("[data-test-selector='toggle-pdf-export-template-row-#{template_id}'] > button")
-      .click
+  def toggle_pdf_export_template(template)
+    find(:button, accessible_name: toggle_pdf_export_template_label(template)).click
   end
 
-  def expect_checked_state
-    expect(page).to have_css(".ToggleSwitch-statusOn")
+  def expect_checked_state(template)
+    expect(page).to have_button(
+      accessible_name: toggle_pdf_export_template_label(template),
+      aria: { pressed: true }
+    )
   end
 
-  def expect_unchecked_state
-    expect(page).to have_css(".ToggleSwitch-statusOff")
+  def expect_unchecked_state(template)
+    expect(page).to have_button(
+      accessible_name: toggle_pdf_export_template_label(template),
+      aria: { pressed: false }
+    )
+  end
+
+  def toggle_pdf_export_template_label(template)
+    I18n.t(
+      "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
+      template: template.label
+    )
   end
 
   it "disables/enables all" do
-    page.find("[data-test-selector='disable-all-pdf-export-templates']").click
+    click_link(I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_disable_all"))
     wait_for_reload
-    type.reload
-    expect(type.pdf_export_templates.list_enabled.length).to eq(0)
-    page.find("[data-test-selector='enable-all-pdf-export-templates']").click
+    variant.reload
+    expect(variant.pdf_export_templates.list_enabled.length).to eq(0)
+    click_link(I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_enable_all"))
     wait_for_reload
-    type.reload
-    expect(type.pdf_export_templates.list_enabled.length).to eq(type.pdf_export_templates.list.length)
+    variant.reload
+    expect(variant.pdf_export_templates.list_enabled.length).to eq(variant.pdf_export_templates.list.length)
   end
 
   it "disables/enables one" do
-    first = type.pdf_export_templates.list_enabled.first
-    within_pdf_export_template_container(first.id) do
-      expect_checked_state
-      toggle_pdf_export_template(first.id)
-      expect_unchecked_state
+    first = variant.pdf_export_templates.list_enabled.first
+    within_pdf_export_template_container(first) do
+      expect_checked_state(first)
+      toggle_pdf_export_template(first)
+      expect_unchecked_state(first)
       wait_for_reload
-      type.reload
-      expect(type.pdf_export_templates.list.first.enabled).to be(false)
-      toggle_pdf_export_template(first.id)
-      expect_checked_state
+      variant.reload
+      expect(variant.pdf_export_templates.list.first.enabled).to be(false)
+      toggle_pdf_export_template(first)
+      expect_checked_state(first)
       wait_for_reload
-      type.reload
-      expect(type.pdf_export_templates.list.first.enabled).to be(true)
+      variant.reload
+      expect(variant.pdf_export_templates.list.first.enabled).to be(true)
     end
   end
 
   it "reorders by drag and drop" do
-    first_id = type.pdf_export_templates.list_enabled.first.id
-    second_id = type.pdf_export_templates.list_enabled[1].id
-    source = page.find("[data-test-selector='pdf-export-template-row-#{first_id}'] .DragHandle")
-    target = page.find("[data-test-selector='pdf-export-template-row-#{second_id}'] .DragHandle")
-    source.native.drag_to(target.native, delay: 0.1)
-    sleep 1
+    first_id = variant.pdf_export_templates.list_enabled.first.id
+    second_id = variant.pdf_export_templates.list_enabled[1].id
+    Pages::Page.new.drag_and_drop_list(
+      from: 0,
+      to: 1,
+      elements: "[data-test-selector^='pdf-export-template-row-']",
+      handler: ".DragHandle"
+    )
+    wait_for_network_idle
 
-    type.reload
-    expect(type.pdf_export_templates.list[1].id).to eq(first_id)
-    expect(type.pdf_export_templates.list.first.id).to eq(second_id)
+    variant.reload
+    expect(variant.pdf_export_templates.list[1].id).to eq(first_id)
+    expect(variant.pdf_export_templates.list.first.id).to eq(second_id)
   end
 end

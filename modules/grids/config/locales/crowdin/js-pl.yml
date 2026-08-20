@@ -33,8 +33,13 @@ pl:
           on_track: Na ścieżce
           title: Status
         project_timeline:
-          tooltip_type_gate: Phase gate
-          tooltip_type_phase: Phase
+          accessible_date_range: "%{start} do %{end}"
+          accessible_gate: 'Bramka fazy %{name}: %{date}'
+          accessible_phase: 'Faza %{name}: %{date}'
+          tooltip_type_gate: Bramka fazy
+          tooltip_type_milestone: Kamień milowy
+          tooltip_type_phase: Faza
+          tooltip_type_sprint: Sprint
         subprojects:
           title: Podpozycje
         time_entries_current_user:

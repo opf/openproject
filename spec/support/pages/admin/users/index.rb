@@ -122,6 +122,18 @@ module Pages
           wait_for_network_idle
         end
 
+        def clear_quick_filter_group
+          within("[data-quick-filter--select-panel-filter-key-value='group']") do
+            click_button "Group"
+
+            within("select-panel") do
+              click_button "Clear"
+            end
+          end
+
+          wait_for_network_idle
+        end
+
         def expect_group_filter(value)
           open_filter_panel
 

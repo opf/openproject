@@ -7,7 +7,10 @@ de:
         bim_snippet: BIM Snippet
         reference_links: Referenzlink
         stage: Stufe
+        status_id: Status
         viewpoint: Viewpoint
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC-Datei
         ifc_attachment: IFC-Datei

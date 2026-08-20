@@ -57,6 +57,8 @@ pl:
         position: Pozycja
         presenter: Prezenter
         title: Tytuł
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Uczestniczył
         invited: Zaproszeni
@@ -551,13 +553,13 @@ pl:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: Pierwszym wystąpieniem tej serii będzie %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: To skutkuje serią kończącą się %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        few: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: To skutkuje 1 nadchodzącym wystąpieniem
+        few: To skutkuje %{count} nadchodzącymi wystąpieniami
+        many: To skutkuje %{count} nadchodzącymi wystąpieniami
+        other: To skutkuje %{count} nadchodzącego wystąpienia
+      occurrences_capped: To skutkuje ponad %{count} nadchodzącymi wystąpieniami
     day_of_month_skipping_info: Miesiące z liczbą dni mniejszą niż %{monthly_day} zostaną pominięte
     delete_dialog:
       confirmation_message_html:
@@ -630,7 +632,7 @@ pl:
         third: Trzeci
     occurrence:
       error_no_next: Nie ma następnego wystąpienia tego spotkania.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: Szablon serii spotkań jest nadal w trybie wersji roboczej.
       first_already_exists: Pierwsze wystąpienie tej serii spotkań jest już tworzone.
       first_created: 'Pierwsze spotkanie zostało utworzone z szablonu. Wszystkie przyszłe spotkania zostaną utworzone automatycznie o godzinie poprzedniego wystąpienia.
 

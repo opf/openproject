@@ -56,12 +56,12 @@ See COPYRIGHT and LICENSE files for more details.
             </tr>
           </thead>
           <tbody>
-            <% @workflow_counts.each do |type, roles| -%>
+            <% @workflow_counts.each do |variant, roles| -%>
               <tr>
-                <td><%= h type %></td>
+                <td><%= h variant.composite_name %></td>
                 <% roles.each do |role, count| -%>
                   <td>
-                    <%= link_to((count > 0 ? count : content_tag(:span, "", class: "icon-close icon-context icon-button")), edit_type_workflow_path(type, role_ids: [role]), title: t(:button_edit)) %>
+                    <%= link_to((count > 0 ? count : content_tag(:span, "", class: "icon-close icon-context icon-button")), edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role]), title: t(:button_edit)) %>
                   </td>
                 <% end -%>
               </tr>

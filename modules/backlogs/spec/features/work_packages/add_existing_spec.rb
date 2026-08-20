@@ -63,7 +63,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
-      within_modal "Add existing work package to #{bucket_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -72,7 +72,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_no_inbox_item(work_package)
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
-      within_modal "Add existing work package to #{bucket_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -82,7 +82,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
 
-      within_modal "Add existing work package to #{sprint_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -91,7 +91,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_no_inbox_item(work_package)
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
-      within_modal "Add existing work package to #{sprint_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -105,7 +105,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_inbox_menu("Add existing work package")
 
-      within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -114,7 +114,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
-      within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -124,7 +124,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
 
-      within_modal "Add existing work package to #{bucket_b.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -133,7 +133,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
 
       backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
-      within_modal "Add existing work package to #{bucket_b.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -143,7 +143,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
 
-      within_modal "Add existing work package to #{sprint_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -152,7 +152,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
-      within_modal "Add existing work package to #{sprint_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -166,7 +166,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_inbox_menu("Add existing work package")
 
-      within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -175,7 +175,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
-      within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -185,7 +185,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
-      within_modal "Add existing work package to #{bucket_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -194,7 +194,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
-      within_modal "Add existing work package to #{bucket_a.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
       end
@@ -204,7 +204,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
       backlogs_page.click_in_sprint_menu(sprint_b, "Add existing work package")
 
-      within_modal "Add existing work package to #{sprint_b.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
@@ -213,9 +213,29 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
 
       backlogs_page.click_in_sprint_menu(sprint_b, "Add existing work package")
-      within_modal "Add existing work package to #{sprint_b.name}" do
+      within_modal "Add existing work package" do
         autocomplete.search work_package.subject
         autocomplete.expect_not_selected work_package.subject
+      end
+    end
+  end
+
+  context "when existing work package is in a subproject" do
+    let!(:subproject) { create(:project, parent: project) }
+    let!(:work_package) { create(:work_package, project: subproject) }
+
+    before do
+      create(:member, project: subproject, user:, roles: [create(:project_role, permissions: %i[view_work_packages])])
+    end
+
+    it "cannot be added to a sprint or bucket, as it is not offered in the autocompleter" do
+      backlogs_page.visit!
+      backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
+
+      within_modal "Add existing work package" do
+        autocomplete.search work_package.subject
+        wait_for_autocompleter_options_to_be_loaded
+        autocomplete.expect_no_option(work_package.subject)
       end
     end
   end

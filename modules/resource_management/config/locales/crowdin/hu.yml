@@ -44,6 +44,13 @@ hu:
       resource_user_card: User cards
       resource_work_package_list: Work packages list
   button_next: Next
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
   permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
@@ -228,8 +235,8 @@ hu:
         caption: Create a view based on work packages and see their allocations over time on a timeline
         label: Work packages timeline
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Hozzon létre egy felhasználókra épülő nézetet, és tekintse meg a felhasználók adatait és elosztásukat a felhasználói kártyák listájában
+        label: Felhasználók kártyalistája
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions
@@ -276,6 +283,10 @@ hu:
         allocate: Allocate
         settings: Configure view
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Add work package
         configure_view: Configure view

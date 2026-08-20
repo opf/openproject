@@ -84,6 +84,32 @@ RSpec.describe Query::SortCriteria do
       end
     end
 
+    context "with a sort_criteria for exact_match DESC" do
+      let(:sort_criteria) { [%w[exact_match desc]] }
+
+      context "when no typeahead filter is active on the query" do
+        it "falls back to the constant (no reordering)" do
+          expect(subject)
+            .to eq [["CASE WHEN 1 = 0 THEN 1 ELSE 0 END DESC"], ["work_packages.id DESC"]]
+        end
+      end
+
+      context "when a typeahead filter is active on the query" do
+        let(:query) do
+          build_stubbed(:query, show_hierarchies: false).tap do |q|
+            q.add_filter(:typeahead, "**", "#COM-5")
+          end
+        end
+
+        it "resolves to the exact-match CASE fragment for semantic identifiers" do
+          expect(subject)
+            .to eq [["CASE WHEN work_packages.id IN (SELECT work_package_id FROM " \
+                     "work_package_semantic_aliases WHERE identifier = 'COM-5') " \
+                     "THEN 1 ELSE 0 END DESC"], ["work_packages.id DESC"]]
+        end
+      end
+    end
+
     context "with sort_criteria with order handling and no order statement" do
       let(:sort_criteria) { [["start_date"]] }
 

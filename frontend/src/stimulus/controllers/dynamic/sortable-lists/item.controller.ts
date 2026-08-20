@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,8 +39,9 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
-import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
+import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  confinementAllowsDrop,
   isItemFromRoot,
   sortableItemData,
   type RootAwareChild,
@@ -53,13 +54,20 @@ import { renderDragPreview } from './preview';
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider'];
   static elements = { menu: 'action-menu' };
 
   static values = {
     id: String,
     type: String,
+    externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
+    // A confined item is still a full drag source, but only its own list and
+    // that list's rows accept it as a drop target; foreign containers refuse
+    // it, so a release there lands nowhere and the item stays put. Consumers
+    // use this for items the server allows to reorder in place but refuses to
+    // relocate to another container.
+    confined: { type: Boolean, default: false },
     label: String,
   };
 
@@ -67,7 +75,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasIdValue:boolean;
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
+  declare readonly externalUrlValue:string;
+  declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly confinedValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
 
@@ -78,6 +89,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveItemTargets:HTMLElement[];
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
+  declare readonly moveDividerTarget:HTMLElement;
+  declare readonly hasMoveDividerTarget:boolean;
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
@@ -193,6 +206,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return draggable({
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
+      // Native drag data for consumers outside this window (other browser
+      // windows, editors, chat apps). Optional: items without an external
+      // URL expose nothing, exactly as before.
+      ...(this.hasExternalUrlValue && this.externalUrlValue !== '' ? {
+        getInitialDataForExternal: () => this.externalDragData(),
+      } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
         if (root == null || root.busy) {
@@ -202,6 +221,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
+        // Cancels drops landing outside registered drop targets. This also
+        // guards the external data channel: a misdropped card carrying
+        // text/uri-list would otherwise navigate the current tab to that URL.
         preventUnhandled.start();
         this.element.setAttribute('data-dragging', 'source');
       },
@@ -248,7 +270,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
         // resolving to a silent no-op. Holds today (one type per list).
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
-          && source.data.type === this.typeValue;
+          && source.data.type === this.typeValue
+          && confinementAllowsDrop(source.data, this.element);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
@@ -284,17 +307,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const dragHandle = this.hasHandleTarget ? this.handleTarget : this.element;
 
-    return closestInteractiveElement(target, dragHandle) == null;
+    return closestDragBlockingElement(target, dragHandle) == null;
   }
 
   // Stickiness bridges the gaps between rows so the drop indicator does not
   // flicker while the pointer crosses them. Above the first row (the list
   // header) or below the last row (empty space) the pointer has left the rows
   // region, and the list's configured drop position must take over, so the
-  // sticky target lets go there. Rows are direct children of the rows
-  // container, so the item's parent element is that container.
+  // sticky target lets go there. Rows are direct children of the owning
+  // list's rows container, resolved through the root; the item's own parent
+  // element is only a fallback for a rootless item (not yet wired to one).
   private isWithinRowsSpan(input:Input):boolean {
-    const rowsContainer = this.element.parentElement;
+    const rowsContainer = this.root?.ownerRowsContainer(this.element) ?? this.element.parentElement;
     const firstRow = rowsContainer?.firstElementChild;
     const lastRow = rowsContainer?.lastElementChild;
 
@@ -306,11 +330,34 @@ export default class ItemController extends Controller<HTMLElement> implements R
       && input.clientY <= lastRow.getBoundingClientRect().bottom;
   }
 
+  // The URL flavours carry the bare URL; text/html joins in only when the item
+  // has a label (the same one announcements use), as a link for rich-text
+  // targets (notes apps, editors). The anchor is built through a detached DOM
+  // element so the browser escapes the label and URL canonically.
+  private externalDragData():Record<string, string> {
+    const url = this.externalUrlValue;
+    const data:Record<string, string> = {
+      'text/uri-list': url,
+      'text/plain': url,
+    };
+
+    if (this.hasLabelValue && this.labelValue !== '') {
+      const anchor = this.element.ownerDocument.createElement('a');
+      anchor.href = url;
+      anchor.textContent = this.labelValue;
+      data['text/html'] = anchor.outerHTML;
+    }
+
+    return data;
+  }
+
   private getItemData():SortableItemData {
     return sortableItemData({
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
+      sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
+      confined: this.confinedValue,
     });
   }
 
@@ -400,6 +447,34 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
     }
+
+    this.refreshMoveDivider();
+  }
+
+  // The divider that opens the move group is rendered server-side from a
+  // permission check alone, so hiding the last entry below it would otherwise
+  // leave a separator with nothing to separate. It never goes through
+  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
+  // which a divider does not have — and in that mode the group stays visible
+  // anyway, only disabled.
+  private refreshMoveDivider():void {
+    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+      return;
+    }
+
+    const divider = this.moveDividerTarget;
+    let sibling = divider.nextElementSibling;
+
+    while (sibling) {
+      if (!sibling.hasAttribute('hidden')) {
+        divider.removeAttribute('hidden');
+        return;
+      }
+
+      sibling = sibling.nextElementSibling;
+    }
+
+    divider.setAttribute('hidden', 'hidden');
   }
 
   // Availability goes through the action-menu element's API: disableItem sets the

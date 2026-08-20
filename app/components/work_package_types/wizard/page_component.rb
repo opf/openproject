@@ -33,62 +33,127 @@ module WorkPackageTypes
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, variant: nil)
         super(type)
 
         @current_step = current_step
+        # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
+        # editing once here, so nothing below has to ask what it was given.
+        @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
       end
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :variant
 
       def type = model
 
-      def title = I18n.t("types.creation_wizard.create_subtype")
+      def adding_variant? = variant.present? && !variant.is_default_variant?
+
+      def title
+        return I18n.t("types.creation_wizard.add_variant", name: type.name) if adding_variant?
+
+        I18n.t("types.creation_wizard.create_type")
+      end
 
       def breadcrumb_items
         [
           { href: admin_index_path, text: I18n.t("label_administration") },
           { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
           { href: types_path, text: I18n.t(:label_type_plural) },
+          *parent_breadcrumb_item,
           title
         ]
       end
 
-      def step_title = Steps.title(current_step)
-
-      def step_aspect = Steps.aspect_for(current_step)
-
-      def step_url = type_creation_wizard_path(type, step: current_step)
-
-      # Editors whose fields belong to the wizard form itself, so that "Continue"
-      # persists them along with the step's reuse mode.
-      def step_editor_form
-        WorkflowsForm if current_step == :workflows
+      def parent_breadcrumb_item
+        []
       end
 
-      # Only PDF has linked-to-parent behaviour among the wizard steps today; the others
-      # start Independent, so no other step has a source to preview.
-      def step_readonly_preview
-        return unless current_step == :pdf
-        return unless type.linked?(Type::ConfigurationLink::PDF_EXPORT)
+      def cancel_href
+        return types_path unless type.persisted?
 
-        source = type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT)
-        WorkPackageTypes::ExportConfigurationComponent.new(source, readonly: true)
+        edit_type_details_path(type_id: type.id)
+      end
+
+      def step_title = Steps.title(current_step)
+
+      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step)
+
+      # A type still being created has no variant to address yet.
+      def variant_path_args = variant&.path_args || { type_id: type.id }
+
+      def step_form_url
+        return step_url if record_persisted?
+
+        adding_variant? ? creation_wizard_types_path(type_id: type.id) : creation_wizard_types_path
+      end
+
+      def step_form_method
+        record_persisted? ? :patch : :post
+      end
+
+      def record_persisted?
+        adding_variant? ? variant.persisted? : type.persisted?
+      end
+
+      # Editors whose fields belong to the wizard form itself, so that "Continue"
+      # persists them when advancing to the next step.
+      def step_editor
+        @step_editor ||= StepEditors.for(current_step, editor_record)
+      end
+
+      def editor_record
+        return variant if adding_variant?
+
+        current_step == :details || type.new_record? ? type : type.default_variant
+      end
+
+      def step_form_options
+        {
+          model: step_editor.model,
+          url: step_form_url,
+          method: step_form_method,
+          readonly: step_editor.readonly?,
+          html: {
+            id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+            # Advancing replaces the whole page, so submission must escape the frame.
+            data: { turbo_frame: "_top" }.merge(step_editor.form_data)
+          }
+        }
+      end
+
+      # Only a step with a reuse mode needs the frame, and only those steps are reached
+      # with a persisted type — step_url has no route while the record is still new.
+      def within_step_frame(&)
+        return capture(&) unless step_editor.linkable_aspect?
+
+        render(
+          WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+            reload_url: step_url,
+            reload_from_location: step_editor.reload_from_location?
+          ),
+          &
+        )
+      end
+
+      def reuse_mode_banner
+        return unless step_editor.linkable_aspect?
+
+        render(WorkPackageTypes::ReuseModeBannerComponent.new(variant:, aspect: step_editor.aspect))
       end
 
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
-        when :details
-          DetailsComponent.new(type:)
         when :form_configuration
-          FormConfigurationStepComponent.new(type:)
+          FormConfigurationStepComponent.new(variant:)
+        when :project_attributes
+          ProjectAttributesStepComponent.new(variant:)
         when :projects
-          WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
+          WorkPackageTypes::ProjectsComponent.new(type, variant:, projects: Project.all)
         when :pdf
-          WorkPackageTypes::ExportConfigurationComponent.new(type)
+          PdfStepComponent.new(variant:)
         else
           PlaceholderComponent.new(step: current_step)
         end

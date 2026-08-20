@@ -29,7 +29,11 @@ uk:
         few: Вставлені посилання на сторінку
         many: Вставлені посилання на сторінку
         other: Вставлені посилання на сторінку
-      wikis/internal_provider: Внутрішній модуль Wiki
+      wikis/internal_provider:
+        one: Project wiki
+        few: Project wikis
+        many: Project wikis
+        other: Project wikis
       wikis/provider:
         one: Постачальник Wiki
         few: Постачальники Wiki
@@ -47,14 +51,14 @@ uk:
         other: Постачальники XWiki
   menus:
     admin:
-      external_wiki_providers: Джерела вікі
-      internal_wiki_provider: Внутрішня система вікі
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Вікі
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: Постачальники Wiki
+  permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
+  project_module_wiki_internal: Wiki проєкту
+  project_module_wiki_platforms: External wiki providers
   projects_settings_wiki:
-    title: Project wiki
+    title: Wiki проєкту
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -83,11 +87,11 @@ uk:
           no_health_report_description: Запустіть перевірки, щоб отримати комплексний звіт про стан справності цього постачальника Wiki.
           title: Звіт про справність
       internal_provider_form:
-        checkbox_caption: Дозволити проєктам використовувати внутрішню систему вікі OpenProject разом із зовнішніми джерелами вікі
-        checkbox_label: Увімкнути внутрішню систему вікі OpenProject
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: Виберіть, увімкнути чи вимкнути внутрішню систему вікі OpenProject
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані у своєму екземплярі XWiki. У такому разі всім користувачам знадобиться знову пройти авторизацію. Продовжити?
         label_oauth_client_id: Ідентифікатор клієнта OAuth
@@ -151,7 +155,7 @@ uk:
       invalid_response: Джерело вікі повернуло непередбачувану відповідь.
       missing_token: Обліковий запис користувача ще не підключено до джерела вікі.
       request_failed: Джерело вікі повернуло неочікувану помилку.
-      unauthorized: An authorization error occurred.
+      unauthorized: Сталася помилка авторизації.
     health_checks:
       authentication:
         existing_token: Маркер користувача
@@ -160,36 +164,37 @@ uk:
       base_configuration:
         header: Конфігурація
         provider_configured: Конфігурацію налаштовано
-        universal_id_known: Provider recognized
+        universal_id_known: Постачальника розпізнано
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
+        connection_error: Сервісу OpenProject не вдалося під’єднатися до постачальника Wiki.
         not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
+        uid_mismatch: Універсальний ідентифікатор, наданий постачальником Wiki, не збігається з ідентифікатором, який OpenProject записав під час налаштування.
         xwiki_oauth_connection_error: OpenProject не вдалося під’єднатися до налаштованого екземпляра XWiki.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
+        xwiki_oauth_request_error: Під час спроби зв’язатися з екземпляром XWiki сталася несподівана помилка.
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
         xwiki_oauth_unauthorized: Платформа XWiki не розпізнала маркер користувача.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_last_edited: Останнє редагування
+      column_name: Сторінка Wiki
+      column_parent: Parent
+      column_project: Проєкт
+      column_sub_pages: Підсторінки
+      filter_by_name: Фільтрувати за назвою сторінки
+      filter_placeholder: Пошук за назвою
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Немає доступних сторінок Wiki.
+      no_results_title: Ще немає сторінок Wiki
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Усі сторінки Wiki
+        main: Основні сторінки Wiki
       sub_pages_count:
-        one: 1 sub-page
-        few: "%{count} sub-pages"
-        many: "%{count} sub-pages"
-        other: "%{count} sub-pages"
+        one: "%{count} підсторінка"
+        few: "%{count} підсторінки"
+        many: "%{count} підсторінок"
+        other: "%{count} підсторінки"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Додати наявну сторінку Wiki
+      title_create: Створити нову сторінку Wiki
     instructions:
       xwiki:
         integration: Адміністрування XWiki
@@ -201,28 +206,30 @@ uk:
       description: Увійдіть у сервіс %{provider}, щоб переглядати пов’язані сторінки Wiki й керувати ними із цього екземпляра OpenProject.
       heading: Немає підключення до сервісу %{provider}
     page_link_component:
-      add_to_related_pages: Add to related pages
+      add_to_related_pages: Додати до пов’язаних сторінок
       remove: Видалити посилання на сторінку
     page_link_forms:
       labels:
         page_title: Заголовок
-        parent: Батьківська сторінка вікі
+        parent: Parent
         wiki_page: Сторінка вікі
       search:
         no_results: Сторінок вікі не знайдено
         placeholder: Виконайте пошук сторінки вікі (або введіть її URL-адресу)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Динамічне посилання на сторінку Wiki, розміщене за допомогою макроса.
       errors:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна
         unexpected: Сталася неочікувана помилка
       source:
-        parent: As parent
+        parent: Як батьківський об’єкт
     project_settings:
       project_internal_wiki_component:
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the internal wiki for this project
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
+        caption: Це забезпечує нативну роботу Wiki для цього проєкту. Учасники зможуть створювати й переглядати сторінки Wiki, що зберігаються в OpenProject.
+        enable: Enable the OpenProject wiki for this project
     provider_types:
       xwiki:
         name: XWiki

@@ -39,6 +39,12 @@ module API
             nil
           end
 
+          # The type to read configuration from: #type is the family's root, while the project
+          # may resolve the family to a variant configured differently.
+          def type_variant
+            project&.type_variant(type)
+          end
+
           def assignable_values(_property, _current_user)
             nil
           end

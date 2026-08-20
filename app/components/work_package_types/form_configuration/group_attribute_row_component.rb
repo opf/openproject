@@ -33,12 +33,26 @@ module WorkPackageTypes
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(attribute:, type:, index:, total_count:)
+      def initialize(attribute:, variant:, index:, total_count:, readonly: false, exclusions: nil)
         super
         @attribute = attribute
-        @type = type
+        @variant = variant
         @index = index
         @total_count = total_count
+        @readonly = readonly
+        @exclusions = exclusions
+      end
+
+      def readonly?
+        @readonly
+      end
+
+      def exclusion_toggle
+        @exclusion_toggle ||= ExclusionToggleComponent.new(
+          exclusions: @exclusions,
+          element_key: @attribute[:key],
+          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+        )
       end
 
       private
@@ -60,11 +74,12 @@ module WorkPackageTypes
       end
 
       def row_move_path(move_to)
-        move_type_form_configuration_row_path(@type, @attribute[:key], move_to:)
+        move_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: @attribute[:key],
+                                              move_to:)
       end
 
       def row_destroy_path
-        type_form_configuration_row_path(@type, @attribute[:key])
+        type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: @attribute[:key])
       end
 
       def move_action(menu:, href:, label:, icon:)

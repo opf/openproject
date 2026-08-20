@@ -88,6 +88,38 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(alice)
       index_page.expect_not_listed(current_user, bob)
     end
+
+    it "preserves the name search when applying a quick filter" do
+      index_page.visit!
+      index_page.expect_listed(current_user, alice, bob)
+
+      index_page.filter_by_name("Alice")
+      index_page.expect_listed(alice)
+
+      index_page.quick_filter_by_group("My group")
+
+      index_page.expect_listed(alice)
+      index_page.expect_not_listed(current_user, bob)
+      # Search stays visibly expanded when a name filter is present after the reload.
+      expect(page).to have_field("Search", with: "Alice")
+    end
+
+    it "preserves the name search when clearing a quick filter" do
+      index_page.visit!
+
+      index_page.filter_by_name("Alice")
+      index_page.expect_listed(alice)
+
+      index_page.quick_filter_by_group("My group")
+      index_page.expect_listed(alice)
+
+      index_page.clear_quick_filter_group
+
+      # The group filter is gone but the name search still applies (and stays visible).
+      index_page.expect_listed(alice)
+      index_page.expect_not_listed(current_user, bob)
+      expect(page).to have_field("Search", with: "Alice")
+    end
   end
 
   describe "with some sortable users" do

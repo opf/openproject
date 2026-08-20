@@ -31,6 +31,7 @@
 module Backlogs
   class WorkPackageCardListItemComponent < OpenProject::Common::BorderBoxListComponent::WorkPackageItem
     include CommonHelper
+    include Concerns::WorkPackageMovability
 
     private
 
@@ -42,8 +43,10 @@ module Backlogs
       )
     end
 
+    # Every sortable card drags: a read-only one stays a drag source too, only
+    # confined to its own list (see {#confined?}).
     def draggable?
-      user_allowed?(:manage_sprint_items)
+      sortable?
     end
 
     def split_url
@@ -74,7 +77,9 @@ module Backlogs
     def card_data
       data = {
         story: true,
-        controller: "backlogs--work-package",
+        # Non-movable cards opt in too: they have no move actions, but their
+        # singular menu is still worth reaching contextually.
+        controller: "backlogs--work-package contextual-action-menu",
         backlogs__work_package_id_value: work_package.id,
         backlogs__work_package_display_id_value: work_package.display_id,
         backlogs__work_package_split_url_value: split_url,
@@ -86,24 +91,43 @@ module Backlogs
       data.merge(sortable_lists__item_target: "preview handle")
     end
 
-    # @return [Hash] ARIA wiring announcing the card's Enter activation without
-    #   claiming button or draggable semantics. Lives in the subclass because
-    #   only here is the `backlogs--work-package` Enter handler attached; the
-    #   base card is focusable for styling alone and must not claim a shortcut.
+    # @return [Hash] ARIA wiring announcing the card's Enter activation and its
+    #   context-menu shortcut without claiming button or draggable semantics.
+    #   Shift+F10 is the conventional context-menu command in the WAI-ARIA APG
+    #   and is worth announcing; the dedicated Context Menu key is left out
+    #   because it needs no discovery — pressing it is its own affordance.
     def card_aria
       {
-        keyshortcuts: "Enter",
+        keyshortcuts: "Enter Shift+F10",
         label: work_package.to_fs(:caption)
       }
     end
 
-    def draggable_data
+    # An unmovable card registers as a sortable item like any other: it keeps
+    # its drag and its positional moves, stays a drop target and keeps counting
+    # as a row of its list. The confined value is what pins it to that list.
+    def row_data
+      sortable? ? sortable_item_data : {}
+    end
+
+    def sortable_item_data
       {
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_label_value: work_package.to_fs(:caption),
-        sortable_lists__item_type_value: "work_package"
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_confined_value: confined?,
+        # Native drag payload for external consumers; the same absolute URL
+        # as the card menu's "Copy URL to clipboard" item. The label above
+        # doubles as the link text of the text/html flavour.
+        sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }
+    end
+
+    # Whether the card's drag is pinned to its own list: it may reorder in
+    # place, but no other container accepts it.
+    def confined?
+      sortable? && !movable?
     end
 
     public

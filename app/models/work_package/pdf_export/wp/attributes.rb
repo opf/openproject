@@ -33,7 +33,7 @@ module WorkPackage::PDFExport::Wp::Attributes
 
   def write_attributes!(work_package)
     work_package
-      .type.attribute_groups
+      .type_variant.attribute_groups
       .each do |group|
       if group.is_a?(Type::AttributeGroup)
         write_attributes_group(group, work_package)

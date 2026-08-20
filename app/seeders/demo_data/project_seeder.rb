@@ -63,8 +63,7 @@ module DemoData
         ::Meetings::DemoData::MeetingAgendaItemsSeeder,
         ::Meetings::DemoData::MeetingParticipantsSeeder,
         ::Meetings::DemoData::MeetingSeriesFinalizerSeeder,
-        ::Meetings::DemoData::MeetingOccurrencesSeeder,
-        ::ResourceManagement::DemoData::ResourcePlannerSeeder
+        ::Meetings::DemoData::MeetingOccurrencesSeeder
       ]
     end
 
@@ -129,7 +128,13 @@ module DemoData
     def set_types
       print_status "   -Assigning types."
 
-      project.types = seed_data.find_references(types_seed_data)
+      # TODO: should go through Projects::Types::AddService, which owns the family conflict
+      # rules and enables the types' work package custom fields.
+      project.project_types = base_variant_rows_for(seed_data.find_references(types_seed_data))
+    end
+
+    def base_variant_rows_for(types)
+      types.map { |type| ProjectType.new(type:) }
     end
 
     def seed_categories
@@ -189,7 +194,7 @@ module DemoData
         status_explanation: project_data.lookup("status_explanation"),
         description: project_data.lookup("description"),
         enabled_module_names: project_data.lookup("modules"),
-        types: Type.all,
+        project_types: base_variant_rows_for(Type.all),
         parent: Project.find_by(identifier: project_data.lookup("parent")),
         workspace_type: "project"
       }

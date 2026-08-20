@@ -52,7 +52,7 @@ ko:
         heading: LDAP 부서 동기화 없음
       destroy:
         confirmation_message:
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          other: 계속하면, 동기화 %{name}이(가) 제거되며, 해당 %{count}개 부서는 더 이상 LDAP에 의해 관리되지 않습니다.
         heading: 동기화 %{name}을(를) 제거하시겠습니까?
         info: 해당 부서와 멤버들은 그대로 유지되며 일반 부서가 됩니다. 관리 → 사용자 및 권한 → 조직에서 나중에 수동으로 편집하거나 삭제할 수 있습니다.
         title: 동기화 %{name} 제거

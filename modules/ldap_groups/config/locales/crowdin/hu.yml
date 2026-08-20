@@ -103,5 +103,5 @@ hu:
       upsell:
         description: Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.
   plugin_openproject_ldap_groups:
-    description: Synchronization of LDAP group memberships.
-    name: OpenProject LDAP groups
+    description: Az LDAP-csoporttagságok szinkronizálása.
+    name: OpenProject LDAP-csoportok

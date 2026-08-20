@@ -33,58 +33,77 @@ module WorkPackages
     class ExportOnStatusChangeService
       attr_reader :current_user, :work_package
 
-      delegate :project, :type, to: :work_package
+      delegate :project, :type, :type_variant, to: :work_package
 
       def initialize(current_user:, work_package:)
         @current_user = current_user
         @work_package = work_package
       end
 
-      def call!(changes:)
-        return if changes["status_id"].blank?
-        return unless type.artefact_export_enabled?
+      def self.applicable?(work_package:, changes:)
+        return false if changes["status_id"].blank?
+        return false unless work_package.type_variant.artefact_export_enabled?
+
         # The creation wizard runs its own export for its artifact work package;
         # skip it here to avoid generating the PDF twice.
-        return if creation_wizard_artifact_work_package?
+        !creation_wizard_artifact_work_package?(work_package)
+      end
 
-        User.execute_as_admin(current_user) do
-          export_and_store!
-        end
+      def self.creation_wizard_artifact_work_package?(work_package)
+        work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+      end
+
+      def call!(changes:)
+        return unless self.class.applicable?(work_package:, changes:)
+
+        export_and_store!
       rescue ::Exports::ExportError => e
         Rails.logger.error("Artefact export failed for work package ##{work_package.id}: #{e.message}")
       end
 
       private
 
-      def creation_wizard_artifact_work_package?
-        project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
-      end
-
       def export_and_store!
         export = WorkPackage::PDFExport::Artefact.new(work_package).export!
 
-        case type.effective_artefact_export_mode
+        case type_variant.artefact_export_mode
         when Type::ArtefactExport::ATTACHMENT
           store_as_attachment(export)
         when Type::ArtefactExport::FILE_LINK
-          upload_to_storage(export)
+          User.execute_as_admin(current_user) do
+            upload_to_storage(export)
+          end
         end
       end
 
       def store_as_attachment(export)
-        file = OpenProject::Files.create_uploaded_file(
+        attachment = work_package.attachments.create(author: current_user, file: uploaded_file(export))
+        if attachment.persisted?
+          journalize_attachment(attachment.author)
+        else
+          Rails.logger.error(
+            "Failed to attach artefact to work package ##{work_package.id}: " \
+            "#{attachment.errors.full_messages.join(', ')}"
+          )
+        end
+      end
+
+      def uploaded_file(export)
+        OpenProject::Files.create_uploaded_file(
           name: export.title,
           content_type: export.mime_type,
           content: export.content,
           binary: true
         )
+      end
 
-        attachment = work_package.attachments.create(author: current_user, file:)
-        unless attachment.persisted?
-          Rails.logger.error(
-            "Failed to attach artefact to work package ##{work_package.id}: " \
-            "#{attachment.errors.full_messages.join(', ')}"
-          )
+      # Creating the attachment through the association does not create a work package
+      # journal on its own, so the artefact would only surface in the Activity tab after
+      # the next unrelated change. Create the journal explicitly so it shows up right away.
+      def journalize_attachment(author)
+        OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
+          work_package.add_journal(user: author)
+          work_package.touch_and_save_journals
         end
       end
 

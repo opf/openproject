@@ -16,13 +16,9 @@
     <p>
       <strong>{{ text.tracking_time }}: {{ elapsed$ | async }}</strong>
       <br/>
-      <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
-      <a
-        uiSref="work-packages.show"
-        [uiParams]="{ workPackageId: active.entity.id }"
-        (click)="closeMe()"
-      >
-        {{ active.workPackage.formattedId }}: {{ active.workPackage.name }}
+      <!-- Closing the modal on click would disconnect this anchor mid-dispatch and cancel the navigation. -->
+      <a [href]="PathHelper.workPackagePath(active.entity.id!)">
+        {{ entityName }}
       </a>
     </p>
 

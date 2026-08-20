@@ -67,6 +67,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
 
+      it "parks the empty-state prototype in a template for the dynamic controller" do
+        expect(rendered_component)
+          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+      end
+
       it "renders a Primer::Beta::BorderBox with the sprint id" do
         expect(rendered_component).to have_css(".Box#sprint_#{sprint.id}")
       end
@@ -96,7 +101,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "renders one Box-row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 2)
         expect(rendered_component).to have_text(work_package1.subject)
         expect(rendered_component).to have_text(work_package2.subject)
       end
@@ -126,7 +130,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
 
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-controller"].split).to include("backlogs--work-package")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
           expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
@@ -173,7 +177,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
 
       it "renders the empty-state blankslate" do
@@ -297,6 +301,19 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
         end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=true on the start-sprint link" do
+            expect(rendered_component).to have_link(
+              "Start sprint",
+              href: start_project_backlogs_sprint_path(project, sprint, all: true)
+            )
+          end
+        end
       end
 
       context "when the sprint is in planning without start date" do
@@ -351,6 +368,33 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+      end
+
+      context "with sprint_reports feature flag active", with_flag: :sprint_reports do
+        it "shows sprint report in the action menu instead of burndown chart" do
+          rendered_component
+
+          expect(menu_items).to eq(
+            [
+              "Edit sprint",
+              "Add new work package",
+              "Add existing work package",
+              "Sprint report"
+            ]
+          )
+        end
+
+        context "when the user lacks view_sprints permission" do
+          let(:role) { create(:project_role, permissions: %i[view_work_packages create_sprints]) }
+          let(:user) { create(:user, member_with_roles: { project => role }) }
+
+          it "hides both the sprint report and burndown chart menu items" do
+            rendered_component
+
+            expect(menu_items).not_to include("Sprint report")
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 
@@ -507,6 +551,49 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                 text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
               )
             end
+          end
+        end
+      end
+
+      context "when the project is set to receive shared sprints" do
+        let(:parent) { create(:project, sprint_sharing: "share_subprojects", types: [type_feature, type_task]) }
+        let(:project) { create(:project, parent:, sprint_sharing: "receive_shared", types: [type_feature, type_task]) }
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                          status: "in_planning")
+        end
+
+        # This testcase is reproducible on the UI, only if the owned sprint has work packages associated to it.
+        # Otherwise it won't show up when the project sprint sharing mode is set to receive sprints.
+        it "disables the start-sprint button for own sprints" do
+          expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+        end
+
+        it "gives the receiving-shared-sprints reason" do
+          expect(rendered_component).to have_element(
+            "tool-tip",
+            text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_receiving_shared_sprints")
+          )
+        end
+
+        context "when the project allows multiple active sprints" do
+          before { project.update!(allow_multiple_active_sprints: true) }
+
+          it "still disables the start-sprint button for own sprints" do
+            expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+          end
+        end
+
+        context "when the sprint is received from the sharer" do
+          let(:sprint) do
+            create(:sprint, project: parent, name: "Shared Sprint",
+                            start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                            status: "in_planning")
+          end
+
+          it "renders the start-sprint link enabled" do
+            expect(rendered_component).to have_link("Start sprint")
           end
         end
       end

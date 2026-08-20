@@ -27,15 +27,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-<%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) do |c| %>
-  <% if @type.linked?(Type::ConfigurationLink::PDF_EXPORT) %>
-    <% c.with_readonly_preview do %>
-      <%= render WorkPackageTypes::ExportConfigurationComponent
-                   .new(@type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT), readonly: true) %>
-    <% end %>
-  <% end %>
-  <%= render WorkPackageTypes::ExportConfigurationComponent.new(@type) %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
+
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
+      )
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
+
+  <%= render WorkPackageTypes::ExportConfigurationComponent.new(
+        @variant,
+        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
+      ) %>
 <% end %>

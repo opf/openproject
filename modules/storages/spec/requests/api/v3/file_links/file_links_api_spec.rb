@@ -624,7 +624,7 @@ RSpec.describe "API v3 file links resource" do
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.download_link",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(source: self, code: error)) }
+          ->(_) { Failure(SimpleError.new(source: self, code: error)) }
         )
 
         get path

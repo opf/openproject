@@ -83,7 +83,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
     visit project_wiki_path(project, "new page")
 
     find(".ck-content").base.send_keys(content_first_version)
-    click_button "Save"
+    click_button "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
     expect(page).to have_test_selector("wiki-page-header-title", text: "New page")

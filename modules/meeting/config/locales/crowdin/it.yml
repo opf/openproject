@@ -55,6 +55,8 @@ it:
         position: Posizione
         presenter: Presentatore
         title: Titolo
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ha partecipato
         invited: Invitato
@@ -541,11 +543,11 @@ it:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: La prima occorrenza di questa serie sarà il %{first_occurrence}
     caption:
-      ends_on: Ciò porta a una serie che si conclude il %{date}
+      ends_on: Ciò porta a una serie che si conclude il giorno %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Questo genera 1 occorrenza futura
+        other: Questo genera %{count} occorrenze future
+      occurrences_capped: Questo genera più di %{count} occorrenze future
     day_of_month_skipping_info: I mesi con meno di %{monthly_day} giorni verranno saltati
     delete_dialog:
       confirmation_message_html:

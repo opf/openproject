@@ -57,6 +57,8 @@ sk:
         position: Position
         presenter: Presenter
         title: Nadpis
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

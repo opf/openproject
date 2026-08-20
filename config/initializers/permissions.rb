@@ -239,7 +239,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[show update]
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
+                       "projects/settings/work_packages/types/switches": %i[new create]
                      },
                      permissible_on: :project,
                      require: :member

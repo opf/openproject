@@ -25,7 +25,7 @@ Here, you will see a list of all existing work package types.
 Click the green **+ Type** button to add a new work package type in the system, e.g. Risk.
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
-2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
+2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../design/#set-a-new-color).
 3. You can **copy a [workflow](../work-package-workflows)** from an existing type.
 4. You can enter **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking, that already contain certain required information in the description.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
@@ -93,6 +93,35 @@ The related work packages table is then displayed directly in the work package f
 
 ![A work package in OpenProject displaying related work packages table](open_project_admin_related_wp_table.png)
 
+## Display project attributes in work package forms
+
+You can display **[project attributes](../../projects/project-attributes/)** in a dedicated tab within work packages. This allows editing project-level information directly from a work package. 
+
+Please note that only users with necessary  permissions can see or edit the project attributes within a work package.
+
+To configure this, go to **Administration → Work packages → Types**, open the **Project attributes** tab, and select which project attributes should be displayed for each work package type.
+
+![Work package settings in OpenProject administration, showing "project attributes" tab](openproject_system_guide_work_package_types_project_attributes.png)
+
+The tab lists all available project attribute sections and their attributes.
+
+Use the On/Off toggle next to each project attribute to show or hide it in the **Project attributes** tab for the selected work package type.
+
+You can also use the **Enable all** and **Disable all** buttons displayed next to each section title to show or hide all project attributes within that section at once.
+
+If your instance contains many project attributes, use the search field to quickly find a specific attribute.
+
+> [!NOTE]
+> This setting only controls which project attributes are displayed in the **Project attributes** tab of a work package for the selected work package type. It does **not** affect which project attributes are displayed on the project's overview page. The project overview uses its own display configuration.
+>
+> Read more about configuring project attributes for the [project overview page](../../../user-guide/projects/project-settings/project-attributes/).
+
+> [!IMPORTANT]
+>
+> The same project attributes are used in both the project overview and work packages. Any changes made to a project attribute from within a work package are reflected **everywhere the attribute is displayed**.
+
+Displaying project attributes in work packages is particularly useful for **PDF exports**, as the project attributes shown in the work package are also included in the exported document.
+
 ## Work package automatic subject configuration (Enterprise add-on)
 
 [feature: work_package_subject_generation ]
@@ -113,10 +142,38 @@ If **Enable for all projects** is disabled, a list of projects is displayed. Sel
 
 ![activate projects for work package types in OpenProject administration](openproject_system_guide_wp_type_activate_projects.png)
 
-## Activate templates for PDF exports
+## Generate PDF
 
-Under the **Generate PDF** tab of  **Administration -> Work packages -> Types**, you can select which PDF export templates are available for this work package type.
+Under the **Generate PDF** tab of **Administration -> Work packages -> Types** you can configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artefact export.
+
+### Activate templates for PDF exports
+
+Here you can select which PDF export templates are available for this work package type.
 
 The template determines the design and attributes visible in the exported PDF of a work package using this type. The first  template on the list is selected by default.
 
 ![Generate PDF tab under work package types settings in OpenProject administration](openproject_system_guide_work_package_types_pdf_tab.png)
+
+Use the toggle next to a template to enable or disable it, or use **Enable all** and **Disable all** to switch every template at once. Changes are saved immediately.
+
+Drag a template by its handle to change the order of the list. The order determines the sequence in the **Template** dropdown menu of the export dialog, and the first enabled template is preselected there.
+
+If no template is enabled, users cannot generate a PDF for a work package of this type: the export dialog states that no template has been enabled and the download button stays disabled.
+
+> [!TIP]
+> See [work package PDF export guide](../../../user-guide/work-packages/exporting/work-package-pdf/) for more details on what each of the templates contains.
+
+### Automatic artefact export
+
+In addition to exporting on demand, OpenProject can generate a PMflex Artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
+
+- **Off** - no PDF is generated automatically. This is the default.
+
+- **Save as work package file attachment** - the generated PDF is saved as a file attachment to the work package. The new attachment is also recorded in the work package Activity.
+
+- **Upload file to external file storage and add file link to work package** - the generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such an external storage configured, are skipped. This option can only be selected if an [automatically-managed Nextcloud storage](../../files/external-file-storages/) is configured for the instance.
+
+The selection is saved immediately.
+
+> [!NOTE]
+> The automatic export always uses the PMflex Artefact template, regardless of which templates are enabled for manual exports above.

@@ -27,7 +27,9 @@ fr:
       wikis/inline_page_link:
         one: Lien de page en ligne
         other: Liens de page en ligne
-      wikis/internal_provider: Wiki interne
+      wikis/internal_provider:
+        one: Project wiki
+        other: Project wikis
       wikis/provider:
         one: Fournisseur de wiki
         other: Fournisseurs de wiki
@@ -39,14 +41,14 @@ fr:
         other: Fournisseur XWiki
   menus:
     admin:
-      external_wiki_providers: Fournisseurs de wiki
-      internal_wiki_provider: Wiki interne
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Wikis
   permission_manage_wiki_page_links: Gérer les liens vers les pages wiki
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: Fournisseurs de wiki
+  project_module_wiki_internal: Wiki du projet
+  project_module_wiki_platforms: External wiki providers
   projects_settings_wiki:
-    title: Project wiki
+    title: Wiki du projet
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -75,11 +77,11 @@ fr:
           no_health_report_description: Lancez les contrôles maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur wiki.
           title: Bilan de santé
       internal_provider_form:
-        checkbox_caption: Permettre aux projets d'utiliser le wiki interne d'OpenProject ainsi que des fournisseurs de wiki externes
-        checkbox_label: Activer le wiki interne d'OpenProject
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: Choisissez d'activer ou de désactiver le wiki interne d'OpenProject
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir à nouveau les informations d'identification dans votre instance XWiki et tous les utilisateurs devront se réautoriser. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
@@ -143,7 +145,7 @@ fr:
       invalid_response: Le fournisseur du wiki a répondu de manière inattendue.
       missing_token: Le compte utilisateur n'est pas encore connecté au fournisseur de wiki.
       request_failed: Le fournisseur du wiki a rencontré une erreur inattendue.
-      unauthorized: An authorization error occurred.
+      unauthorized: Une erreur d'autorisation s'est produite.
     health_checks:
       authentication:
         existing_token: Jeton d'utilisateur
@@ -152,31 +154,32 @@ fr:
       base_configuration:
         header: Configuration
         provider_configured: Configuration terminée
-        universal_id_known: Provider recognized
+        universal_id_known: Fournisseur reconnu
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
+        connection_error: OpenProject n'a pas pu se connecter au fournisseur de wiki.
         not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
+        uid_mismatch: L'identifiant universel communiqué par le fournisseur de wiki ne correspond pas à celui enregistré par OpenProject lors de la configuration.
         xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
+        xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la tentative de communication avec l'instance XWiki.
         xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
         xwiki_oauth_unauthorized: Le jeton d'utilisateur n'a pas été reconnu par XWiki.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_last_edited: Dernière modification
+      column_name: Page wiki
+      column_parent: Parent
+      column_project: Projet
+      column_sub_pages: Sous-pages
+      filter_by_name: Filtrer par nom de page
+      filter_placeholder: Rechercher par nom
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Aucune page wiki n'est disponible.
+      no_results_title: Pas encore de pages wiki
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Toutes les pages du wiki
+        main: Pages principales du wiki
       sub_pages_count:
-        one: 1 sub-page
-        other: "%{count} sub-pages"
+        one: 1 sous-page
+        other: "%{count} sous-pages"
     inline_wiki_page_dialog:
       title_add: Ajouter une page wiki existante
       title_create: Créer une nouvelle page wiki
@@ -191,18 +194,18 @@ fr:
       description: Connectez-vous à %{provider} pour voir et gérer les pages wiki liées à cette instance d'OpenProject.
       heading: Non connecté à %{provider}
     page_link_component:
-      add_to_related_pages: Add to related pages
+      add_to_related_pages: Ajouter aux pages associées
       remove: Supprimer le lien de la page
     page_link_forms:
       labels:
         page_title: Titre
-        parent: Page wiki parent
+        parent: Parent
         wiki_page: Page wiki
       search:
         no_results: Aucune page wiki trouvée
         placeholder: Recherchez une page wiki (ou saisissez son URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Un lien dynamique vers une page wiki inséré à l'aide d'une macro.
       errors:
         page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
         page_not_found: La page wiki liée n'est plus disponible
@@ -211,8 +214,10 @@ fr:
         parent: En tant que parent
     project_settings:
       project_internal_wiki_component:
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the internal wiki for this project
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
+        caption: Cela permet d'activer les fonctionnalités wiki natives pour ce projet. Les membres pourront créer et consulter des pages wiki stockées dans OpenProject.
+        enable: Enable the OpenProject wiki for this project
     provider_types:
       xwiki:
         name: XWiki

@@ -69,12 +69,16 @@ module WorkPackages
         url_helpers.refresh_form_move_work_packages_path
       end
 
-      def available_types
-        @available_types ||= target_project.types.order(:position)
+      def available_variants
+        @available_variants ||= target_project.enabled_variants.includes(:type).to_a
       end
 
-      def target_type
-        @target_type ||= available_types.find { |type| type.id.to_s == selected_values[:type_id].to_s }
+      def available_type_ids
+        @available_type_ids ||= available_variants.map(&:type_id)
+      end
+
+      def target_variant
+        @target_variant ||= available_variants.find { |variant| variant.type_id.to_s == selected_values[:type_id].to_s }
       end
 
       def available_versions
@@ -92,7 +96,7 @@ module WorkPackages
       end
 
       def current_types_missing_in_target?
-        work_packages.map(&:type_id).uniq.difference(available_types.pluck(:id)).any?
+        work_packages.map(&:type_id).uniq.difference(available_type_ids).any?
       end
 
       def descendant_types_missing_in_target?
@@ -102,7 +106,7 @@ module WorkPackages
         Type.where(id: hierarchies.map { it.descendant.type_id })
             .select("distinct id")
             .pluck(:id)
-            .difference(available_types.pluck(:id))
+            .difference(available_type_ids)
             .any?
       end
 
@@ -110,8 +114,10 @@ module WorkPackages
         @possible_assignees ||= Principal.possible_assignee(target_project)
       end
 
-      def selected_version
-        available_versions.find { |version| version.id.to_s == selected_values[:version_id].to_s }
+      def selected_target_versions
+        selected_ids = Array(selected_values[:target_version_ids]).map(&:to_s)
+
+        available_versions.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
       def selected_custom_field_value(custom_field)

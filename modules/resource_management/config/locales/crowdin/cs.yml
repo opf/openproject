@@ -44,6 +44,13 @@ cs:
       resource_user_card: User cards
       resource_work_package_list: Work packages list
   button_next: Next
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
   permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
@@ -61,10 +68,10 @@ cs:
     action:
       delete: Delete
       edit: Edit
-      favorite: Add to favorites
+      favorite: Přidat k oblíbeným
       make_private: Make private
       make_public: Make public
-      unfavorite: Remove from favorites
+      unfavorite: Odstranit z oblíbených
     allocate_resource_dialog:
       kind:
         filter:
@@ -73,7 +80,7 @@ cs:
         label: Allocation type
         principal:
           caption: Allocate hours for a specific user.
-          label: User
+          label: Uživatel
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:
@@ -280,6 +287,12 @@ cs:
         allocate: Allocate
         settings: Configure view
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          few: "%{count} members of this project match the allocation's filter criteria."
+          many: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Add work package
         configure_view: Configure view

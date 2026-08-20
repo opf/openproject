@@ -53,23 +53,13 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("portfolio_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       filtered = apply_filters(Project.portfolio.visible, filters)
-      portfolios = apply_pagination(filtered, page)
+      portfolios, total = apply_pagination(filtered, page)
 
       {
-        items: portfolios.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
+        items: portfolios.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
+        total:
       }
     end
   end

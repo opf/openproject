@@ -66,7 +66,8 @@ Available arguments that change how the work packages are handled:
 | `category` | `IMAP_ATTR_CATEGORY` | name of the target category |
 | `priority` | `IMAP_ATTR_PRIORITY` | name of the target priority |
 | `status` | `IMAP_ATTR_STATUS` | name of the target status |
-| `version` | `IMAP_ATTR_VERSION` | name of the target version |
+| `version` | `IMAP_ATTR_VERSION` | name of the target version (deprecated, use `target_versions`) |
+| `target_versions` | `IMAP_ATTR_TARGET_VERSIONS` | name of the target version; separate several with commas (more than one requires the multiple versions feature) |
 | `type` | `IMAP_ATTR_TYPE` | name of the target type |
 | `assigned_to` | `IMAP_ATTR_ASSIGNED_TO` | name of the assigned user |
 | `unknown_user` | `IMAP_UNKNOWN_USER` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account <br />Hint: You must also set `IMAP_NO_PERMISSION_CHECK=1` for sending mail by anonymous users to work as expected.|
@@ -192,7 +193,8 @@ Other available keys for the email are as follows. You can always use the intern
 | responsible     | Accountable     | sets the accountable, via user email or login         | responsible:user@example.org     |
 | assigned_to     | Assignee        | sets the assignee. Use the email or login of the user | assignee:test.nutzer@example.org |
 | type            | Type            | sets the type                                         | type:Milestone                   |
-| version         | Version         | sets the version                                      | version:v4.1.0                   |
+| version         | Version         | sets the version (deprecated, use target_versions)    | version:v4.1.0                   |
+| target_versions | Target versions | sets the target versions; separate several with commas (more than one requires the multiple versions feature) | target_versions:v4.1.0, v4.2.0 |
 | start_date      | Start date      | sets the start date                                   | start_date:2015-02-28            |
 | due_date        | Due date        | sets the finish date                                  | due:_date:2015-02-28             |
 | estimated_hours | Estimated hours | sets the estimated hours. Use a number                | estimated_hours:10.5             |

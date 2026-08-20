@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -21,58 +21,38 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
-import { opGateIconData, opPhaseIconData } from '@openproject/octicons-angular';
-import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
+import {
+  GROUP_GATES,
+  ProjectTimelineItemBuilder,
+} from './project-timeline-item.builder';
+import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
+import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 
-interface ProjectPhaseData {
-  id:number;
-  definitionId:number;
-  name:string;
-  startDate:string|null;
-  endDate:string|null;
-  startGate:boolean;
-  startGateName:string|null;
-  finishGate:boolean;
-  finishGateName:string|null;
-}
-export interface ProjectTimelineItem {
-  id:string;
-  group:string;
-  start:Date|string;
-  end?:Date|string;
-  originalEnd?:Date|string;
-  content:string|HTMLElement;
-  title:string;
-  type:'range'|'point'|'background';
-  className:string;
-  definitionId?:number;
-}
-
-const GROUP_GATES = 'gates';
-const GROUP_LIFECYCLE = 'lifecycle';
+export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
 @Component({
   selector: 'opce-project-timeline-graph',
@@ -80,113 +60,65 @@ const GROUP_LIFECYCLE = 'lifecycle';
   styleUrls: ['./project-timeline-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [OpenprojectContentLoaderModule],
+  providers: [ProjectTimelineItemBuilder, ProjectTimelineTooltipBuilder],
 })
-export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
+export class ProjectTimelineGraphComponent {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
 
   readonly phasesData = input.required<string>();
+  readonly milestonesData = input.required<string>();
+  readonly sprintsData = input<string>('[]');
 
   readonly phases = computed<ProjectPhaseData[]>(
     () => JSON.parse(this.phasesData()) as ProjectPhaseData[],
   );
 
-  private readonly i18n = inject(I18nService);
-  private readonly timezone = inject(TimezoneService);
+  readonly milestones = computed<ProjectMilestoneData[]>(
+    () => JSON.parse(this.milestonesData()) as ProjectMilestoneData[],
+  );
+
+  readonly sprints = computed<ProjectSprintData[]>(
+    () => JSON.parse(this.sprintsData()) as ProjectSprintData[],
+  );
+
+  readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
+    () => this.itemBuilder.buildAccessibleItems(this.phases()),
+  );
+
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly itemBuilder = inject(ProjectTimelineItemBuilder);
+  private readonly tooltip = inject(ProjectTimelineTooltipBuilder);
 
   private timeline:Timeline | null = null;
+  private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
+
+  protected readonly ready = signal(false);
 
   constructor() {
+    afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
+    inject(DestroyRef).onDestroy(() => {
+      this.timeline?.destroy();
+      this.timeline = null;
+    });
+
     effect(() => {
       const phases = this.phases();
+      const milestones = this.milestones();
+      const sprints = this.sprints();
       if (this.timeline) {
-        this.updateTimeline(phases);
+        this.updateTimeline(phases, milestones, sprints);
       }
     });
   }
 
-  ngAfterViewInit():void {
-    this.initTimeline(this.phases());
-  }
-
-  ngOnDestroy():void {
-    this.timeline?.destroy();
-    this.timeline = null;
-  }
-
-  private buildData(phases:ProjectPhaseData[]) {
-    const items:ProjectTimelineItem[] = [];
-
-    for (const phase of phases) {
-      const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
-      const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
-
-      if (phase.startDate && phase.endDate) {
-        const isOneDay = phase.startDate === phase.endDate;
-        let visualStart:Date | string = phase.startDate;
-        let visualEnd:Date | string = phase.endDate;
-        if (isOneDay) {
-          const startNoon = new Date(`${phase.startDate}T12:00:00`);
-          startNoon.setDate(startNoon.getDate() - 1);
-          visualStart = startNoon;
-          visualEnd = new Date(`${phase.endDate}T12:00:00`);
-        }
-        items.push({
-          id: `phase-${phase.id}`,
-          group: GROUP_LIFECYCLE,
-          start: visualStart,
-          end: visualEnd,
-          originalEnd: isOneDay ? phase.endDate : undefined,
-          content: phase.name,
-          title: phase.name,
-          type: 'range',
-          className: hlClass,
-          definitionId: phase.definitionId,
-        });
-      }
-
-      if (phase.startGate && phase.startDate) {
-        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
-        items.push({
-          id: `gate-start-${phase.id}`,
-          group: GROUP_GATES,
-          start: phase.startDate,
-          content: icon,
-          title: phase.startGateName ?? phase.name,
-          type: 'point',
-          className: `op-timeline-gate ${hlClass}`,
-          definitionId: phase.definitionId,
-        });
-      }
-
-      if (phase.finishGate && phase.endDate) {
-        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
-        items.push({
-          id: `gate-finish-${phase.id}`,
-          group: GROUP_GATES,
-          start: phase.endDate,
-          content: icon,
-          title: phase.finishGateName ?? phase.name,
-          type: 'point',
-          className: `op-timeline-gate op-timeline-gate--finish ${hlClass}`,
-          definitionId: phase.definitionId,
-        });
-      }
-    }
-
-    const groups = [
-      { id: GROUP_GATES, content: '' },
-      { id: GROUP_LIFECYCLE, content: '' },
-    ];
-
-    return { items, groups };
-  }
-
-  private initTimeline(phases:ProjectPhaseData[]):void {
-    const { items, groups } = this.buildData(phases);
+  private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
+    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
+    this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
       this.containerRef.nativeElement,
-      new DataSet(items as unknown as DataItem[]),
+      this.itemsDataset as unknown as DataSet<DataItem>,
       new DataSet(groups),
       {
         editable: false,
@@ -197,48 +129,38 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
+        showCurrentTime: false, // enabled after the initial draw to avoid unnecessary redraws while loading
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+        zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
+        onInitialDrawComplete: () => this.revealTimeline(),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltipTemplate.bind(this) } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
       },
     );
+
+    this.timeline.on('click', (props:{ item:string | null }) => {
+      if (!props.item) return;
+      const item = this.itemsDataset!.get(props.item);
+      if (item?.itemType === 'milestone' && item.workPackageId) {
+        window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
+      }
+    });
   }
 
-  private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
-    if (item.type === 'background') return '';
+  private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
+    const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
+    this.itemsDataset = new DataSet(items);
+    this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
+  }
 
-    const isGate = item.type === 'point';
-    const formatDate = (d:Date | string) => this.timezone.formattedDate(d as string);
-    const dateStr = isGate
-      ? formatDate(item.start)
-      : item.originalEnd
-        ? formatDate(item.originalEnd)
-        : `${formatDate(item.start)} – ${formatDate(item.end!)}`;
-    const typeLabel = isGate
-      ? this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate')
-      : this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
+  private revealTimeline():void {
+    if (!this.timeline) return;
 
-    const hlInlineClass = `__hl_inline_project_phase_definition_${item.definitionId!}`;
-
-    const icon = octiconElement(isGate ? opGateIconData : opPhaseIconData, 'small', `octicon ${hlInlineClass}`);
-    const typeSpan = document.createElement('span');
-    typeSpan.className = 'op-timeline-tooltip--type';
-    typeSpan.append(typeLabel);
-
-    const metaRow = document.createElement('div');
-    metaRow.className = 'op-timeline-tooltip--meta-row';
-    metaRow.append(`${dateStr} `, icon, typeSpan);
-
-    const name = document.createElement('div');
-    name.className = 'op-timeline-tooltip--name';
-    name.textContent = item.title;
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'op-timeline-tooltip';
-    wrapper.append(metaRow, name);
-
-    return wrapper;
+    this.timeline.setOptions({
+      showCurrentTime: true,
+      cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+    });
+    this.ready.set(true);
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {
@@ -246,10 +168,5 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     const diff = Math.abs(new Date(a.start).getTime() - new Date(b.start).getTime());
     return diff <= 24 * 60 * 60 * 1000; // 24 hours
-  }
-
-  private updateTimeline(phases:ProjectPhaseData[]):void {
-    const { items, groups } = this.buildData(phases);
-    this.timeline!.setData({ items: new DataSet(items as unknown as DataItem[]), groups: new DataSet(groups) });
   }
 }

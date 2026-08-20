@@ -75,6 +75,47 @@ erb_lint {files}
 bundle exec lefthook install
 ```
 
+### JavaScript and TypeScript Copyright Headers
+
+All first-party JavaScript and TypeScript files must use the canonical compact
+line-comment copyright header generated from `COPYRIGHT_short`:
+
+```typescript
+//-- copyright
+// OpenProject is an open source project management software.
+// ...
+//++
+
+```
+
+Use `//-- copyright` and `//++` exactly as shown. Prefix non-empty body lines
+with `// `, prefix empty body lines with `//`, and leave one blank line between
+the header and the source code. Do not compose or reformat the header manually.
+
+Run `rake copyright:update_typescript` to add or repair headers in `.ts` and
+`.tsx` files. Run `rake copyright:update_js` for `.js`, `.mjs`, and `.cjs`
+files. Both commands accept an optional path argument.
+
+## Code Comments
+
+Readers are domain experts who know Ruby, Rails, TypeScript, and the patterns used here.
+Write self-explanatory code instead of comments.
+
+- Default to zero comments. Sparse is the goal, not thorough coverage.
+- Never restate what the code plainly does (`# increments the counter` above `counter += 1`).
+  These get flagged in review.
+- Never justify the chosen approach. If a comment names a rejected alternative
+  ("EXISTS rather than a join because…"), delete it — that reasoning belongs in the commit
+  message or PR description, not the source.
+- Do comment to explain a constraint the code cannot express itself: a workaround for an
+  upstream bug, a non-obvious edge case, an ordering requirement, an invariant the caller
+  must uphold. Link the work package or upstream issue when there is one.
+- Don't add YARD/JSDoc headers to self-descriptive methods. Only where generated
+  documentation is actually consumed.
+- More than a handful of comments in a file is a smell: extract better-named methods,
+  variables, and objects so the code explains itself.
+- When in doubt, delete the comment rather than shortening it.
+
 ## Commit Messages
 - First line: < 72 characters, then blank line, then detailed description
 - Reference work packages when applicable

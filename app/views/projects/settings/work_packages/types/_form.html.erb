@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
       </thead>
       <tbody>
-        <% projects_types_id = project.types.pluck(:id) %>
+        <% projects_types_id = project.project_types.pluck(:type_id) %>
         <% Type.includes(:color).reorder('lower(name)').each do |type| # rubocop:disable Rails/FindEach %>
           <tr>
             <td>
@@ -91,8 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= check_box_tag "project[type_ids][]",
                                 type.id,
                                 projects_types_id.include?(type.id),
-                                id: type_id,
-                                "data-standard": type.is_standard %>
+                                id: type_id %>
               <%= hidden_field_tag "project[type_ids][]", "", "data-for": type_id %>
             </td>
             <td class='center'>

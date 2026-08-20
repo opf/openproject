@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
   let(:user) { create(:admin) }
   let(:temporary_group_key) { described_class::TEMPORARY_GROUP_KEY }
 
@@ -43,7 +44,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     it "renders a temporary attribute group from group_type params" do
       expect do
         post :add_group, params: { type_id: type.id, group_type: "attribute" }, format: :turbo_stream
-      end.not_to change { type.reload.attribute_groups.count }
+      end.not_to change { variant.reload.attribute_groups.count }
 
       expect(response).to have_http_status(:ok)
     end
@@ -58,10 +59,10 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
                group: { group_type: "attribute", name: "New Group" }
              },
              format: :turbo_stream
-      end.to change { type.reload.attribute_groups.count }.by(1)
+      end.to change { variant.reload.attribute_groups.count }.by(1)
 
       expect(response).to have_http_status(:ok)
-      expect(type.reload.attribute_groups.first.key).to eq("New Group")
+      expect(variant.reload.attribute_groups.first.key).to eq("New Group")
     end
 
     it "persists a query group with an empty query when saving it" do
@@ -79,7 +80,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
       expect(response).to have_http_status(:ok)
 
-      query_group = type.reload.attribute_groups.detect { |group| group.is_a?(Type::QueryGroup) }
+      query_group = variant.reload.attribute_groups.detect { |group| group.is_a?(Type::QueryGroup) }
       expect(query_group.attributes).to be_a(Query)
       expect(query_group.key).to eq("Empty test")
     end
@@ -87,7 +88,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PATCH #update (rename)", with_ee: %i[edit_attribute_groups] do
     before do
-      type.update_column(:attribute_groups, [
+      variant.update_column(:attribute_groups, [
                            ["First group", %w[priority]],
                            ["Second group", %w[assignee]]
                          ])
@@ -139,7 +140,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "POST #create (duplicate name)", with_ee: %i[edit_attribute_groups] do
     before do
-      type.update_column(:attribute_groups, [["Existing group", %w[priority]]])
+      variant.update_column(:attribute_groups, [["Existing group", %w[priority]]])
     end
 
     it "returns an error when creating a group with a duplicate name" do
@@ -202,7 +203,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
 
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
     it "reorders groups using the requested position" do
-      type.update_column(:attribute_groups, [
+      variant.update_column(:attribute_groups, [
                            [:details, %w[priority]],
                            ["Custom group", %w[version]],
                            [:people, %w[assignee]]
@@ -213,7 +214,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
           format: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(type.reload.attribute_groups.map(&:key)).to eq(["Custom group", :details, :people])
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(["Custom group", :details, :people])
     end
   end
 end

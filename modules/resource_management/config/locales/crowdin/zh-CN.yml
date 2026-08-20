@@ -5,7 +5,7 @@ zh-CN:
       resource_allocation:
         allocated_hours: 小时
         allocated_time: 分配时间
-        date_range: Dates
+        date_range: 日期
         end_date: 结束日期
         entity: 实体
         filter_name: 资源筛选器名称
@@ -14,7 +14,7 @@ zh-CN:
         state: 地区
         user_filter: 用户筛选器
       resource_planner:
-        date_range: Dates
+        date_range: 日期
         default_view_class_name: 默认视图
         end_date: 结束日期
         favorite: 收藏夹
@@ -31,9 +31,9 @@ zh-CN:
           attributes:
             end_date:
               greater_than_start_date: 必须在开始日期之后。
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: 必须在设置开始日期时进行设置。
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: 必须在设置完成日期时进行设置。
         resource_work_package_list:
           attributes:
             query:
@@ -44,11 +44,18 @@ zh-CN:
       resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
   button_next: 下一步
-  label_resource_management: Resource management
+  ee:
+    features:
+      resource_management: 资源管理
+    upsell:
+      resource_management:
+        description: 利用资源规划工具规划和平衡团队的工作量。将人员分配到工作包中，跟踪一段时间内的产能，并一目了然地发现资源分配过多或不足的情况。
+        title: 资源管理
+  label_resource_management: 资源管理
   permission_allocate_user_resources: 分配用户资源
   permission_allocate_user_resources_explanation: 允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
+  permission_assign_users_to_generic_allocations: 将用户指定给通用分配
+  permission_assign_users_to_generic_allocations_explanation: 允许用户使用“人员配置”视图，将真实用户指定给尚未拥有用户的通用（基于筛选器的）资源分配。该功能不支持创建或编辑分配。
   permission_manage_public_resource_planners: 管理公开的资源规划工具
   permission_manage_public_resource_planners_explanation: 允许用户创建和管理公开的资源规划工具。用户可以查看、创建、管理和发布自己的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
   permission_view_resource_planners: 查看资源规划工具
@@ -93,18 +100,18 @@ zh-CN:
       no_work: 此工作包没有计划的工作
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours}可用"
+      confirm_overtime: 仍然指定
+      filter_criteria: 筛选条件
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: 没有项目成员符合此分配的筛选条件。
+        title: 没有匹配的成员
+      no_schedule: 此用户未设置工作时间表，因此我们无法确定此分配是否合适。
+      overbooked_detail: 此用户在此期间的可用量为 %{available}，该工作包需要 %{requested}。
+      requested_for: 已请求
+      select_user: 请选择要指定的用户。
+      submit: 指定
+      title: 指定 %{filter_name}
     blankslate:
       desc: 创建资源规划工具以开始规划此项目的容量。
       title: 暂无资源规划工具
@@ -137,37 +144,37 @@ zh-CN:
       private: 私用
       public: 公开
     staffing:
-      assign: Assign user
+      assign: 指定用户
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: 此项目中的所有通用分配都指定了用户。
+        title: 无需配置人员
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
+        dates: 日期
+        requested_time: 请求时间
+        resource: 资源
+        work_package: 工作包
+      context_menu_label: 分配操作
+      delete_confirmation: 确定要删除此分配吗？
+      menu_item: 人员配置
+      starts_in_past: 此分配已开始，但尚未完成指定。
+      success_message: 已指定用户。
+      title: 人员配置
     sub_views: 此资源规划工具中的视图
     timeframe:
-      full: From %{start} to %{end}
+      full: 从 %{start} 到 %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: 日
+        month: 月
+        week: 日历周
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: 下一个期间
+        previous: 上一个期间
+        today: 今天
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: 添加
+        allocate: 分配
+        settings: 配置视图
     user_allocations_dialog:
       allocate_work_package: 分配工作包
       blank: 此用户没有分配的工作包。
@@ -202,24 +209,24 @@ zh-CN:
         schedule_change_compact: 截至 %{date}，%{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: 添加用户
+        configure_view: 配置视图
+        description: 还没有与此视图的筛选条件相符的用户。
+        manual_description: 向此视图添加用户，以查看其指定在一段时间内的变化。
+        title: 没有可显示的用户
+      no_work_schedule: 没有为此用户计划的工作时间表
+      overbooked: 此用户在所选期间内被超额指定。
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}：计划量为 %{scheduled}，可用量为 %{available}"
       subheader:
-        add_user: Add user
+        add_user: 添加用户
     view_types:
       resource_user_card:
         caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配
         label: 用户卡列表
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: 创建基于用户的视图，并在时间线上查看其分配在一段时间内的变化
+        label: 用户时间线
       resource_work_package_list:
         caption: 基于工作包创建视图，并在列表中查看其详细信息和分配情况
         label: 工作包列表
@@ -274,6 +281,9 @@ zh-CN:
         allocate: 分配
         settings: 配置视图
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: 添加工作包
         configure_view: 配置视图
@@ -282,4 +292,4 @@ zh-CN:
         title: 没有可显示的工作包
       query_name: 资源管理工作包时间线：%{name}
       subheader:
-        add_work_package: Add work package
+        add_work_package: 添加工作包

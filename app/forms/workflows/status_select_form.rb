@@ -30,19 +30,14 @@
 
 module Workflows
   class StatusSelectForm < ApplicationForm
-    def initialize(all_statuses:, current_statuses:, type:, tab:, dialog_id:)
+    def initialize(context:, dialog_id:)
       super()
-      @all_statuses = all_statuses
-      @current_statuses = current_statuses
-      @type = type
-      @tab = tab
+      @context = context
       @dialog_id = dialog_id
     end
 
     form do |f|
-      f.hidden(name: :type_id, value: @type.id)
-      f.hidden(name: :tab, value: @tab || "always")
-      @current_statuses.each { |status| f.hidden(name: "original_status_ids[]", value: status.id) }
+      current_statuses.each { |status| f.hidden(name: "displayed_status_ids[]", value: status.id) }
 
       f.autocompleter(
         name: :status_ids,
@@ -56,14 +51,31 @@ module Workflows
           appendTo: "##{@dialog_id}"
         }
       ) do |list|
-        @all_statuses.each do |status|
+        all_statuses.each do |status|
           list.option(
             label: status.name,
             value: status.id,
-            selected: @current_statuses.include?(status)
+            selected: current_statuses.include?(status)
           )
         end
       end
+    end
+
+    private
+
+    attr_reader :context
+
+    def all_statuses
+      @all_statuses ||= Status.order(:position)
+    end
+
+    # The dialog opens on the pending selection when there is one, otherwise on what the
+    # selected roles have saved — and on nothing at all while no role is selected, where
+    # the matrix itself would fall back to every status of the type.
+    def current_statuses
+      return Status.none if context.requested_status_ids.blank? && context.roles.empty?
+
+      context.statuses
     end
   end
 end

@@ -64,7 +64,7 @@ module WorkPackageTypes
     def readonly? = @builder.options[:readonly] == true
 
     def checked?(value)
-      value == (model.artefact_export_mode.presence || Type::ArtefactExport::DEFAULT)
+      value == model.artefact_export_mode
     end
 
     def file_link_label

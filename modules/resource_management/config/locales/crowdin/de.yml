@@ -5,7 +5,7 @@ de:
       resource_allocation:
         allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
-        date_range: Dates
+        date_range: Daten
         end_date: Endtermin
         entity: Entität
         filter_name: Name des Ressourcenfilters
@@ -14,7 +14,7 @@ de:
         state: Status
         user_filter: Benutzerfilter
       resource_planner:
-        date_range: Dates
+        date_range: Daten
         default_view_class_name: Standardansicht
         end_date: Endtermin
         favorite: Favorit
@@ -31,9 +31,9 @@ de:
           attributes:
             end_date:
               greater_than_start_date: muss nach dem Anfangstermin liegen.
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: muss gesetzt sein, wenn ein Starttermin gesetzt ist.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: muss gesetzt sein, wenn ein Endtermin gesetzt ist.
         resource_work_package_list:
           attributes:
             query:
@@ -44,6 +44,13 @@ de:
       resource_user_card: Benutzerkarten
       resource_work_package_list: Liste von Arbeitspaketen
   button_next: Weiter
+  ee:
+    features:
+      resource_management: Ressourcenmanagement
+    upsell:
+      resource_management:
+        description: Planen und verteilen Sie die Arbeitsverteilung Ihres Teams mithilfe von Ressourcenplanern. Weisen Sie Mitarbeitern Arbeitspakete zu, verfolgen Sie die Kapazitäten im Zeitverlauf und erkennen Sie Über- und Unterauslastung auf einen Blick.
+        title: Ressourcenmanagement
   label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
@@ -56,7 +63,7 @@ de:
   plugin_openproject_resource_management:
     description: Bietet Ressourcenmanagement und Kapazitätsplanung.
     name: OpenProject Ressourcenmanagement
-  project_module_resource_management: Ressourcen Management
+  project_module_resource_management: Ressourcenmanagement
   resource_management:
     action:
       delete: Löschen
@@ -276,6 +283,10 @@ de:
         allocate: Zuweisen
         settings: Ansicht konfigurieren
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} Mitglied dieses Projekts entspricht den Filterkriterien der Zuweisung."
+          other: "%{count} Mitglieder dieses Projekts entsprechen den Filterkriterien der Zuweisung."
       blank:
         add_work_package: Arbeitspaket hinzufügen
         configure_view: Ansicht konfigurieren

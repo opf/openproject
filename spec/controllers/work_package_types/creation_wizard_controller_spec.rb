@@ -30,10 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes: true } do
+RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
   render_views
-
-  shared_let(:parent_type) { create(:type, name: "Bug") }
 
   before { login_as user }
 
@@ -41,7 +39,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
     let(:user) { create(:admin) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:ok) }
       it { expect(response).to render_template "show" }
@@ -52,20 +50,19 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
     end
 
     describe "POST create" do
-      it "creates the sub-type and advances to the next step" do
+      it "creates the type and advances to the next step" do
         expect do
-          post :create, params: { type: { name: "Critical", parent_id: parent_type.id } }
+          post :create, params: { type: { name: "Critical" } }
         end.to change(Type, :count).by(1)
 
-        subtype = Type.find_by!(name: "Critical")
-        expect(subtype.parent).to eq(parent_type)
-        expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
+        type = Type.find_by!(name: "Critical")
+        expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
       context "with invalid params" do
         it "does not create and re-renders the details step" do
           expect do
-            post :create, params: { type: { name: "", parent_id: parent_type.id } }
+            post :create, params: { type: { name: "" } }
           end.not_to change(Type, :count)
 
           expect(response).to have_http_status(:unprocessable_entity)
@@ -73,11 +70,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
       end
     end
 
-    describe "existing sub-type" do
-      shared_let(:subtype) { create(:type, name: "Critical", parent: parent_type) }
+    describe "existing type" do
+      shared_let(:type) { create(:type, name: "Critical") }
+      shared_let(:role) { create(:project_role) }
 
       describe "GET show" do
-        before { get :show, params: { type_id: subtype.id, step: :projects } }
+        before { get :show, params: { type_id: type.id, step: :projects } }
 
         it { expect(response).to have_http_status(:ok) }
 
@@ -89,49 +87,41 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
       describe "GET show for every step" do
         WorkPackageTypes::Wizard::Steps.all.each do |step|
           it "renders the #{step} step without error" do
-            get :show, params: { type_id: subtype.id, step: }
+            get :show, params: { type_id: type.id, step: }
 
             expect(response).to have_http_status(:ok)
           end
         end
       end
 
+      describe "GET show with an unrecognised step" do
+        it "falls back to the first step" do
+          get :show, params: { type_id: type.id, step: "does-not-exist" }
+
+          expect(assigns(:current_step)).to eq(WorkPackageTypes::Wizard::Steps.first)
+        end
+      end
+
       describe "PATCH update on the details step" do
         it "updates and advances to the next step" do
-          patch :update, params: { type_id: subtype.id, step: :details, type: { name: "Blocker" } }
+          patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker" } }
 
-          expect(subtype.reload.name).to eq("Blocker")
-          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
+          expect(type.reload.name).to eq("Blocker")
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
         end
       end
 
       describe "PATCH update on the workflows step" do
-        shared_let(:workflow_source) { create(:type, name: "Task") }
-        shared_let(:status) { create(:status) }
-        shared_let(:role) { create(:project_role) }
-        shared_let(:workflow) do
-          create(:workflow, type: workflow_source, role:, old_status: status, new_status: status)
-        end
+        # The wizard step only advances as the matrix saves via its own turbo endpoint
+        it "advances to the next step" do
+          patch :update, params: { type_id: type.id, step: :workflows }
 
-        it "copies workflows from the chosen source and advances" do
-          expect do
-            patch :update, params: { type_id: subtype.id, step: :workflows,
-                                     type: { copy_workflow_from: workflow_source.id } }
-          end.to change { subtype.reload.workflows.count }.from(0).to(1)
-
-          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
-        end
-
-        it "advances without copying when no source is chosen" do
-          patch :update, params: { type_id: subtype.id, step: :workflows, type: { copy_workflow_from: "" } }
-
-          expect(subtype.reload.workflows).to be_empty
-          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
         end
       end
 
       describe "PATCH update on the last step" do
-        before { patch :update, params: { type_id: subtype.id, step: WorkPackageTypes::Wizard::Steps.last } }
+        before { patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last } }
 
         it { expect(response).to redirect_to(types_path) }
 
@@ -144,17 +134,17 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
     let(:user) { create(:user) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:forbidden) }
     end
   end
 
-  context "when the sub-types feature is disabled", with_flag: { subtypes: false } do
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
     let(:user) { create(:admin) }
 
     describe "GET new" do
-      before { get :new, params: { parent_id: parent_type.id } }
+      before { get :new }
 
       it { expect(response).to have_http_status(:not_found) }
     end

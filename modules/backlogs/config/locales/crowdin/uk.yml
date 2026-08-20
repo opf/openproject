@@ -24,7 +24,7 @@ uk:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Дозволити кілька активних спринтів
         backlog_excluded_types: Виключені типи пакетів робіт
         sprint_sharing: Спільний доступ до спринту
         statuses_considered_closed: Статуси, що вважаються закритими
@@ -43,13 +43,14 @@ uk:
         text: Ціль спринту
       work_package:
         backlog_bucket: Сегмент беклогу
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Вхідні беклогу
         backlogs_work_package_type: Тип Backlog-у
         position: Позиція
         sprint: Спринт
         story_points: Сторі-поінти
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Щоб запустити спринт, необхідно вказати дату початку й завершення.
         must_be_in_planning: має бути на етапі планування, перш ніж його можна буде почати.
         only_one_active_sprint_allowed: дозволяється лише один активний спринт для кожного проєкту.
@@ -57,12 +58,14 @@ uk:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: не можна змінювати, поки запущено кілька активних спринтів.
+              requires_no_sharing: 'можна вмикати, лише якщо для спринту вибрано таке налаштування спільного доступу: «Не надавати доступ».'
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              locked_by_multiple_active_sprints: не можна змінювати, поки ввімкнено кілька активних спринтів.
               share_all_projects_already_taken: не можна налаштувати, оскільки проєкт «%{name}» уже надає спільний доступ усім проєктам.
               share_all_projects_already_taken_anonymous: не можна налаштувати, оскільки інший проєкт вже надає спільний доступ усім проєктам.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: використовує спринти, до яких надано доступ. Власні спринти створювати не можна.
         sprint:
           attributes:
@@ -98,7 +101,7 @@ uk:
         other: Спринти
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
@@ -116,13 +119,13 @@ uk:
       select_panel_title: Вибрати елементи
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Додати наявний пакет робіт
+        add_new_work_package: Додати новий пакет робіт
         delete_backlog_bucket: Видалити сегмент беклогу
         edit_backlog_bucket: Змінити сегмент беклогу
-      blankslate_description: Drag items here to add them
+      blankslate_description: Щоб додати елементи, перетягніть їх сюди
       blankslate_title: Сегмент беклогу порожній
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Щоб додати елемент, перетягніть його сюди
       label_actions: Дії із сегментом беклогу
     bucket_destroy_modal_component:
       details: Сегмент беклогу «%{name}» буде видалено, а всі пакети робіт — переміщено у вхідні завдання беклогу. Пакети робіт не видаляться.
@@ -146,12 +149,12 @@ uk:
       title: Є елементи, роботу над якими ще не завершено
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+        add_existing_work_package: Додати наявний пакет робіт
+        add_new_work_package: Додати новий пакет робіт
+      blankslate_description: Відкриті пакети робіт, які не включено в спринт чи сегмент беклогу, автоматично з’являються тут
       blankslate_title: Немає вхідних завдань беклогу
-      drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      drop_zone_label: Щоб додати елемент, перетягніть його сюди
+      label_actions: Дії з вхідними
       show_more:
         one: Показати ще 1 елемент
         few: Показати ще %{count} елементи
@@ -161,12 +164,13 @@ uk:
     label_burndown_chart: Діаграма згорання завдань
     label_is_done_status: Стан %{status_name} означає виконано
     label_sprint_board: Дошка спринту
+    label_sprint_report: Звіт про спринт
     move_to_bucket_dialog_component:
       title: Перемістити в сегмент беклогу
     move_to_sprint_dialog_component:
       label_sprint: Спринт
       title: Перемістити в спринт
-    multiple_active_sprints: Multiple active sprints
+    multiple_active_sprints: Кілька активних спринтів
     points_label:
       one: одиниця
       few: одиниці
@@ -177,28 +181,38 @@ uk:
     rebuild: Перебудувати
     rebuild_positions: Перебудувати позиції
     remaining_hours: Залишок роботи
-    sharing: Sprint sharing
+    sharing: Спільний доступ до спринту
     show_burndown_chart: Діаграма згорання завдань
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Додати наявний пакет робіт
+        add_new_work_package: Додати новий пакет робіт
         edit_sprint: Змінити спринт
       blankslate_description: Ще нічого не заплановано. Перетягніть елементи сюди, щоб додати їх.
       blankslate_title: "%{name} нічого не містить"
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Щоб додати елемент, перетягніть його сюди
       label_actions: Дії зі спринтом
       label_complete_sprint: Завершити спринт
       label_start_sprint: Почати спринт
       start_sprint_disabled_reason_active_sprint: Інший спринт уже розпочато.
       start_sprint_disabled_reason_missing_dates: Щоб запустити спринт, необхідно вказати дату початку й завершення.
-      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_shared_sprint: Це спринт з іншого проєкту, який не підтримує використання кількох активних спринтів.
     sprint_form:
       goal_caption: Ціль спринту є унікальною для цього проєкту й не поширюється на інші проєкти, що використовують той самий спринт.
       goal_for_this_project_label: "%{attribute} (для цього проєкту)"
     sprint_form_component:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
       shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Звіт
+        title: Звіт про %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Змінити спринт
+          sprint_report: Звіт про спринт
     sprints_component:
       blankslate:
         create_and_manage_description_html: Щоб почати планувати спринт, створіть його тут або перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.
@@ -234,23 +248,23 @@ uk:
     work_package_is_closed: Робочий пакет виконується, коли
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
-        target_not_found: The sprint or backlog you are trying to add to was not found.
+        invalid_target: Ціль, яку ви намагаєтеся додати, недійсна.
+        target_not_found: Спринт або беклог, у який ви намагаєтеся додати елемент, не знайдено.
       move:
-        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+        moved_announcement: "%{label}: переміщено в список «%{list}» на позицію %{position} з %{total}"
       update_service:
-        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
-        missing_target: list_type or list_id must be present.
+        invalid_target_type: 'list_type має бути одним із таких значень: backlog_bucket із list_id, sprint із list_id або inbox без list_id.'
+        missing_target: Має бути вказано list_type або list_id.
   burndown:
     story_points: Сторі-поінти
     story_points_ideal: Сторі-поінти (ідеально)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Спільний доступ до спринту
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Надавайте доступ до спринтів кільком проєктам, щоб узгоджувати й координувати роботу команд у конфігураціях Масштабованої гнучкої розробки (SAFe).
   label_all_sprints: Усі спринти
@@ -290,6 +304,9 @@ uk:
     name: Невиконані завдання в OpenProject
   project_module_backlogs: Невиконані завдання
   projects:
+    copy:
+      backlog_buckets: Сегменти беклогу
+      sprints: Спринти
     settings:
       backlog_sharing:
         options:
@@ -312,15 +329,15 @@ uk:
         sprint_sharing: Надання доступу до спринтів
       backlogs:
         multiple_active_sprints:
-          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          description: За замовчуванням у кожному проєкті може бути активний лише один спринт. Це можна змінити, щоб у цьому проєкті одночасно могли бути активними кілька спринтів.
+          heading: Кількість активних спринтів
         multiple_active_sprints_component:
-          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
-          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+          cannot_turn_off: Зараз активні кілька спринтів. Щоб повернутися до режиму, у якому одночасно може використовуватися лише один спринт, спочатку переконайтеся, що активний щонайбільше один спринт.
+          not_available_html: Неможливо одночасно використовувати кілька активних спринтів, коли ввімкнено <a href=%{sprint_sharing_url}>надання доступу</a> до спринту або його отримання.
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
+          disabled_due_to_multiple_active_sprints: Спільний доступ до спринту неможливий, якщо ввімкнено кілька активних спринтів.
           sharing_description: Цей проєкт може надавати доступ до власних спринтів, використовувати спринти, до яких надано доступ, або працювати зі спринтами самостійно (без спільного доступу).
           sharing_fallback_description: Якщо немає корпоративного плану Enterprise, можливості спільного доступу обмежуються спринтами, які належать проєкту. Поточний активний параметр залишається активним.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Вхідні беклогу
   remaining_hours: залишок роботи

@@ -22,15 +22,15 @@
 ---
 hy:
   js:
-    button_log_costs: Log unit costs
-    label_hour: hour
-    label_hours: hours
+    button_log_costs: Գրանցել միավորի ծախսեր
+    label_hour: ժամ
+    label_hours: ժամ
     myTimeTracking:
-      noSpecificTime: No specific time
-    text_are_you_sure: Are you sure?
+      noSpecificTime: Առանց որոշակի ժամի
+    text_are_you_sure: Համոզվա՞ծ եք։
     work_packages:
       properties:
-        overallCosts: Overall costs
-        spentUnits: Spent units
+        overallCosts: Ընդհանուր ծախսեր
+        spentUnits: Ծախսված միավորներ
       property_groups:
-        costs: Costs
+        costs: Ծախսեր

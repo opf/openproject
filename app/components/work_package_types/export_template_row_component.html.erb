@@ -52,14 +52,15 @@ See COPYRIGHT and LICENSE files for more details.
           enabled: !readonly?,
           size: :small,
           status_label_position: :start,
+          aria: { label: toggle_label },
           test_selector: "toggle-pdf-export-template-row-#{@template.id}"
         }
         # A read-only toggle is disabled, so it never posts; omit the mutation wiring entirely.
         unless readonly?
           toggle_options.merge!(
-            src: toggle_type_pdf_export_template_path(type_id: @type.id, id: @template.id),
+            src: toggle_type_pdf_export_template_path(**@variant.path_args, id: @template.id),
             csrf_token: form_authenticity_token,
-            data: { "turbo-method": :post, "turbo-stream": true },
+            data: { turbo_method: :post, turbo_stream: true },
             classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
           )
         end

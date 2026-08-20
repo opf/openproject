@@ -67,7 +67,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
     let(:query_double) do
       instance_double(
         Wikis::Adapters::Providers::XWiki::Queries::User,
-        call: Failure(Wikis::Adapters::Results::Error.new(source: self, code: error_code))
+        call: Failure(SimpleError.new(source: self, code: error_code))
       )
     end
 

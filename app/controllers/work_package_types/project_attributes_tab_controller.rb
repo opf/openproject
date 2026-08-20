@@ -15,6 +15,8 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::ProjectAttributesComponentStreams
 
+    ASPECT = TypeVariant::PROJECT_ATTRIBUTES
+
     current_menu_item [:edit, :toggle, :enable_all_of_section, :disable_all_of_section] do
       :types
     end
@@ -36,15 +38,21 @@ module WorkPackageTypes
       end
     end
 
+    # Linked types have no own mappings to toggle, so a section's bulk enable/disable narrows the
+    # link's excluded_elements instead; independent types toggle their own mappings as before.
     def enable_all_of_section
-      bulk_update_section(:enable)
+      linked? ? bulk_exclusion(ExcludedElements::RemoveService) : bulk_update_section(:enable)
     end
 
     def disable_all_of_section
-      bulk_update_section(:disable)
+      linked? ? bulk_exclusion(ExcludedElements::AddService) : bulk_update_section(:disable)
     end
 
     private
+
+    def linked?
+      @variant.linked?(ASPECT)
+    end
 
     def eager_load_project_custom_field_data
       @project_custom_field_sections =
@@ -61,11 +69,29 @@ module WorkPackageTypes
       call = ProjectCustomFieldTypeMappings::BulkUpdateService
         .new(
           user: current_user,
-          type: @type,
+          variant: @variant,
           project_custom_field_section: @project_custom_field_section
         )
         .call(action:)
 
+      respond_to_bulk(call)
+    end
+
+    def bulk_exclusion(service_class)
+      call = service_class
+        .new(user: current_user, variant: @variant)
+        .call(aspect: ASPECT, elements: section_element_keys)
+
+      respond_to_bulk(call)
+    end
+
+    def section_element_keys
+      source_active_ids = @variant.effective_source_for(ASPECT)
+                                  .own_project_custom_field_type_mappings.pluck(:custom_field_id)
+      @project_custom_field_section.custom_fields.where(id: source_active_ids).map(&:attribute_name)
+    end
+
+    def respond_to_bulk(call)
       if call.success?
         eager_load_project_custom_field_data
         update_project_attribute_sections_via_turbo_stream
@@ -80,7 +106,7 @@ module WorkPackageTypes
     def project_custom_field_type_mapping_params
       permitted_params = params.expect(
         project_custom_field_type_mapping: %i[
-          type_id
+          variant_id
           custom_field_id
           custom_field_section_id
         ]

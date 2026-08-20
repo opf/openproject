@@ -35,6 +35,7 @@ RSpec.describe Wikis::CollapsiblePageLinksComponent, type: :component do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:provider) { create(:internal_wiki_provider) }
+  let(:heading) { "Referenced in" }
   let(:page_info) do
     Wikis::Adapters::Results::PageInfo.new(
       identifier: "MyPage",
@@ -47,23 +48,47 @@ RSpec.describe Wikis::CollapsiblePageLinksComponent, type: :component do
   let(:already_related_page_keys) { Set.new }
   let(:permissions) { [:manage_wiki_page_links] }
   let(:view_model) { Wikis::PageLinkViewModel.from_page_info_result(page_info_result) }
+  let(:page_links) { [view_model] }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
-  subject(:render_component) do
+  subject(:rendered_component) do
     render_inline(
-      described_class.new([view_model],
-                          heading: "Referenced in",
+      described_class.new(page_links,
+                          heading:,
+                          container: :inline_page_links,
                           linkable: work_package,
                           already_related_page_keys:)
     )
   end
 
-  before { render_component }
+  before { rendered_component }
+
+  it_behaves_like "rendering Box", row_count: 1
 
   it "renders the heading and the page link" do
-    expect(page).to have_text("Referenced in")
+    expect(page).to have_text(heading)
     expect(page).to have_link(text: page_info.title, href: page_info.href)
+  end
+
+  it "renders a collapsible header with the heading and item count", :aggregate_failures do
+    expect(page).to have_css("collapsible-header")
+    expect(page).to have_css(".Box-header") do |header|
+      expect(header).to have_heading(heading)
+      expect(header).to have_css(".Counter", text: "1")
+    end
+  end
+
+  context "without page links" do
+    let(:page_links) { [] }
+
+    it "still renders the collapsible header with a hidden zero count", :aggregate_failures do
+      expect(page).to have_css("collapsible-header")
+      expect(page).to have_css(".Box-header") do |header|
+        expect(header).to have_heading(heading)
+        expect(header).to have_css(".Counter[hidden]", text: "0", visible: :all)
+      end
+    end
   end
 
   context "when the user may manage wiki page links" do
@@ -93,7 +118,7 @@ RSpec.describe Wikis::CollapsiblePageLinksComponent, type: :component do
   context "when the page info could not be resolved" do
     let(:page_info_result) do
       Failure(
-        Wikis::Adapters::Results::Error.new(
+        SimpleError.new(
           source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
           code: :not_found
         )

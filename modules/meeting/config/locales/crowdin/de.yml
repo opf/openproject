@@ -55,6 +55,8 @@ de:
         position: Position
         presenter: Referent
         title: Titel
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Teilgenommen
         invited: Eingeladen
@@ -545,7 +547,7 @@ de:
       occurrences:
         one: Dies führt zu 1 bevorstehenden Veranstaltungen
         other: Dies führt zu %{count} bevorstehenden Veranstaltungen
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+      occurrences_capped: Dies führt zu mehr als %{count} bevorstehenden Veranstaltungen
     day_of_month_skipping_info: Monate mit weniger als %{monthly_day} Tagen werden übersprungen
     delete_dialog:
       confirmation_message_html:

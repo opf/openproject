@@ -35,6 +35,7 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
     let(:class_key) { :portfolio }
     let(:type) { :list_optional }
     let(:name) { Project.human_attribute_name(:portfolio) }
+    let(:human_name) { I18n.t("portfolio.filters.name") }
   end
 
   describe "#allowed_values" do
@@ -67,30 +68,41 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
   end
 
   describe "#available?" do
-    it "is true if any portfolio is visible to the current user" do
+    let(:portfolio_exists) { true }
+
+    before do
       allow(Project)
         .to receive_message_chain(:workspace_type, :visible, :exists?) # rubocop:disable RSpec/MessageChain
         .with("portfolio")
         .with(no_args)
         .with(no_args)
-        .and_return(true)
-
-      instance = described_class.create!(name: :portfolio, operator: "=", values: [])
-
-      expect(instance).to be_available
+        .and_return(portfolio_exists)
     end
 
-    it "is false if no portfolio is visible to the current user" do
-      allow(Project)
-        .to receive_message_chain(:workspace_type, :visible, :exists?) # rubocop:disable RSpec/MessageChain
-        .with("portfolio")
-        .with(no_args)
-        .with(no_args)
-        .and_return(false)
+    context "with EE", with_ee: %i[portfolio_management] do
+      it "is true if any portfolio is visible to the current user" do
+        instance = described_class.create!(name: :portfolio, operator: "=", values: [])
 
-      instance = described_class.create!(name: :portfolio, operator: "=", values: [])
+        expect(instance).to be_available
+      end
 
-      expect(instance).not_to be_available
+      context "when no portfolio is visible to the current user" do
+        let(:portfolio_exists) { false }
+
+        it "is false" do
+          instance = described_class.create!(name: :portfolio, operator: "=", values: [])
+
+          expect(instance).not_to be_available
+        end
+      end
+    end
+
+    context "without EE", without_ee: %i[portfolio_management] do
+      it "is false" do
+        instance = described_class.create!(name: :portfolio, operator: "=", values: [])
+
+        expect(instance).not_to be_available
+      end
     end
   end
 

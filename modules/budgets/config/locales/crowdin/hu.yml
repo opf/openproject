@@ -31,7 +31,7 @@ hu:
         budget_ratio: Elköltött (arány)
         description: Leírás
         labor_budget: Tervezett munkaerő-költségek
-        labor_budget_items: Planned labor costs
+        labor_budget_items: Tervezett munkaerő-költségek
         material_budget: Tervezett egység költség
         spent: Elköltve
         status: Állapot
@@ -44,10 +44,10 @@ hu:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: nem tagja a költségvetési projektnek
     models:
       budget: Költségvetés
-      labor_budget_item: Planned labor cost
+      labor_budget_item: Tervezett munkaerő-költség
       material_budget_item: Egység
   activity:
     filter:
@@ -64,22 +64,22 @@ hu:
           description: Add details about your planned budget to see data here
           heading: Budget details missing
         count_caption:
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-          zero: No budget data.
+          one: A %{count} költségvetésből összesített adatok
+          other: A %{count} költségvetéseiből összesített adatok
+          zero: Nincsenek költségvetési adatok.
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: A %{count} költségvetésből összesített adatok, amelyek ebben a portfólióban és annak al-elemében szerepelnek.
+            other: A %{count} költségvetésből összesített adatok, amelyek ebben a portfólióban és annak al-elemében szerepelnek.
+            zero: Nincsenek költségvetési adatok.
           program:
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-            zero: No budget data.
+            one: A %{count} költségvetésből összesített adatok, amelyek ebben a programban és annak al-elemében szerepelnek.
+            other: A %{count} költségvetésekből összesített adatok, amelyek ebben a programban és annak al-elemében szerepelnek.
+            zero: Nincs költségvetési adat.
           project:
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-            zero: No budget data.
+            one: A %{count} költségvetésből összesített adatok, amelyek ebben a projektben és annak al-elemében szerepelnek.
+            other: A %{count} költségvetésekből összesített adatok, amelyek ebben a projektben és annak al-elemében szerepelnek.
+            zero: Nincs költségvetési adat.
         title: Budget by cost type
         view_details: View budget details
       budget_totals:

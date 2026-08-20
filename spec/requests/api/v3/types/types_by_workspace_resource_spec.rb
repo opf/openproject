@@ -48,7 +48,7 @@ RSpec.describe "/api/v3/projects/:id/types" do
     subject(:response) { last_response }
 
     before do
-      project.types << expected_types
+      expected_types.each { |type| project.project_types.create!(type:) }
     end
 
     context "for a logged in user" do

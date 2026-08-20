@@ -91,7 +91,7 @@ module OpenProject::Wikis
     register "openproject-wikis", author_url: "https://openproject.org" do
       project_module nil do
         permission :view_wiki_pages,
-                   { wiki: %i[index show special menu export] },
+                   { wiki: %i[index show special menu menu_tree export] },
                    permissible_on: :project
 
         permission :view_wiki_edits,
@@ -192,9 +192,8 @@ module OpenProject::Wikis
 
       menu :project_menu,
            :settings_project_wiki,
-           { controller: "wikis/project_settings/wiki", action: :show },
+           { controller: "/wikis/project_settings/wiki", action: :show },
            parent: :settings,
-           if: ->(_) { Wikis::InternalProvider.enabled? }, # What to do on projects that have a wiki but later disabled it?
            after: :settings_backlogs,
            caption: :project_module_wiki_internal
     end

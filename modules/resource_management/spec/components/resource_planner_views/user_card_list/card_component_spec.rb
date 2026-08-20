@@ -79,8 +79,8 @@ RSpec.describe ResourcePlannerViews::UserCardList::CardComponent, type: :compone
     context "for an inactive user" do
       before { card_user.update_column(:status, Principal.statuses[:locked]) }
 
-      it "renders the status as an attention label" do
-        expect(rendered).to have_css("span.Label--attention", text: I18n.t("user.locked"))
+      it "renders the status as an secondary label" do
+        expect(rendered).to have_css("span.Label--secondary", text: I18n.t("user.locked"))
         expect(rendered).to have_no_css("span.Label--success")
       end
     end

@@ -35,7 +35,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -123,7 +123,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     filters.expect_filter_count 2
     filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Version", "is (OR)", version.name)
+    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
     page.execute_script("window.history.back()")
 
@@ -156,7 +156,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     wp_table.expect_work_package_listed work_package_3
     filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Version", "is (OR)", version.name)
+    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
     page.execute_script("window.history.forward()")
 
@@ -164,7 +164,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     wp_table.expect_no_work_package_listed
     filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Version", "is (OR)", version.name)
+    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     filters.expect_filter_by("Assignee", "is (OR)", user.name)
   end
 end

@@ -195,9 +195,120 @@ RSpec.describe Project do
     end
   end
 
+  describe "#enabled_variants" do
+    shared_let(:type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
+
+    it "applies the named variant when it is the one enabled" do
+      project = create(:project, types: [variant])
+
+      expect(project.reload.enabled_variants).to contain_exactly(variant)
+      expect(project.project_types.sole.type).to eq(type)
+    end
+
+    it "applies the base variant when the type itself is enabled" do
+      project = create(:project, types: [type])
+
+      expect(project.reload.enabled_variants).to contain_exactly(type.default_variant)
+      expect(project.project_types.sole.type).to eq(type)
+    end
+
+    it "switches the applied variant without changing which type is used" do
+      project = create(:project, types: [type])
+
+      project.project_types.sole.update!(variant:)
+
+      expect(project.reload.enabled_variants).to contain_exactly(variant)
+      expect(project.project_types.sole.type).to eq(type)
+    end
+
+    it "orders by the position of the types" do
+      first, last = create_list(:type, 2)
+      # acts_as_list appends on create, so the order has to be forced after the fact.
+      first.update_column(:position, 1)
+      last.update_column(:position, 99)
+      project = create(:project, types: [last, first])
+
+      expect(project.reload.enabled_variants)
+        .to eq([first.default_variant, last.default_variant])
+    end
+
+    it "refuses a second row for a type already used" do
+      project = create(:project, types: [type])
+
+      expect { project.project_types.create!(type:) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
+  describe "#type_variant" do
+    shared_let(:type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
+
+    context "when the project applies a named variant" do
+      shared_let(:project) { create(:project, types: [variant]) }
+
+      it "resolves the type to that variant" do
+        expect(project.type_variant(type)).to eq(variant)
+      end
+    end
+
+    context "when the project uses the type without choosing a variant" do
+      shared_let(:project) { create(:project, types: [type]) }
+
+      it "resolves to the base variant" do
+        expect(project.type_variant(type)).to eq(type.default_variant)
+      end
+    end
+
+    context "when the project does not use the type at all" do
+      shared_let(:project) { create(:project, no_types: true) }
+
+      it "resolves to the base variant, whose configuration is the only one that could apply" do
+        expect(project.type_variant(type)).to eq(type.default_variant)
+      end
+    end
+
+    it "is nil without a type" do
+      expect(create(:project).type_variant(nil)).to be_nil
+    end
+  end
+
+  describe "#type_variants" do
+    shared_let(:type) { create(:type, name: "Bug") }
+    shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
+    shared_let(:unrelated) { create(:type, name: "Risk") }
+
+    shared_let(:project) { create(:project, types: [variant, unrelated]) }
+
+    it "resolves each type to the variant the project applies" do
+      expect(project.type_variants(type, unrelated))
+        .to contain_exactly(variant, unrelated.default_variant)
+    end
+
+    it "accepts ids as well as records" do
+      expect(project.type_variants(type.id, unrelated.id))
+        .to contain_exactly(variant, unrelated.default_variant)
+    end
+
+    it "answers once per type however often it is named" do
+      expect(project.type_variants(type, type)).to contain_exactly(variant)
+    end
+
+    it "falls back to the base variant for a type the project does not use" do
+      other_type = create(:type, name: "Risk of its own")
+      create(:type_variant, type: other_type, variant_name: "Unused")
+
+      expect(project.type_variants(other_type)).to contain_exactly(other_type.default_variant)
+    end
+
+    it "is empty without types" do
+      expect(project.type_variants).to be_empty
+    end
+  end
+
   describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
-    let(:type) { project.types.first }
+    let(:type) { project.enabled_types.first }
     let(:other_type) { create(:type) }
     let(:project_work_package) { create(:work_package, type:, project:) }
     let(:other_project) { create(:project, types: [other_type, type]) }
@@ -229,12 +340,46 @@ RSpec.describe Project do
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
 
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
     let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
 
-    it "only includes active members" do
+    it "includes active members of any principal type but excludes locked ones" do
       expect(project.members)
+        .to contain_exactly(active_member, group_member)
+    end
+  end
+
+  describe "#member_users" do
+    let(:role) { create(:project_role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it "only includes active user members, excluding groups" do
+      expect(project.member_users)
         .to eq [active_member]
+    end
+  end
+
+  describe "#principals" do
+    let(:role) { create(:project_role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:group) { create(:group) }
+    let!(:group_member) { create(:member, project:, principal: group, roles: [role]) }
+
+    it "includes principals of any member type" do
+      expect(project.principals)
+        .to contain_exactly(active_user, group)
     end
   end
 
@@ -388,7 +533,7 @@ RSpec.describe Project do
 
     let!(:project_type) do
       create(:type).tap do |t|
-        project.types = [t, shared_type]
+        project.project_types = [t, shared_type].map { |type| ProjectType.new(type:) }
       end
     end
 

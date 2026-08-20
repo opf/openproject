@@ -38,6 +38,7 @@ Rails.application.configure do |application|
 
       formatter WorkPackage, Exports::Formatters::CustomField
       formatter WorkPackage, Exports::Formatters::CustomFieldPdf
+      formatter WorkPackage, Exports::Formatters::CustomComment
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundHours
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
@@ -63,6 +64,7 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::Active
       formatter Project, Projects::Exports::Formatters::PDF::Favorited
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
+      formatter Project, Projects::Exports::Formatters::ProjectPhase
     end
   end
 end

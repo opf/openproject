@@ -29,57 +29,71 @@
 #++
 
 module WorkPackageTypes
+  # "Switch to linked mode" / "Change source type" on a type's configuration
+  # tabs: the source-picker dialog, the danger confirmation (whose wording
+  # depends on whether the type is currently Independent or Linked), and the
+  # switch itself. Built to mirror ConfigurationCopiesController; the reverse
+  # switch back to Independent lives in ConfigurationIndependenceController.
   class ConfigurationLinksController < BaseTabController
-    include SubtypesFeature
+    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_subtypes_feature
+    before_action :require_type_variants_feature
+    before_action :require_valid_aspect
 
     current_menu_item do
       :types
     end
 
-    # Linked: create/update the link to the chosen source.
-    def update
-      result = service.link(source_id: source_id_param)
-
-      if result.success?
-        redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
-      else
-        render_rejected_link(result.result)
-      end
+    def dialog
+      respond_with_dialog ConfigurationLinks::DialogComponent.new(variant: @variant, aspect:)
     end
 
-    # Independent: remove the link, adopting the picked source's config first.
-    def destroy
-      service.make_independent(source_id: source_id_param)
-      redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
+    def confirm
+      if source.nil?
+        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
+      else
+        close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
+        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
+      end
+
+      respond_with_turbo_streams
+    end
+
+    def switch
+      result = SwitchToLinkedModeService.new(variant: @variant, aspect:).call(source:)
+
+      close_dialog_via_turbo_stream("##{ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID}")
+
+      respond_to_switch(result)
+
+      respond_with_turbo_streams
     end
 
     private
 
-    def service
-      SetConfigurationLinkService.new(type: @type, aspect: params[:aspect_id])
+    def aspect = params[:aspect]
+
+    def source
+      return @source if defined?(@source)
+
+      @source = TypeVariant.find_by(id: params[:source_id])
     end
 
-    def source_id_param
-      params.dig(:type_configuration_link, :source_id)
-    end
-
-    def render_rejected_link(link)
-      replace_via_turbo_stream(
-        component: ConfigurationLinkComponent.new(type: @type, aspect: params[:aspect_id], link:)
-      )
-      respond_with_turbo_streams(status: :unprocessable_entity)
-    end
-
-    def tab_path_for(aspect)
-      case aspect
-      when Type::ConfigurationLink::PATTERNS
-        edit_type_subject_configuration_path(type_id: @type.id)
+    def respond_to_switch(result)
+      if result.success?
+        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.success"))
+        dispatch_event_via_turbo_stream(
+          ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
+          detail: { type_id: @type.id, aspect: }
+        )
       else
-        edit_type_pdf_export_template_index_path(type_id: @type.id)
+        render_error_flash_message_via_turbo_stream(message: result.errors.full_messages.to_sentence)
       end
+    end
+
+    def require_valid_aspect
+      render_404 unless TypeVariant::ASPECTS.include?(aspect)
     end
   end
 end

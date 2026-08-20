@@ -8,7 +8,7 @@
            icon: :x,
            mobile_icon: :x,
            label: I18n.t(:button_cancel),
-           href: types_path,
+           href: cancel_href,
            aria: { label: I18n.t(:button_cancel) }
          ) %>
     <% end %>
@@ -21,26 +21,25 @@
       <% end %>
 
       <% page.with_area("main") do %>
-        <% if step_aspect %>
-          <%= render(
-                WorkPackageTypes::ConfigurationLinkComponent.new(
-                  type:,
-                  aspect: step_aspect,
-                  url: step_url,
-                  method: :patch,
-                  form_id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
-                  form_model: type,
-                  with_submit: false,
-                  editor_form: step_editor_form,
-                  heading: step_title
-                )
-              ) do |c| %>
-            <% c.with_readonly_preview { render(step_readonly_preview) } if step_readonly_preview %>
-            <%= render(step_body) %>
+        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
+
+        <% if step_editor %>
+          <%= within_step_frame do %>
+            <%= reuse_mode_banner %>
+            <%= primer_form_with(**step_form_options) do |f| %>
+              <%= render(step_editor.editor(f)) %>
+            <% end %>
           <% end %>
         <% else %>
-          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
+          <%# Self-persisting editor: this form only advances to the next step on submit. %>
           <%= render(step_body) %>
+          <%= primer_form_with(
+                url: step_url,
+                method: :patch,
+                html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
+              ) do %>
+            <%= tag.input(type: :hidden, name: :step, value: current_step) %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

@@ -53,8 +53,8 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :subtypes,
-                                  description: "Enables work package subtypes."
+OpenProject::FeatureDecisions.add :type_variants,
+                                  description: "Enables work package type variants."
 
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
@@ -63,3 +63,7 @@ OpenProject::FeatureDecisions.add :llm_connection,
 OpenProject::FeatureDecisions.add :work_package_multiple_versions,
                                   description: "Enables assigning multiple (target) versions to a work package. " \
                                                "Experimental; the user-facing setting and admin switch follow later."
+
+OpenProject::FeatureDecisions.add :sprint_reports,
+                                  description: "Enables sprint reporting within the backlogs module. " \
+                                               "It shows a dashboard with various widgets regarding the sprint progress."

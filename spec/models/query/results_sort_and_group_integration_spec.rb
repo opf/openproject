@@ -37,7 +37,7 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
     described_class.new query
   end
 
-  let(:type) { create(:type_standard, custom_fields: [custom_field]) }
+  let(:type) { create(:type_task, custom_fields: [custom_field]) }
   let(:project) do
     create(:project,
            types: [type],
@@ -57,8 +57,9 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
 
   current_user { user }
 
-  def wp_with(custom_field_value: nil, **attributes)
+  def wp_with(custom_field_value: nil, version_id: nil, **attributes)
     attributes[:custom_values] = { custom_field.id => custom_field_value } if custom_field_value
+    attributes[:version] = Version.find(version_id) if version_id
 
     create(:work_package, type:, project:, **attributes)
   end
@@ -221,7 +222,8 @@ RSpec.describe Query::Results, "Sorting and grouping at the same time" do
     end
   end
 
-  context "when grouping by version and sorting by version format cf" do
+  context "when grouping by version and sorting by version format cf",
+          with_settings: { work_package_multiple_versions: false } do
     let(:versions) do
       [
         create(:version, project:, sharing: "system", name: "10.10.10"),

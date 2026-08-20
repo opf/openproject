@@ -33,8 +33,13 @@ ko:
           on_track: 정상 상태
           title: 상태
         project_timeline:
-          tooltip_type_gate: Phase gate
-          tooltip_type_phase: Phase
+          accessible_date_range: "%{start} ~ %{end}"
+          accessible_gate: '단계 게이트 %{name}: %{date}'
+          accessible_phase: '단계 %{name}: %{date}'
+          tooltip_type_gate: 단계 게이트
+          tooltip_type_milestone: 마일스톤
+          tooltip_type_phase: 단계
+          tooltip_type_sprint: 스프린트
         subprojects:
           title: 하위 항목
         time_entries_current_user:

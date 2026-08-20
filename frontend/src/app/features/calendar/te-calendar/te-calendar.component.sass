@@ -1,5 +1,6 @@
 @import '../../app/spot/styles/sass/variables'
 @import '../../global_styles/openproject/variables'
+@import "helpers"
 
 op-time-entries-calendar
   // The two media queries below make sure the "Log time" button does not overlap
@@ -19,6 +20,9 @@ op-time-entries-calendar
     .fc-toolbar-chunk:last-child
       flex-basis: 165px
       flex-shrink: 0
+
+  .te-calendar--popover-entry
+    @include text-shortener(false)
 
   full-calendar
     overflow-x: auto

@@ -57,6 +57,8 @@ sl:
         position: Position
         presenter: Presenter
         title: Naslov
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

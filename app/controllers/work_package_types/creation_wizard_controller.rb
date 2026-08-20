@@ -29,31 +29,57 @@
 #++
 
 module WorkPackageTypes
-  # Guided, multi-step creation of a work package sub-type.
-  #
-  # Deliberately self-contained: it never reuses the tabbed type controllers so
-  # the existing tabbed creation/editing flow keeps working unchanged next to it.
-  # The sub-type record is created after the first step and each later step
-  # persists to that same record (see FND-117).
+  # Guided, multi-step creation of a work package type, or of a variant of one.
   class CreationWizardController < ApplicationController
+    include AddressesVariant
+    include TypeVariantsFeature
+
     layout "no_menu"
 
+    helper_method :adding_variant?
+
     before_action :require_admin
-    before_action :require_subtypes_feature
+    before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
+    before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
 
     def show; end
 
     def new
-      @type = Type.new(parent_id: params[:parent_id])
+      if params[:type_id]
+        @type = ::Type.find(params.expect(:type_id))
+        @variant = @type.variants.new
+      else
+        @type = Type.new
+      end
+
       @current_step = Wizard::Steps.first
       render :show
     end
 
     def create
+      params[:type_id] ? create_variant : create_type
+    end
+
+    def update
+      case @current_step
+      when :details
+        update_details
+      when :defaults
+        update_defaults
+      when :workflows
+        update_workflows
+      else
+        advance
+      end
+    end
+
+    private
+
+    def create_type
       service_call = WorkPackageTypes::CreateService.new(user: current_user).call(details_params)
-      @type = service_call.result
+      @type = @variant = service_call.result
 
       if service_call.success?
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
@@ -63,25 +89,25 @@ module WorkPackageTypes
       end
     end
 
-    def update
-      return render_step_errors if persist_configuration_link&.failure?
+    def create_variant
+      @type = ::Type.find(params.expect(:type_id))
+      service_call = WorkPackageTypes::CreateVariantService.new(user: current_user, type: @type)
+                                                          .call(variant_details_params)
+      @variant = service_call.result
 
-      case @current_step
-      when :details
-        update_details
-      when :workflows
-        copy_workflows
-        advance
+      if service_call.success?
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
       else
-        advance
+        @current_step = Wizard::Steps.first
+        render :show, status: :unprocessable_entity
       end
     end
 
-    private
-
     def update_details
+      return update_variant_details if adding_variant?
+
       service_call = WorkPackageTypes::UpdateService
-                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateSettingsContract)
+                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDetailsContract)
                        .call(details_params)
 
       if service_call.success?
@@ -91,34 +117,54 @@ module WorkPackageTypes
       end
     end
 
-    # Each step chooses a reuse mode for its own aspect. Details has none, so it
-    # returns nil, leaving nothing to persist.
-    def persist_configuration_link
-      aspect = Wizard::Steps.aspect_for(@current_step)
-      mode = params.dig(:type, :mode)
-      return if aspect.nil? || mode.blank?
+    def update_variant_details
+      service_call = WorkPackageTypes::UpdateService
+                       .new(user: current_user, model: @variant, contract_class: UpdateVariantContract)
+                       .call(variant_details_params)
 
-      service = SetConfigurationLinkService.new(type: @type, aspect:)
-      source_id = params.dig(:type, :source_id)
-
-      case mode
-      when "linked" then service.link(source_id:)
-      when "independent" then service.make_independent(source_id:)
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
       end
     end
 
-    def render_step_errors
-      flash.now[:error] = t("types.creation_wizard.configuration_link_error")
-      render :show, status: :unprocessable_entity
+    # A Linked aspect renders read-only and submits nothing, so there is nothing to
+    # persist and the values on screen belong to the source type.
+    def update_defaults
+      return advance if @variant.linked?(TypeVariant::DEFAULTS)
+
+      service_call = WorkPackageTypes::UpdateService
+                       .new(user: current_user, model: @variant,
+                            contract_class: WorkPackageTypes::UpdateDefaultsContract)
+                       .call(patterns: Forms::DefaultsFormModel.to_patterns(defaults_params),
+                             default_work_package_description: defaults_params[:default_work_package_description])
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
     end
 
-    # The copy source is only offered in Independent mode; a Linked aspect inherits
-    # its workflows from the source instead.
-    def copy_workflows
-      return if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten.
+    def update_workflows
+      matrix_context = ::Workflows::MatrixContext.new(
+        variant: @variant,
+        tab: params[:tab],
+        role_ids: params[:role_ids]
+      )
 
-      source = ::Type.find_by(id: params.dig(:type, :copy_workflow_from))
-      @type.workflows.copy_from_type(source) if source
+      service_call = ::Workflows::MatrixUpdateService
+                       .new(variant: @variant, roles: matrix_context.roles, tab: matrix_context.tab)
+                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
     end
 
     def advance
@@ -127,14 +173,27 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(@type, step:), status: :see_other
+        redirect_to type_creation_wizard_path(**variant_path_args, step:), status: :see_other
       else
         redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
       end
     end
 
+    # @variant is the type itself while a type is being created until there is a variant to be used
+    def variant_path_args
+      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    end
+
+    def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+
     def find_type
       @type = ::Type.find(params.expect(:type_id))
+    end
+
+    def addressed_type = @type
+
+    def find_variant
+      @variant = addressed_variant(among: @type.variants.non_default_variants)
     end
 
     def set_current_step
@@ -142,11 +201,17 @@ module WorkPackageTypes
     end
 
     def details_params
-      params.expect(type: %i[name parent_id])
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
     end
 
-    def require_subtypes_feature
-      render_404 unless OpenProject::FeatureDecisions.subtypes_active?
+    def variant_details_params
+      params.expect(type_variant: [:variant_name])
+    end
+
+    def defaults_params
+      @defaults_params ||= params.expect(
+        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern default_work_package_description]
+      ).to_h
     end
   end
 end

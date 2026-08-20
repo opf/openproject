@@ -217,7 +217,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
       toc_entry("project_section_#{section[:section_id]}", section[:caption])
     end
-    work_package.type.attribute_groups.each do |group|
+    work_package.type_variant.attribute_groups.each do |group|
       entries << toc_entry("wp_group_#{group.key}", group.translated_key)
     end
     entries
@@ -300,7 +300,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
   def collect_project_attributes_data # rubocop:disable Metrics/AbcSize
     ProjectCustomFieldSection
-      .grouped_in_order(project.available_custom_fields_for_type(work_package.type_id))
+      .grouped_in_order(project.available_custom_fields_for_variant(work_package.type_variant&.id))
       .map do |section, custom_fields|
       {
         section_id: section.id,
