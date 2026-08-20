@@ -85,6 +85,7 @@ OpenProject::Inflector.rule do |_basename, abspath|
 end
 
 OpenProject::Inflector.inflection(
+  "ai" => "AI",
   "rss" => "RSS",
   "sha1" => "SHA1",
   "sso" => "SSO",

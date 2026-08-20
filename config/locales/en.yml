@@ -87,6 +87,13 @@ en:
 
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: "Active"
+        injects_type_template: "Insert work package type template"
+        label: "Label"
+        prompt: "Prompt"
+        types: "Work package types"
+        usage_scope: "Scope"
       announcements:
         show_until: "Display until"
       attachment:
@@ -986,6 +993,7 @@ en:
           other: "%{count} errors prohibited this %{model} from being saved"
 
     models:
+      ai/text_transform_action: "Text transform action"
       attachment: "File"
       attribute_help_text:
         one: "Attribute help text"

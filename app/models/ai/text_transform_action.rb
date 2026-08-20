@@ -27,32 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+module AI
+  class TextTransformAction < ApplicationRecord
+    acts_as_list
+
+    has_many :text_transform_action_types,
+             class_name: "AI::TextTransformActionType",
+             foreign_key: :ai_text_transform_action_id,
+             inverse_of: :text_transform_action,
+             dependent: :destroy
+    has_many :types, through: :text_transform_action_types
+
+    enum :usage_scope, {
+      everywhere: "everywhere",
+      all_work_package_types: "all_work_package_types",
+      specific_work_package_types: "specific_work_package_types"
+    }, default: "everywhere", validate: true
+
+    validates :label, presence: true, length: { maximum: 255 }
+    validates :prompt, presence: true
+    validates :types, presence: true, if: :specific_work_package_types?
+
+    scope :active, -> { where(active: true) }
+    scope :ordered, -> { order(:position, :id) }
   end
 end
