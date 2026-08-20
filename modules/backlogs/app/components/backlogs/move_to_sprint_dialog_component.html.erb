@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Alpha::Dialog.new(title: t(".title"), id: DIALOG_ID, size: :medium)) do |d| %>
+<%= render(Primer::Alpha::Dialog.new(title: t(".title"), id: DIALOG_ID, size: :medium_portrait)) do |d| %>
   <% d.with_header(variant: :large) %>
 
   <% d.with_body do %>
@@ -72,7 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
     %>
   <% end %>
 
-  <% d.with_footer(mt: 2) do %>
+  <% d.with_footer(show_divider: true) do %>
     <%=
       component_collection do |buttons|
         buttons.with_component(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) do
