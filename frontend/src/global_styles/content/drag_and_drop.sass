@@ -47,9 +47,10 @@
   &:active
     cursor: grabbing
 
-// Ghost layers behind a multi-card drag preview. Composed into the card's own
-// shadow by the component that renders it (border_box_list_component.sass).
-$op-drag-stack-layers: 2 !default
+// Ghost layers behind a multi-card drag preview, one per further card in the
+// batch up to the maximum. Composed into the card's own shadow by the
+// component that renders it (border_box_list_component.sass).
+$op-drag-stack-max-layers: 3 !default
 $op-drag-stack-step: 6px !default
 $op-drag-stack-ring: 1px !default
 $op-drag-stack-shade-blur: 4px !default
@@ -57,14 +58,14 @@ $op-drag-stack-shade-color: rgba(37, 41, 46, 0.18) !default
 
 // Mirrored by BATCH_BADGE_OVERHANG_PX and DRAG_STACK_OVERHANG_PX (preview.ts).
 $op-drag-badge-overhang: 8px !default
-$op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-layers + $op-drag-stack-shade-blur
+$op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-drag-stack-shade-blur
 
 // Each depth emits shade, fill then ring: CSS paints a shadow list front to
 // back, so a depth's shade lands above its own fill, in the gap under the card
 // in front of it. The deepest shade reaches `step * layers + shade-blur` past
 // the right and bottom edges; the blur is under every offset, so nothing
 // reaches past the top or left.
-@function op-drag-stack-shadows($layers: $op-drag-stack-layers, $step: $op-drag-stack-step, $ring: $op-drag-stack-ring, $blur: $op-drag-stack-shade-blur, $shade: $op-drag-stack-shade-color)
+@function op-drag-stack-shadows($layers: $op-drag-stack-max-layers, $step: $op-drag-stack-step, $ring: $op-drag-stack-ring, $blur: $op-drag-stack-shade-blur, $shade: $op-drag-stack-shade-color)
   $shadows: ()
 
   @for $depth from 1 through $layers
