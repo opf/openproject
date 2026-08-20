@@ -156,7 +156,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 小部件
+        widgets: 微件
       group:
         group_users: 用户组
         identity_url: 身份 URL
@@ -343,7 +343,7 @@ zh-CN:
         token_name: 令牌名称
       type:
         attribute_groups: 表单配置
-        children: 变体
+        children: Variants
         color: 颜色
         dependent_configuration_links: 关联的类型
         description: 默认描述文本
@@ -488,6 +488,7 @@ zh-CN:
         before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
         blank_nested: 需要设置属性“%{property}”。
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必需项，不能删除
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
@@ -820,7 +821,7 @@ zh-CN:
             parent:
               cannot_be_self: 不能是类型本身。
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: 无法设置，因为此类型已有变体。
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
               standard_type_must_be_root: 无法为标准类型设置。
             patterns:
@@ -828,7 +829,7 @@ zh-CN:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: 将在循环中链接这些配置。
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1113,7 +1114,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署的 Enterprise edition
+      order: 订购本地部署版的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -1519,7 +1520,7 @@ zh-CN:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2794,15 +2795,16 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: 新的资源管理模块，用于产能规划和人员配置（Premium 方案）。
-            line_1: 通过部门、用户特性（如职务名称）以及工作时数提升了组织管理。
-            line_2: 多个处于有效状态且未共享的冲刺（Basic 方案）。
-            line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
-            line_4: PM²/PMflex 工件导出和用于项目阶段和关口概览的新微件。
-            line_5: 全球 Wiki 页面索引，更容易在相关页面之间导航。
-          new_features_title: '此版本包含多项新功能和改进，例如：
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
@@ -2849,16 +2851,11 @@ zh-CN:
         field_updated: "“%{field}”已更新"
         header: 更改者：%{author}
         set_with_diff: "“%{field}”已设置 (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
@@ -2895,14 +2892,14 @@ zh-CN:
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
       import: 已导入
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 更新进度计算
       status_changed: 状态 '%{status_name}'
       system_update: OpenProject 系统更新：
@@ -3487,7 +3484,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图 %{name}
+  label_roadmap_edit: 编辑路线图%{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -3782,7 +3779,6 @@ zh-CN:
         invalid_type: 在项目 "%{project}" 中找不到名称为 "%{type}" 的类型。
         no_project_context: 从外部项目上下文调用 create_work_package_link 宏。
       link_name: 新工作包
-      link_name_type: 新%{type_name}
     errors:
       missing_or_invalid_parameter: 缺少或无效的宏参数。
     include_wiki_page:
@@ -5066,7 +5062,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -5190,6 +5186,7 @@ zh-CN:
   setting_default_language: 默认语言
   setting_default_projects_modules: 新项目的默认启用模块
   setting_default_projects_public: 新项目默认公开
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
   setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
@@ -5298,7 +5295,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用版本库管理 web 服务
+  setting_sys_api_enabled: 启用存储库管理网页服务
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
   setting_total_percent_complete_mode_simple_average: 简单平均值
@@ -5717,6 +5714,7 @@ zh-CN:
   text_destroy_what_to_do: 你想做什么？
   text_destroy_with_associated: 有额外的对象关联到要删除的工作包。这些对象是以下类型：
   text_diff_truncated: "...这个比较被截断，因为它超出了可显示的最大大小。"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     电子邮件传送未配置，通知已禁用。
     配置您的 SMTP 服务器将其启用。
@@ -5874,7 +5872,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         workflows: 工作流
-      success: 变体创建成功。
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 变体：%{name}
       defaults:
@@ -6279,7 +6277,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
 
     '
   wiki:

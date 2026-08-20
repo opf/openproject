@@ -343,7 +343,7 @@ uk:
         token_name: Ім’я маркера
       type:
         attribute_groups: Конфігурація форми
-        children: Варіанти
+        children: Variants
         color: Колір
         dependent_configuration_links: Зв’язані типи
         description: Текст за умовчанням для опису
@@ -488,6 +488,7 @@ uk:
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
@@ -827,7 +828,7 @@ uk:
             parent:
               cannot_be_self: не може бути самим типом.
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: не можна встановити, оскільки цей тип уже має варіанти.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: має бути типом верхнього рівня. Типи можуть бути вкладеними лише на один рівень углиб.
               standard_type_must_be_root: не може встановлюватися для стандартного типу.
             patterns:
@@ -835,7 +836,7 @@ uk:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: зв’яже ці конфігурації в цикл.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1601,7 +1602,7 @@ uk:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2960,15 +2961,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: новий модуль керування ресурсами для планування завантаження й забезпечення кадрами (у межах тарифного плану Premium);
-            line_1: поліпшений організаційний менеджмент завдяки підрозділам, атрибутам користувачів, зокрема посадам, і робочим годинам;
-            line_2: підтримка кількох активних спринтів, якщо вимкнено спільний доступ (у межах тарифного плану Basic);
-            line_3: фільтри з підтримкою множинного вибору для зручнішої роботи з беклогом і спринтами, покращена функція «перетягнути й відпустити», а також можливість додавати наявні пакети робіт;
-            line_4: експорт артефактів PM²/PMflex і новий віджет для огляду етапів і контрольних точок проєктів;
-            line_5: глобальний індекс сторінок Wiki й зручніша навігація пов’язаними сторінками.
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3015,16 +3017,11 @@ uk:
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
         set_with_diff: Поле «%{field}» налаштовано (%{link})
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
@@ -3061,14 +3058,14 @@ uk:
       dates_changed: Дати змінено
       default_attribute_written: Атрибути лише для читання записано
       import: Імпортовано
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Обчислення прогресу оновлено
       status_changed: Статус «%{status_name}»
       system_update: Оновлення системи OpenProject
@@ -3387,7 +3384,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції зі встановлення
+  label_installation_guides: Інструкції із встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -3959,7 +3956,6 @@ uk:
         invalid_type: Не знайдено жодного типу з назвою %{type} в проекті %{project}.
         no_project_context: Виклик макросу create_work_package_link із зовнішнього контексту проекту.
       link_name: Новий пакет робіт
-      link_name_type: Новий %{type_name}
     errors:
       missing_or_invalid_parameter: Відсутній або неприпустимий параметр макросу.
     include_wiki_page:
@@ -5408,6 +5404,7 @@ uk:
   setting_default_language: Мова за замовчуванням
   setting_default_projects_modules: Включені по замовчуванню модулі для нових проектів
   setting_default_projects_public: Нові проекти є загальнодоступними
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Відображається максимальна кількість рядків diff
   setting_disable_password_login: Вимкнути автентифікацію за допомогою пароля
   setting_display_subprojects_work_packages: Дисплей підпроекти пакети робіт на основні проекти за замовчуванням
@@ -5933,6 +5930,7 @@ uk:
   text_destroy_what_to_do: Що ти хочеш зробити?
   text_destroy_with_associated: 'Існують додаткові об’єкти, пов’язані з пакетом(-ами) робіт, які потрібно видалити. Це об’єкти таких типів:'
   text_diff_truncated: "... Це порівняння (diff) було скорочене, оскільки воно перевищує максимальний розмір, який можна відобразити."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Доставку електронної пошти не налаштовано, і сповіщення вимкнуто.
     Налаштуйте свій SMTP-сервер, щоб увімкнути їх.
@@ -6090,7 +6088,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         workflows: Робочі процеси
-      success: Варіант успішно створено.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
       defaults:

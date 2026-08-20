@@ -286,7 +286,7 @@ zh-TW:
   permission_view_sprints: View sprints
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject代辦事項
+    name: OpenProject待辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:
