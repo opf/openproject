@@ -27,7 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 3, font_weight: :normal, mt: 4, mb: 2)) do %>
+<%= render(
+      Primer::Beta::Heading.new(
+        tag: :h2,
+        font_size: 3,
+        font_weight: :normal,
+        mt: 4,
+        mb: 2,
+        pb: 2,
+        border: :bottom
+      )
+    ) do %>
   <%= t(:label_interface_colors) %>
 <% end %>
 
@@ -71,7 +81,13 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= render(Colors::SwatchComponent.new(hexcode:, show_value: true)) %>
               <% end %>
               <% value.with_column(ml: 2) do %>
-                <%= render(Primer::Alpha::Dialog.new(title: label, id: "design-color-#{variable}-dialog")) do |dialog| %>
+                <%= render(
+                      Primer::Alpha::Dialog.new(
+                        title: label,
+                        id: "design-color-#{variable}-dialog",
+                        visually_hide_title: true
+                      )
+                    ) do |dialog| %>
                   <% dialog.with_show_button(
                        icon: :pencil,
                        scheme: :invisible,
