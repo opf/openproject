@@ -87,13 +87,13 @@ module OAuthClients
     def expired?(token)
       return false if token.expires_in.nil?
 
-      token.updated_at + token.expires_in.seconds < margin(token).from_now
+      token.updated_at + token.expires_in.seconds < margin.from_now
     end
 
-    # Rotating access tokens before they actually do expire, to give code using the access token returned by this service
-    # for some time to make use of it.
-    def margin(token)
-      [token.expires_in.seconds / 10, 60.seconds].min
+    # Rotating access tokens before they expire, giving code using the access token time to make use of it.
+    # 10 seconds should also work well for short TTLs like 60 seconds, as handed out by Keycloak
+    def margin
+      10.seconds
     end
 
     def refresh_token_request(token)

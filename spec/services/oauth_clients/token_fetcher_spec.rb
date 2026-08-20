@@ -169,8 +169,8 @@ RSpec.describe OAuthClients::TokenFetcher, :webmock do
     end
   end
 
-  context "when the token is about to expire in less than a minute" do
-    let(:expires_since) { (ttl - 30).seconds.ago }
+  context "when the token is about to expire in less than 10 seconds" do
+    let(:expires_since) { (ttl - 5).seconds.ago }
 
     it "refreshes the token" do
       fetch_token
@@ -185,20 +185,6 @@ RSpec.describe OAuthClients::TokenFetcher, :webmock do
     it "returns the refreshed access token" do
       expect(fetch_token).to be_success
       expect(fetch_token.value!).to eq(new_access_token)
-    end
-
-    context "and when the token's TTL is very short" do
-      let(:ttl) { 60 }
-
-      it "does not refresh the token" do
-        fetch_token
-        expect(token_request).not_to have_received(:refresh)
-      end
-
-      it "returns the access token" do
-        expect(fetch_token).to be_success
-        expect(fetch_token.value!).to eq(existing_token.access_token)
-      end
     end
   end
 
