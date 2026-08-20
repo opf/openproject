@@ -65,9 +65,5 @@ module Wikis
         end
       end
     end
-
-    def item_icon(node)
-      node.type == :wiki ? :book : :"op-file-doc"
-    end
   end
 end
