@@ -38,7 +38,13 @@ module WorkPackageTypes
       :types
     end
 
-    def index; end
+    # The filter input drives the list's turbo frame, so a frame request only needs the list
+    # component: Turbo picks the frame out of it and drops the rest.
+    def index
+      return unless turbo_frame_request?
+
+      render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+    end
 
     def menu
       render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url]),

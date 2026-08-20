@@ -33,20 +33,40 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:)
+    FRAME_ID = "type-variants-list"
+
+    def initialize(type:, query: nil)
       super()
 
       @type = type
+      @query = query.presence
     end
 
     private
 
-    attr_reader :type
+    attr_reader :type, :query
 
     # The base variant is the type itself, which the sibling tabs already configure, so only the
     # named ones are listed here.
+    def named_variants = type.variants.non_default_variants
+
     def variants
-      @variants ||= type.variants.non_default_variants.in_display_order
+      @variants ||= begin
+        scope = named_variants
+        scope = scope.with_name_like(query) if query
+        scope.in_display_order
+      end
+    end
+
+    def any_variants? = named_variants.exists?
+
+    def filter_form_data
+      {
+        controller: "auto-submit",
+        "auto-submit-delay-value": 300,
+        turbo_frame: FRAME_ID,
+        turbo_action: "replace"
+      }
     end
 
     def variant_path(variant) = edit_type_details_path(**variant.path_args)

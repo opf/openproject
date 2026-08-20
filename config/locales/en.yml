@@ -6390,6 +6390,7 @@ en:
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
         filter: "Filter by text"
+        filter_no_results: "No variants match this filter."
       workflow:
         tab: "Workflows"
     index:

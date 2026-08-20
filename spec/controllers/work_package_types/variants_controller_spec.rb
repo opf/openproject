@@ -60,6 +60,26 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
       end
     end
 
+    describe "GET index as a turbo frame request" do
+      let!(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+      let!(:other_variant) { create(:type_variant, type:, variant_name: "Software") }
+
+      render_views
+
+      before do
+        request.headers["Turbo-Frame"] = WorkPackageTypes::VariantsListComponent::FRAME_ID
+
+        get :index, params: { type_id: type.id, query: "hard" }
+      end
+
+      it "renders the filtered list on its own, without the surrounding page" do
+        expect(response).to have_http_status(:ok)
+        expect(response).not_to render_template(:index)
+        expect(response.body).to include("Hardware")
+        expect(response.body).not_to include("Software")
+      end
+    end
+
     describe "POST make_default" do
       context "for the base variant" do
         let(:variant) { type.default_variant }

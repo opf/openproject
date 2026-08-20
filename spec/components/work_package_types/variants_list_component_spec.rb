@@ -35,7 +35,9 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
 
   shared_let(:type) { create(:type, name: "Bug") }
 
-  subject(:rendered_component) { render_inline(described_class.new(type:)) }
+  subject(:rendered_component) { render_inline(described_class.new(type:, query:)) }
+
+  let(:query) { nil }
 
   # The wizard is reachable from the types index too, so it has to be told to come back here.
   let(:add_variant_href) do
@@ -76,14 +78,37 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
         .to have_link(I18n.t("types.index.variant_label"), href: add_variant_href)
     end
 
-    it "renders the filter input, not yet wired to anything" do
+    it "submits the filter input to the list's turbo frame" do
       expect(rendered_component).to have_field(I18n.t("types.edit.variants.filter"))
+      expect(rendered_component)
+        .to have_css("form[action='#{type_variants_path(type_id: type.id)}'][data-turbo-frame='#{described_class::FRAME_ID}']")
+      expect(rendered_component).to have_css("turbo-frame##{described_class::FRAME_ID}", visible: :all)
     end
 
     it "marks the variant new projects start with" do
       alfa.update!(enabled_in_new_projects: true)
 
       expect(rendered_component).to have_text(I18n.t("types.index.enabled_in_new_projects"))
+    end
+
+    context "with a query matching one of them" do
+      let(:query) { "alf" }
+
+      it "lists only the matches and keeps the query in the input" do
+        expect(rendered_component).to have_link("Alfa")
+        expect(rendered_component).to have_no_link("Zeta")
+        expect(rendered_component).to have_field(I18n.t("types.edit.variants.filter"), with: "alf")
+      end
+    end
+
+    context "with a query matching none of them" do
+      let(:query) { "nothing like it" }
+
+      it "keeps the filter around and says so, rather than falling back to the blankslate" do
+        expect(rendered_component).to have_text(I18n.t("types.edit.variants.filter_no_results"))
+        expect(rendered_component).to have_field(I18n.t("types.edit.variants.filter"))
+        expect(rendered_component).to have_no_css("[data-test-selector='type-variants-blankslate']")
+      end
     end
   end
 

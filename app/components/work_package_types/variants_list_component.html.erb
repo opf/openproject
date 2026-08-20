@@ -29,65 +29,73 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    if variants.empty?
-      render(Primer::Beta::Blankslate.new(border: true, test_selector: "type-variants-blankslate")) do |blankslate|
-        blankslate.with_heading(tag: :h3) { I18n.t("types.edit.variants.blankslate.title") }
-        blankslate.with_description { t("types.edit.variants.blankslate.description_html") }
-        blankslate.with_primary_action(href: add_variant_path, test_selector: "add-type-variant") do
-          I18n.t("types.index.add_variant_action")
-        end
-      end
-    else
+    if any_variants?
       flex_layout do |page|
         page.with_row do
-          render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
-            subheader.with_filter_input(
-              name: "type-variants-filter",
-              label: I18n.t("types.edit.variants.filter"),
-              placeholder: I18n.t("types.edit.variants.filter"),
-              leading_visual: { icon: :search, size: :small }
-            )
+          form_tag(variants_path, method: :get, data: filter_form_data) do
+            render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+              subheader.with_filter_input(
+                name: "query",
+                value: query,
+                label: I18n.t("types.edit.variants.filter"),
+                placeholder: I18n.t("types.edit.variants.filter"),
+                leading_visual: { icon: :search, size: :small },
+                data: { action: "input->auto-submit#submit" }
+              )
 
-            subheader.with_action_button(
-              scheme: :primary,
-              leading_icon: :plus,
-              label: I18n.t("types.index.add_variant_action"),
-              tag: :a,
-              href: add_variant_path,
-              test_selector: "add-type-variant"
-            ) do
-              I18n.t("types.index.variant_label")
+              subheader.with_action_button(
+                scheme: :primary,
+                leading_icon: :plus,
+                label: I18n.t("types.index.add_variant_action"),
+                tag: :a,
+                href: add_variant_path,
+                test_selector: "add-type-variant"
+              ) do
+                I18n.t("types.index.variant_label")
+              end
             end
           end
         end
 
         page.with_row do
-          render(
-            OpenProject::Common::BorderBoxListComponent.new(
-              container: "type-variants",
-              padding: :condensed,
-              mb: 3,
-              test_selector: "type-variants"
-            )
-          ) do |list|
-            variants.each do |variant|
-              list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
-                item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+          helpers.turbo_frame_tag(FRAME_ID) do
+            render(
+              OpenProject::Common::BorderBoxListComponent.new(
+                container: "type-variants",
+                padding: :condensed,
+                mb: 3,
+                test_selector: "type-variants"
+              )
+            ) do |list|
+              list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
 
-                flex_layout(align_items: :center, justify_content: :space_between) do |row|
-                  row.with_column do
-                    render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
-                  end
+              variants.each do |variant|
+                list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+                  item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
 
-                  if variant.enabled_in_new_projects?
-                    row.with_column(mr: 3) do
-                      render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
+                  flex_layout(align_items: :center, justify_content: :space_between) do |row|
+                    row.with_column do
+                      render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
+                    end
+
+                    if variant.enabled_in_new_projects?
+                      row.with_column(mr: 3) do
+                        render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
+                      end
                     end
                   end
                 end
               end
             end
           end
+        end
+      end
+    else
+      render(Primer::Beta::Blankslate.new(border: true, test_selector: "type-variants-blankslate")) do |blankslate|
+        blankslate.with_heading(tag: :h3) { I18n.t("types.edit.variants.blankslate.title") }
+        blankslate.with_description { t("types.edit.variants.blankslate.description_html") }
+        blankslate.with_primary_action(href: add_variant_path, test_selector: "add-type-variant") do
+          I18n.t("types.index.add_variant_action")
         end
       end
     end
