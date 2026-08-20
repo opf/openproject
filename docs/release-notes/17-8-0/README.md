@@ -88,7 +88,7 @@ For example, administrators can:
 - prevent time from being logged on non-working days,
 - prevent entries from being added to months that have already ended.
 
-All validations are disabled by default, so existing OpenProject behavior remains unchanged after updating.
+All validations are disabled by default, so existing OpenProject behavior remains unchanged after updating. These settings are instance-wide. 
 
 Project-specific overrides are not yet included and are planned as a future enhancement.
 
@@ -136,9 +136,7 @@ Milestones are displayed below the project phases and link directly to their wor
 
 Sprints are displayed below milestones. They are shown as read-only items and cannot be moved using drag and drop. A footer link leads to the sprints overview.
 
-If the Backlogs module is disabled for a project, sprints are automatically hidden from the timeline.
-
-The widget respects the user's permissions and displays a blank slate when there are no relevant items to show.
+If the Backlogs module is disabled for a project, sprints are automatically hidden from the timeline. If a user lacks necessary permissions, the widget remains empty.  
 
 ### Improved work package identifiers and search
 
@@ -225,10 +223,10 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn, ZenDiS, and STEF for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
 
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Walid Ibrahim, Daniel Paulo Dos Santos, Christophe GESCHÉ, Gábor Alexovics, David Masshardt, and Katja Zedel.
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to UPDATE.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
 
-- 
+- UPDATE
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
