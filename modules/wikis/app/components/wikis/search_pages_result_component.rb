@@ -36,11 +36,12 @@ module Wikis
 
     alias_method :tree_nodes, :model
 
-    attr_reader :builder, :form_name
+    attr_reader :builder, :form_name, :wikis_selectable
 
-    def initialize(model = [], builder:, form_name:, **)
+    def initialize(model = [], builder:, form_name:, wikis_selectable:, **)
       @builder = builder
       @form_name = form_name
+      @wikis_selectable = wikis_selectable
       super(model, **)
     end
 
@@ -53,12 +54,12 @@ module Wikis
     def add_sub_tree(parent, nodes)
       nodes.each do |node|
         if node.children.any?
-          parent.with_sub_tree(**node_options(node, expanded: true)) do |item|
+          parent.with_sub_tree(**node_options(node, wikis_selectable:, expanded: true)) do |item|
             item.with_leading_visual_icon(icon: node_icon(node))
             add_sub_tree(item, node.children)
           end
         else
-          parent.with_leaf(**node_options(node, expanded: true)) do |item|
+          parent.with_leaf(**node_options(node, wikis_selectable:, expanded: true)) do |item|
             item.with_leading_visual_icon(icon: node_icon(node))
           end
         end

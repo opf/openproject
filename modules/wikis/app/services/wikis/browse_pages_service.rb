@@ -59,7 +59,7 @@ module Wikis
                         root_node
                       end
 
-        parent_node.find_or_add_child(Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, enabled: true))
+        parent_node.find_or_add_child(Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title))
       end
 
       Success(root_node.children)

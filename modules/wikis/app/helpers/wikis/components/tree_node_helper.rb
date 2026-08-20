@@ -31,14 +31,18 @@
 module Wikis
   module Components
     module TreeNodeHelper
-      def node_options(node, expanded: false)
+      def node_options(node, wikis_selectable: false, expanded: false)
         {
           label: node.name,
           select_variant: :single,
-          disabled: !node.enabled,
-          data: { node_id: node.identifier },
-          expanded:
+          disabled: !selectable?(node, wikis_selectable),
+          expanded:,
+          data: { node_id: node.key.to_s }
         }
+      end
+
+      def selectable?(node, wikis_selectable)
+        wikis_selectable || !node.wiki?
       end
 
       def node_icon(node)

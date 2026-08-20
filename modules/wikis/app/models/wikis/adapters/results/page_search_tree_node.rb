@@ -30,31 +30,48 @@
 
 module Wikis::Adapters::Results
   class PageSearchTreeNode
-    NodeKey = Data.define(:type, :identifier)
+    TYPES = %i[page root wiki].freeze
+    NodeKey = Data.define(:type, :identifier) do
+      def self.parse(string)
+        type, identifier = string.to_s.split(":", 2)
+        return if identifier.blank? || TYPES.exclude?(type&.to_sym)
+
+        new(type: type.to_sym, identifier:)
+      end
+
+      def to_s = "#{type}:#{identifier}"
+    end
 
     attr_reader :identifier, :type, :name, :enabled, :key
 
     class << self
       def root
-        new(identifier: "root", type: :root, name: "root", enabled: false)
+        new(identifier: "root", type: :root, name: "root")
       end
 
       def wiki(identifier, name)
-        new(identifier:, type: :wiki, name:, enabled: false)
+        new(identifier:, type: :wiki, name:)
       end
 
-      def page(identifier, name, enabled:)
-        new(identifier:, type: :page, name:, enabled:)
+      def page(identifier, name)
+        new(identifier:, type: :page, name:)
       end
     end
 
-    def initialize(identifier:, type:, name:, enabled:)
+    def initialize(identifier:, type:, name:)
       @key = NodeKey.new(type, identifier)
       @identifier = identifier
       @type = type
       @name = name
       @children = {}
-      @enabled = enabled
+    end
+
+    def page?
+      @type == :page
+    end
+
+    def wiki?
+      @type == :wiki
     end
 
     def children = @children.values
@@ -66,10 +83,6 @@ module Wikis::Adapters::Results
       raise ArgumentError unless node.is_a? self.class
 
       @children[node.key] ||= node
-    end
-
-    def enable
-      @enabled = true
     end
 
     def ==(other)
