@@ -12,7 +12,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 ### Which options are there to install OpenProject?
 
-You can find the installation options [here](../installation).
+See our [installation overview](../installation) for the currently supported installation options and recommendations.
 
 ### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
