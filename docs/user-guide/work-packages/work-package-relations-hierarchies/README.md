@@ -90,9 +90,7 @@ In **automatic scheduling** mode, the successor is by default scheduled to start
 
 In **manual scheduling** mode, work packages in a predecessor/successor relationship will retain the relationship but can be individually free scheduled without constraint. A successor can even be moved such that it begins and ends _before_ a predecessor. 
 
-## Display relations in a work package table (Enterprise add-on)
-
-As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) you can display relations as columns in the work package tables.
+## Display relations in a work package table
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
