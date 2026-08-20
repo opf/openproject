@@ -28,42 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreateProjectTypes < ActiveRecord::Migration[8.1]
+class AddCascadeToWorkPackageSemanticAliasesFk < ActiveRecord::Migration[8.1]
   def up
-    # Old installations of OpenProject used ProjectType
-    drop_table :project_types, if_exists: true
-
-    create_table :project_types do |t|
-      t.references :project, null: false, foreign_key: { on_delete: :cascade }, index: false
-      t.references :type, null: false, foreign_key: { to_table: :types, on_delete: :cascade }
-      t.references :variant, null: true, foreign_key: { to_table: :types, on_delete: :nullify }
-
-      t.timestamps
-    end
-
-    add_index :project_types, :project_id
-    add_index :project_types, %i[project_id type_id], unique: true
-
-    backfill_from_projects_types
+    remove_foreign_key :work_package_semantic_aliases, :work_packages
+    add_foreign_key :work_package_semantic_aliases, :work_packages, on_delete: :cascade
   end
 
   def down
-    drop_table :project_types
-  end
-
-  private
-
-  def backfill_from_projects_types
-    execute <<~SQL.squish
-      INSERT INTO project_types (project_id, type_id, variant_id, created_at, updated_at)
-      SELECT pt.project_id,
-             COALESCE(t.parent_id, t.id),
-             MIN(CASE WHEN t.parent_id IS NOT NULL THEN t.id END),
-             NOW(),
-             NOW()
-      FROM projects_types pt
-      JOIN types t ON t.id = pt.type_id
-      GROUP BY pt.project_id, COALESCE(t.parent_id, t.id)
-    SQL
+    remove_foreign_key :work_package_semantic_aliases, :work_packages
+    add_foreign_key :work_package_semantic_aliases, :work_packages
   end
 end

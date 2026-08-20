@@ -6028,6 +6028,7 @@ en:
   text_destroy_what_to_do: "What do you want to do?"
   text_destroy_with_associated: "There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: "Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Reassign them to this value:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
