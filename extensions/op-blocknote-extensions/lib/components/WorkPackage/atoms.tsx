@@ -64,12 +64,13 @@ export const WorkPackageType = styled.span.attrs({
   font-weight: ${({ $compact }) => ($compact ? 600 : 500)};
   text-transform: uppercase;
   color: ${typeTextColor} !important;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 
   ${({ $compact }) =>
     $compact &&
     css`
       font-size: 12px;
+      white-space: nowrap;
     `}
 `;
 

@@ -39,9 +39,9 @@ const previewWp:WorkPackage = {
   },
 };
 
-// Renders the preview against a fixed anchor so the flip behaviour can be
-// asserted for anchors near the viewport edges.
-function FlipHarness({ anchorTop }:{ anchorTop:number }) {
+// Renders the preview against a fixed anchor so placement and layout can be
+// asserted without going through the editor.
+function PreviewHarness({ anchorTop, workPackage = previewWp }:{ anchorTop:number; workPackage?:WorkPackage }) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   return (
     <div>
@@ -54,7 +54,7 @@ function FlipHarness({ anchorTop }:{ anchorTop:number }) {
       </span>
       {anchor && (
         <WpPreviewPopover anchorEl={anchor}>
-          <BlockCard workPackage={previewWp} size="m" linkTitle />
+          <BlockCard workPackage={workPackage} size="m" linkTitle />
         </WpPreviewPopover>
       )}
     </div>
@@ -230,7 +230,7 @@ describe('Inline chip - XXS long-press preview (touch)', () => {
 
 describe('Preview popover - placement', () => {
   it('opens below the anchor when there is space', async () => {
-    render(<FlipHarness anchorTop={50} />);
+    render(<PreviewHarness anchorTop={50} />);
 
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
 
@@ -240,7 +240,7 @@ describe('Preview popover - placement', () => {
   });
 
   it('flips above the anchor near the bottom of the viewport', async () => {
-    render(<FlipHarness anchorTop={window.innerHeight - 30} />);
+    render(<PreviewHarness anchorTop={window.innerHeight - 30} />);
 
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
 
@@ -248,5 +248,27 @@ describe('Preview popover - placement', () => {
     const previewRect = page.getByTestId('wp-preview').element().getBoundingClientRect();
     expect(previewRect.bottom).toBeLessThanOrEqual(anchorRect.top);
     expect(previewRect.top).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('Preview popover - long work package type', () => {
+  const longType = 'CECILE CONFIGURATION FORM TEST TYPE AND SOME MORE WORDS SO THE TYPE GETS LONG';
+  const longTypeWp:WorkPackage = {
+    ...previewWp,
+    _links: { ...previewWp._links, type: { title: longType, href: '/api/v3/types/1' } },
+  };
+
+  it('wraps a long type instead of overflowing the preview', async () => {
+    render(<PreviewHarness anchorTop={50} workPackage={longTypeWp} />);
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    // Shown in full: the type wraps onto more lines, it is never truncated.
+    await expect.element(page.getByText(longType)).toBeVisible();
+
+    const previewElement = page.getByTestId('wp-preview').element();
+    const typeRect = page.getByTestId('op-bn-work-package--type').element().getBoundingClientRect();
+    expect(typeRect.right).toBeLessThanOrEqual(previewElement.getBoundingClientRect().right);
+    // scrollWidth > clientWidth means content sticks out to the right of the preview.
+    expect(previewElement.scrollWidth).toBeLessThanOrEqual(previewElement.clientWidth);
   });
 });
