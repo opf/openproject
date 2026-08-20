@@ -50,11 +50,11 @@ declare module 'chart.js' {
 }
 
 const PRIMER_COLORS = [
+  'red',    // (strong, but not first to avoid clash with orange)
+  'green',  // (contrasts strongly with orange)
   'teal',   // (fresh contrast)
   'orange', // (bold, warm → most eye-catching → first)
-  'green',  // (contrasts strongly with orange)
   'purple', // (cool, distinct)
-  'red',    // (strong, but not first to avoid clash with orange)
   'yellow', // (bright highlight, works better later)
   'blue',   // (strong primary)
   'pink',   // (vivid, contrasts with blue)
