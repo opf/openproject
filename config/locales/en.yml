@@ -46,7 +46,6 @@ en:
         version: "A dynamic link to a version placed using a macro."
         view: "A dynamic link to a view placed using a macro."
         work_package: "A dynamic link to a work package placed using a macro."
-
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: "Delete account"
@@ -77,14 +76,11 @@ en:
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
-
   actionview_instancetag_blank_option: "Please select"
-
   activemodel:
     attributes:
       projects/copy_options:
         dependencies: "Dependencies"
-
   activerecord:
     attributes:
       announcements:
@@ -719,16 +715,16 @@ en:
               requires_connection: "cannot be turned on before a connection has been configured."
         llm_feature_binding:
           attributes:
-            feature_key:
-              not_registered: "does not belong to a known AI feature."
-            model_id:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
             dimensions:
               locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
               not_for_chat_feature: "only applies to features that create embeddings."
+            feature_key:
+              not_registered: "does not belong to a known AI feature."
             input_prefix:
               locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
               not_for_chat_feature: "only applies to features that create embeddings."
+            model_id:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
             query_prefix:
               locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
               not_for_chat_feature: "only applies to features that create embeddings."
@@ -1114,7 +1110,6 @@ en:
       wiki_page: "Wiki page"
       work_package: "Work package"
       workflow: "Workflow"
-
   activities:
     index:
       no_results_title_text: There has not been any activity for the project within this time frame.
@@ -1145,7 +1140,6 @@ en:
         no_results_description_text: 'Choose "Show everything" to show all activity and comments'
         no_results_title_text: No activity to display
         unsaved_changes_confirmation_message: "Are you sure you want to dismiss your comment? The content that you have written will be lost."
-
   activity:
     filter:
       changeset: "Changesets"
@@ -1191,7 +1185,6 @@ en:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "date deleted %{date}"
-
   admin:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
@@ -1258,7 +1251,6 @@ en:
         <br/>
         We have prepared [upgrade guides for all installation methods](upgrade_guide).
         You can perform the upgrade ahead of the next release at any time by following the guides.
-
     jemalloc_allocator: Jemalloc memory allocator
     jira:
       actions:
@@ -1501,42 +1493,15 @@ en:
     journal_aggregation:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
-
-    llm_feature_bindings:
-      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
-      form:
-        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
-        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
-        input_prefix_caption: "Prepended to each document before it is indexed. Some models expect one, for example \"passage: \" including the trailing space."
-        query_prefix_caption: "Prepended to each search query. Some models expect one, for example \"query: \" including the trailing space."
-      locked_values_heading: "Values fixed by the existing index"
-      deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
-      index:
-        blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
-        blank_title: "No LLM server configured"
-        description: "Choose which model each AI feature uses. Features without a choice use the instance default."
-      inherit_with_default: "Use the default (%{model})"
-      inherit_without_default: "Use the default (none set)"
-      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
-      option_unknown: "%{model} — not verified"
-      option_unsupported: "%{model} — no %{capability} support"
-      update:
-        success: "The model for %{feature} has been saved."
     llm_connections:
-      form:
-        api_format_caption: "Which API the server speaks. Choose OpenAI-compatible for most gateways and self-hosted servers."
-        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
-        api_key_caption_stored: "A key is stored. Leave blank to keep it, or enter a new one to replace it."
-        base_url_caption: >
-          The full base URL of the server, including the API version segment, exactly as your provider documents it (for example https://example.com/v1). OpenProject appends only the endpoint path.
-        button_connect: "Connect"
-        default_chat_model_caption: "Used by AI features that do not select a model themselves."
-        embedding_option_unknown: "%{model} (not verified as an embedding model)"
-        embedding_option_unsupported: "%{model} (cannot create embeddings)"
-        default_embedding_model_caption: "Used by AI features that index text for search and do not select a model themselves. Only models known to create embeddings are offered."
-        default_embedding_model_none: "No model is known to create embeddings. If you know one does, open it under Available models and set its embeddings capability."
-        enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
-        label_connecting: "Contacting the LLM server…"
+      delete_api_key:
+        configured_from_env: "This connection is configured through the environment and cannot be changed here."
+        description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
+        description_verdicts: "OpenProject will stop sending an API key with its requests, and the next model refresh will discard what is known about each model's capabilities, including the assertions you made yourself. You can enter a new key at any time."
+        heading: "Remove the stored API key?"
+        menu_label: "Remove API key"
+        success: "The API key has been removed."
+        title: "Remove API key"
       disconnect:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
@@ -1547,29 +1512,35 @@ en:
         menu_label: "Disconnect"
         success: "OpenProject has disconnected from the LLM server."
         title: "Disconnect"
-      delete_api_key:
-        configured_from_env: "This connection is configured through the environment and cannot be changed here."
-        description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
-        description_verdicts: "OpenProject will stop sending an API key with its requests, and the next model refresh will discard what is known about each model's capabilities, including the assertions you made yourself. You can enter a new key at any time."
-        heading: "Remove the stored API key?"
-        menu_label: "Remove API key"
-        success: "The API key has been removed."
-        title: "Remove API key"
+      form:
+        api_format_caption: "Which API the server speaks. Choose OpenAI-compatible for most gateways and self-hosted servers."
+        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_stored: "A key is stored. Leave blank to keep it, or enter a new one to replace it."
+        base_url_caption: >
+          The full base URL of the server, including the API version segment, exactly as your provider documents it (for example https://example.com/v1). OpenProject appends only the endpoint path.
+        button_connect: "Connect"
+        default_chat_model_caption: "Used by AI features that do not select a model themselves."
+        default_embedding_model_caption: "Used by AI features that index text for search and do not select a model themselves. Only models known to create embeddings are offered."
+        default_embedding_model_none: "No model is known to create embeddings. If you know one does, open it under Available models and set its embeddings capability."
+        embedding_option_unknown: "%{model} (not verified as an embedding model)"
+        embedding_option_unsupported: "%{model} (cannot create embeddings)"
+        enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        label_connecting: "Contacting the LLM server…"
       models:
         blank_description: "The server reported no models. If it does not offer a model list, add the model names you want to use below."
         blank_title: "No models available"
         context_window: "Context window"
         display_name_caption: "An optional friendly name shown instead of the model id."
+        filter_label: "Filter models"
         identifier: "Model"
         kind: "Type"
         source: "Source"
-        filter_label: "Filter models"
         source_deactivated: "Hidden by administrator"
         source_discovered: "Reported by server"
         source_manual: "Added manually"
+        source_withdrawn: "No longer reported"
         status: "Available for use"
         toggle_aria_label: "Make %{model} available to AI features"
-        source_withdrawn: "No longer reported"
       refresh_models:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
@@ -1583,6 +1554,34 @@ en:
       update:
         no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
         success: "Successfully connected to the LLM server."
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
+      form:
+        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
+        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
+        input_prefix_caption: "Prepended to each document before it is indexed. Some models expect one, for example \"passage: \" including the trailing space."
+        query_prefix_caption: "Prepended to each search query. Some models expect one, for example \"query: \" including the trailing space."
+      index:
+        blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
+        blank_title: "No LLM server configured"
+        description: "Choose which model each AI feature uses. Features without a choice use the instance default."
+      inherit_with_default: "Use the default (%{model})"
+      inherit_without_default: "Use the default (none set)"
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: "Values fixed by the existing index"
+      option_unknown: "%{model} — not verified"
+      option_unsupported: "%{model} — no %{capability} support"
+      update:
+        success: "The model for %{feature} has been saved."
+    llm_health_status:
+      show:
+        blankslate_description: "Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model."
+        blankslate_heading: "This connection has not been checked yet"
+        download: "Download report"
+        last_check: "Last checked %{datetime}."
+        run_checks: "Run checks"
+        title: "Health status"
     llm_models:
       create:
         success: "%{model} has been added."
@@ -1596,14 +1595,14 @@ en:
         description: "Edit how OpenProject uses this model."
       form:
         capabilities_description: "Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, offered only to features that need one."
+        capability_override_caption: "Choose a value to override this."
         context_window: "Context window"
         context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
         context_window_known: "Leave blank to use %{value}, %{source}."
         create_submit: "Add model"
-        capability_override_caption: "Choose a value to override this."
-        state_inherited: "%{state} (%{source})"
         display_name_caption: "An optional friendly name shown instead of the model id."
         external_id_caption: "The model name exactly as the server expects it."
+        state_inherited: "%{state} (%{source})"
         state_supported: "Supported"
         state_unspecified: "Not specified"
         state_unsupported: "Not supported"
@@ -1612,14 +1611,6 @@ en:
         title: "Add a model"
       update:
         success: "%{model} has been updated."
-    llm_health_status:
-      show:
-        blankslate_description: "Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model."
-        blankslate_heading: "This connection has not been checked yet"
-        download: "Download report"
-        last_check: "Last checked %{datetime}."
-        run_checks: "Run checks"
-        title: "Health status"
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -1871,7 +1862,6 @@ en:
     is_active: currently displayed
     is_inactive: currently not displayed
     show_until: Show until
-
   antivirus_scan:
     deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
     deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
@@ -1958,7 +1948,6 @@ en:
       parent: Undisclosed - The parent is invisible because of lacking permissions.
       project: Undisclosed - The project is invisible because of lacking permissions.
       workPackage: Undisclosed - The work package is invisible because of lacking permissions.
-
   attribute_help_texts:
     add_new: "Add help text"
     caption: "This short version will be displayed as caption of the attribute."
@@ -2073,12 +2062,10 @@ en:
     work_package_id: "Work package"
   authentication:
     login_and_registration: "Login and registration"
-
   background_jobs:
     status:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-
   backup:
     error:
       backup_pending: There is already a backup pending.
@@ -2114,7 +2101,6 @@ en:
         When you create a new token you will only be allowed to request a backup after
         24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
-
   button_actions: "Actions"
   button_add: "Add"
   button_add_comment: "Add comment"
@@ -2224,7 +2210,6 @@ en:
       mathematical: "The mathematical formula leads to an error. Please review the project calculation attribute and try again."
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
-
   colors:
     edit:
       label_edit_color: "Edit Color"
@@ -2243,10 +2228,8 @@ en:
 
     new:
       label_new_color: "New Color"
-
   concatenation:
     single: "or"
-
   consent:
     checkbox_label: I have noted and do consent to the above.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
@@ -2259,7 +2242,6 @@ en:
     title: User Consent
     update_consent_last_time: "Last update of consent: %{update_time}"
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
-
   copy_project:
     copy_options:
       dependencies_label: "Copy from project"
@@ -2283,13 +2265,11 @@ en:
       description: Start from scratch. Manually add portfolio attributes, members and modules.
       label: "Blank portfolio"
     template_heading: "Select a portfolio template to work with the most common project management methods, or create a portfolio from scratch."
-
   create_program:
     blank_template:
       description: Start from scratch. Manually add program attributes, members and modules.
       label: "Blank program"
     template_heading: "Select a program template to work with the most common project management methods, or create a program from scratch."
-
   create_project:
     attributes_heading: "Fill in this mandatory information to work on your projects."
     blank_description: No description provided.
@@ -2300,7 +2280,6 @@ en:
       dependencies_label: "Copy from template"
     template_heading: "Select a project template to work with the most common project management methods, or create a project from scratch."
     template_label: "Use template"
-
   create_wiki_page: "Create new wiki page"
   create_wiki_page_button: "Wiki page"
   custom_actions:
@@ -2314,7 +2293,6 @@ en:
     execute: "Execute %{name}"
     new: "New custom action"
     plural: "Custom actions"
-
   custom_fields:
     admin:
       custom_field_projects:
@@ -2420,11 +2398,9 @@ en:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
       you can add them to this project.
-
   danger_dialog:
     confirmation_live_message_checked: "The button to proceed is now active."
     confirmation_live_message_unchecked: "The button to proceed is now inactive. You need to tick the checkbox to continue."
-
   date:
     abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     abbr_month_names:
@@ -2483,7 +2459,6 @@ en:
       - :year
       - :month
       - :day
-
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2548,7 +2523,6 @@ en:
       minute_abbreviated:
         one: "min"
         other: "mins"
-
   departments:
     add_department: "Add department"
     add_department_form:
@@ -2585,7 +2559,6 @@ en:
       managed_heading: "This user cannot be moved"
       managed_title: "User managed by LDAP"
       title: "User already in a department"
-
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -2621,7 +2594,6 @@ en:
 
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
-
   doorkeeper:
     access_token_url: "Access token URL"
     auth_url: "Auth URL"
@@ -2657,7 +2629,6 @@ en:
         unsupported_response_type: "The authorization server does not support this response type."
     pre_authorization:
       status: "Pre-authorization"
-
   ee:
     features:
       baseline_comparison: Baseline Comparisons
@@ -2809,7 +2780,6 @@ en:
 
       work_package_subject_generation:
         description: "Create automatically generated subjects using referenced attributes and text."
-
   email_calendar_updates:
     button:
       disabled: "Enable"
@@ -2819,11 +2789,9 @@ en:
       enabled: "Enabled."
   enterprise_plans:
     legacy_enterprise: "Enterprise Plan"
-
   enterprise_trials:
     dialog_component:
       title: Enterprise Trial
-
   enumeration_activities: "Time tracking activities"
   enumeration_caption_order_changed: "Order successfully changed."
   enumeration_could_not_be_moved: "Enumeration could not be moved."
@@ -2831,7 +2799,6 @@ en:
   enumeration_reported_project_statuses: "Reported status"
   enumeration_work_package_priorities: "Work package priorities"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
-
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_deactivate_type_invisible_projects: "There are also work packages in projects you cannot see."
@@ -2888,12 +2855,10 @@ en:
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-
   error_work_package_id_not_found: "The work package was not found."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
-
   errors:
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
     header_additional_invalid_fields:
@@ -2908,7 +2873,6 @@ en:
       must_be_template: "must be template"
       storage_error: "There was an error with the storage connection."
       unsupported_storage_type: "is not a supported storage type."
-
   events:
     changeset: "Changeset edited"
     message: Message edited
@@ -2925,7 +2889,6 @@ en:
     work_package_closed: "Work Package closed"
     work_package_edit: "Work Package edited"
     work_package_note: "Work Package note added"
-
   export:
     demo:
       button_text: Generate Demo PDF
@@ -3026,7 +2989,6 @@ en:
     continue_message: "Are you sure you want to proceed to the following external link?"
     title: "Leaving OpenProject"
     warning_message: "You are about to leave OpenProject and visit an external website. Please be aware that external websites are not under our control and may have different privacy and security policies."
-
   extraction:
     available:
       catdoc: "Catdoc available (optional)"
@@ -3035,7 +2997,6 @@ en:
       tesseract: "Tesseract available (optional)"
       unrtf: "Unrtf available (optional)"
       xls2csv: "Xls2csv available (optional)"
-
   filterable_tree_view:
     filter_mode:
       all: "All"
@@ -3047,7 +3008,6 @@ en:
     show:
       no_results_title_text: There are currently no posts for the forum.
   general_csv_decimal_separator: "."
-
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
@@ -3068,7 +3028,6 @@ en:
       all_projects: 'Search for "%{search_term}" in all projects'
       current_project: 'Search for "%{search_term}" in %{project_name}'
       project_and_subprojects: 'Search for "%{search_term}" in %{project_name} and all subprojects'
-
   groups:
     edit:
       synchronized_groups: "Synchronized groups"
@@ -3088,10 +3047,8 @@ en:
       user_count: User count
     users:
       no_results_title_text: There are currently no users part of this group.
-
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
-
   header:
     project_select_component:
       all_projects: "All projects"
@@ -3099,7 +3056,6 @@ en:
       leave_project: "Leave project"
       no_favorite_projects: "You have no favorite projects."
       title: "Projects"
-
   health_reports:
     common:
       checks:
@@ -3128,7 +3084,6 @@ en:
         You can only select projects here where the %{plural} module is active.
         After creating a %{singular} you can add work packages from other projects to it.
       public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
-
   homescreen:
     additional:
       favorite_projects:
@@ -3175,19 +3130,15 @@ en:
       missing_authorization: "The server side request failed due to missing authorization information."
     response:
       unexpected: "Unexpected response received."
-
   image_conversion:
     imagemagick: "Imagemagick"
-
   incoming_mails:
     ignore_filenames: >
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons).
       Enter one filename per line.
-
   instructions_after_error_link: "You can try to sign in again by clicking [here](signin_url). If the error persists, ask your admin for help."
   instructions_after_logout_link: "You can sign in again by clicking [here](signin_url)."
   instructions_after_registration_link: "You can sign in as soon as your account has been activated by clicking [here](signin_url)."
-
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
@@ -3277,7 +3228,6 @@ en:
       version: "a non-visible version"
       work_package: "a non-visible work package"
   label_accessibility: "Accessibility"
-
   label_account: "Account"
   label_actions: "Actions"
   label_activate_user: "Activate user"
@@ -3586,7 +3536,6 @@ en:
   label_internal: "Internal"
   label_introduction_video: "Getting started video"
   label_invitation: Invitation
-
   label_invite_user: "Invite user"
   label_item: "Item"
   label_item_plural: "Items"
@@ -4057,7 +4006,6 @@ en:
     other: "Time off: %{count} working days"
   label_yesterday: "yesterday"
   label_zen_mode: "Zen mode"
-
   ldap_auth_sources:
     attribute_texts:
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
@@ -4140,76 +4088,7 @@ en:
     update:
       failure: "The modified list cannot be saved: %{errors}"
       success: "The modified list has been saved"
-  macro_execution_error: "Error executing the macro %{macro_name}"
-  macro_unavailable: "Macro %{macro_name} cannot be displayed."
-  macro_unknown: "Unknown or unsupported macro."
-  macros:
-    create_work_package_link:
-      errors:
-        invalid_type: "No type found with name '%{type}' in project '%{project}'."
-        no_project_context: "Calling create_work_package_link macro from outside project context."
-      link_name: "New work package"
-    errors:
-      missing_or_invalid_parameter: "Missing or invalid macro parameter."
-    include_wiki_page:
-      removed: "The macro does no longer exist."
-    legacy_warning:
-      timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
-    placeholder: "[Placeholder] Macro %{macro_name}"
-    wiki_child_pages:
-      errors:
-        page_not_found: "Cannot find the wiki page '%{name}'."
   llm:
-    health_checks:
-      configuration:
-        header: "Configuration"
-        api_format_supported: "Endpoint format is usable"
-        base_url_present: "Endpoint is configured"
-        credentials_present: "API key is stored"
-        enabled: "Connection is switched on"
-        feature_flag: "AI features are switched on"
-      features:
-        header: "AI features"
-        bindings_resolvable: "Every feature has a usable model"
-        locked_bindings_intact: "Indexed data still has its model"
-      inference:
-        header: "Inference"
-        chat_round_trip: "The server answers a request"
-      models:
-        header: "Models"
-        catalogue_fresh: "Model list is up to date"
-        catalogue_present: "Models are available"
-        default_chat_model: "Default chat model"
-        default_embedding_model: "Default embedding model"
-      server:
-        header: "Server"
-        credentials_accepted: "The server accepts the API key"
-        reachable: "The server can be reached"
-      errors:
-        api_key_missing: "No API key is stored. This is only correct if the LLM server requires no authentication."
-        catalogue_never_fetched: "The model list has never been retrieved from the server."
-        catalogue_stale: "The model list was last retrieved on %{fetched_at} and may no longer match what the server offers."
-        chat_failed: "The server refused a request for %{model} with status %{status}."
-        connection_disabled: "The connection is configured but switched off, so no feature will use it."
-        connection_error: "The server could not be reached. Please ensure it is running and reachable from OpenProject."
-        default_model_missing: "%{model} is no longer offered by the server."
-        default_model_unset: "No default model has been chosen, so features fall back to their own selection."
-        empty_completion: "%{model} answered with an empty message."
-        feature_flag_off: "The LLM connection feature is switched off, so the connection is not used yet."
-        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
-        features_model_missing: "%{features} point at a model the server no longer offers."
-        features_unbound: "%{features} have no model chosen yet."
-        invalid_api_key: "The server rejected the stored API key."
-        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
-        no_model_to_test: "No model is available to test with. Add a model or choose a default first."
-        no_models: "The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right."
-        no_models_endpoint: "The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it."
-        not_configured: "No endpoint has been configured."
-        not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
-        request_timed_out: "The server did not respond in time."
-        server_error: "The server responded with status %{status}."
-        ssrf_filtered: "The endpoint resolves to a blocked address."
-        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
     api_formats:
       anthropic: "Anthropic"
       azure: "Azure OpenAI"
@@ -4238,6 +4117,63 @@ en:
     context_window_sources:
       registry: "the figure published for this model"
       server: "reported by the server"
+    features:
+      description_assistant:
+        caption: "Rewrites and restructures work package text on request."
+        label: "Description assistant"
+      semantic_search:
+        caption: "Indexes work packages so they can be found by meaning rather than by keyword."
+        label: "Semantic search"
+    health_checks:
+      configuration:
+        api_format_supported: "Endpoint format is usable"
+        base_url_present: "Endpoint is configured"
+        credentials_present: "API key is stored"
+        enabled: "Connection is switched on"
+        feature_flag: "AI features are switched on"
+        header: "Configuration"
+      errors:
+        api_key_missing: "No API key is stored. This is only correct if the LLM server requires no authentication."
+        catalogue_never_fetched: "The model list has never been retrieved from the server."
+        catalogue_stale: "The model list was last retrieved on %{fetched_at} and may no longer match what the server offers."
+        chat_failed: "The server refused a request for %{model} with status %{status}."
+        connection_disabled: "The connection is configured but switched off, so no feature will use it."
+        connection_error: "The server could not be reached. Please ensure it is running and reachable from OpenProject."
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: "No default model has been chosen, so features fall back to their own selection."
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: "The LLM connection feature is switched off, so the connection is not used yet."
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: "The server rejected the stored API key."
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        no_model_to_test: "No model is available to test with. Add a model or choose a default first."
+        no_models: "The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right."
+        no_models_endpoint: "The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it."
+        not_configured: "No endpoint has been configured."
+        not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
+        request_timed_out: "The server did not respond in time."
+        server_error: "The server responded with status %{status}."
+        ssrf_filtered: "The endpoint resolves to a blocked address."
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: "Every feature has a usable model"
+        header: "AI features"
+        locked_bindings_intact: "Indexed data still has its model"
+      inference:
+        chat_round_trip: "The server answers a request"
+        header: "Inference"
+      models:
+        catalogue_fresh: "Model list is up to date"
+        catalogue_present: "Models are available"
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
+        header: "Models"
+      server:
+        credentials_accepted: "The server accepts the API key"
+        header: "Server"
+        reachable: "The server can be reached"
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
@@ -4251,13 +4187,6 @@ en:
       supported: "Supported"
       unknown: "Not verified"
       unsupported: "Not supported"
-    features:
-      description_assistant:
-        caption: "Rewrites and restructures work package text on request."
-        label: "Description assistant"
-      semantic_search:
-        caption: "Indexes work packages so they can be found by meaning rather than by keyword."
-        label: "Semantic search"
   llm_connections:
     side_panel:
       health_status_component:
@@ -4266,6 +4195,25 @@ en:
         open_report: "Open full health report"
         run_checks: "Run checks now"
         title: "Health status"
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+  macro_unknown: "Unknown or unsupported macro."
+  macros:
+    create_work_package_link:
+      errors:
+        invalid_type: "No type found with name '%{type}' in project '%{project}'."
+        no_project_context: "Calling create_work_package_link macro from outside project context."
+      link_name: "New work package"
+    errors:
+      missing_or_invalid_parameter: "Missing or invalid macro parameter."
+    include_wiki_page:
+      removed: "The macro does no longer exist."
+    legacy_warning:
+      timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
+    placeholder: "[Placeholder] Macro %{macro_name}"
+    wiki_child_pages:
+      errors:
+        page_not_found: "Cannot find the wiki page '%{name}'."
   mail:
     actions: "Actions"
     digests:
@@ -4382,7 +4330,6 @@ en:
         without_message: "%{user} added you as a member to the project '%{project}'."
       roles: "You have the following roles:"
     subject: "%{project} - You have been added as a member"
-
   mail_member_updated_global:
     body:
       roles: "You now have the following roles:"
@@ -4390,7 +4337,6 @@ en:
         with_message: "%{user} updated the roles you have globally writing:"
         without_message: "%{user} updated the roles you have globally."
     subject: "Your global permissions have been updated"
-
   mail_member_updated_project:
     body:
       roles: "You now have the following roles:"
@@ -4410,7 +4356,6 @@ en:
   mail_subject_register: "Your %{value} account activation"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-
   mail_user_activation_limit_reached:
     message_html: |
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
@@ -4424,7 +4369,6 @@ en:
     server_url_component:
       caption: "The URL at which the OpenProject MCP server will be reachable. Required for setting up MCP clients."
       label: "Server URL"
-
   members:
     columns:
       shared: "Shared"
@@ -4486,7 +4430,6 @@ en:
     send_invite_to: "Send invite to"
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
-
   menus:
     admin:
       aggregation: "Aggregation"
@@ -4499,9 +4442,7 @@ en:
       mcp_configurations: "Model Context Protocol (MCP)"
     quick_add:
       label: "Add…"
-
   more_actions: "More functions"
-
   my:
     access_token:
       created_dialog:
@@ -4529,7 +4470,6 @@ en:
     password_confirmation_dialog:
       confirmation_required: "You need to enter your account password to confirm this change."
       title: "Confirm your password to continue"
-
   my_account:
     access_tokens:
       access_tokens: "Access tokens"
@@ -4669,21 +4609,17 @@ en:
         email_reminders: "Email reminders"
         notifications: "Notification settings"
       title: "Notification and email"
-
   news:
     index:
       no_results_content_text: Add a news item
       no_results_title_text: There is currently no news to report.
   no_results_title_text: There is currently nothing to display.
-
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
   noscript_heading: "JavaScript disabled"
   noscript_learn_more: "Learn more"
   note: Note
-
   note_password_login_disabled_link: "Password login has been disabled through a [configuration setting](configuration_url)."
   nothing_to_preview: "Nothing to preview"
-
   notice_accessibility_mode: The accessibility mode can be enabled in your [account settings](url).
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_already_activated: The account has already been activated.
@@ -4706,7 +4642,6 @@ en:
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject.
     It contains all attachments previously associated with the %{container_type} "%{container_name}".
-
   notice_auth_stage_error: "Authentication stage '%{stage}' failed."
   notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
   notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
@@ -4718,7 +4653,6 @@ en:
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
-
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
@@ -4761,7 +4695,6 @@ en:
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
-
   notifications:
     facets:
       all: "All"
@@ -4876,7 +4809,6 @@ en:
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
       mcp: "Access to MCP"
       mcp_text: "Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents."
-
   oauth_client:
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
@@ -4924,13 +4856,11 @@ en:
       error: "Error"
       failed_authorization: "Authorization failed"
       not_connected: "Not connected"
-
   onboarding:
     heading_getting_started: "Get an overview"
     select_language: "Please select your language"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
-
   op_dry_validation:
     errors:
       array?: "must be an array."
@@ -4981,7 +4911,6 @@ en:
       short: "Short name"
       weight: "Weight"
   open_link_in_a_new_tab: "Open link in a new tab"
-
   open_project:
     common:
       work_package_card_component:
@@ -4993,7 +4922,6 @@ en:
         undisclosed: "Undisclosed"
   page:
     text: "Text"
-
   pagination:
     label: "Pagination"
     next: "Next"
@@ -5047,7 +4975,6 @@ en:
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_attachments: "Add attachments"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
-
   permission_add_work_package_comments: "Add comments"
   permission_add_work_package_watchers: "Add watchers"
   permission_add_work_packages: "Add work packages"
@@ -5174,18 +5101,15 @@ en:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user.
       You do not have the right to manage members for all projects that the placeholder user is a member of.
-
   placeholders:
     default: "-"
     templated_hint: Automatically generated through type %{type}
-
   plugin_openproject_auth_plugins:
     description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
     name: "OpenProject Auth Plugins"
   plugin_openproject_auth_saml:
     description: "Adds the OmniAuth SAML provider to OpenProject"
     name: "OmniAuth SAML / Single-Sign On"
-
   portfolio:
     count:
       one: "1 portfolio"
@@ -5212,7 +5136,6 @@ en:
       priority_color_text: |
         Click to assign or change the color of this priority.
         It can be used for highlighting work packages in the table.
-
   program:
     count:
       one: "1 program"
@@ -5220,7 +5143,6 @@ en:
       zero: "0 programs"
     filters:
       name: "Part of Program"
-
   project:
     archive:
       archived: "Archived"
@@ -5258,14 +5180,12 @@ en:
       make_template: "Set as template"
       remove_from_templates: "Remove from templates"
       use_template: "Use template"
-
   project_module_activity: "Activity"
   project_module_forums: "Forums"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
   project_module_work_package_tracking: "Work packages"
-
   projects:
     # Contains custom strings for options when copying a project that cannot be found elsewhere.
     copy:
@@ -5475,7 +5395,6 @@ en:
         automatic:
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
           heading: "Automatic"
-
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
 
@@ -5500,12 +5419,10 @@ en:
     and_user: "and %{user}"
     react_with: "React with %{reaction}"
     reaction_by: "%{reaction} by"
-
   reportings:
     index:
       no_results_content_text: Add a status reporting
       no_results_title_text: There are currently no status reportings.
-
   repositories:
     at_identifier: "at %{identifier}"
     atom_revision_feed: "Atom revision feed"
@@ -5613,7 +5530,6 @@ en:
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
-
   roles:
     edit:
       default_for_new_projects_warning: >-
@@ -5630,11 +5546,9 @@ en:
       matrix_check_uncheck_all_in_row_label_html: "Toggle <em>%{permission}</em> permission for all roles"
       matrix_checkbox_label: "Assign %{permission} permission to %{role} role"
       matrix_uncheck_all_label: "Unassign all %{module} permissions from all roles"
-
   scheduling:
     automatic: "set to Automatic"
     manual: "set to Manual"
-
   search_input_placeholder: "Search ..."
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_activity_days_default: "Days displayed on project activity"
@@ -5648,7 +5562,6 @@ en:
     Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set.
     <br/>
     Example: %{example_code}
-
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.
@@ -5897,7 +5810,6 @@ en:
     Maximum number of work packages or projects that can be included in a single
     export. Larger exports are truncated to this limit.
   setting_working_days: "Working days"
-
   settings:
     antivirus:
       actions:
@@ -6211,14 +6123,12 @@ en:
       Adding additional users will exceed the current limit.
       Please [upgrade your plan](upgrade_url) to be able to ensure external users are able to access this %{entity}.
   status_active: "active"
-
   status_archived: "archived"
   status_blocked: "blocked"
   status_deleted: deleted
   status_invited: invited
   status_locked: locked
   status_registered: registered
-
   statuses:
     edit:
       status_color_text: |
@@ -6253,7 +6163,6 @@ en:
       sentence_connector: "and"
       skip_last_comma: "false"
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
-
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
@@ -6414,7 +6323,6 @@ en:
   text_wrote: "wrote"
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
-
   themes:
     dark: "Dark"
     light: "Light"
@@ -6427,19 +6335,15 @@ en:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: "pm"
-
   timeframe:
     end: "to"
     show: "Show timeframe"
     start: "from"
   title_enterprise_upgrade: "Upgrade to unlock more users."
-
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
-
   toggle_switch:
     label_off: "Off"
     label_on: "On"
-
   token:
     hashed_token:
       display_value_placeholder: "***"
@@ -6448,23 +6352,18 @@ en:
       If enabled a user will be unable to chose a login during registration.
       Instead their given email address will serve as the login.
       An administrator may still change the login separately.
-
   tooltip_resend_invitation: >
     Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email.
     Can also be used for active users to choose a new authentication method.
     When used with active users their status will be changed to 'invited'.
-
   tooltip_user_default_timezone: >
     The default time zone for new users. Can be changed in a user's settings.
-
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
     help_and_support: "Help and support"
-
   total_progress: "Total progress"
-
   types:
     creation_wizard:
       add_variant: "Add variant to %{name}"
@@ -6694,13 +6593,11 @@ en:
         one: "1 variant"
         other: "%{count} variants"
     milestone_indicator: "Milestone"
-
   unsupported_browser:
     close_warning: "Ignore this warning."
     message: "You may run into errors and degraded experience on this page."
     title: "Your browser is outdated and unsupported."
     update_message: "Please update your browser."
-
   user:
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
@@ -6741,7 +6638,6 @@ en:
   user_preferences:
     disable_keyboard_shortcuts_caption: >
       You can choose to disable default [keyboard shortcuts](docs_url) if you use a screen  reader or want to avoid accidentally triggering an action with a shortcut.
-
   users:
     autologins:
       prompt: "Stay logged in for %{num_days}"
@@ -6882,11 +6778,9 @@ en:
           one: "1 working day"
           other: "%{count} working days"
         work_hours: "Work hours"
-
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
-
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
@@ -6914,7 +6808,6 @@ en:
     Please [upgrade your plan](upgrade_url) or block existing
     users in order to allow invited and registered users to join.
   warning_protocol_mismatch_html: >
-
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
@@ -6927,7 +6820,6 @@ en:
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users).
     Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
-
   wiki:
     index:
       no_results_content_text: Add a new wiki page
@@ -6936,7 +6828,6 @@ en:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     print_hint: This will print the content of this wiki page without any navigation bars.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-
   wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated.
@@ -7068,7 +6959,6 @@ en:
       relates_to_description: "Creates a visible link between the two work packages with no additional effect"
       required_description: "Marks this work package as being a requirement to the related one"
       requires_description: "Marks the related work package as a requirement to this one"
-
   work_packages:
     bulk:
       copy_failed: "The work packages could not be copied."
@@ -7236,7 +7126,6 @@ en:
     x_descendants:
       one: "One descendant work package"
       other: "%{count} work package descendants"
-
   workflows:
     copies:
       form:
@@ -7309,5 +7198,4 @@ en:
     warning: >
       Changing which days of the week are considered working days or non-working days
       can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-
   you: you
