@@ -118,11 +118,19 @@ The term **internal wiki** has been consistently replaced with **project wiki** 
 
 The project wiki settings remain accessible even when project wikis have been disabled instance-wide, with an explanation of why the feature is unavailable.
 
-![Adding a parent page to a newly created wiki page from the Wiki tab in a work package in OpenProject](openproject_release_notes_17.8_wiki_new_page_creation_parent.png)
+The **project wiki sidebar now makes it easier to navigate the wiki hierarchy**. Pages are collapsed by default and can be expanded to show their sub-pages. When opening a page, its parent pages are automatically expanded, and a search field lets users filter the hierarchy while showing where matching pages are located.
+
+![Wiki pages navigation on a project level in OpenProject](openproject_release_notes_17.8_wiki_page_navigation.png)
+
+
 
 The [create and edit page](../../user-guide/wiki/create-edit-wiki/) has been updated with a modernized user interface.
 
 ![Creating a project wiki page with the updated interface](openproject_release_notes_17.8_wiki_create_page.png)
+
+The **Create page** dialog now lets users select a **wiki itself as the parent**, making it possible to create root pages directly. The parent selection step is now labeled **Parent**.
+
+![Adding a wiki as the parent when creating a new wiki page in OpenProject](openproject_release_notes_17.8_wiki_new_page_creation_parent.png)
 
 Finally, wiki link and creation macros, such as **Existing wiki page** and **New wiki page**, are available in more rich text editors, including meeting descriptions, outcomes, comments, wiki page content, and text custom fields.
 
