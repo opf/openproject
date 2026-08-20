@@ -2809,15 +2809,16 @@ ko:
     blocks:
       community: OpenProject 커뮤니티
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: 업무량 계획 및 스태핑을 위한 새로운 리소스 관리 모듈(Premium 플랜).
-            line_1: 부서, 직책 등 사용자 특성 및 근무 시간을 사용하여 개선된 조직 관리.
-            line_2: 공유를 사용하지 않는 여러 활성 스프린트(Basic 플랜).
-            line_3: 다중 선택 필터, 향상된 드래그 앤 드롭, 기존 작업 패키지 추가 기능을 통해 개선된 백로그 및 스프린트.
-            line_4: PM²/PMflex 아티팩트 내보내기 및 프로젝트 단계와 게이트 개요를 확인할 수 있는 새로운 위젯.
-            line_5: 글로벌 위키 페이지 색인 및 관련 페이지 간의 더욱 간편한 탐색.
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
@@ -5729,6 +5730,7 @@ ko:
   text_destroy_what_to_do: 어떤 작업을 수행하시겠습니까?
   text_destroy_with_associated: '삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다:'
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.
     SMTP 서버를 구성하여 활성화하세요.
