@@ -57,6 +57,8 @@ he:
         position: Position
         presenter: Presenter
         title: כותרת
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited

@@ -24,7 +24,7 @@ ru:
       two_factor_authentication/device/sms: Мобильный телефон
       two_factor_authentication/device/totp: Приложение для аутентификации
       two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Продолжить
+  button_continue: Далее
   button_make_active: Активировать
   button_make_default: Задать по умолчанию
   button_otp_by_sms: SMS

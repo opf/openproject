@@ -271,7 +271,7 @@ de:
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
-  setting_enforce_without_allow: Start- und Endzeiten können nicht verpflichtend erfasst werden, ohne die Erfassung zu erlauben
+  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_time_entries_limit_to_user_working_hours: Auf die Arbeitszeit des Benutzers beschränken
   setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der Stunden, auf die Arbeitszeiten, die für den Benutzer hinterlegt sind. Wenn keine Arbeitszeiten hinterlegt sind, hat dies keinen Effekt.
   setting_time_entries_max_hours_per_day: Maximale Stundenzahl pro Tag

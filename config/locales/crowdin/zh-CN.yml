@@ -156,7 +156,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 微件
+        widgets: 小部件
       group:
         group_users: 用户组
         identity_url: 身份 URL
@@ -236,6 +236,7 @@ zh-CN:
         project_creation_wizard_status_when_submitted: 提交时的状态
         project_creation_wizard_work_package_comment: 工作包备注
         project_creation_wizard_work_package_type: 工作包类型
+        project_types: Types
         public_value:
           false: 私有
           title: 可见性
@@ -255,6 +256,7 @@ zh-CN:
         templated_value:
           false: 取消该模板
           true: 保存为模板
+        type_variant: Work package type variant
         types: 类型
         versions: 版本
         work_packages: 工作包
@@ -275,6 +277,8 @@ zh-CN:
         start_gate_name: 开始阶段关口名称
       project_custom_field:
         custom_field_section: 单元
+      project_type:
+        variant: Variant
       query:
         child_work_packages: 子级工作包
         column_names: 列
@@ -342,18 +346,26 @@ zh-CN:
       token/named:
         token_name: 令牌名称
       type:
-        attribute_groups: 表单配置
-        children: Variants
         color: 颜色
-        dependent_configuration_links: 关联的类型
-        description: 默认描述文本
-        is_default: 默认激活新项目
         is_in_roadmap: 默认在路线图中显示
         is_milestone: 里程碑
-        parent: 父类型
-        patterns: 模式
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: 源类型
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: 管理员
         auth_source: 身份验证源
@@ -549,6 +561,7 @@ zh-CN:
         regex_match_failed: 与正则表达式 %{expression}不匹配。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
         ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
@@ -718,8 +731,6 @@ zh-CN:
               blank: 请选择一个项目。
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
@@ -810,25 +821,34 @@ zh-CN:
               blank: 请提供令牌名称
               format: "%{message}"
               in_use: 此令牌名称已被使用，请选择其他令牌名称
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: 已使用无效的工作包属性。
-              attribute_unknown_name: 使用了无效的工作包属性：%{attribute}
-              duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
-              group_without_name: 群组名称不能为空
-              query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
-            parent:
-              cannot_be_self: 不能是类型本身。
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
-              standard_type_must_be_root: 无法为标准类型设置。
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -933,6 +953,9 @@ zh-CN:
             start_date:
               cannot_be_null: 无法设置为 null，因为结束日期和持续时间已知。
               violates_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包的关系。
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: 无效，因为此类型中不存在当前状态。
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
@@ -991,6 +1014,8 @@ zh-CN:
         other: RSS 令牌
       type:
         other: 类型
+      type_variant:
+        other: Variants
       user: 用户
       version: 版本
       wiki: 维基
@@ -1114,7 +1139,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署版的 Enterprise edition
+      order: 订购本地部署的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -1775,6 +1800,7 @@ zh-CN:
     start_date: 开始日期
     state: 地区
     status: 状态
+    status_id: Status
     subject: 主题
     summary: 摘要
     template: 模板
@@ -2505,18 +2531,17 @@ zh-CN:
   error_attribute_not_highlightable: 未高亮显示的属性：%{attributes}
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
   error_can_not_archive_project: 此项目无法存档：%{errors}
-  error_can_not_deactivate_type: 无法停用类型 %{type}，因为它仍在被 %{work_packages_link} 使用
   error_can_not_deactivate_type_invisible_projects: 项目中仍有一些您看不到的工作包。
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_entry: 无法删除条目
   error_can_not_delete_in_use_archived_undisclosed: 归档项目中也有工作包。您需要请求管理员执行删除操作，以了解受影响的项目。
   error_can_not_delete_in_use_archived_work_packages: 归档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的属性：%{archived_projects_urls}
-  error_can_not_delete_standard_type: 标准类型不能被删除。
   error_can_not_delete_type:
     explanation: 此类型包含工作包，无法删除。您可以在<a target="_blank" href="%{url}">此视图</a>中查看所有受影响的工作包。
   error_can_not_find_all_resources: 无法找到与请求相关的所有资源。
   error_can_not_invite_user: 无法向用户发送邀请。
   error_can_not_remove_role: 该角色正在使用，无法删除。
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: 不能重新打开一个已经分配给已关闭版本的工作包
   error_can_not_unarchive_project: 此项目无法取消存档：%{errors}
   error_check_user_and_role: 请选择用户和角色。
@@ -3274,6 +3299,7 @@ zh-CN:
   label_me: 我
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_new: 新成员
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 成员
   label_member_role: 项目角色
@@ -3484,7 +3510,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图%{name}
+  label_roadmap_edit: 编辑路线图 %{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -4210,7 +4236,6 @@ zh-CN:
   notice_auth_stage_error: 身份验证阶段“%{stage}”失败。
   notice_auth_stage_verification_error: 无法验证阶段“%{stage}”。
   notice_auth_stage_wrong_stage: 预期完成身份验证阶段“%{expected}”，但返回“%{actual}”。
-  notice_automatic_set_of_standard_type: 自动设置标准类型。
   notice_bad_request: 错误的请求。
   notice_can_t_change_password: 此帐户使用外部身份验证源。无法更改密码。
   notice_custom_options_deleted: 选项“%{option_value}”和其“%{num_deleted}”事件已删除。
@@ -5062,7 +5087,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -5295,7 +5320,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用存储库管理网页服务
+  setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
   setting_total_percent_complete_mode_simple_average: 简单平均值
@@ -5714,7 +5739,6 @@ zh-CN:
   text_destroy_what_to_do: 你想做什么？
   text_destroy_with_associated: 有额外的对象关联到要删除的工作包。这些对象是以下类型：
   text_diff_truncated: "...这个比较被截断，因为它超出了可显示的最大大小。"
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     电子邮件传送未配置，通知已禁用。
     配置您的 SMTP 服务器将其启用。
@@ -5857,10 +5881,11 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: 创建类型
       create_variant: 创建变体
       fields:
-        inherited_from_parent_html: 继承自父类型 <b>%{parent}</b>。
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: 完成
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
@@ -5872,7 +5897,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         workflows: 工作流
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 变体：%{name}
       defaults:
@@ -5897,6 +5922,7 @@ zh-CN:
             work_package: 工作包
           label_with_context: "%{attribute_context}：%{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: 详细信息
         type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
       export_configuration:
@@ -5967,6 +5993,13 @@ zh-CN:
         actions:
           label_disable_all: 全部禁用
           label_enable_all: 全部启用
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
         disabled: Disabled
         exclusions:
@@ -5974,6 +6007,17 @@ zh-CN:
         filter: 按分区或名称搜索
         tab: 项目特性
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
@@ -6277,7 +6321,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
 
     '
   wiki:
@@ -6550,16 +6594,16 @@ zh-CN:
           label: 源角色
         target_role_ids:
           label: 目标角色
-        target_type_ids:
-          label: 目标类型
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             other: 已成功将工作流复制到 %{count} 个角色。
-      from_types:
+      from_variants:
         create:
           notice:
-            other: 已成功将工作流复制到 %{count} 个类型。
+            other: Successfully copied workflow to %{count} types.
       new:
         title: 复制“%{source_type}”的工作流
     form:

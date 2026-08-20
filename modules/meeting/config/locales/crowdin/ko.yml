@@ -54,6 +54,8 @@ ko:
         position: 위치
         presenter: 발표자
         title: 제목
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: 참석함
         invited: 초대됨

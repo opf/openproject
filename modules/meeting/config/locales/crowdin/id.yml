@@ -54,6 +54,8 @@ id:
         position: Position
         presenter: Pembawa acara
         title: Judul
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Telah hadir
         invited: Terundang

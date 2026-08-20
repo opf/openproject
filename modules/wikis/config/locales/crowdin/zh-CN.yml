@@ -27,7 +27,7 @@ zh-CN:
       wikis/inline_page_link:
         other: 内联页面链接
       wikis/internal_provider:
-        other: Internal providers
+        other: Project wikis
       wikis/provider:
         other: |-
           One
@@ -47,9 +47,11 @@ zh-CN:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: Wiki
-    project_settings:
-      wiki: Project wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
+  project_module_wiki_internal: 项目 Wiki
+  project_module_wiki_platforms: External wiki providers
+  projects_settings_wiki:
+    title: 项目 Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -219,8 +221,6 @@ zh-CN:
         caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
         enable: Enable the OpenProject wiki for this project
     provider_types:
-      internal:
-        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

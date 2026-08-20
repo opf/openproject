@@ -55,6 +55,8 @@ ka:
         position: Position
         presenter: Presenter
         title: სათაური
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: მოწვეულია

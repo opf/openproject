@@ -57,6 +57,8 @@ ru:
         position: Позиция
         presenter: Ведущий
         title: Заголовок
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Участвовал
         invited: Приглашённые

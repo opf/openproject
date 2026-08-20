@@ -57,6 +57,8 @@ cs:
         position: Position
         presenter: Přednášející
         title: Název
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Zúčastnil se
         invited: Pozvané
@@ -540,7 +542,7 @@ cs:
   permission_create_meetings: 'Vytvořit schůzku
 
     '
-  permission_delete_meetings: Odstranit schůzky
+  permission_delete_meetings: Smazat schůzku
   permission_edit_meetings: Upravit schůzku
   permission_manage_agendas: Správa zápisů
   permission_manage_agendas_explanation: Umožňuje vytvářet, upravovat a odebírat položky agendy

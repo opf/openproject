@@ -55,6 +55,8 @@ eo:
         position: Posicio
         presenter: Prezentanto
         title: Titolo
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ĉeestita
         invited: Invitita

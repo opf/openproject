@@ -236,6 +236,7 @@ ru:
         project_creation_wizard_status_when_submitted: Статус при отправке
         project_creation_wizard_work_package_comment: Комментарий к пакету работ
         project_creation_wizard_work_package_type: Тип пакета работ
+        project_types: Типы
         public_value:
           false: приватный
           title: Видимость
@@ -255,6 +256,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
+        type_variant: Work package type variant
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -275,6 +277,8 @@ ru:
         start_gate_name: Имя начальной стадии этапа
       project_custom_field:
         custom_field_section: Раздел
+      project_type:
+        variant: Вариант
       query:
         child_work_packages: Дочерние пакеты работ
         column_names: Столбцы
@@ -342,18 +346,26 @@ ru:
       token/named:
         token_name: Имя токена
       type:
-        attribute_groups: Настройка форм
-        children: Варианты
         color: Цвет
-        dependent_configuration_links: Связанные типы
-        description: Текст для описания по умолчанию
-        is_default: В новых проектах активируется по умолчанию
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
-        parent: Родительский тип
-        patterns: Шаблоны
+        project_types: Проекты
+        variants: Варианты
       type/configuration_link:
         source: Тип источника
+      type_variant:
+        attribute_groups: Конфигурация формы
+        default_work_package_description: Текст для описания по умолчанию
+        defaults_source: Источник по умолчанию
+        enabled_in_new_projects: Активно в новых проектах
+        form_configuration_source: Источник конфигурации формы
+        patterns: Шаблоны
+        pdf_export_source: Источник экспорта PDF
+        project_attributes_source: Источник атрибутов проекта
+        project_types: Проекты, в которых используется данный вариант
+        variant: Вариант
+        variant_name: Название
+        workflows_source: Источник рабочих процессов
       user:
         admin: Администратор
         auth_source: Источник аутентификации
@@ -549,6 +561,7 @@ ru:
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
         ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
+        status_transition_invalid: недопустимо, так как для текущих ролей пользователя нет правильного перехода от старого статуса к новому.
         system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
@@ -721,8 +734,6 @@ ru:
               blank: Пожалуйста, выберите проект.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: должен быть типом верхнего уровня. В проекте используются корни, а варианты разрешаются отдельно.
             variant:
               must_belong_to_the_type: должен быть вариантом того типа, который используется в проекте.
         queries/filters/base:
@@ -813,7 +824,7 @@ ru:
               blank: Пожалуйста, укажите имя токена
               format: "%{message}"
               in_use: Это имя токена уже используется, пожалуйста, выберите другое
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: Используется недопустимый атрибут пакета работ.
@@ -821,17 +832,26 @@ ru:
               duplicate_group: Имя группы '%{group}' используется более одного раза. Имена групп должны быть уникальными.
               group_without_name: Имя группы не может быть пустым.
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
-            parent:
-              cannot_be_self: не может быть сам тип.
-              cannot_change_while_used_by_projects: не может быть изменен, пока в проектах по-прежнему используется этот тип.
-              cannot_have_children: невозможно установить, так как у этого типа уже есть варианты.
-              must_be_a_root: должен сам по себе быть типом верхнего уровня. Типы могут вкладываться друг в друга только на один уровень.
-              standard_type_must_be_root: не может быть установлен для стандартного типа.
+            base:
+              borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
+              is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
+              restrict_dependent_destroy:
+                has_many: Невозможно удалить, пока он используется в проектах.
+            defaults_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            enabled_in_new_projects:
+              taken: уже настроен для другой конфигурации данного типа.
+            form_configuration_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            project_attributes_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            variant:
+              must_belong_to_the_type: должен быть вариантом данного типа.
+            workflows_source_id:
               would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
@@ -939,6 +959,9 @@ ru:
             start_date:
               cannot_be_null: не может быть нулевым, поскольку известны дата окончания и продолжительность.
               violates_relationships: может быть установлено лишь в %{soonest_start} или позднее и без нарушения взаимосвязи рабочих пакетов.
+            status:
+              status_invalid_in_type: недопустимо, поскольку данный статус отсутствует в данном типе.
+              status_transition_invalid: недопустимо, поскольку для ролей текущего пользователя отсутствует допустимый переход из старого статуса в новый.
             status_id:
               status_invalid_in_type: недопустимо, так как текущего статуса в этом типе нет.
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому.
@@ -1039,6 +1062,11 @@ ru:
         few: Типа
         many: Типов
         other: Типов
+      type_variant:
+        one: Вариант
+        few: Варианта
+        many: Вариантов
+        other: Вариантов
       user: Пользователь
       version: Этапы
       wiki: Wiki
@@ -1862,6 +1890,7 @@ ru:
     start_date: Дата начала
     state: Область
     status: Статус
+    status_id: Статус
     subject: Тема
     summary: Сводка
     template: Шаблон
@@ -2655,18 +2684,17 @@ ru:
   error_attribute_not_highlightable: 'Атрибуты не выделяются: %{attributes}'
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект невозможно заархивировать: %{errors}'
-  error_can_not_deactivate_type: Не удалось отключить тип %{type}, потому что он все еще используется в %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Также существуют пакеты работ в проектах, которые вы не можете видеть.
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_in_use_archived_undisclosed: Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.
   error_can_not_delete_in_use_archived_work_packages: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить атрибут соответствующих пакетов работ: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартные типы не могут быть удалены.
   error_can_not_delete_type:
     explanation: Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -3434,6 +3462,7 @@ ru:
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
+  label_member_of_group: Member of group
   label_member_of_project: Участник проекта
   label_member_plural: Участники
   label_member_role: Роль в проекте
@@ -4404,7 +4433,6 @@ ru:
   notice_auth_stage_error: Сбой на этапе аутентификации «%{stage}».
   notice_auth_stage_verification_error: Не удалось проверить этап «%{stage}».
   notice_auth_stage_wrong_stage: Ожидалось завершение этапа авторизации «%{expected}», но возвращено «%{actual}».
-  notice_automatic_set_of_standard_type: Установить стандартный тип автоматически.
   notice_bad_request: Неправильный запрос.
   notice_can_t_change_password: Эта учетная запись использует механизм внешней аутентификации. Невозможно изменить пароль.
   notice_custom_options_deleted: Опция «%{option_value}» и ее вхождения %{num_deleted} были удалены.
@@ -5915,7 +5943,6 @@ ru:
   text_destroy_what_to_do: Что Вы хотите сделать?
   text_destroy_with_associated: 'Существуют дополнительные объекты, связанные с удаляемым рабочим пакетом (пакетами). Эти объекты относятся к следующим типам:'
   text_diff_truncated: "... Этот разностность(diff) была усечена, так как она превышает максимальный размер, которые может быть отображен."
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Доставка электронной почты не настроена, уведомления отключены.
     Настройте SMTP-сервер, чтобы включить их.
@@ -6052,10 +6079,11 @@ ru:
   total_progress: Общий прогресс
   types:
     creation_wizard:
+      add_variant: Добавить вариант к %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
       fields:
-        inherited_from_parent_html: Унаследовано от родителя типа <b>%{parent}</b>.
+        variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
@@ -6067,7 +6095,7 @@ ru:
         project_attributes: Атрибуты проекта
         projects: Проекты
         workflows: Рабочие потоки
-      success: Вариант успешно создан.
+      success: Успешно создано.
     edit:
       breadcrumb_variant: 'Вариант: %{name}'
       defaults:
@@ -6092,6 +6120,7 @@ ru:
             work_package: Пакет работ
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
         tab: Подробности
         type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
       export_configuration:
@@ -6162,6 +6191,13 @@ ru:
         actions:
           label_disable_all: Отключить все
           label_enable_all: Включить все
+        blankslate:
+          independent:
+            description: После того как вы [создадите атрибуты проекта](administration_url), они станут видны здесь и их можно будет добавить к типу.
+            title: Нет доступных атрибутов проекта
+          linked:
+            description: С данным типом не связано ни одного атрибута проекта.
+            title: Атрибуты проекта не настроены
         description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
         disabled: Отключено
         exclusions:
@@ -6169,6 +6205,17 @@ ru:
         filter: Поиск по секции или названию
         tab: Атрибуты проекта
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
@@ -6786,7 +6833,7 @@ ru:
           label: Исходная роль
         target_role_ids:
           label: Целевые роли
-        target_type_ids:
+        target_variant_ids:
           label: Целевые типы
       from_roles:
         create:
@@ -6795,11 +6842,11 @@ ru:
             few: Рабочий процесс успешно скопирован в %{count} ролей.
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
-      from_types:
+      from_variants:
         create:
           notice:
             one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типов.
+            few: Рабочий процесс успешно скопирован в %{count} типа.
             many: Рабочий процесс успешно скопирован в %{count} типов.
             other: Рабочий процесс успешно скопирован в %{count} типов.
       new:
