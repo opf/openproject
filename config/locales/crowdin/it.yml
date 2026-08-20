@@ -256,6 +256,7 @@ it:
         templated_value:
           false: non contrassegnato come modello
           true: contrassegnato come modello
+        type_variant: Work package type variant
         types: Tipi
         versions: Versioni
         work_packages: Macro-attività
@@ -2583,7 +2584,6 @@ it:
   error_attribute_not_highlightable: 'Attributo/i non sottolineabile/i: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) per l'utente '%{value}' non riuscita
   error_can_not_archive_project: 'Questo progetto non può essere archiviato: %{errors}'
-  error_can_not_deactivate_type: Impossibile disattivare il tipo %{type} perché è ancora in uso da %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Esistono anche macro-attività in progetti che non puoi visualizzare.
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
   error_can_not_delete_entry: Impossibile eliminare la voce
@@ -2594,6 +2594,7 @@ it:
   error_can_not_find_all_resources: Impossibile trovare tutte le risorse correlate a questa richiesta.
   error_can_not_invite_user: Impossibile inviare l'invito all'utente.
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Una macro-attività assegnata ad una versione chiusa non può essere riaperta
   error_can_not_unarchive_project: 'Questo progetto non può essere estratto: %{errors}'
   error_check_user_and_role: Si prega di scegliere un utente e un ruolo.
@@ -2874,15 +2875,16 @@ it:
     blocks:
       community: Comunità di OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nuovo modulo Gestione risorse per la pianificazione della capacità e del personale (piano Premium).
-            line_1: Migliore gestione dell'organizzazione grazie a reparti, attributi utente come le qualifiche professionali e orari di lavoro.
-            line_2: Più sprint attivi senza condivisione (Piano Basic).
-            line_3: Backlog e sprint migliorati con filtri a selezione multipla, una migliore funzionalità di trascinamento e la possibilità di aggiungere macro-attività esistenti.
-            line_4: Esportazione di artefatti PM²/PMflex e nuovo widget con una panoramica delle fasi e dei controlli del progetto.
-            line_5: Indice globale delle pagine wiki e navigazione più semplice tra le pagine correlate.
-          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -3352,6 +3354,7 @@ it:
   label_me: io
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_new: Nuovo membro
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membri
   label_member_role: Ruolo del progetto
@@ -5285,6 +5288,7 @@ it:
   setting_default_language: Lingua predefinita
   setting_default_projects_modules: Moduli abilitati in automatico su nuovi progetti
   setting_default_projects_public: I nuovi progetti sono pubblici come impostazione predefinita
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Numero massimo di linee diff visualizzate
   setting_disable_password_login: Disabilita l'autenticazione con password
   setting_display_subprojects_work_packages: Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita
@@ -6076,6 +6080,17 @@ it:
         filter: Ricerca per sezione o per nome
         tab: Attributi del progetto
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Abilita per tutti i progetti
         select_projects: Seleziona progetti
         select_projects_description: Seleziona i progetti in cui desideri utilizzare questo tipo.

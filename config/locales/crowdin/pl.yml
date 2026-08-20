@@ -256,6 +256,7 @@ pl:
         templated_value:
           false: odznaczono jako szablon
           true: oznaczono jako szablon
+        type_variant: Work package type variant
         types: Typy
         versions: Wersje
         work_packages: Zadania
@@ -2679,7 +2680,6 @@ pl:
   error_attribute_not_highlightable: 'Atrybuty, których nie można wyróżnić: %{attributes}'
   error_auth_source_sso_failed: Pojedyncze logowanie (SSO) dla użytkownika '%{value}' nie powiodło się
   error_can_not_archive_project: 'Tego projektu nie można zarchiwizować: %{errors}'
-  error_can_not_deactivate_type: Nie można dezaktywować typu %{type}, ponieważ jest nadal używany przez %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: W projektach są również pakiety robocze, których nie widać.
   error_can_not_delete_custom_field: Nie można usunąć pola niestandardowego
   error_can_not_delete_entry: Nie można usunąć wpisu
@@ -2690,6 +2690,7 @@ pl:
   error_can_not_find_all_resources: Nie można znaleźć wszystkich zasobów związanych z tym żądaniem.
   error_can_not_invite_user: Nie można wysłać zaproszenia do użytkownika.
   error_can_not_remove_role: Ta Rola jest używana i nie można jej usunąć.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Nie można otworzyć pakietu roboczego przypisanego do zamkniętej wersji
   error_can_not_unarchive_project: 'Nie można cofnąć archiwizacji tego projektu: %{errors}'
   error_check_user_and_role: Wybierz użytkownika i rolę.
@@ -2978,15 +2979,16 @@ pl:
     blocks:
       community: Społeczność OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nowy moduł zarządzania zasobami, służący do planowania wydajności i obsady kadrowej (plan Premium).
-            line_1: Lepsze zarządzanie organizacyjne dzięki działom, atrybutom użytkowników, takim jak stanowiska oraz godzinom pracy.
-            line_2: Wiele aktywnych sprintów bez udostępniania (plan Basic).
-            line_3: Ulepszony backlog i sprinty z wieloma wybieranymi filtrami, ulepszonym przeciąganiem i upuszczeniem oraz możliwością dodawania istniejących pakietów roboczych.
-            line_4: Eksport artefaktów PM²/PMflex oraz nowy widżet umożliwiający przegląd faz i bramek projektów.
-            line_5: Globalny indeks stron wiki oraz łatwiejsza nawigacja między powiązanymi stronami.
-          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
@@ -3456,6 +3458,7 @@ pl:
   label_me: ja
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_new: Nowy członek
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Członkowie
   label_member_role: Rola w projekcie
@@ -5413,6 +5416,7 @@ pl:
   setting_default_language: Język domyślny
   setting_default_projects_modules: Domyślnie włączone moduły dla nowych projektów
   setting_default_projects_public: Nowe projekty są publiczne (domyślnie)
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksymalna wyświetlana liczba linii różnic
   setting_disable_password_login: Wyłącz uwierzytelnianie hasłem
   setting_display_subprojects_work_packages: Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie
@@ -6207,6 +6211,17 @@ pl:
         filter: Wyszukaj według sekcji lub nazwy
         tab: Atrybuty projektu
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Włącz dla wszystkich projektów
         select_projects: Wybierz projekty
         select_projects_description: Wybierz projekty, w których chcesz używać tego typu.

@@ -262,6 +262,46 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           expect(strings).to eq(expected_pdf_strings.join(" "))
         end
       end
+
+      context "when grouped by target versions", with_settings: { work_package_multiple_versions: true } do
+        let!(:version_two) { create(:version, project:, name: "2.0") }
+        let!(:version_one) { create(:version, project:, name: "1.0") }
+        let(:query_attributes) { { group_by: "target_versions" } }
+
+        before do
+          [work_package_parent, work_package_child].each do |work_package|
+            create(:work_package_version, work_package:, version: version_two)
+            create(:work_package_version, work_package:, version: version_one)
+          end
+        end
+
+        it "writes work packages sharing the same target versions into a single group" do
+          strings = pdf_strings_without_footers(1)
+          expect(strings).to eq [
+            query.name,
+            "2.0, 1.0",
+            *column_titles,
+            *work_package_columns(work_package_parent),
+            *work_package_columns(work_package_child)
+          ].join(" ")
+        end
+
+        context "with sums" do
+          let(:query_attributes) { { group_by: "target_versions", display_sums: true } }
+
+          it "writes the group sums although the versions are ordered by name in the sums" do
+            strings = pdf_strings_without_footers(1)
+            expect(strings).to eq [
+              query.name,
+              "2.0, 1.0",
+              *column_titles,
+              *work_package_columns(work_package_parent),
+              *work_package_columns(work_package_child),
+              I18n.t("js.label_sum"), work_packages_sum.to_s, "38%"
+            ].join(" ")
+          end
+        end
+      end
     end
 
     describe "grouped with sums" do

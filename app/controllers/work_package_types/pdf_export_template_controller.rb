@@ -73,7 +73,7 @@ module WorkPackageTypes
     end
 
     def update_artefact_export
-      mode = params.dig(:type, :artefact_export_mode)
+      mode = params.dig(@variant.model_name.param_key.to_sym, :artefact_export_mode)
       unless Type::ArtefactExport::MODES.include?(mode)
         render_error_flash_message_via_turbo_stream(
           message: I18n.t("types.edit.export_configuration.artefact_export.invalid_mode")

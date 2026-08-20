@@ -55,6 +55,8 @@ it:
         position: Posizione
         presenter: Presentatore
         title: Titolo
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ha partecipato
         invited: Invitato

@@ -54,6 +54,15 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
+   * Board queries created here send "version", but the server normalizes the
+   * stored key to whichever of the interchangeable version filters is
+   * available, so the API may render the filter under either id.
+   */
+  override get filterNames():string[] {
+    return ['version', 'targetVersion'];
+  }
+
+  /**
    * The list-defining filter stays "version" (stored in board queries), while
    * assigning a card writes the targetVersions attribute (see attributeName).
    *

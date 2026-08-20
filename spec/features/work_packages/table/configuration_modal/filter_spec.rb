@@ -41,7 +41,7 @@ RSpec.describe "Work Package table configuration modal filters spec", :js do
       filters.open
 
       filters.expect_filter_count 2
-      filters.add_filter_by("Version", "is (OR)", version.name)
+      filters.add_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
       filters.save
 
       wp_table.expect_work_package_listed work_package_with_version
@@ -51,7 +51,7 @@ RSpec.describe "Work Package table configuration modal filters spec", :js do
 
       filters.open
       filters.expect_filter_count 3
-      filters.remove_filter "version"
+      filters.remove_filter "targetVersion"
       filters.save
 
       loading_indicator_saveguard

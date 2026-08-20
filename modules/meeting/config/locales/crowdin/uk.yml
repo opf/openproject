@@ -57,6 +57,8 @@ uk:
         position: Позиція
         presenter: Доповідач
         title: 'Назва '
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Відвідано
         invited: Запрошені

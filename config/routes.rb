@@ -169,9 +169,17 @@ Rails.application.routes.draw do
     # the type member rather than in front of it.
     nested do
       scope "(variants/:variant_id)" do
-        resource :projects, controller: "projects_tab", only: %i[update edit] do
+        resource :projects, controller: "projects_tab", only: %i[edit update] do
           collection do
             post :enable_all, to: "projects_tab#enable_all_projects"
+
+            get :new_link
+            get :tree
+            post :link
+            delete :unlink
+
+            get :new_switch
+            post :switch
           end
         end
 

@@ -258,6 +258,7 @@ hu:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Típus
         versions: Verzió
         work_packages: Feladatcsoportok
@@ -2631,7 +2632,6 @@ hu:
   error_attribute_not_highlightable: 'Tulajdonság(ok) nem kiemelhetők: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen
   error_can_not_archive_project: 'Ezt a projektet nem lehet archiválni: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Nem törölhető az egyéni mező
   error_can_not_delete_entry: Bejegyzését nem lehet törölni
@@ -2642,6 +2642,7 @@ hu:
   error_can_not_find_all_resources: Nem található a kéréshez tartozó összes erőforrás.
   error_can_not_invite_user: A meghívó küldése sikertelen a felhasználó részére.
   error_can_not_remove_role: Ez a szerepkör használatban van, nem lehet törölni
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: A feladatcsoport lezárt verzió, nem lehet újra nyitni
   error_can_not_unarchive_project: 'Ezt a projektet nem lehet az archívumból visszavenni: %{errors}'
   error_check_user_and_role: Légy szíves válassz felhasználót és szerepkört
@@ -2928,14 +2929,15 @@ hu:
     blocks:
       community: OpenProject Közösség
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3406,6 +3408,7 @@ hu:
   label_me: Nekem
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_new: Új tag
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Tagok
   label_member_role: Projekt szerepkör
@@ -5390,6 +5393,7 @@ hu:
   setting_default_language: Alapértelmezett nyelv
   setting_default_projects_modules: Az új projektekben alapértelmezetten engedélyezett modulok
   setting_default_projects_public: Új projektek nyilvánosak alapértelmezetten
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: A különböző sorok megjelenítésének maximális száma
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Megjelenítendő alprojektek, feladatcsoportok a fő projekt alapértelmezett beállítása szerint
@@ -6188,6 +6192,17 @@ hu:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Alapértelmezett az összes projektnél
         select_projects: Válasszon projektet
         select_projects_description: Válassza ki azokat a projekteket, amelyekben ezt a típust szeretné használni.

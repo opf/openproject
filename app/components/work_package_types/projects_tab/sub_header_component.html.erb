@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%= render(
+        Primer::OpenProject::SubHeader.new(
+          test_selector: "type-projects-sub-header",
+          data: filters_form_attributes
+        )
+      ) do |sub_header| %>
+    <%
+      sub_header.with_filter_input(
+        name: name_filter_key,
+        label: t("projects.index.search.label"),
+        value: name_filter_value,
+        placeholder: t("projects.index.search.placeholder"),
+        leading_visual: { icon: :search, size: :small },
+        clear_button_id:,
+        data: name_filter_attributes
+      )
+    %>
+
+    <% if variant_filter_available? %>
+      <% sub_header.with_quick_filter do %>
+        <%= render(variant_filter_component) %>
+      <% end %>
+    <% end %>
+
+    <%
+      sub_header.with_action_button(
+        scheme: :primary,
+        leading_icon: :"op-include-projects",
+        label: t(:label_add_projects),
+        tag: :a,
+        href: add_path,
+        test_selector: "type-projects-add-button",
+        data: { controller: "async-dialog" }
+      ) { t(:label_add_projects) }
+    %>
+
+    <% if toggle_all_available? %>
+      <%
+        sub_header.with_action_button(
+          scheme: :secondary,
+          tag: :a,
+          label: toggle_all_label,
+          leading_icon: toggle_all_icon,
+          href: toggle_all_path,
+          test_selector: "type-projects-enable-all",
+          data: { turbo_method: :post, turbo_stream: true }
+        ) { toggle_all_label }
+      %>
+    <% end %>
+  <% end %>
+<% end %>

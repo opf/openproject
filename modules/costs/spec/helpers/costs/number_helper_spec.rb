@@ -190,4 +190,53 @@ RSpec.describe Costs::NumberHelper do
       end
     end
   end
+
+  describe "#parse_hours_string_to_number", with_settings: { hours_per_day: 8, days_per_month: 20 } do
+    it "parses plain decimal numbers" do
+      expect(helper.parse_hours_string_to_number("10")).to eq(10)
+      expect(helper.parse_hours_string_to_number("2.5")).to eq(2.5)
+    end
+
+    it "parses durations expressed in hours" do
+      expect(helper.parse_hours_string_to_number("8h")).to eq(8)
+      expect(helper.parse_hours_string_to_number("5 hrs 30 mins")).to eq(5.5)
+    end
+
+    it "resolves days through the hours per day setting" do
+      expect(helper.parse_hours_string_to_number("1d")).to eq(8)
+      expect(helper.parse_hours_string_to_number("2d 10h")).to eq(26)
+    end
+
+    it "resolves weeks and months through the duration settings" do
+      expect(helper.parse_hours_string_to_number("1w")).to eq(40)
+      expect(helper.parse_hours_string_to_number("1mo")).to eq(160)
+    end
+
+    context "with a german locale" do
+      it "parses the locale delimiter and separator" do
+        I18n.with_locale(:de) do
+          expect(helper.parse_hours_string_to_number("1.234,5")).to eq(1234.5)
+        end
+      end
+
+      it "still parses durations" do
+        I18n.with_locale(:de) do
+          expect(helper.parse_hours_string_to_number("2d 10h")).to eq(26)
+        end
+      end
+    end
+
+    context "with a different hours per day setting", with_settings: { hours_per_day: 6 } do
+      it "resolves days accordingly" do
+        expect(helper.parse_hours_string_to_number("1d")).to eq(6)
+      end
+    end
+
+    it "returns 0.0 for unparseable values" do
+      expect(helper.parse_hours_string_to_number("garbage")).to eq(0.0)
+      expect(helper.parse_hours_string_to_number("12mm")).to eq(0.0)
+      expect(helper.parse_hours_string_to_number(nil)).to eq(0.0)
+      expect(helper.parse_hours_string_to_number("")).to eq(0.0)
+    end
+  end
 end

@@ -57,6 +57,8 @@ cs:
         position: Position
         presenter: Přednášející
         title: Název
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Zúčastnil se
         invited: Pozvané

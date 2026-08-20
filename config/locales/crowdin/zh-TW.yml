@@ -256,6 +256,7 @@ zh-TW:
         templated_value:
           false: 解除範本
           true: 設為範本
+        type_variant: Work package type variant
         types: 類型
         versions: 版本
         work_packages: 工作套件
@@ -2532,7 +2533,6 @@ zh-TW:
   error_attribute_not_highlightable: '無法凸顯的屬性: %{attributes}'
   error_auth_source_sso_failed: 單一登入 (SSO) 使用者 '%{value}' 失敗
   error_can_not_archive_project: 這個專案無法封存：%{errors}
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: 無法刪除客製欄位
   error_can_not_delete_entry: 無法刪除項目
@@ -2543,6 +2543,7 @@ zh-TW:
   error_can_not_find_all_resources: 無法找到此請求的所有相關資源。
   error_can_not_invite_user: 無法向用戶發送邀請。
   error_can_not_remove_role: 這個角色正在使用中，無法刪除。
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: 被指定到已關閉版本的工作套件將無法重新開啟
   error_can_not_unarchive_project: 這個專案無法解除封存：%{errors}
   error_check_user_and_role: 請選擇一個使用者與一個角色。
@@ -2821,14 +2822,15 @@ zh-TW:
     blocks:
       community: OpenProject 社群
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3299,6 +3301,7 @@ zh-TW:
   label_me: 我
   label_member_all_admin: "(所有角色都由管理員狀態決定)"
   label_member_new: 新成員
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 成員
   label_member_role: 專案角色
@@ -5219,6 +5222,7 @@ zh-TW:
   setting_default_language: 預設語言
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_default_projects_public: 新專案預設為公開
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件
@@ -6015,6 +6019,17 @@ zh-TW:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: 在所有專案中啟用
         select_projects: 選取專案
         select_projects_description: 選擇要使用此類型的專案。

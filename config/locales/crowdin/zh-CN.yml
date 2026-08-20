@@ -256,6 +256,7 @@ zh-CN:
         templated_value:
           false: 取消该模板
           true: 保存为模板
+        type_variant: Work package type variant
         types: 类型
         versions: 版本
         work_packages: 工作包
@@ -2530,7 +2531,6 @@ zh-CN:
   error_attribute_not_highlightable: 未高亮显示的属性：%{attributes}
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
   error_can_not_archive_project: 此项目无法存档：%{errors}
-  error_can_not_deactivate_type: 无法停用类型 %{type}，因为它仍在被 %{work_packages_link} 使用
   error_can_not_deactivate_type_invisible_projects: 项目中仍有一些您看不到的工作包。
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_entry: 无法删除条目
@@ -2541,6 +2541,7 @@ zh-CN:
   error_can_not_find_all_resources: 无法找到与请求相关的所有资源。
   error_can_not_invite_user: 无法向用户发送邀请。
   error_can_not_remove_role: 该角色正在使用，无法删除。
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: 不能重新打开一个已经分配给已关闭版本的工作包
   error_can_not_unarchive_project: 此项目无法取消存档：%{errors}
   error_check_user_and_role: 请选择用户和角色。
@@ -2819,15 +2820,16 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: 新的资源管理模块，用于产能规划和人员配置（Premium 方案）。
-            line_1: 通过部门、用户特性（如职务名称）以及工作时数提升了组织管理。
-            line_2: 多个处于有效状态且未共享的冲刺（Basic 方案）。
-            line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
-            line_4: PM²/PMflex 工件导出和用于项目阶段和关口概览的新微件。
-            line_5: 全球 Wiki 页面索引，更容易在相关页面之间导航。
-          new_features_title: '此版本包含多项新功能和改进，例如：
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
@@ -3297,6 +3299,7 @@ zh-CN:
   label_me: 我
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_new: 新成员
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 成员
   label_member_role: 项目角色
@@ -5208,6 +5211,7 @@ zh-CN:
   setting_default_language: 默认语言
   setting_default_projects_modules: 新项目的默认启用模块
   setting_default_projects_public: 新项目默认公开
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
   setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
@@ -6003,6 +6007,17 @@ zh-CN:
         filter: 按分区或名称搜索
         tab: 项目特性
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
