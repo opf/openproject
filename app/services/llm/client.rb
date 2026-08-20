@@ -96,9 +96,9 @@ module Llm
       handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
       handle_status(response)
       parse(response)
-    rescue OpenProject::HttpxSsrfFilter::ServerSideRequestForgeryError
-      # Raised from HttpxSsrfFilter#addresses=; the throw/catch path surfaces as
-      # response.error instead and is handled in #handle_transport_error.
+    rescue OpenProject::ServerSideRequestForgeryError
+      # The SSRF plugin either raises directly or surfaces the error as
+      # response.error, which #handle_transport_error covers.
       raise SsrfError, "Host resolves to a blocked address"
     end
 
@@ -118,7 +118,7 @@ module Llm
       error = response.error
 
       case error
-      when OpenProject::HttpxSsrfFilter::ServerSideRequestForgeryError
+      when OpenProject::ServerSideRequestForgeryError
         raise SsrfError, "Host resolves to a blocked address"
       when HTTPX::TimeoutError
         raise TimeoutError, "Request timed out"
