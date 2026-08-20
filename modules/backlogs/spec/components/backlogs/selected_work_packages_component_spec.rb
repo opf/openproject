@@ -49,7 +49,7 @@ RSpec.describe Backlogs::SelectedWorkPackagesComponent, type: :component do
   it "labels the box and names every work package in the given order", :aggregate_failures do
     render_component
 
-    expect(page).to have_text(I18n.t("backlogs.selected_work_packages_component.label"))
+    expect(page).to have_text(I18n.t("backlogs.selected_work_packages_component.label", count: 2))
     expect(page.text).to match(
       /Feature.*#{feature.formatted_id}.*Warning system.*Epic.*#{epic.formatted_id}.*Contamination model/mi
     )
@@ -62,15 +62,18 @@ RSpec.describe Backlogs::SelectedWorkPackagesComponent, type: :component do
     expect(page).to have_link(epic.formatted_id, href: "/work_packages/#{epic.id}")
   end
 
-  # The visible list replaces the count, so the count only reaches a screen
-  # reader through the hidden element the acting control describes itself by.
-  it "keeps the selected count on a hidden description element" do
+  it "heads the box with the selected count on the description element" do
     render_component
 
     expect(page).to have_css(
-      "##{description_id}[hidden]",
-      text: I18n.t(:label_x_work_packages, count: 2),
-      visible: :all
+      "h2##{description_id}",
+      text: I18n.t("backlogs.selected_work_packages_component.label", count: 2)
     )
+  end
+
+  it "heads a single selection in the singular" do
+    render_component(work_packages: [feature])
+
+    expect(page).to have_css("h2##{description_id}", text: "1 selected work package")
   end
 end
