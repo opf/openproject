@@ -254,13 +254,16 @@ export function splitAttributeErrors(
   return { fieldErrors, otherMessages };
 }
 
+// The type is left out: it keeps every value, and survivingValues prunes them
+// against the schema the new type brings.
 const KEPT_ON_CHANGE:Record<string, string[]> = {
   'project': ['subject'],
-  'type': ['subject', 'project', 'assignee'],
 };
 
-export function clearsOtherValues(key:string):boolean {
-  return key in KEPT_ON_CHANGE;
+const RESHAPING_KEYS = ['project', 'type'];
+
+export function reshapesForm(key:string):boolean {
+  return RESHAPING_KEYS.includes(key);
 }
 
 function applyToRecord<T>(previous:Record<string, T>, key:string, value:T | undefined):Record<string, T> {
@@ -284,6 +287,37 @@ export function applyValue(previous:FieldValues, key:string, value:FieldValue):F
 
 export function applyLabel(previous:FieldLabels, key:string, label:string | undefined):FieldLabels {
   return applyToRecord(previous, key, label);
+}
+
+function fieldNamed(fields:FormField[], key:string):FormField | undefined {
+  return fields.find((field) => field.key === key);
+}
+
+function hangsOnType(key:string):boolean {
+  return dependencyOf(key) === 'type';
+}
+
+function holds(field:FormField | undefined, value:FieldValue):boolean {
+  if (!field || field.kind === 'unsupported') return false;
+  if (field.kind === 'checkbox') return typeof value === 'boolean';
+  if (typeof value !== 'string') return false;
+  // The choices of one type are not the choices of the next.
+  if (field.kind === 'select') return allowedValueOf(field, value) !== undefined;
+  return true;
+}
+
+function surviving<T>(entries:Record<string, T>, survives:(key:string, entry:T) => boolean):Record<string, T> {
+  return Object.fromEntries(Object.entries(entries).filter(([key, entry]) => survives(key, entry)));
+}
+
+/** Of what was filled in, what the reshaped form can still hold. */
+export function survivingValues(fields:FormField[], values:FieldValues):FieldValues {
+  return surviving(values, (key, value) => !hangsOnType(key) || holds(fieldNamed(fields, key), value));
+}
+
+/** The labels of the surviving values; only a typeahead stands in need of one. */
+export function survivingLabels(fields:FormField[], labels:FieldLabels):FieldLabels {
+  return surviving(labels, (key) => !hangsOnType(key) || fieldNamed(fields, key)?.kind === 'typeahead');
 }
 
 function payloadValueOf(field:FormField, value:FieldValue | undefined):unknown {

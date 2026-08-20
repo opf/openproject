@@ -6,12 +6,14 @@ import {
   applyLabel,
   applyValue,
   buildCreatePayload,
-  clearsOtherValues,
   extraRequiredFields,
   fixedFields,
   isValueFilled,
   missingProblems,
+  reshapesForm,
   splitAttributeErrors,
+  survivingLabels,
+  survivingValues,
   unsupportedRequiredFields,
   valueProblems,
 } from './formSchema';
@@ -109,10 +111,12 @@ export function useCreateWorkPackageForm(
         setForm(loaded);
         setLoadError(null);
         setNotAllowed(false);
-        const defaults = defaultValuesOf(extraRequiredFields(loadedSchema));
-        // What is already in the form outranks both: the user has answered it.
-        setValues((previous) => ({ ...defaults, ...prefill?.values, ...previous }));
-        setValueLabels((previous) => ({ ...prefill?.labels, ...previous }));
+        const extras = extraRequiredFields(loadedSchema);
+        const offered = [...fixedFields(loadedSchema, { project: true, type: true }), ...extras];
+        const defaults = defaultValuesOf(extras);
+        // What is already in the form outranks both, as far as it survives the reshape.
+        setValues((previous) => ({ ...defaults, ...prefill?.values, ...survivingValues(offered, previous) }));
+        setValueLabels((previous) => ({ ...prefill?.labels, ...survivingLabels(offered, previous) }));
       })
       .catch((error:unknown) => {
         if (!active) return;
@@ -148,10 +152,10 @@ export function useCreateWorkPackageForm(
   const setValue = (key:string, value:FieldValue, label?:string) => {
     setTouched(true);
     setSubmitError(null);
-    if (clearsOtherValues(key)) setSubmitAttempted(false);
+    if (reshapesForm(key)) setSubmitAttempted(false);
     // Only the corrected field loses its complaint, unless the whole form is reloaded.
     setFieldErrors((previous) => {
-      if (clearsOtherValues(key)) return {};
+      if (reshapesForm(key)) return {};
       if (!(key in previous)) return previous;
 
       const next = { ...previous };

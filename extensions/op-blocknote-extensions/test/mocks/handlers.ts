@@ -63,6 +63,7 @@ const typeSchema = {
     allowedValues: [
       { href: '/api/v3/types/1', title: 'Task' },
       { href: '/api/v3/types/2', title: 'Bug' },
+      { href: '/api/v3/types/3', title: 'Milestone' },
     ],
   },
 };
@@ -110,6 +111,8 @@ const departmentSchema = {
   },
 };
 
+const TYPE_WITHOUT_DEPARTMENT = '/api/v3/types/3';
+
 interface FormRequestBody {
   _links?:Record<string, { href?:string }>;
 }
@@ -133,7 +136,8 @@ function createFormFor(body:FormRequestBody) {
       status: statusSchema,
       customField1: supervisorSchema,
       customField2: needsDocumentationSchema,
-      customField3: departmentSchema,
+      // The types of a project do not all bring the same attributes.
+      ...(typeHref === TYPE_WITHOUT_DEPARTMENT ? {} : { customField3: departmentSchema }),
     });
     links.type = { href: typeHref };
     links.status = { href: '/api/v3/statuses/1' };

@@ -5,14 +5,16 @@ import {
   applyValue,
   buildCreatePayload,
   buildField,
-  clearsOtherValues,
   dependencyOf,
   extraRequiredFields,
   fieldFor,
   fixedFields,
   missingProblems,
   missingRequiredFields,
+  reshapesForm,
   splitAttributeErrors,
+  survivingLabels,
+  survivingValues,
   unsupportedRequiredFields,
   valueProblems,
 } from '../../../../lib/components/CreateWorkPackage/formSchema';
@@ -258,7 +260,8 @@ describe('formSchema', () => {
       });
     });
 
-    it('keeps the project and the assignee when the type changes', () => {
+    // What of it the new type can still hold is decided once its schema is known.
+    it('carries everything filled in over when the type changes', () => {
       const values = {
         subject: 'Fix the header',
         project: '/api/v3/projects/1',
@@ -269,9 +272,7 @@ describe('formSchema', () => {
       };
 
       expect(applyValue(values, 'type', '/api/v3/types/2')).toEqual({
-        subject: 'Fix the header',
-        project: '/api/v3/projects/1',
-        assignee: '/api/v3/users/5',
+        ...values,
         type: '/api/v3/types/2',
       });
     });
@@ -372,11 +373,73 @@ describe('formSchema', () => {
     });
   });
 
-  describe('clearsOtherValues', () => {
+  describe('reshapesForm', () => {
     it('knows which selections the rest of the form hangs on', () => {
-      expect(clearsOtherValues('project')).toBe(true);
-      expect(clearsOtherValues('type')).toBe(true);
-      expect(clearsOtherValues('subject')).toBe(false);
+      expect(reshapesForm('project')).toBe(true);
+      expect(reshapesForm('type')).toBe(true);
+      expect(reshapesForm('subject')).toBe(false);
+    });
+  });
+
+  describe('survivingValues', () => {
+    const offered = [
+      fieldFor(schema, 'subject'),
+      fieldFor(schema, 'customField1'),
+      fieldFor(schema, 'customField2'),
+      fieldFor(schema, 'customField3'),
+    ].flatMap((field) => (field ? [field] : []));
+
+    it('keeps what the reshaped form still offers, and what does not hang on the type', () => {
+      const values = {
+        subject: 'Fix the header',
+        project: '/api/v3/projects/1',
+        type: '/api/v3/types/2',
+        assignee: '/api/v3/users/5',
+        customField1: 'note',
+        customField2: true,
+        customField3: '/api/v3/custom_options/7',
+      };
+
+      expect(survivingValues(offered, values)).toEqual(values);
+    });
+
+    it('drops the value of an attribute the new type does not bring', () => {
+      expect(survivingValues(offered, { customField1: 'note', customField9: 'gone' }))
+        .toEqual({ customField1: 'note' });
+    });
+
+    it('drops a choice the new type does not allow', () => {
+      expect(survivingValues(offered, { customField3: '/api/v3/custom_options/8' })).toEqual({});
+    });
+
+    it('drops a value the attribute of the new type cannot hold', () => {
+      // A checkbox does not hold a text, and "Tags" is a kind no control answers for.
+      const fields = [
+        fieldFor(schema, 'customField2'),
+        fieldFor(schema, 'customField5'),
+      ].flatMap((field) => (field ? [field] : []));
+
+      expect(survivingValues(fields, { customField2: 'yes', customField5: '/api/v3/custom_options/7' }))
+        .toEqual({});
+    });
+  });
+
+  describe('survivingLabels', () => {
+    const supervisor = buildField('customField6', property({
+      type: 'User',
+      name: 'Supervisor',
+      location: '_links',
+      _links: { allowedValues: { href: '/api/v3/principals' } },
+    }));
+
+    it('keeps the labels the reshaped form still has a field for', () => {
+      const labels = { assignee: 'Elif Yildiz', customField6: 'Anna Kovalenko' };
+
+      expect(survivingLabels([supervisor], labels)).toEqual(labels);
+    });
+
+    it('drops the label of an attribute the new type does not bring', () => {
+      expect(survivingLabels([], { customField6: 'Anna Kovalenko' })).toEqual({});
     });
   });
 

@@ -178,19 +178,39 @@ describe('Create work package', () => {
     await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
   });
 
-  it('re-asks for the type dependent fields when the type changes', async () => {
+  it('keeps what is filled in when the new type asks for the same fields', async () => {
     renderEditor();
     await openCreateModal();
-    // Filled in for the type "Task"; "Bug" is the other one the fixture offers.
+    // "Bug" asks for the very same attributes as "Task".
     await fillRequiredFields('Fix the header alignment');
+    await userEvent.click(page.getByLabelText('Needs documentation'));
 
     await selectOptionNamed('Type *', 'Bug');
 
-    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
+    await expect.element(page.getByLabelText('Department *')).toHaveValue('/api/v3/custom_options/7');
+    await expect.element(page.getByLabelText('Needs documentation')).toBeChecked();
 
+    // Nothing left to answer a second time.
     await userEvent.click(page.getByTestId('create-wp-submit'));
-    await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
-    await expect.element(page.getByLabelText('Supervisor *')).toHaveAttribute('aria-invalid', 'true');
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+  });
+
+  it('asks again for what the new type does not carry over', async () => {
+    renderEditor();
+    await openCreateModal();
+    // "Milestone" is the type the fixture offers without a department.
+    await fillRequiredFields('Fix the header alignment');
+
+    await selectOptionNamed('Type *', 'Milestone');
+
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
+    await expect.element(page.getByLabelText('Department *')).not.toBeInTheDocument();
+
+    await selectOptionNamed('Type *', 'Task');
+
+    await expect.element(page.getByLabelText('Department *')).toHaveValue('');
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
   });
 
   it('keeps the assignee it was given when the type changes', async () => {
