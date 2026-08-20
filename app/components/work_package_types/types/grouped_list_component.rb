@@ -70,7 +70,7 @@ module WorkPackageTypes
       end
 
       def add_variant_path(type)
-        new_creation_wizard_types_path(type_id: type.id)
+        new_creation_wizard_types_path(type_id: type.id, back_url: types_path)
       end
 
       def menu_id(type)
