@@ -82,7 +82,7 @@ RSpec.describe "Work package type variants tab", :js, with_flag: { type_variants
   end
 
   it "returns to the tab when the add-variant wizard is cancelled" do
-    click_on I18n.t("types.index.add_variant_action")
+    find_test_selector("add-type-variant").click
 
     expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
 
