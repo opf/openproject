@@ -54,30 +54,16 @@ module Wikis
     def add_sub_tree(parent, nodes)
       nodes.each do |node|
         if node.children.any?
-          parent.with_sub_tree(**node_options(node, expanded: true)) do |item|
+          parent.with_sub_tree(**node_options(node, wikis_selectable:, expanded: true)) do |item|
             item.with_leading_visual_icon(icon: node_icon(node))
             add_sub_tree(item, node.children)
           end
         else
-          parent.with_leaf(**node_options(node, expanded: true)) do |item|
+          parent.with_leaf(**node_options(node, wikis_selectable:, expanded: true)) do |item|
             item.with_leading_visual_icon(icon: node_icon(node))
           end
         end
       end
-    end
-
-    def item_options(node)
-      {
-        label: node.name,
-        select_variant: :single,
-        disabled: !selectable?(node),
-        expanded: true,
-        data: { node_id: node.key.to_s }
-      }
-    end
-
-    def selectable?(node)
-      wikis_selectable || node.type != :wiki
     end
 
     def item_icon(node)

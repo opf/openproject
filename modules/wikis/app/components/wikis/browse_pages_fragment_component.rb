@@ -32,23 +32,24 @@ module Wikis
   class BrowsePagesFragmentComponent < ApplicationComponent
     include Components::TreeNodeHelper
 
-    attr_reader :path, :provider_id
+    attr_reader :path, :provider_id, :wikis_selectable
 
     alias_method :nodes, :model
 
-    def initialize(model, path, provider_id)
+    def initialize(model, path, provider_id, wikis_selectable:)
       super(model)
       @path = path
       @provider_id = provider_id
+      @wikis_selectable = wikis_selectable
     end
 
     def build_tree(parent, nodes)
       nodes.each do |node|
         icon = node_icon(node)
 
-        parent.with_sub_tree(**node_options(node)) do |item|
+        parent.with_sub_tree(**node_options(node, wikis_selectable:)) do |item|
           item.with_leading_visual_icon(icon:)
-          item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
+          item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:, wikis_selectable:))
         end
       end
     end

@@ -89,7 +89,7 @@ module Wikis
     end
 
     def to_tree_node(page:)
-      Adapters::Results::PageSearchTreeNode.wiki_page(page.identifier, page.title)
+      Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title)
     end
 
     def build_result_tree(page_hierarchies, wikis)
@@ -123,7 +123,7 @@ module Wikis
       previous_ancestor_node = existing_nodes[node_key(:wiki, wiki.identifier)]
 
       ancestors.reverse.reduce(previous_ancestor_node) do |previous, current|
-        ancestor_node = to_tree_node(page: current, enabled: false)
+        ancestor_node = to_tree_node(page: current)
 
         existing_nodes.fetch(ancestor_node.key) do
           previous.find_or_add_child(ancestor_node)
