@@ -179,4 +179,4 @@ It doesn't by default. There is a setting which enables this option: drop_old_se
 
 ### Can the OpenProject force password expiration and prevent users from reusing a password?
 
-You can find how to set up password expiration in OpenProject [here](../../system-admin-guide/authentication/login-registration-settings/#password-settings). If you use an LDAP-Server for login that has this feature, you can achieve this via your LDAP-Server. Other identity providers (e.g. KeyCloak) used via OpenID Connect or SAML can also do this. You can set up these rules in these identity providers directly and use them for authentication.
+OpenProject can enforce password expiration and prevent users from reusing recent passwords. See the [password settings documentation](../../system-admin-guide/authentication/login-registration-settings/#password-settings) for configuration details. If authentication is handled by LDAP or another identity provider such as Keycloak via OpenID Connect or SAML, these policies can also be managed by the identity provider.
