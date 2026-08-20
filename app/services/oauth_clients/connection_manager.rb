@@ -41,35 +41,6 @@ module OAuthClients
       @config = configuration
     end
 
-    # rubocop:disable Metrics/AbcSize
-    # The bearer/access token has expired or is due for renew for other reasons.
-    # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
-    def refresh_token
-      OAuthClientToken.transaction do
-        oauth_client_token = OAuthClientToken.lock("FOR UPDATE").find_by(user_id: @user, oauth_client_id: @oauth_client.id)
-
-        if oauth_client_token.present?
-          if (Time.current - oauth_client_token.updated_at) > TOKEN_IS_FRESH_DURATION
-            service_result = request_new_token(refresh_token: oauth_client_token.refresh_token)
-
-            if service_result.success?
-              update_oauth_client_token(oauth_client_token, service_result.result)
-            else
-              service_result
-            end
-          else
-            ServiceResult.success(result: oauth_client_token)
-          end
-        else
-          storage_error = ::Storages::StorageError.new(
-            code: :error,
-            log_message: I18n.t("oauth_client.errors.refresh_token_called_without_existing_token")
-          )
-          ServiceResult.failure(result: :error, errors: storage_error)
-        end
-      end
-    end
-
     # Called by callback_page with a cryptographic "code" that indicates
     # that the user has successfully authorized the OAuth2 Authorization Server.
     # We now are going to exchange this code to a token (bearer+refresh)
@@ -114,24 +85,6 @@ module OAuthClients
       end
     end
     # rubocop:enable Metrics/AbcSize
-
-    # @returns ServiceResult with result to be :error or any type of object with data
-    def request_with_token_refresh(oauth_client_token)
-      # `yield` needs to returns a ServiceResult:
-      #   success: result= any object with data
-      #   failure: result= :error or :unauthorized
-      yield_service_result = yield(oauth_client_token)
-
-      if yield_service_result.failure? && yield_service_result.result == :unauthorized
-        refresh_service_result = refresh_token
-        return refresh_service_result if refresh_service_result.failure?
-
-        oauth_client_token.reload
-        yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
-      end
-
-      yield_service_result
-    end
 
     private
 
