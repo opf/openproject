@@ -315,11 +315,21 @@
 
   // The stack and the lift share the one box-shadow property, so both are
   // declared here or one replaces the other.
-  @for $layers from 1 through $op-drag-stack-max-layers
+  //
+  // The depth the preview writes is the batch's, uncapped: past four cards the
+  // added depth stops reading, so this default holds every deeper batch at the
+  // maximum and the shallow depths below override it.
+  &[data-preview][data-stack-depth]
+    box-shadow: op-drag-stack-shadows(), var(--shadow-floating-medium)
+
+    // Blur-free and inside the reserved overhang, so only the lift has to go.
+    .-browser-firefox &
+      box-shadow: op-drag-stack-shadows()
+
+  @for $layers from 1 through $op-drag-stack-max-layers - 1
     &[data-preview][data-stack-depth="#{$layers}"]
       box-shadow: op-drag-stack-shadows($layers: $layers), var(--shadow-floating-medium)
 
-      // Blur-free and inside the reserved overhang, so only the lift has to go.
       .-browser-firefox &
         box-shadow: op-drag-stack-shadows($layers: $layers)
 
