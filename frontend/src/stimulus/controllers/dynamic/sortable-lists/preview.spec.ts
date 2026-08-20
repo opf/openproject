@@ -258,14 +258,16 @@ describe('sortable lists drag preview', () => {
 
         expect(container.style.position).toEqual('relative');
         expect(container.style.paddingTop).toEqual('8px');
-        expect(container.style.paddingRight).toEqual('16px');
-        expect(container.style.paddingBottom).toEqual('16px');
+        expect(container.style.paddingRight).toEqual('22px');
+        expect(container.style.paddingBottom).toEqual('22px');
         expect(container.style.paddingLeft).toEqual('0px');
       });
     });
 
     describe('batch stack', () => {
-      const stackClass = 'op-sortable-lists-drag-preview-stack';
+      const stackDepth = (container:HTMLElement) => container
+        .querySelector('[data-preview]')
+        ?.getAttribute('data-stack-depth');
 
       it('leaves the clone unstacked for a single-card drag (the default)', () => {
         const target = withWidth(previewTarget(), 320);
@@ -273,9 +275,7 @@ describe('sortable lists drag preview', () => {
 
         renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-        const preview = container.querySelector('[data-preview]');
-
-        expect(preview?.classList.contains(stackClass)).toBe(false);
+        expect(stackDepth(container)).toBeNull();
       });
 
       it('leaves the clone unstacked when batchSize is explicitly 1', () => {
@@ -286,9 +286,33 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 1,
         });
 
-        const preview = container.querySelector('[data-preview]');
+        expect(stackDepth(container)).toBeNull();
+      });
 
-        expect(preview?.classList.contains(stackClass)).toBe(false);
+      it.each([
+        [2, '1'],
+        [3, '2'],
+        [4, '3'],
+      ])('gives a batch of %i a layer per card behind the front one', (batchSize, depth) => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize,
+        });
+
+        expect(stackDepth(container)).toEqual(depth);
+      });
+
+      it('caps the depth so a large batch stacks no deeper than four cards', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 27,
+        });
+
+        expect(stackDepth(container)).toEqual('3');
       });
 
       it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
@@ -300,10 +324,8 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 3,
         });
 
-        const preview = container.querySelector('[data-preview]');
-
-        expect(preview?.classList.contains(stackClass)).toBe(true);
-        expect(preview?.classList.contains('op-card')).toBe(true);
+        expect(stackDepth(container)).toEqual('2');
+        expect(container.querySelector('[data-preview]')?.classList.contains('op-card')).toBe(true);
       });
 
       it('adds no element for the layers, so the container holds only the clone and the badge', () => {
