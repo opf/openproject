@@ -36,25 +36,36 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
   <%= error_messages_for "custom_style" %>
   <% if show_theme_selector? %>
-    <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-      <section class="form--section">
-        <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%= I18n.t("admin.custom_styles.color_theme") %></legend>
-          <div class="form--field">
-            <div class="form--field-container">
-              <%= styled_select_tag "theme",
-                                    options_for_select(@theme_options, @current_theme),
-                                    container_class: "-slim" %>
-            </div>
-          </div>
-
-          <%= styled_button_tag t(:button_save),
-                                data: {
-                                  test_selector: "color-theme-button",
-                                  turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
-                                } %>
-        </fieldset>
-      </section>
+    <%= form_tag(
+          update_design_themes_path,
+          method: :post,
+          data: {
+            controller: "auto-submit",
+            turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
+          }
+        ) do %>
+      <%= render(
+            Primer::Alpha::Select.new(
+              name: "theme",
+              label: t("admin.custom_styles.color_theme"),
+              caption: t("admin.custom_styles.color_theme_caption"),
+              input_width: :large,
+              data: {
+                action: "auto-submit#submit",
+                test_selector: "color-theme-select"
+              }
+            )
+          ) do |select| %>
+        <% @theme_options.each do |option| %>
+          <% label, value, attributes = option.is_a?(Array) ? option : [option, option, {}] %>
+          <% select.option(
+               label:,
+               value:,
+               selected: attributes&.fetch(:selected, value == @current_theme),
+               disabled: attributes&.fetch(:disabled, false)
+             ) %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 
