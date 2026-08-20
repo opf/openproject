@@ -210,7 +210,9 @@ en:
     remaining_hours: "Remaining work"
 
     selected_work_packages_component:
-      label: "Selected items:"
+      label:
+        one: "1 selected work package"
+        other: "%{count} selected work packages"
 
     sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"

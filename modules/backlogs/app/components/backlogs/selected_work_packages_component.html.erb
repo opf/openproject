@@ -28,19 +28,16 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(OpPrimer::InsetBoxComponent.new(**@system_arguments)) do %>
-  <%= render(Primer::Box.new(tag: :span, id: description_id, hidden: true)) do %>
-    <%= t(:label_x_work_packages, count: work_packages.size) %>
-  <% end %>
-
   <%=
     render(
-      Primer::Beta::Text.new(
+      Primer::Beta::Heading.new(
+        tag: :h2,
+        id: description_id,
         font_size: :small,
         font_weight: :bold,
-        display: :block,
         mb: 2
       )
-    ) { t(".label") }
+    ) { t(".label", count: work_packages.size) }
   %>
 
   <% work_packages.each do |work_package| %>
@@ -50,7 +47,6 @@ See COPYRIGHT and LICENSE files for more details.
           work_package:,
           show_subject: true,
           show_status: false,
-          pl: 2,
           my: 1
         )
       )
