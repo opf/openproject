@@ -99,7 +99,7 @@ module Wikis
       wikis.each { insert_wiki_node(existing_nodes, it, root) }
       page_hierarchies.each { insert_page_hierarchy(existing_nodes, it, root) }
 
-      accumulator[:wiki_nodes]
+      root.children
     end
 
     def insert_page_hierarchy(existing_nodes, page_hierarchy, root_node)
