@@ -330,13 +330,13 @@ module Pages
       end
     end
 
-    def within_work_package_menu(work_package, &)
+    def within_work_package_menu(work_package, activated: false, &)
       within_work_package(work_package) do
         button = find(:button, accessible_name: "Work package actions")
         within(open_controlled_menu(button), &)
       end
 
-      dismiss_menu(work_package)
+      dismiss_menu(work_package, activated:)
     end
 
     # The four user entry points Backlogs supports, with the native key and
@@ -634,7 +634,7 @@ module Pages
     end
 
     def click_in_work_package_menu(work_package, item_name, wait: true)
-      within_work_package_menu(work_package) do |submenu|
+      within_work_package_menu(work_package, activated: true) do |submenu|
         wait_for_turbo_stream(wait:) do
           submenu.find(:menuitem, text: item_name).click
         end
@@ -1871,9 +1871,15 @@ module Pages
     # Dismisses with Escape rather than an outside click: the compact batch
     # menu can leave a live menuitem under the overlay's centre point, so a
     # click there activates an action instead of closing the menu.
-    def dismiss_menu(menu_owner)
+    # Activating an item closes the menu through Primer itself, so the caller
+    # only waits for that to happen. Pressing Escape on top of it races the
+    # dialog the same activation is still loading: the modal guard below reads
+    # the DOM before `showModal`, and the key then arrives after it and closes
+    # the dialog, which `StreamActions.dialog` removes from the DOM on close.
+    def dismiss_menu(menu_owner, activated: false)
       selector = menu_owner_overlay_selector(menu_owner)
 
+      return expect(page).to have_no_css(selector, visible: :visible) if activated
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
