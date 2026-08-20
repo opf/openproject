@@ -201,21 +201,10 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
-      llm_model:
-        display_name: "Display name"
-        # human_attribute_name strips the _id suffix, so the key omits it.
-        external: "Model name"
       llm_capability_verdict:
         capability: "Capability"
         model_id: "Model"
         state: "State"
-      llm_feature_binding:
-        dimensions: "Dimensions"
-        feature_key: "Feature"
-        input_prefix: "Document prefix"
-        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
-        model: "Model"
-        query_prefix: "Query prefix"
       llm_connection:
         api_format: "API format"
         api_key: "API key"
@@ -226,6 +215,17 @@ en:
         default_embedding_model: "Default embedding model"
         enabled: "Enable LLMs for this instance"
         last_connected_at: "Last connected"
+      llm_feature_binding:
+        dimensions: "Dimensions"
+        feature_key: "Feature"
+        input_prefix: "Document prefix"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
+        query_prefix: "Query prefix"
+      llm_model:
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -696,21 +696,6 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
-        llm_feature_binding:
-          attributes:
-            feature_key:
-              not_registered: "does not belong to a known AI feature."
-            model_id:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
-            dimensions:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
-            input_prefix:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
-            query_prefix:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
         llm_connection:
           attributes:
             api_format:
@@ -732,6 +717,21 @@ en:
               not_available: "is not offered by the configured LLM server."
             enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
+        llm_feature_binding:
+          attributes:
+            feature_key:
+              not_registered: "does not belong to a known AI feature."
+            model_id:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
+            dimensions:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            input_prefix:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            query_prefix:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
