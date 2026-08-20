@@ -1,4 +1,4 @@
-# OpenProject
+# OpenProject (fork)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
