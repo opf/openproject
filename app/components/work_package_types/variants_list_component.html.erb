@@ -73,17 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
                 list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
                   item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
 
-                  flex_layout(align_items: :center, justify_content: :space_between) do |row|
-                    row.with_column do
-                      render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
-                    end
-
-                    if variant.enabled_in_new_projects?
-                      row.with_column(mr: 3) do
-                        render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
-                      end
-                    end
-                  end
+                  render(WorkPackageTypes::VariantRowComponent.new(variant:))
                 end
               end
             end

@@ -69,8 +69,6 @@ module WorkPackageTypes
       }
     end
 
-    def variant_path(variant) = edit_type_details_path(**variant.path_args)
-
     def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
 
     def menu_id(variant) = Types::VariantActionsComponent.menu_id(variant)
