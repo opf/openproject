@@ -23,25 +23,16 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Adapters
-    class OAuthConfigurationBase
-      def token_endpoint = raise SubclassResponsibilityError
+module OpenProject
+  module OAuth2
+    ACCESS_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token"
 
-      def scope = raise SubclassResponsibilityError
-
-      def basic_rack_oauth_client = raise SubclassResponsibilityError
-
-      def to_httpx_oauth_config = raise SubclassResponsibilityError
-
-      def authorization_uri(state: nil)
-        basic_rack_oauth_client.authorization_uri(scope:, state:)
-      end
-    end
+    REFRESH_TOKEN_GRANT_TYPE = "refresh_token"
+    TOKEN_EXCHANGE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange"
   end
 end
