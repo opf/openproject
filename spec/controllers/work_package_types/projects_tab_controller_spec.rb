@@ -375,64 +375,40 @@ because it's still in use by work packages)
         expect(response).to have_http_status(:ok)
         expect(project.enabled_types).not_to include(type)
       end
-    end
 
-    describe "POST enable_all_projects" do
-      let!(:project) { create(:project) }
-      let!(:other_project) { create(:project) }
-
-      def enable_all_projects(value)
-        post :enable_all_projects, params: { type_id: type.id, value: }, format: :turbo_stream
-      end
-
-      context "when enabling" do
-        before do
-          enable_all_projects("1")
-        end
-
-        it { expect(response).to have_http_status(:ok) }
-
-        it "activates the type in all projects" do
-          expect(type.reload.projects).to contain_exactly(project, other_project)
-        end
-      end
-
-      context "when disabling" do
-        let(:type) { create(:type_bug, projects: [project, other_project]) }
+      context "when work packages stand in the way of one project" do
+        let!(:other_project) { create(:project) }
 
         before do
-          enable_all_projects("0")
+          create(:project_type, project:, type:)
+          create(:project_type, project: other_project, type:)
+          create(:work_package, project:, type:)
+
+          post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
         end
 
-        it { expect(response).to have_http_status(:ok) }
+        it { expect(response).to have_http_status(:unprocessable_entity) }
 
-        it "deactivates the type in all projects" do
-          expect(type.reload.projects).to be_empty
-        end
-      end
-
-      context "when disabling is blocked by existing work packages" do
-        let(:type) { create(:type_bug, projects: [project, other_project]) }
-        let!(:work_package) { create(:work_package, project:, type:) }
-
-        before do
-          enable_all_projects("0")
+        it "drops the type from the projects it can and leaves the blocked one alone" do
+          expect(type.reload.projects).to contain_exactly(project)
         end
 
-        it { expect(response).to have_http_status(:ok) }
-
-        it "keeps the type active in all projects" do
-          expect(type.reload.projects).to contain_exactly(project, other_project)
-        end
-
-        it "renders an error message naming the affected work packages" do
+        it "names the blocked project" do
           expect(sanitize_string(response.body))
-            .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+            .to include("Unable to remove \"#{type.name}\" from project \"#{project.name}\" " \
+                        "because it's still in use by work packages")
         end
 
-        it "re-renders the projects component with the toggle switch still turned on" do
-          expect(response.body).to include('target="work-package-types-projects-component"')
-          expect(response.body).to include("ToggleSwitch--checked")
+        it "links to the work packages standing in the way" do
+          expect(response.body)
+            .to include(CGI.escapeHTML(work_packages_path(query_props: { f: [
+              { n: "type", o: "=", v: [type.id] },
+              { n: "project", o: "=", v: [project.id.to_s] }
+            ] }.to_json)))
+        end
+
+        it "re-renders the projects table" do
+          expect(response.body).to include(%(target="#{Projects::TableComponent.wrapper_key}"))
         end
       end
     end
