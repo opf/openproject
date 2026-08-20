@@ -107,6 +107,10 @@ class TypeVariant < ApplicationRecord
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }
 
+  scope :with_name_like, ->(query) {
+    where("variant_name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
   delegate :name, :color, :color_id, :is_milestone, :is_milestone?, :is_in_roadmap, :is_in_roadmap?,
            to: :type
 

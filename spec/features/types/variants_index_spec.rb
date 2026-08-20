@@ -149,6 +149,20 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 
+  it "returns to the index when the add-variant wizard is cancelled" do
+    visit types_path(expand: bug_type.id)
+
+    within("[data-draggable-id='#{bug_type.id}']") do
+      click_on I18n.t("types.index.add_variant", name: bug_type.name)
+    end
+
+    expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+
+    click_on I18n.t(:button_cancel), match: :first
+
+    expect(page).to have_current_path(types_path)
+  end
+
   it "duplicates a type from its action menu" do
     visit types_path
 

@@ -46,6 +46,6 @@
   <% end %>
 
   <%= layout.with_footer do %>
-    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:)) %>
+    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:, back_url:)) %>
   <% end %>
 <% end %>

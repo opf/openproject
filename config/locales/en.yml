@@ -6382,6 +6382,15 @@ en:
           switch_to_independent: "Switch to independent mode"
           title: "Linked mode"
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: >
+            You can create variants to offer versions of this type to different projects.<br>
+            Each variant can inherit, copy or have its own custom configuration for the default
+            template, custom fields, workflows and preferences.
+          title: "No variants exist for this type"
+        filter: "Filter by text"
+        filter_no_results: "No variants match this filter"
       workflow:
         tab: "Workflows"
     index:
