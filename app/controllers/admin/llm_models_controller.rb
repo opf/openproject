@@ -69,13 +69,16 @@ module Admin
     def update
       @llm_model = @connection.models.find(params.expect(:id))
 
-      ActiveRecord::Base.transaction do
-        apply_attributes(@llm_model)
-        apply_capabilities(@llm_model)
+      if update_with_capabilities(@llm_model)
+        flash[:notice] = t(".success", model: @llm_model.external_id)
+        redirect_to llm_connection_path, status: :see_other
+      else
+        # Re-rendered rather than redirected so the Primer form shows the error
+        # inline against the field that caused it, e.g. a rename that collides
+        # with an existing model id.
+        @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id_was).index_by(&:capability)
+        render :edit, status: :unprocessable_entity
       end
-
-      flash[:notice] = t(".success", model: @llm_model.external_id)
-      redirect_to llm_connection_path, status: :see_other
     end
 
     def delete_dialog
@@ -112,16 +115,23 @@ module Admin
       @connection = LlmConnection.instance
     end
 
-    def apply_attributes(llm_model)
+    def update_with_capabilities(llm_model)
       attributes = llm_model_params.except(*capability_param_names)
       # A discovered model is named by the server; only a hand-entered one may be
       # renamed here, and everything referencing the old name follows it.
-      attributes = attributes.except(:external_id) unless llm_model.new_record? || llm_model.manual?
+      attributes = attributes.except(:external_id) unless llm_model.manual?
 
-      previous_external_id = llm_model.external_id
-      llm_model.assign_attributes(attributes)
-      llm_model.save!
-      llm_model.cascade_rename!(previous_external_id)
+      saved = false
+      ActiveRecord::Base.transaction do
+        previous_external_id = llm_model.external_id
+        llm_model.assign_attributes(attributes)
+        raise ActiveRecord::Rollback unless llm_model.save
+
+        llm_model.cascade_rename!(previous_external_id)
+        apply_capabilities(llm_model)
+        saved = true
+      end
+      saved
     end
 
     # external_id is accepted on create, and on update for manually added models.

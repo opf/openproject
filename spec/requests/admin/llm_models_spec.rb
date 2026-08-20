@@ -221,6 +221,18 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     end
   end
 
+  describe "renaming to a taken id" do
+    it "re-renders the form with the error instead of failing" do
+      create(:llm_model, llm_connection: connection, external_id: "taken")
+      llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "mine")
+
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(llm_model.reload.external_id).to eq("mine")
+    end
+  end
+
   describe "DELETE /admin/llm_models/:id" do
     it "removes a manual model" do
       llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
