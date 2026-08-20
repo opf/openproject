@@ -40,7 +40,7 @@ module WorkPackages
           end
 
           def toc
-            ActiveModel::Type::Boolean.new.cast(settings[:toc])
+            boolean_setting(:toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC)
           end
         end
       end

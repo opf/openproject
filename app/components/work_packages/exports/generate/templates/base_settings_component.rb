@@ -47,11 +47,19 @@ module WorkPackages
           end
 
           def hyphenation_enabled
-            ActiveModel::Type::Boolean.new.cast(settings[:hyphenation])
+            boolean_setting(:hyphenation, false)
           end
 
           def hyphenation_language
-            settings[:hyphenation_language]
+            settings[:hyphenation_language].to_s
+          end
+
+          private
+
+          def boolean_setting(key, default)
+            return default unless settings.key?(key)
+
+            ActiveModel::Type::Boolean.new.cast(settings[key])
           end
         end
       end

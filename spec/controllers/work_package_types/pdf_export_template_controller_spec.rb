@@ -195,6 +195,26 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
           .to eq(footer_text: "Custom footer", page_orientation: "landscape")
       end
 
+      it "does not store blank fields, so their runtime defaults keep applying" do
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: template.id, footer_text: "",
+                        page_orientation: "portrait", hyphenation: "false", hyphenation_language: "" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
+          .to eq(page_orientation: "portrait", hyphenation: "false")
+      end
+
+      it "clears a previously stored value when its field is submitted blank" do
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
+        variant.save!
+
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: template.id, footer_text: "", page_orientation: "landscape" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
+          .to eq(page_orientation: "landscape")
+      end
+
       it "resets the stored settings to defaults when submitted as a reset" do
         variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
         variant.save!

@@ -65,8 +65,7 @@ module WorkPackageTypes
       if params[:commit] == "reset"
         reset_settings!
       else
-        @variant.pdf_export_templates.update_settings(@template.id, permitted_settings)
-        @variant.save!
+        save_settings!
       end
 
       redirect_to edit_type_pdf_export_template_index_path(**@variant.path_args),
@@ -124,6 +123,13 @@ module WorkPackageTypes
 
     def permitted_settings
       params.permit(*@template.settings_component.fields).to_h
+    end
+
+    def save_settings!
+      configured, blank = permitted_settings.partition { |_field, value| value.present? }.map(&:to_h)
+      @variant.pdf_export_templates.update_settings(@template.id, configured)
+      blank.each_key { |field| @variant.pdf_export_templates.clear_setting(@template.id, field) }
+      @variant.save!
     end
 
     def reset_settings!

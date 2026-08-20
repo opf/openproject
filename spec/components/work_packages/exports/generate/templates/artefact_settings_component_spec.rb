@@ -76,9 +76,15 @@ RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsCompo
   context "when settings is empty" do
     let(:settings) { {} }
 
-    it "renders the toc and hyphenation checkboxes unchecked" do
-      expect(rendered_component).to have_unchecked_field "Table of contents"
+    it "renders the toc checkbox with the exporter's default and hyphenation unchecked" do
+      expect(rendered_component).to have_field "Table of contents",
+                                               checked: WorkPackage::PDFExport::Artefact::DEFAULT_TOC
       expect(rendered_component).to have_unchecked_field "Hyphenation"
+    end
+
+    it "preselects no hyphenation language so the export keeps falling back to the current locale" do
+      expect(rendered_component).to have_css("select[name='hyphenation_language'] option[value=''][selected]",
+                                             visible: :all)
     end
   end
 
