@@ -1,7 +1,7 @@
 <%=
   component_wrapper(tag: :turbo_frame, refresh: :morph) do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
-      section.with_title { t(".title") }
+      section.with_title(tag: :h3) { t(".title") }
 
       flex_layout do |container|
         if report.present?
