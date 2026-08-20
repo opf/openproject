@@ -42,9 +42,11 @@ module WorkPackageTypes
 
     def readonly? = @readonly
 
+    def variant = model
+
     def form_options
       {
-        url: type_defaults_path(type_id: model.id),
+        url: type_defaults_path(type_id: variant.type_id, variant_id: variant.id),
         method: :put,
         model: subject_form_object,
         readonly: @readonly,
@@ -61,7 +63,7 @@ module WorkPackageTypes
     end
 
     def subject_form_object
-      Forms::DefaultsFormModel.build(model, form_data: @subject_configuration_form_data)
+      Forms::DefaultsFormModel.build(variant, form_data: @subject_configuration_form_data)
     end
   end
 end

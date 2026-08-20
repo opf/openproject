@@ -144,7 +144,7 @@ RSpec.describe Wikis::PageSearchService do
       expect(subject).to be_success
       search_results = subject.value!
 
-      key = Wikis::Adapters::Results::PageSearchTreeNode::Key
+      key = Wikis::Adapters::Results::PageSearchTreeNode::NodeKey
 
       expect(search_results[0].key)
         .to eq(key.new(type: :wiki, identifier: page_hierarchies[0].wiki.identifier))

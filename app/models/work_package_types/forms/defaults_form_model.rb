@@ -33,24 +33,24 @@ module WorkPackageTypes
     class DefaultsFormModel
       extend ActiveModel::Naming
 
-      attr_reader :subject_configuration, :pattern, :description, :suggestions, :validation_errors
+      attr_reader :subject_configuration, :pattern, :default_work_package_description, :suggestions, :validation_errors
 
       # Built by both hosts of the defaults form: the edit tab and the creation wizard.
       # form_data carries the submitted values back after a failed validation.
-      def self.build(type, form_data: nil)
-        values = form_values(type, form_data)
+      def self.build(variant, form_data: nil)
+        values = form_values(variant, form_data)
 
         new(
           subject_configuration: values[:subject_configuration],
           pattern: values[:pattern],
-          description: type.description,
-          suggestions: suggestions_for(type),
-          validation_errors: type.errors
+          default_work_package_description: variant.default_work_package_description,
+          suggestions: suggestions_for(variant),
+          validation_errors: variant.errors
         )
       end
 
       # Translates the form's flat subject_configuration/pattern pair into the nested
-      # patterns collection the type stores. A manual configuration with an empty
+      # patterns collection the variant stores. A manual configuration with an empty
       # blueprint drops the subject pattern entirely.
       def self.to_patterns(form_params)
         case form_params
@@ -63,10 +63,10 @@ module WorkPackageTypes
         end
       end
 
-      def self.form_values(type, form_data)
+      def self.form_values(variant, form_data)
         return form_data if form_data.present?
 
-        subject_pattern = type.patterns.subject || WorkPackageTypes::Pattern.new(blueprint: "", enabled: false)
+        subject_pattern = variant.patterns.subject || WorkPackageTypes::Pattern.new(blueprint: "", enabled: false)
 
         {
           subject_configuration: subject_pattern.enabled ? :generated : :manual,
@@ -75,8 +75,8 @@ module WorkPackageTypes
       end
       private_class_method :form_values
 
-      def self.suggestions_for(type)
-        enabled, disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(type)
+      def self.suggestions_for(variant)
+        enabled, disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(variant)
         groups = empty_token_groups
 
         enabled.each { |token| add_token(groups, token, enabled: true) }
@@ -117,10 +117,10 @@ module WorkPackageTypes
         }
       end
 
-      def initialize(subject_configuration:, pattern:, suggestions:, description: nil, validation_errors: {})
+      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {})
         @subject_configuration = subject_configuration
         @pattern = pattern
-        @description = description
+        @default_work_package_description = default_work_package_description
         @suggestions = suggestions
         @validation_errors = validation_errors
       end

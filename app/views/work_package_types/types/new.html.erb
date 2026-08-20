@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render_inline_form(f) do |type_form|
         type_form.text_field(
           name: :name,
-          value: model.own_name,
+          value: model.name,
           label: Type.human_attribute_name(:name),
           placeholder: I18n.t(:label_name),
           input_width: :medium,
@@ -67,7 +67,10 @@ See COPYRIGHT and LICENSE files for more details.
 
         type_form.check_box(name: :is_milestone, label: Type.human_attribute_name(:is_milestone))
         type_form.check_box(name: :is_in_roadmap, label: Type.human_attribute_name(:is_in_roadmap))
-        type_form.check_box(name: :is_default, label: Type.human_attribute_name(:is_default))
+        type_form.check_box(
+          name: :enabled_in_new_projects,
+          label: TypeVariant.human_attribute_name(:enabled_in_new_projects)
+        )
 
         type_form.select_list(
           name: :copy_workflow_from,

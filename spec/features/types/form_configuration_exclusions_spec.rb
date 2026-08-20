@@ -34,17 +34,18 @@ RSpec.describe "form configuration exclusions", :js,
                with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
 
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
+  let(:type) { create(:type) }
   let(:owner) do
-    create(:type).tap do |type|
-      type.attribute_groups = [["People", %w[assignee responsible]]]
-      type.save!
+    type.default_variant.tap do |variant|
+      variant.attribute_groups = [["People", %w[assignee responsible]]]
+      variant.save!
     end
   end
 
-  let(:variant) { create(:type, parent: owner) }
-  let(:link) { variant.configuration_links.find_by(aspect:) }
+  let(:variant) { create(:type_variant, type:) }
+  let(:link) { variant }
 
   def toggle_for(key)
     page.find("[data-test-selector='toggle-form-config-exclusion-#{key}'] > button")
@@ -56,9 +57,9 @@ RSpec.describe "form configuration exclusions", :js,
   end
 
   before do
-    variant.link!(aspect, source: owner)
+    link_configuration(variant, source: owner, aspect:)
     login_as admin
-    visit edit_type_form_configuration_path(variant)
+    visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end
 
   it "stops and resumes inheriting an attribute" do
@@ -68,7 +69,7 @@ RSpec.describe "form configuration exclusions", :js,
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: false)
-    expect(link.reload.excluded_elements).to eq(%w[assignee])
+    expect(excluded_configuration_elements(link, aspect: aspect)).to eq(%w[assignee])
 
     # The row stays listed so the switch remains reachable: the page shows the source's
     # configuration annotated with this variant's choices, not the resulting form.
@@ -81,6 +82,6 @@ RSpec.describe "form configuration exclusions", :js,
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: true)
-    expect(link.reload.excluded_elements).to be_empty
+    expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
   end
 end

@@ -31,40 +31,41 @@
 require "spec_helper"
 
 RSpec.describe Projects::CustomFields do
-  describe "#available_custom_fields_for_type" do
+  describe "#available_custom_fields_for_variant" do
     shared_let(:admin) { create(:admin) }
 
     let(:project) { create(:project) }
     let(:custom_field) { create(:project_custom_field, projects: [project]) }
-    let(:parent) { create(:type) }
-    let(:variant) { create(:type, parent:) }
+    let(:source) { create(:type) }
+    let(:variant) { create(:type_variant, type: create(:type)) }
 
     current_user { admin }
 
-    subject(:available) { project.available_custom_fields_for_type(variant.id).to_a }
+    subject(:available) { project.available_custom_fields_for_variant(variant.id).to_a }
 
     before do
-      parent.project_custom_fields << custom_field
+      source.default_variant.project_custom_fields << custom_field
     end
 
-    context "when the type owns its project attributes (Independent)" do
-      let(:variant) { create(:type) }
-
-      it "returns the attributes enabled for that type" do
+    context "when the variant owns its project attributes (Independent)" do
+      it "returns the attributes enabled for that variant" do
         variant.project_custom_fields << custom_field
 
         expect(available).to contain_exactly(custom_field)
       end
 
-      it "returns nothing when the type has none enabled" do
+      it "returns nothing when the variant has none enabled" do
         expect(available).to be_empty
       end
     end
 
-    context "when the type is Linked for project attributes", with_flag: { type_variants: true } do
-      it "resolves to the source type's enabled attributes" do
-        # A freshly created variant is linked to its parent for PROJECT_ATTRIBUTES.
-        expect(variant).to be_linked(Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+    context "when the variant is Linked for project attributes", with_flag: { type_variants: true } do
+      before do
+        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+      end
+
+      it "resolves to the source variant's enabled attributes" do
+        expect(variant).to be_linked(TypeVariant::PROJECT_ATTRIBUTES)
         expect(available).to contain_exactly(custom_field)
       end
     end
@@ -73,39 +74,34 @@ RSpec.describe Projects::CustomFields do
       let(:kept_field) { create(:project_custom_field, projects: [project]) }
 
       before do
-        parent.project_custom_fields << kept_field
-        variant.configuration_links
-               .find_by(aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES)
-               .update!(excluded_elements: [custom_field.attribute_name])
+        source.default_variant.project_custom_fields << kept_field
+        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES,
+                                    excluded: [custom_field.attribute_name])
       end
 
       it "drops it from the inherited attributes" do
         expect(available).to contain_exactly(kept_field)
       end
 
-      it "leaves the owning type's attributes untouched" do
-        expect(project.available_custom_fields_for_type(parent.id).to_a)
+      it "leaves the owning variant's attributes untouched" do
+        expect(project.available_custom_fields_for_variant(source.default_variant.id).to_a)
           .to contain_exactly(custom_field, kept_field)
       end
 
-      # Links are independent of the parent/child hierarchy: any type can link to any other,
-      # so a chain can be arbitrarily long regardless of nesting. A plain root type is used
-      # here deliberately — no parent involved.
       it "accumulates the exclusions of a longer chain" do
-        leaf = create(:type)
-        create(:type_configuration_link, type: leaf, source: variant,
-                                         aspect: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
-                                         excluded_elements: [kept_field.attribute_name])
+        leaf = create(:type_variant, type: create(:type))
+        link_configuration(leaf, source: variant, aspect: TypeVariant::PROJECT_ATTRIBUTES,
+                                 excluded: [kept_field.attribute_name])
 
-        expect(project.available_custom_fields_for_type(leaf.id).to_a).to be_empty
+        expect(project.available_custom_fields_for_variant(leaf.id).to_a).to be_empty
       end
     end
 
-    context "when the type is Linked but the feature flag is off", with_flag: { type_variants: false } do
-      it "ignores the link and reads the type's own (empty) mappings" do
-        variant.link!(Type::ConfigurationLink::PROJECT_ATTRIBUTES, source: parent)
+    context "when the variant is Linked and the feature flag is off", with_flag: { type_variants: false } do
+      it "resolves to the source variant's attributes just the same" do
+        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
 
-        expect(available).to be_empty
+        expect(available).to contain_exactly(custom_field)
       end
     end
   end

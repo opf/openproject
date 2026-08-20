@@ -44,7 +44,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
   shared_let(:custom_field_user) { create(:issue_custom_field, :user) }
   shared_let(:status) { create(:status) }
   shared_let(:type) do
-    create(:type_standard,
+    create(:type_task,
            custom_fields: [custom_field1, custom_field2, custom_field_user])
   end
   shared_let(:project1) do

@@ -38,37 +38,37 @@ RSpec.describe "Work package show with a linked form configuration", :js,
   shared_let(:excluded_field) { create(:issue_custom_field, :integer, name: "ExcludedNumber", is_for_all: true) }
   shared_let(:solo_field) { create(:issue_custom_field, :integer, name: "SoloNumber", is_for_all: true) }
 
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
-
-  # The type owning the configuration: two groups of custom fields, one of which the leaf
-  # ends up emptying completely.
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:owner_type) { create(:type) }
   let(:owner) do
-    create(:type).tap do |type|
-      type.attribute_groups = [
+    owner_type.default_variant.tap do |variant|
+      variant.attribute_groups = [
         ["Numbers", [kept_field.attribute_name, excluded_field.attribute_name]],
         ["Solo", [solo_field.attribute_name]],
         ["People", %w[assignee]]
       ]
-      type.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
-      type.save!
+      variant.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
+      variant.save!
     end
   end
-
-  let(:leaf) { create(:type) }
-  let(:project) { create(:project, types: [owner, leaf]) }
-
+  let(:leaf_type) { create(:type) }
+  let(:leaf) { leaf_type.default_variant }
+  let(:project) { create(:project, types: [owner_type, leaf_type]) }
   let(:work_package) do
     create(:work_package,
            project:,
-           type: leaf,
+           type: leaf_type,
            custom_values: {
              kept_field.id => 1,
              excluded_field.id => 2,
              solo_field.id => 3
            })
   end
-
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
+  def link(variant, source:, excluded: [])
+    variant.update!("#{aspect}_source": source, "#{aspect}_excluded_elements": excluded)
+  end
 
   before { login_as(admin) }
 
@@ -94,7 +94,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
   context "when linked without exclusions" do
     before do
-      create(:type_configuration_link, type: leaf, source: owner, aspect:)
+      link(leaf, source: owner)
     end
 
     it "renders the owning type's groups and fields" do
@@ -116,9 +116,8 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
   context "when the link excludes a field and empties a group" do
     before do
-      create(:type_configuration_link, type: leaf, source: owner, aspect:,
-                                       excluded_elements: [excluded_field.attribute_name,
-                                                           solo_field.attribute_name])
+      link(leaf, source: owner, excluded: [excluded_field.attribute_name,
+                                           solo_field.attribute_name])
     end
 
     it "renders only what remains, dropping the emptied group" do
@@ -139,7 +138,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     it "keeps rendering everything on the owning type itself" do
       owner_work_package = create(:work_package,
                                   project:,
-                                  type: owner,
+                                  type: owner_type,
                                   custom_values: {
                                     kept_field.id => 1,
                                     excluded_field.id => 2,
@@ -160,13 +159,11 @@ RSpec.describe "Work package show with a linked form configuration", :js,
   end
 
   context "when the exclusions accumulate over a chain" do
-    let(:middle) { create(:type) }
+    let(:middle) { create(:type).default_variant }
 
     before do
-      create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                       excluded_elements: [excluded_field.attribute_name])
-      create(:type_configuration_link, type: leaf, source: middle, aspect:,
-                                       excluded_elements: [solo_field.attribute_name])
+      link(middle, source: owner, excluded: [excluded_field.attribute_name])
+      link(leaf, source: middle, excluded: [solo_field.attribute_name])
     end
 
     it "renders the leaf without either ancestor's excluded fields" do
@@ -197,7 +194,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     # all, so the absence asserted there is the exclusion doing its job.
     context "when the query is not excluded" do
       before do
-        create(:type_configuration_link, type: leaf, source: owner, aspect:)
+        link(leaf, source: owner)
       end
 
       it "renders the query group section" do
@@ -211,8 +208,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
     context "when the link excludes the query" do
       before do
-        create(:type_configuration_link, type: leaf, source: owner, aspect:,
-                                         excluded_elements: ["query_#{embedded_query.id}"])
+        link(leaf, source: owner, excluded: ["query_#{embedded_query.id}"])
       end
 
       it "drops the whole query group section" do
@@ -228,12 +224,11 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     end
 
     context "when an ancestor's link excludes the query" do
-      let(:middle) { create(:type) }
+      let(:middle) { create(:type).default_variant }
 
       before do
-        create(:type_configuration_link, type: middle, source: owner, aspect:,
-                                         excluded_elements: ["query_#{embedded_query.id}"])
-        create(:type_configuration_link, type: leaf, source: middle, aspect:)
+        link(middle, source: owner, excluded: ["query_#{embedded_query.id}"])
+        link(leaf, source: middle)
       end
 
       it "drops it for the leaf as well" do
@@ -255,18 +250,19 @@ RSpec.describe "Work package show with a linked form configuration", :js,
       leaf.custom_field_ids = [kept_field.id]
       leaf.save!
 
-      create(:type_configuration_link, type: leaf, source: owner, aspect:,
-                                       excluded_elements: [kept_field.attribute_name])
+      link(leaf, source: owner, excluded: [kept_field.attribute_name])
     end
 
-    it "ignores the link and renders the type's own configuration" do
+    it "still resolves the link and its exclusions" do
       wp_page.visit!
       wp_page.ensure_page_loaded
 
-      wp_page.expect_group("Own") do
-        expect_field(kept_field, "1")
+      wp_page.expect_group("Numbers") do
+        expect_field(excluded_field, "2")
       end
-      expect_no_section("Numbers")
+
+      expect_no_section("Own")
+      expect_no_field(kept_field)
     end
   end
 end

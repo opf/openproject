@@ -29,9 +29,14 @@
 #++
 
 FactoryBot.define do
-  factory :work_package_custom_field do
+  # Prefer `:wp_custom_field` / `:string_wp_custom_field` etc. This factory remains for the many
+  # call sites that still name `:work_package_custom_field`.
+  factory :work_package_custom_field, class: "WorkPackageCustomField" do
+    activatable_on_types
+
     transient do
       default_locales { nil }
+      projects { [] }
     end
 
     sequence(:name) { |n| "Custom Field Nr. #{n}" }
@@ -44,6 +49,11 @@ FactoryBot.define do
     possible_values { "" }
     admin_only { false }
     field_format { "bool" }
-    type { "WorkPackageCustomField" }
+
+    after(:create) do |custom_field, evaluator|
+      evaluator.projects.each do |project|
+        project.work_package_custom_fields << custom_field
+      end
+    end
   end
 end

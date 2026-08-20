@@ -34,7 +34,7 @@ RSpec.describe Type::Attributes do
   before { RequestStore.clear! }
 
   describe ".all_work_package_form_attributes" do
-    subject(:attributes) { Type.all_work_package_form_attributes }
+    subject(:attributes) { TypeVariant.all_work_package_form_attributes }
 
     context "when the multiple versions feature is inactive",
             with_settings: { work_package_multiple_versions: false } do
@@ -57,7 +57,7 @@ RSpec.describe Type::Attributes do
     context "when the multiple versions feature is inactive",
             with_settings: { work_package_multiple_versions: false } do
       it "labels the deprecated version field" do
-        expect(Type.translated_work_package_form_attributes["version"])
+        expect(TypeVariant.translated_work_package_form_attributes["version"])
           .to eq(I18n.t("activerecord.attributes.work_package.version"))
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe Type::Attributes do
     context "when the multiple versions feature is active",
             with_settings: { work_package_multiple_versions: true } do
       it "labels the target versions field" do
-        expect(Type.translated_work_package_form_attributes["target_versions"])
+        expect(TypeVariant.translated_work_package_form_attributes["target_versions"])
           .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
       end
     end

@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Workflows::MatrixUpdateService, type: :model do
-  shared_let(:type) { create(:type) }
+  shared_let(:variant) { create(:type).default_variant }
   shared_let(:role) { create(:project_role) }
   shared_let(:other_role) { create(:project_role) }
   shared_let(:status_a) { create(:status) }
@@ -40,7 +40,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
 
   subject(:service_call) { instance.call(**call_params) }
 
-  let(:instance) { described_class.new(type:, roles:, tab:) }
+  let(:instance) { described_class.new(variant:, roles:, tab:) }
   let(:roles) { [role] }
   let(:tab) { "always" }
   let(:call_params) { { status: } }
@@ -48,7 +48,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
 
   def transitions_for(a_role, author: false, assignee: false)
     Workflow
-      .where(type_id: type.id, role_id: a_role.id, author:, assignee:)
+      .where(type_variant_id: variant.id, role_id: a_role.id, author:, assignee:)
       .pluck(:old_status_id, :new_status_id)
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   end
 
   it "replaces transitions that are no longer submitted" do
-    create(:workflow, role_id: role.id, type_id: type.id,
+    create(:workflow, role_id: role.id, type_variant_id: variant.id,
                       old_status_id: status_b.id, new_status_id: status_c.id)
 
     expect(service_call).to be_success
@@ -81,7 +81,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       end
 
       before do
-        create(:workflow, role_id: role.id, type_id: type.id,
+        create(:workflow, role_id: role.id, type_variant_id: variant.id,
                           old_status_id: status_b.id, new_status_id: status_c.id)
       end
 
@@ -101,7 +101,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
           .to receive(:new).and_call_original
 
         allow(Workflows::BulkUpdateService)
-          .to receive(:new).with(role: other_role, type:, tab:)
+          .to receive(:new).with(role: other_role, variant:, tab:)
           .and_return(instance_double(Workflows::BulkUpdateService, call: ServiceResult.failure))
       end
 
@@ -123,11 +123,11 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
     end
   end
 
-  describe "when the workflows aspect is linked to a source type" do
-    shared_let(:source_type) { create(:type) }
+  describe "when the workflows aspect is linked to a source variant" do
+    shared_let(:source_variant) { create(:type).default_variant }
 
-    before { type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type) }
-    after { type.configuration_links.destroy_all }
+    before { variant.update!(workflows_source: source_variant) }
+    after { variant.update!(workflows_source: nil) }
 
     it "persists nothing and reports success" do
       expect(service_call).to be_success
@@ -166,7 +166,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       let(:call_params) { {} }
 
       before do
-        create(:workflow, role_id: role.id, type_id: type.id,
+        create(:workflow, role_id: role.id, type_variant_id: variant.id,
                           old_status_id: status_a.id, new_status_id: status_b.id)
       end
 

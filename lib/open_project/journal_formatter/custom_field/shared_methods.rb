@@ -49,7 +49,7 @@ module OpenProject::JournalFormatter::CustomField::SharedMethods
   # render many custom-field journal entries per request, often for the same project, so we
   # cache the verdict set per request and per user.
   def visible_custom_field_ids(project)
-    JournalFormatterCache.request_instance.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
+    JournalFormatterCache.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
       WorkPackageCustomField.visible(User.current, project:).pluck(:id).to_set
     end
   end

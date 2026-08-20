@@ -39,11 +39,11 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source)
+                          .new(project: @project, source: @source, url: switch_path)
   end
 
   def create
-    target = ::Type.find_by(id: params[:target_id])
+    target = ::TypeVariant.find_by(id: params[:target_id])
 
     result = ::Projects::Types::SwitchVariantService
                .new(user: current_user, model: @project)
@@ -57,13 +57,11 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   private
 
-  # The row names the member in force, which is the variant when the project resolves one, so
-  # the type is looked up globally and checked against the families the project uses. It is
-  # then resolved again: on a page left open across a switch, the id names a member the
-  # project has since moved off.
+  # The route addresses a type, since a project applies exactly one of its variants. Which one
+  # is the project's own answer.
   def load_source
     type = ::Type.find_by(id: params[:type_id])
-    @source = @project.effective_type(type) if type && @project.project_types.exists?(type_id: type.root_id)
+    @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
 
     return if @source
 
@@ -80,9 +78,13 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
     update_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
-        project: @project, source: @source, selected: target || @source, validation_message: message
+        project: @project, source: @source, url: switch_path, selected: target || @source, validation_message: message
       )
     )
+  end
+
+  def switch_path
+    project_settings_work_packages_type_switch_path(@project, @source.type)
   end
 
   # Reload so the repainted list no longer sees the association's cached types.

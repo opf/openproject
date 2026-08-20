@@ -15,12 +15,12 @@ module WorkPackageTypes::ProjectAttributesComponentStreams
 
   included do
     def update_project_attribute_sections_via_turbo_stream(
-      type: @type,
+      variant: @variant,
       project_custom_field_sections: @project_custom_field_sections
     )
       update_via_turbo_stream(
         component: ::WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-          type:,
+          variant:,
           project_custom_field_sections:
         )
       )

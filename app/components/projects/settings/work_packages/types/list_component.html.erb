@@ -30,10 +30,10 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
     <% active_project_types.each do |project_type| %>
-      <% list.with_item(data: { test_selector: "project-types-row-#{project_type.effective_type.id}" }) do |item| %>
+      <% list.with_item(data: { test_selector: "project-types-row-#{project_type.variant.id}" }) do |item| %>
         <% item.with_menu do |menu| %>
-          <% switch_action(menu, project_type.effective_type) if project_type.type.family.many? %>
-          <% remove_action(menu, project_type.effective_type) %>
+          <% switch_action(menu, project_type.type) if switchable?(project_type) %>
+          <% remove_action(menu, project_type.type) %>
         <% end %>
         <%= flex_layout(align_items: :center) do |row| %>
           <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
@@ -42,13 +42,13 @@ See COPYRIGHT and LICENSE files for more details.
           <% row.with_column(mr: 2) do %>
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { project_type.type.name } %>
           <% end %>
-          <% if project_type.variant %>
+          <% unless project_type.variant.default? %>
             <% row.with_column do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
                 <%= t("projects.settings.types.variant_prefix") %>
               <% end %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :semibold, font_size: :small)) do %>
-                <%= project_type.variant.own_name %>
+                <%= project_type.variant.variant_name %>
               <% end %>
             <% end %>
           <% end %>

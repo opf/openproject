@@ -112,7 +112,7 @@ module DevelopmentData
         name: project_name(identifier),
         identifier:,
         enabled_module_names: project_modules,
-        types: Type.all,
+        project_types: Type.all.map { |type| ProjectType.new(type:) },
         workspace_type: "project"
       }
     end

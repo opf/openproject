@@ -1,0 +1,190 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/31778
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 13 Aug 2026 10:06:35 GMT
+      Set-Cookie:
+      - JSESSIONID=0B6B6FB06088772CAA5C3C61D14DBC16; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - teIjVyxVrjIEe47AqdL8dA
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '2575'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/31778","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.Brie.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"31778","fullName":"Cheesy
+        Info.Brie.WebHome","wiki":"xwiki","space":"Cheesy Info.Brie","name":"WebHome","title":"Brie","rawTitle":"Brie","parent":"Cheesy
+        Info.WebHome","parentId":"xwiki:Cheesy Info.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1785250471000,"creator":"XWiki.admin","creatorName":null,"modified":1785250471000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"It runs from you","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"Brie","name":"Brie","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"}]},"rights":[]}'
+  recorded_at: Thu, 13 Aug 2026 10:06:35 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/wikis/xwiki//spaces/Cheesy+Info/spaces/Brie/pages/WebHome/children?hierarchy=nestedpages
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 13 Aug 2026 10:06:35 GMT
+      Set-Cookie:
+      - JSESSIONID=C934C19CB9932CD2007BCE0487F13F5E; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - teIjVyxVrjIEe47AqdL8dA
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '1721'
+    body:
+      encoding: UTF-8
+      string: '{"links":[],"pageSummaries":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"id":"xwiki:Cheesy
+        Info.Brie.Brie de Meaux.WebHome","fullName":"Cheesy Info.Brie.Brie de Meaux.WebHome","wiki":"xwiki","space":"Cheesy
+        Info.Brie.Brie de Meaux","name":"WebHome","title":"Brie de Meaux","rawTitle":"Brie
+        de Meaux","parent":"Cheesy Info.Brie.WebHome","parentId":"xwiki:Cheesy Info.Brie.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1"}]}'
+  recorded_at: Thu, 13 Aug 2026 10:06:35 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Cheesy%20Info.Brie.Brie%20de%20Meaux.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 13 Aug 2026 10:06:35 GMT
+      Set-Cookie:
+      - JSESSIONID=FDAEA850FDC4668555605E2C613252FC; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - teIjVyxVrjIEe47AqdL8dA
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '2763'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.Brie.Brie%20de%20Meaux.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"7b91c","fullName":"Cheesy
+        Info.Brie.Brie de Meaux.WebHome","wiki":"xwiki","space":"Cheesy Info.Brie.Brie
+        de Meaux","name":"WebHome","title":"Brie de Meaux","rawTitle":"Brie de Meaux","parent":"Cheesy
+        Info.Brie.WebHome","parentId":"xwiki:Cheesy Info.Brie.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1786374308000,"creator":"XWiki.admin","creatorName":null,"modified":1786374308000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"More runny cheese","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"Brie","name":"Brie","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"},{"label":"Brie
+        de Meaux","name":"Brie de Meaux","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/"}]},"rights":[]}'
+  recorded_at: Thu, 13 Aug 2026 10:06:35 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/7b91c/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 13 Aug 2026 10:06:35 GMT
+      Set-Cookie:
+      - JSESSIONID=4FF9FA37DAA2F2D191F0E83DCA921FA3; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - teIjVyxVrjIEe47AqdL8dA
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '7787'
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/7b91c/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"083a8","fullName":"Cheesy
+        Info.WebHome","wiki":"xwiki","space":"Cheesy Info","name":"WebHome","title":"Cheesy
+        Info","rawTitle":"Cheesy Info","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1776334194000,"creator":"XWiki.admin","creatorName":null,"modified":1776334194000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"This is very cheesy [[Home>>Main.WebHome]] ","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/"}]},"rights":[]},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/7b91c/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.Brie.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"31778","fullName":"Cheesy
+        Info.Brie.WebHome","wiki":"xwiki","space":"Cheesy Info.Brie","name":"WebHome","title":"Brie","rawTitle":"Brie","parent":"Cheesy
+        Info.WebHome","parentId":"xwiki:Cheesy Info.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1785250471000,"creator":"XWiki.admin","creatorName":null,"modified":1785250471000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"It runs from you","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"Brie","name":"Brie","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"}]},"rights":[]},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/spaces/Brie/spaces/Brie%20de%20Meaux/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/7b91c/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.Brie.Brie%20de%20Meaux.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"7b91c","fullName":"Cheesy
+        Info.Brie.Brie de Meaux.WebHome","wiki":"xwiki","space":"Cheesy Info.Brie.Brie
+        de Meaux","name":"WebHome","title":"Brie de Meaux","rawTitle":"Brie de Meaux","parent":"Cheesy
+        Info.Brie.WebHome","parentId":"xwiki:Cheesy Info.Brie.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1786374308000,"creator":"XWiki.admin","creatorName":null,"modified":1786374308000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"More runny cheese","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"Brie","name":"Brie","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/"},{"label":"Brie
+        de Meaux","name":"Brie de Meaux","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/Brie/Brie%20de%20Meaux/"}]},"rights":[]}]'
+  recorded_at: Thu, 13 Aug 2026 10:06:35 GMT
+recorded_with: VCR 6.4.0

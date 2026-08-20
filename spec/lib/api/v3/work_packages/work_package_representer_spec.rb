@@ -108,7 +108,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project_phases) { [project_phase, other_project_phase].compact }
   let(:project_phase_definition) { build_stubbed(:project_phase_definition) }
   let(:type) do
-    type = workspace&.types&.first || build_stubbed(:type)
+    type = (workspace && workspace.project_types.first&.type) || build_stubbed(:type)
 
     type.is_milestone = type_milestone
 
@@ -204,22 +204,25 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe "hasProjectAttributes" do
-      let(:type_fields_exist) { false }
+      let(:type_variant) { build_stubbed(:type_variant, type:) }
+      let(:variant_fields_exist) { false }
 
       before do
-        fields = instance_double(ActiveRecord::Relation, any?: type_fields_exist)
-        allow(fields).to receive_messages(reject: [], joins: fields, where: fields)
-        allow(workspace).to receive(:available_custom_fields).and_return(fields)
+        allow(work_package).to receive(:type_variant).and_return(type_variant)
+        fields = instance_double(ActiveRecord::Relation, any?: variant_fields_exist)
+        allow(workspace).to receive(:available_custom_fields_for_variant)
+          .with(type_variant.id)
+          .and_return(fields)
       end
 
-      context "when no custom fields are mapped to the type" do
+      context "when no custom fields are mapped to the variant" do
         it "renders as false" do
           expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
         end
       end
 
-      context "when custom fields are mapped to the type" do
-        let(:type_fields_exist) { true }
+      context "when custom fields are mapped to the variant" do
+        let(:variant_fields_exist) { true }
 
         it "renders as true" do
           expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
@@ -555,16 +558,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:link) { "type" }
         let(:href) { "/api/v3/types/#{work_package.type_id}" }
         let(:title) { work_package.type.name }
-      end
-
-      context "for a variant" do
-        let(:type) { build_stubbed(:type, name: "Bug", parent: build_stubbed(:type, name: "Task")) }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "type" }
-          let(:href) { "/api/v3/types/#{work_package.type_id}" }
-          let(:title) { "Task" }
-        end
       end
     end
 

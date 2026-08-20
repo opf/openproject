@@ -30,9 +30,8 @@
 
 module Wikis::Adapters::Results
   class PageSearchTreeNode
-    TYPES = %i[wiki page].freeze
-
-    Key = Data.define(:type, :identifier) do
+    TYPES = %i[page root wiki].freeze
+    NodeKey = Data.define(:type, :identifier) do
       def self.parse(string)
         type, identifier = string.to_s.split(":", 2)
         return if identifier.blank? || TYPES.exclude?(type&.to_sym)
@@ -41,19 +40,53 @@ module Wikis::Adapters::Results
       end
 
       def to_s = "#{type}:#{identifier}"
-
-      def page? = type == :page
     end
 
-    attr_reader :identifier, :type, :name, :children
+    attr_reader :identifier, :type, :name, :enabled, :key
 
-    def initialize(identifier:, type:, name:, children:)
+    class << self
+      def root
+        new(identifier: "root", type: :root, name: "root")
+      end
+
+      def wiki(identifier, name)
+        new(identifier:, type: :wiki, name:)
+      end
+
+      def page(identifier, name)
+        new(identifier:, type: :page, name:)
+      end
+    end
+
+    def initialize(identifier:, type:, name:)
+      @key = NodeKey.new(type, identifier)
       @identifier = identifier
       @type = type
       @name = name
-      @children = children
+      @children = {}
     end
 
-    def key = Key.new(type:, identifier:)
+    def page?
+      @type == :page
+    end
+
+    def wiki?
+      @type == :wiki
+    end
+
+    def children = @children.values
+
+    # @param node [PageSearchTreeNode] the node to be added
+    # @raise [ArgumentError] if node isn't a {PageSearchTreeNode}
+    # @return [PageSearchTreeNode] the added node or the already existing equivalent node
+    def find_or_add_child(node)
+      raise ArgumentError unless node.is_a? self.class
+
+      @children[node.key] ||= node
+    end
+
+    def ==(other)
+      key == other.key
+    end
   end
 end

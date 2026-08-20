@@ -24,7 +24,7 @@ module ProjectCustomFieldTypeMappings
 
     def instance(params)
       instance_class.find_or_initialize_by(
-        type_id: params[:type_id],
+        type_variant_id: params[:variant_id],
         custom_field_id: params[:custom_field_id]
       )
     end

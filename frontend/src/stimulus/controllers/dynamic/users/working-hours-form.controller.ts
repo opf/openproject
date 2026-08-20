@@ -27,7 +27,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import {
+  DAYS_PER_MONTH_DEFAULT,
+  type DurationLengthOptions,
+  durationStringToSeconds,
+  formattedHour,
+  HOURS_PER_DAY_DEFAULT,
+} from 'core-stimulus/helpers/chronic-duration-helper';
 
 export default class WorkingHoursFormController extends Controller {
   static targets = [
@@ -50,7 +56,20 @@ export default class WorkingHoursFormController extends Controller {
   declare readonly availabilityFactorInputTarget:HTMLInputElement;
   declare readonly totalAvailableHoursDisplayTarget:HTMLInputElement;
 
+  static values = {
+    hoursPerDay: { type: Number, default: HOURS_PER_DAY_DEFAULT },
+    daysPerMonth: { type: Number, default: DAYS_PER_MONTH_DEFAULT },
+  };
+
+  declare hoursPerDayValue:number;
+
+  declare daysPerMonthValue:number;
+
   private hoursModeValue:'same'|'individual' = 'same';
+
+  private get durationLengthOptions():DurationLengthOptions {
+    return { hoursPerDay: this.hoursPerDayValue, daysPerMonth: this.daysPerMonthValue };
+  }
 
   connect() {
     this.detectHoursMode();
@@ -95,7 +114,7 @@ export default class WorkingHoursFormController extends Controller {
   // This lets users type "4:30", "4h30min", "4,5", etc. — same logic as the time entry form.
   hoursFormatted(event:Event) {
     const input = event.target as HTMLInputElement;
-    const seconds = durationStringToSeconds(input.value);
+    const seconds = durationStringToSeconds(input.value, this.durationLengthOptions);
     input.value = formattedHour(seconds);
 
     if (this.hoursModeValue === 'same') {
@@ -132,7 +151,7 @@ export default class WorkingHoursFormController extends Controller {
   }
 
   private syncSameHoursToAllDays() {
-    const seconds = durationStringToSeconds(this.sharedHoursInputTarget.value);
+    const seconds = durationStringToSeconds(this.sharedHoursInputTarget.value, this.durationLengthOptions);
 
     this.dayHoursInputTargets.forEach((input) => {
       const checkbox = this.dayCheckboxForDay(input.dataset.day!);
@@ -146,14 +165,14 @@ export default class WorkingHoursFormController extends Controller {
     let totalHours = 0;
 
     if (this.hoursModeValue === 'same') {
-      const seconds = durationStringToSeconds(this.sharedHoursInputTarget.value);
+      const seconds = durationStringToSeconds(this.sharedHoursInputTarget.value, this.durationLengthOptions);
       const checkedCount = this.dayCheckboxTargets.filter((cb) => cb.checked).length;
       totalHours = seconds * checkedCount;
     } else {
       this.dayHoursInputTargets.forEach((input) => {
         const checkbox = this.dayCheckboxForDay(input.dataset.day!);
         if (checkbox?.checked) {
-          totalHours += durationStringToSeconds(input.value);
+          totalHours += durationStringToSeconds(input.value, this.durationLengthOptions);
         }
       });
     }

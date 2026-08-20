@@ -39,15 +39,16 @@ module WorkPackageTypes
 
       FORM_IDENTIFIER = "type-wizard-form"
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, back_url: nil)
         super(type)
 
         @current_step = current_step
+        @back_url = back_url
       end
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :back_url
 
       def type = model
 
@@ -68,10 +69,12 @@ module WorkPackageTypes
 
       def back_href
         previous_step = Steps.previous_before(current_step)
-        type_creation_wizard_path(type, step: previous_step) if previous_step && type.persisted?
+        type_creation_wizard_path(type, step: previous_step, back_url:) if previous_step && type.persisted?
       end
 
       def cancel_href
+        return back_url if back_url.present?
+
         type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
       end
     end
