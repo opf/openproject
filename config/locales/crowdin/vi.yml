@@ -488,6 +488,7 @@ vi:
         before_or_equal_to: phải có trước hay tương đương với %{date}
         blank: không được để trống
         blank_nested: cần phải đặt thuộc tính '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
@@ -1519,7 +1520,7 @@ vi:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -1706,7 +1707,7 @@ vi:
     body: cơ thể
     category: thể loại
     color: màu sắc
-    comment: Nhận xét
+    comment: bình luận
     comments: bình luận
     content: Nội dung
     created_at: Tạo ngày
@@ -2792,14 +2793,15 @@ vi:
     blocks:
       community: Cộng đồng OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2847,16 +2849,11 @@ vi:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ được đặt thành dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số thứ bậc
       status_excluded_from_totals_set_to_true_message: hiện đã bị loại khỏi tổng số thứ bậc
@@ -2893,14 +2890,14 @@ vi:
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Đã cập nhật tính toán tiến độ
       status_changed: Trạng thái '%{status_name}'
       system_update: 'Cập nhật hệ thống OpenProject:'
@@ -3582,7 +3579,7 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: Người dùng
+  label_user: người dùng
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Người dùng và quyền
   label_user_anonymous: vô danh
@@ -3783,7 +3780,6 @@ vi:
         invalid_type: Không tìm thấy loại nào có tên '%{type}' trong dự án '%{project}'.
         no_project_context: Gọi macro create_work_package_link từ ngữ cảnh bên ngoài dự án.
       link_name: Work package mới
-      link_name_type: Mới %{type_name}
     errors:
       missing_or_invalid_parameter: Các tham số macro thiếu hoặc không hợp lệ.
     include_wiki_page:
@@ -5206,6 +5202,7 @@ vi:
   setting_default_language: Ngôn ngữ mặc định
   setting_default_projects_modules: Các mô-đun được bật mặc định cho các dự án mới
   setting_default_projects_public: Các dự án mới được công khai theo mặc định
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
   setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định
@@ -5734,6 +5731,7 @@ vi:
   text_destroy_what_to_do: Bạn muốn làm gì?
   text_destroy_with_associated: 'There are additional objects associated with the gói công việc (work package)(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Sự khác biệt này đã bị cắt bớt vì nó vượt quá kích thước tối đa có thể được hiển thị."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Gửi email không được cấu hình và thông báo bị vô hiệu hóa.
     Cấu hình máy chủ SMTP của bạn để kích hoạt chúng.

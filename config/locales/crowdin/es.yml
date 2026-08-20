@@ -343,7 +343,7 @@ es:
         token_name: Nombre del token
       type:
         attribute_groups: Configuración del formulario
-        children: Variantes
+        children: Variants
         color: Color
         dependent_configuration_links: Tipos vinculados
         description: Texto predeterminado para descripción
@@ -488,6 +488,7 @@ es:
         before_or_equal_to: debe ser antes o igual a %{date}.
         blank: no puede estar en blanco.
         blank_nested: necesita tener la propiedad '%{property}' definida.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: es obligatorio. No se puede eliminar.
         cant_link_a_work_package_with_a_descendant: Un paquete de trabajo no puede ser vinculado a una de sus subtareas.
         circular_dependency: Esta relación podría crear una dependencia circular.
@@ -821,7 +822,7 @@ es:
             parent:
               cannot_be_self: no puede ser el tipo en sí.
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: no se puede establecer porque este tipo ya tiene variantes.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: debe ser un tipo de nivel superior. Los tipos solo pueden anidarse un nivel de profundidad.
               standard_type_must_be_root: no se puede establecer para el tipo estándar.
             patterns:
@@ -829,7 +830,7 @@ es:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: conectaría estas configuraciones en un bucle.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1545,7 +1546,7 @@ es:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2840,15 +2841,16 @@ es:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nuevo módulo de gestión de recursos para la planificación de la capacidad y la dotación de personal (plan Premium).
-            line_1: Una mejor gestión organizativa mediante departamentos, atributos de usuario —como los cargos— y horarios de trabajo.
-            line_2: Varios sprints activos sin compartir (plan Básico).
-            line_3: Se han mejorado el backlog y los sprints con filtros de selección múltiple, una función de arrastrar y soltar más eficaz y la posibilidad de añadir paquetes de trabajo ya existentes.
-            line_4: Exportación de artefactos de PM²/PMflex y un nuevo widget para la visión general de las fases y los hitos del proyecto.
-            line_5: Índice global de páginas wiki y navegación más sencilla entre páginas relacionadas.
-          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
@@ -2895,16 +2897,11 @@ es:
         field_updated: "%{field} actualizado"
         header: cambios de %{author}
         set_with_diff: "%{field} fijado (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Modo de cálculo del progreso establecido como basado en el estado
       status_excluded_from_totals_set_to_false_message: ahora incluido en totales de jerarquía
       status_excluded_from_totals_set_to_true_message: ahora excluido de los totales de la jerarquía
@@ -2941,14 +2938,14 @@ es:
       dates_changed: Cambio de fechas
       default_attribute_written: Atributos de solo lectura escritos
       import: Importado
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Cálculo del progreso actualizado
       status_changed: Estado «%{status_name}»
       system_update: 'Actualización del sistema OpenProject:'
@@ -3832,7 +3829,6 @@ es:
         invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto '%{project}'.
         no_project_context: Llamando a la macro create_work_package_link desde el contexto externo del proyecto.
       link_name: Nuevo paquete de trabajo
-      link_name_type: "%{type_name} nuevo"
     errors:
       missing_or_invalid_parameter: Parámetro de macro no encontrado o no válido.
     include_wiki_page:
@@ -5254,6 +5250,7 @@ es:
   setting_default_language: Idioma predeterminado
   setting_default_projects_modules: Modulos activados por defecto para nuevos proyectos
   setting_default_projects_public: Nuevos proyectos son públicos por defecto
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Cantidad máxima de diferencias de lineas mostradas
   setting_disable_password_login: Desactivar la autenticación por contraseña
   setting_display_subprojects_work_packages: Mostrar paquetes de trabajo de subproyectos en proyectos principales por defecto
@@ -5782,6 +5779,7 @@ es:
   text_destroy_what_to_do: "¿Qué quieres hacer?"
   text_destroy_with_associated: 'Hay otros objetos asociados a los paquetes de trabajo que se eliminarán. Esos objetos son de los siguientes tipos:'
   text_diff_truncated: "... Esta diferencia se truncó porque excede el tamaño máximo que puede visualizarse."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     No se ha configurado la entrega de correo electrónico y se han deshabilitado las notificaciones.
     Configure el servidor SMTP para habilitarlas.
@@ -5935,7 +5933,7 @@ es:
         project_attributes: Atributos del proyecto
         projects: Proyectos
         workflows: Flujos de trabajo
-      success: La variante se ha creado correctamente.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -6530,7 +6528,7 @@ es:
           automatic_with_children: Fechas determinadas por paquetes de trabajo secundarios.
           automatic_with_predecessor: La fecha de inicio la fija un predecesor.
           manual_mobile: Programado manualmente.
-          manually_scheduled: Programado manualmente. Fechas no afectadas por relaciones.
+          manually_scheduled: Programado manualmente. No afectadas por relaciones.
       blankslate:
         description: Para activar la programación automática, este paquete de trabajo debe tener al menos un predecesor. Entonces se programará automáticamente para que comience después del predecesor más cercano.
         title: Sin predecesores

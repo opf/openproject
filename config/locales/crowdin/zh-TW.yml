@@ -488,6 +488,7 @@ zh-TW:
         before_or_equal_to: 必須在 %{date} 以前
         blank: 不可空白
         blank_nested: '需要設置屬性  ''%{property}'' '
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: 必需項，不能刪除
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
@@ -1519,7 +1520,7 @@ zh-TW:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2796,14 +2797,15 @@ zh-TW:
     blocks:
       community: OpenProject 社群
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2851,16 +2853,11 @@ zh-TW:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_excluded_from_totals_set_to_false_message: 現在包含在層次結構總計中
       status_excluded_from_totals_set_to_true_message: 現在不包含在層次結構總計中
@@ -2897,14 +2894,14 @@ zh-TW:
       dates_changed: 日期變更
       default_attribute_written: 已寫入只讀屬性
       import: Imported
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 更新計算後的進度
       status_changed: 狀態 '%{status_name}'
       system_update: OpenProject 系統更新：
@@ -3164,7 +3161,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_any_name_attribute: 名稱屬性
   label_filter_by: 篩選條件：
-  label_filter_plural: 篩選器
+  label_filter_plural: 篩選條件
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -3187,9 +3184,9 @@ zh-TW:
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
-  label_greater_or_equal: ">="
+  label_greater_or_equal: 之前
   label_group: 群組
-  label_group_by: 分組依據
+  label_group_by: 分類
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
   label_group_plural: 群組
@@ -3257,7 +3254,7 @@ zh-TW:
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: "<="
+  label_less_or_equal: 之後
   label_less_than_ago: 幾天內
   label_life_cycle_step_plural: 專案生命週期
   label_link_url: 連結(URL)
@@ -3541,7 +3538,7 @@ zh-TW:
   label_storage_used_space: 已用磁碟空間
   label_string: 文字
   label_subitems: 子項目
-  label_subject_or_id: 主旨或 id
+  label_subject_or_id: 名稱或 id
   label_subproject: 子專案
   label_subproject_add: Add subproject
   label_subproject_plural: 子專案
@@ -3785,7 +3782,6 @@ zh-TW:
         invalid_type: 在專案 "%{project}" 中找不到名稱為 "%{type}" 的類型。
         no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。
       link_name: 新增工作套件
-      link_name_type: 新增 %{type_name}
     errors:
       missing_or_invalid_parameter: 丟失或無效的宏參數。
     include_wiki_page:
@@ -5201,6 +5197,7 @@ zh-TW:
   setting_default_language: 預設語言
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_default_projects_public: 新專案預設為公開
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件
@@ -5729,6 +5726,7 @@ zh-TW:
   text_destroy_what_to_do: 您想要做什麼？
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... 此差異被截斷, 因為它超出了可以顯示的最大大小。"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     電子郵件傳送未配置，通知已禁用。
     配置您的 SMTP 服務器將其啓用。

@@ -343,7 +343,7 @@ ko:
         token_name: 토큰 이름
       type:
         attribute_groups: 양식 구성
-        children: 변형
+        children: Variants
         color: 색상
         dependent_configuration_links: 연결된 유형
         description: 설명의 기본 텍스트
@@ -488,6 +488,7 @@ ko:
         before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
         blank: 내용을 입력해주세요
         blank_nested: "- '%{property}' 속성이 설정되어 있어야 합니다."
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: "- 필수입니다. 삭제할 수 없습니다."
         cant_link_a_work_package_with_a_descendant: 작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다.
         circular_dependency: 이 연계는 순환 종속관계를 만듭니다.
@@ -820,7 +821,7 @@ ko:
             parent:
               cannot_be_self: "- 해당 유형 자체일 수는 없습니다."
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: "- 이 유형에는 이미 변형이 있으므로 설정할 수 없습니다."
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: "- 그 자체로 최상위 유형이어야 합니다. 유형은 한 수준까지만 중첩될 수 있습니다."
               standard_type_must_be_root: "- 표준 유형에 대해 설정할 수 없습니다."
             patterns:
@@ -828,7 +829,7 @@ ko:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1519,7 +1520,7 @@ ko:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2808,15 +2809,16 @@ ko:
     blocks:
       community: OpenProject 커뮤니티
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: 업무량 계획 및 스태핑을 위한 새로운 리소스 관리 모듈(Premium 플랜).
-            line_1: 부서, 직책 등 사용자 특성 및 근무 시간을 사용하여 개선된 조직 관리.
-            line_2: 공유를 사용하지 않는 여러 활성 스프린트(Basic 플랜).
-            line_3: 다중 선택 필터, 향상된 드래그 앤 드롭, 기존 작업 패키지 추가 기능을 통해 개선된 백로그 및 스프린트.
-            line_4: PM²/PMflex 아티팩트 내보내기 및 프로젝트 단계와 게이트 개요를 확인할 수 있는 새로운 위젯.
-            line_5: 글로벌 위키 페이지 색인 및 관련 페이지 간의 더욱 간편한 탐색.
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
@@ -2863,16 +2865,11 @@ ko:
         field_updated: "%{field} 업데이트됨"
         header: "%{author} 님이 변경함"
         set_with_diff: "%{field} 설정됨(%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
@@ -2909,14 +2906,14 @@ ko:
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
       import: 가져옴
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 진행률 계산 업데이트됨
       status_changed: 상태 '%{status_name}'
       system_update: 'OpenProject 시스템 업데이트:'
@@ -3797,7 +3794,6 @@ ko:
         invalid_type: 프로젝트 '%{project}'에서 이름이 '%{type}'인 유형을 찾지 못했습니다.
         no_project_context: 외부 프로젝트 컨텍스트에서 create_work_package_link 매크로를 호출하는 중입니다.
       link_name: 새 작업 패키지
-      link_name_type: 새로운 %{type_name}
     errors:
       missing_or_invalid_parameter: 누락되거나 잘못된 매크로 매개 변수입니다.
     include_wiki_page:
@@ -5207,6 +5203,7 @@ ko:
   setting_default_language: 기본 언어
   setting_default_projects_modules: 새 프로젝트에 대해 기본적으로 활성화된 모듈
   setting_default_projects_public: 새 프로젝트는 기본적으로 공용입니다.
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
   setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
@@ -5733,6 +5730,7 @@ ko:
   text_destroy_what_to_do: 어떤 작업을 수행하시겠습니까?
   text_destroy_with_associated: '삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다:'
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.
     SMTP 서버를 구성하여 활성화하세요.
@@ -5890,7 +5888,7 @@ ko:
         project_attributes: 프로젝트 특성
         projects: 프로젝트
         workflows: 워크플로
-      success: 변형이 생성되었습니다.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: '변형: %{name}'
       defaults:

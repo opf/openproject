@@ -343,7 +343,7 @@ hy:
         token_name: Թոքենի անվանում
       type:
         attribute_groups: Ձևի կազմաձևում
-        children: Տարատեսակներ
+        children: Variants
         color: Գույն
         dependent_configuration_links: Կապակցված տեսակներ
         description: Նկարագրության կանխադրված տեքստ
@@ -488,6 +488,7 @@ hy:
         before_or_equal_to: պետք է լինի %{date}-ից առաջ կամ հավասար դրան։
         blank: չի կարող դատարկ լինել։
         blank_nested: պետք է ունենա սահմանված '%{property}' հատկություն։
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: պարտադիր է։ Հնարավոր չէ ջնջել։
         cant_link_a_work_package_with_a_descendant: Աշխատանքային փաթեթը չի կարող կապվել իր ենթաառաջադրանքներից մեկի հետ։
         circular_dependency: Այս կապը կստեղծի ցիկլային կախվածություն։
@@ -821,7 +822,7 @@ hy:
             parent:
               cannot_be_self: չի կարող լինել տեսակն ինքը։
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
               standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
             patterns:
@@ -829,7 +830,7 @@ hy:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: կկապի այս կազմաձևումները ցիկլի մեջ։
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1545,7 +1546,7 @@ hy:
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
           recent_changes:
             documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
             heading: Recent changes
@@ -2842,15 +2843,16 @@ hy:
     blocks:
       community: OpenProject համայնք
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Ռեսուրսների կառավարման նոր մոդուլ՝ հզորությունների պլանավորման և կադրերի համալրման համար (Premium փաթեթ)։
-            line_1: Ավելի լավ կազմակերպչական կառավարում ստորաբաժանումների, օգտատերերի հատկանիշների, ինչպիսիք են պաշտոնները, և աշխատանքային ժամերի միջոցով։
-            line_2: Մի քանի ակտիվ սպրինտ առանց համօգտագործման (Basic փաթեթ)։
-            line_3: Բարելավված բեքլոգ և սպրինտներ՝ բազմակի ընտրության զտիչներով, ավելի հարմար քարշ տալով և թողնելով, ինչպես նաև առկա աշխատանքային փաթեթներ ավելացնելու հնարավորությամբ։
-            line_4: PM²/PMflex արտեֆակտների արտահանում և նոր վիջեթ՝ նախագծի փուլերի և դարպասների ընդհանուր տեսքի համար։
-            line_5: Վիքի էջերի գլոբալ ցանկ և ավելի հարմար նավարկում կապակցված էջերի միջև։
-          new_features_title: 'Թողարկումը պարունակում է տարբեր նոր հնարավորություններ և բարելավումներ, ինչպիսիք են՝
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Կարդացեք նոր հնարավորությունների և արտադրանքի թարմացումների մասին։
@@ -2897,16 +2899,11 @@ hy:
         field_updated: "%{field} թարմացվել է"
         header: "%{author}-ի կատարած փոփոխություններ"
         set_with_diff: "%{field} սահմանվել է (%{link})"
-      meeting_agenda_item_added: "%{link}"
-      meeting_agenda_item_discussed: "%{link}"
-      meeting_agenda_item_moved: "%{link}"
-      meeting_agenda_item_removed: "%{link}"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
-      meeting_outcome_recorded: "%{link}"
-      meeting_series_backlog: backlog for meeting series %{link}
-      meeting_series_template: template for meeting series %{link}
-      meeting_template: meeting template %{link}
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկման ռեժիմը սահմանվել է կարգավիճակի հիմքով
       status_excluded_from_totals_set_to_false_message: այժմ ներառված է հիերարխիայի ընդհանուր գումարներում
       status_excluded_from_totals_set_to_true_message: այժմ բացառված է հիերարխիայի ընդհանուր գումարներից
@@ -2943,14 +2940,14 @@ hy:
       dates_changed: Ամսաթվերը փոխվել են
       default_attribute_written: Միայն ընթերցելի հատկանիշները գրանցվել են
       import: Ներմուծված
-      meeting_agenda_item_added: Added to meeting
-      meeting_agenda_item_added_template: Added to
-      meeting_agenda_item_discussed: Discussed in meeting
-      meeting_agenda_item_moved: Moved to meeting
-      meeting_agenda_item_moved_template: Moved to
-      meeting_agenda_item_removed: Removed from meeting
-      meeting_agenda_item_removed_template: Removed from
-      meeting_outcome_recorded: Added as outcome in meeting
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկը թարմացվել է
       status_changed: Կարգավիճակ '%{status_name}'
       system_update: OpenProject-ի համակարգային թարմացում՝
@@ -3835,7 +3832,6 @@ hy:
         invalid_type: "'%{project}' նախագծում '%{type}' անվամբ տեսակ չի գտնվել։"
         no_project_context: create_work_package_link մակրոյի կանչ նախագծի համատեքստից դուրս։
       link_name: Նոր աշխատանքային փաթեթ
-      link_name_type: Նոր %{type_name}
     errors:
       missing_or_invalid_parameter: Բացակայող կամ անվավեր մակրոյի պարամետր։
     include_wiki_page:
@@ -5261,6 +5257,7 @@ hy:
   setting_default_language: Կանխադրված լեզու
   setting_default_projects_modules: Նոր նախագծերի համար կանխադրված միացված մոդուլներ
   setting_default_projects_public: Նոր նախագծերն ըստ կանխադրման հանրային են
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Ցուցադրվող տարբերության տողերի առավելագույն քանակ
   setting_disable_password_login: Անջատել գաղտնաբառով նույնականացումը
   setting_display_subprojects_work_packages: Ըստ կանխադրման ցուցադրել ենթանախագծերի աշխատանքային փաթեթները հիմնական նախագծերում
@@ -5787,6 +5784,7 @@ hy:
   text_destroy_what_to_do: Ի՞նչ եք ցանկանում անել։
   text_destroy_with_associated: Ջնջվելիք աշխատանքային փաթեթ(ներ)ի հետ կապված կան լրացուցիչ օբյեկտներ։ Այդ օբյեկտները հետևյալ տեսակների են՝
   text_diff_truncated: "... Այս տարբերությունը կրճատվել է, քանի որ գերազանցում է ցուցադրման համար թույլատրելի առավելագույն չափը։"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Էլ. փոստի առաքումը կազմաձևված չէ, և ծանուցումներն անջատված են։
     Դրանք միացնելու համար կազմաձևեք Ձեր SMTP սերվերը։
@@ -5944,7 +5942,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Տարատեսակը հաջողությամբ ստեղծվել է։
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
       defaults:

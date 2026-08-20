@@ -229,5 +229,65 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         end
       end
     end
+
+    describe "POST enable_all_projects" do
+      let!(:project) { create(:project) }
+      let!(:other_project) { create(:project) }
+
+      def enable_all_projects(value)
+        post :enable_all_projects, params: { type_id: type.id, value: }, format: :turbo_stream
+      end
+
+      context "when enabling" do
+        before do
+          enable_all_projects("1")
+        end
+
+        it { expect(response).to have_http_status(:ok) }
+
+        it "activates the type in all projects" do
+          expect(type.reload.projects).to contain_exactly(project, other_project)
+        end
+      end
+
+      context "when disabling" do
+        let(:type) { create(:type_bug, projects: [project, other_project]) }
+
+        before do
+          enable_all_projects("0")
+        end
+
+        it { expect(response).to have_http_status(:ok) }
+
+        it "deactivates the type in all projects" do
+          expect(type.reload.projects).to be_empty
+        end
+      end
+
+      context "when disabling is blocked by existing work packages" do
+        let(:type) { create(:type_bug, projects: [project, other_project]) }
+        let!(:work_package) { create(:work_package, project:, type:) }
+
+        before do
+          enable_all_projects("0")
+        end
+
+        it { expect(response).to have_http_status(:ok) }
+
+        it "keeps the type active in all projects" do
+          expect(type.reload.projects).to contain_exactly(project, other_project)
+        end
+
+        it "renders an error message naming the affected work packages" do
+          expect(sanitize_string(response.body))
+            .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+        end
+
+        it "re-renders the projects component with the toggle switch still turned on" do
+          expect(response.body).to include('target="work-package-types-projects-component"')
+          expect(response.body).to include("ToggleSwitch--checked")
+        end
+      end
+    end
   end
 end
