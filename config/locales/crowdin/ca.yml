@@ -256,6 +256,7 @@ ca:
         templated_value:
           false: desmarca com a plantilla
           true: marca com a plantilla
+        type_variant: Work package type variant
         types: Tipus
         versions: Versions
         work_packages: Paquets de treball
@@ -2579,7 +2580,6 @@ ca:
   error_attribute_not_highlightable: 'Atribut(s) no destacables: %{attributes}'
   error_auth_source_sso_failed: Inici de sessió únic (SSO) per usuari "%{value}" fallat
   error_can_not_archive_project: 'Aquest projecte no es pot arxivar: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: No s'ha pogut suprimir el camp personalitat
   error_can_not_delete_entry: No s'ha pogut esborrar l'entrada
@@ -2590,6 +2590,7 @@ ca:
   error_can_not_find_all_resources: No s'han pogut trobar tots els recursos relacionats amb aquesta sol·licitud.
   error_can_not_invite_user: Error en enviar la invitació a l'usuari.
   error_can_not_remove_role: Aquest rol s'està utilitzant i no es pot suprimir.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Un paquet de treball assignat a una versió tancada no es pot reobrir
   error_can_not_unarchive_project: 'Aquest projecte no es pot desarxivar: %{errors}'
   error_check_user_and_role: Trieu un usuari i un rol.
@@ -2870,14 +2871,15 @@ ca:
     blocks:
       community: Comunitat OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3348,6 +3350,7 @@ ca:
   label_me: jo mateix
   label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_new: Nou membre
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membres
   label_member_role: Project role
@@ -6070,6 +6073,17 @@ ca:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.

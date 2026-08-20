@@ -256,6 +256,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
+        type_variant: Work package type variant
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -2683,7 +2684,6 @@ ru:
   error_attribute_not_highlightable: 'Атрибуты не выделяются: %{attributes}'
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект невозможно заархивировать: %{errors}'
-  error_can_not_deactivate_type: Не удалось отключить тип %{type}, потому что он все еще используется в %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Также существуют пакеты работ в проектах, которые вы не можете видеть.
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_entry: Не удается удалить содержимое
@@ -2694,6 +2694,7 @@ ru:
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -2982,15 +2983,16 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Новый модуль управления ресурсами для планирования производственных мощностей и укомплектования персоналом (тарифный план «Премиум»).
-            line_1: Более эффективное управление организацией с помощью подразделений, атрибутов пользователей, таких как должности, и учёта рабочего времени.
-            line_2: Несколько активных спринтов без возможности совместного использования (тарифный план «Базовый»).
-            line_3: 'Улучшены функции управления бэклогом и спринтами: добавлены фильтры с возможностью множественного выбора, усовершенствована функция перетаскивания, а также появилась возможность добавлять существующие пакеты работ.'
-            line_4: Экспорт артефакта PM2/PMflex и новый виджет фаз проекта и обзор гейтов.
-            line_5: Глобальный указатель страниц вики и упрощённая навигация между связанными страницами.
-          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3460,6 +3462,7 @@ ru:
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
+  label_member_of_group: Member of group
   label_member_of_project: Участник проекта
   label_member_plural: Участники
   label_member_role: Роль в проекте
@@ -6202,6 +6205,17 @@ ru:
         filter: Поиск по секции или названию
         tab: Атрибуты проекта
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
@@ -6665,7 +6679,7 @@ ru:
         few: "%{count} пакета работ успешно удалено."
         many: "%{count} пакетов работ успешно удалено."
         other: "%{count} пакетов работ успешно удалено."
-      descendant: дочерний рабочий пакет выбранного элемента
+      descendant: дочерний пакет работ выбранного элемента
       move_failed: Пакеты работ не могут быть перемещены.
       none_could_be_saved: Ни один из пакетов работ %{total} не может быть обновлен.
       selected_because_descendants: Хотя были выбраны пакеты работ %{selected}, всего затронуто %{total} пакетов работ, включая потомков.

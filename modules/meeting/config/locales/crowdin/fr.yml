@@ -56,7 +56,7 @@ fr:
         presenter: Responsable
         title: Titre
       meeting_outcome:
-        kind: Kind
+        kind: Genre
       meeting_participant:
         attended: Participations
         invited: Invité

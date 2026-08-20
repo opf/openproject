@@ -258,6 +258,7 @@ cs:
         templated_value:
           false: odznačeno jako šablona
           true: označeno jako šablona
+        type_variant: Work package type variant
         types: Typy
         versions: Verze
         work_packages: Pracovní balíčky
@@ -2683,7 +2684,6 @@ cs:
   error_attribute_not_highlightable: 'Atribut není zvýrazněn: %{attributes}'
   error_auth_source_sso_failed: Jednotné přihlášení (SSO) pro uživatele '%{value}' selhalo
   error_can_not_archive_project: 'Tento projekt nelze archivovat: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Nelze odstranit vlastní pole
   error_can_not_delete_entry: Nelze odstranit položku
@@ -2694,6 +2694,7 @@ cs:
   error_can_not_find_all_resources: Nelze najít všechny související zdroje k tomuto požadavku.
   error_can_not_invite_user: Nepodařilo se odeslat pozvání uživateli.
   error_can_not_remove_role: Tato role je používána a nelze ji odstranit.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Pracovní balíček v uzavřené verzi nemůže být znovu otevřen
   error_can_not_unarchive_project: 'Tento projekt nemůže být odarchivován: %{errors}'
   error_check_user_and_role: Vyberte uživatele a roli.
@@ -2984,14 +2985,15 @@ cs:
     blocks:
       community: OpenProject komunita
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3462,6 +3464,7 @@ cs:
   label_me: já
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_new: Nový člen
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Členové
   label_member_role: Projektová role
@@ -6225,6 +6228,17 @@ cs:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Povolit pro všechny projekty
         select_projects: Vybrat projekty
         select_projects_description: Vyberte projekty, ve kterých chcete tento typ použít.

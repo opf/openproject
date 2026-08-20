@@ -256,6 +256,7 @@ fr:
         templated_value:
           false: non marqué comme modèle
           true: marqué comme modèle
+        type_variant: Work package type variant
         types: Types
         versions: Versions
         work_packages: Lots de travaux
@@ -499,7 +500,7 @@ fr:
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         blank: ne peut pas être vide.
         blank_nested: doit avoir la propriété « %{property} » définie.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: n'est pas autorisé. Veuillez utiliser une adresse e-mail appartenant à un autre domaine.
         cannot_delete_mapping: est requis. Ne peut être supprimé.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
@@ -1561,22 +1562,22 @@ fr:
           title: Activer plusieurs versions cibles
         target_versions:
           action_required:
-            button: Enable multiple values
-            heading: Action required
-            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
-          heading: Target versions
+            button: Activer les valeurs multiples
+            heading: Action Requise
+            manual_conversion_hint: Vous pouvez choisir de lancer manuellement la conversion afin d'activer la prise en charge de plusieurs valeurs avant que cette migration automatique n'ait lieu.
+            not_writable_hint: Ces paramètres sont définis via des variables d'environnement. Si vous souhaitez lancer manuellement la conversion afin d'activer les valeurs multiples avant la migration automatique, veuillez mettre à jour votre fichier configuration.yml.
+          heading: Versions cibles
           in_progress:
-            heading: Enabling multiple versions
+            heading: Activation de plusieurs versions
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            heading: Modifications prévues dans une prochaine version
+            renamed: Le champ « Version » sera renommé en « Versions cibles ».
+            single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera également modifié pour permettre la saisie de plusieurs valeurs.
           recent_changes:
-            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
-            heading: Recent changes
-            multiple_values: The “Target versions” field now allows multiple values.
-            renamed: The “Version” field has now been renamed “Target versions”.
+            documentation_html: Pour plus d'informations sur cette modification et sur la manière de mettre à jour les clients API, veuillez consulter <a href="%{link}" target="_blank" rel="noopener">notre documentation</a>.
+            heading: Changements récents
+            multiple_values: Le champ « Versions cibles » autorise désormais plusieurs valeurs.
+            renamed: Le champ « Version » sera renommé en « Versions cibles ».
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Doit commencer par une lettre majuscule
@@ -1827,7 +1828,7 @@ fr:
     start_date: Date de début
     state: État
     status: Statut
-    status_id: Status
+    status_id: Statut
     subject: Sujet
     summary: Résumé
     template: Modèle
@@ -2579,7 +2580,6 @@ fr:
   error_attribute_not_highlightable: 'Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l'utilisateur '%{value}' a échoué
   error_can_not_archive_project: 'Ce projet ne peut être archivé : %{errors}'
-  error_can_not_deactivate_type: Impossible de désactiver le type « %{type} », car il est toujours utilisé par %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Il existe également des lots de travaux dans des projets que vous ne pouvez pas voir.
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_entry: Impossible de supprimer l'élément
@@ -2590,6 +2590,7 @@ fr:
   error_can_not_find_all_resources: Impossible de trouver toutes les ressources liées à cette demande.
   error_can_not_invite_user: Échec de l'envoi de l'invitation à l'utilisateur.
   error_can_not_remove_role: Ce rôle est utilisé et ne peut être supprimé.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Un lot de travaux assigné à une version fermée ne peut être ré-ouvert
   error_can_not_unarchive_project: 'Ce projet ne peut être désarchivé : %{errors}'
   error_check_user_and_role: Veuillez choisir un utilisateur et un rôle.
@@ -2872,15 +2873,16 @@ fr:
     blocks:
       community: Communauté OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nouveau module de gestion des ressources pour la planification des capacités et la gestion des effectifs (formule Premium).
-            line_1: Une meilleure gestion organisationnelle grâce aux services, aux attributs utilisateur tels que les intitulés de poste et aux horaires de travail.
-            line_2: Plusieurs sprints actifs sans partage (formule Basic).
-            line_3: Amélioration du backlog et des sprints grâce à des filtres à sélection multiple, à un glisser-déposer optimisé et à la possibilité d'ajouter des lots de travaux existants.
-            line_4: Exportation d'artefacts PM²/PMflex et nouveau widget offrant une vue d'ensemble des phases de projet et des portes de phase.
-            line_5: Index global des pages du wiki et navigation simplifiée entre les pages associées.
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que :
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -2927,8 +2929,8 @@ fr:
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_cancelled: "(cancelled)"
-      meeting_deleted: "(deleted)"
+      meeting_cancelled: "(annulé)"
+      meeting_deleted: "(supprimé)"
       meeting_series_backlog_html: backlog for meeting series %{link}
       meeting_series_template_html: template for meeting series %{link}
       meeting_template_html: meeting template %{link}
@@ -2944,7 +2946,7 @@ fr:
         progress_calculation_adjusted_from_disabled_mode: Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         scheduling_mode_adjusted: Mode de planification automatiquement ajusté avec la mise à jour de version.
         sprint_migration: La version '%{version_name}' a été copiée en tant que sprint.
-        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
+        target_versions_repaired: Les versions cibles ont été automatiquement synchronisées avec le champ Version avant d'activer plusieurs versions cibles.
         totals_removed_from_childless_work_packages: Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
       total_percent_complete_mode_changed_to_simple_average: Les valeurs de travail des lots de travaux enfants sont ignorées.
       total_percent_complete_mode_changed_to_work_weighted_average: Les lots de travaux enfants sans travail sont ignorés.
@@ -2968,10 +2970,10 @@ fr:
       dates_changed: Dates modifiées
       default_attribute_written: Attributs en lecture seule écrits
       import: Importé
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>Ajouté à la réunion</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Ajouté à</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discuté lors de la réunion</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Reporté à la réunion</strong> %{meeting_title_information}"
       meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
       meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
@@ -3350,7 +3352,8 @@ fr:
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_new: Nouveau membre
-  label_member_of_project: Member of project
+  label_member_of_group: Member of group
+  label_member_of_project: Membre du projet
   label_member_plural: Membres
   label_member_role: Rôle dans le projet
   label_membership_added: Membre ajouté
@@ -3502,7 +3505,7 @@ fr:
   label_project_hide_details: Masquer les détails du projet
   label_project_hierarchy: Hiérarchie du projet
   label_project_identifier: Identifiant de projet
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: Exporter %{project_creation_name} en PDF
   label_project_latest: Derniers projets
   label_project_life_cycle: Cycle de vie du projet
   label_project_list_plural: Listes de projets
@@ -3614,7 +3617,7 @@ fr:
   label_subitems: Sous-éléments
   label_subject_or_id: Objet ou ID
   label_subproject: Sous-projet
-  label_subproject_add: Add subproject
+  label_subproject_add: Ajouter des sous-projets
   label_subproject_plural: Sous-projets
   label_subtask_plural: Sous-tâche
   label_summary: Résumé
@@ -3678,7 +3681,7 @@ fr:
   label_version_sharing_none: Non partagé
   label_version_sharing_system: Avec tous les projets
   label_version_sharing_tree: Avec l'arbre du projet
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: Versions et catégories
   label_videos: Vidéos
   label_view_all_revisions: Afficher toutes les révisions
   label_view_diff: Afficher les différences
@@ -5284,7 +5287,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Activer la fonctionnalité wiki pour les nouveaux projets par défaut
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents
@@ -5950,7 +5953,7 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Ajouter une variante à %{name}
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
@@ -5966,7 +5969,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         workflows: Flux de travail
-      success: Created successfully.
+      success: Créé avec succès.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
       defaults:
@@ -5991,7 +5994,7 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
-        inherited_from_type_html: Inherited from type <b>%{type}</b>.
+        inherited_from_type_html: Hérité du type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
       export_configuration:
@@ -6015,7 +6018,7 @@ fr:
           actions:
             label_disable_all: Désactiver tout
             label_enable_all: Activer tout
-            label_toggle_template: Toggle %{template}
+            label_toggle_template: Basculer %{template}
           label: Modèles d'exportation PDF
         tab: Générer un fichier PDF
         templates:
@@ -6064,11 +6067,11 @@ fr:
           label_enable_all: Activer tout
         blankslate:
           independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
+            title: Aucun attribut de projet n'est disponible
           linked:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: Ce type n'est associé à aucun attribut de projet.
+            title: Aucun attribut de projet n'a été configuré
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:
@@ -6076,6 +6079,17 @@ fr:
         filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.

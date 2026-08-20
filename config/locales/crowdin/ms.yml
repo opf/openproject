@@ -258,6 +258,7 @@ ms:
         templated_value:
           false: tidak ditandakan sebagai templat
           true: ditandakan sebagai templat
+        type_variant: Work package type variant
         types: Jenis
         versions: Versi-versi
         work_packages: Pakej Kerja
@@ -2536,7 +2537,6 @@ ms:
   error_attribute_not_highlightable: 'Atribut tidak boleh disorotkan: %{attributes}'
   error_auth_source_sso_failed: Log masuk satu kali (SSO) untuk pengguna '%{value}' gagal
   error_can_not_archive_project: 'Projek ini tidak boleh diarkibkan: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Tidak dapat membuang ruangan tersuai
   error_can_not_delete_entry: Tidak dapat membuang entri
@@ -2547,6 +2547,7 @@ ms:
   error_can_not_find_all_resources: Tidak dapat mencari semua sumber yang berkaitan dengan permintaan ini.
   error_can_not_invite_user: Gagal menghantar jemputan kepada pengguna.
   error_can_not_remove_role: Peranan ini sedang digunakan dan tidak boleh dipadam.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Pakej kerja yang ditugaskan ke versi tertutup tidak boleh dibuka semula
   error_can_not_unarchive_project: 'Projek ini tidak boleh dinyaharkibkan: %{errors}'
   error_check_user_and_role: Sila pilih pengguna dan peranan.
@@ -2827,14 +2828,15 @@ ms:
     blocks:
       community: Komuniti OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3307,6 +3309,7 @@ ms:
   label_me: saya
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_new: Ahli baru
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Ahli-ahli
   label_member_role: Peranan projek
@@ -6021,6 +6024,17 @@ ms:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
