@@ -37,5 +37,11 @@ module LlmConnections
   # guard, since this is the code path that legitimately writes those values.
   class EnvironmentUpdateContract < BaseContract
     def not_configured_from_env = nil
+
+    # On a fresh installation the seed runs before any model synchronisation, so
+    # there is no catalogue to validate a default model against. A wrong id is
+    # surfaced afterwards, the same way as a model that vanished: the binding
+    # shows as no longer offered.
+    def default_models_offered_by_server = nil
   end
 end

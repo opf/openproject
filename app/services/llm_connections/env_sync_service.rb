@@ -52,6 +52,10 @@ module LlmConnections
 
     attr_reader :config
 
+    # Absent keys are written as nil on purpose: the environment is the source
+    # of truth here, and the form is read-only while it is. Keeping a stored
+    # value that was removed from the environment would leave, for example, an
+    # obsolete API key in use with no supported way to clear it.
     def attributes
       {
         base_url: config.fetch(:base_url),
@@ -59,7 +63,7 @@ module LlmConnections
         default_chat_model_id: config[:default_chat_model],
         default_embedding_model_id: config[:default_embedding_model],
         enabled: ActiveRecord::Type::Boolean.new.deserialize(config.fetch(:enabled, true))
-      }.compact
+      }
     end
   end
 end
