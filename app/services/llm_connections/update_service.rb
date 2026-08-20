@@ -53,15 +53,15 @@ module LlmConnections
         Llm::HealthCheckJob.toggle_cron_job
 
         next unless @sync_models
-        next unless credentials_changed?(service_call.result)
+        next unless connection_changed?(service_call.result)
 
         SyncModelsService.new(service_call.result).call
         Llm::DetectCapabilitiesJob.perform_later
       end
     end
 
-    def credentials_changed?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CREDENTIAL_ATTRIBUTES)
+    def connection_changed?(connection)
+      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
     end
   end
 end

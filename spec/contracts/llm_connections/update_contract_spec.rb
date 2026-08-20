@@ -147,6 +147,17 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       expect(models_request).to have_been_made.once
     end
 
+    # Switching the dialect is switching the server, even at the same URL: a
+    # connection previously talking to a registry-backed provider must be proven
+    # again when it becomes OpenAI-compatible.
+    it "probes when only the API format changed to an OpenAI-compatible one" do
+      connection.update_columns(api_format: "anthropic", base_url: base_url)
+      connection.reload.api_format = "openai"
+
+      expect(contract.validate).to be(true)
+      expect(models_request).to have_been_made.once
+    end
+
     it "does not probe when only the enabled flag changed" do
       connection.save!
       WebMock.reset_executed_requests!

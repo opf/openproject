@@ -79,7 +79,7 @@ module LlmConnections
     end
 
     def fingerprint
-      @fingerprint ||= Digest::SHA256.hexdigest("#{connection.base_url}\0#{connection.api_key}")
+      @fingerprint ||= Digest::SHA256.hexdigest("#{connection.api_format}\0#{connection.base_url}\0#{connection.api_key}")
     end
 
     def upsert(cards)

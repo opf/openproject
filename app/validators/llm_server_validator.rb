@@ -32,11 +32,14 @@
 # accepts the configured credentials, by fetching its model list.
 #
 # Runs inside the contract so that a server which cannot be reached never gets
-# persisted. It is guarded on the credential attributes: without that guard every
-# unrelated save -- and every form render that builds a model through
-# SetAttributesService -- would fire an outbound HTTP request.
+# persisted. It is guarded on the attributes that identify the connection:
+# without that guard every unrelated save -- and every form render that builds a
+# model through SetAttributesService -- would fire an outbound HTTP request.
 class LlmServerValidator < ActiveModel::EachValidator
-  CREDENTIAL_ATTRIBUTES = %w[base_url api_key].freeze
+  # Changing any of these means talking to a different server, or to the same
+  # server in a different dialect, so the connection must be proven again and
+  # its models resynchronised.
+  CONNECTION_ATTRIBUTES = %w[base_url api_key api_format].freeze
 
   # Statuses that mean "this server has no model list here", as opposed to "this
   # server is broken". A gateway may route chat completions and nothing else.
@@ -45,7 +48,7 @@ class LlmServerValidator < ActiveModel::EachValidator
   def validate_each(contract, attribute, value)
     return if value.blank?
     return unless queries_the_server?(contract)
-    return unless credentials_changed?(contract)
+    return unless connection_changed?(contract)
     return unless host_allowed?(contract, attribute, value)
 
     probe(contract, attribute, value)
@@ -60,8 +63,8 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.model.api_format == Llm::Adapters::OPENAI_COMPATIBLE
   end
 
-  def credentials_changed?(contract)
-    contract.model.changed_attributes.keys.intersect?(CREDENTIAL_ATTRIBUTES)
+  def connection_changed?(contract)
+    contract.model.changed_attributes.keys.intersect?(CONNECTION_ATTRIBUTES)
   end
 
   # A pre-flight check purely so the administrator gets an actionable message
