@@ -84,8 +84,12 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
   end
 
   context "without named variants" do
-    it "renders a blankslate offering to add one" do
+    it "renders a blankslate offering to add one, instead of an empty list" do
+      expect(rendered_component).to have_css("[data-test-selector='type-variants-blankslate']")
+      expect(rendered_component).to have_no_css("[data-test-selector='type-variants']")
       expect(rendered_component).to have_text(I18n.t("types.edit.variants.blankslate.title"))
+      expect(rendered_component)
+        .to have_css("[data-test-selector='type-variants-blankslate'] p br")
       expect(rendered_component)
         .to have_link(I18n.t("types.index.add_variant_action"), href: add_variant_href)
     end

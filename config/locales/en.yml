@@ -6384,8 +6384,11 @@ en:
         parent_suffix: " (parent)"
       variants:
         blankslate:
-          description: "Variants let you configure different flavors of this type."
-          title: "This type has no variants yet."
+          description_html: >
+            You can create variants to offer versions of this type to different projects.<br>
+            Each variant can inherit, copy or have its own custom configuration for the default
+            template, custom fields, workflows and preferences.
+          title: "No variants exist for this type"
       workflow:
         tab: "Workflows"
     index:
