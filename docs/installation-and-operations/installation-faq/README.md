@@ -22,7 +22,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can install OpenProject via Docker or Docker Compose.
+If your Linux distribution is not supported by our package-based installation, we recommend using a Docker-based installation instead. See our [Docker](../installation/docker/) or [Docker Compose](../installation/docker-compose/) installation guides.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
