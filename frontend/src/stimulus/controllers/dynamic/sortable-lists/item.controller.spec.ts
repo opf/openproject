@@ -1100,6 +1100,9 @@ describe('Sortable lists item controller', () => {
       const container = document.createElement('div');
       // getComputedStyle resolves empty on a detached element.
       document.body.appendChild(container);
+      // The overhang the preview pads with comes from drag_and_drop.sass,
+      // which no spec loads, so the token is declared here to resolve.
+      container.style.setProperty('--op-drag-badge-overhang', '8px');
 
       vi.spyOn(container, 'getBoundingClientRect').mockReturnValue({
         x: 0,

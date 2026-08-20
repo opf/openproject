@@ -56,9 +56,15 @@ $op-drag-stack-ring: 1px !default
 $op-drag-stack-shade-blur: 4px !default
 $op-drag-stack-shade-color: rgba(37, 41, 46, 0.18) !default
 
-// Mirrored by BATCH_BADGE_OVERHANG_PX and DRAG_STACK_OVERHANG_PX (preview.ts).
 $op-drag-badge-overhang: 8px !default
 $op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-drag-stack-shade-blur
+
+// renderDragPreview reserves the overhangs as container padding, and can only
+// do so inline (Pragmatic inline-resets the container first), so they are
+// published as custom properties rather than duplicated as numbers there.
+:root
+  --op-drag-badge-overhang: #{$op-drag-badge-overhang}
+  --op-drag-stack-overhang: #{$op-drag-stack-overhang}
 
 // Each depth emits shade, fill then ring: CSS paints a shadow list front to
 // back, so a depth's shade lands above its own fill, in the gap under the card
