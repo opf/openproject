@@ -38,39 +38,52 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
     else
-      render(
-        OpenProject::Common::BorderBoxListComponent.new(
-          container: "type-variants",
-          mb: 3,
-          test_selector: "type-variants"
-        )
-      ) do |list|
-        list.with_header(title:, count: variants.size) do |header|
-          header.with_action_button(
-            tag: :a,
-            href: add_variant_path,
-            scheme: :invisible,
-            font_weight: :bold,
-            color: :subtle,
-            test_selector: "add-type-variant"
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus, color: :subtle)
-            I18n.t("types.index.add_variant_action")
+      flex_layout do |page|
+        page.with_row do
+          render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+            subheader.with_filter_input(
+              name: "type-variants-filter",
+              label: I18n.t("types.edit.variants.filter"),
+              placeholder: I18n.t("types.edit.variants.filter"),
+              leading_visual: { icon: :search, size: :small }
+            )
+
+            subheader.with_action_button(
+              scheme: :primary,
+              leading_icon: :plus,
+              label: I18n.t("types.index.add_variant_action"),
+              tag: :a,
+              href: add_variant_path,
+              test_selector: "add-type-variant"
+            ) do
+              I18n.t("types.index.variant_label")
+            end
           end
         end
 
-        variants.each do |variant|
-          list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
-            item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+        page.with_row do
+          render(
+            OpenProject::Common::BorderBoxListComponent.new(
+              container: "type-variants",
+              padding: :condensed,
+              mb: 3,
+              test_selector: "type-variants"
+            )
+          ) do |list|
+            variants.each do |variant|
+              list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+                item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
 
-            flex_layout(align_items: :center, justify_content: :space_between) do |row|
-              row.with_column do
-                render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
-              end
+                flex_layout(align_items: :center, justify_content: :space_between) do |row|
+                  row.with_column do
+                    render(Primer::Beta::Link.new(href: variant_path(variant), font_weight: :bold)) { variant.variant_name }
+                  end
 
-              if variant.enabled_in_new_projects?
-                row.with_column(mr: 3) do
-                  render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
+                  if variant.enabled_in_new_projects?
+                    row.with_column(mr: 3) do
+                      render(Primer::Beta::Label.new) { I18n.t("types.index.enabled_in_new_projects") }
+                    end
+                  end
                 end
               end
             end

@@ -71,9 +71,13 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
       end
     end
 
-    it "offers to add another variant from the header" do
+    it "offers to add another variant from the sub header" do
       expect(rendered_component)
-        .to have_link(I18n.t("types.index.add_variant_action"), href: add_variant_href)
+        .to have_link(I18n.t("types.index.variant_label"), href: add_variant_href)
+    end
+
+    it "renders the filter input, not yet wired to anything" do
+      expect(rendered_component).to have_field(I18n.t("types.edit.variants.filter"))
     end
 
     it "marks the variant new projects start with" do

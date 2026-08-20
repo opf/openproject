@@ -6389,6 +6389,7 @@ en:
             Each variant can inherit, copy or have its own custom configuration for the default
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
+        filter: "Filter by text"
       workflow:
         tab: "Workflows"
     index:

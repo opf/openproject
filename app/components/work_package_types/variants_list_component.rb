@@ -49,8 +49,6 @@ module WorkPackageTypes
       @variants ||= type.variants.non_default_variants.in_display_order
     end
 
-    def title = TypeVariant.model_name.human(count: 2)
-
     def variant_path(variant) = edit_type_details_path(**variant.path_args)
 
     def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
