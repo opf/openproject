@@ -31,9 +31,8 @@
 module Backlogs
   # Lists the work packages a batch action is about to affect.
   #
-  # The count stays available to assistive technology through a hidden element
-  # carrying `description_id`; point the acting control's `aria-describedby` at
-  # that id.
+  # The heading carries `description_id`; point the acting control's
+  # `aria-describedby` at that id so the count reaches assistive technology.
   class SelectedWorkPackagesComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 

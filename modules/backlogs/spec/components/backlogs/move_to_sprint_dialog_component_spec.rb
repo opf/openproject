@@ -66,13 +66,11 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
     )
   end
 
-  # The visible list carries no count, so it only reaches a screen reader as
-  # the field's context through this reference.
-  it "describes the sprint select by the selected-count label" do
+  it "describes the sprint select by the selection heading" do
     render_component
 
     label = page.find_css("##{described_class::SELECTION_LABEL_ID}").first
-    expect(label.text).to include(I18n.t(:label_x_work_packages, count: 2))
+    expect(label.text).to include(I18n.t("backlogs.selected_work_packages_component.label", count: 2))
     expect(page).to have_css(
       "select[name='list_id'][aria-describedby~='#{described_class::SELECTION_LABEL_ID}']",
       visible: :all
