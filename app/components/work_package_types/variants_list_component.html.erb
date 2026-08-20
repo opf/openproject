@@ -91,7 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
     else
-      render(Primer::Beta::Blankslate.new(border: true, test_selector: "type-variants-blankslate")) do |blankslate|
+      render(Primer::Beta::Blankslate.new(border: true, spacious: true, test_selector: "type-variants-blankslate")) do |blankslate|
         blankslate.with_heading(tag: :h3) { I18n.t("types.edit.variants.blankslate.title") }
         blankslate.with_description { t("types.edit.variants.blankslate.description_html") }
         blankslate.with_primary_action(href: add_variant_path, test_selector: "add-type-variant") do
