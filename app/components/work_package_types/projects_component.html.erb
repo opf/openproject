@@ -47,41 +47,34 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
   <%=
-    unless enabled_for_all_projects?
-      render(Primer::Beta::Subhead.new) do |subhead|
-        subhead.with_heading(tag: :h3, size: :medium) { t("types.edit.projects.select_projects") }
-        subhead.with_description { t("types.edit.projects.select_projects_description") }
-      end
+    render(Primer::Beta::Subhead.new) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t("types.edit.projects.select_projects") }
+      subhead.with_description { t("types.edit.projects.select_projects_description") }
     end
   %>
   <%=
-    unless enabled_for_all_projects?
-      settings_primer_form_with(**form_options) do |form|
-        flex_layout do |container|
-          container.with_row(mb: 3) do
-            render(
-              Primer::Alpha::TreeView.new(
-                expanded: true,
-                data: {
-                  "admin--work-package-type-projects-target": "treeView",
-                  action: "click->admin--work-package-type-projects#updateSelectedProjects"
-                },
-                select_variant: :multiple
-              )
-            ) do |tree_view|
-              build_project_tree(tree_view)
-            end
+    settings_primer_form_with(**form_options) do |form|
+      flex_layout do |container|
+        container.with_row(mb: 3) do
+          render(
+            Primer::Alpha::TreeView.new(
+              expanded: true,
+              data: { "admin--work-package-type-projects-target": "treeView" },
+              select_variant: :multiple
+            )
+          ) do |tree_view|
+            build_project_tree(tree_view)
           end
+        end
 
-          container.with_row do
-            form.hidden_field :project_ids,
-                              value: "[]",
-                              data: { "admin--work-package-type-projects-target": "selectedProjects" }
-          end
+        container.with_row do
+          form.hidden_field :project_ids,
+                            value: "[]",
+                            data: { "admin--work-package-type-projects-target": "selectedProjects" }
+        end
 
-          container.with_row do
-            render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) }
-          end
+        container.with_row do
+          render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) }
         end
       end
     end

@@ -28,8 +28,8 @@ de:
         one: Inline-Seitenlink
         other: Inline-Seitenlinks
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: Internal provider
+        other: Internal providers
       wikis/provider:
         one: Wiki-Anbieter
         other: Wiki-Anbieter
@@ -44,11 +44,9 @@ de:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: Wikis
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
-  project_module_wiki_internal: Projekt-Wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Projekt-Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -219,6 +217,8 @@ de:
         caption: Dies aktiviert native Wiki-Funktionalität für dieses Projekt. Mitglieder können Wiki-Seiten erstellen und lesen, die in OpenProject gespeichert sind.
         enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
