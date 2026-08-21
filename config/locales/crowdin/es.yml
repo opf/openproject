@@ -6269,6 +6269,7 @@ es:
         availability_description: El factor de disponibilidad representa el porcentaje real de tu tiempo de trabajo dedicado a las tareas del proyecto. Esto incluye reuniones, correos electrónicos, tareas administrativas y otras actividades ajenas al proyecto.
         availability_factor: Factor de disponibilidad
         availability_factor_caption: Indica el porcentaje de tu jornada laboral que dedicas al trabajo en proyectos.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas al día
         individual_hours_mode: Horas individuales al día
@@ -6282,7 +6283,6 @@ es:
         title_current: Editar el horario de trabajo actual
         title_days_and_hours: Días y horas
         title_future_dates: Fechas futuras
-        total_available_hours: Total de horas de trabajo disponibles
         total_work_hours: Total de horas trabajadas
         work_days: Días laborables
         work_hours: Horas laborales

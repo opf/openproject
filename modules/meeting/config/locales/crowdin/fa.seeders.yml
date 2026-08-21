@@ -9,21 +9,21 @@ fa:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: هفتگی
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: خبر خوب
             item_1:
-              title: Updates from development team
+              title: به‌روزرسانی‌های تیم توسعه
             item_2:
-              title: Updates from product team
+              title: به‌روزرسانی‌های تیم محصول
             item_3:
-              title: Updates from marketing team
+              title: به‌روزرسانی‌های تیم بازاریابی
             item_5:
-              title: Updates from sales team
+              title: به‌روزرسانی‌های تیم فروش
             item_6:
-              title: Review of quarterly goals
+              title: مرور اهداف سه‌ماهه
             item_7:
-              title: Core values feedback
+              title: بازخورد دربارهٔ ارزش‌های محوری
             item_8:
-              title: General topics
+              title: موضوعات عمومی

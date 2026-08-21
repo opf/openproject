@@ -30,10 +30,10 @@ ru:
         many: Ссылки на встроенную страницу
         other: Ссылки на встроенную страницу
       wikis/internal_provider:
-        one: Internal provider
+        one: Внутренний поставщик
         few: Internal providers
         many: Internal providers
-        other: Internal providers
+        other: Внутренние поставщики
       wikis/provider:
         one: Провайдер Wiki
         few: Провайдера Wiki
@@ -55,7 +55,7 @@ ru:
       internal_wiki_provider: Вики проекта
       wikis: Вики
     project_settings:
-      wiki: Project wiki
+      wiki: Вики проекта
   permission_manage_wiki_page_links: Управление ссылками вики-страницы
   wikis:
     admin:

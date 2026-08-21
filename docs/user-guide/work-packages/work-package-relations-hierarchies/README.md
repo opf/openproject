@@ -92,8 +92,6 @@ In **manual scheduling** mode, work packages in a predecessor/successor relation
 
 ## Display relations in a work package table
 
-You can display relations as columns in the work package tables.
-
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
 To add relation columns, navigate to the upper right corner of the work package table and click on the icon with the three dots.  Select **Insert columns** and type the name of the relation into the search bar. Then select the relation and click on apply.

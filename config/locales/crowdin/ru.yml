@@ -2957,14 +2957,14 @@ ru:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
+            line_1: Несколько целевых версий для пакетов работ.
+            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
+            line_3: Усовершенствования в рамках методологии Agile, касающиеся массового редактирования и перетаскивания карточек из списка задач в сторонние приложения.
+            line_4: Вики-макросы, доступные в большем числе текстовых редакторов.
+            line_5: Улучшен поиск идентификаторов пакетов работ.
+            line_6: 'Выпущено для сообщества: отображение связей в таблицах пакетов работ.'
+          new_features_title: 'В данном выпуске представлены различные новые функции и улучшения, в частности:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -5386,7 +5386,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: По умолчанию включает функцию вики для новых проектов
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -5915,7 +5915,7 @@ ru:
   text_destroy_what_to_do: Что Вы хотите сделать?
   text_destroy_with_associated: 'Существуют дополнительные объекты, связанные с удаляемым рабочим пакетом (пакетами). Эти объекты относятся к следующим типам:'
   text_diff_truncated: "... Этот разностность(diff) была усечена, так как она превышает максимальный размер, которые может быть отображен."
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
+  text_email_delivery_letter_opener: Гем Letter opener предназначен для преобразования электронных писем в файлы, которые сохраняются в папке tmp вашего приложения Rails. Электронные письма будут автоматически открываться в браузере, если это поддерживается.
   text_email_delivery_not_configured: |-
     Доставка электронной почты не настроена, уведомления отключены.
     Настройте SMTP-сервер, чтобы включить их.
@@ -6407,6 +6407,7 @@ ru:
         availability_description: Коэффициент доступности показывает фактический процент рабочего времени, выделенного на задачи проекта. Это относится к совещаниям, электронной почте, административной работе и другой деятельности, не связанной с проектом.
         availability_factor: Фактор доступности
         availability_factor_caption: Определите процент Вашего рабочего времени, отведенного на работу над проектом.
+        effective_hours: Чистое рабочее время
         hours_mode_label: Режим часов
         hours_per_day: Часов в день
         individual_hours_mode: Индивидуальные часы в день
@@ -6420,7 +6421,6 @@ ru:
         title_current: Редактирование текущего рабочего расписания
         title_days_and_hours: Дни и часы
         title_future_dates: Будущие даты
-        total_available_hours: Всего доступных рабочих часов
         total_work_hours: Всего рабочих часов
         work_days: Рабочие дни
         work_hours: Рабочие часы

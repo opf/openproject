@@ -6428,6 +6428,7 @@ uk:
         availability_description: Коефіцієнт доступності — це фактичний відсоток робочого часу, який ви присвячуєте роботі над завданнями проєктів. Це дає змогу врахувати час, потрібний на зустрічі, електронну пошту, адміністративну роботу й інші види діяльності, не пов’язані з проєктами.
         availability_factor: Коефіцієнт доступності
         availability_factor_caption: Визначте відсоток свого робочого часу, який ви присвячуєте роботі над проєктами.
+        effective_hours: Effective work hours
         hours_mode_label: Режим годин
         hours_per_day: Годин на день
         individual_hours_mode: Індивідуальні години на день
@@ -6441,7 +6442,6 @@ uk:
         title_current: Редагування поточного розкладу роботи
         title_days_and_hours: Дні й години
         title_future_dates: Майбутні дати
-        total_available_hours: Усього доступних робочих годин
         total_work_hours: Усього робочих годин
         work_days: Робочі дні
         work_hours: Робочі години

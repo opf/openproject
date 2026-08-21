@@ -6206,6 +6206,7 @@ zh-CN:
         availability_description: 空闲系数表示您实际投入项目任务的工作时间百分比。这会考虑会议、电子邮件、管理工作和其他非项目活动。
         availability_factor: 空闲系数
         availability_factor_caption: 定义您投入项目工作的工作时间百分比。
+        effective_hours: Effective work hours
         hours_mode_label: 小时模式
         hours_per_day: 每天时数
         individual_hours_mode: 每天不同时数
@@ -6219,7 +6220,6 @@ zh-CN:
         title_current: 编辑当前工作时间表
         title_days_and_hours: 天数和时数
         title_future_dates: 未来日期
-        total_available_hours: 可用工作时数总计
         total_work_hours: 总工作时数
         work_days: 工作日
         work_hours: 工作时数
