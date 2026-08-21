@@ -99,11 +99,20 @@ zh-CN:
         recurring_meeting_interim_response:
           not_an_occurrence: 不是此定期会议的有效事件时间
     models:
-      meeting: 一次性会议
-      meeting_agenda: 议程
-      meeting_agenda_item: 议程项目
-      meeting_section: 节
-      recurring_meeting: 定期会议
+      meeting:
+        other: One-time meetings
+      meeting_agenda_item:
+        other: Agenda items
+      meeting_outcome:
+        other: Outcomes
+      meeting_participant:
+        other: Meeting participants
+      meeting_section:
+        other: Sections
+      recurring_meeting:
+        other: Recurring meetings
+      scheduled_meeting:
+        other: Scheduled meetings
       token/ical_meeting:
         other: iCal 会议订阅
   activity:

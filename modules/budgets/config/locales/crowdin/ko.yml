@@ -46,9 +46,12 @@ ko:
             principal:
               not_a_member_of_budget_project: "- 예산 프로젝트의 멤버가 아닙니다"
     models:
-      budget: 예산
-      labor_budget_item: 계획된 노동 비용
-      material_budget_item: 단위
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
       budget: 예산

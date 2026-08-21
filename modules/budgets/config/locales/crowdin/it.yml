@@ -46,9 +46,15 @@ it:
             principal:
               not_a_member_of_budget_project: non è un membro del progetto di budget
     models:
-      budget: Bilancio
-      labor_budget_item: Costo del lavoro pianificato
-      material_budget_item: Unità
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Budget

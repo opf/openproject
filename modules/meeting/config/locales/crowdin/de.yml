@@ -56,7 +56,7 @@ de:
         presenter: Referent
         title: Titel
       meeting_outcome:
-        kind: Kind
+        kind: Art
       meeting_participant:
         attended: Teilgenommen
         invited: Eingeladen
@@ -100,11 +100,27 @@ de:
         recurring_meeting_interim_response:
           not_an_occurrence: ist keine gültige Uhrzeit für dieses wiederkehrende Treffen
     models:
-      meeting: Einmalige Besprechung
-      meeting_agenda: Agenda
-      meeting_agenda_item: Tagesordnungspunkt
-      meeting_section: Abschnitt
-      recurring_meeting: Wiederkehrende Besprechung
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting Abonnement
         other: iCal Meeting Abonnements

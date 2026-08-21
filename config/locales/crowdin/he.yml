@@ -978,64 +978,356 @@ he:
           many: "%{count} שגיאות מנעו מ%{model} זה להשמר"
           other: "%{count} שגיאות מנעו מ%{model} זה להשמר"
     models:
-      attachment: קובץ
+      action:
+        one: Action
+        two: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        two: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        two: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        two: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         two: Attribute help texts
         many: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        two: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        two: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        two: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         two: Authentication providers
         many: Authentication providers
         other: Authentication providers
-      category: קטגוריה
-      color: צבע
-      comment: תגובה
-      custom_action: Custom action
-      custom_field: שדה מותאם אישית
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        two: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        two: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        two: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        two: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        two: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        two: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        two: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        two: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        two: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        two: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        two: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        two: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        two: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        two: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        two: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        two: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        two: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        two: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         two: Enterprise tokens
         many: Enterprise tokens
         other: Enterprise tokens
-      forum: פורום
-      global_role: Global role
-      group: קבוצה
+      enterprise_trial:
+        one: Enterprise trial
+        two: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        two: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        two: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        two: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        two: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        two: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        two: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        two: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        two: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: עדיפות
         two: Priorities
         many: Priorities
         other: Priorities
-      jira:
-        one: Jira
-        two: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: חבר
-      message: Message
-      news: חדשות
+      ldap_auth_source:
+        one: LDAP connection
+        two: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        two: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        two: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        two: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        two: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        two: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        two: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        two: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Notification
         two: Notifications
         many: Notifications
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        two: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        two: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        two: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        two: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        two: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        two: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        two: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        two: Principals
+        many: Principals
+        other: Principals
       project:
         one: פרוייקט
         two: פרויקטים
         many: פרויקטים
         other: פרויקטים
+      project/phase:
+        one: Project phase
+        two: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        two: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        two: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        two: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Project list
         two: Project lists
         many: Project lists
         other: Project lists
-      query: שאילתה מותאמת אישית
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        two: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        two: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        two: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        two: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        two: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        two: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        two: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        two: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        two: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: תפקיד
         two: תפקידים
@@ -1046,12 +1338,46 @@ he:
         two: SCIM clients
         many: SCIM clients
         other: SCIM clients
-      status: מצב חבילת העבודה
+      service_account:
+        one: Service account
+        two: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        two: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        two: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        two: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        two: System users
+        many: System users
+        other: System users
       token/api:
         one: Access token
         two: Access tokens
         many: Access tokens
         other: Access tokens
+      token/base:
+        one: Token
+        two: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        two: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         two: RSS tokens
@@ -1067,12 +1393,91 @@ he:
         two: Variants
         many: Variants
         other: Variants
-      user: משתמש
-      version: גירסה
-      wiki: ויקי
-      wiki_page: דף ויקי
-      work_package: חבילת עבודה
-      workflow: זרימת עבודה
+      user:
+        one: User
+        two: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        two: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        two: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        two: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        two: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        two: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        two: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        two: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        two: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        two: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        two: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        two: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        two: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        two: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        two: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        two: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        two: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: בפרק זמן זה לא הייתה כל פעילות עבור הפרויקט.
@@ -1830,6 +2235,7 @@ he:
     custom_field: שדה מותאם אישית
     custom_options: הערכים האפשריים
     custom_values: שדות מותאמים אישית
+    customized: Customized
     date: תאריך
     dates_interval: טווח תאריכים
     default_columns: עמודות ברירת המחדל
@@ -1856,6 +2262,7 @@ he:
     is_default: ערך ברירת המחדל
     is_for_all: עבור כל הפרוייקטים
     issue: חבילת עבודה
+    jira: Jira
     journal: Journal
     journal_notes: תגובה
     lastname: שם משפחה
@@ -3342,6 +3749,7 @@ he:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: קבצים
   label_filter: מסננים
   label_filter_add: Add filter

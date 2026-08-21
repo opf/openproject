@@ -29,7 +29,10 @@ de:
         other: Inline-Seitenlinks
       wikis/internal_provider:
         one: Interner Anbieter
-        other: Internal providers
+        other: Interne Anbieter
+      wikis/page_link:
+        one: Page link
+        other: Page links
       wikis/provider:
         one: Wiki-Anbieter
         other: Wiki-Anbieter

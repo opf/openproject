@@ -969,59 +969,206 @@ vi:
         header:
           other: "%{count} lỗi đã cấm lưu %{model} này"
     models:
-      attachment: tập tin
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Văn bản trợ giúp thuộc tính
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: Nhà cung cấp xác thực
-      category: Thể loại
-      color: màu sắc
-      comment: Nhận xét
-      custom_action: Tác vụ tùy chỉnh
-      custom_field: Tùy chỉnh mục
-      customized: Customized
-      doorkeeper/application: Ứng dụng OAuth
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Mã thông báo doanh nghiệp
-      forum: diễn đàn
-      global_role: Vai trò toàn cầu
-      group: Nhóm
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: ưu tiên
-      jira:
-        other: Jira
-      meeting_participant: Người tham gia cuộc họp
-      member: Thành viên
-      message: Message
-      news: Tin tức
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: thông báo
-      placeholder_user: Người dùng giữ chỗ
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: dự án
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: Danh sách dự án
-      query: Truy vấn riêng
-      reminder: Lời nhắc
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: Vai trò
       scim_client:
         other: khách hàng SCIM
-      status: Tình trạng work package
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: Mã thông báo truy cập
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: Mã thông báo RSS
       type:
         other: các loại
       type_variant:
         other: Variants
-      user: Người dùng
-      version: Phiên bản
-      wiki: Wiki
-      wiki_page: Trang wiki
-      work_package: Work Package
-      workflow: Quy trình làm việc
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung thời gian này.
@@ -1740,6 +1887,7 @@ vi:
     custom_field: Trường tùy chỉnh
     custom_options: Giá trị có thể
     custom_values: Tùy chỉnh mục
+    customized: Customized
     date: ngày
     dates_interval: Phạm vi ngày
     default_columns: Cột mặc định
@@ -1766,6 +1914,7 @@ vi:
     is_default: Giá trị mặc định
     is_for_all: Cho tất cả các dự án
     issue: Work Package
+    jira: Jira
     journal: nhật ký
     journal_notes: bình luận
     lastname: Họ
@@ -3177,6 +3326,7 @@ vi:
   label_feeds_access_key: Khóa truy cập RSS
   label_feeds_access_key_created_on: Khoá truy cập API đựơc tạo cách đây %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: tập tin
   label_filter: Bộ lọc
   label_filter_add: Thêm bộ lọc

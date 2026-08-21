@@ -972,58 +972,246 @@ hi:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: फ़ाइल
+      action:
+        one: Action
+        other: Actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: श्रेणी
-      color: रंग
-      comment: टिप्पणी
-      custom_action: विशेष या कस्टम क्रियाएँ
-      custom_field: रुचि के अनुसार फिल्ड
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: मंच
-      global_role: Global role
-      group: समूह
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: वरीयता
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: सदस्य
-      message: Message
-      news: नया
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: परियोजना
         other: Projects
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Project lists
-      query: विशेष प्रष्न
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: भूमिका
         other: भूमिका
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: कार्य पैकेज स्थिति
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Access token
         other: Access tokens
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1033,12 +1221,57 @@ hi:
       type_variant:
         one: Variant
         other: Variants
-      user: उपयोगकर्ता
-      version: संस्करण
-      wiki: विकी
-      wiki_page: विकी पृष्ठ
-      work_package: कार्य पैकेज
-      workflow: कार्यप्रवाह
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: इस समय सीमा के भीतर परियोजना के लिए कोई भी गतिविधि नहीं हुई है ।
@@ -1770,6 +2003,7 @@ hi:
     custom_field: रुचि के अनुसार फिल्ड
     custom_options: संभावित मिलान
     custom_values: Custom fields
+    customized: Customized
     date: तिथि
     dates_interval: Date range
     default_columns: Default columns
@@ -1796,6 +2030,7 @@ hi:
     is_default: डिफ़ॉल्ट मान
     is_for_all: सभी परियोजनाओं के लिए
     issue: कार्य पैकेज
+    jira: Jira
     journal: Journal
     journal_notes: टिप्पणी
     lastname: अंतिम नाम
@@ -3232,6 +3467,7 @@ hi:
   label_feeds_access_key: RSS पहुंच कुंजी
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: फ़ाइलें
   label_filter: फ़िल्टर
   label_filter_add: फ़िल्टर जोड़ें

@@ -972,58 +972,246 @@ fi:
           one: 1 virhe esti tämän %{model} mallinteen tallentamisen
           other: "%{count} virhettä esti tämän %{model} mallinteen tallentamisen"
     models:
-      attachment: Tiedosto
+      action:
+        one: Action
+        other: Actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Kategoria
-      color: Väri
-      comment: Kommentti
-      custom_action: Custom action
-      custom_field: Mukautettu kenttä
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Keskustelupalsta
-      global_role: Global role
-      group: Ryhmä
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Prioriteetti
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Jäsen
-      message: Message
-      news: Uutiset
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Projekti
         other: Projektit
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Project lists
-      query: Mukautettu haku
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Rooli
         other: Roolit
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Tehtävän tila
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: API-salasana
         other: Access tokens
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1033,12 +1221,57 @@ fi:
       type_variant:
         one: Variant
         other: Variants
-      user: Käyttäjä
-      version: Versio
-      wiki: Wiki
-      wiki_page: Wiki-sivu
-      work_package: Työpaketti
-      workflow: Työnkulku
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Ei tapahtumia projektissa tällä aikavälillä.
@@ -1770,6 +2003,7 @@ fi:
     custom_field: Mukautettu kenttä
     custom_options: Mahdolliset arvot
     custom_values: Mukautetut kentät
+    customized: Customized
     date: Päivämäärä
     dates_interval: Aikaväli
     default_columns: Oletussarakkeet
@@ -1796,6 +2030,7 @@ fi:
     is_default: Oletusarvo
     is_for_all: Kaikille projekteille
     issue: Työpaketti
+    jira: Jira
     journal: Journal
     journal_notes: Kommentti
     lastname: Sukunimi
@@ -3230,6 +3465,7 @@ fi:
   label_feeds_access_key: RSS avain
   label_feeds_access_key_created_on: RSS avain luotiin %{value} sitten
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Tiedostot
   label_filter: Suodattimet
   label_filter_add: Lisää suodatin

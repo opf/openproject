@@ -14,7 +14,12 @@ bg:
         secret: Signature secret
         url: Payload URL
     models:
-      webhooks/outgoing_webhook: Outgoing webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Осигурява приставка API, за поддръжка на OpenProject веб-куки, за по-добра интеграция на трети страни.
     name: OpenProject уеб-куки

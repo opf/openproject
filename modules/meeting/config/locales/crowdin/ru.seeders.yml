@@ -13,18 +13,18 @@ ru:
           meeting_agenda_items:
             item_0:
               title: Хорошие новости
-              notes: What went well this week?
+              notes: Что удалось на этой неделе?
             item_1:
-              title: Team updates
-              notes: News and focused topics for the upcoming week.
+              title: Новости команды
+              notes: Новости и актуальные темы на предстоящую неделю.
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**Тема сегодняшнего дня**: организация конференции с открытым исходным кодом."
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: Обзор квартальных целей
+              notes: Оценка состояния дел и хода выполнения в достижении установленных ежеквартальных целей.
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: Отзыв о базовых значениях
+              notes: Отметьте сотрудников, которые на этой неделе продемонстрировали приверженность основным ценностям.
             item_5:
-              title: General topics
-              notes: Solving or discussing topics together.
+              title: Основные темы
+              notes: Совместное решение задач или обсуждение тем.

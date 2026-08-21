@@ -32,6 +32,10 @@ fa:
           invalid_certificate: 'گواهی معتبر با قالب PEM نیست: %{additional_message}'
           invalid_private_key: 'یک کلید خصوصی با قالب PEM معتبر نیست: %{additional_message}'
           unmatched_private_key: متعلق به مدرک ارائه شده نیست
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: این ارائه‌دهنده SAML حذف شود؟
     delete_title: حذف ارائه‌دهنده SAML

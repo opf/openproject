@@ -20,8 +20,14 @@ ro:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: DN-ul de bază al filtrului trebuie să fie cuprins în DN-ul de bază al conexiunii LDAP
     models:
-      ldap_groups/synchronized_filter: Filtru de sincronizare a grupului LDAP
-      ldap_groups/synchronized_group: Grup LDAP sincronizat
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        few: LDAP Group synchronization filters
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        few: Synchronized LDAP groups
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

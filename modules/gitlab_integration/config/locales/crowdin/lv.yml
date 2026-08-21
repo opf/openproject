@@ -38,6 +38,23 @@ lv:
           attributes:
             labels:
               invalid_schema: 'must be an array of hashes with keys: color, title'
+    models:
+      gitlab_issue:
+        zero: GitLab issues
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        zero: GitLab merge requests
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        zero: GitLab pipelines
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        zero: GitLab users
+        one: GitLab user
+        other: GitLab users
   attributes:
     commit: Commit
     gitlab: GitLab identifier

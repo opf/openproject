@@ -90,12 +90,31 @@ pl:
         few: Wpisy kosztów
         many: Wpisy kosztów
         other: Wpisy kosztów
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Jednostki
         few: Rodzaje kosztów
         many: Rodzaje kosztów
         other: Rodzaje kosztów
-      rate: Stawka
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Wpis czasu
         few: Wpisy czasu
@@ -106,6 +125,11 @@ pl:
         few: Działania śledzenia czasu
         many: Działania śledzenia czasu
         other: Działania śledzenia czasu
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

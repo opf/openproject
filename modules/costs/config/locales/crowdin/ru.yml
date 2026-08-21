@@ -90,12 +90,31 @@ ru:
         few: Записи трудозатрат
         many: Записи трудозатрат
         other: Записи трудозатрат
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Тип затрат
         few: Типы затрат
         many: Типы затрат
         other: Типы затрат
-      rate: Ставка
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Запись о трудозатратах
         few: Записи о трудозатратах
@@ -106,6 +125,11 @@ ru:
         few: Отслеживание времени
         many: Отслеживание времени
         other: Отслеживание времени
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -281,7 +305,7 @@ ru:
   setting_enforce_tracking_start_and_end_times_caption: Делает ввод времени начала и окончания обязательным при регистрации времени.
   setting_enforce_without_allow: Требование точного времени невозможно без соответствующего разрешения
   setting_time_entries_limit_to_user_working_hours: Ограничение рабочего времени пользователя
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Ограничивает общее количество часов, которые можно регистрировать в день, фактическим рабочим временем данного пользователя. На пользователей, для которых не установлено рабочее время, ограничения не распространяются.
   setting_time_entries_max_hours_per_day: Максимальное количество часов в день
   setting_time_entries_max_hours_per_day_caption: Ограничивает общее количество часов, которое пользователь может зарегистрировать в системе в течение одного дня. Значение 0 означает отсутствие ограничений.
   setting_time_entries_max_hours_per_entry: Максимальное количество часов за запись

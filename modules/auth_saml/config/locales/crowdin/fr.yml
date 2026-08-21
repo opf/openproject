@@ -32,6 +32,10 @@ fr:
           invalid_certificate: 'n''est pas un certificat valide au format PEM : %{additional_message}'
           invalid_private_key: 'n''est pas une clé privée valide au format PEM : %{additional_message}'
           unmatched_private_key: n'appartient pas au certificat donné
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Supprimer ce fournisseur SAML ?
     delete_title: Supprimer le fournisseur SAML

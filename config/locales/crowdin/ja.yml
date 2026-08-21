@@ -971,59 +971,206 @@ ja:
         header:
           other: "%{count} つのエラーにより %{model} を保存できませんでした"
     models:
-      attachment: ファイル
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 認証プロバイダー
-      category: カテゴリ
-      color: 色
-      comment: コメント
-      custom_action: カスタムアクション
-      custom_field: カスタムフィールド
-      customized: Customized
-      doorkeeper/application: OAuthアプリケーション
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: エンタープライズトークン
-      forum: フォーラム
-      global_role: グローバルロール
-      group: グループ
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 優先度
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: メンバー
-      message: Message
-      news: ニュース
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 通知
-      placeholder_user: プレースホルダー ユーザー
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: プロジェクト
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: プロジェクト一覧
-      query: ユーザのクエリ
-      reminder: リマインダ
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: ロール
       scim_client:
         other: SCIMクライアント
-      status: ステータス名
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: アクセストークン
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
       type_variant:
         other: Variants
-      user: ユーザ
-      version: バージョン
-      wiki: Wiki
-      wiki_page: Wiki ページ
-      work_package: ワーク パッケージ
-      workflow: ワークフロー
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: この期間内にプロジェクトの活動はありませんでした。
@@ -1742,6 +1889,7 @@ ja:
     custom_field: カスタムフィールド
     custom_options: 選択肢
     custom_values: カスタムフィールド
+    customized: Customized
     date: 日付
     dates_interval: 期間
     default_columns: 既定の列
@@ -1768,6 +1916,7 @@ ja:
     is_default: デフォルト値
     is_for_all: 全プロジェクト向け
     issue: ワーク パッケージ
+    jira: Jira
     journal: 履歴記述
     journal_notes: コメント
     lastname: 苗字
@@ -3179,6 +3328,7 @@ ja:
   label_feeds_access_key: RSSアクセスキー
   label_feeds_access_key_created_on: RSSアクセスキーが%{value}前に作成されました
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: ファイルを添付する
   label_filter: フィルタ
   label_filter_add: フィルタを追加

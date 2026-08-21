@@ -21,6 +21,10 @@
 #++
 ---
 vi:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
   cost_reports_title: Thời gian và chi phí

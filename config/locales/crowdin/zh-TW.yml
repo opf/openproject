@@ -969,59 +969,206 @@ zh-TW:
         header:
           other: 有 %{count} 個錯誤發生導致「%{model}」無法被保存。
     models:
-      attachment: 檔案
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: 屬性說明文字
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 驗證提供者
-      category: 類別
-      color: 顏色
-      comment: 留言
-      custom_action: 自訂動作
-      custom_field: 客製欄位
-      customized: Customized
-      doorkeeper/application: Oauth 應用程式
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: 企業版令牌
-      forum: 討論區
-      global_role: 全域角色
-      group: 群組
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 優先權
-      jira:
-        other: Jira
-      meeting_participant: 與會者
-      member: 成員
-      message: Message
-      news: 最新消息
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 通知
-      placeholder_user: 佔位符使用者
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: 專案
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: 專案列表
-      query: 自訂查詢
-      reminder: 提醒
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: 角色
       scim_client:
         other: SCIM 用戶端
-      status: 工作套件狀態
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: 存取令牌(Token)
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS 令牌(Token)
       type:
         other: 類型
       type_variant:
         other: Variants
-      user: 使用者
-      version: 版本
-      wiki: 維基
-      wiki_page: 維基頁面
-      work_package: 工作套件
-      workflow: 工作流程
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
@@ -1746,6 +1893,7 @@ zh-TW:
     custom_field: 客製欄位
     custom_options: 可選擇內容
     custom_values: 客製欄位
+    customized: Customized
     date: 日期
     dates_interval: 日期範圍
     default_columns: 預設欄
@@ -1772,6 +1920,7 @@ zh-TW:
     is_default: 預設值
     is_for_all: 對所有的專案
     issue: 工作套件
+    jira: Jira
     journal: 日誌
     journal_notes: 留言
     lastname: 姓：
@@ -3181,6 +3330,7 @@ zh-TW:
   label_feeds_access_key: RSS 金鑰
   label_feeds_access_key_created_on: RSS 金鑰在 %{value} 前已建立
   label_feeds_access_key_type: RSS訂閱
+  label_file: File
   label_file_plural: 檔案
   label_filter: 篩選條件
   label_filter_add: 新增條件

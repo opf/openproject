@@ -982,64 +982,356 @@ uk:
           many: "%{count} помилка заборонила це %{model} від збереження"
           other: "%{count} помилка заборонила це %{model} від збереження"
     models:
-      attachment: Файл
+      action:
+        one: Action
+        few: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Текст довідки атрибута
         few: Тексти довідки атрибутів
         many: Тексти довідки атрибутів
         other: Тексти довідки атрибутів
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Постачальник послуг автентифікації
         few: Постачальники послуг автентифікації
         many: Постачальники послуг автентифікації
         other: Постачальники послуг автентифікації
-      category: Категорія
-      color: Колір
-      comment: Коментар
-      custom_action: Спеціальні дії
-      custom_field: Користувацьке поле
-      customized: Персоналізовано
-      doorkeeper/application: Програма OAuth
+      backup:
+        one: Backup
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Маркер Enterprise
         few: Маркери Enterprise
         many: Маркери Enterprise
         other: Маркери Enterprise
-      forum: Форум
-      global_role: Глобальна роль
-      group: Група
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: Пріоритет
         few: Пріоритети
         many: Пріоритети
         other: Пріоритети
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Учасник наради
-      member: Учасник
-      message: Повідомлення
-      news: Новини
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Сповіщення
         few: Сповіщення
         many: Сповіщення
         other: Сповіщення
-      placeholder_user: Прототип користувача
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         one: Проект
         few: Проєкти
         many: Проєкти
         other: Проєкти
+      project/phase:
+        one: Project phase
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Список проєктів
         few: Списки проєктів
         many: Списки проєктів
         other: Списки проєктів
-      query: Частковий запит
-      reminder: Нагадування
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: роль
         few: Роль
@@ -1050,12 +1342,46 @@ uk:
         few: Клієнти SCIM
         many: Клієнти SCIM
         other: Клієнти SCIM
-      status: Стан робочого пакета
+      service_account:
+        one: Service account
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        many: System users
+        other: System users
       token/api:
         one: Маркер доступу
         few: Маркери доступу
         many: Маркери доступу
         other: Маркери доступу
+      token/base:
+        one: Token
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: Маркер RSS
         few: Маркери RSS
@@ -1071,12 +1397,91 @@ uk:
         few: Variants
         many: Variants
         other: Variants
-      user: Користувач
-      version: Версія
-      wiki: Wiki
-      wiki_page: Сторінка Wiki
-      work_package: Пакет робіт
-      workflow: Робочий процес
+      user:
+        one: User
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
@@ -1834,6 +2239,7 @@ uk:
     custom_field: Користувацьке поле
     custom_options: Можливі значення
     custom_values: Індивідуальні поля
+    customized: Customized
     date: Дата
     dates_interval: Діапазон дат
     default_columns: Типові колонки
@@ -1860,6 +2266,7 @@ uk:
     is_default: Значення за замовчуванням
     is_for_all: Для усіх проектів
     issue: Робочий пакет
+    jira: Jira
     journal: Журнал
     journal_notes: Коментар
     lastname: Прізвище
@@ -3348,6 +3755,7 @@ uk:
   label_feeds_access_key: Клавіша доступу RSS
   label_feeds_access_key_created_on: Створено ключ доступу RSS %{value} тому
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Файли
   label_filter: Фільтри
   label_filter_add: Додати фільтр

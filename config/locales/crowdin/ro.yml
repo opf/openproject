@@ -975,56 +975,286 @@ ro:
           few: "%{count} erori au împiedicat salvarea acestui %{model}"
           other: "%{count} de erori au împiedicat salvarea acestui %{model}"
     models:
-      attachment: Fișier
+      action:
+        one: Action
+        few: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         few: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         few: Authentication providers
         other: Authentication providers
-      category: Categorie
-      color: Culoare
-      comment: Comentariu
-      custom_action: Adaugă acțiune personalizată
-      custom_field: Câmp personalizat
-      customized: Customized
-      doorkeeper/application: Aplicație OAuth
+      backup:
+        one: Backup
+        few: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         few: Enterprise tokens
         other: Enterprise tokens
-      forum: Forum
-      global_role: Rol Global
-      group: Grup
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        other: Health reports
       issue_priority:
         one: Prioritate
         few: Priorități
         other: Priorități
-      jira:
-        one: Jira
-        few: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Membru
-      message: Message
-      news: Noutăţi
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        other: Non-working days
       notification:
         one: Notificari
         few: Notificări
         other: Notificări
-      placeholder_user: Utilizator Placeholder
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        other: Principals
       project:
         one: Proiect
         few: Proiecte
         other: Proiecte
+      project/phase:
+        one: Project phase
+        few: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Listă proiecte
         few: Listă proiecte
         other: Listă de proiecte
-      query: Interogare personalizată
-      reminder: Memento
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        other: Subversion repositories
       role:
         one: Rol
         few: Roluri
@@ -1033,11 +1263,38 @@ ro:
         one: Client SCIM
         few: Clienți SCIM
         other: Clienți SCIM
-      status: Stare pachet de lucru
+      service_account:
+        one: Service account
+        few: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        other: System users
       token/api:
         one: Token acces
         few: Token-uri de acces
         other: Token-uri de acces
+      token/base:
+        one: Token
+        few: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         few: RSS tokens
@@ -1050,12 +1307,74 @@ ro:
         one: Variant
         few: Variants
         other: Variants
-      user: Utilizator
-      version: Versiune
-      wiki: Wiki
-      wiki_page: Pagină wiki
-      work_package: Pachet de lucru
-      workflow: Flux de lucru
+      user:
+        one: User
+        few: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect în această perioadă de timp.
@@ -1800,6 +2119,7 @@ ro:
     custom_field: Câmp personalizat
     custom_options: Valori posibile
     custom_values: Câmpuri personalizate
+    customized: Customized
     date: Data
     dates_interval: Interval calendaristic
     default_columns: Coloane implicite
@@ -1826,6 +2146,7 @@ ro:
     is_default: Valoare implicită
     is_for_all: Pentru toate proiectele
     issue: Pachet de lucru
+    jira: Jira
     journal: Jurnal
     journal_notes: Comentariu
     lastname: Nume
@@ -3287,6 +3608,7 @@ ro:
   label_feeds_access_key: Cheie de acces RSS
   label_feeds_access_key_created_on: Cheia de acces RSS a fost creată acum %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Fișiere
   label_filter: Filtre
   label_filter_add: Adaugă filtru

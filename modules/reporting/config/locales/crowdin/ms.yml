@@ -21,6 +21,10 @@
 #++
 ---
 ms:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Simpan laporan sebagai...
   comments: Komen
   cost_reports_title: Masa dan kos

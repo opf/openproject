@@ -31,13 +31,16 @@ ja:
         document_type:
           one_or_more_required: 最後のドキュメントタイプを削除することはできません
     models:
-      document: ドキュメント
-      documents: ドキュメント
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: ドキュメント
   attributes:
     collaborative_editing_hocuspocus_url: HocuspocusサーバーのURL
+    documents: Documents
   default_doc_category_tech: 技術文書
   default_doc_category_user: ユーザー文書
   documents:

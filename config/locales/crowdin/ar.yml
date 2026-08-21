@@ -984,7 +984,34 @@ ar:
           many: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
           other: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
     models:
-      attachment: ملف
+      action:
+        zero: Actions
+        one: Action
+        two: Actions
+        few: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        zero: Announcements
+        one: Announcement
+        two: Announcements
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        zero: Anonymous users
+        one: Anonymous user
+        two: Anonymous users
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        zero: Files
+        one: File
+        two: Files
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         zero: Attribute help texts
         one: Attribute help text
@@ -992,6 +1019,27 @@ ar:
         few: Attribute help texts
         many: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        zero: Project attribute help texts
+        one: Project attribute help text
+        two: Project attribute help texts
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        zero: User attribute help texts
+        one: User attribute help text
+        two: User attribute help texts
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        zero: Work package attribute help texts
+        one: Work package attribute help text
+        two: Work package attribute help texts
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         zero: Authentication providers
         one: Authentication provider
@@ -999,13 +1047,132 @@ ar:
         few: Authentication providers
         many: Authentication providers
         other: Authentication providers
-      category: الفئة
-      color: اللون
-      comment: تعليق
-      custom_action: Custom action
-      custom_field: حقل مخصص
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        zero: Backups
+        one: Backup
+        two: Backups
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        zero: Capabilities
+        one: Capability
+        two: Capabilities
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        zero: Categories
+        one: Category
+        two: Categories
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        zero: File changes
+        one: File change
+        two: File changes
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        zero: Changesets
+        one: Changeset
+        two: Changesets
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        zero: Colors
+        one: Color
+        two: Colors
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        zero: Comments
+        one: Comment
+        two: Comments
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        zero: Custom actions
+        one: Custom action
+        two: Custom actions
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        zero: Custom fields
+        one: Custom field
+        two: Custom fields
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        zero: Hierarchy items
+        one: Hierarchy item
+        two: Hierarchy items
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        zero: Custom field sections
+        one: Custom field section
+        two: Custom field sections
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        zero: Custom field options
+        one: Custom field option
+        two: Custom field options
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        zero: Designs
+        one: Design
+        two: Designs
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        zero: Days
+        one: Day
+        two: Days
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        zero: Deleted users
+        one: Deleted user
+        two: Deleted users
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        zero: Design colors
+        one: Design color
+        two: Design colors
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        zero: OAuth applications
+        one: OAuth application
+        two: OAuth applications
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        zero: Emoji reactions
+        one: Emoji reaction
+        two: Emoji reactions
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         zero: Enterprise tokens
         one: Enterprise token
@@ -1013,9 +1180,69 @@ ar:
         few: Enterprise tokens
         many: Enterprise tokens
         other: Enterprise tokens
-      forum: المنتدى
-      global_role: Global role
-      group: مجموعة
+      enterprise_trial:
+        zero: Enterprise trials
+        one: Enterprise trial
+        two: Enterprise trials
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        zero: Enumerations
+        one: Enumeration
+        two: Enumerations
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        zero: Exports
+        one: Export
+        two: Exports
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        zero: Export settings
+        one: Export setting
+        two: Export settings
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        zero: Forums
+        one: Forum
+        two: Forums
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        zero: Global roles
+        one: Global role
+        two: Global roles
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        zero: Groups
+        one: Group
+        two: Groups
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        zero: Group custom fields
+        one: Group custom field
+        two: Group custom fields
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        zero: Health reports
+        one: Health report
+        two: Health reports
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         zero: Priorities
         one: الأولوية
@@ -1023,17 +1250,62 @@ ar:
         few: Priorities
         many: Priorities
         other: Priorities
-      jira:
-        zero: Jira
-        one: Jira
-        two: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: عضو
-      message: Message
-      news: الأخبار
+      ldap_auth_source:
+        zero: LDAP connections
+        one: LDAP connection
+        two: LDAP connections
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        zero: MCP configurations
+        one: MCP configuration
+        two: MCP configurations
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        zero: Members
+        one: Member
+        two: Members
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        zero: Menu items
+        one: Menu item
+        two: Menu items
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        zero: Wiki menu items
+        one: Wiki menu item
+        two: Wiki menu items
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        zero: Messages
+        one: Message
+        two: Messages
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        zero: News
+        one: News
+        two: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        zero: Non-working days
+        one: Non-working day
+        two: Non-working days
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         zero: Notifications
         one: Notification
@@ -1041,7 +1313,62 @@ ar:
         few: Notifications
         many: Notifications
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        zero: Notification settings
+        one: Notification setting
+        two: Notification settings
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        zero: OAuth clients
+        one: OAuth client
+        two: OAuth clients
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        zero: OAuth client tokens
+        one: OAuth client token
+        two: OAuth client tokens
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        zero: Persisted queries
+        one: Persisted query
+        two: Persisted queries
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        zero: Persisted views
+        one: Persisted view
+        two: Persisted views
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        zero: Placeholder users
+        one: Placeholder user
+        two: Placeholder users
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        zero: Plugin authentication providers
+        one: Plugin authentication provider
+        two: Plugin authentication providers
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        zero: Principals
+        one: Principal
+        two: Principals
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         zero: المشاريع
         one: مشروع
@@ -1049,6 +1376,34 @@ ar:
         few: المشاريع
         many: المشاريع
         other: المشاريع
+      project/phase:
+        zero: Project phases
+        one: Project phase
+        two: Project phases
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        zero: Project phase definitions
+        one: Project phase definition
+        two: Project phase definitions
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        zero: Project attributes
+        one: Project attribute
+        two: Project attributes
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        zero: Project attribute sections
+        one: Project attribute section
+        two: Project attribute sections
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         zero: Project lists
         one: Project list
@@ -1056,8 +1411,69 @@ ar:
         few: Project lists
         many: Project lists
         other: Project lists
-      query: استعلام مخصص
-      reminder: Reminder
+      project_query_role:
+        zero: Project list roles
+        one: Project list role
+        two: Project list roles
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        zero: Project roles
+        one: Project role
+        two: Project roles
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        zero: Custom queries
+        one: Custom query
+        two: Custom queries
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        zero: Relations
+        one: Relation
+        two: Relations
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        zero: Reminders
+        one: Reminder
+        two: Reminders
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        zero: Remote identities
+        one: Remote identity
+        two: Remote identities
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        zero: Repositories
+        one: Repository
+        two: Repositories
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        zero: Git repositories
+        one: Git repository
+        two: Git repositories
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        zero: Subversion repositories
+        one: Subversion repository
+        two: Subversion repositories
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         zero: دور
         one: الدور
@@ -1072,7 +1488,41 @@ ar:
         few: SCIM clients
         many: SCIM clients
         other: SCIM clients
-      status: حالة مجموعة العمل
+      service_account:
+        zero: Service accounts
+        one: Service account
+        two: Service accounts
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        zero: Sessions
+        one: Session
+        two: Sessions
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        zero: Settings
+        one: Setting
+        two: Settings
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        zero: Work package statuses
+        one: Work package status
+        two: Work package statuses
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        zero: System users
+        one: System user
+        two: System users
+        few: System users
+        many: System users
+        other: System users
       token/api:
         zero: Access tokens
         one: رمزالوصول المميز
@@ -1080,6 +1530,20 @@ ar:
         few: Access tokens
         many: Access tokens
         other: Access tokens
+      token/base:
+        zero: Tokens
+        one: Token
+        two: Tokens
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        zero: iCalendar tokens
+        one: iCalendar token
+        two: iCalendar tokens
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         zero: RSS tokens
         one: RSS token
@@ -1101,12 +1565,125 @@ ar:
         few: Variants
         many: Variants
         other: Variants
-      user: المستخدم
-      version: الإصدار
-      wiki: Wiki
-      wiki_page: صفحة وِيكيبيديا
-      work_package: مجموعة العمل
-      workflow: سير العمل
+      user:
+        zero: Users
+        one: User
+        two: Users
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        zero: User attributes
+        one: User attribute
+        two: User attributes
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        zero: User attribute sections
+        one: User attribute section
+        two: User attribute sections
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        zero: Non-working times
+        one: Non-working time
+        two: Non-working times
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        zero: Passwords
+        one: Password
+        two: Passwords
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        zero: User preferences
+        one: User preference
+        two: User preferences
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        zero: User lists
+        one: User list
+        two: User lists
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        zero: Working hours
+        one: Working hours
+        two: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        zero: Versions
+        one: Version
+        two: Versions
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        zero: Version custom fields
+        one: Version custom field
+        two: Version custom fields
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        zero: Views
+        one: View
+        two: Views
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        zero: Wikis
+        one: Wiki
+        two: Wikis
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        zero: Wiki pages
+        one: Wiki page
+        two: Wiki pages
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        zero: Work packages
+        one: Work package
+        two: Work packages
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        zero: Work package custom fields
+        one: Work package custom field
+        two: Work package custom fields
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        zero: Work package roles
+        one: Work package role
+        two: Work package roles
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        zero: Workflows
+        one: Workflow
+        two: Workflows
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: ولم يكن هناك أي نشاط للمشروع ضمن هذا الإطار الزمني.
@@ -1890,6 +2467,7 @@ ar:
     custom_field: حقل مخصص
     custom_options: القيم المحتملة
     custom_values: الحقول المخصصة
+    customized: Customized
     date: التاريخ
     dates_interval: النطاق الزمني
     default_columns: الأعمدة الافتراضية
@@ -1916,6 +2494,7 @@ ar:
     is_default: القيمة الافتراضية
     is_for_all: لكافة المشاريع
     issue: مجموعة العمل
+    jira: Jira
     journal: يوميات
     journal_notes: تعليق
     lastname: الاسم الأخير
@@ -3450,6 +4029,7 @@ ar:
   label_feeds_access_key: مفتاح الوصول ل RSS
   label_feeds_access_key_created_on: مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
+  label_file: File
   label_file_plural: الملفّات
   label_filter: عوامل التصفية
   label_filter_add: إضافة عامل تصفية

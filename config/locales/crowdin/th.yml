@@ -969,59 +969,206 @@ th:
         header:
           other: ข้อผิดพลาด %{count} %{model} นี้ห้ามมิให้มีการบันทึก
     models:
-      attachment: ไฟล์
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: Authentication providers
-      category: ประเภท
-      color: สี
-      comment: ความคิดเห็น
-      custom_action: Custom action
-      custom_field: ฟิลด์ที่กำหนดเอง
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Enterprise tokens
-      forum: ฟอรั่ม
-      global_role: Global role
-      group: กลุ่ม
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: Priorities
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: สมาชิก
-      message: Message
-      news: ข่าวสาร
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: โครงการ
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: Project lists
-      query: การสอบถามที่กำหนดเอง
-      reminder: Reminder
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: บทบาท
       scim_client:
         other: SCIM clients
-      status: สถานะของชุดภารกิจ
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: Access tokens
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
       type_variant:
         other: Variants
-      user: ผู้ใช้
-      version: เวอร์ชัน
-      wiki: วิกิ
-      wiki_page: หน้าวิกิ
-      work_package: ชุดภารกิจ
-      workflow: กระบวนการทำงาน
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: ไม่มีกิจกรรมสำหรับโปรเจคนี้
@@ -1740,6 +1887,7 @@ th:
     custom_field: ฟิลด์ที่กำหนดเอง
     custom_options: ค่าที่เป็นไปได้
     custom_values: ฟิลด์ที่กำหนดเอง
+    customized: Customized
     date: วันที่
     dates_interval: ช่วงวันที่
     default_columns: คอลัมน์เริ่มต้น
@@ -1766,6 +1914,7 @@ th:
     is_default: ค่าเริ่มต้น
     is_for_all: สำหรับทุกโครงการ
     issue: ชุดภารกิจ
+    jira: Jira
     journal: บันทึก
     journal_notes: ความคิดเห็น
     lastname: นามสกุล
@@ -3177,6 +3326,7 @@ th:
   label_feeds_access_key: คีย์การเข้าถึง RSS
   label_feeds_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: ไฟล์
   label_filter: ตัวกรอง
   label_filter_add: เพิ่มตัวกรอง

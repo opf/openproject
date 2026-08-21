@@ -21,6 +21,10 @@
 #++
 ---
 zh-TW:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: 另存報表...
   comments: 留言
   cost_reports_title: 時間與費用

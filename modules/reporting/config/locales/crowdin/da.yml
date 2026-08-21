@@ -21,6 +21,11 @@
 #++
 ---
 da:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Gem rapport som...
   comments: Kommentér
   cost_reports_title: Tid og omkostninger

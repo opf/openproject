@@ -88,16 +88,30 @@ de:
       cost_entry:
         one: Kosteneintrag
         other: Kosteneinträge
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Kostentyp
         other: Kostentypen
-      rate: Satz
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Zeitbuchung
         other: Zeitbuchungen
       time_entry_activity:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -273,7 +287,7 @@ de:
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
   setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_time_entries_limit_to_user_working_hours: Auf die Arbeitszeit des Benutzers beschränken
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der buchbaren Stunden auf die hinterlegten Arbeitszeiten des Benutzers. Wenn keine Arbeitszeiten hinterlegt sind, hat diese Einstellung keine Auswirkung.
   setting_time_entries_max_hours_per_day: Maximale Stundenzahl pro Tag
   setting_time_entries_max_hours_per_day_caption: Begrenzt die Gesamtzahl der Stunden, die ein Benutzer pro Tag in allen Zeiteinträgen eintragen kann. Der Wert 0 bedeutet, dass keine Einschränkungen bestehen.
   setting_time_entries_max_hours_per_entry: Maximale Stundenzahl pro Zeiteintrag

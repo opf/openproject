@@ -91,8 +91,12 @@ ja:
               task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
           backlog_bucket_xor_sprint: スプリントとバックログ・バケットの両方に割り当てることはできません。
     models:
+      backlog_bucket:
+        other: Backlog buckets
       sprint:
         other: スプリント
+      sprint_goal:
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: 既存のワークパッケージを追加する

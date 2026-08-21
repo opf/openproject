@@ -969,59 +969,206 @@ zh-CN:
         header:
           other: "%{count} 个错误使得 %{model} 无法保存"
     models:
-      attachment: 文件
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: 特性帮助文本
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 身份验证提供方
-      category: 类别
-      color: 颜色
-      comment: 评论
-      custom_action: 自定义操作
-      custom_field: 自定义字段
-      customized: 自定义
-      doorkeeper/application: OAuth应用程序
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: 企业令牌
-      forum: 论坛
-      global_role: 全局角色
-      group: 组
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 优先事项
-      jira:
-        other: Jira
-      meeting_participant: 会议参与者
-      member: 成员
-      message: 消息
-      news: 新闻
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 通知
-      placeholder_user: 占位符用户
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: 项目
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: 项目列表
-      query: 自定义查询
-      reminder: 提醒
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: 角色
       scim_client:
         other: SCIM 客户端
-      status: 工作包状态
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: 访问令牌
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS 令牌
       type:
         other: 类型
       type_variant:
         other: Variants
-      user: 用户
-      version: 版本
-      wiki: 维基
-      wiki_page: 维基页面
-      work_package: 工作包
-      workflow: 工作流
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: 在这个时间范围内没有任何项目的活动。
@@ -1742,6 +1889,7 @@ zh-CN:
     custom_field: 自定义字段
     custom_options: 可能的值
     custom_values: 自定义字段
+    customized: Customized
     date: 日期
     dates_interval: 日期范围
     default_columns: 默认的列
@@ -1768,6 +1916,7 @@ zh-CN:
     is_default: 默认值
     is_for_all: 应用到所有项目
     issue: 工作包
+    jira: Jira
     journal: 日志
     journal_notes: 评论
     lastname: 姓氏
@@ -3179,6 +3328,7 @@ zh-CN:
   label_feeds_access_key: RSS 访问密钥
   label_feeds_access_key_created_on: RSS 访问密钥创建于 %{value}前
   label_feeds_access_key_type: RSS 订阅
+  label_file: File
   label_file_plural: 文件
   label_filter: 筛选器
   label_filter_add: 添加筛选器

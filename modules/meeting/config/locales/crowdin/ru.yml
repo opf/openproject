@@ -102,11 +102,41 @@ ru:
         recurring_meeting_interim_response:
           not_an_occurrence: не является допустимым временем повторения совещания
     models:
-      meeting: Однократное совещание
-      meeting_agenda: Повестка дня
-      meeting_agenda_item: Пункт повестки
-      meeting_section: Раздел
-      recurring_meeting: Повторяющееся совещание
+      meeting:
+        one: One-time meeting
+        few: One-time meetings
+        many: One-time meetings
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        few: Agenda items
+        many: Agenda items
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        few: Outcomes
+        many: Outcomes
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        few: Meeting participants
+        many: Meeting participants
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        few: Sections
+        many: Sections
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        few: Recurring meetings
+        many: Recurring meetings
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        few: Scheduled meetings
+        many: Scheduled meetings
+        other: Scheduled meetings
       token/ical_meeting:
         one: " iCal подписка на совещание"
         few: " iCal подписки на совещание"

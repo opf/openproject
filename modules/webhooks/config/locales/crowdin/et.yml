@@ -14,7 +14,12 @@ et:
         secret: Signature secret
         url: Payload URL
     models:
-      webhooks/outgoing_webhook: Outgoing webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Provides a plug-in API to support OpenProject webhooks for better 3rd party integration.
     name: OpenProject Webhooks

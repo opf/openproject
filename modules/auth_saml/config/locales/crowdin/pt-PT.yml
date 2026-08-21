@@ -32,6 +32,10 @@ pt-PT:
           invalid_certificate: 'não é um certificado válido em formato PEM: %{additional_message}'
           invalid_private_key: 'não é uma chave privada válida em formato PEM: %{additional_message}'
           unmatched_private_key: não pertence ao certificado fornecido
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Eliminar este fornecedor SAML?
     delete_title: Eliminar fornecedor SAML

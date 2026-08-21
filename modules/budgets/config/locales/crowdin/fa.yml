@@ -46,9 +46,15 @@ fa:
             principal:
               not_a_member_of_budget_project: عضو پروژه بودجه نیست
     models:
-      budget: بودجه
-      labor_budget_item: هزینه نیروی کار برنامه‌ریزی‌شده
-      material_budget_item: واحد
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: بودجه‌ها

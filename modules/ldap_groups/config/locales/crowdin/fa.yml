@@ -20,8 +20,12 @@ fa:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: DN پایه فیلتر باید درون DN پایه اتصال LDAP قرار داشته باشد
     models:
-      ldap_groups/synchronized_filter: فیلتر همگام‌سازی گروه LDAP
-      ldap_groups/synchronized_group: گروه LDAP همگام‌شده
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

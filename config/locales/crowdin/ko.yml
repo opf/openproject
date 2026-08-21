@@ -969,59 +969,206 @@ ko:
         header:
           other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
     models:
-      attachment: 파일
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: 특성 도움말 텍스트
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 인증 공급자
-      category: 카테고리
-      color: 색상
-      comment: 코멘트
-      custom_action: 사용자 지정 작업
-      custom_field: 사용자 정의 필드
-      customized: 사용자 지정됨
-      doorkeeper/application: OAuth 애플리케이션
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Enterprise 토큰
-      forum: 포럼
-      global_role: 글로벌 역할
-      group: 그룹
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 우선 순위
-      jira:
-        other: Jira
-      meeting_participant: 미팅 참가자
-      member: 멤버
-      message: 메시지
-      news: 뉴스
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 알림
-      placeholder_user: 플레이스홀더 사용자
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: 프로젝트
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: 프로젝트 목록
-      query: 사용자 지정 쿼리
-      reminder: 미리 알림
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: 역할
       scim_client:
         other: SCIM 클라이언트
-      status: 작업 패키지 상태
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: 액세스 토큰
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS 토큰
       type:
         other: 유형
       type_variant:
         other: Variants
-      user: 사용자
-      version: 버전
-      wiki: 위키
-      wiki_page: 위키 페이지
-      work_package: 작업 패키지
-      workflow: 워크플로
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
@@ -1738,6 +1885,7 @@ ko:
     custom_field: 사용자 정의 필드
     custom_options: 가능한 값
     custom_values: 사용자 정의 필드
+    customized: Customized
     date: 날짜
     dates_interval: 날짜 범위
     default_columns: 기본 칼럼
@@ -1764,6 +1912,7 @@ ko:
     is_default: 기본값
     is_for_all: 모든 프로젝트용
     issue: 작업 패키지
+    jira: Jira
     journal: 기록일지
     journal_notes: 코멘트
     lastname: 성
@@ -3193,6 +3342,7 @@ ko:
   label_feeds_access_key: RSS 액세스 키
   label_feeds_access_key_created_on: RSS 액세스 키가 %{value} 전에 생성되었습니다.
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: 파일
   label_filter: 필터
   label_filter_add: 필터 추가

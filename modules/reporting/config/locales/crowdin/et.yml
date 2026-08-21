@@ -21,6 +21,11 @@
 #++
 ---
 et:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Salvesta aruanne kui...
   comments: Kommentaar
   cost_reports_title: Time and costs

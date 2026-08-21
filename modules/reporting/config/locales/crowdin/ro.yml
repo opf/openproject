@@ -21,6 +21,12 @@
 #++
 ---
 ro:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
   button_save_report_as: Salvează raportul ca...
   comments: Comentariu
   cost_reports_title: Timp și costuri
