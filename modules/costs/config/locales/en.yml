@@ -227,7 +227,6 @@ en:
   label_greater_or_equal: ">="
   label_group_by: "Group by"
   label_group_by_add: "Add grouping field"
-  label_hourly_rate: "Hourly rate"
   label_include_deleted: "Include deleted"
   label_kind: "Type"
   label_less_or_equal: "<="
