@@ -204,9 +204,9 @@ gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.251"
+gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.228"
+gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.12.0"
 
