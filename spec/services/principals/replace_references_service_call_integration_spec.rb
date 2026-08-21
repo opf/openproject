@@ -402,17 +402,16 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
       end
     end
 
-    context "with CostQuery" do
-      let(:query) { create(:cost_query, user: principal) }
-
+    context "with PersistedQuery" do
       it_behaves_like "rewritten record",
-                      CostQuery,
-                      :user_id do
-        let(:attributes) do
-          { name: "'abc'",
-            serialized: "'cde'" }
-        end
-      end
+                      :cost_report_query,
+                      :principal_id
+    end
+
+    context "with PersistedView" do
+      it_behaves_like "rewritten record",
+                      :cost_report,
+                      :principal_id
     end
 
     context "with Notification actor" do

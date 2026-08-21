@@ -50,10 +50,10 @@ class CostReportsController < ApplicationController
   private
 
   def legacy_query
-    filters = ::CostReports::LegacyFilters.new(operators: params[:operators],
-                                               values: params[:values],
-                                               rows: params.dig(:groups, :rows),
-                                               columns: params.dig(:groups, :columns))
+    filters = ::CostReports::CompactFilters.new(operators: params[:operators],
+                                                values: params[:values],
+                                                rows: params.dig(:groups, :rows),
+                                                columns: params.dig(:groups, :columns))
 
     return {} unless filters.any?
 

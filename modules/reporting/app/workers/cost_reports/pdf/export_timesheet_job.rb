@@ -28,22 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CostQuery::PDF::Styles
-  class PDFStyles
-    include MarkdownToPDF::Common
-    include MarkdownToPDF::StyleHelper
-    include Exports::PDF::Common::Styles
-    include Exports::PDF::Components::PageStyles
-    include Exports::PDF::Components::CoverStyles
+require "active_storage/filename"
+
+class CostReports::PDF::ExportTimesheetJob < Exports::ExportJob
+  self.model = ::CostReport
+
+  def project
+    options[:project]
   end
 
-  def styles
-    @styles ||= PDFStyles.new(styles_asset_path)
+  def title
+    I18n.t("export.timesheet.title")
   end
 
   private
 
-  def styles_asset_path
-    File.dirname(File.expand_path(__FILE__))
+  def export!
+    handle_export_result(export, pdf_report_result)
+  end
+
+  def prepare!
+    CostQuery::Cache.check
+    self.query = ::CostReports::ParamsToReport.new(query, project:, user: current_user).call
+    query.name = options[:report_name]
+    # The timesheet lists single time entries, so the report's grouping is
+    # dropped: a grouped query aggregates in SQL and no longer yields them.
+    query.apply_pivot_configuration(rows: [], columns: [])
+  end
+
+  def pdf_report_result
+    content = generate_timesheet
+    time = Time.current.strftime("%Y-%m-%d-T-%H-%M-%S")
+    export_title = "timesheet-#{time}.pdf"
+    ::Exports::Result.new(format: :pdf,
+                          title: export_title,
+                          mime_type: "application/pdf",
+                          content:)
+  end
+
+  def generate_timesheet
+    generator = ::CostReports::PDF::TimesheetGenerator.new(query, project)
+    generator.generate!
   end
 end

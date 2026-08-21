@@ -28,43 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "active_storage/filename"
-
-class CostQuery::PDF::ExportTimesheetJob < Exports::ExportJob
-  self.model = ::CostQuery
-
-  def project
-    options[:project]
+# The reports were converted to CostReport records in
+# MigrateCostQueriesToCostReports, which each carry the id they had here so that
+# links to them keep working.
+class DropCostQueries < ActiveRecord::Migration[8.1]
+  def up
+    drop_table :cost_queries
   end
 
-  def title
-    I18n.t("export.timesheet.title")
-  end
-
-  private
-
-  def export!
-    handle_export_result(export, pdf_report_result)
-  end
-
-  def prepare!
-    CostQuery::Cache.check
-    self.query = CostQuery.build_query(project, query)
-    query.name = options[:query_name]
-  end
-
-  def pdf_report_result
-    content = generate_timesheet
-    time = Time.current.strftime("%Y-%m-%d-T-%H-%M-%S")
-    export_title = "timesheet-#{time}.pdf"
-    ::Exports::Result.new(format: :pdf,
-                          title: export_title,
-                          mime_type: "application/pdf",
-                          content:)
-  end
-
-  def generate_timesheet
-    generator = ::CostQuery::PDF::TimesheetGenerator.new(query, project)
-    generator.generate!
+  def down
+    create_table :cost_queries do |t|
+      t.bigint :user_id, null: false
+      t.bigint :project_id
+      t.string :name, null: false
+      t.boolean :is_public, default: false, null: false
+      t.datetime :created_at, precision: nil, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at, precision: nil, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.string :serialized, limit: 2000, null: false
+    end
   end
 end

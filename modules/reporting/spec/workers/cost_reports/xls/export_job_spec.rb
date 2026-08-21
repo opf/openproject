@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CostQuery::XLS::ExportJob do
+RSpec.describe CostReports::XLS::ExportJob do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
 
@@ -63,10 +63,10 @@ RSpec.describe CostQuery::XLS::ExportJob do
       query[:values][attribute_name] = value
     end
     job = described_class.new(
-      export: CostQuery::Export.create,
+      export: CostReports::Export.create,
       user:,
       mime_type: :xls,
-      query:,
+      query: CostReports::CompactFilters.new(operators: query[:operators], values: query[:values]).to_params,
       options: { project:, cost_types: [-1, 0] }
     )
     job.perform_now

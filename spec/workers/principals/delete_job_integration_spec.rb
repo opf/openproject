@@ -366,13 +366,14 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
     end
 
-    shared_examples_for "private cost_query handling" do
-      let!(:query) { create(:private_cost_query, user: principal) }
+    shared_examples_for "private cost_report handling" do
+      let!(:report) { create(:cost_report, principal:, public: false) }
 
-      it "removes the query" do
+      it "removes the report and its query" do
         job
 
-        expect(CostQuery.find_by(id: query.id)).to be_nil
+        expect(CostReport.find_by(id: report.id)).to be_nil
+        expect(CostReportQuery.find_by(id: report.query_id)).to be_nil
       end
     end
 
@@ -406,108 +407,91 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
     end
 
-    shared_examples_for "public cost_query handling" do
-      let!(:query) { create(:public_cost_query, user: principal) }
+    shared_examples_for "public cost_report handling" do
+      let!(:report) { create(:cost_report, principal:, public: true, query: create(:cost_report_query, principal:)) }
 
       before do
-        query
-
         job
       end
 
-      it "leaves the query" do
-        expect(CostQuery.find_by(id: query.id)).to eq(query)
+      it "leaves the report" do
+        expect(CostReport.find_by(id: report.id)).to eq(report)
       end
 
-      it "rewrites the user reference" do
-        expect(query.reload.user).to eq(deleted_user)
+      it "drops the owner reference" do
+        expect(report.reload.principal).to be_nil
+        expect(report.query.reload.principal).to be_nil
       end
     end
 
-    shared_examples_for "cost_query handling" do
-      let(:query) { create(:cost_query) }
+    shared_examples_for "cost_report_query handling" do
+      let(:query) { create(:cost_report_query) }
       let(:other_user) { create(:user) }
 
-      shared_examples_for "public query rewriting" do
-        let(:filter_symbol) { filter.to_s.demodulize.underscore.to_sym }
+      def stored_filter
+        CostReportQuery.find(query.id).filters.detect { |f| f.name.to_s == filter_name }
+      end
 
+      def filter_on(values)
+        query.filters = [query.filter_for(filter_name).tap do |f|
+          f.operator = "="
+          f.values = values
+        end]
+        query.save(validate: false)
+      end
+
+      shared_examples_for "principal filter rewriting" do
         describe "with the filter has the deleted user as its value" do
           before do
-            query.filter(filter_symbol, values: [principal.id.to_s], operator: "=")
-            query.save!
+            filter_on([principal.id.to_s])
 
             job
           end
 
           it "removes the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .not_to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_nil
           end
         end
 
         describe "with the filter has another user as its value" do
           before do
-            query.filter(filter_symbol, values: [other_user.id.to_s], operator: "=")
-            query.save!
+            filter_on([other_user.id.to_s])
 
             job
           end
 
           it "keeps the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_present
           end
 
           it "does not alter the filter values" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters.detect do |f|
-              f.is_a?(filter)
-            end.values).to eq([other_user.id.to_s])
+            expect(stored_filter.values).to eq([other_user.id.to_s])
           end
         end
 
         describe "with the filter has the deleted user and another user as its value" do
           before do
-            query.filter(filter_symbol, values: [principal.id.to_s, other_user.id.to_s], operator: "=")
-            query.save!
+            filter_on([principal.id.to_s, other_user.id.to_s])
 
             job
           end
 
           it "keeps the filter" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters)
-              .to(be_any { |f| f.is_a?(filter) })
+            expect(stored_filter).to be_present
           end
 
           it "removes only the deleted user" do
-            expect(CostQuery.find_by(id: query.id).deserialize.filters.detect do |f|
-              f.is_a?(filter)
-            end.values).to eq([other_user.id.to_s])
+            expect(stored_filter.values).to eq([other_user.id.to_s])
           end
         end
       end
 
-      describe "with the query has a user_id filter" do
-        let(:filter) { CostQuery::Filter::UserId }
+      Principals::DeleteJob::PRINCIPAL_COST_REPORT_FILTERS.each do |name|
+        describe "with the query has a #{name} filter" do
+          let(:filter_name) { name }
 
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has a author_id filter" do
-        let(:filter) { CostQuery::Filter::AuthorId }
-
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has a assigned_to_id filter" do
-        let(:filter) { CostQuery::Filter::AssignedToId }
-
-        it_behaves_like "public query rewriting"
-      end
-
-      describe "with the query has an responsible_id filter" do
-        let(:filter) { CostQuery::Filter::ResponsibleId }
-
-        it_behaves_like "public query rewriting"
+          it_behaves_like "principal filter rewriting"
+        end
       end
     end
 
@@ -556,9 +540,9 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like "private query handling"
       it_behaves_like "persisted view and query handling"
       it_behaves_like "issue category handling"
-      it_behaves_like "private cost_query handling"
-      it_behaves_like "public cost_query handling"
-      it_behaves_like "cost_query handling"
+      it_behaves_like "private cost_report handling"
+      it_behaves_like "public cost_report handling"
+      it_behaves_like "cost_report_query handling"
       it_behaves_like "project query handling"
       it_behaves_like "mention rewriting"
       it_behaves_like "working hours handling"

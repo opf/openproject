@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CostReports::LegacyFilters do
+RSpec.describe CostReports::CompactFilters do
   subject(:filters_param) do
     described_class.new(operators: { "Subject" => "~" }, values: { "Subject" => values }).to_params[:filters]
   end

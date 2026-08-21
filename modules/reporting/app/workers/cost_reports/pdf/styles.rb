@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,28 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CostQuery::ScheduleExportService
-  attr_accessor :user
-
-  def initialize(user:)
-    self.user = user
+module CostReports::PDF::Styles
+  class PDFStyles
+    include MarkdownToPDF::Common
+    include MarkdownToPDF::StyleHelper
+    include Exports::PDF::Common::Styles
+    include Exports::PDF::Components::PageStyles
+    include Exports::PDF::Components::CoverStyles
   end
 
-  def call(format:, query_id:, query_name:, filter_params:, project:, cost_types:)
-    export_storage = ::CostQuery::Export.create
-    job = schedule_export(format, export_storage, query_id, query_name, filter_params, project, cost_types)
-
-    ServiceResult.success result: job.job_id
+  def styles
+    @styles ||= PDFStyles.new(styles_asset_path)
   end
 
   private
 
-  def schedule_export(format, export_storage, query_id, query_name, filter_params, project, cost_types)
-    job = format == :pdf ? ::CostQuery::PDF::ExportTimesheetJob : ::CostQuery::XLS::ExportJob
-    job.perform_later(export: export_storage,
-                      user:,
-                      mime_type: format,
-                      query: filter_params,
-                      options: { query_id:, query_name:, project:, cost_types: })
+  def styles_asset_path
+    File.dirname(File.expand_path(__FILE__))
   end
 end

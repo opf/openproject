@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,34 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The reporting engine that computes a cost report: the filters, group bys,
-# results and SQL below this namespace, plus the state a chain needs while it is
-# built. A report itself is a CostReport record, which hosts the chain - see
-# CostReports::EngineChain.
-module CostQuery
-  class << self
-    def engine
-      self
-    end
+class CostReports::ScheduleExportService
+  attr_accessor :user
 
-    def reporting_connection
-      ApplicationRecord.connection
-    end
+  def initialize(user:)
+    self.user = user
+  end
 
-    # Report::QueryUtils sanitizes through the engine, which used to be an
-    # ActiveRecord model.
-    def sanitize_sql_for_conditions(statement)
-      ApplicationRecord.send(:sanitize_sql_for_conditions, statement)
-    end
+  def call(format:, report_name:, report_params:, project:, cost_types:)
+    export_storage = ::CostReports::Export.create!
+    job = schedule_export(format, export_storage, report_name, report_params, project, cost_types)
 
-    def accepted_properties
-      @accepted_properties ||= []
-    end
+    ServiceResult.success result: job.job_id
+  end
 
-    # Chainables register blocks here to add themselves to every new chain, e.g.
-    # the permission filter that limits the entries a user may see.
-    def chain_initializer
-      @chain_initializer ||= []
-    end
+  private
+
+  def schedule_export(format, export_storage, report_name, report_params, project, cost_types)
+    job = format == :pdf ? ::CostReports::PDF::ExportTimesheetJob : ::CostReports::XLS::ExportJob
+    job.perform_later(export: export_storage,
+                      user:,
+                      mime_type: format,
+                      query: report_params,
+                      options: { report_name:, project:, cost_types: })
   end
 end
