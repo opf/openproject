@@ -21,17 +21,17 @@ de:
               error_phone_number_format: muss im Format +XX XXXXXXXXX sein
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        other: Backup codes
+        one: Backup Code
+        other: Backup Codes
       two_factor_authentication/device:
-        one: 2FA device
-        other: 2FA devices
+        one: 2FA-Gerät
+        other: 2FA-Geräte
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        other: Mobile phones
+        one: Mobiltelefon
+        other: Mobiltelefone
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        other: Authenticator applications
+        one: Authenticator App
+        other: Authenticator Apps
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn

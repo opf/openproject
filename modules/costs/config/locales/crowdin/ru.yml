@@ -73,14 +73,24 @@ ru:
             project_ids:
               blank: Пожалуйста, выберите проект.
         time_entry:
-          cannot_log_for_this_work_package: Невозможно зарегистрировать время для этого пакета работ.
-          duplicate_ongoing: Текущая запись времени уже существует для этого пользователя.
-          exceeds_user_working_hours: не может превышать %{limit} часов, доступных в рабочий день пользователя.
-          in_past_month: находится в закрытом месяце. Записи о рабочем времени можно добавлять, изменять или удалять только начиная с %{date}.
-          invalid_time: должно быть между 00:00 и 23:59.
-          max_hours_per_day_exceeded: не может превышать %{limit} часов в общей сложности в течение одного дня.
-          max_hours_per_entry_exceeded: не может быть больше %{limit} часов за одну запись.
-          not_a_working_day: не является рабочим днём для пользователя.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
           nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
@@ -91,30 +101,30 @@ ru:
         many: Записи трудозатрат
         other: Записи трудозатрат
       cost_rate:
-        one: Cost rate
+        one: Ставка затрат
         few: Cost rates
         many: Cost rates
-        other: Cost rates
+        other: Ставки затрат
       cost_type:
         one: Тип затрат
         few: Типы затрат
         many: Типы затрат
         other: Типы затрат
       default_hourly_rate:
-        one: Default hourly rate
+        one: Почасовая ставка по умолчанию
         few: Default hourly rates
         many: Default hourly rates
-        other: Default hourly rates
+        other: Почасовые ставки по умолчанию
       hourly_rate:
-        one: Hourly rate
+        one: Часовая ставка
         few: Hourly rates
         many: Hourly rates
-        other: Hourly rates
+        other: Часовые ставки
       rate:
-        one: Rate
+        one: Ставка
         few: Rates
         many: Rates
-        other: Rates
+        other: Ставки
       time_entry:
         one: Запись о трудозатратах
         few: Записи о трудозатратах
@@ -126,10 +136,10 @@ ru:
         many: Отслеживание времени
         other: Отслеживание времени
       time_entry_custom_field:
-        one: Time entry custom field
+        one: Пользовательское поле для учета рабочего времени
         few: Time entry custom fields
         many: Time entry custom fields
-        other: Time entry custom fields
+        other: Пользовательские поля для учета рабочего времени
   api_v3:
     errors:
       validation:
@@ -228,7 +238,6 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_by_add: Добавьте поле группировки
-  label_hourly_rate: Почасовой тариф
   label_include_deleted: Включая удаленные
   label_kind: Тип
   label_less_or_equal: "<="
@@ -249,7 +258,6 @@ ru:
   label_previous_month: Предыдущий месяц
   label_previous_week: Предыдущая неделя
   label_previous_workweek: Предыдущая рабочая неделя
-  label_rate: Ставка
   label_rate_plural: Тарифы
   label_show: Показать
   label_specific_day: День %{day}
@@ -263,7 +271,6 @@ ru:
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
-  label_user: Пользователь
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы

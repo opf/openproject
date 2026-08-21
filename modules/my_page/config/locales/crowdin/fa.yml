@@ -3,7 +3,7 @@ fa:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        other: My pages
+        one: صفحهٔ من
+        other: صفحه‌های من
   my_page:
     label: صفحهٔ من

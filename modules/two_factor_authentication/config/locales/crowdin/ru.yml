@@ -21,25 +21,25 @@ ru:
               error_phone_number_format: необходимо указывать в формате +XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
+        one: Резервный код
         few: Backup codes
         many: Backup codes
-        other: Backup codes
+        other: Резервные коды
       two_factor_authentication/device:
-        one: 2FA device
+        one: 2FA устройство
         few: 2FA devices
         many: 2FA devices
-        other: 2FA devices
+        other: 2FA устройства
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        few: Mobile phones
-        many: Mobile phones
-        other: Mobile phones
+        one: Мобильный телефон
+        few: Мобильные телефоны
+        many: Мобильные телефоны
+        other: Мобильные телефоны
       two_factor_authentication/device/totp:
-        one: Authenticator application
+        one: Приложение-аутентификатор
         few: Authenticator applications
         many: Authenticator applications
-        other: Authenticator applications
+        other: Приложения-аутентификаторы
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         few: WebAuthn

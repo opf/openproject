@@ -93,14 +93,14 @@ de:
           backlog_bucket_xor_sprint: kann nicht gleichzeitig einem Sprint und einem Backlog Bucket zugewiesen werden.
     models:
       backlog_bucket:
-        one: Backlog bucket
-        other: Backlog buckets
+        one: Backlog Bucket
+        other: Backlog Buckets
       sprint:
         one: Sprint
         other: Sprints
       sprint_goal:
-        one: Sprint goal
-        other: Sprint goals
+        one: Sprint-Ziel
+        other: Sprint-Ziele
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Vorhandenes Arbeitspaket hinzufügen

@@ -105,7 +105,6 @@ zh-CN:
   help_click_to_edit: 单击此处进行编辑。
   help_currency_format: 已显示的货币值的格式。%n 替换为货币值，%u 替换为货币单位。
   help_override_rate: 在此处输入值覆盖基本费率。
-  label_budget: 预算
   label_budget_available: 可用预算
   label_budget_details: 预算详细信息
   label_budget_id: '预算 #%{id}'

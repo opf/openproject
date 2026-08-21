@@ -53,7 +53,6 @@ pl:
   label_closed: Zamknięte
   label_columns: Kolumny
   label_cost_entry_attributes: Wejściowe parametry kosztów
-  label_cost_report: Raport kosztów
   label_cost_report_plural: Raporty kosztów
   label_count: Ilość
   label_days_ago: podczas ostatnich dni

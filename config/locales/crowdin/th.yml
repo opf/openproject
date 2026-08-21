@@ -2449,8 +2449,12 @@ th:
   description_available_columns: คอลัมน์ที่มีอยู่
   description_category_reassign: เลือกประเภท
   description_choose_project: โครงการ
-  description_compare_from: เปรียบเทียบจาก
-  description_compare_to: เปรียบเทียบ
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: ระบุวันเริ่มต้น
   description_date_to: ป้อนวันสิ้นสุด
@@ -2651,8 +2655,6 @@ th:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3148,7 +3150,6 @@ th:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: สำรอง
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: ระหว่าง
   label_blocked_by: ถูกบล็อคโดย
@@ -3168,7 +3169,6 @@ th:
   label_calendar_show: แสดงปฏิทิน
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: ประเภท
   label_change_parent: Change parent
   label_change_password: Change password
   label_change_plural: การเปลี่ยนแปลง
@@ -3177,9 +3177,9 @@ th:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: ดูการเปลี่ยนแปลงทั้งหมด
   label_changes_details: รายละเอียดของการเปลี่ยนแปลงทั้งหมด
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: ชุดการเปลี่ยนแปลง
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: เลือก/ไม่เลือก ทั้งหมดในคอลัมน์
   label_check_uncheck_all_in_row: เลือก/ไม่เลือก ทั้งหมดในแถว
   label_checked: ตรวจสอบแล้ว
@@ -3351,7 +3351,6 @@ th:
   label_git_path: เส้นทางไปยังไดเรคทอรี่ ของไฟล์ .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3420,7 +3419,6 @@ th:
   label_last_week: สัปดาห์ที่แล้ว
   label_latest_revision: ปรับปรุงล่าสุด
   label_latest_revision_plural: ปรับปรุงล่าสุด
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: การระบุตัวตนผู้ใช้ระบบโดย LDAP
@@ -3450,7 +3448,6 @@ th:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: สมาชิก
-  label_member_role: Project role
   label_membership_added: เพิ่มสมาชิกแล้ว
   label_membership_plural: Memberships
   label_membership_updated: ปรับปรุงข้อมูลสมาชิกแล้ว
@@ -3563,7 +3560,6 @@ th:
   label_permissions: สิทธิ์
   label_permissions_report: รายงานสิทธิ์
   label_personalize_page: ปรับปรุงหน้านี้ให้เป็นส่วนตัว
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: การวางแผน
@@ -3626,7 +3622,6 @@ th:
   label_related_work_packages: ชุดภารกิจที่เกี่ยวข้อง
   label_relates: ที่เกี่ยวข้องกับ
   label_relates_to: ที่เกี่ยวข้องกับ
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: ลบความสัมพันธ์
   label_relation_edit: Edit relation
@@ -3679,7 +3674,6 @@ th:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: ส่งอีเมลทดสอบ
-  label_session: เซสชั่น
   label_setting_plural: การตั้งค่า
   label_share: แชร์
   label_share_project_list: Share project list
@@ -3755,7 +3749,6 @@ th:
   label_used_by: ใช้โดย
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: ผู้ใช้
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: ไม่ระบุชื่อ
@@ -3786,19 +3779,17 @@ th:
   label_week: สัปดาห์
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: เพิ่มหน้าวิกิแล้ว
   label_wiki_content_updated: ปรับปรุงหน้าวิกิแล้ว
   label_wiki_dont_show_menu_item: ไม่แสดงหน้าวิกินี้ในการนำทางของโครงการ
   label_wiki_edit: แก้ไขวิกิ
   label_wiki_edit_plural: แก้ไขวิกิ
-  label_wiki_menu_item: รายการเมนูวิกิ
   label_wiki_navigation: การทำทางของวิกิ
-  label_wiki_page: หน้าวิกิ
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: หน้าวิกิ
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: แสดงเมนูย่อยของ 'สารบัญ'
   label_wiki_show_menu_item: แสดงเป็นเมนูในการนำทางของโครงการ
   label_wiki_show_new_page_link: แสดงรายการเมนูย่อย 'สร้างหน้าย่อยใหม่'
@@ -3815,7 +3806,6 @@ th:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: ชุดภารกิจใหม่
   label_work_package_plural: ชุดภารกิจ
-  label_work_package_status: สถานะของชุดภารกิจ
   label_work_package_status_new: สถานะใหม่
   label_work_package_status_plural: สถานะของชุดภารกิจ
   label_work_package_tracking: ติดตามผลชุดภารกิจ

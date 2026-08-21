@@ -101,26 +101,26 @@ de:
           not_an_occurrence: ist keine gültige Uhrzeit für dieses wiederkehrende Treffen
     models:
       meeting:
-        one: One-time meeting
-        other: One-time meetings
+        one: Einmalige Besprechung
+        other: Einmalige Besprechungen
       meeting_agenda_item:
-        one: Agenda item
-        other: Agenda items
+        one: Tagesordnungspunkt
+        other: Tagesordnungspunkte
       meeting_outcome:
-        one: Outcome
-        other: Outcomes
+        one: Ergebnis
+        other: Ergebnisse
       meeting_participant:
-        one: Meeting participant
-        other: Meeting participants
+        one: Teilnehmender der Besprechung
+        other: Teilnehmende der Besprechung
       meeting_section:
-        one: Section
-        other: Sections
+        one: Abschnitt
+        other: Abschnitte
       recurring_meeting:
-        one: Recurring meeting
-        other: Recurring meetings
+        one: Wiederkehrende Besprechung
+        other: Wiederkehrende Besprechungen
       scheduled_meeting:
-        one: Scheduled meeting
-        other: Scheduled meetings
+        one: Geplante Besprechung
+        other: Geplante Besprechungen
       token/ical_meeting:
         one: iCal Meeting Abonnement
         other: iCal Meeting Abonnements
@@ -271,7 +271,6 @@ de:
   label_past_meetings: Vergangene Meetings
   label_past_meetings_short: Vergangen
   label_recurring_filter: Wiederkehrender Filter
-  label_recurring_meeting: Wiederkehrende Besprechung
   label_recurring_meeting_cancel: Diese Besprechung absagen
   label_recurring_meeting_create: Öffnen
   label_recurring_meeting_delete: Besprechung löschen

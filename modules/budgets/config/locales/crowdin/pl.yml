@@ -114,7 +114,6 @@ pl:
   help_click_to_edit: Kliknij tutaj aby edytować.
   help_currency_format: Format wyświetlanej waluty %n jest zastąpiony przez wartość waluty, %u którą jest zastąpiony jednostką walutową.
   help_override_rate: Podaj wartość tutaj aby zastąpić domyślną stawkę.
-  label_budget: Budżet
   label_budget_available: Dostępny budżet
   label_budget_details: Szczegóły budżetu
   label_budget_id: 'Budżet #%{id}'

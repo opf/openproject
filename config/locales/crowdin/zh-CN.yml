@@ -2451,8 +2451,12 @@ zh-CN:
   description_available_columns: 可用的列
   description_category_reassign: 选择类别
   description_choose_project: 项目
-  description_compare_from: 比较开始于
-  description_compare_to: 比较截止于
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 您现在的位置：
   description_date_from: 输入开始日期
   description_date_to: 输入结束日期
@@ -2653,8 +2657,6 @@ zh-CN:
         description: 确保在 OpenProject 中上传的文件在被其他用户访问之前进行病毒扫描。
       weighted_item_lists:
         description: 加权项目列表允许您创建带有关联数值的列表。
-      work_package_query_relation_columns:
-        description: 需要在工作包列表中看到关系或子项吗？
       work_package_sharing:
         description: 与非此项目成员的用户共享工作包。
       work_package_subject_generation:
@@ -3150,7 +3152,6 @@ zh-CN:
   label_available_project_work_package_types: 可用的工作包类型
   label_available_projects: 可用的项目
   label_backup: 备份
-  label_backup_code: 备份代码
   label_basic_details: 基本详细信息
   label_between: 介于
   label_blocked_by: 阻止于
@@ -3170,7 +3171,6 @@ zh-CN:
   label_calendar_show: 显示日历
   label_calendar_subscriptions: 日历订阅
   label_calendars_and_dates: 日历和日期
-  label_category: 类别
   label_change_parent: 更改父级
   label_change_password: 更改密码
   label_change_plural: 更改
@@ -3179,9 +3179,9 @@ zh-CN:
   label_change_status_of_user: 更改#{username} 的状态
   label_change_view_all: 查看所有更改
   label_changes_details: 所有更改的详细信息
-  label_changeset: 更改集
   label_changeset_id: 更改集ID
   label_changeset_plural: 更改集
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: 选中/取消选中所有列
   label_check_uncheck_all_in_row: 选中/取消选中所有行
   label_checked: 已选
@@ -3353,7 +3353,6 @@ zh-CN:
   label_git_path: ".git 目录的路径"
   label_global: 全局
   label_global_modules: 全局模块
-  label_global_role: 全局角色
   label_global_roles: 全局角色
   label_go_back: 返回上一级菜单
   label_go_forward: 打开 %{module} 子菜单
@@ -3422,7 +3421,6 @@ zh-CN:
   label_last_week: 上个星期
   label_latest_revision: 最新修订版本
   label_latest_revision_plural: 最新修订版本
-  label_ldap_auth_source: LDAP 连接
   label_ldap_auth_source_new: 新建 LDAP 连接
   label_ldap_auth_source_plural: LDAP 连接
   label_ldap_authentication: LDAP 身份验证
@@ -3452,7 +3450,6 @@ zh-CN:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 成员
-  label_member_role: 项目角色
   label_membership_added: 成员已添加
   label_membership_plural: 成员资格
   label_membership_updated: 成员已更新
@@ -3565,7 +3562,6 @@ zh-CN:
   label_permissions: 权限
   label_permissions_report: 权限报告
   label_personalize_page: 对此页面进行个性化设置
-  label_placeholder_user: 占位符用户
   label_placeholder_user_new: 新占位符用户
   label_placeholder_user_plural: 占位符用户
   label_planning: 规划
@@ -3628,7 +3624,6 @@ zh-CN:
   label_related_work_packages: 相关的工作包
   label_relates: 关于
   label_relates_to: 关于
-  label_relation: 关系
   label_relation_actions: 关联操作
   label_relation_delete: 删除关系
   label_relation_edit: 编辑关系
@@ -3681,7 +3676,6 @@ zh-CN:
   label_send_information: 向用户发送新的凭据
   label_send_invitation: 发送邀请
   label_send_test_email: 发送测试电子邮件
-  label_session: 会话
   label_setting_plural: 设置
   label_share: 共享
   label_share_project_list: 共享项目列表
@@ -3757,7 +3751,6 @@ zh-CN:
   label_used_by: 使用于
   label_used_by_types: 用于类型
   label_used_in_projects: 用于项目
-  label_user: 用户
   label_user_activity_html: "%{value} 的活动"
   label_user_and_permission: 用户和权限
   label_user_anonymous: 匿名
@@ -3788,19 +3781,17 @@ zh-CN:
   label_week: 周
   label_weighted_item_list: 加权项目列表
   label_what_is_this: 这是什么?
-  label_widget: 微件
   label_widget_new: 添加微件
   label_wiki_content_added: 添加维基页面
   label_wiki_content_updated: 更新维基页面
   label_wiki_dont_show_menu_item: 在项目导航中不显示此维基页面
   label_wiki_edit: 维基编辑
   label_wiki_edit_plural: 维基编辑
-  label_wiki_menu_item: 维基菜单项
   label_wiki_navigation: 维基导航
-  label_wiki_page: 维基页面
   label_wiki_page_attachments: 维基页面附件
   label_wiki_page_id: 维基页面ID
   label_wiki_page_plural: 维基页面
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 显示‘目录’子菜单项
   label_wiki_show_menu_item: 显示为项目导航中的菜单项
   label_wiki_show_new_page_link: 显示‘创建新的子页面’子菜单项
@@ -3817,7 +3808,6 @@ zh-CN:
   label_work_package_hierarchy: 工作包的层次结构
   label_work_package_new: 新工作包
   label_work_package_plural: 工作包
-  label_work_package_status: 工作包状态
   label_work_package_status_new: 新状态
   label_work_package_status_plural: 工作包状态
   label_work_package_tracking: 工作包跟踪

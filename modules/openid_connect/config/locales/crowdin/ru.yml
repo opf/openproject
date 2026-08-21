@@ -45,15 +45,15 @@ ru:
           non_object_attribute: не определяет JSON объект в %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
+        one: Провайдер OpenID Connect
         few: OpenID Connect providers
         many: OpenID Connect providers
-        other: OpenID Connect providers
+        other: Провайдеры OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
+        one: Токен OpenID Connect
         few: OpenID Connect tokens
         many: OpenID Connect tokens
-        other: OpenID Connect tokens
+        other: Токены OpenID Connect
   logout_warning: 'Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
 
     '

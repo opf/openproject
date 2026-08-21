@@ -45,11 +45,11 @@ fa:
           non_object_attribute: در %{attribute} یک شیء JSON تعریف نمی‌کند.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: ارائه‌دهنده OpenID Connect
+        other: ارائه‌دهندگان OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: توکن OpenID Connect
+        other: توکن‌های OpenID Connect
   logout_warning: 'از سیستم خارج شده‌اید. ممکن است محتوای فرم‌هایی که ارسال می‌کنید از دست برود. لطفاً [وارد شوید].
 
     '

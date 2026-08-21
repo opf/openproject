@@ -114,7 +114,6 @@ sk:
   help_click_to_edit: Kliknite tu pre editáciu.
   help_currency_format: Formát zobrazených hodnôt mien. %n sa nahradí hodnotou meny, %u sa nahradí jednotkou meny.
   help_override_rate: Tu zadajte hodnotu, ak chcete zmeniť predvolenú sadzbu.
-  label_budget: Rozpočet
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Rozpočet #%{id}'

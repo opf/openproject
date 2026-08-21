@@ -24,20 +24,20 @@ fa:
   activerecord:
     models:
       deploy_status_check:
-        one: Deployment status check
-        other: Deployment status checks
+        one: بررسی وضعیت استقرار
+        other: بررسی‌های وضعیت استقرار
       deploy_target:
-        one: Deployment target
-        other: Deployment targets
+        one: مقصد استقرار
+        other: مقاصد استقرار
       github_check_run:
-        one: GitHub check run
-        other: GitHub check runs
+        one: اجرای بررسی GitHub
+        other: اجراهای بررسی GitHub
       github_pull_request:
-        one: GitHub pull request
-        other: GitHub pull requests
+        one: Pull Request در GitHub
+        other: Pull Requestهای GitHub
       github_user:
-        one: GitHub user
-        other: GitHub users
+        one: کاربر GitHub
+        other: کاربران GitHub
   attributes:
     additions_count: تعداد افزوده‌ها
     changed_files_count: فایل‌های تغییرکرده

@@ -2585,8 +2585,12 @@ bg:
   description_available_columns: Достъпни колони
   description_category_reassign: Изберете категория
   description_choose_project: Проекти
-  description_compare_from: Сравнете от
-  description_compare_to: Сравнете с
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Вие сте тук:'
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
@@ -2788,8 +2792,6 @@ bg:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3287,7 +3289,6 @@ bg:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: между
   label_blocked_by: блокирано от
@@ -3307,7 +3308,6 @@ bg:
   label_calendar_show: Показване на календар
   label_calendar_subscriptions: Абонаменти за календари
   label_calendars_and_dates: Calendars and dates
-  label_category: Категория
   label_change_parent: Смяна на главният работен пакет
   label_change_password: Change password
   label_change_plural: Промени
@@ -3316,9 +3316,9 @@ bg:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: Покажи всички промени
   label_changes_details: Подробности за всички промени
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Набори от промени
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Проверете/махнете отметката на всички в колона
   label_check_uncheck_all_in_row: Проверете/махнете отметката на всички в реда
   label_checked: проверени
@@ -3490,7 +3490,6 @@ bg:
   label_git_path: Път до .git директория
   label_global: Глобален
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3559,7 +3558,6 @@ bg:
   label_last_week: Миналата седмица
   label_latest_revision: Последна редакция
   label_latest_revision_plural: Последни редакции
-  label_ldap_auth_source: LDAP връзка
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: Удостоверяване LDAP
@@ -3589,7 +3587,6 @@ bg:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Потребители
-  label_member_role: Project role
   label_membership_added: Добавен член
   label_membership_plural: Членства
   label_membership_updated: Актуализиран член
@@ -3702,7 +3699,6 @@ bg:
   label_permissions: Права
   label_permissions_report: Доклади за права
   label_personalize_page: Персонализирай тази страница
-  label_placeholder_user: Потребител на заместител
   label_placeholder_user_new: Нов потребител на заместител
   label_placeholder_user_plural: Потребители на резервни части
   label_planning: Планиране
@@ -3765,7 +3761,6 @@ bg:
   label_related_work_packages: Свързани работени пакети
   label_relates: свързани с
   label_relates_to: свързани с
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Изтриване на връзка
   label_relation_edit: Edit relation
@@ -3818,7 +3813,6 @@ bg:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Изпрати пробен имейл
-  label_session: Сесия
   label_setting_plural: Настройки
   label_share: Споделяне
   label_share_project_list: Споделяне на списък с проекти
@@ -3894,7 +3888,6 @@ bg:
   label_used_by: Използван от
   label_used_by_types: Използва се от типове
   label_used_in_projects: Използвани в проекти
-  label_user: Потребител
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Потребители и правомощия
   label_user_anonymous: Анонимен
@@ -3925,19 +3918,17 @@ bg:
   label_week: Седмица
   label_weighted_item_list: Weighted item list
   label_what_is_this: Какво е това?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki страница добавена
   label_wiki_content_updated: Wiki страница обновена
   label_wiki_dont_show_menu_item: Не показвай този wikipage в проектната навигация
   label_wiki_edit: Редактиране на Wiki
   label_wiki_edit_plural: Wiki редакции
-  label_wiki_menu_item: Wiki елемент от меню
   label_wiki_navigation: Wiki навигация
-  label_wiki_page: Wiki страница
   label_wiki_page_attachments: Прикачени файлове към страници в Уикипедия
   label_wiki_page_id: Идентификатор на страницата в Уикипедия
   label_wiki_page_plural: Wiki страници
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показване на елемент от подменюто "Съдържание"
   label_wiki_show_menu_item: Покажи като меню в проектната навигация
   label_wiki_show_new_page_link: Показване на елемент от подменю "Създай нова подстраница"
@@ -3954,7 +3945,6 @@ bg:
   label_work_package_hierarchy: Йерархия на работните пакети
   label_work_package_new: Нов работен пакет
   label_work_package_plural: Работни пакети
-  label_work_package_status: Статус на работен пакет
   label_work_package_status_new: Ново състояние
   label_work_package_status_plural: Статуси на работни пакети
   label_work_package_tracking: Проследяване на работен пакет

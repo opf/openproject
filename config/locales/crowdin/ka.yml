@@ -2585,8 +2585,12 @@ ka:
   description_available_columns: Available Columns
   description_category_reassign: Choose category
   description_choose_project: პროექტები
-  description_compare_from: შედარება
-  description_compare_to: შედარება
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'თქვენ აქ ხართ: '
   description_date_from: Enter start date
   description_date_to: შეიყვანეთ დასრულების დრო
@@ -2788,8 +2792,6 @@ ka:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ ka:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: მარქაფი
-  label_backup_code: მარქაფის კოდი
   label_basic_details: Basic details
   label_between: მითითებულ დროის შუალედში
   label_blocked_by: დაბლოკილია
@@ -3309,7 +3310,6 @@ ka:
   label_calendar_show: კალენდრის ჩვენება
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: კატეგორია
   label_change_parent: მშობლის შეცვლა
   label_change_password: Change password
   label_change_plural: ცვლილებები
@@ -3318,9 +3318,9 @@ ka:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
-  label_changeset: ცვლილებები
   label_changeset_id: ცვლილებების სეტის ID
   label_changeset_plural: ცვლილებები
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: შემოწმებულია
@@ -3492,7 +3492,6 @@ ka:
   label_git_path: Path to .git directory
   label_global: გლობალური
   label_global_modules: Global modules
-  label_global_role: გლობალური როლი
   label_global_roles: გლობალური როლები
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ ka:
   label_last_week: ბოლო კვირას
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
-  label_ldap_auth_source: LDAP მიერთება
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3591,7 +3589,6 @@ ka:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: წევრები
-  label_member_role: როლი პროექტში
   label_membership_added: წევრი დაემატა
   label_membership_plural: Memberships
   label_membership_updated: წევრი განახლდა
@@ -3704,7 +3701,6 @@ ka:
   label_permissions: წვდომები
   label_permissions_report: Permissions report
   label_personalize_page: Personalize this page
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: დაგეგმვა
@@ -3767,7 +3763,6 @@ ka:
   label_related_work_packages: Related work packages
   label_relates: მიეკუთვნება
   label_relates_to: მიეკუთვნება
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@ ka:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Send a test email
-  label_session: სესია
   label_setting_plural: მორგება
   label_share: გაზიარება
   label_share_project_list: Share project list
@@ -3896,7 +3890,6 @@ ka:
   label_used_by: გამოიყენება
   label_used_by_types: გამოიყენება ტიპების მიერ
   label_used_in_projects: Used in projects
-  label_user: მომხმარებელი
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: ანონიმური
@@ -3927,19 +3920,17 @@ ka:
   label_week: კვირა
   label_weighted_item_list: Weighted item list
   label_what_is_this: რა არის ეს?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: ვიკის ჩასწორება
   label_wiki_edit_plural: ვიკის ჩასწორებები
-  label_wiki_menu_item: ვიკის მენიუს პუნქტი
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: ვიკი გვერდი
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: ვიკი გვერდის ID
   label_wiki_page_plural: ვიკის გვერდები
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3956,7 +3947,6 @@ ka:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: New work package
   label_work_package_plural: სამუშაო პაკეტები
-  label_work_package_status: Work package status
   label_work_package_status_new: ახალი სტატუსი
   label_work_package_status_plural: Work package statuses
   label_work_package_tracking: Work package tracking

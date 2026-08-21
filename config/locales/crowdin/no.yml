@@ -2585,8 +2585,12 @@
   description_available_columns: Tilgjengelige Kolonner
   description_category_reassign: Velg kategori
   description_choose_project: Prosjekter
-  description_compare_from: Sammenlign fra
-  description_compare_to: Sammenlign med
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Du er her: '
   description_date_from: Skriv startdato
   description_date_to: Skriv sluttdato
@@ -2788,8 +2792,6 @@
         description: Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Del arbeidspakker med brukere som ikke er medlemmer i prosjektet.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@
   label_available_project_work_package_types: Tilgjengelige arbeidspakketyper
   label_available_projects: Tilgjengelige prosjekter
   label_backup: Sikkerhetskopi
-  label_backup_code: Sikkerhetskopieringskode
   label_basic_details: Basic details
   label_between: mellom
   label_blocked_by: blokkert av
@@ -3309,7 +3310,6 @@
   label_calendar_show: Vis kalender
   label_calendar_subscriptions: Abonnementer til kalendere
   label_calendars_and_dates: Kalendere og datoer
-  label_category: Kategori
   label_change_parent: Endre overordnet
   label_change_password: Change password
   label_change_plural: Endringer
@@ -3318,9 +3318,9 @@
   label_change_status_of_user: 'Endre status på #{username}'
   label_change_view_all: Vis alle endringer
   label_changes_details: Detaljer for alle endringer
-  label_changeset: Endringssett
   label_changeset_id: Endringssett ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sjekk/Avmerk alle i kolonnen
   label_check_uncheck_all_in_row: Sjekk/Avmerk alle på rad
   label_checked: valgt
@@ -3492,7 +3492,6 @@
   label_git_path: Sti til .git-mappe
   label_global: Globalt
   label_global_modules: Global modules
-  label_global_role: Global rolle
   label_global_roles: Globale roller
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@
   label_last_week: siste uke
   label_latest_revision: Siste revisjon
   label_latest_revision_plural: Siste revideringer
-  label_ldap_auth_source: LDAP-tilkobling
   label_ldap_auth_source_new: Ny LDAP-forbindelse
   label_ldap_auth_source_plural: LDAP-forbindelser
   label_ldap_authentication: LDAP-autentisering
@@ -3591,7 +3589,6 @@
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Medlemmer
-  label_member_role: Prosjektrolle
   label_membership_added: Medlem lagt til
   label_membership_plural: Medlemskap
   label_membership_updated: Medlem oppdatert
@@ -3704,7 +3701,6 @@
   label_permissions: Tilganger
   label_permissions_report: Tilgangsrapport
   label_personalize_page: Tilpass denne siden
-  label_placeholder_user: Plassholder bruker
   label_placeholder_user_new: Ny plassholderbruker
   label_placeholder_user_plural: Plassholder brukere
   label_planning: Planlegging
@@ -3767,7 +3763,6 @@
   label_related_work_packages: Relaterte arbeidspakker
   label_relates: relatert til
   label_relates_to: relatert til
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Slett relasjon
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@
   label_send_information: Send nye opplysninger til brukeren
   label_send_invitation: Send invitasjon
   label_send_test_email: Send en testmail
-  label_session: Sesjon
   label_setting_plural: Innstillinger
   label_share: Del
   label_share_project_list: Del prosjektliste
@@ -3896,7 +3890,6 @@
   label_used_by: Brukt av
   label_used_by_types: Brukt av typer
   label_used_in_projects: Brukes i prosjekter
-  label_user: Bruker
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Brukere og tillatelser
   label_user_anonymous: Anonym
@@ -3927,19 +3920,17 @@
   label_week: Uke
   label_weighted_item_list: Weighted item list
   label_what_is_this: Hva er dette?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki-side lagt til
   label_wiki_content_updated: Wiki-side oppdatert
   label_wiki_dont_show_menu_item: Ikke vis denne wiki-siden i prosjektmenyen
   label_wiki_edit: Wiki-redigering
   label_wiki_edit_plural: Wiki-redigeringer
-  label_wiki_menu_item: Wiki menyelement
   label_wiki_navigation: Wiki-meny
-  label_wiki_page: Wiki-side
   label_wiki_page_attachments: Wiki-side vedlegg
   label_wiki_page_id: Wiki-side ID
   label_wiki_page_plural: Wiki-sider
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Vis undermenyelement 'Innholdsfortegnelse'
   label_wiki_show_menu_item: Vis som menyelement i prosjektmeny
   label_wiki_show_new_page_link: Vis undermenyelement 'Opprett ny underside'
@@ -3956,7 +3947,6 @@
   label_work_package_hierarchy: Hierarki for arbeidspakker
   label_work_package_new: Ny arbeidspakke
   label_work_package_plural: Arbeidspakker
-  label_work_package_status: Status for arbeidspakke
   label_work_package_status_new: Ny status
   label_work_package_status_plural: Statuser for arbeidspakke
   label_work_package_tracking: Sporing av arbeidspakke

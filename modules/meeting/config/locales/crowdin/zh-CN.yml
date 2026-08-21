@@ -261,7 +261,6 @@ zh-CN:
   label_past_meetings: 过去的会议
   label_past_meetings_short: 过往
   label_recurring_filter: 重复过滤器
-  label_recurring_meeting: 定期会议
   label_recurring_meeting_cancel: 取消此事件
   label_recurring_meeting_create: 打开
   label_recurring_meeting_delete: 删除事件

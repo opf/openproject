@@ -2455,8 +2455,12 @@ zh-TW:
   description_available_columns: 可用欄
   description_category_reassign: 選擇類別
   description_choose_project: 專案
-  description_compare_from: 比較：
-  description_compare_to: 比較：
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 你在這裡：
   description_date_from: 輸入開始日期
   description_date_to: 輸入結束日期
@@ -2655,8 +2659,6 @@ zh-TW:
         description: 確保在其他使用者存取 OpenProject 中上傳的檔案前，對其進行病毒掃描。
       weighted_item_lists:
         description: 加權項目清單可讓您建立一個與基本數值相關的清單。
-      work_package_query_relation_columns:
-        description: 需要在工作套件清單中查看關聯或子套件嗎？
       work_package_sharing:
         description: 與不是專案成員的使用者共同參與工作套件。
       work_package_subject_generation:
@@ -3152,7 +3154,6 @@ zh-TW:
   label_available_project_work_package_types: 可用的工作套件類型
   label_available_projects: 可用專案
   label_backup: 備份
-  label_backup_code: 備份代碼
   label_basic_details: 基本訊息
   label_between: 介於
   label_blocked_by: 標示禁止者
@@ -3172,7 +3173,6 @@ zh-TW:
   label_calendar_show: 顯示行事曆
   label_calendar_subscriptions: 訂閱行事曆
   label_calendars_and_dates: 行事曆與日期
-  label_category: 類別
   label_change_parent: 變更父項
   label_change_password: Change password
   label_change_plural: 更改
@@ -3181,9 +3181,9 @@ zh-TW:
   label_change_status_of_user: '更改 #{username} 的狀態'
   label_change_view_all: 檢視所有更改
   label_changes_details: 所有更改的詳細資訊
-  label_changeset: 變更集
   label_changeset_id: 變更集 ID
   label_changeset_plural: 變更項目
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: 選取/取消選取 全部
   label_check_uncheck_all_in_row: 選取/取消選取 全部
   label_checked: 已選取
@@ -3355,7 +3355,6 @@ zh-TW:
   label_git_path: ".git 目錄的路徑"
   label_global: 全域設定
   label_global_modules: 全域模組
-  label_global_role: 全域角色
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
@@ -3424,7 +3423,6 @@ zh-TW:
   label_last_week: 上週
   label_latest_revision: 最新版本
   label_latest_revision_plural: 最新版本
-  label_ldap_auth_source: LDAP 連線
   label_ldap_auth_source_new: 新增LDAP 連線
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
@@ -3454,7 +3452,6 @@ zh-TW:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 成員
-  label_member_role: 專案角色
   label_membership_added: 成員已新增
   label_membership_plural: 成員資格
   label_membership_updated: 成員更新
@@ -3567,7 +3564,6 @@ zh-TW:
   label_permissions: 權限
   label_permissions_report: 權限列表
   label_personalize_page: 個人化本頁
-  label_placeholder_user: 佔位符使用者
   label_placeholder_user_new: 新的佔位符使用者
   label_placeholder_user_plural: 佔位符使用者
   label_planning: 計劃中
@@ -3630,7 +3626,6 @@ zh-TW:
   label_related_work_packages: 相關的工作套件
   label_relates: 相關於
   label_relates_to: 相關於
-  label_relation: 關聯
   label_relation_actions: 關聯動作
   label_relation_delete: 刪除關聯
   label_relation_edit: 編輯關聯
@@ -3683,7 +3678,6 @@ zh-TW:
   label_send_information: 寄送密碼給使用者
   label_send_invitation: 發送邀請
   label_send_test_email: 發送測試電子郵件
-  label_session: 連線
   label_setting_plural: 設定
   label_share: 參與
   label_share_project_list: 分享專案清單
@@ -3759,7 +3753,6 @@ zh-TW:
   label_used_by: 使用者
   label_used_by_types: 被類別使用中
   label_used_in_projects: 被專案使用中
-  label_user: 使用者
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: 使用者與權限
   label_user_anonymous: 匿名者
@@ -3790,19 +3783,17 @@ zh-TW:
   label_week: 週
   label_weighted_item_list: 加權項目清單
   label_what_is_this: 這是什麼？
-  label_widget: 小工具
   label_widget_new: 新增小工具
   label_wiki_content_added: 新增維基頁面
   label_wiki_content_updated: 維基頁面有更新
   label_wiki_dont_show_menu_item: 不要在專案導覽呈現這個 wiki 頁面
   label_wiki_edit: Wiki 編輯
   label_wiki_edit_plural: Wiki 編輯
-  label_wiki_menu_item: 維基選單項目
   label_wiki_navigation: Wiki 導覽
-  label_wiki_page: 維基頁面
   label_wiki_page_attachments: Wiki 頁面附件
   label_wiki_page_id: Wiki 頁面 ID
   label_wiki_page_plural: 維基頁面
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 顯示子功能表 '表格內容'
   label_wiki_show_menu_item: 在專案導覽中以子功能表呈現
   label_wiki_show_new_page_link: 顯示子功能表 '新增子頁面'
@@ -3819,7 +3810,6 @@ zh-TW:
   label_work_package_hierarchy: 工作套件層級
   label_work_package_new: 新增工作套件
   label_work_package_plural: 工作套件
-  label_work_package_status: 工作套件狀態
   label_work_package_status_new: 新狀態
   label_work_package_status_plural: 工作套件狀態
   label_work_package_tracking: 工作套件追蹤

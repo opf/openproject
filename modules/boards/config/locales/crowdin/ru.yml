@@ -3,10 +3,10 @@ ru:
   activerecord:
     models:
       boards/grid:
-        one: Board
+        one: Доска
         few: Boards
         many: Boards
-        other: Boards
+        other: Доски
   boards:
     board_type_attributes:
       assignee: Исполнитель

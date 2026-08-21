@@ -114,7 +114,6 @@ sl:
   help_click_to_edit: Kliknite tukaj, za urejanje
   help_currency_format: Oblika prikazanih vrednosti valut. %n se nadomesti z vrednostjo valute, %u je zamenjan z enoto valute.
   help_override_rate: Vnesite vrednost, da nadomestite privzeto stopnjo.
-  label_budget: Proračun
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Proračun #%{id}'

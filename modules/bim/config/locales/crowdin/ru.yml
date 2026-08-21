@@ -39,25 +39,25 @@ ru:
               invalid_ifc_file: Указанный файл не является допустимым файлом IFC.
     models:
       bim/bcf/comment:
-        one: BCF comment
+        one: Комментарий BCF
         few: BCF comments
         many: BCF comments
-        other: BCF comments
+        other: Комментарии BCF
       bim/bcf/issue:
-        one: BCF issue
+        one: Проблема BCF
         few: BCF issues
         many: BCF issues
-        other: BCF issues
+        other: Проблемы BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
+        one: Точка просмотра BCF
         few: BCF viewpoints
         many: BCF viewpoints
-        other: BCF viewpoints
+        other: Точки просмотра BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
+        one: Модель IFC
         few: IFC models
         many: IFC models
-        other: IFC models
+        other: Модели IFC
   attributes:
     bcf_thumbnail: Снимок BCF
   bcf:

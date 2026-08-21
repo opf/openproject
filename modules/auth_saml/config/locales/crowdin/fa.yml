@@ -34,8 +34,8 @@ fa:
           unmatched_private_key: متعلق به مدرک ارائه شده نیست
     models:
       saml/provider:
-        one: SAML provider
-        other: SAML providers
+        one: ارائه‌دهنده SAML
+        other: ارائه‌دهندگان SAML
   saml:
     delete_heading: این ارائه‌دهنده SAML حذف شود؟
     delete_title: حذف ارائه‌دهنده SAML

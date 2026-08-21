@@ -108,7 +108,6 @@ hu:
   help_click_to_edit: Szerkesztéshez kattintson ide.
   help_currency_format: Megjelenített pénznem-értékek megjelenítési formátuma. %n helyébe a pénznem értéke, %u helyébe a neve kerül.
   help_override_rate: Adjon meg egy értéket az alapértelmezett díj felülírásához.
-  label_budget: Költségvetés
   label_budget_available: Rendelkezésre álló költségvetés
   label_budget_details: Költségvetés részletei
   label_budget_id: 'Költségvetés #%{id}'

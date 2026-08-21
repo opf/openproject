@@ -2625,8 +2625,12 @@ hu:
   description_available_columns: Elérhető oszlopok
   description_category_reassign: Válasszon kategóriát
   description_choose_project: Projektek
-  description_compare_from: Összehasonlítás ezzel
-  description_compare_to: Összehasonlítás ehhez
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Itt vagy:'
   description_date_from: Adja meg a kezdő dátumot
   description_date_to: Írjon befejező dátumot
@@ -2840,8 +2844,6 @@ hu:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3345,7 +3347,6 @@ hu:
   label_available_project_work_package_types: Rendelkezésre álló munkacsomag típusok
   label_available_projects: Available projects
   label_backup: Biztonsági mentés
-  label_backup_code: Visszaállítási kulcs
   label_basic_details: Basic details
   label_between: között
   label_blocked_by: Blokkolta
@@ -3365,7 +3366,6 @@ hu:
   label_calendar_show: Kalendárium mutatása
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategória
   label_change_parent: Szülő módosítása
   label_change_password: Change password
   label_change_plural: Változtat
@@ -3374,9 +3374,9 @@ hu:
   label_change_status_of_user: "#{username} állapotának módosítása"
   label_change_view_all: Az összes változtatás megtekintése
   label_changes_details: Minden változás adatai
-  label_changeset: Commit
   label_changeset_id: Commit ID
   label_changeset_plural: Commit-ok
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Megjelöl/Jelölést töröl minden oszlopban
   label_check_uncheck_all_in_row: Megjelöl/Jelölést töröl minden sorban
   label_checked: Ellenőrzött
@@ -3548,7 +3548,6 @@ hu:
   label_git_path: ".Git könyvtár elérési útja"
   label_global: Globális
   label_global_modules: Global modules
-  label_global_role: Globális szerepkör
   label_global_roles: Globális szerepek
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3617,7 +3616,6 @@ hu:
   label_last_week: múlt héten
   label_latest_revision: Legutolsó változat
   label_latest_revision_plural: Legutolsó változatok
-  label_ldap_auth_source: LDAP csatlakozás
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP-hitelesítés
@@ -3647,7 +3645,6 @@ hu:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Tagok
-  label_member_role: Projekt szerepkör
   label_membership_added: Felhasználó hozzáadva
   label_membership_plural: Memberships
   label_membership_updated: Felhasználó frissítve
@@ -3760,7 +3757,6 @@ hu:
   label_permissions: Jogosultságok
   label_permissions_report: Jogosultságok riportálása
   label_personalize_page: A lap testreszabása
-  label_placeholder_user: Teszt felhasználó
   label_placeholder_user_new: Új teszt felhasználó
   label_placeholder_user_plural: Teszt felhasználók
   label_planning: Tervezés
@@ -3823,7 +3819,6 @@ hu:
   label_related_work_packages: Kapcsolódó munkacsomagok
   label_relates: Kapcsolódó
   label_relates_to: Kapcsolódó
-  label_relation: Kapcsolat
   label_relation_actions: Relation actions
   label_relation_delete: Kapcsolat törlése
   label_relation_edit: Edit relation
@@ -3876,7 +3871,6 @@ hu:
   label_send_information: Send new credentials to the user
   label_send_invitation: Meghívó küldése
   label_send_test_email: Teszt levél küldése
-  label_session: Munkamenet
   label_setting_plural: Beállítások
   label_share: Megosztás
   label_share_project_list: Share project list
@@ -3952,7 +3946,6 @@ hu:
   label_used_by: Által használt
   label_used_by_types: Használt típusok szerint
   label_used_in_projects: Használt projektek szerint
-  label_user: Felhasználó
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Felhasználók és jogok
   label_user_anonymous: Anonymous
@@ -3983,19 +3976,17 @@ hu:
   label_week: Hét
   label_weighted_item_list: Weighted item list
   label_what_is_this: Mi ez?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki oldal hozzáadva
   label_wiki_content_updated: Wiki oldal frissítve
   label_wiki_dont_show_menu_item: Nem mutasd meg ezt a wikioldalt a projekt navigáció közben
   label_wiki_edit: Wiki szerkesztés
   label_wiki_edit_plural: Wiki szerkesztések
-  label_wiki_menu_item: Wiki menüpont
   label_wiki_navigation: Wiki navigáció
-  label_wiki_page: Wiki oldal
   label_wiki_page_attachments: Wiki oldal mellékletek
   label_wiki_page_id: Wiki oldal azonosító
   label_wiki_page_plural: Wiki oldalak
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Megjeleníti az almenüpont feladatainak "Tartalomjegyzékét"
   label_wiki_show_menu_item: Megjeleníti mint menüpont a projekt navigációban
   label_wiki_show_new_page_link: Almenüpont megjelenítése " új gyermekoldal létrehozása"
@@ -4012,7 +4003,6 @@ hu:
   label_work_package_hierarchy: Feladatcsoport hierarchia
   label_work_package_new: Új munkacsomag
   label_work_package_plural: Munkacsomagok
-  label_work_package_status: Feladatcsoport állapot
   label_work_package_status_new: Új állapot
   label_work_package_status_plural: A munkacsomag állapotai
   label_work_package_tracking: A munkacsomag nyomon követése

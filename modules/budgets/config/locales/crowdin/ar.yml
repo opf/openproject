@@ -120,7 +120,6 @@ ar:
   help_click_to_edit: اضغط هنا للتعديل.
   help_currency_format: شكل قِيَم العملة المعروضة. %n تم إبداله بقيمة العملة، %u تم إبداله بوحدة العملة.
   help_override_rate: أدخل قيمة هنا لتجاهل المعدل الافتراضي.
-  label_budget: الميزانية
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'الميزانية #%{id}'

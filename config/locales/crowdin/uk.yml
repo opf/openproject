@@ -2863,8 +2863,12 @@ uk:
   description_available_columns: Доступні стовпці
   description_category_reassign: Оберіть категорію
   description_choose_project: Проекти
-  description_compare_from: Порівняти від
-  description_compare_to: Порівняти до
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ви знаходитесь тут: '
   description_date_from: Введіть дату початку
   description_date_to: Введіть кінцеву дату
@@ -3068,8 +3072,6 @@ uk:
         description: Переконайтеся, що вивантажені в OpenProject файли перевіряються на віруси перед тим, як стають доступними для інших користувачів.
       weighted_item_lists:
         description: Тип «Список зважених елементів» дає змогу створити список із пов’язаними опорними числовими значеннями.
-      work_package_query_relation_columns:
-        description: Хочете переглядати зв’язки або дочірні елементи в списку пакетів робіт?
       work_package_sharing:
         description: Діліться пакетами робіт із користувачами, які не належать до учасників проєкту.
       work_package_subject_generation:
@@ -3577,7 +3579,6 @@ uk:
   label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_projects: Доступні проєкти
   label_backup: Резервна копія
-  label_backup_code: Код резервної копії
   label_basic_details: Основна інформація
   label_between: між ними
   label_blocked_by: заблоковано
@@ -3597,7 +3598,6 @@ uk:
   label_calendar_show: Показати календар
   label_calendar_subscriptions: Підписки на календарі
   label_calendars_and_dates: Календарі й дати
-  label_category: Категорія
   label_change_parent: Змінити батьківський об’єкт
   label_change_password: Змінити пароль
   label_change_plural: Зміни
@@ -3606,9 +3606,9 @@ uk:
   label_change_status_of_user: 'Змінити статус #{username}'
   label_change_view_all: Проглянути всі зміни
   label_changes_details: Подробиці по всіх змінах
-  label_changeset: Набір змін
   label_changeset_id: ID набору змін
   label_changeset_plural: Набір змін
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Позначте/зніміть всі прапорці в колонці
   label_check_uncheck_all_in_row: Позначте/зніміть всі прапорці в рядку
   label_checked: перевірено
@@ -3780,7 +3780,6 @@ uk:
   label_git_path: Шлях до каталогу .git
   label_global: Глобальний
   label_global_modules: Глобальні модулі
-  label_global_role: Глобальна роль
   label_global_roles: Глобальні ролі
   label_go_back: Повернутися на попередній рівень меню
   label_go_forward: Відкрити підменю %{module}
@@ -3849,7 +3848,6 @@ uk:
   label_last_week: ост. тиждень
   label_latest_revision: Остання версія
   label_latest_revision_plural: Останні версії
-  label_ldap_auth_source: LDAP-підключення
   label_ldap_auth_source_new: Нове LDAP-підключення
   label_ldap_auth_source_plural: LDAP-підключення
   label_ldap_authentication: Авторизація за допомогою LDAP
@@ -3879,7 +3877,6 @@ uk:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Учасники
-  label_member_role: Роль у проєкті
   label_membership_added: Учасника додано
   label_membership_plural: Членство
   label_membership_updated: Учасника оновлено
@@ -3992,7 +3989,6 @@ uk:
   label_permissions: Дозволи
   label_permissions_report: Звіт про права доступу
   label_personalize_page: Персоналізуйте цю сторінку
-  label_placeholder_user: Прототип користувача
   label_placeholder_user_new: Створити прототип користувача
   label_placeholder_user_plural: Протототипи користувачів
   label_planning: Планування
@@ -4055,7 +4051,6 @@ uk:
   label_related_work_packages: Пов'язані робочі пакети
   label_relates: зв’язано з
   label_relates_to: пов'язані з
-  label_relation: Зв’язок
   label_relation_actions: Дії зі зв’язками
   label_relation_delete: Видалити зв'язок
   label_relation_edit: Редагувати зв’язок
@@ -4108,7 +4103,6 @@ uk:
   label_send_information: Надіслати нові облікові дані користувачу
   label_send_invitation: Надіслати запрошення
   label_send_test_email: Послати email для перевірки
-  label_session: Сеанс
   label_setting_plural: Налаштування
   label_share: Поділитися
   label_share_project_list: Поділитися списком проєктів
@@ -4184,7 +4178,6 @@ uk:
   label_used_by: Використовується
   label_used_by_types: Використовується за типами
   label_used_in_projects: Використовується в проектах
-  label_user: Користувач
   label_user_activity_html: Дії користувача %{value}
   label_user_and_permission: Користувачі й дозволи
   label_user_anonymous: Невідомий
@@ -4215,19 +4208,17 @@ uk:
   label_week: Тиждень
   label_weighted_item_list: Список зважених елементів
   label_what_is_this: Що це?
-  label_widget: Віджет
   label_widget_new: Новий віджет
   label_wiki_content_added: Додано сторінку Wiki
   label_wiki_content_updated: Сторінка Wiki оновлена
   label_wiki_dont_show_menu_item: Не показувати це wikipage в навігації проекту
   label_wiki_edit: Редагування Wiki
   label_wiki_edit_plural: Редагування Wiki
-  label_wiki_menu_item: Пункт меню Wiki
   label_wiki_navigation: Навігація Wiki
-  label_wiki_page: Сторінка Wiki
   label_wiki_page_attachments: Додавання сторінок Wiki
   label_wiki_page_id: ID вікі-сторінки
   label_wiki_page_plural: Сторінки Wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показати пункт підменю "Зміст"
   label_wiki_show_menu_item: Показати як пункт меню в навігації по проекту
   label_wiki_show_new_page_link: Показати елемент підменю "Створити нову початкову сторінку"
@@ -4244,7 +4235,6 @@ uk:
   label_work_package_hierarchy: Ієрархія робочих пакетів
   label_work_package_new: Новий пакет робіт
   label_work_package_plural: Пакет робіт
-  label_work_package_status: Стан пакета робіт
   label_work_package_status_new: Новий статус
   label_work_package_status_plural: Статуси робочих пакетів
   label_work_package_tracking: Відстеження робочого пакету

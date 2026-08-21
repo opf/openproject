@@ -105,7 +105,6 @@ ms:
   help_click_to_edit: Klik sini untuk mengedit.
   help_currency_format: Format nilai mata wang yang dipaparkan. %n digantikan dengan nilai mata wang, %u digantikan dengan unit mata wang.
   help_override_rate: Masukkan nilai disini untuk gantikan kadar default.
-  label_budget: Anggaran
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Anggaran #%{id}'

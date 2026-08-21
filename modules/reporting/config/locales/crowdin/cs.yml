@@ -53,7 +53,6 @@ cs:
   label_closed: uzavřeno
   label_columns: Sloupce
   label_cost_entry_attributes: Atributy nákladové položky
-  label_cost_report: Výkaz nákladů
   label_cost_report_plural: Výkazy nákladů
   label_count: Počet
   label_days_ago: za poslední dny

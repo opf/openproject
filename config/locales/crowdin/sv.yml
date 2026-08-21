@@ -2585,8 +2585,12 @@ sv:
   description_available_columns: Tillgängliga kolumner
   description_category_reassign: Välj kategori
   description_choose_project: Projekt
-  description_compare_from: Jämför formulär
-  description_compare_to: Jämför med
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Du är här: '
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
@@ -2788,8 +2792,6 @@ sv:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ sv:
   label_available_project_work_package_types: Tillgängliga typer för arbetspaket
   label_available_projects: Tillgängliga projekt
   label_backup: Backup
-  label_backup_code: Reservkod
   label_basic_details: Grundläggande detaljer
   label_between: mellan
   label_blocked_by: blockeras av
@@ -3309,7 +3310,6 @@ sv:
   label_calendar_show: Visa kalendern
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategori
   label_change_parent: Ändra överordnad
   label_change_password: Change password
   label_change_plural: Förändringar
@@ -3318,9 +3318,9 @@ sv:
   label_change_status_of_user: 'Ändra status för #{username}'
   label_change_view_all: Visa alla ändringar
   label_changes_details: Uppgifter om alla förändringar
-  label_changeset: Uppdateringar
   label_changeset_id: Uppdaterings-ID
   label_changeset_plural: Uppdateringar
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Markera/avmarkera alla i kolumnen
   label_check_uncheck_all_in_row: Markera/avmarkera allt på raden
   label_checked: vald
@@ -3492,7 +3492,6 @@ sv:
   label_git_path: Sökväg till .git katalog
   label_global: Global
   label_global_modules: Globala moduler
-  label_global_role: Global roll
   label_global_roles: Globala roller
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ sv:
   label_last_week: förra veckan
   label_latest_revision: Senaste revisionen
   label_latest_revision_plural: Senaste revisionerna
-  label_ldap_auth_source: LDAP-anslutning
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP-anslutningar
   label_ldap_authentication: LDAP autentisering
@@ -3591,7 +3589,6 @@ sv:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Medlemmar
-  label_member_role: Projektroll
   label_membership_added: Medlem tillagd
   label_membership_plural: Medlemsskap
   label_membership_updated: Member updated
@@ -3704,7 +3701,6 @@ sv:
   label_permissions: Behörigheter
   label_permissions_report: Rapport över behörigheter
   label_personalize_page: Anpassa den här sidan
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planering
@@ -3767,7 +3763,6 @@ sv:
   label_related_work_packages: Relaterat arbetspaket
   label_relates: Relaterad till
   label_relates_to: Relaterad till
-  label_relation: Relation
   label_relation_actions: Relationsåtgärder
   label_relation_delete: Ta bort relation
   label_relation_edit: Redigera relation
@@ -3820,7 +3815,6 @@ sv:
   label_send_information: Send new credentials to the user
   label_send_invitation: Skicka inbjudan
   label_send_test_email: Skicka test E-post
-  label_session: Session
   label_setting_plural: Inställningar
   label_share: Dela
   label_share_project_list: Dela projektlista
@@ -3896,7 +3890,6 @@ sv:
   label_used_by: Används av
   label_used_by_types: Används av typer
   label_used_in_projects: Används i projekt
-  label_user: Användare
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonym
@@ -3927,19 +3920,17 @@ sv:
   label_week: Vecka
   label_weighted_item_list: Weighted item list
   label_what_is_this: Vad är detta?
-  label_widget: Widget
   label_widget_new: Ny widget
   label_wiki_content_added: Wiki-sidan tillagd
   label_wiki_content_updated: Wiki-sidan uppdaterad
   label_wiki_dont_show_menu_item: Visa inte denna wiki-sida i projektets meny
   label_wiki_edit: Wiki redigering
   label_wiki_edit_plural: Wiki redigeringar
-  label_wiki_menu_item: Wiki menyalternativ
   label_wiki_navigation: Wiki-navigering
-  label_wiki_page: Wiki-sida
   label_wiki_page_attachments: Bilagor till Wiki-sida
   label_wiki_page_id: Wiki-sidans ID
   label_wiki_page_plural: Wiki-sidor
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Visa undermenyn "Innehållsförteckning"
   label_wiki_show_menu_item: Visa som menyobjekt i projektets meny
   label_wiki_show_new_page_link: Visa undermenyn "Skapa ny underordnad sida"
@@ -3956,7 +3947,6 @@ sv:
   label_work_package_hierarchy: Arbetspaketshierarki
   label_work_package_new: Nytt arbetspaket
   label_work_package_plural: Arbetspaket
-  label_work_package_status: Arbetspaketstatus
   label_work_package_status_new: Ny status
   label_work_package_status_plural: Arbetspaketstatus
   label_work_package_tracking: Arbetspaketsspårning

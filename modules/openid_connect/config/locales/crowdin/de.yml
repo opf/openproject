@@ -45,11 +45,11 @@ de:
           non_object_attribute: definiert kein JSON-Objekt unter %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: OpenID Connect Anbieter
+        other: OpenID Connect-Anbieter
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: OpenID Connect-Token
+        other: OpenID Connect-Token
   logout_warning: 'Sie wurden abgemeldet. Der Inhalt eines Formulars, das Sie uns übermitteln, kann verloren gehen. Bitte [einloggen].
 
     '

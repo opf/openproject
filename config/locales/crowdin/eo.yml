@@ -2585,8 +2585,12 @@ eo:
   description_available_columns: Disponeblaj kolumnoj
   description_category_reassign: Elekti kategorion
   description_choose_project: Projektoj
-  description_compare_from: Kompari el
-  description_compare_to: Kompari kun
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Vi estas ĉi tie: '
   description_date_from: Enigu komencdaton
   description_date_to: Enigu la findaton
@@ -2788,8 +2792,6 @@ eo:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ eo:
   label_available_project_work_package_types: Disponeblaj laborpakaĵaj tipoj
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: inter
   label_blocked_by: barita de
@@ -3309,7 +3310,6 @@ eo:
   label_calendar_show: Montri kalendaron
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategorio
   label_change_parent: Change parent
   label_change_password: Change password
   label_change_plural: Ŝanĝoj
@@ -3318,9 +3318,9 @@ eo:
   label_change_status_of_user: 'Ŝanĝi staton de #{username}'
   label_change_view_all: Vidi ĉiujn ŝanĝojn
   label_changes_details: Detaloj de ĉiuj ŝanĝoj
-  label_changeset: Ŝanĝaro
   label_changeset_id: Ŝanĝara ID
   label_changeset_plural: Ŝanĝaroj
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Elekti/Malelekti la tutan kolumnon
   label_check_uncheck_all_in_row: Elekti/Malelekti la tutan vicon
   label_checked: kontrolita
@@ -3492,7 +3492,6 @@ eo:
   label_git_path: Path to .git directory
   label_global: Ĉiea
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ eo:
   label_last_week: pasintsemajne
   label_latest_revision: Lasta versio
   label_latest_revision_plural: Lastaj versioj
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3591,7 +3589,6 @@ eo:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membroj
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3704,7 +3701,6 @@ eo:
   label_permissions: Permesoj
   label_permissions_report: Permesraporto
   label_personalize_page: Tajlori tiun ĉi paĝon
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planado
@@ -3767,7 +3763,6 @@ eo:
   label_related_work_packages: Related work packages
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@ eo:
   label_send_information: Send new credentials to the user
   label_send_invitation: Sendi inviton
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: Agordoj
   label_share: Share
   label_share_project_list: Share project list
@@ -3896,7 +3890,6 @@ eo:
   label_used_by: Uzita de
   label_used_by_types: Used by types
   label_used_in_projects: Uzita en projektoj
-  label_user: Uzanto
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Aanonima
@@ -3927,19 +3920,17 @@ eo:
   label_week: Semajno
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Kromprogrameto
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_menu_item: Vikia menuero
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Vikia paĝo
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3956,7 +3947,6 @@ eo:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: New work package
   label_work_package_plural: Laborpakaĵoj
-  label_work_package_status: Stato de la Laborpakaĵo
   label_work_package_status_new: Nova stato
   label_work_package_status_plural: Laborpakaĵa stato
   label_work_package_tracking: Laborpakaĵa spurado

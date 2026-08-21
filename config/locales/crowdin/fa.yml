@@ -971,215 +971,215 @@ fa:
           other: "%{count} خطا مانع ذخیره این %{model} شدند"
     models:
       action:
-        one: Action
-        other: Actions
+        one: اقدام
+        other: اقدام‌ها
       announcement:
-        one: Announcement
-        other: Announcements
+        one: اعلان
+        other: اعلان‌ها
       anonymous_user:
-        one: Anonymous user
-        other: Anonymous users
+        one: کاربر ناشناس
+        other: کاربران ناشناس
       attachment:
-        one: File
-        other: Files
+        one: فایل
+        other: فایل‌ها
       attribute_help_text:
         one: متن راهنمای ویژگی
         other: متن‌های راهنمای ویژگی
       attribute_help_text/project:
-        one: Project attribute help text
-        other: Project attribute help texts
+        one: متن راهنمای ویژگی پروژه
+        other: متن‌های راهنمای ویژگی پروژه
       attribute_help_text/user:
-        one: User attribute help text
-        other: User attribute help texts
+        one: متن راهنمای ویژگی کاربر
+        other: متن‌های راهنمای ویژگی کاربر
       attribute_help_text/work_package:
-        one: Work package attribute help text
-        other: Work package attribute help texts
+        one: متن راهنمای ویژگی بسته کاری
+        other: متن‌های راهنمای ویژگی بسته کاری
       auth_provider:
         one: ارائه‌دهنده احراز هویت
         other: ارائه‌دهندگان احراز هویت
       backup:
-        one: Backup
-        other: Backups
+        one: نسخه پشتیبان
+        other: نسخه‌های پشتیبان
       capability:
-        one: Capability
-        other: Capabilities
+        one: قابلیت
+        other: قابلیت‌ها
       category:
-        one: Category
-        other: Categories
+        one: دسته‌بندی
+        other: دسته‌بندی‌ها
       change:
-        one: File change
-        other: File changes
+        one: تغییر فایل
+        other: تغییرات فایل
       changeset:
-        one: Changeset
-        other: Changesets
+        one: مجموعه تغییرات
+        other: مجموعه تغییرات
       color:
-        one: Color
-        other: Colors
+        one: رنگ
+        other: رنگ‌ها
       comment:
-        one: Comment
-        other: Comments
+        one: دیدگاه
+        other: دیدگاه‌ها
       custom_action:
-        one: Custom action
-        other: Custom actions
+        one: اقدام سفارشی
+        other: اقدام‌های سفارشی
       custom_field:
-        one: Custom field
-        other: Custom fields
+        one: فیلد سفارشی
+        other: فیلدهای سفارشی
       custom_field/hierarchy/item:
-        one: Hierarchy item
-        other: Hierarchy items
+        one: مورد سلسله‌مراتبی
+        other: موارد سلسله‌مراتبی
       custom_field_section:
-        one: Custom field section
-        other: Custom field sections
+        one: بخش فیلد سفارشی
+        other: بخش‌های فیلد سفارشی
       custom_option:
-        one: Custom field option
-        other: Custom field options
+        one: گزینه فیلد سفارشی
+        other: گزینه‌های فیلد سفارشی
       custom_style:
-        one: Design
-        other: Designs
+        one: طراحی
+        other: طراحی‌ها
       day:
-        one: Day
-        other: Days
+        one: روز
+        other: روزها
       deleted_user:
-        one: Deleted user
-        other: Deleted users
+        one: کاربر حذف‌شده
+        other: کاربران حذف‌شده
       design_color:
-        one: Design color
-        other: Design colors
+        one: رنگ طراحی
+        other: رنگ‌های طراحی
       doorkeeper/application:
-        one: OAuth application
-        other: OAuth applications
+        one: برنامه OAuth
+        other: برنامه‌های OAuth
       emoji_reaction:
-        one: Emoji reaction
-        other: Emoji reactions
+        one: واکنش ایموجی
+        other: واکنش‌های ایموجی
       enterprise_token:
         one: توکن Enterprise
         other: توکن‌های Enterprise
       enterprise_trial:
-        one: Enterprise trial
-        other: Enterprise trials
+        one: دوره آزمایشی Enterprise
+        other: دوره‌های آزمایشی Enterprise
       enumeration:
-        one: Enumeration
-        other: Enumerations
+        one: فهرست شمارشی
+        other: فهرست‌های شمارشی
       export:
-        one: Export
-        other: Exports
+        one: خروجی
+        other: خروجی‌ها
       export_setting:
-        one: Export setting
-        other: Export settings
+        one: تنظیم خروجی
+        other: تنظیمات خروجی
       forum:
-        one: Forum
-        other: Forums
+        one: انجمن
+        other: انجمن‌ها
       global_role:
-        one: Global role
-        other: Global roles
+        one: نقش سراسری
+        other: نقش‌های سراسری
       group:
-        one: Group
-        other: Groups
+        one: گروه
+        other: گروه‌ها
       group_custom_field:
-        one: Group custom field
-        other: Group custom fields
+        one: فیلد سفارشی گروه
+        other: فیلدهای سفارشی گروه
       health_report:
-        one: Health report
-        other: Health reports
+        one: گزارش سلامت
+        other: گزارش‌های سلامت
       issue_priority:
         one: اولویت
         other: اولویت‌ها
       ldap_auth_source:
-        one: LDAP connection
-        other: LDAP connections
+        one: اتصال LDAP
+        other: اتصال‌های LDAP
       mcp_configuration:
-        one: MCP configuration
-        other: MCP configurations
+        one: پیکربندی MCP
+        other: پیکربندی‌های MCP
       member:
-        one: Member
-        other: Members
+        one: عضو
+        other: اعضا
       menu_item:
-        one: Menu item
-        other: Menu items
+        one: آیتم منو
+        other: موارد منو
       menu_items/wiki_menu_item:
-        one: Wiki menu item
-        other: Wiki menu items
+        one: مورد منوی ویکی
+        other: موارد منوی ویکی
       message:
-        one: Message
-        other: Messages
+        one: پیام
+        other: پیام‌ها
       news:
-        one: News
-        other: News
+        one: اخبار
+        other: اخبار
       non_working_day:
-        one: Non-working day
-        other: Non-working days
+        one: روز غیرکاری
+        other: روزهای غیرکاری
       notification:
         one: اعلان‌
         other: اعلان‌ها
       notification_setting:
-        one: Notification setting
-        other: Notification settings
+        one: تنظیم اعلان
+        other: تنظیمات اعلان
       oauth_client:
-        one: OAuth client
-        other: OAuth clients
+        one: کلاینت OAuth
+        other: کلاینت‌های OAuth
       oauth_client_token:
-        one: OAuth client token
-        other: OAuth client tokens
+        one: توکن کلاینت OAuth
+        other: توکن‌های کلاینت OAuth
       persisted_query:
-        one: Persisted query
-        other: Persisted queries
+        one: پرس‌وجوی ذخیره‌شده
+        other: پرس‌وجوهای ذخیره‌شده
       persisted_view:
-        one: Persisted view
-        other: Persisted views
+        one: نمای ذخیره‌شده
+        other: نماهای ذخیره‌شده
       placeholder_user:
-        one: Placeholder user
-        other: Placeholder users
+        one: کاربر جایگزین
+        other: کاربران جایگزین
       plugin_auth_provider:
-        one: Plugin authentication provider
-        other: Plugin authentication providers
+        one: ارائه‌دهنده احراز هویت افزونه
+        other: ارائه‌دهندگان احراز هویت افزونه
       principal:
-        one: Principal
-        other: Principals
+        one: موجودیت امنیتی
+        other: موجودیت‌های امنیتی
       project:
         one: پروژه
         other: پروژه‌ها
       project/phase:
-        one: Project phase
-        other: Project phases
+        one: مرحله پروژه
+        other: مراحل پروژه
       project/phase_definition:
-        one: Project phase definition
-        other: Project phase definitions
+        one: تعریف مرحله پروژه
+        other: تعاریف مراحل پروژه
       project_custom_field:
-        one: Project attribute
-        other: Project attributes
+        one: ویژگی پروژه
+        other: ویژگی‌های پروژه
       project_custom_field_section:
-        one: Project attribute section
-        other: Project attribute sections
+        one: بخش ویژگی‌های پروژه
+        other: بخش‌های ویژگی‌های پروژه
       project_query:
         one: فهرست پروژه
         other: فهرست‌های پروژه
       project_query_role:
-        one: Project list role
-        other: Project list roles
+        one: نقش فهرست پروژه
+        other: نقش‌های فهرست پروژه
       project_role:
-        one: Project role
-        other: Project roles
+        one: نقش پروژه
+        other: نقش‌های پروژه
       query:
-        one: Custom query
-        other: Custom queries
+        one: پرس‌وجوی سفارشی
+        other: پرس‌وجوهای سفارشی
       relation:
-        one: Relation
-        other: Relations
+        one: رابطه
+        other: روابط
       reminder:
-        one: Reminder
-        other: Reminders
+        one: یادآوری
+        other: یادآوری‌ها
       remote_identity:
-        one: Remote identity
-        other: Remote identities
+        one: هویت راه‌دور
+        other: هویت‌های راه‌دور
       repository:
-        one: Repository
-        other: Repositories
+        one: مخزن
+        other: مخزن‌ها
       repository/git:
-        one: Git repository
-        other: Git repositories
+        one: مخزن Git
+        other: مخزن‌های Git
       repository/subversion:
-        one: Subversion repository
-        other: Subversion repositories
+        one: مخزن Subversion
+        other: مخزن‌های Subversion
       role:
         one: نقش
         other: نقش‌ها
@@ -1187,29 +1187,29 @@ fa:
         one: کلاینت SCIM
         other: کلاینت‌های SCIM
       service_account:
-        one: Service account
-        other: Service accounts
+        one: حساب سرویس
+        other: حساب‌های سرویس
       sessions/user_session:
-        one: Session
-        other: Sessions
+        one: نشست
+        other: نشست‌ها
       setting:
-        one: Setting
-        other: Settings
+        one: تنظیم
+        other: تنظیمات
       status:
-        one: Work package status
-        other: Work package statuses
+        one: وضعیت بسته کاری
+        other: وضعیت‌های بسته کاری
       system_user:
-        one: System user
-        other: System users
+        one: کاربر سیستمی
+        other: کاربران سیستمی
       token/api:
         one: توکن دسترسی
         other: توکن‌های دسترسی
       token/base:
-        one: Token
-        other: Tokens
+        one: توکن
+        other: توکن‌ها
       token/ical:
-        one: iCalendar token
-        other: iCalendar tokens
+        one: توکن iCalendar
+        other: توکن‌های iCalendar
       token/rss:
         one: توکن RSS
         other: توکن‌های RSS
@@ -1220,56 +1220,56 @@ fa:
         one: گونه
         other: گونه‌ها
       user:
-        one: User
-        other: Users
+        one: کاربر
+        other: کاربران
       user_custom_field:
-        one: User attribute
-        other: User attributes
+        one: ویژگی کاربر
+        other: ویژگی‌های کاربر
       user_custom_field_section:
-        one: User attribute section
-        other: User attribute sections
+        one: بخش ویژگی‌های کاربر
+        other: بخش‌های ویژگی‌های کاربر
       user_non_working_time:
-        one: Non-working time
-        other: Non-working times
+        one: زمان غیرکاری
+        other: زمان‌های غیرکاری
       user_password:
-        one: Password
-        other: Passwords
+        one: گذرواژه
+        other: گذرواژه‌ها
       user_preference:
-        one: User preference
-        other: User preferences
+        one: ترجیح کاربر
+        other: ترجیحات کاربر
       user_query:
-        one: User list
-        other: User lists
+        one: فهرست کاربران
+        other: فهرست‌های کاربران
       user_working_hours:
-        one: Working hours
-        other: Working hours
+        one: ساعات کاری
+        other: ساعات کاری
       version:
-        one: Version
-        other: Versions
+        one: نسخه
+        other: نسخه‌ها
       version_custom_field:
-        one: Version custom field
-        other: Version custom fields
+        one: فیلد سفارشی نسخه
+        other: فیلدهای سفارشی نسخه
       view:
-        one: View
-        other: Views
+        one: نما
+        other: نماها
       wiki:
-        one: Wiki
-        other: Wikis
+        one: ویکی
+        other: ویکی‌ها
       wiki_page:
-        one: Wiki page
-        other: Wiki pages
+        one: صفحه ویکی
+        other: صفحه‌های ویکی
       work_package:
-        one: Work package
-        other: Work packages
+        one: بسته کاری
+        other: بسته‌های کاری
       work_package_custom_field:
-        one: Work package custom field
-        other: Work package custom fields
+        one: فیلد سفارشی بسته کاری
+        other: فیلدهای سفارشی بسته کاری
       work_package_role:
-        one: Work package role
-        other: Work package roles
+        one: نقش بسته کاری
+        other: نقش‌های بسته کاری
       workflow:
-        one: Workflow
-        other: Workflows
+        one: گردش‌کار
+        other: گردش‌کارها
   activities:
     index:
       no_results_title_text: در این بازه زمانی عملیاتی برای این پروژه انجام نشده است.
@@ -2001,7 +2001,7 @@ fa:
     custom_field: فیلد سفارشی
     custom_options: مقادیر ممکن
     custom_values: فیلدهای سفارشی
-    customized: Customized
+    customized: سفارشی‌شده
     date: تاریخ
     dates_interval: بازه تاریخ
     default_columns: ستون‌های پیش‌فرض
@@ -2452,7 +2452,7 @@ fa:
     - جمعه
     - شنبه
     formats:
-      default: "%m/%d/%Y"
+      default: "%Y/%m/%d"
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
@@ -2581,8 +2581,12 @@ fa:
   description_available_columns: ستون‌های موجود
   description_category_reassign: انتخاب دسته‌بندی
   description_choose_project: پروژه‌ها
-  description_compare_from: مقایسه از
-  description_compare_to: مقایسه تا
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'شما اینجا هستید: '
   description_date_from: تاریخ شروع را وارد کنید
   description_date_to: تاریخ پایان را وارد کنید
@@ -2784,8 +2788,6 @@ fa:
         description: اطمینان حاصل کنید فایل‌های بارگذاری‌شده در OpenProject پیش از دسترسی سایر کاربران برای ویروس اسکن می‌شوند.
       weighted_item_lists:
         description: فهرست‌های آیتم وزن‌دار امکان ایجاد فهرستی با مقادیر عددی زیربنایی مرتبط را می‌دهند.
-      work_package_query_relation_columns:
-        description: لازم است روابط یا عناصر فرزند را در فهرست بسته‌های کاری ببینید؟
       work_package_sharing:
         description: بسته‌های کاری را با کاربرانی که عضو پروژه نیستند به اشتراک بگذارید.
       work_package_subject_generation:
@@ -3285,7 +3287,6 @@ fa:
   label_available_project_work_package_types: نوع‌های بسته کاری موجود
   label_available_projects: پروژه‌های موجود
   label_backup: پشتیبان‌گیری
-  label_backup_code: کد پشتیبان
   label_basic_details: جزئیات پایه
   label_between: بین
   label_blocked_by: مسدودشده توسط
@@ -3305,7 +3306,6 @@ fa:
   label_calendar_show: نمایش تقویم
   label_calendar_subscriptions: اشتراک‌های تقویم
   label_calendars_and_dates: تقویم‌ها و تاریخ‌ها
-  label_category: دسته‌بندی
   label_change_parent: تغییر والد
   label_change_password: تغییر گذرواژه
   label_change_plural: تغییرات
@@ -3314,9 +3314,9 @@ fa:
   label_change_status_of_user: 'وضعیت #{username} تغییر کرد'
   label_change_view_all: مشاهده همه تغییرات
   label_changes_details: جزئیات همه تغییرات
-  label_changeset: مجموعه تغییرات
   label_changeset_id: شناسه مجموعه تغییرات
   label_changeset_plural: مجموعه تغییرات
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: انتخاب/لغو انتخاب همه در ستون
   label_check_uncheck_all_in_row: انتخاب/لغو انتخاب همه در ردیف
   label_checked: انتخاب‌شده
@@ -3463,7 +3463,7 @@ fa:
   label_feeds_access_key: کلید دسترسی RSS
   label_feeds_access_key_created_on: کلید دسترسی RSS، ایجادشده %{value} پیش
   label_feeds_access_key_type: RSS
-  label_file: File
+  label_file: فایل
   label_file_plural: فایل‌ها
   label_filter: فیلترها
   label_filter_add: افزودن فیلتر
@@ -3488,7 +3488,6 @@ fa:
   label_git_path: مسیر دایرکتوری .git
   label_global: عمومی
   label_global_modules: ماژول‌های سراسری
-  label_global_role: نقش سراسری
   label_global_roles: نقش‌های سراسری
   label_go_back: بازگشت یک سطح منو
   label_go_forward: بازکردن زیرمنوی %{module}
@@ -3557,7 +3556,6 @@ fa:
   label_last_week: هفته گذشته
   label_latest_revision: آخرین Revision
   label_latest_revision_plural: آخرین Revisionها
-  label_ldap_auth_source: اتصال LDAP
   label_ldap_auth_source_new: اتصال LDAP جدید
   label_ldap_auth_source_plural: اتصال‌های LDAP
   label_ldap_authentication: احراز هویت LDAP
@@ -3587,7 +3585,6 @@ fa:
   label_member_of_group: عضو گروه
   label_member_of_project: عضو پروژه
   label_member_plural: اعضا
-  label_member_role: نقش پروژه
   label_membership_added: عضو اضافه شد
   label_membership_plural: عضویت‌ها
   label_membership_updated: عضو به‌روزرسانی شد
@@ -3700,7 +3697,6 @@ fa:
   label_permissions: مجوزها
   label_permissions_report: گزارش مجوزها
   label_personalize_page: شخصی‌سازی این صفحه
-  label_placeholder_user: کاربر جایگزین
   label_placeholder_user_new: کاربر جایگزین جدید
   label_placeholder_user_plural: کاربران جایگزین
   label_planning: برنامه‌ریزی
@@ -3763,7 +3759,6 @@ fa:
   label_related_work_packages: بسته‌های کاری مرتبط
   label_relates: مرتبط با
   label_relates_to: مرتبط با
-  label_relation: رابطه
   label_relation_actions: اقدام‌های رابطه
   label_relation_delete: حذف رابطه
   label_relation_edit: ویرایش رابطه
@@ -3816,7 +3811,6 @@ fa:
   label_send_information: ارسال اعتبارنامه جدید برای کاربر
   label_send_invitation: ارسال دعوت نامه
   label_send_test_email: ارسال ایمیل آزمایشی
-  label_session: نشست
   label_setting_plural: تنظیمات
   label_share: اشتراک‌گذاری
   label_share_project_list: اشتراک‌گذاری فهرست پروژه
@@ -3892,7 +3886,6 @@ fa:
   label_used_by: استفاده‌شده توسط
   label_used_by_types: استفاده‌شده توسط نوع‌ها
   label_used_in_projects: استفاده‌شده در پروژه‌ها
-  label_user: کاربر
   label_user_activity_html: فعالیت %{value}
   label_user_and_permission: کاربران و مجوزها
   label_user_anonymous: ناشناس
@@ -3923,19 +3916,17 @@ fa:
   label_week: هفته
   label_weighted_item_list: فهرست آیتم وزن‌دار
   label_what_is_this: این چیست؟
-  label_widget: ویجت
   label_widget_new: Widget جدید
   label_wiki_content_added: صفحه Wiki اضافه شد
   label_wiki_content_updated: صفحه Wiki به‌روزرسانی شد
   label_wiki_dont_show_menu_item: این صفحه Wiki را در پیمایش پروژه نمایش نده
   label_wiki_edit: ویرایش Wiki
   label_wiki_edit_plural: ویرایش‌های Wiki
-  label_wiki_menu_item: آیتم منوی Wiki
   label_wiki_navigation: پیمایش Wiki
-  label_wiki_page: صفحه Wiki
   label_wiki_page_attachments: پیوست صفحه ویکی
   label_wiki_page_id: شناسه صفحه Wiki
   label_wiki_page_plural: صفحه‌های Wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: نمایش زیرآیتم منو «فهرست مطالب»
   label_wiki_show_menu_item: نمایش به‌عنوان آیتم منو در پیمایش پروژه
   label_wiki_show_new_page_link: نمایش زیرآیتم منو «ایجاد صفحه فرزند جدید»
@@ -3952,7 +3943,6 @@ fa:
   label_work_package_hierarchy: سلسله‌مراتب بسته کاری
   label_work_package_new: بسته کاری جدید
   label_work_package_plural: بسته‌های کاری
-  label_work_package_status: وضعیت بسته کاری
   label_work_package_status_new: وضعیت جدید
   label_work_package_status_plural: وضعیت‌های بسته کاری
   label_work_package_tracking: ردیابی بسته کاری
@@ -6157,7 +6147,7 @@ fa:
   time:
     am: ق.ظ
     formats:
-      default: "%m/%d/%Y %I:%M %p"
+      default: "%Y/%m/%d %I:%M %p"
       long: "%d %B %Y %H:%M"
       short: "%d %b %H:%M"
       time: "%I:%M %p"
@@ -6397,12 +6387,12 @@ fa:
         parent_suffix: " (والد)"
       variants:
         blankslate:
-          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+          description_html: 'می‌توانید برای ارائه نسخه‌های متفاوت این نوع به پروژه‌های مختلف، گونه‌ها را ایجاد کنید.<br> هر گونه می‌تواند پیکربندی الگوی پیش‌فرض، فیلدهای سفارشی، گردش‌کارها و ترجیحات را به ارث ببرد، کپی کند یا پیکربندی اختصاصی خود را داشته باشد.
 
             '
-          title: No variants exist for this type
-        filter: Filter by text
-        filter_no_results: No variants match this filter
+          title: هیچ گونه‌ای برای این نوع وجود ندارد
+        filter: فیلتر بر اساس متن
+        filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
       workflow:
         tab: گردش‌کارها
     index:
@@ -6570,7 +6560,7 @@ fa:
         availability_description: ضریب دسترس‌پذیری درصد واقعی زمان کاری شما را نشان می‌دهد که به وظایف پروژه اختصاص دارد. این مقدار جلسات، ایمیل‌ها، کارهای اداری و سایر فعالیت‌های غیرپروژه‌ای را در نظر می‌گیرد.
         availability_factor: ضریب دسترس‌پذیری
         availability_factor_caption: درصد زمان کاری خود را که به کار پروژه اختصاص دارد مشخص کنید.
-        effective_hours: Effective work hours
+        effective_hours: ساعات کاری مؤثر
         hours_mode_label: حالت ساعات
         hours_per_day: ساعت در روز
         individual_hours_mode: ساعات جداگانه در هر روز

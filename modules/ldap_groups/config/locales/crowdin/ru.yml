@@ -21,15 +21,15 @@ ru:
           must_contain_base_dn: Базовый DN фильтра должен содержаться в базе DN LDAP соединения
     models:
       ldap_groups/synchronized_filter:
-        one: LDAP Group synchronization filter
+        one: Фильтр синхронизации групп LDAP
         few: LDAP Group synchronization filters
         many: LDAP Group synchronization filters
-        other: LDAP Group synchronization filters
+        other: Фильтры синхронизации групп LDAP
       ldap_groups/synchronized_group:
-        one: Synchronized LDAP group
+        one: Синхронизированная группа LDAP
         few: Synchronized LDAP groups
         many: Synchronized LDAP groups
-        other: Synchronized LDAP groups
+        other: Синхронизированные LDAP-группы
   ee:
     upsell:
       ldap_groups:

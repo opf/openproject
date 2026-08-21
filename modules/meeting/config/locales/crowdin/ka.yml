@@ -271,7 +271,6 @@ ka:
   label_past_meetings: გასული შეხვედრები
   label_past_meetings_short: წარს
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: გახსნა
   label_recurring_meeting_delete: Delete occurrence

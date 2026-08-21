@@ -53,7 +53,6 @@ sl:
   label_closed: zaprto
   label_columns: Stolpci
   label_cost_entry_attributes: Atributi za vnos stroškov
-  label_cost_report: Poročilo o stroških
   label_cost_report_plural: Poročilo o stroških
   label_count: Šteti
   label_days_ago: v času zadnjih dni

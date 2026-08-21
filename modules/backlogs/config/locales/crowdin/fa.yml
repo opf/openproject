@@ -94,13 +94,13 @@ fa:
     models:
       backlog_bucket:
         one: Backlog bucket
-        other: Backlog buckets
+        other: مخزن‌های بک‌لاگ
       sprint:
         one: اسپرینت
         other: اسپرینت‌ها
       sprint_goal:
-        one: Sprint goal
-        other: Sprint goals
+        one: هدف اسپرینت
+        other: اهداف اسپرینت
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: افزودن بسته کاری موجود

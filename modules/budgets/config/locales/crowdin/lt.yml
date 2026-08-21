@@ -114,7 +114,6 @@ lt:
   help_click_to_edit: Spauskite čia norėdami redaguoti.
   help_currency_format: Rodomos valiutos formatas. %n yra pakeičiamas valiutos reikšme, %u yra pakeičiamas valiutos vienetu.
   help_override_rate: Įveskite reikšmę, kad pakeistumėte numatytąjį koeficientą.
-  label_budget: Biudžetas
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Biudžetas #%{id}'

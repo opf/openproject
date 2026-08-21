@@ -2721,8 +2721,12 @@ lv:
   description_available_columns: Available Columns
   description_category_reassign: Choose category
   description_choose_project: Projekti
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_to: Enter end date
@@ -2925,8 +2929,6 @@ lv:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3430,7 +3432,6 @@ lv:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: between
   label_blocked_by: blocked by
@@ -3450,7 +3451,6 @@ lv:
   label_calendar_show: Show Calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Sadaļa
   label_change_parent: Mainīt vecāku
   label_change_password: Change password
   label_change_plural: Changes
@@ -3459,9 +3459,9 @@ lv:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Izvēlēties/noņemt visus kolonnā
   label_check_uncheck_all_in_row: Izvēlēties/noņemt visus rindā
   label_checked: checked
@@ -3633,7 +3633,6 @@ lv:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3702,7 +3701,6 @@ lv:
   label_last_week: last week
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3732,7 +3730,6 @@ lv:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Dalībnieki
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3845,7 +3842,6 @@ lv:
   label_permissions: Permissions
   label_permissions_report: Permissions report
   label_personalize_page: Personalizēt šo lapu
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planning
@@ -3908,7 +3904,6 @@ lv:
   label_related_work_packages: Saistītie pieteikumi
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3961,7 +3956,6 @@ lv:
   label_send_information: Send new credentials to the user
   label_send_invitation: Nosūtīt ielūgumu
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: Iestatījumi
   label_share: Koplietot
   label_share_project_list: Share project list
@@ -4037,7 +4031,6 @@ lv:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: Lietotāji
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonymous
@@ -4068,19 +4061,17 @@ lv:
   label_week: Week
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki labojumi
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -4097,7 +4088,6 @@ lv:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: Jauns pieteikums
   label_work_package_plural: Pieteikumi
-  label_work_package_status: Work package status
   label_work_package_status_new: New status
   label_work_package_status_plural: Pieteikumu statusi
   label_work_package_tracking: Pieteikumi

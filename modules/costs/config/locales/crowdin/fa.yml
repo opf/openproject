@@ -73,14 +73,24 @@ fa:
             project_ids:
               blank: لطفاً یک پروژه انتخاب کنید.
         time_entry:
-          cannot_log_for_this_work_package: برای این بسته کاری نمی‌توان زمان ثبت کرد.
-          duplicate_ongoing: یک ورودی زمانِ در حال اجرا از قبل برای این کاربر وجود دارد.
-          exceeds_user_working_hours: نمی‌تواند از %{limit} ساعتِ موجود در روز کاری کاربر بیشتر باشد.
-          in_past_month: در ماهی قرار دارد که بسته شده است. ورودی‌های زمان فقط از %{date} به بعد قابل افزودن، تغییر یا حذف هستند.
-          invalid_time: باید بین 00:00 و 23:59 باشد.
-          max_hours_per_day_exceeded: مجموع زمان ثبت‌شده در یک روز نمی‌تواند از %{limit} ساعت بیشتر باشد.
-          max_hours_per_entry_exceeded: برای یک ورودی زمان نمی‌تواند بیش از %{limit} ساعت باشد.
-          not_a_working_day: برای کاربر روز کاری محسوب نمی‌شود.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: پکیج‌کاری شماره %{id} به عنوان مقصد معتبری برای تخصیص موارد هزینه نمی‌باشد.
           nullify_is_not_valid_for_cost_entries: ورودی‌های هزینه نمی‌توانند به یک پروژه اختصاص یابند.
@@ -89,20 +99,20 @@ fa:
         one: ورودی هزینه
         other: ورودی‌های هزینه
       cost_rate:
-        one: Cost rate
-        other: Cost rates
+        one: نرخ هزینه
+        other: نرخ‌های هزینه
       cost_type:
         one: نوع هزینه
         other: انواع هزینه
       default_hourly_rate:
-        one: Default hourly rate
-        other: Default hourly rates
+        one: نرخ ساعتی پیش‌فرض
+        other: نرخ‌های ساعتی پیش‌فرض
       hourly_rate:
-        one: Hourly rate
-        other: Hourly rates
+        one: نرخ ساعتی
+        other: نرخ‌های ساعتی
       rate:
-        one: Rate
-        other: Rates
+        one: نرخ
+        other: نرخ‌ها
       time_entry:
         one: ورودی زمان
         other: ورودی‌های زمان
@@ -110,8 +120,8 @@ fa:
         one: فعالیت ثبت زمان
         other: فعالیت‌های ثبت زمان
       time_entry_custom_field:
-        one: Time entry custom field
-        other: Time entry custom fields
+        one: فیلد سفارشی ثبت زمان
+        other: فیلدهای سفارشی ثبت زمان
   api_v3:
     errors:
       validation:
@@ -210,7 +220,6 @@ fa:
   label_greater_or_equal: ">="
   label_group_by: گروه‌بندی بر اساس
   label_group_by_add: افزودن فیلد گروه‌بندی
-  label_hourly_rate: نرخ (حقوق) ساعتی
   label_include_deleted: شامل حذف‌شده‌ها
   label_kind: نوع
   label_less_or_equal: "<="
@@ -231,7 +240,6 @@ fa:
   label_previous_month: ماه قبل
   label_previous_week: هفته قبل
   label_previous_workweek: هفته کاری قبل
-  label_rate: نرخ
   label_rate_plural: نرخ‌ها
   label_show: نمایش
   label_specific_day: "%{day} روز"
@@ -245,7 +253,6 @@ fa:
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
-  label_user: کاربر
   label_valid_from: معتبر از
   label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری
@@ -287,7 +294,7 @@ fa:
   setting_enforce_tracking_start_and_end_times_caption: هنگام ثبت زمان، واردکردن زمان شروع و پایان را اجباری می‌کند.
   setting_enforce_without_allow: الزام زمان شروع و پایان بدون اجازه‌دادن به آن‌ها ممکن نیست
   setting_time_entries_limit_to_user_working_hours: محدود به ساعات کاری کاربر
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: مجموع ساعت‌هایی را که هر روز می‌توان ثبت کرد به ساعات کاری مؤثر همان کاربر محدود می‌کند. کاربرانی که زمان کاری تعریف‌شده ندارند، مشمول این محدودیت نمی‌شوند.
   setting_time_entries_max_hours_per_day: حداکثر تعداد ساعت در روز
   setting_time_entries_max_hours_per_day_caption: کل ساعات قابل ثبت توسط کاربر در یک روز را محدود می‌کند. مقدار 0 یعنی محدودیتی وجود ندارد.
   setting_time_entries_max_hours_per_entry: حداکثر تعداد ساعت برای هر ورودی زمان

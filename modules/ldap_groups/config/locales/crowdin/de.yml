@@ -21,11 +21,11 @@ de:
           must_contain_base_dn: Filter Basis-DN muss innerhalb des Basis-DN der LDAP-Verbindung enthalten sein
     models:
       ldap_groups/synchronized_filter:
-        one: LDAP Group synchronization filter
-        other: LDAP Group synchronization filters
+        one: LDAP-Gruppensynchronisierung
+        other: LDAP-Gruppensynchronisierungen
       ldap_groups/synchronized_group:
-        one: Synchronized LDAP group
-        other: Synchronized LDAP groups
+        one: Synchronisierte LDAP-Gruppe
+        other: Synchronisierte LDAP-Gruppen
   ee:
     upsell:
       ldap_groups:

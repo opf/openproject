@@ -2451,8 +2451,12 @@ ja:
   description_available_columns: 利用できる項目
   description_category_reassign: 新しいカテゴリを選択してください。
   description_choose_project: プロジェクト
-  description_compare_from: 以下と比較：
-  description_compare_to: 比較：
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: '現在の位置: '
   description_date_from: 開始日
   description_date_to: 終了日
@@ -2653,8 +2657,6 @@ ja:
         description: 他のユーザーがアクセスできるようになる前に、OpenProjectにアップロードされたファイルがウイルスでスキャンされていることを確認してください。
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: ワークパッケージの一覧で関係を表示しますか？
       work_package_sharing:
         description: プロジェクトのメンバーではないユーザーとワークパッケージを共有します。
       work_package_subject_generation:
@@ -3150,7 +3152,6 @@ ja:
   label_available_project_work_package_types: 利用可能なワークパッケージのタイプ
   label_available_projects: 利用可能なプロジェクト
   label_backup: バックアップ
-  label_backup_code: バックアップコード
   label_basic_details: 基本的な詳細
   label_between: 次の範囲内
   label_blocked_by: ブロックされている
@@ -3170,7 +3171,6 @@ ja:
   label_calendar_show: カレンダーを表示
   label_calendar_subscriptions: カレンダーのサブスクリプション
   label_calendars_and_dates: カレンダーと日付
-  label_category: カテゴリ
   label_change_parent: 親タスクの変更
   label_change_password: Change password
   label_change_plural: 変更
@@ -3179,9 +3179,9 @@ ja:
   label_change_status_of_user: "#{username} のステータスを変更"
   label_change_view_all: 全変更を表示
   label_changes_details: 全変更の詳細
-  label_changeset: 変更セット
   label_changeset_id: 変更セット ID
   label_changeset_plural: 更新履歴
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: すべての欄をチェック/チェックを外す
   label_check_uncheck_all_in_row: すべての行をチェック/チェックを外す
   label_checked: 選択済み
@@ -3353,7 +3353,6 @@ ja:
   label_git_path: ".gitディレクトリへのパス"
   label_global: 全般
   label_global_modules: グローバルモジュール
-  label_global_role: グローバルロール
   label_global_roles: グローバルロール
   label_go_back: 1つのメニューレベルに戻る
   label_go_forward: "%{module} サブメニューを開く"
@@ -3422,7 +3421,6 @@ ja:
   label_last_week: 先週
   label_latest_revision: 最新のリビジョン
   label_latest_revision_plural: 最新のリビジョン
-  label_ldap_auth_source: LDAP 接続
   label_ldap_auth_source_new: 新しい LDAP 接続
   label_ldap_auth_source_plural: LDAP 接続
   label_ldap_authentication: LDAP認証
@@ -3452,7 +3450,6 @@ ja:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: メンバー
-  label_member_role: プロジェクトロール
   label_membership_added: メンバーが追加されました
   label_membership_plural: メンバシップ
   label_membership_updated: メンバーが更新されました
@@ -3565,7 +3562,6 @@ ja:
   label_permissions: 権限
   label_permissions_report: 権限のレポート
   label_personalize_page: このページを個人用にカスタマイズする
-  label_placeholder_user: プレースホルダー ユーザー
   label_placeholder_user_new: 新しいプレースホルダー ユーザー
   label_placeholder_user_plural: プレースホルダー ユーザー
   label_planning: 計画
@@ -3628,7 +3624,6 @@ ja:
   label_related_work_packages: 関係するワークパッケージ
   label_relates: 関係している
   label_relates_to: 関連している
-  label_relation: 関連
   label_relation_actions: リレーションアクション
   label_relation_delete: 関係の削除
   label_relation_edit: リレーションを編集
@@ -3681,7 +3676,6 @@ ja:
   label_send_information: ユーザーに新しい資格情報を送信
   label_send_invitation: 招待状を送信
   label_send_test_email: テスト電子メールを送信
-  label_session: セッション
   label_setting_plural: 設定
   label_share: 共有
   label_share_project_list: プロジェクト一覧を共有
@@ -3757,7 +3751,6 @@ ja:
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
-  label_user: ユーザ
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: ユーザーと権限
   label_user_anonymous: 匿名ユーザ
@@ -3788,19 +3781,17 @@ ja:
   label_week: 週
   label_weighted_item_list: Weighted item list
   label_what_is_this: これは何ですか?
-  label_widget: ウィジェット
   label_widget_new: 新規ウィジェット
   label_wiki_content_added: Wikiページが追加されました。
   label_wiki_content_updated: Wikiページが更新されました。
   label_wiki_dont_show_menu_item: プロジェクトのメニューでこのWikiページを非表示
   label_wiki_edit: Wikiの編集
   label_wiki_edit_plural: Wikiの編集
-  label_wiki_menu_item: Wikiのメニュー項目
   label_wiki_navigation: Wikiのメニュー
-  label_wiki_page: Wiki ページ
   label_wiki_page_attachments: Wiki ページの添付ファイル
   label_wiki_page_id: WikiページのID
   label_wiki_page_plural: Wikiページ
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 下位のメニューで「目次」を表示
   label_wiki_show_menu_item: プロジェクトのメニューで項目として表示
   label_wiki_show_new_page_link: 下位のメニューで「子ページを新規作成」の項目を表示
@@ -3817,7 +3808,6 @@ ja:
   label_work_package_hierarchy: ワークパッケージの階層
   label_work_package_new: 新しいワークパッケージ
   label_work_package_plural: ワークパッケージ
-  label_work_package_status: ステータス名
   label_work_package_status_new: 新規ステータス
   label_work_package_status_plural: ステータスの種類
   label_work_package_tracking: ワークパッケージの追跡

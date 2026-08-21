@@ -2585,8 +2585,12 @@ fil:
   description_available_columns: Ang mga hanay na magagamit
   description_category_reassign: Pumili ng kategorya
   description_choose_project: Mga proyekto
-  description_compare_from: Ikinumpara mula sa
-  description_compare_to: Ikinumpara sa
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Ipasok ang petsa ng pasisimula
   description_date_to: Ipasok ang katapusang petsa
@@ -2788,8 +2792,6 @@ fil:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ fil:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Ang Backup code
   label_basic_details: Basic details
   label_between: sa pagitan ng
   label_blocked_by: hinarangan ni
@@ -3309,7 +3310,6 @@ fil:
   label_calendar_show: Ipakita ang kalendaryo
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategorya
   label_change_parent: Palitan ng magulang
   label_change_password: Change password
   label_change_plural: Pagbabago
@@ -3318,9 +3318,9 @@ fil:
   label_change_status_of_user: 'Baguhin ang estado ng #{username}'
   label_change_view_all: Tanawin lahat ang mga pagbabago
   label_changes_details: Detalye ng lahat na mga pagbabago
-  label_changeset: Changeset
   label_changeset_id: ID ng changeset
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: I-check/I-ncheck ang lahat sa hanay
   label_check_uncheck_all_in_row: I-check/I-uncheck ang lahat sa hilera
   label_checked: sinuri
@@ -3492,7 +3492,6 @@ fil:
   label_git_path: Landas sa .git direktoryo
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ fil:
   label_last_week: huling semana
   label_latest_revision: Pinakamabagong rebisyon
   label_latest_revision_plural: Ang mga pinakamabagong rebisyon
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP na pagpapatunay
@@ -3591,7 +3589,6 @@ fil:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Mga miyembro
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3704,7 +3701,6 @@ fil:
   label_permissions: Mga pahintulot
   label_permissions_report: Mga pinahintulutan na ulat
   label_personalize_page: Personalize ang pahina na ito
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Pagpaplano
@@ -3767,7 +3763,6 @@ fil:
   label_related_work_packages: Nauugnay sa mga work package
   label_relates: nauugnay sa
   label_relates_to: nauugnay sa
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Burahin ang relasyon
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@ fil:
   label_send_information: Send new credentials to the user
   label_send_invitation: Magpadala ng imbitasyon
   label_send_test_email: Magpadala ng test email
-  label_session: Sesyon
   label_setting_plural: Mga setting
   label_share: Ibahagi
   label_share_project_list: Share project list
@@ -3896,7 +3890,6 @@ fil:
   label_used_by: Ginamit ni
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto
-  label_user: Gumagamit
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Hindi kilala
@@ -3927,19 +3920,17 @@ fil:
   label_week: Linggo
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Ang idinagdag na wiking pahina
   label_wiki_content_updated: Naka-update na wiking pahina
   label_wiki_dont_show_menu_item: Huwag ipakita ang wikipage na ito sa oroject nabigasyon
   label_wiki_edit: I-edit ang wiki
   label_wiki_edit_plural: I-edit ang mga wiki
-  label_wiki_menu_item: Ang aytem ng wiki na pagpipilian
   label_wiki_navigation: Nabigasyong wiki
-  label_wiki_page: Pahina ng wiki
   label_wiki_page_attachments: Nakakalakip na wiking pahina
   label_wiki_page_id: ID ng Wiki na pahina
   label_wiki_page_plural: Ang mga pahinang wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Ipakita ang aytem ng submenu 'Talaan ng Nilalaman'
   label_wiki_show_menu_item: Ipakita bilanh aytem na pagpipilian sa proyektong nabigasyon
   label_wiki_show_new_page_link: Ipakita ang submenu aytem 'Lumikha ng bagong bata na pahina'
@@ -3956,7 +3947,6 @@ fil:
   label_work_package_hierarchy: Hierarchy ng work package
   label_work_package_new: Bagong work package
   label_work_package_plural: Ang mga work package
-  label_work_package_status: Estado ng pakete ng gumagawa
   label_work_package_status_new: Bagong estado
   label_work_package_status_plural: Ang mga estado ng work package
   label_work_package_tracking: Ang pagtra-track ng work package

@@ -23,15 +23,15 @@ ru:
           overlaps_other_tree: Пересекается с базовым DN другой синхронизации, использующей то же LDAP-соединение.
     models:
       ldap_departments/synchronized_department:
-        one: Synchronized department
+        one: Синхронизированное подразделение
         few: Synchronized departments
         many: Synchronized departments
-        other: Synchronized departments
+        other: Синхронизированные подразделения
       ldap_departments/synchronized_tree:
-        one: LDAP department synchronization
+        one: Синхронизация подразделений с помощью LDAP
         few: LDAP department synchronizations
         many: LDAP department synchronizations
-        other: LDAP department synchronizations
+        other: Синхронизации подразделений с помощью LDAP
   ee:
     upsell:
       ldap_departments:

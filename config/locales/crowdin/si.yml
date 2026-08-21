@@ -2585,8 +2585,12 @@ si:
   description_available_columns: ලබා ගත හැකි තීරු
   description_category_reassign: ප්රවර්ගය තෝරන්න
   description_choose_project: ව්‍යාපෘති
-  description_compare_from: සිට සසඳා බලන්න
-  description_compare_to: සසඳා බලන්න
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'ඔයා මෙහෙයි: '
   description_date_from: ආරම්භක දිනය ඇතුලත් කරන්න
   description_date_to: අවසන් දිනය ඇතුලත් කරන්න
@@ -2788,8 +2792,6 @@ si:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ si:
   label_available_project_work_package_types: ලබා ගත හැකි වැඩ පැකේජය වර්ග
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: අතර
   label_blocked_by: විසින් අවහිර
@@ -3309,7 +3310,6 @@ si:
   label_calendar_show: දින දර්ශනය පෙන්වන්න
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: ප්රවර්ගය
   label_change_parent: මාපිය වෙනස් කරන්න
   label_change_password: Change password
   label_change_plural: වෙනස්කම්
@@ -3318,9 +3318,9 @@ si:
   label_change_status_of_user: "#{username}හි තත්ත්වය වෙනස් කරන්න"
   label_change_view_all: සියලු වෙනස්කම් බලන්න
   label_changes_details: සියලු වෙනස්කම් පිළිබඳ විස්තර
-  label_changeset: වෙනස්
   label_changeset_id: හැඳුනුම්පත වෙනස් කරන්න
   label_changeset_plural: වෙනස්කම්
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: තීරුවේ සියලු පරීක්ෂා කරන්න/ඉවත් කරන්න
   label_check_uncheck_all_in_row: පේළියේ සියලු පරීක්ෂා කරන්න/ඉවත් කරන්න
   label_checked: පරීක්ෂා
@@ -3492,7 +3492,6 @@ si:
   label_git_path: ".git බහලුම වෙත මාර්ගය"
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ si:
   label_last_week: පසුගිය සතියේ
   label_latest_revision: නවතම සංශෝධනය
   label_latest_revision_plural: නවතම සංශෝධන
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP සත්යාපන
@@ -3591,7 +3589,6 @@ si:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: සාමාජිකයන්
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3704,7 +3701,6 @@ si:
   label_permissions: අවසර
   label_permissions_report: අවසර වාර්තාව
   label_personalize_page: මෙම පිටුව පුද්ගලීකරණය කරන්න
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: සැලසුම්
@@ -3767,7 +3763,6 @@ si:
   label_related_work_packages: අදාළ වැඩ පැකේජ
   label_relates: සම්බන්ධ
   label_relates_to: සම්බන්ධ
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: සම්බන්ධතාවය මකන්න
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@ si:
   label_send_information: Send new credentials to the user
   label_send_invitation: ආරාධනය යවන්න
   label_send_test_email: පරීක්ෂණ ඊ-තැපෑලක් යවන්න
-  label_session: සැසිය
   label_setting_plural: සැකසුම්
   label_share: Share
   label_share_project_list: Share project list
@@ -3896,7 +3890,6 @@ si:
   label_used_by: විසින් භාවිතා
   label_used_by_types: වර්ග විසින් භාවිතා
   label_used_in_projects: ව්යාපෘති සඳහා භාවිතා
-  label_user: පරිශීලක
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: නිර්නාමික
@@ -3927,19 +3920,17 @@ si:
   label_week: සතියේ
   label_weighted_item_list: Weighted item list
   label_what_is_this: මොකක්ද මේ?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: විකි පිටුව එකතු කරන ලදි
   label_wiki_content_updated: විකි පිටුව යාවත්කාලීන කරන ලදි
   label_wiki_dont_show_menu_item: ව්යාපෘති සංචලනය තුළ මෙම විකිපිටුව නොපෙන්වන්න
   label_wiki_edit: විකි සංස්කරණය
   label_wiki_edit_plural: විකි සංස්කරණයන්
-  label_wiki_menu_item: විකි මෙනු අයිතමය
   label_wiki_navigation: විකි සංචලනය
-  label_wiki_page: විකි පිටුව
   label_wiki_page_attachments: විකි පිටු ඇමුණුම්
   label_wiki_page_id: විකි පිටුව හැඳුනුම්පත
   label_wiki_page_plural: විකි පිටු
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: උප මෙනු අයිතමය පෙන්වන්න 'අන්තර්ගත වගුව'
   label_wiki_show_menu_item: ව්යාපෘති සංචලනය තුළ මෙනු අයිතමය ලෙස පෙන්වන්න
   label_wiki_show_new_page_link: උප මෙනු අයිතමය පෙන්වන්න 'නව ළමා පිටුව සාදන්න'
@@ -3956,7 +3947,6 @@ si:
   label_work_package_hierarchy: වැඩ පැකේජය ධූරාවලිය
   label_work_package_new: නව වැඩ පැකේජය
   label_work_package_plural: වැඩ පැකේජ
-  label_work_package_status: වැඩ පැකේජ තත්ත්වය
   label_work_package_status_new: නව තත්ත්වය
   label_work_package_status_plural: වැඩ පැකේජ තත්වයන්
   label_work_package_tracking: වැඩ පැකේජය ලුහුබැඳීම

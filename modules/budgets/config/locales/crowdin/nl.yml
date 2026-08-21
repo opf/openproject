@@ -108,7 +108,6 @@ nl:
   help_click_to_edit: Klik hier om te bewerken.
   help_currency_format: Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid.
   help_override_rate: Voer hier een waarde in om de standaardkoers te overschrijven.
-  label_budget: Begroting
   label_budget_available: Beschikbaar budget
   label_budget_details: Budget details
   label_budget_id: 'Begroting #%{id}'

@@ -2869,8 +2869,12 @@ sl:
   description_available_columns: Razpoložljivi stolpci
   description_category_reassign: Izberite kategorijo
   description_choose_project: Projekti
-  description_compare_from: Primerjaj z
-  description_compare_to: Primerjaj z
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Vi ste tukaj:'
   description_date_from: Vpišite datum začetka
   description_date_to: Vstavi končni datum
@@ -3076,8 +3080,6 @@ sl:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3587,7 +3589,6 @@ sl:
   label_available_project_work_package_types: Razpoložljive vrste delovnih paketov
   label_available_projects: Available projects
   label_backup: Varnostna kopija
-  label_backup_code: Rezervna koda
   label_basic_details: Basic details
   label_between: med
   label_blocked_by: blokirano od
@@ -3607,7 +3608,6 @@ sl:
   label_calendar_show: Prikaži koleddar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategorija
   label_change_parent: Zamenjaj nadrejenega
   label_change_password: Change password
   label_change_plural: Spremembe
@@ -3616,9 +3616,9 @@ sl:
   label_change_status_of_user: 'Spremeni status #{username}'
   label_change_view_all: Poglej vse spremembe
   label_changes_details: Podrobnosti vseh sprememb
-  label_changeset: Zapis sprememb
   label_changeset_id: Zapis sprememb ID
   label_changeset_plural: Zapisi sprememb
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Označite / počistite vse v stolpcu
   label_check_uncheck_all_in_row: Potrdite / počistite vse vrstice
   label_checked: Označeno
@@ -3790,7 +3790,6 @@ sl:
   label_git_path: Pot do datoteke ali mape
   label_global: Globalno
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3859,7 +3858,6 @@ sl:
   label_last_week: prejšnji teden
   label_latest_revision: Zadnja revizija
   label_latest_revision_plural: Zadnje revizije
-  label_ldap_auth_source: LDAP povezava
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP avtentikacija
@@ -3889,7 +3887,6 @@ sl:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Člani
-  label_member_role: Project role
   label_membership_added: Član dodan
   label_membership_plural: Memberships
   label_membership_updated: Član posodobljen
@@ -4002,7 +3999,6 @@ sl:
   label_permissions: Dovoljenja
   label_permissions_report: Poročilo o dovoljenjih
   label_personalize_page: Prilagodite to stran
-  label_placeholder_user: Nadomestni uporabnik
   label_placeholder_user_new: Nov nadomestni uporabnik
   label_placeholder_user_plural: Nadomestni uporabniki
   label_planning: Načrtovanje
@@ -4067,7 +4063,6 @@ sl:
   label_related_work_packages: Soroden zahtevek/delovni paket
   label_relates: povezan z
   label_relates_to: povezan z
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Izbriši povezavo
   label_relation_edit: Edit relation
@@ -4120,7 +4115,6 @@ sl:
   label_send_information: Send new credentials to the user
   label_send_invitation: Pošlji povabilo
   label_send_test_email: Pošlji testni mail
-  label_session: Seja
   label_setting_plural: Nastavitve
   label_share: Share
   label_share_project_list: Share project list
@@ -4196,7 +4190,6 @@ sl:
   label_used_by: Uporabil
   label_used_by_types: Uporablja se po vrstah
   label_used_in_projects: Uporablja se pri projektih
-  label_user: Uporabnik
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonimno
@@ -4227,19 +4220,17 @@ sl:
   label_week: Teden
   label_weighted_item_list: Weighted item list
   label_what_is_this: Kaj je to?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki stran dodana
   label_wiki_content_updated: Wiki stran posodobljena
   label_wiki_dont_show_menu_item: Ne prikaži te strani wikija v navigaciji po projektu
   label_wiki_edit: Urejanje Wiki
   label_wiki_edit_plural: Wiki ureditve
-  label_wiki_menu_item: Element menija Wiki
   label_wiki_navigation: Wiki navigacija
-  label_wiki_page: Wiki stran
   label_wiki_page_attachments: Priloge na strani Wiki
   label_wiki_page_id: Wiki stran ID
   label_wiki_page_plural: Wiki strani
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Pokaži postavko podmenija „Vsebina“
   label_wiki_show_menu_item: Prikaži kot element v meniju navigacija projekta
   label_wiki_show_new_page_link: Pokaži element v podmeniju »Ustvari novo podrejeno stran«
@@ -4256,7 +4247,6 @@ sl:
   label_work_package_hierarchy: Hierarhija delovnega paketa
   label_work_package_new: Nov delovni paket
   label_work_package_plural: Delovni paketi
-  label_work_package_status: Stanje delovnega paketa
   label_work_package_status_new: Novo stanje
   label_work_package_status_plural: Status delovnega paketa
   label_work_package_tracking: Sledenje delovnega paketa

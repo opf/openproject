@@ -2585,8 +2585,12 @@ fi:
   description_available_columns: Käytettävissä olevat sarakkeet
   description_category_reassign: Valitse luokka
   description_choose_project: Projektit
-  description_compare_from: Verrattuna
-  description_compare_to: Verrattuna
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Syötä aloituspäivämäärä
   description_date_to: Syötä päättymispäivä
@@ -2788,8 +2792,6 @@ fi:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3287,7 +3289,6 @@ fi:
   label_available_project_work_package_types: Olemassa olevat tehtävätyypit
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Palautuskoodi
   label_basic_details: Basic details
   label_between: välillä
   label_blocked_by: estänyt
@@ -3307,7 +3308,6 @@ fi:
   label_calendar_show: Näytä kalenteri
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategoria
   label_change_parent: Vaihda pääkohdetta
   label_change_password: Change password
   label_change_plural: Muutokset
@@ -3316,9 +3316,9 @@ fi:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: Näytä kaikki muutokset
   label_changes_details: Kaikkien muutosten yksityiskohdat
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Muutosryhmät
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Valitse/poista kaikki valinnat sarakkeessa
   label_check_uncheck_all_in_row: Valitse/poista kaikki valinnat riviltä
   label_checked: tarkistettu
@@ -3490,7 +3490,6 @@ fi:
   label_git_path: Polku .git hakemistoon
   label_global: Yleinen
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3559,7 +3558,6 @@ fi:
   label_last_week: viime viikolla
   label_latest_revision: Viimeisin versio
   label_latest_revision_plural: Viimeisimmät versiot
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP tunnistautuminen
@@ -3589,7 +3587,6 @@ fi:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Jäsenet
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3702,7 +3699,6 @@ fi:
   label_permissions: Oikeudet
   label_permissions_report: Käyttöoikeudet-raportti
   label_personalize_page: Personoi tämä sivu
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Suunnittelu
@@ -3765,7 +3761,6 @@ fi:
   label_related_work_packages: Tehtävän riippuvuudet
   label_relates: liittyy
   label_relates_to: liittyy
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Poista riippuvuus
   label_relation_edit: Edit relation
@@ -3818,7 +3813,6 @@ fi:
   label_send_information: Send new credentials to the user
   label_send_invitation: Lähetä kutsu
   label_send_test_email: Lähetä testi sähköposti
-  label_session: Istunto
   label_setting_plural: Asetukset
   label_share: Jaa
   label_share_project_list: Share project list
@@ -3894,7 +3888,6 @@ fi:
   label_used_by: Käyttää
   label_used_by_types: Used by types
   label_used_in_projects: Käytetty projekteissa
-  label_user: Käyttäjä
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonyymi
@@ -3925,19 +3918,17 @@ fi:
   label_week: Viikko
   label_weighted_item_list: Weighted item list
   label_what_is_this: Mikä tämä on?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki-sivu lisätty
   label_wiki_content_updated: Wiki-sivu päivitetty
   label_wiki_dont_show_menu_item: Älä näytä tätä Wiki-sivua projektin navigoinnissa
   label_wiki_edit: Wikin muokkaus
   label_wiki_edit_plural: Wikin muokkaukset
-  label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_wiki_navigation: Wiki navigaatio
-  label_wiki_page: Wiki-sivu
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki sivun tunnus
   label_wiki_page_plural: Wiki sivut
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Näytä alivalikon vaihtoehto "Sisällysluettelo"
   label_wiki_show_menu_item: Näytä valikon kohta projekti navigaatio
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3954,7 +3945,6 @@ fi:
   label_work_package_hierarchy: Tehtävähierarkia
   label_work_package_new: Uusi tehtävä
   label_work_package_plural: Tehtävät
-  label_work_package_status: Tehtävän tila
   label_work_package_status_new: Uusi tila
   label_work_package_status_plural: Tehtävien tilat
   label_work_package_tracking: Tehtävien seuranta

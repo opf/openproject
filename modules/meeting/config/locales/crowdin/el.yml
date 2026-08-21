@@ -271,7 +271,6 @@ el:
   label_past_meetings: Past meetings
   label_past_meetings_short: Προηγούμενες
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Ανοιχτό
   label_recurring_meeting_delete: Delete occurrence

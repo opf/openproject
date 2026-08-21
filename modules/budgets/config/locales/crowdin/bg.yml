@@ -108,7 +108,6 @@ bg:
   help_click_to_edit: Натисни, за да редактираш
   help_currency_format: Формат на показваните валутни стойности. %n се заменя с валутната стойност, %u се заменя с валутната единица.
   help_override_rate: Въведете стойност тук, за да отмените ставката по подразбиране.
-  label_budget: Бюджет
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Бюджет #%{id}'

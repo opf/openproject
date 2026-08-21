@@ -101,26 +101,26 @@ fa:
           not_an_occurrence: زمان نوبت معتبری برای این جلسه تکرارشونده نیست
     models:
       meeting:
-        one: One-time meeting
-        other: One-time meetings
+        one: جلسه یک‌باره
+        other: جلسات یک‌باره
       meeting_agenda_item:
-        one: Agenda item
-        other: Agenda items
+        one: مورد دستور جلسه
+        other: موارد دستور جلسه
       meeting_outcome:
-        one: Outcome
-        other: Outcomes
+        one: نتیجه
+        other: نتایج
       meeting_participant:
-        one: Meeting participant
-        other: Meeting participants
+        one: شرکت‌کننده جلسه
+        other: شرکت‌کنندگان جلسه
       meeting_section:
-        one: Section
-        other: Sections
+        one: بخش
+        other: بخش‌ها
       recurring_meeting:
-        one: Recurring meeting
-        other: Recurring meetings
+        one: جلسه تکرارشونده
+        other: جلسات تکرارشونده
       scheduled_meeting:
-        one: Scheduled meeting
-        other: Scheduled meetings
+        one: جلسه زمان‌بندی‌شده
+        other: جلسات زمان‌بندی‌شده
       token/ical_meeting:
         one: اشتراک iCal جلسات
         other: اشتراک iCal جلسات
@@ -271,7 +271,6 @@ fa:
   label_past_meetings: جلسات گذشته
   label_past_meetings_short: گذشته
   label_recurring_filter: فیلتر تکرار
-  label_recurring_meeting: جلسه تکرارشونده
   label_recurring_meeting_cancel: لغو این نوبت
   label_recurring_meeting_create: باز
   label_recurring_meeting_delete: حذف نوبت

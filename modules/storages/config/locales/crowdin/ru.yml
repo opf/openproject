@@ -74,35 +74,35 @@ ru:
               unknown_error: не удалось подтвердить соединение с провайдером файлового хранилища. Пожалуйста, убедитесь, что соединение работает правильно.
     models:
       storages/file_link:
-        one: File link
+        one: Ссылка на файл
         few: File links
         many: File links
-        other: File links
+        other: Ссылки на файл
       storages/nextcloud_storage:
-        one: Nextcloud storage
+        one: Хранилище Nextcloud
         few: Nextcloud storages
         many: Nextcloud storages
-        other: Nextcloud storages
+        other: Хранилища Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
+        one: Хранилище OneDrive
         few: OneDrive storages
         many: OneDrive storages
-        other: OneDrive storages
+        other: Хранилища OneDrive
       storages/project_storage:
-        one: Project storage
+        one: Хранилище проекта
         few: Project storages
         many: Project storages
-        other: Project storages
+        other: Хранилища проекта
       storages/sharepoint_storage:
-        one: SharePoint storage
+        one: Хранилище SharePoint
         few: SharePoint storages
         many: SharePoint storages
-        other: SharePoint storages
+        other: Хранилища SharePoint
       storages/storage:
-        one: Storage
+        one: Хранилище
         few: Storages
         many: Storages
-        other: Storages
+        other: Хранилища
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.

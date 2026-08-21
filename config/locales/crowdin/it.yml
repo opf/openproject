@@ -2589,8 +2589,12 @@ it:
   description_available_columns: Colonne disponibili
   description_category_reassign: Scegli categoria
   description_choose_project: Progetti
-  description_compare_from: Confronta da
-  description_compare_to: Confronta con
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Sei qui: '
   description_date_from: Inserisci data di inizio
   description_date_to: Inserisci data di fine
@@ -2792,8 +2796,6 @@ it:
         description: Assicurati che i file caricati in OpenProject vengano scansionati alla ricerca di virus prima di renderli accessibili ad altri utenti.
       weighted_item_lists:
         description: Gli elenchi ponderati consentono di creare un elenco a cui sono associati valori numerici sottostanti.
-      work_package_query_relation_columns:
-        description: Vuoi visualizzare le relazioni o gli elementi figlio nell'elenco di macro-attività?
       work_package_sharing:
         description: Condividi macro-attività con utenti che non sono membri del progetto.
       work_package_subject_generation:
@@ -3291,7 +3293,6 @@ it:
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
   label_available_projects: Progetti disponibili
   label_backup: Backup
-  label_backup_code: Codice di backup
   label_basic_details: Informazioni base
   label_between: tra
   label_blocked_by: bloccato da
@@ -3311,7 +3312,6 @@ it:
   label_calendar_show: Mostra Calendario
   label_calendar_subscriptions: Iscrizioni calendario
   label_calendars_and_dates: Calendari e date
-  label_category: Categoria
   label_change_parent: Cambia genitore
   label_change_password: Cambia password
   label_change_plural: Modifiche
@@ -3320,9 +3320,9 @@ it:
   label_change_status_of_user: 'Cambia lo stato di #{username}'
   label_change_view_all: Vedi tutti i cambiamenti
   label_changes_details: Dettagli di tutti i cambiamenti
-  label_changeset: Revisione
   label_changeset_id: ID Revisione
   label_changeset_plural: Insiemi di modifiche
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Seleziona/Deseleziona tutto nella colonna
   label_check_uncheck_all_in_row: Seleziona/deseleziona tutto nella riga
   label_checked: controllato
@@ -3494,7 +3494,6 @@ it:
   label_git_path: Percorso per la cartella .git
   label_global: Globale
   label_global_modules: Moduli globali
-  label_global_role: Ruolo globale
   label_global_roles: Ruoli globali
   label_go_back: Torna indietro di un livello di menu
   label_go_forward: Apri sottomenu %{module}
@@ -3563,7 +3562,6 @@ it:
   label_last_week: ultima settimana
   label_latest_revision: Ultima revisione
   label_latest_revision_plural: Ultime revisioni
-  label_ldap_auth_source: Connessione LDAP
   label_ldap_auth_source_new: Nuova connessione LDAP
   label_ldap_auth_source_plural: Connessioni LDAP
   label_ldap_authentication: Autenticazione LDAP
@@ -3593,7 +3591,6 @@ it:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membri
-  label_member_role: Ruolo del progetto
   label_membership_added: Membro aggiunto
   label_membership_plural: Iscrizioni
   label_membership_updated: Membro aggiornato
@@ -3706,7 +3703,6 @@ it:
   label_permissions: Permessi
   label_permissions_report: Report permessi
   label_personalize_page: Personalizza questa pagina
-  label_placeholder_user: Utente segnaposto
   label_placeholder_user_new: Nuovo utente segnaposto
   label_placeholder_user_plural: Utenti segnaposto
   label_planning: Pianificazione
@@ -3769,7 +3765,6 @@ it:
   label_related_work_packages: Macro-attività correlate
   label_relates: correlato con
   label_relates_to: correlato con
-  label_relation: Relazione
   label_relation_actions: Azioni di relazione
   label_relation_delete: Eliminare la relazione
   label_relation_edit: Modifica relazione
@@ -3822,7 +3817,6 @@ it:
   label_send_information: Invia nuove credenziali all'utente
   label_send_invitation: Invia invito
   label_send_test_email: Invia un email di prova
-  label_session: Sessione
   label_setting_plural: Impostazioni
   label_share: Condividi
   label_share_project_list: Condividi elenco progetti
@@ -3898,7 +3892,6 @@ it:
   label_used_by: Usato da
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti
-  label_user: Utente
   label_user_activity_html: Attività di %{value}
   label_user_and_permission: Utenti e autorizzazioni
   label_user_anonymous: Anonimo
@@ -3929,19 +3922,17 @@ it:
   label_week: Settimana
   label_weighted_item_list: Elenco ponderato
   label_what_is_this: Cos'è questo?
-  label_widget: Widget
   label_widget_new: Nuovo widget
   label_wiki_content_added: Pagina wiki aggiunta
   label_wiki_content_updated: Pagina wiki aggiornata
   label_wiki_dont_show_menu_item: Non mostrare questa pagina wiki nella navigazione del progetto
   label_wiki_edit: Modifica wiki
   label_wiki_edit_plural: Modifiche wiki
-  label_wiki_menu_item: Voce di menu wiki
   label_wiki_navigation: Navigazione wiki
-  label_wiki_page: Pagina wiki
   label_wiki_page_attachments: Allegati pagina wiki
   label_wiki_page_id: ID Pagina Wiki
   label_wiki_page_plural: Pagine wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Mostra voce del sotto-menù 'Sommario'
   label_wiki_show_menu_item: Mostra come voce del menù nella navigazione del progetto
   label_wiki_show_new_page_link: Mostra voce del sotto-menù 'Crea nuova pagina figlio'
@@ -3958,7 +3949,6 @@ it:
   label_work_package_hierarchy: Gerarchia Macro-attività
   label_work_package_new: Nuova macro-attività
   label_work_package_plural: Macro-attività
-  label_work_package_status: Stato della macro-attività
   label_work_package_status_new: Nuovo stato
   label_work_package_status_plural: Stati della macro-attività
   label_work_package_tracking: Monitoraggio macro-attività
