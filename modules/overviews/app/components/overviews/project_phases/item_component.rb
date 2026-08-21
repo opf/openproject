@@ -45,7 +45,7 @@ module Overviews
       end
 
       def icon_color_class
-        helpers.hl_inline_class("project_phase_definition", model.definition)
+        helpers.hl_foreground_class("project_phase_definition", model.definition)
       end
 
       def text
