@@ -259,7 +259,7 @@ class CostQuery::PDF::TimesheetGenerator
   def table_header_columns
     [
       { content: TimeEntry.human_attribute_name(:spent_on), rowspan: 1 },
-      I18n.t(:"activerecord.models.work_package"),
+      WorkPackage.model_name.human,
       with_times_column? ? I18n.t(:"export.timesheet.time") : nil,
       { content: TimeEntry.human_attribute_name(:hours), align: :right },
       TimeEntry.human_attribute_name(:activity)
