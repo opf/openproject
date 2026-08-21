@@ -3918,7 +3918,6 @@ en:
   label_send_information: "Send new credentials to the user"
   label_send_invitation: Send invitation
   label_send_test_email: "Send a test email"
-  label_session: "Session"
   label_setting_plural: "Settings"
   label_share: "Share"
   label_share_project_list: "Share project list"
