@@ -72,10 +72,10 @@ module ResourcePlannerViews
         @filter_query.present?
       end
 
-      # Filters the view withholds from configuration (e.g. the project filter
-      # for work-package views, which must not override the project scoping).
-      def excluded_filters
-        @view.try(:excluded_configuration_filters) || []
+      # The filters the view offers for configuration. Falls back to the query's
+      # full set for views that do not curate one.
+      def allowed_filters
+        @view.try(:configuration_filters, @filter_query)
       end
 
       # ::ResourceUserCard disambiguates from the ResourcePlannerViews::ResourceUserCard contracts namespace.

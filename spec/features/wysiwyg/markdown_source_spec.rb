@@ -28,22 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackages::Selects::RelationSelect
-  def initialize(type)
-    super(:"relations_to_type_#{type.id}")
+require "spec_helper"
 
-    @type = type
+RSpec.describe "Wysiwyg markdown source mode", :js do
+  current_user { create(:admin) }
+
+  let(:project) { create(:project, :with_internal_wiki) }
+  let(:editor) { Components::WysiwygEditor.new }
+
+  before do
+    visit project_wiki_path(project, :wiki)
   end
 
-  def caption
-    I18n.t(:"activerecord.attributes.query.relations_to_type_column", type: type.name)
-  end
+  it "can switch to markdown source and back" do
+    editor.click_and_type_slowly "some text"
 
-  def self.instances(context = nil)
-    if context
-      context.enabled_types
-    else
-      Type.all
-    end.map { |type| new(type) }
+    editor.click_toolbar_button "Switch to Markdown source"
+
+    expect(editor.container).to have_css(".ck-editor__source .CodeMirror", text: "some text")
+    expect(editor.container).to have_css(".ck-button.ck-disabled", visible: :all, text: "Bold")
+
+    editor.click_toolbar_button "Switch to WYSIWYG editor"
+
+    expect(editor.container).to have_no_css(".ck-editor__source")
+    expect(editor.container).to have_no_css(".ck-button.ck-disabled", visible: :all, text: "Bold")
+    expect(page).to have_no_text("An error occurred within CKEditor")
+    editor.expect_button "Switch to Markdown source"
+    editor.expect_include_value "some text"
   end
 end
