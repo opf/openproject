@@ -8,11 +8,10 @@ en:
         date_range: Dates
         end_date: Finish date
         entity: Entity
-        filter_name: Resource filter name
+        placeholder_user: Placeholder user
         principal: Assignee
         start_date: Start date
         state: State
-        user_filter: User filter
       resource_planner:
         date_range: Dates
         default_view_class_name: Default view
@@ -83,6 +82,9 @@ en:
       make_public: Make public
       unfavorite: Remove from favorites
     allocate_resource_dialog:
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       kind:
         filter:
           caption: Set filter criteria based on user attributes to create a placeholder resource.

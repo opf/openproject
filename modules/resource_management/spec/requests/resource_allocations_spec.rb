@@ -90,12 +90,12 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "with allocation_kind=filter" do
-      it "renders the allocation step with a filter name and the filter form" do
+      it "renders the allocation step with a placeholder user autocompleter" do
         get step_project_resource_allocations_path(project, allocation_kind: "filter"), as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("resource_allocation[filter_name]")
-        expect(response.body).to include('name="filters"')
+        expect(response.body).to include("resource_allocation[placeholder_user_id]")
+        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users)
       end
     end
 
@@ -212,10 +212,9 @@ RSpec.describe "ResourceAllocations requests",
         allocation = ResourceAllocation.last
         expect(allocation.entity).to eq(work_package)
         expect(allocation.principal).to eq(assignee)
-        expect(allocation).to be_principal_explicit
+        expect(allocation).not_to be_filter_based
         expect(allocation.allocated_time).to eq(40 * 60)
-        expect(allocation.filter_name).to be_nil
-        expect(allocation.user_filter).to eq([])
+        expect(allocation.placeholder_user).to be_nil
         expect(allocation.requested_by).to eq(user)
       end
 
@@ -229,13 +228,18 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "for a filter-criteria placeholder" do
+      # Only a placeholder describing who it stands for can be allocated against.
+      let!(:existing) do
+        filters = UserQuery.new.tap { |query| query.where("name", "~", ["dev"]) }.filters
+        create(:placeholder_user, name: "Senior Developer", user_filter: filters)
+      end
+
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: {
                allocation_kind: "filter",
-               filters: [{ login: { operator: "~", values: ["dev"] } }].to_json,
                resource_allocation: {
-                 filter_name: "Full stack Developer (DE-EN)",
+                 placeholder_user_id: existing.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
                  date_range: "2026-03-02 - 2026-03-03",
@@ -245,16 +249,20 @@ RSpec.describe "ResourceAllocations requests",
              as: :turbo_stream
       end
 
-      it "creates a placeholder allocation carrying the user filter" do
+      it "links the picked placeholder without creating another one" do
         expect { perform }.to change(ResourceAllocation, :count).by(1)
+          .and not_change(PlaceholderUser, :count)
 
         allocation = ResourceAllocation.last
         expect(allocation.principal).to be_nil
-        expect(allocation).not_to be_principal_explicit
+        expect(allocation.placeholder_user).to eq(existing)
+        expect(allocation).to be_filter_based
         expect(allocation).to be_needs_principal_assignment
-        expect(allocation.filter_name).to eq("Full stack Developer (DE-EN)")
-        expect(allocation.user_filter.map(&:name)).to contain_exactly(:login)
-        expect(allocation.user_filter.first.values).to eq(["dev"])
+      end
+
+      # Criteria belong to the catalogue entry; the allocation form only links.
+      it "leaves the resource's own filter untouched" do
+        expect { perform }.not_to change { existing.reload.user_filter.map(&:name) }
       end
     end
 

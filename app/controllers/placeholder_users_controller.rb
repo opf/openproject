@@ -44,12 +44,13 @@ class PlaceholderUsersController < ApplicationController
   before_action :authorize_deletion, only: %i[deletion_info destroy]
 
   def index
-    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterComponent.query params
+    @query = index_query
 
     respond_to do |format|
       format.html do
         render layout: !request.xhr?
       end
+      format.turbo_stream { render_index_turbo_stream }
     end
   end
 
@@ -84,14 +85,14 @@ class PlaceholderUsersController < ApplicationController
 
   def create # rubocop:disable Metrics/AbcSize
     service = PlaceholderUsers::CreateService.new(user: User.current)
-    service_result = service.call(permitted_params.placeholder_user)
+    service_result = service.call(create_attributes)
     @placeholder_user = service_result.result
 
     if service_result.success?
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_create)
-          redirect_to(params[:continue] ? new_placeholder_user_path : edit_placeholder_user_path(@placeholder_user))
+          redirect_to edit_placeholder_user_path(@placeholder_user)
         end
       end
     else
@@ -107,7 +108,7 @@ class PlaceholderUsersController < ApplicationController
     service_result = PlaceholderUsers::UpdateService
       .new(user: User.current,
            model: @placeholder_user)
-      .call(permitted_params.placeholder_user)
+      .call(update_attributes)
 
     if service_result.success?
       respond_to do |format|
@@ -146,6 +147,52 @@ class PlaceholderUsersController < ApplicationController
   end
 
   private
+
+  # Only active placeholders are listed, so the ones queued for deletion stay
+  # out of the way.
+  def index_query
+    query = Queries::PlaceholderUsers::PlaceholderUserQuery.new
+    query.where(:status, "=", ["active"])
+
+    ::Queries::ParamsParser.parse(params).fetch(:filters, []).each do |filter|
+      query.where(filter[:attribute], filter[:operator], filter[:values])
+    end
+
+    query
+  end
+
+  def render_index_turbo_stream
+    update_via_turbo_stream(component: PlaceholderUsers::PlaceholderUserFilterButtonComponent.new(query: @query))
+    replace_via_turbo_stream(component: PlaceholderUsers::TableComponent.new(rows: @query))
+    turbo_streams << turbo_stream.push_state(url_for(params.permit(:filters, :sortBy, :page, :per_page)))
+    turbo_streams << helpers.render_flash_messages_as_turbo_streams
+    render turbo_stream: resolve_turbo_streams
+  end
+
+  # The criteria fields stay in the DOM when the checkbox is off, so the
+  # checkbox rather than the presence of `filters` decides whether they apply.
+  def create_attributes
+    attributes = permitted_params.placeholder_user
+    return attributes unless params[:with_criteria] == "1"
+
+    attributes.merge(user_filter: parsed_user_filter)
+  end
+
+  # The criteria tab submits its selection as a JSON string in a top-level
+  # `filters` field and carries none of the placeholder's own attributes.
+  def update_attributes
+    return { user_filter: parsed_user_filter } if params.key?(:filters)
+
+    permitted_params.placeholder_user
+  end
+
+  def parsed_user_filter
+    query = UserQuery.new
+    ::Queries::ParamsParser.parse(filters: params[:filters])
+                           .fetch(:filters, [])
+                           .each { |filter| query.where(filter[:attribute], filter[:operator], filter[:values]) }
+    query.filters
+  end
 
   def find_placeholder_user
     @placeholder_user = PlaceholderUser.visible.find(params[:id])

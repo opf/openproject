@@ -37,7 +37,22 @@ class PlaceholderUser < Principal
 
   include ::Associations::Groupable
 
+  has_details_table(foreign_key: :principal_id) do
+    # Deferred: loading UserQuery reads the schema, which fails during db:create.
+    serialize :user_filter, coder: Queries::Serialization::Filters.new(-> { UserQuery })
+  end
+
+  has_many :resource_allocations,
+           class_name: "ResourceAllocation",
+           dependent: :restrict_with_error,
+           inverse_of: :placeholder_user
+
   scopes :visible
+
+  # A cleared filter is stored as NULL, which `<>` excludes as intended.
+  scope :with_criteria, -> {
+    joins(:placeholder_user_detail).where("placeholder_user_details.user_filter <> '[]'::jsonb")
+  }
 
   # Columns required for formatting the placeholder user's name.
   def self.columns_for_name(_formatter = nil)
@@ -46,5 +61,73 @@ class PlaceholderUser < Principal
 
   def to_s
     lastname
+  end
+
+  # Resolves the candidate counts for many placeholders in one round trip, so a
+  # list rendering "N matching users" per row does not fire a query per row.
+  def self.preload_candidate_counts(placeholders, project: nil)
+    persisted = Array(placeholders).select(&:persisted?)
+    counts = candidate_counts_by_id(persisted, project)
+
+    persisted.each do |placeholder|
+      placeholder.write_candidate_count(project, counts.fetch(placeholder.id, 0))
+    end
+  end
+
+  def self.candidate_counts_by_id(placeholders, project)
+    selects = placeholders.filter_map { |placeholder| candidate_count_select(placeholder, project) }
+    return {} if selects.empty?
+
+    connection
+      .select_rows(selects.join(" UNION ALL "))
+      .to_h { |id, count| [id.to_i, count.to_i] }
+  end
+  private_class_method :candidate_counts_by_id
+
+  def self.candidate_count_select(placeholder, project)
+    candidates = placeholder.candidate_query(project:).results.reselect(:id).unscope(:order).to_sql
+
+    "SELECT #{connection.quote(placeholder.id)} AS id, COUNT(*) AS count FROM (#{candidates}) candidates"
+  rescue StandardError => e
+    Rails.logger.warn("Candidate query for placeholder user #{placeholder.id} failed: #{e.class}: #{e.message}")
+    nil
+  end
+  private_class_method :candidate_count_select
+
+  # Scoped to the current user via UserQuery's default scope. The membership
+  # filter is applied last so a `member` value in the stored filter cannot
+  # widen the project narrowing.
+  def candidate_query(project: nil)
+    UserQuery.new.tap do |query|
+      user_filter.each do |filter|
+        query.where(filter.field, filter.operator, filter.values)
+      end
+
+      query.where(:member, "=", [project.id.to_s]) if project
+    end
+  end
+
+  def candidate_count(project: nil)
+    key = project&.id
+
+    candidate_counts.fetch(key) { candidate_counts[key] = resolve_candidate_count(project) }
+  end
+
+  def write_candidate_count(project, count)
+    candidate_counts[project&.id] = count
+  end
+
+  private
+
+  # An incompletely configured filter must not take down the whole view.
+  def resolve_candidate_count(project)
+    candidate_query(project:).results.count
+  rescue StandardError => e
+    Rails.logger.warn("Candidate count for placeholder user #{id} failed: #{e.class}: #{e.message}")
+    0
+  end
+
+  def candidate_counts
+    @candidate_counts ||= {}
   end
 end

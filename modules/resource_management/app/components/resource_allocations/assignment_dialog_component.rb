@@ -55,7 +55,7 @@ module ResourceAllocations
     attr_reader :project, :allocation, :candidates
 
     def title
-      I18n.t("resource_management.assignment_dialog.title", filter_name: allocation.filter_name)
+      I18n.t("resource_management.assignment_dialog.title", filter_name: allocation.placeholder_user&.name)
     end
   end
 end

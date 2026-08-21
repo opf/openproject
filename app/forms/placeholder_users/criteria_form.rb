@@ -28,16 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module Forms
-    class FilterNameForm < ApplicationForm
-      form do |f|
-        f.text_field(
-          name: :filter_name,
-          label: ResourceAllocation.human_attribute_name(:filter_name),
-          required: true
-        )
+module PlaceholderUsers
+  class CriteriaForm < ApplicationForm
+    form do |f|
+      f.html_content do
+        # The filter builder emits its fields into the surrounding form, so it
+        # needs that form's Primer builder rather than this form object.
+        render(Filters::FilterFormComponent.new(
+                 builder: @builder,
+                 query: model.candidate_query,
+                 wrap_with_controller: true,
+                 hidden_input_name: "filters",
+                 output_format: :json
+               ))
       end
+
+      next unless submit?
+
+      f.submit(
+        name: :submit,
+        label: I18n.t(:button_save),
+        scheme: :primary
+      )
     end
+
+    def initialize(submit: true)
+      super()
+      @submit = submit
+    end
+
+    private
+
+    def submit? = @submit
   end
 end

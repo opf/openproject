@@ -30,7 +30,8 @@
 
 module PlaceholderUsers
   class TableComponent < ::TableComponent
-    columns :name, :created_at
+    columns :name, :criteria, :created_at
+    sortable_columns :name, :created_at
 
     def initial_sort
       %i[id asc]
@@ -43,11 +44,15 @@ module PlaceholderUsers
     end
 
     def header_options(name)
-      options = { caption: PlaceholderUser.human_attribute_name(name) }
+      options = { caption: caption_for(name) }
 
       options[:default_order] = "desc" if desc_by_default.include? name
 
       options
+    end
+
+    def caption_for(name)
+      name == :criteria ? I18n.t(:label_criteria) : PlaceholderUser.human_attribute_name(name)
     end
 
     def desc_by_default

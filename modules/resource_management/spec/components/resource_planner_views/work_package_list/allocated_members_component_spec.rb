@@ -39,10 +39,8 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
   end
 
   def filter_allocation(name)
-    create(:resource_allocation,
+    create(:resource_allocation, :with_user_filter,
            entity: work_package,
-           principal_explicit: false,
-           principal: nil,
            filter_name: name)
   end
 

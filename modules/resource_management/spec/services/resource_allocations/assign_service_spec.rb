@@ -64,10 +64,10 @@ RSpec.describe ResourceAllocations::AssignService, type: :model do
     expect(allocation.principal_assigned_by).to eq(assigner)
   end
 
-  it "keeps the allocation generic: user_filter, filter_name and principal_explicit are untouched" do
-    expect { service_call }.not_to change { allocation.reload.attributes.values_at("filter_name", "principal_explicit") }
-    expect(allocation.user_filter).to be_present
-    expect(allocation.principal_explicit).to be(false)
+  it "keeps the allocation generic: the requested resource is untouched" do
+    expect { service_call }.not_to change { allocation.reload.placeholder_user_id }
+    expect(allocation.placeholder_user.user_filter).to be_present
+    expect(allocation).to be_filter_based
   end
 
   context "when the selected user does not match the filter" do

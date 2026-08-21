@@ -28,28 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module PlaceholderUsers
-  class PlaceholderUserFilterComponent < IndividualPrincipalBaseFilterComponent
-    options :roles, :clear_url
-
-    class << self
-      def base_query
-        Queries::PlaceholderUsers::PlaceholderUserQuery
+module API
+  module V3
+    module AllocatablePlaceholderUsers
+      # The placeholder users an allocation can be made against. Separate from
+      # `/placeholder_users`, whose scope answers who may *administer* them —
+      # a higher bar than picking one in the allocation dialog.
+      class AllocatablePlaceholderUsersAPI < ::API::OpenProjectAPI
+        resources :allocatable_placeholder_users do
+          get &::API::V3::Utilities::Endpoints::Index
+            .new(model: PlaceholderUser,
+                 scope: -> { PlaceholderUser.allocatable(current_user) })
+            .mount
+        end
       end
-
-      def apply_filters(params, query)
-        super
-
-        # Filter for active placeholders
-        # to skip to-be-deleted users
-        query.where(:status, "=", :active)
-      end
-    end
-
-    # INSTANCE METHODS:
-
-    def filter_path
-      placeholder_users_path
     end
   end
 end

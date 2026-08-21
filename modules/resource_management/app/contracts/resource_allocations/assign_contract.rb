@@ -30,8 +30,8 @@
 
 module ResourceAllocations
   # Assigning a real user to a generic (filter-based) allocation. Only
-  # `principal` and `principal_assigned_by` change; `principal_explicit`,
-  # `user_filter` and `filter_name` are kept untouched.
+  # `principal` and `principal_assigned_by` change; the requested
+  # `placeholder_user` is kept, so the allocation stays generic.
   class AssignContract < BaseContract
     attribute :principal_assigned_by
 
@@ -51,13 +51,15 @@ module ResourceAllocations
     # Staffing only ever assigns to generic placeholders. An explicit allocation
     # is managed through the regular allocation flow.
     def allocation_is_generic
-      errors.add :base, :error_unauthorized if model.principal_explicit?
+      errors.add :base, :error_unauthorized unless model.filter_based?
     end
 
     # The assigned user must be a project member that the stored filter selects,
     # so a tampered `principal_id` cannot assign an arbitrary user.
     def principal_matches_filter
       return if model.principal.nil? || model.project.nil?
+      # There is no filter to match against; `allocation_is_generic` rejects it.
+      return unless model.filter_based?
       return if principal_selected_by_filter?
 
       errors.add :principal, :invalid

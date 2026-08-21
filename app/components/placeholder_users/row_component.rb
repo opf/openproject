@@ -38,6 +38,10 @@ module PlaceholderUsers
       link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
     end
 
+    def criteria
+      ::Queries::FilterSummary.new(placeholder_user.user_filter).to_s
+    end
+
     def created_at
       helpers.format_time placeholder_user.created_at
     end

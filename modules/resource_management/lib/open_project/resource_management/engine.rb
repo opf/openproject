@@ -36,6 +36,8 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    patches %i[PlaceholderUser]
+
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
 
@@ -130,6 +132,14 @@ module OpenProject::ResourceManagement
            partial: "resource_management/menus/menu",
            last: true,
            caption: :label_resource_management
+    end
+
+    add_api_path :allocatable_placeholder_users do
+      "#{root}/allocatable_placeholder_users"
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::AllocatablePlaceholderUsers::AllocatablePlaceholderUsersAPI
     end
   end
 end
