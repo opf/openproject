@@ -248,7 +248,6 @@ en:
   label_previous_month: "Previous month"
   label_previous_week: "Previous week"
   label_previous_workweek: "Previous work week"
-  label_rate: "Rate"
   label_rate_plural: "Rates"
   label_show: "Show"
   label_specific_day: "Day %{day}"
