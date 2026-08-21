@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { waitFor } from '@testing-library/dom';
+
 import ScrollIntoViewController from './scroll-into-view.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
@@ -48,10 +50,10 @@ describe('ScrollIntoViewController', () => {
         Target element
       </div>
     `);
-    // One extra frame for the setTimeout(fn, 0)
-    await ctx.nextFrame();
 
-    expect(scrollSpy).toHaveBeenCalledWith({ block: 'center' });
+    await waitFor(() => {
+      expect(scrollSpy).toHaveBeenCalledWith({ block: 'center' });
+    });
 
     scrollSpy.mockRestore();
   });

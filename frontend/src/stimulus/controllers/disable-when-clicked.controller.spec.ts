@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { waitFor } from '@testing-library/dom';
+
 import DisableWhenClickedController from './disable-when-clicked.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
@@ -50,10 +52,10 @@ describe('DisableWhenClickedController', () => {
     const button = ctx.screen.getByRole('button', { name: 'Submit' });
 
     button.click();
-    // setTimeout(fn) defers by one task; nextFrame (rAF) fires after
-    await ctx.nextFrame();
 
-    expect(button).toBeDisabled();
+    await waitFor(() => {
+      expect(button).toBeDisabled();
+    });
   });
 
   it('replaces button text when text value is set', async () => {
@@ -67,9 +69,10 @@ describe('DisableWhenClickedController', () => {
     const button = ctx.screen.getByRole('button', { name: 'Submit' });
 
     button.click();
-    await ctx.nextFrame();
 
-    expect(button).toHaveTextContent('Processing...');
+    await waitFor(() => {
+      expect(button).toHaveTextContent('Processing...');
+    });
     expect(button).toBeDisabled();
   });
 
@@ -105,10 +108,10 @@ describe('DisableWhenClickedController', () => {
     const link = ctx.screen.getByRole('link', { name: '+ Document' });
 
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    // setTimeout(fn) defers by one task; nextFrame (rAF) fires after
-    await ctx.nextFrame();
 
-    expect(link).toHaveAttribute('aria-disabled', 'true');
+    await waitFor(() => {
+      expect(link).toHaveAttribute('aria-disabled', 'true');
+    });
   });
 
   it('resets its state when the element is disconnected and reconnected', async () => {
@@ -123,8 +126,9 @@ describe('DisableWhenClickedController', () => {
     const parent = link.parentElement!;
 
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    await ctx.nextFrame();
-    expect(link).toHaveAttribute('aria-disabled', 'true');
+    await waitFor(() => {
+      expect(link).toHaveAttribute('aria-disabled', 'true');
+    });
 
     // Detach and reattach to trigger disconnect() then connect() again, as
     // would happen during a Turbo cache/restore.
