@@ -48,15 +48,16 @@ module Settings
       def drop_target_config
         {
           generic_drag_and_drop_target: "container",
-          "target-container-accessor": ":scope > ul",
-          "target-allowed-drag-type": "life-cycle-step-definition"
+          target_container_accessor: ":scope > ul",
+          target_allowed_drag_type: "life-cycle-step-definition"
         }
       end
 
       def draggable_item_config(definition)
         {
-          "draggable-type": "life-cycle-step-definition",
-          "drop-url": drop_admin_settings_project_phase_definition_path(definition)
+          draggable_id: definition.id,
+          draggable_type: "life-cycle-step-definition",
+          drop_url: drop_admin_settings_project_phase_definition_path(definition)
         }
       end
     end

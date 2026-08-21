@@ -15,7 +15,7 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package table](#display-relations-in-a-work-package-table-enterprise-add-on) | How can I display the relations between two work packages in the work package table? |
+| [Display relations in work package table](#display-relations-in-a-work-package-table) | How can I display the relations between two work packages in the work package table? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
 | [Add a child work package](#add-a-child-work-package)        | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
@@ -90,9 +90,7 @@ In **automatic scheduling** mode, the successor is by default scheduled to start
 
 In **manual scheduling** mode, work packages in a predecessor/successor relationship will retain the relationship but can be individually free scheduled without constraint. A successor can even be moved such that it begins and ends _before_ a predecessor. 
 
-## Display relations in a work package table (Enterprise add-on)
-
-As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) you can display relations as columns in the work package tables.
+## Display relations in a work package table
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 

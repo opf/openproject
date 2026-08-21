@@ -171,8 +171,7 @@ RSpec.describe Backlogs::Sprints::StartService do
       expect { result }.not_to raise_error
 
       expect(result).not_to be_success
-      expect(result.errors.symbols_for(:status)).to include(:taken)
-      expect(result.errors[:status]).to include("only one active sprint is allowed per project.")
+      expect(result.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
       expect(sprint.reload).to be_in_planning
     end
   end

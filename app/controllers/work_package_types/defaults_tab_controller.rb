@@ -38,15 +38,15 @@ module WorkPackageTypes
 
     def update
       permitted = params.expect(
-        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern description]
+        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern default_work_package_description]
       ).to_h
 
-      result = UpdateService.new(model: @type, user: current_user, contract_class: UpdateDefaultsContract)
+      result = UpdateService.new(model: @variant, user: current_user, contract_class: UpdateDefaultsContract)
                             .call(patterns: Forms::DefaultsFormModel.to_patterns(permitted),
-                                  description: permitted[:description])
+                                  default_work_package_description: permitted[:default_work_package_description])
 
       if result.success?
-        redirect_to edit_type_defaults_path(@type), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_type_defaults_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
       else
         render :edit, status: :unprocessable_entity
       end

@@ -14,6 +14,11 @@ ja:
           end_before_start: 終了値は開始値よりも大きくする必要があります。
           outside: グリッドの外側です。
           overlaps: オーバーラップ。
+    models:
+      grids/grid:
+        other: Grids
+      grids/widget:
+        other: Widgets
   grids:
     label_widget_in_grid: グリッド %{grid_name} に含まれるウィジェット
     widgets:

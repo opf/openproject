@@ -100,12 +100,14 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
+    # `version` and `target_versions` replace one another; stored names are
+    # translated on read, see Query::DeprecatedVersionSelect.
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
       group_by_class_name: "Version",
-      # The primary target version (the lowest version id) represents the work
-      # package, matching the version_id mirror column and the cost report's
-      # primary-version join; the sort key is that version's name.
+      # The lowest-id target version represents the work package, matching the
+      # version_id mirror column and the cost report's single-version join;
+      # the sort key is that version's name.
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv

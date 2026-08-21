@@ -51,11 +51,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::PageHierarchy do
     let(:wiki_page_grandparent) { create(:wiki_page, wiki:, title: "Hangar specifications") }
     let(:wiki_project_permissions) { %i[view_wiki_pages] }
 
-    let(:user) { create(:user) }
+    let(:user) { create(:user, member_with_permissions: { wiki_project => wiki_project_permissions }) }
 
     before do
-      create(:member, project: wiki_project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
-
       wiki_page
     end
 

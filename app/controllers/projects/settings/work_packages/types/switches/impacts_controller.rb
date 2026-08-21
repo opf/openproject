@@ -56,7 +56,7 @@ class Projects::Settings::WorkPackages::Types::Switches::ImpactsController < Pro
   # Nothing to report while the selection is still the member in force, which is what the
   # dialog opens on.
   def chosen_impact
-    target = ::Type.find_by(id: params[:target_id])
+    target = ::TypeVariant.find_by(id: params[:target_id])
     return if target.nil? || target == @source
 
     ::Projects::Types::Switch::Impact.new(project: @project, source: @source, target:)

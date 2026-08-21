@@ -43,19 +43,20 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
   # attribute_groups does not activate it on the type, and a work package only
   # stores a value for a field its type carries.
   let(:epic) { create(:type, name: "Epic", custom_fields: [story_points]) }
-  let(:design) { create(:type, name: "Design", parent: epic, custom_fields: [design_stage]) }
+  # A type owns a base variant holding the configuration it uses by default; a named variant is
+  # an additional one. Both sides of the diff are variants, never the type.
+  let(:epic_base) { epic.default_variant }
+  let(:design) { create(:type_variant, type: epic, variant_name: "Design", custom_fields: [design_stage]) }
 
   let(:project) do
     create(:project, types: [epic], work_package_custom_fields: [story_points, design_stage])
   end
-  let(:source) { epic }
+  let(:source) { epic_base }
   let(:target) { design }
 
   before do
-    make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
-
-    epic.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
-    epic.save!
+    epic_base.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
+    epic_base.save!
 
     design.attribute_groups = [["Details", ["priority", "custom_field_#{design_stage.id}"]]]
     design.save!
@@ -78,7 +79,7 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
         create(:project, types: [design], work_package_custom_fields: [story_points, design_stage])
       end
       let(:source) { design }
-      let(:target) { epic }
+      let(:target) { epic_base }
 
       it "counts the work packages storing the family's root" do
         expect(impact.work_package_count).to eq(2)
@@ -106,8 +107,8 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
   # member, which only the merged label map knows about.
   context "with a date group on the source only" do
     before do
-      epic.attribute_groups = [["Details", ["date"]]]
-      epic.save!
+      epic_base.attribute_groups = [["Details", ["date"]]]
+      epic_base.save!
     end
 
     it "labels the merged date member instead of reporting a nameless field" do
@@ -119,8 +120,8 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
     shared_let(:query) { create(:query) }
 
     before do
-      epic.attribute_groups = [["Details", %w[assignee]], ["Children", [:"query_#{query.id}"]]]
-      epic.save!
+      epic_base.attribute_groups = [["Details", %w[assignee]], ["Children", [:"query_#{query.id}"]]]
+      epic_base.save!
     end
 
     it "names the table by its group heading rather than dropping it silently" do
@@ -163,8 +164,6 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
     shared_let(:role) { create(:project_role) }
 
     before do
-      make_independent(design, Type::ConfigurationLink::WORKFLOWS)
-
       create(:workflow, type: design, role:, old_status: in_review, new_status: blocked)
       create(:work_package, project:, type: epic, status: in_review)
       create(:work_package, project:, type: epic, status: create(:status, name: "On hold"))
@@ -181,8 +180,6 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
       shared_let(:status) { create(:status, name: "New") }
 
       before do
-        make_independent(design, Type::ConfigurationLink::WORKFLOWS)
-
         design.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
         design.save!
 
@@ -202,20 +199,21 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
 
   context "when the target is a variant linked to its parent's form configuration" do
     let(:bug) { create(:type, name: "Bug") }
+    let(:bug_base) { bug.default_variant }
 
     let(:project) { create(:project, types: [bug], work_package_custom_fields: [story_points]) }
-    let(:source) { bug }
+    let(:source) { bug_base }
     # Reloaded because the outer before assigned groups to this instance, and
     # the memoized objects would win over the link's effective source.
     let(:target) { design.reload }
 
     before do
-      bug.attribute_groups = [["Details", %w[assignee]]]
-      bug.save!
+      bug_base.attribute_groups = [["Details", %w[assignee]]]
+      bug_base.save!
 
       # Restores the link the outer before severed, which is the state a variant
       # is created in.
-      design.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: epic)
+      design.link!(TypeVariant::FORM_CONFIGURATION, source: epic_base)
     end
 
     # The variant stores no groups of its own, so the diff has to read the
@@ -223,12 +221,5 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
     it "compares against the configuration the variant actually borrows" do
       expect(impact.new_fields.map(&:label)).to include("Story points")
     end
-  end
-
-  # A variant is created linked to its parent on every aspect, and the readers
-  # resolve through the link once a pending change is saved, so a variant's own
-  # configuration stays invisible until the link is severed.
-  def make_independent(type, aspect)
-    type.configuration_links.where(aspect:).destroy_all
   end
 end

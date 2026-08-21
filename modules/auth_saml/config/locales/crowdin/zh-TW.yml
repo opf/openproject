@@ -32,6 +32,9 @@ zh-TW:
           invalid_certificate: 不是有效的 PEM 格式證書： %{additional_message}
           invalid_private_key: 不是有效的 PEM 格式私密金鑰： %{additional_message}
           unmatched_private_key: 不屬於指定的憑證
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: 刪除 SAML 提供者

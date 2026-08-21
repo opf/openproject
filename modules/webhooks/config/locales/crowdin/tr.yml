@@ -14,7 +14,12 @@ tr:
         secret: İmza sırrı
         url: Taşıma kapasitesi URL
     models:
-      webhooks/outgoing_webhook: Giden web kancası
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Daha iyi üçüncü parti entegrasyonu için OpenProject webhooklarını destekleyen bir eklenti API'si sağlar.
     name: OpenProject Webhookları

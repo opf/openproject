@@ -71,12 +71,36 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       end
     end
 
+    context "when the query string is a plain numeric id in semantic mode",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+      let!(:prefix_work_package) { create(:work_package, skip_semantic_id_allocation: true) }
+      let!(:exact_work_package)  { create(:work_package, skip_semantic_id_allocation: true) }
+      let(:query_string) { "5" }
+
+      before do
+        exact_work_package.update_columns(sequence_number: 5)
+        prefix_work_package.update_columns(sequence_number: 50)
+      end
+
+      it "ranks the work package whose sequence number exactly matches above one that merely starts with it" do
+        expect(ranked_ids([exact_work_package.id, prefix_work_package.id]))
+          .to eq([exact_work_package.id, prefix_work_package.id])
+      end
+    end
+
     context "when the query string has a leading '#'" do
       let!(:work_package) { create(:work_package) }
       let(:query_string) { "##{work_package.id}" }
 
       it "still matches the numeric id exactly" do
         expect(sql).to include(work_package.id.to_s)
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it "still matches the numeric id exactly, as the prefix asks for it explicitly" do
+          expect(sql).to include(work_package.id.to_s)
+        end
       end
     end
 
@@ -97,25 +121,46 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       end
       let(:query_string) { "COM-5" }
 
-      it "ranks the exact identifier match above one that only shares the prefix" do
-        expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
-          .to eq(exact_work_package.id)
-      end
-
-      context "when the query is given in lower case" do
-        let(:query_string) { "com-5" }
-
-        it "still matches COM-5" do
+      context "and the instance is in semantic identifier mode",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it "ranks the exact identifier match above one that only shares the prefix" do
           expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
             .to eq(exact_work_package.id)
         end
+
+        context "when the query is given in lower case" do
+          let(:query_string) { "com-5" }
+
+          it "still matches COM-5" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
+        end
+
+        context "when the query is hash-prefixed" do
+          let(:query_string) { "#COM-5" }
+
+          it "still ranks the exact identifier match above one that only shares the prefix" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
+        end
       end
 
-      context "when matching a historical alias in classic mode",
-              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
-        it "still matches through the alias table" do
-          expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
-            .to eq(exact_work_package.id)
+      context "and the instance is in classic identifier mode" do
+        context "when the query is hash-prefixed" do
+          let(:query_string) { "#COM-5" }
+
+          it "still ranks the exact identifier match above one that only shares the prefix" do
+            expect(ranked_ids([exact_work_package.id, prefix_work_package.id]).first)
+              .to eq(exact_work_package.id)
+          end
+        end
+
+        context "when the query is not hash-prefixed" do
+          let(:query_string) { "COM-5" }
+
+          it { is_expected.to be_nil }
         end
       end
     end

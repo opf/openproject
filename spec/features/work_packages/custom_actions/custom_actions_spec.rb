@@ -80,7 +80,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
   let(:other_type) do
     type = create(:type)
 
-    other_project.types << type
+    other_project.project_types.create!(type:)
 
     type
   end
@@ -111,7 +111,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     cf = create(:list_wp_custom_field, multi_value: true)
 
     project.work_package_custom_fields = [cf]
-    work_package.type.custom_fields = [cf]
+    work_package.type.default_variant.custom_fields = [cf]
 
     cf
   end
@@ -125,14 +125,14 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     cf = create(:date_wp_custom_field)
 
     other_project.work_package_custom_fields = [cf]
-    other_type.custom_fields = [cf]
+    other_type.default_variant.custom_fields = [cf]
 
     cf
   end
   let!(:multi_user_custom_field) do
     create(:multi_user_wp_custom_field).tap do |cf|
       project.work_package_custom_fields << cf
-      work_package.type.custom_fields << cf
+      work_package.type.default_variant.custom_fields << cf
     end
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }

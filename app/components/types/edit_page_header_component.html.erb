@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { @type.own_name }
+    header.with_title { title }
     header.with_breadcrumbs(breadcrumb_items)
     helpers.render_tab_header_nav(header, @tabs)
   end

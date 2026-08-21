@@ -56,7 +56,7 @@ class RegistrationForm < ApplicationForm
 
     f.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
 
-    authentication_providers(f)
+    authentication_providers(f) unless model.uses_external_authentication?
     registration_footer(f)
   end
 

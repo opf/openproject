@@ -49,8 +49,7 @@ class CustomActions::Actions::Type < CustomActions::Actions::Base
 
   def associated
     ::Type
-      .preload(:parent)
       .order(:position)
-      .map { |u| [u.id, u.composite_name] }
+      .map { |type| [type.id, type.name] }
   end
 end

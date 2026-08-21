@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::TargetVersions do
-  describe "#render" do
+  describe "#render", with_settings: { work_package_multiple_versions: false } do
     let(:version) { build_stubbed(:version, name: "Alpha") }
     let(:other_version) { build_stubbed(:version, name: "Beta") }
     let(:work_package) { build_stubbed(:work_package) }
@@ -85,7 +85,6 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     end
 
     context "when the multiple versions feature is active",
-            with_flag: { work_package_multiple_versions: true },
             with_settings: { work_package_multiple_versions: true } do
       it "labels the change with 'Target versions'" do
         expect(instance.render(:target_versions, [version.id.to_s, other_version.id.to_s]))

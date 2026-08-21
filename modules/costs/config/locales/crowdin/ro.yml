@@ -89,11 +89,26 @@ ro:
         one: Poziție cost
         few: Poziții cost
         other: Poziții cost
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Tipul de cost
         few: Tipuri de costuri
         other: Tipuri de costuri
-      rate: Evaluează
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        other: Rates
       time_entry:
         one: Înregistrarea timpului
         few: Înregistrările timpului
@@ -102,6 +117,10 @@ ro:
         one: Activitatea de urmărire a timpului
         few: Activități de urmărire timp
         other: Activități de urmărire timp
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -277,7 +296,7 @@ ro:
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
   setting_enforce_without_allow: Solicitarea orelor de început și de sfârșit nu este posibilă fără a le permite
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

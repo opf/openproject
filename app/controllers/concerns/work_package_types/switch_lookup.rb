@@ -40,7 +40,7 @@ module WorkPackageTypes
     # project has since moved off.
     def load_source
       type = ::Type.find_by(id: params[:type_id])
-      @source = @project.effective_type(type) if type && @project.project_types.exists?(type_id: type.root_id)
+      @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
 
       return if @source
 

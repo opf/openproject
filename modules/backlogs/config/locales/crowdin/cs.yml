@@ -50,6 +50,7 @@ cs:
         story_points: Body příběhu
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Pro zahájení sprintu je nutné datum zahájení a ukončení.
         must_be_in_planning: musí být v plánu pro zahájení.
         only_one_active_sprint_allowed: na jeden projekt je povolen pouze jeden aktivní sprint.
@@ -60,9 +61,11 @@ cs:
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
               requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: dostává sdílené sprinty. Vlastní sprinty nelze vytvářet.
         sprint:
           attributes:
@@ -91,11 +94,21 @@ cs:
               task_version_must_be_the_same_as_story_version: musí být stejná jako verze nadřazeného příběhu.
           backlog_bucket_xor_sprint: nelze přiřadit zároveň ke sprintu a k sekci backlogu.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        few: Backlog buckets
+        many: Backlog buckets
+        other: Backlog buckets
       sprint:
         one: Sprint
         few: Sprinty
         many: Sprints
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        few: Sprint goals
+        many: Sprint goals
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -193,6 +206,7 @@ cs:
       label_start_sprint: Zahájit sprint
       start_sprint_disabled_reason_active_sprint: Jiný sprint je již aktivní.
       start_sprint_disabled_reason_missing_dates: Pro zahájení sprintu je nutné datum zahájení a ukončení.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: Tento sprint pochází z jiného projektu, který nepodporuje více aktivních sprintů.
     sprint_form:
       goal_caption: Cíl sprintu je specifický pro tento projekt a nesdílí jej žádné jiné projekty, které rovněž využívají tento sprint.

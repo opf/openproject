@@ -39,6 +39,7 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
   Observable,
@@ -53,15 +54,28 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
-   * The work package show view writes the version via the targetVersions
-   * attribute, while dragging a card between lists still writes the
-   * deprecated version attribute. Watch both so either change moves the card.
-   *
-   * TODO: Reduce to targetVersions once boards write it as well
-   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   * Board queries created here send "version", but the server normalizes the
+   * stored key to whichever of the interchangeable version filters is
+   * available, so the API may render the filter under either id.
    */
-  get watchedAttributes():string[] {
-    return [this.filterName, 'targetVersions'];
+  override get filterNames():string[] {
+    return ['version', 'targetVersion'];
+  }
+
+  /**
+   * The list-defining filter stays "version" (stored in board queries), while
+   * assigning a card writes the targetVersions attribute (see attributeName).
+   *
+   * Both keys have to be watched: with Setting::WorkPackageMultipleVersions
+   * disabled, Type::Attributes still offers the deprecated single "version" in
+   * the work package form, so an edit in the full or split view commits that
+   * key and a card would otherwise stay in its old list until a page reload.
+   *
+   * TODO: reduce this to the default [this.attributeName] once the deprecated
+   * version attribute is no longer offered in the form.
+   */
+  override get watchedAttributes():string[] {
+    return [this.attributeName, this.filterName];
   }
 
   resourceName = 'version';
@@ -88,8 +102,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
+
+      this.writable$ = createForm()
+        .then((form:FormResource) => (form.schema[this.attributeName] as IFieldSchema).writable);
     }
 
     return this.writable$;

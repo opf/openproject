@@ -33,7 +33,7 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe UpdateFormConfigurationContract do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, name: "O-Negative") }
+    let(:model) { create(:type, name: "O-Negative").default_variant }
 
     subject(:contract) { described_class.new(model, user, options: {}) }
 
@@ -237,7 +237,8 @@ module WorkPackageTypes
           end
         end
 
-        context "when the multiple versions feature is inactive" do
+        context "when the multiple versions feature is inactive",
+                with_settings: { work_package_multiple_versions: false } do
           it "accepts the deprecated version" do
             model.attribute_groups = [["foo", ["version"]]]
 
@@ -255,7 +256,6 @@ module WorkPackageTypes
         end
 
         context "when the multiple versions feature is active",
-                with_flag: { work_package_multiple_versions: true },
                 with_settings: { work_package_multiple_versions: true } do
           it "accepts target_versions" do
             model.attribute_groups = [["foo", ["target_versions"]]]

@@ -20,10 +20,21 @@ ca:
             phone_number:
               error_phone_number_format: ha de tenir el format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispositiu de 2FA
-      two_factor_authentication/device/sms: Telèfon mòbil
-      two_factor_authentication/device/totp: Aplicació d'autentificació
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continua
   button_make_active: Activate
   button_make_default: Marca per defecte

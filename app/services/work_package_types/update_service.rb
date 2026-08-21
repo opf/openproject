@@ -35,13 +35,18 @@ module WorkPackageTypes
     def instance_class = Type
 
     def validate_params
-      # Only set attribute groups when it exists (Regression #28400)
-      if params[:attribute_groups]
+      # Only set attribute groups when it exists (Regression #28400). An empty one is a reset
+      # rather than nothing to do, so ask whether a value was given at all.
+      form_configuration_changed = !params[:attribute_groups].nil?
+
+      if form_configuration_changed
         result = set_attribute_groups(params)
         return result if result.failure?
       end
 
-      set_active_custom_fields
+      # Only a configuration has a form to keep in sync, and only the form says which custom
+      # fields are active. Renaming a variant or saving its defaults says nothing about either.
+      set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
 
       super
     end

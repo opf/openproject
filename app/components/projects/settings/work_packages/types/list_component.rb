@@ -32,8 +32,6 @@ module Projects
   module Settings
     module WorkPackages
       module Types
-        # Lists the type families active in a project: one row per family,
-        # naming the active variant behind the parent type it presents as.
         class ListComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
@@ -48,13 +46,15 @@ module Projects
 
           attr_reader :project
 
-          # One row per family. A project uses the root and resolves the variant
-          # separately, so the row is the join record rather than a single type.
           def active_project_types
             @active_project_types ||= project
                                         .project_types
                                         .includes(:variant, type: :color)
                                         .sort_by { |project_type| project_type.type.position }
+          end
+
+          def switchable?(project_type)
+            project_type.type.variants.non_default_variants.exists?
           end
 
           def switch_path(type)

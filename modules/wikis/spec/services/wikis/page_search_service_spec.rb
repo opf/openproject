@@ -43,6 +43,11 @@ RSpec.describe Wikis::PageSearchService do
   let(:search_pages) do
     instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, call: search_pages_result)
   end
+  let(:search_wikis) do
+    instance_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, call: search_wikis_result)
+  end
+  let(:wikis) { [] }
+  let(:search_wikis_result) { Success(wikis) }
 
   let(:page_info) { new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:) }
   let(:page_info_result) { Success(page_info) }
@@ -73,6 +78,10 @@ RSpec.describe Wikis::PageSearchService do
       "xwiki.queries.search_pages",
       class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchPages, new: search_pages)
     )
+    Wikis::Adapters::Registry.stub(
+      "xwiki.queries.search_wikis",
+      class_double(Wikis::Adapters::Providers::XWiki::Queries::SearchWikis, new: search_wikis)
+    )
   end
 
   context "when the query is a normal search term" do
@@ -98,40 +107,49 @@ RSpec.describe Wikis::PageSearchService do
       expect(search_results.first).to be_a(Wikis::Adapters::Results::PageSearchTreeNode)
     end
 
-    it "has disabled wiki root nodes" do
+    it "has wiki root nodes" do
       expect(subject).to be_success
       search_results = subject.value!
 
       expect(search_results.size).to eq(2)
       expect(search_results[0].type).to eq(:wiki)
-      expect(search_results[0].enabled).to be_falsey
+      expect(search_results[0].identifier).to eq(page_hierarchies[0].wiki.identifier)
       expect(search_results[1].type).to eq(:wiki)
-      expect(search_results[1].enabled).to be_falsey
+      expect(search_results[1].identifier).to eq(page_hierarchies[1].wiki.identifier)
     end
 
-    it "has disabled ancestor nodes" do
+    it "has ancestor nodes" do
       expect(subject).to be_success
       search_results = subject.value!
 
       ancestor_page = search_results[0].children[0]
       expect(ancestor_page.type).to eq(:page)
       expect(ancestor_page.identifier).to eq(page_hierarchies[0].ancestors[0].identifier)
-      expect(ancestor_page.enabled).to be_falsey
     end
 
-    it "has enabled search result nodes" do
+    it "has the search result nodes below their ancestors" do
       expect(subject).to be_success
       search_results = subject.value!
 
       first_page = search_results[0].children[0].children[0]
       expect(first_page.type).to eq(:page)
       expect(first_page.identifier).to eq(page_hierarchies[0].page.identifier)
-      expect(first_page.enabled).to be_truthy
 
       second_page = search_results[1].children[0]
       expect(second_page.type).to eq(:page)
       expect(second_page.identifier).to eq(page_hierarchies[1].page.identifier)
-      expect(second_page.enabled).to be_truthy
+    end
+
+    it "identifies every node by its type and identifier" do
+      expect(subject).to be_success
+      search_results = subject.value!
+
+      key = Wikis::Adapters::Results::PageSearchTreeNode::NodeKey
+
+      expect(search_results[0].key)
+        .to eq(key.new(type: :wiki, identifier: page_hierarchies[0].wiki.identifier))
+      expect(search_results[1].children[0].key)
+        .to eq(key.new(type: :page, identifier: page_hierarchies[1].page.identifier))
     end
 
     context "if the search results contains an ancestor of another contained page" do
@@ -146,19 +164,19 @@ RSpec.describe Wikis::PageSearchService do
         ]
       end
 
-      it "enables the ancestor" do
+      it "inserts the ancestor only once" do
         expect(subject).to be_success
         search_results = subject.value!
+
+        expect(search_results[0].children.size).to eq(1)
 
         ancestor_node = search_results[0].children[0]
         expect(ancestor_node.type).to eq(:page)
         expect(ancestor_node.identifier).to eq(ancestor.identifier)
-        expect(ancestor_node.enabled).to be_truthy
 
-        page_node = search_results[0].children[0].children[0]
+        page_node = ancestor_node.children[0]
         expect(page_node.type).to eq(:page)
         expect(page_node.identifier).to eq(page.identifier)
-        expect(page_node.enabled).to be_truthy
       end
     end
 
@@ -168,6 +186,58 @@ RSpec.describe Wikis::PageSearchService do
       it "returns an empty array" do
         expect(subject).to be_success
         expect(subject.value!).to be_empty
+      end
+    end
+
+    context "if a wiki is matched by its own name" do
+      let(:matched_wiki) { new_wiki(identifier: "9", provider:, name: "Demo project", href: "#") }
+      let(:wikis) { [matched_wiki] }
+      let(:page_hierarchies) { [] }
+
+      it "passes the search term along" do
+        subject
+        expect(search_wikis).to have_received(:call).with(input_data: having_attributes(query:), auth_strategy: anything)
+      end
+
+      it "adds it as a standalone wiki node with no pages" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].type).to eq(:wiki)
+        expect(search_results[0].identifier).to eq(matched_wiki.identifier)
+        expect(search_results[0].children).to be_empty
+      end
+    end
+
+    context "if a wiki is matched both by its name and through one of its pages" do
+      let(:wiki) { new_wiki(identifier: "1", provider:, name: "Death Star", href: "#") }
+      let(:wikis) { [wiki] }
+      let(:page_hierarchies) do
+        [
+          new_page_hierarchy(
+            page: new_page_info(identifier: "42", title: "E-11 Training program", href: "#", provider:),
+            ancestors: [],
+            wiki:
+          )
+        ]
+      end
+
+      it "inserts the wiki only once and keeps its page" do
+        expect(subject).to be_success
+        search_results = subject.value!
+
+        expect(search_results.size).to eq(1)
+        expect(search_results[0].identifier).to eq(wiki.identifier)
+        expect(search_results[0].children.map(&:identifier)).to eq(["42"])
+      end
+    end
+
+    context "if searching for wikis fails" do
+      let(:search_wikis_result) { Failure(SimpleError.new(code: :unexpected, source: self)) }
+
+      it "returns that error" do
+        expect(subject).to eq(search_wikis_result)
       end
     end
   end
@@ -191,7 +261,6 @@ RSpec.describe Wikis::PageSearchService do
       expect(search_results.first.type).to eq(:page)
       expect(search_results.first.name).to eq(page_info.title)
       expect(search_results.first.children).to be_empty
-      expect(search_results.first.enabled).to be_truthy
     end
 
     it "passes the URL along" do
@@ -200,7 +269,7 @@ RSpec.describe Wikis::PageSearchService do
     end
 
     context "and when no page with the URL can be found" do
-      let(:page_info_result) { Failure(Wikis::Adapters::Results::Error.new(code: :not_found, source: self)) }
+      let(:page_info_result) { Failure(SimpleError.new(code: :not_found, source: self)) }
 
       it "returns an empty success" do
         expect(subject).to eq(Success([]))
@@ -208,7 +277,7 @@ RSpec.describe Wikis::PageSearchService do
     end
 
     context "and when finding the page by URL fails" do
-      let(:page_info_result) { Failure(Wikis::Adapters::Results::Error.new(code: :unexpected, source: self)) }
+      let(:page_info_result) { Failure(SimpleError.new(code: :unexpected, source: self)) }
 
       it "returns an error" do
         expect(subject).to eq(page_info_result)

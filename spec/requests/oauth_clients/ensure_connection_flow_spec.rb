@@ -64,7 +64,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
           before do
             Storages::Adapters::Registry.stub(
               "#{storage}.queries.user",
-              ->(_) { Failure(Storages::Adapters::Results::Error.new(code: :missing_token, source: self)) }
+              ->(_) { Failure(SimpleError.new(code: :missing_token, source: self)) }
             )
 
             allow(SecureRandom).to receive(:uuid).and_call_original.ordered

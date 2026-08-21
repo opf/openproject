@@ -130,8 +130,18 @@ export default class BudgetSubformController extends Controller {
     const fixedDateInput = document.querySelector<HTMLInputElement>('#budget_fixed_date');
     body.append('fixed_date', fixedDateInput?.value ?? '');
 
-    row.querySelectorAll('.budget-item-value').forEach((itemValue:HTMLInputElement|HTMLSelectElement) => {
-      body.append(itemValue.dataset.requestKey!, (itemValue.value || '0'));
+    // The autocompleter renders its own hidden input, so the request key is derived
+    // from the attribute name instead of a data attribute.
+    const fields = row.querySelectorAll<HTMLInputElement|HTMLSelectElement>(
+      '.budget-item-value, opce-user-autocompleter input[type="hidden"]',
+    );
+
+    fields.forEach((field) => {
+      const requestKey = field.dataset.requestKey ?? /\[(\w+)\]$/.exec(field.name)?.[1];
+
+      if (requestKey) {
+        body.append(requestKey, (field.value || '0'));
+      }
     });
 
     if (this.csrfToken !== null) {

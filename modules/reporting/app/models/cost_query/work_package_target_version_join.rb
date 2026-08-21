@@ -38,9 +38,9 @@ module CostQuery::WorkPackageTargetVersionJoin
   #
   # With multiple target versions on, the join is one-to-many: a work package
   # with several target versions is reported under each of them. With the
-  # feature off a work package is single-version, so the join is narrowed to the
-  # primary target version (the lowest version id, matching target_versions.first)
-  # and stays one-to-one.
+  # feature off a work package is single-version, so the join is narrowed to
+  # the lowest-id target version (what target_versions.first reads) and stays
+  # one-to-one.
   JOIN_ALL = <<~SQL.squish
     LEFT OUTER JOIN work_package_versions
       ON work_package_versions.work_package_id = entries.entity_id
@@ -48,13 +48,13 @@ module CostQuery::WorkPackageTargetVersionJoin
      AND work_package_versions.kind = 'target'
   SQL
 
-  JOIN_PRIMARY = <<~SQL.squish
+  JOIN_SINGLE_VERSION = <<~SQL.squish
     #{JOIN_ALL}
      AND work_package_versions.version_id = (
-           SELECT MIN(primary_target.version_id)
-           FROM work_package_versions primary_target
-           WHERE primary_target.work_package_id = entries.entity_id
-             AND primary_target.kind = 'target'
+           SELECT MIN(lowest_target.version_id)
+           FROM work_package_versions lowest_target
+           WHERE lowest_target.work_package_id = entries.entity_id
+             AND lowest_target.kind = 'target'
          )
   SQL
 
@@ -62,6 +62,6 @@ module CostQuery::WorkPackageTargetVersionJoin
   # restart. The filter and group-by must resolve to the exact same string so
   # the engine collapses them into a single join.
   def self.sql
-    Setting::WorkPackageMultipleVersions.active? ? JOIN_ALL : JOIN_PRIMARY
+    Setting::WorkPackageMultipleVersions.active? ? JOIN_ALL : JOIN_SINGLE_VERSION
   end
 end

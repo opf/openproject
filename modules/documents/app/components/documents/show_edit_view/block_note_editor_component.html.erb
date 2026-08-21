@@ -53,7 +53,7 @@
       render Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:)
     end
 
-    layout.with_tab(name: I18n.t("activerecord.models.document"), show_left: true) do
+    layout.with_tab(name: Document.model_name.human, show_left: true) do
       tag.div(
         data: {
           controller: "documents--editor-connection",

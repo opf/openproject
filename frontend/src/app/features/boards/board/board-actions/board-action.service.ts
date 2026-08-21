@@ -39,7 +39,7 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { attributeNameForFilter, WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Observable } from 'rxjs';
@@ -74,11 +74,31 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
+   * The work package attribute written when a card is assigned to a list.
+   * Usually the filter name, but it may differ from it while a deprecated
+   * attribute is replaced (e.g. the version filter writes targetVersions).
+   * Derived from the same mapping WorkPackageFilterValues applies, so the
+   * attribute this service writes and the one it reports can never disagree.
+   */
+  get attributeName():string {
+    return attributeNameForFilter(this.filterName);
+  }
+
+  /**
+   * The filter ids the action filter may be rendered under by the API.
+   * Usually just the filter name, but it may differ from it while a
+   * deprecated filter key is replaced (e.g. version / targetVersion).
+   */
+  get filterNames():string[] {
+    return [this.filterName];
+  }
+
+  /**
    * The work package attributes whose changes may move a work package
    * between the lists of the board.
    */
   get watchedAttributes():string[] {
-    return [this.filterName];
+    return [this.attributeName];
   }
 
   /**
@@ -116,7 +136,7 @@ export abstract class BoardActionService {
    * @param query
    */
   getActionFilter(query:QueryResource, getHref = false):QueryFilterInstanceResource|undefined {
-    return query.filters.find((filter) => filter.id === this.filterName);
+    return query.filters.find((filter) => this.filterNames.includes(filter.id));
   }
 
   /**
@@ -250,7 +270,7 @@ export abstract class BoardActionService {
    */
   canMove(workPackage:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(workPackage);
-    const fieldSchema = schema[this.filterName] as IFieldSchema;
+    const fieldSchema = schema[this.attributeName] as IFieldSchema;
     return fieldSchema?.writable;
   }
 
@@ -259,10 +279,10 @@ export abstract class BoardActionService {
    */
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     // Ensure attribute remains writable in the form
-    if (!changeset.isWritable(this.filterName)) {
+    if (!changeset.isWritable(this.attributeName)) {
       throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(this.filterName) },
+        { attribute: changeset.humanName(this.attributeName) },
       ));
     }
 

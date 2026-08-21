@@ -112,7 +112,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.3"
+gem "msgpack", "~> 1.8.4"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -154,7 +154,7 @@ gem "structured_warnings", "~> 0.5.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "0cb4597becd2243b810e7ce53bbbbf28b5f05844"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -183,7 +183,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.0"
+  gem "dalli", "~> 5.0.6"
   gem "redis", "~> 5.4.0"
 end
 
@@ -204,9 +204,9 @@ gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.251"
+gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.228"
+gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.12.0"
 
@@ -214,7 +214,7 @@ gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.2", require: false
+gem "mini_magick", "~> 5.3.3", require: false
 
 gem "validate_url"
 
@@ -224,7 +224,7 @@ gem "dry-monads"
 gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
-gem "store_attribute", "~> 2.0"
+gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
 gem "appsignal", "~> 4.9", require: false
@@ -238,7 +238,7 @@ gem "yabeda-rails"
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
-gem "opentelemetry-sdk", "~> 1.10", require: false
+gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
 # Lookbook
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.3"
+gem "grape", "~> 3.3.5"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -430,7 +430,7 @@ end
 
 # Set cooldown 0 for our own gems
 source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.36.0"
-  gem "openproject-octicons_helper", "~>19.36.0"
+  gem "openproject-octicons", "~>19.37.0"
+  gem "openproject-octicons_helper", "~>19.37.0"
   gem "openproject-primer_view_components", "~>0.91.1"
 end

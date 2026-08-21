@@ -7,7 +7,10 @@ pl:
         bim_snippet: Fragment kodu BIM
         reference_links: Linki referencyjne
         stage: Etap
+        status_id: Status
         viewpoint: Punkt widzenia
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Plik IFC
         ifc_attachment: Plik IFC
@@ -35,7 +38,26 @@ pl:
               ifc_attachment_missing: Nie załączono żadnych plików IFC.
               invalid_ifc_file: Podany plik nie jest prawidłowym plikiem IFC.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        one: BCF comment
+        few: BCF comments
+        many: BCF comments
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        few: BCF issues
+        many: BCF issues
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        few: BCF viewpoints
+        many: BCF viewpoints
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        few: IFC models
+        many: IFC models
+        other: IFC models
   attributes:
     bcf_thumbnail: Migawka BCF
   bcf:

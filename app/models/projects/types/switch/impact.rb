@@ -93,11 +93,11 @@ module Projects
 
         attr_reader :project, :source, :target
 
-        # Scoped on the root: a work package stores its family's root whichever member the
-        # project resolves to, so scoping on a variant source would match nothing and quietly
+        # Scoped on the type, not the variant: a work package stores its type whichever variant
+        # the project resolves to, so scoping on the variant would match nothing and quietly
         # report an impact of zero on every count drawn from here.
         def work_packages
-          @work_packages ||= ::WorkPackage.where(project:, type_id: source.root_id)
+          @work_packages ||= ::WorkPackage.where(project:, type_id: source.type_id)
         end
 
         # members, not active_members(project): switching enables the target's
@@ -125,7 +125,7 @@ module Projects
         # work_package_attributes, where start and due date collapse into one
         # "date" member that the unmerged map does not carry.
         def attribute_labels
-          @attribute_labels ||= ::Type.translated_work_package_form_attributes(merge_date: true)
+          @attribute_labels ||= ::TypeVariant.translated_work_package_form_attributes(merge_date: true)
         end
 
         def hidden_custom_field_ids

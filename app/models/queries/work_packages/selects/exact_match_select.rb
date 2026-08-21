@@ -56,35 +56,50 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
   end
 
   # Returns a SQL fragment ("CASE WHEN <exact-match> THEN 1 ELSE 0 END") that evaluates to 1
-  # for work packages whose numeric id or semantic identifier exactly equals query_string,
-  # and 0 otherwise — sort this column "desc" to bring exact matches to the top.
+  # for work packages whose numeric id, sequence number or semantic identifier exactly equals
+  # query_string, and 0 otherwise — sort this column "desc" to bring exact matches to the top.
+  # Which field a bare number is compared against depends on the work packages identifier mode.
   # Returns nil when query_string is blank, multi-word (exact-match boosting only applies
   # to the whole trimmed string), or matches neither shape.
   def self.exact_match_condition_sql(query_string)
     stripped = query_string.to_s.strip
     return nil if stripped.blank? || stripped.match?(/\s/)
 
+    hash_prefixed = stripped.start_with?("#")
     candidate = stripped.delete_prefix("#")
     condition =
       if candidate.match?(/\A[1-9]\d*\z/)
-        # Used only in ORDER BY (via `sortable:`). So it does not need to be optimized
-        # for index usage, instead, the varchar(20) ensures overly long candidates are
-        # evaluated to false without raising out-of-range errors.
-        OpenProject::SqlSanitization.sanitize(
-          "#{WorkPackage.table_name}.id = ?", candidate.to_i
-        )
-      elsif stripped.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
-        # So far, semantic identifier are always upper case.
-        # We can leverage this to match in a way that allows index usage.
-        OpenProject::SqlSanitization.sanitize(
-          "#{WorkPackage.table_name}.id IN (SELECT work_package_id FROM " \
-          "#{WorkPackageSemanticAlias.table_name} WHERE identifier = ?)",
-          stripped.upcase
-        )
+        numeric_exact_match_condition(candidate, hash_prefixed:)
+      elsif candidate.match?(/\A#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}\z/i)
+        semantic_exact_match_condition(candidate, hash_prefixed:)
       end
 
     return nil unless condition
 
     "CASE WHEN #{condition} THEN 1 ELSE 0 END"
+  end
+
+  def self.numeric_exact_match_condition(candidate, hash_prefixed:)
+    if Setting::WorkPackageIdentifier.classic? || hash_prefixed
+      OpenProject::SqlSanitization.sanitize(
+        "#{WorkPackage.table_name}.id = ?", candidate.to_i
+      )
+    else
+      OpenProject::SqlSanitization.sanitize(
+        "#{WorkPackage.table_name}.sequence_number = ?", candidate.to_i
+      )
+    end
+  end
+
+  def self.semantic_exact_match_condition(candidate, hash_prefixed:)
+    return nil unless Setting::WorkPackageIdentifier.semantic? || hash_prefixed
+
+    # So far, semantic identifiers are always upper case.
+    # We can leverage this to match in a way that allows index usage.
+    OpenProject::SqlSanitization.sanitize(
+      "#{WorkPackage.table_name}.id IN (SELECT work_package_id FROM " \
+      "#{WorkPackageSemanticAlias.table_name} WHERE identifier = ?)",
+      candidate.upcase
+    )
   end
 end

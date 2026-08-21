@@ -32,14 +32,16 @@ module Wikis
   class SearchPagesResultComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
+    include Components::TreeNodeHelper
 
     alias_method :tree_nodes, :model
 
-    attr_reader :builder, :form_name
+    attr_reader :builder, :form_name, :wikis_selectable
 
-    def initialize(model = [], builder:, form_name:, **)
+    def initialize(model = [], builder:, form_name:, wikis_selectable:, **)
       @builder = builder
       @form_name = form_name
+      @wikis_selectable = wikis_selectable
       super(model, **)
     end
 
@@ -52,30 +54,16 @@ module Wikis
     def add_sub_tree(parent, nodes)
       nodes.each do |node|
         if node.children.any?
-          parent.with_sub_tree(**item_options(node)) do |item|
-            item.with_leading_visual_icon(icon: item_icon(node))
+          parent.with_sub_tree(**node_options(node, wikis_selectable:, expanded: true)) do |item|
+            item.with_leading_visual_icon(icon: node_icon(node))
             add_sub_tree(item, node.children)
           end
         else
-          parent.with_leaf(**item_options(node)) do |item|
-            item.with_leading_visual_icon(icon: item_icon(node))
+          parent.with_leaf(**node_options(node, wikis_selectable:, expanded: true)) do |item|
+            item.with_leading_visual_icon(icon: node_icon(node))
           end
         end
       end
-    end
-
-    def item_options(node)
-      {
-        label: node.name,
-        select_variant: :single,
-        disabled: !node.enabled,
-        expanded: true,
-        data: { node_id: node.identifier }
-      }
-    end
-
-    def item_icon(node)
-      node.type == :wiki ? :book : :"op-file-doc"
     end
   end
 end

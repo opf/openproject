@@ -14,7 +14,12 @@ el:
         secret: Κρυφή υπογραφή
         url: Payload URL
     models:
-      webhooks/outgoing_webhook: Εξερχόμενο webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Παρέχει ένα πρόσθετο API για την υποστήριξη των webhooks του OpenProject για καλύτερη ενσωμάτωση τρίτων εφαρμογών.
     name: OpenProject Webhooks

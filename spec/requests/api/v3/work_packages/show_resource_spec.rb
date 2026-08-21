@@ -329,6 +329,34 @@ RSpec.describe "API v3 Work package resource",
             end
           end
 
+          describe "when requesting only a historic timestamp with since-changed target versions" do
+            let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+
+            let(:version_a) { create(:version, project:, name: "Version A") }
+            let(:version_b) { create(:version, project:, name: "Version B") }
+
+            let(:work_package) do
+              create(:work_package,
+                     subject: "The current work package",
+                     project:,
+                     version: version_a,
+                     journals: {
+                       created_at => { subject: "The original work package" },
+                       1.day.ago + 1 => {}
+                     }).tap do |wp|
+                wp.target_version_ids_replacements = [version_a.id, version_b.id]
+                wp.save!
+              end
+            end
+
+            it "renders the target versions of the requested time, not the current ones" do
+              expect(subject)
+                .to be_json_eql(
+                  [{ href: api_v3_paths.version(version_a.id), title: version_a.name }].to_json
+                ).at_path("_links/targetVersions")
+            end
+          end
+
           describe "when the work package has not been present at the baseline time" do
             let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.now] }
             let(:created_at) { 10.days.ago }

@@ -13,17 +13,18 @@ lt:
           meeting_agenda_items:
             item_0:
               title: Geros naujienos
+              notes: What went well this week?
             item_1:
-              title: Vystymo komandos naujienos
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Produkto komandos naujienos
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Marketingo komandos naujienos
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Pardavimų komandos naujienos
-            item_6:
-              title: Ketvirčio tikslų apžvalga
-            item_7:
-              title: Pagrindinių vertybių atsiliepimai
-            item_8:
-              title: Bendros temos
+              title: General topics
+              notes: Solving or discussing topics together.

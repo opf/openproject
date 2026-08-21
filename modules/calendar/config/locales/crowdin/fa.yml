@@ -7,6 +7,6 @@ fa:
   permission_share_calendars: مشترک شدن در iCalendars
   permission_view_calendar: نمایش تقویم ها
   plugin_openproject_calendar:
-    description: Provides calendar views.
-    name: OpenProject Calendar
+    description: نماهای تقویم را فراهم می‌کند.
+    name: تقویم OpenProject
   project_module_calendar_view: تقویم‌ها

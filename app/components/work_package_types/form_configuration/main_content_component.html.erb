@@ -11,7 +11,7 @@
               scheme: :secondary,
               leading_icon: :undo,
               label: t("types.edit.form_configuration.reset_to_defaults"),
-              href: reset_dialog_type_form_configuration_path(@type),
+              href: reset_dialog_type_form_configuration_path(**@variant.path_args),
               "data-test-selector": "type-form-configuration-reset-button",
               data: { controller: "async-dialog" }
             ) do
@@ -33,7 +33,7 @@
                 menu.with_item(
                   label: t("types.edit.form_configuration.add_attribute_group"),
                   tag: :a,
-                  href: add_group_type_form_configuration_groups_path(@type, group_type: :attribute),
+                  href: add_group_type_form_configuration_groups_path(**@variant.path_args, group_type: :attribute),
                   content_arguments: {
                     data: { turbo_method: :post, turbo_stream: true }
                   }

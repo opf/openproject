@@ -39,10 +39,37 @@ pl:
             query:
               must_be_work_package_query: musi być zapytaniem pakietu roboczego.
     models:
-      resource_allocation: Przydział zasobów
-      resource_planner: Planista zasobów
-      resource_user_card: Karty użytkowników
-      resource_work_package_list: Lista pakietów roboczych
+      resource_allocation:
+        one: Resource Allocation
+        few: Resource Allocations
+        many: Resource Allocations
+        other: Resource Allocations
+      resource_planner:
+        one: Resource Planner
+        few: Resource Planners
+        many: Resource Planners
+        other: Resource Planners
+      resource_user_card:
+        one: User card
+        few: User cards
+        many: User cards
+        other: User cards
+      resource_user_timeline:
+        one: User timeline
+        few: User timelines
+        many: User timelines
+        other: User timelines
+      resource_work_package_list:
+        one: Work packages list
+        few: Work packages lists
+        many: Work packages lists
+        other: Work packages lists
+      resource_work_package_timeline:
+        one: Work packages timeline
+        few: Work packages timelines
+        many: Work packages timelines
+        other: Work packages timelines
+  button_next: Dalej
   ee:
     features:
       resource_management: Zarządzanie zasobami
@@ -50,7 +77,6 @@ pl:
       resource_management:
         description: Zaplanuj i zrównoważ obciążenie swojego zespołu pracą za pomocą planistów zasobów. Przydziel ludzi do pakietów roboczych, śledź obciążenia w czasie i dostrzegaj na pierwszy rzut oka nadmierną i niedostateczną alokację.
         title: Zarządzanie zasobami
-  button_next: Dalej
   label_resource_management: Zarządzanie zasobami
   permission_allocate_user_resources: Przydziel zasoby użytkownika
   permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
@@ -287,6 +313,12 @@ pl:
         allocate: Przydziel
         settings: Konfiguruj widok
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} member of this project matches the allocation's filter criteria."
+          few: "%{count} members of this project match the allocation's filter criteria."
+          many: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Dodaj pakiet roboczy
         configure_view: Konfiguruj widok

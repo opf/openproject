@@ -90,12 +90,31 @@ sl:
         two: Cost entries
         few: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        two: Cost rates
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Vrsta stroška
         two: Vrsta stroška
         few: Vrsta stroška
         other: Vrsta stroška
-      rate: Stopnja
+      default_hourly_rate:
+        one: Default hourly rate
+        two: Default hourly rates
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        two: Hourly rates
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        two: Rates
+        few: Rates
+        other: Rates
       time_entry:
         one: Vnos časa
         two: Time entries
@@ -106,6 +125,11 @@ sl:
         two: Dejavnosti spremljanja časa
         few: Dejavnosti spremljanja časa
         other: Dejavnosti spremljanja časa
+      time_entry_custom_field:
+        one: Time entry custom field
+        two: Time entry custom fields
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -283,7 +307,7 @@ sl:
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
   setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

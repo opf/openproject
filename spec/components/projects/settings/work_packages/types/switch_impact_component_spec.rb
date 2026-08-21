@@ -40,19 +40,22 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
   # let, not shared_let: Type#attribute_groups memoizes the parsed groups on the
   # instance, so a reused type would carry one example's configuration into the next.
   let(:epic) { create(:type, name: "Epic", custom_fields: [story_points]) }
-  let(:design) { create(:type, name: "Design", parent: epic) }
+  # A type owns a base variant holding the configuration it uses by default; a named variant is
+  # an additional one. Both sides of the diff are variants, never the type.
+  let(:epic_base) { epic.default_variant }
+  let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
   let(:project) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
   # nil when the target is the member already in use: deciding there is nothing to report
   # belongs to whoever renders this, not to the component.
   let(:impact) do
-    Projects::Types::Switch::Impact.new(project:, source: epic, target:) unless target == epic
+    Projects::Types::Switch::Impact.new(project:, source: epic_base, target:) unless target == epic_base
   end
 
   # The dialog opens on the member in use, and the field above already asks for a
   # different one, so a freshly opened dialog reports nothing rather than saying so.
   context "when the selection is still the member in use" do
-    let(:target) { epic }
+    let(:target) { epic_base }
 
     it "renders nothing at all" do
       render_component
@@ -68,11 +71,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:status) { create(:status, name: "New") }
 
     before do
-      make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
-      make_independent(design, Type::ConfigurationLink::WORKFLOWS)
-
-      epic.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
-      epic.save!
+      epic_base.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
+      epic_base.save!
       design.attribute_groups = [["Details", %w[priority]]]
       design.save!
 
@@ -131,10 +131,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:query) { create(:query) }
 
     before do
-      make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
-
-      epic.attribute_groups = [["Details", %w[assignee]], ["Children", [:"query_#{query.id}"]]]
-      epic.save!
+      epic_base.attribute_groups = [["Details", %w[assignee]], ["Children", [:"query_#{query.id}"]]]
+      epic_base.save!
       design.attribute_groups = [["Details", %w[assignee]]]
       design.save!
     end
@@ -155,13 +153,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:orphan) { create(:status, name: "Blocked") }
 
     before do
-      make_independent(design, Type::ConfigurationLink::FORM_CONFIGURATION)
-      make_independent(design, Type::ConfigurationLink::WORKFLOWS)
-
       # Divergent groups too, so the report carries all three sections and their
       # order can be told apart.
-      epic.attribute_groups = [["Details", %w[assignee]]]
-      epic.save!
+      epic_base.attribute_groups = [["Details", %w[assignee]]]
+      epic_base.save!
       design.attribute_groups = [["Details", %w[priority]]]
       design.save!
 
@@ -200,27 +195,23 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:status) { create(:status, name: "New") }
 
     before do
-      make_independent(design, Type::ConfigurationLink::WORKFLOWS)
+      # Identical groups on both sides. A variant owns its configuration from creation, so
+      # matching them is deliberate rather than the default it used to be.
+      epic_base.attribute_groups = [["Details", %w[assignee]]]
+      epic_base.save!
+      design.attribute_groups = [["Details", %w[assignee]]]
+      design.save!
 
       create(:workflow, type: design, role:, old_status: status, new_status: status)
       create(:work_package, project:, type: epic, status:)
     end
 
     # A bare count line with no sections reads as a report that failed to load.
-    # This is the everyday case: a variant borrows its parent's form
-    # configuration until somebody makes it independent.
     it "says so instead of rendering nothing under the count" do
       render_component
 
       expect(page).to have_text("1 work package will use the new configuration")
       expect(page).to have_text("No fields or statuses are affected")
     end
-  end
-
-  # A variant is created linked to its parent on every aspect, and the readers
-  # resolve through the link once a pending change is saved, so a variant's own
-  # configuration stays invisible until the link is severed.
-  def make_independent(type, aspect)
-    type.configuration_links.where(aspect:).destroy_all
   end
 end

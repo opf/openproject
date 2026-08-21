@@ -14,6 +14,11 @@ th:
           end_before_start: end value needs to be larger than the start value.
           outside: is outside of the grid.
           overlaps: overlap.
+    models:
+      grids/grid:
+        other: Grids
+      grids/widget:
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contained in Grid %{grid_name}
     widgets:

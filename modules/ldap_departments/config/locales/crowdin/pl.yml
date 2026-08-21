@@ -22,8 +22,16 @@ pl:
           must_contain_base_dn: Bazowa nazwa wyróżniająca musi być zawarta w bazowej nazwie wyróżniającej połączenia LDAP.
           overlaps_other_tree: Pokrywa się z bazową nazwą wyróżniającą innej synchronizacji w ramach tego samego połączenia LDAP.
     models:
-      ldap_departments/synchronized_department: Synchronizowany dział
-      ldap_departments/synchronized_tree: Synchronizacja działu LDAP
+      ldap_departments/synchronized_department:
+        one: Synchronized department
+        few: Synchronized departments
+        many: Synchronized departments
+        other: Synchronized departments
+      ldap_departments/synchronized_tree:
+        one: LDAP department synchronization
+        few: LDAP department synchronizations
+        many: LDAP department synchronizations
+        other: LDAP department synchronizations
   ee:
     upsell:
       ldap_departments:

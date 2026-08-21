@@ -90,12 +90,31 @@ uk:
         few: Записи витрат
         many: Записи витрат
         other: Записи витрат
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Тип вартості
         few: Види витрат
         many: Види витрат
         other: Види витрат
-      rate: Оцінити
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Запис часу
         few: Записи часу
@@ -106,6 +125,11 @@ uk:
         few: Дії з обліку часу
         many: Дії з обліку часу
         other: Дії з обліку часу
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -281,7 +305,7 @@ uk:
   setting_enforce_tracking_start_and_end_times_caption: Вимагає введення часу початку й закінчення в журнал обліку часу.
   setting_enforce_without_allow: Вимога часу початку й закінчення неможлива без відповідного налаштування
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

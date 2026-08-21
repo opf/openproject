@@ -21,6 +21,11 @@
 #++
 ---
 fr:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Enregistrer le rapport sous...
   comments: Commentaire
   cost_reports_title: Temps et coûts

@@ -87,13 +87,22 @@ id:
     models:
       cost_entry:
         other: Biaya masuk
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: Jenis biaya
-      rate: Rate
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: Entri waktu
       time_entry_activity:
         other: Kegiatan pelacakan waktu
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -269,7 +278,7 @@ id:
   setting_enforce_tracking_start_and_end_times_caption: Membuat pengisian waktu mulai dan selesai menjadi wajib saat mencatat waktu.
   setting_enforce_without_allow: Membutuhkan waktu mulai dan selesai tidak mungkin dilakukan tanpa mengizinkannya
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

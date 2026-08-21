@@ -34,30 +34,25 @@ require_module_spec_helper
 module Storages
   module Adapters
     module AuthenticationStrategies
-      RSpec.describe OAuthUserToken, :disable_ssrf_filter, :webmock do
-        let(:user) { create(:user) }
-        let(:storage) do
-          create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
-        end
-        let(:request_url) { "#{storage.uri}ocs/v1.php/cloud/user" }
-        let(:http_options) { { headers: { "OCS-APIRequest" => "true", "Accept" => "application/json" } } }
-        let(:strategy_data) { Input::Strategy.build(user:, key: :oauth_user_token) }
-
+      RSpec.describe OAuthUserToken, :webmock do
         subject(:Authentication) { described_class }
 
-        shared_examples_for "successful response" do |refreshed: false|
-          it "must #{'refresh token and ' if refreshed}return success" do
-            result = Authentication[strategy_data].call(storage:) { |http| make_request(http) }
-            expect(result).to be_success
-            expect(result.value!).to eq("EXPECTED_RESULT")
-          end
+        let(:user) { create(:user) }
+        let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+        let(:strategy_data) { Input::Strategy.build(user:, key: :oauth_user_token) }
+
+        let(:token_fetcher) { instance_double(OAuthClients::TokenFetcher, access_token_for: Success(access_token)) }
+        let(:access_token) { "you-are-allowed-to-enter" }
+
+        before do
+          allow(OAuthClients::TokenFetcher).to receive(:new).with(user:).and_return(token_fetcher)
         end
 
         context "with incomplete storage configuration (missing oauth client)" do
           let(:storage) { create(:nextcloud_storage) }
 
           it "must return error" do
-            result = Authentication[strategy_data].call(storage:) { |http| make_request(http) }
+            result = Authentication[strategy_data].call(storage:) { Success("should not've been called") }
             expect(result).to be_failure
 
             error = result.failure
@@ -66,90 +61,46 @@ module Storages
           end
         end
 
-        context "with not existent oauth token" do
-          let(:user_without_token) { create(:user) }
-          let(:strategy_data) { Input::Strategy.build(user: user_without_token, key: :oauth_user_token) }
+        context "when token fetcher returns an error" do
+          let(:token_fetcher) do
+            instance_double(OAuthClients::TokenFetcher, access_token_for: Failure(SimpleError.new(
+                                                                                    source: OAuthClients::TokenFetcher,
+                                                                                    code: :token_fetcher_error
+                                                                                  )))
+          end
 
-          it "must return unauthorized" do
-            result = Authentication[strategy_data].call(storage:, http_options:) { |http| make_request(http) }
+          it "returns that error" do
+            result = Authentication[strategy_data].call(storage:) { Success("should not've been called") }
             expect(result).to be_failure
 
             error = result.failure
-            expect(error.code).to eq(:missing_token)
-            expect(error.source).to be(described_class)
+            expect(error.code).to eq(:token_fetcher_error)
+            expect(error.source).to be(OAuthClients::TokenFetcher)
           end
         end
 
-        context "with invalid oauth refresh token", vcr: "auth/nextcloud/user_token_refresh_token_invalid" do
-          before { storage }
-
-          it "must return unauthorized" do
-            result = Authentication[strategy_data].call(storage:, http_options:) { |http| make_request(http) }
-            expect(result).to be_failure
-
-            error = result.failure
-            expect(error.code).to eq(:unauthorized)
-            expect(error.source).to be(described_class)
-          end
-
-          it "logs, retries once, raises exception if race condition happens" do
-            token = OAuthClientToken.last
-            strategy = Authentication[strategy_data]
-
-            allow(Rails.logger).to receive(:error)
-            allow(strategy).to receive(:current_token).and_return(Success(token))
-            allow(token).to receive(:destroy!).and_raise(ActiveRecord::StaleObjectError).twice
-
-            expect do
-              strategy.call(storage:, http_options:) { |http| make_request(http) }
-            end.to raise_error(ActiveRecord::StaleObjectError)
-
-            expect(Rails.logger).to have_received(:error).with(/User ##{user.id} #{user.name}/).once
-          end
-        end
-
-        context "with invalid oauth access token" do
-          it "must refresh token and return success", vcr: "auth/nextcloud/refresh_token" do
-            token = OAuthClientToken.where(oauth_client_id: storage.oauth_client.id).last
-            original_access_token = token&.access_token
-            token&.update!(access_token: "NOT_A_VALID_TOKEN")
-
-            result = Authentication[strategy_data].call(storage:) { |http| make_request(http) }
-
+        context "when token fetcher returns an access token" do
+          it "returns whatever the block returned" do
+            result = Authentication[strategy_data].call(storage:) { Success("The result") }
             expect(result).to be_success
-            expect(result.value!).to eq("EXPECTED_RESULT")
-            expect(original_access_token).not_to eq(token&.reload&.access_token)
+            expect(result.value!).to eq("The result")
           end
-        end
 
-        context "with valid access token", vcr: "auth/one_drive/user_token" do
-          let(:request_url) { "#{storage.uri}v1.0/me" }
-          let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
-
-          it_behaves_like "successful response"
-        end
-
-        private
-
-        def make_request(http) = handle_response(http.get(request_url))
-
-        def handle_response(response)
-          case response
-          in { status: 200..299 }
-            Success("EXPECTED_RESULT")
-          in { status: 401 }
-            error(:unauthorized)
-          in { status: 403 }
-            error(:forbidden)
-          in { status: 404 }
-            error(:not_found)
-          else
-            error(:error)
+          it "passes an HTTPX session that sets the access token as Bearer token" do
+            stub_request(:get, "https://example.com")
+            Authentication[strategy_data].call(storage:) do |http|
+              http.get("https://example.com")
+            end
+            expect(WebMock).to have_requested(:get, "https://example.com")
+              .with(headers: { Authorization => "Bearer #{access_token}" })
           end
-        end
 
-        def error(code)
-          Failure(Results::Error.new(source: "EXECUTING_QUERY", code:))
+          it "correctly calls the token fetcher" do
+            Authentication[strategy_data].call(storage:) { Success("The result") }
+
+            expect(OAuthClients::TokenFetcher).to have_received(:new).with(user:)
+            expect(token_fetcher).to have_received(:access_token_for).with(oauth_client: storage.oauth_client)
+          end
         end
       end
     end

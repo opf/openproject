@@ -36,8 +36,8 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
   shared_let(:admin) { create(:admin) }
   shared_let(:source) do
     create(:type, name: "Feature").tap do |source_type|
-      source_type.attribute_groups = [["Copied group", %w[assignee]]]
-      source_type.save!
+      source_type.default_variant.attribute_groups = [["Copied group", %w[assignee]]]
+      source_type.default_variant.save!
     end
   end
   shared_let(:type) { create(:type, name: "Mobile app bug") }
@@ -70,7 +70,7 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
 
     # The surrounding turbo frame reloads in place with the copied configuration.
     expect(page).to have_text("Copied group")
-    expect(type.reload.attribute_groups.map(&:key)).to eq(["Copied group"])
+    expect(type.default_variant.reload.attribute_groups.map(&:key)).to eq(["Copied group"])
   end
 
   it "does not copy anything when the danger confirmation is dismissed" do
@@ -87,6 +87,6 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
 
     expect(page).to have_no_text("Copy configuration?")
     expect(page).to have_no_text("Copied group")
-    expect(type.reload.read_attribute(:attribute_groups)).to be_empty
+    expect(type.default_variant.reload.read_attribute(:attribute_groups)).to be_empty
   end
 end

@@ -9,7 +9,7 @@ keywords: pmflex, PM², PM2,
 
 > [!NOTE]
 >
-> OpenProject is continuously enhanced with every monthly release to better support project management. Teams using PM² and PMflex also benefit from this continuous stream of automation and UX improvements. This use case description is updated with each release, incorporating feedback from the PM² Community.
+> OpenProject is continuously enhanced with every monthly release to better support project management. Teams using PM² and PMflex also benefit from this continuous stream of automation and UX improvements. This use case description was updated for [OpenProject 17.7](../../release-notes/17-7-0/) and incorporates feedback from the PM² Community.
 
 # Implementing PM² and PMflex project management in OpenProject
 
@@ -21,50 +21,96 @@ Project teams who choose to implement the **PM²** or **PMflex** methodology can
 
 ## Structure and terminology
 
-The PM² methodology and terminology align very well with the structure of OpenProject. The implementation of project phases is based on PM²’s four sequential phases (Initiating, Planning, Executing, Closing). These can, of course, be adapted to fit the specific needs of each organization.
+The following sections focus on PM² concepts that require a specific mapping or configuration in OpenProject. General PM² Guide chapter headings and methodology terms without a distinct OpenProject equivalent are intentionally omitted. The [PM² Guide](../../project-management-guide) remains the methodological reference.
 
-This table provides an overview of the key terms and structures used to **map** PM² in OpenProject. It also includes links to the detailed user guide with further information in the PM² Guide.
+### PM² project
 
-| PM² and PMflex terminology                                   | OpenProject terminology                          | Examples with demo data                                      | Potential product iteration                                  |
-| ------------------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [1 An Introduction to the PM² Guide](../../project-management-guide/1-introduction) |                                                  |                                                              |                                                              |
-| -                                                            |                                                  |                                                              |                                                              |
-| [2 Project Management](../../project-management-guide/2-project-management) |                                                  |                                                              |                                                              |
-| PM² Project                                                  | [Project](../../user-guide/projects/)            | [Demo project](https://pm2.openproject.com/projects/pm2-test) | [#67001](https://community.openproject.org/wp/67001) Create seeded PM² projects at runtime |
-| Phase Gate                                                   | Phase gate within project life cycle             | [Demo project](https://pm2.openproject.com/projects/pm2-test) | [#65838](https://community.openproject.org/wp/65838) Show phase gates as separate columns in the project list |
-| [3 Overview of the PM² Methodology](../../project-management-guide/3-overview-pm2) |                                                  |                                                              |                                                              |
-| PM² Project Lifecycle                                        | Project life cycle                               | Sidebar of [Project overview](https://pm2.openproject.com/projects/pm2-test) | [#67003](https://community.openproject.org/wp/67003) Project timeline widget showing phases and gates on the project overview |
-| [4 Project Organisation and Roles](../../project-management-guide/4-project-organisation-and-roles) |                                                  |                                                              |                                                              |
-| Project Roles                                                | Project members with roles                       | [Members](https://pm2.openproject.com/projects/pm2-test/members) | [#31411](https://community.openproject.org/wp/31141) Add PM² roles and permissions to seed data |
-| [5 Initiating Phase](../../project-management-guide/5-initiating-phase) |                                                  |                                                              |                                                              |
-| Project Charter                                              | Project Charter (work package type)              | [Project Charter](https://pm2.openproject.com/projects/pm2-test/work_packages/451) | [#69055](https://community.openproject.org/wp/69055) Guided workflow and automation for PM²/PMflex artefacts<br /> |
-| Project Initiation Request                                   | Project Initiation Request (work package type)   | [Project Initiation Request](https://pm2.openproject.com/projects/pm2-test/work_packages/449) | [#68854](https://community.openproject.org/wp/68854) Multi-step project creation wizard to create and process PM²/PMflex project initiation requests<br />**Release info**: first version will be shipped in [17.0](https://community.openproject.org/wp/67801) behind a feature flag - general availability starting with [17.1](https://community.openproject.org/wp/69276). |
-| Business Case                                                | Business Case (work package type)                | [Business Case](https://pm2.openproject.com/projects/pm2-test/work_packages/450) | [#69055](https://community.openproject.org/wp/69055) Guided workflow and automation for PM²/PMflex artefacts<br />[#67726](https://community.openproject.org/wp/67726) Project business case widget for project overview |
-| Phase Gate RfP (Ready for Planning)                          | Phase Gate                                       |                                                              |                                                              |
-| [6 Planning Phase](../../project-management-guide/6-planning-phase) |                                                  |                                                              |                                                              |
-| Project Work Plan                                            | Project Work Plan (work package type)            | - [Create project work plan](https://pm2.openproject.com/wp/455)<br />- [Project Work Plan](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=69) | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Project Handbook                                             | Project Handbook (work package type)             | [Project Handbook](https://pm2.openproject.com/wp/454)       | [#69055](https://community.openproject.org/wp/69055) Guided workflow and automation for PM²/PMflex artefacts<br /> |
-| Deliverables Acceptance Plan                                 | Deliverables Acceptance Plan (work package type) | [Deliverables Acceptance Plan](https://pm2.openproject.com/wp/466) | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Outsourcing Plan                                             | Outsourcing Plan (work package type)             | [Outsourcing Plan](https://pm2.openproject.com/wp/465)       | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Business Implementation Plan                                 | Business Implementation Plan (work package type) | [Business Implementation Plan](https://pm2.openproject.com/wp/459) | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Project Stakeholder Matrix                                   | Project Stakeholder Matrix (work package type)   | [Project Stakeholder Matrix](https://pm2.openproject.com/wp/456) | [#68058](https://community.openproject.org/wp/68058) Stakeholder module to list all relevant project stakeholder |
-| Project Work Plan                                            | Project Work Plan (work package type)            | [Project Work Plan](https://pm2.openproject.com/wp/455)      | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Transition Plan                                              | Transition Plan (work package type)              | [Transition Plan](https://pm2.openproject.com/wp/458)        | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Phase Gate: RfE (Ready for Executing)                        | Phase Gate                                       |                                                              |                                                              |
-| [7 Executing Phase](../../project-management-guide/7-executing-phase) |                                                  |                                                              |                                                              |
-| Executing Kick-off Meeting                                   | Meeting                                          |                                                              |                                                              |
-| Phase Gate: RfC (Ready for Closing)                          | Meeting                                          |                                                              |                                                              |
-| [8 Closing Phase](../../project-management-guide/8-closing-phase) |                                                  |                                                              |                                                              |
-| Project-End Report                                           | Project-End Report (work package type)           | [Project-End Report](https://pm2.openproject.com/wp/502)     | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| Quality Review Report                                        | Quality Review Report (work package type)        | [Quality Review Report](https://pm2.openproject.com/wp/487)  | [#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
-| [9 Monitor & Control](../../project-management-guide/9-monitor-and-control) |                                                  |                                                              |                                                              |
-| Risk log                                                     | Work package                                     | [Risk log](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91) | [#38012](https://community.openproject.org/wp/38012) Risk module |
-| Project Status Report                                        | Project Status Report (work package type)        | [Project Status Report](https://pm2.openproject.com/wp/483)  | [#30528](https://community.openproject.org/wp/30528) Project status reporting module |
-| Change Request                                               | Change Request (work package type)               | [Change Request](https://pm2.openproject.com/wp/481)         |                                                              |
-| Approval                                                     | Approval (work package type)                     | [List of approvals](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=67) | [#49426](https://community.openproject.org/wp/49426) Review and approval vote for work packages |
-| Meeting                                                      | Meeting (module within OpenProject)              | [Ready for planning meeting](https://pm2.openproject.com/projects/pm2-test/meetings/2) | [#35642](https://community.openproject.org/wp/35642) Provide templates for meeting agendas<br />[#67059](https://community.openproject.org/wp/67059) Copy meeting agendas when creating a project based on a template<br />[#68050](https://community.openproject.org/wp/68050) Link meetings with phase gates<br />[#68052](https://community.openproject.org/wp/68052) Link work packages with phase gates |
-| [Appendices](../../project-management-guide/appendices)      |                                                  |                                                              |                                                              |
-| [PM² Artefacts](../../project-management-guide/appendices/#e-1-pm-artefacts--activities-summary-tables-and-diagrams) | Custom work package types                        | [List of all PM² artefacts](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=68) | [#66309](https://community.openproject.org/wp/66309) Live-collaboration for documents<br />[#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts<br />[#68528](https://community.openproject.org/wp/68528) PDF export of PM²/PMflex artefacts |
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | A [PM² project](../../project-management-guide/3-overview-pm2/#34-what-is-a-pm-project) is implemented as an individual OpenProject project. |
+| Representation in OpenProject | [Project](../../user-guide/projects/); use a [project template](../../user-guide/projects/project-templates) to standardize the PM² setup. |
+| System-wide configuration | Configure global defaults under [Administration → Projects → New project](../../system-admin-guide/projects/new-project/). |
+| Project-specific configuration | Configure the required modules, members, work package types and project life cycle in a template, then [set the project as a template](../../user-guide/projects/project-templates/#create-a-project-template). |
+| Demo | [PM² demo project](https://pm2.openproject.com/projects/pm2-test); [portfolio example](https://pm2.openproject.com/projects/innovation-initiative-2030) |
+| Potential product iteration | [DREAM-467](https://community.openproject.org/projects/OP/work_packages/DREAM-467/activity?query_id=7190) PM² project type with additional project attributes<br />[#67001](https://community.openproject.org/wp/67001) Create seeded PM² projects at runtime |
+
+### Project roles
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | [Project roles](../../project-management-guide/4-project-organisation-and-roles/#42-project-organisation-layers-and-roles) define the responsibilities and decision-making authority within the PM² governance model. |
+| Representation in OpenProject | [Project members with roles](../../user-guide/members/) |
+| System-wide configuration | Create project roles and assign permissions under [Administration → Users and permissions → Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/#customize-roles-with-individual-permissions). |
+| Project-specific configuration | Add members and assign the appropriate PM² role in the project's [Members module](../../user-guide/members/). |
+| Demo | [Members of the PM² demo project](https://pm2.openproject.com/projects/pm2-test/members) |
+| Potential product iteration | [#31141](https://community.openproject.org/wp/31141) Add PM² roles and permissions to seed data |
+
+### Project life cycle
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | The [PM² project lifecycle](../../project-management-guide/3-overview-pm2/#32-the-pm-lifecycle) consists of the Initiating, Planning, Executing and Closing phases. |
+| Representation in OpenProject | [Project life cycle](../../user-guide/projects/project-home/project-life-cycle) and [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) |
+| System-wide configuration | Define the globally available phases under [Administration → Projects → Project life cycle](../../system-admin-guide/projects/project-life-cycle/). The four PM² phases are available by default. |
+| Project-specific configuration | [Enable the required phases](../../user-guide/projects/project-settings/project-life-cycle/) for the project. |
+| Demo | [Project overview](https://pm2.openproject.com/projects/pm2-test) |
+| Potential product iteration | — |
+
+### Phase gates and approvals
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | [Phase gates and approvals](../../project-management-guide/3-overview-pm2/#326-phase-gates-and-approvals) are formal review and decision points between phases. The PM² gates are [RfP](../../project-management-guide/5-initiating-phase/#55-phase-gate-rfp-ready-for-planning), [RfE](../../project-management-guide/6-planning-phase/#69-phase-gate-rfe-ready-for-executing) and [RfC](../../project-management-guide/7-executing-phase/#76-phase-gate-rfc-ready-for-closing). |
+| Representation in OpenProject | [Phase gates](../../user-guide/projects/project-home/project-life-cycle) in the project life cycle; approval activities can additionally be documented with an Approval work package and a [meeting](../../user-guide/meetings/). |
+| System-wide configuration | Configure gates together with their phases under [Administration → Projects → Project life cycle](../../system-admin-guide/projects/project-life-cycle/#add-a-phase-gate). |
+| Project-specific configuration | [Enable the corresponding phases and gates](../../user-guide/projects/project-settings/project-life-cycle/) for the project. |
+| Demo | [List of approvals](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=67) |
+| Potential product iteration | [#65838](https://community.openproject.org/wp/65838) Show phase gates as separate columns in the project list<br />[#49426](https://community.openproject.org/wp/49426) Review and approval vote for work packages<br />[#68050](https://community.openproject.org/wp/68050) Link meetings with phase gates<br />[#68052](https://community.openproject.org/wp/68052) Link work packages with phase gates |
+
+### Project deliverables
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | [Project deliverables](../../project-management-guide/9-monitor-and-control/#910-manage-deliverables-acceptance) are the products or services produced by the project. They are formally reviewed and accepted against the criteria in the Deliverables Acceptance Plan. They are distinct from the management artefacts used to govern the project. |
+| Representation in OpenProject | Deliverables are represented as [work packages](../../user-guide/work-packages/). Their acceptance criteria and status can be captured in the work package form and documented through related Approval or Decision work packages. |
+| System-wide configuration | Create and configure a Deliverable type under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Add any required acceptance fields to its form. |
+| Project-specific configuration | [Enable the Deliverable type and relevant custom fields](../../user-guide/projects/project-settings/work-packages/) for the project. |
+| Demo | — |
+| Potential product iteration | — |
+
+### PM² artefacts
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | [PM² artefacts](../../project-management-guide/appendices/#e-1-pm-artefacts--activities-summary-tables-and-diagrams) document the information and decisions produced while managing a project. |
+| Included terms | [Project Initiation Request](../../project-management-guide/5-initiating-phase/#52-project-initiation-request), [Business Case](../../project-management-guide/5-initiating-phase/#53-business-case), [Project Charter](../../project-management-guide/5-initiating-phase/#54-project-charter), [Project Handbook](../../project-management-guide/6-planning-phase/#62-project-handbook), [Project Stakeholder Matrix](../../project-management-guide/6-planning-phase/#63-project-stakeholder-matrix), [Project Work Plan](../../project-management-guide/6-planning-phase/#64-project-work-plan), [Outsourcing Plan](../../project-management-guide/6-planning-phase/#65-outsourcing-plan), [Deliverables Acceptance Plan](../../project-management-guide/6-planning-phase/#66-deliverables-acceptance-plan), [Transition Plan](../../project-management-guide/6-planning-phase/#67-transition-plan), [Business Implementation Plan](../../project-management-guide/6-planning-phase/#68-business-implementation-plan), [Project Status Report](../../project-management-guide/7-executing-phase/#74-project-reporting), [Project-End Report](../../project-management-guide/8-closing-phase/#83-project-end-report), [Quality Review Report](../../project-management-guide/9-monitor-and-control/#99-manage-quality) and [Change Request](../../project-management-guide/9-monitor-and-control/#96-manage-project-change) |
+| Representation in OpenProject | Each artefact is a [custom work package type](../../system-admin-guide/manage-work-packages/work-package-types/) with a pre-filled description. Artefacts can include [project attributes](../../user-guide/work-packages/edit-work-package/#project-attributes-in-work-packages) and be exported with the [PMflex Artefact PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). |
+| System-wide configuration | Create and configure artefact types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Configure their form, project attributes, PDF templates and [automatic artefact export](../../system-admin-guide/manage-work-packages/work-package-types/#automatic-artefact-export) on the same administration page. |
+| Project-specific configuration | [Enable the artefact work package types](../../user-guide/projects/project-settings/work-packages/#work-package-types) for the project. A project template is recommended. |
+| Demo | [Project Initiation Request](https://pm2.openproject.com/wp/537); [list of all PM² artefacts](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=68) |
+| Potential product iteration | [#67726](https://community.openproject.org/wp/67726) Project business case widget for project overview<br />[#68058](https://community.openproject.org/wp/68058) Stakeholder module to list all relevant project stakeholders<br />[#30528](https://community.openproject.org/wp/30528) Project status reporting module<br />[#66309](https://community.openproject.org/wp/66309) Live collaboration for documents |
+
+### Project logs
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | PM² uses four central project logs: the [Change Log](../../project-management-guide/appendices/#b-7-change-log), [Risk Log](../../project-management-guide/appendices/#b-8-risk-log), [Issue Log](../../project-management-guide/appendices/#b-9-issue-log) and [Decision Log](../../project-management-guide/appendices/#b-10-decision-log). They provide controlled records of changes, risks, issues and decisions throughout the project. |
+| Representation in OpenProject | Change Request, [Risk](../risk-management/), Issue and Decision work packages, each displayed in a corresponding [saved work package view](../../user-guide/work-packages/work-package-table-configuration/#save-work-package-views) |
+| System-wide configuration | Create the required log entry types under [Administration → Work packages → Types](../../system-admin-guide/manage-work-packages/work-package-types/#create-new-work-package-type). Create additional attributes under [Administration → Custom fields](../../system-admin-guide/custom-fields/) and add them to the corresponding forms. |
+| Project-specific configuration | [Enable the log entry types and custom fields](../../user-guide/projects/project-settings/work-packages/) for the project, then configure and save one filtered view for each log. |
+| Demo | [Risk Log example](https://pm2.openproject.com/projects/pm2-test/work_packages?query_id=91); [Example risk](https://pm2.openproject.com/projects/pm2-test/work_packages/517/activity?query_id=91) |
+| Potential product iteration | [#38012](https://community.openproject.org/work_packages/38012) Risk management module |
+
+### Meetings
+
+| Aspect | Mapping and guidance |
+| --- | --- |
+| Meaning in PM² | PM² uses meetings such as the [Planning Kick-off Meeting](../../project-management-guide/6-planning-phase/#61-planning-kick-off-meeting) and [Executing Kick-off Meeting](../../project-management-guide/7-executing-phase/#71-executing-kick-off-meeting) to align participants, review information and document decisions. |
+| Representation in OpenProject | [Meetings module](../../user-guide/meetings/) |
+| System-wide configuration | Enable Meetings by default for new projects under [Administration → Projects → New project](../../system-admin-guide/projects/new-project/#new-project-settings). |
+| Project-specific configuration | [Enable the Meetings module](../../user-guide/projects/project-settings/modules/) for the project. |
+| Demo | [Ready for Planning meeting](https://pm2.openproject.com/projects/pm2-test/meetings/2) |
+| Potential product iteration | [#35642](https://community.openproject.org/wp/35642) Provide templates for meeting agendas<br />[#67059](https://community.openproject.org/wp/67059) Copy meeting agendas when creating a project based on a template |
 
 ## Current development and next steps
 
@@ -94,6 +140,8 @@ OpenProject's **project life cycle** effectively represents PM² phases and thei
 
 ![Overview of all project life cycle phases in OpenProject](openproject_use_case_pm2_project_life_cycle.png)
 
+Add the [project timeline widget](../../user-guide/projects/project-home/project-widgets/#project-timeline-widget) to the project overview to visualize the current phase and gate status at a glance.
+
 ### How to successfully pass the phase gates?
 
 At the end of each phase, the project undergoes a review and approval process. This ensures that the project is reviewed by the relevant individuals, such as the Project Manager (PM), Project Owner (PO) or Project Steering Committee (PSC), before moving on to the next phase. These checkpoints improve the quality of project management and enable the project to proceed in a more controlled way.
@@ -114,6 +162,10 @@ PM² methodology includes specific **deliverables** that can be managed through 
 While creating work packages add the official templates as pre-filled description of the newly created work package types. Whenever a user will create a new artefact using the work package, the template will be automatically visible and needs only to be filled out with relevant project data. 
 
 ![Setting up work package templates in OpenProject](openproject_use_case_PM2_work_package_templates.png)
+
+Administrators can configure which [project attributes are displayed for each work package type](../../system-admin-guide/manage-work-packages/work-package-types/#display-project-attributes-in-work-package-forms). Project members can then view and edit this project-level information directly in the work package's [Project attributes tab](../../user-guide/work-packages/edit-work-package/#project-attributes-in-work-packages).
+
+Completed artefacts can be exported with the dedicated [PMflex Artefact PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). Administrators can also configure an [automatic artefact export](../../system-admin-guide/manage-work-packages/work-package-types/#automatic-artefact-export) whenever a work package status changes. The generated PDF can be attached to the work package or uploaded to the project's connected Nextcloud folder.
 
 Since all artefacts can be stored directly within work packages, OpenProject is your single source of truth providing all relevant project information. Everyone from the team can always access the current version of artefacts. 
 
@@ -170,7 +222,7 @@ PM² emphasizes **accountability, transparency, and stakeholder communication**,
 - **Custom reporting** aligned with PM² governance requirements  
 - **Time tracking** for capacity management and phase effort analysis  
 - **Stakeholder communication** through automated notifications and status updates  
-- **PDF export** for print-outs of artefacts or in to send these to users without OpenProject access
+- **[PMflex Artefact PDF export](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact)** for sharing structured artefacts with users without OpenProject access
 
 ![Project overview in OpenProject](openproject_use_case_PM2_project_overview.png)
 
