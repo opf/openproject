@@ -41,6 +41,7 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -172,6 +173,10 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   isMobile():boolean {
     return this.deviceService.isMobile;
+  }
+
+  typeHighlightingClass(workPackage:WorkPackageResource):string {
+    return Highlighting.typeClass(workPackage.type.id!);
   }
 
   private buildTranslatedReason() {
