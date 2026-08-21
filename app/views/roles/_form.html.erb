@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% else %>
       <%= styled_label_tag :unchangeable, "#{t(:label_role_type)} #{t(:label_not_changeable)}" %>
       <div class="form--field-container">
-        <%= (role.is_a?(GlobalRole) ? GlobalRole.model_name.human : t(:label_member_role)) %>
+        <%= (role.is_a?(GlobalRole) ? GlobalRole : ProjectRole).model_name.human %>
       </div>
     <% end %>
   </div>
