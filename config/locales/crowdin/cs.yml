@@ -5960,6 +5960,7 @@ cs:
   text_destroy_what_to_do: Co chcete udělat?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.
     Nakonfigurujte váš SMTP server pro jejich povolení.
@@ -6306,6 +6307,14 @@ cs:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6477,6 +6486,7 @@ cs:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Faktor dostupnosti
         availability_factor_caption: Určete procento svého pracovního času věnovaného projektové práci.
+        effective_hours: Effective work hours
         hours_mode_label: Režim hodin
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6490,7 +6500,6 @@ cs:
         title_current: Upravit aktuální pracovní plán
         title_days_and_hours: Dny a hodiny
         title_future_dates: Budoucí termíny
-        total_available_hours: Celkový počet dostupných pracovních hodin
         total_work_hours: Celkový počet odpracovaných hodin
         work_days: Pracovní dny
         work_hours: Work hours

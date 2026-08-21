@@ -281,7 +281,7 @@ pl:
   setting_enforce_tracking_start_and_end_times_caption: Wymusza wprowadzenie czasów rozpoczęcia i zakończenia w razie rejestrowania czasu.
   setting_enforce_without_allow: Nie można wymagać czasów rozpoczęcia i zakończenia bez zezwolenia na nie
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

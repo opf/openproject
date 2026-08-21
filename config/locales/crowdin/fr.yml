@@ -3352,7 +3352,7 @@ fr:
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_new: Nouveau membre
-  label_member_of_group: Member of group
+  label_member_of_group: Membre du groupe
   label_member_of_project: Membre du projet
   label_member_plural: Membres
   label_member_role: Rôle dans le projet
@@ -5811,6 +5811,7 @@ fr:
   text_destroy_what_to_do: Que voulez-vous faire?
   text_destroy_with_associated: 'Il y a des objets supplémentaires associés à ce(s) lot(s) de travaux qui doivent être supprimés. Ces objets sont des types suivants :'
   text_diff_truncated: "... Cette « diff » a été tronquée car elle dépasse la taille maximale d'affichage."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     L'envoi d'e-mails n'est pas configuré et les notifications sont désactivées.
     Configurer votre serveur SMTP pour les activer.
@@ -5957,7 +5958,7 @@ fr:
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
-        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
+        variant_name_caption: Nomme cette configuration de %{type}. Les lots de travaux continuent à utiliser %{type} lui-même.
       finish: Terminer
       placeholder_description: Cette étape sera bientôt disponible.
       progress_label: Étape %{number} sur %{total}
@@ -6080,16 +6081,16 @@ fr:
         tab: Attributs du projet
       projects:
         actions:
-          confirm_remove: Remove the type %{type} from %{project}?
-          remove_from_project: Remove from project
-          switch_variant: Change variant
+          confirm_remove: Supprimer le type %{type} de %{project}?
+          remove_from_project: Supprimer du projet
+          switch_variant: Modifier la variante
         add_dialog:
-          no_projects_selected: Please select at least one project.
-          search_placeholder: Search projects
-        disable_all: Disable for all projects
+          no_projects_selected: Veuillez choisir au moins un projet.
+          search_placeholder: Rechercher des projets
+        disable_all: Désactiver pour tous les projets
         empty_state:
-          description: Add a project to use this configuration there.
-          no_results: No matching projects.
+          description: Ajouter un projet pour utiliser cette configuration.
+          no_results: Aucun projet correspondant.
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
@@ -6157,6 +6158,14 @@ fr:
           switch_to_independent: Passer en mode indépendant
           title: Mode lié
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Flux de travail
     index:
@@ -6322,6 +6331,7 @@ fr:
         availability_description: Le facteur de disponibilité représente le pourcentage réel de votre temps de travail consacré aux tâches du projet. Il tient compte des réunions, des courriels, du travail administratif et d'autres activités non liées au projet.
         availability_factor: Facteur de disponibilité
         availability_factor_caption: Définissez le pourcentage de votre temps de travail consacré au projet.
+        effective_hours: Effective work hours
         hours_mode_label: Mode heures
         hours_per_day: Heures par jour
         individual_hours_mode: Heures individuelles par jour
@@ -6335,7 +6345,6 @@ fr:
         title_current: Modifier l'horaire de travail actuel
         title_days_and_hours: Jours et heures
         title_future_dates: Dates futures
-        total_available_hours: Total des heures de travail disponibles
         total_work_hours: Heures de travail totales
         work_days: Jours de travail
         work_hours: Heures de travail
@@ -6678,7 +6687,7 @@ fr:
         target_role_ids:
           label: Rôles cibles
         target_variant_ids:
-          label: Target types
+          label: Types de cibles
       from_roles:
         create:
           notice:
@@ -6687,8 +6696,8 @@ fr:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Le flux de travail a été copié avec succès vers '%{type_name}'.
+            other: Le flux de travail a été copié avec succès vers %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

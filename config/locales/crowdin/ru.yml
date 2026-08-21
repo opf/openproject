@@ -256,7 +256,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
-        type_variant: Work package type variant
+        type_variant: Вариант типа пакета работ
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -2694,7 +2694,7 @@ ru:
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
-  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
+  error_can_not_remove_type_from_project: Не удается удалить "%{name}" из проекта "%{project}", потому что он все еще используется %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -2985,9 +2985,9 @@ ru:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
+            line_1: Несколько целевых версий для пакетов работ.
+            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
             line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
             line_4: Wiki macros available in more text editors.
             line_5: Improved search for work package identifiers.
@@ -5943,6 +5943,7 @@ ru:
   text_destroy_what_to_do: Что Вы хотите сделать?
   text_destroy_with_associated: 'Существуют дополнительные объекты, связанные с удаляемым рабочим пакетом (пакетами). Эти объекты относятся к следующим типам:'
   text_diff_truncated: "... Этот разностность(diff) была усечена, так как она превышает максимальный размер, которые может быть отображен."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Доставка электронной почты не настроена, уведомления отключены.
     Настройте SMTP-сервер, чтобы включить их.
@@ -6283,6 +6284,14 @@ ru:
           switch_to_independent: Переключиться в независимый режим
           title: Связанный режим
         parent_suffix: " (родитель)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Рабочие процессы
     index:
@@ -6454,6 +6463,7 @@ ru:
         availability_description: Коэффициент доступности показывает фактический процент рабочего времени, выделенного на задачи проекта. Это относится к совещаниям, электронной почте, административной работе и другой деятельности, не связанной с проектом.
         availability_factor: Фактор доступности
         availability_factor_caption: Определите процент Вашего рабочего времени, отведенного на работу над проектом.
+        effective_hours: Effective work hours
         hours_mode_label: Режим часов
         hours_per_day: Часов в день
         individual_hours_mode: Индивидуальные часы в день
@@ -6467,7 +6477,6 @@ ru:
         title_current: Редактирование текущего рабочего расписания
         title_days_and_hours: Дни и часы
         title_future_dates: Будущие даты
-        total_available_hours: Всего доступных рабочих часов
         total_work_hours: Всего рабочих часов
         work_days: Рабочие дни
         work_hours: Рабочие часы

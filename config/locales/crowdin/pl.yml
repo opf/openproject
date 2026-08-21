@@ -5943,6 +5943,7 @@ pl:
   text_destroy_what_to_do: Co chcesz zrobić?
   text_destroy_with_associated: 'Istnieją dodatkowe obiekty powiązane z pakietami roboczymi, które będą usunięte. Te obiekty są następujących typów:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Dostarczanie poczty elektronicznej nie jest skonfigurowane, a powiadomienia są wyłączone.
     Skonfiguruj swój serwer SMTP, aby je włączyć.
@@ -6289,6 +6290,14 @@ pl:
           switch_to_independent: Przełącz na tryb niezależny
           title: Powiązany tryb
         parent_suffix: " (nadrzędny)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Przepływy pracy
     index:
@@ -6460,6 +6469,7 @@ pl:
         availability_description: Współczynnik dostępności reprezentuje rzeczywisty procent czasu pracy poświęconego na zadania projektowe. Obejmuje on spotkania, wiadomości e-mail, prace administracyjne i inne czynności niezwiązane z projektem.
         availability_factor: Współczynnik dostępności
         availability_factor_caption: Określ procent czasu pracy poświęcony pracom projektowym.
+        effective_hours: Effective work hours
         hours_mode_label: Tryb godzinowy
         hours_per_day: Liczba godzin dziennie
         individual_hours_mode: Indywidualna liczba godzin dziennie
@@ -6473,7 +6483,6 @@ pl:
         title_current: Edytuj bieżący harmonogram pracy
         title_days_and_hours: Dni i godziny
         title_future_dates: Przyszłe daty
-        total_available_hours: Łączna liczba dostępnych godzin pracy
         total_work_hours: Łączna liczba godzin pracy
         work_days: Dni robocze
         work_hours: Godziny pracy

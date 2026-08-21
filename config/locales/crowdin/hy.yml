@@ -5810,6 +5810,7 @@ hy:
   text_destroy_what_to_do: Ի՞նչ եք ցանկանում անել։
   text_destroy_with_associated: Ջնջվելիք աշխատանքային փաթեթ(ներ)ի հետ կապված կան լրացուցիչ օբյեկտներ։ Այդ օբյեկտները հետևյալ տեսակների են՝
   text_diff_truncated: "... Այս տարբերությունը կրճատվել է, քանի որ գերազանցում է ցուցադրման համար թույլատրելի առավելագույն չափը։"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Էլ. փոստի առաքումը կազմաձևված չէ, և ծանուցումներն անջատված են։
     Դրանք միացնելու համար կազմաձևեք Ձեր SMTP սերվերը։
@@ -6156,6 +6157,14 @@ hy:
           switch_to_independent: Անցնել անկախ ռեժիմին
           title: Կապակցված ռեժիմ
         parent_suffix: " (ծնող)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Աշխատանքային հոսքեր
     index:
@@ -6323,6 +6332,7 @@ hy:
         availability_description: Հասանելիության գործակիցը ցույց է տալիս Ձեր աշխատաժամանակի փաստացի այն տոկոսը, որը հատկացվում է նախագծային առաջադրանքներին։ Այն հաշվի է առնում հանդիպումները, էլ. նամակները, վարչական աշխատանքը և այլ ոչ նախագծային գործունեությունը։
         availability_factor: Հասանելիության գործակից
         availability_factor_caption: Սահմանեք Ձեր աշխատաժամանակի այն տոկոսը, որը հատկացվում է նախագծային աշխատանքին։
+        effective_hours: Effective work hours
         hours_mode_label: Ժամերի ռեժիմ
         hours_per_day: Օրվա ժամեր
         individual_hours_mode: Առանձին ժամեր յուրաքանչյուր օրվա համար
@@ -6336,7 +6346,6 @@ hy:
         title_current: Խմբագրել ընթացիկ աշխատանքային ժամանակացույցը
         title_days_and_hours: Օրեր և ժամեր
         title_future_dates: Ապագա ամսաթվեր
-        total_available_hours: Ընդհանուր հասանելի աշխատանքային ժամեր
         total_work_hours: Ընդհանուր աշխատանքային ժամեր
         work_days: Աշխատանքային օրեր
         work_hours: Աշխատանքային ժամեր

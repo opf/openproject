@@ -273,7 +273,7 @@ fr:
   setting_enforce_tracking_start_and_end_times_caption: Rend la saisie des heures de début et de fin obligatoire lors de la journalisation.
   setting_enforce_without_allow: Il est nécessaire d'autoriser les heures de début et de fin pour pouvoir les exiger
   setting_time_entries_limit_to_user_working_hours: Se limiter aux heures de travail de l'utilisateur
-  setting_time_entries_limit_to_user_working_hours_caption: Limite le nombre d'heures pouvant être enregistrées à la capacité de cet utilisateur pour la journée en question. Les utilisateurs pour lesquels aucun horaire de travail n'a été défini ne seront pas soumis à cette restriction.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Nombre maximal d'heures par jour
   setting_time_entries_max_hours_per_day_caption: Limite le nombre total d'heures pendant lesquelles un utilisateur peut se connecter au cours d'une même journée. La valeur 0 signifie qu'il n'y a aucune restriction.
   setting_time_entries_max_hours_per_entry: Nombre maximal d'heures par enregistrement de temps

@@ -5801,6 +5801,7 @@ pt-PT:
   text_destroy_what_to_do: O que deseja fazer?
   text_destroy_with_associated: 'Existem objectos adicionais associados ao(s) pacote(s) de trabalho que vão ser eliminados. Esses objetos são dos seguintes tipos:'
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     A entrega de emails não está configurada e as notificações estão desativadas.
     Configure o seu servidor de SMTP para ativar.
@@ -6147,6 +6148,14 @@ pt-PT:
           switch_to_independent: Mudar para o modo independente
           title: Modo vinculado
         parent_suffix: " (pai)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Fluxos de trabalho
     index:
@@ -6314,6 +6323,7 @@ pt-PT:
         availability_description: O fator de disponibilidade representa a percentagem real do seu tempo de trabalho dedicado às tarefas do projeto. Isto inclui reuniões, e-mails, trabalho administrativo e outras atividades não relacionadas com o projeto.
         availability_factor: Fator de disponibilidade
         availability_factor_caption: Defina a percentagem do seu tempo de trabalho dedicada ao trabalho de projeto.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas por dia
         individual_hours_mode: Horas individuais por dia
@@ -6327,7 +6337,6 @@ pt-PT:
         title_current: Editar o horário de trabalho atual
         title_days_and_hours: Dias e horas
         title_future_dates: Datas futuras
-        total_available_hours: Total de horas de trabalho disponíveis
         total_work_hours: Total de horas de trabalho
         work_days: Dias úteis
         work_hours: Horário de trabalho

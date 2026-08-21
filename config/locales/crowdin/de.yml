@@ -2877,7 +2877,7 @@ de:
             line_1: Multiple target versions for work packages.
             line_2: Global limits and restrictions for time entries (Professional plan).
             line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
+            line_4: Wiki-Makros sind in weiteren Texteditoren verfügbar.
             line_5: Improved search for work package identifiers.
             line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
@@ -5288,7 +5288,7 @@ de:
   setting_default_language: Standard-Sprache
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Aktiviert standardmäßig die Wiki-Funktionalität für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
   setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen
@@ -5814,6 +5814,7 @@ de:
   text_destroy_what_to_do: Was soll mit den Objekten geschehen?
   text_destroy_with_associated: 'Es sind weitere Datenobjekte mit den bzw. dem zu löschenden Arbeitpaket(en) verbunden. Es handelt sich dabei um Objekte der folgenden Typen:'
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     E-Mail-Zustellung ist nicht konfiguriert und Benachrichtigungen sind deaktiviert.
     Konfigurieren Sie Ihren SMTP-Server, um sie zu aktivieren.
@@ -6160,6 +6161,14 @@ de:
           switch_to_independent: Zum unabhängigen Modus wechseln
           title: Verknüpfter Modus
         parent_suffix: " (übergeordneter Typ)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6327,6 +6336,7 @@ de:
         availability_description: Der Verfügbarkeitsfaktor gibt den Prozentsatz der Arbeitszeit an, der für Projektaufgaben verplant werden kann. Dieser Faktor dient dazu Besprechungen, E-Mails, Verwaltungsarbeit und andere projektfremde Tätigkeiten zu berücksichtigen.
         availability_factor: Verfügbarkeitsfaktor
         availability_factor_caption: Legen Sie den Prozentsatz der Arbeitszeit fest, der für Projektarbeit verplant werden kann.
+        effective_hours: Effective work hours
         hours_mode_label: Stundenmodus
         hours_per_day: Stunden pro Tag
         individual_hours_mode: Unterschiedliche Stunden an jedem Arbeitstag
@@ -6340,7 +6350,6 @@ de:
         title_current: Aktuellen Arbeitszeitplan bearbeiten
         title_days_and_hours: Tage und Stunden
         title_future_dates: Zukünftiger Arbeitszeitplan
-        total_available_hours: Verfügbare Zeit für Projektarbeit
         total_work_hours: Wöchentliche Arbeitszeit
         work_days: Arbeitstage
         work_hours: Arbeitsstunden

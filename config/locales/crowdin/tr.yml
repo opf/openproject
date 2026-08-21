@@ -5822,6 +5822,7 @@ tr:
   text_destroy_what_to_do: Ne yapmak istiyorsun?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Bu fark, görüntülenebilecek maksimum boyutu aştığı için kesildi."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     E-posta teslimi yapılandırılmamış ve bildirimler devre dışı bırakılmış.
     SMTP sunucunuzu etkinleştirmek için yapılandırın.
@@ -6162,6 +6163,14 @@ tr:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6329,6 +6338,7 @@ tr:
         availability_description: Kullanılabilirlik faktörü, çalışma zamanınızın proje görevlerine ayrılan gerçek yüzdesini temsil eder. Bu, toplantıları, e-postaları, idari işleri ve diğer proje dışı faaliyetleri hesaba katar.
         availability_factor: Kullanılabilirlik faktörü
         availability_factor_caption: Çalışma zamanınızın yüzde kaçını proje çalışmalarına ayıracağınızı belirleyin.
+        effective_hours: Effective work hours
         hours_mode_label: Saat modu
         hours_per_day: Gün başına saat
         individual_hours_mode: Günlük bireysel saatler
@@ -6342,7 +6352,6 @@ tr:
         title_current: Geçerli çalışma programını düzenleme
         title_days_and_hours: Gün ve saat
         title_future_dates: Gelecek tarihler
-        total_available_hours: Toplam kullanılabilir çalışma saati
         total_work_hours: Toplam çalışma saati
         work_days: Çalışma günleri
         work_hours: Çalışma saatleri

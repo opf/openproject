@@ -13,17 +13,18 @@ ko:
           meeting_agenda_items:
             item_0:
               title: 반가운 소식
+              notes: What went well this week?
             item_1:
-              title: 개발 팀의 업데이트
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: 제품 팀의 업데이트
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: 마케팅 팀의 업데이트
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: 세일즈 팀의 업데이트
-            item_6:
-              title: 분기별 목표 검토
-            item_7:
-              title: 핵심 가치 피드백
-            item_8:
-              title: 일반 주제
+              title: General topics
+              notes: Solving or discussing topics together.
