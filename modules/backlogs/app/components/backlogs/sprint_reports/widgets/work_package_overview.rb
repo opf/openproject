@@ -49,7 +49,10 @@ module Backlogs
 
         def title_text = t("backlogs.show_work_package_overview")
 
-        def render? = user_allowed?(:view_sprints)
+        def render?
+          EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
+            user_allowed?(:view_sprints)
+        end
 
         def show_widget_content? = sprint.date_range_set?
 
