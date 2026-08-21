@@ -64,21 +64,21 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     ## Status
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp1_row.find('[class^="__hl_inline_status_"]'),
+                                                     wp1_row.find('.__hl_dot[class*="__hl_status_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(255, 0, 0)")
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp2_row.find('[class^="__hl_inline_status_"]'),
+                                                     wp2_row.find('.__hl_dot[class*="__hl_status_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(240, 240, 240)")
 
     ## Priority
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp1_row.find('[class^="__hl_inline_priority_"]'),
+                                                     wp1_row.find('.__hl_dot[class*="__hl_priority_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(18, 52, 86)")
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp2_row.find('[class^="__hl_inline_priority_"]'),
+                                                     wp2_row.find('.__hl_dot[class*="__hl_priority_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgba(0, 0, 0, 0)")
 
@@ -94,33 +94,33 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     ## Priority should have a dot
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp1_row.find('[class^="__hl_inline_priority_"]'),
+                                                     wp1_row.find('.__hl_dot[class*="__hl_priority_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(18, 52, 86)")
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp2_row.find('[class^="__hl_inline_priority_"]'),
+                                                     wp2_row.find('.__hl_dot[class*="__hl_priority_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgba(0, 0, 0, 0)")
 
     ## Status should not have a dot
-    expect(wp1_row).to have_no_css('.status [class^="__hl_inline_"]')
+    expect(wp1_row).to have_no_css(".status .__hl_dot")
 
     # Highlight multiple attributes
     highlighting.switch_inline_attribute_highlight "Priority", "Status"
     wp1_row = wp_table.row(wp_1)
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp1_row.find('[class^="__hl_inline_priority_"]'),
+                                                     wp1_row.find('.__hl_dot[class*="__hl_priority_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(18, 52, 86)")
     expect(SelectorHelpers.get_pseudo_class_property(page,
-                                                     wp1_row.find('[class^="__hl_inline_status_"]'),
+                                                     wp1_row.find('.__hl_dot[class*="__hl_status_"]'),
                                                      ":before",
                                                      "background-color")).to eq("rgb(255, 0, 0)")
 
     # Highlight entire row by status
     highlighting.switch_entire_row_highlight "Status"
-    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status1.id}")
-    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status2.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background.__hl_status_#{status1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background.__hl_status_#{status2.id}")
 
     # Unselect all rows to ensure we get the correct background
     find("body").send_keys [:control, "d"]
@@ -137,14 +137,14 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
     expect(query.highlighting_mode).to eq(:status)
 
     ## This disables any inline styles
-    expect(page).to have_no_css('[class*="__hl_inline_status"]')
-    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_status_"]')
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_priority_"]')
     expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Highlight entire row by priority
     highlighting.switch_entire_row_highlight "Priority"
-    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background.__hl_priority_#{priority1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background.__hl_priority_#{priority_no_color.id}")
 
     # Remove selection from table row
     find("body").send_keys [:control, "d"]
@@ -156,10 +156,10 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     # Highlighting is kept even after a hard reload (Regression #30217)
     page.driver.refresh
-    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
-    expect(page).to have_no_css('[class*="__hl_inline_status"]')
-    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background.__hl_priority_#{priority1.id}")
+    expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background.__hl_priority_#{priority_no_color.id}")
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_status_"]')
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_priority_"]')
     expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Save query
@@ -169,15 +169,15 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
     expect(query.highlighting_mode).to eq(:priority)
 
     ## This disables any inline styles
-    expect(page).to have_no_css('[class*="__hl_inline_status"]')
-    expect(page).to have_no_css('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_status_"]')
+    expect(page).to have_no_css('.__hl_dot[class*="__hl_priority_"]')
     expect(page).to have_no_css('[class*="__hl_date"]')
 
     # No highlighting
     highlighting.switch_highlighting_mode "No highlighting"
     expect(page).to have_no_css('[class*="__hl_background"]')
-    expect(page).to have_no_css('[class*="__hl_background_status"]')
-    expect(page).to have_no_css('[class*="__hl_background_priority"]')
+    expect(page).to have_no_css('.__hl_background[class*="__hl_status_"]')
+    expect(page).to have_no_css('.__hl_background[class*="__hl_priority_"]')
     expect(page).to have_no_css('[class*="__hl_date"]')
 
     # Save query
@@ -190,8 +190,8 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
-    expect(page).to have_css("#{test_selector('op-wp-status-button')} .__hl_background_status_#{status1.id}")
-    expect(page).to have_css(".__hl_inline_priority_#{priority1.id}")
+    expect(page).to have_css("#{test_selector('op-wp-status-button')} .__hl_background.__hl_status_#{status1.id}")
+    expect(page).to have_css(".__hl_dot.__hl_priority_#{priority1.id}")
   end
 
   it "correctly parses custom selected inline attributes" do
