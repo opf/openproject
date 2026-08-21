@@ -124,7 +124,7 @@ module API
                            getter: ->(*) {
                              datetime_formatter.format_datetime(represented.end_timestamp, allow_nil: true)
                            },
-                           setter: ->(*) {},
+                           writable: false,
                            if: ->(*) { TimeEntry.can_track_start_and_end_time? }
 
         associated_resource :activity,
