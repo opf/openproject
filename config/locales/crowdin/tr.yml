@@ -6284,6 +6284,7 @@ tr:
         availability_description: Kullanılabilirlik faktörü, çalışma zamanınızın proje görevlerine ayrılan gerçek yüzdesini temsil eder. Bu, toplantıları, e-postaları, idari işleri ve diğer proje dışı faaliyetleri hesaba katar.
         availability_factor: Kullanılabilirlik faktörü
         availability_factor_caption: Çalışma zamanınızın yüzde kaçını proje çalışmalarına ayıracağınızı belirleyin.
+        effective_hours: Effective work hours
         hours_mode_label: Saat modu
         hours_per_day: Gün başına saat
         individual_hours_mode: Günlük bireysel saatler
@@ -6297,7 +6298,6 @@ tr:
         title_current: Geçerli çalışma programını düzenleme
         title_days_and_hours: Gün ve saat
         title_future_dates: Gelecek tarihler
-        total_available_hours: Toplam kullanılabilir çalışma saati
         total_work_hours: Toplam çalışma saati
         work_days: Çalışma günleri
         work_hours: Çalışma saatleri

@@ -2957,9 +2957,9 @@ ru:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
+            line_1: Несколько целевых версий для пакетов работ.
+            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
             line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
             line_4: Wiki macros available in more text editors.
             line_5: Improved search for work package identifiers.
@@ -6407,6 +6407,7 @@ ru:
         availability_description: Коэффициент доступности показывает фактический процент рабочего времени, выделенного на задачи проекта. Это относится к совещаниям, электронной почте, административной работе и другой деятельности, не связанной с проектом.
         availability_factor: Фактор доступности
         availability_factor_caption: Определите процент Вашего рабочего времени, отведенного на работу над проектом.
+        effective_hours: Effective work hours
         hours_mode_label: Режим часов
         hours_per_day: Часов в день
         individual_hours_mode: Индивидуальные часы в день
@@ -6420,7 +6421,6 @@ ru:
         title_current: Редактирование текущего рабочего расписания
         title_days_and_hours: Дни и часы
         title_future_dates: Будущие даты
-        total_available_hours: Всего доступных рабочих часов
         total_work_hours: Всего рабочих часов
         work_days: Рабочие дни
         work_hours: Рабочие часы

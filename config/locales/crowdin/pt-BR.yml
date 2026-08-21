@@ -6268,6 +6268,7 @@ pt-BR:
         availability_description: O fator de disponibilidade representa a porcentagem real do seu tempo de trabalho dedicada às tarefas do projeto. Isso inclui reuniões, e-mails, atividades administrativas e outras tarefas que não estão diretamente relacionadas ao projeto.
         availability_factor: Fator de disponibilidade
         availability_factor_caption: Defina a porcentagem do seu tempo de trabalho dedicada aos trabalhos do projeto.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas por dia
         individual_hours_mode: Horas individuais por dia
@@ -6281,7 +6282,6 @@ pt-BR:
         title_current: Editar a agenda de trabalho atual
         title_days_and_hours: Dias e horas
         title_future_dates: Datas futuras
-        total_available_hours: Total de horas de trabalho disponíveis
         total_work_hours: Total de horas de trabalho
         work_days: Dias úteis
         work_hours: Horas de trabalho

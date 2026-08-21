@@ -6413,6 +6413,7 @@ pl:
         availability_description: Współczynnik dostępności reprezentuje rzeczywisty procent czasu pracy poświęconego na zadania projektowe. Obejmuje on spotkania, wiadomości e-mail, prace administracyjne i inne czynności niezwiązane z projektem.
         availability_factor: Współczynnik dostępności
         availability_factor_caption: Określ procent czasu pracy poświęcony pracom projektowym.
+        effective_hours: Effective work hours
         hours_mode_label: Tryb godzinowy
         hours_per_day: Liczba godzin dziennie
         individual_hours_mode: Indywidualna liczba godzin dziennie
@@ -6426,7 +6427,6 @@ pl:
         title_current: Edytuj bieżący harmonogram pracy
         title_days_and_hours: Dni i godziny
         title_future_dates: Przyszłe daty
-        total_available_hours: Łączna liczba dostępnych godzin pracy
         total_work_hours: Łączna liczba godzin pracy
         work_days: Dni robocze
         work_hours: Godziny pracy
