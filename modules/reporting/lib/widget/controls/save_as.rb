@@ -84,7 +84,7 @@ class Widget::Controls::SaveAs < Widget::Controls
   # rubocop:enable Metrics/AbcSize
 
   def render_popup_buttons
-    save_url_params = { action: "create", set_filter: "1" }
+    save_url_params = { action: "create" }
     save_url_params[:project_id] = @subject.project.id if @subject.project
 
     save = link_to(I18n.t(:button_save),

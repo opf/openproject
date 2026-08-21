@@ -48,7 +48,7 @@ RSpec.describe "Cost report calculations", :js do
 
   before do
     login_as current_user
-    visit "/cost_reports?set_filter=1"
+    visit reporting_cost_reports_path(filters: "")
   end
 
   context "as anonymous" do

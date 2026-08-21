@@ -31,7 +31,10 @@
 # The query owns which dimensions a report aggregates by; this view owns how they
 # are laid out across rows and columns.
 class CostReport < PersistedView
+  include CostReports::EngineChain
+
   PIVOT_AXES = %i[pivot_rows pivot_columns].freeze
+  SINGLETON_DIMENSION = "singleton_value"
 
   # The permissions the CostReportsController registers its view actions for.
   VIEW_PERMISSIONS = %i[
@@ -48,6 +51,11 @@ class CostReport < PersistedView
 
   scope :for_legacy_cost_query, ->(id) { where("options ->> 'legacy_cost_query_id' = ?", id.to_s) }
 
+  # A report without a project is available in every project and globally.
+  scope :in_context, ->(project) { project ? where(project_id: [nil, project.id]) : where(project_id: nil) }
+  scope :public_in, ->(project) { public_views.in_context(project) }
+  scope :private_in, ->(project, principal = User.current) { private_views(principal).in_context(project) }
+
   validates :query, presence: true
   validate :pivot_axes_match_query_group_bys
 
@@ -61,12 +69,8 @@ class CostReport < PersistedView
     CostReportQuery.new(project:, principal:)
   end
 
-  def engine_query
-    query.engine_query(rows: pivot_rows, columns: pivot_columns)
-  end
-
-  def results
-    engine_query.result
+  def pivot?
+    pivot_rows.any? || pivot_columns.any?
   end
 
   # The query's group_bys are derived from the axes so the two cannot drift apart.
@@ -90,6 +94,15 @@ class CostReport < PersistedView
   end
 
   private
+
+  # A pivot needs a dimension on both axes to have a grid of cells at all, so an
+  # empty axis gets a constant that renders as one spanning row or column.
+  def rendered_axes
+    return [pivot_rows, pivot_columns] unless pivot?
+
+    [pivot_rows.presence || [SINGLETON_DIMENSION],
+     pivot_columns.presence || [SINGLETON_DIMENSION]]
+  end
 
   def set_category
     self.category ||= :cost_report

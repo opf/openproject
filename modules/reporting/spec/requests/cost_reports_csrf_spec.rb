@@ -30,7 +30,7 @@
 
 require_relative "../spec_helper"
 
-RSpec.describe "GET /cost_reports (CSRF token in query form)", type: :rails_request do
+RSpec.describe "GET /reporting/cost_reports (CSRF token in query form)", type: :rails_request do
   include OpenProject::Reporting::PluginSpecHelper
 
   current_user { user }
@@ -43,7 +43,7 @@ RSpec.describe "GET /cost_reports (CSRF token in query form)", type: :rails_requ
   end
 
   it "embeds a non-empty authenticity_token inside #query_form" do
-    get "/cost_reports"
+    get "/reporting/cost_reports"
 
     expect(response).to have_http_status(:ok)
 

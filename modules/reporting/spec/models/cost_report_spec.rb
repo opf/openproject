@@ -123,25 +123,67 @@ RSpec.describe CostReport do
     end
   end
 
-  describe "#engine_query" do
+  describe "the reporting engine chain" do
     before do
       instance.query.where("spent_on", ">d", ["2026-01-01"])
       instance.apply_pivot_configuration(rows: %i[project_id work_package_id], columns: [:week])
     end
 
     it "lays the dimensions out on the axes this view holds" do
-      replayed = instance.engine_query.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+      replayed = instance.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
 
       expect(replayed).to eq([["ProjectId", :row], ["WorkPackageId", :row], ["Week", :column]])
     end
 
     it "replays the query's filters" do
-      expect(instance.engine_query.filters.map { |filter| filter.class.name.demodulize })
+      expect(instance.filters.map { |filter| filter.class.name.demodulize })
         .to include("SpentOn")
     end
 
     it "builds a chain that produces SQL" do
-      expect(instance.engine_query.sql_statement.to_s).to be_present
+      expect(instance.sql_statement.to_s).to be_present
+    end
+
+    context "when an axis is empty" do
+      it "fills an empty row axis with the singleton dimension" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+
+        replayed = instance.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+        expect(replayed).to eq([["SingletonValue", :row], ["Week", :column]])
+      end
+
+      it "fills an empty column axis with the singleton dimension" do
+        instance.apply_pivot_configuration(rows: [:project_id], columns: [])
+
+        replayed = instance.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+        expect(replayed).to eq([["ProjectId", :row], ["SingletonValue", :column]])
+      end
+
+      it "does not touch the stored axes or the query's group bys" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+        instance.chain
+
+        expect(instance.pivot_rows).to eq([])
+        expect(instance.query.group_bys.map(&:name)).to eq([:week])
+      end
+
+      it "stays valid" do
+        instance.apply_pivot_configuration(rows: [], columns: [:week])
+        instance.chain
+
+        expect(instance).to be_valid
+      end
+    end
+
+    context "without any dimension" do
+      it "adds no singleton, because there is no pivot to render" do
+        instance.apply_pivot_configuration(rows: [], columns: [])
+
+        expect(instance.group_bys).to eq([])
+        expect(instance).not_to be_pivot
+      end
     end
   end
 
