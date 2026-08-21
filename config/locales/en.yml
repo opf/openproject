@@ -3420,7 +3420,6 @@ en:
   label_change_status_of_user: "Change status of #{username}"
   label_change_view_all: "View all changes"
   label_changes_details: "Details of all changes"
-  label_changeset: "Changeset"
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
