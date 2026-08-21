@@ -492,6 +492,8 @@ en:
         subproject: "Subproject"
         target_version: "Target version"
         target_versions: "Target versions"
+        observed_in_version: "Observed in version"
+        observed_in_versions: "Observed in versions"
         time_entries: "Log time"
         type: "Type"
         version: "Version"

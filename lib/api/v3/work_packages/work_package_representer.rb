@@ -636,6 +636,10 @@ module API
                                represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
+        associated_resources :observed_in_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
