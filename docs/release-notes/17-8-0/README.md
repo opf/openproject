@@ -114,7 +114,7 @@ When creating a new Scrum demo project, the default **Epic** and **User story** 
 
 OpenProject 17.8 brings further improvements to [project wikis](../../user-guide/wiki/).
 
-The term **internal wiki** has been consistently replaced with **project wiki** throughout the interface, making the distinction from external wiki integrations such as XWiki clearer.
+The term **internal wiki** has been replaced with **project wiki** throughout the interface, making the distinction from external wiki integrations such as XWiki clearer. The project wiki provider is called OpenProject.
 
 The project wiki settings remain accessible even when project wikis have been disabled instance-wide, with an explanation of why the feature is unavailable.
 
@@ -128,7 +128,7 @@ The [create and edit page](../../user-guide/wiki/create-edit-wiki/) has been upd
 
 ![Creating a project wiki page with the updated interface](openproject_release_notes_17.8_wiki_create_page.png)
 
-The **Create page** dialog now lets users select a **wiki itself as the parent**, making it possible to create root pages directly. The parent selection step is now labeled **Parent**.
+The **Create page** dialog improves a parent page selection, making it possible to create root pages directly. The parent selection step is now labeled **Parent**.
 
 ![Adding a wiki as the parent when creating a new wiki page in OpenProject](openproject_release_notes_17.8_wiki_new_page_creation_parent.png)
 
