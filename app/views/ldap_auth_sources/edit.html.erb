@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_ldap_auth_source)} #{@ldap_auth_source.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{LdapAuthSource.model_name.human} #{@ldap_auth_source.name}" %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|

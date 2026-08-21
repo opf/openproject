@@ -3663,7 +3663,6 @@ en:
   label_last_week: "last week"
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
-  label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
   label_ldap_authentication: "LDAP authentication"
