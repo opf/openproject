@@ -31,7 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
         title: t("projects.settings.types.switch.title", type: source.name),
-        size: :medium_portrait
+        size: :large,
+        # OpenProject's own portrait size, taller than anything Primer ships: 640x800 against
+        # medium_portrait's 480x600. The report is a column of collapsible sections, so height is
+        # the dimension it needs, and Primer's wider sizes are all capped at 600.
+        classes: "Overlay--size-large-portrait"
       )
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>

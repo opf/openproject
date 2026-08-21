@@ -46,7 +46,6 @@ module Projects
               name: :target_id,
               label: I18n.t("projects.settings.types.switch.target_label"),
               include_blank: false,
-              input_width: :medium,
               validation_message: @validation_message,
               data: {
                 test_selector: "project-types-switch-select",
