@@ -111,7 +111,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
     end
 
     context "requesting nonexistent group" do
-      let(:get_path) { api_v3_paths.group 9999 }
+      let(:get_path) { api_v3_paths.group(not_existing_id(Group)) }
 
       it_behaves_like "not found"
     end
@@ -766,7 +766,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       end
 
       context "for a non-existent group" do
-        let(:path) { api_v3_paths.group 11111337 }
+        let(:path) { api_v3_paths.group(not_existing_id(Group)) }
 
         it_behaves_like "not found"
       end

@@ -516,7 +516,7 @@ RSpec.describe "API v3 Work package form resource" do
 
                 context "invalid #{property}" do
                   context "for non-existing user" do
-                    let(:user_link) { api_v3_paths.user 4200 }
+                    let(:user_link) { api_v3_paths.user(not_existing_id(User)) }
 
                     include_context "with post request"
 
@@ -775,7 +775,7 @@ RSpec.describe "API v3 Work package form resource" do
             end
 
             describe "multiple errors" do
-              let(:user_link) { api_v3_paths.user 4200 }
+              let(:user_link) { api_v3_paths.user(not_existing_id(User)) }
               let(:status_link) { api_v3_paths.status -1 }
               let(:links) do
                 {

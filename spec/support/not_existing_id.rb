@@ -26,30 +26,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
-RSpec.shared_examples "deletion allowed" do
-  it "responds with 202" do
-    expect(last_response).to have_http_status :accepted
-  end
+module NotExistingId
+  # An id no record holds, for specs that need to provoke a "not found".
+  # Resolves the STI base class, so `not_existing_id(User)` also clears the ids of
+  # the groups and placeholder users sharing the `users` table.
+  def not_existing_id(model)
+    base_class = model.base_class
 
-  it "marks user as deleted and enqueues a deletion job" do
-    expect(Principals::DeleteJob).to have_been_enqueued.with(placeholder)
-    expect(placeholder.reload).to be_deleted
-  end
-
-  context "with a non-existent user" do
-    let(:path) { api_v3_paths.placeholder_user(not_existing_id(PlaceholderUser)) }
-
-    it_behaves_like "not found"
+    base_class.maximum(base_class.primary_key).to_i + 1
   end
 end
 
-RSpec.shared_examples "deletion is not allowed" do
-  it "responds with 403" do
-    expect(last_response).to have_http_status :forbidden
-  end
-
-  it "does not delete the user" do
-    expect(PlaceholderUser).to exist(placeholder.id)
-  end
+RSpec.configure do |config|
+  config.include NotExistingId
 end
