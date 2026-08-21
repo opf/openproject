@@ -71,10 +71,10 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
     end
   end
 
-  describe "widget area" do
+  describe "widget area", with_ee: %i[sprint_report_pro_widgets] do
     before { visit_sprint_report }
 
-    let(:widget_boxes) { page.all(".widget-boxes .widget-box", minimum: 2) }
+    let(:widget_boxes) { page.all(".widget-boxes .widget-box", minimum: 3) }
 
     it "renders the sprint goal widget first" do
       expect(widget_boxes[0]).to have_text("Add sprint goal widget")
