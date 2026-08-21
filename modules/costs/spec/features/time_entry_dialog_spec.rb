@@ -278,7 +278,8 @@ RSpec.describe "time entry dialog", :js do
         end.not_to change(TimeEntry, :count)
 
         time_logging_modal.field_has_error("hours_display",
-                                           "Hours cannot be more than 2 hours for a single time entry.")
+                                           "The logged hours cannot exceed the limit of 2 hours for a single time " \
+                                           "entry defined by the administrator.")
       end
     end
 
@@ -292,7 +293,8 @@ RSpec.describe "time entry dialog", :js do
         end.not_to change(TimeEntry, :count)
 
         time_logging_modal.field_has_error("hours_display",
-                                           "Hours cannot exceed 2 hours logged in total for a single day.")
+                                           "The logged hours cannot exceed the limit of 2 hours for a single day " \
+                                           "defined by the administrator.")
       end
 
       it "takes hours already logged on that day into account" do
@@ -306,7 +308,8 @@ RSpec.describe "time entry dialog", :js do
         end.not_to change(TimeEntry, :count)
 
         time_logging_modal.field_has_error("hours_display",
-                                           "Hours cannot exceed 2 hours logged in total for a single day.")
+                                           "The logged hours cannot exceed the limit of 2 hours for a single day " \
+                                           "defined by the administrator.")
 
         time_logging_modal.update_field("hours_display", "0.5")
 
