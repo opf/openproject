@@ -101,9 +101,15 @@ en:
           backlog_bucket_xor_sprint: "cannot be assigned to both a sprint and a backlog bucket."
 
     models:
+      backlog_bucket:
+        one: "Backlog bucket"
+        other: "Backlog buckets"
       sprint:
         one: "Sprint"
         other: "Sprints"
+      sprint_goal:
+        one: "Sprint goal"
+        other: "Sprint goals"
 
   backlogs:
     add_existing_work_package_dialog_component:
