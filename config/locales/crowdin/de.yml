@@ -2526,8 +2526,6 @@ de:
         description: Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind.
       weighted_item_lists:
         description: Mit Gewichteten Listen können Sie eine Liste erstellen, die mit numerischen Werten verknüpft ist.
-      work_package_query_relation_columns:
-        description: Möchten Sie Beziehungen oder Unteraufgaben als Spalten in der Arbeitspaketliste sehen können?
       work_package_sharing:
         description: Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind.
       work_package_subject_generation:

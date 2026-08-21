@@ -2476,8 +2476,6 @@ vi:
         description: Đảm bảo các tệp được tải lên trong OpenProject được quét vi-rút trước khi người dùng khác có thể truy cập được.
       weighted_item_lists:
         description: Danh sách mục có trọng số cho phép bạn tạo danh sách có các giá trị số cơ bản được liên kết.
-      work_package_query_relation_columns:
-        description: Cần xem các mối quan hệ hoặc các phần tử con trong danh sách gói công việc?
       work_package_sharing:
         description: Chia sẻ các gói công việc với người dùng không phải là thành viên của dự án.
       work_package_subject_generation:

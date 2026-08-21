@@ -2190,7 +2190,7 @@ fa:
     - جمعه
     - شنبه
     formats:
-      default: "%m/%d/%Y"
+      default: "%Y/%m/%d"
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
@@ -2522,8 +2522,6 @@ fa:
         description: اطمینان حاصل کنید فایل‌های بارگذاری‌شده در OpenProject پیش از دسترسی سایر کاربران برای ویروس اسکن می‌شوند.
       weighted_item_lists:
         description: فهرست‌های آیتم وزن‌دار امکان ایجاد فهرستی با مقادیر عددی زیربنایی مرتبط را می‌دهند.
-      work_package_query_relation_columns:
-        description: لازم است روابط یا عناصر فرزند را در فهرست بسته‌های کاری ببینید؟
       work_package_sharing:
         description: بسته‌های کاری را با کاربرانی که عضو پروژه نیستند به اشتراک بگذارید.
       work_package_subject_generation:
@@ -5895,7 +5893,7 @@ fa:
   time:
     am: ق.ظ
     formats:
-      default: "%m/%d/%Y %I:%M %p"
+      default: "%Y/%m/%d %I:%M %p"
       long: "%d %B %Y %H:%M"
       short: "%d %b %H:%M"
       time: "%I:%M %p"
@@ -6280,7 +6278,7 @@ fa:
         availability_description: ضریب دسترس‌پذیری درصد واقعی زمان کاری شما را نشان می‌دهد که به وظایف پروژه اختصاص دارد. این مقدار جلسات، ایمیل‌ها، کارهای اداری و سایر فعالیت‌های غیرپروژه‌ای را در نظر می‌گیرد.
         availability_factor: ضریب دسترس‌پذیری
         availability_factor_caption: درصد زمان کاری خود را که به کار پروژه اختصاص دارد مشخص کنید.
-        effective_hours: Effective work hours
+        effective_hours: ساعات کاری مؤثر
         hours_mode_label: حالت ساعات
         hours_per_day: ساعت در روز
         individual_hours_mode: ساعات جداگانه در هر روز

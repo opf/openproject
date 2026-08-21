@@ -2526,8 +2526,6 @@
         description: Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Del arbeidspakker med brukere som ikke er medlemmer i prosjektet.
       work_package_subject_generation:

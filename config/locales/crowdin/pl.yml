@@ -2624,8 +2624,6 @@ pl:
         description: Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników.
       weighted_item_lists:
         description: Listy ważone pozycji umożliwiają utworzenie listy z powiązanymi bazowymi wartościami liczbowymi.
-      work_package_query_relation_columns:
-        description: Chcesz zobaczyć relacje lub elementy podrzędne na liście pakietów roboczych?
       work_package_sharing:
         description: Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu.
       work_package_subject_generation:

@@ -2526,8 +2526,6 @@ pt-BR:
         description: Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários.
       weighted_item_lists:
         description: Listas de itens ponderados permitem criar uma lista com valores numéricos associados.
-      work_package_query_relation_columns:
-        description: Precisa visualizar as relações ou elementos filhos na lista de pacotes de trabalho?
       work_package_sharing:
         description: Compartilhe pacotes de trabalho com usuários que não são membros do projeto.
       work_package_subject_generation:

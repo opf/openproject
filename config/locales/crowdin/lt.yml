@@ -2630,8 +2630,6 @@ lt:
         description: Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Bendrinkite darbo paketus su naudotojais, kurie nėra projekto nariai.
       work_package_subject_generation:

@@ -2532,8 +2532,6 @@ tr:
         description: OpenProject'te yüklenen dosyaların diğer kullanıcılar tarafından erişilmeden önce virüslere karşı tarandığından emin olun.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: İş paketleri listesindeki ilişkileri görmek ister misiniz?
       work_package_sharing:
         description: İş paketlerini proje üyesi olmayan kullanıcılarla paylaşın.
       work_package_subject_generation:

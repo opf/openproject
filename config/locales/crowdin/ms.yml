@@ -2484,8 +2484,6 @@ ms:
         description: Pastikan fail yang dimuat naik dalam OpenProject diimbas untuk virus sebelum boleh diakses oleh pengguna lain.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Kongsi pakej kerja dengan pengguna yang bukan ahli projek.
       work_package_subject_generation:

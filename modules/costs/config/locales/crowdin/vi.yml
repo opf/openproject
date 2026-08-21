@@ -73,14 +73,24 @@ vi:
             project_ids:
               blank: Vui lòng chọn một dự án.
         time_entry:
-          cannot_log_for_this_work_package: Không thể ghi lại thời gian cho gói công việc này.
-          duplicate_ongoing: Mục nhập thời gian liên tục đã tồn tại cho người dùng này.
-          exceeds_user_working_hours: Không được vượt quá số giờ %{limit} có sẵn trong ngày làm việc của người dùng.
-          in_past_month: Thuộc một tháng đã đóng. Các mục ghi thời gian chỉ có thể được thêm, sửa hoặc xóa từ ngày %{date} trở đi.
-          invalid_time: phải trong khoảng từ 00:00 đến 23:59.
-          max_hours_per_day_exceeded: Tổng số giờ đăng nhập trong một ngày không được vượt quá %{limit} giờ.
-          max_hours_per_entry_exceeded: Không được vượt quá %{limit} giờ cho một lần ghi chép.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Gói công việc #%{id} không phải là mục tiêu hợp lệ để chỉ định lại các mục chi phí.'
           nullify_is_not_valid_for_cost_entries: Các mục chi phí không thể được phân bổ cho một dự án.

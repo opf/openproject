@@ -2478,8 +2478,6 @@ zh-CN:
         description: 确保在 OpenProject 中上传的文件在被其他用户访问之前进行病毒扫描。
       weighted_item_lists:
         description: 加权项目列表允许您创建带有关联数值的列表。
-      work_package_query_relation_columns:
-        description: 需要在工作包列表中看到关系或子项吗？
       work_package_sharing:
         description: 与非此项目成员的用户共享工作包。
       work_package_subject_generation:

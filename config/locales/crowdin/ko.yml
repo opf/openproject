@@ -2494,8 +2494,6 @@ ko:
         description: OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다.
       weighted_item_lists:
         description: 가중치가 적용된 항목 목록을 사용하면 기본 숫자 값이 연결된 목록을 만들 수 있습니다.
-      work_package_query_relation_columns:
-        description: 작업 패키지 목록에서 관계 또는 자식 요소를 확인해야 하나요?
       work_package_sharing:
         description: 프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다.
       work_package_subject_generation:

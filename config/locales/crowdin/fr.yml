@@ -2526,8 +2526,6 @@ fr:
         description: Assurez-vous que les fichiers importés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
       weighted_item_lists:
         description: Les listes d'éléments pondérés vous permettent de créer une liste à laquelle sont associées des valeurs numériques sous-jacentes.
-      work_package_query_relation_columns:
-        description: Vous avez besoin de voir les relations ou les éléments enfants dans la liste des lots de travaux ?
       work_package_sharing:
         description: Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet.
       work_package_subject_generation:

@@ -2530,8 +2530,6 @@ it:
         description: Assicurati che i file caricati in OpenProject vengano scansionati alla ricerca di virus prima di renderli accessibili ad altri utenti.
       weighted_item_lists:
         description: Gli elenchi ponderati consentono di creare un elenco a cui sono associati valori numerici sottostanti.
-      work_package_query_relation_columns:
-        description: Vuoi visualizzare le relazioni o gli elementi figlio nell'elenco di macro-attività?
       work_package_sharing:
         description: Condividi macro-attività con utenti che non sono membri del progetto.
       work_package_subject_generation:
