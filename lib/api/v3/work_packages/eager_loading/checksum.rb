@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -54,19 +56,12 @@ module API
 
             protected
 
-            # The target versions associated via work_package_versions are a
-            # has_many, which the left_joins/pluck design above cannot express
-            # (it would multiply rows), so they enter the checksum as an
-            # aggregated correlated subquery. This also covers versions beyond
-            # the first, which the deprecated version association could not see.
-            # Only "target" rows are folded in: they are what the representer
-            # renders (as `version` and `targetVersions`); observed_in versions
-            # do not appear in the representation and must not bust its cache.
+            # manual checksum because target/observed_in versions are not included automatically
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
-              (SELECT COALESCE(STRING_AGG(CONCAT(v.id, v.updated_at), ',' ORDER BY v.id), '')
+              (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
-                WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+                WHERE wpv.work_package_id = work_packages.id)
             SQL
 
             def md5_concat
