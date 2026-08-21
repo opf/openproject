@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% unless impact.nil? %>
     <%= flex_layout(direction: :column) do |preview| %>
       <% preview.with_row(mb: 2) do %>
-        <%= render(Primer::Beta::Text.new(font_weight: :semibold)) do %>
+        <%= render(Primer::Beta::Link.new(href: all_path, target: "_blank", font_weight: :semibold)) do %>
           <%= t("projects.settings.types.switch.impact.work_packages", count: impact.work_package_count) %>
         <% end %>
       <% end %>
@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% impact.missing_statuses.each do |status, count| %>
               <% list.with_item do %>
                 <%= render(Primer::Beta::Text.new) { status.name } %>
-                <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) do %>
+                <%= render(Primer::Beta::Link.new(href: status_path(status), target: "_blank", ml: 2)) do %>
                   <%= t("projects.settings.types.switch.impact.status_count", count:) %>
                 <% end %>
               <% end %>
@@ -88,7 +88,11 @@ See COPYRIGHT and LICENSE files for more details.
               <% list.with_item do %>
                 <%= render(Primer::Beta::Text.new) { field.label } %>
                 <% if (suffix = field_suffix(field)) %>
-                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { suffix } %>
+                  <% if field.kind == :custom_field %>
+                    <%= render(Primer::Beta::Link.new(href: field_path(field), target: "_blank", ml: 2)) { suffix } %>
+                  <% else %>
+                    <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { suffix } %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>

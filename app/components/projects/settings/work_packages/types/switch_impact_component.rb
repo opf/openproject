@@ -41,6 +41,8 @@ module Projects
 
           Section = Data.define(:id, :heading, :fields)
 
+          DEFAULT_COLUMNS = %w[id type subject status].freeze
+
           def initialize(impact:)
             super()
 
@@ -68,6 +70,43 @@ module Projects
             elsif (count = impact.value_count(field))
               t("projects.settings.types.switch.impact.value_count", count:)
             end
+          end
+
+          # Every counter answers "which ones?" by linking to the work packages behind it.
+          # In a new tab on purpose: following a link in place would navigate away from the
+          # dialog and discard the variant the reader is still deciding on.
+          def work_packages_path(filters, columns: [])
+            project_work_packages_path(
+              impact.project,
+              query_props: {
+                c: DEFAULT_COLUMNS + columns,
+                t: "id:asc",
+                f: filters
+              }.to_json
+            )
+          end
+
+          def all_path
+            work_packages_path([type_filter])
+          end
+
+          def status_path(status)
+            work_packages_path([type_filter, { "n" => "status", "o" => "=", "v" => [status.id.to_s] }])
+          end
+
+          # A text custom field has no not-empty operator, so the field cannot be filtered on
+          # uniformly. Showing it as a column instead keeps one link shape for every format and
+          # still puts the values in front of the reader.
+          def field_path(field)
+            work_packages_path([type_filter], columns: [api_name(field)])
+          end
+
+          def type_filter
+            { "n" => "type", "o" => "=", "v" => [impact.source.type_id.to_s] }
+          end
+
+          def api_name(field)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(field.key)
           end
         end
       end

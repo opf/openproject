@@ -33,6 +33,8 @@ require "spec_helper"
 RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
                type: :component,
                with_flag: { type_variants: true } do
+  include Rails.application.routes.url_helpers
+
   subject(:render_component) { render_inline(described_class.new(impact:)) }
 
   shared_let(:story_points) { create(:integer_wp_custom_field, name: "Story points") }
@@ -123,6 +125,30 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
 
       expect(page).to have_no_text("Work packages that get stuck")
     end
+
+    # Every counter answers "which ones?". A new tab because following a link in place would
+    # navigate away from the dialog and discard the variant still being decided on.
+    it "links the count to this project's work packages of that type, in a new tab" do
+      render_component
+
+      link = page.find_link("1 work package will use the new configuration")
+
+      expect(link[:target]).to eq("_blank")
+      expect(link[:href]).to start_with(project_work_packages_path(project))
+      expect(CGI.unescape(link[:href])).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
+    end
+
+    # A text custom field has no not-empty operator, so the link cannot filter on the field.
+    # It adds it as a column instead, which is one link shape for every format.
+    it "links a hidden custom field's value count to a list showing that field" do
+      render_component
+
+      link = page.find_link("1 work package has a value")
+      query = CGI.unescape(link[:href])
+
+      expect(query).to include("customField#{story_points.id}")
+      expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
+    end
   end
 
   context "with a table on the source only" do
@@ -176,6 +202,15 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       render_component
 
       expect(page).to have_text("nobody will be able to move these work packages on")
+    end
+
+    it "links a stuck status to the work packages holding it" do
+      render_component
+
+      query = CGI.unescape(page.find_link("2 work packages")[:href])
+
+      expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
+      expect(query).to include(%({"n":"status","o":"=","v":["#{orphan.id}"]}))
     end
 
     # This is the only section whose consequence outlives the dialog, so it leads.

@@ -89,9 +89,10 @@ module Projects
           hidden_fields.any? || new_fields.any? || missing_statuses.any?
         end
 
-        private
-
+        # Public so the report can link to the work packages behind its counters.
         attr_reader :project, :source, :target
+
+        private
 
         # Scoped on the type, not the variant: a work package stores its type whichever variant
         # the project resolves to, so scoping on the variant would match nothing and quietly
