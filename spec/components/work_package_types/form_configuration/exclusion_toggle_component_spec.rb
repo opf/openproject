@@ -4,9 +4,10 @@ require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, type: :component do
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
 
   def exclusion_state(effective: [])
-    WorkPackageTypes::ExclusionState.new(type:, own: effective, effective:)
+    WorkPackageTypes::ExclusionState.new(variant:, own: effective, effective:)
   end
 
   def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")
@@ -35,7 +36,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
 
       expect(toggle.find("button")["aria-pressed"]).to eq("true")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
-      expect(toggle["src"]).to eq("/types/#{type.id}/exclusions/form_configuration/toggle?element=assignee")
+      expect(toggle["src"]).to eq(
+        "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=assignee"
+      )
     end
 
     it "is off when the element is excluded" do
@@ -48,7 +51,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
       render_inline(component(element_key: "query_7", label: "Inherit section Related"))
 
       switch = page.find("[data-test-selector='toggle-form-config-exclusion-query_7']")
-      expect(switch["src"]).to eq("/types/#{type.id}/exclusions/form_configuration/toggle?element=query_7")
+      expect(switch["src"]).to eq(
+        "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=query_7"
+      )
       expect(switch.find("button")["aria-label"]).to eq("Inherit section Related")
     end
   end

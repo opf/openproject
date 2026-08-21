@@ -34,29 +34,29 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
 
-  shared_let(:type_standard) { create(:type_standard) }
+  shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:list_custom_field) do
     create(:list_wp_custom_field,
-           types: [type_standard, type_bug],
+           types: [type_task, type_bug],
            multi_value: true,
            possible_values: %w[Foo Bar])
   end
   shared_let(:text_custom_field_a) do
-    create(:issue_custom_field, :text, types: [type_standard, type_bug], name: "Notes A")
+    create(:issue_custom_field, :text, types: [type_task, type_bug], name: "Notes A")
   end
   shared_let(:text_custom_field_b) do
-    create(:issue_custom_field, :text, types: [type_standard, type_bug], name: "Notes B")
+    create(:issue_custom_field, :text, types: [type_task, type_bug], name: "Notes B")
   end
   shared_let(:link_custom_field) do
-    create(:link_wp_custom_field, :link, types: [type_standard, type_bug], name: "My Link")
+    create(:link_wp_custom_field, :link, types: [type_task, type_bug], name: "My Link")
   end
   shared_let(:custom_value_first) do
     create(:work_package_custom_value,
            custom_field: list_custom_field,
            value: list_custom_field.custom_options.first.id)
   end
-  shared_let(:types) { [type_standard, type_bug] }
+  shared_let(:types) { [type_task, type_bug] }
   shared_let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
@@ -72,7 +72,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   shared_let(:work_package_parent) do
     create(:work_package,
            project:,
-           type: type_standard,
+           type: type_task,
            subject: "Work package 1",
            story_points: 1,
            estimated_hours: 10,
@@ -344,7 +344,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
-        create(:hierarchy_wp_custom_field, name: "Location", types: [type_standard, type_bug], projects: [project])
+        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug], projects: [project])
       end
       let!(:hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -399,7 +399,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
       let!(:multi_hierarchy_custom_field) do
-        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_standard, type_bug], projects: [project])
+        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug], projects: [project])
       end
       let!(:multi_hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -625,7 +625,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       let(:work_package_related) do
         create(:work_package,
                project:,
-               type: type_standard,
+               type: type_task,
                subject: "Work package 3")
       end
       let!(:relation) do

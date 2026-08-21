@@ -32,7 +32,7 @@ module JournalFormatter
   class PolymorphicAssociation < Attribute
     def render(key_with_gid, values, options = { html: true })
       key = key_with_gid.to_s.delete_suffix("_gid")
-      label, old_value, value = format_details(key, values, cache: options[:cache])
+      label, old_value, value = format_details(key, values)
 
       if options[:html]
         label, old_value, value = *format_html_details(label, old_value, value)
@@ -43,19 +43,19 @@ module JournalFormatter
 
     private
 
-    def format_details(key, values, cache:)
+    def format_details(key, values)
       label = label(key)
 
-      old_value, value = *format_values(values, cache:)
+      old_value, value = *format_values(values)
 
       [label, old_value, value]
     end
 
-    def format_values(values, cache:)
+    def format_values(values)
       values.map do |value|
         next if value.nil?
 
-        record = associated_object(value, cache:)
+        record = associated_object(value)
         associated_object_name(record)
       end
     end
@@ -64,15 +64,11 @@ module JournalFormatter
       object&.name
     end
 
-    def associated_object(gid, cache:)
+    def associated_object(gid)
       global_id = GlobalID.parse(gid)
       return if global_id.nil?
 
-      if cache
-        cache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
-          locate(global_id)
-        end
-      else
+      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
         locate(global_id)
       end
     end

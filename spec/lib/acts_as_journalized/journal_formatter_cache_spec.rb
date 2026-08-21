@@ -78,4 +78,12 @@ RSpec.describe JournalFormatterCache do
       end
     end
   end
+
+  describe ".fetch" do
+    it "delegates to the per-request singleton, so separate calls share one cache" do
+      expect(described_class.fetch(User, 3) { "user_3" }).to eq("user_3") # rubocop:disable Lint/UselessDefaultValueArgument
+      expect(described_class.fetch(User, 3) { "another value" }).to eq("user_3") # rubocop:disable Lint/UselessDefaultValueArgument
+      expect(described_class.request_instance).to be(described_class.request_instance) # rubocop:disable RSpec/IdenticalEqualityAssertion
+    end
+  end
 end

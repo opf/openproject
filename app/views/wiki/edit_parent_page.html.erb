@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t("activerecord.models.wiki"), t(:button_change_parent_page) %>
+<% html_title Wiki.model_name.human, t(:button_change_parent_page) %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title_content(@page.title)

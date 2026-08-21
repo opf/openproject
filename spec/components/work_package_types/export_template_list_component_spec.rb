@@ -34,12 +34,13 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   include Rails.application.routes.url_helpers
 
   let(:type) { create(:type) }
-  let(:draggable_records) { type.pdf_export_templates.list }
+  let(:variant) { type.default_variant }
+  let(:draggable_records) { variant.pdf_export_templates.list }
 
-  subject(:rendered_component) { render_inline(described_class.new(type:)) }
+  subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
   def drop_url_for(template)
-    drop_type_pdf_export_template_path(type_id: type.id, id: template.id)
+    drop_type_pdf_export_template_path(**variant.path_args, id: template.id)
   end
 
   it_behaves_like "rendering Box", row_count: 3
@@ -70,7 +71,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   end
 
   context "when readonly" do
-    subject(:rendered_component) { render_inline(described_class.new(type:, readonly: true)) }
+    subject(:rendered_component) { render_inline(described_class.new(variant:, readonly: true)) }
 
     it "renders no drag-and-drop wiring", :aggregate_failures do
       expect(rendered_component).to have_no_css('[data-controller~="generic-drag-and-drop"]')

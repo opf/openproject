@@ -35,11 +35,11 @@ module Wikis
     include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
 
-    before_action :authorize, except: %i[search]
+    before_action :authorize, except: %i[search browse]
 
-    # The search is project independent and thus permission independent. The user will see results according to
+    # search and browse are project independent and thus permission independent. The user will see results according to
     # the permissions set in each wiki.
-    no_authorization_required! :search
+    no_authorization_required! :search, :browse
 
     def create_and_link # rubocop:disable Metrics/AbcSize
       parameters = create_new_page_params
@@ -73,20 +73,40 @@ module Wikis
     end
 
     def search
-      query = params[:query]
-      form_name = params[:name]
+      query, name = params.values_at(:query, :name)
       builder = form_builder
-      search_result = search_pages(query, fetch_provider)
 
-      search_result.either(
-        ->(pages) do
-          render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:, wikis_selectable:), layout: false)
-        end,
+      if query.blank?
+        render_browsing_tree(name, builder)
+      else
+        search_pages(query, fetch_provider).either(
+          ->(pages) {
+            render(Wikis::SearchPagesResultComponent.new(pages, form_name: name, builder:, wikis_selectable:), layout: false)
+          },
+          ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+        )
+      end
+    end
+
+    def browse
+      path = JSON.parse(params[:path])
+
+      browse_pages(params.expect(:parent)).either(
+        ->(pages) {
+          render(Wikis::BrowsePagesFragmentComponent.new(pages, path, fetch_provider.id, wikis_selectable:), layout: false)
+        },
         ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
       )
     end
 
     private
+
+    def render_browsing_tree(name, builder)
+      browse_pages(nil).either(
+        ->(pages) { render Wikis::BrowsePagesComponent.new(pages, builder, name, fetch_provider.id, wikis_selectable:) },
+        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+      )
+    end
 
     def fetch_provider
       Provider.visible.enabled.find(params.expect(:provider_id))
@@ -102,6 +122,10 @@ module Wikis
 
     def search_pages(query, provider)
       PageSearchService.new(provider:, user: current_user).search_pages(query)
+    end
+
+    def browse_pages(parent_identifier)
+      BrowsePagesService.new(provider: fetch_provider, user: current_user).call(parent_identifier)
     end
 
     def create_new_page_params

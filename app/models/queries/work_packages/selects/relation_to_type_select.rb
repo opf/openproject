@@ -41,7 +41,7 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
 
   def self.instances(context = nil)
     if context
-      context.types
+      context.enabled_types
     else
       Type.all
     end.map { |type| new(type) }

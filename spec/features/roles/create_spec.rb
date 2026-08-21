@@ -108,7 +108,7 @@ RSpec.describe "Role creation", :js do
     new_role = Role.find_by!(name: "New role name")
     expect(
       Workflow.exists?(role_id: new_role.id,
-                       type_id: type.id,
+                       type_variant_id: type.default_variant.id,
                        old_status_id: existing_workflow.old_status_id,
                        new_status_id: existing_workflow.new_status_id)
     ).to be true

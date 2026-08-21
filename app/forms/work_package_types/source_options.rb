@@ -35,11 +35,9 @@ module WorkPackageTypes
     private
 
     def source_options
-      Type.global.in_family_order.reject { |source| source == type }
+      TypeVariant.joins(:type).merge(Type.order(:position)).in_display_order.reject { |source| source == variant }
     end
 
-    # Variants carry their parent in the composite name; the current type's own
-    # parent is additionally flagged as the most likely source.
     def label_for(source)
       return source.composite_name unless parent?(source)
 
@@ -47,7 +45,7 @@ module WorkPackageTypes
     end
 
     def parent?(source)
-      source == type.parent
+      source == variant.type.default_variant
     end
   end
 end

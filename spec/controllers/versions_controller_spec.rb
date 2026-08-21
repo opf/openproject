@@ -78,7 +78,7 @@ RSpec.describe VersionsController do
       let(:wp_b) { create(:work_package, type: type_b, project:, version: version1) }
 
       before do
-        project.types = [type_a, type_b]
+        project.project_types = [type_a, type_b].map { |type| ProjectType.new(type:) }
         project.save!
 
         [wp_a, wp_b] # create work packages

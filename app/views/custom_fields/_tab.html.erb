@@ -145,7 +145,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <% end %>
                 </td>
                 <td>
-                  <% type_links = custom_field.types.map { |t| link_to(t.composite_name, edit_type_form_configuration_path(t)) } %>
+                  <% type_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_type_form_configuration_path(**variant.path_args)) } %>
                   <% if type_links.empty? %>
                     <span class="icon-context icon-warning">
                       <%= link_to t(:label_custom_field_add_no_type), types_path %>

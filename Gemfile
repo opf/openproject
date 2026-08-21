@@ -204,9 +204,9 @@ gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.251"
+gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.228"
+gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.12.0"
 
@@ -214,7 +214,7 @@ gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.2", require: false
+gem "mini_magick", "~> 5.3.3", require: false
 
 gem "validate_url"
 
@@ -238,7 +238,7 @@ gem "yabeda-rails"
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
-gem "opentelemetry-sdk", "~> 1.10", require: false
+gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
 # Lookbook
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.3"
+gem "grape", "~> 3.3.5"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 

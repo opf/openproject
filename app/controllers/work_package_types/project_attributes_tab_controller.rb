@@ -15,7 +15,7 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::ProjectAttributesComponentStreams
 
-    ASPECT = Type::ConfigurationLink::PROJECT_ATTRIBUTES
+    ASPECT = TypeVariant::PROJECT_ATTRIBUTES
 
     current_menu_item [:edit, :toggle, :enable_all_of_section, :disable_all_of_section] do
       :types
@@ -51,7 +51,7 @@ module WorkPackageTypes
     private
 
     def linked?
-      @type.linked?(ASPECT)
+      @variant.linked?(ASPECT)
     end
 
     def eager_load_project_custom_field_data
@@ -69,7 +69,7 @@ module WorkPackageTypes
       call = ProjectCustomFieldTypeMappings::BulkUpdateService
         .new(
           user: current_user,
-          type: @type,
+          variant: @variant,
           project_custom_field_section: @project_custom_field_section
         )
         .call(action:)
@@ -79,16 +79,15 @@ module WorkPackageTypes
 
     def bulk_exclusion(service_class)
       call = service_class
-        .new(user: current_user, type: @type)
+        .new(user: current_user, variant: @variant)
         .call(aspect: ASPECT, elements: section_element_keys)
 
       respond_to_bulk(call)
     end
 
-    # The section's attributes that the type actually inherits, keyed as the link stores them.
     def section_element_keys
-      source_active_ids = @type.effective_source_for(ASPECT)
-                               .own_project_custom_field_type_mappings.pluck(:custom_field_id)
+      source_active_ids = @variant.effective_source_for(ASPECT)
+                                  .own_project_custom_field_type_mappings.pluck(:custom_field_id)
       @project_custom_field_section.custom_fields.where(id: source_active_ids).map(&:attribute_name)
     end
 
@@ -107,7 +106,7 @@ module WorkPackageTypes
     def project_custom_field_type_mapping_params
       permitted_params = params.expect(
         project_custom_field_type_mapping: %i[
-          type_id
+          variant_id
           custom_field_id
           custom_field_section_id
         ]
