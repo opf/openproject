@@ -3594,7 +3594,6 @@ en:
   label_git_path: "Path to .git directory"
   label_global: "Global"
   label_global_modules: "Global modules"
-  label_global_role: "Global role"
   label_global_roles: "Global roles"
   label_go_back: "Go back one menu level"
   label_go_forward: "Open %{module} sub-menu"
