@@ -112,7 +112,7 @@ When creating a new Scrum demo project, the default **Epic** and **User story** 
 
 ### Wiki improvements
 
-OpenProject 17.8 brings further improvements to the [project wiki](../../user-guide/wiki/).
+OpenProject 17.8 brings further improvements to [project wikis](../../user-guide/wiki/).
 
 The term **internal wiki** has been consistently replaced with **project wiki** throughout the interface, making the distinction from external wiki integrations such as XWiki clearer.
 
