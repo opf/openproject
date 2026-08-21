@@ -239,20 +239,50 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
       end
     end
 
+    it "hides selected values from the candidates so they cannot be picked twice" do
+      expect(instance.autocomplete_options[:hideSelected]).to be(true)
+    end
+
     context "with a principal value" do
       let(:assignee) { create(:user) }
       let(:values) { [assignee.id.to_s] }
 
-      it "preselects the principal with its label" do
+      it "preselects the principal with the href the principals API returns for it" do
         expect(instance.autocomplete_options[:model])
-          .to contain_exactly({ id: assignee.id.to_s, name: assignee.name })
+          .to contain_exactly({ id: assignee.id.to_s,
+                                name: assignee.name,
+                                href: "/api/v3/users/#{assignee.id}" })
+      end
+    end
+
+    context "with a group value" do
+      let(:group) { create(:group) }
+      let(:values) { [group.id.to_s] }
+
+      it "preselects the group with its own resource href" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: group.id.to_s,
+                                name: group.name,
+                                href: "/api/v3/groups/#{group.id}" })
+      end
+    end
+
+    context "with a placeholder user value" do
+      let(:placeholder) { create(:placeholder_user) }
+      let(:values) { [placeholder.id.to_s] }
+
+      it "preselects the placeholder user with its own resource href" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: placeholder.id.to_s,
+                                name: placeholder.name,
+                                href: "/api/v3/placeholder_users/#{placeholder.id}" })
       end
     end
 
     context "with the me value" do
       let(:values) { ["me"] }
 
-      it "preselects the me value, which the autocompleter cannot resolve itself" do
+      it "preselects the me value without an href, matching the additional option" do
         expect(instance.autocomplete_options[:model])
           .to contain_exactly({ id: "me", name: I18n.t(:label_me) })
       end

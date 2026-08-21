@@ -60,6 +60,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
       filters: autocomplete_filters,
       additionalOptions: me_autocomplete_options,
       model: autocomplete_model,
+      hideSelected: true,
       defaultData: false
     }
   end
@@ -86,8 +87,22 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   # Preselected values are resolved here rather than by the autocompleter, which
   # would try to `GET /api/v3/principals/me` for the me value.
+  #
+  # `opce-user-autocompleter` identifies items by `href` and `name`, so an item
+  # has to be shaped exactly like the one the principals API returns for it.
+  # Otherwise the fetched item is not recognized as the selected one and can be
+  # picked a second time. The me value carries no `href` on either side.
   def autocomplete_model
-    value_objects.map { |object| { id: object.id.to_s, name: object.name } }
+    value_objects.map do |object|
+      { id: object.id.to_s, name: object.name, href: autocomplete_href(object) }.compact
+    end
+  end
+
+  def autocomplete_href(object)
+    return if object.is_a?(::Queries::Filters::MeValue)
+
+    ::API::V3::Utilities::PathHelper::ApiV3Path
+      .public_send(::API::V3::Principals::PrincipalType.for(object), object.id)
   end
 
   def principal_loader
