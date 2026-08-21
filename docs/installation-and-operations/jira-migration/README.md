@@ -8,7 +8,7 @@ keywords: Jira, Jira Migrator, Jira migration, Jira Data Center, Import tool, Mi
 
 # Migrating from Jira to OpenProject
 
-Last edited on: May 06, 2026.
+Last edited on: August 21, 2026.
 
 The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Data Center. This feature is under active development. We release new features with every release. Information on this page may change as new migration options become available.
 
@@ -31,7 +31,7 @@ This import tool is currently in beta and can only import basic data:
 
 - Projects
 - Project identifiers
-- Issues (name, title, description, attachments, due date, estimated hours, remaining hours)
+- Issues (name, title, description, attachments, due date, estimated hours, remaining hours). Note that archived issues are *not* imported since such a concept does currently not exist in OpenProject.
 - Issues identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
 - Basic custom fields (see [Custom fields migration](./custom-fields/))
 - Users (name, email, project membership)

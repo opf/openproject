@@ -27,6 +27,7 @@ The following Jira custom field types are imported:
 | Text field                   | Text (short)           | 
 | Text area                    | Text (long)            | 
 | Date picker                  | Date                   | 
+| Date Time Picker             | Date — **the time-of-day is not migrated, only the date** | 
 | Number                       | Float                  |  
 | URL                          | Link (URL)             |  
 | User picker                  | User                   |
@@ -41,12 +42,12 @@ the [Hierarchy format](../../../system-admin-guide/custom-fields/#hierarchy-cust
 
 Jira custom field types not listed above are skipped. This includes (but is not limited to):
 
-- Datetime fields
 - Version fields
 - Sprint assignment
 - Epic links
 - Story points
-- Third-party plugin fields
+- Third-party plugin fields, with the possible exception of a ScriptRunner scripted field reporting a datetime
+  return type — see [Date Time Picker](#date-time-picker) below
 
 If a field is skipped, its values are not imported and no OpenProject custom field is created for it.
 
@@ -72,6 +73,18 @@ Jira cascading select fields have two import modes depending on your OpenProject
   The option list is flattened and each level is stored as a full path string. For example, `Animals > Cat` produces both `Animals` and `Animals / Cat` as separate list options. 
   The selected value on each issue becomes the deepest matching path.
 
+### Date Time Picker
+
+> **This is not a 1:1 migration.** Jira's Date Time Picker custom field type is imported as an OpenProject **Date**
+> custom field, and the time-of-day component is dropped entirely — only the date carries over. If the exact time
+> matters for your data, do not assume this field migrates cleanly.
+
+A ScriptRunner scripted field that reports a datetime return type in Jira's field metadata will also be picked up
+and imported the same way, as a Date field. This is based only on the field's reported type, not on any
+ScriptRunner-specific handling — the actual value a script produces at runtime can vary, and whether it converts
+into a usable date has not been verified. If you use ScriptRunner fields, test this specifically with your own
+data before relying on it. Scripted fields reporting any other return type are not supported.
+
 ### Labels and lists
 
 Jira Labels fields and any String list custom fields do not expose all their allowed values within [Field contexts](#field-contexts) through the Jira API. 
@@ -79,6 +92,10 @@ Instead, the migrator scans all imported issues and collects every distinct stri
 These collected values become the option list for a single multi-value List custom field in OpenProject.
 
 Values that do not appear in any issue are not added to the option list.
+
+This applies only to a custom field of type Labels. Jira's standard Labels field, present by default on every
+issue, is a system field rather than a custom field and is not covered by this or any other part of the custom
+field migration.
 
 ### Option lists with incomplete allowed values
 
@@ -121,5 +138,11 @@ If an OpenProject custom field with the same name and format already exists (fro
 the migrator reuses it instead of creating a duplicate. The existing custom field is linked to the import and its values are preserved.
 
 For **Hierarchy** and **List** fields, deduplication is not attempted because option lists may differ - a new custom field is always created for these types.
+This applies every time the import runs, not just once: if you migrate in separate batches, each batch creates its own new
+Hierarchy or List fields rather than reusing ones a previous batch already created, even when the option values are identical.
 
 If a name collision exists but the formats differ, the migrator appends a numeric suffix to the new field name (e.g., `My Field (2)`).
+
+This is a separate mechanism from the option merging described under [Field contexts](#field-contexts) above, which only
+combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
+exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
