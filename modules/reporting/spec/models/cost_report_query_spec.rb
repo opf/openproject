@@ -119,6 +119,7 @@ RSpec.describe CostReportQuery do
 
   describe "#engine_query" do
     let(:project) { create(:project) }
+    let(:engine_query) { instance.engine_query(rows: %w[project_id], columns: %w[week]) }
 
     before do
       instance.project = project
@@ -127,33 +128,41 @@ RSpec.describe CostReportQuery do
     end
 
     it "replays the definition into a reporting engine query" do
-      expect(instance.engine_query).to be_a(CostQuery)
+      expect(engine_query).to be_a(CostQuery)
     end
 
     it "replays the filters" do
-      names = instance.engine_query.filters.map { |filter| filter.class.name.demodulize }
-
-      expect(names).to include("SpentOn")
+      expect(engine_query.filters.map { |filter| filter.class.name.demodulize }).to include("SpentOn")
     end
 
-    it "replays the group bys" do
-      names = instance.engine_query.group_bys.map { |group_by| group_by.class.name.demodulize }
+    it "replays the group bys onto the axes it is given" do
+      replayed = engine_query.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
 
-      expect(names).to contain_exactly("Week", "ProjectId")
+      expect(replayed).to eq([["ProjectId", :row], ["Week", :column]])
     end
 
     it "passes the project on" do
-      expect(instance.engine_query.project).to eq(project)
+      expect(engine_query.project).to eq(project)
     end
 
     it "builds a chain that produces SQL" do
-      expect(instance.engine_query.sql_statement.to_s).to be_present
+      expect(engine_query.sql_statement.to_s).to be_present
+    end
+
+    it "requires the axes, because the engine would silently make everything a column" do
+      expect { instance.engine_query }.to raise_error(ArgumentError)
     end
   end
 
   describe "#default_scope" do
     it "raises, because the engine computes the results" do
       expect { instance.default_scope }.to raise_error(NotImplementedError)
+    end
+  end
+
+  describe "#results" do
+    it "raises, pointing at the view that knows the layout" do
+      expect { instance.results }.to raise_error(NotImplementedError)
     end
   end
 end

@@ -28,11 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A saved cost report: the presentation of a CostReportQuery.
-#
-# The query owns which dimensions are aggregated; this view owns how they are
-# laid out - which dimensions go on rows, which on columns - plus the selected
-# unit tab.
+# The query owns which dimensions a report aggregates by; this view owns how they
+# are laid out across rows and columns.
 class CostReport < PersistedView
   PIVOT_AXES = %i[pivot_rows pivot_columns].freeze
 
@@ -47,18 +44,32 @@ class CostReport < PersistedView
   store_attribute :options, :pivot_rows, :json, default: []
   store_attribute :options, :pivot_columns, :json, default: []
   store_attribute :options, :unit_id, :integer
+  store_attribute :options, :legacy_cost_query_id, :integer
+
+  scope :for_legacy_cost_query, ->(id) { where("options ->> 'legacy_cost_query_id' = ?", id.to_s) }
 
   validates :query, presence: true
   validate :pivot_axes_match_query_group_bys
 
   before_validation :set_category
 
+  def self.for_legacy_cost_query_id(id)
+    for_legacy_cost_query(id).first
+  end
+
   def build_default_query
     CostReportQuery.new(project:, principal:)
   end
 
-  # The axes are the user facing configuration; the query's group_bys are
-  # derived from them so the two can never drift apart.
+  def engine_query
+    query.engine_query(rows: pivot_rows, columns: pivot_columns)
+  end
+
+  def results
+    engine_query.result
+  end
+
+  # The query's group_bys are derived from the axes so the two cannot drift apart.
   def apply_pivot_configuration(rows:, columns:)
     self.pivot_rows = Array(rows).map(&:to_s)
     self.pivot_columns = Array(columns).map(&:to_s)
@@ -66,11 +77,8 @@ class CostReport < PersistedView
     query.group_bys = (pivot_columns + pivot_rows).map { |name| query.group_by_for(name) }
   end
 
-  # Mirrors the CostReportsController: any of the four permissions that grant
-  # access to the report pages is enough to read a report, and a report is
-  # readable if it is public or the user's own. Note that there is deliberately
-  # no exception for admins - they cannot read somebody else's private report
-  # either.
+  # Deliberately without an exception for admins: they cannot read somebody
+  # else's private report either.
   def visible?(user)
     return false unless public? || principal == user
 
