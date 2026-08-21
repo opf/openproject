@@ -21,6 +21,12 @@
 #++
 ---
 ro:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
   button_save_report_as: Salvează raportul ca...
   comments: Comentariu
   cost_reports_title: Timp și costuri
@@ -58,7 +64,7 @@ ro:
   label_filter_value: Valoare
   label_filters: Filtru
   label_greater: ">"
-  label_group_by: Grupează după
+  label_group_by: Grupare după
   label_group_by_add: Adaugă atributul Grupează-după
   label_inactive: Inactiv
   label_is_not_project_with_subprojects: nu este (incluzând subproiecte)

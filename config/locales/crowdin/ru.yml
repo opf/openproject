@@ -236,6 +236,7 @@ ru:
         project_creation_wizard_status_when_submitted: Статус при отправке
         project_creation_wizard_work_package_comment: Комментарий к пакету работ
         project_creation_wizard_work_package_type: Тип пакета работ
+        project_types: Типы
         public_value:
           false: приватный
           title: Видимость
@@ -255,6 +256,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
+        type_variant: Вариант типа пакета работ
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -275,6 +277,8 @@ ru:
         start_gate_name: Имя начальной стадии этапа
       project_custom_field:
         custom_field_section: Раздел
+      project_type:
+        variant: Вариант
       query:
         child_work_packages: Дочерние пакеты работ
         column_names: Столбцы
@@ -342,18 +346,26 @@ ru:
       token/named:
         token_name: Имя токена
       type:
-        attribute_groups: Настройка форм
-        children: Варианты
         color: Цвет
-        dependent_configuration_links: Связанные типы
-        description: Текст для описания по умолчанию
-        is_default: В новых проектах активируется по умолчанию
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
-        parent: Родительский тип
-        patterns: Шаблоны
+        project_types: Проекты
+        variants: Варианты
       type/configuration_link:
         source: Тип источника
+      type_variant:
+        attribute_groups: Конфигурация формы
+        default_work_package_description: Текст для описания по умолчанию
+        defaults_source: Источник по умолчанию
+        enabled_in_new_projects: Активно в новых проектах
+        form_configuration_source: Источник конфигурации формы
+        patterns: Шаблоны
+        pdf_export_source: Источник экспорта PDF
+        project_attributes_source: Источник атрибутов проекта
+        project_types: Проекты, в которых используется данный вариант
+        variant: Вариант
+        variant_name: Название
+        workflows_source: Источник рабочих процессов
       user:
         admin: Администратор
         auth_source: Источник аутентификации
@@ -549,6 +561,7 @@ ru:
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
         ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
+        status_transition_invalid: недопустимо, так как для текущих ролей пользователя нет правильного перехода от старого статуса к новому.
         system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
@@ -721,8 +734,6 @@ ru:
               blank: Пожалуйста, выберите проект.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: должен быть типом верхнего уровня. В проекте используются корни, а варианты разрешаются отдельно.
             variant:
               must_belong_to_the_type: должен быть вариантом того типа, который используется в проекте.
         queries/filters/base:
@@ -813,7 +824,7 @@ ru:
               blank: Пожалуйста, укажите имя токена
               format: "%{message}"
               in_use: Это имя токена уже используется, пожалуйста, выберите другое
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: Используется недопустимый атрибут пакета работ.
@@ -821,17 +832,26 @@ ru:
               duplicate_group: Имя группы '%{group}' используется более одного раза. Имена групп должны быть уникальными.
               group_without_name: Имя группы не может быть пустым.
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
-            parent:
-              cannot_be_self: не может быть сам тип.
-              cannot_change_while_used_by_projects: не может быть изменен, пока в проектах по-прежнему используется этот тип.
-              cannot_have_children: невозможно установить, так как у этого типа уже есть варианты.
-              must_be_a_root: должен сам по себе быть типом верхнего уровня. Типы могут вкладываться друг в друга только на один уровень.
-              standard_type_must_be_root: не может быть установлен для стандартного типа.
+            base:
+              borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
+              is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
+              restrict_dependent_destroy:
+                has_many: Невозможно удалить, пока он используется в проектах.
+            defaults_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            enabled_in_new_projects:
+              taken: уже настроен для другой конфигурации данного типа.
+            form_configuration_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            project_attributes_source_id:
+              would_create_cycle: объединит эти конфигурации в цикл.
+            variant:
+              must_belong_to_the_type: должен быть вариантом данного типа.
+            workflows_source_id:
               would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
@@ -939,6 +959,9 @@ ru:
             start_date:
               cannot_be_null: не может быть нулевым, поскольку известны дата окончания и продолжительность.
               violates_relationships: может быть установлено лишь в %{soonest_start} или позднее и без нарушения взаимосвязи рабочих пакетов.
+            status:
+              status_invalid_in_type: недопустимо, поскольку данный статус отсутствует в данном типе.
+              status_transition_invalid: недопустимо, поскольку для ролей текущего пользователя отсутствует допустимый переход из старого статуса в новый.
             status_id:
               status_invalid_in_type: недопустимо, так как текущего статуса в этом типе нет.
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому.
@@ -955,64 +978,356 @@ ru:
           many: "%{count} ошибок не позволили сохранить %{model}"
           other: "%{count} ошибок не позволили сохранить %{model}"
     models:
-      attachment: Файл
+      action:
+        one: Action
+        few: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Текст справки атрибута
         few: Тексты справки атрибутов
         many: Тексты справки атрибутов
         other: Тексты справки атрибутов
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Провайдер аутентификации
         few: Провайдера аутентификации
         many: Провайдеров аутентификации
         other: Провайдеры аутентификации
-      category: Категория
-      color: Цвет
-      comment: Комментарий
-      custom_action: Пользовательское действие
-      custom_field: Настраиваемое поле
-      customized: Настраиваемый
-      doorkeeper/application: Приложение OAuth
+      backup:
+        one: Backup
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Корпоративный токен
         few: Корпоративных токена
         many: Корпоративных токенов
         other: Корпоративных токенов
-      forum: Форум
-      global_role: Глобальная роль
-      group: Группа
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: Приоритет
         few: Приоритеты
         many: Приоритеты
         other: Приоритеты
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Участник совещания
-      member: Участник
-      message: Сообщение
-      news: Новости
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Уведомление
         few: Уведомления
         many: Уведомлений
         other: Уведомлений
-      placeholder_user: Пользователь-заполнитель
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         one: Проект
         few: Проекты
         many: Проекты
         other: Проекты
+      project/phase:
+        one: Project phase
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Список проектов
         few: Списки проектов
         many: Списки проектов
         other: Списки проектов
-      query: Настраиваемый запрос
-      reminder: Напоминание
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: Роль
         few: Роль
@@ -1023,12 +1338,46 @@ ru:
         few: Клиенты SCIM
         many: Клиенты SCIM
         other: Клиенты SCIM
-      status: Статус пакета работ
+      service_account:
+        one: Service account
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        many: System users
+        other: System users
       token/api:
         one: Токен доступа
         few: Маркеры доступа
         many: Маркеры доступа
         other: Маркеры доступа
+      token/base:
+        one: Token
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: Токен RSS
         few: Токены RSS
@@ -1039,12 +1388,96 @@ ru:
         few: Типа
         many: Типов
         other: Типов
-      user: Пользователь
-      version: Этапы
-      wiki: Wiki
-      wiki_page: Wiki-страница
-      work_package: Пакет работ
-      workflow: Рабочий поток
+      type_variant:
+        one: Вариант
+        few: Варианта
+        many: Вариантов
+        other: Вариантов
+      user:
+        one: User
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
@@ -1804,6 +2237,7 @@ ru:
     custom_field: Настраиваемое поле
     custom_options: Возможные значения
     custom_values: Настраиваемые поля
+    customized: Customized
     date: Дата
     dates_interval: Диапазон дат
     default_columns: Столбцы по умолчанию
@@ -1830,6 +2264,7 @@ ru:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     issue: Пакет работ
+    jira: Jira
     journal: Журнал
     journal_notes: Комментарий
     lastname: Фамилия
@@ -1862,6 +2297,7 @@ ru:
     start_date: Дата начала
     state: Область
     status: Статус
+    status_id: Статус
     subject: Тема
     summary: Сводка
     template: Шаблон
@@ -2655,18 +3091,17 @@ ru:
   error_attribute_not_highlightable: 'Атрибуты не выделяются: %{attributes}'
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект невозможно заархивировать: %{errors}'
-  error_can_not_deactivate_type: Не удалось отключить тип %{type}, потому что он все еще используется в %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Также существуют пакеты работ в проектах, которые вы не можете видеть.
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_in_use_archived_undisclosed: Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.
   error_can_not_delete_in_use_archived_work_packages: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить атрибут соответствующих пакетов работ: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартные типы не могут быть удалены.
   error_can_not_delete_type:
     explanation: Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
+  error_can_not_remove_type_from_project: Не удается удалить "%{name}" из проекта "%{project}", потому что он все еще используется %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -3314,6 +3749,7 @@ ru:
   label_feeds_access_key: Ключ доступа к RSS
   label_feeds_access_key_created_on: Ключ доступа RSS, созданный %{value} назад
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Файлы
   label_filter: Фильтры
   label_filter_add: Добавить фильтр
@@ -3434,6 +3870,7 @@ ru:
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
+  label_member_of_group: Участник группы
   label_member_of_project: Участник проекта
   label_member_plural: Участники
   label_member_role: Роль в проекте
@@ -4404,7 +4841,6 @@ ru:
   notice_auth_stage_error: Сбой на этапе аутентификации «%{stage}».
   notice_auth_stage_verification_error: Не удалось проверить этап «%{stage}».
   notice_auth_stage_wrong_stage: Ожидалось завершение этапа авторизации «%{expected}», но возвращено «%{actual}».
-  notice_automatic_set_of_standard_type: Установить стандартный тип автоматически.
   notice_bad_request: Неправильный запрос.
   notice_can_t_change_password: Эта учетная запись использует механизм внешней аутентификации. Невозможно изменить пароль.
   notice_custom_options_deleted: Опция «%{option_value}» и ее вхождения %{num_deleted} были удалены.
@@ -6052,10 +6488,11 @@ ru:
   total_progress: Общий прогресс
   types:
     creation_wizard:
+      add_variant: Добавить вариант к %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
       fields:
-        inherited_from_parent_html: Унаследовано от родителя типа <b>%{parent}</b>.
+        variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
@@ -6067,7 +6504,7 @@ ru:
         project_attributes: Атрибуты проекта
         projects: Проекты
         workflows: Рабочие потоки
-      success: Вариант успешно создан.
+      success: Успешно создано.
     edit:
       breadcrumb_variant: 'Вариант: %{name}'
       defaults:
@@ -6092,6 +6529,7 @@ ru:
             work_package: Пакет работ
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
         tab: Подробности
         type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
       export_configuration:
@@ -6162,6 +6600,13 @@ ru:
         actions:
           label_disable_all: Отключить все
           label_enable_all: Включить все
+        blankslate:
+          independent:
+            description: После того как вы [создадите атрибуты проекта](administration_url), они станут видны здесь и их можно будет добавить к типу.
+            title: Нет доступных атрибутов проекта
+          linked:
+            description: С данным типом не связано ни одного атрибута проекта.
+            title: Атрибуты проекта не настроены
         description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
         disabled: Отключено
         exclusions:
@@ -6169,6 +6614,17 @@ ru:
         filter: Поиск по секции или названию
         tab: Атрибуты проекта
       projects:
+        actions:
+          confirm_remove: Удалить тип «%{type}» из «%{project}»?
+          remove_from_project: Удалить из проекта
+          switch_variant: Изменить вариант
+        add_dialog:
+          no_projects_selected: Пожалуйста, выберите по крайней мере один проект.
+          search_placeholder: Искать проекты
+        disable_all: Отключить для всех проектов
+        empty_state:
+          description: Добавьте проект для использования этой конфигурации.
+          no_results: Нет подходящих проектов.
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
@@ -6236,6 +6692,14 @@ ru:
           switch_to_independent: Переключиться в независимый режим
           title: Связанный режим
         parent_suffix: " (родитель)"
+      variants:
+        blankslate:
+          description_html: 'Вы можете создать варианты, чтобы предложить версии этого типа различным проектам.<br> Каждый вариант может наследовать, копировать или иметь собственную настраиваемую конфигурацию для шаблона по умолчанию, настраиваемые поля, рабочие процессы и настройки.
+
+            '
+          title: Для этого типа не существует вариантов
+        filter: Фильтр по тексту
+        filter_no_results: Нет вариантов, соответствующих этому фильтру
       workflow:
         tab: Рабочие процессы
     index:
@@ -6786,7 +7250,7 @@ ru:
           label: Исходная роль
         target_role_ids:
           label: Целевые роли
-        target_type_ids:
+        target_variant_ids:
           label: Целевые типы
       from_roles:
         create:
@@ -6795,11 +7259,11 @@ ru:
             few: Рабочий процесс успешно скопирован в %{count} ролей.
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
-      from_types:
+      from_variants:
         create:
           notice:
             one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типов.
+            few: Рабочий процесс успешно скопирован в %{count} типа.
             many: Рабочий процесс успешно скопирован в %{count} типов.
             other: Рабочий процесс успешно скопирован в %{count} типов.
       new:

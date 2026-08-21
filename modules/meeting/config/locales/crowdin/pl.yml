@@ -57,6 +57,8 @@ pl:
         position: Pozycja
         presenter: Prezenter
         title: Tytuł
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Uczestniczył
         invited: Zaproszeni
@@ -100,11 +102,41 @@ pl:
         recurring_meeting_interim_response:
           not_an_occurrence: nie jest prawidłowym czasem wystąpienia tego spotkania cyklicznego
     models:
-      meeting: Spotkanie jednorazowe
-      meeting_agenda: Plan spotkania
-      meeting_agenda_item: Punkt programu
-      meeting_section: Sekcja
-      recurring_meeting: Spotkanie cykliczne
+      meeting:
+        one: One-time meeting
+        few: One-time meetings
+        many: One-time meetings
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        few: Agenda items
+        many: Agenda items
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        few: Outcomes
+        many: Outcomes
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        few: Meeting participants
+        many: Meeting participants
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        few: Sections
+        many: Sections
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        few: Recurring meetings
+        many: Recurring meetings
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        few: Scheduled meetings
+        many: Scheduled meetings
+        other: Scheduled meetings
       token/ical_meeting:
         one: Subskrypcja spotkań iCal
         few: Subskrypcje spotkań iCal

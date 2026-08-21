@@ -31,13 +31,22 @@ ru:
         document_type:
           one_or_more_required: Невозможно удалить последний тип документа
     models:
-      document: Документ
-      documents: Документы
+      document:
+        one: Document
+        few: Documents
+        many: Documents
+        other: Documents
+      document_type:
+        one: Document type
+        few: Document types
+        many: Document types
+        other: Document types
   activity:
     filter:
       document: Документы
   attributes:
     collaborative_editing_hocuspocus_url: URL-адрес сервера Hocuspocus
+    documents: Documents
   default_doc_category_tech: Техническая документация
   default_doc_category_user: Документация пользователя
   documents:

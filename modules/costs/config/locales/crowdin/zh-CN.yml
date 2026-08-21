@@ -87,13 +87,22 @@ zh-CN:
     models:
       cost_entry:
         other: 成本条目
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: 成本类型
-      rate: 费率
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: 时间记录
       time_entry_activity:
         other: 时间跟踪活动
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

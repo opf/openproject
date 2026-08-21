@@ -46,9 +46,15 @@ de:
             principal:
               not_a_member_of_budget_project: ist kein Mitglied des Budgetprojekts
     models:
-      budget: Budget
-      labor_budget_item: Geplante Personaleinzelkosten
-      material_budget_item: Stück
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Budgets

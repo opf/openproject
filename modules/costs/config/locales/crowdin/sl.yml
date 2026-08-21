@@ -90,12 +90,31 @@ sl:
         two: Cost entries
         few: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        two: Cost rates
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Vrsta stroška
         two: Vrsta stroška
         few: Vrsta stroška
         other: Vrsta stroška
-      rate: Stopnja
+      default_hourly_rate:
+        one: Default hourly rate
+        two: Default hourly rates
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        two: Hourly rates
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        two: Rates
+        few: Rates
+        other: Rates
       time_entry:
         one: Vnos časa
         two: Time entries
@@ -106,6 +125,11 @@ sl:
         two: Dejavnosti spremljanja časa
         few: Dejavnosti spremljanja časa
         other: Dejavnosti spremljanja časa
+      time_entry_custom_field:
+        one: Time entry custom field
+        two: Time entry custom fields
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

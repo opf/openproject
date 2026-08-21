@@ -38,6 +38,13 @@ ar:
         few: Internal providers
         many: Internal providers
         other: Internal providers
+      wikis/page_link:
+        zero: Page links
+        one: Page link
+        two: Page links
+        few: Page links
+        many: Page links
+        other: Page links
       wikis/provider:
         zero: Wiki providers
         one: Wiki provider

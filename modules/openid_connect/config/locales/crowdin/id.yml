@@ -43,6 +43,11 @@ id:
           invalid_claims_location: 'mengandung lokasi yang tidak didukung: %{invalid}. Lokasi yang didukung adalah: %{supported}.'
           invalid_claims_values: tidak mendefinisikan array di %{attribute}.
           non_object_attribute: tidak mendefinisikan objek JSON di %{attribute}.
+    models:
+      openid_connect/provider:
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        other: OpenID Connect tokens
   logout_warning: 'Anda telah keluar.  Isi formulir apa pun yang Anda kirim mungkin akan hilang.  Silahkan [log in].
 
     '

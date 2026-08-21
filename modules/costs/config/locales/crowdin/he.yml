@@ -90,12 +90,31 @@ he:
         two: Cost entries
         many: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        two: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Cost type
         two: Cost types
         many: Cost types
         other: Cost types
-      rate: Rate
+      default_hourly_rate:
+        one: Default hourly rate
+        two: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        two: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        two: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Time entry
         two: Time entries
@@ -106,6 +125,11 @@ he:
         two: Time tracking activities
         many: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        one: Time entry custom field
+        two: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

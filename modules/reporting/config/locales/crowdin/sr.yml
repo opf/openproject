@@ -21,6 +21,12 @@
 #++
 ---
 sr:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: Comment
   cost_reports_title: Time and costs

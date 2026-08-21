@@ -88,16 +88,30 @@ it:
       cost_entry:
         one: Voce costi
         other: Voci costi
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Tipo di costo
         other: Tipo di costo
-      rate: Tariffa
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Voce tempo
         other: Voci tempi
       time_entry_activity:
         one: Attività di monitoraggio dei tempi
         other: Attività di monitoraggio dei tempi
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

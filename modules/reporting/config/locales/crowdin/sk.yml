@@ -21,6 +21,13 @@
 #++
 ---
 sk:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: Uložiť prehľad ako...
   comments: Komentár
   cost_reports_title: Čas a náklady

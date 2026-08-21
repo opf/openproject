@@ -1,5 +1,12 @@
 ---
 ru:
+  activerecord:
+    models:
+      job_status/status:
+        one: Background job status
+        few: Background job statuses
+        many: Background job statuses
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Или [нажмите здесь](download_url) для загрузки.
     download_starts: Загрузка начнется автоматически.

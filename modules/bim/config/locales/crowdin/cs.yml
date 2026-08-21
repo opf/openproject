@@ -7,7 +7,10 @@ cs:
         bim_snippet: BIM snippet
         reference_links: Reference links
         stage: Etapa
+        status_id: Status
         viewpoint: Bod pohledu
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC soubor
         ifc_attachment: IFC soubor
@@ -35,7 +38,26 @@ cs:
               ifc_attachment_missing: Žádný soubor ifc není připojen.
               invalid_ifc_file: Zadaný soubor není platný IFC soubor.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        one: BCF comment
+        few: BCF comments
+        many: BCF comments
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        few: BCF issues
+        many: BCF issues
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        few: BCF viewpoints
+        many: BCF viewpoints
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        few: IFC models
+        many: IFC models
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snímek
   bcf:

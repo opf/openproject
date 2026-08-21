@@ -21,6 +21,10 @@
 #++
 ---
 vi:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
   cost_reports_title: Thời gian và chi phí
@@ -70,7 +74,7 @@ vi:
   label_money: Giá trị tiền mặt
   label_month_reporting: Tháng (Chi tiêu)
   label_new_report: Báo cáo chi phí mới
-  label_no: không
+  label_no: Không
   label_no_reports: Chưa có báo cáo chi phí.
   label_none: "(không có dữ liệu)"
   label_open: mở

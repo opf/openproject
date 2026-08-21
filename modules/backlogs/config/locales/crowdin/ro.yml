@@ -44,7 +44,7 @@ ro:
       work_package:
         backlog_bucket: Backlog bucket
         backlog_inbox: Backlog inbox
-        backlogs_work_package_type: Tipul de restante
+        backlogs_work_package_type: Tip restanță
         position: Poziție
         sprint: Sprint
         story_points: Puncte
@@ -93,10 +93,18 @@ ro:
               task_version_must_be_the_same_as_story_version: trebuie să fie aceeași cu versiunea cerinței părinte.
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        few: Backlog buckets
+        other: Backlog buckets
       sprint:
         one: Sprint
         few: Sprints
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        few: Sprint goals
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package

@@ -46,9 +46,18 @@ lv:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Budžets
-      labor_budget_item: Planned labor cost
-      material_budget_item: Vienība
+      budget:
+        zero: Budgets
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        zero: Planned labor costs
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        zero: Units
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Budžets

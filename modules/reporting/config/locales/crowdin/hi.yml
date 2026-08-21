@@ -21,6 +21,11 @@
 #++
 ---
 hi:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: टिप्पणी
   cost_reports_title: Time and costs

@@ -92,6 +92,13 @@ ar:
         few: Cost entries
         many: Cost entries
         other: Cost entries
+      cost_rate:
+        zero: Cost rates
+        one: Cost rate
+        two: Cost rates
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         zero: أنواع التكلفة
         one: أنواع التكلفة
@@ -99,7 +106,27 @@ ar:
         few: أنواع التكلفة
         many: أنواع التكلفة
         other: أنواع التكلفة
-      rate: المعدل
+      default_hourly_rate:
+        zero: Default hourly rates
+        one: Default hourly rate
+        two: Default hourly rates
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        zero: Hourly rates
+        one: Hourly rate
+        two: Hourly rates
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        zero: Rates
+        one: Rate
+        two: Rates
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         zero: Time entries
         one: Time entry
@@ -114,6 +141,13 @@ ar:
         few: Time tracking activities
         many: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        zero: Time entry custom fields
+        one: Time entry custom field
+        two: Time entry custom fields
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

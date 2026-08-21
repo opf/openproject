@@ -31,13 +31,18 @@ fa:
         document_type:
           one_or_more_required: آخرین نوع سند را نمی‌توان حذف کرد
     models:
-      document: سند
-      documents: اسناد
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: اسناد
   attributes:
     collaborative_editing_hocuspocus_url: URL سرور Hocuspocus
+    documents: Documents
   default_doc_category_tech: مستندات فنی
   default_doc_category_user: اسناد کاربر
   documents:

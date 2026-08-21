@@ -55,6 +55,8 @@ pt-PT:
         position: Posição
         presenter: Apresentador
         title: Título
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Participou
         invited: Convidados
@@ -98,11 +100,27 @@ pt-PT:
         recurring_meeting_interim_response:
           not_an_occurrence: não é uma hora de ocorrência válida para esta reunião periódica
     models:
-      meeting: Reunião única
-      meeting_agenda: Agenda
-      meeting_agenda_item: Pontos da ordem de trabalhos
-      meeting_section: Secção
-      recurring_meeting: Reunião recorrente
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: Subscrição de reunião iCal
         other: Subscrição de reunião iCal

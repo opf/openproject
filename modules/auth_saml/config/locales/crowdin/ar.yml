@@ -32,6 +32,14 @@ ar:
           invalid_certificate: 'تنسيق PEM الخاص بالشهادة غير صالح: %{additional_message}'
           invalid_private_key: 'تنسيق PEM الخاص بالشهادة غير صالح: %{additional_message}'
           unmatched_private_key: لا ينتمي إلى الشهادة المذكورة
+    models:
+      saml/provider:
+        zero: SAML providers
+        one: SAML provider
+        two: SAML providers
+        few: SAML providers
+        many: SAML providers
+        other: SAML providers
   saml:
     delete_heading: هل تريد حذف مزود SAML هذا؟
     delete_title: حذف مزود SAML

@@ -89,11 +89,26 @@ lv:
         zero: Cost entries
         one: Izmaksu ieraksts
         other: Cost entries
+      cost_rate:
+        zero: Cost rates
+        one: Cost rate
+        other: Cost rates
       cost_type:
         zero: Izmaksu veids
         one: Izmaksu veids
         other: Cost types
-      rate: Likme
+      default_hourly_rate:
+        zero: Default hourly rates
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        zero: Hourly rates
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        zero: Rates
+        one: Rate
+        other: Rates
       time_entry:
         zero: Time entries
         one: Time entry
@@ -102,6 +117,10 @@ lv:
         zero: Time tracking activities
         one: Time tracking activity
         other: Time tracking activities
+      time_entry_custom_field:
+        zero: Time entry custom fields
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

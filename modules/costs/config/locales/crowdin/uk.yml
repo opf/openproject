@@ -90,12 +90,31 @@ uk:
         few: Записи витрат
         many: Записи витрат
         other: Записи витрат
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Тип вартості
         few: Види витрат
         many: Види витрат
         other: Види витрат
-      rate: Оцінити
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Запис часу
         few: Записи часу
@@ -106,6 +125,11 @@ uk:
         few: Дії з обліку часу
         many: Дії з обліку часу
         other: Дії з обліку часу
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:

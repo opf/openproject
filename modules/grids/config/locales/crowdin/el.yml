@@ -14,6 +14,13 @@ el:
           end_before_start: η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.
           outside: είναι εκτός πλέγματος.
           overlaps: επικάλυψη.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget που περιέχεται στο πλέγμα %{grid_name}
     widgets:
