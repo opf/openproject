@@ -65,6 +65,16 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Host URL")
       end
+
+      it "lists the cached models without contacting the server" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_connection_path
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("qwen3.6-27b")
+        expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+      end
     end
   end
 
@@ -230,6 +240,73 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
+
+  describe "paginating the model list" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url: "https://example.com/v1") }
+
+    before do
+      login_as admin
+      # A gateway can report hundreds; OpenRouter returns 341.
+      25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
+    end
+
+    def rendered_rows(body) = body.scan(/model-\d{3}/).uniq.size
+
+    it "shows one page of rows at a time rather than every model" do
+      get llm_connection_path, params: { per_page: 20 }
+
+      expect(rendered_rows(response.body)).to eq(20)
+      expect(response.body).to include("op-pagination")
+    end
+
+    it "serves the remainder on the next page" do
+      get llm_connection_path, params: { per_page: 20, page: 2 }
+
+      expect(rendered_rows(response.body)).to eq(5)
+    end
+  end
+
+  describe "filtering the model list" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url: "https://example.com/v1") }
+    let(:filters) { [{ name: { operator: "~", values: ["bge"] } }].to_json }
+
+    before do
+      login_as admin
+      create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
+      create(:llm_model, llm_connection: connection, external_id: "bge-m3")
+      create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
+    end
+
+    def rendered_rows(body) = ["qwen3.6-27b", "bge-m3", "BGE compatible"].count { |name| body.include?(name) }
+
+    it "narrows the table to matching models" do
+      get search_models_llm_connection_path, params: { filters: }
+
+      expect(response).to have_http_status(:ok)
+      # The identifier and the friendly name both match, since either is what
+      # somebody would type.
+      expect(rendered_rows(response.body)).to eq(2)
+      expect(response.body).to include("bge-m3")
+    end
+
+    it "answers with a turbo stream so only the table is replaced" do
+      get search_models_llm_connection_path, params: { filters: }
+
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    end
+
+    it "applies the filter to the full page too, so a shared link works" do
+      get llm_connection_path, params: { filters: }
+
+      expect(rendered_rows(response.body)).to eq(2)
+    end
+
+    it "shows everything without a filter" do
+      get llm_connection_path
+
+      expect(rendered_rows(response.body)).to eq(3)
     end
   end
 end
