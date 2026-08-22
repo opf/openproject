@@ -156,7 +156,7 @@ fa:
         column_count: تعداد ستون‌ها
         page: صفحه
         row_count: تعداد ردیف‌ها
-        widgets: ویجت ﻫﺎ
+        widgets: ویجت‌ها
       group:
         group_users: کاربران گروه
         identity_url: نشانی هویت
@@ -2581,12 +2581,12 @@ fa:
   description_available_columns: ستون‌های موجود
   description_category_reassign: انتخاب دسته‌بندی
   description_choose_project: پروژه‌ها
-  description_compare_changeset_from: Compare from changeset
-  description_compare_changeset_to: Compare to changeset
-  description_compare_specific_version_from: Compare from version %{version}
-  description_compare_specific_version_to: Compare to version %{version}
-  description_compare_version_from: Compare from version
-  description_compare_version_to: Compare to version
+  description_compare_changeset_from: مقایسه از مجموعه‌تغییرات
+  description_compare_changeset_to: مقایسه تا مجموعه‌تغییرات
+  description_compare_specific_version_from: مقایسه از نسخه %{version}
+  description_compare_specific_version_to: مقایسه تا نسخه %{version}
+  description_compare_version_from: مقایسه از نسخه
+  description_compare_version_to: مقایسه تا نسخه
   description_current_position: 'شما اینجا هستید: '
   description_date_from: تاریخ شروع را وارد کنید
   description_date_to: تاریخ پایان را وارد کنید
@@ -3316,7 +3316,7 @@ fa:
   label_changes_details: جزئیات همه تغییرات
   label_changeset_id: شناسه مجموعه تغییرات
   label_changeset_plural: مجموعه تغییرات
-  label_changeset_versions: Changeset versions
+  label_changeset_versions: نسخه‌های مجموعه‌تغییرات
   label_check_uncheck_all_in_column: انتخاب/لغو انتخاب همه در ستون
   label_check_uncheck_all_in_row: انتخاب/لغو انتخاب همه در ردیف
   label_checked: انتخاب‌شده
@@ -3926,7 +3926,7 @@ fa:
   label_wiki_page_attachments: پیوست صفحه ویکی
   label_wiki_page_id: شناسه صفحه Wiki
   label_wiki_page_plural: صفحه‌های Wiki
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: نسخه‌های صفحه ویکی
   label_wiki_show_index_page_link: نمایش زیرآیتم منو «فهرست مطالب»
   label_wiki_show_menu_item: نمایش به‌عنوان آیتم منو در پیمایش پروژه
   label_wiki_show_new_page_link: نمایش زیرآیتم منو «ایجاد صفحه فرزند جدید»
