@@ -33,5 +33,16 @@ FactoryBot.define do
     sequence(:identifier) { |n| n == 1 ? LlmConnection::DEFAULT_IDENTIFIER : "connection-#{n}" }
     base_url { "https://example.com/v1" }
     api_key { "sk-test-key" }
+    trait :with_models do
+      catalogue_fetched_at { Time.current }
+      last_connected_at { Time.current }
+
+      after(:create) do |connection|
+        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b",
+                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 262_144 })
+        create(:llm_model, llm_connection: connection, external_id: "bge-m3",
+                           raw_metadata: { "owned_by" => "vllm", "max_model_len" => 8_192 })
+      end
+    end
   end
 end

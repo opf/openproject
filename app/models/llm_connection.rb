@@ -47,6 +47,8 @@ class LlmConnection < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  has_many :models, class_name: "LlmModel", dependent: :delete_all
+  has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
   validates :base_url, presence: true
   validate :single_active_connection, if: :active?
 
@@ -74,6 +76,16 @@ class LlmConnection < ApplicationRecord
   # from the environment is never probed, and must still count as configured.
   def configured?
     base_url.present?
+  end
+
+  # Every model that can be addressed today: discovered and still offered, plus
+  # anything an administrator entered by hand.
+  #
+  # Deliberately includes models an administrator has deactivated. This is what
+  # Llm::Runtime resolves against, and hiding a model from the pickers must not
+  # break a feature that is already bound to it.
+  def available_model_ids
+    models.active.by_identifier.pluck(:external_id)
   end
 
   def server_flavour

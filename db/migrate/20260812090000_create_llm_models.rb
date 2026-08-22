@@ -28,30 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Confirms removing the stored API key.
-  #
-  # No confirmation checkbox: the key itself can simply be pasted again. The
-  # dialog exists for what is *not* recoverable -- see #loses_admin_verdicts?.
-  class DeleteApiKeyDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+class CreateLlmModels < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_models do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      # Whatever this deployment calls the model. Provider-specific: Scaleway
+      # serves "qwen3.6-35b-a3b" for weights another catalogue lists as
+      # "Qwen/Qwen3.6-35B-A3B".
+      t.string :external_id, null: false
+      t.string :display_name
+      t.boolean :active, null: false, default: true
+      # Entered by an administrator rather than discovered. Survives a refresh
+      # that cannot see it, which is what makes a server offering
+      # /v1/chat/completions but no /v1/models usable.
+      t.boolean :manual, null: false, default: false
+      t.datetime :last_seen_at
+      t.jsonb :raw_metadata, null: false, default: {}
 
-    TEST_SELECTOR = "llm-connection--delete-api-key-dialog"
-
-    alias_method :connection, :model
-
-    def form_arguments
-      { action: url_helpers.api_key_llm_connection_path, method: :delete }
+      t.timestamps null: false
     end
 
-    # The catalogue sync fingerprints base_url and api_key together, so the next
-    # refresh after the key changes treats the endpoint as a different deployment
-    # and discards every capability verdict -- including the ones an
-    # administrator asserted by hand, which nothing else in the system throws
-    # away. Worth saying out loud before the key goes.
-    def loses_admin_verdicts?
-      connection.capability_verdicts.exists?(source: "admin")
-    end
+    add_index :llm_models, %i[llm_connection_id external_id], unique: true
+
+    # Superseded by the table above.
+    remove_column :llm_connections, :catalogue, :jsonb, null: false, default: {}
   end
 end
