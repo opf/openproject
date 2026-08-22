@@ -252,7 +252,9 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
     end
 
-    def rendered_rows(body) = body.scan(/model-\d{3}/).uniq.size
+    # Counted by row, not by model id: the default-model select still lists
+    # every model, so the ids appear in the body regardless of the table.
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "shows one page of rows at a time rather than every model" do
       get llm_connection_path, params: { per_page: 20 }
@@ -279,7 +281,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
     end
 
-    def rendered_rows(body) = ["qwen3.6-27b", "bge-m3", "BGE compatible"].count { |name| body.include?(name) }
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "narrows the table to matching models" do
       get search_models_llm_connection_path, params: { filters: }

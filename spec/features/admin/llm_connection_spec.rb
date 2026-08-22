@@ -73,8 +73,22 @@ RSpec.describe "LLM connection administration",
     it "renders the model list accessibly" do
       visit llm_connection_path
 
-      expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to have_test_selector("llm-model--toggle-#{connection.models.first.id}")
       expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "hides a model from the feature pickers when it is switched off" do
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+
+      visit llm_connection_path
+      find_test_selector("llm-model--toggle-#{llm_model.id}").click
+
+      wait_for { llm_model.reload.deactivated_at }.not_to be_nil
+
+      # The toggle acknowledges with JSON rather than re-rendering the row, so
+      # the source label only catches up on the next load.
+      visit llm_connection_path
+      expect(page).to have_text("Hidden by administrator")
     end
 
     it "removes the stored API key" do

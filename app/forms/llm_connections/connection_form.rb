@@ -75,6 +75,31 @@ module LlmConnections
         data: { "admin--llm-connection-form-target": "secretInput" }
       )
 
+      if models_available?
+        # An autocompleter rather than a select: a gateway reports hundreds of
+        # models, and every one of them would otherwise be inlined as an option
+        # in the page body. decorated: true serialises the list into the element,
+        # so this needs no endpoint of its own.
+        f.autocompleter(
+          name: :default_chat_model_id,
+          label: LlmConnection.human_attribute_name(:default_chat_model_id),
+          caption: I18n.t("admin.llm_connections.form.default_chat_model_caption"),
+          autocomplete_options: {
+            decorated: true,
+            inputValue: model.default_chat_model_id,
+            placeholder: I18n.t("label_none_parentheses")
+          }
+        ) do |list|
+          list.option(label: I18n.t("label_none_parentheses"), value: "",
+                      selected: model.default_chat_model_id.blank?)
+
+          default_chat_model_options.each do |model_id|
+            list.option(label: option_label(model_id), value: model_id,
+                        selected: model.default_chat_model_id == model_id)
+          end
+        end
+      end
+
       f.submit(
         name: :submit,
         label: submit_label,
@@ -84,6 +109,41 @@ module LlmConnections
     end
 
     private
+
+    def models_available?
+      model.available_model_ids.any?
+    end
+
+    # Deactivated models are hidden, and so is anything positively known to be
+    # an embedding model -- it is a different kind of model, not a chat choice.
+    # The one already chosen is kept regardless: dropping it would silently
+    # blank the field on the next save.
+    def default_chat_model_options
+      chat_capable = model.selectable_model_ids.reject { |id| embeddings_state(id) == :supported }
+
+      (chat_capable + [model.default_chat_model_id]).compact_blank.uniq
+    end
+
+    # The same friendly name the model table shows; the identifier stays the value.
+    def option_label(model_id)
+      model_names[model_id].presence || model_id
+    end
+
+    def model_names
+      @model_names ||= model.models.pluck(:external_id, :display_name).to_h
+    end
+
+    # No verdict at all is the same as an inconclusive one: we do not know.
+    def embeddings_state(model_id)
+      embeddings_verdicts[model_id]&.to_sym || :unknown
+    end
+
+    def embeddings_verdicts
+      @embeddings_verdicts ||= model.capability_verdicts
+                                    .for_capability(:embeddings)
+                                    .pluck(:model_id, :state)
+                                    .to_h
+    end
 
     def submit_label
       model.persisted? ? I18n.t(:button_save) : I18n.t("admin.llm_connections.form.button_connect")
