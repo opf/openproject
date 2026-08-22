@@ -28,47 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HealthReports
-  class ReportComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module Llm
+  # Keeps the health report history bounded.
+  #
+  # Until the scheduled check existed, health_reports only grew when somebody
+  # clicked "Run checks", so nothing anywhere pruned the table. A four-times-daily
+  # writer changes that, and this is the first pruner it has had.
+  #
+  # Only ever prunes reports belonging to an LLM connection: storages and wikis
+  # share the table and still write a row only on demand.
+  class PruneHealthReportsJob < ApplicationJob
+    # Enough history to see a pattern in when a flaky server fails, without
+    # keeping a year of identical green reports.
+    KEEP = 50
+    MAX_AGE = 90.days
 
-    alias report model
+    queue_with_priority :low
 
-    # The i18n_scope parameter defines the I18n scope that should be used to resolve
-    # names of groups, checks and error messages indicated by the results.
-    #
-    # docs_href overrides where each result's "More information" link points;
-    # without it, results link to the file storages troubleshooting page.
-    def initialize(*, i18n_scope:, docs_href: nil, **)
-      super(*, **)
-      @i18n_scope = i18n_scope
-      @docs_href = docs_href
-    end
+    def perform
+      LlmConnection.find_each do |connection|
+        recent = connection.health_reports.order(created_at: :desc).limit(KEEP).pluck(:id)
 
-    private
-
-    attr_reader :i18n_scope, :docs_href
-
-    def summary_scheme(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        :critical
-      in { warning: 1.. }
-        :warning
-      else
-        :success
-      end
-    end
-
-    def humanize_summary(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        I18n.t("health_reports.common.checks.failures", count: check_tally[:failure])
-      in { warning: 1.. }
-        I18n.t("health_reports.common.checks.warnings", count: check_tally[:warning])
-      else
-        I18n.t("health_reports.common.checks.success")
+        connection.health_reports
+                  .where.not(id: recent)
+                  .where(created_at: ...MAX_AGE.ago)
+                  .delete_all
       end
     end
   end

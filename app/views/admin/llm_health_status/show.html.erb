@@ -1,0 +1,101 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t("menus.admin.llm_connection"), t(".title") %>
+
+<%= turbo_frame_tag "llm_health_status_report", refresh: :morph do %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { t(".title") }
+      if @report.present?
+        header.with_description { t(".last_check", datetime: format_time(@report.created_at)) }
+      end
+      header.with_breadcrumbs(
+        [{ href: admin_index_path, text: t(:label_administration) },
+         { href: mcp_configurations_path, text: t("menus.admin.ai") },
+         { href: llm_connection_path, text: t("menus.admin.llm_connection") },
+         t(".title")]
+      )
+    end
+  %>
+
+  <% if @report.present? %>
+    <%=
+      render(Primer::OpenProject::SubHeader.new) do |subheader|
+        subheader.with_action_button(
+          scheme: :secondary,
+          label: t(".download"),
+          mobile_label: t(".download"),
+          mobile_icon: :download,
+          leading_icon: :download,
+          tag: :a,
+          href: llm_connection_health_status_report_path(format: :txt),
+          data: { turbo: false }
+        ) { t(".download") }
+
+        subheader.with_action_button(
+          scheme: :primary,
+          label: t(".run_checks"),
+          mobile_label: t(".run_checks"),
+          mobile_icon: "op-reload",
+          leading_icon: "op-reload",
+          tag: :a,
+          href: llm_connection_health_status_report_path,
+          data: { turbo_method: :post, turbo: true },
+          test_selector: "llm-connection--rerun-health-checks"
+        ) { t(".run_checks") }
+      end
+    %>
+
+    <%=
+      render(
+        HealthReports::ReportComponent.new(
+          @report,
+          i18n_scope: "llm.health_checks",
+          # No admin guide page exists for this yet. Every check explains itself
+          # in its own message, so a "More information" link would only lead
+          # somewhere unrelated -- suppressed until that page is written.
+          docs_href: false
+        )
+      )
+    %>
+  <% else %>
+    <%=
+      render(Primer::Beta::Blankslate.new(test_selector: "llm-connection--health-blankslate")) do |blankslate|
+        blankslate.with_visual_icon(icon: :meter)
+        blankslate.with_heading(tag: :h2) { t(".blankslate_heading") }
+        blankslate.with_description { t(".blankslate_description") }
+        blankslate.with_primary_action(
+          href: llm_connection_health_status_report_path,
+          data: { turbo_method: :post, turbo: true }
+        ) { t(".run_checks") }
+      end
+    %>
+  <% end %>
+<% end %>

@@ -1,0 +1,58 @@
+<%=
+  component_wrapper(tag: :turbo_frame, refresh: :morph) do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title(tag: :h3) { t(".title") }
+
+      flex_layout do |container|
+        if report.present?
+          container.with_row do
+            header = summary_header
+            concat(render(Primer::Beta::Octicon.new(icon: header[:icon], color: header[:icon_color], mr: 2)))
+            concat(render(Primer::Beta::Text.new(font_weight: :bold)) { header[:text] })
+          end
+
+          container.with_row(mt: 2) do
+            render(
+              Primer::Beta::Text.new(color: :muted, test_selector: "llm-connection--health-summary")
+            ) { summary_description }
+          end
+
+          container.with_row(mt: 2) do
+            render(
+              Primer::Beta::Button.new(
+                scheme: :link, color: :default, font_weight: :bold,
+                tag: :a, href: llm_connection_health_status_report_path,
+                test_selector: "llm-connection--open-health-report"
+              )
+            ) do |button|
+              button.with_leading_visual_icon(icon: :meter)
+              t(".open_report")
+            end
+          end
+        else
+          container.with_row do
+            render(Primer::Beta::Text.new(color: :muted)) { t(".never_checked") }
+          end
+
+          container.with_row(mt: 2) do
+            primer_form_with(
+              url: create_health_status_report_llm_connection_health_status_report_path,
+              method: :post,
+              data: { turbo: true }
+            ) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :link, color: :default, font_weight: :bold, type: :submit,
+                  test_selector: "llm-connection--run-health-checks"
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :meter)
+                t(".run_checks")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

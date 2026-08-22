@@ -747,6 +747,10 @@ Rails.application.routes.draw do
       get :delete_api_key_dialog
       get :disconnect_dialog
       post :disconnect
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do

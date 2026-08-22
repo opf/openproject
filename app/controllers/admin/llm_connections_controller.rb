@@ -64,6 +64,8 @@ module Admin
         Setting.llm_features_enabled = false
       end
 
+      Llm::HealthCheckJob.toggle_cron_job
+
       redirect_with_notice(t(".success"))
     end
 
