@@ -256,6 +256,12 @@ gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.1"
 
+# Provider adapters and a model metadata registry for the AI features. Used as
+# transport and as a source of published model capabilities; what a given
+# connection actually offers is tracked per connection, never in RubyLLM's
+# application-wide registry.
+gem "ruby_llm", "~> 1.16"
+
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
 
