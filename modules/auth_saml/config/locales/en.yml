@@ -32,6 +32,10 @@ en:
           invalid_certificate: "is not a valid PEM-formatted certificate: %{additional_message}"
           invalid_private_key: "is not a valid PEM-formatted private key: %{additional_message}"
           unmatched_private_key: "does not belong to the given certificate"
+    models:
+      saml/provider:
+        one: "SAML provider"
+        other: "SAML providers"
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Delete SAML provider

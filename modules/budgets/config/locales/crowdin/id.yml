@@ -46,9 +46,12 @@ id:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Anggaran
-      labor_budget_item: Planned labor cost
-      material_budget_item: Unit
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
       budget: Anggaran
@@ -102,7 +105,6 @@ id:
   help_click_to_edit: Klik untuk edit.
   help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
   help_override_rate: Masukkan nilai untuk mengubah rate default.
-  label_budget: Anggaran
   label_budget_available: Anggaran yang tersedia
   label_budget_details: Rincian anggaran
   label_budget_id: 'Budget #%{id}'

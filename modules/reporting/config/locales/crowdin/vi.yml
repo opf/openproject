@@ -21,6 +21,10 @@
 #++
 ---
 vi:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
   cost_reports_title: Thời gian và chi phí
@@ -46,7 +50,6 @@ vi:
   label_closed: đóng cửa
   label_columns: Cột
   label_cost_entry_attributes: Thuộc tính mục nhập chi phí
-  label_cost_report: Báo cáo chi phí
   label_cost_report_plural: Báo cáo chi phí
   label_count: đếm
   label_days_ago: trong những ngày qua

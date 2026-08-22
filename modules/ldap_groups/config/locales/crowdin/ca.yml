@@ -22,8 +22,12 @@ ca:
 
             '
     models:
-      ldap_groups/synchronized_filter: Filtre de sincronització de grup LDAP
-      ldap_groups/synchronized_group: Grup LDAP sincronitzat
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

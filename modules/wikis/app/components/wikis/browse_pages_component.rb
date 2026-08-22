@@ -32,14 +32,15 @@ module Wikis
   class BrowsePagesComponent < ApplicationComponent
     include Components::TreeNodeHelper
 
-    attr_reader :builder, :form_name, :provider_id
+    attr_reader :builder, :form_name, :provider_id, :wikis_selectable
 
     alias_method :nodes, :model
-    def initialize(model, builder, form_name, provider_id)
+    def initialize(model, builder, form_name, provider_id, wikis_selectable:)
       super(model)
       @builder = builder
       @form_name = form_name
       @provider_id = provider_id
+      @wikis_selectable = wikis_selectable
     end
 
     def build_tree(tree_view)
@@ -53,7 +54,7 @@ module Wikis
         if node.children.none?
           add_lazy_loaded_subtree(parent, node)
         else
-          parent.with_sub_tree(**node_options(node, expanded: true)) do |item|
+          parent.with_sub_tree(**node_options(node, wikis_selectable:, expanded: true)) do |item|
             item.with_leading_visual_icon(icon: node_icon(node))
             add_node(item, node.children)
           end
@@ -62,7 +63,7 @@ module Wikis
     end
 
     def add_lazy_loaded_subtree(parent, node)
-      parent.with_sub_tree(**node_options(node)) do |item|
+      parent.with_sub_tree(**node_options(node, wikis_selectable:)) do |item|
         item.with_leading_visual_icon(icon: node_icon(node))
         item.with_loading_spinner(src: browse_wiki_pages_path(parent: node.identifier, provider_id:))
       end

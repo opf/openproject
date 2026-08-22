@@ -256,7 +256,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
-        type_variant: Work package type variant
+        type_variant: Вариант типа пакета работ
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -978,64 +978,356 @@ ru:
           many: "%{count} ошибок не позволили сохранить %{model}"
           other: "%{count} ошибок не позволили сохранить %{model}"
     models:
-      attachment: Файл
+      action:
+        one: Действие
+        few: Actions
+        many: Actions
+        other: Действия
+      announcement:
+        one: Объявление
+        few: Announcements
+        many: Announcements
+        other: Объявления
+      anonymous_user:
+        one: Анонимный пользователь
+        few: Anonymous users
+        many: Anonymous users
+        other: Анонимные пользователи
+      attachment:
+        one: Файл
+        few: Files
+        many: Files
+        other: Файлы
       attribute_help_text:
         one: Текст справки атрибута
         few: Тексты справки атрибутов
         many: Тексты справки атрибутов
         other: Тексты справки атрибутов
+      attribute_help_text/project:
+        one: Справка по атрибутам проекта
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Справки по атрибутам проекта
+      attribute_help_text/user:
+        one: Справка по атрибутам пользователя
+        few: User attribute help texts
+        many: User attribute help texts
+        other: Справки по атрибутам пользователя
+      attribute_help_text/work_package:
+        one: Справка по атрибутам пакета работ
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Справки по атрибутам пакета работ
       auth_provider:
         one: Провайдер аутентификации
         few: Провайдера аутентификации
         many: Провайдеров аутентификации
         other: Провайдеры аутентификации
-      category: Категория
-      color: Цвет
-      comment: Комментарий
-      custom_action: Пользовательское действие
-      custom_field: Настраиваемое поле
-      customized: Настраиваемый
-      doorkeeper/application: Приложение OAuth
+      backup:
+        one: Резервная копия
+        few: Backups
+        many: Backups
+        other: Резервные копии
+      capability:
+        one: Возможность
+        few: Capabilities
+        many: Capabilities
+        other: Возможности
+      category:
+        one: Категория
+        few: Categories
+        many: Categories
+        other: Категории
+      change:
+        one: Изменение файла
+        few: File changes
+        many: File changes
+        other: Изменение файлов
+      changeset:
+        one: Набор изменений
+        few: Changesets
+        many: Changesets
+        other: Наборы изменений
+      color:
+        one: Цвет
+        few: Colors
+        many: Colors
+        other: Цвета
+      comment:
+        one: Комментарий
+        few: Comments
+        many: Comments
+        other: Комментарии
+      custom_action:
+        one: Пользовательское действие
+        few: Custom actions
+        many: Custom actions
+        other: Пользовательские действия
+      custom_field:
+        one: Пользовательское поле
+        few: Custom fields
+        many: Custom fields
+        other: Пользовательские поля
+      custom_field/hierarchy/item:
+        one: Элемент иерархии
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Элементы иерархии
+      custom_field_section:
+        one: Раздел пользовательских полей
+        few: Custom field sections
+        many: Custom field sections
+        other: Разделы пользовательских полей
+      custom_option:
+        one: Вариант настраиваемого поля
+        few: Custom field options
+        many: Custom field options
+        other: Варианты настраиваемого поля
+      custom_style:
+        one: Дизайн
+        few: Designs
+        many: Designs
+        other: Дизайны
+      day:
+        one: День
+        few: Days
+        many: Days
+        other: Дней
+      deleted_user:
+        one: Удалённый пользователь
+        few: Deleted users
+        many: Deleted users
+        other: Удаленные пользователи
+      design_color:
+        one: Цвет дизайна
+        few: Design colors
+        many: Design colors
+        other: Цвета дизайна
+      doorkeeper/application:
+        one: Приложение OAuth
+        few: OAuth applications
+        many: OAuth applications
+        other: Приложения OAuth
+      emoji_reaction:
+        one: Реакция эмодзи
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Реакции эмодзи
       enterprise_token:
         one: Корпоративный токен
         few: Корпоративных токена
         many: Корпоративных токенов
         other: Корпоративных токенов
-      forum: Форум
-      global_role: Глобальная роль
-      group: Группа
+      enterprise_trial:
+        one: Пробная версия
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Пробные версии
+      enumeration:
+        one: Перечисление
+        few: Enumerations
+        many: Enumerations
+        other: Перечисления
+      export:
+        one: Экспорт
+        few: Exports
+        many: Exports
+        other: Экспорты
+      export_setting:
+        one: Настройки экспорта
+        few: Export settings
+        many: Export settings
+        other: Настройки экспорта
+      forum:
+        one: Форум
+        few: Forums
+        many: Forums
+        other: Форумы
+      global_role:
+        one: Глобальная роль
+        few: Global roles
+        many: Global roles
+        other: Глобальные роли
+      group:
+        one: Группа
+        few: Groups
+        many: Groups
+        other: Группы
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Отчет о здоровье
+        few: Health reports
+        many: Health reports
+        other: Отчеты о здоровье
       issue_priority:
         one: Приоритет
         few: Приоритеты
         many: Приоритеты
         other: Приоритеты
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Участник совещания
-      member: Участник
-      message: Сообщение
-      news: Новости
+      ldap_auth_source:
+        one: LDAP-подключение
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP-подключения
+      mcp_configuration:
+        one: Конфигурация MCP
+        few: MCP configurations
+        many: MCP configurations
+        other: Конфигурации MCP
+      member:
+        one: Участник
+        few: Участники
+        many: Участники
+        other: Участники
+      menu_item:
+        one: Пункт меню
+        few: Menu items
+        many: Menu items
+        other: Пункты меню
+      menu_items/wiki_menu_item:
+        one: Пункт меню wiki
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Пункты меню вики
+      message:
+        one: Сообщение
+        few: Messages
+        many: Messages
+        other: Сообщения
+      news:
+        one: Новости
+        few: News
+        many: News
+        other: Новости
+      non_working_day:
+        one: Нерабочий день
+        few: Non-working days
+        many: Non-working days
+        other: Нерабочие дни
       notification:
         one: Уведомление
         few: Уведомления
         many: Уведомлений
         other: Уведомлений
-      placeholder_user: Пользователь-заполнитель
+      notification_setting:
+        one: Настройка уведомлений
+        few: Notification settings
+        many: Notification settings
+        other: Настройки уведомлений
+      oauth_client:
+        one: Клиент OAuth
+        few: OAuth clients
+        many: OAuth clients
+        other: Клиенты OAuth2
+      oauth_client_token:
+        one: Токен клиента OAuth
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: Токены клиента OAuth
+      persisted_query:
+        one: Сохраненный запрос
+        few: Persisted queries
+        many: Persisted queries
+        other: Сохраненные запросы
+      persisted_view:
+        one: Сохраненное представление
+        few: Persisted views
+        many: Persisted views
+        other: Сохраненные представления
+      placeholder_user:
+        one: Пользователь-заполнитель
+        few: Placeholder users
+        many: Placeholder users
+        other: Пользователи-заполнители
+      plugin_auth_provider:
+        one: Провайдер аутентификации плагина
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Провайдеры аутентификации плагина
+      principal:
+        one: Участник
+        few: Principals
+        many: Principals
+        other: Участники
       project:
         one: Проект
         few: Проекты
         many: Проекты
         other: Проекты
+      project/phase:
+        one: Фаза проекта
+        few: Project phases
+        many: Project phases
+        other: Фазы проекта
+      project/phase_definition:
+        one: Определение фазы проекта
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Определения фазы проекта
+      project_custom_field:
+        one: Атрибут проекта
+        few: Project attributes
+        many: Project attributes
+        other: Атрибуты проекта
+      project_custom_field_section:
+        one: Секция атрибутов проекта
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Секции атрибутов проекта
       project_query:
         one: Список проектов
         few: Списки проектов
         many: Списки проектов
         other: Списки проектов
-      query: Настраиваемый запрос
-      reminder: Напоминание
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Роль проекта
+        few: Project roles
+        many: Project roles
+        other: Роли проекта
+      query:
+        one: Пользовательский запрос
+        few: Custom queries
+        many: Custom queries
+        other: Пользовательские запросы
+      relation:
+        one: Отношение
+        few: Relations
+        many: Relations
+        other: Отношения
+      reminder:
+        one: Напоминание
+        few: Reminders
+        many: Reminders
+        other: Напоминания
+      remote_identity:
+        one: Удаленная идентичность
+        few: Remote identities
+        many: Remote identities
+        other: Удаленные идентичности
+      repository:
+        one: Репозиторий
+        few: Repositories
+        many: Repositories
+        other: Репозитории
+      repository/git:
+        one: Git pепозиторий
+        few: Git repositories
+        many: Git repositories
+        other: Git-репозитории
+      repository/subversion:
+        one: Subversion pепозиторий
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion pепозитории
       role:
         one: Роль
         few: Роль
@@ -1046,12 +1338,46 @@ ru:
         few: Клиенты SCIM
         many: Клиенты SCIM
         other: Клиенты SCIM
-      status: Статус пакета работ
+      service_account:
+        one: Сервисный аккаунт
+        few: Service accounts
+        many: Service accounts
+        other: Сервисные аккаунты
+      sessions/user_session:
+        one: Сессия
+        few: Sessions
+        many: Sessions
+        other: Сессии
+      setting:
+        one: Параметр
+        few: Settings
+        many: Settings
+        other: Параметры
+      status:
+        one: Статус пакета работ
+        few: Work package statuses
+        many: Work package statuses
+        other: Статусы пакета работ
+      system_user:
+        one: Системный пользователь
+        few: System users
+        many: System users
+        other: Системные пользователи
       token/api:
         one: Токен доступа
         few: Маркеры доступа
         many: Маркеры доступа
         other: Маркеры доступа
+      token/base:
+        one: Токен
+        few: Токены
+        many: Токены
+        other: Токены
+      token/ical:
+        one: Токен iCalendar
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: Токены iCalendar
       token/rss:
         one: Токен RSS
         few: Токены RSS
@@ -1067,12 +1393,91 @@ ru:
         few: Варианта
         many: Вариантов
         other: Вариантов
-      user: Пользователь
-      version: Этапы
-      wiki: Wiki
-      wiki_page: Wiki-страница
-      work_package: Пакет работ
-      workflow: Рабочий поток
+      user:
+        one: Пользователь
+        few: Users
+        many: Users
+        other: Пользователи
+      user_custom_field:
+        one: Атрибут пользователя
+        few: User attributes
+        many: User attributes
+        other: Атрибуты пользователя
+      user_custom_field_section:
+        one: Секция атрибутов пользователя
+        few: User attribute sections
+        many: User attribute sections
+        other: Секции атрибутов пользователя
+      user_non_working_time:
+        one: Нерабочее время
+        few: Non-working times
+        many: Non-working times
+        other: Нерабочее время
+      user_password:
+        one: Пароль
+        few: Passwords
+        many: Passwords
+        other: Пароли
+      user_preference:
+        one: Настройка пользователя
+        few: User preferences
+        many: User preferences
+        other: Настройки пользователя
+      user_query:
+        one: Список пользователей
+        few: User lists
+        many: User lists
+        other: Списки пользователей
+      user_working_hours:
+        one: Рабочие часы
+        few: Working hours
+        many: Working hours
+        other: Рабочие часы
+      version:
+        one: Версия
+        few: Versions
+        many: Versions
+        other: Версии
+      version_custom_field:
+        one: Пользовательское поле версии
+        few: Version custom fields
+        many: Version custom fields
+        other: Пользовательские поля версии
+      view:
+        one: Представление
+        few: Views
+        many: Views
+        other: Представления
+      wiki:
+        one: Вики
+        few: Wikis
+        many: Wikis
+        other: Вики
+      wiki_page:
+        one: Wiki-страница
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki-страницы
+      work_package:
+        one: Пакет работ
+        few: Work packages
+        many: Work packages
+        other: Пакеты работ
+      work_package_custom_field:
+        one: Пользовательское поле пакета работ
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Пользовательские поля пакета работ
+      work_package_role:
+        one: Роль пакета работ
+        few: Work package roles
+        many: Work package roles
+        other: Роли пакета работ
+      workflow:
+        one: Рабочий поток
+        few: Рабочие потоки
+        many: Рабочие потоки
+        other: Рабочие потоки
   activities:
     index:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
@@ -1832,6 +2237,7 @@ ru:
     custom_field: Настраиваемое поле
     custom_options: Возможные значения
     custom_values: Настраиваемые поля
+    customized: Настраиваемый
     date: Дата
     dates_interval: Диапазон дат
     default_columns: Столбцы по умолчанию
@@ -1858,6 +2264,7 @@ ru:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     issue: Пакет работ
+    jira: Jira
     journal: Журнал
     journal_notes: Комментарий
     lastname: Фамилия
@@ -2452,8 +2859,12 @@ ru:
   description_available_columns: Доступные столбцы
   description_category_reassign: Укажите категорию
   description_choose_project: Проекты
-  description_compare_from: Сравнить от
-  description_compare_to: Сравнить до
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Вы здесь: '
   description_date_from: Введите дату начала
   description_date_to: Введите дату окончания
@@ -2657,8 +3068,6 @@ ru:
         description: Будьте уверены в том, что загруженные в OpenProject файлы проверены на наличие вирусов, прежде чем они станут доступны другим пользователям.
       weighted_item_lists:
         description: Списки взвешенных элементов позволяют создать список с соответствующими числовыми значениями.
-      work_package_query_relation_columns:
-        description: Нужно видеть отношения или дочерние элементы в списке пакетов работ?
       work_package_sharing:
         description: Поделиться пакетом работ с пользователями, которые не являются участниками проекта.
       work_package_subject_generation:
@@ -2694,7 +3103,7 @@ ru:
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
-  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
+  error_can_not_remove_type_from_project: Не удается удалить "%{name}" из проекта "%{project}", потому что он все еще используется %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -2985,14 +3394,14 @@ ru:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
+            line_1: Несколько целевых версий для пакетов работ.
+            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
+            line_3: Усовершенствования в рамках методологии Agile, касающиеся массового редактирования и перетаскивания карточек из списка задач в сторонние приложения.
+            line_4: Вики-макросы, доступные в большем числе текстовых редакторов.
+            line_5: Улучшен поиск идентификаторов пакетов работ.
+            line_6: 'Выпущено для сообщества: отображение связей в таблицах пакетов работ.'
+          new_features_title: 'В данном выпуске представлены различные новые функции и улучшения, в частности:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3164,7 +3573,6 @@ ru:
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
   label_backup: Резервное копирование
-  label_backup_code: Резервный код
   label_basic_details: Основные детали
   label_between: между
   label_blocked_by: блокируется
@@ -3184,7 +3592,6 @@ ru:
   label_calendar_show: Показать календарь
   label_calendar_subscriptions: Подписки на календарь
   label_calendars_and_dates: Календари и даты
-  label_category: Категория
   label_change_parent: Изменить родителя
   label_change_password: Изменить пароль
   label_change_plural: Изменения
@@ -3193,9 +3600,9 @@ ru:
   label_change_status_of_user: 'Изменить статус #{username}'
   label_change_view_all: Просмотр всех изменений
   label_changes_details: Подробная информация обо всех изменениях
-  label_changeset: Изменение
   label_changeset_id: ID изменения
   label_changeset_plural: Изменения
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Поставить/снять все флажки в столбце
   label_check_uncheck_all_in_row: Поставить/снять все флажки в строке
   label_checked: проверено
@@ -3342,6 +3749,7 @@ ru:
   label_feeds_access_key: Ключ доступа к RSS
   label_feeds_access_key_created_on: Ключ доступа RSS, созданный %{value} назад
   label_feeds_access_key_type: RSS
+  label_file: Файл
   label_file_plural: Файлы
   label_filter: Фильтры
   label_filter_add: Добавить фильтр
@@ -3366,7 +3774,6 @@ ru:
   label_git_path: Путь к директории .git
   label_global: Глобальная
   label_global_modules: Глобальные модули
-  label_global_role: Глобальная роль
   label_global_roles: Глобальные роли
   label_go_back: Вернуться на один уровень меню назад
   label_go_forward: Открыть подменю %{module}
@@ -3435,7 +3842,6 @@ ru:
   label_last_week: На прошлой неделе
   label_latest_revision: Последняя редакция
   label_latest_revision_plural: Последние изменения
-  label_ldap_auth_source: Подключение к LDAP
   label_ldap_auth_source_new: Новое LDAP соединение
   label_ldap_auth_source_plural: Соединения LDAP
   label_ldap_authentication: LDAP - аутентификация
@@ -3462,10 +3868,9 @@ ru:
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
-  label_member_of_group: Member of group
+  label_member_of_group: Участник группы
   label_member_of_project: Участник проекта
   label_member_plural: Участники
-  label_member_role: Роль в проекте
   label_membership_added: Участник добавлен
   label_membership_plural: Членство
   label_membership_updated: Участник обновлен
@@ -3578,7 +3983,6 @@ ru:
   label_permissions: Разрешения
   label_permissions_report: Отчёт о разрешениях
   label_personalize_page: Персонализация страницы
-  label_placeholder_user: Пользователь-заполнитель
   label_placeholder_user_new: Новый пользователь-заполнитель
   label_placeholder_user_plural: Пользователи-заполнители
   label_planning: Планирование
@@ -3641,7 +4045,6 @@ ru:
   label_related_work_packages: Связанные пакеты работ
   label_relates: Связан с
   label_relates_to: Связан с
-  label_relation: Связь
   label_relation_actions: Действия со связями
   label_relation_delete: Удалить связь
   label_relation_edit: Изменить отношение
@@ -3694,7 +4097,6 @@ ru:
   label_send_information: Отправить новые учетные данные пользователю
   label_send_invitation: Отправить приглашение
   label_send_test_email: Отправить тестовое сообщение
-  label_session: Сессия
   label_setting_plural: Настройки
   label_share: Предоставить общий доступ
   label_share_project_list: Поделитесь списком проектов
@@ -3770,7 +4172,6 @@ ru:
   label_used_by: Используется
   label_used_by_types: Используемые типы
   label_used_in_projects: Используется в проектах
-  label_user: Пользователь
   label_user_activity_html: Действия пользователя %{value}
   label_user_and_permission: Пользователи и права доступа
   label_user_anonymous: Анонимно
@@ -3801,19 +4202,17 @@ ru:
   label_week: Неделя
   label_weighted_item_list: Список взвешенных элементов
   label_what_is_this: Что это?
-  label_widget: Виджет
   label_widget_new: Новый виджет
   label_wiki_content_added: Wiki-страница добавлена
   label_wiki_content_updated: Wiki-страница обновлена
   label_wiki_dont_show_menu_item: Не показывать эту Wiki-страницу в навигации по проектам
   label_wiki_edit: Редактировать Wiki
   label_wiki_edit_plural: Wiki редактируется
-  label_wiki_menu_item: Пункт меню wiki
   label_wiki_navigation: Навигация по wiki
-  label_wiki_page: Wiki страница
   label_wiki_page_attachments: Вложения вики-страницы
   label_wiki_page_id: ID Wiki-страницы
   label_wiki_page_plural: Wiki-страницы
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показать пункт подменю «Содержание»
   label_wiki_show_menu_item: Показать как меню в навигации по проекту
   label_wiki_show_new_page_link: Показать пункт подменю «Создать новую дочернюю страницу»
@@ -3830,7 +4229,6 @@ ru:
   label_work_package_hierarchy: Иерархия пакета работ
   label_work_package_new: Новый пакет работ
   label_work_package_plural: Пакет работ
-  label_work_package_status: Статус пакета работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
   label_work_package_tracking: Отслеживание пакета работ
@@ -5414,7 +5812,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: По умолчанию включает функцию вики для новых проектов
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -5943,6 +6341,7 @@ ru:
   text_destroy_what_to_do: Что Вы хотите сделать?
   text_destroy_with_associated: 'Существуют дополнительные объекты, связанные с удаляемым рабочим пакетом (пакетами). Эти объекты относятся к следующим типам:'
   text_diff_truncated: "... Этот разностность(diff) была усечена, так как она превышает максимальный размер, которые может быть отображен."
+  text_email_delivery_letter_opener: Гем Letter opener предназначен для преобразования электронных писем в файлы, которые сохраняются в папке tmp вашего приложения Rails. Электронные письма будут автоматически открываться в браузере, если это поддерживается.
   text_email_delivery_not_configured: |-
     Доставка электронной почты не настроена, уведомления отключены.
     Настройте SMTP-сервер, чтобы включить их.
@@ -6206,16 +6605,16 @@ ru:
         tab: Атрибуты проекта
       projects:
         actions:
-          confirm_remove: Remove the type %{type} from %{project}?
-          remove_from_project: Remove from project
-          switch_variant: Change variant
+          confirm_remove: Удалить тип «%{type}» из «%{project}»?
+          remove_from_project: Удалить из проекта
+          switch_variant: Изменить вариант
         add_dialog:
-          no_projects_selected: Please select at least one project.
-          search_placeholder: Search projects
-        disable_all: Disable for all projects
+          no_projects_selected: Пожалуйста, выберите по крайней мере один проект.
+          search_placeholder: Искать проекты
+        disable_all: Отключить для всех проектов
         empty_state:
-          description: Add a project to use this configuration there.
-          no_results: No matching projects.
+          description: Добавьте проект для использования этой конфигурации.
+          no_results: Нет подходящих проектов.
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
@@ -6283,6 +6682,14 @@ ru:
           switch_to_independent: Переключиться в независимый режим
           title: Связанный режим
         parent_suffix: " (родитель)"
+      variants:
+        blankslate:
+          description_html: 'Вы можете создать варианты, чтобы предложить версии этого типа различным проектам.<br> Каждый вариант может наследовать, копировать или иметь собственную настраиваемую конфигурацию для шаблона по умолчанию, настраиваемые поля, рабочие процессы и настройки.
+
+            '
+          title: Для этого типа не существует вариантов
+        filter: Фильтр по тексту
+        filter_no_results: Нет вариантов, соответствующих этому фильтру
       workflow:
         tab: Рабочие процессы
     index:
@@ -6454,6 +6861,7 @@ ru:
         availability_description: Коэффициент доступности показывает фактический процент рабочего времени, выделенного на задачи проекта. Это относится к совещаниям, электронной почте, административной работе и другой деятельности, не связанной с проектом.
         availability_factor: Фактор доступности
         availability_factor_caption: Определите процент Вашего рабочего времени, отведенного на работу над проектом.
+        effective_hours: Чистое рабочее время
         hours_mode_label: Режим часов
         hours_per_day: Часов в день
         individual_hours_mode: Индивидуальные часы в день
@@ -6467,7 +6875,6 @@ ru:
         title_current: Редактирование текущего рабочего расписания
         title_days_and_hours: Дни и часы
         title_future_dates: Будущие даты
-        total_available_hours: Всего доступных рабочих часов
         total_work_hours: Всего рабочих часов
         work_days: Рабочие дни
         work_hours: Рабочие часы

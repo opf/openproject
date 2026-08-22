@@ -972,58 +972,246 @@
           one: 1 feil forhindret lagring av denne %{model}
           other: "%{count} feil forhindret lagring av denne %{model}"
     models:
-      attachment: Fil
+      action:
+        one: Action
+        other: Actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Kategori
-      color: Farge
-      comment: Kommentar
-      custom_action: Tilpasset handling
-      custom_field: Egendefinert felt
-      customized: Customized
-      doorkeeper/application: OAuth program
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global rolle
-      group: Gruppe
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Prioritet
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Medlem
-      message: Message
-      news: Nyheter
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Varsling
         other: Varsler
-      placeholder_user: Plassholder bruker
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Prosjekt
         other: Prosjekter
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Prosjektlister
-      query: Egendefinert spørring
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Rolle
         other: Rolle
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Status for arbeidspakke
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Access token
         other: Tilgangsnøkler
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1033,12 +1221,57 @@
       type_variant:
         one: Variant
         other: Variants
-      user: Bruker
-      version: Versjon
-      wiki: Wiki
-      wiki_page: Wiki-side
-      work_package: Arbeidspakke
-      workflow: Arbeidsflyt
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
@@ -1770,6 +2003,7 @@
     custom_field: Egendefinert felt
     custom_options: Mulige verdier
     custom_values: Egendefinerte felter
+    customized: Customized
     date: Dato
     dates_interval: Datointervall
     default_columns: Standardkolonner
@@ -1796,6 +2030,7 @@
     is_default: Standardverdi
     is_for_all: For alle prosjekter
     issue: Arbeidspakke
+    jira: Jira
     journal: Journal
     journal_notes: Kommentar
     lastname: Etternavn
@@ -2350,8 +2585,12 @@
   description_available_columns: Tilgjengelige Kolonner
   description_category_reassign: Velg kategori
   description_choose_project: Prosjekter
-  description_compare_from: Sammenlign fra
-  description_compare_to: Sammenlign med
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Du er her: '
   description_date_from: Skriv startdato
   description_date_to: Skriv sluttdato
@@ -2553,8 +2792,6 @@
         description: Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Del arbeidspakker med brukere som ikke er medlemmer i prosjektet.
       work_package_subject_generation:
@@ -3054,7 +3291,6 @@
   label_available_project_work_package_types: Tilgjengelige arbeidspakketyper
   label_available_projects: Tilgjengelige prosjekter
   label_backup: Sikkerhetskopi
-  label_backup_code: Sikkerhetskopieringskode
   label_basic_details: Basic details
   label_between: mellom
   label_blocked_by: blokkert av
@@ -3074,7 +3310,6 @@
   label_calendar_show: Vis kalender
   label_calendar_subscriptions: Abonnementer til kalendere
   label_calendars_and_dates: Kalendere og datoer
-  label_category: Kategori
   label_change_parent: Endre overordnet
   label_change_password: Change password
   label_change_plural: Endringer
@@ -3083,9 +3318,9 @@
   label_change_status_of_user: 'Endre status på #{username}'
   label_change_view_all: Vis alle endringer
   label_changes_details: Detaljer for alle endringer
-  label_changeset: Endringssett
   label_changeset_id: Endringssett ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sjekk/Avmerk alle i kolonnen
   label_check_uncheck_all_in_row: Sjekk/Avmerk alle på rad
   label_checked: valgt
@@ -3232,6 +3467,7 @@
   label_feeds_access_key: RSS tilgangsnøkkel
   label_feeds_access_key_created_on: RSS tilgangsnøkkel opprettet for %{value} siden
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Filer
   label_filter: Filtre
   label_filter_add: Legg til filter
@@ -3256,7 +3492,6 @@
   label_git_path: Sti til .git-mappe
   label_global: Globalt
   label_global_modules: Global modules
-  label_global_role: Global rolle
   label_global_roles: Globale roller
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3325,7 +3560,6 @@
   label_last_week: siste uke
   label_latest_revision: Siste revisjon
   label_latest_revision_plural: Siste revideringer
-  label_ldap_auth_source: LDAP-tilkobling
   label_ldap_auth_source_new: Ny LDAP-forbindelse
   label_ldap_auth_source_plural: LDAP-forbindelser
   label_ldap_authentication: LDAP-autentisering
@@ -3355,7 +3589,6 @@
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Medlemmer
-  label_member_role: Prosjektrolle
   label_membership_added: Medlem lagt til
   label_membership_plural: Medlemskap
   label_membership_updated: Medlem oppdatert
@@ -3468,7 +3701,6 @@
   label_permissions: Tilganger
   label_permissions_report: Tilgangsrapport
   label_personalize_page: Tilpass denne siden
-  label_placeholder_user: Plassholder bruker
   label_placeholder_user_new: Ny plassholderbruker
   label_placeholder_user_plural: Plassholder brukere
   label_planning: Planlegging
@@ -3531,7 +3763,6 @@
   label_related_work_packages: Relaterte arbeidspakker
   label_relates: relatert til
   label_relates_to: relatert til
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Slett relasjon
   label_relation_edit: Edit relation
@@ -3584,7 +3815,6 @@
   label_send_information: Send nye opplysninger til brukeren
   label_send_invitation: Send invitasjon
   label_send_test_email: Send en testmail
-  label_session: Sesjon
   label_setting_plural: Innstillinger
   label_share: Del
   label_share_project_list: Del prosjektliste
@@ -3660,7 +3890,6 @@
   label_used_by: Brukt av
   label_used_by_types: Brukt av typer
   label_used_in_projects: Brukes i prosjekter
-  label_user: Bruker
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Brukere og tillatelser
   label_user_anonymous: Anonym
@@ -3691,19 +3920,17 @@
   label_week: Uke
   label_weighted_item_list: Weighted item list
   label_what_is_this: Hva er dette?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki-side lagt til
   label_wiki_content_updated: Wiki-side oppdatert
   label_wiki_dont_show_menu_item: Ikke vis denne wiki-siden i prosjektmenyen
   label_wiki_edit: Wiki-redigering
   label_wiki_edit_plural: Wiki-redigeringer
-  label_wiki_menu_item: Wiki menyelement
   label_wiki_navigation: Wiki-meny
-  label_wiki_page: Wiki-side
   label_wiki_page_attachments: Wiki-side vedlegg
   label_wiki_page_id: Wiki-side ID
   label_wiki_page_plural: Wiki-sider
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Vis undermenyelement 'Innholdsfortegnelse'
   label_wiki_show_menu_item: Vis som menyelement i prosjektmeny
   label_wiki_show_new_page_link: Vis undermenyelement 'Opprett ny underside'
@@ -3720,7 +3947,6 @@
   label_work_package_hierarchy: Hierarki for arbeidspakker
   label_work_package_new: Ny arbeidspakke
   label_work_package_plural: Arbeidspakker
-  label_work_package_status: Status for arbeidspakke
   label_work_package_status_new: Ny status
   label_work_package_status_plural: Statuser for arbeidspakke
   label_work_package_tracking: Sporing av arbeidspakke
@@ -5816,6 +6042,7 @@
   text_destroy_what_to_do: Hva vil du gjøre?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Denne diff ble forkortet fordi den overstiger maksimalgrensen for hva som kan vises."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     E-postlevering er ikke konfigurert, og varsler er deaktivert.
     Konfigurer SMTP-serveren for å aktivere dem.
@@ -6162,6 +6389,14 @@
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6329,6 +6564,7 @@
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6342,7 +6578,6 @@
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

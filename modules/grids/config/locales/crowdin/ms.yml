@@ -14,6 +14,11 @@ ms:
           end_before_start: nilai akhir perlu lebih besar daripada nilai mula.
           outside: luar daripada grid.
           overlaps: bertindih.
+    models:
+      grids/grid:
+        other: Grids
+      grids/widget:
+        other: Widgets
   grids:
     label_widget_in_grid: Widget yang terdapat dalam Grid %{grid_name}
     widgets:

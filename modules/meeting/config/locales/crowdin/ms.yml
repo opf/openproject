@@ -99,13 +99,22 @@ ms:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: Mesyuarat sekali
-      meeting_agenda: Agenda
-      meeting_agenda_item: Item agenda
-      meeting_section: Bahagian
-      recurring_meeting: Mesyuarat berulang
+      meeting:
+        other: One-time meetings
+      meeting_agenda_item:
+        other: Agenda items
+      meeting_outcome:
+        other: Outcomes
+      meeting_participant:
+        other: Meeting participants
+      meeting_section:
+        other: Sections
+      recurring_meeting:
+        other: Recurring meetings
+      scheduled_meeting:
+        other: Scheduled meetings
       token/ical_meeting:
-        other: iCal Meeting subscription
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Mesyuarat-mesyuarat
@@ -254,7 +263,6 @@ ms:
   label_past_meetings: Mesyuarat lalu
   label_past_meetings_short: Lalu
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Mesyuarat berulang
   label_recurring_meeting_cancel: Batalkan kejadian ini
   label_recurring_meeting_create: Buka
   label_recurring_meeting_delete: Padam kejadian

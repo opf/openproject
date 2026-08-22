@@ -969,59 +969,206 @@ ko:
         header:
           other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
     models:
-      attachment: 파일
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: 특성 도움말 텍스트
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 인증 공급자
-      category: 카테고리
-      color: 색상
-      comment: 코멘트
-      custom_action: 사용자 지정 작업
-      custom_field: 사용자 정의 필드
-      customized: 사용자 지정됨
-      doorkeeper/application: OAuth 애플리케이션
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Enterprise 토큰
-      forum: 포럼
-      global_role: 글로벌 역할
-      group: 그룹
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 우선 순위
-      jira:
-        other: Jira
-      meeting_participant: 미팅 참가자
-      member: 멤버
-      message: 메시지
-      news: 뉴스
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 알림
-      placeholder_user: 플레이스홀더 사용자
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: 프로젝트
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: 프로젝트 목록
-      query: 사용자 지정 쿼리
-      reminder: 미리 알림
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: 역할
       scim_client:
         other: SCIM 클라이언트
-      status: 작업 패키지 상태
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: 액세스 토큰
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS 토큰
       type:
         other: 유형
       type_variant:
         other: Variants
-      user: 사용자
-      version: 버전
-      wiki: 위키
-      wiki_page: 위키 페이지
-      work_package: 작업 패키지
-      workflow: 워크플로
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
@@ -1738,6 +1885,7 @@ ko:
     custom_field: 사용자 정의 필드
     custom_options: 가능한 값
     custom_values: 사용자 정의 필드
+    customized: Customized
     date: 날짜
     dates_interval: 날짜 범위
     default_columns: 기본 칼럼
@@ -1764,6 +1912,7 @@ ko:
     is_default: 기본값
     is_for_all: 모든 프로젝트용
     issue: 작업 패키지
+    jira: Jira
     journal: 기록일지
     journal_notes: 코멘트
     lastname: 성
@@ -2318,8 +2467,12 @@ ko:
   description_available_columns: 사용 가능한 열
   description_category_reassign: 카테고리 선택
   description_choose_project: 프로젝트
-  description_compare_from: '다음과 비교:'
-  description_compare_to: '비교:'
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: '사용자의 위치: '
   description_date_from: 시작 날짜 입력
   description_date_to: 종료 날짜 입력
@@ -2520,8 +2673,6 @@ ko:
         description: OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다.
       weighted_item_lists:
         description: 가중치가 적용된 항목 목록을 사용하면 기본 숫자 값이 연결된 목록을 만들 수 있습니다.
-      work_package_query_relation_columns:
-        description: 작업 패키지 목록에서 관계 또는 자식 요소를 확인해야 하나요?
       work_package_sharing:
         description: 프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다.
       work_package_subject_generation:
@@ -3015,7 +3166,6 @@ ko:
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
   label_backup: 백업
-  label_backup_code: 백업 코드
   label_basic_details: 기본 세부 정보
   label_between: 사이에
   label_blocked_by: 차단한 사용자
@@ -3035,7 +3185,6 @@ ko:
   label_calendar_show: 달력 표시
   label_calendar_subscriptions: 캘린더 구독
   label_calendars_and_dates: 캘린더와 날짜
-  label_category: 카테고리
   label_change_parent: 부모 변경
   label_change_password: 암호 변경
   label_change_plural: 변경
@@ -3044,9 +3193,9 @@ ko:
   label_change_status_of_user: "#{username} 상태 변경"
   label_change_view_all: 모든 변경 사항 보기
   label_changes_details: 모든 변경 사항의 세부 정보
-  label_changeset: 변경 집합
   label_changeset_id: 변경 집합 ID
   label_changeset_plural: 변경 집합
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: 칼럼에서 확인/최소
   label_check_uncheck_all_in_row: 모든 행에서 확인/취소
   label_checked: 확인됨
@@ -3193,6 +3342,7 @@ ko:
   label_feeds_access_key: RSS 액세스 키
   label_feeds_access_key_created_on: RSS 액세스 키가 %{value} 전에 생성되었습니다.
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: 파일
   label_filter: 필터
   label_filter_add: 필터 추가
@@ -3217,7 +3367,6 @@ ko:
   label_git_path: ".git 디렉터리의 경로"
   label_global: 글로벌
   label_global_modules: 글로벌 모듈
-  label_global_role: 글로벌 역할
   label_global_roles: 글로벌 역할
   label_go_back: 한 메뉴 레벨 뒤로 돌아가기
   label_go_forward: "%{module} 하위 메뉴 열기"
@@ -3286,7 +3435,6 @@ ko:
   label_last_week: 지난주
   label_latest_revision: 최근 수정
   label_latest_revision_plural: 최근 수정
-  label_ldap_auth_source: LDAP 연결
   label_ldap_auth_source_new: 새로운 LDAP 연결
   label_ldap_auth_source_plural: LDAP 연결
   label_ldap_authentication: LDAP 인증
@@ -3316,7 +3464,6 @@ ko:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 멤버
-  label_member_role: 프로젝트 역할
   label_membership_added: 멤버 추가됨
   label_membership_plural: 멤버십
   label_membership_updated: 멤버 업데이트됨
@@ -3429,7 +3576,6 @@ ko:
   label_permissions: 권한
   label_permissions_report: 권한 보고서
   label_personalize_page: 이 페이지 개인 설정
-  label_placeholder_user: 플레이스홀더 사용자
   label_placeholder_user_new: 새로운 플레이스홀더 사용자
   label_placeholder_user_plural: 플레이스홀더 사용자
   label_planning: 계획
@@ -3492,7 +3638,6 @@ ko:
   label_related_work_packages: 관련 작업 패키지
   label_relates: 관련 항목
   label_relates_to: 관련 항목
-  label_relation: 관계
   label_relation_actions: 관계 작업
   label_relation_delete: 관계 삭제
   label_relation_edit: 관계 편집
@@ -3545,7 +3690,6 @@ ko:
   label_send_information: 사용자에게 새 자격 증명 보내기
   label_send_invitation: 초대장 보내기
   label_send_test_email: 테스트 이메일 보내기
-  label_session: 세션
   label_setting_plural: 설정
   label_share: 공유
   label_share_project_list: 프로젝트 목록 공유
@@ -3621,7 +3765,6 @@ ko:
   label_used_by: 사용한 사용자
   label_used_by_types: 유형별로 사용됨
   label_used_in_projects: 프로젝트에서 사용됨
-  label_user: 사용자
   label_user_activity_html: "%{value}의 활동"
   label_user_and_permission: 사용자 및 권한
   label_user_anonymous: 익명
@@ -3652,19 +3795,17 @@ ko:
   label_week: 주
   label_weighted_item_list: 가중치가 적용된 항목 목록
   label_what_is_this: 이게 뭐예요?
-  label_widget: 위젯
   label_widget_new: 새 위젯
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
   label_wiki_dont_show_menu_item: 프로젝트 탐색에 이 위키 페이지 표시 안 함
   label_wiki_edit: 위키 편집
   label_wiki_edit_plural: 위키 편집
-  label_wiki_menu_item: 위키 메뉴 항목
   label_wiki_navigation: 위키 탐색
-  label_wiki_page: 위키 페이지
   label_wiki_page_attachments: Wiki 페이지 첨부 파일
   label_wiki_page_id: 위키 페이지 ID
   label_wiki_page_plural: 위키 페이지
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 하위 메뉴 항목 '목차' 표시
   label_wiki_show_menu_item: 프로젝트 탐색에서 메뉴 항목으로 표시
   label_wiki_show_new_page_link: 하위 메뉴 항목 '새 자식 페이지 만들기' 표시
@@ -3681,7 +3822,6 @@ ko:
   label_work_package_hierarchy: 작업 패키지 계층 구조
   label_work_package_new: 새 작업 패키지
   label_work_package_plural: 작업 패키지
-  label_work_package_status: 작업 패키지 상태
   label_work_package_status_new: 새 상태
   label_work_package_status_plural: 작업 패키지 상태
   label_work_package_tracking: 작업 패키지 추적
@@ -5755,6 +5895,7 @@ ko:
   text_destroy_what_to_do: 어떤 작업을 수행하시겠습니까?
   text_destroy_with_associated: '삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다:'
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.
     SMTP 서버를 구성하여 활성화하세요.
@@ -6101,6 +6242,14 @@ ko:
           switch_to_independent: 독립 모드로 전환
           title: 연결 모드
         parent_suffix: " (부모)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: 워크플로
     index:
@@ -6266,6 +6415,7 @@ ko:
         availability_description: 가용성 요소는 프로젝트 작업에 투입된 실제 근무 시간 비율을 나타냅니다. 여기에는 미팅, 이메일, 관리 작업 및 프로젝트 이외의 기타 활동이 포함됩니다.
         availability_factor: 가용성 요소
         availability_factor_caption: 프로젝트 작업에 투입된 근무 시간 비율을 정의하세요.
+        effective_hours: Effective work hours
         hours_mode_label: 시간 모드
         hours_per_day: 일별 시간
         individual_hours_mode: 일별 개별 시간
@@ -6279,7 +6429,6 @@ ko:
         title_current: 현재 근무 스케줄 편집
         title_days_and_hours: 일 및 시간
         title_future_dates: 향후 날짜
-        total_available_hours: 총 사용 가능한 근무 시간
         total_work_hours: 총 근무 시간
         work_days: 근무일
         work_hours: 근무 시간

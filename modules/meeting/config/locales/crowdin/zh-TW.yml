@@ -99,11 +99,20 @@ zh-TW:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: 一次性會議
-      meeting_agenda: 會議大綱
-      meeting_agenda_item: 議程項目
-      meeting_section: 區段
-      recurring_meeting: 重複性會議
+      meeting:
+        other: One-time meetings
+      meeting_agenda_item:
+        other: Agenda items
+      meeting_outcome:
+        other: Outcomes
+      meeting_participant:
+        other: Meeting participants
+      meeting_section:
+        other: Sections
+      recurring_meeting:
+        other: Recurring meetings
+      scheduled_meeting:
+        other: Scheduled meetings
       token/ical_meeting:
         other: iCal 會議訂閱
   activity:
@@ -254,7 +263,6 @@ zh-TW:
   label_past_meetings: 過去的會議
   label_past_meetings_short: 過往會議
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: 重複性會議
   label_recurring_meeting_cancel: 取消此事件
   label_recurring_meeting_create: 開啟
   label_recurring_meeting_delete: 刪除此事件

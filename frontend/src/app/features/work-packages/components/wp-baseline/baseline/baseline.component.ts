@@ -51,7 +51,6 @@ import {
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import moment from 'moment-timezone';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
 const DEFAULT_SELECTED_TIME = '08:00';

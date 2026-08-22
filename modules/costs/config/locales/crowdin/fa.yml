@@ -24,29 +24,29 @@ fa:
   activerecord:
     attributes:
       cost_entry:
-        entity: گزارش شده برای
-        entity_gid: گزارش شده برای
-        entity_id: گزارش شده برای
-        logged_by: گزارش شده توسط
+        entity: ثبت‌شده برای
+        entity_gid: ثبت‌شده برای
+        entity_id: ثبت‌شده برای
+        logged_by: ثبت‌شده توسط
         overridden_costs: هزینه‌های لغو شده
-        spent: صرف شده
+        spent: مصرف‌شده
         spent_on: تاریخ
         work_package: بسته کاری
       cost_type:
         default: نوع ارزش به صورت پیش فرض
-        for_all_projects: For all projects
-        rates: Rates
+        for_all_projects: برای همه پروژه‌ها
+        rates: نرخ‌ها
         unit: نام واحد
         unit_plural: نام واحد پولی
       rate:
         rate: نرخ
       time_entry:
         activity: فعالیت
-        comments: نظر
+        comments: دیدگاه
         end_time: زمان پایان
-        entity: گزارش شده برای
-        entity_gid: گزارش شده برای
-        entity_id: گزارش شده برای
+        entity: ثبت‌شده برای
+        entity_gid: ثبت‌شده برای
+        entity_id: ثبت‌شده برای
         hours: ساعت‌‌‌‌‌‌
         project: پروژه
         spent_on: تاریخ
@@ -58,74 +58,98 @@ fa:
       user:
         default_rates: ضرایب پرداختی (نرخ) پیشفرض
       work_package:
-        costs_by_type: واحد هزینه‌کرد
+        costs_by_type: واحدهای مصرف‌شده
         labor_costs: هزینه های نیروی کار
         material_costs: هزینه های هرواحد
-        overall_costs: هزینه‌های کلی
+        overall_costs: هزینه‌های کل
         spent_costs: هزینه‌های خرج شده
-        spent_units: واحد هزینه‌کرد
+        spent_units: واحدهای مصرف‌شده
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: قابل غیرفعال‌کردن نیست، زیرا قبلاً برای آن در این پروژه هزینه ثبت شده است.
       models:
         cost_types_project:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: لطفاً یک پروژه انتخاب کنید.
         time_entry:
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: must be between 00:00 and 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: "«ثبت‌شده برای» نمی‌تواند خالی باشد."
+              cannot_log_for_this_work_package: شما مجوز ثبت زمان برای این بسته کاری را ندارید.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعتِ در دسترس در روز کاری کاربر بیشتر باشد.
+              format: "%{message}"
+              max_hours_per_day_exceeded: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعت برای یک روز، که مدیر تعیین کرده است، بیشتر باشد.
+              max_hours_per_entry_exceeded: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعت برای یک ثبت زمان، که مدیر تعیین کرده است، بیشتر باشد.
+            spent_on:
+              format: "%{message}"
+              in_past_month: نمی‌توانید زمان را برای ماهی در گذشته برنامه‌ریزی کنید. ثبت‌های زمان فقط از %{date} به بعد قابل افزودن، تغییر یا حذف هستند.
+              not_a_working_day: روز انتخاب‌شده برای این کاربر روز غیرکاری است.
+            start_time:
+              format: "%{message}"
+              invalid_time: زمان نامعتبر است. زمان باید بین 00:00 و 23:59 باشد.
+          duplicate_ongoing: تایمر دیگری در حال اجراست. در هر لحظه فقط یک تایمر می‌تواند فعال باشد.
         work_package:
           is_not_a_valid_target_for_cost_entries: پکیج‌کاری شماره %{id} به عنوان مقصد معتبری برای تخصیص موارد هزینه نمی‌باشد.
           nullify_is_not_valid_for_cost_entries: ورودی‌های هزینه نمی‌توانند به یک پروژه اختصاص یابند.
     models:
       cost_entry:
         one: ورودی هزینه
-        other: Cost entries
+        other: ورودی‌های هزینه
+      cost_rate:
+        one: نرخ هزینه
+        other: نرخ‌های هزینه
       cost_type:
         one: نوع هزینه
         other: انواع هزینه
-      rate: نرخ
+      default_hourly_rate:
+        one: نرخ ساعتی پیش‌فرض
+        other: نرخ‌های ساعتی پیش‌فرض
+      hourly_rate:
+        one: نرخ ساعتی
+        other: نرخ‌های ساعتی
+      rate:
+        one: نرخ
+        other: نرخ‌ها
       time_entry:
-        one: Time entry
-        other: Time entries
+        one: ورودی زمان
+        other: ورودی‌های زمان
       time_entry_activity:
-        one: Time tracking activity
-        other: Time tracking activities
+        one: فعالیت ثبت زمان
+        other: فعالیت‌های ثبت زمان
+      time_entry_custom_field:
+        one: فیلد سفارشی ثبت زمان
+        other: فیلدهای سفارشی ثبت زمان
   api_v3:
     errors:
       validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
+        start_time_different_date: بخش تاریخِ startTime (%{start_time}) باید با تاریخ spentOn (%{spent_on}) یکسان باشد.
   attributes:
-    comment: نظر
+    comment: دیدگاه
     cost_type: نوع هزینه
     costs: هزینه ها
     current_rate: نرخ فعلی
     fixed_date: تاریخ ثابت
-    hours: ساعت‌‌‌‌‌‌
+    hours: ساعت‌ها
     units: واحدها
     valid_from: معتبر از
   button_add_activity: فعالیت
   button_add_rate: افزودن نرخ (ضریب) پرداخت
-  button_add_time_entry: پیگیری زمان
+  button_add_time_entry: ثبت زمان
   button_log_costs: ثبت هزینه‌های واحد
   button_log_time: گزارش
-  button_stop_timer: توقف زمان‌سنج
-  button_update_limits: Update limits
-  button_update_start_finish_times: Update start and finish times
+  button_stop_timer: توقف تایمر
+  button_update_limits: به‌روزرسانی محدودیت‌ها
+  button_update_start_finish_times: به‌روزرسانی زمان‌های شروع و پایان
   caption_booked_on_project: رزرو شده در پروژه
   caption_default: پیش‌فرض
   caption_default_rate_history_for: تاریخچه ضریب (نرخ) پرداختی پیش‌فرض برای %{user}
   caption_locked_on: قفل شده
-  caption_log_time_dialog: پیگیری زمان
+  caption_log_time_dialog: ثبت زمان
   caption_materials: واحدها
-  caption_rate_history: تاریخچه ضریب (نرخ) پرداخت
+  caption_rate_history: تاریخچه نرخ
   caption_rate_history_for: تاریخچه ضریب پرداختی (نرخ) برای %{user}
   caption_rate_history_for_project: تاریخچه ضریب پرداختی برای %{user} در پروژه %{project}
   caption_save_rate: ذخیره امتیاز
@@ -134,46 +158,46 @@ fa:
   cost_types:
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: پروژه‌های فعال
       cost_type_projects:
         for_all_projects_blank_slate:
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-          heading: This cost type is enabled in all projects
+          description: برای محدودکردن این نوع هزینه به پروژه‌های مشخص، در زبانه جزئیات گزینه «برای همه پروژه‌ها» را غیرفعال کنید.
+          heading: این نوع هزینه در همه پروژه‌ها فعال است
         no_projects:
-          description: Add projects so this cost type can be used in them.
-          heading: No projects assigned
+          description: پروژه‌ها را اضافه کنید تا این نوع هزینه در آن‌ها قابل استفاده باشد.
+          heading: هیچ پروژه‌ای تخصیص داده نشده است
       rates:
-        title: Rate history
+        title: تاریخچه نرخ
     errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+      no_cost_types_available: هیچ نوع هزینه‌ای در این پروژه در دسترس نیست. لطفاً با مدیر سیستم تماس بگیرید.
     settings:
       cost_types:
-        for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: No cost types are currently active in this project.
-      time_and_costs: Time and costs
+        for_all_projects_hint: این نوع هزینه در همه پروژه‌ها فعال است.
+        heading: انواع هزینه
+        in_use_hint: این نوع هزینه قابل غیرفعال‌کردن نیست، زیرا قبلاً برای آن در این پروژه هزینه ثبت شده است.
+        none_active: در حال حاضر هیچ نوع هزینه‌ای در این پروژه فعال نیست.
+      time_and_costs: زمان و هزینه‌ها
   costs:
     widgets:
       actual_costs:
         blankslate:
-          action: Log time
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          heading: Start tracking your time and costs
-        title: Actual costs by month
-        view_details: View actual costs details
+          action: ثبت زمان
+          description: برای پایش پیشرفت پروژه، نمایی کلی از هزینه‌ها و زمان ثبت‌شده داشته باشید. مطمئن شوید بسته‌های کاری به بودجه درست مرتبط هستند.
+          heading: ثبت زمان و هزینه‌ها را شروع کنید
+        title: هزینه‌های واقعی به تفکیک ماه
+        view_details: مشاهده جزئیات هزینه‌های واقعی
   description_costs_settings: تعریف قالب مطلوب برای هزینه ها در همه پروژه ها.
   description_date_for_new_rate: تاریخ برای شروع ضریب پرداختی (نرخ) جدید
-  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
-  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  description_time_entry_restrictions: محدودیت‌های ثبت زمان توسط کاربر را تعیین کنید. این تنظیم برای همه پروژه‌ها اعمال می‌شود.
+  description_time_settings: ورودی‌های زمان می‌توانند زمان شروع و پایان مشخص داشته باشند که می‌توان آن‌ها را اختیاری یا اجباری کرد.
   ee:
     features:
-      time_entry_time_restrictions: Time entry restrictions
+      time_entry_time_restrictions: محدودیت‌های ورودی زمان
     upsell:
       time_entry_time_restrictions:
-        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+        description: با امکان‌دادن یا الزام زمان‌های دقیق شروع و پایان و تعیین محدودیت برای زمان و مقدار قابل ثبت توسط اعضای پروژه، ثبت زمان را بهبود دهید.
   group_by_others: در هیچ گروهی نیست
-  label_available_cost_types_projects: Available cost types projects
+  label_available_cost_types_projects: پروژه‌های قابل استفاده برای نوع هزینه
   label_between: بین
   label_cost: هزینه
   label_cost_filter_add: افزودن فیلتر ورودی هزینه
@@ -181,12 +205,12 @@ fa:
   label_cost_type_plural: انواع هزینه
   label_cost_type_specific: 'نوع هزینه #%{id}: %{name}'
   label_costlog: هزینه‌های واحد ثبت‌شده
-  label_costs: هزینه ها
+  label_costs: هزینه‌ها
   label_costs_per_page: هزینه‌ها در هر صفحه
   label_current_default_rate: ضریب پرداخت پیشفرض فعلی
-  label_date_on: برخط
-  label_day: Day
-  label_defaults_and_limits: Defaults and limits
+  label_date_on: در
+  label_day: روز
+  label_defaults_and_limits: پیش‌فرض‌ها و محدودیت‌ها
   label_deleted_cost_types: انواع هزینه حذف‌شده
   label_display_cost_entries: نمایش هزینه‌های واحد
   label_display_time_entries: نمایش ساعات گزارش‌شده
@@ -196,54 +220,51 @@ fa:
   label_greater_or_equal: ">="
   label_group_by: گروه‌بندی بر اساس
   label_group_by_add: افزودن فیلد گروه‌بندی
-  label_hourly_rate: نرخ (حقوق) ساعتی
   label_include_deleted: شامل حذف‌شده‌ها
   label_kind: نوع
-  label_less_or_equal: "=>"
-  label_list: لیست
+  label_less_or_equal: "<="
+  label_list: فهرست
   label_log_costs: ثبت هزینه‌های واحد
   label_month: ماه
-  label_my_time_tracking: My time tracking
-  label_new_time_entry_activity: New time entry activity
+  label_my_time_tracking: ثبت زمان من
+  label_new_time_entry_activity: فعالیت جدید ثبت زمان
   label_next_day: روز بعد
   label_next_month: ماه بعد
-  label_next_week: Next week
+  label_next_week: هفته بعد
   label_next_workweek: هفته کاری بعدی
-  label_no: نه
-  label_no_time: No time tracked
+  label_no: خیر
+  label_no_time: زمانی ثبت نشده است
   label_option_plural: گزینه‌ها
-  label_overall_costs: هزینه‌های کلی
+  label_overall_costs: هزینه‌های کل
   label_previous_day: روز قبل
   label_previous_month: ماه قبل
-  label_previous_week: Previous week
+  label_previous_week: هفته قبل
   label_previous_workweek: هفته کاری قبل
-  label_rate: نرخ
-  label_rate_plural: نرخ ها (ضرایب پرداخت)
+  label_rate_plural: نرخ‌ها
   label_show: نمایش
   label_specific_day: "%{day} روز"
-  label_specific_month: Month %{month}
-  label_start_and_finished: Start and finish times
-  label_status_finished: پایان یافته
+  label_specific_month: ماه %{month}
+  label_start_and_finished: زمان‌های شروع و پایان
+  label_status_finished: پایان‌یافته
   label_time: زمان
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_time_entry_restrictions: Limits
+  label_time_entry_activity_form_description: تغییرات این فعالیت ثبت زمان در همه پروژه‌هایی که در آن‌ها فعال است اعمال خواهد شد.
+  label_time_entry_restrictions: محدودیت‌ها
   label_timer_since: شروع شده از %{time}
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
-  label_user: کاربر
   label_valid_from: معتبر از
   label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری
   label_workweek: هفته کاری
   label_yes: بله
   notice_cost_logged_successfully: هزینه واحد با موفقیت ثبت شد.
-  notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
+  notice_different_time_zones: منطقه زمانی این کاربر متفاوت است (%{tz}). زمان با استفاده از منطقه زمانی او ثبت خواهد شد.
   notice_something_wrong: مشکلی پیش آمد. لطفا دوباره تلاش کنید.
   notice_successful_lock: با موفقیت قفل شد.
   notice_successful_restore: بازیابی موفق
-  notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_time_entry_delete_failed: 'حذف ورودی زمان ناموفق بود. خطاها: %{errors}'
+  notice_time_entry_update_failed: 'به‌روزرسانی ورودی زمان ناموفق بود. خطاها: %{errors}'
   permission_edit_cost_entries: ویرایش هزینه‌های واحد رزرو شده
   permission_edit_hourly_rates: ویرایش نرخ (ضریب پرداختی) ساعتی
   permission_edit_own_cost_entries: ویرایش هزینه‌های واحد رزرو شده خود
@@ -257,42 +278,42 @@ fa:
   permission_view_own_cost_entries: مشاهده هزینه‌های رزرو شده خود
   permission_view_own_hourly_rate: مشاهده نرخ ساعتی خود
   permission_view_own_time_entries: مشاهده زمان صرف‌شده خود
-  placeholder_activity_select_work_package_first: Work package selection is required first
+  placeholder_activity_select_work_package_first: ابتدا باید یک بسته کاری انتخاب شود
   plugin_costs:
-    description: This module adds features for planning and tracking costs of projects.
+    description: این ماژول قابلیت‌هایی برای برنامه‌ریزی و پیگیری هزینه‌های پروژه‌ها اضافه می‌کند.
     name: زمان و هزینه‌ها
   project_module_costs: زمان و هزینه‌ها
-  setting_allow_tracking_start_and_end_times: Allow start and finish times
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
+  setting_allow_tracking_start_and_end_times: اجازه زمان‌های شروع و پایان
+  setting_allow_tracking_start_and_end_times_caption: هنگام ثبت زمان، امکان واردکردن زمان شروع و پایان را فراهم می‌کند.
   setting_costs_currency: واحد پول
-  setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
-  setting_costs_currency_format: Currency format
-  setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
-  setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
+  setting_costs_currency_caption: این واحد پول است. می‌تواند یک کد سه‌حرفی ISO مانند EUR، USD یا JPY یا نمادی مانند €، $ یا ¥ باشد.
+  setting_costs_currency_format: قالب واحد پول
+  setting_costs_currency_format_prefix: قبل از عدد (مثلاً EUR 100)
+  setting_costs_currency_format_suffix: بعد از عدد (مثلاً 100 EUR)
   setting_enforce_tracking_start_and_end_times: درخواست زمان های شروع و پایان
-  setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_enforce_tracking_start_and_end_times_caption: هنگام ثبت زمان، واردکردن زمان شروع و پایان را اجباری می‌کند.
+  setting_enforce_without_allow: الزام زمان شروع و پایان بدون اجازه‌دادن به آن‌ها ممکن نیست
+  setting_time_entries_limit_to_user_working_hours: محدود به ساعات کاری کاربر
+  setting_time_entries_limit_to_user_working_hours_caption: مجموع ساعت‌هایی را که هر روز می‌توان ثبت کرد به ساعات کاری مؤثر همان کاربر محدود می‌کند. کاربرانی که زمان کاری تعریف‌شده ندارند، مشمول این محدودیت نمی‌شوند.
+  setting_time_entries_max_hours_per_day: حداکثر تعداد ساعت در روز
+  setting_time_entries_max_hours_per_day_caption: کل ساعات قابل ثبت توسط کاربر در یک روز را محدود می‌کند. مقدار 0 یعنی محدودیتی وجود ندارد.
+  setting_time_entries_max_hours_per_entry: حداکثر تعداد ساعت برای هر ورودی زمان
+  setting_time_entries_max_hours_per_entry_caption: تعداد ساعات یک ورودی زمان را محدود می‌کند. مقدار 0 یعنی محدودیتی وجود ندارد.
+  setting_time_entries_past_month_grace_days: مهلت ارفاقی برای ماه‌های گذشته
+  setting_time_entries_past_month_grace_days_caption: تعداد روزهایی را مشخص کنید که کاربر پس از شروع ماه جدید فرصت دارد برای ماه قبل زمان ثبت کند. مقدار 5 اجازه می‌دهد تا روز پنجم ماه جاری برای ماه قبل زمان ثبت شود. مقدار 0 یعنی هیچ مهلت ارفاقی وجود ندارد.
+  setting_time_entries_prohibit_logging_for_past_months: ثبت زمان برای ماه‌های گذشته مجاز نباشد
+  setting_time_entries_prohibit_logging_for_past_months_caption: افزودن، تغییر و حذف ورودی‌های زمان را به ماه جاری محدود می‌کند. زمان ثبت‌شده در ماه‌های گذشته دیگر قابل تغییر نخواهد بود.
+  setting_time_entries_prohibit_logging_on_non_working_days: ثبت زمان در روزهای غیرکاری مجاز نباشد
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: کاربران نمی‌توانند در روزهایی که توسط مدیر یا خود کاربر در تنظیمات حساب به‌عنوان روز غیرکاری تعریف شده‌اند زمان ثبت کنند.
   text_assign_time_and_cost_entries_to_project: تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه
   text_destroy_cost_entries_question: "%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
   text_destroy_time_and_cost_entries: ساعت ها و هزینه های گزارش شده را حذف کنید
   text_destroy_time_and_cost_entries_question: "%{hours} ,%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
   text_reassign_time_and_cost_entries: تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه
-  text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
+  text_warning_hidden_elements: ممکن است برخی ورودی‌ها از تجمیع حذف شده باشند.
   total_times:
-    day: 'Day Total: %{hours}'
-    month: 'Month Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    workweek: 'Workweek Total: %{hours}'
+    day: 'جمع روز: %{hours}'
+    month: 'جمع ماه: %{hours}'
+    week: 'جمع هفته: %{hours}'
+    workweek: 'جمع هفته کاری: %{hours}'
   week: هفته

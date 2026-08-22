@@ -100,11 +100,27 @@ fr:
         recurring_meeting_interim_response:
           not_an_occurrence: n'est pas une heure d'occurrence valide pour cette réunion récurrente
     models:
-      meeting: Réunion ponctuelle
-      meeting_agenda: Ordre du jour
-      meeting_agenda_item: Point d'ordre du jour
-      meeting_section: Section
-      recurring_meeting: Réunion récurrente
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: Abonnement à la réunion iCal
         other: Abonnement à la réunion iCal
@@ -255,7 +271,6 @@ fr:
   label_past_meetings: Réunions passées
   label_past_meetings_short: Passé
   label_recurring_filter: Filtre récurrent
-  label_recurring_meeting: Réunion récurrente
   label_recurring_meeting_cancel: Annuler cette occurrence
   label_recurring_meeting_create: Ouvrir
   label_recurring_meeting_delete: Supprimer l'occurrence

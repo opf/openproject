@@ -32,6 +32,9 @@ vi:
           invalid_certificate: 'không phải là chứng chỉ có định dạng PEM hợp lệ: %{additional_message}'
           invalid_private_key: 'không phải là khóa riêng có định dạng PEM hợp lệ: %{additional_message}'
           unmatched_private_key: không thuộc về chứng chỉ đã cho
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Xoá nhà cung cấp SAML này?
     delete_title: Xóa nhà cung cấp SAML

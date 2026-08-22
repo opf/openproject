@@ -32,6 +32,9 @@ id:
           invalid_certificate: 'bukan merupakan sertifikat berformat PEM yang valid: %{additional_message}'
           invalid_private_key: 'bukan merupakan kunci privat berformat PEM yang valid: %{additional_message}'
           unmatched_private_key: tidak termasuk dalam sertifikat yang diberikan
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Hapus penyedia SAML

@@ -321,7 +321,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
     describe "unknown user" do
       let(:parameters) { { login: "new.login" } }
-      let(:path) { api_v3_paths.user(666) }
+      let(:path) { api_v3_paths.user(not_existing_id(User)) }
 
       it "responds with 404" do
         send_request

@@ -30,17 +30,12 @@ import {
   input,
   InputState,
 } from '@openproject/reactivestates';
-import { take } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  ChangeItem,
-  ChangeMap,
-  Changeset,
-} from 'core-app/shared/components/fields/changeset/changeset';
+import { ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';

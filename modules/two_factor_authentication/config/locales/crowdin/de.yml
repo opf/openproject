@@ -20,10 +20,21 @@ de:
             phone_number:
               error_phone_number_format: muss im Format +XX XXXXXXXXX sein
     models:
-      two_factor_authentication/device: 2FA-Gerät
-      two_factor_authentication/device/sms: Mobiltelefon
-      two_factor_authentication/device/totp: Authenticator App
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup Code
+        other: Backup Codes
+      two_factor_authentication/device:
+        one: 2FA-Gerät
+        other: 2FA-Geräte
+      two_factor_authentication/device/sms:
+        one: Mobiltelefon
+        other: Mobiltelefone
+      two_factor_authentication/device/totp:
+        one: Authenticator App
+        other: Authenticator Apps
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Fortfahren
   button_make_active: Aktivieren
   button_make_default: Als Standard festlegen

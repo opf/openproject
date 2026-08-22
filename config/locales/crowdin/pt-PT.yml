@@ -972,58 +972,246 @@ pt-PT:
           one: 'Não foi possível guardar este %{model}: 1 erro'
           other: "%{count} erros impediram que este %{model} fosse guardado"
     models:
-      attachment: Ficheiro
+      action:
+        one: Action
+        other: Actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Texto de ajuda do atributo
         other: Textos de ajuda dos atributos
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Fornecedor de autenticação
         other: Fornecedores de autenticação
-      category: Categoria
-      color: Cor
-      comment: Comentario
-      custom_action: Ação personalizada
-      custom_field: Campo personalizado
-      customized: Personalizado
-      doorkeeper/application: Aplicação OAuth
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Token Enterprise
         other: Tokens Enterprise
-      forum: Fórum
-      global_role: Função global
-      group: Grupo
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Prioridade
         other: Prioridades
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Participante na reunião
-      member: Membro
-      message: Mensagem
-      news: Noticias
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notificação
         other: Notificações
-      placeholder_user: Utilizador de espaço reservado
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Projecto
         other: Projetos
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Lista de projetos
         other: Listas de projetos
-      query: Consulta personalizada
-      reminder: Lembrete
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Função
         other: Papel
       scim_client:
         one: Cliente SCIM
         other: Clientes SCIM
-      status: Estado do pacote de trabalho
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Token de acesso
         other: Tokens de acesso
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: Token RSS
         other: Tokens RSS
@@ -1033,12 +1221,57 @@ pt-PT:
       type_variant:
         one: Variant
         other: Variants
-      user: Utilizador
-      version: Versão
-      wiki: Wiki
-      wiki_page: Página wiki
-      work_package: Pacote de trabalho
-      workflow: Fluxo de trabalho
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Não ocorreu nenhuma atividade neste projeto dentro deste espaço de tempo.
@@ -1770,6 +2003,7 @@ pt-PT:
     custom_field: Campo personalizado
     custom_options: Valores possíveis
     custom_values: Campos personalizados
+    customized: Customized
     date: Data
     dates_interval: Intervalo de datas
     default_columns: Colunas padrão
@@ -1796,6 +2030,7 @@ pt-PT:
     is_default: Valor predefinido
     is_for_all: Para todos os projetos
     issue: Pacote de trabalho
+    jira: Jira
     journal: Diário
     journal_notes: Comentário
     lastname: Último nome
@@ -2350,8 +2585,12 @@ pt-PT:
   description_available_columns: Colunas disponíveis
   description_category_reassign: Escolha a categoria
   description_choose_project: Projetos
-  description_compare_from: Comparar de
-  description_compare_to: Comparar com
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Você está aqui: '
   description_date_from: Data de início
   description_date_to: Digite a data de término
@@ -2553,8 +2792,6 @@ pt-PT:
         description: Assegure-se que os ficheiros carregados no OpenProject são verificados quanto à presença de vírus antes de serem acessíveis a outros utilizadores.
       weighted_item_lists:
         description: As listas de elementos ponderados permitem criar uma lista com valores numéricos subjacentes associados.
-      work_package_query_relation_columns:
-        description: Precisa de ver as relações ou elementos secundários na lista do pacote de trabalho?
       work_package_sharing:
         description: Partilhe pacotes de trabalho com utilizadores que não são membros do projeto.
       work_package_subject_generation:
@@ -3054,7 +3291,6 @@ pt-PT:
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
   label_available_projects: Projetos disponíveis
   label_backup: Cópia de segurança
-  label_backup_code: Código de cópia de segurança
   label_basic_details: Detalhes básicos
   label_between: entre
   label_blocked_by: bloqueado por
@@ -3074,7 +3310,6 @@ pt-PT:
   label_calendar_show: Mostrar Calendários
   label_calendar_subscriptions: Subscrições de Calendários
   label_calendars_and_dates: Calendários e datas
-  label_category: Categoria
   label_change_parent: Alterar pai
   label_change_password: Alterar a palavra-passe
   label_change_plural: Alterações
@@ -3083,9 +3318,9 @@ pt-PT:
   label_change_status_of_user: 'Alterar o estado de #{username}'
   label_change_view_all: Ver todas as alterações
   label_changes_details: Detalhes de todas as alterações
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Conjunto de alterações
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Marcar/desmarcar tudo na coluna
   label_check_uncheck_all_in_row: Marcar/desmarcar tudo na linha
   label_checked: verificado
@@ -3232,6 +3467,7 @@ pt-PT:
   label_feeds_access_key: Chave de acesso RSS
   label_feeds_access_key_created_on: Chave de acesso RSS criada %{value} atrás
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Ficheiros
   label_filter: Filtros
   label_filter_add: Adicionar filtro
@@ -3256,7 +3492,6 @@ pt-PT:
   label_git_path: Caminho para o diretório .git
   label_global: Global
   label_global_modules: Módulos globais
-  label_global_role: Função global
   label_global_roles: Funções globais
   label_go_back: Retroceder um nível de menu
   label_go_forward: Abrir sub-menu %{module}
@@ -3325,7 +3560,6 @@ pt-PT:
   label_last_week: semana passada
   label_latest_revision: Última revisão
   label_latest_revision_plural: Últimas revisões
-  label_ldap_auth_source: Ligação LDAP
   label_ldap_auth_source_new: Nova ligação LDAP
   label_ldap_auth_source_plural: Ligações LDAP
   label_ldap_authentication: Autenticação LDAP
@@ -3355,7 +3589,6 @@ pt-PT:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membros
-  label_member_role: Função do projeto
   label_membership_added: Membro adicionado
   label_membership_plural: Associações
   label_membership_updated: Membro atualizado
@@ -3468,7 +3701,6 @@ pt-PT:
   label_permissions: Permissões
   label_permissions_report: Relatório de Permissões
   label_personalize_page: Personalizar esta página
-  label_placeholder_user: Utilizador de espaço reservado
   label_placeholder_user_new: Novo utilizador de espaço reservado
   label_placeholder_user_plural: Utilizadores de espaço reservado
   label_planning: Planeamento
@@ -3531,7 +3763,6 @@ pt-PT:
   label_related_work_packages: Pacotes de trabalho relacionados
   label_relates: relacionado com
   label_relates_to: relacionado com
-  label_relation: Relação
   label_relation_actions: Ações da relação
   label_relation_delete: Eliminar relação
   label_relation_edit: Editar relação
@@ -3584,7 +3815,6 @@ pt-PT:
   label_send_information: Enviar novas credenciais para o utilizador
   label_send_invitation: Enviar convite
   label_send_test_email: Enviar um e-mail de teste
-  label_session: Sessão
   label_setting_plural: Definições
   label_share: Partilhar
   label_share_project_list: Partilhar lista de projetos
@@ -3660,7 +3890,6 @@ pt-PT:
   label_used_by: Utilizado por
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado em projetos
-  label_user: Utilizador
   label_user_activity_html: Atividade de %{value}
   label_user_and_permission: Utilizadores e Permissões
   label_user_anonymous: Anónimo
@@ -3691,19 +3920,17 @@ pt-PT:
   label_week: Semana
   label_weighted_item_list: Lista de elementos ponderados
   label_what_is_this: O que é isto?
-  label_widget: Widget
   label_widget_new: Novo widget
   label_wiki_content_added: Página wiki adicionada
   label_wiki_content_updated: Página wiki atualizada
   label_wiki_dont_show_menu_item: Não mostrar esta página wiki na navegação do projecto
   label_wiki_edit: Editar wiki
   label_wiki_edit_plural: Edições de wiki
-  label_wiki_menu_item: Item do menu wiki
   label_wiki_navigation: Navegação wiki
-  label_wiki_page: Página wiki
   label_wiki_page_attachments: Anexos da página wiki
   label_wiki_page_id: ID da página wiki
   label_wiki_page_plural: Páginas wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Mostrar sub-menu 'Tabela de Conteúdos'
   label_wiki_show_menu_item: Mostrar como item de menu de navegação do projecto
   label_wiki_show_new_page_link: Mostrar o item de sub-menu 'Criar nova página filha'
@@ -3720,7 +3947,6 @@ pt-PT:
   label_work_package_hierarchy: Hierarquia de pacotes de trabalho
   label_work_package_new: Novo pacote de trabalho
   label_work_package_plural: Pacotes de trabalho
-  label_work_package_status: Estado do pacote de trabalho
   label_work_package_status_new: Novo estado
   label_work_package_status_plural: Estados dos pacotes de trabalho
   label_work_package_tracking: Controle de pacote de trabalho
@@ -5801,6 +6027,7 @@ pt-PT:
   text_destroy_what_to_do: O que deseja fazer?
   text_destroy_with_associated: 'Existem objectos adicionais associados ao(s) pacote(s) de trabalho que vão ser eliminados. Esses objetos são dos seguintes tipos:'
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     A entrega de emails não está configurada e as notificações estão desativadas.
     Configure o seu servidor de SMTP para ativar.
@@ -6147,6 +6374,14 @@ pt-PT:
           switch_to_independent: Mudar para o modo independente
           title: Modo vinculado
         parent_suffix: " (pai)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Fluxos de trabalho
     index:
@@ -6314,6 +6549,7 @@ pt-PT:
         availability_description: O fator de disponibilidade representa a percentagem real do seu tempo de trabalho dedicado às tarefas do projeto. Isto inclui reuniões, e-mails, trabalho administrativo e outras atividades não relacionadas com o projeto.
         availability_factor: Fator de disponibilidade
         availability_factor_caption: Defina a percentagem do seu tempo de trabalho dedicada ao trabalho de projeto.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas por dia
         individual_hours_mode: Horas individuais por dia
@@ -6327,7 +6563,6 @@ pt-PT:
         title_current: Editar o horário de trabalho atual
         title_days_and_hours: Dias e horas
         title_future_dates: Datas futuras
-        total_available_hours: Total de horas de trabalho disponíveis
         total_work_hours: Total de horas de trabalho
         work_days: Dias úteis
         work_hours: Horário de trabalho

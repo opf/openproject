@@ -43,6 +43,13 @@ pt-PT:
           invalid_claims_location: 'contém localizações não suportadas: %{invalid}. As localizações suportadas são: %{supported}.'
           invalid_claims_values: não define uma matriz em %{attribute}.
           non_object_attribute: não define um objeto JSON em %{attribute}.
+    models:
+      openid_connect/provider:
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        one: OpenID Connect token
+        other: OpenID Connect tokens
   logout_warning: 'A sua sessão foi terminada. O conteúdo de qualquer formulário que enviar poderá ser perdido. Por favor [inicie a sessão].
 
     '

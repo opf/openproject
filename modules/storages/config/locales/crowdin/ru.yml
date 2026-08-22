@@ -73,8 +73,36 @@ ru:
               invalid_password: недействителен.
               unknown_error: не удалось подтвердить соединение с провайдером файлового хранилища. Пожалуйста, убедитесь, что соединение работает правильно.
     models:
-      file_link: Файл
-      storages/storage: Хранилище
+      storages/file_link:
+        one: Ссылка на файл
+        few: File links
+        many: File links
+        other: Ссылки на файл
+      storages/nextcloud_storage:
+        one: Хранилище Nextcloud
+        few: Nextcloud storages
+        many: Nextcloud storages
+        other: Хранилища Nextcloud
+      storages/one_drive_storage:
+        one: Хранилище OneDrive
+        few: OneDrive storages
+        many: OneDrive storages
+        other: Хранилища OneDrive
+      storages/project_storage:
+        one: Хранилище проекта
+        few: Project storages
+        many: Project storages
+        other: Хранилища проекта
+      storages/sharepoint_storage:
+        one: Хранилище SharePoint
+        few: SharePoint storages
+        many: SharePoint storages
+        other: Хранилища SharePoint
+      storages/storage:
+        one: Хранилище
+        few: Storages
+        many: Storages
+        other: Хранилища
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.

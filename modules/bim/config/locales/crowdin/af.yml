@@ -38,7 +38,18 @@ af:
               ifc_attachment_missing: Geen igk-lêer aangeheg nie.
               invalid_ifc_file: The provided file is not a valid IFC file.
     models:
-      bim/ifc_models/ifc_model: IGK model
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BSF momentopname
   bcf:

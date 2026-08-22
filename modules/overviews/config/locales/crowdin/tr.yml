@@ -1,5 +1,10 @@
 ---
 tr:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Gösterge paneli
     label_home: "%{workspace_type} ev"

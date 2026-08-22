@@ -177,7 +177,7 @@ RSpec.describe "API v3 Time Entries resource",
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body)
-          .to be_json_eql("Logged for is invalid.".to_json)
+          .to be_json_eql("is invalid.".to_json)
           .at_path("message")
       end
     end

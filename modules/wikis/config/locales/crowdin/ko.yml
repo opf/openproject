@@ -27,7 +27,9 @@ ko:
       wikis/inline_page_link:
         other: 인라인 페이지 링크
       wikis/internal_provider:
-        other: Project wikis
+        other: Internal providers
+      wikis/page_link:
+        other: Page links
       wikis/provider:
         other: 위키 공급자
       wikis/relation_page_link:
@@ -39,11 +41,9 @@ ko:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: 위키
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
-  project_module_wiki_internal: 프로젝트 위키
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: 프로젝트 위키
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -213,6 +213,8 @@ ko:
         caption: 이 옵션은 해당 프로젝트의 네이티브 위키 기능을 활성화합니다. 멤버는 OpenProject에 저장된 위키 페이지를 생성하고 읽을 수 있게 됩니다.
         enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

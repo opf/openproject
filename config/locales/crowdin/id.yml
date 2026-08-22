@@ -969,59 +969,206 @@ id:
         header:
           other: "%{count} error menyebabkan %{model} gagal untuk disimpan"
     models:
-      attachment: File
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: Authentication providers
-      category: Kategori
-      color: Warna
-      comment: Komentar
-      custom_action: Custom action
-      custom_field: Isian kustom
-      customized: Customized
-      doorkeeper/application: aplikasi OAuth
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Grup
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: Priorities
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Member
-      message: Message
-      news: News
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: Notifications
-      placeholder_user: Pengguna placeholder
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: Project
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: Project lists
-      query: Query kustom
-      reminder: Reminder
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: Roles
       scim_client:
         other: SCIM clients
-      status: Status Work Package
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: Token akses
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
       type_variant:
         other: Variants
-      user: User
-      version: Versi
-      wiki: Wiki
-      wiki_page: Halaman Wiki
-      work_package: Paket-Penugasan
-      workflow: Workflow
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
@@ -1747,6 +1894,7 @@ id:
     custom_field: Isian kustom
     custom_options: Nilai yang mungkin
     custom_values: Isian kustom
+    customized: Customized
     date: Tanggal
     dates_interval: Kisaran tanggal
     default_columns: Kolom default
@@ -1773,6 +1921,7 @@ id:
     is_default: Nilai default
     is_for_all: Untuk semua Project
     issue: Paket-Penugasan
+    jira: Jira
     journal: Journal
     journal_notes: Komentar
     lastname: Nama belakang
@@ -2309,8 +2458,12 @@ id:
   description_available_columns: Kolom tersedia
   description_category_reassign: Pilih kategori
   description_choose_project: Project
-  description_compare_from: Bandingkan dari
-  description_compare_to: Bandingkan dengan
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Kamu di sini:'
   description_date_from: Masukkan tanggal start
   description_date_to: Masukkan tanggal finish
@@ -2511,8 +2664,6 @@ id:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3006,7 +3157,6 @@ id:
   label_available_project_work_package_types: Jenis paket pekerjaan yang tersedia
   label_available_projects: Available projects
   label_backup: Cadangan
-  label_backup_code: Kode cadangan
   label_basic_details: Basic details
   label_between: antara
   label_blocked_by: diblokir oleh
@@ -3026,7 +3176,6 @@ id:
   label_calendar_show: Tampilkan kalender
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Kalender dan tanggal
-  label_category: Kategori
   label_change_parent: Perubahan induk
   label_change_password: Change password
   label_change_plural: Perubahan
@@ -3035,9 +3184,9 @@ id:
   label_change_status_of_user: 'Mengganti status #{username}'
   label_change_view_all: Tampilkan semua perubahan
   label_changes_details: Rincian semua perubahan
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Set perubahan
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: terpilih
@@ -3184,6 +3333,7 @@ id:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key dibuat %{value} yang lalu
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: File
   label_filter: Filter
   label_filter_add: Tambah Filter
@@ -3208,7 +3358,6 @@ id:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3277,7 +3426,6 @@ id:
   label_last_week: minggu lalu
   label_latest_revision: Revisi terbaru
   label_latest_revision_plural: Revisi terbaru
-  label_ldap_auth_source: koneksi LDAP
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: Otentikasi LDAP
@@ -3307,7 +3455,6 @@ id:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Member
-  label_member_role: Project role
   label_membership_added: Anggota ditambahkan
   label_membership_plural: Memberships
   label_membership_updated: Anggota diperbarui
@@ -3420,7 +3567,6 @@ id:
   label_permissions: Hak akses
   label_permissions_report: Laporan
   label_personalize_page: Personalisasi halaman
-  label_placeholder_user: Pengguna placeholder
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Pengguna placeholder
   label_planning: Perencanaan
@@ -3483,7 +3629,6 @@ id:
   label_related_work_packages: Paket-Penugasan terkait
   label_relates: terkait dengan
   label_relates_to: terkait dengan
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Hapus keterkaitan
   label_relation_edit: Edit relation
@@ -3536,7 +3681,6 @@ id:
   label_send_information: Send new credentials to the user
   label_send_invitation: Kirim undangan
   label_send_test_email: Kirim test email
-  label_session: Sesi
   label_setting_plural: Pengaturan
   label_share: Share
   label_share_project_list: Share project list
@@ -3612,7 +3756,6 @@ id:
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam proyek-proyek
-  label_user: User
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonimus
@@ -3643,19 +3786,17 @@ id:
   label_week: Minggu
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Halaman Wiki ditambahkan
   label_wiki_content_updated: Halaman Wiki diupdate
   label_wiki_dont_show_menu_item: Sembunyikan halaman Wiki ini dalam navigasi Project
   label_wiki_edit: Edit Wiki
   label_wiki_edit_plural: Wiki edit
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: Wiki navigasi
-  label_wiki_page: Halaman Wiki
   label_wiki_page_attachments: Lampiran halaman Wiki
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Halaman Wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Tampilkan item submenu 'Daftar isi'
   label_wiki_show_menu_item: Tampilkan sebagai item menu navigasi Project
   label_wiki_show_new_page_link: Tampilkan submenu item 'Buat sub-halaman baru'
@@ -3672,7 +3813,6 @@ id:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: Paket-Penugasan baru
   label_work_package_plural: Paket-Penugasan
-  label_work_package_status: Status Work Package
   label_work_package_status_new: Status baru
   label_work_package_status_plural: Status Paket-Penugasan
   label_work_package_tracking: Tracking Paket-Penugasan
@@ -5742,6 +5882,7 @@ id:
   text_destroy_what_to_do: Apa yang ingin Anda lakukan?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... diff ini telah dipotong karena melebihi batas maks. yang dapat ditampilkan."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -6082,6 +6223,14 @@ id:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6247,6 +6396,7 @@ id:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6260,7 +6410,6 @@ id:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

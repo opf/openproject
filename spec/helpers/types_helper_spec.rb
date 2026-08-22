@@ -34,6 +34,50 @@ RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
   let(:variant) { build_stubbed(:type_variant, type:) }
 
+  describe "#types_tabs" do
+    subject(:tab_names) { helper.types_tabs.pluck(:name) }
+
+    before do
+      helper.instance_variable_set(:@type, type)
+      helper.instance_variable_set(:@variant, addressed_variant)
+    end
+
+    context "with the type_variants feature enabled", with_flag: { type_variants: true } do
+      context "when no variant is addressed" do
+        let(:addressed_variant) { nil }
+
+        it "offers the variants tab right after the defaults tab" do
+          expect(tab_names).to include("variants")
+          expect(tab_names.index("variants")).to eq(tab_names.index("defaults") + 1)
+        end
+      end
+
+      context "when the base variant is addressed" do
+        let(:addressed_variant) { build_stubbed(:type_variant, type:, is_default_variant: true) }
+
+        it "offers the variants tab: the URL is about the type itself" do
+          expect(tab_names).to include("variants")
+        end
+      end
+
+      context "when a named variant is addressed" do
+        let(:addressed_variant) { variant }
+
+        it "omits the variants tab" do
+          expect(tab_names).not_to include("variants")
+        end
+      end
+    end
+
+    context "with the type_variants feature disabled", with_flag: { type_variants: false } do
+      let(:addressed_variant) { nil }
+
+      it "omits the variants tab" do
+        expect(tab_names).not_to include("variants")
+      end
+    end
+  end
+
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
       expect(helper.form_configuration_groups(variant)[:actives]).to be_an Array

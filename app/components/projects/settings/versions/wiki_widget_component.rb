@@ -35,7 +35,7 @@ module Projects
         option :version
 
         def title
-          version.wiki_page_title.presence || I18n.t(:label_wiki_page)
+          version.wiki_page_title.presence || WikiPage.model_name.human
         end
 
         def call

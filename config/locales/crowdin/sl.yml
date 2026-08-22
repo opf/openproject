@@ -984,64 +984,356 @@ sl:
           few: "%{count} napak je preprečilo shranjevanje %{model}"
           other: "%{count} napak je preprečilo shranjevanje %{model}"
     models:
-      attachment: Datoteka
+      action:
+        one: Action
+        two: Actions
+        few: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        two: Announcements
+        few: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        two: Anonymous users
+        few: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        two: Files
+        few: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         two: Attribute help texts
         few: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        two: Project attribute help texts
+        few: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        two: User attribute help texts
+        few: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        two: Work package attribute help texts
+        few: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         two: Authentication providers
         few: Authentication providers
         other: Authentication providers
-      category: Kategorija
-      color: Barva
-      comment: Komentar
-      custom_action: Dejanja po meri
-      custom_field: Polje po meri
-      customized: Customized
-      doorkeeper/application: Aplikacija OAuth
+      backup:
+        one: Backup
+        two: Backups
+        few: Backups
+        other: Backups
+      capability:
+        one: Capability
+        two: Capabilities
+        few: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        two: Categories
+        few: Categories
+        other: Categories
+      change:
+        one: File change
+        two: File changes
+        few: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        two: Changesets
+        few: Changesets
+        other: Changesets
+      color:
+        one: Color
+        two: Colors
+        few: Colors
+        other: Colors
+      comment:
+        one: Comment
+        two: Comments
+        few: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        two: Custom actions
+        few: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        two: Custom fields
+        few: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        two: Hierarchy items
+        few: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        two: Custom field sections
+        few: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        two: Custom field options
+        few: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        two: Designs
+        few: Designs
+        other: Designs
+      day:
+        one: Day
+        two: Days
+        few: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        two: Deleted users
+        few: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        two: Design colors
+        few: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        two: OAuth applications
+        few: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        two: Emoji reactions
+        few: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         two: Enterprise tokens
         few: Enterprise tokens
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Skupina
+      enterprise_trial:
+        one: Enterprise trial
+        two: Enterprise trials
+        few: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        two: Enumerations
+        few: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        two: Exports
+        few: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        two: Export settings
+        few: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        two: Forums
+        few: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        two: Global roles
+        few: Global roles
+        other: Global roles
+      group:
+        one: Group
+        two: Groups
+        few: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        two: Group custom fields
+        few: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        two: Health reports
+        few: Health reports
+        other: Health reports
       issue_priority:
         one: Prioriteta
         two: Priorities
         few: Priorities
         other: Priorities
-      jira:
-        one: Jira
-        two: Jira
-        few: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Član
-      message: Message
-      news: Novice
+      ldap_auth_source:
+        one: LDAP connection
+        two: LDAP connections
+        few: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        two: MCP configurations
+        few: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        two: Members
+        few: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        two: Menu items
+        few: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        two: Wiki menu items
+        few: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        two: Messages
+        few: Messages
+        other: Messages
+      news:
+        one: News
+        two: News
+        few: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        two: Non-working days
+        few: Non-working days
+        other: Non-working days
       notification:
         one: Notification
         two: Notifications
         few: Notifications
         other: Notifications
-      placeholder_user: Nadomestni uporabnik
+      notification_setting:
+        one: Notification setting
+        two: Notification settings
+        few: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        two: OAuth clients
+        few: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        two: OAuth client tokens
+        few: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        two: Persisted queries
+        few: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        two: Persisted views
+        few: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        two: Placeholder users
+        few: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        two: Plugin authentication providers
+        few: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        two: Principals
+        few: Principals
+        other: Principals
       project:
         one: Projekt
         two: Projekti
         few: Projekti
         other: Projekti
+      project/phase:
+        one: Project phase
+        two: Project phases
+        few: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        two: Project phase definitions
+        few: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        two: Project attributes
+        few: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        two: Project attribute sections
+        few: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Project list
         two: Project lists
         few: Project lists
         other: Project lists
-      query: Iskanje po meri
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        two: Project list roles
+        few: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        two: Project roles
+        few: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        two: Custom queries
+        few: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        two: Relations
+        few: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        two: Reminders
+        few: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        two: Remote identities
+        few: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        two: Repositories
+        few: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        two: Git repositories
+        few: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        two: Subversion repositories
+        few: Subversion repositories
+        other: Subversion repositories
       role:
         one: Vloga
         two: Vloge
@@ -1052,12 +1344,46 @@ sl:
         two: SCIM clients
         few: SCIM clients
         other: SCIM clients
-      status: Stanje delovnega paketa
+      service_account:
+        one: Service account
+        two: Service accounts
+        few: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        two: Sessions
+        few: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        two: Settings
+        few: Settings
+        other: Settings
+      status:
+        one: Work package status
+        two: Work package statuses
+        few: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        two: System users
+        few: System users
+        other: System users
       token/api:
         one: Žeton za dostop
         two: Access tokens
         few: Access tokens
         other: Access tokens
+      token/base:
+        one: Token
+        two: Tokens
+        few: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        two: iCalendar tokens
+        few: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         two: RSS tokens
@@ -1073,12 +1399,91 @@ sl:
         two: Variants
         few: Variants
         other: Variants
-      user: Uporabnik
-      version: Različica
-      wiki: Wiki
-      wiki_page: Wiki stran
-      work_package: Delovni paket
-      workflow: Potek dela
+      user:
+        one: User
+        two: Users
+        few: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        two: User attributes
+        few: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        two: User attribute sections
+        few: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        two: Non-working times
+        few: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        two: Passwords
+        few: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        two: User preferences
+        few: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        two: User lists
+        few: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        two: Working hours
+        few: Working hours
+        other: Working hours
+      version:
+        one: Version
+        two: Versions
+        few: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        two: Version custom fields
+        few: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        two: Views
+        few: Views
+        other: Views
+      wiki:
+        one: Wiki
+        two: Wikis
+        few: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        two: Wiki pages
+        few: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        two: Work packages
+        few: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        two: Work package custom fields
+        few: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        two: Work package roles
+        few: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        two: Workflows
+        few: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
@@ -1842,6 +2247,7 @@ sl:
     custom_field: Polje po meri
     custom_options: Možne vrednosti
     custom_values: Polja po meri
+    customized: Customized
     date: Datum
     dates_interval: Datumski obseg
     default_columns: Privzeti stolpci
@@ -1868,6 +2274,7 @@ sl:
     is_default: Privzeta vrednost
     is_for_all: Za vse projekte
     issue: Delovni paket
+    jira: Jira
     journal: Dnevnik
     journal_notes: Komentar
     lastname: Priimek
@@ -2462,8 +2869,12 @@ sl:
   description_available_columns: Razpoložljivi stolpci
   description_category_reassign: Izberite kategorijo
   description_choose_project: Projekti
-  description_compare_from: Primerjaj z
-  description_compare_to: Primerjaj z
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Vi ste tukaj:'
   description_date_from: Vpišite datum začetka
   description_date_to: Vstavi končni datum
@@ -2669,8 +3080,6 @@ sl:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3180,7 +3589,6 @@ sl:
   label_available_project_work_package_types: Razpoložljive vrste delovnih paketov
   label_available_projects: Available projects
   label_backup: Varnostna kopija
-  label_backup_code: Rezervna koda
   label_basic_details: Basic details
   label_between: med
   label_blocked_by: blokirano od
@@ -3200,7 +3608,6 @@ sl:
   label_calendar_show: Prikaži koleddar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategorija
   label_change_parent: Zamenjaj nadrejenega
   label_change_password: Change password
   label_change_plural: Spremembe
@@ -3209,9 +3616,9 @@ sl:
   label_change_status_of_user: 'Spremeni status #{username}'
   label_change_view_all: Poglej vse spremembe
   label_changes_details: Podrobnosti vseh sprememb
-  label_changeset: Zapis sprememb
   label_changeset_id: Zapis sprememb ID
   label_changeset_plural: Zapisi sprememb
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Označite / počistite vse v stolpcu
   label_check_uncheck_all_in_row: Potrdite / počistite vse vrstice
   label_checked: Označeno
@@ -3358,6 +3765,7 @@ sl:
   label_feeds_access_key: RSS dostopni ključ
   label_feeds_access_key_created_on: RSS dostopni ključ narejen pred %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Datoteke
   label_filter: Filtri
   label_filter_add: Dodaj filter
@@ -3382,7 +3790,6 @@ sl:
   label_git_path: Pot do datoteke ali mape
   label_global: Globalno
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3451,7 +3858,6 @@ sl:
   label_last_week: prejšnji teden
   label_latest_revision: Zadnja revizija
   label_latest_revision_plural: Zadnje revizije
-  label_ldap_auth_source: LDAP povezava
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP avtentikacija
@@ -3481,7 +3887,6 @@ sl:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Člani
-  label_member_role: Project role
   label_membership_added: Član dodan
   label_membership_plural: Memberships
   label_membership_updated: Član posodobljen
@@ -3594,7 +3999,6 @@ sl:
   label_permissions: Dovoljenja
   label_permissions_report: Poročilo o dovoljenjih
   label_personalize_page: Prilagodite to stran
-  label_placeholder_user: Nadomestni uporabnik
   label_placeholder_user_new: Nov nadomestni uporabnik
   label_placeholder_user_plural: Nadomestni uporabniki
   label_planning: Načrtovanje
@@ -3659,7 +4063,6 @@ sl:
   label_related_work_packages: Soroden zahtevek/delovni paket
   label_relates: povezan z
   label_relates_to: povezan z
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Izbriši povezavo
   label_relation_edit: Edit relation
@@ -3712,7 +4115,6 @@ sl:
   label_send_information: Send new credentials to the user
   label_send_invitation: Pošlji povabilo
   label_send_test_email: Pošlji testni mail
-  label_session: Seja
   label_setting_plural: Nastavitve
   label_share: Share
   label_share_project_list: Share project list
@@ -3788,7 +4190,6 @@ sl:
   label_used_by: Uporabil
   label_used_by_types: Uporablja se po vrstah
   label_used_in_projects: Uporablja se pri projektih
-  label_user: Uporabnik
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonimno
@@ -3819,19 +4220,17 @@ sl:
   label_week: Teden
   label_weighted_item_list: Weighted item list
   label_what_is_this: Kaj je to?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki stran dodana
   label_wiki_content_updated: Wiki stran posodobljena
   label_wiki_dont_show_menu_item: Ne prikaži te strani wikija v navigaciji po projektu
   label_wiki_edit: Urejanje Wiki
   label_wiki_edit_plural: Wiki ureditve
-  label_wiki_menu_item: Element menija Wiki
   label_wiki_navigation: Wiki navigacija
-  label_wiki_page: Wiki stran
   label_wiki_page_attachments: Priloge na strani Wiki
   label_wiki_page_id: Wiki stran ID
   label_wiki_page_plural: Wiki strani
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Pokaži postavko podmenija „Vsebina“
   label_wiki_show_menu_item: Prikaži kot element v meniju navigacija projekta
   label_wiki_show_new_page_link: Pokaži element v podmeniju »Ustvari novo podrejeno stran«
@@ -3848,7 +4247,6 @@ sl:
   label_work_package_hierarchy: Hierarhija delovnega paketa
   label_work_package_new: Nov delovni paket
   label_work_package_plural: Delovni paketi
-  label_work_package_status: Stanje delovnega paketa
   label_work_package_status_new: Novo stanje
   label_work_package_status_plural: Status delovnega paketa
   label_work_package_tracking: Sledenje delovnega paketa
@@ -5993,6 +6391,7 @@ sl:
   text_destroy_what_to_do: Kaj želite storiti?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Ta sprememba je bila odsekana ker presega največjo velikost ki je lahko prikazana."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Dostava e-pošte ni konfigurirana in obvestila so onemogočena.
     Konfigurirajte strežnik SMTP, da jih omogočite.
@@ -6341,6 +6740,14 @@ sl:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6518,6 +6925,7 @@ sl:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6531,7 +6939,6 @@ sl:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

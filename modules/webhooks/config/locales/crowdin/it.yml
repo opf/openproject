@@ -14,7 +14,12 @@ it:
         secret: Firma segreta
         url: URL Payload
     models:
-      webhooks/outgoing_webhook: Webhook in uscita
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Fornisce un'API plug-in per supportare i webhook OpenProject per una migliore integrazione di terze parti.
     name: Webhook OpenProject
