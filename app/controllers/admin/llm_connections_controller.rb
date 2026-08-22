@@ -90,6 +90,7 @@ module Admin
       return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
 
       @connection.update!(api_key: nil, enabled: false)
+      Llm::HealthCheckJob.toggle_cron_job
 
       redirect_with_notice(t(".success"))
     end

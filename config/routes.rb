@@ -749,6 +749,10 @@ Rails.application.routes.draw do
       get :disconnect_dialog
       post :disconnect
       get :search_models, defaults: { format: :turbo_stream }
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     # Manual entries only; discovered models are managed by the sync.

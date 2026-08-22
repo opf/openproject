@@ -48,6 +48,10 @@ module LlmConnections
       super.tap do
         next unless service_call.success?
 
+        # Enabling or disabling the connection decides whether the scheduled
+        # health check has anything to do.
+        Llm::HealthCheckJob.toggle_cron_job
+
         next unless @sync_models
         next unless connection_changed?(service_call.result)
 

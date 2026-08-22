@@ -122,6 +122,24 @@ RSpec.describe "LLM connection administration",
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)
     end
+
+    describe "the health report" do
+      before { mock_llm_chat_response(base_url) }
+
+      it "runs the checks and renders the report accessibly" do
+        visit llm_connection_path
+
+        find_test_selector("llm-connection--run-health-checks").click
+
+        wait_for { connection.health_reports.count }.to eq(1)
+
+        find_test_selector("llm-connection--open-health-report").click
+
+        expect(page).to have_current_path(llm_connection_health_status_report_path)
+        expect(page).to have_text("Configuration")
+        expect(page).to be_axe_clean.within("#content")
+      end
+    end
   end
 
   describe "the AI models page" do

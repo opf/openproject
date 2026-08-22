@@ -1811,6 +1811,14 @@ en:
       update:
         model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
         success: "The model for %{feature} has been saved."
+    llm_health_status:
+      show:
+        blankslate_description: "Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model."
+        blankslate_heading: "This connection has not been checked yet"
+        download: "Download report"
+        last_check: "Last checked %{datetime}."
+        run_checks: "Run checks"
+        title: "Health status"
     llm_models:
       create:
         success: "%{model} has been added."
@@ -4346,6 +4354,56 @@ en:
       semantic_search:
         caption: "Indexes work packages so they can be found by meaning rather than by keyword."
         label: "Semantic search"
+    health_checks:
+      configuration:
+        api_format_supported: "Endpoint format is usable"
+        base_url_present: "Endpoint is configured"
+        credentials_present: "API key is stored"
+        enabled: "Connection is switched on"
+        feature_flag: "AI features are switched on"
+        header: "Configuration"
+      errors:
+        api_key_missing: "No API key is stored. This is only correct if the LLM server requires no authentication."
+        catalogue_never_fetched: "The model list has never been retrieved from the server."
+        catalogue_stale: "The model list was last retrieved on %{fetched_at} and may no longer match what the server offers."
+        chat_failed: "The server refused a request for %{model} with status %{status}."
+        connection_disabled: "The connection is configured but switched off, so no feature will use it."
+        connection_error: "The server could not be reached. Please ensure it is running and reachable from OpenProject."
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: "No default model has been chosen, so features fall back to their own selection."
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: "The LLM connection feature is switched off, so the connection is not used yet."
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: "The server rejected the stored API key."
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        no_model_to_test: "No model is available to test with. Add a model or choose a default first."
+        no_models: "The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right."
+        no_models_endpoint: "The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it."
+        not_configured: "No endpoint has been configured."
+        not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
+        request_timed_out: "The server did not respond in time."
+        server_error: "The server responded with status %{status}."
+        ssrf_filtered: "The endpoint resolves to a blocked address."
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: "Every feature has a usable model"
+        header: "AI features"
+        locked_bindings_intact: "Indexed data still has its model"
+      inference:
+        chat_round_trip: "The server answers a request"
+        header: "Inference"
+      models:
+        catalogue_fresh: "Model list is up to date"
+        catalogue_present: "Models are available"
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
+        header: "Models"
+      server:
+        credentials_accepted: "The server accepts the API key"
+        header: "Server"
+        reachable: "The server can be reached"
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
@@ -4360,6 +4418,13 @@ en:
       unknown: "Not verified"
       unsupported: "Not supported"
   llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: "Last checked %{datetime}."
+        never_checked: "This connection has not been checked yet."
+        open_report: "Open full health report"
+        run_checks: "Run checks now"
+        title: "Health status"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."

@@ -28,48 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HealthReports
-  class ReportComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+# Every consumer of a health report reads the newest one for a subject
+# (`health_reports.order(created_at: :asc).last`), and the table has only a
+# [subject_type, subject_id] index, so that read sorts. Until now the table grew
+# a row per manual "Run checks" click; the LLM connection adds a scheduled check,
+# which makes it grow unattended and adds a pruning delete that filters on age.
+#
+# Storages and wikis benefit from this too.
+class AddCreatedAtIndexToHealthReports < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
 
-    alias report model
-
-    # The i18n_scope parameter defines the I18n scope that should be used to resolve
-    # names of groups, checks and error messages indicated by the results.
-    #
-    # docs_href overrides where each result's "More information" link points;
-    # without it, results link to the file storages troubleshooting page.
-    def initialize(*, i18n_scope:, docs_href: nil, **)
-      super(*, **)
-      @i18n_scope = i18n_scope
-      @docs_href = docs_href
-    end
-
-    private
-
-    attr_reader :i18n_scope, :docs_href
-
-    def summary_scheme(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        :critical
-      in { warning: 1.. }
-        :warning
-      else
-        :success
-      end
-    end
-
-    def humanize_summary(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        I18n.t("health_reports.common.checks.failures", count: check_tally[:failure])
-      in { warning: 1.. }
-        I18n.t("health_reports.common.checks.warnings", count: check_tally[:warning])
-      else
-        I18n.t("health_reports.common.checks.success")
-      end
-    end
+  def change
+    add_index :health_reports,
+              %i[subject_type subject_id created_at],
+              algorithm: :concurrently,
+              if_not_exists: true
   end
 end
