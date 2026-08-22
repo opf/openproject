@@ -742,7 +742,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections"
+    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
+      delete :api_key, action: :delete_api_key
+      get :delete_api_key_dialog
+      get :disconnect_dialog
+      post :disconnect
+    end
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
