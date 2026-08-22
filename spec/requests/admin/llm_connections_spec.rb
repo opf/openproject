@@ -126,4 +126,53 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
   end
+
+  describe "DELETE /admin/llm_connection/api_key" do
+    before { login_as admin }
+
+    it "removes the key but keeps the connection" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+      expect(connection.base_url).to eq(base_url)
+    end
+  end
+
+  describe "disconnecting" do
+    let!(:connection) do
+      create(:llm_connection, :enabled,
+             base_url: "https://example.com/v1", api_key: "sk-test")
+    end
+
+    before { login_as admin }
+
+    it "offers the confirmation, naming what is kept" do
+      get disconnect_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Disconnect from the LLM server?")
+    end
+
+    # Disconnecting is reversible on purpose: destroying the connection would
+    it "clears the credential and switches the connection off, keeping everything else" do
+      post disconnect_llm_connection_path
+
+      connection.reload
+      expect(connection.api_key).to be_blank
+      expect(connection).not_to be_enabled
+      expect(connection.base_url).to eq("https://example.com/v1")
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
 end
