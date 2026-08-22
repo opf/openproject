@@ -28,30 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Confirms removing the stored API key.
-  #
-  # No confirmation checkbox: the key itself can simply be pasted again. The
-  # dialog exists for what is *not* recoverable -- see #loses_admin_verdicts?.
-  class DeleteApiKeyDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+class CreateLlmCapabilityVerdicts < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_capability_verdicts do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      # A plain string, not a foreign key: the catalogue is a cache of a remote
+      # list, and a model may vanish from it without invalidating what we learned.
+      t.string :model_id, null: false
+      t.string :capability, null: false
+      t.string :state, null: false
+      t.string :source, null: false
+      t.jsonb :detail, null: false, default: {}
+      t.datetime :checked_at, null: false
 
-    TEST_SELECTOR = "llm-connection--delete-api-key-dialog"
-
-    alias_method :connection, :model
-
-    def form_arguments
-      { action: url_helpers.api_key_llm_connection_path, method: :delete }
+      t.timestamps null: false
     end
 
-    # The catalogue sync fingerprints base_url and api_key together, so the next
-    # refresh after the key changes treats the endpoint as a different deployment
-    # and discards every capability verdict -- including the ones an
-    # administrator asserted by hand, which nothing else in the system throws
-    # away. Worth saying out loud before the key goes.
-    def loses_admin_verdicts?
-      connection.capability_verdicts.exists?(source: "admin")
-    end
+    add_index :llm_capability_verdicts,
+              %i[llm_connection_id model_id capability],
+              unique: true,
+              name: "index_llm_capability_verdicts_on_connection_model_capability"
   end
 end

@@ -51,6 +51,16 @@ module Admin
       result.on_failure { render_form_with_errors }
     end
 
+    def refresh_models
+      result = ::LlmConnections::SyncModelsService.new(@connection).call
+
+      if result.success?
+        redirect_with_notice(t(".success"))
+      else
+        redirect_with_error(t(".failure"))
+      end
+    end
+
     def disconnect_dialog
       respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
     end
@@ -85,8 +95,17 @@ module Admin
       render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
     end
 
+    # A connection can be perfectly usable without offering a model list, so the
+    # save succeeds either way; the administrator is told what to do next rather
+    # than being left with an empty table and no explanation.
     def redirect_after_save
-      redirect_with_notice(t(".success"))
+      if @connection.reload.models.none?
+        flash[:warning] = t(".no_models")
+      else
+        flash[:notice] = t(".success")
+      end
+
+      redirect_to llm_connection_path, status: :see_other
     end
 
     def render_form_with_errors
