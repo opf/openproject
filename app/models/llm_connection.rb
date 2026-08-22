@@ -52,6 +52,7 @@ class LlmConnection < ApplicationRecord
   belongs_to :default_chat_model, class_name: "LlmModel", optional: true
   belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
+  has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
   validates :base_url, presence: true
   validate :single_active_connection, if: :active?
 

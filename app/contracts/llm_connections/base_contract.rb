@@ -54,6 +54,7 @@ module LlmConnections
     validate :features_require_connection
     validate :default_models_offered_by_server
     validate :default_chat_model_can_chat
+    validate :default_embedding_model_can_embed
     validate :not_configured_from_env
 
     def not_configured_from_env
@@ -63,6 +64,22 @@ module LlmConnections
     end
 
     private
+
+    # A model the server has positively told us cannot embed is not a candidate
+    # for the embedding default, however it got submitted. An unknown verdict
+    # does not block: that is the normal state for a server that publishes
+    # nothing about its models.
+    def default_embedding_model_can_embed
+      model_id = model.default_embedding_model_id
+      return if model_id.blank?
+      return unless model.changed_attributes.include?("default_embedding_model_id")
+
+      unsupported = model.capability_verdicts
+                         .for_capability(:embeddings)
+                         .exists?(model_id:, state: "unsupported")
+
+      errors.add(:default_embedding_model_id, :cannot_embed) if unsupported
+    end
 
     # A model the server identifies as an embedding model is not a chat candidate.
     def default_chat_model_can_chat
