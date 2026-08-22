@@ -80,4 +80,25 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(LlmConnections::FormComponent.new(@connection)) %>
+<% if @connection.persisted? %>
+  <%= render(LlmConnections::FormComponent.new(@connection)) %>
+
+  <%=
+    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+      component.with_heading(tag: :h3) { t(".models_heading") }
+      component.with_description do
+        if @connection.catalogue_fetched_at
+          t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at))
+        else
+          t(".models_description_unfetched")
+        end
+      end
+    end
+  %>
+
+  <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
+  <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
+<% else %>
+  <%# Nothing to show alongside the form until a connection exists. %>
+  <%= render(LlmConnections::FormComponent.new(@connection)) %>
+<% end %>

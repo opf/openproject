@@ -31,6 +31,7 @@
 module Admin
   class LlmConnectionsController < ApplicationController
     include OpTurbo::ComponentStream
+    include PaginationHelper
 
     layout "admin"
     menu_item :llm_connection
@@ -39,7 +40,24 @@ module Admin
     before_action :require_admin
     before_action :set_connection
 
-    def show; end
+    def show
+      @query = ParamsToQueryService
+                 .new(LlmModel, current_user, query_class: Queries::LlmModels::LlmModelQuery)
+                 .call(params)
+      @models = @query.results.paginate(page: page_param, per_page: per_page_param)
+    end
+
+    # Answers the sub-header's filter input, replacing just the table.
+    def search_models
+      show
+
+      replace_via_turbo_stream(
+        component: LlmConnections::Models::IndexComponent.new(@models, connection: @connection)
+      )
+      turbo_streams << turbo_stream.push_state(llm_connection_path(params.permit(:filters, :page, :per_page)))
+
+      respond_with_turbo_streams
+    end
 
     def update
       result = ::LlmConnections::UpdateService
@@ -50,12 +68,24 @@ module Admin
       result.on_failure { render_form_with_errors }
     end
 
+    def refresh_models
+      result = ::LlmConnections::SyncModelsService.new(@connection).call
+
+      if result.success?
+        redirect_with_notice(t(".success"))
+      else
+        redirect_with_error(t(".failure"))
+      end
+    end
+
     def disconnect_dialog
       respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
     end
 
-    # Clears the credential and switches the AI features off, keeping the endpoint
-    # and the catalogue. Deliberately not a destroy.
+    # Clears the credential and switches the AI features off, keeping the endpoint,
+    # the catalogue and every feature binding. Deliberately not a destroy: the
+    # cascade would take the locked embedding bindings with it, and those are the
+    # only record that a vector index exists and what it was written with.
     def disconnect
       ApplicationRecord.transaction do
         @connection.update!(api_key: nil)
