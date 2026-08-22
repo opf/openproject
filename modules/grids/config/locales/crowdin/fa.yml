@@ -7,7 +7,7 @@ fa:
         page: صفحه
         row_count: تعداد ردیف‌ها
         scope: دامنه
-        widgets: ویجت ﻫﺎ
+        widgets: ویجت‌ها
     errors:
       models:
         grids/grid:
