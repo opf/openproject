@@ -73,5 +73,25 @@ module LlmConnections
 
       %i[secondary source_discovered]
     end
+
+    def button_links
+      llm_model.manual? ? [edit_link, delete_link] : [edit_link]
+    end
+
+    def edit_link
+      link_to(helpers.op_icon("icon-edit"),
+              url_helpers.edit_llm_model_path(llm_model),
+              data: { test_selector: "llm-model--edit-#{llm_model.id}" },
+              title: I18n.t(:button_edit))
+    end
+
+    # Opens a DangerDialog rather than a browser confirm, so the message can say
+    # which features are bound to the model.
+    def delete_link
+      link_to(helpers.op_icon("icon-delete"),
+              url_helpers.delete_dialog_llm_model_path(llm_model),
+              data: { controller: "async-dialog", test_selector: "llm-model--delete-#{llm_model.id}" },
+              title: I18n.t(:button_delete))
+    end
   end
 end

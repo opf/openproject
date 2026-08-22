@@ -44,7 +44,28 @@ class LlmModel < ApplicationRecord
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
 
+  # Everything that points at a model does so by its identifier string, so a
+  # rename has to carry them along or it silently orphans them.
+  #
+  # Renaming is a correction of the name, not a change of model, which is why
+  # this writes directly: a locked binding must not refuse to follow the model
+  # it is locked to, and the connection defaults are pointing at this very row.
+  def cascade_rename!(previous_external_id)
+    return if previous_external_id.blank? || previous_external_id == external_id
+
+    llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
+    rename_connection_defaults(previous_external_id)
+  end
+
   def name = display_name.presence || external_id
+
+  def rename_connection_defaults(previous_external_id)
+    defaults = %i[default_chat_model_id default_embedding_model_id]
+                 .select { |attribute| llm_connection.public_send(attribute) == previous_external_id }
+                 .index_with { external_id }
+
+    llm_connection.update_columns(defaults) if defaults.any?
+  end
 
   # Precedence: what an administrator set, then what the server reported (vLLM
   # and SGLang publish the operator's actual --max-model-len), then what a
@@ -55,12 +76,44 @@ class LlmModel < ApplicationRecord
       raw_metadata["context_window"]
   end
 
+  def admin_context_window = raw_metadata["admin_context_window"]
+
   def context_window_source
     return :admin if raw_metadata["admin_context_window"].present?
     return :server if raw_metadata["max_model_len"].present?
     return :registry if raw_metadata["context_window"].present?
 
     nil
+  end
+
+  def admin_context_window=(value)
+    self.raw_metadata = if value.blank?
+                          raw_metadata.except("admin_context_window")
+                        else
+                          raw_metadata.merge("admin_context_window" => value.to_i)
+                        end
+  end
+
+  # Capability assertions are stored as verdicts, not columns. These virtual
+  # attributes let the edit form treat them as ordinary fields, so the whole
+  # screen can be a single Primer form rather than hand-written inputs.
+  Llm::Capabilities::ALL.each do |capability|
+    define_method(:"capability_#{capability}") do
+      capability_overrides.fetch(capability.to_s) { admin_capability_state(capability) }
+    end
+
+    define_method(:"capability_#{capability}=") do |value|
+      capability_overrides[capability.to_s] = value.presence
+    end
+  end
+
+  def capability_overrides = @capability_overrides ||= {}
+
+  # Only an administrator's own assertion is shown as the field's value. A
+  # verdict from a probe or a registry is displayed alongside instead, so that
+  # saving the form does not silently adopt it as the administrator's.
+  def admin_capability_state(capability)
+    verdict_for(capability)&.then { |verdict| verdict.source_admin? ? verdict.state : nil }
   end
 
   def verdict_for(capability)

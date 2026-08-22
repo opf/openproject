@@ -12,6 +12,17 @@
      ) %>
 
   <% subheader.with_action_button(
+       scheme: :primary,
+       label: t("admin.llm_connections.show.add_model_submit"),
+       mobile_label: t("admin.llm_connections.show.add_model_submit"),
+       mobile_icon: :plus,
+       leading_icon: :plus,
+       tag: :a,
+       href: helpers.new_llm_model_path,
+       test_selector: "llm-model--add-button"
+     ) { t("admin.llm_connections.show.add_model_submit") } %>
+
+  <% subheader.with_action_button(
        scheme: :default,
        label: t("admin.llm_connections.show.refresh_models"),
        mobile_label: t("admin.llm_connections.show.refresh_models"),
