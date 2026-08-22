@@ -742,6 +742,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections"
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update

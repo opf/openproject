@@ -1,0 +1,26 @@
+<%=
+  component_wrapper(tag: "turbo-frame", **wrapper_options) do
+    concat(
+      settings_primer_form_with(**form_options) do |f|
+        render(LlmConnections::ConnectionForm.new(f))
+      end
+    )
+
+    concat(
+      render(
+        Primer::Beta::Text.new(
+          tag: :div,
+          mt: 3,
+          hidden: true,
+          display: :flex,
+          align_items: :center,
+          color: :muted,
+          data: { "admin--llm-connection-form-target": "progressBanner" }
+        )
+      ) do
+        concat(render(Primer::Beta::Spinner.new(size: :small, mr: 2)))
+        concat(t("admin.llm_connections.form.label_connecting"))
+      end
+    )
+  end
+%>
