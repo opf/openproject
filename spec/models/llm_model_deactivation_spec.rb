@@ -43,7 +43,24 @@ RSpec.describe LlmModel, "deactivation", :llm_server_helpers, :webmock,
     expect(connection.selectable_model_ids).to include("bge-m3")
   end
 
+  # The decision that makes the toggle safe: curation, not enforcement. A row an
   # administrator switches off must never silently break a running feature.
+  it "keeps a feature already bound to it working" do
+    connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+    expect(connection.available_model_ids).to include("qwen3.6-27b")
+    expect(Llm::Runtime.for(:description_assistant)).to be_ready
+  end
+
+  it "still offers it to the feature that is bound to it" do
+    connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+    options = LlmConnections::SelectableModelsQuery
+                .new(connection, OpenProject::Llm::Features[:description_assistant])
+                .call
+
+    expect(options.map(&:model_id)).to include("qwen3.6-27b")
+  end
 
   # The reason deactivated_at exists rather than reusing active: the sync writes
   # active on every refresh, so an administrator's choice stored there would be

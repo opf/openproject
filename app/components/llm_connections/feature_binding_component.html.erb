@@ -1,0 +1,53 @@
+<%= render(Primer::Box.new(border: true, border_radius: 2, p: 3, mb: 3)) do %>
+  <%= render(Primer::Beta::Text.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 1)) { feature.label } %>
+
+  <% if feature.caption.present? %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { feature.caption } %>
+  <% end %>
+
+  <% if dangling? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
+      <%= t("admin.llm_feature_bindings.dangling", model: binding.resolved_model_id) %>
+    <% end %>
+  <% end %>
+
+  <% if deactivated? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
+      <%= t("admin.llm_feature_bindings.deactivated", model: binding.resolved_model_id) %>
+    <% end %>
+  <% end %>
+
+  <% if locked? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :lock)) do %>
+      <%= t("admin.llm_feature_bindings.locked", model: binding.model_id) %>
+    <% end %>
+  <% end %>
+
+  <%= primer_form_with(model: form_model, url: form_url, method: :patch, scope: :llm_feature_binding) do |f| %>
+    <%= render(
+          LlmConnections::FeatureBindingForm.new(
+            f,
+            options: model_options,
+            inherit_label:,
+            feature_key: feature.key,
+            locked: locked?,
+            embedding: feature.embedding?,
+            selected_model_id: binding&.model_id,
+            dimensions_hint: probed_dimensions
+          )
+        ) %>
+  <% end %>
+
+  <% if locked? && feature.embedding? %>
+    <%# Rendered as text rather than disabled inputs: a disabled input submits
+        nothing, so the values would arrive blank and wipe the columns. %>
+    <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mt: 2, mb: 1)) do %>
+      <%= t("admin.llm_feature_bindings.locked_values_heading") %>
+    <% end %>
+    <% locked_values.each do |label, value| %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) do %>
+        <%= "#{label}: #{value}" %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

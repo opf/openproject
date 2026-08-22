@@ -20,7 +20,13 @@
             safe_join(
               [
                 content_tag(:li, t("admin.llm_connections.disconnect.keeps_settings")),
-                content_tag(:li, t("admin.llm_connections.disconnect.keeps_models"))
+                content_tag(:li, t("admin.llm_connections.disconnect.keeps_models")),
+                if bound_features.any?
+                  content_tag(
+                    :li,
+                    t("admin.llm_connections.disconnect.keeps_bindings", features: bound_features.to_sentence)
+                  )
+                end
               ].compact
             )
           end

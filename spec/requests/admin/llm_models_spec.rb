@@ -72,6 +72,16 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
       expect(connection.models.where(external_id: "already-there").count).to eq(1)
     end
+
+    it "makes the model bindable straight away" do
+      post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
+
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-35b-a3b" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "description_assistant").model_id)
+        .to eq("qwen3.6-35b-a3b")
+    end
   end
 
   describe "a refresh that cannot see the manual model" do
@@ -127,6 +137,15 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
       expect(llm_model.reload.context_window).to eq(8192)
       expect(llm_model.context_window_source).to eq(:server)
+    end
+
+    it "makes an asserted capability satisfy a feature that requires it" do
+      patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
+
+      patch llm_feature_binding_path("semantic_search"),
+            params: { llm_feature_binding: { model_id: "hand-typed" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search").model_id).to eq("hand-typed")
     end
 
     # Clearing an assertion records nothing rather than recording ignorance as
@@ -188,6 +207,21 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     end
   end
 
+  describe "GET /admin/llm_models/:id/delete_dialog" do
+    it "offers a confirmation naming the features that would break" do
+      llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "hand-typed")
+
+      # Requested by the async-dialog Stimulus controller, which asks for a
+      # turbo stream rather than HTML.
+      get delete_dialog_llm_model_path(llm_model),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Description assistant")
+    end
+  end
+
   describe "renaming to a taken id" do
     it "re-renders the form with the error instead of failing" do
       create(:llm_model, llm_connection: connection, external_id: "taken")
@@ -221,6 +255,50 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
     end
   end
 
+  describe "POST /admin/llm_models/:id/toggle" do
+    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+    it "hides the model from the pickers and puts it back" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response).to have_http_status(:ok)
+      expect(llm_model.reload).to be_deactivated
+      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
+    end
+
+    # Curation, not enforcement: a feature already pointing at the model keeps
+    # resolving, so switching a row off cannot silently break anything.
+    it "leaves an existing binding working" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(connection.available_model_ids).to include("qwen3.6-27b")
+    end
+
+    it "refuses a model the server has withdrawn" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+
+      post toggle_llm_model_path(withdrawn)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(withdrawn.reload).not_to be_deactivated
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+    end
+  end
+
   describe "renaming a manually added model" do
     let!(:llm_model) do
       create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
@@ -228,6 +306,8 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
     before do
       connection.update!(default_chat_model_id: "qwen/qwen3.6-35b-a3b")
+      connection.feature_bindings.create!(feature_key: "description_assistant",
+                                          model_id: "qwen/qwen3.6-35b-a3b")
       connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
                                              state: "unsupported", source: "probe", checked_at: Time.current)
     end
@@ -255,7 +335,25 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
 
       expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       expect(connection.reload.default_chat_model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      expect(connection.feature_bindings.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+    end
+
+    it "keeps the feature resolving afterwards", with_flag: { llm_connection: true } do
+      connection.update!(enabled: true)
+
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+      expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+    end
+
+    it "follows a model a locked binding depends on" do
+      binding = connection.feature_bindings.first
+      binding.update!(locked_at: Time.current)
+
+      patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+      expect(binding.reload.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
     end
 
     # The server names its own models; renaming one here would only be undone by
@@ -300,40 +398,6 @@ RSpec.describe "Admin manual LLM models", :llm_server_helpers, :skip_csrf, :webm
       get edit_llm_model_path(llm_model)
 
       expect(response.body).not_to include("Supported (set by an administrator)")
-    end
-  end
-
-  describe "POST /admin/llm_models/:id/toggle" do
-    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
-
-    it "hides the model from the pickers and puts it back" do
-      post toggle_llm_model_path(llm_model)
-
-      expect(response).to have_http_status(:ok)
-      expect(llm_model.reload).to be_deactivated
-      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
-
-      post toggle_llm_model_path(llm_model)
-
-      expect(llm_model.reload).not_to be_deactivated
-      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
-    end
-
-    it "refuses a model the server has withdrawn" do
-      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
-
-      post toggle_llm_model_path(withdrawn)
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(withdrawn.reload).not_to be_deactivated
-    end
-
-    it "is refused to a non-admin" do
-      login_as create(:user)
-
-      post toggle_llm_model_path(llm_model)
-
-      expect(llm_model.reload).not_to be_deactivated
     end
   end
 end
