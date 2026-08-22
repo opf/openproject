@@ -34,7 +34,8 @@ module LlmConnections
       f.check_box(
         name: :enabled,
         label: LlmConnection.human_attribute_name(:enabled),
-        caption: I18n.t("admin.llm_connections.form.enabled_caption")
+        caption: I18n.t("admin.llm_connections.form.enabled_caption"),
+        disabled: read_only?
       )
 
       f.select_list(
@@ -42,7 +43,8 @@ module LlmConnections
         label: LlmConnection.human_attribute_name(:api_format),
         caption: I18n.t("admin.llm_connections.form.api_format_caption"),
         include_blank: false,
-        input_width: :medium
+        input_width: :medium,
+        disabled: read_only?
       ) do |select|
         # Only formats a request can actually be sent in. The contract rejects
         # the rest as a backstop, but they should not be offered in the first place.
@@ -58,7 +60,8 @@ module LlmConnections
         placeholder: "https://example.com/v1",
         required: true,
         type: :url,
-        input_width: :large
+        input_width: :large,
+        disabled: read_only?
       )
 
       f.text_field(
@@ -72,6 +75,7 @@ module LlmConnections
         type: :password,
         autocomplete: "off",
         input_width: :large,
+        disabled: read_only?,
         data: { "admin--llm-connection-form-target": "secretInput" }
       )
 
@@ -84,6 +88,7 @@ module LlmConnections
           name: :default_chat_model_id,
           label: LlmConnection.human_attribute_name(:default_chat_model_id),
           caption: I18n.t("admin.llm_connections.form.default_chat_model_caption"),
+          disabled: read_only?,
           autocomplete_options: {
             decorated: true,
             inputValue: model.default_chat_model_id,
@@ -98,17 +103,24 @@ module LlmConnections
                         selected: model.default_chat_model_id == model_id)
           end
         end
+
       end
 
-      f.submit(
-        name: :submit,
-        label: submit_label,
-        scheme: :primary,
-        data: { "admin--llm-connection-form-target": "submitButton" }
-      )
+      unless read_only?
+        f.submit(
+          name: :submit,
+          label: submit_label,
+          scheme: :primary,
+          data: { "admin--llm-connection-form-target": "submitButton" }
+        )
+      end
     end
 
     private
+
+    def read_only?
+      model.configured_from_env?
+    end
 
     def models_available?
       model.available_model_ids.any?

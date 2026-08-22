@@ -87,6 +87,8 @@ module Admin
     # cascade would take the locked embedding bindings with it, and those are the
     # only record that a vector index exists and what it was written with.
     def disconnect
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
       @connection.update!(api_key: nil, enabled: false)
 
       redirect_with_notice(t(".success"))
@@ -96,7 +98,12 @@ module Admin
       respond_with_dialog LlmConnections::DeleteApiKeyDialogComponent.new(@connection)
     end
 
+    # The environment guard is checked explicitly because this write bypasses
+    # the contract: removing a credential must always be possible, even against
+    # a server that would reject the resulting unauthenticated probe.
     def delete_api_key
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
       @connection.update!(api_key: nil)
 
       redirect_with_notice(t(".success"))

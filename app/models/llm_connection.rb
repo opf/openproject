@@ -82,6 +82,10 @@ class LlmConnection < ApplicationRecord
     base_url.present?
   end
 
+  def configured_from_env?
+    Setting.llm_connection.present?
+  end
+
   # Every model that can be addressed today: discovered and still offered, plus
   # anything an administrator entered by hand.
   #

@@ -39,7 +39,9 @@ See COPYRIGHT and LICENSE files for more details.
        t("menus.admin.llm_connection")]
     )
 
-    if @connection.persisted?
+    # Nothing here applies to a connection provisioned from the environment:
+    # those settings belong to the deployment, not to the administrator.
+    if @connection.persisted? && !@connection.configured_from_env?
       header.with_action_menu(
         menu_arguments: { anchor_align: :end },
         button_arguments: {
