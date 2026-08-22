@@ -177,7 +177,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
     end
 
-    def rendered_rows(body) = body.scan(/model-\d{3}/).uniq.size
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "shows one page of rows at a time rather than every model" do
       get llm_models_path, params: { per_page: 20 }
@@ -204,7 +204,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
     end
 
-    def rendered_rows(body) = ["qwen3.6-27b", "bge-m3", "BGE compatible"].count { |name| body.include?(name) }
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "narrows the table to matching models" do
       get search_llm_models_path, params: { filters: }
@@ -582,6 +582,43 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("Inherit from server (not verified)")
         expect(response.body).not_to include("Inherit from server (supported)")
       end
+    end
+  end
+
+  describe "POST /admin/llm_models/:id/toggle" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+    before { login_as admin }
+
+    it "hides the model from the pickers and puts it back" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response).to have_http_status(:ok)
+      expect(llm_model.reload).to be_deactivated
+      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
+    end
+
+    it "refuses a model the server has withdrawn" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+
+      post toggle_llm_model_path(withdrawn)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(withdrawn.reload).not_to be_deactivated
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
     end
   end
 end

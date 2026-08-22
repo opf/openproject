@@ -103,6 +103,12 @@ class LlmConnection < ApplicationRecord
     connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
+  # What a picker should offer: the above, minus what an administrator has
+  # switched off.
+  def selectable_model_ids
+    models.selectable.by_identifier.pluck(:external_id)
+  end
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end

@@ -757,6 +757,7 @@ Rails.application.routes.draw do
 
       member do
         get :delete_dialog
+        post :toggle
       end
     end
 
