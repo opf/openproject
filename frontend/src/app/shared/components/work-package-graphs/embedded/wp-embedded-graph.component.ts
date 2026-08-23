@@ -32,6 +32,7 @@ import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { BaseChartDirective } from 'ng2-charts';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -59,6 +60,9 @@ interface ChartDataSet {
 })
 export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   readonly i18n = inject(I18nService);
+
+  // Inline plugin: scoped to this chart only, never enters the global Chart.js registry.
+  readonly plugins = [ChartDataLabels];
 
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
@@ -190,8 +194,6 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           display: this.datasets.length > 1,
         },
         datalabels: {
-          // Opt-in explicitly: render chartjs-plugin-datalabels (see init-chartjs.ts)
-          display: true,
           anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
           color: bodyFontColor,

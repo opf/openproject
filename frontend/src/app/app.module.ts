@@ -89,6 +89,8 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { FogUploadService } from 'core-app/core/upload/fog-upload.service';
 import { LocalUploadService } from 'core-app/core/upload/local-upload.service';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import {
   EmbeddedTablesMacroComponent,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
@@ -337,6 +339,7 @@ export function runBootstrap(appRef:ApplicationRef) {
   ],
   providers: [
     { provide: States, useValue: new States() },
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     provideAppInitializer(() => {
       const initializerFn = (initializeServices)(inject(Injector));
