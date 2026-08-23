@@ -50,10 +50,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
   it "scopes the graph to the sprint and project, and hides the group-by select" do
     element = rendered_component.at("opce-wp-overview-graph")
 
-    expect(element["data-global-scope"]).to eq("false")
-    expect(element["data-show-group-by-options"]).to eq("false")
+    expect(element["global-scope"]).to eq("false")
+    expect(element["show-group-by-options"]).to eq("false")
 
-    filters = JSON.parse(element["data-initial-filters"])
+    filters = JSON.parse(element["initial-filters"])
     expect(filters).to contain_exactly(
       { "sprint" => { "operator" => "=", "values" => [sprint.id] } },
       { "project" => { "operator" => "=", "values" => [project.id] } }
