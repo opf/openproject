@@ -100,4 +100,20 @@ describe('syncCaret', () => {
 
     expect(applied).toHaveLength(0);
   });
+
+  it('re-applies the same placement after the popover is closed and reopened', async () => {
+    popover.style.top = '100px';
+    popover.style.left = '55px';
+    await nextMutation();
+
+    popover.hidePopover();
+    popover.style.top = '0px';
+    await nextMutation();
+
+    popover.showPopover();
+    popover.style.top = '100px';
+    await nextMutation();
+
+    expect(applied).toEqual([{ side: 'bottom', offset: 50 }, { side: 'bottom', offset: 50 }]);
+  });
 });

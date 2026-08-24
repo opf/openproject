@@ -732,6 +732,22 @@ describe('ProjectTimelineGraphComponent', () => {
         vi.advanceTimersByTime(1000);
         expect(isOpen()).toBe(false);
       });
+
+      it('shows the caret again when the same item is hovered a second time', async () => {
+        await openTooltip(milestoneItem);
+        const openStyle = popover().style.cssText;
+
+        hover('mouseout', milestoneItem);
+        await vi.waitUntil(() => caretOffsetValue() === '');
+        // Primer's anchored-position repositions on `beforetoggle` through a
+        // real `requestAnimationFrame`, so the closed-state write this relies
+        // on to reset the caret cache needs a real animation frame to land
+        // before the item is hovered again.
+        await vi.waitUntil(() => popover().style.cssText !== openStyle, { timeout: 2000, interval: 20 });
+
+        await openTooltip(milestoneItem);
+        expect(caretOffsetValue()).not.toBe('');
+      });
     });
 
     it('keeps a long milestone name inside the viewport', async () => {

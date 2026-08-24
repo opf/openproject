@@ -40,12 +40,15 @@ export function syncCaret(
   let last:CaretPlacement | null = null;
 
   const observer = new MutationObserver(() => {
-    if (!popover.matches(':popover-open')) return;
+    if (!popover.matches(':popover-open')) {
+      last = null;
+      return;
+    }
     const rect = anchorRect();
     if (!rect) return;
 
     const caret = caretPlacement(popover.getBoundingClientRect(), rect);
-    if (caret.side === last?.side && caret.offset === last.offset) return;
+    if (caret.side === last?.side && caret.offset === last?.offset) return;
 
     last = caret;
     apply(caret);
