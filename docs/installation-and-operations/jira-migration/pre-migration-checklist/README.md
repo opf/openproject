@@ -1,4 +1,4 @@
-# Jira to OpenProject Post Migration Checklist
+# Jira to OpenProject Pre Migration Checklist
 
 Actions to take in Jira, in OpenProject and in your migration planning before you start an import run, to reduce the number of surprises and manual clean-up steps afterward.
 
