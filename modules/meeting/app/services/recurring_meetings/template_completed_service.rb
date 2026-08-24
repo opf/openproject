@@ -45,15 +45,28 @@ module RecurringMeetings
       return no_next_occurrence_failure if first_occurrence.nil?
       return already_completed_failure if already_completed?(first_occurrence)
 
-      call = update_template(notify)
-      init_first_occurrence(call, first_occurrence) if call.success?
+      restoring = restoring?(first_occurrence)
 
-      if call.success?
-        schedule_next_occurrence(first_occurrence)
-        deliver_invitation_mails
-      end
+      call = update_template(notify)
+      finalize(call, first_occurrence, restoring) if call.success?
 
       call
+    end
+
+    def finalize(call, first_occurrence, restoring)
+      init_first_occurrence(call, first_occurrence)
+      return unless call.success?
+
+      schedule_next_occurrence(first_occurrence)
+      deliver_invitation_mails unless restoring
+    end
+
+    def restoring?(first_occurrence)
+      @recurring_meeting
+        .meetings
+        .not_templated
+        .find_by(recurrence_start_time: first_occurrence)
+        &.cancelled?
     end
 
     def update_template(notify)

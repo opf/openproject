@@ -262,7 +262,7 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       end
 
       it "notifies the participants that the series has ended" do
-        response
+        perform_enqueued_jobs { response }
 
         expect(last_response).to have_http_status(:ok)
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(invited_user.mail)
@@ -343,6 +343,25 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
 
         expect(last_response).to have_http_status(:unprocessable_entity)
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "when the first occurrence was cancelled after completion" do
+      let!(:first_occurrence) do
+        perform_enqueued_jobs { post path, { notify: true }.to_json }
+        recurring_meeting.meetings.not_templated.first.tap { |m| m.update!(state: :cancelled) }
+      end
+
+      before { ActionMailer::Base.deliveries.clear }
+
+      it "restores the occurrence without re-sending the series invitation" do
+        allow(MeetingSeriesMailer).to receive(:invited).and_call_original
+
+        perform_enqueued_jobs { post path, { notify: true }.to_json }
+
+        expect(last_response).to have_http_status(:ok)
+        expect(first_occurrence.reload).not_to be_cancelled
+        expect(MeetingSeriesMailer).not_to have_received(:invited)
       end
     end
 

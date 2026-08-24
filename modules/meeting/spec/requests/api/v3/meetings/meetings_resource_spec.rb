@@ -416,6 +416,32 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         expect(meeting.reload.state).to eq("open")
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
       end
+
+      context "when transitioning directly from draft to in_progress" do
+        # notify is already enabled, so only the state transition can trigger invitations
+        let(:meeting) do
+          create(:meeting, project:, author: current_user, state: :draft, notify: true).tap do |m|
+            create(:meeting_participant, meeting: m, user: participant, invited: true)
+          end
+        end
+        let(:body) do
+          {
+            state: "in_progress",
+            lockVersion: meeting.lock_version
+          }.to_json
+        end
+
+        it "still sends invitation mails to the invited participants" do
+          expect(meeting.state).to eq("draft")
+          expect(ActionMailer::Base.deliveries).to be_empty
+
+          perform_enqueued_jobs { response }
+
+          expect(last_response).to have_http_status(:ok)
+          expect(meeting.reload.state).to eq("in_progress")
+          expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
+        end
+      end
     end
 
     context "when changing participants on an open meeting with notifications enabled" do

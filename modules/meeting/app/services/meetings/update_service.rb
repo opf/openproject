@@ -70,7 +70,7 @@ module Meetings
 
     def exiting_draft?(meeting)
       meeting.saved_change_to_state? &&
-        meeting.open? &&
+        (meeting.open? || meeting.in_progress?) &&
         meeting.state_before_last_save.to_s == "draft"
     end
 
