@@ -342,7 +342,6 @@ module API
                                          required: false,
                                          options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
 
-          # currently never rendered on the schema. enable it with COMMS-964
           schema_with_allowed_collection :observed_in_versions,
                                          type: "[]Version",
                                          value_representer: Versions::VersionRepresenter,
@@ -352,8 +351,8 @@ module API
                                              title: version.name
                                            }
                                          },
-                                         required: false,
-                                         show_if: ->(*) { false }
+                                         writable: ->(*) { represented.writable?(:observed_in_versions) },
+                                         required: false
 
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,

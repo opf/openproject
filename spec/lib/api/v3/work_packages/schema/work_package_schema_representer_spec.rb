@@ -1095,16 +1095,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context "when has permission to assign versions" do
         let(:permissions) { [:assign_versions] }
 
-        it "does not render the field in the schema" do
-          expect(subject).not_to have_json_path("observedInVersions")
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
         end
       end
 
       context "when does not have permission to assign versions" do
         let(:permissions) { [:edit_work_packages] }
 
-        it "does not render the field in the schema" do
-          expect(subject).not_to have_json_path("observedInVersions")
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
         end
       end
     end
