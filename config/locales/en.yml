@@ -858,6 +858,7 @@ en:
               must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: "cannot be set on a variant a project owns."
               taken: "is already set for another configuration of this type."
             form_configuration_source_id:
               must_be_available_to_the_variant: "must be a configuration this project can use."
@@ -6685,6 +6686,9 @@ en:
       no_results_title_text: There are currently no types.
       # Administration sees every project's variants side by side, so an owned one says whose.
       owned_by: "Owned by %{project}"
+      project_variants_count:
+        one: "1 variant owned by a project"
+        other: "%{count} variants owned by projects"
       remove_default: "Do not activate in new projects"
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"

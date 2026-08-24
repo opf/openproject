@@ -116,6 +116,29 @@ RSpec.describe TypeVariant, "ownership" do
     end
   end
 
+  # Which variant new projects start with is an instance-wide decision, and a project's own
+  # variant is visible in that project alone, so a new project could not use it.
+  describe "activating a variant in new projects" do
+    it "refuses a variant a project owns" do
+      owned = build(:project_owned_type_variant, type:, project:, enabled_in_new_projects: true)
+
+      expect(owned).not_to be_valid
+      expect(owned.errors[:enabled_in_new_projects]).to be_present
+    end
+
+    it "refuses one that is already owned when the flag is set later" do
+      owned = create(:project_owned_type_variant, type:, project:)
+
+      expect(owned.update(enabled_in_new_projects: true)).to be(false)
+    end
+
+    it "still allows a global variant" do
+      global = build(:type_variant, type:, variant_name: "Mobile", enabled_in_new_projects: true)
+
+      expect(global).to be_valid
+    end
+  end
+
   describe "when the owning project goes away" do
     it "takes the variant with it" do
       owned = create(:project_owned_type_variant, type:, project: create(:project))

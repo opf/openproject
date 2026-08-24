@@ -101,6 +101,7 @@ class TypeVariant < ApplicationRecord
   validate :base_variant_has_no_name
   validate :only_one_variant_enabled_in_new_projects
   validate :base_variant_is_never_owned
+  validate :owned_variant_is_never_enabled_in_new_projects
 
   scopes :with_effective_configuration, :with_effective_source
 
@@ -110,6 +111,7 @@ class TypeVariant < ApplicationRecord
   scope :non_default_variants, -> { where(is_default_variant: false) }
 
   scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
   # Everything a project may configure with or switch onto: the global variants plus its own.
   scope :available_in, ->(project) { where(project: [nil, project]) }
@@ -244,6 +246,13 @@ class TypeVariant < ApplicationRecord
     siblings = siblings.where.not(id:) if persisted?
 
     errors.add(:enabled_in_new_projects, :taken) if siblings.exists?
+  end
+
+  # A new project would start on a configuration only the owning project can see.
+  def owned_variant_is_never_enabled_in_new_projects
+    return unless enabled_in_new_projects? && project_id.present?
+
+    errors.add(:enabled_in_new_projects, :not_available_to_project_owned_variant)
   end
 
   # A type's own configuration belongs to the type, so no single project may own it.
