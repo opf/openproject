@@ -38,10 +38,10 @@ module Storages
         module Commands
           RSpec.describe DeleteFolderCommand, :disable_ssrf_filter, :vcr, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage) }
-            let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
+            let(:auth_strategy) { Registry["onedrive.authentication.userless"].call }
 
             it "is registered as commands.one_drive.delete_folder" do
-              expect(Registry.resolve("one_drive.commands.delete_folder")).to eq(described_class)
+              expect(Registry.resolve("onedrive.commands.delete_folder")).to eq(described_class)
             end
 
             it ".call requires storage and location as keyword arguments" do
@@ -54,7 +54,7 @@ module Storages
             it "deletes a folder", vcr: "one_drive/delete_folder" do
               create_result = Input::CreateFolder
                                 .build(folder_name: "To Be Deleted Soon", parent_location: "/").bind do |input_data|
-                Registry.resolve("one_drive.commands.create_folder").call(storage:, auth_strategy:, input_data:)
+                Registry.resolve("onedrive.commands.create_folder").call(storage:, auth_strategy:, input_data:)
               end
 
               folder = create_result.value_or { fail("Folder Creation Failed") }

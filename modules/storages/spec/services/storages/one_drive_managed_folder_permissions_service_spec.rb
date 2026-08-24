@@ -391,7 +391,7 @@ module Storages
 
     def root_folder_contents
       Adapters::Input::Files.build(folder: "/").bind do |input_data|
-        Adapters::Registry.resolve("one_drive.queries.files").call(storage:, auth_strategy:, input_data:)
+        Adapters::Registry.resolve("onedrive.queries.files").call(storage:, auth_strategy:, input_data:)
       end
     end
 
@@ -399,7 +399,7 @@ module Storages
       folder_name = folder_override || project_storage.managed_project_folder_path
 
       Adapters::Input::CreateFolder.build(folder_name:, parent_location: "/").bind do |input_data|
-        Adapters::Registry.resolve("one_drive.commands.create_folder")
+        Adapters::Registry.resolve("onedrive.commands.create_folder")
                           .call(storage: project_storage.storage, auth_strategy:, input_data:)
                           .value_or { fail it.inspect }
       end
@@ -407,7 +407,7 @@ module Storages
 
     def set_permissions_on(file_id, user_permissions)
       Adapters::Input::SetPermissions.build(file_id:, user_permissions:).bind do |input_data|
-        Adapters::Registry.resolve("one_drive.commands.set_permissions")
+        Adapters::Registry.resolve("onedrive.commands.set_permissions")
                           .call(storage:, auth_strategy:, input_data:)
                           .value_or { fail it.inspect }
       end
@@ -422,10 +422,10 @@ module Storages
 
     def delete_folder(item_id)
       Adapters::Input::DeleteFolder.build(location: item_id).bind do |input_data|
-        Adapters::Registry.resolve("one_drive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
+        Adapters::Registry.resolve("onedrive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
       end
     end
 
-    def auth_strategy = Adapters::Registry.resolve("one_drive.authentication.userless").call
+    def auth_strategy = Adapters::Registry.resolve("onedrive.authentication.userless").call
   end
 end

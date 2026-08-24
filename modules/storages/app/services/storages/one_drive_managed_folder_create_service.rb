@@ -165,20 +165,20 @@ module Storages
 
     def root_folder = "/"
 
-    def create_folder = Adapters::Registry.resolve("one_drive.commands.create_folder").new(@storage)
+    def create_folder = Adapters::Registry.resolve("onedrive.commands.create_folder").new(@storage)
 
-    def rename_file = Adapters::Registry.resolve("one_drive.commands.rename_file").new(@storage)
+    def rename_file = Adapters::Registry.resolve("onedrive.commands.rename_file").new(@storage)
 
-    def set_permissions = Adapters::Registry.resolve("one_drive.commands.set_permissions").new(@storage)
+    def set_permissions = Adapters::Registry.resolve("onedrive.commands.set_permissions").new(@storage)
 
-    def files = Adapters::Registry.resolve("one_drive.queries.files").new(@storage)
+    def files = Adapters::Registry.resolve("onedrive.queries.files").new(@storage)
 
     def build_permissions_input_data(file_id, user_permissions)
       Adapters::Input::SetPermissions.build(file_id:, user_permissions:)
     end
 
     def auth_strategy
-      @auth_strategy ||= Adapters::Registry["one_drive.authentication.userless"].call
+      @auth_strategy ||= Adapters::Registry["onedrive.authentication.userless"].call
     end
   end
 end

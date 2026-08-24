@@ -42,13 +42,13 @@ module Storages
                      drive_id: "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy")
             end
 
-            let(:auth_strategy) { Adapters::Registry.resolve("one_drive.authentication.userless")[false] }
+            let(:auth_strategy) { Adapters::Registry.resolve("onedrive.authentication.userless")[false] }
             let(:test_folder_data) do
               Input::CreateFolder.build(folder_name: "Permission Test Folder", parent_location: "/").value!
             end
 
             let(:test_folder) do
-              Registry.resolve("one_drive.commands.create_folder")
+              Registry.resolve("onedrive.commands.create_folder")
                       .call(storage:, auth_strategy:, input_data: test_folder_data).value!
             end
 
@@ -146,7 +146,7 @@ module Storages
 
             def clean_up(file_id)
               Input::DeleteFolder.build(location: file_id).bind do |input_data|
-                Registry.resolve("one_drive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
+                Registry.resolve("onedrive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
               end
             end
 

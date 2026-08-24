@@ -71,7 +71,7 @@ module Storages
 
             def delete_folder(folder)
               Input::DeleteFolder.build(location: folder.id).bind do |input_data|
-                Registry["one_drive.commands.delete_folder"].call(storage: subject, auth_strategy:, input_data:)
+                Registry["onedrive.commands.delete_folder"].call(storage: subject, auth_strategy:, input_data:)
                   .either(->(_) { pass_check(:client_folder_removal) },
                           ->(_) { fail_check(:client_folder_removal, :od_client_cant_delete_folder) })
               end
@@ -79,7 +79,7 @@ module Storages
 
             def create_folder
               Input::CreateFolder.build(folder_name: TEST_FOLDER_NAME, parent_location: "/").bind do |input_data|
-                folder_result = Registry["one_drive.commands.create_folder"].call(storage: subject, auth_strategy:, input_data:)
+                folder_result = Registry["onedrive.commands.create_folder"].call(storage: subject, auth_strategy:, input_data:)
 
                 folder_result.either(
                   ->(_) { pass_check(:client_folder_creation) },
@@ -109,10 +109,10 @@ module Storages
             def files_query
               Input::Files
                 .build(folder: "/")
-                .bind { Registry["one_drive.queries.files"].call(storage: subject, auth_strategy:, input_data: it) }
+                .bind { Registry["onedrive.queries.files"].call(storage: subject, auth_strategy:, input_data: it) }
             end
 
-            def auth_strategy = Registry["one_drive.authentication.userless"].call
+            def auth_strategy = Registry["onedrive.authentication.userless"].call
           end
         end
       end

@@ -52,7 +52,7 @@ module Storages
             let(:input_data) { Input::CopyTemplateFolder.build(source:, destination:).value! }
 
             it "is registered under commands.one_drive.copy_template_folder" do
-              expect(Registry.resolve("one_drive.commands.copy_template_folder")).to eq(described_class)
+              expect(Registry.resolve("onedrive.commands.copy_template_folder")).to eq(described_class)
             end
 
             it "responds to .call" do
@@ -125,21 +125,21 @@ module Storages
 
             def create_base_folder
               Input::CreateFolder.build(folder_name: "Test Template Folder", parent_location: "/").bind do |input_data|
-                Registry.resolve("one_drive.commands.create_folder").call(storage:, auth_strategy:, input_data:).value!
+                Registry.resolve("onedrive.commands.create_folder").call(storage:, auth_strategy:, input_data:).value!
               end
             end
 
             def setup_template_folder
               raise if source.nil?
 
-              command = Registry.resolve("one_drive.commands.create_folder").new(storage)
+              command = Registry.resolve("onedrive.commands.create_folder").new(storage)
               Input::CreateFolder.build(folder_name: "Empty Subfolder", parent_location: source).bind do |input_data|
                 command.call(auth_strategy:, input_data:)
 
                 command.call(auth_strategy:, input_data: input_data.with(folder_name: "Subfolder with File")).bind do |subfolder|
                   file_name = "files_query_root.yml"
                   Input::UploadLink.build(folder_id: subfolder.id, file_name:).bind do |upload_data|
-                    Registry.resolve("one_drive.queries.upload_link")
+                    Registry.resolve("onedrive.queries.upload_link")
                             .call(storage:, auth_strategy:, input_data: upload_data).bind do |upload_link|
                       path = Rails.root.join("modules/storages/spec/support/fixtures/vcr_cassettes/one_drive", file_name)
                       File.open(path, "rb") do |file_handle|
@@ -156,7 +156,7 @@ module Storages
             def delete_template_folder
               Input::DeleteFolder
                 .build(location: base_template_folder.id)
-                .bind { Registry.resolve("one_drive.commands.delete_folder").call(storage:, auth_strategy:, input_data: it) }
+                .bind { Registry.resolve("onedrive.commands.delete_folder").call(storage:, auth_strategy:, input_data: it) }
             end
 
             def existing_folder_tuples
@@ -179,11 +179,11 @@ module Storages
 
               Input::DeleteFolder
                 .build(location:)
-                .bind { Registry.resolve("one_drive.commands.delete_folder").call(storage:, auth_strategy:, input_data: it) }
+                .bind { Registry.resolve("onedrive.commands.delete_folder").call(storage:, auth_strategy:, input_data: it) }
             end
 
             def auth_strategy
-              Registry["one_drive.authentication.userless"].call
+              Registry["onedrive.authentication.userless"].call
             end
           end
         end
