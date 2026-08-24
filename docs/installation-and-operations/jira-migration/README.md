@@ -139,7 +139,7 @@ A warning dialog will appear. Confirm that you understand the limitations (e.g.,
 
 ![Warning dialog before starting Jira import](openproject_admin_import_jira_import_warning_banner.png)
 
-During import, Jira [wiki markup](#wiki-markup) is automatically converted to OpenProject’s markdown format.
+During import, Jira wiki markup is automatically converted to OpenProject’s markdown format.
 
 > [!TIP]
 > If a user already exists in OpenProject from a previous import, they will not be duplicated.
