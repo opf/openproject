@@ -1091,6 +1091,24 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe "observedInVersions" do
+      context "when has permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it "does not render the field in the schema" do
+          expect(subject).not_to have_json_path("observedInVersions")
+        end
+      end
+
+      context "when does not have permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it "does not render the field in the schema" do
+          expect(subject).not_to have_json_path("observedInVersions")
+        end
+      end
+    end
+
     describe "priorities" do
       before do
         allow(schema).to receive(:writable?).with("priority").and_return true
