@@ -41,6 +41,7 @@ class LlmConnection < ApplicationRecord
   has_many :health_reports, as: :subject, dependent: :delete_all
   has_many :models, class_name: "LlmModel", dependent: :delete_all
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
+  has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
   validates :base_url, presence: true
   validate :only_one_connection, on: :create
 

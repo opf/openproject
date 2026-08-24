@@ -104,6 +104,32 @@ module LlmConnections
           end
         end
 
+        # Only worth asking for once something embeds. The column, the contract
+        # attribute, its validation and every translation for this field already
+        # existed; the input was simply never rendered, so the value could not be
+        # set through the UI at all.
+        if embedding_features?
+          f.autocompleter(
+            name: :default_embedding_model_id,
+            label: LlmConnection.human_attribute_name(:default_embedding_model_id),
+            caption: default_embedding_model_caption,
+            disabled: read_only?,
+            autocomplete_options: {
+              decorated: true,
+              inputValue: model.default_embedding_model_id,
+              placeholder: I18n.t("label_none_parentheses")
+            }
+          ) do |list|
+            list.option(label: I18n.t("label_none_parentheses"), value: "",
+                        selected: model.default_embedding_model_id.blank?)
+
+            default_embedding_model_options.each do |model_id|
+              list.option(label: embedding_option_label(model_id, embeddings_state(model_id)),
+                          value: model_id,
+                          selected: model.default_embedding_model_id == model_id)
+            end
+          end
+        end
       end
 
       unless read_only?
@@ -136,13 +162,38 @@ module LlmConnections
       (chat_capable + [model.default_chat_model_id]).compact_blank.uniq
     end
 
-    # The same friendly name the model table shows; the identifier stays the value.
-    def option_label(model_id)
-      model_names[model_id].presence || model_id
+    # Only models actually known to embed.
+    #
+    # An unconfirmed capability is not a capability: offering a model here on the
+    # grounds that nothing has ruled it out invites an administrator to pick one
+    # that cannot embed, and the failure would surface much later, at index time.
+    # A catalogue from a registry-backed provider makes that vivid -- 132 models,
+    # 3 of which embed.
+    #
+    # This leaves nothing to choose when no model is known to embed, and that is
+    # the honest state rather than a dead end: an administrator who knows better
+    # than the registry says so on the model itself, by setting its embeddings
+    # capability, which is what default_embedding_model_hint points at.
+    #
+    # The model already chosen is kept regardless, so a save cannot silently
+    # blank a working configuration.
+    def default_embedding_model_options
+      capable = model.selectable_model_ids.select { |id| embeddings_state(id) == :supported }
+
+      (capable + [model.default_embedding_model_id]).compact_blank.uniq
     end
 
-    def model_names
-      @model_names ||= model.models.pluck(:external_id, :display_name).to_h
+    # Says how to make a model eligible when none is, rather than leaving an
+    # empty select with no explanation.
+    def default_embedding_model_caption
+      return I18n.t("admin.llm_connections.form.default_embedding_model_caption") if
+        default_embedding_model_options.any?
+
+      I18n.t("admin.llm_connections.form.default_embedding_model_none")
+    end
+
+    def embedding_features?
+      OpenProject::Llm::Features.for_kind(:embedding).any?
     end
 
     # No verdict at all is the same as an inconclusive one: we do not know.
@@ -155,6 +206,26 @@ module LlmConnections
                                     .for_capability(:embeddings)
                                     .pluck(:model_id, :state)
                                     .to_h
+    end
+
+    def embedding_option_label(model_id, state)
+      case state
+      when :unsupported
+        I18n.t("admin.llm_connections.form.embedding_option_unsupported", model: option_label(model_id))
+      when :unknown
+        I18n.t("admin.llm_connections.form.embedding_option_unknown", model: option_label(model_id))
+      else
+        option_label(model_id)
+      end
+    end
+
+    # The same friendly name the model table shows; the identifier stays the value.
+    def option_label(model_id)
+      model_names[model_id].presence || model_id
+    end
+
+    def model_names
+      @model_names ||= model.models.pluck(:external_id, :display_name).to_h
     end
 
     def submit_label

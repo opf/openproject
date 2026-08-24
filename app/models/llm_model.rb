@@ -61,6 +61,8 @@ class LlmModel < ApplicationRecord
     return if previous_external_id.blank? || previous_external_id == external_id
 
     llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
+    llm_connection.feature_bindings.where(model_id: previous_external_id).update_all(model_id: external_id)
+
     rename_connection_defaults(previous_external_id)
   end
 

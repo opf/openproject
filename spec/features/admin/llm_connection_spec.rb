@@ -123,4 +123,18 @@ RSpec.describe "LLM connection administration",
       expect(connection.models.count).to eq(2)
     end
   end
+
+  describe "the AI models page" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+
+    before { mock_llm_embeddings_response(base_url) }
+
+    it "offers the vector settings only for features that embed" do
+      visit llm_feature_bindings_path
+
+      expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
+      expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
+      expect(page).to be_axe_clean.within("#content")
+    end
+  end
 end

@@ -28,33 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Confirms disconnecting from the LLM server.
-  #
-  # Disconnecting clears the credential and switches the connection off. It does
-  # not delete anything: the endpoint, the model catalogue, the capability
-  # verdicts and every feature binding are kept, so reconnecting is a matter of
-  # entering the key again.
-  #
-  # That is also why there is no confirmation checkbox -- nothing here is
-  # irreversible. A destroying variant would have been, and would have taken the
-  # locked embedding bindings with it: those are the only record that a vector
-  # index exists and which model and dimension it was written under, and
-  # dependent: :delete_all bypasses the guard that protects them.
-  class DisconnectDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_feature_bindings do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      t.string :feature_key, null: false
+      # NULL means "use the connection default for this kind of model".
+      t.string :model_id
+      # Embedding features only. Frozen together with model_id once vectors exist.
+      t.integer :dimensions
+      t.string :input_prefix
+      t.string :query_prefix
+      # Set once the binding has data depending on it, after which the model
+      # cannot be swapped without a destructive re-index.
+      t.datetime :locked_at
+      t.datetime :last_seen_at
 
-    TEST_SELECTOR = "llm-connection--disconnect-dialog"
-
-    alias_method :connection, :model
-
-    def form_arguments
-      { action: url_helpers.disconnect_llm_connection_path, method: :post }
+      t.timestamps null: false
     end
 
-    def bound_features
-      connection.feature_bindings.filter_map { |binding| binding.feature&.label if binding.model_id.present? }
-    end
+    add_index :llm_feature_bindings, %i[llm_connection_id feature_key], unique: true
   end
 end

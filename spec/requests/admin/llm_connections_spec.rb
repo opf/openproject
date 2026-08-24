@@ -240,15 +240,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     before { login_as admin }
 
     it "offers the confirmation, naming what is kept" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       get disconnect_dialog_llm_connection_path,
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
+      expect(response.body).to include("Description assistant")
     end
 
     # Disconnecting is reversible on purpose: destroying the connection would
+    # cascade to the models, the verdicts and every binding.
     it "clears the credential and switches the connection off, keeping everything else" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       post disconnect_llm_connection_path
 
       connection.reload
@@ -256,6 +262,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection).not_to be_enabled
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
     end
 
     it "refuses when the connection comes from the environment" do
@@ -273,6 +280,29 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
+
+  describe "the default embedding model field" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    # Column, contract attribute, validation, error key, locale key and permitted
+    # param all existed; the input was never rendered, so the value could not be
+    # set through the UI at all.
+    it "is rendered once something embeds" do
+      get llm_connection_path
+
+      expect(response.body).to include("llm_connection[default_embedding_model_id]")
+    end
+
+    it "is saved" do
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
     end
   end
 
@@ -342,6 +372,91 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       get llm_connection_path
 
       expect(rendered_rows(response.body)).to eq(3)
+    end
+  end
+
+  describe "choosing a default embedding model" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    def verdict(model_id, state)
+      connection.capability_verdicts.create!(model_id:, capability: "embeddings", state:,
+                                             source: "probe", checked_at: Time.current)
+    end
+
+    it "does not offer a model the server says cannot embed" do
+      verdict("qwen3.6-27b", "unsupported")
+      verdict("bge-m3", "supported")
+
+      get llm_connection_path
+
+      expect(response.body).to include("bge-m3")
+      expect(response.body).not_to include("cannot create embeddings")
+    end
+
+    # An unconfirmed capability is not a capability: offering such a model
+    # invites a choice that fails much later, at index time.
+    it "does not offer a model whose capability is merely unconfirmed" do
+      get llm_connection_path
+
+      expect(response.body).not_to include("not verified as an embedding model")
+    end
+
+    it "says how to make a model eligible when none is" do
+      get llm_connection_path
+
+      expect(response.body).to include("set its embeddings capability")
+    end
+
+    it "offers one an administrator has asserted can embed" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "admin", checked_at: Time.current)
+
+      get llm_connection_path
+
+      expect(response.body).to include("bge-m3")
+      expect(response.body).not_to include("set its embeddings capability")
+    end
+
+    # Otherwise a save would silently blank a working configuration.
+    it "keeps the chosen model listed even once it is ruled out" do
+      connection.update_column(:default_embedding_model_id, "qwen3.6-27b")
+      verdict("qwen3.6-27b", "unsupported")
+
+      get llm_connection_path
+
+      expect(response.body).to include("qwen3.6-27b")
+    end
+
+    it "refuses a model the server says cannot embed" do
+      verdict("qwen3.6-27b", "unsupported")
+
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_embedding_model_id).to be_nil
+    end
+
+    it "accepts one that can" do
+      verdict("bge-m3", "supported")
+
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+    end
+
+    # Unknown is the normal state for a server that publishes nothing, so it
+    # must not block the choice.
+    it "allows one with no verdict at all" do
+      patch llm_connection_path,
+            params: { llm_connection: { base_url: "https://example.com/v1",
+                                        default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
     end
   end
 end

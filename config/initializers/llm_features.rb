@@ -28,33 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Confirms disconnecting from the LLM server.
-  #
-  # Disconnecting clears the credential and switches the connection off. It does
-  # not delete anything: the endpoint, the model catalogue, the capability
-  # verdicts and every feature binding are kept, so reconnecting is a matter of
-  # entering the key again.
-  #
-  # That is also why there is no confirmation checkbox -- nothing here is
-  # irreversible. A destroying variant would have been, and would have taken the
-  # locked embedding bindings with it: those are the only record that a vector
-  # index exists and which model and dimension it was written under, and
-  # dependent: :delete_all bypasses the guard that protects them.
-  class DisconnectDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require_relative "../../lib_static/open_project/llm/features"
 
-    TEST_SELECTOR = "llm-connection--disconnect-dialog"
+# Features that send requests to the configured LLM server.
+#
+# Add a feature here (or from a module engine initializer) so that
+# administrators can assign it a model on the "AI models" page.
 
-    alias_method :connection, :model
+# The description assistant rewrites work package text on explicit user action.
+# Plain chat completions only: no tools, no JSON mode, no streaming. Individual
+# actions may override the model, which is why it is overridable.
+OpenProject::Llm::Features.register :description_assistant,
+                                    kind: :chat,
+                                    prefers: %i[structured_output],
+                                    overridable: true
 
-    def form_arguments
-      { action: url_helpers.disconnect_llm_connection_path, method: :post }
-    end
-
-    def bound_features
-      connection.feature_bindings.filter_map { |binding| binding.feature&.label if binding.model_id.present? }
-    end
-  end
-end
+# Semantic search embeds work packages into a pgvector index. Pinned because the
+# stored vectors are meaningless under a different model: changing it is a
+# destructive re-index rather than a swap.
+OpenProject::Llm::Features.register :semantic_search,
+                                    kind: :embedding,
+                                    requires: %i[embeddings],
+                                    pinned: true
