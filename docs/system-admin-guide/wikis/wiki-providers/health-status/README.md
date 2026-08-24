@@ -12,7 +12,7 @@ If a wiki provider is not working as expected, you can find additional informati
 
 ## Connection validation
 
-Every wiki provider is able to run connection checks. This test is triggered manually by clicking on **Run checks now** in the sidebar on the right side of the wiki provider's details view. This check is available from the UI to edit the provider.
+Every wiki provider is able to run connection checks. This test is triggered manually by clicking on **Run checks now** in the sidebar on the right side of the wiki provider's details view.
 
 ![Check connection for a wiki provider in OpenProject administration](TODO.png)
 
