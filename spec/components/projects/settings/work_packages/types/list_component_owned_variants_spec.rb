@@ -70,6 +70,13 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_text("Only available in this project")
     end
 
+    # Which variant the project is using is what a reader is looking for, so that is the label
+    # the accent belongs to. Ownership is a statement of fact about the row it sits on.
+    it "accents the variant in use rather than the one it owns" do
+      expect(page).to have_css(".Label--accent", text: "In use")
+      expect(page).to have_no_css(".Label--accent", text: "Only available in this project")
+    end
+
     it "offers to add one" do
       expect(page).to have_link(
         "Add a variant for this project",
@@ -97,6 +104,28 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
         "Edit",
         href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
       )
+    end
+  end
+
+  # A type the project uses no named variant of shows an empty group, as it does on the types
+  # index, rather than a blank slate telling the reader nothing they cannot see.
+  describe "a type with no variant the project may use" do
+    shared_let(:plain) { create(:type, name: "Plain") }
+
+    current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+    before do
+      create(:project_type, project:, type: plain)
+      render_inline(described_class.new(project:))
+    end
+
+    it "shows no blank slate for it" do
+      expect(page).to have_no_css(".blankslate")
+      expect(page).to have_no_css("[data-test-selector='op-empty-state']")
+    end
+
+    it "still shows the type" do
+      expect(page).to have_text("Plain")
     end
   end
 

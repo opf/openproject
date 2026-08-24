@@ -61,6 +61,30 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     end
   end
 
+  it "says nothing about an owner while every project may use the variant" do
+    expect(rendered_component).to have_no_text("Owned by")
+  end
+
+  context "when a project owns the variant" do
+    shared_let(:owning_project) { create(:project, name: "Apollo") }
+    shared_let(:owned) do
+      create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Internal")
+    end
+
+    subject(:rendered_component) { render_inline(described_class.new(variant: owned, caption:)) }
+
+    it "attributes the row to the project owning it" do
+      expect(rendered_component).to have_text("Owned by Apollo")
+    end
+
+    # Whose it is, is a statement of fact about the row. The accent is reserved for what a
+    # reader is looking for, which is which variant is in use.
+    it "does not accent the attribution" do
+      expect(rendered_component).to have_css(".Label", text: "Owned by Apollo")
+      expect(rendered_component).to have_no_css(".Label--accent", text: "Owned by Apollo")
+    end
+  end
+
   context "when new projects start with this variant" do
     before { variant.update!(enabled_in_new_projects: true) }
 

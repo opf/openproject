@@ -35,6 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           OpenProject::Common::BorderBoxListComponent.new(
             container: "project-types-group-#{project_type.type.id}",
             collapsible: true,
+            empty_state_behavior: :none,
             mt: 3,
             data: { test_selector: "project-types-row-#{project_type.variant.id}" }
           )
@@ -46,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%# The header row is the type's own configuration, so when that is what the project uses
               it carries the same label as any other row in use, rather than being named. %>
           <% if project_type.variant.default? %>
-            <%= render(Primer::Beta::Label.new(ml: 2)) { t("projects.settings.types.in_use") } %>
+            <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { t("projects.settings.types.in_use") } %>
           <% else %>
             <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_size: :small, ml: 2)) do %>
               <%= t("projects.settings.types.variant_prefix") %>
@@ -74,14 +75,14 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
             <% if owned?(variant) %>
               <% row.with_column(mr: 2) do %>
-                <%= render(Primer::Beta::Label.new(scheme: :accent)) do %>
+                <%= render(Primer::Beta::Label.new) do %>
                   <%= t("projects.settings.types.only_available_here") %>
                 <% end %>
               <% end %>
             <% end %>
             <% if in_use?(project_type, variant) %>
               <% row.with_column do %>
-                <%= render(Primer::Beta::Label.new) { t("projects.settings.types.in_use") } %>
+                <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("projects.settings.types.in_use") } %>
               <% end %>
             <% end %>
           <% end %>
