@@ -38,6 +38,8 @@ module LlmConnections
     attribute :api_key
     attribute :default_chat_model_id
     attribute :default_embedding_model_id
+    attribute :default_chat_model_id
+    attribute :default_embedding_model_id
 
     validates :base_url, presence: true
     validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
@@ -52,14 +54,45 @@ module LlmConnections
     validates :base_url, url: { message: :invalid_url }, unless: -> { base_url.blank? }
 
     validate :enabled_requires_connection
+    validate :default_models_offered_by_server
+    validate :default_chat_model_can_chat
 
     private
+
+    # The mirror image of default_embedding_model_can_embed: a model the server
+    # positively identifies as an embedding model is not a chat candidate.
+    def default_chat_model_can_chat
+      model_id = model.default_chat_model_id
+      return if model_id.blank?
+      return unless model.changed_attributes.include?("default_chat_model_id")
+
+      embedding = model.capability_verdicts
+                       .for_capability(:embeddings)
+                       .exists?(model_id:, state: "supported")
+
+      errors.add(:default_chat_model_id, :cannot_chat) if embedding
+    end
 
     def enabled_requires_connection
       return unless model.enabled?
       return if model.base_url.present?
 
       errors.add :enabled, :requires_connection
+    end
+
+    # A designated default must be a model the server actually reported. Validated
+    # only when it changes, so a catalogue that shrinks underneath a stored
+    # selection does not block every unrelated save; the dangling state is
+    # surfaced in the UI instead.
+    def default_models_offered_by_server
+      %i[default_chat_model_id default_embedding_model_id].each do |attribute|
+        value = model.public_send(attribute)
+        next if value.blank?
+        next unless model.changed_attributes.include?(attribute.to_s)
+        next if model.available_model_ids.include?(value)
+
+        errors.add attribute, :not_available
+      end
     end
   end
 end

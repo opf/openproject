@@ -180,4 +180,30 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       expect(models_request).not_to have_been_made
     end
   end
+
+  describe "default model selection" do
+    let(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    context "with a model the server offers" do
+      before { connection.default_chat_model_id = "bge-m3" }
+
+      include_examples "contract is valid"
+    end
+
+    context "with a model the server does not offer" do
+      before { connection.default_chat_model_id = "not-there" }
+
+      include_examples "contract is invalid", default_chat_model_id: :not_available
+    end
+
+    context "with a model the server says is an embedding model" do
+      before do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.default_chat_model_id = "bge-m3"
+      end
+
+      include_examples "contract is invalid", default_chat_model_id: :cannot_chat
+    end
+  end
 end

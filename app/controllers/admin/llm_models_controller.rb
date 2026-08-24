@@ -96,6 +96,20 @@ module Admin
       redirect_to llm_connection_path, status: :see_other
     end
 
+    # Hides a model from the pickers, or puts it back. Deliberately does not
+    # touch +active+, which the catalogue sync owns and would overwrite.
+    def toggle
+      llm_model = @connection.models.find(params.expect(:id))
+
+      # A withdrawn model has nothing to switch on; its toggle is rendered
+      # disabled, and this refuses a request that got here anyway.
+      return render(json: {}, status: :unprocessable_entity) unless llm_model.active?
+
+      llm_model.update!(deactivated_at: llm_model.deactivated? ? nil : Time.current)
+
+      render json: {}, status: :ok
+    end
+
     private
 
     def set_connection

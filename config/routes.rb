@@ -755,6 +755,7 @@ Rails.application.routes.draw do
     resources :llm_models, only: %i[new create edit update destroy], controller: "admin/llm_models" do
       member do
         get :delete_dialog
+        post :toggle
       end
     end
 

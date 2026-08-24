@@ -34,7 +34,7 @@ module LlmConnections
   # Rendering never issues an HTTP request: the catalogue is refreshed explicitly
   # through the "Refresh models" action.
   class ModelsTableComponent < OpPrimer::BorderBoxTableComponent
-    columns :identifier, :kind, :context_window, :source
+    columns :identifier, :kind, :context_window, :source, :status
 
     mobile_columns :identifier
 
@@ -65,7 +65,8 @@ module LlmConnections
         [:identifier, { caption: I18n.t("admin.llm_connections.models.identifier") }],
         [:kind, { caption: I18n.t("admin.llm_connections.models.kind") }],
         [:context_window, { caption: I18n.t("admin.llm_connections.models.context_window") }],
-        [:source, { caption: I18n.t("admin.llm_connections.models.source") }]
+        [:source, { caption: I18n.t("admin.llm_connections.models.source") }],
+        [:status, { caption: I18n.t("admin.llm_connections.models.status") }]
       ]
     end
 

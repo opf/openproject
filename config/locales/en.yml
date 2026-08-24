@@ -207,6 +207,7 @@ en:
         base_url: "Host URL"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
         enabled: "Enable LLMs for this instance"
         last_connected_at: "Last connected"
       llm_model:
@@ -697,6 +698,12 @@ en:
               not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            default_chat_model_id:
+              cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
+              not_available: "is not offered by the configured LLM server."
+            default_embedding_model_id:
+              cannot_embed: "cannot create embeddings, according to the LLM server."
+              not_available: "is not offered by the configured LLM server."
             enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
         meeting:
@@ -1723,6 +1730,7 @@ en:
         base_url_caption: >
           The full base URL of the server, including the API version segment, exactly as your provider documents it (for example https://example.com/v1). OpenProject appends only the endpoint path.
         button_connect: "Connect"
+        default_chat_model_caption: "Used by AI features that do not select a model themselves."
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
       models:
