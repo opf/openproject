@@ -35,34 +35,31 @@ module Storages
   module Adapters
     module Providers
       module OneDrive
-        module Commands
-          RSpec.describe RenameFileCommand, :disable_ssrf_filter, :webmock do
-            let(:storage) { create(:one_drive_sandbox_storage) }
-            let(:auth_strategy) { Registry.resolve("onedrive.authentication.userless").call }
-            let(:input_data) { Input::RenameFile.build(location: file_id, new_name: name).value! }
-
-            it_behaves_like "storage adapter: command call signature", "rename_file"
-
-            context "when renaming a folder", vcr: "one_drive/rename_file_success" do
-              let(:file_id) { "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR" }
-              let(:name) { "I am the senat" }
-
-              it_behaves_like "adapter rename_file_command: successful file renaming"
+        module Queries
+          RSpec.describe OpenStorageQuery, :disable_ssrf_filter, :webmock do
+            let(:user) { create(:user) }
+            let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+            let(:auth_strategy) do
+              Registry["onedrive.authentication.user_bound"].call(user, storage)
             end
 
-            context "when renaming a file inside a subdirectory", vcr: "one_drive/rename_file_with_location_success" do
-              let(:file_id) { "01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN" }
-              let(:name) { "I❤️you death star.png" }
+            subject { described_class.new(storage) }
 
-              it_behaves_like "adapter rename_file_command: successful file renaming"
-            end
+            describe "#call" do
+              it "responds with correct parameters" do
+                expect(described_class).to respond_to(:call)
 
-            context "when trying to rename a not existent file", vcr: "one_drive/rename_file_not_found" do
-              let(:file_id) { "sith_have_yellow_light_sabers" }
-              let(:name) { "this_will_not_happen.png" }
-              let(:error_source) { described_class }
+                method = described_class.method(:call)
+                expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq input_data])
+              end
 
-              it_behaves_like "storage adapter: error response", :not_found
+              context "with outbound requests successful", vcr: "onedrive/open_storage_query_success" do
+                it "returns the url for opening the storage" do
+                  call = subject.call(auth_strategy:)
+                  expect(call).to be_success
+                  expect(call.value!).to eq("https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR")
+                end
+              end
             end
           end
         end

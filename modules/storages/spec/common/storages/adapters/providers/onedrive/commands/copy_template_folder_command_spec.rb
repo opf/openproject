@@ -40,18 +40,18 @@ module Storages
             shared_let(:storage) { create(:one_drive_sandbox_storage) }
 
             shared_let(:original_folders) do
-              use_storages_vcr_cassette("one_drive/copy_template_folder_existing_folders") { existing_folder_tuples }
+              use_storages_vcr_cassette("onedrive/copy_template_folder_existing_folders") { existing_folder_tuples }
             end
 
             shared_let(:base_template_folder) do
-              use_storages_vcr_cassette("one_drive/copy_template_folder_base_folder") { create_base_folder }
+              use_storages_vcr_cassette("onedrive/copy_template_folder_base_folder") { create_base_folder }
             end
 
             shared_let(:source) { base_template_folder.id }
 
             let(:input_data) { Input::CopyTemplateFolder.build(source:, destination:).value! }
 
-            it "is registered under commands.one_drive.copy_template_folder" do
+            it "is registered under commands.onedrive.copy_template_folder" do
               expect(Registry.resolve("onedrive.commands.copy_template_folder")).to eq(described_class)
             end
 
@@ -64,16 +64,16 @@ module Storages
 
               # rubocop:disable RSpec/BeforeAfterAll
               before(:all) do
-                use_storages_vcr_cassette("one_drive/copy_template_folder_setup") { setup_template_folder }
+                use_storages_vcr_cassette("onedrive/copy_template_folder_setup") { setup_template_folder }
               end
 
               after(:all) do
-                use_storages_vcr_cassette("one_drive/copy_template_folder_teardown") { delete_template_folder }
+                use_storages_vcr_cassette("onedrive/copy_template_folder_teardown") { delete_template_folder }
               end
               # rubocop:enable RSpec/BeforeAfterAll
 
               it "copies origin folder and all underlying files and folders to the destination_path",
-                 vcr: "one_drive/copy_template_folder_copy_successful" do
+                 vcr: "onedrive/copy_template_folder_copy_successful" do
                 command_result = described_class.call(auth_strategy:, storage:, input_data:)
 
                 expect(command_result).to be_success
@@ -90,13 +90,13 @@ module Storages
                   let(:source) { "TheCakeIsALie" }
                   let(:destination) { "Not Happening" }
 
-                  it "fails", vcr: "one_drive/copy_template_source_not_found" do
+                  it "fails", vcr: "onedrive/copy_template_source_not_found" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result).to be_failure
                   end
 
-                  it "explains the nature of the error", vcr: "one_drive/copy_template_source_not_found" do
+                  it "explains the nature of the error", vcr: "onedrive/copy_template_source_not_found" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result.failure.code).to eq(:not_found)
@@ -106,13 +106,13 @@ module Storages
                 context "when it would overwrite an already existing folder" do
                   let(:destination) { original_folders.first[:name] }
 
-                  it "fails", vcr: "one_drive/copy_template_folder_no_overwrite" do
+                  it "fails", vcr: "onedrive/copy_template_folder_no_overwrite" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result).to be_failure
                   end
 
-                  it "explains the nature of the error", vcr: "one_drive/copy_template_folder_no_overwrite" do
+                  it "explains the nature of the error", vcr: "onedrive/copy_template_folder_no_overwrite" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result.failure.code).to eq(:conflict)
@@ -141,7 +141,7 @@ module Storages
                   Input::UploadLink.build(folder_id: subfolder.id, file_name:).bind do |upload_data|
                     Registry.resolve("onedrive.queries.upload_link")
                             .call(storage:, auth_strategy:, input_data: upload_data).bind do |upload_link|
-                      path = Rails.root.join("modules/storages/spec/support/fixtures/vcr_cassettes/one_drive", file_name)
+                      path = Rails.root.join("modules/storages/spec/support/fixtures/vcr_cassettes/onedrive", file_name)
                       File.open(path, "rb") do |file_handle|
                         HTTPX.with(headers: { content_length: file_handle.size,
                                               "Content-Range" => "bytes 0-#{file_handle.size - 1}/#{file_handle.size}" })

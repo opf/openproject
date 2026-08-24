@@ -75,13 +75,13 @@ module Storages
       shared_let(:user) { create(:user) }
       shared_let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
 
-      context "when the file exists", vcr: "one_drive/file_info_query_success_file" do
+      context "when the file exists", vcr: "onedrive/file_info_query_success_file" do
         let(:file_id) { "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA" }
 
         it_behaves_like "storage file service: successful response"
       end
 
-      context "when the file does not exists", vcr: "one_drive/file_info_query_not_found" do
+      context "when the file does not exists", vcr: "onedrive/file_info_query_not_found" do
         let(:file_id) { "not_existent" }
 
         it_behaves_like "storage file service: not found"

@@ -63,14 +63,14 @@ module Storages
               expect(method.parameters).to contain_exactly(%i[keyreq auth_strategy], %i[keyreq storage])
             end
 
-            it "responds with user details if request is successful", vcr: "one_drive/user_query_success" do
+            it "responds with user details if request is successful", vcr: "onedrive/user_query_success" do
               command_result = described_class.call(auth_strategy:, storage:)
 
               expect(command_result).to be_success
               expect(command_result.value!).to eq(id: "a9023fd0-c421-4695-b83c-bb3ba67708d6")
             end
 
-            it "responds with unauthorized if request is unauthorized", vcr: "one_drive/user_query_unauthorized" do
+            it "responds with unauthorized if request is unauthorized", vcr: "onedrive/user_query_unauthorized" do
               command_result = described_class.call(auth_strategy:, storage:)
 
               expect(command_result).to be_failure

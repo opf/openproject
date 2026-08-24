@@ -42,7 +42,7 @@ module Storages
 
             it_behaves_like "storage adapter: query call signature", "upload_link"
 
-            context "when requesting an upload link for an existing file", vcr: "one_drive/upload_link_success" do
+            context "when requesting an upload link for an existing file", vcr: "onedrive/upload_link_success" do
               let(:input_data) do
                 Input::UploadLink
                   .build(folder_id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff").value!
@@ -71,7 +71,7 @@ module Storages
               it_behaves_like "adapter upload_link_query: successful upload link response"
             end
 
-            context "when requesting an upload link for a not existing file", vcr: "one_drive/upload_link_not_found" do
+            context "when requesting an upload link for a not existing file", vcr: "onedrive/upload_link_not_found" do
               let(:input_data) do
                 Input::UploadLink
                   .build(folder_id: "04AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff").value!
