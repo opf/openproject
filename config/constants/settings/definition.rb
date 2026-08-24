@@ -731,6 +731,13 @@ module Settings
         format: :boolean,
         default: false
       },
+      llm_connection: {
+        description: "Configure the connection to an OpenAI-API-compatible LLM server through environment variables",
+        writable: false,
+        default: {},
+        format: :hash,
+        string_values: true
+      },
       log_level: {
         description: "Set the OpenProject logger level",
         default: Rails.env.development? ? "debug" : "info",

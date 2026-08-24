@@ -28,25 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Llm
-  # Refreshes the cached model catalogue out of band.
+module LlmConnections
+  # Used when the connection is provisioned from the environment.
   #
-  # Used by the environment seeder, which must not block on -- or fail because of
-  # -- an LLM server that has not finished starting.
-  class SyncModelsJob < ApplicationJob
-    class SyncFailed < StandardError; end
+  # Inherits from BaseContract, not UpdateContract: seeding must never reach out
+  # to the LLM server, because the container it runs in may well start before the
+  # server does. It also lifts the "configured from environment is read-only"
+  # guard, since this is the code path that legitimately writes those values.
+  class EnvironmentUpdateContract < BaseContract
+    def not_configured_from_env = nil
 
-    # The usual reason for a failure here is the startup race with the LLM
-    # sidecar this job exists for, so a failed sync retries with backoff rather
-    # than leaving the provisioned connection without its catalogue.
-    retry_on SyncFailed, wait: :polynomially_longer, attempts: 10
-
-    def perform
-      connection = LlmConnection.first
-      return if connection.nil? || !connection.configured?
-
-      result = LlmConnections::SyncModelsService.new(connection).call
-      raise SyncFailed, result.errors.to_s unless result.success?
-    end
+    # On a fresh installation the seed runs before any model synchronisation, so
+    # there is no catalogue to validate a default model against. A wrong id is
+    # surfaced afterwards, the same way as a model that vanished: the binding
+    # shows as no longer offered.
+    def default_models_offered_by_server = nil
   end
 end

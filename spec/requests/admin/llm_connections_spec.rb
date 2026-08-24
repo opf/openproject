@@ -207,6 +207,30 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "DELETE /admin/llm_connection/api_key when provisioned" do
+    before { login_as admin }
+
+    it "clears the stored key and keeps everything else" do
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test")
+
+      delete api_key_llm_connection_path
+
+      expect(connection.reload.api_key).to be_blank
+      expect(connection.base_url).to eq("https://example.com/v1")
+    end
+
+    # Previously update! bypassed the contract, so this could be wiped by a
+    # hand-crafted request even though the UI never offers it.
+    it "refuses when the connection comes from the environment" do
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      delete api_key_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+    end
+  end
+
   describe "disconnecting" do
     let!(:connection) do
       create(:llm_connection, :with_models, :enabled,
@@ -232,6 +256,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection).not_to be_enabled
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+    end
+
+    it "refuses when the connection comes from the environment" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+      expect(connection).to be_enabled
     end
 
     it "is refused to a non-admin" do

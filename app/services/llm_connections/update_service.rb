@@ -30,6 +30,15 @@
 
 module LlmConnections
   class UpdateService < BaseServices::Update
+    # @param sync_models [Boolean] whether to refresh the model catalogue inline
+    #   after a successful save. Provisioning from the environment passes false:
+    #   seeding must not block on an LLM server that has not started yet, and
+    #   enqueues Llm::SyncModelsJob instead.
+    def initialize(*, sync_models: true, **)
+      super(*, **)
+      @sync_models = sync_models
+    end
+
     private
 
     # The contract has already proven the server reachable when the credentials
@@ -38,6 +47,8 @@ module LlmConnections
     def after_perform(service_call)
       super.tap do
         next unless service_call.success?
+
+        next unless @sync_models
         next unless connection_changed?(service_call.result)
 
         SyncModelsService.new(service_call.result).call
