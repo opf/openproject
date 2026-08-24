@@ -1,0 +1,24 @@
+// Host: the anchored-position element. Primer already zeroes its border and
+// padding; the rest strips the UA popover chrome so only the message shows.
+anchored-position.op-anchored-popover--host
+  margin: 0
+  padding: 0
+  border: 0
+  background: none
+  pointer-events: none
+  text-align: start
+
+.op-anchored-popover
+  width: auto
+  color: var(--fgColor-default)
+
+  &:not(.Popover-message--left):not(.Popover-message--right)
+    &::before,
+    &::after
+      left: var(--op-anchored-popover-caret-offset, 50%)
+
+  &.Popover-message--left,
+  &.Popover-message--right
+    &::before,
+    &::after
+      top: var(--op-anchored-popover-caret-offset, 50%)
