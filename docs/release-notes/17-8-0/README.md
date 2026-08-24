@@ -68,7 +68,7 @@ Existing version assignments are preserved during the conversion so no data is l
 
 Existing functionality such as roadmaps, version boards, bulk editing, project copying, queries, filters, exports, and notifications continues to work with target versions.
 
-For API clients, a new `targetVersions` property contains all assigned target versions. The existing single-value `version` property remains available for compatibility, but integrations that manage version assignments should migrate to `targetVersions`.
+For API clients, a new `targetVersions` property replaces the single-value `version` field. Integrations that manage version assignments should migrate to `targetVersions` BEFORE enabling multiple versions on the OpenProject instance.
 
 For more information about the change, migration options, and API compatibility, see the [multiple target versions documentation](../../system-admin-guide/work-packages/versions-and-categories#multiple-target-versions/).
 
