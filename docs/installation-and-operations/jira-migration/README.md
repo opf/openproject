@@ -38,7 +38,7 @@ This import tool is currently in beta and can only import basic data:
 - Statuses
 - Types
 
-See [field mapping for details](./field-mapping/) for details.
+See [field mapping reference](./field-mapping/) for details.
 
 ## Data not yet covered by the Migrator 
 
@@ -53,7 +53,7 @@ See [field mapping for details](./field-mapping/) for details.
 - Permissions
 - Schemas
 
-See [field mapping for details](./field-mapping/) for details.
+See [field mapping reference](./field-mapping/) for details.
 
 ## Supported Jira versions
 
