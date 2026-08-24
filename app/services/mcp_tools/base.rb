@@ -181,7 +181,7 @@ module McpTools
     end
 
     def format_response(result)
-      result = self.class.output_filters.inject(JSON.parse(result.to_json)) { |r, f| f.filter(r) }
+      result = self.class.output_filters.each_with_object(JSON.parse(result.to_json)) { |f, r| f.filter(r) }
       plain = render_plain_content? ? format_content(result) : []
       structured_content = render_structured_content? ? format_structured_content(result) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)
