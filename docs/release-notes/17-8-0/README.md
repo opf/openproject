@@ -64,7 +64,7 @@ For existing OpenProject installations, this conversion does not happen automati
 
 ![Versions and categories in OpenProject administration](openproject_release_notes_17.8_versions_and_categories.png)
 
-Existing version assignments are preserved during the conversion. Users who only assign one version to a work package can continue working as before, while the **Target versions** field can now also contain several values.
+Existing version assignments are preserved during the conversion so no data is lost. And once **multiple values** is enabled users can start assignig more than a single version to a work package.
 
 Existing functionality such as roadmaps, version boards, bulk editing, project copying, queries, filters, exports, and notifications continues to work with target versions.
 
