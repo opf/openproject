@@ -45,14 +45,41 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { html, nothing, render } from 'lit-html';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { styleMap } from 'lit-html/directives/style-map.js';
 import {
   GROUP_GATES,
   ProjectTimelineItemBuilder,
 } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
+import { caretPlacement } from './project-timeline-tooltip-caret';
+import type { CaretPlacement } from './project-timeline-tooltip-caret';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
+
+const TOOLTIP_DELAY_IN_MS = 500;
+
+interface VisItem {
+  getTitle():HTMLElement | string | undefined;
+}
+
+interface VisItemSet {
+  getItemById(id:string):VisItem | undefined;
+}
+
+interface ItemHoverEvent {
+  item:string;
+  event:MouseEvent;
+}
+
+interface TooltipState {
+  anchor:HTMLElement;
+  content:HTMLElement | string;
+  caret:CaretPlacement | null;
+}
 
 @Component({
   selector: 'opce-project-timeline-graph',
@@ -92,12 +119,18 @@ export class ProjectTimelineGraphComponent {
 
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
+  private tooltipHost:HTMLElement | null = null;
+  private tooltipState:TooltipState | null = null;
+  private tooltipTimer:number | null = null;
+  private tooltipObserver:MutationObserver | null = null;
 
   protected readonly ready = signal(false);
 
   constructor() {
     afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
     inject(DestroyRef).onDestroy(() => {
+      this.clearTooltipTimer();
+      this.tooltipObserver?.disconnect();
       this.timeline?.destroy();
       this.timeline = null;
     });
@@ -133,10 +166,16 @@ export class ProjectTimelineGraphComponent {
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         onInitialDrawComplete: () => this.revealTimeline(),
+        showTooltips: false,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
       },
     );
+
+    this.initTooltip();
+    this.timeline.on('itemover', (props:ItemHoverEvent) => this.showTooltip(props));
+    this.timeline.on('itemout', () => this.hideTooltip());
+    this.timeline.on('rangechange', () => this.hideTooltip());
 
     this.timeline.on('click', (props:{ item:string | null }) => {
       if (!props.item) return;
@@ -147,9 +186,118 @@ export class ProjectTimelineGraphComponent {
     });
   }
 
+  // vis-timeline renders its own tooltip inside the timeline root, where the
+  // dashboard grid cell (`.grid--area`, `overflow: hidden` + `z-index`) clips
+  // it. A popover in the top layer escapes both. It stays a child of the
+  // `aria-hidden` container so the sr-only list remains the only accessible
+  // representation.
+  // https://community.openproject.org/wp/SPPM-324
+  private initTooltip():void {
+    this.tooltipHost = document.createElement('div');
+    this.containerRef.nativeElement.appendChild(this.tooltipHost);
+    this.renderTooltip();
+
+    // `anchored-position` repositions by writing `top`/`left` inline and does
+    // not announce which side it settled on, so the caret is re-derived from
+    // the resulting geometry after every such write.
+    this.tooltipObserver = new MutationObserver(() => this.alignCaret());
+    this.tooltipObserver.observe(this.tooltipPopover!, { attributes: true, attributeFilter: ['style'] });
+  }
+
+  private renderTooltip():void {
+    if (!this.tooltipHost) return;
+
+    const state = this.tooltipState;
+    const caret = state?.caret;
+    render(
+      html`
+        <anchored-position
+          class="op-project-timeline-graph--tooltip"
+          popover="manual"
+          side="outside-top"
+          align="center"
+          anchor-offset="spacious"
+          .anchorElement=${state?.anchor ?? null}>
+          <div
+            class=${classMap({
+              'Popover-message': true,
+              'Popover-message--bottom': caret?.side === 'bottom',
+              'Popover-message--left': caret?.side === 'left',
+              'Popover-message--right': caret?.side === 'right',
+            })}
+            style=${styleMap({ '--op-timeline-tooltip-caret-offset': caret ? `${caret.offset}px` : null })}>
+            ${state?.content ?? nothing}
+          </div>
+        </anchored-position>
+      `,
+      this.tooltipHost,
+    );
+  }
+
+  private get tooltipPopover():AnchoredPositionElement | null {
+    return this.tooltipHost?.querySelector<AnchoredPositionElement>('anchored-position') ?? null;
+  }
+
+  private showTooltip({ item, event }:ItemHoverEvent):void {
+    const anchor = event.target instanceof Element ? this.tooltipAnchor(event.target) : null;
+    const content = this.visItemSet()?.getItemById(item)?.getTitle();
+    if (!anchor || !content) {
+      this.hideTooltip();
+      return;
+    }
+
+    this.tooltipState = { anchor, content, caret: null };
+    this.renderTooltip();
+
+    this.clearTooltipTimer();
+    this.tooltipTimer = window.setTimeout(() => {
+      this.tooltipTimer = null;
+      if (anchor.isConnected) this.tooltipPopover?.togglePopover(true);
+    }, TOOLTIP_DELAY_IN_MS);
+  }
+
+  // Point items carry their marker in a nested `.vis-dot`; milestones draw the
+  // diamond there while gates hide it and draw an icon in the content instead.
+  private tooltipAnchor(target:Element):HTMLElement | null {
+    const item = target.closest<HTMLElement>('.vis-item');
+    const dot = item?.querySelector<HTMLElement>('.vis-dot');
+    return (dot?.getClientRects().length ? dot : item) ?? null;
+  }
+
+  private alignCaret():void {
+    const popover = this.tooltipPopover;
+    const state = this.tooltipState;
+    if (!popover || !state || !popover.matches(':popover-open')) return;
+
+    const caret = caretPlacement(popover.getBoundingClientRect(), state.anchor.getBoundingClientRect());
+    if (caret.side === state.caret?.side && caret.offset === state.caret.offset) return;
+
+    this.tooltipState = { ...state, caret };
+    this.renderTooltip();
+  }
+
+  private hideTooltip():void {
+    this.clearTooltipTimer();
+    this.tooltipPopover?.togglePopover(false);
+    this.tooltipState = null;
+    this.renderTooltip();
+  }
+
+  private clearTooltipTimer():void {
+    if (this.tooltipTimer !== null) {
+      window.clearTimeout(this.tooltipTimer);
+      this.tooltipTimer = null;
+    }
+  }
+
+  private visItemSet():VisItemSet | undefined {
+    return (this.timeline as unknown as { itemSet?:VisItemSet } | null)?.itemSet;
+  }
+
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
     const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
     this.itemsDataset = new DataSet(items);
+    this.hideTooltip();
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
 

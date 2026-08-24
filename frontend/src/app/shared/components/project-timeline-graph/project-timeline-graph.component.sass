@@ -29,16 +29,31 @@
     display: none
 
   // Tooltip
-  .vis-tooltip
-    background: var(--body-background)
-    color: var(--fgColor-default)
-    border: 1px solid var(--borderColor-default)
-    border-radius: var(--borderRadius-default)
-    box-shadow: var(--shadow-floating-small)
-    padding: var(--base-size-12)
-    max-width: 350px
-    @include text-shortener(false)
-    white-space: normal
+  .op-project-timeline-graph--tooltip
+    pointer-events: none
+    margin: 0
+    padding: 0
+    border: 0
+    background: none
+    text-align: start
+
+    .Popover-message
+      width: auto
+      max-width: 350px
+      padding: var(--base-size-12)
+      color: var(--fgColor-default)
+      overflow-wrap: anywhere
+
+      &:not(.Popover-message--left):not(.Popover-message--right)
+        &::before,
+        &::after
+          left: var(--op-timeline-tooltip-caret-offset, 50%)
+
+      &.Popover-message--left,
+      &.Popover-message--right
+        &::before,
+        &::after
+          top: var(--op-timeline-tooltip-caret-offset, 50%)
 
   .op-timeline-tooltip--meta-row
     display: inline-flex
