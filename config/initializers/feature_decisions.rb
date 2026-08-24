@@ -59,3 +59,7 @@ OpenProject::FeatureDecisions.add :type_variants,
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
+
+OpenProject::FeatureDecisions.add :llm_connection,
+                                  description: "Enables the administration page connecting OpenProject to an " \
+                                               "OpenAI-API-compatible LLM server, and the AI features built on it."
