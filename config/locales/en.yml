@@ -475,6 +475,8 @@ en:
           true: "include non-working days"
         journal_internal: Internal Journal
         notify: "Notify" # used in custom actions
+        observed_in_version: "Observed in version"
+        observed_in_versions: "Observed in versions"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -492,8 +494,6 @@ en:
         subproject: "Subproject"
         target_version: "Target version"
         target_versions: "Target versions"
-        observed_in_version: "Observed in version"
-        observed_in_versions: "Observed in versions"
         time_entries: "Log time"
         type: "Type"
         version: "Version"
