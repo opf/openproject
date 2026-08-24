@@ -38,7 +38,7 @@ module Storages
         module Validators
           RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage, :as_automatically_managed) }
-            let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
+            let(:auth_strategy) { Registry["onedrive.authentication.userless"].call }
             let(:folder_name) { described_class::TEST_FOLDER_NAME }
 
             subject(:validator) { described_class.new(storage) }
@@ -64,7 +64,7 @@ module Storages
                 error = SimpleError.new(source: self, code: :error)
                 allow(create_cmd).to receive(:call).with(storage:, auth_strategy:, input_data:).and_return(Failure(error))
 
-                Registry.stub("one_drive.commands.create_folder", create_cmd)
+                Registry.stub("onedrive.commands.create_folder", create_cmd)
 
                 results = validator.call
 
@@ -75,7 +75,7 @@ module Storages
               it "fails when the test folder already exists on the remote",
                  vcr: "one_drive/validator_test_folder_already_exists" do
                 Input::CreateFolder.build(folder_name:, parent_location: "/").bind do |input_data|
-                  Registry["one_drive.commands.create_folder"].call(storage:, auth_strategy:, input_data:)
+                  Registry["onedrive.commands.create_folder"].call(storage:, auth_strategy:, input_data:)
                 end
 
                 result = validator.call
@@ -92,7 +92,7 @@ module Storages
                 delete_cmd = class_double(Commands::DeleteFolderCommand)
                 allow(delete_cmd).to receive(:call).and_return(Failure())
 
-                Registry.stub("one_drive.commands.delete_folder", delete_cmd)
+                Registry.stub("onedrive.commands.delete_folder", delete_cmd)
 
                 results = validator.call
 
@@ -109,7 +109,7 @@ module Storages
 
             def created_folder
               Input::Files.build(folder: "/").bind do |input_data|
-                Registry["one_drive.queries.files"].call(storage:, auth_strategy:, input_data:).bind do |result|
+                Registry["onedrive.queries.files"].call(storage:, auth_strategy:, input_data:).bind do |result|
                   folder = result.all_folders.detect { |file| file.name.include?(folder_name) }
 
                   return folder.id

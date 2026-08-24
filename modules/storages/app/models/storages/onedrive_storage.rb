@@ -39,7 +39,7 @@ module Storages
 
     using ::Storages::Peripherals::ServiceResultRefinements
 
-    def self.short_provider_name = :one_drive
+    def self.short_provider_name = :onedrive
 
     def self.non_confidential_provider_fields
       super + %i[tenant_id drive_id]

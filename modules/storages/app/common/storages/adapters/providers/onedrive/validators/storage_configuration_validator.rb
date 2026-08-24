@@ -138,7 +138,7 @@ module Storages
                     "\tresponse: #{query_result.failure.payload}"
             end
 
-            def auth_strategy = Registry["one_drive.authentication.userless"].call
+            def auth_strategy = Registry["onedrive.authentication.userless"].call
 
             def error_payload
               @error_payload ||= query_result.either(->(_) { {} }, -> { MultiJSON.load(it.payload, symbolize_keys: true) })

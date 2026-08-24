@@ -39,11 +39,11 @@ module Storages
       describe "error handling" do
         context "when a missing key is requested" do
           it "raises a MissingContract if it was a contract" do
-            expect { registry["one_drive.contracts.some_contract"] }.to raise_error Errors::MissingContract
+            expect { registry["onedrive.contracts.some_contract"] }.to raise_error Errors::MissingContract
           end
 
           it "raises an OperationNotSupported if a command or query is not registered" do
-            expect { registry["one_drive.commands.conquer"] }.to raise_error Errors::OperationNotSupported
+            expect { registry["onedrive.commands.conquer"] }.to raise_error Errors::OperationNotSupported
           end
 
           it "raises an UnknownProvider if the provider is not registered" do
@@ -51,13 +51,13 @@ module Storages
           end
 
           it "raises a ResolverStandardError if the key cannot be resolved" do
-            expect { registry["one_drive.graph.rest_api"] }.to raise_error Errors::ResolverStandardError
+            expect { registry["onedrive.graph.rest_api"] }.to raise_error Errors::ResolverStandardError
           end
 
           it "logs the failure" do
             allow(Rails.logger).to receive(:error).with("Cannot resolve key one_drive.graph.rest_api.")
 
-            expect { registry["one_drive.graph.rest_api"] }.to raise_error Errors::ResolverStandardError
+            expect { registry["onedrive.graph.rest_api"] }.to raise_error Errors::ResolverStandardError
           end
         end
       end

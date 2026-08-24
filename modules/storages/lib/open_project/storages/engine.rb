@@ -52,6 +52,21 @@ module OpenProject::Storages
     patches %i[WorkPackage]
     patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
 
+    initializer "openproject_storages.inflections" do
+      ActiveSupport::Inflector.inflections(:en) do |inflect|
+        inflect.acronym "OneDrive"
+      end
+
+      OpenProject::Inflector.rule do |basename, abspath|
+        case basename
+        when "onedrive"
+          "OneDrive"
+        when /\Aonedrive_(.*)\z/
+          "OneDrive#{default_inflect($1, abspath)}"
+        end
+      end
+    end
+
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
     end

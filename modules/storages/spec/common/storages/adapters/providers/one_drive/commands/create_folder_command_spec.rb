@@ -38,7 +38,7 @@ module Storages
         module Commands
           RSpec.describe CreateFolderCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage) }
-            let(:auth_strategy) { Registry.resolve("one_drive.authentication.userless").call }
+            let(:auth_strategy) { Registry.resolve("onedrive.authentication.userless").call }
             let(:input_data) { Input::CreateFolder.build(folder_name:, parent_location:).value! }
 
             it_behaves_like "storage adapter: command call signature", "create_folder"
@@ -79,7 +79,7 @@ module Storages
 
             def delete_created_folder(folder)
               Input::DeleteFolder.build(location: folder.id).bind do |input_data|
-                Registry.resolve("one_drive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
+                Registry.resolve("onedrive.commands.delete_folder").call(storage:, auth_strategy:, input_data:)
               end
             end
           end

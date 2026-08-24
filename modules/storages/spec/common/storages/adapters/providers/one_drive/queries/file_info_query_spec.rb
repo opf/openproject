@@ -40,7 +40,7 @@ module Storages
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
 
-            let(:auth_strategy) { Registry["one_drive.authentication.user_bound"].call(user, storage) }
+            let(:auth_strategy) { Registry["onedrive.authentication.user_bound"].call(user, storage) }
 
             let(:input_data) { Input::FileInfo.build(file_id:).value! }
 

@@ -28,44 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
-
 module Storages
   module Adapters
     module Providers
       module OneDrive
-        module Validators
-          RSpec.describe AuthenticationValidator, :disable_ssrf_filter, :webmock do
-            subject(:validator) { described_class.new(storage) }
+        module Queries
+          class FileInfoQuery < Base
+            FIELDS = %w[id name fileSystemInfo file folder size createdBy lastModifiedBy parentReference].freeze
 
-            context "when using OAuth2" do
-              let(:user) { create(:user) }
-              let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
-              let(:error) { SimpleError.new(code: :unauthorized, source: self) }
-
-              before { User.current = user }
-
-              it "passes when the user has a token and the request works", vcr: "one_drive/user_query_success" do
-                expect(validator.call).to be_success
+            def call(auth_strategy:, input_data:)
+              base_query = Authentication[auth_strategy].call(storage: @storage) do |http|
+                drive_item_query.call(http:, drive_item_id: input_data.file_id, fields: FIELDS)
               end
 
-              it "returns a warning when there's no token for the current user" do
-                User.current = create(:user)
-                result = validator.call
+              result = base_query.fmap { |json| storage_file_info(json) }
 
-                expect(result[:existing_token]).to be_a_warning
-                expect(result[:existing_token].code).to eq(:od_oauth_token_missing)
-                expect(result[:user_bound_request]).to be_skipped
+              result.or do |error|
+                return Failure(error) unless error.code == :not_found && auth_strategy.value!.user.present?
+
+                admin_query(input_data.file_id)
               end
+            end
 
-              it "returns a failure if the remote call failed" do
-                Registry.stub("onedrive.queries.user", ->(_) { Failure(error) })
+            private
 
-                result = validator.call
-                expect(result[:user_bound_request]).to be_a_failure
-                expect(result[:user_bound_request].code).to eq(:od_oauth_request_unauthorized)
+            def admin_query(file_id)
+              Authentication[userless_strategy].call(storage: @storage) do |http|
+                drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
+                                .fmap { |json| storage_file_info(json, status: "forbidden", status_code: 403) }
               end
+            end
+
+            def userless_strategy = Registry.resolve("onedrive.authentication.userless").call
+
+            def drive_item_query
+              @drive_item_query ||= Internal::DriveItemQuery.new(@storage)
+            end
+
+            def storage_file_info(json, status: "ok", status_code: 200)
+              StorageFileTransformer.new.transform_file_info({ status:, status_code: }.merge(json))
             end
           end
         end
