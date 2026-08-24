@@ -129,7 +129,7 @@ module Storages
       before { storage.update(automatically_managed: true) }
       after { delete_created_folders }
 
-      describe "Remote Folder Creation", vcr: "one_drive/sync_service_create_folder" do
+      describe "Remote Folder Creation", vcr: "onedrive/sync_service_create_folder" do
         let(:single_project_user_origin_user_id) { single_project_user_remote_identity.origin_user_id }
         let(:multiple_project_user_origin_user_id) { multiple_project_user_remote_identity.origin_user_id }
         let(:admin_origin_user_id) { admin_remote_identity.origin_user_id }
@@ -175,7 +175,7 @@ module Storages
         end
       end
 
-      it "renames an already existing project folder", vcr: "one_drive/sync_service_rename_folder" do
+      it "renames an already existing project folder", vcr: "onedrive/sync_service_rename_folder" do
         original_folder = create_folder_for(disallowed_chars_project_storage, "Old Jedi Project")
         disallowed_chars_project_storage.update(project_folder_id: original_folder.id)
 
@@ -187,7 +187,7 @@ module Storages
         expect(result.name).to match(/_=o=_ _ _Jedi_ Project Folder ___ \(\d+\)/)
       end
 
-      it "hides (removes all permissions) from inactive project folders", vcr: "one_drive/sync_service_hide_inactive" do
+      it "hides (removes all permissions) from inactive project folders", vcr: "onedrive/sync_service_hide_inactive" do
         original_folder = create_folder_for(inactive_project_storage)
         inactive_project_storage.update(project_folder_id: original_folder.id)
 
@@ -215,7 +215,7 @@ module Storages
         context "when reading the root folder fails" do
           before { storage.update(drive_id: "THIS-IS-NOT-A-DRIVE-ID") }
 
-          it "returns a failure in case retrieving the root list fails", vcr: "one_drive/sync_service_root_read_failure" do
+          it "returns a failure in case retrieving the root list fails", vcr: "onedrive/sync_service_root_read_failure" do
             result = service.call
 
             expect(result).to be_failure
@@ -223,7 +223,7 @@ module Storages
               .to match_array(I18n.t("#{error_key_prefix}.attributes.remote_folders.request_error", drive_id: storage.drive_id))
           end
 
-          it "logs the occurrence", vcr: "one_drive/sync_service_root_read_failure" do
+          it "logs the occurrence", vcr: "onedrive/sync_service_root_read_failure" do
             service.call
             expect(Rails.logger)
               .to have_received(:error)
@@ -231,7 +231,7 @@ module Storages
           end
         end
 
-        it "does not break in case of timeout", vcr: "one_drive/sync_service_timeout" do
+        it "does not break in case of timeout", vcr: "onedrive/sync_service_timeout" do
           skip "The timeout setting isn't working as expected"
           stub_request_with_timeout(:get, /\/root\/children$/)
           service.call
@@ -244,7 +244,7 @@ module Storages
         end
 
         context "when folder creation fails" do
-          it "doesn't update the project_storage", vcr: "one_drive/sync_service_creation_fail" do
+          it "doesn't update the project_storage", vcr: "onedrive/sync_service_creation_fail" do
             already_existing_folder = create_folder_for(project_storage)
             result = nil
 
@@ -258,7 +258,7 @@ module Storages
             delete_folder(already_existing_folder.id)
           end
 
-          it "logs the occurrence", vcr: "one_drive/sync_service_creation_fail" do
+          it "logs the occurrence", vcr: "onedrive/sync_service_creation_fail" do
             already_existing_folder = create_folder_for(project_storage)
             service.call
 
@@ -274,7 +274,7 @@ module Storages
         end
 
         context "when folder renaming fails" do
-          it "adds an error and logs the occurrence", vcr: "one_drive/sync_service_rename_failed" do
+          it "adds an error and logs the occurrence", vcr: "onedrive/sync_service_rename_failed" do
             already_existing_folder = create_folder_for(project_storage)
             original_folder = create_folder_for(project_storage, "Flawless Death Star Blueprints")
             project_storage.update(project_folder_id: original_folder.id)

@@ -51,7 +51,7 @@ module Storages
               it_behaves_like "adapter files_info_query: successful list response"
             end
 
-            context "with outbound requests successful", vcr: "one_drive/files_info_query_success" do
+            context "with outbound requests successful", vcr: "onedrive/files_info_query_success" do
               let(:file_ids) do
                 %w(
                   01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU
@@ -112,7 +112,7 @@ module Storages
               it_behaves_like "adapter files_info_query: successful list response"
             end
 
-            context "with one outbound request returning not found", vcr: "one_drive/files_info_query_one_not_found" do
+            context "with one outbound request returning not found", vcr: "onedrive/files_info_query_one_not_found" do
               let(:file_ids) { %w[01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU not_existent] }
               let(:expected_file_infos) do
                 [

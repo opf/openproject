@@ -44,7 +44,7 @@ module Storages
 
             it_behaves_like "storage adapter: query call signature", "files"
 
-            context "with parent folder being root", vcr: "one_drive/files_query_root" do
+            context "with parent folder being root", vcr: "onedrive/files_query_root" do
               let(:folder) { "/" }
               let(:files_result) do
                 Results::StorageFileCollection.build(
@@ -91,7 +91,7 @@ module Storages
               it_behaves_like "adapter files_query: successful files response"
             end
 
-            context "with a given parent folder", vcr: "one_drive/files_query_parent_folder" do
+            context "with a given parent folder", vcr: "onedrive/files_query_parent_folder" do
               let(:folder) { "/Folder/Subfolder" }
               let(:files_result) do
                 Results::StorageFileCollection.build(
@@ -131,7 +131,7 @@ module Storages
               it_behaves_like "adapter files_query: successful files response"
             end
 
-            context "with parent folder being empty", vcr: "one_drive/files_query_empty_folder" do
+            context "with parent folder being empty", vcr: "onedrive/files_query_empty_folder" do
               let(:folder) { "/Folder with spaces/very empty folder" }
               let(:files_result) do
                 Results::StorageFileCollection.build(
@@ -150,7 +150,7 @@ module Storages
               it_behaves_like "adapter files_query: successful files response"
             end
 
-            context "with a path full of umlauts", vcr: "one_drive/files_query_umlauts" do
+            context "with a path full of umlauts", vcr: "onedrive/files_query_umlauts" do
               let(:folder) { "/Folder/Ümlæûts" }
               let(:files_result) do
                 Results::StorageFileCollection.build(
@@ -182,7 +182,7 @@ module Storages
               it_behaves_like "adapter files_query: successful files response"
             end
 
-            context "with not existent parent folder", vcr: "one_drive/files_query_invalid_parent" do
+            context "with not existent parent folder", vcr: "onedrive/files_query_invalid_parent" do
               let(:folder) { "/I/just/made/that/up" }
               let(:error_source) { described_class }
 

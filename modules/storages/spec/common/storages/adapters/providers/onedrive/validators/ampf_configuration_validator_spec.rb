@@ -43,7 +43,7 @@ module Storages
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a ResultGroup", vcr: "one_drive/validator_ampf_clean_run" do
+            it "returns a ResultGroup", vcr: "onedrive/validator_ampf_clean_run" do
               results = validator.call
 
               expect(results).to be_a(HealthReport::ResultGroup)
@@ -51,7 +51,7 @@ module Storages
             end
 
             describe "possible error scenarios" do
-              it "fails when there's unexpected folder and files in the drive", vcr: "one_drive/validator_extraneous_files" do
+              it "fails when there's unexpected folder and files in the drive", vcr: "onedrive/validator_extraneous_files" do
                 results = validator.call
 
                 expect(results[:drive_contents]).to be_a_warning
@@ -73,7 +73,7 @@ module Storages
               end
 
               it "fails when the test folder already exists on the remote",
-                 vcr: "one_drive/validator_test_folder_already_exists" do
+                 vcr: "onedrive/validator_test_folder_already_exists" do
                 Input::CreateFolder.build(folder_name:, parent_location: "/").bind do |input_data|
                   Registry["onedrive.commands.create_folder"].call(storage:, auth_strategy:, input_data:)
                 end
@@ -88,7 +88,7 @@ module Storages
                 end
               end
 
-              it "fails when folders can't be deleted", vcr: "one_drive/validator_create_folder" do
+              it "fails when folders can't be deleted", vcr: "onedrive/validator_create_folder" do
                 delete_cmd = class_double(Commands::DeleteFolderCommand)
                 allow(delete_cmd).to receive(:call).and_return(Failure())
 

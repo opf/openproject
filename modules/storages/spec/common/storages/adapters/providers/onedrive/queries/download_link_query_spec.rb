@@ -57,7 +57,7 @@ module Storages
               end
 
               context "with outbound request successful" do
-                it "returns a result with a download url", vcr: "one_drive/download_link_query_success" do
+                it "returns a result with a download url", vcr: "onedrive/download_link_query_success" do
                   download_link = subject.call(auth_strategy:, input_data:)
 
                   expect(download_link).to be_success
@@ -67,7 +67,7 @@ module Storages
                   expect(uri.path).to eq("/sites/openprojectfilestoragetests/_layouts/15/download.aspx")
                 end
 
-                it "returns an error if the file is not found", vcr: "one_drive/download_link_query_not_found" do
+                it "returns an error if the file is not found", vcr: "onedrive/download_link_query_not_found" do
                   input_data = Input::DownloadLink.build(file_id: not_existent_file_link.origin_id).value!
 
                   download_link = subject.call(auth_strategy:, input_data:)

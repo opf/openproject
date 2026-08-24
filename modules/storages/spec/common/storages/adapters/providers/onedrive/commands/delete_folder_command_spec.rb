@@ -51,7 +51,7 @@ module Storages
               expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq input_data])
             end
 
-            it "deletes a folder", vcr: "one_drive/delete_folder" do
+            it "deletes a folder", vcr: "onedrive/delete_folder" do
               create_result = Input::CreateFolder
                                 .build(folder_name: "To Be Deleted Soon", parent_location: "/").bind do |input_data|
                 Registry.resolve("onedrive.commands.create_folder").call(storage:, auth_strategy:, input_data:)
@@ -64,7 +64,7 @@ module Storages
               end
             end
 
-            it "when the folder is not found, returns a failure", vcr: "one_drive/delete_folder_not_found" do
+            it "when the folder is not found, returns a failure", vcr: "onedrive/delete_folder_not_found" do
               result = Input::DeleteFolder.build(location: "NOT_HERE").bind do |input_data|
                 described_class.call(storage:, auth_strategy:, input_data:)
               end

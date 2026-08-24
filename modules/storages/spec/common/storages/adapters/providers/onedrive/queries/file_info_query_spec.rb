@@ -46,7 +46,7 @@ module Storages
 
             it_behaves_like "storage adapter: query call signature", "file_info"
 
-            context "with a file id requested", vcr: "one_drive/file_info_query_success_file" do
+            context "with a file id requested", vcr: "onedrive/file_info_query_success_file" do
               let(:file_id) { "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA" }
               let(:file_info) do
                 Results::StorageFileInfo.new(
@@ -70,7 +70,7 @@ module Storages
               it_behaves_like "adapter file_info_query: successful file/folder response"
             end
 
-            context "with a folder id requested", vcr: "one_drive/file_info_query_success_folder" do
+            context "with a folder id requested", vcr: "onedrive/file_info_query_success_folder" do
               let(:file_id) { "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB" }
               let(:file_info) do
                 Results::StorageFileInfo.new(
@@ -95,7 +95,7 @@ module Storages
             end
 
             context "with a file with special characters in the path",
-                    vcr: "one_drive/file_info_query_success_special_characters" do
+                    vcr: "onedrive/file_info_query_success_special_characters" do
               let(:file_id) { "01AZJL5PITB4FWUTEDCZGLV3WXG5TJX5A2" }
               let(:file_info) do
                 Results::StorageFileInfo.new(
@@ -120,7 +120,7 @@ module Storages
               it_behaves_like "adapter file_info_query: successful file/folder response"
             end
 
-            context "with a not existing file id", vcr: "one_drive/file_info_query_not_found" do
+            context "with a not existing file id", vcr: "onedrive/file_info_query_not_found" do
               let(:file_id) { "not_existent" }
               let(:error_source) { Internal::DriveItemQuery }
 
