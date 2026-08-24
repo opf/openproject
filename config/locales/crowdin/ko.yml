@@ -2467,8 +2467,12 @@ ko:
   description_available_columns: 사용 가능한 열
   description_category_reassign: 카테고리 선택
   description_choose_project: 프로젝트
-  description_compare_from: '다음과 비교:'
-  description_compare_to: '비교:'
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: '사용자의 위치: '
   description_date_from: 시작 날짜 입력
   description_date_to: 종료 날짜 입력
@@ -2669,8 +2673,6 @@ ko:
         description: OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다.
       weighted_item_lists:
         description: 가중치가 적용된 항목 목록을 사용하면 기본 숫자 값이 연결된 목록을 만들 수 있습니다.
-      work_package_query_relation_columns:
-        description: 작업 패키지 목록에서 관계 또는 자식 요소를 확인해야 하나요?
       work_package_sharing:
         description: 프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다.
       work_package_subject_generation:
@@ -3164,7 +3166,6 @@ ko:
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
   label_backup: 백업
-  label_backup_code: 백업 코드
   label_basic_details: 기본 세부 정보
   label_between: 사이에
   label_blocked_by: 차단한 사용자
@@ -3184,7 +3185,6 @@ ko:
   label_calendar_show: 달력 표시
   label_calendar_subscriptions: 캘린더 구독
   label_calendars_and_dates: 캘린더와 날짜
-  label_category: 카테고리
   label_change_parent: 부모 변경
   label_change_password: 암호 변경
   label_change_plural: 변경
@@ -3193,9 +3193,9 @@ ko:
   label_change_status_of_user: "#{username} 상태 변경"
   label_change_view_all: 모든 변경 사항 보기
   label_changes_details: 모든 변경 사항의 세부 정보
-  label_changeset: 변경 집합
   label_changeset_id: 변경 집합 ID
   label_changeset_plural: 변경 집합
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: 칼럼에서 확인/최소
   label_check_uncheck_all_in_row: 모든 행에서 확인/취소
   label_checked: 확인됨
@@ -3367,7 +3367,6 @@ ko:
   label_git_path: ".git 디렉터리의 경로"
   label_global: 글로벌
   label_global_modules: 글로벌 모듈
-  label_global_role: 글로벌 역할
   label_global_roles: 글로벌 역할
   label_go_back: 한 메뉴 레벨 뒤로 돌아가기
   label_go_forward: "%{module} 하위 메뉴 열기"
@@ -3436,7 +3435,6 @@ ko:
   label_last_week: 지난주
   label_latest_revision: 최근 수정
   label_latest_revision_plural: 최근 수정
-  label_ldap_auth_source: LDAP 연결
   label_ldap_auth_source_new: 새로운 LDAP 연결
   label_ldap_auth_source_plural: LDAP 연결
   label_ldap_authentication: LDAP 인증
@@ -3466,7 +3464,6 @@ ko:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: 멤버
-  label_member_role: 프로젝트 역할
   label_membership_added: 멤버 추가됨
   label_membership_plural: 멤버십
   label_membership_updated: 멤버 업데이트됨
@@ -3579,7 +3576,6 @@ ko:
   label_permissions: 권한
   label_permissions_report: 권한 보고서
   label_personalize_page: 이 페이지 개인 설정
-  label_placeholder_user: 플레이스홀더 사용자
   label_placeholder_user_new: 새로운 플레이스홀더 사용자
   label_placeholder_user_plural: 플레이스홀더 사용자
   label_planning: 계획
@@ -3642,7 +3638,6 @@ ko:
   label_related_work_packages: 관련 작업 패키지
   label_relates: 관련 항목
   label_relates_to: 관련 항목
-  label_relation: 관계
   label_relation_actions: 관계 작업
   label_relation_delete: 관계 삭제
   label_relation_edit: 관계 편집
@@ -3695,7 +3690,6 @@ ko:
   label_send_information: 사용자에게 새 자격 증명 보내기
   label_send_invitation: 초대장 보내기
   label_send_test_email: 테스트 이메일 보내기
-  label_session: 세션
   label_setting_plural: 설정
   label_share: 공유
   label_share_project_list: 프로젝트 목록 공유
@@ -3771,7 +3765,6 @@ ko:
   label_used_by: 사용한 사용자
   label_used_by_types: 유형별로 사용됨
   label_used_in_projects: 프로젝트에서 사용됨
-  label_user: 사용자
   label_user_activity_html: "%{value}의 활동"
   label_user_and_permission: 사용자 및 권한
   label_user_anonymous: 익명
@@ -3802,19 +3795,17 @@ ko:
   label_week: 주
   label_weighted_item_list: 가중치가 적용된 항목 목록
   label_what_is_this: 이게 뭐예요?
-  label_widget: 위젯
   label_widget_new: 새 위젯
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
   label_wiki_dont_show_menu_item: 프로젝트 탐색에 이 위키 페이지 표시 안 함
   label_wiki_edit: 위키 편집
   label_wiki_edit_plural: 위키 편집
-  label_wiki_menu_item: 위키 메뉴 항목
   label_wiki_navigation: 위키 탐색
-  label_wiki_page: 위키 페이지
   label_wiki_page_attachments: Wiki 페이지 첨부 파일
   label_wiki_page_id: 위키 페이지 ID
   label_wiki_page_plural: 위키 페이지
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 하위 메뉴 항목 '목차' 표시
   label_wiki_show_menu_item: 프로젝트 탐색에서 메뉴 항목으로 표시
   label_wiki_show_new_page_link: 하위 메뉴 항목 '새 자식 페이지 만들기' 표시
@@ -3831,7 +3822,6 @@ ko:
   label_work_package_hierarchy: 작업 패키지 계층 구조
   label_work_package_new: 새 작업 패키지
   label_work_package_plural: 작업 패키지
-  label_work_package_status: 작업 패키지 상태
   label_work_package_status_new: 새 상태
   label_work_package_status_plural: 작업 패키지 상태
   label_work_package_tracking: 작업 패키지 추적

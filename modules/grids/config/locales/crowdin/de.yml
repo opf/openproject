@@ -16,8 +16,8 @@ de:
           overlaps: überlappen.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Raster
+        other: Raster
       grids/widget:
         one: Widget
         other: Widgets

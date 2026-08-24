@@ -15,8 +15,8 @@ de:
         url: Payload-URL
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Webhook-Protokoll
+        other: Webhook-Protokolle
       webhooks/webhook:
         one: Webhook
         other: Webhooks

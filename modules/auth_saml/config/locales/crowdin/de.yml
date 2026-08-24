@@ -34,8 +34,8 @@ de:
           unmatched_private_key: gehört nicht zum angegebenen Zertifikat
     models:
       saml/provider:
-        one: SAML provider
-        other: SAML providers
+        one: SAML-Anbieter
+        other: SAML-Anbieter
   saml:
     delete_heading: Diesen SAML-Anbieter löschen?
     delete_title: SAML-Anbieter löschen

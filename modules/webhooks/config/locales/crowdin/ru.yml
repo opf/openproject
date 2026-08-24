@@ -15,15 +15,15 @@ ru:
         url: URL-адрес загрузки
     models:
       webhooks/log:
-        one: Webhook log
+        one: Журнал вебхуков
         few: Webhook logs
         many: Webhook logs
-        other: Webhook logs
+        other: Журналы вебхуков
       webhooks/webhook:
-        one: Webhook
+        one: Вебхук
         few: Webhooks
         many: Webhooks
-        other: Webhooks
+        other: Вебхуки
   plugin_openproject_webhooks:
     description: Предоставляет плагин API для поддержки вебхуков OpenProject для лучшей сторонней интеграции.
     name: Веб-хуки OpenProject

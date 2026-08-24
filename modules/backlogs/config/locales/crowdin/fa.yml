@@ -93,14 +93,14 @@ fa:
           backlog_bucket_xor_sprint: نمی توان به صورت همزمان به اسپرینت و بک لاگ اختصاص پیدا کند
     models:
       backlog_bucket:
-        one: Backlog bucket
-        other: Backlog buckets
+        one: دسته بک‌لاگ
+        other: دسته بک‌لاگ
       sprint:
         one: اسپرینت
         other: اسپرینت‌ها
       sprint_goal:
-        one: Sprint goal
-        other: Sprint goals
+        one: هدف اسپرینت
+        other: اهداف اسپرینت
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: افزودن بسته کاری موجود

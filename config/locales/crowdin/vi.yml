@@ -2449,8 +2449,12 @@ vi:
   description_available_columns: Cột có sẵn
   description_category_reassign: Chọn thể loại
   description_choose_project: Các dự án
-  description_compare_from: So sánh từ
-  description_compare_to: So sánh đến
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Bạn đang ở đây:'
   description_date_from: Nhập ngày bắt đầu
   description_date_to: Nhập ngày kết thúc
@@ -2651,8 +2655,6 @@ vi:
         description: Đảm bảo các tệp được tải lên trong OpenProject được quét vi-rút trước khi người dùng khác có thể truy cập được.
       weighted_item_lists:
         description: Danh sách mục có trọng số cho phép bạn tạo danh sách có các giá trị số cơ bản được liên kết.
-      work_package_query_relation_columns:
-        description: Cần xem các mối quan hệ hoặc các phần tử con trong danh sách gói công việc?
       work_package_sharing:
         description: Chia sẻ các gói công việc với người dùng không phải là thành viên của dự án.
       work_package_subject_generation:
@@ -3148,7 +3150,6 @@ vi:
   label_available_project_work_package_types: Các loại gói công việc có sẵn
   label_available_projects: Dự án có sẵn
   label_backup: Sao lưu
-  label_backup_code: Mã dự phòng
   label_basic_details: Chi tiết cơ bản
   label_between: giữa
   label_blocked_by: bị chặn bởi
@@ -3168,7 +3169,6 @@ vi:
   label_calendar_show: Hiển thị Lịch
   label_calendar_subscriptions: Đăng ký lịch
   label_calendars_and_dates: Lịch và ngày
-  label_category: thể loại
   label_change_parent: Thay đổi cha mẹ
   label_change_password: Change password
   label_change_plural: Thay đổi
@@ -3177,9 +3177,9 @@ vi:
   label_change_status_of_user: 'Thay đổi trạng thái cho #{username}'
   label_change_view_all: Xem mọi thay đổi
   label_changes_details: Các chi tiết của tất cả thay đổi
-  label_changeset: Bộ thay đổi
   label_changeset_id: ID bộ thay đổi
   label_changeset_plural: Nhóm thay đổi
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Chọn/Bỏ chọn tất cả trong cột
   label_check_uncheck_all_in_row: Chọn/Bỏ chọn tất cả trong hàng
   label_checked: Đã check
@@ -3351,7 +3351,6 @@ vi:
   label_git_path: Đường dẫn đến thư mục .git
   label_global: toàn cầu
   label_global_modules: Mô-đun toàn cầu
-  label_global_role: Vai trò toàn cầu
   label_global_roles: Vai trò toàn cầu
   label_go_back: Quay lại một cấp độ menu
   label_go_forward: Mở menu phụ %{module}
@@ -3420,7 +3419,6 @@ vi:
   label_last_week: tuần trước
   label_latest_revision: Bản sửa đổi mới nhất
   label_latest_revision_plural: Phiên bản mới nhất
-  label_ldap_auth_source: Kết nối LDAP
   label_ldap_auth_source_new: Kết nối LDAP mới
   label_ldap_auth_source_plural: Kết nối LDAP
   label_ldap_authentication: Xác thực LDAP
@@ -3450,7 +3448,6 @@ vi:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: thành viên
-  label_member_role: Vai trò dự án
   label_membership_added: Đã thêm thành viên
   label_membership_plural: Tư cách thành viên
   label_membership_updated: Đã cập nhật thành viên
@@ -3563,7 +3560,6 @@ vi:
   label_permissions: Phân Quyền
   label_permissions_report: Báo cáo phân quyền
   label_personalize_page: Cá nhân hoá các trang này
-  label_placeholder_user: Người dùng giữ chỗ
   label_placeholder_user_new: Người dùng giữ chỗ mới
   label_placeholder_user_plural: Người dùng giữ chỗ
   label_planning: Lập kế hoạch
@@ -3626,7 +3622,6 @@ vi:
   label_related_work_packages: Work package liên quan
   label_relates: liên quan đến
   label_relates_to: liên quan đến
-  label_relation: quan hệ
   label_relation_actions: Hành động quan hệ
   label_relation_delete: Xóa quan hệ
   label_relation_edit: Chỉnh sửa mối quan hệ
@@ -3679,7 +3674,6 @@ vi:
   label_send_information: Gửi thông tin xác thực mới cho người dùng
   label_send_invitation: Gửi lời mời
   label_send_test_email: Gửi email thử nghiệm
-  label_session: Phiên
   label_setting_plural: cài đặt
   label_share: chia sẻ
   label_share_project_list: Chia sẻ danh sách dự án
@@ -3755,7 +3749,6 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: Người dùng
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Người dùng và quyền
   label_user_anonymous: vô danh
@@ -3786,19 +3779,17 @@ vi:
   label_week: Tuần
   label_weighted_item_list: Danh sách mặt hàng có trọng số
   label_what_is_this: Đây là gì?
-  label_widget: tiện ích
   label_widget_new: Tiện ích mới
   label_wiki_content_added: Đã thêm trang Wiki
   label_wiki_content_updated: Trang Wiki đã được cập nhật
   label_wiki_dont_show_menu_item: Không hiển thị wikipage này trong điều hướng dự án
   label_wiki_edit: Sửa Wiki
   label_wiki_edit_plural: Sửa Wiki
-  label_wiki_menu_item: Khoản mục menu wiki
   label_wiki_navigation: Điều hướng Wiki
-  label_wiki_page: trang Wiki
   label_wiki_page_attachments: Tệp đính kèm trang Wiki
   label_wiki_page_id: ID trang Wiki
   label_wiki_page_plural: Trang wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Hiển thị mục menu con 'Mục lục'
   label_wiki_show_menu_item: Hiển thị dưới dạng mục menu trong điều hướng dự án
   label_wiki_show_new_page_link: Hiển thị mục menu con 'Tạo trang con mới'
@@ -3815,7 +3806,6 @@ vi:
   label_work_package_hierarchy: Phân cấp công việc
   label_work_package_new: Work package mới
   label_work_package_plural: Work Packages
-  label_work_package_status: Tình trạng work package
   label_work_package_status_new: Trạng thái mới
   label_work_package_status_plural: Tình trạng work package
   label_work_package_tracking: Theo dõi work package

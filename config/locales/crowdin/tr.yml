@@ -2591,8 +2591,12 @@ tr:
   description_available_columns: Kullanılabilir sütunlar
   description_category_reassign: Kategori seçin
   description_choose_project: Projeler
-  description_compare_from: Karşılaştır (kaynak)
-  description_compare_to: Karşılaştır (hedef)
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Buradasınız:'
   description_date_from: Başlangıç tarihini girin
   description_date_to: Bitiş tarihini girin
@@ -2794,8 +2798,6 @@ tr:
         description: OpenProject'te yüklenen dosyaların diğer kullanıcılar tarafından erişilmeden önce virüslere karşı tarandığından emin olun.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: İş paketleri listesindeki ilişkileri görmek ister misiniz?
       work_package_sharing:
         description: İş paketlerini proje üyesi olmayan kullanıcılarla paylaşın.
       work_package_subject_generation:
@@ -3295,7 +3297,6 @@ tr:
   label_available_project_work_package_types: Uygun iş paketi tipleri
   label_available_projects: Mevcut projeler
   label_backup: Yedekleme
-  label_backup_code: Yedek kodu
   label_basic_details: Temel bilgiler
   label_between: arasında
   label_blocked_by: bağlı
@@ -3315,7 +3316,6 @@ tr:
   label_calendar_show: Takvimi Göster
   label_calendar_subscriptions: Takvim abonelikleri
   label_calendars_and_dates: Takvimler ve tarihler
-  label_category: Kategori
   label_change_parent: Üstünü değiştir
   label_change_password: Change password
   label_change_plural: Değişiklikler
@@ -3324,9 +3324,9 @@ tr:
   label_change_status_of_user: "#{username} durumunu değiştir"
   label_change_view_all: Tüm değişiklikleri gör
   label_changes_details: Tüm değişikliklerin detayları
-  label_changeset: Değişiklik kümesi
   label_changeset_id: Değişiklik kümesi kimliği
   label_changeset_plural: Değişiklik Listeleri
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sütunundaki tümü işaretle / işaretini kaldır
   label_check_uncheck_all_in_row: Sıralı tümü işaretle / işaretini kaldır
   label_checked: kontrol
@@ -3498,7 +3498,6 @@ tr:
   label_git_path: ".git dizininin yolu"
   label_global: Küresel
   label_global_modules: Global modüller
-  label_global_role: Global rol
   label_global_roles: Genel roller
   label_go_back: Bir menü seviyesi geri git
   label_go_forward: "%{module} alt menüsünü açın"
@@ -3567,7 +3566,6 @@ tr:
   label_last_week: geçen hafta
   label_latest_revision: En son gözden geçirim
   label_latest_revision_plural: En son gözden geçirimler
-  label_ldap_auth_source: LDAP bağlantısı
   label_ldap_auth_source_new: Yeni LDAP bağlantısı
   label_ldap_auth_source_plural: LDAP bağlantıları
   label_ldap_authentication: LDAP yetkilendirmesi
@@ -3597,7 +3595,6 @@ tr:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Üyeler
-  label_member_role: Proje rolü
   label_membership_added: Üye eklendi
   label_membership_plural: Üyelikler
   label_membership_updated: Üye güncellendi
@@ -3710,7 +3707,6 @@ tr:
   label_permissions: İzinler
   label_permissions_report: İzin raporu
   label_personalize_page: Bu sayfayı kişiselleştir
-  label_placeholder_user: Yer tutucu kullanıcı
   label_placeholder_user_new: Yeni yer tutucu kullanıcı
   label_placeholder_user_plural: Yer tutucu kullanıcılar
   label_planning: Planlanıyor
@@ -3773,7 +3769,6 @@ tr:
   label_related_work_packages: İlişkili iş paketleri
   label_relates: ile ilişkili
   label_relates_to: ile ilişkili
-  label_relation: İlişki
   label_relation_actions: İlişki eylemleri
   label_relation_delete: İlişkiyi sil
   label_relation_edit: İlişkiyi düzenle
@@ -3826,7 +3821,6 @@ tr:
   label_send_information: Kullanıcıya yeni kimlik bilgilerini gönderme
   label_send_invitation: Davet gönder
   label_send_test_email: Deneme e-postası gönder
-  label_session: Oturum
   label_setting_plural: Ayarlar
   label_share: Paylaş
   label_share_project_list: Proje listesini paylaş
@@ -3902,7 +3896,6 @@ tr:
   label_used_by: Kullanan
   label_used_by_types: Türleri tarafından kullanılan
   label_used_in_projects: Projede kullanılan
-  label_user: Kullanıcı
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Kullanıcılar ve izinler
   label_user_anonymous: Anonim
@@ -3933,19 +3926,17 @@ tr:
   label_week: Hafta
   label_weighted_item_list: Ağırlıklı öğe listesi
   label_what_is_this: Bu nedir?
-  label_widget: Araçlar
   label_widget_new: Yeni araç
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Wiki sayfası güncellendi
   label_wiki_dont_show_menu_item: Bu wiki sayfasını proje gezinme bölümünde gösterme
   label_wiki_edit: Wiki Düzenle
   label_wiki_edit_plural: Wiki Düzenle
-  label_wiki_menu_item: Viki menü öğesi
   label_wiki_navigation: Wiki'de gezinme
-  label_wiki_page: Viki sayfası
   label_wiki_page_attachments: Wiki sayfası ekleri
   label_wiki_page_id: Wiki sayfa kimliği
   label_wiki_page_plural: Viki sayfaları
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Alt menü öğesini göster 'İçindekiler tablosu'
   label_wiki_show_menu_item: Proje gezintisinde menü öğesi olarak göster
   label_wiki_show_new_page_link: Alt menü öğesini göster 'Yeni alt sayfa oluştur'
@@ -3962,7 +3953,6 @@ tr:
   label_work_package_hierarchy: İş paketi hiyerarşisi
   label_work_package_new: Yeni iş paketi
   label_work_package_plural: İş paketleri
-  label_work_package_status: İş paketi durumu
   label_work_package_status_new: Yeni durum
   label_work_package_status_plural: İş paketi durumları
   label_work_package_tracking: İş paketi takibi

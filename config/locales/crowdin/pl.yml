@@ -2857,8 +2857,12 @@ pl:
   description_available_columns: Dostępne kolumny
   description_category_reassign: Wybierz kategorię
   description_choose_project: Projekty
-  description_compare_from: Porównaj z
-  description_compare_to: W porównaniu do
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Jesteś tutaj: '
   description_date_from: Wprowadź datę początkową
   description_date_to: Wprowadź datę końcową
@@ -3060,8 +3064,6 @@ pl:
         description: Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników.
       weighted_item_lists:
         description: Listy ważone pozycji umożliwiają utworzenie listy z powiązanymi bazowymi wartościami liczbowymi.
-      work_package_query_relation_columns:
-        description: Chcesz zobaczyć relacje lub elementy podrzędne na liście pakietów roboczych?
       work_package_sharing:
         description: Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu.
       work_package_subject_generation:
@@ -3567,7 +3569,6 @@ pl:
   label_available_project_work_package_types: Dostępne typy pakietów roboczych
   label_available_projects: Dostępne projekty
   label_backup: Kopia zapasowa
-  label_backup_code: Kod kopii zapasowej
   label_basic_details: Podstawowe szczegóły
   label_between: pomiędzy
   label_blocked_by: Zablokowane przez
@@ -3587,7 +3588,6 @@ pl:
   label_calendar_show: Pokaż kalendarz
   label_calendar_subscriptions: Subskrypcje Kalendarza
   label_calendars_and_dates: Kalendarze i daty
-  label_category: Kategoria
   label_change_parent: Zmień element nadrzędny
   label_change_password: Zmień hasło
   label_change_plural: Zmiany
@@ -3596,9 +3596,9 @@ pl:
   label_change_status_of_user: 'Zmień status #{username}'
   label_change_view_all: Zobacz wszystkie zmiany
   label_changes_details: Szczegóły wszystkich zmian
-  label_changeset: Zestaw zmian
   label_changeset_id: Identyfikator zestawu zmian
   label_changeset_plural: Zmiany
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sprawdź/Odznacz wszystko w kolumnie
   label_check_uncheck_all_in_row: Sprawdź/Odznacz wszystko w wierszu
   label_checked: sprawdzone
@@ -3770,7 +3770,6 @@ pl:
   label_git_path: Ścieżka do katalogu .git
   label_global: Globalna
   label_global_modules: Moduły globalne
-  label_global_role: Rola globalna
   label_global_roles: Role globalne
   label_go_back: Przejdź wstecz o jeden poziom menu
   label_go_forward: Otwórz podmenu %{module}
@@ -3839,7 +3838,6 @@ pl:
   label_last_week: zeszły tydzień
   label_latest_revision: Najnowsze zmiany
   label_latest_revision_plural: Najnowsze zmiany
-  label_ldap_auth_source: Połączenie LDAP
   label_ldap_auth_source_new: Nowe połączenie LDAP
   label_ldap_auth_source_plural: Połączenia LDAP
   label_ldap_authentication: Uwierzytelnianie LDAP
@@ -3869,7 +3867,6 @@ pl:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Członkowie
-  label_member_role: Rola w projekcie
   label_membership_added: Dodano członka
   label_membership_plural: Uczestnictwa
   label_membership_updated: Zaktualizowano członka
@@ -3982,7 +3979,6 @@ pl:
   label_permissions: Uprawnienia
   label_permissions_report: Raport uprawnień
   label_personalize_page: Personalizacja tej strony
-  label_placeholder_user: Użytkownik zastępczy
   label_placeholder_user_new: Nowy użytkownik zastępczy
   label_placeholder_user_plural: Użytkownicy zastępczy
   label_planning: Planowanie
@@ -4045,7 +4041,6 @@ pl:
   label_related_work_packages: Powiązanie pakiety robocze
   label_relates: Powiązane z
   label_relates_to: Powiązane z
-  label_relation: Relacja
   label_relation_actions: Działania relacji
   label_relation_delete: Usuń powiązanie
   label_relation_edit: Edytuj relację
@@ -4098,7 +4093,6 @@ pl:
   label_send_information: Wyślij nowe poświadczenia do użytkownika
   label_send_invitation: Wyślij zaproszenie
   label_send_test_email: Wyślij wiadomość testową
-  label_session: Sesja
   label_setting_plural: Ustawienia
   label_share: Udostępnij
   label_share_project_list: Udostępnij listę projektów
@@ -4174,7 +4168,6 @@ pl:
   label_used_by: Używane przez
   label_used_by_types: Używane wg typów
   label_used_in_projects: Używane w projektach
-  label_user: Użytkownik
   label_user_activity_html: "%{value} — aktywność"
   label_user_and_permission: Użytkownicy i uprawnienia
   label_user_anonymous: Anonimowy
@@ -4205,19 +4198,17 @@ pl:
   label_week: Tydzień
   label_weighted_item_list: Lista ważona pozycji
   label_what_is_this: Co to jest?
-  label_widget: Widget
   label_widget_new: Nowy widżet
   label_wiki_content_added: Dodano stronę wiki
   label_wiki_content_updated: Zaktualizowano stronę wiki
   label_wiki_dont_show_menu_item: Nie pokazuj tej strony wiki  w nawigacji projektu
   label_wiki_edit: Edycja wiki
   label_wiki_edit_plural: Edycja wiki
-  label_wiki_menu_item: Element menu Wiki
   label_wiki_navigation: Nawigacja Wiki
-  label_wiki_page: Strona wiki
   label_wiki_page_attachments: Załączniki strony Wiki
   label_wiki_page_id: Identyfikator strony wiki
   label_wiki_page_plural: Strony wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Pokaż element podmenu "Spis treści"
   label_wiki_show_menu_item: Pokaż jako element menu w nawigacji projektu
   label_wiki_show_new_page_link: Pokaż element podmenu "Utwórz nową stronę podrzędną"
@@ -4234,7 +4225,6 @@ pl:
   label_work_package_hierarchy: Hierarchia zadań
   label_work_package_new: Nowy pakiet roboczy
   label_work_package_plural: Pakiety robocze
-  label_work_package_status: Status pakietu roboczego
   label_work_package_status_new: Nowy status
   label_work_package_status_plural: Statusy pakietów roboczych
   label_work_package_tracking: Śledzenie pakietów roboczych

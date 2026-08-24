@@ -73,14 +73,24 @@ pl:
             project_ids:
               blank: Wybierz projekt.
         time_entry:
-          cannot_log_for_this_work_package: Nie można zarejestrować czasu dla tego pakietu roboczego.
-          duplicate_ongoing: Wpis bieżącej godziny już istnieje dla tego użytkownika.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: musi zawierać się między 00:00 a 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów.'
           nullify_is_not_valid_for_cost_entries: Pozycje kosztów nie mogą być przypisane do projektu.
@@ -228,7 +238,6 @@ pl:
   label_greater_or_equal: "≥"
   label_group_by: Grupuj według
   label_group_by_add: Dodaj pole grupowania
-  label_hourly_rate: Stawka godzinowa
   label_include_deleted: Uwzględnij usunięte
   label_kind: Typ
   label_less_or_equal: "≤"
@@ -249,7 +258,6 @@ pl:
   label_previous_month: Poprzedni miesiąc
   label_previous_week: Poprzedni tygodzień
   label_previous_workweek: Poprzedni tydzień pracy
-  label_rate: Stawka
   label_rate_plural: Taryfy
   label_show: Pokaż
   label_specific_day: Dzień %{day}
@@ -263,7 +271,6 @@ pl:
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki
   label_until: do
-  label_user: Użytkownik
   label_valid_from: Ważny od
   label_view_mode_switcher: Zmień widok
   label_work_package_filter_add: Dodaj filtr Zestawu zadań

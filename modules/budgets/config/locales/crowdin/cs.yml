@@ -114,7 +114,6 @@ cs:
   help_click_to_edit: Klikněte zde pro úpravu.
   help_currency_format: Formát zobrazených hodnot měn. %n je nahrazen hodnotou měny, %u je nahrazen jednotkou měny.
   help_override_rate: Zadejte hodnotu zde pro přepsání výchozí sazby.
-  label_budget: Rozpočet
   label_budget_available: Dostupný rozpočet
   label_budget_details: Podrobnosti o rozpočtu
   label_budget_id: Rozpočet č.%{id}

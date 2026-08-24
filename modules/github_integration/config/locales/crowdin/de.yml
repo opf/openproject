@@ -24,20 +24,20 @@ de:
   activerecord:
     models:
       deploy_status_check:
-        one: Deployment status check
-        other: Deployment status checks
+        one: Deployment Status Überprüfung
+        other: Deployment Status Überprüfungen
       deploy_target:
-        one: Deployment target
-        other: Deployment targets
+        one: Deploymentziel
+        other: Deploymentziele
       github_check_run:
-        one: GitHub check run
-        other: GitHub check runs
+        one: GitHub-Prüfung
+        other: GitHub-Prüfungen
       github_pull_request:
-        one: GitHub pull request
-        other: GitHub pull requests
+        one: GitHub-Pull-Request
+        other: GitHub-Pull-Requests
       github_user:
-        one: GitHub user
-        other: GitHub users
+        one: GitHub-Nutzer
+        other: GitHub-Nutzer
   attributes:
     additions_count: Anzahl der Ergänzungen
     changed_files_count: Geänderte Dateien

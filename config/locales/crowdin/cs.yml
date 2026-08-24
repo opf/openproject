@@ -2859,8 +2859,12 @@ cs:
   description_available_columns: Dostupné sloupce
   description_category_reassign: Zvolte kategorii
   description_choose_project: Projekty
-  description_compare_from: Porovnání z
-  description_compare_to: Porovnat s
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Jste zde: '
   description_date_from: Zadejte počáteční datum
   description_date_to: Zadejte datum ukončení
@@ -3064,8 +3068,6 @@ cs:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
       work_package_subject_generation:
@@ -3573,7 +3575,6 @@ cs:
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
   label_available_projects: Dostupné projekty
   label_backup: Záloha
-  label_backup_code: Záložní kód
   label_basic_details: Základní údaje
   label_between: mezi
   label_blocked_by: zablokoval
@@ -3593,7 +3594,6 @@ cs:
   label_calendar_show: Zobrazit kalendář
   label_calendar_subscriptions: Odběr kalendáře
   label_calendars_and_dates: Kalendáře a data
-  label_category: Kategorie
   label_change_parent: Změnit nadřazený
   label_change_password: Změnit heslo
   label_change_plural: Změny
@@ -3602,9 +3602,9 @@ cs:
   label_change_status_of_user: 'Změnit stav #{username}'
   label_change_view_all: Zobrazit všechny změny
   label_changes_details: Detaily všech změn
-  label_changeset: Seznam změn
   label_changeset_id: ID Changeset
   label_changeset_plural: Změny
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Zaškrtnout/Odznačit vše ve sloupci
   label_check_uncheck_all_in_row: Zaškrtnout/Odznačit vše v řádku
   label_checked: zaškrtnuto
@@ -3776,7 +3776,6 @@ cs:
   label_git_path: Cesta ke složce .git
   label_global: Globální
   label_global_modules: Globální moduly
-  label_global_role: Globální role
   label_global_roles: Globální role
   label_go_back: Návrat o jednu úroveň menu zpět
   label_go_forward: Otevřít podnabídku %{module}
@@ -3845,7 +3844,6 @@ cs:
   label_last_week: minulý týden
   label_latest_revision: Poslední revize
   label_latest_revision_plural: Poslední revize
-  label_ldap_auth_source: Připojení LDAP
   label_ldap_auth_source_new: Nové připojení LDAP
   label_ldap_auth_source_plural: Připojení LDAP
   label_ldap_authentication: Ověřování LDAP
@@ -3875,7 +3873,6 @@ cs:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Členové
-  label_member_role: Projektová role
   label_membership_added: Člen přidán
   label_membership_plural: Členství
   label_membership_updated: Člen aktualizován
@@ -3988,7 +3985,6 @@ cs:
   label_permissions: Práva
   label_permissions_report: Přehled oprávnění
   label_personalize_page: Přizpůsobit tuto stránku
-  label_placeholder_user: placeholder uživatel
   label_placeholder_user_new: ''
   label_placeholder_user_plural: placeholder uživatelé
   label_planning: Plánování
@@ -4051,7 +4047,6 @@ cs:
   label_related_work_packages: Související pracovní balíčky
   label_relates: související s
   label_relates_to: související s
-  label_relation: Vztah
   label_relation_actions: akce k Vztahu
   label_relation_delete: Odstranit vztah
   label_relation_edit: Upravit vztah
@@ -4104,7 +4099,6 @@ cs:
   label_send_information: Poslat nové přihlašovací údaje uživateli
   label_send_invitation: Odeslat pozvánku
   label_send_test_email: Odeslat testovací email
-  label_session: Relace
   label_setting_plural: Nastavení
   label_share: Sdílet
   label_share_project_list: Sdílet seznam projektů
@@ -4180,7 +4174,6 @@ cs:
   label_used_by: Používá
   label_used_by_types: Používá se podle typů
   label_used_in_projects: Používá se v projektech
-  label_user: Uživatel
   label_user_activity_html: Aktivita uživatele %{value}
   label_user_and_permission: Uživatelé a oprávnění
   label_user_anonymous: Anonymní
@@ -4211,19 +4204,17 @@ cs:
   label_week: Týden
   label_weighted_item_list: Vážený seznam položek
   label_what_is_this: Co to je?
-  label_widget: Widget
   label_widget_new: Nový widget
   label_wiki_content_added: Přidána stránka wiki
   label_wiki_content_updated: Wiki stránka aktualizována
   label_wiki_dont_show_menu_item: Nezobrazovat tuto wiki stránku v menu projektu
   label_wiki_edit: Wiki editace
   label_wiki_edit_plural: Wiki editována
-  label_wiki_menu_item: Položka Wiki menu
   label_wiki_navigation: Wiki navigace
-  label_wiki_page: Stránka wiki
   label_wiki_page_attachments: Přílohy wiki stránek
   label_wiki_page_id: ID wiki stránky
   label_wiki_page_plural: Stránky wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Zobrazit položku podnabídky 'Obsah'
   label_wiki_show_menu_item: Zobrazit jako položku nabídky navigaci projektu
   label_wiki_show_new_page_link: Zobrazit položku menu "Vytvořit novou podřízenou stránku"
@@ -4240,7 +4231,6 @@ cs:
   label_work_package_hierarchy: Hierarchie pracovních balíčků
   label_work_package_new: Nový pracovní balíček
   label_work_package_plural: Pracovní balíčky
-  label_work_package_status: Stav pracovního balíčku
   label_work_package_status_new: Nový stav
   label_work_package_status_plural: Stav pracovního balíčku
   label_work_package_tracking: Sledování pracovních balíčků

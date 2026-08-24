@@ -40,23 +40,23 @@ de:
               must_be_work_package_query: muss mit einer Arbeitspaket-Abfrage verbunden sein.
     models:
       resource_allocation:
-        one: Resource Allocation
-        other: Resource Allocations
+        one: Ressourcenzuteilung
+        other: Ressourcenzuteilungen
       resource_planner:
-        one: Resource Planner
-        other: Resource Planners
+        one: Ressourcenplanung
+        other: Ressourcenplanungen
       resource_user_card:
-        one: User card
-        other: User cards
+        one: Benutzerkarte
+        other: Benutzerkarten
       resource_user_timeline:
-        one: User timeline
-        other: User timelines
+        one: Benutzer-Zeitleiste
+        other: Benutzer-Zeitleisten
       resource_work_package_list:
-        one: Work packages list
-        other: Work packages lists
+        one: Liste von Arbeitspaketen
+        other: Listen von Arbeitspaketen
       resource_work_package_timeline:
-        one: Work packages timeline
-        other: Work packages timelines
+        one: Arbeitspaket-Zeitleiste
+        other: Arbeitspaket-Zeitleisten
   button_next: Weiter
   ee:
     features:

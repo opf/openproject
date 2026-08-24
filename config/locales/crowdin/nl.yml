@@ -2585,8 +2585,12 @@ nl:
   description_available_columns: Beschikbare kolommen
   description_category_reassign: Kies categorie
   description_choose_project: Projecten
-  description_compare_from: Vergelijk van
-  description_compare_to: Vergelijk met
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'U bent hier: '
   description_date_from: Begindatum opgeven
   description_date_to: Voer de einddatum in
@@ -2788,8 +2792,6 @@ nl:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Werkpakketten delen met gebruikers die geen lid zijn van het project.
       work_package_subject_generation:
@@ -3287,7 +3289,6 @@ nl:
   label_available_project_work_package_types: Beschikbare werkpakkettypes
   label_available_projects: Beschikbare projecten
   label_backup: Back-up
-  label_backup_code: Back-up code
   label_basic_details: Basic details
   label_between: tussen
   label_blocked_by: vergrendeld door
@@ -3307,7 +3308,6 @@ nl:
   label_calendar_show: Agenda weergeven
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Kalenders en datums
-  label_category: Categorie
   label_change_parent: Wijzig bovenliggende pagina
   label_change_password: Change password
   label_change_plural: Wijzigingen
@@ -3316,9 +3316,9 @@ nl:
   label_change_status_of_user: 'Status van #{username} wijzigen'
   label_change_view_all: Alle wijzigingen weergeven
   label_changes_details: Details van alle wijzigingen
-  label_changeset: Wijzigingenset
   label_changeset_id: Wijzigingenset ID
   label_changeset_plural: Wijzigingensets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Selecteer/Deselecteer alles in kolom
   label_check_uncheck_all_in_row: Selecteer/Deselecteer alles in rij
   label_checked: gecontroleerd
@@ -3490,7 +3490,6 @@ nl:
   label_git_path: Pad naar .git map
   label_global: Globaal
   label_global_modules: Global modules
-  label_global_role: Algemene rol
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3559,7 +3558,6 @@ nl:
   label_last_week: Vorige week
   label_latest_revision: Meest recente revisie
   label_latest_revision_plural: Meest recente revisies
-  label_ldap_auth_source: LDAP verbinding
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP-verificatie
@@ -3589,7 +3587,6 @@ nl:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Leden
-  label_member_role: Projectrol
   label_membership_added: Lid toegevoegd
   label_membership_plural: Memberships
   label_membership_updated: Lid bijgewerkt
@@ -3702,7 +3699,6 @@ nl:
   label_permissions: Machtigingen
   label_permissions_report: Machtigingen verslag
   label_personalize_page: Personaliseer deze pagina
-  label_placeholder_user: Tijdelijke gebruiker
   label_placeholder_user_new: Nieuwe tijdelijke gebruiker
   label_placeholder_user_plural: Tijdelijke gebruikers
   label_planning: Planning
@@ -3765,7 +3761,6 @@ nl:
   label_related_work_packages: Verwante werkpakketten
   label_relates: Gerelateerd aan
   label_relates_to: Gerelateerd aan
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Relatie verwijderen
   label_relation_edit: Edit relation
@@ -3818,7 +3813,6 @@ nl:
   label_send_information: Send new credentials to the user
   label_send_invitation: Verstuur uitnodiging
   label_send_test_email: Stuur een test e-mail
-  label_session: Sessie
   label_setting_plural: Instellingen
   label_share: Deel
   label_share_project_list: Projectlijst delen
@@ -3894,7 +3888,6 @@ nl:
   label_used_by: Gebruikt door
   label_used_by_types: Wordt gebruikt door types
   label_used_in_projects: Wordt gebruikt in projecten
-  label_user: Gebruiker
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Gebruikers en rechten
   label_user_anonymous: Anoniem
@@ -3925,19 +3918,17 @@ nl:
   label_week: Week
   label_weighted_item_list: Weighted item list
   label_what_is_this: Wat is dit?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki-pagina toegevoegd
   label_wiki_content_updated: Wiki-pagina bijgewerkt
   label_wiki_dont_show_menu_item: Deze wiki pagina niet weergeven in projectnavigatie
   label_wiki_edit: Wiki bewerken
   label_wiki_edit_plural: Wiki bewerkingen
-  label_wiki_menu_item: Wiki menu-item
   label_wiki_navigation: Wiki navigatie
-  label_wiki_page: Wikipagina
   label_wiki_page_attachments: Wiki pagina bijlagen
   label_wiki_page_id: Wikipagina ID
   label_wiki_page_plural: Wikipagina
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Toon submenu item 'Inhoudsopgave'
   label_wiki_show_menu_item: Weergeven als menu-item in project navigatie
   label_wiki_show_new_page_link: Vervolgmenu-item 'Maken nieuwe onderliggende pagina' weergeven
@@ -3954,7 +3945,6 @@ nl:
   label_work_package_hierarchy: Werkpakket hiërarchie
   label_work_package_new: Nieuw werkpakket
   label_work_package_plural: Werkpakketten
-  label_work_package_status: Status werkpakket
   label_work_package_status_new: Nieuwe status
   label_work_package_status_plural: Werkpakket statussen
   label_work_package_tracking: Werkpakket bijhouden

@@ -2585,8 +2585,12 @@ et:
   description_available_columns: Saadaolevad väljad
   description_category_reassign: Vali kategooria
   description_choose_project: Projektid
-  description_compare_from: Võrdle alates
-  description_compare_to: Võrdle kuni
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Oled siin: '
   description_date_from: Sisestage alguskuupäev
   description_date_to: Sisestage lõpukuupäev
@@ -2788,8 +2792,6 @@ et:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3289,7 +3291,6 @@ et:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Varukoopia
-  label_backup_code: Varukoopia kood
   label_basic_details: Põhiandmed
   label_between: between
   label_blocked_by: blokeeritud
@@ -3309,7 +3310,6 @@ et:
   label_calendar_show: Kuva kalender
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategooria
   label_change_parent: Change parent
   label_change_password: Change password
   label_change_plural: Muutused
@@ -3318,9 +3318,9 @@ et:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: Vaata kõiki muutusi
   label_changes_details: Kõigi muutuste üksikasjad
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Toimikud
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: märgitud
@@ -3492,7 +3492,6 @@ et:
   label_git_path: Tee .git kataloog
   label_global: Üldine
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3561,7 +3560,6 @@ et:
   label_last_week: eelmisel nädalal
   label_latest_revision: Viimane versioon
   label_latest_revision_plural: Viimased versioonid
-  label_ldap_auth_source: LDAP ühendus
   label_ldap_auth_source_new: Uus LDAP ühendus
   label_ldap_auth_source_plural: LDAP ühendused
   label_ldap_authentication: LDAP autentimine
@@ -3591,7 +3589,6 @@ et:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Liikmed
-  label_member_role: Project role
   label_membership_added: Liige on lisatud
   label_membership_plural: Liikmelisus
   label_membership_updated: Liiget on uuendatud
@@ -3704,7 +3701,6 @@ et:
   label_permissions: Õigused
   label_permissions_report: Õiguste aruanne
   label_personalize_page: Isikupärasta see leht
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planeerimine
@@ -3767,7 +3763,6 @@ et:
   label_related_work_packages: Seotud teemad
   label_relates: seotud
   label_relates_to: seotud
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Kustuta seos
   label_relation_edit: Edit relation
@@ -3820,7 +3815,6 @@ et:
   label_send_information: Send new credentials to the user
   label_send_invitation: Saada kutse
   label_send_test_email: Saada kontrollkiri
-  label_session: Seanss
   label_setting_plural: Seaded
   label_share: Jaga
   label_share_project_list: Jaga projektide nimekirja
@@ -3896,7 +3890,6 @@ et:
   label_used_by: Kasutab
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: Kasutaja
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonüümne
@@ -3927,19 +3920,17 @@ et:
   label_week: Nädal
   label_weighted_item_list: Weighted item list
   label_what_is_this: Mis see on?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Viki leht on lisatud
   label_wiki_content_updated: Viki leht on uuendatud
   label_wiki_dont_show_menu_item: Ära näita seda vikilehte projektimenüüs
   label_wiki_edit: Viki muutmine
   label_wiki_edit_plural: Viki muutmised
-  label_wiki_menu_item: Viki menüüvalik
   label_wiki_navigation: Viki navigeerimine
-  label_wiki_page: Viki leht
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Viki lehed
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Kuva alammenüü valik "Sisukord"
   label_wiki_show_menu_item: Näita lehe nime projektimenüüs
   label_wiki_show_new_page_link: Näita alammenüüs valikut 'Loo uus alamleht'
@@ -3956,7 +3947,6 @@ et:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: Uus teema
   label_work_package_plural: Teemad
-  label_work_package_status: Teema olek
   label_work_package_status_new: Uus olek
   label_work_package_status_plural: Teemade olekud
   label_work_package_tracking: Teemasid jälgida

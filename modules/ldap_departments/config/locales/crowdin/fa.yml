@@ -23,11 +23,11 @@ fa:
           overlaps_other_tree: با Base DN یک همگام‌سازی دیگر روی همان اتصال LDAP هم‌پوشانی دارد.
     models:
       ldap_departments/synchronized_department:
-        one: Synchronized department
-        other: Synchronized departments
+        one: واحد سازمانی همگام‌شده
+        other: واحدهای سازمانی همگام‌شده
       ldap_departments/synchronized_tree:
-        one: LDAP department synchronization
-        other: LDAP department synchronizations
+        one: همگام‌سازی واحدهای سازمانی LDAP
+        other: همگام‌سازی‌های واحدهای سازمانی LDAP
   ee:
     upsell:
       ldap_departments:

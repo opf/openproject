@@ -105,7 +105,6 @@ ja:
   help_click_to_edit: 編集するにはここをクリックしてください。
   help_currency_format: 表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。
   help_override_rate: デフォルトレートを上書きするにはここに値を入力します。
-  label_budget: 予算
   label_budget_available: 利用可能な予算
   label_budget_details: 予算の詳細
   label_budget_id: '予算 #%{id}'

@@ -52,7 +52,6 @@ sr:
   label_closed: closed
   label_columns: Columns
   label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: Cost report
   label_cost_report_plural: Cost reports
   label_count: Count
   label_days_ago: during the last days

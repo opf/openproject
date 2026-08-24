@@ -73,14 +73,24 @@ cs:
             project_ids:
               blank: Prosím vyberte projekt.
         time_entry:
-          cannot_log_for_this_work_package: Nelze zaznamenat čas pro tento pracovní balíček.
-          duplicate_ongoing: Pro tohoto uživatele již existuje průběžný časový záznam.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: musí být mezi 00:00 a 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek.'
           nullify_is_not_valid_for_cost_entries: K projektu nelze přiřadit položky nákladů.
@@ -228,7 +238,6 @@ cs:
   label_greater_or_equal: ">="
   label_group_by: Seskupit podle
   label_group_by_add: Přidat skupinové pole
-  label_hourly_rate: Hodinová sazba
   label_include_deleted: Zahrnout smazané
   label_kind: Typ
   label_less_or_equal: "<="
@@ -249,7 +258,6 @@ cs:
   label_previous_month: Předchozí měsíc
   label_previous_week: Předchozí týden
   label_previous_workweek: Předchozí pracovní týden
-  label_rate: Sazba
   label_rate_plural: Kurzy
   label_show: Zobrazit
   label_specific_day: Den %{day}
@@ -263,7 +271,6 @@ cs:
   label_today_capitalized: Dnes
   label_units: Jednotky nákladu
   label_until: do
-  label_user: Uživatel
   label_valid_from: Platné od
   label_view_mode_switcher: Změnit zobrazení
   label_work_package_filter_add: Přidat filtr pracovního balíčku

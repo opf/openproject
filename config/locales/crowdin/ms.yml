@@ -2457,8 +2457,12 @@ ms:
   description_available_columns: Kolum Tersedia
   description_category_reassign: Pilih kategori
   description_choose_project: Projek-projek
-  description_compare_from: Bandingkan dari
-  description_compare_to: 'Bandingkan dengan '
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Anda di sini: '
   description_date_from: Masukkan tarikh mula
   description_date_to: Masukkan tarikh tamat
@@ -2659,8 +2663,6 @@ ms:
         description: Pastikan fail yang dimuat naik dalam OpenProject diimbas untuk virus sebelum boleh diakses oleh pengguna lain.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Kongsi pakej kerja dengan pengguna yang bukan ahli projek.
       work_package_subject_generation:
@@ -3158,7 +3160,6 @@ ms:
   label_available_project_work_package_types: Jenis pakej kerja yang tersedia
   label_available_projects: Projek yang tersedia
   label_backup: Sandaran
-  label_backup_code: Kod sandaran
   label_basic_details: Butiran asas
   label_between: antara
   label_blocked_by: disekat oleh
@@ -3178,7 +3179,6 @@ ms:
   label_calendar_show: Paparkan Kalendar
   label_calendar_subscriptions: Langganan kalendar
   label_calendars_and_dates: Kalendar dan tarikh
-  label_category: Kategori
   label_change_parent: Ubah induk
   label_change_password: Change password
   label_change_plural: Perubahan
@@ -3187,9 +3187,9 @@ ms:
   label_change_status_of_user: 'Tukar status #{username}'
   label_change_view_all: Lihat semua perubahan
   label_changes_details: Butiran semua perubahan
-  label_changeset: Set ubahsuai
   label_changeset_id: ID Set Ubahsuai
   label_changeset_plural: Set ubah suai
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Tanda/Nyahtanda semua dalam kolum
   label_check_uncheck_all_in_row: Tanda/Nyahtanda semua dalam baris
   label_checked: ditanda
@@ -3363,7 +3363,6 @@ ms:
   label_git_path: Laluan ke direktori .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Peranan global
   label_global_roles: Peranan global
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3432,7 +3431,6 @@ ms:
   label_last_week: minggu lepas
   label_latest_revision: Semakan terkini
   label_latest_revision_plural: Semakan terkini
-  label_ldap_auth_source: Sambungan LDAP
   label_ldap_auth_source_new: Sambungan LDAP baharu
   label_ldap_auth_source_plural: Sambungan LDAP
   label_ldap_authentication: Pengesahan LDAP
@@ -3462,7 +3460,6 @@ ms:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Ahli-ahli
-  label_member_role: Peranan projek
   label_membership_added: Ahli ditambah
   label_membership_plural: Keahlian
   label_membership_updated: Ahli dikemas kini
@@ -3575,7 +3572,6 @@ ms:
   label_permissions: Kebenaran
   label_permissions_report: Laporan kebenaran
   label_personalize_page: Peribadikan halaman ini
-  label_placeholder_user: Pengguna placeholder
   label_placeholder_user_new: Pengguna placeholder baharu
   label_placeholder_user_plural: Pengguna placeholder
   label_planning: Perancangan
@@ -3638,7 +3634,6 @@ ms:
   label_related_work_packages: Pakej kerja yang berkaitan
   label_relates: berkaitan dengan
   label_relates_to: berkaitan dengan
-  label_relation: Tindakan
   label_relation_actions: Tindakan perhubungan
   label_relation_delete: Hubungan terpadam
   label_relation_edit: Edit relation
@@ -3693,7 +3688,6 @@ ms:
   label_send_information: Hantar kelayakan baharu ke pengguna tersebut
   label_send_invitation: Hantar jemputan
   label_send_test_email: Hantar e-mel ujian
-  label_session: Sesi
   label_setting_plural: Tetapan
   label_share: Kongsi
   label_share_project_list: Kongsi senarai projek
@@ -3769,7 +3763,6 @@ ms:
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam projek
-  label_user: Pengguna
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Pengguna dan kebenaran
   label_user_anonymous: Anonim
@@ -3800,19 +3793,17 @@ ms:
   label_week: Minggu
   label_weighted_item_list: Weighted item list
   label_what_is_this: Apakah ini?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Halaman wiki ditambah
   label_wiki_content_updated: Halaman wiki dikemas kini
   label_wiki_dont_show_menu_item: Jangan paparkan halaman wiki ini di navigasi projek.
   label_wiki_edit: Edit wiki
   label_wiki_edit_plural: Edit wiki
-  label_wiki_menu_item: Item menu wiki
   label_wiki_navigation: Navigasi wiki
-  label_wiki_page: Halaman wiki
   label_wiki_page_attachments: Lampiran halaman wiki
   label_wiki_page_id: ID halaman wiki
   label_wiki_page_plural: Halaman wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Paparkan item submenu 'Jadual Kandungan'
   label_wiki_show_menu_item: Paparkan sebagai item menu dalam navigasi projek
   label_wiki_show_new_page_link: Paparkan item submenu 'Cipta laman anak baharu'
@@ -3829,7 +3820,6 @@ ms:
   label_work_package_hierarchy: Hierarki pakej kerja
   label_work_package_new: Pakej kerja baharu
   label_work_package_plural: Pakej pekerjaan
-  label_work_package_status: Status pakej kerja
   label_work_package_status_new: Status baharu
   label_work_package_status_plural: Status pakej kerja
   label_work_package_tracking: Penjejakan pakej kerja

@@ -108,7 +108,6 @@
   help_click_to_edit: Klikk her for å redigere.
   help_currency_format: Formatet på vist valuta. %n erstattes med valutaverdien, %u ertsattes av valutaenheten.
   help_override_rate: Skriv inn en verdi her for å overstyre standard sats.
-  label_budget: Budsjett
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Budsjett #%{id}'

@@ -2857,8 +2857,12 @@ lt:
   description_available_columns: Galimi stulpeliai
   description_category_reassign: Pasirinkite kategoriją
   description_choose_project: Projektai
-  description_compare_from: Palyginti nuo
-  description_compare_to: Palyginti iki
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Jūs esate čia: '
   description_date_from: Įveskite pradžios datą
   description_date_to: Įveskite pabaigos datą
@@ -3066,8 +3070,6 @@ lt:
         description: Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Bendrinkite darbo paketus su naudotojais, kurie nėra projekto nariai.
       work_package_subject_generation:
@@ -3575,7 +3577,6 @@ lt:
   label_available_project_work_package_types: Galimi darbo paketų tipai
   label_available_projects: Galimi projektai
   label_backup: Atsarginė kopija
-  label_backup_code: Atsarginis kodas
   label_basic_details: Basic details
   label_between: tarp
   label_blocked_by: blokuojamas
@@ -3595,7 +3596,6 @@ lt:
   label_calendar_show: Rodyti kalendorių
   label_calendar_subscriptions: Kalendoriaus prenumeratos
   label_calendars_and_dates: Kalendoriai ir datos
-  label_category: Kategorija
   label_change_parent: Keisti pirmtaką
   label_change_password: Change password
   label_change_plural: Pakeitimai
@@ -3604,9 +3604,9 @@ lt:
   label_change_status_of_user: 'Pakeisti #{username} būseną'
   label_change_view_all: Peržiūrėti visus pakeitimus
   label_changes_details: Visų pakeitimų detalės
-  label_changeset: Pakeitimu paketas
   label_changeset_id: Pakeitimų paketo ID
   label_changeset_plural: Pakeitimų paketai
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Žymėti/atžymėti visus stulpelyje
   label_check_uncheck_all_in_row: Žymėti/atžymėti visus eilutėje
   label_checked: patikrintas
@@ -3778,7 +3778,6 @@ lt:
   label_git_path: Kelias į .git aplanką
   label_global: Globali
   label_global_modules: Global modules
-  label_global_role: Visuotinis vaidmuo
   label_global_roles: Visuotiniai vaidmenys
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3847,7 +3846,6 @@ lt:
   label_last_week: praeita savaitė
   label_latest_revision: Paskutinė revizija
   label_latest_revision_plural: Paskutinės revizijos
-  label_ldap_auth_source: LDAP jungtis
   label_ldap_auth_source_new: Nauja LDAP jungtis
   label_ldap_auth_source_plural: LDAP jungtis
   label_ldap_authentication: LDAP autentifikacija
@@ -3877,7 +3875,6 @@ lt:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Nariai
-  label_member_role: Vaidmuo projekte
   label_membership_added: Narys pridėtas
   label_membership_plural: Narystės
   label_membership_updated: Narys atnaujintas
@@ -3990,7 +3987,6 @@ lt:
   label_permissions: Leidimai
   label_permissions_report: Leidimų ataskaita
   label_personalize_page: Suasmeninti šį puslapį
-  label_placeholder_user: Statytinis naudotojas
   label_placeholder_user_new: Naujas statytinis naudotojas
   label_placeholder_user_plural: Statytiniai naudotojai
   label_planning: Planavimas
@@ -4053,7 +4049,6 @@ lt:
   label_related_work_packages: Susiję darbų paketai
   label_relates: susieta su
   label_relates_to: susieta su
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Pašalinti ryšį
   label_relation_edit: Edit relation
@@ -4106,7 +4101,6 @@ lt:
   label_send_information: Siųsti naujus prisijungimo duomenis naudotojui
   label_send_invitation: Siųsti pakvietimą
   label_send_test_email: Siųsti bandomąjį el. laišką
-  label_session: Sesija
   label_setting_plural: Nustatymai
   label_share: Dalintis
   label_share_project_list: Share project list
@@ -4182,7 +4176,6 @@ lt:
   label_used_by: Naudotas
   label_used_by_types: Naudojama šių tipų
   label_used_in_projects: Naudojama šių projektų
-  label_user: Vartotojas
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Naudotojai ir teisės
   label_user_anonymous: Anonimas
@@ -4213,19 +4206,17 @@ lt:
   label_week: Savaitė
   label_weighted_item_list: Weighted item list
   label_what_is_this: Kas tai?
-  label_widget: Valdiklis
   label_widget_new: New widget
   label_wiki_content_added: Wiki puslapis pridėtas
   label_wiki_content_updated: Wiki puslapis atnaujintas
   label_wiki_dont_show_menu_item: Nerodyti šio wiki puslapio projekto navigacijoje
   label_wiki_edit: Wiki redagavimas
   label_wiki_edit_plural: Wiki redagavimai
-  label_wiki_menu_item: Wiki meniu punktas
   label_wiki_navigation: Wiki navigacija
-  label_wiki_page: Wiki puslapis
   label_wiki_page_attachments: Wiki puslapio prisegti failai
   label_wiki_page_id: Wiki puslapio ID
   label_wiki_page_plural: Wiki puslapiai
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Rodyti submeniu punktą „Turinys“
   label_wiki_show_menu_item: Rodyti kaip meniu punktą projekto navigacijoje
   label_wiki_show_new_page_link: Rodyti submeniu punktą „Sukurti naują vaiko puslapį“
@@ -4242,7 +4233,6 @@ lt:
   label_work_package_hierarchy: Darbų paketo hierarchija
   label_work_package_new: Naujas darbų paketas
   label_work_package_plural: Darbų paketai
-  label_work_package_status: Darbų paketo būsena
   label_work_package_status_new: Nauja būsena
   label_work_package_status_plural: Darbų paketo būsenos
   label_work_package_tracking: Darbų paketo sekimas

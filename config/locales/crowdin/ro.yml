@@ -2721,8 +2721,12 @@ ro:
   description_available_columns: Coloane disponibile
   description_category_reassign: Alege categoria
   description_choose_project: Proiecte
-  description_compare_from: Comparați de la
-  description_compare_to: compară cu
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ești aici: '
   description_date_from: Introdu dată început
   description_date_to: Introduceţi data de sfârşit
@@ -2925,8 +2929,6 @@ ro:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3430,7 +3432,6 @@ ro:
   label_available_project_work_package_types: Tipuri disponibile pachete de lucru
   label_available_projects: Proiecte disponibile
   label_backup: Backup
-  label_backup_code: Cod copie de rezervă
   label_basic_details: Informații de bază
   label_between: între
   label_blocked_by: blocat de
@@ -3450,7 +3451,6 @@ ro:
   label_calendar_show: Afișare calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendare și dăți
-  label_category: Categorie
   label_change_parent: Modifică părinte
   label_change_password: Change password
   label_change_plural: Modificări
@@ -3459,9 +3459,9 @@ ro:
   label_change_status_of_user: 'Schimbă starea lui #{username}'
   label_change_view_all: Vizualizare modificări
   label_changes_details: Detaliile modificărilor
-  label_changeset: Set de modificări
   label_changeset_id: ID-ul setului de modificări
   label_changeset_plural: Seturi de modificări
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Bifare/debifare toate în coloană
   label_check_uncheck_all_in_row: Bifare/debifare toate pe rând
   label_checked: bifat
@@ -3633,7 +3633,6 @@ ro:
   label_git_path: Calea catre directorul .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Rol Global
   label_global_roles: Roluri globale
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3702,7 +3701,6 @@ ro:
   label_last_week: săptămâna trecută
   label_latest_revision: Ultima revizie
   label_latest_revision_plural: Ultimele revizii
-  label_ldap_auth_source: Conexiune LDAP
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: Autentificare LDAP
@@ -3732,7 +3730,6 @@ ro:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membri
-  label_member_role: Rol proiect
   label_membership_added: Membru adăugat
   label_membership_plural: Membri
   label_membership_updated: Membru actualizat
@@ -3845,7 +3842,6 @@ ro:
   label_permissions: Drepturi
   label_permissions_report: Raport drepturi
   label_personalize_page: Personalizare pagină
-  label_placeholder_user: Utilizator placeholder
   label_placeholder_user_new: Utilizator placeholder nou
   label_placeholder_user_plural: Utilizatori de tip Placeholder
   label_planning: Planificare
@@ -3908,7 +3904,6 @@ ro:
   label_related_work_packages: Pachete de lucru asociate
   label_relates: asociat cu
   label_relates_to: asociat cu
-  label_relation: Relație
   label_relation_actions: Acțiuni relație
   label_relation_delete: Ștergere relație
   label_relation_edit: Edit relation
@@ -3961,7 +3956,6 @@ ro:
   label_send_information: Trimite credențiale noi utilizatorului
   label_send_invitation: Trimite invitație
   label_send_test_email: Trimite e-mail de test
-  label_session: Sesiune
   label_setting_plural: Setări
   label_share: Distribuie
   label_share_project_list: Distribuie lista de proiecte
@@ -4037,7 +4031,6 @@ ro:
   label_used_by: Folosit de
   label_used_by_types: Folosit/ă/e de tipurile
   label_used_in_projects: Folosit/ă/e în proiectele
-  label_user: Utilizator
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Utilizatori și permisiuni
   label_user_anonymous: Anonim
@@ -4068,19 +4061,17 @@ ro:
   label_week: Săptămână
   label_weighted_item_list: Weighted item list
   label_what_is_this: Discutați cu noi?
-  label_widget: Widget
   label_widget_new: Widget nou
   label_wiki_content_added: Pagină wiki adăugată
   label_wiki_content_updated: Pagină wiki actualizată
   label_wiki_dont_show_menu_item: Pagină wiki ascunsă în navigarea proiectului
   label_wiki_edit: Editare wiki
   label_wiki_edit_plural: Modificări wiki
-  label_wiki_menu_item: Meniu wiki
   label_wiki_navigation: Navigare wiki
-  label_wiki_page: Pagină wiki
   label_wiki_page_attachments: Atașamentele paginilor Wiki
   label_wiki_page_id: ID-ul paginii Wiki
   label_wiki_page_plural: Pagini wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Afișare submeniu 'Cuprins'
   label_wiki_show_menu_item: Afișare ca meniu în navigarea proiectului
   label_wiki_show_new_page_link: Afișează submeniu 'Creează pagină copil'
@@ -4097,7 +4088,6 @@ ro:
   label_work_package_hierarchy: Ierarhia pachetelor de lucru
   label_work_package_new: Pachet de lucru nou
   label_work_package_plural: Pachete de lucru
-  label_work_package_status: Stare pachet de lucru
   label_work_package_status_new: Stare nouă
   label_work_package_status_plural: Setări pachete de lucru
   label_work_package_tracking: Urmărire pachete de lucru

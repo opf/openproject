@@ -3,8 +3,8 @@ fa:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: برد
+        other: بردها
   boards:
     board_type_attributes:
       assignee: مسئول انجام

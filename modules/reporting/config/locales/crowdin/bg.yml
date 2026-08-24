@@ -51,7 +51,6 @@ bg:
   label_closed: затворен
   label_columns: Колони
   label_cost_entry_attributes: Атрибути за вписване на разходи
-  label_cost_report: Доклад за разходите
   label_cost_report_plural: Отчети за разходите
   label_count: Брой
   label_days_ago: през последните дни

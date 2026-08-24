@@ -111,7 +111,6 @@ hr:
   help_click_to_edit: Kliknite ovdje za uređivanje.
   help_currency_format: Format prikazanih novčanih valuta. %n je zamijenjen s novčanom valum, %u je zmijenjen s jedinicom vlute.
   help_override_rate: Unesite vrijednost ovdje za prepravljanje postavljene vrijednosti.
-  label_budget: Budžet
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Proračun #%{id}'

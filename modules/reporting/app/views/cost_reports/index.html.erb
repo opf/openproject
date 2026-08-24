@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<% html_title (@query.persisted? ? "#{t(:label_cost_report)}: #{@query.name}" : t(:label_new_report)) %>
+<% html_title (@query.persisted? ? "#{CostQuery.model_name.human}: #{@query.name}" : t(:label_new_report)) %>
 
 <% content_controller "reporting--page" %>
 

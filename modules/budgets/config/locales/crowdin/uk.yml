@@ -114,7 +114,6 @@ uk:
   help_click_to_edit: Натисніть тут, щоб редагувати.
   help_currency_format: Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею.
   help_override_rate: Введіть тут значення, щоб змінити стандартну швидкість.
-  label_budget: Бюджет
   label_budget_available: Доступний бюджет
   label_budget_details: Деталі бюджету
   label_budget_id: 'Бюджет #%{id}'

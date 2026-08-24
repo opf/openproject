@@ -973,29 +973,29 @@ de:
           other: "%{count} Fehler haben das Speichern dieses %{model} verhindert"
     models:
       action:
-        one: Action
-        other: Actions
+        one: Aktion
+        other: Aktionen
       announcement:
-        one: Announcement
-        other: Announcements
+        one: Ankündigung
+        other: Ankündigungen
       anonymous_user:
-        one: Anonymous user
-        other: Anonymous users
+        one: Anonymer Benutzer
+        other: Anonyme Benutzer
       attachment:
-        one: File
-        other: Files
+        one: Datei
+        other: Dateien
       attribute_help_text:
         one: Hilfe-Text für Attribute
         other: Hilfe-Texte für Attribute
       attribute_help_text/project:
-        one: Project attribute help text
-        other: Project attribute help texts
+        one: Hilfetext zu Projektattributen
+        other: Hilfetexte zu Projektattributen
       attribute_help_text/user:
-        one: User attribute help text
-        other: User attribute help texts
+        one: Hilfetext zu Benutzerattributen
+        other: Hilfstexte zu Benutzerattributen
       attribute_help_text/work_package:
-        one: Work package attribute help text
-        other: Work package attribute help texts
+        one: Hilfstext für Arbeitspaket-Attribute
+        other: Hilfstexte für Arbeitspaket-Attribute
       auth_provider:
         one: Authentifizierungsanbieter
         other: Authentifizierungsanbieter
@@ -1003,185 +1003,185 @@ de:
         one: Backup
         other: Backups
       capability:
-        one: Capability
-        other: Capabilities
+        one: Fähigkeit
+        other: Fähigkeiten
       category:
-        one: Category
-        other: Categories
+        one: Kategorie
+        other: Kategorien
       change:
-        one: File change
-        other: File changes
+        one: Dateiänderung
+        other: Dateiänderungen
       changeset:
-        one: Changeset
-        other: Changesets
+        one: Revision
+        other: Revisionen
       color:
-        one: Color
-        other: Colors
+        one: Farbe
+        other: Farben
       comment:
-        one: Comment
-        other: Comments
+        one: Kommentar
+        other: Kommentare
       custom_action:
-        one: Custom action
-        other: Custom actions
+        one: Benutzerdefinierte Aktion
+        other: Benutzerdefinierte Aktionen
       custom_field:
-        one: Custom field
-        other: Custom fields
+        one: Benutzerdefiniertes Feld
+        other: Benutzerdefinierte Felder
       custom_field/hierarchy/item:
-        one: Hierarchy item
-        other: Hierarchy items
+        one: Hierarchie-Element
+        other: Hierarchie-Elemente
       custom_field_section:
-        one: Custom field section
-        other: Custom field sections
+        one: Abschnitt
+        other: Abschnitte
       custom_option:
-        one: Custom field option
-        other: Custom field options
+        one: Option für benutzerdefinierte Felder
+        other: Optionen für benutzerdefinierte Felder
       custom_style:
         one: Design
         other: Designs
       day:
-        one: Day
-        other: Days
+        one: Tag
+        other: Tage
       deleted_user:
-        one: Deleted user
-        other: Deleted users
+        one: Gelöschter Nutzer
+        other: Gelöschte Benutzer
       design_color:
-        one: Design color
-        other: Design colors
+        one: Designfarbe
+        other: Designfarben
       doorkeeper/application:
-        one: OAuth application
-        other: OAuth applications
+        one: OAuth-Anwendung
+        other: OAuth-Anwendungen
       emoji_reaction:
-        one: Emoji reaction
-        other: Emoji reactions
+        one: Emoji Reaktionen
+        other: Emoji Reaktionen
       enterprise_token:
         one: Enterprise-Token
         other: Enterprise-Tokens
       enterprise_trial:
-        one: Enterprise trial
-        other: Enterprise trials
+        one: Enterprise Testversion
+        other: Enterprise Testversionen
       enumeration:
-        one: Enumeration
-        other: Enumerations
+        one: Aufzählung
+        other: Aufzählungen
       export:
         one: Export
-        other: Exports
+        other: Exporte
       export_setting:
-        one: Export setting
-        other: Export settings
+        one: Exporteinstellungen
+        other: Exporteinstellungen
       forum:
         one: Forum
-        other: Forums
+        other: Foren
       global_role:
-        one: Global role
-        other: Global roles
+        one: Globale Rolle
+        other: Globale Rollen
       group:
-        one: Group
-        other: Groups
+        one: Gruppe
+        other: Gruppen
       group_custom_field:
-        one: Group custom field
-        other: Group custom fields
+        one: Benutzerdefiniertes Feld
+        other: Benutzerdefinierte Felder
       health_report:
-        one: Health report
-        other: Health reports
+        one: Systemstatusbericht
+        other: Systemstatusberichte
       issue_priority:
         one: Priorität
         other: Prioritäten
       ldap_auth_source:
-        one: LDAP connection
-        other: LDAP connections
+        one: LDAP-Verbindung
+        other: LDAP-Verbindungen
       mcp_configuration:
-        one: MCP configuration
-        other: MCP configurations
+        one: MCP-Konfiguration
+        other: MCP-Konfigurationen
       member:
-        one: Member
-        other: Members
+        one: Mitglied
+        other: Mitglieder
       menu_item:
-        one: Menu item
-        other: Menu items
+        one: Menü-Eintrag
+        other: Menü-Einträge
       menu_items/wiki_menu_item:
-        one: Wiki menu item
-        other: Wiki menu items
+        one: Wiki-Menüeintrag
+        other: Wiki-Menüeinträge
       message:
-        one: Message
-        other: Messages
+        one: Nachricht
+        other: Nachrichten
       news:
-        one: News
-        other: News
+        one: Neuigkeit
+        other: Neuigkeiten
       non_working_day:
-        one: Non-working day
-        other: Non-working days
+        one: Arbeitsfreier Tag
+        other: Arbeitsfreie Tage
       notification:
         one: Benachrichtigung
         other: Benachrichtigungen
       notification_setting:
-        one: Notification setting
-        other: Notification settings
+        one: Benachrichtigungseinstellung
+        other: Benachrichtigungseinstellungen
       oauth_client:
-        one: OAuth client
-        other: OAuth clients
+        one: OAuth-Client
+        other: OAuth-Clients
       oauth_client_token:
-        one: OAuth client token
-        other: OAuth client tokens
+        one: OAuth-Client-Token
+        other: OAuth-Client-Tokens
       persisted_query:
-        one: Persisted query
-        other: Persisted queries
+        one: Gespeicherte Abfrage
+        other: Gespeicherte Abfragen
       persisted_view:
-        one: Persisted view
-        other: Persisted views
+        one: Gespeicherte Ansicht
+        other: Gespeicherte Ansichten
       placeholder_user:
-        one: Placeholder user
-        other: Placeholder users
+        one: Platzhalter-Benutzer
+        other: Platzhalter-Benutzer
       plugin_auth_provider:
-        one: Plugin authentication provider
-        other: Plugin authentication providers
+        one: Authentifizierungsanbieter
+        other: Authentifizierungsanbieter
       principal:
-        one: Principal
-        other: Principals
+        one: Benutzer oder Gruppe
+        other: Benutzer oder Gruppen
       project:
         one: Projekt
         other: Projekte
       project/phase:
-        one: Project phase
-        other: Project phases
+        one: Projektphase
+        other: Projektphasen
       project/phase_definition:
-        one: Project phase definition
-        other: Project phase definitions
+        one: Definition der Projektphase
+        other: Definitionen der Projektphasen
       project_custom_field:
-        one: Project attribute
-        other: Project attributes
+        one: Projektattribut
+        other: Projektattribute
       project_custom_field_section:
-        one: Project attribute section
-        other: Project attribute sections
+        one: Abschnitt
+        other: Abschnitte
       project_query:
         one: Projektlisten
         other: Projektlisten
       project_query_role:
-        one: Project list role
-        other: Project list roles
+        one: Rolle für Projektabfragen
+        other: Rollen für Projektabfragen
       project_role:
-        one: Project role
-        other: Project roles
+        one: Projektrolle
+        other: Projektrollen
       query:
-        one: Custom query
-        other: Custom queries
+        one: Benutzerdefinierte Abfrage
+        other: Benutzerdefinierte Abfragen
       relation:
-        one: Relation
-        other: Relations
+        one: Beziehung
+        other: Beziehungen
       reminder:
-        one: Reminder
-        other: Reminders
+        one: Erinnerung
+        other: Erinnerungen
       remote_identity:
-        one: Remote identity
-        other: Remote identities
+        one: Verknüpftes Konto
+        other: Verknüpfte Konten
       repository:
         one: Repository
         other: Repositories
       repository/git:
-        one: Git repository
-        other: Git repositories
+        one: Git Repository
+        other: Git-Repositories
       repository/subversion:
-        one: Subversion repository
-        other: Subversion repositories
+        one: Subversion-Repository
+        other: Subversion-Repositorys
       role:
         one: Rolle
         other: Rollen
@@ -1189,20 +1189,20 @@ de:
         one: SCIM-Client
         other: SCIM-clients
       service_account:
-        one: Service account
-        other: Service accounts
+        one: Dienstkonto
+        other: Dienstkonten
       sessions/user_session:
-        one: Session
-        other: Sessions
+        one: Sitzung
+        other: Sitzungen
       setting:
-        one: Setting
-        other: Settings
+        one: Einstellung
+        other: Einstellungen
       status:
-        one: Work package status
-        other: Work package statuses
+        one: Arbeitspaket-Status
+        other: Arbeitspaket-Status
       system_user:
-        one: System user
-        other: System users
+        one: Systembenutzer
+        other: Systembenutzer
       token/api:
         one: Zugangs-Token
         other: Zugangs-Token
@@ -1210,8 +1210,8 @@ de:
         one: Token
         other: Tokens
       token/ical:
-        one: iCalendar token
-        other: iCalendar tokens
+        one: iCalendar-Token
+        other: iCalendar-Token
       token/rss:
         one: RSS-Token
         other: RSS-Token
@@ -1222,53 +1222,53 @@ de:
         one: Variante
         other: Varianten
       user:
-        one: User
-        other: Users
+        one: Benutzer
+        other: Benutzer
       user_custom_field:
-        one: User attribute
-        other: User attributes
+        one: Benutzerattribut
+        other: Benutzerattribute
       user_custom_field_section:
-        one: User attribute section
-        other: User attribute sections
+        one: Abschnitt
+        other: Abschnitte
       user_non_working_time:
-        one: Non-working time
-        other: Non-working times
+        one: Arbeitsfreie Zeit
+        other: Arbeitsfreie Zeit
       user_password:
-        one: Password
-        other: Passwords
+        one: Passwort
+        other: Passwörter
       user_preference:
-        one: User preference
-        other: User preferences
+        one: Benutzereinstellung
+        other: Benutzereinstellungen
       user_query:
-        one: User list
-        other: User lists
+        one: Benutzerliste
+        other: Benutzerlisten
       user_working_hours:
-        one: Working hours
-        other: Working hours
+        one: Arbeitszeiten
+        other: Arbeitszeiten
       version:
         one: Version
-        other: Versions
+        other: Versionen
       version_custom_field:
-        one: Version custom field
-        other: Version custom fields
+        one: Benutzerdefiniertes Feld
+        other: Benutzerdefinierte Felder
       view:
-        one: View
-        other: Views
+        one: Ansicht
+        other: Ansichten
       wiki:
         one: Wiki
         other: Wikis
       wiki_page:
-        one: Wiki page
-        other: Wiki pages
+        one: Wiki-Seite
+        other: Wiki-Seiten
       work_package:
-        one: Work package
-        other: Work packages
+        one: Arbeitspaket
+        other: Arbeitspakete
       work_package_custom_field:
-        one: Work package custom field
-        other: Work package custom fields
+        one: Benutzerdefiniertes Feld
+        other: Benutzerdefinierte Felder
       work_package_role:
-        one: Work package role
-        other: Work package roles
+        one: Arbeitspaketrolle
+        other: Arbeitspaketrollen
       workflow:
         one: Workflow
         other: Workflows
@@ -2585,8 +2585,12 @@ de:
   description_available_columns: Verfügbare Spalten
   description_category_reassign: Neue Kategorie wählen
   description_choose_project: Projekte
-  description_compare_from: Vergleiche von
-  description_compare_to: Vergleiche mit
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Du bist hier: '
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
@@ -2788,8 +2792,6 @@ de:
         description: Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind.
       weighted_item_lists:
         description: Mit Gewichteten Listen können Sie eine Liste erstellen, die mit numerischen Werten verknüpft ist.
-      work_package_query_relation_columns:
-        description: Möchten Sie Beziehungen oder Unteraufgaben als Spalten in der Arbeitspaketliste sehen können?
       work_package_sharing:
         description: Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind.
       work_package_subject_generation:
@@ -3287,7 +3289,6 @@ de:
   label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
   label_available_projects: Verfügbare Projekte
   label_backup: Backup
-  label_backup_code: Backupcode
   label_basic_details: Allgemeine Informationen
   label_between: zwischen
   label_blocked_by: Blockiert durch
@@ -3307,7 +3308,6 @@ de:
   label_calendar_show: Kalender anzeigen
   label_calendar_subscriptions: Kalenderabonnements
   label_calendars_and_dates: Kalender und Datum
-  label_category: Kategorie
   label_change_parent: Übergeordnetes Arbeitspaket ändern
   label_change_password: Passwort ändern
   label_change_plural: Änderungen
@@ -3316,9 +3316,9 @@ de:
   label_change_status_of_user: 'Status des #{username} ändern'
   label_change_view_all: Alle Änderungen anzeigen
   label_changes_details: Details aller Änderungen
-  label_changeset: Revision
   label_changeset_id: Revisionsnummer
   label_changeset_plural: Projektarchiv-Änderungen
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Alle in Spalte an/abwählen
   label_check_uncheck_all_in_row: Alle in Zeile an/abwählen
   label_checked: ausgewählt
@@ -3465,7 +3465,7 @@ de:
   label_feeds_access_key: RSS-Zugriffsschlüssel
   label_feeds_access_key_created_on: Atom-Zugriffsschlüssel vor %{value} erstellt
   label_feeds_access_key_type: RSS
-  label_file: File
+  label_file: Datei
   label_file_plural: Dateien
   label_filter: Filter
   label_filter_add: Filter hinzufügen
@@ -3490,7 +3490,6 @@ de:
   label_git_path: Pfad zum .git-Verzeichnis
   label_global: Global
   label_global_modules: Globale Module
-  label_global_role: Globale Rolle
   label_global_roles: Globale Rollen
   label_go_back: Eine Menüebene zurückgehen
   label_go_forward: Öffne %{module} Untermenü
@@ -3559,7 +3558,6 @@ de:
   label_last_week: vorige Woche
   label_latest_revision: Aktuellste Revision
   label_latest_revision_plural: Aktuellste Revisionen
-  label_ldap_auth_source: LDAP-Verbindung
   label_ldap_auth_source_new: Neue LDAP-Verbindung
   label_ldap_auth_source_plural: LDAP-Verbindungen
   label_ldap_authentication: LDAP-Authentifizierung
@@ -3589,7 +3587,6 @@ de:
   label_member_of_group: Mitglieder der Gruppe
   label_member_of_project: Projektmitglied
   label_member_plural: Mitglieder
-  label_member_role: Projektrolle
   label_membership_added: Mitglied hinzugefügt
   label_membership_plural: Mitgliedschaften
   label_membership_updated: Mitglied aktualisiert
@@ -3702,7 +3699,6 @@ de:
   label_permissions: Berechtigungen
   label_permissions_report: Berechtigungsübersicht
   label_personalize_page: Diese Seite anpassen
-  label_placeholder_user: Platzhalter-Benutzer
   label_placeholder_user_new: Neuer Platzhalter-Benutzer
   label_placeholder_user_plural: Platzhalter-Benutzer
   label_planning: Terminplanung
@@ -3765,7 +3761,6 @@ de:
   label_related_work_packages: Zugehörige Arbeitspakete
   label_relates: Verwandt mit
   label_relates_to: Verwandt mit
-  label_relation: Beziehung
   label_relation_actions: Beziehungsaktionen
   label_relation_delete: Beziehung löschen
   label_relation_edit: Beziehung bearbeiten
@@ -3818,7 +3813,6 @@ de:
   label_send_information: Neue Anmeldeinformationen an den Benutzer senden
   label_send_invitation: Einladung senden
   label_send_test_email: Test-E-Mail senden
-  label_session: Sitzung
   label_setting_plural: Einstellungen
   label_share: Teilen
   label_share_project_list: Projektliste teilen
@@ -3894,7 +3888,6 @@ de:
   label_used_by: Benutzt von
   label_used_by_types: Verwendet von Typen
   label_used_in_projects: Verwendet in Projekten
-  label_user: Benutzer
   label_user_activity_html: Aktivität von %{value}
   label_user_and_permission: Benutzer und Berechtigungen
   label_user_anonymous: Anonym
@@ -3925,19 +3918,17 @@ de:
   label_week: Woche
   label_weighted_item_list: Gewichtete Listen
   label_what_is_this: Was ist das?
-  label_widget: Widget
   label_widget_new: Neues Widget
   label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
   label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
   label_wiki_dont_show_menu_item: Wiki-Seite nicht in der Projektnavigation anzeigen
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
-  label_wiki_menu_item: Wiki Menüpunkt
   label_wiki_navigation: Wiki-Navigation
-  label_wiki_page: Wiki-Seite
   label_wiki_page_attachments: Anhänge der Wiki-Seite
   label_wiki_page_id: ID der Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: "'Inhaltsverzeichnis' Link als Untermenüpunkt anzeigen"
   label_wiki_show_menu_item: als Menüpunkt in der Projektnavigation anzeigen
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
@@ -3954,7 +3945,6 @@ de:
   label_work_package_hierarchy: Arbeitspakethierarchie
   label_work_package_new: Neues Arbeitspaket
   label_work_package_plural: Arbeitspakete
-  label_work_package_status: Arbeitspaket-Status
   label_work_package_status_new: Neuer Status
   label_work_package_status_plural: Arbeitspaket-Status
   label_work_package_tracking: Arbeitspakete-Verfolgung
@@ -6926,7 +6916,7 @@ de:
         target_role_ids:
           label: Zielrollen
         target_variant_ids:
-          label: Target types
+          label: Zieltypen
       from_roles:
         create:
           notice:
@@ -6935,8 +6925,8 @@ de:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Workflow erfolgreich in den Typ '%{type_name}' kopiert.
+            other: Workflow erfolgreich in %{count} Typen kopiert.
       new:
         title: Workflow von "%{source_type}" kopieren
     form:

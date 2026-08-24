@@ -2585,8 +2585,12 @@ ca:
   description_available_columns: Columnes disponibles
   description_category_reassign: Triar categoria
   description_choose_project: Projectes
-  description_compare_from: Compara des de
-  description_compare_to: Compara amb
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ets aquí:'
   description_date_from: Introduir data d'inici
   description_date_to: Introduir data final
@@ -2788,8 +2792,6 @@ ca:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3287,7 +3289,6 @@ ca:
   label_available_project_work_package_types: Classes de paquet de treball disponibles
   label_available_projects: Available projects
   label_backup: Còpia de seguretat
-  label_backup_code: Codi de còpia de seguretat
   label_basic_details: Basic details
   label_between: entre
   label_blocked_by: bloquejats per
@@ -3307,7 +3308,6 @@ ca:
   label_calendar_show: Mostreu el calendari
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendaris i dates
-  label_category: Categoria
   label_change_parent: Canviar pare
   label_change_password: Change password
   label_change_plural: Canvis
@@ -3316,9 +3316,9 @@ ca:
   label_change_status_of_user: 'Canviar l''estat de #{username}'
   label_change_view_all: Visualitza tots els canvis
   label_changes_details: Detalls de tots els canvis
-  label_changeset: Conjunt de canvis
   label_changeset_id: Conjunt de canvis d'ID
   label_changeset_plural: Conjunt de canvis
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Marca/desmarca tot a la columna
   label_check_uncheck_all_in_row: Marca/desmarca tot a la fila
   label_checked: comprovat
@@ -3490,7 +3490,6 @@ ca:
   label_git_path: Ruta del directori de .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3559,7 +3558,6 @@ ca:
   label_last_week: l'última setmana
   label_latest_revision: Última revisió
   label_latest_revision_plural: Últimes revisions
-  label_ldap_auth_source: Connexió LDAP
   label_ldap_auth_source_new: Nova connexió LDAP
   label_ldap_auth_source_plural: Connexions LDAP
   label_ldap_authentication: Autenticació LDAP
@@ -3589,7 +3587,6 @@ ca:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membres
-  label_member_role: Project role
   label_membership_added: Membre afegit
   label_membership_plural: Memberships
   label_membership_updated: Membre actualitzat
@@ -3702,7 +3699,6 @@ ca:
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
   label_personalize_page: Personalitza aquesta pàgina
-  label_placeholder_user: Usuari de marcador de posició
   label_placeholder_user_new: Nou usuari de marcador de posició
   label_placeholder_user_plural: Usuaris de marcador de posició
   label_planning: Planificació
@@ -3765,7 +3761,6 @@ ca:
   label_related_work_packages: Paquets de treball relacionats
   label_relates: relacionat amb
   label_relates_to: relacionat amb
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Suprimir relació
   label_relation_edit: Edit relation
@@ -3818,7 +3813,6 @@ ca:
   label_send_information: Envia noves credencials a l'usuari
   label_send_invitation: Enviar invitació
   label_send_test_email: Enviar correu electrònic de prova
-  label_session: Sessió
   label_setting_plural: Configuració
   label_share: Compartir
   label_share_project_list: Share project list
@@ -3894,7 +3888,6 @@ ca:
   label_used_by: Utilitzat per
   label_used_by_types: Utilitxat per classes
   label_used_in_projects: Utilitzats en projectes
-  label_user: Usuari
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Usuaris i permisos
   label_user_anonymous: Anònim
@@ -3925,19 +3918,17 @@ ca:
   label_week: Setmana
   label_weighted_item_list: Weighted item list
   label_what_is_this: Què és això?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: S'ha afegit la pàgina wiki
   label_wiki_content_updated: S'ha actualitzat la pàgina wiki
   label_wiki_dont_show_menu_item: No mostris aquest pàgina wiki en la navegació del projecte
   label_wiki_edit: Edició wiki
   label_wiki_edit_plural: Edicions wiki
-  label_wiki_menu_item: Element de menú Wiki
   label_wiki_navigation: Navegació del wiki
-  label_wiki_page: Pàgina wiki
   label_wiki_page_attachments: Fitxers adjunts de la pàgina Wiki
   label_wiki_page_id: ID de la pàgina Wiki
   label_wiki_page_plural: Pàgines wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Mostra l'element del submenú 'Taula de continguts'
   label_wiki_show_menu_item: Mostrar com a element de menú en la navegació del projecte
   label_wiki_show_new_page_link: Mostra l'element submenú 'Crea nova pàgina fill'
@@ -3954,7 +3945,6 @@ ca:
   label_work_package_hierarchy: Jerarquia del paquet de treball
   label_work_package_new: Paquet de treball nou
   label_work_package_plural: Paquets de treball
-  label_work_package_status: Estat del paquet de treball
   label_work_package_status_new: Nou estat
   label_work_package_status_plural: Estats de paquet de treball
   label_work_package_tracking: Paquet de treball de seguiment

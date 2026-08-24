@@ -111,7 +111,6 @@ ro:
   help_click_to_edit: Câmpul %s este gol. Click aici pentru a-l edita.
   help_currency_format: Formatul valorilor valutare afișate. %n este înlocuit cu valoarea monedei, %u este înlocuit cu unitatea monetară.
   help_override_rate: Introdu o valoare aici pentru a înlocui rata implicită.
-  label_budget: Buget
   label_budget_available: Buget disponibil
   label_budget_details: Detalii buget
   label_budget_id: 'Buget #%{id}'

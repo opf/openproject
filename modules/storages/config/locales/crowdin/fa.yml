@@ -74,23 +74,23 @@ fa:
               unknown_error: با ارائه‌دهنده فضای ذخیره‌سازی فایل اعتبارسنجی نشد. بررسی کنید اتصال درست کار می‌کند.
     models:
       storages/file_link:
-        one: File link
-        other: File links
+        one: پیوند فایل
+        other: پیوندهای فایل
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        other: Nextcloud storages
+        one: فضای ذخیره‌سازی Nextcloud
+        other: فضاهای ذخیره‌سازی Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
-        other: OneDrive storages
+        one: فضای ذخیره‌سازی OneDrive
+        other: فضاهای ذخیره‌سازی OneDrive
       storages/project_storage:
-        one: Project storage
-        other: Project storages
+        one: فضای ذخیره‌سازی پروژه
+        other: فضاهای ذخیره‌سازی پروژه
       storages/sharepoint_storage:
-        one: SharePoint storage
-        other: SharePoint storages
+        one: فضای ذخیره‌سازی SharePoint
+        other: فضاهای ذخیره‌سازی SharePoint
       storages/storage:
-        one: Storage
-        other: Storages
+        one: فضای ذخیره‌سازی
+        other: فضاهای ذخیره‌سازی
   api_v3:
     errors:
       too_many_elements_created_at_once: تعداد زیادی عنصر هم‌زمان ایجاد شد. حداکثر %{max} مورد انتظار بود، اما %{actual} دریافت شد.

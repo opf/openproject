@@ -16,15 +16,15 @@ ru:
           overlaps: перекрытие.
     models:
       grids/grid:
-        one: Grid
+        one: Сетка
         few: Grids
         many: Grids
-        other: Grids
+        other: Сетки
       grids/widget:
-        one: Widget
+        one: Виджет
         few: Widgets
         many: Widgets
-        other: Widgets
+        other: Виджеты
   grids:
     label_widget_in_grid: Виджет содержится в Сетке %{grid_name}
     widgets:

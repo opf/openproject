@@ -3,10 +3,10 @@ ru:
   activerecord:
     models:
       grids/overview:
-        one: Overview
+        one: Обзор
         few: Overviews
         many: Overviews
-        other: Overviews
+        other: Обзоры
   overviews:
     label_dashboard: Дашборд
     label_home: 'Обзор: %{workspace_type}'
