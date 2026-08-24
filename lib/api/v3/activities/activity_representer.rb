@@ -46,6 +46,8 @@ module API
                   title_getter: ->(*) {}
 
         link :workPackage do
+          next unless represented.journable.is_a?(WorkPackage)
+
           {
             href: api_v3_paths.work_package(represented.journable.id),
             title: represented.journable.subject.to_s
