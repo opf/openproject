@@ -51,6 +51,28 @@ module Admin
       result.on_failure { render_form_with_errors }
     end
 
+    def disconnect_dialog
+      respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
+    end
+
+    # Clears the credential and switches the connection off, keeping the endpoint
+    # and the catalogue. Deliberately not a destroy.
+    def disconnect
+      @connection.update!(api_key: nil, enabled: false)
+
+      redirect_with_notice(t(".success"))
+    end
+
+    def delete_api_key_dialog
+      respond_with_dialog LlmConnections::DeleteApiKeyDialogComponent.new(@connection)
+    end
+
+    def delete_api_key
+      @connection.update!(api_key: nil)
+
+      redirect_with_notice(t(".success"))
+    end
+
     private
 
     def set_connection
