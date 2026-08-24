@@ -1,6 +1,6 @@
-## 1. Field Mapping Reference (priority)
+# Jira to OpenProject Field Mapping Reference
 
-### 1.1 Project-level fields
+## Project-level fields
 
 | Jira field               | Becomes in OpenProject          | What you should know                                         |
 | ------------------------ | ------------------------------- | ------------------------------------------------------------ |
@@ -11,7 +11,7 @@
 
 Every migrated project is created **private** and **active**, with no parent — this isn't based on anything in Jira, it's just how the tool creates them.
 
-### 1.2 Issue → Work package fields
+## Issue → Work package fields
 
 | Jira field                                         | Becomes in OpenProject    | What you should know                                         |
 | -------------------------------------------------- | ------------------------- | ------------------------------------------------------------ |
@@ -45,7 +45,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Watchers                                           | **Not migrated**          | — (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180)) |
 
 
-### 1.3 Users & groups
+## Users & groups
 
 | Jira field            | Becomes in OpenProject       | What you should know                                         |
 | --------------------- | ---------------------------- | ------------------------------------------------------------ |
@@ -56,15 +56,14 @@ Every migrated project is created **private** and **active**, with no parent —
 | Username              | Login                        | Not always a direct 1:1 copy either — same collision handling as Email, below |
 | —                     | Password                     | Randomly generated — Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward |
 
-### 1.4 Custom fields
+## Custom fields
 
-For field type mapping, supported/unsupported types, and edge cases (checkboxes, cascading selects, Labels, Field Contexts, deduplication behavior — including how both interact with separate import runs/batches), see the official [Custom fields migration](https://www.openproject.org/docs/installation-and-operations/jira-migration/custom-fields/) documentation rather than duplicating it here.
+For field type mapping, supported/unsupported types, and edge cases (checkboxes, cascading selects, Labels, Field Contexts, deduplication behavior — including how both interact with separate import runs/batches), see the official [Custom fields migration](https://www.openproject.org/docs/installation-and-operations/jira-migration/custom-fields/) documentation.
 
-Two things worth knowing that aren't in that page yet: field names containing non-ASCII characters (e.g. accented letters) have been confirmed to duplicate across separate import runs rather than being recognized as the same field — [JIM-170](https://community.openproject.org/projects/JIM/work_packages/JIM-170). Separately, OpenProject's custom field system has no native Date+Time format at all yet (only Date) — that's the underlying reason the migrator can only produce a date-only field for Jira's Date Time Picker type; adding a real Date+Time custom field format is tracked as [JIM-1](https://community.openproject.org/projects/JIM/work_packages/JIM-1).
 
 ------
 
-### 1.6 Behavior worth knowing about (not obvious from the UI)
+## Behavior worth knowing about
 
 - **Status/Type/Priority matching ignores case, not spelling.** `"To Do"` and `"TO DO"` will correctly match to the same status. But `"To-Do"` vs `"To Do"`, or `"Doing"` vs `"In Progress"`, will each create their own separate status/type/priority. Standardize naming across Jira projects beforehand if you want them to merge.
 - **Reporter is dropped**, only Creator/Author comes across.

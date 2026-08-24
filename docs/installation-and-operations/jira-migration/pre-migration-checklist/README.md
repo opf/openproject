@@ -1,6 +1,8 @@
-Actions to take **in Jira** and in your migration planning before you start an import run, to reduce the number of surprises and manual clean-up steps afterward.
+# Jira to OpenProject Post Migration Checklist
 
-### Jira/instance-side prerequisites
+Actions to take in Jira, in OpenProject and in your migration planning before you start an import run, to reduce the number of surprises and manual clean-up steps afterward.
+
+## Jira/instance-side prerequisites
 
 - [ ] Confirm your Jira instance is **Data Center 10.x / 11.x**. Server is officially not supported, but depending on your configuration is still likely to work. Cloud is not supported at all at the moment — plan a different route if you're on Cloud.
 - [ ] Confirm your Jira instance is reachable from OpenProject by using the connection test.
@@ -13,7 +15,7 @@ Actions to take **in Jira** and in your migration planning before you start an i
 - [ ] **For large migrations (roughly 3,000+ issues with attachments), raise OpenProject's open-files limit (`ulimit -n`).** Default Docker Compose installs are set to 1024, which is too low and causes attachment errors partway through large imports. Raising it to around 60,000 has resolved this for others. Confirmed issue: [JIM-181](https://community.openproject.org/projects/JIM/work_packages/JIM-181).
 - [ ] **Identify any external integrations, webhooks, or tools that reference Jira's raw issue/project/comment IDs directly** (e.g. custom scripts, reporting tools). These numeric IDs don't carry over to OpenProject — Jira issue *keys* (e.g. `PROJECT-123`) keep working via OpenProject's semantic aliasing, but anything relying on the underlying numeric ID will need to be reconfigured after migration. Make a list now so you know exactly what to go fix afterward, rather than finding out when something breaks.
 
-### Confirm you can accept what doesn't yet migrate
+## Confirm you can accept what doesn't yet migrate
 
 Review this against how your teams actually use Jira. If anything here would be a blocker, get in touch with us before migrating.
 
@@ -52,14 +54,14 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 For anything on this list your teams actually rely on, decide now how you'll handle it — export it separately, accept the loss, or plan to recreate it manually after migration (see the Post-Migration checklist for what that looks like). Don't discover this after the fact.
 
-### Preparation
+## Preparation
 
 - [ ] For anything you decided to keep from the "what doesn't migrate" review above, export it separately now (e.g. via CSV) before you lose easy access to it.
 - [ ] **Decide how to handle Resolution if your team relies on it.** Jira's Resolution (Fixed, Won't Fix, Duplicate, Cannot Reproduce, etc.) doesn't migrate at all — only Status does, and multiple resolutions can collapse into one status. If this distinction matters, either export Resolution values separately, or consider splitting your Jira statuses beforehand so the outcome is captured in the status name itself (e.g. "Done - Won't Fix" as a distinct status from "Done - Fixed"). There's an open feature request to migrate Resolution as a custom field automatically: [JIM-149](https://community.openproject.org/projects/JIM/work_packages/JIM-149).
 - [ ] **Note your Jira priority order (severity ranking) before migrating.** The migrator doesn't preserve priority order, colors, or icons — only the name. Since OpenProject falls back to whichever priority is first in the list when an issue has none set, you'll likely need to manually reorder priorities in OpenProject afterward to match your actual severity ranking.
 - [ ] **Note which issue type is the default per project, if that matters to you.** No migrated type is marked as default, regardless of what was default in Jira — you'll need to set this manually in OpenProject after migration.
 
-### OpenProject-side prerequisites
+## OpenProject-side prerequisites
 
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count beforehand the migration.
 - [ ] **Check OpenProject's maximum attachment size setting** (Administration → Files → Attachments) against the largest attachments in your Jira data. OpenProject doesn't impose a total storage quota on any edition, but it does enforce a per-file size limit — a Jira attachment larger than this limit will fail to import. Since attachment failures are silently logged and skipped rather than stopping the run (see the "Behavior worth knowing about" section), this can otherwise go unnoticed until you check attachment counts post-migration. Raise the limit beforehand if needed.
@@ -70,7 +72,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 - [ ] **Check for Jira group names that collide with existing, unrelated OpenProject groups.** Groups are matched/created by name — if you already have an OpenProject group called e.g. "Developers" that has nothing to do with Jira, and Jira also has a "Developers" group, the migrator will add Jira members into your existing group rather than keeping them separate. Rename one side beforehand if that's not what you want.
 - [ ] Decide now whether you have (or plan to buy) the **Enterprise custom-field-hierarchies add-on** — it changes how cascading-select fields import (native hierarchy vs. flattened list), and there is no auotmated way right now to change this afterwards.
 
-### Jira data clean-up
+## Jira data clean-up
 
 - [ ] To reduce what gets imported, archive unwanted issues in Jira first. Archived issues are skipped by the migration.
 - [ ] Check that all Jira project keys are 10 characters or shorter. OpenProject's project identifiers are limited to 10 characters as per Jira default. Projects with a longer key cannot be imported. Shorten any long project keys in Jira before migrating. Confirmed bug: [JIM-172](https://community.openproject.org/projects/JIM/work_packages/JIM-172).
@@ -85,7 +87,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 - [ ] **Rewrite descriptions/comments that rely on markup the converter doesn't recognize**, if you want to avoid post-migration cleanup: `{info}`/`{warning}`/`{note}`/`{tip}` callout boxes, `{toc}`, and `{expand}`/`{section}`/`{column}` layouts all leave their raw tag text behind unconverted rather than being dropped or styled. If specific issues use these heavily, replacing them with plain text/headings in Jira beforehand avoids leftover clutter in OpenProject. Same applies to bare issue-key links (`[PROJECT-123]`) and attachment links (`[^file.pdf]`) — these come across as plain, non-clickable text, so rewriting them as full URLs in Jira first is the only way to keep them working as links.
 
 
-### Batching approach
+## Batching approach
 
 If you're not migrating everything in a single run, decide this deliberately rather than defaulting to "one project at a time" — it affects more than just convenience.
 

@@ -1,6 +1,7 @@
+# Jira to OpenProject Post Migration Checklist
 Things to do by hand after an import, given the tool's current scope. If you're migrating in multiple batches, repeat the "Right after import" steps for each batch — they're not a one-time event.
 
-### Right after import
+## Right after import
 
 - [ ] While still in **review mode**, spot-check a sample of imported work packages, attachments, and custom fields before approving — once approved, it can't be undone.
 - [ ] **Specifically verify attachment counts, not just a sample.** Unlike everything else the migrator imports, a failed attachment (broken download, rejected upload) doesn't stop the import or show up anywhere in the review screen — it's silently skipped and only noted in the server log. Compare attachment counts between Jira and OpenProject per project, and check the server log for "Attachment creation failed" or "Download attachment failed" entries, before you approve.
@@ -8,7 +9,7 @@ Things to do by hand after an import, given the tool's current scope. If you're 
 - [ ] **Reset passwords / send invitations** for all newly-created users, since Jira passwords can't be migrated. There's an open feature request to automate this on approval: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116).
 - [ ] **If you're on LDAP, check for and fix login collisions.** Compare imported logins against your LDAP directory; for any match, edit that user and assign the correct LDAP source manually — otherwise their real LDAP login will keep failing. There's no automatic way to fix this in bulk; it has to be done per affected account. Do this after every batch, since new users can be introduced in each one.
 
-### Things you'll need to recreate manually
+## Things you'll need to recreate manually
 
 This is where you act on what you decided in the "confirm you can accept what doesn't migrate" review before you started. For anything you chose to keep rather than accept the loss of:
 
@@ -21,7 +22,7 @@ This is where you act on what you decided in the "confirm you can accept what do
 - [ ] **Watchers** on individual work packages — re-add manually from the list you exported beforehand. Planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180).
 - [ ] Anything from **Confluence** — entirely out of scope for this tool; plan a separate migration for it if needed.
 
-### Clean-up and verification
+## Clean-up and verification
 
 - [ ] Reorganize the new custom fields — they land in a generic group unattached to most projects by default.
 - [ ] If you didn't standardize Type/Status/Priority names in Jira beforehand (see Pre-Migration Checklist), **merge any that ended up duplicated** because the Jira names genuinely differed (not just by casing). Fixing this in Jira next time avoids having to redo the merge on every re-run.
