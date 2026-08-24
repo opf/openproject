@@ -33,26 +33,26 @@ module McpOutputFilters
   # It will descend into the values of arrays and hashes and call #on_hash for each hash found
   # along the way, allowing for the implementation to modify the given hash along the way.
   class HashFilter
-    def filter(hash_or_array)
+    def filter(hash_or_array, params:)
       case hash_or_array
       when Hash
-        filter_hash(hash_or_array)
+        filter_hash(hash_or_array, params:)
       when Array
-        hash_or_array.each { |value| filter(value) }
+        hash_or_array.each { |value| filter(value, params:) }
       end
     end
 
     private
 
-    def filter_hash(hash)
-      if on_hash(hash)
-        hash.each_value { |value| filter(value) }
+    def filter_hash(hash, params:)
+      if on_hash(hash, params:)
+        hash.each_value { |value| filter(value, params:) }
       end
     end
 
     # Expected to be overwritten by subclasses and may perform output filtering on the passed hash (e.g. deleting keys).
     # Should return a truthy value to descend further into values of the given hash or false to stop descending here.
-    def on_hash(_hash)
+    def on_hash(_hash, params:)
       raise SubclassResponsibilityError
     end
   end

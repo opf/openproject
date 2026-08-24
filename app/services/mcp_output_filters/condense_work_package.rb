@@ -29,20 +29,36 @@
 #++
 
 module McpOutputFilters
-  class RemoveFormattableHtml < HashFilter
-    private
+  class CondenseWorkPackage
+    ALLOWED_ATTRIBUTES = %w[
+      _links
+      id
+      displayId
+      subject
+      lockVersion
+      date
+      startDate
+      dueDate
+      derivedStartDate
+      derivedDueDate
+      createdAt
+      updatedAt
+    ].to_set
+    ALLOWED_LINKS = %w[
+      project
+      status
+      type
+      author
+      assignee
+    ].to_set
 
-    def on_hash(hash, params:) # rubocop:disable Naming/PredicateMethod
-      if formattable?(hash)
-        hash.delete("html")
-        return false
+    def filter(hash, params:)
+      return if params[:level_of_detail] == "full"
+
+      hash.fetch("items").each do |work_package|
+        work_package.fetch("_links").delete_if { |l| !ALLOWED_LINKS.include?(l) }
+        work_package.delete_if { |attr| !ALLOWED_ATTRIBUTES.include?(attr) }
       end
-
-      true
-    end
-
-    def formattable?(hash)
-      hash.key?("format") && hash.key?("raw") && hash.key?("html")
     end
   end
 end

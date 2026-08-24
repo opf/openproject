@@ -40,7 +40,7 @@ module McpOutputFilters
 
     private
 
-    def on_hash(hash) # rubocop:disable Naming/PredicateMethod
+    def on_hash(hash, params:) # rubocop:disable Naming/PredicateMethod
       links = hash["_links"]
       if links
         links.delete_if { |key| blocked_links.include?(key) }

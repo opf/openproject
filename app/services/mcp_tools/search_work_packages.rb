@@ -64,6 +64,12 @@ module McpTools
     input_schema(
       additionalProperties: false,
       properties: {
+        level_of_detail: {
+          type: :string,
+          enum: %w[reduced full],
+          description: "Defines how much information is returned per work package. By default a reduced representation " \
+                       "is returned, but passing 'full' can return all information."
+        },
         assigned_to_id: {
           type: %w[number null],
           description: "The ID of the user or group that is assigned to this work package. " \
@@ -93,8 +99,11 @@ module McpTools
 
     output_filter McpOutputFilters::RemoveFormattableHtml.new
     output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
+    output_filter McpOutputFilters::CondenseWorkPackage.new
 
-    def call(page: nil, **filters)
+    # TODO: kinda sad that the level_of_detail is specified here, but needs passing to nowhere...
+    # maybe don't implement it as an output_filter after all?
+    def call(page: nil, level_of_detail: nil, **filters)
       filtered = apply_filters(WorkPackage.visible, filters)
       work_packages, total = apply_pagination(filtered, page)
 
