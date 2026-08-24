@@ -39,7 +39,7 @@ module Storages
           RSpec.describe FilesQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
-            let(:auth_strategy) { Registry["one_drive.authentication.user_bound"].call(user, storage) }
+            let(:auth_strategy) { Registry["onedrive.authentication.user_bound"].call(user, storage) }
             let(:input_data) { Input::Files.build(folder:).value! }
 
             it_behaves_like "storage adapter: query call signature", "files"

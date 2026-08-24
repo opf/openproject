@@ -40,7 +40,7 @@ module Storages
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
             let(:auth_strategy) do
-              Registry["one_drive.authentication.user_bound"].call(user, storage)
+              Registry["onedrive.authentication.user_bound"].call(user, storage)
             end
 
             subject { described_class.new(storage) }

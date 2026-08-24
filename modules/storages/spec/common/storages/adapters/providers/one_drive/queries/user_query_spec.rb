@@ -44,13 +44,13 @@ module Storages
             end
 
             let(:user_bound_strategy) do
-              Registry.resolve("one_drive.authentication.user_bound").call(user, storage)
+              Registry.resolve("onedrive.authentication.user_bound").call(user, storage)
             end
 
             let(:auth_strategy) { user_bound_strategy }
 
             it "is registered" do
-              expect(Registry.resolve("one_drive.queries.user")).to eq(described_class)
+              expect(Registry.resolve("onedrive.queries.user")).to eq(described_class)
             end
 
             it "responds to .call" do

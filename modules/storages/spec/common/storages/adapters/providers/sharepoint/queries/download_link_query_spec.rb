@@ -39,7 +39,7 @@ module Storages
           RSpec.describe DownloadLinkQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:sharepoint_storage, :sandbox, oauth_client_token_user: user) }
-            let(:auth_strategy) { Registry["one_drive.authentication.user_bound"].call(user, storage) }
+            let(:auth_strategy) { Registry["onedrive.authentication.user_bound"].call(user, storage) }
 
             let(:drive_id) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw" }
             let(:file_link) { create(:file_link, origin_id: "#{drive_id}:01ANJ53W4ELLSQL3JZHNA2MHKKHKAUQWNS") }

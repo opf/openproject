@@ -129,8 +129,8 @@ module Storages
       client_remote_identities_scope.where(user: User.admin.active)
     end
 
-    def set_permissions = Adapters::Registry.resolve("one_drive.commands.set_permissions")
-    def auth_strategy = Adapters::Registry.resolve("one_drive.authentication.userless").call
+    def set_permissions = Adapters::Registry.resolve("onedrive.commands.set_permissions")
+    def auth_strategy = Adapters::Registry.resolve("onedrive.authentication.userless").call
 
     def build_permissions_input_data(file_id, user_permissions)
       Adapters::Input::SetPermissions.build(file_id:, user_permissions:)
