@@ -69,7 +69,7 @@ describe('chart tooltip renderer', () => {
 
     await new Promise(requestAnimationFrame);
     const box = popover().getBoundingClientRect();
-    expect(box.left).toBeGreaterThanOrEqual(150);
+    expect(box.left).toBeGreaterThanOrEqual(158);
   });
 
   it('closes the popover when the tooltip fades out', () => {

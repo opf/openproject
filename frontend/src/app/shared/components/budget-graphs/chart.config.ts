@@ -63,13 +63,19 @@ class ChartTooltip {
   private anchor:DOMRect | null = null;
   private caret:CaretPlacement | null = null;
   private items:TemplateResult[] = [];
+  private readonly stopCaretSync:() => void;
 
   constructor(private readonly host:HTMLElement) {
     this.draw();
-    syncCaret(this.popover, () => this.anchor, (caret) => {
+    this.stopCaretSync = syncCaret(this.popover, () => this.anchor, (caret) => {
       this.caret = caret;
       this.draw();
     });
+  }
+
+  destroy():void {
+    this.stopCaretSync();
+    this.popover.togglePopover(false);
   }
 
   update<TType extends 'bar' | 'pie'>(context:TooltipContext<TType>, items:TemplateResult[]):void {
@@ -128,7 +134,7 @@ function renderTooltipItem(color:string, label:string, formattedValue:string, da
 
 export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:FormatCurrency) {
   const tooltip = new ChartTooltip(host);
-  return function(context:TooltipContext<'bar'>) {
+  const renderer = (context:TooltipContext<'bar'>) => {
     const items = context.tooltip.dataPoints.map((dp, i) => {
       const timestamp = dp.parsed.x;
       const dateStr = timestamp != null
@@ -139,15 +145,17 @@ export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:Format
     });
     tooltip.update(context, items);
   };
+  return Object.assign(renderer, { destroy: () => tooltip.destroy() });
 }
 
 export function createPieTooltipRenderer(host:HTMLElement, formatCurrency:FormatCurrency) {
   const tooltip = new ChartTooltip(host);
-  return function(context:TooltipContext<'pie'>) {
+  const renderer = (context:TooltipContext<'pie'>) => {
     const items = context.tooltip.dataPoints.map((dp, i) => {
       const color = context.tooltip.labelColors[i]?.backgroundColor as string;
       return renderTooltipItem(color, dp.label ?? '', formatCurrency(dp.parsed));
     });
     tooltip.update(context, items);
   };
+  return Object.assign(renderer, { destroy: () => tooltip.destroy() });
 }

@@ -29,6 +29,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   Signal,
   computed,
@@ -57,6 +58,13 @@ export class ActualCostsComponent {
   readonly currency = input<string>('€');
 
   private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
+
+  private renderer:ReturnType<typeof createBarTooltipRenderer> | null = null;
+  private renderedHost:HTMLElement | null = null;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.renderer?.destroy());
+  }
 
   readonly barChartData = computed<ChartData<'bar'>>(() => JSON.parse(this.chartData()) as ChartData<'bar'>);
   readonly hasChartData = computed(() => this.barChartData().datasets.length > 0);
@@ -89,15 +97,16 @@ export class ActualCostsComponent {
     },
   }));
 
-  private readonly tooltipRenderer = (() => {
-    let renderer:ReturnType<typeof createBarTooltipRenderer> | null = null;
-    return (context:Parameters<ReturnType<typeof createBarTooltipRenderer>>[0]) => {
-      const host = this.tooltipHost()?.nativeElement;
-      if (!host) return;
-      renderer ??= createBarTooltipRenderer(host, this.formatCurrency.bind(this));
-      renderer(context);
-    };
-  })();
+  private readonly tooltipRenderer = (context:Parameters<ReturnType<typeof createBarTooltipRenderer>>[0]) => {
+    const host = this.tooltipHost()?.nativeElement;
+    if (!host) return;
+    if (host !== this.renderedHost) {
+      this.renderer?.destroy();
+      this.renderer = createBarTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderedHost = host;
+    }
+    this.renderer?.(context);
+  };
 
   private formatCurrencyCompact(value:number):string {
     const currency = this.currency();

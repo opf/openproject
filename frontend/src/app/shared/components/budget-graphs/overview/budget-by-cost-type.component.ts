@@ -29,6 +29,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   Signal,
   computed,
@@ -57,6 +58,13 @@ export class BudgetByCostTypeComponent {
 
   private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
 
+  private renderer:ReturnType<typeof createPieTooltipRenderer> | null = null;
+  private renderedHost:HTMLElement | null = null;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.renderer?.destroy());
+  }
+
   readonly pieChartData = computed<ChartData<'pie'>>(() => JSON.parse(this.chartData()) as ChartData<'pie'>);
   readonly hasChartData = computed(() => this.pieChartData().datasets[0].data.length > 0);
 
@@ -72,15 +80,16 @@ export class BudgetByCostTypeComponent {
     },
   }));
 
-  private readonly tooltipRenderer = (() => {
-    let renderer:ReturnType<typeof createPieTooltipRenderer> | null = null;
-    return (context:Parameters<ReturnType<typeof createPieTooltipRenderer>>[0]) => {
-      const host = this.tooltipHost()?.nativeElement;
-      if (!host) return;
-      renderer ??= createPieTooltipRenderer(host, this.formatCurrency.bind(this));
-      renderer(context);
-    };
-  })();
+  private readonly tooltipRenderer = (context:Parameters<ReturnType<typeof createPieTooltipRenderer>>[0]) => {
+    const host = this.tooltipHost()?.nativeElement;
+    if (!host) return;
+    if (host !== this.renderedHost) {
+      this.renderer?.destroy();
+      this.renderer = createPieTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderedHost = host;
+    }
+    this.renderer?.(context);
+  };
 
   private formatCurrency(value:number):string {
     const currency = this.currency();
