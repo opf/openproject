@@ -38,6 +38,7 @@ module McpTools
 
     input_schema(
       additionalProperties: false,
+      required: %i[data],
       properties: {
         data: {
           type: %w[object],
