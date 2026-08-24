@@ -38,7 +38,7 @@ module Backlogs
         param :project
 
         def title
-          t("backlogs.sprint_reports.widgets.work_package_graph.title")
+          t(".title")
         end
 
         def wrapper_arguments
