@@ -62,7 +62,7 @@ A work package detail view is organized into sections/tabs, such as:
 - Meetings: Meetings linked to this work package as meeting agenda or outcome. You can open the respective meeting agendas.
 - **Watchers:** People who are watching the work package. You can review watchers and add watchers.
 
-![Work package details view and information tabs](2work_packages-details.png)
+![Work package details view and information tabs](work_packages-details.png)
 
 You can always **edit a work package** details from each field available on the overview screen, but for more advanced editing tap on the Edit action (pencil icon) on the top navigation bar.
 

@@ -45,7 +45,7 @@ The Home dashboard provides a **personalized overview** of your work and include
 
 Depending on your device, many of these widgets may also be available as **OS widgets** on your phone’s home screen.
 
-[Learn more about Home Dashboard in the OpenProject mobile app](../core-features/home-dashboard/).
+[Learn more about Home Dashboard in the OpenProject mobile app](../../core-features/home-dashboard/).
 
 ## How does the Spaces module work?
 
@@ -56,7 +56,7 @@ The **Spaces** module (formerly Projects) provides an index of the spaces/projec
 - Switch between **All** and **Favorites**
 - Open a space to view its overview and work packages
 
-[Learn more about Spaces in the OpenProject mobile app](../core-features/projects/).
+[Learn more about Spaces in the OpenProject mobile app](../../core-features/projects/).
 
 ## What can I do in Work Packages?
 
@@ -70,7 +70,7 @@ he Work packages module supports:
 - Collaboration via the **Activity** tab and watchers
 - More actions such as sharing, time tracking, adding to device calendar, and reminders (depending on platform/version)
 
-[Learn more about Work Packages module in the OpenProject mobile app](../core-features/work-packages/).
+[Learn more about Work Packages module in the OpenProject mobile app](../../core-features/work-packages/).
 
 ## How does Time Tracking work?
 
@@ -85,7 +85,7 @@ You can also log time for **other users** (and even **multiple users at once**) 
 > [!IMPORTANT]
 > The time entries displayed in the app are **personal only**. Entries for other users are not shown in the app even if you logged them.
 
-[Learn more about Time Tracking in OpenProject mobile app](../core-features/time-tracking/).
+[Learn more about Time Tracking in OpenProject mobile app](../../core-features/time-tracking/).
 
 ## How do notifications work?
 
@@ -101,7 +101,7 @@ You can also adjust:
 - what you receive notifications for (**Account and settings → Notification settings**)
 - when activity is marked as read (e.g., on opening Activity, on commenting, or on quote reply—depending on your available options)
 
-[Learn more about Notifications in OpenProject mobile app](../core-features/notification-center/).
+[Learn more about Notifications in OpenProject mobile app](../../core-features/notification-center/).
 
 ## What can I do in Meetings?
 
@@ -125,7 +125,7 @@ The **Meetings** module lets you manage both **one-time meetings** and **recurri
 - Delete or cancel meetings (depending on permissions and configuration)
 - View linked meetings from a work package via the **Meetings** tab
 
-[Learn more about Meetings in OpenProject mobile app](../core-features/meetings/).
+[Learn more about Meetings in OpenProject mobile app](../../core-features/meetings/).
 
 ## What settings can I configure in the app?
 
@@ -142,7 +142,7 @@ In **Account and settings**, you can manage:
 - Switch instance
 - Sign out
 
-[Learn more about configuring user settings in OpenProject mobile app](../core-features/user-settings/).
+[Learn more about configuring user settings in OpenProject mobile app](../../core-features/user-settings/).
 
 ## Are all OpenProject features available in the mobile app?
 
@@ -157,7 +157,7 @@ Check the following:
 - Your instance meets the **minimum version** requirement (17.0.0), or the OAuth feature flag is enabled.
 - Ensure your credentials are correct, and you have **API access** enabled on On-Premises instances.
 
-If none of the above solves the problem, check the [Login Troubleshooting Guide](../first-steps/login-troubleshooting/).
+If none of the above solves the problem, check the [Login Troubleshooting Guide](../../first-steps/login-troubleshooting/).
 
 ## How can I provide feedback on the Beta app?
 
