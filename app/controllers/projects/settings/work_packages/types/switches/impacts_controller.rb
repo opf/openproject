@@ -54,10 +54,11 @@ class Projects::Settings::WorkPackages::Types::Switches::ImpactsController < Pro
   private
 
   # Nothing to report while the selection is still the member in force, which is what the
-  # dialog opens on.
+  # dialog opens on. The family check is a backstop the select makes unreachable, keeping this
+  # endpoint from describing a pair SwitchVariantContract would refuse.
   def chosen_impact
     target = ::TypeVariant.find_by(id: params[:target_id])
-    return if target.nil? || target == @source
+    return if target.nil? || target == @source || target.type_id != @source.type_id
 
     ::Projects::Types::Switch::Impact.new(project: @project, source: @source, target:)
   end
