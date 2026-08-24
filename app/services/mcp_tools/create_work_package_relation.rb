@@ -37,6 +37,7 @@ module McpTools
     annotations read_only: false, idempotent: false, destructive: false
 
     input_schema(
+      additionalProperties: false,
       required: %i[from_work_package_id to_work_package_id],
       properties: {
         from_work_package_id: {

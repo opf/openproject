@@ -37,6 +37,7 @@ module McpTools
     annotations read_only: false, idempotent: false, destructive: false
 
     input_schema(
+      additionalProperties: false,
       properties: {
         data: {
           type: %w[object],

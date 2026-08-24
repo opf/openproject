@@ -44,7 +44,7 @@ module McpTools
     filter :sharing
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the version. Accepts partial version names, not case-sensitive." },
         sharing: {
