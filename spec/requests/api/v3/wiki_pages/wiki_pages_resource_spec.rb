@@ -73,10 +73,13 @@ RSpec.describe "API v3 Wiki pages resource", content_type: :json do
 
   describe "PATCH and DELETE /api/v3/wiki_pages/:id" do
     it "updates the page with optimistic locking and deletes it" do
+      previous_version = wiki_page.version
+
       patch api_v3_paths.wiki_page(wiki_page.id),
             { title: "Renamed", lockVersion: wiki_page.lock_version }.to_json
 
       expect(last_response).to have_http_status(:ok)
+      expect(last_response.body).to be_json_eql((previous_version + 1).to_json).at_path("version")
       expect(wiki_page.reload.title).to eq("Renamed")
 
       delete api_v3_paths.wiki_page(wiki_page.id)

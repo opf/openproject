@@ -93,7 +93,14 @@ module API
         property :version,
                  exec_context: :decorator,
                  writable: false,
-                 getter: ->(*) { represented.version }
+                 getter: lambda { |*|
+                   # A successful update appends its journal after the endpoint
+                   # has already loaded the page. Discard that association's
+                   # cached last journal so the mutation response exposes the
+                   # newly committed revision rather than the prior one.
+                   represented.journals.reset
+                   represented.version
+                 }
 
         property :protected
 
