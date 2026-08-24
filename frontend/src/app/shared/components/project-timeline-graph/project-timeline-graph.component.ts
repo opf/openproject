@@ -47,15 +47,14 @@ import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { html, nothing, render } from 'lit-html';
-import { classMap } from 'lit-html/directives/class-map.js';
-import { styleMap } from 'lit-html/directives/style-map.js';
 import {
   GROUP_GATES,
   ProjectTimelineItemBuilder,
 } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
-import { caretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
+import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
+import { syncCaret } from 'core-app/shared/components/anchored-popover/caret-sync';
 import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
@@ -122,7 +121,7 @@ export class ProjectTimelineGraphComponent {
   private tooltipHost:HTMLElement | null = null;
   private tooltipState:TooltipState | null = null;
   private tooltipTimer:number | null = null;
-  private tooltipObserver:MutationObserver | null = null;
+  private stopCaretSync:(() => void) | null = null;
 
   protected readonly ready = signal(false);
 
@@ -130,7 +129,7 @@ export class ProjectTimelineGraphComponent {
     afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
     inject(DestroyRef).onDestroy(() => {
       this.clearTooltipTimer();
-      this.tooltipObserver?.disconnect();
+      this.stopCaretSync?.();
       this.timeline?.destroy();
       this.timeline = null;
     });
@@ -197,41 +196,37 @@ export class ProjectTimelineGraphComponent {
     this.containerRef.nativeElement.appendChild(this.tooltipHost);
     this.renderTooltip();
 
-    // `anchored-position` repositions by writing `top`/`left` inline and does
-    // not announce which side it settled on, so the caret is re-derived from
-    // the resulting geometry after every such write.
-    this.tooltipObserver = new MutationObserver(() => this.alignCaret());
-    this.tooltipObserver.observe(this.tooltipPopover!, { attributes: true, attributeFilter: ['style'] });
+    this.stopCaretSync = syncCaret(
+      this.tooltipPopover!,
+      () => this.tooltipState?.anchor.getBoundingClientRect() ?? null,
+      (caret) => this.applyCaret(caret),
+    );
   }
 
   private renderTooltip():void {
     if (!this.tooltipHost) return;
 
     const state = this.tooltipState;
-    const caret = state?.caret;
     render(
       html`
         <anchored-position
-          class="op-project-timeline-graph--tooltip"
+          class="op-project-timeline-graph--tooltip op-anchored-popover--host"
           popover="manual"
           side="outside-top"
           align="center"
           anchor-offset="spacious"
           .anchorElement=${state?.anchor ?? null}>
-          <div
-            class=${classMap({
-              'Popover-message': true,
-              'Popover-message--bottom': caret?.side === 'bottom',
-              'Popover-message--left': caret?.side === 'left',
-              'Popover-message--right': caret?.side === 'right',
-            })}
-            style=${styleMap({ '--op-timeline-tooltip-caret-offset': caret ? `${caret.offset}px` : null })}>
-            ${state?.content ?? nothing}
-          </div>
+          ${popoverMessage(state?.content ?? nothing, state?.caret)}
         </anchored-position>
       `,
       this.tooltipHost,
     );
+  }
+
+  private applyCaret(caret:CaretPlacement):void {
+    if (!this.tooltipState) return;
+    this.tooltipState = { ...this.tooltipState, caret };
+    this.renderTooltip();
   }
 
   private get tooltipPopover():AnchoredPositionElement | null {
@@ -262,18 +257,6 @@ export class ProjectTimelineGraphComponent {
     const item = target.closest<HTMLElement>('.vis-item');
     const dot = item?.querySelector<HTMLElement>('.vis-dot');
     return (dot?.getClientRects().length ? dot : item) ?? null;
-  }
-
-  private alignCaret():void {
-    const popover = this.tooltipPopover;
-    const state = this.tooltipState;
-    if (!popover || !state || !popover.matches(':popover-open')) return;
-
-    const caret = caretPlacement(popover.getBoundingClientRect(), state.anchor.getBoundingClientRect());
-    if (caret.side === state.caret?.side && caret.offset === state.caret.offset) return;
-
-    this.tooltipState = { ...state, caret };
-    this.renderTooltip();
   }
 
   private hideTooltip():void {

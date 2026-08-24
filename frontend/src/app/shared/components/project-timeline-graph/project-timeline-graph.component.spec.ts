@@ -592,7 +592,7 @@ describe('ProjectTimelineGraphComponent', () => {
       return element.querySelector<HTMLElement>(selector)!;
     };
 
-    const caretOffsetValue = () => message().style.getPropertyValue('--op-timeline-tooltip-caret-offset');
+    const caretOffsetValue = () => message().style.getPropertyValue('--op-anchored-popover-caret-offset');
 
     const openTooltip = async (item:Element) => {
       vi.useFakeTimers();
