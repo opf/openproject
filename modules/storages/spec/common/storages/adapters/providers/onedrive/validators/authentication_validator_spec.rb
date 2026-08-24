@@ -46,7 +46,7 @@ module Storages
 
               before { User.current = user }
 
-              it "passes when the user has a token and the request works", vcr: "one_drive/user_query_success" do
+              it "passes when the user has a token and the request works", vcr: "onedrive/user_query_success" do
                 expect(validator.call).to be_success
               end
 

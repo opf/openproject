@@ -143,7 +143,7 @@ module Storages
       before { storage.update(automatically_managed: true) }
       after { delete_created_folders }
 
-      context "when folder were newly created", vcr: "one_drive/sync_service_create_folder" do
+      context "when folder were newly created", vcr: "onedrive/sync_service_create_folder" do
         let(:set_permissions) { Adapters::Providers::OneDrive::Commands::SetPermissionsCommand }
         let(:single_project_user_origin_user_id) { single_project_user_remote_identity.origin_user_id }
         let(:multiple_project_user_origin_user_id) { multiple_project_user_remote_identity.origin_user_id }
@@ -253,7 +253,7 @@ module Storages
         end
       end
 
-      context "when users are already logged in", vcr: "one_drive/sync_service_set_permissions" do
+      context "when users are already logged in", vcr: "onedrive/sync_service_set_permissions" do
         before do
           # ensuring the project_folder_ids match the cassette
           project_storage.update!(project_folder_id: "01AZJL5PLIGSIHNQX7VVHJQHXH6WGXTKZQ")
@@ -284,7 +284,7 @@ module Storages
             create(:project_storage, storage:, project_folder_id: project_storage.project_folder_id)
           end
 
-          it "fails with an appropriate error", vcr: "one_drive/sync_service_set_permissions" do
+          it "fails with an appropriate error", vcr: "onedrive/sync_service_set_permissions" do
             result = service.call
             expect(result).to be_failure
             expect(result.errors.details[:set_folder_permission]).to contain_exactly(
@@ -298,7 +298,7 @@ module Storages
         end
       end
 
-      context "when the project is public", vcr: "one_drive/sync_service_public_project" do
+      context "when the project is public", vcr: "onedrive/sync_service_public_project" do
         before do
           # ensuring the project_folder_ids match the cassette
           project_storage.update!(project_folder_id: "01AZJL5PLBQEL7TBIV5FD2HOAR4LSCH3HF")
@@ -315,7 +315,7 @@ module Storages
         end
       end
 
-      context "when the user is an admin", vcr: "one_drive/sync_service_admin_access" do
+      context "when the user is an admin", vcr: "onedrive/sync_service_admin_access" do
         before do
           # ensuring the project_folder_ids match the cassette
           project_storage.update!(project_folder_id: "01AZJL5PN33BSGWNSWKRHYXH74YI4QLSDH")
@@ -345,7 +345,7 @@ module Storages
             public_project_storage.update!(project_folder_id: "01AZJL5PIYDDYS33Z4T5E2GODLZ2ABLOFV")
           end
 
-          it "logs the occurrence", vcr: "one_drive/sync_service_fail_add_user" do
+          it "logs the occurrence", vcr: "onedrive/sync_service_fail_add_user" do
             single_project_user_remote_identity.update(origin_user_id: "my_name_is_mud")
 
             service.call

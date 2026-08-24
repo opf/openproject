@@ -44,7 +44,7 @@ module Storages
             it_behaves_like "storage adapter: query call signature", "open_file_link"
 
             context "with outbound requests successful" do
-              context "with open location flag not set", vcr: "one_drive/open_file_link_query_success" do
+              context "with open location flag not set", vcr: "onedrive/open_file_link_query_success" do
                 let(:file_id) { "01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU" }
                 let(:input_data) { Input::OpenFileLink.build(file_id:).value! }
                 let(:open_file_link) do
@@ -56,7 +56,7 @@ module Storages
                 it_behaves_like "adapter open_file_link_query: successful link response"
               end
 
-              context "with open location flag set", vcr: "one_drive/open_file_link_location_query_success" do
+              context "with open location flag set", vcr: "onedrive/open_file_link_location_query_success" do
                 let(:file_id) { "01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU" }
                 let(:input_data) { Input::OpenFileLink.build(file_id:, open_location: true).value! }
                 let(:open_file_link) { "https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder" }
@@ -65,7 +65,7 @@ module Storages
               end
             end
 
-            context "with not existent file id", vcr: "one_drive/open_file_link_query_missing_file_id" do
+            context "with not existent file id", vcr: "onedrive/open_file_link_query_missing_file_id" do
               let(:file_id) { "iamnotexistent" }
               let(:input_data) { Input::OpenFileLink.build(file_id:).value! }
               let(:error_source) { Internal::DriveItemQuery }

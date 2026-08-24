@@ -43,7 +43,7 @@ module Storages
 
             it_behaves_like "storage adapter: command call signature", "create_folder"
 
-            context "when creating a folder in the root", vcr: "one_drive/create_folder_root" do
+            context "when creating a folder in the root", vcr: "onedrive/create_folder_root" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { "/" }
               let(:path) { "/Földer CreatedBy Çommand" }
@@ -51,7 +51,7 @@ module Storages
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end
 
-            context "when creating a folder in a parent folder", vcr: "one_drive/create_folder_parent" do
+            context "when creating a folder in a parent folder", vcr: "onedrive/create_folder_parent" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { "01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU" }
               let(:path) { "/Folder with spaces/Földer CreatedBy Çommand" }
@@ -59,7 +59,7 @@ module Storages
               it_behaves_like "adapter create_folder_command: successful folder creation"
             end
 
-            context "when creating a folder in a non-existing parent folder", vcr: "one_drive/create_folder_parent_not_found" do
+            context "when creating a folder in a non-existing parent folder", vcr: "onedrive/create_folder_parent_not_found" do
               let(:folder_name) { "Földer CreatedBy Çommand" }
               let(:parent_location) { "01AZJL5PKU2WV3U3RKKFF4A7ZCWVBXRTEU" }
               let(:error_source) { described_class }
@@ -67,7 +67,7 @@ module Storages
               it_behaves_like "storage adapter: error response", :not_found
             end
 
-            context "when folder already exists", vcr: "one_drive/create_folder_already_exists" do
+            context "when folder already exists", vcr: "onedrive/create_folder_already_exists" do
               let(:folder_name) { "Folder" }
               let(:parent_location) { "/" }
               let(:error_source) { described_class }

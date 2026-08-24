@@ -44,7 +44,7 @@ module Storages
 
             it_behaves_like "storage adapter: query call signature", "file_path_to_id_map"
 
-            context "with parent folder being root", vcr: "one_drive/file_path_to_id_map_query_root" do
+            context "with parent folder being root", vcr: "onedrive/file_path_to_id_map_query_root" do
               let(:folder) { "/" }
 
               context "with unset depth (defaults to INFINITY)" do
@@ -96,7 +96,7 @@ module Storages
               end
             end
 
-            context "with a given parent folder", vcr: "one_drive/file_path_to_id_map_query_parent_folder" do
+            context "with a given parent folder", vcr: "onedrive/file_path_to_id_map_query_parent_folder" do
               let(:folder) { "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR" }
               let(:expected_ids) do
                 {
@@ -117,7 +117,7 @@ module Storages
               it_behaves_like "adapter file_path_to_id_map_query: successful query"
             end
 
-            context "with not existent parent folder", vcr: "one_drive/file_path_to_id_map_query_invalid_parent" do
+            context "with not existent parent folder", vcr: "onedrive/file_path_to_id_map_query_invalid_parent" do
               let(:folder) { "/I/just/made/that/up" }
               let(:error_source) { Internal::DriveItemQuery }
 

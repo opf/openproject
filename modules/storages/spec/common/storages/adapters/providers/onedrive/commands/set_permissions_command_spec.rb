@@ -54,7 +54,7 @@ module Storages
 
             it_behaves_like "storage adapter: command call signature", "set_permissions"
 
-            context "if folder does not exists", vcr: "one_drive/set_permissions_not_found_folder" do
+            context "if folder does not exists", vcr: "onedrive/set_permissions_not_found_folder" do
               let(:error_source) { described_class }
               let(:input_data) { permission_input_data("THIS_IS_NOT_THE_FOLDER_YOURE_LOOKING_FOR", []) }
 
@@ -66,14 +66,14 @@ module Storages
                 permission_list_from_role("write")
               end
 
-              context "and new write permissions should be set", vcr: "one_drive/set_permissions_replace_permissions_write" do
+              context "and new write permissions should be set", vcr: "onedrive/set_permissions_replace_permissions_write" do
                 let(:previous_permissions) { [{ user_id: "84acc1d5-61be-470b-9d79-0d1f105c2c5f", permissions: [:write_files] }] }
                 let(:replacing_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }] }
 
                 it_behaves_like "adapter set_permissions_command: replaces already set permissions"
               end
 
-              context "and they should get deleted", vcr: "one_drive/set_permissions_delete_permission_write" do
+              context "and they should get deleted", vcr: "onedrive/set_permissions_delete_permission_write" do
                 let(:previous_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }] }
                 let(:replacing_permissions) { [] }
 
@@ -81,19 +81,19 @@ module Storages
               end
             end
 
-            context "if a read roles is already set", vcr: "one_drive/set_permissions_replace_permissions_read" do
+            context "if a read roles is already set", vcr: "onedrive/set_permissions_replace_permissions_read" do
               def current_remote_permissions
                 permission_list_from_role("read")
               end
 
-              context "and new read permissions should be set", vcr: "one_drive/set_permissions_replace_permissions_read" do
+              context "and new read permissions should be set", vcr: "onedrive/set_permissions_replace_permissions_read" do
                 let(:previous_permissions) { [{ user_id: "84acc1d5-61be-470b-9d79-0d1f105c2c5f", permissions: [:read_files] }] }
                 let(:replacing_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }] }
 
                 it_behaves_like "adapter set_permissions_command: replaces already set permissions"
               end
 
-              context "and they should get deleted", vcr: "one_drive/set_permissions_delete_permission_read" do
+              context "and they should get deleted", vcr: "onedrive/set_permissions_delete_permission_read" do
                 let(:previous_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }] }
                 let(:replacing_permissions) { [] }
 
@@ -101,7 +101,7 @@ module Storages
               end
             end
 
-            context "if no write permission exists", vcr: "one_drive/set_permissions_create_permission_write" do
+            context "if no write permission exists", vcr: "onedrive/set_permissions_create_permission_write" do
               let(:user_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }] }
 
               def current_remote_permissions
@@ -111,7 +111,7 @@ module Storages
               it_behaves_like "adapter set_permissions_command: creates new permissions"
             end
 
-            context "if no read permission exists", vcr: "one_drive/set_permissions_create_permission_read" do
+            context "if no read permission exists", vcr: "onedrive/set_permissions_create_permission_read" do
               let(:user_permissions) { [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }] }
 
               def current_remote_permissions
@@ -122,7 +122,7 @@ module Storages
             end
 
             context "if a timeout occurs" do
-              it "logs an error", vcr: "one_drive/set_permissions_delete_permission_read" do
+              it "logs an error", vcr: "onedrive/set_permissions_delete_permission_read" do
                 stub_request_with_timeout(:post, /invite$/)
                 allow(Rails.logger).to receive(:error)
 

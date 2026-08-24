@@ -73,7 +73,7 @@ module Storages
               # rubocop:enable RSpec/BeforeAfterAll
 
               it "copies origin folder and all underlying files and folders to the destination_path",
-                 vcr: "one_drive/copy_template_folder_copy_successful" do
+                 vcr: "onedrive/copy_template_folder_copy_successful" do
                 command_result = described_class.call(auth_strategy:, storage:, input_data:)
 
                 expect(command_result).to be_success
@@ -90,13 +90,13 @@ module Storages
                   let(:source) { "TheCakeIsALie" }
                   let(:destination) { "Not Happening" }
 
-                  it "fails", vcr: "one_drive/copy_template_source_not_found" do
+                  it "fails", vcr: "onedrive/copy_template_source_not_found" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result).to be_failure
                   end
 
-                  it "explains the nature of the error", vcr: "one_drive/copy_template_source_not_found" do
+                  it "explains the nature of the error", vcr: "onedrive/copy_template_source_not_found" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result.failure.code).to eq(:not_found)
@@ -106,13 +106,13 @@ module Storages
                 context "when it would overwrite an already existing folder" do
                   let(:destination) { original_folders.first[:name] }
 
-                  it "fails", vcr: "one_drive/copy_template_folder_no_overwrite" do
+                  it "fails", vcr: "onedrive/copy_template_folder_no_overwrite" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result).to be_failure
                   end
 
-                  it "explains the nature of the error", vcr: "one_drive/copy_template_folder_no_overwrite" do
+                  it "explains the nature of the error", vcr: "onedrive/copy_template_folder_no_overwrite" do
                     result = described_class.call(auth_strategy:, storage:, input_data:)
 
                     expect(result.failure.code).to eq(:conflict)
