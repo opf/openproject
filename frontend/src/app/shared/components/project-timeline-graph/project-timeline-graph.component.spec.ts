@@ -33,6 +33,10 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-timeline-graph.component';
 import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
+import type { TooltipView } from './project-timeline-tooltip.builder';
+import { render } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import '@openproject/primer-view-components/app/components/primer/anchored_position';
 
 describe('ProjectTimelineGraphComponent', () => {
   const i18nStub = {
@@ -129,6 +133,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
   let buildData:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
+  let popoverTemplate:(view:TooltipView) => TemplateResult;
   let buildAccessibleItems:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { id:string; text:string }[];
 
   beforeEach(async () => {
@@ -155,6 +160,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
     buildData = itemBuilder.buildData.bind(itemBuilder);
     tooltipTemplate = tooltipBuilder.tooltipTemplate.bind(tooltipBuilder);
+    popoverTemplate = tooltipBuilder.popoverTemplate.bind(tooltipBuilder);
     buildAccessibleItems = itemBuilder.buildAccessibleItems.bind(itemBuilder);
   });
 
@@ -521,6 +527,52 @@ describe('ProjectTimelineGraphComponent', () => {
     });
   });
 
+  describe('popoverTemplate', () => {
+    const renderView = (view:Partial<TooltipView>) => {
+      const host = document.createElement('div');
+      render(popoverTemplate({ anchor: null, content: null, caret: null, ...view }), host);
+      return {
+        popover: host.querySelector<HTMLElement & { anchorElement:Element | null }>('anchored-position')!,
+        message: host.querySelector<HTMLElement>('.Popover-message')!,
+      };
+    };
+
+    it('renders a manual popover anchored above the given element', () => {
+      const anchor = document.createElement('span');
+      const { popover } = renderView({ anchor, content: 'Launch' });
+
+      expect(popover.getAttribute('popover')).toBe('manual');
+      expect(popover.getAttribute('side')).toBe('outside-top');
+      expect(popover.anchorElement).toBe(anchor);
+      expect(popover.textContent).toContain('Launch');
+    });
+
+    it('renders no caret side until the placement is known', () => {
+      const { message } = renderView({ content: 'Launch' });
+
+      expect(Array.from(message.classList)).toEqual(['Popover-message']);
+      expect(message.style.getPropertyValue('--op-timeline-tooltip-caret-offset')).toBe('');
+    });
+
+    it('turns the caret to face the anchor at the given offset', () => {
+      const { message } = renderView({ content: 'Launch', caret: { side: 'left', offset: 30 } });
+
+      expect(message.classList.contains('Popover-message--left')).toBe(true);
+      expect(message.classList.contains('Popover-message--bottom')).toBe(false);
+      expect(message.style.getPropertyValue('--op-timeline-tooltip-caret-offset')).toBe('30px');
+    });
+
+    it('drops the sideways caret when the popover moves back above the anchor', () => {
+      const host = document.createElement('div');
+      render(popoverTemplate({ anchor: null, content: 'Launch', caret: { side: 'left', offset: 30 } }), host);
+      render(popoverTemplate({ anchor: null, content: 'Launch', caret: { side: 'bottom', offset: 50 } }), host);
+
+      const message = host.querySelector<HTMLElement>('.Popover-message')!;
+      expect(message.classList.contains('Popover-message--left')).toBe(false);
+      expect(message.classList.contains('Popover-message--bottom')).toBe(true);
+    });
+  });
+
   describe('buildAccessibleItems', () => {
     it('creates screen reader text for phases and gates', () => {
       expect(buildAccessibleItems([phaseWithGates], [], [])).toEqual([
@@ -600,6 +652,200 @@ describe('ProjectTimelineGraphComponent', () => {
       });
 
       expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
+    });
+  });
+
+  describe('hover tooltip', () => {
+    const hover = (type:'mouseover' | 'mouseout', target:Element) => {
+      target.dispatchEvent(new MouseEvent(type, { bubbles: true, clientX: 10, clientY: 10 }));
+    };
+
+    let element:HTMLElement;
+
+    // Only the hover delay is faked; the caret waits for a real animation frame.
+    const fakeHoverDelay = () => vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+    const popover = () => element.querySelector<HTMLElement>('.op-project-timeline-graph--tooltip')!;
+    const message = () => popover().querySelector<HTMLElement>('.Popover-message')!;
+    const isOpen = () => popover().matches(':popover-open');
+
+    const renderItems = async (selector:string, inputs:Record<string, unknown[]>) => {
+      for (const [name, value] of Object.entries(inputs)) {
+        fixture.componentRef.setInput(name, JSON.stringify(value));
+      }
+      fixture.detectChanges();
+      element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector(selector) !== null;
+      });
+      return element.querySelector<HTMLElement>(selector)!;
+    };
+
+    const caretOffsetValue = () => message().style.getPropertyValue('--op-timeline-tooltip-caret-offset');
+
+    const openTooltip = async (item:Element) => {
+      fakeHoverDelay();
+      hover('mouseover', item);
+      vi.advanceTimersByTime(500);
+      vi.useRealTimers();
+      await vi.waitUntil(() => caretOffsetValue() !== '');
+    };
+
+    const caretOffset = () => parseFloat(caretOffsetValue());
+    const expectedCaretOffset = (anchor:DOMRect) => {
+      const box = popover().getBoundingClientRect();
+      const center = anchor.left + anchor.width / 2 - box.left;
+      return Math.min(Math.max(center, 12), box.width - 12);
+    };
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    describe('for a milestone', () => {
+      let milestoneItem:HTMLElement;
+
+      beforeEach(async () => {
+        milestoneItem = await renderItems('.vis-item.vis-point', { milestonesData: [milestone] });
+      });
+
+      it('does not use the vis-timeline tooltip that the grid cell would clip', () => {
+        hover('mouseover', milestoneItem);
+        expect(element.querySelector('.vis-tooltip')).toBeNull();
+      });
+
+      it('keeps the popover inside the aria-hidden container', () => {
+        expect(popover().closest('[aria-hidden="true"]')).not.toBeNull();
+      });
+
+      it('opens the tooltip in the top layer after the hover delay', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        expect(isOpen()).toBe(false);
+
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+        expect(popover().textContent).toContain('Launch');
+        expect(popover().textContent).toContain('Milestone');
+      });
+
+      it('closes the tooltip when the pointer leaves the item', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+
+        hover('mouseout', milestoneItem);
+        expect(isOpen()).toBe(false);
+      });
+
+      it('does not open when the pointer leaves before the delay', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        hover('mouseout', milestoneItem);
+
+        vi.advanceTimersByTime(1000);
+        expect(isOpen()).toBe(false);
+      });
+
+      it('reuses one popover element across hovers', () => {
+        const before = popover();
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        hover('mouseout', milestoneItem);
+        expect(popover()).toBe(before);
+      });
+
+      it('points the caret at the diamond from the side facing it', async () => {
+        await openTooltip(milestoneItem);
+
+        const diamond = milestoneItem.querySelector('.vis-dot')!.getBoundingClientRect();
+        const box = popover().getBoundingClientRect();
+        const popoverIsAbove = box.bottom <= diamond.top;
+        const popoverIsBelow = box.top >= diamond.bottom;
+
+        expect(caretOffset()).toBeCloseTo(expectedCaretOffset(diamond), 0);
+        expect(popoverIsAbove || popoverIsBelow).toBe(true);
+        expect(message().classList.contains('Popover-message--bottom')).toBe(popoverIsAbove);
+      });
+
+      it('closes the tooltip when the page scrolls', async () => {
+        await openTooltip(milestoneItem);
+        expect(isOpen()).toBe(true);
+
+        document.dispatchEvent(new Event('scroll'));
+        expect(isOpen()).toBe(false);
+      });
+
+      it('closes the tooltip when the window is resized', async () => {
+        await openTooltip(milestoneItem);
+        expect(isOpen()).toBe(true);
+
+        window.dispatchEvent(new Event('resize'));
+        expect(isOpen()).toBe(false);
+      });
+
+      it('closes the tooltip when the data is replaced', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+
+        fixture.componentRef.setInput('milestonesData', JSON.stringify([{ ...milestone, subject: 'Relaunch' }]));
+        fixture.detectChanges();
+        expect(isOpen()).toBe(false);
+      });
+
+      it('drops a pending tooltip when the data is replaced', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+
+        fixture.componentRef.setInput('milestonesData', JSON.stringify([{ ...milestone, subject: 'Relaunch' }]));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        expect(isOpen()).toBe(false);
+      });
+    });
+
+    it('keeps a long milestone name inside the viewport', async () => {
+      const longName = 'really long milestone '.repeat(12).trim();
+      const item = await renderItems('.vis-item.vis-point', { milestonesData: [{ ...milestone, subject: longName }] });
+      await openTooltip(item);
+
+      const box = popover().getBoundingClientRect();
+      expect(box.left).toBeGreaterThanOrEqual(0);
+      expect(box.right).toBeLessThanOrEqual(window.innerWidth);
+      expect(popover().textContent).toContain(longName);
+    });
+
+    it('anchors a phase bar on the bar itself', async () => {
+      const bar = await renderItems('.vis-item.vis-range', { phasesData: [phaseWithDates] });
+      await openTooltip(bar);
+
+      expect(caretOffset()).toBeCloseTo(expectedCaretOffset(bar.getBoundingClientRect()), 0);
+      expect(popover().textContent).toContain('Design');
+    });
+
+    it('anchors a gate on its visible icon rather than the hidden dot', async () => {
+      const gate = await renderItems('.vis-item.vis-point.op-timeline-gate', { phasesData: [phaseWithGates] });
+      await openTooltip(gate);
+
+      const icon = gate.getBoundingClientRect();
+      expect(icon.width).toBeGreaterThan(0);
+      expect(caretOffset()).toBeCloseTo(expectedCaretOffset(icon), 0);
+      expect(popover().textContent).toContain('Build Start');
+    });
+
+    it('shows every gate of a cluster', async () => {
+      const secondPhase = { ...phaseWithGates, id: 3, name: 'Test', startGateName: 'Test Start', finishGate: false };
+      const cluster = await renderItems('.vis-item.vis-cluster', { phasesData: [phaseWithGates, secondPhase] });
+      await openTooltip(cluster);
+
+      expect(popover().textContent).toContain('Build Start');
+      expect(popover().textContent).toContain('Test Start');
     });
   });
 });
