@@ -28,48 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "roar/decorator"
-require "roar/json/hal"
-
-module API
-  module V3
-    module Sprints
-      class SprintRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Decorators::DateProperty
-
-        self_link
-
-        link :status do
-          {
-            href: "#{::API::V3::URN_PREFIX}sprints:status:#{represented.status}",
-            title: I18n.t("activerecord.attributes.sprint.statuses.#{represented.status}")
-          }
-        end
-
-        associated_project as: :definingWorkspace
-
-        property :id,
-                 render_nil: true
-
-        property :name,
-                 render_nil: true
-
-        date_property :start_date
-
-        date_property :finish_date
-
-        date_time_property :started_at
-        date_time_property :completed_at
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        def _type
-          "Sprint"
-        end
-      end
-    end
+class AddStartedAtAndCompletedAtToSprints < ActiveRecord::Migration[8.0]
+  def change
+    add_column :sprints, :started_at, :datetime
+    add_column :sprints, :completed_at, :datetime
   end
 end
