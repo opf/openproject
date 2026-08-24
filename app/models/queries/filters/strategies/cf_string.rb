@@ -28,18 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
+module Queries::Filters::Strategies
+  # A custom value row carries its value in a string column, so emptiness is expressible for
+  # text as it already is for numbers and lists: "*" asks for the ones that hold a value.
+  class CfString < String
+    self.supported_operators = ["=", "~", "!", "!~", "*", "!*"]
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      include Queries::Filters::Shared::BooleanFilter
+    private
 
-      # BooleanFilter hands back the plain BooleanList strategy, which cannot express
-      # emptiness. See Strategies::CfBooleanList.
-      def type_strategy
-        @type_strategy ||= ::Queries::Filters::Strategies::CfBooleanList.new(self)
-      end
+    def operator_map
+      super.dup.merge(
+        "*" => ::Queries::Operators::AllAndNonBlank,
+        "!*" => ::Queries::Operators::NoneOrBlank
+      )
     end
   end
 end

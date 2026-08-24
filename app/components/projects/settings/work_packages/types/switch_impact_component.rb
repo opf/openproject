@@ -94,11 +94,12 @@ module Projects
             work_packages_path([type_filter, { "n" => "status", "o" => "=", "v" => [status.id.to_s] }])
           end
 
-          # A text custom field has no not-empty operator, so the field cannot be filtered on
-          # uniformly. Showing it as a column instead keeps one link shape for every format and
-          # still puts the values in front of the reader.
+          # Filtered on the field holding a value, so the list is exactly what the counter
+          # counted, and carrying it as a column so the values themselves are on screen.
           def field_path(field)
-            work_packages_path([type_filter], columns: [api_name(field)])
+            name = api_name(field)
+
+            work_packages_path([type_filter, { "n" => name, "o" => "*", "v" => [] }], columns: [name])
           end
 
           def type_filter

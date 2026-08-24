@@ -28,18 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
+module Queries::Filters::Strategies
+  # See CfString. Kept apart from the Date strategy it extends because that one also serves
+  # real date columns, where comparing against an empty string is a type error rather than a
+  # blankness check.
+  class CfDate < Date
+    self.supported_operators = Date.supported_operators + ["*"]
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      include Queries::Filters::Shared::BooleanFilter
+    private
 
-      # BooleanFilter hands back the plain BooleanList strategy, which cannot express
-      # emptiness. See Strategies::CfBooleanList.
-      def type_strategy
-        @type_strategy ||= ::Queries::Filters::Strategies::CfBooleanList.new(self)
-      end
+    def operator_map
+      super.dup.merge(
+        "*" => ::Queries::Operators::AllAndNonBlank,
+        "!*" => ::Queries::Operators::NoneOrBlank
+      )
     end
   end
 end

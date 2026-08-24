@@ -138,16 +138,16 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       expect(CGI.unescape(link[:href])).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
     end
 
-    # A text custom field has no not-empty operator, so the link cannot filter on the field.
-    # It adds it as a column instead, which is one link shape for every format.
-    it "links a hidden custom field's value count to a list showing that field" do
+    # Filtered rather than merely columned, so the list cannot disagree with the count.
+    it "links a hidden custom field's value count to the work packages holding one" do
       render_component
 
       link = page.find_link("1 work package has a value")
       query = CGI.unescape(link[:href])
 
-      expect(query).to include("customField#{story_points.id}")
       expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
+      expect(query).to include(%({"n":"customField#{story_points.id}","o":"*","v":[]}))
+      expect(query).to include(%("customField#{story_points.id}"))
     end
   end
 
