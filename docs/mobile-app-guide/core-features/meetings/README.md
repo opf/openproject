@@ -66,7 +66,7 @@ With the Meetings module you can:
     - link existing **work packages** to agenda items, or
     - create a new work package (if supported and permitted).
 
-![Meeting agenda details view](meetings-agendaa.png)
+![Meeting agenda details view](meetings-agenda.png)
 
 ### Run the meeting
 
