@@ -1754,6 +1754,35 @@ en:
       update:
         no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
         success: "Successfully connected to the LLM server."
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: "The model will no longer be offered to AI features."
+        description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
+        heading: "Remove %{model}?"
+        success: "%{model} has been removed."
+        title: "Remove model"
+      edit:
+        description: "Edit how OpenProject uses this model."
+      form:
+        capabilities_description: "Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, offered only to features that need one."
+        capability_override_caption: "Choose a value to override this."
+        context_window: "Context window"
+        context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
+        context_window_known: "Leave blank to use %{value}, %{source}."
+        create_submit: "Add model"
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        external_id_caption: "The model name exactly as the server expects it."
+        state_inherited: "%{state} (%{source})"
+        state_supported: "Supported"
+        state_unspecified: "Not specified"
+        state_unsupported: "Not supported"
+      new:
+        description: "Name a model this server can use but does not advertise, and describe what it can do."
+        title: "Add a model"
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -4239,6 +4268,17 @@ en:
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
       xai: "xAI"
+    capabilities:
+      embeddings:
+        label: "Embeddings"
+      function_calling:
+        label: "Tool calling"
+      reasoning:
+        label: "Reasoning"
+      structured_output:
+        label: "Structured output"
+      vision:
+        label: "Vision"
     context_window_sources:
       registry: "the figure published for this model"
       server: "reported by the server"
@@ -4246,6 +4286,15 @@ en:
       chat: "Chat"
       embedding: "Embedding"
       unknown: "Unknown"
+    verdict_sources:
+      admin: "set by an administrator"
+      metadata: "from the model registry"
+      observed: "observed in use"
+      probe: "verified against the server"
+    verdict_states:
+      supported: "Supported"
+      unknown: "Not verified"
+      unsupported: "Not supported"
   llm_connections:
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."

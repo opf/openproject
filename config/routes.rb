@@ -751,6 +751,13 @@ Rails.application.routes.draw do
       get :search_models, defaults: { format: :turbo_stream }
     end
 
+    # Manual entries only; discovered models are managed by the sync.
+    resources :llm_models, only: %i[new create edit update destroy], controller: "admin/llm_models" do
+      member do
+        get :delete_dialog
+      end
+    end
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
