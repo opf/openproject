@@ -28,13 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  ApplicationMailer.register_interceptor Interceptors::RateLimitEmails
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+class CreateEmailLimitPerDayTokenBucketState < ActiveRecord::Migration[8.1]
+  def up
+    TokenBucketState.create!(
+      identifier: :email_limit_per_day,
+      microtokens: 0,
+      refilled_at: Time.utc(2000, 1, 1)
+    )
+  end
+
+  def down
+    TokenBucketState.delete_all
+  end
 end

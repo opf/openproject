@@ -28,13 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  ApplicationMailer.register_interceptor Interceptors::RateLimitEmails
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+module Interceptors
+  module RateLimitEmails
+    module_function
+
+    def delivering_email(mail)
+      recipient_count = [mail.to, mail.cc, mail.bcc].flatten.compact.uniq.size
+
+      return if OpenProject::TokenBucketBasedRateLimiter::EmailLimitPerDay.consume!(recipient_count)
+
+      mail.perform_deliveries = false
+      report_dropped(mail, recipient_count)
+    end
+
+    def report_dropped(mail, recipient_count)
+      OpenProject.logger.warn(
+        "Dropped message due to daily email limit: '#{mail.subject}'",
+        reference: :daily_email_limit,
+        payload: {
+          recipient_count: recipient_count,
+          daily_limit: OpenProject::TokenBucketBasedRateLimiter::EmailLimitPerDay.limit,
+          host_name: Setting.host_name
+        }
+      )
+
+      OpenProject::OpenTelemetry.add_event(
+        "outbound_mail.message_dropped",
+        "openproject.mail.recipient_count" => recipient_count,
+        "openproject.mail.daily_limit" => OpenProject::TokenBucketBasedRateLimiter::EmailLimitPerDay.limit
+      )
+
+      OpenProject::Appsignal.increment_counter(
+        "outbound_mail.messages_dropped",
+        1
+      )
+    end
+  end
 end
