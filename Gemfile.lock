@@ -412,7 +412,7 @@ GEM
       smart_properties
     bigdecimal (4.1.2)
     bindata (2.5.1)
-    brakeman (8.0.5)
+    brakeman (8.0.6)
       racc
     browser (6.2.0)
     builder (3.3.0)
@@ -1581,7 +1581,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.229)
   axe-core-rspec
   bcrypt (~> 3.1.22)
-  brakeman (~> 8.0.5)
+  brakeman (~> 8.0.6)
   browser (~> 6.2.0)
   budgets!
   byebug
@@ -1838,7 +1838,7 @@ CHECKSUMS
   better_html (2.2.0) sha256=e68ab66ab09696b708333bbf35e8aa3c107500ba7892f528e2111624bdd8cf76
   bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
   bindata (2.5.1) sha256=53186a1ec2da943d4cb413583d680644eb810aacbf8902497aac8f191fad9e58
-  brakeman (8.0.5) sha256=03735f9690d3fd4b32d66aacbf0a6d15a84266bdd06b32c05c8ecc8f6021d2be
+  brakeman (8.0.6) sha256=759cc69341115e6c2dcd47b6fd8649a0b9bd540e3585ac8a0a94e31c66fee386
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
