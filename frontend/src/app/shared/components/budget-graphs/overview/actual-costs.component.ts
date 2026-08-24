@@ -29,10 +29,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Signal,
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import 'chartjs-adapter-luxon';
@@ -53,6 +55,8 @@ export class ActualCostsComponent {
 
   readonly chartData = input.required<string>();
   readonly currency = input<string>('€');
+
+  private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
 
   readonly barChartData = computed<ChartData<'bar'>>(() => JSON.parse(this.chartData()) as ChartData<'bar'>);
   readonly hasChartData = computed(() => this.barChartData().datasets.length > 0);
@@ -80,10 +84,20 @@ export class ActualCostsComponent {
       'primer-colors': { datasetLabelBased: true },
       tooltip: {
         enabled: false,
-        external: createBarTooltipRenderer(this.formatCurrency.bind(this)),
+        external: this.tooltipRenderer,
       },
     },
   }));
+
+  private readonly tooltipRenderer = (() => {
+    let renderer:ReturnType<typeof createBarTooltipRenderer> | null = null;
+    return (context:Parameters<ReturnType<typeof createBarTooltipRenderer>>[0]) => {
+      const host = this.tooltipHost()?.nativeElement;
+      if (!host) return;
+      renderer ??= createBarTooltipRenderer(host, this.formatCurrency.bind(this));
+      renderer(context);
+    };
+  })();
 
   private formatCurrencyCompact(value:number):string {
     const currency = this.currency();

@@ -29,10 +29,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Signal,
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -53,6 +55,8 @@ export class BudgetByCostTypeComponent {
   readonly chartData = input.required<string>();
   readonly currency = input<string>('€');
 
+  private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
+
   readonly pieChartData = computed<ChartData<'pie'>>(() => JSON.parse(this.chartData()) as ChartData<'pie'>);
   readonly hasChartData = computed(() => this.pieChartData().datasets[0].data.length > 0);
 
@@ -63,10 +67,20 @@ export class BudgetByCostTypeComponent {
       'primer-colors': { labelBased: true },
       tooltip: {
         enabled: false,
-        external: createPieTooltipRenderer(this.formatCurrency.bind(this)),
+        external: this.tooltipRenderer,
       },
     },
   }));
+
+  private readonly tooltipRenderer = (() => {
+    let renderer:ReturnType<typeof createPieTooltipRenderer> | null = null;
+    return (context:Parameters<ReturnType<typeof createPieTooltipRenderer>>[0]) => {
+      const host = this.tooltipHost()?.nativeElement;
+      if (!host) return;
+      renderer ??= createPieTooltipRenderer(host, this.formatCurrency.bind(this));
+      renderer(context);
+    };
+  })();
 
   private formatCurrency(value:number):string {
     const currency = this.currency();
