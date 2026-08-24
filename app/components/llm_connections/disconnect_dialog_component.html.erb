@@ -19,7 +19,8 @@
           content_tag(:ul) do
             safe_join(
               [
-                content_tag(:li, t("admin.llm_connections.disconnect.keeps_settings"))
+                content_tag(:li, t("admin.llm_connections.disconnect.keeps_settings")),
+                content_tag(:li, t("admin.llm_connections.disconnect.keeps_models"))
               ].compact
             )
           end

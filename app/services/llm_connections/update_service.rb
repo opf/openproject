@@ -30,5 +30,22 @@
 
 module LlmConnections
   class UpdateService < BaseServices::Update
+    private
+
+    # The contract has already proven the server reachable when the credentials
+    # changed, so refreshing the catalogue here cannot be the thing that fails
+    # the save. A sync failure is therefore logged, not surfaced.
+    def after_perform(service_call)
+      super.tap do
+        next unless service_call.success?
+        next unless connection_changed?(service_call.result)
+
+        SyncModelsService.new(service_call.result).call
+      end
+    end
+
+    def connection_changed?(connection)
+      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+    end
   end
 end

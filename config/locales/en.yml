@@ -197,6 +197,10 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_capability_verdict:
+        capability: "Capability"
+        model_id: "Model"
+        state: "State"
       llm_connection:
         api_format: "API format"
         api_key: "API key"
@@ -205,6 +209,10 @@ en:
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         enabled: "Enable LLMs for this instance"
         last_connected_at: "Last connected"
+      llm_model:
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -1694,6 +1702,7 @@ en:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
+        description_verdicts: "OpenProject will stop sending an API key with its requests, and the next model refresh will discard what is known about each model's capabilities, including the assertions you made yourself. You can enter a new key at any time."
         heading: "Remove the stored API key?"
         menu_label: "Remove API key"
         success: "The API key has been removed."
@@ -1702,6 +1711,7 @@ en:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
+        keeps_models: "The model list, including any models you added manually, is kept."
         keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
         menu_label: "Disconnect"
         success: "OpenProject has disconnected from the LLM server."
@@ -1715,12 +1725,16 @@ en:
         button_connect: "Connect"
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
+      refresh_models:
+        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
+        success: "The model list has been refreshed."
       show:
         add_model_description: "If the server does not expose a model list, enter the model name exactly as the server expects it. Manually added models are kept when the list is refreshed."
         add_model_submit: "Add model"
         description: "Connect OpenProject to a server that speaks the OpenAI API, so AI features can use it."
         refresh_models: "Refresh models"
       update:
+        no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
         success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:

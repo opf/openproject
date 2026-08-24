@@ -81,11 +81,23 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         connection = LlmConnection.first
         expect(connection.base_url).to eq(base_url)
         expect(connection.api_key).to eq("sk-test")
+        expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
       end
     end
 
     # The case that matters for OpenProject's own gateway: chat completions are
     # routed, the model list is not.
+    context "with a server that exposes no model list" do
+      let!(:models_request) { mock_llm_models_response(base_url, response_code: 404) }
+
+      it "still saves the connection and says models must be added by hand" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(flash[:warning]).to be_present
+      end
+    end
 
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
@@ -141,9 +153,53 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "POST /admin/llm_connection/refresh_models" do
+    before { login_as admin }
+
+    it "refetches the catalogue" do
+      create(:llm_connection, base_url:)
+      request = mock_llm_models_response(base_url)
+
+      post refresh_models_llm_connection_path
+
+      expect(request).to have_been_made.once
+      expect(LlmConnection.first.available_model_ids).to include("bge-m3")
+    end
+  end
+
+  describe "GET /admin/llm_connection/delete_api_key_dialog" do
+    let!(:connection) { create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    before { login_as admin }
+
+    it "offers the confirmation" do
+      # Requested by the async-dialog Stimulus controller, which asks for a
+      # turbo stream rather than HTML.
+      get delete_api_key_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Remove the stored API key?")
+    end
+
+    # The catalogue sync fingerprints base_url and api_key together, so changing
+    # the key discards every verdict -- including hand-made ones, which nothing
+    # else throws away.
+    it "warns when hand-made capability assertions would be lost" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "supported", source: "admin",
+                                             checked_at: Time.current)
+
+      get delete_api_key_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response.body).to include("assertions you made yourself")
+    end
+  end
+
   describe "disconnecting" do
     let!(:connection) do
-      create(:llm_connection, :enabled,
+      create(:llm_connection, :with_models, :enabled,
              base_url: "https://example.com/v1", api_key: "sk-test")
     end
 
@@ -165,6 +221,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.api_key).to be_blank
       expect(connection).not_to be_enabled
       expect(connection.base_url).to eq("https://example.com/v1")
+      expect(connection.models.count).to eq(2)
     end
 
     it "is refused to a non-admin" do

@@ -10,7 +10,13 @@
   ) do |dialog|
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) { t("admin.llm_connections.delete_api_key.heading") }
-      message.with_description_content(t("admin.llm_connections.delete_api_key.description"))
+      message.with_description_content(
+        if loses_admin_verdicts?
+          t("admin.llm_connections.delete_api_key.description_verdicts")
+        else
+          t("admin.llm_connections.delete_api_key.description")
+        end
+      )
     end
   end
 %>

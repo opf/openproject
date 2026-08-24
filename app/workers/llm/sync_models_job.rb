@@ -28,30 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Confirms removing the stored API key.
+module Llm
+  # Refreshes the cached model catalogue out of band.
   #
-  # No confirmation checkbox: the key itself can simply be pasted again. The
-  # dialog exists for what is *not* recoverable -- see #loses_admin_verdicts?.
-  class DeleteApiKeyDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+  # Used by the environment seeder, which must not block on -- or fail because of
+  # -- an LLM server that has not finished starting.
+  class SyncModelsJob < ApplicationJob
+    def perform
+      connection = LlmConnection.first
+      return if connection.nil? || !connection.configured?
 
-    TEST_SELECTOR = "llm-connection--delete-api-key-dialog"
-
-    alias_method :connection, :model
-
-    def form_arguments
-      { action: url_helpers.api_key_llm_connection_path, method: :delete }
-    end
-
-    # The catalogue sync fingerprints base_url and api_key together, so the next
-    # refresh after the key changes treats the endpoint as a different deployment
-    # and discards every capability verdict -- including the ones an
-    # administrator asserted by hand, which nothing else in the system throws
-    # away. Worth saying out loud before the key goes.
-    def loses_admin_verdicts?
-      connection.capability_verdicts.exists?(source: "admin")
+      LlmConnections::SyncModelsService.new(connection).call
     end
   end
 end
