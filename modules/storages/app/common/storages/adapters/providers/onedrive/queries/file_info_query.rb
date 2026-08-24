@@ -58,7 +58,7 @@ module Storages
               end
             end
 
-            def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
+            def userless_strategy = Registry.resolve("onedrive.authentication.userless").call
 
             def drive_item_query
               @drive_item_query ||= Internal::DriveItemQuery.new(@storage)

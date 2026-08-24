@@ -59,7 +59,7 @@ module Storages
               end
 
               it "returns a failure if the remote call failed" do
-                Registry.stub("one_drive.queries.user", ->(_) { Failure(error) })
+                Registry.stub("onedrive.queries.user", ->(_) { Failure(error) })
 
                 result = validator.call
                 expect(result[:user_bound_request]).to be_a_failure

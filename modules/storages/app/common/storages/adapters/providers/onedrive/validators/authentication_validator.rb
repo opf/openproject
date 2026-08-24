@@ -57,13 +57,13 @@ module Storages
             end
 
             def user_bound_request
-              Registry["one_drive.queries.user"].call(storage: subject, auth_strategy:).either(
+              Registry["onedrive.queries.user"].call(storage: subject, auth_strategy:).either(
                 ->(_) { pass_check(:user_bound_request) },
                 -> { fail_check(:user_bound_request, :"od_oauth_request_#{it.code}") }
               )
             end
 
-            def auth_strategy = Registry["one_drive.authentication.user_bound"].call(@user, subject)
+            def auth_strategy = Registry["onedrive.authentication.user_bound"].call(@user, subject)
           end
         end
       end
