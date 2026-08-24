@@ -265,9 +265,9 @@ The **Activity** **tab**, records every action taken around a work package. This
 
 > [!NOTE]
 >
-> Work package-meeting related updates appear in the Activity tab only for users who have access to both the work package and the meeting.
+> Meeting related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
 
-To hide all work package related meetings updates, scroll to the top of the **Activity tab** and select the appropriate option from the drop-down menu.
+To hide all meeting related work package updates, scroll to the top of the **Activity tab** and select the appropriate option from the drop-down menu.
 
 ![Hide meetings updates from drop-down menu of the Activity tab](openproject_userguide_meetings_wp_activity_tab_filters.png)
 
