@@ -36,7 +36,7 @@ The new `create_work_package` and `update_work_package` MCP tools follow the sam
 The MCP Server also gains several additional capabilities:
 
 - **Work package comments:** AI assistants can list existing comments, including emoji reactions, and create new comments.
-- **Work package relations:** Relations can now be created, modified, and deleted. Relations are also included in responses, allowing assistants to understand dependencies between work packages.
+- **Work package relations:** Relations can now be created, modified, and deleted. Relations can also be retrieved, allowing assistants to understand dependencies between work packages.
 - **Custom fields:** Custom fields can now be properly identified and set when creating or updating work packages. Possible values for hierarchy-type custom fields can also be retrieved.
 - **Pagination metadata:** Collection responses now include information such as page size and total count, making questions such as "How many work packages exist?" easier to answer without additional requests.
 
