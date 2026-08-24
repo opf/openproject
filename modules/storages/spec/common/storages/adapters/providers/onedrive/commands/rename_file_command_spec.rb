@@ -42,21 +42,21 @@ module Storages
 
             it_behaves_like "storage adapter: command call signature", "rename_file"
 
-            context "when renaming a folder", vcr: "one_drive/rename_file_success" do
+            context "when renaming a folder", vcr: "onedrive/rename_file_success" do
               let(:file_id) { "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR" }
               let(:name) { "I am the senat" }
 
               it_behaves_like "adapter rename_file_command: successful file renaming"
             end
 
-            context "when renaming a file inside a subdirectory", vcr: "one_drive/rename_file_with_location_success" do
+            context "when renaming a file inside a subdirectory", vcr: "onedrive/rename_file_with_location_success" do
               let(:file_id) { "01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN" }
               let(:name) { "I❤️you death star.png" }
 
               it_behaves_like "adapter rename_file_command: successful file renaming"
             end
 
-            context "when trying to rename a not existent file", vcr: "one_drive/rename_file_not_found" do
+            context "when trying to rename a not existent file", vcr: "onedrive/rename_file_not_found" do
               let(:file_id) { "sith_have_yellow_light_sabers" }
               let(:name) { "this_will_not_happen.png" }
               let(:error_source) { described_class }

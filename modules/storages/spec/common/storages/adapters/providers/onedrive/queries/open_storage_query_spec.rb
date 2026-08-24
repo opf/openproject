@@ -35,15 +35,12 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe DownloadLinkQuery, :disable_ssrf_filter, :vcr, :webmock do
+          RSpec.describe OpenStorageQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
-            let(:auth_strategy) { Registry["onedrive.authentication.user_bound"].call(user, storage) }
-
-            let(:file_link) { create(:file_link, origin_id: "01AZJL5PNDURPQGKUSGFCJQJMNNWXKTHSE") }
-            let(:not_existent_file_link) { create(:file_link, origin_id: "DeathStarNumberThree") }
-
-            let(:input_data) { Input::DownloadLink.build(file_id: file_link.origin_id).value! }
+            let(:auth_strategy) do
+              Registry["onedrive.authentication.user_bound"].call(user, storage)
+            end
 
             subject { described_class.new(storage) }
 
@@ -55,26 +52,11 @@ module Storages
                 expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq input_data])
               end
 
-              context "with outbound request successful" do
-                it "returns a result with a download url", vcr: "one_drive/download_link_query_success" do
-                  download_link = subject.call(auth_strategy:, input_data:)
-
-                  expect(download_link).to be_success
-
-                  uri = download_link.value!
-                  expect(uri.host).to eq("finn.sharepoint.com")
-                  expect(uri.path).to eq("/sites/openprojectfilestoragetests/_layouts/15/download.aspx")
-                end
-
-                it "returns an error if the file is not found", vcr: "one_drive/download_link_query_not_found" do
-                  input_data = Input::DownloadLink.build(file_id: not_existent_file_link.origin_id).value!
-
-                  download_link = subject.call(auth_strategy:, input_data:)
-                  expect(download_link).to be_failure
-
-                  error = download_link.failure
-                  expect(error.source).to eq(described_class)
-                  expect(error.code).to eq(:not_found)
+              context "with outbound requests successful", vcr: "onedrive/open_storage_query_success" do
+                it "returns the url for opening the storage" do
+                  call = subject.call(auth_strategy:)
+                  expect(call).to be_success
+                  expect(call.value!).to eq("https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR")
                 end
               end
             end

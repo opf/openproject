@@ -42,7 +42,7 @@ module Storages
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a ResultGroup", vcr: "one_drive/files_query_userless" do
+            it "returns a ResultGroup", vcr: "onedrive/files_query_userless" do
               results = validator.call
 
               expect(results).to be_a(HealthReport::ResultGroup)
@@ -90,7 +90,7 @@ module Storages
               end
 
               context "when the tenant id is wrong" do
-                it "but looks like an actual valid value", vcr: "one_drive/validation_wrong_tenant_id" do
+                it "but looks like an actual valid value", vcr: "onedrive/validation_wrong_tenant_id" do
                   storage.tenant_id = "itdoesnotexists9000.sharepoint.com"
                   results = described_class.new(storage).call
 
@@ -98,7 +98,7 @@ module Storages
                   expect(results[:tenant_id].code).to eq(:od_tenant_id_invalid)
                 end
 
-                it "but is blatantly wrong", vcr: "one_drive/validation_absurd_tenant_id" do
+                it "but is blatantly wrong", vcr: "onedrive/validation_absurd_tenant_id" do
                   storage.tenant_id = "wrong"
                   results = described_class.new(storage).call
 
@@ -108,7 +108,7 @@ module Storages
               end
 
               context "when the client secret is wrong" do
-                it "fails the check", vcr: "one_drive/validation_wrong_client_secret" do
+                it "fails the check", vcr: "onedrive/validation_wrong_client_secret" do
                   storage.oauth_client.client_secret = "wrong"
                   results = described_class.new(storage).call
 
@@ -118,7 +118,7 @@ module Storages
               end
 
               context "when the client id is wrong" do
-                it "fails the check", vcr: "one_drive/validation_wrong_client_id" do
+                it "fails the check", vcr: "onedrive/validation_wrong_client_id" do
                   storage.oauth_client.client_id = "wrong"
                   results = described_class.new(storage).call
 
@@ -128,7 +128,7 @@ module Storages
               end
 
               context "when the drive id is wrong" do
-                it "fails when looks malformed", vcr: "one_drive/validation_drive_id_malformed" do
+                it "fails when looks malformed", vcr: "onedrive/validation_drive_id_malformed" do
                   storage.drive_id = "not-a-drive-id"
                   results = described_class.new(storage).call
 
@@ -136,7 +136,7 @@ module Storages
                   expect(results[:drive_id_format].code).to eq(:od_drive_id_invalid)
                 end
 
-                it "fails when is not found", vcr: "one_drive/validation_drive_id_not_found" do
+                it "fails when is not found", vcr: "onedrive/validation_drive_id_not_found" do
                   storage.drive_id = "#{storage.drive_id[0..-2]}0"
                   results = described_class.new(storage).call
 
