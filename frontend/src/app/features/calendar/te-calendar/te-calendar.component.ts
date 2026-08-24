@@ -72,6 +72,10 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
 import { html, render } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
+import { syncCaret } from 'core-app/shared/components/anchored-popover/caret-sync';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -113,6 +117,38 @@ const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
 const ADD_ICON_CLASS_NAME = 'te-calendar--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
+
+export function timeEntryPopoverHtml(
+  popoverId:string,
+  anchorId:string,
+  rows:{ label:string; value:string }[],
+  caret:CaretPlacement | null,
+):TemplateResult {
+  const list = html`
+    <ul class="list-style-none ml-0">
+      ${rows.map((row) => html`
+        <li class="te-calendar--popover-entry">
+          <span class="text-bold">${row.label}:</span>
+          <span>${row.value}</span>
+        </li>
+      `)}
+    </ul>
+  `;
+
+  return html`
+    <anchored-position
+      id="${popoverId}"
+      class="op-anchored-popover--host te-calendar--popover"
+      role="dialog"
+      align="start"
+      anchor="${anchorId}"
+      anchor-offset="spacious"
+      popover="hint"
+      side="outside-right">
+      ${popoverMessage(list, caret)}
+    </anchored-position>
+  `;
+}
 
 @Component({
   templateUrl: './te-calendar.template.html',
@@ -183,6 +219,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   public nonWorkingDays:IDay[] = [];
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
+
+  private readonly popoverCaretSyncs = new Map<string, () => void>();
 
   public additionalOptions:CalendarOptionsWithDayGrid = {
     editable: false,
@@ -555,14 +593,19 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     anchorEl.role = 'button';
 
     const popoverId = generateId('popover');
-    const popoverHtml = this.popoverHtml(popoverId, anchorId, event.event.extendedProps.entry as TimeEntryResource, schema);
-
-    render(popoverHtml, anchorEl);
+    const rows = this.popoverRows(event.event.extendedProps.entry as TimeEntryResource, schema);
+    const draw = (caret:CaretPlacement | null) => {
+      render(timeEntryPopoverHtml(popoverId, anchorId, rows, caret), anchorEl);
+    };
+    draw(null);
 
     anchorEl.setAttribute('aria-haspopup', 'true');
     anchorEl.setAttribute('popovertarget', popoverId);
 
     const popoverEl = document.getElementById(popoverId)!;
+    const stopCaretSync = syncCaret(popoverEl, () => anchorEl.getBoundingClientRect(), draw);
+    this.popoverCaretSyncs.set(anchorId, stopCaretSync);
+
     const showPopover = () => { popoverEl.showPopover(); };
     const hidePopover = () => { popoverEl.hidePopover(); };
 
@@ -578,6 +621,9 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     if (!anchorEl) {
       return;
     }
+
+    this.popoverCaretSyncs.get(anchorId)?.();
+    this.popoverCaretSyncs.delete(anchorId);
 
     target(anchorEl).off('.anchor');
     anchorEl.removeAttribute('popovertarget');
@@ -649,54 +695,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     return formatTimeEntryEntityName(entry.entity);
   }
 
-  private popoverHtml(
-    popoverId:string,
-    anchorId:string,
-    entry:TimeEntryResource,
-    schema:TimeEntrySchema) {
-    return html`
-      <anchored-position
-        id="${popoverId}"
-        role="dialog"
-        align="start"
-        anchor="${anchorId}"
-        anchor-offset="condensed"
-        popover="hint"
-        side="outside-right">
-        ${this.popoverContentHtml(entry, schema)}
-      </anchored-position>
-    `;
-  }
-
-  private popoverContentHtml(entry:TimeEntryResource, schema:TimeEntrySchema) {
-    return html`
-        <div class="Popover te-calendar--popover">
-          <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
-            <ul class="list-style-none ml-0">
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.project.name}:</span>
-                <span>${this.sanitizedValue(entry.project.name)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.entity.name}:</span>
-                <span>${entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.activity.name}:</span>
-                <span>${this.sanitizedValue(entry.activity?.name ?? '')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.hours.name}:</span>
-                <span>${this.timezone.formattedDuration(entry.hours as string)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.comment.name}:</span>
-                <span>${this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default'))}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        `;
+  private popoverRows(entry:TimeEntryResource, schema:TimeEntrySchema):{ label:string; value:string }[] {
+    return [
+      { label: schema.project.name, value: this.sanitizedValue(entry.project.name) },
+      { label: schema.entity.name, value: entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default') },
+      { label: schema.activity.name, value: this.sanitizedValue(entry.activity?.name ?? '') },
+      { label: schema.hours.name, value: this.timezone.formattedDuration(entry.hours as string) },
+      { label: schema.comment.name, value: this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default')) },
+    ];
   }
 
   private sanitizedValue(value:string):string {
