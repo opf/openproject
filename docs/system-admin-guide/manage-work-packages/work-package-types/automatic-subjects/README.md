@@ -84,6 +84,7 @@ Subject patterns can include placeholders referencing the following work package
 | Start date     | Date              | 2025-01-12 |
 | Status         | String            | New        |
 | Type           | Work package type | Task       |
+| Version (Target versions) | List of version names | 1.0, 2.0 |
 | Work           | Hours (float)     | 10.0       |
 
 **Custom fields**: Supported custom fields include Text, Integer, Float, List, Date, Boolean, User, Version.
