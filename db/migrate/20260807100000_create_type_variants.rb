@@ -174,7 +174,9 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
   end
 
   def repoint_workflows
-    remove_index :workflows, name: "wkfs_role_type_old_status"
+    # pgloader prefixes MySQL index names with idx_<oid>_
+    old_index = indexes(:workflows).find { |index| index.name.end_with?("wkfs_role_type_old_status") }&.name
+    remove_index :workflows, name: old_index if old_index
     move_type_reference :workflows
     add_index :workflows, %i[role_id type_variant_id old_status_id], name: "wkfs_role_type_variant_old_status"
   end
