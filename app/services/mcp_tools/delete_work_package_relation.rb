@@ -37,6 +37,7 @@ module McpTools
     annotations read_only: false, idempotent: true, destructive: true
 
     input_schema(
+      additionalProperties: false,
       required: %i[id],
       properties: {
         id: {

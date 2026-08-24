@@ -45,7 +45,7 @@ module McpTools
     filter :status_code
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the project. Accepts partial project names, not case-sensitive." },
         identifier: { type: "string", description: "Project identifier. Case-sensitive, matching exactly." },
