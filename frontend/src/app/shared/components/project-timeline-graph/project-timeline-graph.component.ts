@@ -55,8 +55,8 @@ import {
 } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
-import { caretPlacement } from './project-timeline-tooltip-caret';
-import type { CaretPlacement } from './project-timeline-tooltip-caret';
+import { caretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
