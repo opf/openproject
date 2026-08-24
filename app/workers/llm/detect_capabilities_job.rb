@@ -28,25 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    private
+module Llm
+  # Pre-colours the model list after a connect, out of band so that saving the
+  # connection does not wait on one request per candidate model.
+  class DetectCapabilitiesJob < ApplicationJob
+    def perform
+      connection = LlmConnection.first
+      return if connection.nil? || !connection.configured?
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-        next unless connection_changed?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
-        Llm::DetectCapabilitiesJob.perform_later
-      end
-    end
-
-    def connection_changed?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
+      LlmConnections::DetectCapabilitiesService.new(connection).detect_likely_embedding_models
     end
   end
 end
