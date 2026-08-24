@@ -51,6 +51,7 @@ import {
 } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
+import { ProjectTimelineTooltipPopover } from './project-timeline-tooltip.popover';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
@@ -92,12 +93,14 @@ export class ProjectTimelineGraphComponent {
 
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
+  private tooltipPopover:ProjectTimelineTooltipPopover | null = null;
 
   protected readonly ready = signal(false);
 
   constructor() {
     afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
     inject(DestroyRef).onDestroy(() => {
+      this.tooltipPopover?.destroy();
       this.timeline?.destroy();
       this.timeline = null;
     });
@@ -133,10 +136,13 @@ export class ProjectTimelineGraphComponent {
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         onInitialDrawComplete: () => this.revealTimeline(),
+        showTooltips: false,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
       },
     );
+
+    this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef.nativeElement, this.tooltip);
 
     this.timeline.on('click', (props:{ item:string | null }) => {
       if (!props.item) return;
@@ -150,6 +156,7 @@ export class ProjectTimelineGraphComponent {
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
     const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
     this.itemsDataset = new DataSet(items);
+    this.tooltipPopover?.hide();
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
 
