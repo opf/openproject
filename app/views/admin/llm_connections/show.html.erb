@@ -83,23 +83,33 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if @connection.persisted? %>
-  <%= render(LlmConnections::FormComponent.new(@connection)) %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+    <% layout.with_main do %>
+      <%= render(LlmConnections::FormComponent.new(@connection)) %>
 
-  <%=
-    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
-      component.with_heading(tag: :h3) { t(".models_heading") }
-      component.with_description do
-        if @connection.catalogue_fetched_at
-          t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at))
-        else
-          t(".models_description_unfetched")
+      <%=
+        render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+          component.with_heading(tag: :h3) { t(".models_heading") }
+          component.with_description do
+            if @connection.catalogue_fetched_at
+              t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at))
+            else
+              t(".models_description_unfetched")
+            end
+          end
         end
-      end
-    end
-  %>
+      %>
 
-  <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
-  <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
+      <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
+      <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
+    <% end %>
+
+    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+      <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
+        <% panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection)) %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <%# Nothing to show alongside the form until a connection exists. %>
   <%= render(LlmConnections::FormComponent.new(@connection)) %>

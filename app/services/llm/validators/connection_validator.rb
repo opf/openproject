@@ -28,48 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HealthReports
-  class ReportComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
-    alias report model
-
-    # The i18n_scope parameter defines the I18n scope that should be used to resolve
-    # names of groups, checks and error messages indicated by the results.
+module Llm
+  module Validators
+    # The health report for an LLM connection.
     #
-    # docs_href overrides where each result's "More information" link points;
-    # without it, results link to the file storages troubleshooting page.
-    def initialize(*, i18n_scope:, docs_href: nil, **)
-      super(*, **)
-      @i18n_scope = i18n_scope
-      @docs_href = docs_href
-    end
+    # Nothing here reads User.current: the whole report has to be reproducible
+    # from a background job, which is what lets the same code answer both the
+    # administrator's "Run checks" and the scheduled re-check.
+    class ConnectionValidator < HealthReports::Validator
+      register_group ConfigurationValidator
 
-    private
+      register_group ServerValidator,
+                     precondition: ->(_, report) { report.group(:configuration).non_failure? }
 
-    attr_reader :i18n_scope, :docs_href
+      # Costs a real completion, so it is not part of the scheduled run.
+      register_group InferenceValidator,
+                     precondition: lambda { |connection, report|
+                       connection.deep_health_check? && report.group(:configuration).non_failure?
+                     }
 
-    def summary_scheme(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        :critical
-      in { warning: 1.. }
-        :warning
-      else
-        :success
-      end
-    end
-
-    def humanize_summary(check_tally)
-      case check_tally
-      in { failure: 1.. }
-        I18n.t("health_reports.common.checks.failures", count: check_tally[:failure])
-      in { warning: 1.. }
-        I18n.t("health_reports.common.checks.warnings", count: check_tally[:warning])
-      else
-        I18n.t("health_reports.common.checks.success")
-      end
+      register_group ModelValidator
+      register_group FeatureValidator
     end
   end
 end
