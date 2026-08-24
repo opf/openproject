@@ -49,6 +49,29 @@ module McpTools
       version_id.nil? ? wps.without_target_version : wps.with_target_version(version_id)
     }
 
+    CONDENSED_ATTRIBUTES = %w[
+      _links
+      id
+      displayId
+      subject
+      lockVersion
+      date
+      startDate
+      dueDate
+      derivedStartDate
+      derivedDueDate
+      createdAt
+      updatedAt
+    ].to_set
+
+    CONDENSED_LINKS = %w[
+      project
+      status
+      type
+      author
+      assignee
+    ].to_set
+
     # We can't use subclasses of WorkPackageFilter as filter_class, because they overwrite apply_to badly and rely on using
     # an instantiated Query to be used.
     filter :assigned_to_id
@@ -99,18 +122,25 @@ module McpTools
 
     output_filter McpOutputFilters::RemoveFormattableHtml.new
     output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
-    output_filter McpOutputFilters::CondenseWorkPackage.new
 
-    # TODO: kinda sad that the level_of_detail is specified here, but needs passing to nowhere...
-    # maybe don't implement it as an output_filter after all?
-    def call(page: nil, level_of_detail: nil, **filters)
+    def call(page: nil, level_of_detail: "reduced", **filters)
       filtered = apply_filters(WorkPackage.visible, filters)
       work_packages, total = apply_pagination(filtered, page)
+      formatted = work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) }
+      formatted = condense_result(formatted) if level_of_detail != "full"
 
-      {
-        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) },
-        total:
-      }
+      { items: formatted, total: }
+    end
+
+    private
+
+    def condense_result(work_packages)
+      work_packages.map do |work_package|
+        hash = work_package.as_json
+        hash.fetch("_links").delete_if { |l| CONDENSED_LINKS.exclude?(l) }
+        hash.delete_if { |attr| CONDENSED_ATTRIBUTES.exclude?(attr) }
+        hash
+      end
     end
   end
 end

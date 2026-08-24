@@ -167,10 +167,10 @@ module McpTools
       @tool_context = tool_context
     end
 
-    def handle_request(**params)
-      result = call(**params)
+    def handle_request(**)
+      result = call(**)
 
-      format_response(result, params:)
+      format_response(result)
     end
 
     private
@@ -180,8 +180,8 @@ module McpTools
       raise SubclassResponsibilityError, "#{self.class} needs to implement #call method"
     end
 
-    def format_response(result, params:)
-      result = self.class.output_filters.each_with_object(result.as_json) { |f, r| f.filter(r, params:) }
+    def format_response(result)
+      result = self.class.output_filters.each_with_object(result.as_json) { |f, r| f.filter(r) }
       plain = render_plain_content? ? format_content(result) : []
       structured_content = render_structured_content? ? format_structured_content(result) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)
