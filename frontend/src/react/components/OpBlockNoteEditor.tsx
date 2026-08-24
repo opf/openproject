@@ -41,7 +41,7 @@ import {
   workPackageSlashMenu,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
@@ -128,6 +128,23 @@ export function OpBlockNoteEditor({
   const editor = useCreateBlockNote(editorParams, []);
   type EditorType = typeof editor;
   const theme = useOpTheme();
+
+  // Works around a BlockNote/Yjs bootstrap race where the first block can render with
+  // stale transition-tracking CSS state (e.g. a heading rendering at body-text size)
+  // until the next transaction. Re-applying its own props once, before first paint,
+  // forces that state to recompute cleanly.
+  const forcedInitialBlockRefreshRef = useRef(false);
+  useLayoutEffect(() => {
+    if (!hocuspocusProvider || forcedInitialBlockRefreshRef.current) {
+      return;
+    }
+
+    forcedInitialBlockRefreshRef.current = true;
+    const firstBlock = editor.document[0];
+    if (firstBlock?.id === 'initialBlockId') {
+      editor.updateBlock(firstBlock, { props: { ...firstBlock.props } });
+    }
+  }, [editor, hocuspocusProvider]);
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),

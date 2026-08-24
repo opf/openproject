@@ -78,6 +78,31 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
+  context "when a heading is the very first block of a document (COMMS-909)" do
+    # A BlockNote/Yjs collaboration-bootstrap race leaves the first block rendered
+    # at the wrong font-size until the next transaction (e.g. a click) recomputes it.
+    # It only reproduces on a genuine fresh editor mount of an already-persisted
+    # document.
+    it "renders the heading at full size immediately on reload, without needing a click" do
+      visit document_path(document)
+      expect(page).to have_test_selector("blocknote-document-description")
+
+      editor.fill_in("# Test heading")
+      editor.element.send_keys(:enter)
+      editor.fill_in("Some text here")
+      wait_for { document.reload.content_binary }.to be_present
+
+      visit home_path
+      visit document_path(document)
+
+      expect(page).to have_test_selector("blocknote-document-description")
+      wait_for { editor.content }.to have_text("Test heading")
+
+      # No click between the reload and here, since a click would trigger re-rendering (and with that "fix" the font size).
+      wait_for { editor.heading_to_paragraph_font_size_ratio }.to be > 2
+    end
+  end
+
   context "when running with a relative_url_root and non-proxied frontend assets",
           js: false,
           with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
