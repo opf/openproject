@@ -64,4 +64,49 @@ RSpec.describe "LLM connection administration",
       expect(page).to be_axe_clean.within("#content")
     end
   end
+
+  context "with a configured connection" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+
+    before { mock_llm_models_response(base_url) }
+
+    it "renders the model list accessibly" do
+      visit llm_connection_path
+
+      expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "removes the stored API key" do
+      visit llm_connection_path
+      expect(page).to have_test_selector("llm-model--refresh-button")
+
+      choose_action("llm-connection--delete-api-key")
+
+      within_test_selector("llm-connection--delete-api-key-dialog") do
+        expect(page).to be_axe_clean
+        click_on "Remove API key"
+      end
+
+      wait_for { connection.reload.api_key }.to be_blank
+      expect(connection.base_url).to eq(base_url)
+    end
+
+    it "disconnects without losing the configuration" do
+      visit llm_connection_path
+      expect(page).to have_test_selector("llm-model--refresh-button")
+
+      choose_action("llm-connection--disconnect")
+
+      within_test_selector("llm-connection--disconnect-dialog") do
+        expect(page).to be_axe_clean
+        click_on "Disconnect"
+      end
+
+      wait_for { connection.reload.enabled? }.to be(false)
+      expect(connection.api_key).to be_blank
+      # The point of disconnecting rather than deleting.
+      expect(connection.models.count).to eq(2)
+    end
+  end
 end

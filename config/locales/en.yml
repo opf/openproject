@@ -1725,6 +1725,21 @@ en:
         button_connect: "Connect"
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
+      models:
+        blank_description: "The server reported no models. If it does not offer a model list, add the model names you want to use below."
+        blank_title: "No models available"
+        context_window: "Context window"
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        filter_label: "Filter models"
+        identifier: "Model"
+        kind: "Type"
+        source: "Source"
+        source_deactivated: "Hidden by administrator"
+        source_discovered: "Reported by server"
+        source_manual: "Added manually"
+        source_withdrawn: "No longer reported"
+        status: "Available for use"
+        toggle_aria_label: "Make %{model} available to AI features"
       refresh_models:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
@@ -1732,6 +1747,9 @@ en:
         add_model_description: "If the server does not expose a model list, enter the model name exactly as the server expects it. Manually added models are kept when the list is refreshed."
         add_model_submit: "Add model"
         description: "Connect OpenProject to a server that speaks the OpenAI API, so AI features can use it."
+        models_description: "Reported by the server on %{fetched_at}."
+        models_description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable, or add the models you want to use manually."
+        models_heading: "Available models"
         refresh_models: "Refresh models"
       update:
         no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
@@ -4221,6 +4239,13 @@ en:
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
       xai: "xAI"
+    context_window_sources:
+      registry: "the figure published for this model"
+      server: "reported by the server"
+    model_kinds:
+      chat: "Chat"
+      embedding: "Embedding"
+      unknown: "Unknown"
   llm_connections:
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."

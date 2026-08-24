@@ -748,6 +748,7 @@ Rails.application.routes.draw do
       get :delete_api_key_dialog
       get :disconnect_dialog
       post :disconnect
+      get :search_models, defaults: { format: :turbo_stream }
     end
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
