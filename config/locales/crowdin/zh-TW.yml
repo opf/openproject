@@ -2480,8 +2480,6 @@ zh-TW:
         description: 確保在其他使用者存取 OpenProject 中上傳的檔案前，對其進行病毒掃描。
       weighted_item_lists:
         description: 加權項目清單可讓您建立一個與基本數值相關的清單。
-      work_package_query_relation_columns:
-        description: 需要在工作套件清單中查看關聯或子套件嗎？
       work_package_sharing:
         description: 與不是專案成員的使用者共同參與工作套件。
       work_package_subject_generation:
@@ -6218,6 +6216,7 @@ zh-TW:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6231,7 +6230,6 @@ zh-TW:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

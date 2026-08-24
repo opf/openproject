@@ -64,6 +64,10 @@ module Wikis
             basic_rack_oauth_client.authorization_uri(scope:, state:)
           end
 
+          def token_endpoint
+            URI.join(@wiki_provider.url, TOKEN_ENDPOINT).to_s
+          end
+
           def basic_rack_oauth_client
             uri = provider_uri
 

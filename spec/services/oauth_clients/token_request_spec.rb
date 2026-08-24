@@ -29,9 +29,9 @@
 #++
 require "spec_helper"
 
-RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
-  let(:service) { described_class.new(provider:) }
-  let(:provider) { create(:oidc_provider, client_id:, client_secret:) }
+RSpec.describe OAuthClients::TokenRequest, :webmock do
+  let(:service) { described_class.new(token_endpoint:, client_id:, client_secret:) }
+  let(:token_endpoint) { "https://example.com/gotta-get-a-token" }
   let(:client_id) { "openproject" }
   let(:client_secret) { "a-secret" }
 
@@ -44,7 +44,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
   end
 
   before do
-    stub_request(:post, provider.token_endpoint).to_return(**response)
+    stub_request(:post, token_endpoint).to_return(**response)
   end
 
   describe "#refresh" do
@@ -60,13 +60,13 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
     it "uses a properly formatted request body" do
       subject
-      expect(WebMock).to have_requested(:post, provider.token_endpoint)
+      expect(WebMock).to have_requested(:post, token_endpoint)
         .with(body: { grant_type: "refresh_token", refresh_token: token })
     end
 
     it "authenticates the request via HTTP Basic auth using Client ID and Client Secret" do
       subject
-      expect(WebMock).to(have_requested(:post, provider.token_endpoint).with do |request|
+      expect(WebMock).to(have_requested(:post, token_endpoint).with do |request|
         auth_header = request.headers["Authorization"]
         type, credentials = auth_header.split
         expect(type).to eq "Basic"
@@ -80,7 +80,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
       it "escapes Basic Auth credentials" do
         subject
-        expect(WebMock).to(have_requested(:post, provider.token_endpoint).with do |request|
+        expect(WebMock).to(have_requested(:post, token_endpoint).with do |request|
           auth_header = request.headers["Authorization"]
           _, credentials = auth_header.split
           expect(Base64.decode64(credentials)).to eq "https%3A%2F%2Fopenproject.local:a-secret%2Fwith%3Aspecial-characters"
@@ -121,7 +121,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
     it "uses a properly formatted request body" do
       subject
-      expect(WebMock).to have_requested(:post, provider.token_endpoint)
+      expect(WebMock).to have_requested(:post, token_endpoint)
         .with(body: {
                 grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
                 subject_token: token,
@@ -132,7 +132,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
     it "authenticates the request via HTTP Basic auth using Client ID and Client Secret" do
       subject
-      expect(WebMock).to(have_requested(:post, provider.token_endpoint).with do |request|
+      expect(WebMock).to(have_requested(:post, token_endpoint).with do |request|
         auth_header = request.headers["Authorization"]
         type, credentials = auth_header.split
         expect(type).to eq "Basic"
@@ -146,7 +146,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
       it "escapes Basic Auth credentials" do
         subject
-        expect(WebMock).to(have_requested(:post, provider.token_endpoint).with do |request|
+        expect(WebMock).to(have_requested(:post, token_endpoint).with do |request|
           auth_header = request.headers["Authorization"]
           _, credentials = auth_header.split
           expect(Base64.decode64(credentials)).to eq "https%3A%2F%2Fopenproject.local:a-secret%2Fwith%3Aspecial-characters"
@@ -159,7 +159,7 @@ RSpec.describe OpenIDConnect::UserTokens::TokenRequest, :webmock do
 
       it "includes the scope in the request body" do
         subject
-        expect(WebMock).to have_requested(:post, provider.token_endpoint)
+        expect(WebMock).to have_requested(:post, token_endpoint)
           .with(body: {
                   grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
                   subject_token: token,

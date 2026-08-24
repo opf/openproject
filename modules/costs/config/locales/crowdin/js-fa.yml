@@ -23,14 +23,14 @@
 fa:
   js:
     button_log_costs: ثبت هزینه‌های واحد
-    label_hour: hour
+    label_hour: ساعت
     label_hours: ساعت
     myTimeTracking:
-      noSpecificTime: No specific time
-    text_are_you_sure: آیا مطمئن هستید؟
+      noSpecificTime: بدون زمان مشخص
+    text_are_you_sure: مطمئنید؟
     work_packages:
       properties:
-        overallCosts: هزینه‌های کلی
-        spentUnits: واحد هزینه‌کرد
+        overallCosts: هزینه‌های کل
+        spentUnits: واحدهای مصرف‌شده
       property_groups:
-        costs: هزینه ها
+        costs: هزینه‌ها

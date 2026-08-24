@@ -2628,8 +2628,6 @@ cs:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
       work_package_subject_generation:
@@ -6430,6 +6428,7 @@ cs:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Faktor dostupnosti
         availability_factor_caption: Určete procento svého pracovního času věnovaného projektové práci.
+        effective_hours: Effective work hours
         hours_mode_label: Režim hodin
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6443,7 +6442,6 @@ cs:
         title_current: Upravit aktuální pracovní plán
         title_days_and_hours: Dny a hodiny
         title_future_dates: Budoucí termíny
-        total_available_hours: Celkový počet dostupných pracovních hodin
         total_work_hours: Celkový počet odpracovaných hodin
         work_days: Pracovní dny
         work_hours: Work hours

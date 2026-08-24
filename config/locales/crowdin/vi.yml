@@ -2476,8 +2476,6 @@ vi:
         description: Đảm bảo các tệp được tải lên trong OpenProject được quét vi-rút trước khi người dùng khác có thể truy cập được.
       weighted_item_lists:
         description: Danh sách mục có trọng số cho phép bạn tạo danh sách có các giá trị số cơ bản được liên kết.
-      work_package_query_relation_columns:
-        description: Cần xem các mối quan hệ hoặc các phần tử con trong danh sách gói công việc?
       work_package_sharing:
         description: Chia sẻ các gói công việc với người dùng không phải là thành viên của dự án.
       work_package_subject_generation:
@@ -6223,6 +6221,7 @@ vi:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6236,7 +6235,6 @@ vi:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

@@ -3,15 +3,15 @@ fa:
   different_formats: فرمت متفاوت
   export:
     format:
-      xls: ''
-      xls_with_descriptions: XLS همراه توضيح
-      xls_with_relations: XLS with relations
-  export_to_excel: Export XLS
+      xls: XLS
+      xls_with_descriptions: XLS همراه توضیحات
+      xls_with_relations: XLS همراه با روابط
+  export_to_excel: خروجی XLS
   plugin_openproject_xls_export:
     description: لیست های مشکلات را به عنوان صفحات گسترده اکسل (xls.) صادر کنید.
     name: خروجی اکسل از اپن‌پروژه
-  print_with_description: Print preview with description
+  print_with_description: پیش‌نمایش چاپ همراه با توضیحات
   sentence_separator_or: یا
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: فرزندِ
+    parent_of: والدِ
