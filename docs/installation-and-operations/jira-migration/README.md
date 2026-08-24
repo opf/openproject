@@ -31,12 +31,14 @@ This import tool is currently in beta and can only import basic data:
 
 - Projects
 - Project identifiers
-- Issues (name, title, description, attachments, due date, estimated hours, remaining hours). Note that archived issues are *not* imported since such a concept does currently not exist in OpenProject.
+- Issues
 - Issues identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
 - Basic custom fields (see [Custom fields migration](./custom-fields/))
-- Users (name, email, project membership)
+- Users
 - Statuses
 - Types
+
+See [field mapping for details](./field-mapping/) for details.
 
 ## Data not yet covered by the Migrator 
 
@@ -50,6 +52,8 @@ This import tool is currently in beta and can only import basic data:
 - Project-level workflows
 - Permissions
 - Schemas
+
+See [field mapping for details](./field-mapping/) for details.
 
 ## Supported Jira versions
 
@@ -182,9 +186,7 @@ A confirmation warning will also be shown.
 
 ### 1. Preparation
 
-- Document your existing Jira and Confluence configuration (projects, issue types, workflows, fields, spaces).
-- Identify which data to migrate and which to archive.
-- Clean up legacy data before starting.
+- Review the [Jira pre-migration checklist](./pre-migration-checklist/).
 
 ### 2. Testing
 
@@ -200,21 +202,10 @@ A confirmation warning will also be shown.
 
 ### 4. Post-migration
 
+- Review the [Jira post-migration checklist](./post-migration-checklist/).
 - Provide training to users.
 - Archive or decommission the legacy systems if applicable.
 
-## Known limitations
-
-### Wiki markup
-
-Most standard Jira wiki markup converts to Markdown automatically, but Jira-specific macro boxes do not have a Markdown equivalent and convert imperfectly:
-
-- `{info}`, `{warning}`, `{note}`, `{tip}` callout boxes - content is preserved but the visual callout styling is lost
-- `{toc}` (table of contents) - dropped
-- `{expand}` (collapsible sections) - content is preserved but the expand/collapse behaviour is lost
-- `{section}`/`{column}` (multi-column layouts) - columns are collapsed into a single flow
-- `[^attachment.pdf]` (inline attachment links) - link target is lost
-- Bare Jira issue key links (e.g. `[PROJECT-123]`) - not yet supported
 
 ## Current status and next steps of the Jira Migrator
 
