@@ -442,7 +442,9 @@ ai_text_transform_actions:
       4. Do not invent content and do not add new details.
       5. Do not add, rename, or remove headings or sections. Keep the structure of the input.
       6. If the text contains italic instruction text (lines starting with _), preserve it unchanged. Only condense the other content.
-      7. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
+      7. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Condense the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
+      8. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not edit, reword, move, or remove them.
+      9. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
   - reference: :default_ai_action_translate
     t_label: Translate to English
     usage_scope: everywhere
@@ -452,10 +454,11 @@ ai_text_transform_actions:
 
       Rules:
       1. Translate all content into clear, natural English. This overrides the default rule of keeping the content's language.
-      2. Keep the structure: all headings, lists, tables, and formatting stay exactly where they are.
+      2. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Translate the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
       3. Do not translate product names, plan names, code, identifiers, URLs, or quoted error messages.
-      4. Do not add, remove, or reorder content. Translate only.
-      5. If the text contains italic instruction text (lines starting with _), translate it as well and keep it in place.
+      4. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not translate, edit, or move them.
+      5. Do not add, remove, or reorder content. Translate only.
+      6. If the text contains italic instruction text (lines starting with _), translate it as well and keep it in place.
   - reference: :default_ai_action_sort_into_template
     t_label: Sort into template
     usage_scope: all_work_package_types
