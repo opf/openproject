@@ -28,17 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
+require "spec_helper"
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      include Queries::Filters::Shared::BooleanFilter
+RSpec.describe Queries::Filters::Strategies::CfDate do
+  let(:filter) { instance_double(Queries::Filters::Base, operator: operator_symbol) }
 
-      # BooleanFilter hands back the plain BooleanList strategy, which cannot express
-      # emptiness. See Strategies::CfBooleanList.
-      def type_strategy
-        @type_strategy ||= ::Queries::Filters::Strategies::CfBooleanList.new(self)
+  subject(:strategy) { described_class.new(filter) }
+
+  describe ".supported_operators" do
+    it "adds asking for a value to the date operators, which offered only its absence" do
+      expect(described_class.supported_operators).to include("*", "!*")
+    end
+  end
+
+  describe "#operator" do
+    subject(:operator) { strategy.operator }
+
+    # A custom value keeps its value in a string column, whatever the format, so an empty
+    # string is how "no value" is stored.
+    context "when the operator is *" do
+      let(:operator_symbol) { "*" }
+
+      it "maps to the operator that also excludes the empty string" do
+        expect(operator).to eq(Queries::Operators::AllAndNonBlank)
+      end
+    end
+
+    context "when the operator is !*" do
+      let(:operator_symbol) { "!*" }
+
+      it "maps to the operator that also counts the empty string as absent" do
+        expect(operator).to eq(Queries::Operators::NoneOrBlank)
       end
     end
   end

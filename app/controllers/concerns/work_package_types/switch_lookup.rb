@@ -28,18 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
+module WorkPackageTypes
+  # A switch and its impact are two endpoints onto the same choice, so both resolve the
+  # member being switched away from the same way.
+  module SwitchLookup
+    private
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      include Queries::Filters::Shared::BooleanFilter
+    # The row names the member in force, which is the variant when the project resolves one, so
+    # the type is looked up globally and checked against the families the project uses. It is
+    # then resolved again: on a page left open across a switch, the id names a member the
+    # project has since moved off.
+    def load_source
+      type = ::Type.find_by(id: params[:type_id])
+      @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
 
-      # BooleanFilter hands back the plain BooleanList strategy, which cannot express
-      # emptiness. See Strategies::CfBooleanList.
-      def type_strategy
-        @type_strategy ||= ::Queries::Filters::Strategies::CfBooleanList.new(self)
-      end
+      return if @source
+
+      render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
+      respond_to_with_turbo_streams(status: :unprocessable_entity)
     end
   end
 end

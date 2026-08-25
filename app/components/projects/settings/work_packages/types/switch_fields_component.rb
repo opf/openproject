@@ -28,17 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
+module Projects
+  module Settings
+    module WorkPackages
+      module Types
+        # Everything the switch asks for and reports, with no container of its
+        # own: the dialog wraps this in Dialog::Body, and a settings page could
+        # wrap the same component in page chrome instead.
+        class SwitchFieldsComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      include Queries::Filters::Shared::BooleanFilter
+          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
+          # in force, which has nothing to report.
+          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
+            super()
 
-      # BooleanFilter hands back the plain BooleanList strategy, which cannot express
-      # emptiness. See Strategies::CfBooleanList.
-      def type_strategy
-        @type_strategy ||= ::Queries::Filters::Strategies::CfBooleanList.new(self)
+            @form = form
+            @targets = targets
+            @selected = selected
+            @validation_message = validation_message
+            @impact = impact
+          end
+        end
       end
     end
   end
