@@ -48,18 +48,17 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
       let(:planned) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, from_date: sprint.start_date)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
       end
       let(:changed) do
         SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                    removed_story_points: 2, from_date: sprint.start_date,
-                                                    to_date: Time.zone.today)
+                                                    removed_story_points: 2)
       end
       let(:completed) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8, from_date: Time.zone.today)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
       end
       let(:unfinished) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5, from_date: Time.zone.today)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
       end
 
       before do
