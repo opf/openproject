@@ -38,7 +38,7 @@ module WorkPackage::Versions
              -> { where(work_package_versions: { kind: "target" }).order(:id) },
              through: :work_package_versions, source: :version
     has_many :observed_in_versions,
-             -> { where(work_package_versions: { kind: "observed_in" }) },
+             -> { where(work_package_versions: { kind: "observed_in" }).order(:id) },
              through: :work_package_versions, source: :version
 
     scope :with_target_version, ->(version_id) {
