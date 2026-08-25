@@ -425,7 +425,9 @@ ai_text_transform_actions:
       4. Do not add, rename, remove, or reorder headings or sections. Keep the structure of the input exactly as it is.
       5. Do not move content between sections.
       6. If the text contains italic instruction text (lines starting with _), preserve it unchanged. Only refine the other content.
-      7. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
+      7. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Fix the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
+      8. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not edit, reword, or move them.
+      9. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
   - reference: :default_ai_action_make_concise
     t_label: Make concise
     usage_scope: everywhere
