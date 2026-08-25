@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 import styled from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 
 const chipBaseStyles = css`
   display: inline;
@@ -55,8 +55,7 @@ export const InlineChip = styled.span.attrs({
   ${defaultWpVariables}
   display: inline;
   cursor: pointer;
-  user-select: none;
-  -webkit-touch-callout: none;
+  ${nonSelectableStyles}
   border-radius: ${CHIP_STYLES.radius};
   position: relative;
   line-height: 1;
