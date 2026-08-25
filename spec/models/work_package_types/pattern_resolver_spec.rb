@@ -67,6 +67,20 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
   end
 
+  context "when the pattern has observed in versions" do
+    let(:subject_pattern) { "Observed in: {{observed_in_versions}}" }
+
+    let(:observed_version) { create(:version, project: work_package.project, name: "1.0") }
+
+    before do
+      create(:work_package_version, work_package:, version: observed_version, kind: :observed_in)
+    end
+
+    it "resolves the pattern" do
+      expect(subject.resolve(work_package)).to eq("Observed in: 1.0")
+    end
+  end
+
   context "when the pattern has time attributes" do
     let(:subject_pattern) { "Time left: {{remaining_time}}" }
 
