@@ -32,7 +32,14 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_variants: true } do
   def activate_in(project, *custom_fields)
-    custom_fields.each { |custom_field| CustomFieldsProject.create!(project:, custom_field:) }
+    custom_fields.each do |custom_field|
+      ApplicationRecord.connection.execute(
+        ApplicationRecord.sanitize_sql_array(
+          ["INSERT INTO custom_fields_projects (project_id, custom_field_id) VALUES (?, ?)",
+           project.id, custom_field.id]
+        )
+      )
+    end
     project
   end
 
