@@ -33,16 +33,8 @@ module Projects::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def with_available_custom_fields(custom_field_ids)
-        where(id: project_custom_fields_join_table_subquery(custom_field_ids:))
-      end
-
       def with_available_project_custom_fields(custom_field_ids)
         where(id: project_custom_fields_project_mapping_subquery(custom_field_ids:))
-      end
-
-      def without_available_custom_fields(custom_field_ids)
-        where.not(id: project_custom_fields_join_table_subquery(custom_field_ids:))
       end
 
       def without_available_project_custom_fields(custom_field_ids)
@@ -52,12 +44,8 @@ module Projects::Scopes
       private
 
       def project_custom_fields_project_mapping_subquery(custom_field_ids:)
-        project_custom_fields_join_table_subquery(custom_field_ids:, join_table: ProjectCustomFieldProjectMapping)
-      end
-
-      def project_custom_fields_join_table_subquery(custom_field_ids:, join_table: CustomFieldsProject)
-        join_table.select(:project_id)
-                  .where(custom_field_id: custom_field_ids)
+        ProjectCustomFieldProjectMapping.select(:project_id)
+                                        .where(custom_field_id: custom_field_ids)
       end
     end
   end
