@@ -98,8 +98,6 @@ module WorkPackageTypes
         .call(aspect: TypeVariant::FORM_CONFIGURATION, elements:)
     end
 
-    # Reads the join table through its own model: no association exposes it any more, and these
-    # rows are exactly what this converts into form configuration exclusions.
     def elements_to_exclude(project)
       active_ids = CustomFieldsProject.where(project_id: project.id).pluck(:custom_field_id)
 

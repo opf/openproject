@@ -31,8 +31,6 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { type_variants: true } do
-  # The rows this service converts: no association exposes them any more, so they are created
-  # through the join model directly.
   def activate_in(project, *custom_fields)
     custom_fields.each { |custom_field| CustomFieldsProject.create!(project:, custom_field:) }
     project

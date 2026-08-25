@@ -38,10 +38,10 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
     subject { WorkPackageCustomField.visible(user) }
 
     it "returns the fields configured on types used in projects the user can see" do
-      expect(subject).to contain_exactly(type_enabled_and_member_cf,
-                                         type_enabled_for_all_cf,
-                                         not_a_member_cf,
-                                         type_enabled_in_different_project_than_member_cf)
+      expect(subject).to contain_exactly(boolean_cf_on_visible_type,
+                                         for_all_cf_on_visible_type,
+                                         integer_cf_on_visible_type,
+                                         cf_on_bug_type)
     end
   end
 
@@ -66,6 +66,5 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
         expect(WorkPackageCustomField.visible(member_user)).to include(source_cf)
       end
     end
-
   end
 end
