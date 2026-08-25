@@ -329,6 +329,33 @@ RSpec.describe "API v3 Work package resource",
             end
           end
 
+          describe "update links" do
+            context "when last timestamp is current" do
+              it "has the update links" do
+                expect(subject).to have_json_path("_links/update/href")
+                expect(subject).to have_json_path("_links/updateImmediately/href")
+              end
+            end
+
+            context "when requesting with one timestamp in the past" do
+              let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+              it "has no update links because the historic state cannot be edited" do
+                expect(subject).not_to have_json_path("_links/update/href")
+                expect(subject).not_to have_json_path("_links/updateImmediately/href")
+              end
+            end
+
+            context "when requesting with two timestamps in the past" do
+              let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+              it "has no update links because the historic state cannot be edited" do
+                expect(subject).not_to have_json_path("_links/update/href")
+                expect(subject).not_to have_json_path("_links/updateImmediately/href")
+              end
+            end
+          end
+
           describe "when requesting only a historic timestamp with since-changed target versions" do
             let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
 
