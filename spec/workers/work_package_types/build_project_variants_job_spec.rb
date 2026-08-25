@@ -31,7 +31,6 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageTypes::BuildProjectVariantsJob do
-  # The rows the job converts: no association exposes them any more.
   def activate_in(project, *custom_fields)
     custom_fields.each { |custom_field| CustomFieldsProject.create!(project:, custom_field:) }
     project

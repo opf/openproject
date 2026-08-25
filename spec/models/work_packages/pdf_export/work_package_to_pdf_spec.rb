@@ -117,7 +117,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:cf_empty_long_text) do
     create(:issue_custom_field, :text, name: "Empty Work Package Custom Field Long Text")
   end
-  # On no type's form configuration => NOT in PDF
   let!(:cf_not_on_the_type) do
     create(:float_wp_custom_field, name: "NotOnTypeCustomField")
   end
