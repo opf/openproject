@@ -3,10 +3,10 @@ pl:
   activerecord:
     models:
       grids/overview:
-        one: Overview
-        few: Overviews
-        many: Overviews
-        other: Overviews
+        one: Przegląd
+        few: Przeglądy
+        many: Przeglądy
+        other: Przeglądy
   overviews:
     label_dashboard: Pulpit nawigacyjny
     label_home: Strona główna %{workspace_type}

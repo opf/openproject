@@ -45,11 +45,11 @@ fr:
           non_object_attribute: ne définit pas d'objet JSON à l'adresse %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: Fournisseur OpenID Connect
+        other: Fournisseurs OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: Jeton OpenID Connect
+        other: Jetons OpenID Connect
   logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
 
     '

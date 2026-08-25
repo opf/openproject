@@ -42,8 +42,8 @@ fr:
         one: BCF comment
         other: BCF comments
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: Problème BCF
+        other: Problèmes BCF
       bim/bcf/viewpoint:
         one: BCF viewpoint
         other: BCF viewpoints

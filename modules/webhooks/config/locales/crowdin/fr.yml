@@ -15,8 +15,8 @@ fr:
         url: URL de payload
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Journal des webhooks
+        other: Journaux des webhooks
       webhooks/webhook:
         one: Webhook
         other: Webhooks

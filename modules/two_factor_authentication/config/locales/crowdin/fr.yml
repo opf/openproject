@@ -27,11 +27,11 @@ fr:
         one: 2FA device
         other: 2FA devices
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        other: Mobile phones
+        one: Téléphone mobile
+        other: Téléphones mobiles
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        other: Authenticator applications
+        one: Application d'authentification
+        other: Applications d'authentification
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn

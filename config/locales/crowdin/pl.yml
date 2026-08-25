@@ -363,9 +363,9 @@ pl:
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
         project_types: Projects using this variant
-        variant: Variant
-        variant_name: Name
-        workflows_source: Workflows source
+        variant: Wariant
+        variant_name: Nazwa
+        workflows_source: Źródło przepływów pracy
       user:
         admin: Administrator
         auth_source: Źródło uwierzytelniania
@@ -500,7 +500,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         blank_nested: musi mieć ustawioną właściwość '%{property}'.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: jest niedozwolony. Użyj adresu e-mail z innej domeny.
         cannot_delete_mapping: jest wymagane. Nie można usunąć.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
@@ -561,7 +561,7 @@ pl:
         regex_match_failed: nie pasuje do wyrażenia regularnego %{expression}.
         smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej długości.
         ssrf_filtered: narusza zasady tego wystąpienia OpenProject dotyczące SSRF.
-        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
+        status_transition_invalid: jest nieprawidłowy z powodu braku prawidłowego dla bieżącej roli użytkownika przejścia ze starego do nowego statusu.
         system_wide_non_working_day_exists: koliduje z istniejącym dniem wolnym od pracy w całym systemie dla tej daty.
         taken: zostały już podjęte.
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
@@ -715,9 +715,9 @@ pl:
               cannot_assign_variant_and_parent: 'Nie można przypisać wariantu i jego elementu nadrzędnego '
               cannot_assign_variants_yet: Wariantów nie można jeszcze włączyć w projekcie. Włącz flagę funkcji, aby wypróbować warianty
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
-              switch_target_not_in_family: Can only switch to another type of the same family
+              switch_target_blank: Wybierz wariant, na który chcesz się przełączyć
+              switch_target_identical: Typ docelowy musi różnić się od typu obecnie stosowanego w projekcie
+              switch_target_not_in_family: Można przejść jedynie na inny typ z tej samej rodziny
           cannot_be_assigned_to_artifact_work_package: Wybranemu użytkownikowi nie można przypisywać pakietów roboczych.
           foreign_wps_reference_version: Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.
         project/phase:
@@ -735,7 +735,7 @@ pl:
         project_type:
           attributes:
             variant:
-              must_belong_to_the_type: must be a variant of the type the project uses.
+              must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
         queries/filters/base:
           attributes:
             values:
@@ -827,11 +827,11 @@ pl:
         type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              attribute_unknown: Użyto nieprawidłowego atrybutu pakietu roboczego.
+              attribute_unknown_name: Użyto nieprawidłowego atrybutu pakietu roboczego. %{attribute}
+              duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup muszą być niepowtarzalne.
+              group_without_name: Nazwa grupy nie może być pusta.
+              query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.

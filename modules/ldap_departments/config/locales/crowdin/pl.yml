@@ -23,15 +23,15 @@ pl:
           overlaps_other_tree: Pokrywa się z bazową nazwą wyróżniającą innej synchronizacji w ramach tego samego połączenia LDAP.
     models:
       ldap_departments/synchronized_department:
-        one: Synchronized department
-        few: Synchronized departments
-        many: Synchronized departments
-        other: Synchronized departments
+        one: Synchronizowany dział
+        few: Synchronizowane działy
+        many: Synchronizowane działy
+        other: Synchronizowane działy
       ldap_departments/synchronized_tree:
-        one: LDAP department synchronization
-        few: LDAP department synchronizations
-        many: LDAP department synchronizations
-        other: LDAP department synchronizations
+        one: Synchronizacja LDAP działu
+        few: Synchronizacje LDAP działów
+        many: Synchronizacje LDAP działów
+        other: Synchronizacje LDAP działów
   ee:
     upsell:
       ldap_departments:
