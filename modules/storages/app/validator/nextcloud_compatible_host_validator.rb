@@ -129,7 +129,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     when :not_nextcloud_server
       message << ": either was not valid json, or value at 'ocs/data/version/major' was not defined"
     when :minimal_nextcloud_version_not_met
-      message << ": version detected is #{read_version(response).inspect}, minimum is #{MINIMAL_NEXTCLOUD_VERSION}"
+      message << ": version detected is #{read_version(response).inspect}"
     end
 
     message
