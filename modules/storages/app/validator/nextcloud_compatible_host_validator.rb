@@ -87,7 +87,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     return :cannot_be_connected_to if response.error.present?
     return :cannot_be_connected_to unless response.status.in? 200..299
     return :not_nextcloud_server unless read_version(response)
-    return :minimal_nextcloud_version unless major_version_sufficient?(response)
+    return :minimal_nextcloud_version_not_met unless major_version_sufficient?(response)
 
     nil
   end
@@ -128,7 +128,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
       message << ": #{response.class}: #{response}"
     when :not_nextcloud_server
       message << ": either was not valid json, or value at 'ocs/data/version/major' was not defined"
-    when :minimal_nextcloud_version
+    when :minimal_nextcloud_version_not_met
       message << ": version detected is #{read_version(response).inspect}, minimum is #{MINIMAL_NEXTCLOUD_VERSION}"
     end
 

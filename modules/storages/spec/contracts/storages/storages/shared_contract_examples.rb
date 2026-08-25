@@ -254,7 +254,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
         context "when Nextcloud version is below the required minimal version" do
           let(:capabilities_response_major_version) { NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION - 1 }
 
-          include_examples "contract is invalid", host: :minimal_nextcloud_version
+          include_examples "contract is invalid", host: :minimal_nextcloud_version_not_met
         end
 
         context 'when Nextcloud instance is missing the "OpenProject integration" app' do
