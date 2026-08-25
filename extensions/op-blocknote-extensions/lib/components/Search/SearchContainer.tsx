@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { defaultWpVariables } from '../WorkPackage/atoms';
+import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
 
@@ -15,7 +16,7 @@ export const SearchContainer = styled.div.attrs({
 })<{ $floating?:boolean }>`
   ${defaultWpVariables}
   position: ${({ $floating }) => ($floating ? 'absolute' : 'relative')};
-  z-index: ${({ $floating }) => ($floating ? 9999 : 'auto')};
+  z-index: ${({ $floating }) => ($floating ? FLOATING_Z_INDEX.search : 'auto')};
   top: ${({ $floating }) => ($floating ? '1.6em' : 'auto')};
   left: ${({ $floating }) => ($floating ? 0 : 'auto')};
   overflow: ${({ $floating }) => ($floating ? 'hidden' : 'visible')};

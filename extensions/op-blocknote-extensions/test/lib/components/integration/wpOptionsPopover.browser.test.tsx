@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
+import { ShadowDomWrapper } from '../../../../lib/components/ShadowDomWrapper';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineWorkPackageViaSlashMenu,
@@ -48,6 +50,12 @@ async function openPopover() {
   await userEvent.click(page.getByText('#123'));
   await expect.element(page.getByTestId('popover-content')).toBeVisible();
 }
+
+const getPopover = (root:ParentNode = document):Element =>
+  root.querySelector('[data-testid="popover-content"]')!;
+
+const getScrollerRect = ():DOMRect =>
+  page.getByTestId('scroller').element().getBoundingClientRect();
 
 async function openSizeMenu() {
   await openPopover();
@@ -203,6 +211,128 @@ describe('Options popover positioning', () => {
   });
 });
 
+// Mirrors the OpenProject mobile layout: a page header above the container the
+// document scrolls in.
+function PageWithScroller({ height = 240, children }:{ height?:number; children:ReactNode }) {
+  return (
+    <div>
+      <div data-testid="page-header" style={{ height: '60px', background: '#eee' }}>
+        Header
+      </div>
+      <div data-testid="scroller" style={{ height: `${height}px`, overflowY: 'auto' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function EditorContent({ chipOffset }:{ chipOffset:number }) {
+  return (
+    <div className="bn-container" style={{ position: 'relative' }}>
+      <div style={{ paddingTop: `${chipOffset}px`, height: '900px' }}>
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '123', size: 's', displayId: '123' } }}
+          contentRef={vi.fn()}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ScrollHarness({ chipOffset = 150, height = 240 }:{ chipOffset?:number; height?:number }) {
+  return (
+    <PageWithScroller height={height}>
+      <EditorContent chipOffset={chipOffset} />
+    </PageWithScroller>
+  );
+}
+
+describe('Options popover while the document scrolls', () => {
+  it('scrolls under the page header instead of hovering above it', async () => {
+    render(<ScrollHarness />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    const scroller = page.getByTestId('scroller').element();
+    const popover = getPopover();
+    const scrollerTop = scroller.getBoundingClientRect().top;
+    const popoverTopBefore = popover.getBoundingClientRect().top;
+    expect(popoverTopBefore).toBeGreaterThan(scrollerTop);
+
+    // Scroll just far enough that the popover reaches into the header's row.
+    const delta = Math.round(popoverTopBefore - scrollerTop + 10);
+    scroller.scrollTop = delta;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const popoverRect = popover.getBoundingClientRect();
+    expect(popoverRect.top).toBeCloseTo(popoverTopBefore - delta, 0);
+    expect(popoverRect.top).toBeLessThan(scrollerTop);
+
+    // The part reaching into the header row is clipped, not painted over it.
+    const hitInHeaderRow = document.elementFromPoint(popoverRect.left + 4, scrollerTop - 4);
+    expect(popover.contains(hitInHeaderRow)).toBe(false);
+  });
+});
+
+// Same layout with the editor in a shadow root, as OpenProject mounts it.
+function ShadowScrollHarness({ chipOffset }:{ chipOffset:number }) {
+  const [shadowRoot, setShadowRoot] = useState<ShadowRoot | null>(null);
+  const attachHost = (host:HTMLDivElement | null) => {
+    if (host && !host.shadowRoot) setShadowRoot(host.attachShadow({ mode: 'open' }));
+  };
+
+  return (
+    <PageWithScroller>
+      <div ref={attachHost} data-testid="editor-host" />
+      {shadowRoot && createPortal(
+        <ShadowDomWrapper target={shadowRoot}>
+          <EditorContent chipOffset={chipOffset} />
+        </ShadowDomWrapper>,
+        shadowRoot,
+      )}
+    </PageWithScroller>
+  );
+}
+
+describe('Options popover on the first row', () => {
+  it('stops at the page header edge instead of opening half hidden behind it', async () => {
+    render(<ScrollHarness chipOffset={2} />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    const scrollerRect = getScrollerRect();
+    const popoverRect = getPopover().getBoundingClientRect();
+
+    expect(popoverRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(popoverRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+  });
+
+  it('is parked inside the visible area when neither side of the chip has room', async () => {
+    render(<ScrollHarness chipOffset={16} height={60} />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    const scrollerRect = getScrollerRect();
+    const popoverRect = getPopover().getBoundingClientRect();
+
+    expect(popoverRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(popoverRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+  });
+
+  it('stays inside the scroll container when the editor is in a shadow root', async () => {
+    render(<ShadowScrollHarness chipOffset={2} />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    const shadowRoot = page.getByTestId('editor-host').element().shadowRoot!;
+    const scrollerRect = getScrollerRect();
+    const popoverRect = getPopover(shadowRoot).getBoundingClientRect();
+
+    expect(popoverRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(popoverRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+  });
+});
+
 describe('Inline chip popover UX', () => {
   it('popover is not visible before clicking the chip', async () => {
     render(<ChipWrapper initialSize="s" />);
@@ -327,14 +457,22 @@ describe('Options popover coexists with the editor', () => {
     expect(formattingToolbarVisible()).toBe(false);
   });
 
-  it('inline chip: a scroll closes the popover on desktop', async () => {
+  it('inline chip: a scroll keeps the popover anchored to the chip', async () => {
     renderEditor();
     await insertInlineWorkPackageViaSlashMenu();
     await openInlineWorkPackagePopover();
 
-    window.dispatchEvent(new Event('scroll'));
+    const chip = document.querySelector('.op-bn-inline-wp')!;
+    const popover = document.querySelector('[data-testid="popover-content"]')!;
+    const distance = () =>
+      chip.getBoundingClientRect().top - popover.getBoundingClientRect().top;
+    const distanceBefore = distance();
 
-    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+    window.dispatchEvent(new Event('scroll'));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+    expect(distance()).toBeCloseTo(distanceBefore, 0);
   });
 
   it('block card: opening the popover summons no formatting toolbar', async () => {

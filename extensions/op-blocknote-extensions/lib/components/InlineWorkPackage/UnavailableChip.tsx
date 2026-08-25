@@ -38,7 +38,7 @@ export const UnavailableChip = ({
   optionsPopover,
 }:UnavailableChipProps) => {
   const { t } = useTranslation();
-  const { previewOpen, closePreview, triggerProps, cardProps } = preview;
+  const { previewOpen, triggerProps, cardProps } = preview;
 
   const inlineIcon = kind === 'unauthorized'
     ? <EyeClosedIcon size={12} verticalAlign="middle" />
@@ -81,7 +81,6 @@ export const UnavailableChip = ({
       {showPreview && (
         <WpPreviewPopover
           anchorEl={anchorEl}
-          onClose={closePreview}
           {...cardProps}
         >
           <UnavailableCard

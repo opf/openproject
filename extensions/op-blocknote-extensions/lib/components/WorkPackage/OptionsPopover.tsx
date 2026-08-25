@@ -6,13 +6,13 @@ import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
 import { defaultWpVariables } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
+import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import {
   LinkExternalIcon,
   TrashIcon,
   ChevronDownIcon,
 } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
-import { supportsHover } from '../../utils/device';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -37,7 +37,7 @@ const Popover = styled.div.attrs({
 })`
   ${defaultWpVariables}
   position: absolute;
-  z-index: 9999;
+  z-index: ${FLOATING_Z_INDEX.options};
   background-color: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
@@ -93,7 +93,7 @@ const SizeMenu = styled.div.attrs<{
   position: absolute;
   top: calc(100% + var(--spacer-s));
   left: 0;
-  z-index: 10000;
+  z-index: 1;
   background: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
@@ -164,13 +164,7 @@ export const WpOptionsPopover = ({
   const [showSizes, setShowSizes] = useState(false);
 
   const popoverRef = useRef<HTMLDivElement | null>(null);
-  useAnchoredPopover({
-    anchorEl,
-    popoverRef,
-    placement: 'above',
-    onClose,
-    closeOnScroll: supportsHover(),
-  });
+  useAnchoredPopover({ anchorEl, popoverRef, placement: 'above' });
 
   const isBlock = currentSize === undefined;
 
