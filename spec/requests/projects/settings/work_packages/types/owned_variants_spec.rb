@@ -78,6 +78,42 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
+  # Opening a tab is not configuring it. Every one of these writes is authorized on the record
+  # rather than by the route, so a contract that still asks for an instance administrator refuses
+  # the very thing this permission is for — and answers 200 or 422 rather than 403, which no
+  # status-code assertion on a GET would notice.
+  describe "saving what it owns" do
+    it "renames it from the details tab" do
+      patch type_details_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
+            params: { type_variant: { variant_name: "Renamed" } }
+
+      expect(ours.reload.variant_name).to eq("Renamed")
+    end
+
+    it "sets a default description from the defaults tab" do
+      patch type_defaults_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
+            params: { work_package_types_forms_defaults_form_model: {
+              subject_configuration: "free", pattern: "", default_work_package_description: "Start here"
+            } }
+
+      expect(ours.reload.default_work_package_description).to eq("Start here")
+    end
+
+    # Renaming a group is an Enterprise action, so the guard has to be satisfied for the
+    # authorization underneath it to be the thing under test.
+    it "rewrites the form configuration", with_ee: %i[edit_attribute_groups] do
+      groups = [{ type: "attribute",
+                  name: "People",
+                  attributes: [{ key: "assignee", is_cf: nil, is_required: nil, translation: "Assignee" }],
+                  query: nil }]
+
+      patch type_form_configuration_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
+            params: { type: { attribute_groups: groups.to_json } }
+
+      expect(ours.reload.attribute_groups.map(&:key)).to eq(%w[People])
+    end
+  end
+
   describe "a variant another project owns" do
     it "gives 404 on every tab" do
       tab_paths(theirs).each do |name, path|

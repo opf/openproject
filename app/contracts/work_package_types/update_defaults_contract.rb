@@ -29,7 +29,11 @@
 #++
 
 module WorkPackageTypes
-  class UpdateDefaultsContract < BaseContract
+  # A variant's defaults, so who may write them follows the variant rather than being
+  # administration's alone: BaseContract is the type's, and carries the admin guard with it.
+  class UpdateDefaultsContract < ::ModelContract
+    include AuthorizesVariantAuthoring
+
     def self.model = TypeVariant
 
     attribute :patterns
