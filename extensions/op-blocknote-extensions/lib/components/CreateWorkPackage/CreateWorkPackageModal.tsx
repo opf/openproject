@@ -4,6 +4,7 @@ import { StyleSheetManager } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon, SyncIcon, XIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
+import { useColors } from '../../services/colors';
 import { linkToNewWorkPackage } from '../../services/openProjectApi';
 import { projectIdFromHref } from '../../utils/id';
 import { dependencyOf } from './formSchema';
@@ -119,6 +120,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
+  useColors();
   const {
     primaryFields,
     extraFields,
