@@ -10,8 +10,13 @@ import {
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 import { LAST_SELECTION_STORAGE_KEY } from '../../../../lib/components/CreateWorkPackage/lastSelection';
+import { initEditorContext } from '../../../../lib/services/editorContext';
+import { initializeOpBlockNoteExtensions } from '../../../../lib';
 
-afterEach(() => worker.resetHandlers());
+afterEach(() => {
+  worker.resetHandlers();
+  initEditorContext({});
+});
 
 function remember(selection:Record<string, { href:string; label:string }>) {
   sessionStorage.setItem(LAST_SELECTION_STORAGE_KEY, JSON.stringify(selection));
@@ -51,28 +56,86 @@ describe('Create work package - prefilled from previous selections', () => {
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('');
   });
 
-  it('carries the type and the assignee over to the next work package of the session', async () => {
+  it('carries the project, the type and the assignee over to the next work package of the session', async () => {
     renderEditor();
     await openCreateModal();
     await createBugAssignedToElif('The one that sets the tone');
 
     await openCreateModalAtCursor();
-    await pickProject();
 
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('Demo project');
     await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/2');
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
     await expect.element(page.getByLabelText('Subject *')).toHaveValue('');
   });
 
+  it('opens on the project the editor is rendered in, and asks for what it brings', async () => {
+    initializeOpBlockNoteExtensions({ baseUrl: 'http://localhost:3000', locale: 'en', projectId: 2 });
+
+    renderEditor();
+    await openCreateModal();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('Scrum project');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+  });
+
+  it('opens on the project it is rendered in rather than the one last created in', async () => {
+    remember({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+    initEditorContext({ projectId: 2 });
+
+    renderEditor();
+    await openCreateModal();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('Scrum project');
+  });
+
+  it('asks for the project where work packages cannot be created in the one it is rendered in', async () => {
+    initEditorContext({ projectId: 99 });
+
+    renderEditor();
+    await openCreateModal();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('');
+    await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
+  });
+
+  it('drops a form nothing was answered in, prefilled or not', async () => {
+    initEditorContext({ projectId: 1 });
+
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('Demo project');
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+  });
+
+  it('asks for the project again once it is cleared', async () => {
+    remember({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+
+    await userEvent.clear(page.getByLabelText('Project *'));
+
+    await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('');
+  });
+
   it('prefills from what an earlier page of the session left behind', async () => {
     remember({
+      project: { href: '/api/v3/projects/1', label: 'Demo project' },
       type: { href: '/api/v3/types/2', label: 'Bug' },
       assignee: { href: '/api/v3/users/6', label: 'Bianca Fuchs' },
     });
 
     renderEditor();
     await openCreateModal();
-    await pickProject();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue('Demo project');
 
     await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/2');
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Bianca Fuchs');

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { prefillFor, selectionToRemember } from '../../../../lib/components/CreateWorkPackage/prefill';
+import { prefillFor, projectPrefill, selectionToRemember } from '../../../../lib/components/CreateWorkPackage/prefill';
 import {
   forgetLastSelection,
   lastSelection,
@@ -7,6 +7,7 @@ import {
 } from '../../../../lib/components/CreateWorkPackage/lastSelection';
 import type { FormField } from '../../../../lib/components/CreateWorkPackage/formSchema';
 import { initOpenProjectApi } from '../../../../lib/services/openProjectApi';
+import { initEditorContext } from '../../../../lib/services/editorContext';
 
 const typeField:FormField = {
   key: 'type',
@@ -29,6 +30,15 @@ const assigneeField:FormField = {
   allowedValuesHref: '/api/v3/projects/1/available_assignees',
 };
 
+const projectField:FormField = {
+  key: 'project',
+  label: 'Project',
+  kind: 'typeahead',
+  required: true,
+  isLink: true,
+  allowedValuesHref: '/api/v3/work_packages/available_projects',
+};
+
 const fields = [typeField, assigneeField];
 
 const elifSelection = { href: '/api/v3/users/5', label: 'Elif Yildiz' };
@@ -44,9 +54,21 @@ function assigneesResponse(...people:{ id:number; name:string }[]):Response {
   } as Partial<Response> as Response;
 }
 
+function projectsResponse(...projects:{ id:number; name:string }[]):Response {
+  return {
+    ok: true,
+    json: async () => ({
+      _embedded: {
+        elements: projects.map(({ id, name }) => ({ id, name, _links: { self: { href: `/api/v3/projects/${id}` } } })),
+      },
+    }),
+  } as Partial<Response> as Response;
+}
+
 describe('create work package prefill', () => {
   beforeEach(() => {
     initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+    initEditorContext({});
     forgetLastSelection();
   });
 
@@ -133,15 +155,125 @@ describe('create work package prefill', () => {
     });
   });
 
+  describe('projectPrefill', () => {
+    it('opens on the project the editor is rendered in, by its current name', async () => {
+      initEditorContext({ projectId: 2 });
+      const fetchSpy = vi.spyOn(global, 'fetch')
+        .mockResolvedValue(projectsResponse({ id: 2, name: 'Scrum project' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values).toEqual({ project: '/api/v3/projects/2' });
+      expect(prefill.labels).toEqual({ project: 'Scrum project' });
+      expect(String(fetchSpy.mock.calls[0][0])).toContain('%22id%22');
+    });
+
+    it('outranks the project of the last creation with the one it is rendered in', async () => {
+      initEditorContext({ projectId: 2 });
+      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 2, name: 'Scrum project' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBe('/api/v3/projects/2');
+    });
+
+    it('leaves the project empty where work packages cannot be created in it', async () => {
+      initEditorContext({ projectId: 9 });
+      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse());
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBeUndefined();
+    });
+
+    it('leaves the project empty when the look-up fails', async () => {
+      initEditorContext({ projectId: 2 });
+      vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Boom.'));
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBeUndefined();
+    });
+
+    it('takes the project of the last creation where the application says none', async () => {
+      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo p.' } });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 1, name: 'Demo project' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values).toEqual({ project: '/api/v3/projects/1' });
+      expect(prefill.labels).toEqual({ project: 'Demo project' });
+    });
+
+    it('leaves a remembered project that is no longer on offer empty', async () => {
+      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse());
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBeUndefined();
+    });
+
+    it('leaves the project empty where the answer is not the project it asked for', async () => {
+      initEditorContext({ projectId: 2 });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 1, name: 'Demo project' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBeUndefined();
+    });
+
+    it('leaves the project empty where nothing was created yet', async () => {
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values).toEqual({});
+    });
+
+    it('picks the project it is rendered in from a list the schema brings along', async () => {
+      initEditorContext({ projectId: 2 });
+      const fetchSpy = vi.spyOn(global, 'fetch');
+      const listed:FormField = {
+        ...projectField,
+        kind: 'select',
+        allowedValues: [
+          { href: '/api/v3/projects/1', label: 'Demo project' },
+          { href: '/api/v3/projects/2', label: 'Scrum project' },
+        ],
+      };
+
+      const prefill = await projectPrefill(listed);
+
+      expect(prefill.values.project).toBe('/api/v3/projects/2');
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
+    it('prefills nothing where the form does not ask for a project', async () => {
+      initEditorContext({ projectId: 2 });
+
+      const prefill = await projectPrefill(undefined);
+
+      expect(prefill.values).toEqual({});
+    });
+  });
+
   describe('selectionToRemember', () => {
     it('remembers a selection by what it reads as', () => {
       const selection = selectionToRemember(
-        fields,
-        { subject: 'Fix the header', type: '/api/v3/types/2', assignee: '/api/v3/users/5' },
-        { assignee: 'Elif Yildiz' }
+        [projectField, ...fields],
+        {
+          subject: 'Fix the header',
+          project: '/api/v3/projects/1',
+          type: '/api/v3/types/2',
+          assignee: '/api/v3/users/5',
+        },
+        { project: 'Demo project', assignee: 'Elif Yildiz' }
       );
 
       expect(selection).toEqual({
+        project: { href: '/api/v3/projects/1', label: 'Demo project' },
         type: { href: '/api/v3/types/2', label: 'Bug' },
         assignee: elifSelection,
       });

@@ -149,19 +149,24 @@ function createFormFor(body:FormRequestBody) {
   };
 }
 
-function typeaheadTerm(request:Request):string {
+function filterValues(request:Request, name:string):string[] | undefined {
   const raw = new URL(request.url).searchParams.get('filters');
-  if (!raw) return '';
+  if (!raw) return undefined;
 
   try {
-    const filters = JSON.parse(raw) as { typeahead?:{ values?:string[] } }[];
-    return filters.find((filter) => filter.typeahead)?.typeahead?.values?.[0] ?? '';
-  } catch { return ''; }
+    const filters = JSON.parse(raw) as Record<string, { values?:string[] } | undefined>[];
+    return filters.find((filter) => filter[name])?.[name]?.values;
+  } catch { return undefined; }
 }
 
-function narrowed<T extends { name:string }>(elements:T[], request:Request) {
-  const term = typeaheadTerm(request).trim().toLowerCase();
-  const matching = term ? elements.filter((element) => element.name.toLowerCase().includes(term)) : elements;
+function narrowed<T extends { id:number; name:string }>(elements:T[], request:Request) {
+  const ids = filterValues(request, 'id');
+  const term = (filterValues(request, 'typeahead')?.[0] ?? '').trim().toLowerCase();
+
+  const matching = elements
+    .filter((element) => !ids || ids.includes(String(element.id)))
+    .filter((element) => !term || element.name.toLowerCase().includes(term));
+
   return HttpResponse.json({ _embedded: { elements: matching } });
 }
 

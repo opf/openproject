@@ -1,5 +1,7 @@
 import type { WorkPackagePayload } from '../../openProjectTypes';
-import { fetchAllowedValues } from '../../services/openProjectApi';
+import { fetchAllowedValueById, fetchAllowedValues } from '../../services/openProjectApi';
+import { contextProjectId } from '../../services/editorContext';
+import { projectIdFromHref } from '../../utils/id';
 import { allowedValueOf, toAllowedValues } from './formSchema';
 import type { AllowedValue, FieldLabels, FieldValues, FormField } from './formSchema';
 import { lastSelection } from './lastSelection';
@@ -10,17 +12,34 @@ export interface Prefill {
   labels:FieldLabels;
 }
 
+const PROJECT_KEY = 'project';
+
 // A type is chosen even where nothing is remembered, so the attributes it brings
 // can be asked for right away.
-const PREFILLED_FIELDS:{ key:string; fallsBackToFirst:boolean }[] = [
+const PROJECT_DEPENDENT_FIELDS:{ key:string; fallsBackToFirst:boolean }[] = [
   { key: 'type', fallsBackToFirst: true },
   { key: 'assignee', fallsBackToFirst: false },
 ];
+
+const REMEMBERED_KEYS = [PROJECT_KEY, ...PROJECT_DEPENDENT_FIELDS.map(({ key }) => key)];
 
 function payloadDefaultOf(payload:WorkPackagePayload, key:string):string | undefined {
   const link = payload._links?.[key];
   if (!link || Array.isArray(link)) return undefined;
   return link.href ?? undefined;
+}
+
+function prefillOf(chosen:[string, AllowedValue | undefined][]):Prefill {
+  const values:FieldValues = {};
+  const labels:FieldLabels = {};
+
+  for (const [key, value] of chosen) {
+    if (!value) continue;
+    values[key] = value.href;
+    labels[key] = value.label;
+  }
+
+  return { values, labels };
 }
 
 function chosenFromList(
@@ -64,24 +83,47 @@ async function chosenFor(
   return undefined;
 }
 
+// Asked for by its id and matched back to it: a project that cannot be created
+// in would open a form that cannot be submitted.
+async function offeredProject(field:FormField, id:string | number):Promise<AllowedValue | undefined> {
+  const isWanted = (value:AllowedValue) => projectIdFromHref(value.href) === String(id);
+
+  if (field.kind === 'select') return field.allowedValues?.find(isWanted);
+  if (!field.allowedValuesHref) return undefined;
+
+  try {
+    const offered = await fetchAllowedValueById(field.allowedValuesHref, id);
+    const value = offered ? toAllowedValues([offered])[0] : undefined;
+    return value && isWanted(value) ? value : undefined;
+  } catch (error) {
+    console.error('[create work package] Failed to look up the project to open on:', error);
+    return undefined;
+  }
+}
+
+/** The project the form opens on, by the name it goes by now. */
+export async function projectPrefill(field:FormField | undefined):Promise<Prefill> {
+  if (!field) return prefillOf([]);
+
+  const id = contextProjectId() ?? projectIdFromHref(lastSelection()[PROJECT_KEY]?.href);
+  const chosen = id === undefined ? undefined : await offeredProject(field, id);
+
+  return prefillOf([[PROJECT_KEY, chosen]]);
+}
+
 /** The values the given fields open with, from what the session remembers and what the API defaults to. */
 export async function prefillFor(fields:FormField[], payload:WorkPackagePayload):Promise<Prefill> {
   const remembered = lastSelection();
-  const values:FieldValues = {};
-  const labels:FieldLabels = {};
+  const chosen:[string, AllowedValue | undefined][] = [];
 
-  for (const { key, fallsBackToFirst } of PREFILLED_FIELDS) {
+  for (const { key, fallsBackToFirst } of PROJECT_DEPENDENT_FIELDS) {
     const field = fields.find((candidate) => candidate.key === key);
     if (!field) continue;
 
-    const chosen = await chosenFor(field, payload, remembered[key], fallsBackToFirst);
-    if (!chosen) continue;
-
-    values[key] = chosen.href;
-    labels[key] = chosen.label;
+    chosen.push([key, await chosenFor(field, payload, remembered[key], fallsBackToFirst)]);
   }
 
-  return { values, labels };
+  return prefillOf(chosen);
 }
 
 export function selectionToRemember(
@@ -91,7 +133,7 @@ export function selectionToRemember(
 ):LastSelection {
   const selection:LastSelection = {};
 
-  for (const { key } of PREFILLED_FIELDS) {
+  for (const key of REMEMBERED_KEYS) {
     const field = fields.find((candidate) => candidate.key === key);
     const href = values[key];
     if (!field || typeof href !== 'string' || !href) continue;

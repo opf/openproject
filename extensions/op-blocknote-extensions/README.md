@@ -45,6 +45,16 @@ initializeOpBlockNoteExtensions({
 });
 ```
 
+Optionally, you can pass a `projectId`: the id of the project the edited document belongs to. Creating a work package from the document then opens on that project instead of on the project the last work package of the session was created in. Pass it wherever the surrounding application knows the project, and leave it out where the editor is not rendered in one.
+
+```js
+initializeOpBlockNoteExtensions({
+  baseUrl: 'https://my.openproject.url',
+  locale: 'en',
+  projectId: 42,
+});
+```
+
 Then set up a BlockNote schema extending it with the block and inline specs:
 
 ```tsx
