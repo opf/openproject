@@ -94,7 +94,7 @@ export const Suggestions = ({
             key={option.href}
             id={optionId(index)}
             role={hierarchical ? 'treeitem' : 'option'}
-            aria-selected={index === focusedIndex}
+            aria-selected={option.href === selectedHref}
             {...(hierarchical ? {
               'aria-expanded': option.hasChildren ? option.expanded : undefined,
               'aria-level': option.depth + 1,
@@ -115,6 +115,7 @@ export const Suggestions = ({
 
             <Twisty
               $foldable={option.hasChildren}
+              $indent={option.depth}
               data-testid={`${id}-twisty-${index}`}
               onMouseDown={(event) => {
                 if (!option.hasChildren) return;

@@ -226,6 +226,30 @@ describe('Create work package', () => {
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
   });
 
+  it('leaves the first option reachable when a key comes before the options do', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        return HttpResponse.json({
+          _embedded: { elements: [{ id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } }] },
+        });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+
+    await userEvent.click(page.getByLabelText('Assignee'));
+    // Nothing is listed yet, so there is no option below to walk to.
+    await userEvent.keyboard('{ArrowDown}');
+
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+    await userEvent.keyboard('{Enter}');
+
+    await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
+  });
+
   it('asks for every required custom field the type brings, whatever its kind', async () => {
     renderEditor();
     await openCreateModal();

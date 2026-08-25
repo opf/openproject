@@ -83,7 +83,7 @@ export const AllowedValuesTypeahead = ({
           setIsOpen(true);
           break;
         }
-        setFocusedIndex(Math.min(activeIndex + 1, options.length - 1));
+        setFocusedIndex(Math.max(0, Math.min(activeIndex + 1, options.length - 1)));
         break;
       case 'ArrowUp':
         event.preventDefault();

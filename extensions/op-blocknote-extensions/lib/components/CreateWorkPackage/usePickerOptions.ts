@@ -4,7 +4,6 @@ import { listedValues, toAllowedValues } from './formSchema';
 import type { AllowedValue, ListedValue } from './formSchema';
 
 const SEARCH_DEBOUNCE = 300;
-const MAX_RESULTS = 100;
 
 export interface PickerOptionsInput {
   href:string;
@@ -50,8 +49,7 @@ export function usePickerOptions({
           const term = filtered ? '' : query.trim().toLowerCase();
           const found = toAllowedValues(resources)
             .filter((option) => !term || option.label.toLowerCase().includes(term))
-            .filter((option) => !favoredOnly || option.favored)
-            .slice(0, MAX_RESULTS);
+            .filter((option) => !favoredOnly || option.favored);
 
           setValues(found);
           if (query.trim()) expand(found.flatMap((option) => option.ancestors ?? []));

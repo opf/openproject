@@ -6,6 +6,7 @@ const surfaceColor = 'var(--op-create-wp-surface)';
 const textColor = 'var(--op-create-wp-text)';
 const borderColor = 'var(--op-create-wp-border)';
 const controlBorderColor = 'var(--op-create-wp-control-border)';
+const radiusSmall = '4px';
 const radius = '6px';
 const radiusLarge = '12px';
 const colorDotSize = '12px';
@@ -25,11 +26,42 @@ const actionStyles = css`
   height: 20px;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: ${radiusSmall};
   background: none;
   line-height: 0;
   cursor: pointer;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+`;
+
+const rowMarkInset = 'var(--spacer-s)';
+
+const rowMarkHover = css`
+  position: relative;
+  align-self: stretch;
+  height: auto;
+  margin-top: calc(-1 * var(--spacer-m));
+  margin-bottom: calc(-1 * var(--spacer-m));
+
+  /*  Above the block, which is drawn after it.  */
+  & > svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(-1 * ${rowMarkInset});
+    right: calc(-1 * ${rowMarkInset});
+    border-radius: ${radiusSmall};
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  }
+
+  &:hover::before {
+    background: var(--op-create-wp-action-hover);
+  }
 `;
 
 const MODAL_WIDTH = '460px';
@@ -438,8 +470,7 @@ export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean 
   gap: var(--spacer-s);
   /*  The indent is drawn by the level lines rather than by padding, so that
       they run from row to row without a gap.  */
-  padding: var(--spacer-m) var(--spacer-l);
-  padding-left: var(--spacer-m);
+  padding: var(--spacer-m) ${rowMarkInset};
   border-radius: ${radius};
   font-size: 0.9em;
   cursor: pointer;
@@ -465,12 +496,10 @@ export const SuggestionLabel = styled.span`
 export const RowAction = styled.button.attrs({ type: 'button', tabIndex: -1 })`
   && {
     ${actionStyles}
+    ${rowMarkHover}
     margin-left: auto;
+    background: none;
     color: var(--op-create-wp-muted);
-  }
-
-  &&:hover {
-    background: var(--op-create-wp-action-hover);
   }
 `;
 
@@ -587,23 +616,28 @@ export const SuggestionTree = styled.div`
 
 /*  A slot of its own, so the labels of a level line up whether or not the row
     can be unfolded.  */
-export const Twisty = styled.span<{ $foldable?:boolean }>`
+export const Twisty = styled.span<{ $foldable?:boolean; $indent?:number }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   width: ${indentStep}px;
   height: ${indentStep}px;
-  border-radius: 4px;
+  margin-right: var(--spacer-s);
   line-height: 0;
   color: var(--op-create-wp-muted);
-  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 
-  ${({ $foldable }) => $foldable && css`
+  ${({ $foldable, $indent = 0 }) => $foldable && css`
     cursor: pointer;
+    ${rowMarkHover}
 
-    &:hover {
-      background: var(--op-create-wp-action-hover);
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: calc(-1 * ${rowMarkInset});
+      left: calc(-1 * (${rowMarkInset} + ${$indent} * (${indentStep}px + var(--spacer-s))));
     }
   `}
 `;

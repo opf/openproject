@@ -101,7 +101,7 @@ export const ProjectPicker = ({
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        setFocusedIndex(Math.min(activeIndex + 1, options.length - 1));
+        setFocusedIndex(Math.max(0, Math.min(activeIndex + 1, options.length - 1)));
         break;
       case 'ArrowUp':
         event.preventDefault();
@@ -157,6 +157,7 @@ export const ProjectPicker = ({
           ref={searchRef}
           type="text"
           role="combobox"
+          aria-haspopup="tree"
           aria-expanded
           aria-controls={listId}
           aria-autocomplete="list"
@@ -215,7 +216,7 @@ export const ProjectPicker = ({
         readOnly
         aria-expanded={isOpen}
         aria-controls={listId}
-        aria-haspopup="listbox"
+        aria-haspopup="tree"
         aria-invalid={invalid ? true : undefined}
         aria-describedby={describedBy}
         placeholder={placeholder}

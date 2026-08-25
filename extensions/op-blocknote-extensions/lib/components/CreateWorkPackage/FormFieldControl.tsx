@@ -41,8 +41,6 @@ const PLACEHOLDERS:Record<string, string> = {
   project: 'createWorkPackage.projectPlaceholder',
 };
 
-// Presented as OpenProject presents it, with a dropdown of its own; a search
-// for people stays plain.
 const PROJECT_KEY = 'project';
 
 export const FormFieldControl = ({

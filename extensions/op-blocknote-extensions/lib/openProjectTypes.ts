@@ -79,6 +79,7 @@ export interface HalResource {
 export interface HalCollection<T> {
   total?:number;
   count?:number;
+  pageSize?:number;
   _embedded?:{ elements?:T[] };
 }
 
