@@ -53,12 +53,9 @@ class SprintWorkPackageBreakdown
     snapshot_block(reference_finish, done: false)
   end
 
-  def changed_after_start # rubocop:disable Metrics/AbcSize
-    start_points = sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
-    finish_points = sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
-
-    added_ids = finish_points.keys - start_points.keys
-    removed_ids = start_points.keys - finish_points.keys
+  def changed_after_start
+    added_ids = added_after_start_ids
+    removed_ids = removed_after_start_ids
 
     ChangeBlock.new(
       added_count: added_ids.size,
@@ -78,11 +75,27 @@ class SprintWorkPackageBreakdown
     [@sprint.finish_date, Time.zone.today].min
   end
 
+  def added_after_start_ids
+    finish_points.keys - start_points.keys
+  end
+
+  def removed_after_start_ids
+    start_points.keys - finish_points.keys
+  end
+
   def done_status_ids
     @done_status_ids ||= @project.done_status_ids | Status.where(is_closed: true).ids
   end
 
   private
+
+  def start_points
+    @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
+  end
+
+  def finish_points
+    @finish_points ||= sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
+  end
 
   def snapshot_block(date, done: nil)
     scope = sprint_work_packages_at(date)

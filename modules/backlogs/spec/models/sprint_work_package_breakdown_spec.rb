@@ -235,4 +235,48 @@ RSpec.describe SprintWorkPackageBreakdown do
       end
     end
   end
+
+  describe "#added_after_start_ids and #removed_after_start_ids" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today - 10.days, finish_date: Time.zone.today + 4.days)
+    end
+
+    let!(:stable_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:added_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 2,
+                            created_at: sprint.start_date + 3.days, updated_at: sprint.start_date + 3.days)
+    end
+
+    let!(:removed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 4,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:flipping_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 1,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before do
+      [stable_work_package, added_work_package, removed_work_package, flipping_work_package].each do |wp|
+        backdate_creation_journal(wp)
+      end
+
+      set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 2.days)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+    end
+
+    it "returns the ids of the work packages that entered the sprint" do
+      expect(breakdown.added_after_start_ids).to contain_exactly(added_work_package.id)
+    end
+
+    it "returns the ids of the work packages that left the sprint" do
+      expect(breakdown.removed_after_start_ids).to contain_exactly(removed_work_package.id)
+    end
+  end
 end
