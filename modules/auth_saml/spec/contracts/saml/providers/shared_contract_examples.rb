@@ -28,11 +28,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_relative "shared_contract_examples"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe Saml::Providers::UpdateContract do
-  let(:provider) { build_stubbed(:saml_provider) }
+RSpec.shared_context "as saml provider contract" do
+  include_context "ModelContract shared context"
 
-  include_context "as saml provider contract"
+  let(:contract) { described_class.new provider, current_user }
+
+  context "when admin" do
+    let(:current_user) { build_stubbed(:admin) }
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "when non-admin" do
+    let(:current_user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  describe "allowed_clock_drift" do
+    let(:current_user) { build_stubbed(:admin) }
+
+    before do
+      provider.allowed_clock_drift = value
+    end
+
+    context "with a positive number of seconds" do
+      let(:value) { 5 }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with a negative number of seconds" do
+      let(:value) { -1 }
+
+      it_behaves_like "contract is invalid", allowed_clock_drift: :greater_than_or_equal_to
+    end
+
+    context "with a value exceeding the maximum" do
+      let(:value) { Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT + 1 }
+
+      it_behaves_like "contract is invalid", allowed_clock_drift: :less_than_or_equal_to
+    end
+  end
 end
