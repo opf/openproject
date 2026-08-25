@@ -132,8 +132,8 @@ zh-CN:
   button_log_costs: 记录单位成本
   button_log_time: 日志
   button_stop_timer: 停止计时器
-  button_update_limits: Update limits
-  button_update_start_finish_times: Update start and finish times
+  button_update_limits: 更新限值
+  button_update_start_finish_times: 更新开始和结束时间
   caption_booked_on_project: 已记录在项目上
   caption_default: 基本
   caption_default_rate_history_for: "%{user} 的基本费率历史记录"
@@ -179,14 +179,14 @@ zh-CN:
         view_details: 查看实际成本详细信息
   description_costs_settings: 定义所有项目成本的理想格式。
   description_date_for_new_rate: 新费率的日期
-  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
-  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  description_time_entry_restrictions: 定义用户记录时间时使用的限值。这适用于所有项目。
+  description_time_settings: 时间条目可以具有特定的开始和结束时间，它们可以是可选项，也可以是必填项。
   ee:
     features:
-      time_entry_time_restrictions: Time entry restrictions
+      time_entry_time_restrictions: 时间条目限制
     upsell:
       time_entry_time_restrictions:
-        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+        description: 通过允许或强制设定精确的开始和结束时间，并对项目成员可以记录的时间和时长进行限制，来改进您的时间跟踪。
   group_by_others: 不在任何组中
   label_available_cost_types_projects: 可用的成本类型项目
   label_between: 介于
@@ -201,7 +201,7 @@ zh-CN:
   label_current_default_rate: 当前基本费率
   label_date_on: 日期
   label_day: 天
-  label_defaults_and_limits: Defaults and limits
+  label_defaults_and_limits: 默认值和限值
   label_deleted_cost_types: 已删除的成本类型
   label_display_cost_entries: 显示单位成本
   label_display_time_entries: 显示已上报工时
@@ -235,11 +235,11 @@ zh-CN:
   label_show: 显示
   label_specific_day: 第 %{day} 天
   label_specific_month: "%{month} 月"
-  label_start_and_finished: Start and finish times
+  label_start_and_finished: 开始和结束时间
   label_status_finished: 已完成
   label_time: 时间
   label_time_entry_activity_form_description: 对该时间条目活动的更改将反映的所有启用的项目中。
-  label_time_entry_restrictions: Limits
+  label_time_entry_restrictions: 限值
   label_timer_since: "%{time} 开始"
   label_today_capitalized: 今天
   label_units: 成本单位
@@ -286,7 +286,7 @@ zh-CN:
   setting_enforce_without_allow: 如果不允许，则无法要求开始和结束时间
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
   setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day: 每天的最大时数
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
   setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.

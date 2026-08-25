@@ -459,7 +459,9 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
 
-            resource :switch, only: %i[new create], controller: "types/switches"
+            resource :switch, only: %i[new create], controller: "types/switches" do
+              resource :impact, only: :create, controller: "types/switches/impacts"
+            end
           end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]

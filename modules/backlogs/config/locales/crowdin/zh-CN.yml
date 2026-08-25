@@ -50,7 +50,7 @@ zh-CN:
         story_points: 故事点
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: 无法启动，因为项目正在接收共享冲刺。
         dates_required: 必须设置开始和结束日期才能开始冲刺。
         must_be_in_planning: 必须处于规划中状态才能开始。
         only_one_active_sprint_allowed: 每个项目只允许有一个有效冲刺。
@@ -61,11 +61,11 @@ zh-CN:
               locked_by_multiple_active_sprints: 在多个处于有效状态的冲刺正在运行时无法更改。
               requires_no_sharing: 只有当冲刺共享设置为“不共享”时才能启用。
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: 无法设置为接收，因为项目有一个处于有效状态或借用的冲刺。请先关闭或取消指定这些工作包。
               locked_by_multiple_active_sprints: 在启用了多个处于有效状态的冲刺时无法更改。
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: 无法更改，因为工作包仍然与共享冲刺相关联。请先取消指定。
           receiving_sprints: 正在接收共享冲刺。无法创建自己的冲刺。
         sprint:
           attributes:
@@ -188,7 +188,7 @@ zh-CN:
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
       start_sprint_disabled_reason_missing_dates: 必须设置开始和结束日期才能开始冲刺。
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: 此项目正在接收共享冲刺，无法启动自己的冲刺。
       start_sprint_disabled_reason_shared_sprint: 此冲刺来自另一个项目，该项目不支持多个处于有效状态的冲刺。
     sprint_form:
       goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。

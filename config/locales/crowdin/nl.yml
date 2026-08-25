@@ -191,7 +191,7 @@ nl:
         port: Poort
         tls_certificate_string: LDAP server SSL-certificaat
       mcp_configuration:
-        description: Description
+        description: Omschrijving
         enabled: Enabled
         title: Title
       member:
@@ -2135,7 +2135,7 @@ nl:
   button_add_non_working_time: Time off
   button_add_sub_item: Add sub-item
   button_add_watcher: Watcher toevoegen
-  button_all_filters: All filters
+  button_all_filters: Alle filters
   button_annotate: Aantekeningen
   button_apply: Toepassen
   button_apply_changes: Veranderingen doorvoeren
@@ -3441,7 +3441,7 @@ nl:
   label_end_to_start: einde tot start
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
-  label_enterprise_edition: Enterprise edition
+  label_enterprise_edition: Enterprise editie
   label_enterprise_support: Ondernemingsondersteuning
   label_enumeration_new: Nieuwe opsommingswaarde
   label_enumeration_value: Opsommingswaarde
@@ -3691,7 +3691,7 @@ nl:
   label_password_rule_numeric: Numerieke tekens
   label_password_rule_special: Speciale tekens
   label_password_rule_uppercase: Hoofdletters
-  label_past: Past
+  label_past: Vorige
   label_path_encoding: Pad codering
   label_people: Mensen
   label_per_page: 'Per pagina:'
@@ -3880,7 +3880,7 @@ nl:
   label_type_new: Nieuw type
   label_type_plural: Typen
   label_ui: Gebruiksinterface
-  label_upcoming: Upcoming
+  label_upcoming: Binnenkort
   label_updated_time: Bijgewerkt %{value} geleden
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Bijgewerkt door %{author} %{age} geleden
@@ -4049,7 +4049,7 @@ nl:
       start_tls_description: Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections.
     tls_options:
       tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string.
-      verify_peer: Verify SSL certificate
+      verify_peer: SSL-certificaat verifiëren
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
         '
@@ -4314,7 +4314,7 @@ nl:
   menus:
     admin:
       aggregation: Aggregatie
-      ai: Artificial Intelligence (AI)
+      ai: Kunstmatige intelligentie (AI)
       api_and_webhooks: API en webhooks
       mail_notification: E-mailnotificaties
       mails_and_notifications: E-mails en meldingen
@@ -5171,7 +5171,7 @@ nl:
         actions:
           label_disable_single: Inactief in dit project, klik om in te schakelen
           label_enable_single: Actief in dit project, klik om uit te schakelen
-          remove_from_project: Remove from project
+          remove_from_project: Verwijder uit project
         enabled_via_assignee_when_submitted_html: This project attribute cannot be disabled since it is set as <a href=%{pir_submission_url} target="_blank">assignee when submitted</a> for project initiation requests.
         filter:
           label: Zoek project attribuut
@@ -6650,10 +6650,10 @@ nl:
       comment_verb: comment
       edit: Wijzig
       edit_description: Kan dit werkpakket bekijken, becommentariëren en bewerken.
-      edit_verb: edit
+      edit_verb: bewerk
       view: Toon
       view_description: Can view this work package.
-      view_verb: view
+      view_verb: bekijk
     progress:
       derivation_hints:
         done_ratio:

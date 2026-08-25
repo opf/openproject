@@ -1000,13 +1000,13 @@ fr:
         one: Fournisseur d'authentification
         other: Fournisseurs d'authentification
       backup:
-        one: Backup
+        one: Sauvegarde
         other: Backups
       capability:
-        one: Capability
+        one: Capacité
         other: Capabilities
       category:
-        one: Category
+        one: Catégorie
         other: Categories
       change:
         one: File change
@@ -1015,11 +1015,11 @@ fr:
         one: Changeset
         other: Changesets
       color:
-        one: Color
-        other: Colors
+        one: Couleur
+        other: Couleurs
       comment:
-        one: Comment
-        other: Comments
+        one: Commentaire
+        other: Commentaires
       custom_action:
         one: Custom action
         other: Custom actions
@@ -1105,29 +1105,29 @@ fr:
         one: Message
         other: Messages
       news:
-        one: News
-        other: News
+        one: Actualité
+        other: Actualités
       non_working_day:
-        one: Non-working day
-        other: Non-working days
+        one: Jour non travaillé
+        other: Jours non travaillés
       notification:
         one: Notification
         other: Notifications
       notification_setting:
-        one: Notification setting
-        other: Notification settings
+        one: Paramètre des notifications
+        other: Paramètres de notifications
       oauth_client:
-        one: OAuth client
-        other: OAuth clients
+        one: Client OAuth
+        other: Clients OAuth
       oauth_client_token:
-        one: OAuth client token
-        other: OAuth client tokens
+        one: Jeton client OAuth
+        other: Jetons clients OAuth
       persisted_query:
-        one: Persisted query
-        other: Persisted queries
+        one: Requête persistante
+        other: Requêtes persistantes
       persisted_view:
-        one: Persisted view
-        other: Persisted views
+        one: Vue persistante
+        other: Vues persistantes
       placeholder_user:
         one: Placeholder user
         other: Placeholder users
@@ -1141,14 +1141,14 @@ fr:
         one: Projet
         other: Projets
       project/phase:
-        one: Project phase
-        other: Project phases
+        one: Phase de projet
+        other: Phases du projet
       project/phase_definition:
         one: Project phase definition
         other: Project phase definitions
       project_custom_field:
-        one: Project attribute
-        other: Project attributes
+        one: Attribut du projet
+        other: Attributs du projet
       project_custom_field_section:
         one: Project attribute section
         other: Project attribute sections
@@ -1177,11 +1177,11 @@ fr:
         one: Repository
         other: Repositories
       repository/git:
-        one: Git repository
-        other: Git repositories
+        one: Dépôt Git
+        other: Dépôts Git
       repository/subversion:
-        one: Subversion repository
-        other: Subversion repositories
+        one: Dépôt Subversion
+        other: Dépôts Subversion
       role:
         one: Rôle
         other: Rôles
@@ -1189,8 +1189,8 @@ fr:
         one: Client SCIM
         other: Clients SCIM
       service_account:
-        one: Service account
-        other: Service accounts
+        one: Compte de service
+        other: Comptes de service
       sessions/user_session:
         one: Session
         other: Sessions
@@ -1258,8 +1258,8 @@ fr:
         one: Wiki
         other: Wikis
       wiki_page:
-        one: Wiki page
-        other: Wiki pages
+        one: Page wiki
+        other: Pages wiki
       work_package:
         one: Work package
         other: Work packages
@@ -3467,7 +3467,7 @@ fr:
   label_feeds_access_key: Clé d'accès RSS
   label_feeds_access_key_created_on: Clé d'accès RSS créé il y a %{value}
   label_feeds_access_key_type: RSS
-  label_file: File
+  label_file: Fichier
   label_file_plural: Fichiers
   label_filter: Filtres
   label_filter_add: Ajouter le filtre
@@ -3930,7 +3930,7 @@ fr:
   label_wiki_page_attachments: Pièces jointes de la page wiki
   label_wiki_page_id: ID de la page Wiki
   label_wiki_page_plural: Pages wiki
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: Versions de la page Wiki
   label_wiki_show_index_page_link: Montrer l'entrée de sous-menu 'Table des Matières'
   label_wiki_show_menu_item: Afficher en tant qu'élément dans le menu de navigation du projet
   label_wiki_show_new_page_link: Montrer le sous-menu 'Créer une nouvelle page enfant'
@@ -6386,11 +6386,11 @@ fr:
         parent_suffix: " (parent)"
       variants:
         blankslate:
-          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+          description_html: 'Vous pouvez créer des variantes afin de proposer différentes versions de ce type à divers projets.<br> Chaque variante peut hériter, copier ou disposer de sa propre configuration personnalisée pour le modèle par défaut, les champs personnalisés, les workflows et les préférences.
 
             '
-          title: No variants exist for this type
-        filter: Filter by text
+          title: Il n'existe aucune variante pour ce type
+        filter: Filtrer par texte
         filter_no_results: No variants match this filter
       workflow:
         tab: Flux de travail
@@ -6557,7 +6557,7 @@ fr:
         availability_description: Le facteur de disponibilité représente le pourcentage réel de votre temps de travail consacré aux tâches du projet. Il tient compte des réunions, des courriels, du travail administratif et d'autres activités non liées au projet.
         availability_factor: Facteur de disponibilité
         availability_factor_caption: Définissez le pourcentage de votre temps de travail consacré au projet.
-        effective_hours: Effective work hours
+        effective_hours: Heures de travail effectives
         hours_mode_label: Mode heures
         hours_per_day: Heures par jour
         individual_hours_mode: Heures individuelles par jour

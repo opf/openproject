@@ -62,6 +62,7 @@ module McpTools
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
+      additionalProperties: false,
       properties: {
         assigned_to_id: {
           type: %w[number null],

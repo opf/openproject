@@ -28,12 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 # Historically, all attributes of a type were embedded there except for workflows.
 # For variants, we would copy a lot of the information, but still hide the type id and use its parent.
 # This caused a lot of problems down the road.
 #
 # This migration introduces a TypeVariant model that takes care of default and variant configurations of a type.
 class CreateTypeVariants < ActiveRecord::Migration[8.0]
+  include Migration::Utils
+
   ASPECTS = %w[pdf_export defaults workflows form_configuration project_attributes].freeze
 
   # Only these two aspects are lists a variant can remove fields in
@@ -174,20 +178,22 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
   end
 
   def repoint_workflows
-    remove_index :workflows, name: "wkfs_role_type_old_status"
+    remove_index_on :workflows, "wkfs_role_type_old_status", %w[role_id type_id old_status_id]
     move_type_reference :workflows
     add_index :workflows, %i[role_id type_variant_id old_status_id], name: "wkfs_role_type_variant_old_status"
   end
 
   def repoint_custom_fields_types
-    remove_index :custom_fields_types, name: "custom_fields_types_unique"
+    remove_index_on :custom_fields_types, "custom_fields_types_unique", %w[custom_field_id type_id]
     move_type_reference :custom_fields_types
     add_index :custom_fields_types, %i[custom_field_id type_variant_id],
               unique: true, name: "custom_fields_types_unique"
   end
 
   def repoint_project_custom_field_type_mappings
-    remove_index :project_custom_field_type_mappings, name: "index_project_custom_field_type_mappings_unique"
+    remove_index_on :project_custom_field_type_mappings,
+                    "index_project_custom_field_type_mappings_unique",
+                    %w[type_id custom_field_id]
     move_type_reference :project_custom_field_type_mappings
     add_index :project_custom_field_type_mappings, %i[type_variant_id custom_field_id],
               unique: true, name: "index_project_custom_field_type_mappings_unique"
@@ -242,7 +248,7 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
 
     execute "DELETE FROM types WHERE parent_id IS NOT NULL"
 
-    remove_index :types, name: "index_types_on_LOWER_name_and_parent_id"
+    remove_index_on :types, "index_types_on_LOWER_name_and_parent_id"
     remove_column :types, :parent_id
     remove_column :types, :is_standard
     add_index :types, "lower(name)", unique: true, name: "index_types_on_LOWER_name"

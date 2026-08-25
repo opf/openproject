@@ -16,8 +16,8 @@ fr:
           overlaps: superposition.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Grille
+        other: Grilles
       grids/widget:
         one: Widget
         other: Widgets

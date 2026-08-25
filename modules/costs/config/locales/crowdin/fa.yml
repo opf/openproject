@@ -75,22 +75,22 @@ fa:
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              blank: "«ثبت‌شده برای» نمی‌تواند خالی باشد."
+              cannot_log_for_this_work_package: شما مجوز ثبت زمان برای این بسته کاری را ندارید.
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعتِ در دسترس در روز کاری کاربر بیشتر باشد.
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعت برای یک روز، که مدیر تعیین کرده است، بیشتر باشد.
+              max_hours_per_entry_exceeded: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعت برای یک ثبت زمان، که مدیر تعیین کرده است، بیشتر باشد.
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: نمی‌توانید زمان را برای ماهی در گذشته برنامه‌ریزی کنید. ثبت‌های زمان فقط از %{date} به بعد قابل افزودن، تغییر یا حذف هستند.
+              not_a_working_day: روز انتخاب‌شده برای این کاربر روز غیرکاری است.
             start_time:
               format: "%{message}"
-              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
-          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+              invalid_time: زمان نامعتبر است. زمان باید بین 00:00 و 23:59 باشد.
+          duplicate_ongoing: تایمر دیگری در حال اجراست. در هر لحظه فقط یک تایمر می‌تواند فعال باشد.
         work_package:
           is_not_a_valid_target_for_cost_entries: پکیج‌کاری شماره %{id} به عنوان مقصد معتبری برای تخصیص موارد هزینه نمی‌باشد.
           nullify_is_not_valid_for_cost_entries: ورودی‌های هزینه نمی‌توانند به یک پروژه اختصاص یابند.

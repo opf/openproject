@@ -101,26 +101,26 @@ fr:
           not_an_occurrence: n'est pas une heure d'occurrence valide pour cette réunion récurrente
     models:
       meeting:
-        one: One-time meeting
-        other: One-time meetings
+        one: Réunion ponctuelle
+        other: Réunions ponctuelles
       meeting_agenda_item:
-        one: Agenda item
-        other: Agenda items
+        one: Point d'ordre du jour
+        other: Points de l'ordre du jour
       meeting_outcome:
-        one: Outcome
-        other: Outcomes
+        one: Résultat
+        other: Résultats
       meeting_participant:
-        one: Meeting participant
-        other: Meeting participants
+        one: Participant à la réunion
+        other: Participants à la réunion
       meeting_section:
         one: Section
         other: Sections
       recurring_meeting:
-        one: Recurring meeting
-        other: Recurring meetings
+        one: Réunion récurrente
+        other: Réunions récurrentes
       scheduled_meeting:
-        one: Scheduled meeting
-        other: Scheduled meetings
+        one: Réunion planifiée
+        other: Réunions planifiées
       token/ical_meeting:
         one: Abonnement à la réunion iCal
         other: Abonnement à la réunion iCal

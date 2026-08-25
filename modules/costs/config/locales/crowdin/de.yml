@@ -76,21 +76,21 @@ de:
           attributes:
             entity:
               blank: Das Feld darf nicht leer sein.
-              cannot_log_for_this_work_package: Sie verfügen nicht über die Berechtigung, Zeiten für dieses Arbeitspaket zu erfassen.
+              cannot_log_for_this_work_package: Sie haben keine Berechtigung, Zeiten für dieses Arbeitspaket zu erfassen.
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: Die erfassten Stunden dürfen das Limit von %{limit} Stunden am Arbeitstag des Benutzers nicht überschreiten.
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzigen Tag nicht überschreiten.
+              max_hours_per_entry_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzelnen Zeiteintrag nicht überschreiten.
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: Sie können keine Zeiten für einen vergangenen Monat erfassen. Zeitbuchungen können erst ab dem %{date} hinzugefügt, geändert oder gelöscht werden.
+              not_a_working_day: Der ausgewählte Tag ist für diesen Benutzer kein Arbeitstag.
             start_time:
               format: "%{message}"
-              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
-          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+              invalid_time: Ungültige Zeit. Die Zeit muss zwischen 00:00 und 23:59 liegen.
+          duplicate_ongoing: Ein weiterer Timer läuft bereits. Es kann jeweils nur ein Timer aktiv sein.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
           nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
