@@ -38,6 +38,23 @@ sr:
           attributes:
             labels:
               invalid_schema: 'must be an array of hashes with keys: color, title'
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        few: GitLab issues
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        few: GitLab merge requests
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        few: GitLab pipelines
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        few: GitLab users
+        other: GitLab users
   attributes:
     commit: Commit
     gitlab: GitLab identifier

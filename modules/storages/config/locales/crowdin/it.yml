@@ -73,8 +73,24 @@ it:
               invalid_password: non è valido.
               unknown_error: non è stato convalidato con il provider di archiviazione file. Verifica che la connessione funzioni correttamente.
     models:
-      file_link: File
-      storages/storage: Archivio
+      storages/file_link:
+        one: File link
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'

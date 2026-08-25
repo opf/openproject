@@ -43,6 +43,13 @@ it:
           invalid_claims_location: 'contiene posizioni non supportate: %{invalid}. Le posizioni supportate sono: %{supported}.'
           invalid_claims_values: non definisce un array in %{attribute}.
           non_object_attribute: non definisce un oggetto JSON in %{attribute}.
+    models:
+      openid_connect/provider:
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        one: OpenID Connect token
+        other: OpenID Connect tokens
   logout_warning: 'Sei stato disconnesso. Il contenuto di qualsiasi modulo che invii potrebbe essere perso. Per favore [accedi].
 
     '

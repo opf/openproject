@@ -14,7 +14,16 @@ pl:
         secret: Tajny klucz podpisu
         url: URL do wywołania
     models:
-      webhooks/outgoing_webhook: Webhook wychodzący
+      webhooks/log:
+        one: Webhook log
+        few: Webhook logs
+        many: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        few: Webhooks
+        many: Webhooks
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Udostępnia interfejs API wtyczek do obsługi webhooków OpenProject w celu lepszej integracji z rozwiązaniami innych firm.
     name: Webhooki OpenProject

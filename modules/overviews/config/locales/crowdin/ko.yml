@@ -1,5 +1,9 @@
 ---
 ko:
+  activerecord:
+    models:
+      grids/overview:
+        other: 개요
   overviews:
     label_dashboard: 대시보드
     label_home: "%{workspace_type} 홈"

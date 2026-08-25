@@ -32,6 +32,10 @@ nl:
           invalid_certificate: 'is geen geldig PEM-geformatteerd certificaat: %{additional_message}'
           invalid_private_key: 'is geen geldig PEM-geformatteerd privésleutel: %{additional_message}'
           unmatched_private_key: behoort niet tot het gegeven certificaat
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Deze SAML-provider verwijderen?
     delete_title: SAML provider verwijderen

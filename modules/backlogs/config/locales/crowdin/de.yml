@@ -92,9 +92,15 @@ de:
               task_version_must_be_the_same_as_story_version: muss der Version der übergeordneten Story entsprechen.
           backlog_bucket_xor_sprint: kann nicht gleichzeitig einem Sprint und einem Backlog Bucket zugewiesen werden.
     models:
+      backlog_bucket:
+        one: Backlog Bucket
+        other: Backlog Buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint-Ziel
+        other: Sprint-Ziele
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Vorhandenes Arbeitspaket hinzufügen

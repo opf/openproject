@@ -22,8 +22,12 @@ fa:
           must_contain_base_dn: Base DN باید در Base DN اتصال LDAP قرار داشته باشد.
           overlaps_other_tree: با Base DN یک همگام‌سازی دیگر روی همان اتصال LDAP هم‌پوشانی دارد.
     models:
-      ldap_departments/synchronized_department: واحد سازمانی همگام‌شده
-      ldap_departments/synchronized_tree: همگام‌سازی واحدهای سازمانی LDAP
+      ldap_departments/synchronized_department:
+        one: واحد سازمانی همگام‌شده
+        other: واحدهای سازمانی همگام‌شده
+      ldap_departments/synchronized_tree:
+        one: همگام‌سازی واحدهای سازمانی LDAP
+        other: همگام‌سازی‌های واحدهای سازمانی LDAP
   ee:
     upsell:
       ldap_departments:

@@ -32,6 +32,12 @@ ru:
           invalid_certificate: 'не является допустимым сертификатом в формате PEM: %{additional_message}'
           invalid_private_key: 'не является допустимым закрытым ключом в формате PEM: %{additional_message}'
           unmatched_private_key: не принадлежит данному сертификату
+    models:
+      saml/provider:
+        one: Провайдер SAML
+        few: SAML providers
+        many: SAML providers
+        other: Провайдеры SAML
   saml:
     delete_heading: Удалить этот провайдер SAML?
     delete_title: Удалить провайдера SAML

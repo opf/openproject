@@ -7,7 +7,10 @@ ms:
         bim_snippet: BIM snippet
         reference_links: Reference links
         stage: Peringkat
+        status_id: Status
         viewpoint: Sudut pandangan
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Fail IFC
         ifc_attachment: Fail IFC
@@ -35,7 +38,14 @@ ms:
               ifc_attachment_missing: Tiada fail IFC yang dilampirkan.
               invalid_ifc_file: Fail yang disediakan adalah fail IFC yang tidak sah.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: Gambaran BCF
   bcf:

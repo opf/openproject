@@ -100,12 +100,31 @@ ru:
         few: Записи трудозатрат
         many: Записи трудозатрат
         other: Записи трудозатрат
+      cost_rate:
+        one: Ставка затрат
+        few: Cost rates
+        many: Cost rates
+        other: Ставки затрат
       cost_type:
         one: Тип затрат
         few: Типы затрат
         many: Типы затрат
         other: Типы затрат
-      rate: Ставка
+      default_hourly_rate:
+        one: Почасовая ставка по умолчанию
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Почасовые ставки по умолчанию
+      hourly_rate:
+        one: Часовая ставка
+        few: Hourly rates
+        many: Hourly rates
+        other: Часовые ставки
+      rate:
+        one: Ставка
+        few: Rates
+        many: Rates
+        other: Ставки
       time_entry:
         one: Запись о трудозатратах
         few: Записи о трудозатратах
@@ -116,6 +135,11 @@ ru:
         few: Отслеживание времени
         many: Отслеживание времени
         other: Отслеживание времени
+      time_entry_custom_field:
+        one: Пользовательское поле для учета рабочего времени
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Пользовательские поля для учета рабочего времени
   api_v3:
     errors:
       validation:
@@ -214,7 +238,6 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_by_add: Добавьте поле группировки
-  label_hourly_rate: Почасовой тариф
   label_include_deleted: Включая удаленные
   label_kind: Тип
   label_less_or_equal: "<="
@@ -235,7 +258,6 @@ ru:
   label_previous_month: Предыдущий месяц
   label_previous_week: Предыдущая неделя
   label_previous_workweek: Предыдущая рабочая неделя
-  label_rate: Ставка
   label_rate_plural: Тарифы
   label_show: Показать
   label_specific_day: День %{day}
@@ -249,7 +271,6 @@ ru:
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
-  label_user: Пользователь
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы

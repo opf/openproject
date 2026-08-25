@@ -20,10 +20,21 @@ fi:
             phone_number:
               error_phone_number_format: on oltava muodossa +358 40 1234567
     models:
-      two_factor_authentication/device: Tunnistuslaite
-      two_factor_authentication/device/sms: Matkapuhelin
-      two_factor_authentication/device/totp: Kaksivaiheisen kirjautumisen salasanasovellus
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Jatka
   button_make_active: Activate
   button_make_default: Merkitse oletusarvo

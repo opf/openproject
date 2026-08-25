@@ -32,6 +32,10 @@ de:
           invalid_certificate: 'ist kein gültiges PEM-formatiertes Zertifikat: %{additional_message}'
           invalid_private_key: 'ist kein gültiger PEM-formatierter privater Schlüssel: %{additional_message}'
           unmatched_private_key: gehört nicht zum angegebenen Zertifikat
+    models:
+      saml/provider:
+        one: SAML-Anbieter
+        other: SAML-Anbieter
   saml:
     delete_heading: Diesen SAML-Anbieter löschen?
     delete_title: SAML-Anbieter löschen

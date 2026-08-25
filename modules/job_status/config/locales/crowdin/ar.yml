@@ -1,5 +1,14 @@
 ---
 ar:
+  activerecord:
+    models:
+      job_status/status:
+        zero: Background job statuses
+        one: Background job status
+        two: Background job statuses
+        few: Background job statuses
+        many: Background job statuses
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Or [click here](download_url) to download.
     download_starts: The download should start automatically.

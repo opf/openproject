@@ -31,13 +31,18 @@ mn:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: Баримт бичиг
-      documents: Documents
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Баримт бичгүүд
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Техникийн баримт бичиг
   default_doc_category_user: Хэрэглэгчийн баримт бичиг
   documents:

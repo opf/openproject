@@ -98,16 +98,30 @@ sv:
       cost_entry:
         one: Kostnadspost
         other: Kostnadsposter
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Kostnadstyp
         other: Kostnadstyper
-      rate: Timpris
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Tidspost
         other: Tidsposter
       time_entry_activity:
         one: Tidspårningsaktivitet
         other: Tidsspårningsaktiviteter
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ sv:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_by_add: Lägg till grupperingsfält
-  label_hourly_rate: Timpris
   label_include_deleted: Inkludera borttagna
   label_kind: Typ
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ sv:
   label_previous_month: Föregående månad
   label_previous_week: Föregående vecka
   label_previous_workweek: Föregående arbetsvecka
-  label_rate: Timpris
   label_rate_plural: Priser
   label_show: Visa
   label_specific_day: Dag %{day}
@@ -241,7 +253,6 @@ sv:
   label_today_capitalized: Idag
   label_units: Kostnadsenheter
   label_until: fram till
-  label_user: Användare
   label_valid_from: Gäller från
   label_view_mode_switcher: Ändra vy
   label_work_package_filter_add: Lägg till arbetspaketsfilter

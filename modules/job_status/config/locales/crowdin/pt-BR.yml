@@ -1,5 +1,10 @@
 ---
 pt-BR:
+  activerecord:
+    models:
+      job_status/status:
+        one: Background job status
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Ou [clique aqui](download_url) para baixar.
     download_starts: O download deverá começar automaticamente.

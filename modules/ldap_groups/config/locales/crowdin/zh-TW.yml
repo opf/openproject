@@ -5,7 +5,7 @@ zh-TW:
       ldap_groups/synchronized_filter:
         auth_source: 驗證來源
         base_dn: 搜尋基礎 DN
-        filter_string: LDAP篩選條件
+        filter_string: 簡約登入目錄制約(LDAP)篩選
         group_name_attribute: 群組名字屬性
         ldap_auth_source: LDAP 連線
         member_lookup_attribute: Group member attribute
@@ -20,8 +20,10 @@ zh-TW:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: 搜尋基礎 DN 須包含在 LDAP 連接的基礎 DN 中
     models:
-      ldap_groups/synchronized_filter: LDAP群組同步篩選
-      ldap_groups/synchronized_group: LDAP 同步群組
+      ldap_groups/synchronized_filter:
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

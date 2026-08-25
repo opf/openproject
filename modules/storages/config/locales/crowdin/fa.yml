@@ -73,8 +73,24 @@ fa:
               invalid_password: معتبر نیست.
               unknown_error: با ارائه‌دهنده فضای ذخیره‌سازی فایل اعتبارسنجی نشد. بررسی کنید اتصال درست کار می‌کند.
     models:
-      file_link: فایل
-      storages/storage: فضای ذخیره‌سازی
+      storages/file_link:
+        one: پیوند فایل
+        other: پیوندهای فایل
+      storages/nextcloud_storage:
+        one: فضای ذخیره‌سازی Nextcloud
+        other: فضاهای ذخیره‌سازی Nextcloud
+      storages/one_drive_storage:
+        one: فضای ذخیره‌سازی OneDrive
+        other: فضاهای ذخیره‌سازی OneDrive
+      storages/project_storage:
+        one: فضای ذخیره‌سازی پروژه
+        other: فضاهای ذخیره‌سازی پروژه
+      storages/sharepoint_storage:
+        one: فضای ذخیره‌سازی SharePoint
+        other: فضاهای ذخیره‌سازی SharePoint
+      storages/storage:
+        one: فضای ذخیره‌سازی
+        other: فضاهای ذخیره‌سازی
   api_v3:
     errors:
       too_many_elements_created_at_once: تعداد زیادی عنصر هم‌زمان ایجاد شد. حداکثر %{max} مورد انتظار بود، اما %{actual} دریافت شد.

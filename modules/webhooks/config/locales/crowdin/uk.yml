@@ -14,7 +14,16 @@ uk:
         secret: Секретний ключ підпису
         url: URL корисних даних
     models:
-      webhooks/outgoing_webhook: Вихідний вебхук
+      webhooks/log:
+        one: Webhook log
+        few: Webhook logs
+        many: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        few: Webhooks
+        many: Webhooks
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Надає плагіну API для підтримки вебгуків OpenProject для кращої інтеграції сторонніх розробників.
     name: Вебгуки OpenProject

@@ -14,6 +14,13 @@ sv:
           end_before_start: slutvärdet måste vara större än startvärdet.
           outside: är utanför nätet.
           overlaps: överlappar.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget som finns i Grid %{grid_name}
     widgets:

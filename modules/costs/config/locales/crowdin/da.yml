@@ -98,16 +98,30 @@ da:
       cost_entry:
         one: Omkostningspostering
         other: Omkostningsposteringer
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Omkostningstype
         other: Omkostningstyper
-      rate: Sats
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Tidspunkt
         other: Tidsangivelser
       time_entry_activity:
         one: Tidsregistrering af aktivitet
         other: Tidsregistrering af aktiviteter
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ da:
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_by_add: Tilføj grupperingsfelt
-  label_hourly_rate: Timesats
   label_include_deleted: Inkludér slettede
   label_kind: Type
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ da:
   label_previous_month: Forrige måned
   label_previous_week: Foregående uge
   label_previous_workweek: Forrige arbejdsuge
-  label_rate: Sats
   label_rate_plural: Satser
   label_show: Vis
   label_specific_day: Dag %{day}
@@ -241,7 +253,6 @@ da:
   label_today_capitalized: I dag
   label_units: Omkostningsenheder
   label_until: indtil
-  label_user: Bruger
   label_valid_from: Gældende fra
   label_view_mode_switcher: Skift visning
   label_work_package_filter_add: Tilføj arbejdspakkefilter
