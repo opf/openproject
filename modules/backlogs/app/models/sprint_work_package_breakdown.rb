@@ -32,9 +32,9 @@
 # WorkPackage.at_timestamp (see Journable::Timestamps) to read historic
 # sprint_id/status_id/story_points values from work_package_journals.
 class SprintWorkPackageBreakdown
-  Block = Struct.new(:work_package_count, :story_points, :from_date, :to_date, keyword_init: true)
+  Block = Struct.new(:work_package_count, :story_points, keyword_init: true)
   ChangeBlock = Struct.new(:added_count, :removed_count, :added_story_points, :removed_story_points,
-                           :from_date, :to_date, keyword_init: true)
+                           keyword_init: true)
 
   def initialize(sprint:, project:)
     @sprint = sprint
@@ -61,9 +61,7 @@ class SprintWorkPackageBreakdown
       added_count: added_ids.size,
       removed_count: removed_ids.size,
       added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 },
-      from_date: reference_start,
-      to_date: reference_finish
+      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
     )
   end
 
@@ -101,8 +99,7 @@ class SprintWorkPackageBreakdown
     scope = sprint_work_packages_at(date)
     scope = filter_by_done(scope, done)
 
-    Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0,
-              from_date: date, to_date: date)
+    Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0)
   end
 
   def sprint_work_packages_at(date)
