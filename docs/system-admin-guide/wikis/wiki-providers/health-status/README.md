@@ -14,11 +14,11 @@ If a wiki provider is not working as expected, you can find additional informati
 
 Every wiki provider is able to run connection checks. This test is triggered manually by clicking on **Run checks now** in the sidebar on the right side of the wiki provider's details view.
 
-![Check connection for a wiki provider in OpenProject administration](TODO.png)
+![Check connection for a wiki provider in OpenProject administration](openproject_system_guide_health_run_checks_button.png)
 
 Once the check is finished, a full health report will be generated and a brief summary will be displayed. Click **Open full health report** to see the report in full detail and to download it.
 
-![Link to open full health report for a wiki provider in OpenProject administration](TODO.png)
+![Link to open full health report for a wiki provider in OpenProject administration](openproject_system_guide_health_report_link.png)
 
 The full health status report will give an overview of all checks that were performed grouped into two categories:
 
@@ -28,7 +28,7 @@ The full health status report will give an overview of all checks that were perf
 In the top right corner you can **Re-run all checks** or **Download** the health report in a text format by clicking the
 respective buttons.
 
-![Health status report for a wiki provider in OpenProject administration](TODO.png)
+![Health status report for a wiki provider in OpenProject administration](openproject_system_guide_health_report_opened.png)
 
 > [!TIP]
 > If you’re experiencing issues with the wiki provider, please download the **health status report** and include it in your support request. This will help us diagnose the problem more efficiently.
