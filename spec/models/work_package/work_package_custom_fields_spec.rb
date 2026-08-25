@@ -455,7 +455,6 @@ RSpec.describe WorkPackage do
 
     before { type.default_variant.custom_fields << field }
 
-    # The form configuration is the only thing that narrows custom fields now.
     it "offers the field" do
       expect(work_package.available_custom_fields).to include(field)
     end
