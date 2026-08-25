@@ -69,16 +69,7 @@ module Import
       end
 
       def collect_used_jira_field_ids
-        used_ids = Set.new
-        jira_project_ids = Import::JiraProject
-                             .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
-                             .pluck(:id)
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: jira_project_ids).find_each do |issue|
-          issue.payload["fields"].each do |key, value|
-            used_ids << key if key.start_with?("customfield_") && value.present?
-          end
-        end
-        used_ids.to_a
+        issue_field_values_index[:used_keys].to_a
       end
 
       def build_registry_entries_for_field(jira_field)
@@ -168,9 +159,9 @@ module Import
       end
 
       def all_jira_import_project_ids
-        Import::JiraProject
-          .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
-          .pluck(:id)
+        @all_jira_import_project_ids ||= Import::JiraProject
+                                           .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
+                                           .pluck(:id)
       end
 
       def build_contexts_for_field(jira_field)
@@ -255,8 +246,12 @@ module Import
         @issue_field_values_index ||= build_issue_field_values_index
       end
 
+      def new_issue_field_values_index
+        { used_keys: Set.new, options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
+      end
+
       def build_issue_field_values_index
-        index = { options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
+        index = new_issue_field_values_index
         Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
           scope = issue_context_scope(issue)
           used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
@@ -273,6 +268,7 @@ module Import
       end
 
       def record_issue_field_values(index, field_key, raw, scope)
+        index[:used_keys] << field_key
         Array.wrap(raw).each do |value|
           if value.is_a?(Hash)
             record_issue_option_value(index[:options][field_key], value, scope)
