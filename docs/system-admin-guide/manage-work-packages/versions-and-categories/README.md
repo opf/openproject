@@ -43,7 +43,7 @@ While the conversion is still pending, the **Target versions** section provides 
 
    ![Confirmation dialog for enabling multiple target versions](openproject_system_admin_guide_target_versions_dialog.png)
 
-2. **Through the configuration.** The 'work_package_multiple_versions' setting can also be configured through the configuration file or an environment variable, like any other setting (see [advanced configuration](../../installation-and-operations/configuration/)). When overridden this way, the settings page indicates that the setting is controlled through the configuration, and the **Enable multiple values** button is not available.
+2. **Through the configuration.** The 'work_package_multiple_versions' setting can also be configured through the configuration file or an environment variable, like any other setting (see [advanced configuration](../../../installation-and-operations/configuration/)). When overridden this way, the settings page indicates that the setting is controlled through the configuration, and the **Enable multiple values** button is not available.
 
    ```shell
    OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS=true
