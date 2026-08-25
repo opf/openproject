@@ -56,7 +56,10 @@ module API
 
             protected
 
-            # manual checksum because target/observed_in versions are not included automatically
+            # Versions are a has_many, which would multiply rows in the
+            # left_joins/pluck above, so they enter as an aggregated subquery.
+            # A version can attach under more than one kind, so the kind is part
+            # of the value and of the order.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
               (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv

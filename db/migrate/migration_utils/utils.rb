@@ -45,9 +45,29 @@ module Migration
     end
 
     def remove_index_if_exists(table_name, index_name)
-      if index_name_exists? table_name, index_name
-        remove_index table_name, name: index_name
-      end
+      remove_index_on(table_name, index_name)
+    end
+
+    # Searches a live index name in this order
+    # 1. canonical name,
+    # 2. pgloader's idx_<oid>_ prefix,
+    # 3. (when given) the same columns under a pre-squash migration name.
+    def resolved_index_name(table_name, index_name, columns = nil)
+      index_name = index_name.to_s
+      table_indexes = indexes(table_name)
+      actual = table_indexes.find { |index| index.name == index_name || index.name.end_with?("_#{index_name}") }
+      actual ||= table_indexes.find { |index| index.columns == Array(columns).map(&:to_s) } unless columns.nil?
+      actual&.name
+    end
+
+    def remove_index_on(table_name, index_name, columns = nil)
+      actual_name = resolved_index_name(table_name, index_name, columns)
+      remove_index table_name, name: actual_name if actual_name
+    end
+
+    def rename_index_on(table_name, index_name, new_name, columns = nil)
+      actual_name = resolved_index_name(table_name, index_name, columns)
+      rename_index table_name, actual_name, new_name if actual_name
     end
 
     ##

@@ -236,7 +236,7 @@ ko:
         project_creation_wizard_status_when_submitted: 제출 시 상태
         project_creation_wizard_work_package_comment: 작업 패키지 코멘트
         project_creation_wizard_work_package_type: 작업 패키지 유형
-        project_types: Types
+        project_types: 유형
         public_value:
           false: 비공개
           title: 표시 여부
@@ -256,7 +256,7 @@ ko:
         templated_value:
           false: 템플릿으로 표시 취소됨
           true: 템플릿으로 표시됨
-        type_variant: Work package type variant
+        type_variant: 작업 패키지 유형 변형
         types: 유형
         versions: 버전
         work_packages: 작업 패키지
@@ -278,7 +278,7 @@ ko:
       project_custom_field:
         custom_field_section: 섹션
       project_type:
-        variant: Variant
+        variant: 변형
       query:
         child_work_packages: 자식 작업 패키지
         column_names: 컬럼
@@ -349,8 +349,8 @@ ko:
         color: 색상
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
-        project_types: Projects
-        variants: Variants
+        project_types: 프로젝트
+        variants: 변형
       type/configuration_link:
         source: 소스 유형
       type_variant:
@@ -826,9 +826,9 @@ ko:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
               attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: 그룹 이름 '%{group}'이(가) 두 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다.
+              group_without_name: 그룹 이름은 비워둘 수 없습니다.
+              query_invalid: '포함된 쿼리 ''%{group}''이(가) 잘못되었습니다: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
@@ -970,7 +970,7 @@ ko:
           other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
     models:
       action:
-        other: Actions
+        other: 작업
       announcement:
         other: Announcements
       anonymous_user:
@@ -988,7 +988,7 @@ ko:
       auth_provider:
         other: 인증 공급자
       backup:
-        other: Backups
+        other: 백업
       capability:
         other: Capabilities
       category:
@@ -1002,15 +1002,15 @@ ko:
       comment:
         other: Comments
       custom_action:
-        other: Custom actions
+        other: 사용자 지정 작업
       custom_field:
-        other: Custom fields
+        other: 사용자 지정 필드
       custom_field/hierarchy/item:
         other: Hierarchy items
       custom_field_section:
-        other: Custom field sections
+        other: 사용자 지정 필드 섹션
       custom_option:
-        other: Custom field options
+        other: 사용자 지정 필드 옵션
       custom_style:
         other: Designs
       day:
@@ -1030,17 +1030,17 @@ ko:
       enumeration:
         other: Enumerations
       export:
-        other: Exports
+        other: 내보내기
       export_setting:
-        other: Export settings
+        other: 내보내기 설정
       forum:
-        other: Forums
+        other: 포럼
       global_role:
-        other: Global roles
+        other: 글로벌 역할
       group:
-        other: Groups
+        other: 그룹
       group_custom_field:
-        other: Group custom fields
+        other: 그룹 사용자 지정 필드
       health_report:
         other: Health reports
       issue_priority:
@@ -1086,21 +1086,21 @@ ko:
       project/phase_definition:
         other: Project phase definitions
       project_custom_field:
-        other: Project attributes
+        other: 프로젝트 특성
       project_custom_field_section:
-        other: Project attribute sections
+        other: 프로젝트 특성 섹션
       project_query:
         other: 프로젝트 목록
       project_query_role:
-        other: Project list roles
+        other: 프로젝트 목록 역할
       project_role:
-        other: Project roles
+        other: 프로젝트 역할
       query:
-        other: Custom queries
+        other: 사용자 지정 쿼리
       relation:
-        other: Relations
+        other: 관계
       reminder:
-        other: Reminders
+        other: 미리 알림
       remote_identity:
         other: Remote identities
       repository:
@@ -1114,33 +1114,33 @@ ko:
       scim_client:
         other: SCIM 클라이언트
       service_account:
-        other: Service accounts
+        other: 서비스 계정
       sessions/user_session:
-        other: Sessions
+        other: 세션
       setting:
-        other: Settings
+        other: 설정
       status:
-        other: Work package statuses
+        other: 작업 패키지 상태
       system_user:
-        other: System users
+        other: 시스템 사용자
       token/api:
         other: 액세스 토큰
       token/base:
-        other: Tokens
+        other: 토큰
       token/ical:
-        other: iCalendar tokens
+        other: iCalendar 토큰
       token/rss:
         other: RSS 토큰
       type:
         other: 유형
       type_variant:
-        other: Variants
+        other: 변형
       user:
-        other: Users
+        other: 사용자
       user_custom_field:
-        other: User attributes
+        other: 사용자 특성
       user_custom_field_section:
-        other: User attribute sections
+        other: 사용자 특성 섹션
       user_non_working_time:
         other: Non-working times
       user_password:
@@ -1227,7 +1227,7 @@ ko:
           other: "%{count} 시간"
         hour_html:
           other: "<i>%{count}시간</i>"
-        logged_for: 기록함 -
+        logged_for: '기록됨:'
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
       updated_by_on: "%{datetime}, %{user} 님이 업데이트함"
       updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
@@ -1667,7 +1667,7 @@ ko:
           button_more_information: More information
           message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
         categories:
-          heading: Categories
+          heading: 카테고리
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Category” field will be renamed “Categories”.
@@ -1769,9 +1769,9 @@ ko:
         assignee: User is assignee
         author: User is author
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
+          always: 모든 경우에서 선택된 역할로 전환할 수 있습니다.
+          assignee: 작업 패키지의 담당자가 사용할 수 있는 추가 전환입니다.
+          author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
   announcements:
     is_active: 현재 표시됨
@@ -1885,7 +1885,7 @@ ko:
     custom_field: 사용자 정의 필드
     custom_options: 가능한 값
     custom_values: 사용자 정의 필드
-    customized: Customized
+    customized: 사용자 지정됨
     date: 날짜
     dates_interval: 날짜 범위
     default_columns: 기본 칼럼
@@ -3342,7 +3342,7 @@ ko:
   label_feeds_access_key: RSS 액세스 키
   label_feeds_access_key_created_on: RSS 액세스 키가 %{value} 전에 생성되었습니다.
   label_feeds_access_key_type: RSS
-  label_file: File
+  label_file: 파일
   label_file_plural: 파일
   label_filter: 필터
   label_filter_add: 필터 추가
@@ -3461,8 +3461,8 @@ ko:
   label_me: 나
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_new: 새 멤버
-  label_member_of_group: Member of group
-  label_member_of_project: Member of project
+  label_member_of_group: 그룹 멤버
+  label_member_of_project: 프로젝트 멤버
   label_member_plural: 멤버
   label_membership_added: 멤버 추가됨
   label_membership_plural: 멤버십
@@ -3612,7 +3612,7 @@ ko:
   label_project_hide_details: 프로젝트 세부 정보 숨기기
   label_project_hierarchy: 프로젝트 계층 구조
   label_project_identifier: 프로젝트 식별자
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: PDF로 %{project_creation_name} 내보내기
   label_project_latest: 최근 프로젝트
   label_project_life_cycle: 프로젝트 수명 주기
   label_project_list_plural: 프로젝트 목록
@@ -3722,7 +3722,7 @@ ko:
   label_subitems: 하위 항목
   label_subject_or_id: 제목 또는 ID
   label_subproject: 하위 프로젝트
-  label_subproject_add: Add subproject
+  label_subproject_add: 하위 프로젝트 추가
   label_subproject_plural: 하위 프로젝트
   label_subtask_plural: 하위 작업
   label_summary: 요약
@@ -3785,7 +3785,7 @@ ko:
   label_version_sharing_none: 공유 안 됨
   label_version_sharing_system: 모든 프로젝트 포함
   label_version_sharing_tree: 프로젝트 트리 포함
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: 버전 및 카테고리
   label_videos: 동영상
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
@@ -3805,7 +3805,7 @@ ko:
   label_wiki_page_attachments: Wiki 페이지 첨부 파일
   label_wiki_page_id: 위키 페이지 ID
   label_wiki_page_plural: 위키 페이지
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: 위키 페이지 버전
   label_wiki_show_index_page_link: 하위 메뉴 항목 '목차' 표시
   label_wiki_show_menu_item: 프로젝트 탐색에서 메뉴 항목으로 표시
   label_wiki_show_new_page_link: 하위 메뉴 항목 '새 자식 페이지 만들기' 표시
@@ -4891,7 +4891,7 @@ ko:
   project:
     archive:
       archived: 보관됨
-      confirmation_heading: Are you sure you want to continue?
+      confirmation_heading: 계속하시겠습니까?
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: 프로젝트 보관
     count:
@@ -6170,8 +6170,8 @@ ko:
           switch_variant: Change variant
         add_dialog:
           no_projects_selected: Please select at least one project.
-          search_placeholder: Search projects
-        disable_all: Disable for all projects
+          search_placeholder: 프로젝트 검색
+        disable_all: 모든 프로젝트에 대해 비활성화
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
