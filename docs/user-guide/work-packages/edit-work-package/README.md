@@ -108,7 +108,7 @@ The **Wikis** tab displays all wiki pages related to the work package.
 
 Depending on your configuration and existing links, it can contain the following sections:
 
-- One section for each configured wiki provider (for example, **Internal wiki** or **XWiki Knowledge Hub**) listing related wiki pages
+- One section for each configured wiki provider (for example, **OpenProject** or **XWiki Knowledge Hub**) listing related wiki pages
 - **Mentioned in description**
 - **Referenced in**
 
