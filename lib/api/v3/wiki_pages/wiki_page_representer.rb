@@ -98,7 +98,16 @@ module API
                    # has already loaded the page. Discard that association's
                    # cached last journal so the mutation response exposes the
                    # newly committed revision rather than the prior one.
-                   represented.journals.reset
+                   #
+                   # WikiController#show wraps pages in WikiPages::AtVersion,
+                   # whose #journals returns an Array (no #reset). Always reset
+                   # the underlying ActiveRecord association instead.
+                   journaled = if represented.is_a?(::WikiPages::AtVersion)
+                                 represented.object
+                               else
+                                 represented
+                               end
+                   journaled.association(:journals).reset
                    represented.version
                  }
 

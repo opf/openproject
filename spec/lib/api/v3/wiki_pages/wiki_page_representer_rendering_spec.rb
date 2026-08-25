@@ -38,6 +38,7 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, "rendering" do
       allow(wp)
         .to receive(:project)
         .and_return(workspace)
+      allow(wp.association(:journals)).to receive(:reset)
     end
   end
   let(:workspace) { build_stubbed(:project) }
