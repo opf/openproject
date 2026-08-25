@@ -90,6 +90,20 @@ RSpec.describe AI::TextTransformAction do
     end
   end
 
+  describe "injects_type_template" do
+    it "is allowed for the work package type scopes" do
+      expect(build(:ai_text_transform_action, usage_scope: "all_work_package_types", injects_type_template: true))
+        .to be_valid
+    end
+
+    it "must be absent for the everywhere scope" do
+      action = build(:ai_text_transform_action, usage_scope: "everywhere", injects_type_template: true)
+
+      expect(action).not_to be_valid
+      expect(action.errors[:injects_type_template]).to be_present
+    end
+  end
+
   describe ".ordered" do
     it "sorts by position" do
       second = create(:ai_text_transform_action, position: 2)

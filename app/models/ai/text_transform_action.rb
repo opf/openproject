@@ -48,6 +48,7 @@ module AI
     validates :label, presence: true, length: { maximum: 255 }
     validates :prompt, presence: true
     validates :types, presence: true, if: :specific_work_package_types?
+    validates :injects_type_template, absence: true, if: :everywhere?
 
     scope :active, -> { where(active: true) }
     scope :ordered, -> { order(:position, :id) }
