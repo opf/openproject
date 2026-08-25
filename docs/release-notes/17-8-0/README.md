@@ -70,7 +70,7 @@ Existing functionality such as roadmaps, version boards, bulk editing, project c
 
 For API clients, a new `targetVersions` property replaces the single-value `version` field. Integrations that manage version assignments should migrate to `targetVersions` BEFORE enabling multiple versions on the OpenProject instance.
 
-For more information about the change, migration options, and API compatibility, see the [multiple target versions documentation](../../system-admin-guide/work-packages/versions-and-categories#multiple-target-versions/).
+For more information about the change, migration options, and API compatibility, see the [multiple target versions documentation](../../system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions).
 
 OpenProject 17.8 also extends CKEditor's attribute value macros with a `singleline` and `multiline` layout argument. This allows multi-value attributes to be displayed either as a comma-separated line within a sentence or as a list.
 
