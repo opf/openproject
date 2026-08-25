@@ -8,7 +8,14 @@
           test_selector: "filter-component-toggle"
         )
       ) do |button| %>
-    <% button.with_trailing_visual_counter(count: filters_count, test_selector: "filters-button-counter") %>
+    <%
+      button.with_trailing_visual_counter(
+        count: filters_count,
+        hide_if_zero: true,
+        test_selector: "filters-button-counter",
+        data: { "filter--filters-form-target": "filterCount" }
+      )
+    %>
     <% button.with_leading_visual_icon(icon: :filter) %>
     <%= t(:button_all_filters) %>
   <% end %>

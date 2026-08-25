@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,49 +26,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Users
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+module Backlogs
+  class BacklogFilterButtonComponent < Filter::FilterButtonComponent
 
-    def initialize(query:)
-      super
-      @query = query
-    end
-
-    def filter_input_value
-      @query.find_active_filter(:any_name_attribute)&.values&.first
-    end
-
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    end
-
-    def filter_input_data_attributes
-      {
-        "filter-name": "any_name_attribute",
-        "filter-type": "string",
-        "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-      }
-    end
-
-    def clear_button_id
-      "user-filters-form-clear-button"
-    end
-
-    def collapsed_search?
-      filter_input_value.blank?
-    end
-
-    def filters_expanded?
-      params[:filters].present?
+    def filters_count
+      @filters_count ||= query.filters.count do |filter|
+        Backlogs::BacklogFiltersComponent::PICKER_CONTROLLED_FILTER_NAMES.exclude?(filter.name)
+      end
     end
   end
 end

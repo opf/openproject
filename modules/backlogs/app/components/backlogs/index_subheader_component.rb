@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,25 +26,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Users
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+module Backlogs
+  class IndexSubheaderComponent < ApplicationComponent
+    include OpTurbo::Streamable
 
-    def initialize(query:)
+    def initialize(query:, project:)
       super
       @query = query
+      @project = project
+    end
+
+    def self.wrapper_key
+      "backlogs-index-sub-header"
     end
 
     def filter_input_value
-      @query.find_active_filter(:any_name_attribute)&.values&.first
+      @query.find_active_filter(:subject)&.values&.first
     end
 
     def sub_header_data_attributes
       {
         controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
+        "filter--filters-form-output-format-value": "params",
+        "filter--filters-form-turbo-frame-request-value": "backlogs_container",
+        "filter--filters-form-url-path-name-value": helpers.project_backlogs_backlog_path(@project),
         "filter--filters-form-clear-button-id-value": clear_button_id,
         "filter--filters-form-display-filters-value": filters_expanded?
       }
@@ -52,23 +59,19 @@ module Users
 
     def filter_input_data_attributes
       {
-        "filter-name": "any_name_attribute",
-        "filter-type": "string",
+        "filter-name": "subject",
+        "filter-type": "text",
         "filter-operator": "~",
         "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
       }
     end
 
     def clear_button_id
-      "user-filters-form-clear-button"
-    end
-
-    def collapsed_search?
-      filter_input_value.blank?
+      "backlog-filters-form-clear-button"
     end
 
     def filters_expanded?
-      params[:filters].present?
+      @query.filters.any? { |filter| Backlogs::BacklogFiltersComponent::EXCLUDED_FILTER_NAMES.exclude?(filter.name) }
     end
   end
 end

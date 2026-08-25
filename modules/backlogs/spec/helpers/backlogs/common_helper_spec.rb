@@ -94,6 +94,14 @@ RSpec.describe Backlogs::CommonHelper do
         expect(helper.backlog_filters.bucket_ids).to be_nil
       end
     end
+
+    context "with a filters param" do
+      let(:params) { { filters: 'status_id = "1"' } }
+
+      it "includes it in to_h" do
+        expect(helper.backlog_filters.to_h).to eq({ filters: 'status_id = "1"' })
+      end
+    end
   end
 
   describe "#backlog_filter_params" do
@@ -101,6 +109,16 @@ RSpec.describe Backlogs::CommonHelper do
 
     it "returns the same hash as backlog_filters.to_h" do
       expect(helper.backlog_filter_params).to eq(helper.backlog_filters.to_h)
+    end
+
+    context "with a filters param" do
+      let(:params) { { bucket_ids: %w[1 2], filters: 'status_id = "1"' } }
+
+      it "carries the filters param through alongside bucket_ids/sprint_ids/all" do
+        expect(helper.backlog_filter_params).to eq(
+          { bucket_ids: [1, 2], filters: 'status_id = "1"' }
+        )
+      end
     end
   end
 
