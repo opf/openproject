@@ -40,6 +40,7 @@ export interface OpBlockNoteContainerProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider:HocuspocusProvider;
 }
@@ -50,6 +51,7 @@ export default function OpBlockNoteContainer({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
 }:OpBlockNoteContainerProps) {
@@ -84,6 +86,7 @@ export default function OpBlockNoteContainer({
       openProjectUrl={openProjectUrl}
       attachmentsUploadUrl={attachmentsUploadUrl}
       attachmentsCollectionKey={attachmentsCollectionKey}
+      projectId={projectId}
       captureExternalLinks={captureExternalLinks}
       hocuspocusProvider={hocuspocusProvider}
       doc={doc}
