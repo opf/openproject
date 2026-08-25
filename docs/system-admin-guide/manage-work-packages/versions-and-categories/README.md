@@ -55,12 +55,12 @@ During the conversion, work packages whose version assignments require an update
 
 ## Updating API clients
 
-Work packages in API v3 carry versions in two link properties:
+Work packages in API v3 carry versions in two link properties during the transition:
 
 - **`targetVersions`** is the new authoritative property: an array of version links.
-- **`version`** remains for compatibility and continues to hold a single version link derived from the target versions.
+- **`version`** is deprecated. While multiple target versions are not yet enabled, it continues to hold a single version link derived from the target versions. Once multiple target versions are enabled, it disappears from work package responses, forms and schemas.
 
-A work package response contains both:
+Before the conversion, a work package response contains both:
 
 ```json
 {
@@ -73,14 +73,6 @@ A work package response contains both:
       {
         "href": "/api/v3/versions/10",
         "title": "Sprint 3"
-      },
-      {
-        "href": "/api/v3/versions/479",
-        "title": "Sprint 1"
-      },
-      {
-        "href": "/api/v3/versions/520",
-        "title": "Version shared globally in project"
       }
     ]
   }
@@ -101,7 +93,7 @@ To write target versions, send the array in a form or PATCH request:
 }
 ```
 
-Clients that read or write only the single `version` link keep working after the conversion. Clients that manage version assignments should switch to `targetVersions` to see and set all values. The work package schema advertises which of the two attributes forms should present, so schema-driven clients adapt automatically.
+Before the conversion, clients that read or write only the single `version` link keep working unchanged. After the conversion, the `version` property is removed from work package responses, forms and schemas; clients must read and write `targetVersions` instead. The work package schema marks `version` as deprecated while it is still present and announces via `options.multiple` whether the field accepts several values, so schema-driven clients adapt automatically.
 
 ### Filters
 
