@@ -53,13 +53,6 @@ module WorkPackageTypes
 
       def type = model
 
-      def variant_path_args = variant&.path_args || { type_id: type.id }
-
-      # See SidebarComponent#addressable?: a project's URLs always name the variant.
-      def addressable?
-        helpers.variant_scope_project ? variant&.persisted? : type.persisted?
-      end
-
       def first_step? = current_step == Steps.first
 
       def last_step? = current_step == Steps.last_for(variant)
@@ -86,8 +79,7 @@ module WorkPackageTypes
 
       def record_persisted? = variant ? variant.persisted? : type.persisted?
 
-      # A project's settings has no screen for the type itself, so cancelling there returns to
-      # its list of types. Administration returns to the type that was being created.
+      # A project has no screen for the type itself, so cancelling there returns to its list.
       def cancel_href
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
