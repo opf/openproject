@@ -47,7 +47,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
   let(:epic_base) { epic.default_variant }
   let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
-  let(:project) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+  let(:project) { create(:project, types: [epic]) }
   # nil when the target is the member already in use: deciding there is nothing to report
   # belongs to whoever renders this, not to the component.
   let(:impact) do
