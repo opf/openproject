@@ -73,14 +73,24 @@ ru:
             project_ids:
               blank: Пожалуйста, выберите проект.
         time_entry:
-          cannot_log_for_this_work_package: Невозможно зарегистрировать время для этого пакета работ.
-          duplicate_ongoing: Текущая запись времени уже существует для этого пользователя.
-          exceeds_user_working_hours: не может превышать %{limit} часов, доступных в рабочий день пользователя.
-          in_past_month: находится в закрытом месяце. Записи о рабочем времени можно добавлять, изменять или удалять только начиная с %{date}.
-          invalid_time: должно быть между 00:00 и 23:59.
-          max_hours_per_day_exceeded: не может превышать %{limit} часов в общей сложности в течение одного дня.
-          max_hours_per_entry_exceeded: не может быть больше %{limit} часов за одну запись.
-          not_a_working_day: не является рабочим днём для пользователя.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
           nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
@@ -281,7 +291,7 @@ ru:
   setting_enforce_tracking_start_and_end_times_caption: Делает ввод времени начала и окончания обязательным при регистрации времени.
   setting_enforce_without_allow: Требование точного времени невозможно без соответствующего разрешения
   setting_time_entries_limit_to_user_working_hours: Ограничение рабочего времени пользователя
-  setting_time_entries_limit_to_user_working_hours_caption: Ограничивает количество часов, которые можно занести в отчет в рамках рабочей нормы данного пользователя на данный день. Пользователи, для которых не установлено рабочее время, не подпадают под это ограничение.
+  setting_time_entries_limit_to_user_working_hours_caption: Ограничивает общее количество часов, которые можно регистрировать в день, фактическим рабочим временем данного пользователя. На пользователей, для которых не установлено рабочее время, ограничения не распространяются.
   setting_time_entries_max_hours_per_day: Максимальное количество часов в день
   setting_time_entries_max_hours_per_day_caption: Ограничивает общее количество часов, которое пользователь может зарегистрировать в системе в течение одного дня. Значение 0 означает отсутствие ограничений.
   setting_time_entries_max_hours_per_entry: Максимальное количество часов за запись

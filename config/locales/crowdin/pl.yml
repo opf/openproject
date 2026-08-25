@@ -488,7 +488,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         blank: nie może być puste.
         blank_nested: musi mieć ustawioną właściwość '%{property}'.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: jest niedozwolony. Użyj adresu e-mail z innej domeny.
         cannot_delete_mapping: jest wymagane. Nie można usunąć.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany z jego podzadaniami.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
@@ -702,9 +702,9 @@ pl:
               cannot_assign_variant_and_parent: 'Nie można przypisać wariantu i jego elementu nadrzędnego '
               cannot_assign_variants_yet: Wariantów nie można jeszcze włączyć w projekcie. Włącz flagę funkcji, aby wypróbować warianty
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
-              switch_target_not_in_family: Can only switch to another type of the same family
+              switch_target_blank: Wybierz wariant, na który chcesz się przełączyć
+              switch_target_identical: Typ docelowy musi różnić się od typu obecnie stosowanego w projekcie
+              switch_target_not_in_family: Można przejść jedynie na inny typ z tej samej rodziny
           cannot_be_assigned_to_artifact_work_package: Wybranemu użytkownikowi nie można przypisywać pakietów roboczych.
           foreign_wps_reference_version: Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.
         project/phase:
@@ -724,7 +724,7 @@ pl:
             type:
               must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
-              must_belong_to_the_type: must be a variant of the type the project uses.
+              must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
         queries/filters/base:
           attributes:
             values:
@@ -2624,8 +2624,6 @@ pl:
         description: Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników.
       weighted_item_lists:
         description: Listy ważone pozycji umożliwiają utworzenie listy z powiązanymi bazowymi wartościami liczbowymi.
-      work_package_query_relation_columns:
-        description: Chcesz zobaczyć relacje lub elementy podrzędne na liście pakietów roboczych?
       work_package_sharing:
         description: Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu.
       work_package_subject_generation:
@@ -6413,6 +6411,7 @@ pl:
         availability_description: Współczynnik dostępności reprezentuje rzeczywisty procent czasu pracy poświęconego na zadania projektowe. Obejmuje on spotkania, wiadomości e-mail, prace administracyjne i inne czynności niezwiązane z projektem.
         availability_factor: Współczynnik dostępności
         availability_factor_caption: Określ procent czasu pracy poświęcony pracom projektowym.
+        effective_hours: Effective work hours
         hours_mode_label: Tryb godzinowy
         hours_per_day: Liczba godzin dziennie
         individual_hours_mode: Indywidualna liczba godzin dziennie
@@ -6426,7 +6425,6 @@ pl:
         title_current: Edytuj bieżący harmonogram pracy
         title_days_and_hours: Dni i godziny
         title_future_dates: Przyszłe daty
-        total_available_hours: Łączna liczba dostępnych godzin pracy
         total_work_hours: Łączna liczba godzin pracy
         work_days: Dni robocze
         work_hours: Godziny pracy

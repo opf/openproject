@@ -126,8 +126,17 @@ RSpec.describe "Projects autocomplete page", :js do
     # Expect hierarchy
     top_menu.clear_search
 
+    # The unfiltered tree collapses back to its initial state, so the child is
+    # hidden until its ancestor is expanded. Waiting for it to disappear also
+    # keeps the assertions below from reading the still-filtered tree, which
+    # lingers for the duration of the search debounce.
+    top_menu.expect_no_result "Plain other project"
+
     top_menu.expect_result "Plain project"
-    top_menu.expect_result "<strong>foobar</strong>", disabled: true
+    # Nothing is filtered out without a query, so the ancestor is selectable.
+    top_menu.expect_result "<strong>foobar</strong>"
+
+    top_menu.expand_node_for "<strong>foobar</strong>"
     top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
                                               item_name: "Plain other project"
 

@@ -2530,8 +2530,6 @@ it:
         description: Assicurati che i file caricati in OpenProject vengano scansionati alla ricerca di virus prima di renderli accessibili ad altri utenti.
       weighted_item_lists:
         description: Gli elenchi ponderati consentono di creare un elenco a cui sono associati valori numerici sottostanti.
-      work_package_query_relation_columns:
-        description: Vuoi visualizzare le relazioni o gli elementi figlio nell'elenco di macro-attività?
       work_package_sharing:
         description: Condividi macro-attività con utenti che non sono membri del progetto.
       work_package_subject_generation:
@@ -6280,6 +6278,7 @@ it:
         availability_description: Il fattore di disponibilità rappresenta la percentuale effettiva del tuo tempo di lavoro dedicata alle attività di progetto. Tiene conto di riunioni, email, attività amministrative e altre attività non legate al progetto.
         availability_factor: Fattore di disponibilità
         availability_factor_caption: Definisci la percentuale del tuo tempo di lavoro dedicata al lavoro di progetto.
+        effective_hours: Effective work hours
         hours_mode_label: Modalità ore
         hours_per_day: Ore al giorno
         individual_hours_mode: Ore giornaliere separate
@@ -6293,7 +6292,6 @@ it:
         title_current: Modifica la programmazione di lavoro attuale
         title_days_and_hours: Giorni e ore
         title_future_dates: Date future
-        total_available_hours: Totale ore di lavoro disponibili
         total_work_hours: Ore di lavoro totali
         work_days: Giorni feriali
         work_hours: Orario di lavoro

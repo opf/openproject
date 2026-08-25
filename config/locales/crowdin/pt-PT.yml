@@ -2526,8 +2526,6 @@ pt-PT:
         description: Assegure-se que os ficheiros carregados no OpenProject são verificados quanto à presença de vírus antes de serem acessíveis a outros utilizadores.
       weighted_item_lists:
         description: As listas de elementos ponderados permitem criar uma lista com valores numéricos subjacentes associados.
-      work_package_query_relation_columns:
-        description: Precisa de ver as relações ou elementos secundários na lista do pacote de trabalho?
       work_package_sharing:
         description: Partilhe pacotes de trabalho com utilizadores que não são membros do projeto.
       work_package_subject_generation:
@@ -6269,6 +6267,7 @@ pt-PT:
         availability_description: O fator de disponibilidade representa a percentagem real do seu tempo de trabalho dedicado às tarefas do projeto. Isto inclui reuniões, e-mails, trabalho administrativo e outras atividades não relacionadas com o projeto.
         availability_factor: Fator de disponibilidade
         availability_factor_caption: Defina a percentagem do seu tempo de trabalho dedicada ao trabalho de projeto.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas por dia
         individual_hours_mode: Horas individuais por dia
@@ -6282,7 +6281,6 @@ pt-PT:
         title_current: Editar o horário de trabalho atual
         title_days_and_hours: Dias e horas
         title_future_dates: Datas futuras
-        total_available_hours: Total de horas de trabalho disponíveis
         total_work_hours: Total de horas de trabalho
         work_days: Dias úteis
         work_hours: Horário de trabalho

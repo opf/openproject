@@ -720,7 +720,7 @@ fr:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: doit être un type de niveau supérieur. Un projet utilise des racines et résout une variante séparément.
             variant:
               must_belong_to_the_type: doit être une variante du type utilisé par le projet.
         queries/filters/base:
@@ -821,8 +821,8 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
             parent:
               cannot_be_self: ne peut pas être le type lui-même.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: ne peut pas être modifié tant que des projets utilisent encore ce type.
+              cannot_have_children: ne peut pas être défini car ce type comporte déjà des variantes.
               must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
@@ -2526,8 +2526,6 @@ fr:
         description: Assurez-vous que les fichiers importés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
       weighted_item_lists:
         description: Les listes d'éléments pondérés vous permettent de créer une liste à laquelle sont associées des valeurs numériques sous-jacentes.
-      work_package_query_relation_columns:
-        description: Vous avez besoin de voir les relations ou les éléments enfants dans la liste des lots de travaux ?
       work_package_sharing:
         description: Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet.
       work_package_subject_generation:
@@ -6277,6 +6275,7 @@ fr:
         availability_description: Le facteur de disponibilité représente le pourcentage réel de votre temps de travail consacré aux tâches du projet. Il tient compte des réunions, des courriels, du travail administratif et d'autres activités non liées au projet.
         availability_factor: Facteur de disponibilité
         availability_factor_caption: Définissez le pourcentage de votre temps de travail consacré au projet.
+        effective_hours: Heures de travail effectives
         hours_mode_label: Mode heures
         hours_per_day: Heures par jour
         individual_hours_mode: Heures individuelles par jour
@@ -6290,7 +6289,6 @@ fr:
         title_current: Modifier l'horaire de travail actuel
         title_days_and_hours: Jours et heures
         title_future_dates: Dates futures
-        total_available_hours: Total des heures de travail disponibles
         total_work_hours: Heures de travail totales
         work_days: Jours de travail
         work_hours: Heures de travail

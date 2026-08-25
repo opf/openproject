@@ -55,7 +55,7 @@ class Users::WorkingHours::AvailabilityFactorForm < ApplicationForm
                     trailing_visual: { text: { text: "%" } }
 
     form.text_field name: :total_factored_hours,
-                    label: I18n.t("users.working_hours.form.total_available_hours"),
+                    label: I18n.t("users.working_hours.form.effective_hours"),
                     input_width: :large,
                     readonly: true,
                     data: { "users--working-hours-form-target": "totalAvailableHoursDisplay" },
