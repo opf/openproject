@@ -1815,6 +1815,46 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe "update links" do
+        context "when the last timestamp is the current one" do
+          let(:timestamps) { [Timestamp.new(1.week.ago), Timestamp.now] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+        end
+
+        context "when the last timestamp is historic" do
+          let(:timestamps) { [Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when both timestamps are historic" do
+          let(:timestamps) { [Timestamp.new(2.weeks.ago), Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+      end
+
       context "when passing a query" do
         let(:search_term) { "original" }
         let(:query) do

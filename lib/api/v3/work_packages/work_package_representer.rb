@@ -64,6 +64,8 @@ module API
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
+          next if timestamps.last&.historic?
+
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -78,6 +80,8 @@ module API
 
         link :updateImmediately,
              cache_if: -> { current_user_update_allowed? } do
+          next if timestamps.last&.historic?
+
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
