@@ -177,7 +177,7 @@ module McpTools
 
     # Intended to be implemented by subclasses. It should return a structured result (e.g. a Hash or Array).
     def call(**)
-      raise NotImplemented, "#{self.class} needs to implement #call method"
+      raise SubclassResponsibilityError, "#{self.class} needs to implement #call method"
     end
 
     def format_response(result)
