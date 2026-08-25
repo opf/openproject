@@ -99,7 +99,11 @@ module WorkPackageTypes
     end
 
     def elements_to_exclude(project)
-      active_ids = CustomFieldsProject.where(project_id: project.id).pluck(:custom_field_id)
+      active_ids = ApplicationRecord.connection.select_values(
+        ApplicationRecord.sanitize_sql_array(
+          ["SELECT custom_field_id FROM custom_fields_projects WHERE project_id = ?", project.id]
+        )
+      )
 
       source.custom_fields
             .reject { it.is_for_all? || active_ids.include?(it.id) }
