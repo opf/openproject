@@ -52,6 +52,15 @@ RSpec.describe API::V3::Projects::ProjectCollectionRepresenter do
     subject(:collection) { representer.to_json }
 
     it_behaves_like "offset-paginated APIv3 collection", 3, "projects", "Project"
+
+    it "eager loads project data for the page" do
+      allow(API::V3::Projects::ProjectEagerLoadingWrapper).to receive(:wrap).and_call_original
+
+      collection
+
+      expect(API::V3::Projects::ProjectEagerLoadingWrapper)
+        .to have_received(:wrap).with(kind_of(ActiveRecord::Relation), favorite_user: current_user)
+    end
   end
 
   describe "representation formats" do
