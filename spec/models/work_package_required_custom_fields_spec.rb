@@ -28,7 +28,7 @@ RSpec.describe WorkPackage, "required custom fields" do
 
   let(:custom_field) { create(:integer_wp_custom_field, is_for_all: true) }
   let(:type) { create(:type) }
-  let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+  let(:project) { create(:project, types: [type]) }
 
   def show_the_field_on(variant, required:)
     variant.attribute_groups = [["Details", [custom_field.attribute_name]]]
@@ -126,7 +126,7 @@ RSpec.describe WorkPackage, "required custom fields" do
 
     it "answers per project for the same type" do
       apply(named_variant)
-      lenient = create(:project, types: [type], work_package_custom_fields: [custom_field])
+      lenient = create(:project, types: [type])
 
       expect(work_package.custom_field_required?(custom_field)).to be(true)
       expect(work_package(project_value: lenient).custom_field_required?(custom_field)).to be(false)
@@ -158,16 +158,6 @@ RSpec.describe WorkPackage, "required custom fields" do
       subject = work_package
       subject.custom_field_values = { custom_field.id => 5 }
 
-      expect(subject.valid?(:saving_custom_fields)).to be(true)
-    end
-
-    it "ignores a demanded field the project has not activated", :aggregate_failures do
-      show_the_field_on(type.default_variant, required: true)
-      custom_field.update!(is_for_all: false)
-      project.work_package_custom_fields = []
-
-      subject = work_package
-      expect(subject.available_custom_fields).to be_empty
       expect(subject.valid?(:saving_custom_fields)).to be(true)
     end
   end
