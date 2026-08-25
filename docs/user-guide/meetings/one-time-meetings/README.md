@@ -259,12 +259,11 @@ You can add a work package to both upcoming or past meetings as long as the work
 > The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant. 
 > The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
 
-The **Activity** **tab**, records every action taken around a work package. This includes, when a work package is added to a meeting agenda, is removed from the agenda or moved to another meeting occurrence. The action taken is displayed next to the meeting title and date. 
+The **Activity tab** records every action taken around a work package. This includes when a work package is added to a meeting agenda, removed from the agenda or moved to another meeting occurrence. The action taken is displayed next to the meeting title and date.
 
 ![Activity tab showing updates when a work package is added or removed from a meeting](openproject_userguide_meetings_add_wp_activity_tab.png)
 
 > [!NOTE]
->
 > Meeting related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
 
 To hide all meeting related work package updates, scroll to the top of the **Activity tab** and select the appropriate option from the drop-down menu.
