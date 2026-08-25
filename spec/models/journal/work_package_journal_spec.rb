@@ -36,11 +36,9 @@ RSpec.describe Journal::WorkPackageJournal do
     shared_let(:other_type) { create(:type) }
     shared_let(:project) { create(:project, types: [type]) }
 
-    # Visible: on the form configuration of the type the work package uses.
     shared_let(:visible_custom_field) do
       create(:boolean_wp_custom_field, types: [type])
     end
-    # Hidden: on a type the work package does not use.
     shared_let(:hidden_custom_field) do
       create(:boolean_wp_custom_field, types: [other_type])
     end
