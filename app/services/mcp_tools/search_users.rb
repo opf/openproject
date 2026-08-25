@@ -42,6 +42,7 @@ module McpTools
     filter :search_term, filter_class: "Queries::Users::Filters::AnyNameAttributeFilter", operator: "~"
 
     input_schema(
+      additionalProperties: false,
       properties: {
         search_term: {
           type: "string",

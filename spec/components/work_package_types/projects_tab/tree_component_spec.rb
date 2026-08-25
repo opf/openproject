@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TreeComponent, type: :component do
     it "labels the node with that variant" do
       render_tree([project])
 
-      expect(page).to have_css(".Label", text: other_variant.composite_name)
+      expect(page).to have_css(".text-bold", text: other_variant.composite_name)
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TreeComponent, type: :component do
       render_tree([project])
 
       expect(page).to have_text("Bookshop")
-      expect(page).to have_no_css(".Label")
+      expect(page).to have_no_css(".text-bold")
     end
 
     it "cannot be picked again" do
@@ -100,7 +100,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TreeComponent, type: :component do
       render_tree([project])
 
       expect(page).to have_text("Bookshop")
-      expect(page).to have_no_css(".Label")
+      expect(page).to have_no_css(".text-bold")
     end
   end
 end

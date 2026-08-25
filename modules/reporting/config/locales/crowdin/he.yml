@@ -21,6 +21,13 @@
 #++
 ---
 he:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        two: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: שמור דוח כ...
   comments: הערה
   cost_reports_title: עלויות
@@ -46,7 +53,6 @@ he:
   label_closed: סגור
   label_columns: עמודות
   label_cost_entry_attributes: תכונות עלות כניסה
-  label_cost_report: דוח עלות
   label_cost_report_plural: דוחות עלות
   label_count: Count
   label_days_ago: במהלך הימים האחרונים

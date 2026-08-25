@@ -256,6 +256,7 @@ uk:
         templated_value:
           false: не позначено як шаблон
           true: позначено як шаблон
+        type_variant: Work package type variant
         types: Типи
         versions: Версії
         work_packages: Пакет робіт
@@ -981,64 +982,356 @@ uk:
           many: "%{count} помилка заборонила це %{model} від збереження"
           other: "%{count} помилка заборонила це %{model} від збереження"
     models:
-      attachment: Файл
+      action:
+        one: Action
+        few: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Текст довідки атрибута
         few: Тексти довідки атрибутів
         many: Тексти довідки атрибутів
         other: Тексти довідки атрибутів
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Постачальник послуг автентифікації
         few: Постачальники послуг автентифікації
         many: Постачальники послуг автентифікації
         other: Постачальники послуг автентифікації
-      category: Категорія
-      color: Колір
-      comment: Коментар
-      custom_action: Спеціальні дії
-      custom_field: Користувацьке поле
-      customized: Персоналізовано
-      doorkeeper/application: Програма OAuth
+      backup:
+        one: Backup
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Маркер Enterprise
         few: Маркери Enterprise
         many: Маркери Enterprise
         other: Маркери Enterprise
-      forum: Форум
-      global_role: Глобальна роль
-      group: Група
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: Пріоритет
         few: Пріоритети
         many: Пріоритети
         other: Пріоритети
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Учасник наради
-      member: Учасник
-      message: Повідомлення
-      news: Новини
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Сповіщення
         few: Сповіщення
         many: Сповіщення
         other: Сповіщення
-      placeholder_user: Прототип користувача
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         one: Проект
         few: Проєкти
         many: Проєкти
         other: Проєкти
+      project/phase:
+        one: Project phase
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Список проєктів
         few: Списки проєктів
         many: Списки проєктів
         other: Списки проєктів
-      query: Частковий запит
-      reminder: Нагадування
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: роль
         few: Роль
@@ -1049,12 +1342,46 @@ uk:
         few: Клієнти SCIM
         many: Клієнти SCIM
         other: Клієнти SCIM
-      status: Стан робочого пакета
+      service_account:
+        one: Service account
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        many: System users
+        other: System users
       token/api:
         one: Маркер доступу
         few: Маркери доступу
         many: Маркери доступу
         other: Маркери доступу
+      token/base:
+        one: Token
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: Маркер RSS
         few: Маркери RSS
@@ -1070,12 +1397,91 @@ uk:
         few: Variants
         many: Variants
         other: Variants
-      user: Користувач
-      version: Версія
-      wiki: Wiki
-      wiki_page: Сторінка Wiki
-      work_package: Пакет робіт
-      workflow: Робочий процес
+      user:
+        one: User
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
@@ -1833,6 +2239,7 @@ uk:
     custom_field: Користувацьке поле
     custom_options: Можливі значення
     custom_values: Індивідуальні поля
+    customized: Customized
     date: Дата
     dates_interval: Діапазон дат
     default_columns: Типові колонки
@@ -1859,6 +2266,7 @@ uk:
     is_default: Значення за замовчуванням
     is_for_all: Для усіх проектів
     issue: Робочий пакет
+    jira: Jira
     journal: Журнал
     journal_notes: Коментар
     lastname: Прізвище
@@ -2455,8 +2863,12 @@ uk:
   description_available_columns: Доступні стовпці
   description_category_reassign: Оберіть категорію
   description_choose_project: Проекти
-  description_compare_from: Порівняти від
-  description_compare_to: Порівняти до
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ви знаходитесь тут: '
   description_date_from: Введіть дату початку
   description_date_to: Введіть кінцеву дату
@@ -2660,8 +3072,6 @@ uk:
         description: Переконайтеся, що вивантажені в OpenProject файли перевіряються на віруси перед тим, як стають доступними для інших користувачів.
       weighted_item_lists:
         description: Тип «Список зважених елементів» дає змогу створити список із пов’язаними опорними числовими значеннями.
-      work_package_query_relation_columns:
-        description: Хочете переглядати зв’язки або дочірні елементи в списку пакетів робіт?
       work_package_sharing:
         description: Діліться пакетами робіт із користувачами, які не належать до учасників проєкту.
       work_package_subject_generation:
@@ -2687,7 +3097,6 @@ uk:
   error_attribute_not_highlightable: 'Атрибут(и) не виділено: %{attributes}'
   error_auth_source_sso_failed: 'Єдиний вхід (SSO) для користувача %{value} не вдалося '
   error_can_not_archive_project: 'Цей проєкт не можна архівувати: %{errors}'
-  error_can_not_deactivate_type: 'Не вдалося деактивувати тип «%{type}», оскільки він усе ще використовується тут: %{work_packages_link}'
   error_can_not_deactivate_type_invisible_projects: У проєктах також є пакети робіт, які ви не бачите.
   error_can_not_delete_custom_field: Неможливо видалити спеціальне поле
   error_can_not_delete_entry: Неможливо видалити запис
@@ -2698,6 +3107,7 @@ uk:
   error_can_not_find_all_resources: Не вдалося знайти всі відповідні ресурси для цього запиту.
   error_can_not_invite_user: Не вдалося надіслати запрошення користувачеві.
   error_can_not_remove_role: Ця роль використовується і не може бути видалений.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет робіт покладених на закритій версії не може бути відкритий
   error_can_not_unarchive_project: 'Цей проєкт не можна розархівувати: %{errors}'
   error_check_user_and_role: Будь ласка виберіть користувача і роль.
@@ -2988,15 +3398,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: новий модуль керування ресурсами для планування завантаження й забезпечення кадрами (у межах тарифного плану Premium);
-            line_1: поліпшений організаційний менеджмент завдяки підрозділам, атрибутам користувачів, зокрема посадам, і робочим годинам;
-            line_2: підтримка кількох активних спринтів, якщо вимкнено спільний доступ (у межах тарифного плану Basic);
-            line_3: фільтри з підтримкою множинного вибору для зручнішої роботи з беклогом і спринтами, покращена функція «перетягнути й відпустити», а також можливість додавати наявні пакети робіт;
-            line_4: експорт артефактів PM²/PMflex і новий віджет для огляду етапів і контрольних точок проєктів;
-            line_5: глобальний індекс сторінок Wiki й зручніша навігація пов’язаними сторінками.
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3168,7 +3579,6 @@ uk:
   label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_projects: Доступні проєкти
   label_backup: Резервна копія
-  label_backup_code: Код резервної копії
   label_basic_details: Основна інформація
   label_between: між ними
   label_blocked_by: заблоковано
@@ -3188,7 +3598,6 @@ uk:
   label_calendar_show: Показати календар
   label_calendar_subscriptions: Підписки на календарі
   label_calendars_and_dates: Календарі й дати
-  label_category: Категорія
   label_change_parent: Змінити батьківський об’єкт
   label_change_password: Змінити пароль
   label_change_plural: Зміни
@@ -3197,9 +3606,9 @@ uk:
   label_change_status_of_user: 'Змінити статус #{username}'
   label_change_view_all: Проглянути всі зміни
   label_changes_details: Подробиці по всіх змінах
-  label_changeset: Набір змін
   label_changeset_id: ID набору змін
   label_changeset_plural: Набір змін
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Позначте/зніміть всі прапорці в колонці
   label_check_uncheck_all_in_row: Позначте/зніміть всі прапорці в рядку
   label_checked: перевірено
@@ -3346,6 +3755,7 @@ uk:
   label_feeds_access_key: Клавіша доступу RSS
   label_feeds_access_key_created_on: Створено ключ доступу RSS %{value} тому
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Файли
   label_filter: Фільтри
   label_filter_add: Додати фільтр
@@ -3370,7 +3780,6 @@ uk:
   label_git_path: Шлях до каталогу .git
   label_global: Глобальний
   label_global_modules: Глобальні модулі
-  label_global_role: Глобальна роль
   label_global_roles: Глобальні ролі
   label_go_back: Повернутися на попередній рівень меню
   label_go_forward: Відкрити підменю %{module}
@@ -3439,7 +3848,6 @@ uk:
   label_last_week: ост. тиждень
   label_latest_revision: Остання версія
   label_latest_revision_plural: Останні версії
-  label_ldap_auth_source: LDAP-підключення
   label_ldap_auth_source_new: Нове LDAP-підключення
   label_ldap_auth_source_plural: LDAP-підключення
   label_ldap_authentication: Авторизація за допомогою LDAP
@@ -3466,9 +3874,9 @@ uk:
   label_me: мені
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_new: Новий учасник
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Учасники
-  label_member_role: Роль у проєкті
   label_membership_added: Учасника додано
   label_membership_plural: Членство
   label_membership_updated: Учасника оновлено
@@ -3581,7 +3989,6 @@ uk:
   label_permissions: Дозволи
   label_permissions_report: Звіт про права доступу
   label_personalize_page: Персоналізуйте цю сторінку
-  label_placeholder_user: Прототип користувача
   label_placeholder_user_new: Створити прототип користувача
   label_placeholder_user_plural: Протототипи користувачів
   label_planning: Планування
@@ -3644,7 +4051,6 @@ uk:
   label_related_work_packages: Пов'язані робочі пакети
   label_relates: зв’язано з
   label_relates_to: пов'язані з
-  label_relation: Зв’язок
   label_relation_actions: Дії зі зв’язками
   label_relation_delete: Видалити зв'язок
   label_relation_edit: Редагувати зв’язок
@@ -3697,7 +4103,6 @@ uk:
   label_send_information: Надіслати нові облікові дані користувачу
   label_send_invitation: Надіслати запрошення
   label_send_test_email: Послати email для перевірки
-  label_session: Сеанс
   label_setting_plural: Налаштування
   label_share: Поділитися
   label_share_project_list: Поділитися списком проєктів
@@ -3773,7 +4178,6 @@ uk:
   label_used_by: Використовується
   label_used_by_types: Використовується за типами
   label_used_in_projects: Використовується в проектах
-  label_user: Користувач
   label_user_activity_html: Дії користувача %{value}
   label_user_and_permission: Користувачі й дозволи
   label_user_anonymous: Невідомий
@@ -3804,19 +4208,17 @@ uk:
   label_week: Тиждень
   label_weighted_item_list: Список зважених елементів
   label_what_is_this: Що це?
-  label_widget: Віджет
   label_widget_new: Новий віджет
   label_wiki_content_added: Додано сторінку Wiki
   label_wiki_content_updated: Сторінка Wiki оновлена
   label_wiki_dont_show_menu_item: Не показувати це wikipage в навігації проекту
   label_wiki_edit: Редагування Wiki
   label_wiki_edit_plural: Редагування Wiki
-  label_wiki_menu_item: Пункт меню Wiki
   label_wiki_navigation: Навігація Wiki
-  label_wiki_page: Сторінка Wiki
   label_wiki_page_attachments: Додавання сторінок Wiki
   label_wiki_page_id: ID вікі-сторінки
   label_wiki_page_plural: Сторінки Wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показати пункт підменю "Зміст"
   label_wiki_show_menu_item: Показати як пункт меню в навігації по проекту
   label_wiki_show_new_page_link: Показати елемент підменю "Створити нову початкову сторінку"
@@ -3833,7 +4235,6 @@ uk:
   label_work_package_hierarchy: Ієрархія робочих пакетів
   label_work_package_new: Новий пакет робіт
   label_work_package_plural: Пакет робіт
-  label_work_package_status: Стан пакета робіт
   label_work_package_status_new: Новий статус
   label_work_package_status_plural: Статуси робочих пакетів
   label_work_package_tracking: Відстеження робочого пакету
@@ -5955,6 +6356,7 @@ uk:
   text_destroy_what_to_do: Що ти хочеш зробити?
   text_destroy_with_associated: 'Існують додаткові об’єкти, пов’язані з пакетом(-ами) робіт, які потрібно видалити. Це об’єкти таких типів:'
   text_diff_truncated: "... Це порівняння (diff) було скорочене, оскільки воно перевищує максимальний розмір, який можна відобразити."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Доставку електронної пошти не налаштовано, і сповіщення вимкнуто.
     Налаштуйте свій SMTP-сервер, щоб увімкнути їх.
@@ -6223,6 +6625,17 @@ uk:
         filter: Пошук за розділом або назвою
         tab: Атрибути проєктів
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
@@ -6290,6 +6703,14 @@ uk:
           switch_to_independent: Перейти в незалежний режим
           title: Режим зв’язування
         parent_suffix: " (батьківський об’єкт)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Робочі процеси
     index:
@@ -6461,6 +6882,7 @@ uk:
         availability_description: Коефіцієнт доступності — це фактичний відсоток робочого часу, який ви присвячуєте роботі над завданнями проєктів. Це дає змогу врахувати час, потрібний на зустрічі, електронну пошту, адміністративну роботу й інші види діяльності, не пов’язані з проєктами.
         availability_factor: Коефіцієнт доступності
         availability_factor_caption: Визначте відсоток свого робочого часу, який ви присвячуєте роботі над проєктами.
+        effective_hours: Effective work hours
         hours_mode_label: Режим годин
         hours_per_day: Годин на день
         individual_hours_mode: Індивідуальні години на день
@@ -6474,7 +6896,6 @@ uk:
         title_current: Редагування поточного розкладу роботи
         title_days_and_hours: Дні й години
         title_future_dates: Майбутні дати
-        total_available_hours: Усього доступних робочих годин
         total_work_hours: Усього робочих годин
         work_days: Робочі дні
         work_hours: Робочі години

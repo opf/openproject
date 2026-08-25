@@ -10,6 +10,7 @@ on:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.js'
       - '**/frontend/**/*.json'
+      - '.github/workflows/test-frontend-unit.yml'
 
   pull_request:
     types: [opened, reopened, synchronize]
@@ -17,6 +18,7 @@ on:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.js'
       - '**/frontend/**/*.json'
+      - '.github/workflows/test-frontend-unit.yml'
 
 permissions:
   contents: read
@@ -26,9 +28,29 @@ defaults:
     working-directory: ./frontend
 
 jobs:
+  playwright-version:
+    name: Resolve Playwright version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.lockfile.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: frontend/package-lock.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - id: lockfile
+        run: echo "version=$(jq -r '.packages["node_modules/playwright"].version' package-lock.json)" >> "$GITHUB_OUTPUT"
+
   unit:
     name: Units (${{ matrix.browser }})
+    needs: playwright-version
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.playwright-version.outputs.version }}-noble
+      options: --ipc=host
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -36,11 +58,12 @@ jobs:
         browser: [chromium, firefox, webkit]
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '24.18.0'
           package-manager-cache: false
@@ -51,13 +74,10 @@ jobs:
       - name: Register plugins
         run: npm run ci:plugins:register_frontend
 
-      - name: Install Playwright dependencies
-        timeout-minutes: 5
-        run: npx playwright install-deps ${{ matrix.browser }}
-
-      - name: Install Playwright Browser
-        timeout-minutes: 5
-        run: npx playwright install --only-shell ${{ matrix.browser }}
+      - name: Take ownership of HOME
+        # Actions points HOME at /github/home, owned by the image's pwuser, and
+        # firefox refuses to launch as root under a home it does not own.
+        run: chown root:root "$HOME"
 
       - name: Test
         run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions

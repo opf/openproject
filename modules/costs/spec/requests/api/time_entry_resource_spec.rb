@@ -595,7 +595,7 @@ RSpec.describe "API v3 time_entry resource" do
           .to be(422)
 
         expect(subject.body)
-          .to be_json_eql("An ongoing time entry already exists for this user.".to_json)
+          .to be_json_eql("Another timer is already running. Only one timer can be active at the same time.".to_json)
                 .at_path("message")
       end
     end

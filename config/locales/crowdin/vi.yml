@@ -256,6 +256,7 @@ vi:
         templated_value:
           false: đã bỏ đánh dấu là mẫu
           true: được đánh dấu là mẫu
+        type_variant: Work package type variant
         types: Các loại
         versions: Các phiên bản
         work_packages: Work Packages
@@ -968,59 +969,206 @@ vi:
         header:
           other: "%{count} lỗi đã cấm lưu %{model} này"
     models:
-      attachment: tập tin
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Văn bản trợ giúp thuộc tính
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: Nhà cung cấp xác thực
-      category: Thể loại
-      color: màu sắc
-      comment: Nhận xét
-      custom_action: Tác vụ tùy chỉnh
-      custom_field: Tùy chỉnh mục
-      customized: Customized
-      doorkeeper/application: Ứng dụng OAuth
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Mã thông báo doanh nghiệp
-      forum: diễn đàn
-      global_role: Vai trò toàn cầu
-      group: Nhóm
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: ưu tiên
-      jira:
-        other: Jira
-      meeting_participant: Người tham gia cuộc họp
-      member: Thành viên
-      message: Message
-      news: Tin tức
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: thông báo
-      placeholder_user: Người dùng giữ chỗ
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: dự án
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: Danh sách dự án
-      query: Truy vấn riêng
-      reminder: Lời nhắc
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: Vai trò
       scim_client:
         other: khách hàng SCIM
-      status: Tình trạng work package
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: Mã thông báo truy cập
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: Mã thông báo RSS
       type:
         other: các loại
       type_variant:
         other: Variants
-      user: Người dùng
-      version: Phiên bản
-      wiki: Wiki
-      wiki_page: Trang wiki
-      work_package: Work Package
-      workflow: Quy trình làm việc
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung thời gian này.
@@ -1739,6 +1887,7 @@ vi:
     custom_field: Trường tùy chỉnh
     custom_options: Giá trị có thể
     custom_values: Tùy chỉnh mục
+    customized: Customized
     date: ngày
     dates_interval: Phạm vi ngày
     default_columns: Cột mặc định
@@ -1765,6 +1914,7 @@ vi:
     is_default: Giá trị mặc định
     is_for_all: Cho tất cả các dự án
     issue: Work Package
+    jira: Jira
     journal: nhật ký
     journal_notes: bình luận
     lastname: Họ
@@ -2299,8 +2449,12 @@ vi:
   description_available_columns: Cột có sẵn
   description_category_reassign: Chọn thể loại
   description_choose_project: Các dự án
-  description_compare_from: So sánh từ
-  description_compare_to: So sánh đến
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Bạn đang ở đây:'
   description_date_from: Nhập ngày bắt đầu
   description_date_to: Nhập ngày kết thúc
@@ -2501,8 +2655,6 @@ vi:
         description: Đảm bảo các tệp được tải lên trong OpenProject được quét vi-rút trước khi người dùng khác có thể truy cập được.
       weighted_item_lists:
         description: Danh sách mục có trọng số cho phép bạn tạo danh sách có các giá trị số cơ bản được liên kết.
-      work_package_query_relation_columns:
-        description: Cần xem các mối quan hệ hoặc các phần tử con trong danh sách gói công việc?
       work_package_sharing:
         description: Chia sẻ các gói công việc với người dùng không phải là thành viên của dự án.
       work_package_subject_generation:
@@ -2528,7 +2680,6 @@ vi:
   error_attribute_not_highlightable: "(Các) thuộc tính không thể đánh dấu: %{attributes}"
   error_auth_source_sso_failed: Đăng nhập một lần (SSO) cho người dùng '%{value}' không thành công
   error_can_not_archive_project: 'Dự án này không thể lưu trữ: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Không thể xóa mục tùy biến
   error_can_not_delete_entry: Không thể xoá
@@ -2539,6 +2690,7 @@ vi:
   error_can_not_find_all_resources: Không thể tìm thấy tất cả các tài nguyên liên quan đến yêu cầu này.
   error_can_not_invite_user: Gửi lời mời không thành công.
   error_can_not_remove_role: Vai trò này đang được sử dụng và không thể bị xóa.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Không thể mở lại cho một work package đã được gán cho một phiên bản đã đóng
   error_can_not_unarchive_project: 'Dự án này không thể lưu trữ: %{errors}'
   error_check_user_and_role: Hãy chọn người dùng và một vai trò.
@@ -2817,14 +2969,15 @@ vi:
     blocks:
       community: Cộng đồng OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2997,7 +3150,6 @@ vi:
   label_available_project_work_package_types: Các loại gói công việc có sẵn
   label_available_projects: Dự án có sẵn
   label_backup: Sao lưu
-  label_backup_code: Mã dự phòng
   label_basic_details: Chi tiết cơ bản
   label_between: giữa
   label_blocked_by: bị chặn bởi
@@ -3017,7 +3169,6 @@ vi:
   label_calendar_show: Hiển thị Lịch
   label_calendar_subscriptions: Đăng ký lịch
   label_calendars_and_dates: Lịch và ngày
-  label_category: thể loại
   label_change_parent: Thay đổi cha mẹ
   label_change_password: Change password
   label_change_plural: Thay đổi
@@ -3026,9 +3177,9 @@ vi:
   label_change_status_of_user: 'Thay đổi trạng thái cho #{username}'
   label_change_view_all: Xem mọi thay đổi
   label_changes_details: Các chi tiết của tất cả thay đổi
-  label_changeset: Bộ thay đổi
   label_changeset_id: ID bộ thay đổi
   label_changeset_plural: Nhóm thay đổi
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Chọn/Bỏ chọn tất cả trong cột
   label_check_uncheck_all_in_row: Chọn/Bỏ chọn tất cả trong hàng
   label_checked: Đã check
@@ -3175,6 +3326,7 @@ vi:
   label_feeds_access_key: Khóa truy cập RSS
   label_feeds_access_key_created_on: Khoá truy cập API đựơc tạo cách đây %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: tập tin
   label_filter: Bộ lọc
   label_filter_add: Thêm bộ lọc
@@ -3199,7 +3351,6 @@ vi:
   label_git_path: Đường dẫn đến thư mục .git
   label_global: toàn cầu
   label_global_modules: Mô-đun toàn cầu
-  label_global_role: Vai trò toàn cầu
   label_global_roles: Vai trò toàn cầu
   label_go_back: Quay lại một cấp độ menu
   label_go_forward: Mở menu phụ %{module}
@@ -3268,7 +3419,6 @@ vi:
   label_last_week: tuần trước
   label_latest_revision: Bản sửa đổi mới nhất
   label_latest_revision_plural: Phiên bản mới nhất
-  label_ldap_auth_source: Kết nối LDAP
   label_ldap_auth_source_new: Kết nối LDAP mới
   label_ldap_auth_source_plural: Kết nối LDAP
   label_ldap_authentication: Xác thực LDAP
@@ -3295,9 +3445,9 @@ vi:
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
   label_member_new: Thành viên mới
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: thành viên
-  label_member_role: Vai trò dự án
   label_membership_added: Đã thêm thành viên
   label_membership_plural: Tư cách thành viên
   label_membership_updated: Đã cập nhật thành viên
@@ -3410,7 +3560,6 @@ vi:
   label_permissions: Phân Quyền
   label_permissions_report: Báo cáo phân quyền
   label_personalize_page: Cá nhân hoá các trang này
-  label_placeholder_user: Người dùng giữ chỗ
   label_placeholder_user_new: Người dùng giữ chỗ mới
   label_placeholder_user_plural: Người dùng giữ chỗ
   label_planning: Lập kế hoạch
@@ -3473,7 +3622,6 @@ vi:
   label_related_work_packages: Work package liên quan
   label_relates: liên quan đến
   label_relates_to: liên quan đến
-  label_relation: quan hệ
   label_relation_actions: Hành động quan hệ
   label_relation_delete: Xóa quan hệ
   label_relation_edit: Chỉnh sửa mối quan hệ
@@ -3526,7 +3674,6 @@ vi:
   label_send_information: Gửi thông tin xác thực mới cho người dùng
   label_send_invitation: Gửi lời mời
   label_send_test_email: Gửi email thử nghiệm
-  label_session: Phiên
   label_setting_plural: cài đặt
   label_share: chia sẻ
   label_share_project_list: Chia sẻ danh sách dự án
@@ -3602,7 +3749,6 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: Người dùng
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Người dùng và quyền
   label_user_anonymous: vô danh
@@ -3633,19 +3779,17 @@ vi:
   label_week: Tuần
   label_weighted_item_list: Danh sách mặt hàng có trọng số
   label_what_is_this: Đây là gì?
-  label_widget: tiện ích
   label_widget_new: Tiện ích mới
   label_wiki_content_added: Đã thêm trang Wiki
   label_wiki_content_updated: Trang Wiki đã được cập nhật
   label_wiki_dont_show_menu_item: Không hiển thị wikipage này trong điều hướng dự án
   label_wiki_edit: Sửa Wiki
   label_wiki_edit_plural: Sửa Wiki
-  label_wiki_menu_item: Khoản mục menu wiki
   label_wiki_navigation: Điều hướng Wiki
-  label_wiki_page: trang Wiki
   label_wiki_page_attachments: Tệp đính kèm trang Wiki
   label_wiki_page_id: ID trang Wiki
   label_wiki_page_plural: Trang wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Hiển thị mục menu con 'Mục lục'
   label_wiki_show_menu_item: Hiển thị dưới dạng mục menu trong điều hướng dự án
   label_wiki_show_new_page_link: Hiển thị mục menu con 'Tạo trang con mới'
@@ -3662,7 +3806,6 @@ vi:
   label_work_package_hierarchy: Phân cấp công việc
   label_work_package_new: Work package mới
   label_work_package_plural: Work Packages
-  label_work_package_status: Tình trạng work package
   label_work_package_status_new: Trạng thái mới
   label_work_package_status_plural: Tình trạng work package
   label_work_package_tracking: Theo dõi work package
@@ -5753,6 +5896,7 @@ vi:
   text_destroy_what_to_do: Bạn muốn làm gì?
   text_destroy_with_associated: 'There are additional objects associated with the gói công việc (work package)(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Sự khác biệt này đã bị cắt bớt vì nó vượt quá kích thước tối đa có thể được hiển thị."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Gửi email không được cấu hình và thông báo bị vô hiệu hóa.
     Cấu hình máy chủ SMTP của bạn để kích hoạt chúng.
@@ -6021,6 +6165,17 @@ vi:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
@@ -6088,6 +6243,14 @@ vi:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6253,6 +6416,7 @@ vi:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6266,7 +6430,6 @@ vi:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

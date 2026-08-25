@@ -100,11 +100,27 @@ hu:
         recurring_meeting_interim_response:
           not_an_occurrence: ez nem érvényes időpont az ismétlődő megbeszéléshez
     models:
-      meeting: Egyszeri megbeszélés
-      meeting_agenda: Napirend
-      meeting_agenda_item: Napirendi pont
-      meeting_section: 'Szekció '
-      recurring_meeting: Ismétlődő megbeszélés
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting előfizetés
         other: iCal Meeting előfizetés
@@ -255,7 +271,6 @@ hu:
   label_past_meetings: Korábbi megbeszélések
   label_past_meetings_short: Korábbi
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Ismétlődő megbeszélés
   label_recurring_meeting_cancel: Törölje ezt az eseményt
   label_recurring_meeting_create: Open
   label_recurring_meeting_delete: Elem törlése

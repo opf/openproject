@@ -77,7 +77,7 @@ RSpec.describe "API v3 UserLock resource", content_type: :json do
     end
 
     context "requesting nonexistent user" do
-      let(:lock_path) { api_v3_paths.user_lock 9999 }
+      let(:lock_path) { api_v3_paths.user_lock(not_existing_id(User)) }
 
       before { response }
 

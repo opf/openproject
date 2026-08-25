@@ -258,6 +258,7 @@ ms:
         templated_value:
           false: tidak ditandakan sebagai templat
           true: ditandakan sebagai templat
+        type_variant: Work package type variant
         types: Jenis
         versions: Versi-versi
         work_packages: Pakej Kerja
@@ -970,61 +971,208 @@ ms:
         header:
           other: "%{count} ralat menghalang %{model} ini daripada disimpan"
     models:
-      attachment: Fail
+      action:
+        other: Actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: Authentication providers
-      category: Kategori
-      color: Warna
-      comment: Komen
-      custom_action: Tindakan tersuai
-      custom_field: Ruang tersuai
-      customized: Customized
-      doorkeeper/application: Aplikasi OAuth
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: Enterprise tokens
-      forum: Forum
-      global_role: Peranan global
-      group: Kumpulan
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: Priorities
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Ahli
-      message: Message
-      news: Berita
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: Pemberitahuan
-      placeholder_user: Pengguna placeholder
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: Projek-projek
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: Senarai projek
-      query: Pertanyaan tersuai
-      reminder: Peringatan
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: 'Peranan
 
           '
       scim_client:
         other: SCIM clients
-      status: Status pakej kerja
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: Token akses
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
       type_variant:
         other: Variants
-      user: Pengguna
-      version: Versi
-      wiki: Wiki
-      wiki_page: Halaman wiki
-      work_package: Pakej kerja
-      workflow: Aliran kerja
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: Tiada sebarang aktiviti untuk projek dalam tempoh masa ini.
@@ -1743,6 +1891,7 @@ ms:
     custom_field: Ruang tersuai
     custom_options: Nilai yang mungkin
     custom_values: Ruang tersuai
+    customized: Customized
     date: Tarikh
     dates_interval: Date range
     default_columns: Kolum default
@@ -1769,6 +1918,7 @@ ms:
     is_default: Nilai default
     is_for_all: Untuk semua projek
     issue: Pakej kerja
+    jira: Jira
     journal: Jurnal
     journal_notes: Komen
     lastname: Nama akhir
@@ -2307,8 +2457,12 @@ ms:
   description_available_columns: Kolum Tersedia
   description_category_reassign: Pilih kategori
   description_choose_project: Projek-projek
-  description_compare_from: Bandingkan dari
-  description_compare_to: 'Bandingkan dengan '
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Anda di sini: '
   description_date_from: Masukkan tarikh mula
   description_date_to: Masukkan tarikh tamat
@@ -2509,8 +2663,6 @@ ms:
         description: Pastikan fail yang dimuat naik dalam OpenProject diimbas untuk virus sebelum boleh diakses oleh pengguna lain.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Kongsi pakej kerja dengan pengguna yang bukan ahli projek.
       work_package_subject_generation:
@@ -2536,7 +2688,6 @@ ms:
   error_attribute_not_highlightable: 'Atribut tidak boleh disorotkan: %{attributes}'
   error_auth_source_sso_failed: Log masuk satu kali (SSO) untuk pengguna '%{value}' gagal
   error_can_not_archive_project: 'Projek ini tidak boleh diarkibkan: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Tidak dapat membuang ruangan tersuai
   error_can_not_delete_entry: Tidak dapat membuang entri
@@ -2547,6 +2698,7 @@ ms:
   error_can_not_find_all_resources: Tidak dapat mencari semua sumber yang berkaitan dengan permintaan ini.
   error_can_not_invite_user: Gagal menghantar jemputan kepada pengguna.
   error_can_not_remove_role: Peranan ini sedang digunakan dan tidak boleh dipadam.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Pakej kerja yang ditugaskan ke versi tertutup tidak boleh dibuka semula
   error_can_not_unarchive_project: 'Projek ini tidak boleh dinyaharkibkan: %{errors}'
   error_check_user_and_role: Sila pilih pengguna dan peranan.
@@ -2827,14 +2979,15 @@ ms:
     blocks:
       community: Komuniti OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3007,7 +3160,6 @@ ms:
   label_available_project_work_package_types: Jenis pakej kerja yang tersedia
   label_available_projects: Projek yang tersedia
   label_backup: Sandaran
-  label_backup_code: Kod sandaran
   label_basic_details: Butiran asas
   label_between: antara
   label_blocked_by: disekat oleh
@@ -3027,7 +3179,6 @@ ms:
   label_calendar_show: Paparkan Kalendar
   label_calendar_subscriptions: Langganan kalendar
   label_calendars_and_dates: Kalendar dan tarikh
-  label_category: Kategori
   label_change_parent: Ubah induk
   label_change_password: Change password
   label_change_plural: Perubahan
@@ -3036,9 +3187,9 @@ ms:
   label_change_status_of_user: 'Tukar status #{username}'
   label_change_view_all: Lihat semua perubahan
   label_changes_details: Butiran semua perubahan
-  label_changeset: Set ubahsuai
   label_changeset_id: ID Set Ubahsuai
   label_changeset_plural: Set ubah suai
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Tanda/Nyahtanda semua dalam kolum
   label_check_uncheck_all_in_row: Tanda/Nyahtanda semua dalam baris
   label_checked: ditanda
@@ -3185,6 +3336,7 @@ ms:
   label_feeds_access_key: Kunci akses RSS
   label_feeds_access_key_created_on: Kunci akses RSS dicipta %{value} yang lalu
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Fail-fail
   label_filter: Penyaring
   label_filter_add: Tambah penyaring
@@ -3211,7 +3363,6 @@ ms:
   label_git_path: Laluan ke direktori .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Peranan global
   label_global_roles: Peranan global
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3280,7 +3431,6 @@ ms:
   label_last_week: minggu lepas
   label_latest_revision: Semakan terkini
   label_latest_revision_plural: Semakan terkini
-  label_ldap_auth_source: Sambungan LDAP
   label_ldap_auth_source_new: Sambungan LDAP baharu
   label_ldap_auth_source_plural: Sambungan LDAP
   label_ldap_authentication: Pengesahan LDAP
@@ -3307,9 +3457,9 @@ ms:
   label_me: saya
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_new: Ahli baru
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Ahli-ahli
-  label_member_role: Peranan projek
   label_membership_added: Ahli ditambah
   label_membership_plural: Keahlian
   label_membership_updated: Ahli dikemas kini
@@ -3422,7 +3572,6 @@ ms:
   label_permissions: Kebenaran
   label_permissions_report: Laporan kebenaran
   label_personalize_page: Peribadikan halaman ini
-  label_placeholder_user: Pengguna placeholder
   label_placeholder_user_new: Pengguna placeholder baharu
   label_placeholder_user_plural: Pengguna placeholder
   label_planning: Perancangan
@@ -3485,7 +3634,6 @@ ms:
   label_related_work_packages: Pakej kerja yang berkaitan
   label_relates: berkaitan dengan
   label_relates_to: berkaitan dengan
-  label_relation: Tindakan
   label_relation_actions: Tindakan perhubungan
   label_relation_delete: Hubungan terpadam
   label_relation_edit: Edit relation
@@ -3540,7 +3688,6 @@ ms:
   label_send_information: Hantar kelayakan baharu ke pengguna tersebut
   label_send_invitation: Hantar jemputan
   label_send_test_email: Hantar e-mel ujian
-  label_session: Sesi
   label_setting_plural: Tetapan
   label_share: Kongsi
   label_share_project_list: Kongsi senarai projek
@@ -3616,7 +3763,6 @@ ms:
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam projek
-  label_user: Pengguna
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Pengguna dan kebenaran
   label_user_anonymous: Anonim
@@ -3647,19 +3793,17 @@ ms:
   label_week: Minggu
   label_weighted_item_list: Weighted item list
   label_what_is_this: Apakah ini?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Halaman wiki ditambah
   label_wiki_content_updated: Halaman wiki dikemas kini
   label_wiki_dont_show_menu_item: Jangan paparkan halaman wiki ini di navigasi projek.
   label_wiki_edit: Edit wiki
   label_wiki_edit_plural: Edit wiki
-  label_wiki_menu_item: Item menu wiki
   label_wiki_navigation: Navigasi wiki
-  label_wiki_page: Halaman wiki
   label_wiki_page_attachments: Lampiran halaman wiki
   label_wiki_page_id: ID halaman wiki
   label_wiki_page_plural: Halaman wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Paparkan item submenu 'Jadual Kandungan'
   label_wiki_show_menu_item: Paparkan sebagai item menu dalam navigasi projek
   label_wiki_show_new_page_link: Paparkan item submenu 'Cipta laman anak baharu'
@@ -3676,7 +3820,6 @@ ms:
   label_work_package_hierarchy: Hierarki pakej kerja
   label_work_package_new: Pakej kerja baharu
   label_work_package_plural: Pakej pekerjaan
-  label_work_package_status: Status pakej kerja
   label_work_package_status_new: Status baharu
   label_work_package_status_plural: Status pakej kerja
   label_work_package_tracking: Penjejakan pakej kerja
@@ -5757,6 +5900,7 @@ ms:
   text_destroy_what_to_do: Apakah yang anda ingin lakukan?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Perbezaan ini dipendekkan kerana ia melebihi saiz maksimum yang boleh dipaparkan."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Penghantaran e-mel belum dikonfigurasi, dan pemberitahuan telah dinyahaktifkan.
     Konfigurasikan server SMTP anda untuk mengaktifkannya.
@@ -6021,6 +6165,17 @@ ms:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6088,6 +6243,14 @@ ms:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6253,6 +6416,7 @@ ms:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6266,7 +6430,6 @@ ms:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

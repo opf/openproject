@@ -256,6 +256,7 @@ ca:
         templated_value:
           false: desmarca com a plantilla
           true: marca com a plantilla
+        type_variant: Work package type variant
         types: Tipus
         versions: Versions
         work_packages: Paquets de treball
@@ -971,58 +972,246 @@ ca:
           one: no s'ha pogut desar aquest %{model} perquè s'ha trobat un error
           other: no s'ha pogut desar aquest %{model} perquè s'han trobat %{count} errors
     models:
-      attachment: Fitxer
+      action:
+        one: Action
+        other: Actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Categoria
-      color: Color
-      comment: Comentari
-      custom_action: Accions personalitzades
-      custom_field: Camp personalitzat
-      customized: Customized
-      doorkeeper/application: Aplicació OAuth
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Fòrum
-      global_role: Global role
-      group: Grup
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Prioritat
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Membre
-      message: Message
-      news: Notícies
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notificació
         other: Notificacions
-      placeholder_user: Usuari de marcador de posició
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Projecte
         other: Projectes
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Llistes de projectes
-      query: Consulta personalitzada
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Rol
         other: Rols
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Estat del paquet de treball
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Token d'accés
         other: Token d'accés
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1032,12 +1221,57 @@ ca:
       type_variant:
         one: Variant
         other: Variants
-      user: Usuari
-      version: Versió
-      wiki: Wiki
-      wiki_page: Pàgina wiki
-      work_package: Paquet de treball
-      workflow: Flux de treball
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
@@ -1769,6 +2003,7 @@ ca:
     custom_field: Camp personalitzat
     custom_options: Valors possibles
     custom_values: Camps personalitzats
+    customized: Customized
     date: Data
     dates_interval: Interval de dates
     default_columns: Columnes predeterminades
@@ -1795,6 +2030,7 @@ ca:
     is_default: Valor per defecte
     is_for_all: Per tots els projectes
     issue: Paquet de treball
+    jira: Jira
     journal: Diari
     journal_notes: Comentari
     lastname: Cognom
@@ -2349,8 +2585,12 @@ ca:
   description_available_columns: Columnes disponibles
   description_category_reassign: Triar categoria
   description_choose_project: Projectes
-  description_compare_from: Compara des de
-  description_compare_to: Compara amb
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ets aquí:'
   description_date_from: Introduir data d'inici
   description_date_to: Introduir data final
@@ -2552,8 +2792,6 @@ ca:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -2579,7 +2817,6 @@ ca:
   error_attribute_not_highlightable: 'Atribut(s) no destacables: %{attributes}'
   error_auth_source_sso_failed: Inici de sessió únic (SSO) per usuari "%{value}" fallat
   error_can_not_archive_project: 'Aquest projecte no es pot arxivar: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: No s'ha pogut suprimir el camp personalitat
   error_can_not_delete_entry: No s'ha pogut esborrar l'entrada
@@ -2590,6 +2827,7 @@ ca:
   error_can_not_find_all_resources: No s'han pogut trobar tots els recursos relacionats amb aquesta sol·licitud.
   error_can_not_invite_user: Error en enviar la invitació a l'usuari.
   error_can_not_remove_role: Aquest rol s'està utilitzant i no es pot suprimir.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Un paquet de treball assignat a una versió tancada no es pot reobrir
   error_can_not_unarchive_project: 'Aquest projecte no es pot desarxivar: %{errors}'
   error_check_user_and_role: Trieu un usuari i un rol.
@@ -2870,14 +3108,15 @@ ca:
     blocks:
       community: Comunitat OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3050,7 +3289,6 @@ ca:
   label_available_project_work_package_types: Classes de paquet de treball disponibles
   label_available_projects: Available projects
   label_backup: Còpia de seguretat
-  label_backup_code: Codi de còpia de seguretat
   label_basic_details: Basic details
   label_between: entre
   label_blocked_by: bloquejats per
@@ -3070,7 +3308,6 @@ ca:
   label_calendar_show: Mostreu el calendari
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendaris i dates
-  label_category: Categoria
   label_change_parent: Canviar pare
   label_change_password: Change password
   label_change_plural: Canvis
@@ -3079,9 +3316,9 @@ ca:
   label_change_status_of_user: 'Canviar l''estat de #{username}'
   label_change_view_all: Visualitza tots els canvis
   label_changes_details: Detalls de tots els canvis
-  label_changeset: Conjunt de canvis
   label_changeset_id: Conjunt de canvis d'ID
   label_changeset_plural: Conjunt de canvis
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Marca/desmarca tot a la columna
   label_check_uncheck_all_in_row: Marca/desmarca tot a la fila
   label_checked: comprovat
@@ -3228,6 +3465,7 @@ ca:
   label_feeds_access_key: Clau d'accés RSS
   label_feeds_access_key_created_on: Clau d'accés RSS creada fa %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Arxius
   label_filter: Filtres
   label_filter_add: Afegir un filtre
@@ -3252,7 +3490,6 @@ ca:
   label_git_path: Ruta del directori de .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3321,7 +3558,6 @@ ca:
   label_last_week: l'última setmana
   label_latest_revision: Última revisió
   label_latest_revision_plural: Últimes revisions
-  label_ldap_auth_source: Connexió LDAP
   label_ldap_auth_source_new: Nova connexió LDAP
   label_ldap_auth_source_plural: Connexions LDAP
   label_ldap_authentication: Autenticació LDAP
@@ -3348,9 +3584,9 @@ ca:
   label_me: jo mateix
   label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_new: Nou membre
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membres
-  label_member_role: Project role
   label_membership_added: Membre afegit
   label_membership_plural: Memberships
   label_membership_updated: Membre actualitzat
@@ -3463,7 +3699,6 @@ ca:
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
   label_personalize_page: Personalitza aquesta pàgina
-  label_placeholder_user: Usuari de marcador de posició
   label_placeholder_user_new: Nou usuari de marcador de posició
   label_placeholder_user_plural: Usuaris de marcador de posició
   label_planning: Planificació
@@ -3526,7 +3761,6 @@ ca:
   label_related_work_packages: Paquets de treball relacionats
   label_relates: relacionat amb
   label_relates_to: relacionat amb
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Suprimir relació
   label_relation_edit: Edit relation
@@ -3579,7 +3813,6 @@ ca:
   label_send_information: Envia noves credencials a l'usuari
   label_send_invitation: Enviar invitació
   label_send_test_email: Enviar correu electrònic de prova
-  label_session: Sessió
   label_setting_plural: Configuració
   label_share: Compartir
   label_share_project_list: Share project list
@@ -3655,7 +3888,6 @@ ca:
   label_used_by: Utilitzat per
   label_used_by_types: Utilitxat per classes
   label_used_in_projects: Utilitzats en projectes
-  label_user: Usuari
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Usuaris i permisos
   label_user_anonymous: Anònim
@@ -3686,19 +3918,17 @@ ca:
   label_week: Setmana
   label_weighted_item_list: Weighted item list
   label_what_is_this: Què és això?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: S'ha afegit la pàgina wiki
   label_wiki_content_updated: S'ha actualitzat la pàgina wiki
   label_wiki_dont_show_menu_item: No mostris aquest pàgina wiki en la navegació del projecte
   label_wiki_edit: Edició wiki
   label_wiki_edit_plural: Edicions wiki
-  label_wiki_menu_item: Element de menú Wiki
   label_wiki_navigation: Navegació del wiki
-  label_wiki_page: Pàgina wiki
   label_wiki_page_attachments: Fitxers adjunts de la pàgina Wiki
   label_wiki_page_id: ID de la pàgina Wiki
   label_wiki_page_plural: Pàgines wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Mostra l'element del submenú 'Taula de continguts'
   label_wiki_show_menu_item: Mostrar com a element de menú en la navegació del projecte
   label_wiki_show_new_page_link: Mostra l'element submenú 'Crea nova pàgina fill'
@@ -3715,7 +3945,6 @@ ca:
   label_work_package_hierarchy: Jerarquia del paquet de treball
   label_work_package_new: Paquet de treball nou
   label_work_package_plural: Paquets de treball
-  label_work_package_status: Estat del paquet de treball
   label_work_package_status_new: Nou estat
   label_work_package_status_plural: Estats de paquet de treball
   label_work_package_tracking: Paquet de treball de seguiment
@@ -5802,6 +6031,7 @@ ca:
   text_destroy_what_to_do: Què vols fer?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Aquestes diferències s'han truncat perquè excedeixen la mida màxima que es pot mostrar."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     L'entrega de correu electrònic no està configurada, i les notificacions estan desactivades.
     Configura el teu servidor SMTP per a habilitar-les.
@@ -6070,6 +6300,17 @@ ca:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6137,6 +6378,14 @@ ca:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6304,6 +6553,7 @@ ca:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6317,7 +6567,6 @@ ca:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

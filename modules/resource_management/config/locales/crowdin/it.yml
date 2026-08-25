@@ -39,10 +39,24 @@ it:
             query:
               must_be_work_package_query: deve essere una query di macro-attività.
     models:
-      resource_allocation: Allocazione delle risorse
-      resource_planner: Pianificatore di risorse
-      resource_user_card: Schede utente
-      resource_work_package_list: Elenco macro-attività
+      resource_allocation:
+        one: Resource Allocation
+        other: Resource Allocations
+      resource_planner:
+        one: Resource Planner
+        other: Resource Planners
+      resource_user_card:
+        one: User card
+        other: User cards
+      resource_user_timeline:
+        one: User timeline
+        other: User timelines
+      resource_work_package_list:
+        one: Work packages list
+        other: Work packages lists
+      resource_work_package_timeline:
+        one: Work packages timeline
+        other: Work packages timelines
   button_next: Avanti
   ee:
     features:

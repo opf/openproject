@@ -108,7 +108,7 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
   def expected_table_header(with_times_column)
     [
       I18n.t(:"activerecord.attributes.time_entry.spent_on"),
-      I18n.t(:"activerecord.models.work_package"),
+      WorkPackage.model_name.human,
       with_times_column ? I18n.t(:"export.timesheet.time") : nil,
       I18n.t(:"activerecord.attributes.time_entry.hours"),
       I18n.t(:"activerecord.attributes.time_entry.activity")

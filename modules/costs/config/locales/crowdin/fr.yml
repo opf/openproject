@@ -73,14 +73,24 @@ fr:
             project_ids:
               blank: Veuillez sélectionner un projet.
         time_entry:
-          cannot_log_for_this_work_package: Impossible de consigner du temps pour ce lot de travaux.
-          duplicate_ongoing: Une saisie de temps en cours existe déjà pour cet utilisateur.
-          exceeds_user_working_hours: ne peut dépasser les %{limit} heures disponibles au cours de la journée de travail de l'utilisateur.
-          in_past_month: se situe dans un mois qui est clôturé. Les saisies de temps ne peuvent être ajoutées, modifiées ou supprimées qu'à partir du %{date}.
-          invalid_time: doit être entre 00:00 et 23:59.
-          max_hours_per_day_exceeded: le nombre total d'heures enregistrées ne peut pas dépasser %{limit} par jour.
-          max_hours_per_entry_exceeded: la durée d'une saisie unique ne peut pas dépasser %{limit} heures.
-          not_a_working_day: n'est pas un jour ouvré pour l'utilisateur.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: Le nombre d'heures enregistrées ne peut pas dépasser la limite de %{limit} heures disponibles au cours de la journée de travail de l'utilisateur.
+              format: "%{message}"
+              max_hours_per_day_exceeded: Le nombre d'heures enregistrées ne peut pas dépasser la limite de %{limit} heures par jour définie par l'administrateur.
+              max_hours_per_entry_exceeded: Les heures enregistrées ne peuvent pas dépasser la limite de %{limit} heures pour une seule entrée définie par l'administrateur.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Vous ne pouvez pas saisir des heures pour un mois écoulé. Les saisies d'heures ne peuvent être ajoutées, modifiées ou supprimées qu'à partir du %{date}.
+              not_a_working_day: Le jour sélectionné est un jour chômé pour cet utilisateur.
+            start_time:
+              format: "%{message}"
+              invalid_time: Horaire invalide. L'heure doit être comprise entre 00:00 et 23:59.
+          duplicate_ongoing: Un autre minuteur est déjà en cours d'exécution. Un seul minuteur peut être actif en même temps.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de coût.'
           nullify_is_not_valid_for_cost_entries: Des entrées de coût ne peuvent pas être assignées à un projet.
@@ -88,16 +98,30 @@ fr:
       cost_entry:
         one: Entrée de coût
         other: Saisies de coûts
+      cost_rate:
+        one: Coût horaire
+        other: Cost rates
       cost_type:
         one: Types de coût
         other: Types de coûts
-      rate: Tarif
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Saisie du temps
         other: Saisies du temps
       time_entry_activity:
         one: Activités de suivi du temps
         other: Activités de suivi du temps
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -196,7 +220,6 @@ fr:
   label_greater_or_equal: ">="
   label_group_by: Grouper par
   label_group_by_add: Ajouter un champ de regroupement
-  label_hourly_rate: Tarif horaire
   label_include_deleted: Inclure les supprimé(e)s
   label_kind: Type
   label_less_or_equal: "<="
@@ -217,7 +240,6 @@ fr:
   label_previous_month: Mois précédent
   label_previous_week: Semaine précédente
   label_previous_workweek: Semaine de travail précédente
-  label_rate: Tarif
   label_rate_plural: Tarifs
   label_show: Afficher
   label_specific_day: Jour %{day}
@@ -231,7 +253,6 @@ fr:
   label_today_capitalized: Aujourd'hui
   label_units: Unités de coût
   label_until: jusque
-  label_user: Utilisateur
   label_valid_from: Valable à partir du
   label_view_mode_switcher: Changer la vue
   label_work_package_filter_add: Ajouter filtre de lot de travaux
@@ -273,7 +294,7 @@ fr:
   setting_enforce_tracking_start_and_end_times_caption: Rend la saisie des heures de début et de fin obligatoire lors de la journalisation.
   setting_enforce_without_allow: Il est nécessaire d'autoriser les heures de début et de fin pour pouvoir les exiger
   setting_time_entries_limit_to_user_working_hours: Se limiter aux heures de travail de l'utilisateur
-  setting_time_entries_limit_to_user_working_hours_caption: Limite le nombre d'heures pouvant être enregistrées à la capacité de cet utilisateur pour la journée en question. Les utilisateurs pour lesquels aucun horaire de travail n'a été défini ne seront pas soumis à cette restriction.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Nombre maximal d'heures par jour
   setting_time_entries_max_hours_per_day_caption: Limite le nombre total d'heures pendant lesquelles un utilisateur peut se connecter au cours d'une même journée. La valeur 0 signifie qu'il n'y a aucune restriction.
   setting_time_entries_max_hours_per_entry: Nombre maximal d'heures par enregistrement de temps

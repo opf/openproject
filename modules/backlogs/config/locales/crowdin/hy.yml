@@ -92,9 +92,15 @@ hy:
               task_version_must_be_the_same_as_story_version: պետք է նույնը լինի, ինչ ծնող պատմության տարբերակը։
           backlog_bucket_xor_sprint: չի կարող միաժամանակ նշանակվել սպրինտին և բեքլոգի բաժնին։
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Սպրինտ
         other: Սպրինտներ
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package

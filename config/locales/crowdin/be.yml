@@ -256,6 +256,7 @@ be:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Types
         versions: Versions
         work_packages: Work Packages
@@ -977,64 +978,356 @@ be:
           many: "%{count} errors prohibited this %{model} from being saved"
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: File
+      action:
+        one: Action
+        few: Actions
+        many: Actions
+        other: Actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         few: Attribute help texts
         many: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         few: Authentication providers
         many: Authentication providers
         other: Authentication providers
-      category: Category
-      color: Color
-      comment: Comment
-      custom_action: Custom action
-      custom_field: Карыстальніцкае поле
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         few: Enterprise tokens
         many: Enterprise tokens
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Group
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: Priority
         few: Priorities
         many: Priorities
         other: Priorities
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Member
-      message: Message
-      news: News
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Notification
         few: Notifications
         many: Notifications
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         one: Project
         few: Projects
         many: Projects
         other: Projects
+      project/phase:
+        one: Project phase
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Project list
         few: Project lists
         many: Project lists
         other: Project lists
-      query: Custom query
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: Role
         few: Roles
@@ -1045,12 +1338,46 @@ be:
         few: SCIM clients
         many: SCIM clients
         other: SCIM clients
-      status: Work package status
+      service_account:
+        one: Service account
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        many: System users
+        other: System users
       token/api:
         one: Access token
         few: Access tokens
         many: Access tokens
         other: Access tokens
+      token/base:
+        one: Token
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         few: RSS tokens
@@ -1066,12 +1393,91 @@ be:
         few: Variants
         many: Variants
         other: Variants
-      user: User
-      version: Version
-      wiki: Wiki
-      wiki_page: Wiki page
-      work_package: Work package
-      workflow: Workflow
+      user:
+        one: User
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Не было ніякай актыўнасці па праекту на працягу гэтага часу.
@@ -1829,6 +2235,7 @@ be:
     custom_field: Карыстальніцкае поле
     custom_options: Possible values
     custom_values: Карыстальніцкія палі
+    customized: Customized
     date: Дата
     dates_interval: Date range
     default_columns: Default columns
@@ -1855,6 +2262,7 @@ be:
     is_default: Default value
     is_for_all: For all projects
     issue: Work package
+    jira: Jira
     journal: Journal
     journal_notes: Comment
     lastname: Прозвішча
@@ -2449,8 +2857,12 @@ be:
   description_available_columns: Available Columns
   description_category_reassign: Choose category
   description_choose_project: Projects
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_to: Enter end date
@@ -2654,8 +3066,6 @@ be:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -2681,7 +3091,6 @@ be:
   error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
   error_can_not_archive_project: 'This project cannot be archived: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Unable to delete custom field
   error_can_not_delete_entry: Unable to delete entry
@@ -2692,6 +3101,7 @@ be:
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_can_not_invite_user: Failed to send invitation to user.
   error_can_not_remove_role: This role is in use and cannot be deleted.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: A work package assigned to a closed version cannot be reopened
   error_can_not_unarchive_project: 'This project cannot be unarchived: %{errors}'
   error_check_user_and_role: Please choose a user and a role.
@@ -2982,14 +3392,15 @@ be:
     blocks:
       community: OpenProject community
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3162,7 +3573,6 @@ be:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: between
   label_blocked_by: blocked by
@@ -3182,7 +3592,6 @@ be:
   label_calendar_show: Show Calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Category
   label_change_parent: Change parent
   label_change_password: Change password
   label_change_plural: Changes
@@ -3191,9 +3600,9 @@ be:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: checked
@@ -3340,6 +3749,7 @@ be:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Files
   label_filter: Filters
   label_filter_add: Add filter
@@ -3364,7 +3774,6 @@ be:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3433,7 +3842,6 @@ be:
   label_last_week: last week
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3460,9 +3868,9 @@ be:
   label_me: me
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: New member
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Members
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3575,7 +3983,6 @@ be:
   label_permissions: Permissions
   label_permissions_report: Permissions report
   label_personalize_page: Personalize this page
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planning
@@ -3638,7 +4045,6 @@ be:
   label_related_work_packages: Related work packages
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3691,7 +4097,6 @@ be:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: Settings
   label_share: Share
   label_share_project_list: Share project list
@@ -3767,7 +4172,6 @@ be:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: User
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonymous
@@ -3798,19 +4202,17 @@ be:
   label_week: Week
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3827,7 +4229,6 @@ be:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: New work package
   label_work_package_plural: Work packages
-  label_work_package_status: Work package status
   label_work_package_status_new: New status
   label_work_package_status_plural: Work package statuses
   label_work_package_tracking: Work package tracking
@@ -5955,6 +6356,7 @@ be:
   text_destroy_what_to_do: What do you want to do?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -6223,6 +6625,17 @@ be:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6290,6 +6703,14 @@ be:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6461,6 +6882,7 @@ be:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6474,7 +6896,6 @@ be:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

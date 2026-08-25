@@ -32,6 +32,9 @@ ko:
           invalid_certificate: "- 유효한 PEM 형식 인증서가 아닙니다: %{additional_message}"
           invalid_private_key: "- 유효한 PEM 형식 비공개 키가 아닙니다: %{additional_message}"
           unmatched_private_key: "- 지정된 인증서에 속하지 않습니다."
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: 이 SAML 공급자를 삭제하시겠습니까?
     delete_title: SAML 공급자 삭제

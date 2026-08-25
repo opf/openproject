@@ -117,7 +117,6 @@ import {
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 import moment from 'moment-timezone';
 import allLocales from '@fullcalendar/core/locales-all';
-import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import {
   personIconData,
   toDOMString,

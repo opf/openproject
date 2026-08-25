@@ -20,8 +20,10 @@ id:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filter base DN harus dimuat dalam base DN koneksi LDAP
     models:
-      ldap_groups/synchronized_filter: Filter sinkronisasi Grup LDAP
-      ldap_groups/synchronized_group: Grup LDAP tersinkronisasi
+      ldap_groups/synchronized_filter:
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

@@ -375,6 +375,42 @@ because it's still in use by work packages)
         expect(response).to have_http_status(:ok)
         expect(project.enabled_types).not_to include(type)
       end
+
+      context "when work packages stand in the way of one project" do
+        let!(:other_project) { create(:project) }
+
+        before do
+          create(:project_type, project:, type:)
+          create(:project_type, project: other_project, type:)
+          create(:work_package, project:, type:)
+
+          post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
+        end
+
+        it { expect(response).to have_http_status(:unprocessable_entity) }
+
+        it "drops the type from the projects it can and leaves the blocked one alone" do
+          expect(type.reload.projects).to contain_exactly(project)
+        end
+
+        it "names the blocked project" do
+          expect(sanitize_string(response.body))
+            .to include("Unable to remove \"#{type.name}\" from project \"#{project.name}\" " \
+                        "because it's still in use by work packages")
+        end
+
+        it "links to the work packages standing in the way" do
+          expect(response.body)
+            .to include(CGI.escapeHTML(work_packages_path(query_props: { f: [
+              { n: "type", o: "=", v: [type.id] },
+              { n: "project", o: "=", v: [project.id.to_s] }
+            ] }.to_json)))
+        end
+
+        it "re-renders the projects table" do
+          expect(response.body).to include(%(target="#{Projects::TableComponent.wrapper_key}"))
+        end
+      end
     end
   end
 end

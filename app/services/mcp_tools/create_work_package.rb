@@ -37,10 +37,18 @@ module McpTools
     annotations read_only: false, idempotent: false, destructive: false
 
     input_schema(
+      additionalProperties: false,
+      required: %i[data],
       properties: {
         data: {
           type: %w[object],
-          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3."
+          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3.",
+          properties: {
+            _links: {
+              description: "Contains related resources, such as projects, statuses, types, etc. They are represented as links, " \
+                           "i.e. objects with an 'href' property."
+            }
+          }
         }
       }
     )

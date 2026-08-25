@@ -43,8 +43,14 @@ module WorkPackageTypes
 
       def variant = params[:variant]
 
+      # Inviting the admin to add a project reads as a lie when they have just searched for one:
+      # the table is empty because of the filter, not because the variant has no projects.
       def empty_row_message
-        I18n.t("types.edit.projects.empty_state.description")
+        if params[:filtered]
+          I18n.t("types.edit.projects.empty_state.no_results")
+        else
+          I18n.t("types.edit.projects.empty_state.description")
+        end
       end
     end
   end

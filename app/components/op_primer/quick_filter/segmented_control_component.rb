@@ -77,9 +77,7 @@ module OpPrimer
       end
 
       def filters_params(value)
-        filters = @query.filters
-          .reject { |f| f.name == @filter_key }
-          .map { |f| { f.class.key.to_s => { "operator" => f.operator.to_s, "values" => f.values } } }
+        filters = OpPrimer::QuickFilter.serialize(@query.filters, except: @filter_key)
 
         filters << { @filter_key.to_s => { "operator" => "=", "values" => [value] } } if value
 

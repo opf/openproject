@@ -38,6 +38,7 @@ module McpTools
     enable_pagination
 
     input_schema(
+      additionalProperties: false,
       required: %i[work_package_id],
       properties: {
         work_package_id: {

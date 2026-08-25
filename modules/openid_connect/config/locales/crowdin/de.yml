@@ -43,6 +43,13 @@ de:
           invalid_claims_location: 'enthalten nicht unterstützte Werte: %{invalid}. Unterstützte Werte sind: %{supported}.'
           invalid_claims_values: definiert kein Array bei %{attribute}.
           non_object_attribute: definiert kein JSON-Objekt unter %{attribute}.
+    models:
+      openid_connect/provider:
+        one: OpenID Connect Anbieter
+        other: OpenID Connect-Anbieter
+      openid_connect/user_token:
+        one: OpenID Connect-Token
+        other: OpenID Connect-Token
   logout_warning: 'Sie wurden abgemeldet. Der Inhalt eines Formulars, das Sie uns übermitteln, kann verloren gehen. Bitte [einloggen].
 
     '

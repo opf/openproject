@@ -77,7 +77,8 @@ module WorkPackageTypes
         return project.name if applied.nil? || applied == variant
 
         render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :center)) do
-          safe_join([project.name, render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { applied.composite_name }])
+          safe_join([project.name,
+                     render(Primer::Beta::Text.new(font_weight: :bold, ml: 2)) { applied.composite_name }])
         end
       end
 

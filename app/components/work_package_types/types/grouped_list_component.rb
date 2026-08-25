@@ -69,12 +69,8 @@ module WorkPackageTypes
         type.variants.detect(&:enabled_in_new_projects?)
       end
 
-      def variant_path(variant)
-        edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
-      end
-
       def add_variant_path(type)
-        new_creation_wizard_types_path(type_id: type.id)
+        new_creation_wizard_types_path(type_id: type.id, back_url: types_path)
       end
 
       def menu_id(type)

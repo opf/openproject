@@ -579,8 +579,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
 
-  context "with a request for a PDF Report with relation columns",
-          with_ee: %i[work_package_query_relation_columns] do
+  context "with a request for a PDF Report with relation columns" do
     let(:options) { { pdf_export_type: "report", long_text_fields: "" } }
     let(:relation_table_headers) do
       %i[id type subject status start_date due_date].map { |name| column_title(name) }

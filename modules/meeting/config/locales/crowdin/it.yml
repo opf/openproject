@@ -100,11 +100,27 @@ it:
         recurring_meeting_interim_response:
           not_an_occurrence: non è un orario di occorrenza valido per questa riunione ricorrente
     models:
-      meeting: Riunione una tantum
-      meeting_agenda: Ordine del giorno
-      meeting_agenda_item: Attività
-      meeting_section: Sezione
-      recurring_meeting: Riunione ricorrente
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: Iscrizione alle riunioni iCal
         other: Iscrizioni alle riunioni iCal
@@ -255,7 +271,6 @@ it:
   label_past_meetings: Riunioni precedenti
   label_past_meetings_short: Passato
   label_recurring_filter: Filtro ricorrente
-  label_recurring_meeting: Riunione ricorrente
   label_recurring_meeting_cancel: Annulla questa ricorrenza
   label_recurring_meeting_create: Apri
   label_recurring_meeting_delete: Elimina ricorrenza

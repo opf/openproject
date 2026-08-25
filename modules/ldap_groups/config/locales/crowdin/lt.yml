@@ -20,8 +20,16 @@ lt:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filtro pagrindo DN turi būti LDAP jungties pagrindo DN viduje
     models:
-      ldap_groups/synchronized_filter: LDAP grupių sinchronizavimo filtras
-      ldap_groups/synchronized_group: Sinchronizuota LDAP grupė
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        few: LDAP Group synchronization filters
+        many: LDAP Group synchronization filters
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        few: Synchronized LDAP groups
+        many: Synchronized LDAP groups
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

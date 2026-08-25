@@ -1,5 +1,12 @@
 ---
 ru:
+  activerecord:
+    models:
+      boards/grid:
+        one: Доска
+        few: Boards
+        many: Boards
+        other: Доски
   boards:
     board_type_attributes:
       assignee: Исполнитель

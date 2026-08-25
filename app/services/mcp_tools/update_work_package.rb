@@ -37,6 +37,7 @@ module McpTools
     annotations read_only: false, idempotent: true, destructive: false
 
     input_schema(
+      additionalProperties: false,
       required: %w[id data],
       properties: {
         id: {
@@ -54,6 +55,10 @@ module McpTools
               description: "The lock version as indicated by the work package when reading it. This value is used for " \
                            "optimistic locking, if a change is rejected because of a conflict, " \
                            "re-read the work package and apply changes based on its new state."
+            },
+            _links: {
+              description: "Contains related resources, such as projects, statuses, types, etc. They are represented as links, " \
+                           "i.e. objects with an 'href' property."
             }
           }
         }

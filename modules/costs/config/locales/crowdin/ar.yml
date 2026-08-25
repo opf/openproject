@@ -73,14 +73,24 @@ ar:
             project_ids:
               blank: Please select a project.
         time_entry:
-          cannot_log_for_this_work_package: تعذر تسجيل الوقت لهذا العمل.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: must be between 00:00 and 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة.'
           nullify_is_not_valid_for_cost_entries: لا يمكن تعيين إدخالات التكلفة للمشروع.
@@ -92,6 +102,13 @@ ar:
         few: Cost entries
         many: Cost entries
         other: Cost entries
+      cost_rate:
+        zero: Cost rates
+        one: Cost rate
+        two: Cost rates
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         zero: أنواع التكلفة
         one: أنواع التكلفة
@@ -99,7 +116,27 @@ ar:
         few: أنواع التكلفة
         many: أنواع التكلفة
         other: أنواع التكلفة
-      rate: المعدل
+      default_hourly_rate:
+        zero: Default hourly rates
+        one: Default hourly rate
+        two: Default hourly rates
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        zero: Hourly rates
+        one: Hourly rate
+        two: Hourly rates
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        zero: Rates
+        one: Rate
+        two: Rates
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         zero: Time entries
         one: Time entry
@@ -114,6 +151,13 @@ ar:
         few: Time tracking activities
         many: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        zero: Time entry custom fields
+        one: Time entry custom field
+        two: Time entry custom fields
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -212,7 +256,6 @@ ar:
   label_greater_or_equal: "=<"
   label_group_by: مجموعة بحسب
   label_group_by_add: أضِف حقل التجميع
-  label_hourly_rate: الأجر بالساعة
   label_include_deleted: يتضمن المحذوف
   label_kind: النّوع
   label_less_or_equal: "=>"
@@ -233,7 +276,6 @@ ar:
   label_previous_month: الشهر السابق
   label_previous_week: الأسبوع الماضي
   label_previous_workweek: Previous work week
-  label_rate: المعدل
   label_rate_plural: الأسعار
   label_show: إظهار
   label_specific_day: Day %{day}
@@ -247,7 +289,6 @@ ar:
   label_today_capitalized: اليوم
   label_units: وحدات التكلفة
   label_until: حتى
-  label_user: المستخدم
   label_valid_from: صالح من
   label_view_mode_switcher: Change view
   label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل
@@ -289,7 +330,7 @@ ar:
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
   setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

@@ -13,17 +13,18 @@ de:
           meeting_agenda_items:
             item_0:
               title: Gute Neuigkeiten
+              notes: Was ist diese Woche gut gelaufen?
             item_1:
-              title: Updates des Entwicklungsteams
+              title: Team-Updates
+              notes: News und fokussierte Themen für die kommende Woche.
             item_2:
-              title: Updates des Produktteams
+              notes: "**Das heutige Thema**: Organisation der Open-Source-Konferenz."
             item_3:
-              title: Updates des Marketingteams
-            item_5:
-              title: Updates des Vertriebsteams
-            item_6:
               title: Überprüfung der Quartalsziele
-            item_7:
-              title: Feedback zu den Core Values
-            item_8:
+              notes: Bewertung des Status und Fortschritts der festgelegten Quartalsziele.
+            item_4:
+              title: Feedback zu Core Values
+              notes: Heben Sie diejenigen Mitarbeiter hervor, die diese Woche die Core Values vorgelebt haben.
+            item_5:
               title: Allgemeine Themen
+              notes: Themen gemeinsam lösen oder diskutieren.

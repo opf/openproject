@@ -100,14 +100,30 @@ uz:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: One-time meeting
-      meeting_agenda: Agenda
-      meeting_agenda_item: Agenda item
-      meeting_section: Section
-      recurring_meeting: Recurring meeting
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
-        other: iCal Meeting subscription
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Meetings
@@ -255,7 +271,6 @@ uz:
   label_past_meetings: Past meetings
   label_past_meetings_short: Past
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Open
   label_recurring_meeting_delete: Delete occurrence

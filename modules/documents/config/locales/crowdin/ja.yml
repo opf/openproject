@@ -31,68 +31,71 @@ ja:
         document_type:
           one_or_more_required: 最後のドキュメントタイプを削除することはできません
     models:
-      document: ドキュメント
-      documents: ドキュメント
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: ドキュメント
   attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    collaborative_editing_hocuspocus_url: HocuspocusサーバーのURL
+    documents: Documents
   default_doc_category_tech: 技術文書
   default_doc_category_user: ユーザー文書
   documents:
-    active_editors: Active editors
+    active_editors: アクティブな編集者
     active_editors_count:
-      other: "%{count} active editors"
+      other: "%{count} アクティブな編集者"
     admin:
       collaboration_settings:
         banner:
-          none_writable: These values are configured via environment variables and cannot be edited here.
-          some_unwritable: Some values are configured via environment variables and cannot be edited here.
-        hocuspocus_server: Hocuspocus server
+          none_writable: これらの値は環境変数によって設定されており、ここでは編集できません。
+          some_unwritable: 一部の値は環境変数を通じて設定されており、ここでは編集できません。
+        hocuspocus_server: HocuspocusサーバーのURL
         hocuspocus_server_secret:
-          caption: Paste the secret provided by the Hocuspocus server.
+          caption: Hocuspocusサーバーから提供されたシークレットを貼り付けてください。
           label: クライアントシークレット
         hocuspocus_server_url:
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
-          label: Hocuspocus server URL
+          caption: 正常に動作しているHocuspocusサーバーのWebSocketアドレス。
+          invalid_scheme: WebSocketプロトコル（ws:// または wss://）を使用する必要があります。
+          label: HocuspocusサーバーのURL
         page_header:
           description: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working %{hocuspocus_server_link} to function.
+            この機能を有効にすると、リアルタイム共同編集により、複数のユーザーが同時にドキュメントを編集できるようになります。
+            この機能を利用するには、正常に動作する %{hocuspocus_server_link} が必要です。
       disable_text_collaboration_dialog:
-        confirmation_checkbox_message: I understand that I might permanently lose data
+        confirmation_checkbox_message: データが永久に失われる可能性があることは承知しています
         confirmation_message: |-
-          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
-          real-time collaboration and the BlockNote editor in this instance.
-        heading: Disable real-time collaboration?
-        success: Real-time collaboration has been disabled.
-        title: Disable real-time collaboration
+          既存のドキュメントすべてにアクセスできなくなる可能性があります。このインスタンスで「
+          」のリアルタイム共同編集機能およびBlockNoteエディタを無効にすることを確実に希望する場合にのみ、この操作を行ってください。
+        heading: リアルタイム共同編集を無効にする？
+        success: リアルタイムでの共同作業は無効になっています。
+        title: リアルタイム共同作業を無効にする
       enable_text_collaboration:
         description: |-
-          Once enabled, multiple users will be able to work together on a document at the same time.
-          All new documents will be based on a new editor (BlockNote) and will require a working connection to a
-          Hocuspocus server.
-        heading: Real-time collaboration is not enabled
-        primary_action: Enable real-time collaboration
-        success: Real-time collaboration has been enabled.
-    button_add_type: Type
+          この機能を有効にすると、複数のユーザーが同時に1つのドキュメントで共同作業できるようになります。
+          新規に作成されるすべてのドキュメントは、新しいエディタ（BlockNote）に基づいており、
+          の Hocuspocus サーバーへの接続が正常に確立されている必要があります。
+        heading: リアルタイムでの共同作業は有効になっていません
+        primary_action: リアルタイムでの共同作業を可能にする
+        success: リアルタイムでの共同作業が可能になりました。
+    button_add_type: タイプ
     delete_dialog:
-      confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
-      heading: Delete this document?
-      title: Delete document
+      confirmation_message_html: この操作を行うと、このドキュメントおよびすべての添付ファイルが完全に削除されます。本当に実行しますか？
+      heading: このドキュメントを削除しますか？
+      title: ドキュメントの削除
     delete_document_type_dialog:
       at_least_one_type_required:
-        heading: Cannot delete the last document type
-        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
-        title: Cannot delete document type
-      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
-      heading: Delete this document type?
+        heading: 最後のドキュメントタイプを削除することはできません
+        message: 必ず少なくとも1つのドキュメントタイプが設定されている必要があります。これを削除したい場合は、まず別のドキュメントタイプを作成してください。
+        title: ドキュメントタイプを削除できません
+      confirmation_message: 型「%{type_name}」は現在使用されていません。この型を削除しても、既存のドキュメントには影響はありません。
+      heading: このドキュメントタイプを削除しますか？
       reassign_message:
-        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-      select_reassign_to_label: Reassign documents to
-      title: Delete document type
+        other: "「%{type_name}」というタイプは、現在 %{document_count} のドキュメントで使用されています。これらをどのタイプに再割り当てするか選択してください。"
+      select_reassign_to_label: 文書を以下の宛先に再割り当てする
+      title: ドキュメントタイプを削除する
     document_categories_deprecation_notice:
       description: |-
         新しいDocumentsモジュールの導入に伴い、既存のファイルカテゴリーがドキュメントタイプに変換されました。
@@ -105,22 +108,22 @@ ja:
       description: このビューにはドキュメントがありません。下のボタンをクリックして追加することができます。
       heading: ドキュメントがありません
     index_page:
-      label_legacy: Legacy
+      label_legacy: レガシー
       name: 名称
       type: タイプ
-      updated_at: Last edited
+      updated_at: 最後の記入日
     info_line:
-      connection_restored: You are now back online.
-      currently_offline: You are currently offline.
+      connection_restored: これで再びオンライン状態になりました。
+      currently_offline: 現在、オフラインです。
     label_attachment_author: 添付ファイルの作成者
     label_categories: カテゴリ
-    last_updated_at: Last saved %{time}.
+    last_updated_at: 最終保存日時： %{time}。
     menu:
       all: 全てのドキュメント
-      collaboration_settings: Real-time collaboration
+      collaboration_settings: リアルタイムのコラボレーション
       types: ワークパッケージのタイプ
     new_category: 新規カテゴリ
-    new_type: New type
+    new_type: 新しいタイプ
     page_header:
       action_menu:
         document_actions: ドキュメントのアクション
@@ -130,8 +133,8 @@ ja:
       connection_error_notice:
         action: もう一度試してください
         description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
+          リアルタイムテキストコラボレーションサーバーにアクセスできないため、ドキュメントを開くことができません。
+          問題が解決しない場合は、管理者にお問い合わせください。
       tabs: ドキュメントタブ
     subheader:
       filter:
@@ -148,7 +151,7 @@ ja:
   label_document_new: 新しいドキュメント
   label_document_plural: ドキュメント
   label_document_title: タイトル
-  label_document_type: Type
+  label_document_type: タイプ
   label_documents: ドキュメント
   permission_manage_documents: ドキュメントを管理
   permission_view_documents: ドキュメントの表示

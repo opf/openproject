@@ -10,9 +10,9 @@ ja:
       enable_gravatars: ユーザーのGravatarを有効にする
       enable_local_avatars: ユーザーのカスタムアバターを有効にする
       gravatar_default: デフォルトのグラバター画像
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_gravatar_html: OpenProjectでは、 %{gravatar_url}でGravatarを登録している場合はその画像を使用し、登録がない場合はデフォルトの画像またはアイコンを使用します。
+    text_avatar_local: また、画像をクリックすることで、Gravatarの代わりに独自のアバターをアップロードすることもできます。128×128ピクセルの画像の使用をお勧めします。
+    text_avatar_local_only: 画像をクリックすると、独自のアバターをアップロードできます。128×128ピクセルの画像をお勧めします。
   empty_file_error: 正しい画像をアップロードしてください (jpg、png、gif)
   error_image_size: 画像が大きすぎます。
   error_image_upload: 画像の保存時にエラーが発生しました。

@@ -32,6 +32,9 @@ ja:
           invalid_certificate: 有効なPEMフォーマット証明書ではない:%{additional_message}
           invalid_private_key: は有効なPEMフォーマットの秘密鍵ではない。 %{additional_message}
           unmatched_private_key: 指定された証明書に属さない
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: SAML プロバイダの削除

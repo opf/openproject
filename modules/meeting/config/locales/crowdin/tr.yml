@@ -100,11 +100,27 @@ tr:
         recurring_meeting_interim_response:
           not_an_occurrence: yinelenen toplantı için geçerli bir gerçekleşme zamanı değil
     models:
-      meeting: Tek seferlik toplantı
-      meeting_agenda: Gündem
-      meeting_agenda_item: Gündem maddesi
-      meeting_section: Bölüm
-      recurring_meeting: Yinelenen toplantı
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Toplantı aboneliği
         other: iCal Toplantı aboneliği
@@ -255,7 +271,6 @@ tr:
   label_past_meetings: Geçmiş toplantılar
   label_past_meetings_short: Geçmiş
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Yinelenen toplantı
   label_recurring_meeting_cancel: Bu etklinliği iptal et
   label_recurring_meeting_create: Açık
   label_recurring_meeting_delete: İptal et

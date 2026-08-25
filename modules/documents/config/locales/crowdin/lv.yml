@@ -31,13 +31,20 @@ lv:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: Dokuments
-      documents: Documents
+      document:
+        zero: Documents
+        one: Document
+        other: Documents
+      document_type:
+        zero: Document types
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Dokumenti
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Tehniskā dokumentācija
   default_doc_category_user: Lietotāja dokumentācija
   documents:

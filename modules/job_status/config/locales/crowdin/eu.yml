@@ -1,5 +1,10 @@
 ---
 eu:
+  activerecord:
+    models:
+      job_status/status:
+        one: Background job status
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Or [click here](download_url) to download.
     download_starts: Deskargak automatikoki hasi beharko luke.
