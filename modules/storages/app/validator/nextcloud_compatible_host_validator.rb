@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 30
+  MINIMAL_NEXTCLOUD_VERSION = 32
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"
 
   HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
@@ -78,9 +78,15 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     error_type = check_capabilities_response(response)
 
     if error_type
-      contract.errors.add(attribute, error_type, version: MINIMAL_NEXTCLOUD_VERSION)
+      contract.errors.add(attribute, error_type, **error_options(error_type, response))
       Rails.logger.info(message(value, response, error_type))
     end
+  end
+
+  def error_options(error_type, response)
+    return {} unless error_type == :minimal_nextcloud_version_not_met
+
+    { minimal_version: MINIMAL_NEXTCLOUD_VERSION, detected_version: read_version(response) }
   end
 
   def check_capabilities_response(response)
