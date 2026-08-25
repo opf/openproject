@@ -27,32 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+class CreateAITextTransformActions < ActiveRecord::Migration[8.1]
+  def change
+    create_table :ai_text_transform_actions do |t|
+      t.string :label, null: false
+      t.text :prompt, null: false
+      t.string :usage_scope, null: false
+      t.boolean :active, null: false, default: true
+      t.integer :position
+      t.boolean :injects_type_template, null: false, default: false
+
+      t.timestamps
+    end
+
+    create_table :ai_text_transform_action_types do |t|
+      t.references :ai_text_transform_action, null: false, foreign_key: { on_delete: :cascade }, index: false
+      t.references :type, null: false, foreign_key: { to_table: :types, on_delete: :cascade }
+
+      t.timestamps
+
+      t.index %i[ai_text_transform_action_id type_id],
+              unique: true,
+              name: "idx_ai_text_transform_action_types_on_action_and_type"
+    end
   end
 end

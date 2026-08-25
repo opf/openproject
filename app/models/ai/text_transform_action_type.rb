@@ -27,32 +27,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+module AI
+  class TextTransformActionType < ApplicationRecord
+    belongs_to :text_transform_action,
+               class_name: "AI::TextTransformAction",
+               foreign_key: :ai_text_transform_action_id,
+               inverse_of: :text_transform_action_types
+    belongs_to :type
+
+    validates :type_id, uniqueness: { scope: :ai_text_transform_action_id }
   end
 end

@@ -87,6 +87,13 @@ en:
 
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: "Active"
+        injects_type_template: "Insert work package type template"
+        label: "Label"
+        prompt: "Prompt"
+        types: "Work package types"
+        usage_scope: "Scope"
       announcements:
         show_until: "Display until"
       attachment:
@@ -989,6 +996,9 @@ en:
       action:
         one: "Action"
         other: "Actions"
+      ai/text_transform_action:
+        one: "Text transform action"
+        other: "Text transform actions"
       announcement:
         one: "Announcement"
         other: "Announcements"

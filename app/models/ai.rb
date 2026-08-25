@@ -27,32 +27,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+module AI
+  def self.table_name_prefix
+    "ai_"
   end
 end

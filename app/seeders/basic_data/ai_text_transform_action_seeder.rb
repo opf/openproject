@@ -27,32 +27,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class BasicDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      ::BasicData::BuiltinUsersSeeder,
-      ::BasicData::ProjectRoleSeeder,
-      ::BasicData::WorkPackageRoleSeeder,
-      ::BasicData::ProjectQueryRoleSeeder,
-      ::BasicData::GlobalRoleSeeder,
-      ::BasicData::TimeEntryActivitySeeder,
-      ::BasicData::ColorSeeder,
-      ::BasicData::ColorSchemeSeeder,
-      ::BasicData::PluginAuthProviderSeeder,
-      ::BasicData::ProjectPhaseColorSeeder,
-      ::BasicData::ProjectPhaseDefinitionSeeder,
-      ::BasicData::StatusSeeder,
-      ::BasicData::TypeSeeder,
-      ::BasicData::WorkflowSeeder,
-      ::BasicData::PrioritySeeder,
-      ::BasicData::SettingSeeder,
-      ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder,
-      ::BasicData::AiTextTransformActionSeeder
-    ]
-  end
 
-  def namespace
-    "BasicData"
+module BasicData
+  class AiTextTransformActionSeeder < ModelSeeder
+    self.model_class = AI::TextTransformAction
+    self.seed_data_model_key = "ai_text_transform_actions"
+    self.attribute_names_for_lookups = %i[label]
+
+    def model_attributes(action_data)
+      {
+        label: action_data["label"],
+        prompt: action_data["prompt"],
+        usage_scope: action_data["usage_scope"],
+        position: action_data["position"],
+        injects_type_template: true?(action_data["injects_type_template"])
+      }
+    end
   end
 end
