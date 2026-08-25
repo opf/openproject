@@ -50,7 +50,7 @@ cs:
         story_points: Body příběhu
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: nelze spustit, dokud projekt přijímá sdílené sprinty.
         dates_required: Pro zahájení sprintu je nutné datum zahájení a ukončení.
         must_be_in_planning: musí být v plánu pro zahájení.
         only_one_active_sprint_allowed: na jeden projekt je povolen pouze jeden aktivní sprint.
@@ -58,10 +58,10 @@ cs:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: nelze změnit, dokud probíhá více aktivních sprintů.
+              requires_no_sharing: lze povolit pouze v případě, že je sdílení sprintů nastaveno na „Nesdílet“.
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: nemůže být nastaveno pro přijímání, protože projekt má aktivní nebo vypůjčený sprint. Zavřete nebo zrušte přiřazení pracovních balíčků.
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
