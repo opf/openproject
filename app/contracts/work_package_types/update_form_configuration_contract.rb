@@ -29,8 +29,6 @@
 #++
 
 module WorkPackageTypes
-  # See UpdateDefaultsContract: the form configuration belongs to the variant, so the project
-  # owning it may write it.
   class UpdateFormConfigurationContract < ::ModelContract
     include AuthorizesVariantAuthoring
     include RequiresEnterpriseGuard

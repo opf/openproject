@@ -65,8 +65,6 @@ module WorkPackageTypes
         []
       end
 
-      # A project's settings has no screen for the type itself, so cancelling there returns to
-      # its list of types. Administration returns to the type that was being created.
       def cancel_href
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
@@ -81,9 +79,8 @@ module WorkPackageTypes
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
 
-      # The scope has to be named here. Every other route these screens use carries the project
-      # as a segment the request already fills in, but this one is on the type collection, so
-      # nothing in the request matches it and the form would post to administration.
+      # Named here because this route is on the type collection: no segment of the request
+      # matches it, so the form would otherwise post to administration.
       def step_form_url
         return step_url if record_persisted?
 

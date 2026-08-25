@@ -30,13 +30,8 @@
 
 require Rails.root.join("db/migrate/migration_utils/utils")
 
-# type_variants.project_id already exists, reserved for project-owned variants. A name only has
-# to be unique among the variants a project can actually see, so the single instance-wide index
-# is split in two: one for the global variants, one per owning project. Two projects may now
-# each own a "Bug: Internal" without knowing about each other.
-#
-# Two partial indexes rather than one over (type_id, name, project_id): NULLs compare as
-# distinct in a unique index, so the global rows would not be constrained at all.
+# Two partial indexes rather than one over (type_id, name, project_id): NULLs compare as distinct
+# in a unique index, so the global rows would not be constrained at all.
 class ScopeVariantNamesToOwningProject < ActiveRecord::Migration[8.0]
   include Migration::Utils
 

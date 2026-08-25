@@ -54,8 +54,7 @@ class ProjectType < ApplicationRecord
     errors.add(:variant, :must_belong_to_the_type)
   end
 
-  # A variant another project owns is not merely hidden from this one: it may not be activated
-  # here even by an instance administrator, who can see every variant there is.
+  # Not merely hidden from this project: not activatable here even by an instance administrator.
   def variant_is_available_to_project
     return if variant.nil? || !variant.project_owned?
     return if variant.project_id == project_id

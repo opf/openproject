@@ -95,8 +95,8 @@ module WorkPackageTypes
       redirect_back_or_default(types_path, status: :see_other)
     end
 
-    # Narrowed to what the caller may address: a project reaches only the variants it owns, so
-    # another project's is absent rather than refused after the fact by the contract.
+    # A project reaches only the variants it owns, so another project's is absent rather than
+    # refused after the fact.
     def named_variant
       addressable = @type.variants.non_default_variants
       addressable = addressable.owned_by(variant_scope_project) if variant_scope_project

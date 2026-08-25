@@ -33,10 +33,8 @@ module WorkPackageTypes
   # project used to express by disabling single fields becomes part of the form configuration
   # instead.
   #
-  # The new variant is owned by that project, the only one it describes, and inherits every aspect
-  # from the given one while excluding the custom fields the project has not enabled. A project
-  # that narrows nothing needs no variant, so the given variant is returned unchanged — callers can
-  # assign the result to the project either way.
+  # A project that narrows nothing needs no variant, so the given one is returned unchanged and
+  # callers can assign the result either way.
   class BuildVariantFromProjectService < ::BaseServices::BaseCallable
     def initialize(user:, variant:)
       super()
@@ -111,9 +109,8 @@ module WorkPackageTypes
             .map(&:attribute_name)
     end
 
-    # A variant's name must stay unique within its type and its owner. The project stays in the
-    # name even though the variant is now its own: it is what tells the variants apart in
-    # administration, which lists every project's.
+    # Unique within the type and the owner. The project stays in the name: administration lists
+    # every project's together.
     def variant_name(project)
       base = "#{source.display_name} - #{project.name}"
       # Queried rather than read off `source.type.variants`, which pluck answers from memory

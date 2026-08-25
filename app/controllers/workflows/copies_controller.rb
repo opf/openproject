@@ -50,8 +50,8 @@ class Workflows::CopiesController < ApplicationController
     @source_role = eligible_roles.find_by(id: params[:source_role_id])
   end
 
-  # Only what this variant may exchange configuration with: everything global, plus the variants
-  # of the project owning it. Offering another project's would copy its workflow either way.
+  # Only what this variant may exchange configuration with: everything global, plus its own
+  # project's.
   def set_other_variants
     scope = OpenProject::FeatureDecisions.type_variants_active? ? ::TypeVariant.all : ::TypeVariant.default_variant
 

@@ -31,8 +31,6 @@
 # Who may author a variant. A global one is instance configuration and stays with the
 # administrators; one a project owns may also be authored from inside that project.
 #
-# This replaces RequiresAdminGuard on the variant contracts rather than sitting beside it: the
-# rule is about the variant in hand, so a controller cannot widen it by choosing a contract.
 module AuthorizesVariantAuthoring
   extend ActiveSupport::Concern
 

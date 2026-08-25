@@ -89,9 +89,8 @@ module WorkPackageTypes
       )
     end
 
-    # Only what this variant may borrow from: everything global, plus the variants of the project
-    # owning it. A copy carries values across rather than recording a source, so unlike a link
-    # there is no foreign key for the model to validate afterwards.
+    # Scoped here rather than on the record: a copy carries values across and records no source,
+    # so there is no foreign key for the model to validate afterwards.
     def source
       return @source if defined?(@source)
 

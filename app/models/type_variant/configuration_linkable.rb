@@ -428,11 +428,9 @@ class TypeVariant
       end
     end
 
-    # A configuration may only be borrowed from somewhere every project can see, or from a
-    # sibling in the project owning this variant. Deliberately a rule about the variant rather
-    # than about who is editing it: an administrator sees every project's variants, and linking
-    # one project's configuration to another's would tie two projects together behind the backs
-    # of both.
+    # A rule about the variant, not about who is editing it: an administrator sees every
+    # project's variants, and linking one project's configuration into another's would tie the
+    # two together.
     def sources_are_available_to_this_variant
       TypeVariant::ASPECTS.each do |aspect|
         source = public_send(:"#{aspect}_source")

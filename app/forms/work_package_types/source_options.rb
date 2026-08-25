@@ -34,9 +34,7 @@ module WorkPackageTypes
   module SourceOptions
     private
 
-    # A variant one project owns is invisible to every other project, so it can never be a
-    # source there. Reading from a sibling the same project owns is fine, and is what an owned
-    # variant configured against its own project's conventions needs.
+    # A variant one project owns is invisible elsewhere, so it can never be a source there.
     def source_options
       TypeVariant.available_in(variant.project)
                  .joins(:type).merge(Type.order(:position))

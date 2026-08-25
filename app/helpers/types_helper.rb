@@ -32,9 +32,7 @@ module ::TypesHelper
   include CustomFieldsHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
-  # The same tabs serve administration and a project's settings; variant_path decides which
-  # scope's route each one names. The projects tab is dropped where it has nothing to offer:
-  # a variant a project owns is only ever used in that project.
+  # The projects tab is dropped from a project: a variant it owns is only ever used there.
   def types_tabs # rubocop:disable Metrics/AbcSize
     variant_args = type_variant_tab_args
 

@@ -35,9 +35,8 @@ module WorkPackageTypes
     module Steps
       ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
 
-      # Which projects use a variant is not a question for one a single project owns: it may
-      # only ever be used there. Keyed off the variant rather than off where it is being
-      # configured from, because that holds for an administrator editing it too.
+      # Keyed off the variant, not off where it is configured from: a variant a project owns may
+      # only ever be used there, for an administrator too.
       OWNED_EXCLUDED = %i[projects].freeze
 
       module_function

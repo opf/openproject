@@ -154,13 +154,10 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  # Configuring one variant of a type, reachable from administration and from the settings of a
-  # project that owns one. Mounted once with an optional project segment, so a single route and
-  # a single helper name serve both and the controllers read params[:project_id] to know which
-  # they are answering.
+  # Configuring one variant of a type, from administration or from the settings of a project
+  # that owns one.
   concern :type_variant_configuration do
-    # Which projects use a type is an instance-wide decision, so ProjectsTabController turns it
-    # away when a project is asking.
+    # ProjectsTabController turns a project away: which projects use a type is instance-wide.
     resource :projects, controller: "projects_tab", only: %i[edit update] do
       collection do
         post :enable_all, to: "projects_tab#enable_all_projects"
@@ -274,15 +271,11 @@ Rails.application.routes.draw do
     end
   end
 
-  # The variant screens live at both /types/… and inside a project's settings. One declaration
-  # with an optional prefix gives one route and one helper name per screen, so a component names
-  # a path without knowing which of the two it is rendering in. `only: []` keeps the project's
-  # own types page, which has its own controller, from being shadowed by this resource.
+  # `only: []` so this resource does not shadow the project's own types page, which has its own
+  # controller.
   resources :types, only: [], module: "work_package_types" do
-    # The project is optional and comes *after* the type. Ahead of it, an optional segment takes
-    # any positional argument for itself as soon as the type is already a path parameter, which
-    # yields a plausible URL naming a type's id as a project. Behind it, a positional argument
-    # still fills the type and the project is simply left out.
+    # The project has to stay behind the type. Ahead of it, an optional segment takes any
+    # positional argument for itself, silently naming a type's id as a project.
     nested do
       scope "(in-project/:in_project_id)" do
         resources :variants, controller: "variants", only: %i[index destroy] do
@@ -293,8 +286,6 @@ Rails.application.routes.draw do
           end
         end
 
-        # A scope rather than a nested resource: the path gains the variant, the helper names do
-        # not change, and every call site simply names which configuration it means.
         scope "(variants/:variant_id)" do
           concerns :type_variant_configuration
         end

@@ -74,9 +74,7 @@ module WorkPackageTypes
 
     def aspect = params[:aspect]
 
-    # Only what this variant may borrow from: everything global, plus the variants of the project
-    # owning it. A copy carries values across rather than recording a source, so unlike a link
-    # there is no foreign key for the model to validate afterwards.
+    # Only what this variant may borrow from: everything global, plus the project's own.
     def source
       return @source if defined?(@source)
 

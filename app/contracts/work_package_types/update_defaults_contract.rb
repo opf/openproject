@@ -29,8 +29,7 @@
 #++
 
 module WorkPackageTypes
-  # A variant's defaults, so who may write them follows the variant rather than being
-  # administration's alone: BaseContract is the type's, and carries the admin guard with it.
+  # Not BaseContract: that one is the type's, and requires an instance administrator.
   class UpdateDefaultsContract < ::ModelContract
     include AuthorizesVariantAuthoring
 

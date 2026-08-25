@@ -68,9 +68,8 @@ module WorkPackageTypes
       end
     end
 
-    # A source is named either way, but only linked to where its own screens can be opened. From
-    # a project that means a source the same project owns: a global one is configured in
-    # administration, and the rewritten path would resolve and then refuse.
+    # Linked only where its own screens can be opened: from a project, a global source's path
+    # would resolve and then refuse.
     def source_reachable?
       return false if source.nil?
       return true if helpers.variant_scope_project.nil?

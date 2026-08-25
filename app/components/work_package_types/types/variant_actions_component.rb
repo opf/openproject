@@ -69,9 +69,8 @@ module WorkPackageTypes
         end
       end
 
-      # Either variant of a type can be the one new projects start with, so a named variant
-      # offers this just as its type's base variant does. A variant a project owns cannot: a new
-      # project would start on a configuration only another project can see.
+      # A new project cannot start on a variant a project owns: it would be a configuration only
+      # that project can see.
       def default_action(menu)
         return if variant.project_owned?
 

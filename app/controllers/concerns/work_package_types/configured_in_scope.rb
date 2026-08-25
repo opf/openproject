@@ -29,50 +29,37 @@
 #++
 
 module WorkPackageTypes
-  # The variant configuration screens answer at two addresses: under /types for administration,
-  # and inside the settings of a project that owns a variant. One route with an optional project
-  # prefix serves both, so a single controller answers both and this is where it learns which.
-  #
-  # Everything keys off the URL. A path carrying a project is that project's business and is
-  # authorized with its permission; a path without one is administration's. Chrome, menu,
-  # breadcrumb and the tab set follow the same signal, so the two never disagree.
+  # Which of the two addresses a variant configuration screen is answering at, read from the URL.
+  # Layout, menu, breadcrumb, page title, the tab set and the variants a lookup considers all key
+  # off it, so nothing here may resolve the scope another way.
   module ConfiguredInScope
     extend ActiveSupport::Concern
     include ::WorkPackageTypes::TypeVariantsFeature
 
     class_methods do
-      # Screens administration alone has: which projects use a type, and which variant a new
-      # project starts with. Declared here rather than as a callback of the controller's own so
-      # that it is answered in the right place — after the current user is known, so the refusal
-      # renders in the signed-in chrome, and before #authorize, which would otherwise raise on a
-      # permission the map deliberately does not define for a project.
+      # Answered after ApplicationController#user_setup, so the refusal renders in the signed-in
+      # chrome, and before #authorize, which raises on a permission the map does not define for a
+      # project.
       def administration_only!(*actions)
         self.administration_only_actions = actions.presence || :all
       end
     end
 
     included do
-      # Both are resolved per request rather than declared, since the same class serves both.
       layout -> { variant_scope_project ? "base" : "admin" }
 
       class_attribute :administration_only_actions, default: nil
 
       before_action :reject_administration_only_screen
 
-      # Declared as two mutually exclusive sets rather than one guard of our own, so that the
-      # methods doing the authorizing are the ones named here: Accounts::Authorization credits a
-      # controller by the callback's name, and would not see require_admin called from inside
-      # something else. They also land where administration's own check ran — after
-      # ApplicationController#user_setup, so the current user is known, and before any callback a
-      # controller adds of its own, which read what these resolve.
+      # Accounts::Authorization credits a controller by the callback's name, so these have to be
+      # named here rather than called from a guard of our own. Both run after user_setup and
+      # before any callback a controller adds, which read what they resolve.
       before_action :require_admin, unless: :variant_scope_requested?
       before_action :find_project_by_in_project_id, :authorize, :require_type_variants_feature,
                     if: :variant_scope_requested?
     end
 
-    # Inside a project the menu is that project's work package settings, whatever the controller
-    # declared for administration. Overridden here rather than in each controller's own
-    # current_menu_item block, of which there are ten and all of them name administration's.
     def current_menu_item
       return :settings_work_packages if variant_scope_project
 
@@ -81,8 +68,8 @@ module WorkPackageTypes
 
     private
 
-    # Deliberately not :project_id. The projects tab already takes a project_id, naming a
-    # project in its list rather than the one asking, and the two would be indistinguishable.
+    # Not :project_id: the projects tab takes one of those, naming a project in its list rather
+    # than the one asking.
     def variant_scope_requested? = params[:in_project_id].present?
 
     def find_project_by_in_project_id
@@ -91,8 +78,7 @@ module WorkPackageTypes
 
     def variant_scope_project = @project
 
-    # Reaching an administration-only screen with a project in the path is absent rather than
-    # forbidden: the project simply has no such page.
+    # 404 rather than 403: the project has no such page.
     def reject_administration_only_screen
       return unless variant_scope_requested?
       return if administration_only_actions.nil?
@@ -102,8 +88,7 @@ module WorkPackageTypes
       render_404
     end
 
-    # Narrowed to the variants a project may configure when one is asking. Another project's is
-    # absent rather than forbidden, so its ids cannot be probed.
+    # 404 rather than 403, so another project's variant ids cannot be probed.
     def addressed_variant(among: nil)
       return super if variant_scope_project.nil?
 

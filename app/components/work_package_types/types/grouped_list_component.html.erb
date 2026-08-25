@@ -73,8 +73,6 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           <% end %>
 
-          <%# The projects owning these are the only ones that may use them, so they are counted
-              here and listed on the type's variants tab. %>
           <% if (owned_count = owned_variants_count(root)).positive? %>
             <% list.with_footer do %>
               <%= render(

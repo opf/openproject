@@ -29,19 +29,14 @@
 #++
 
 module WorkPackageTypes
-  # Which of the two addresses a variant configuration screen is answering at.
-  #
-  # The paths need no help: one route with an optional project segment serves both, and the
-  # project is a segment of the route being generated, so it is filled in from the path already
-  # being served. What still differs is what a page says about where it is, and the one tab a
-  # project has no business with.
+  # What a variant configuration screen says about where it is. The paths need no help: the
+  # project is a segment of the route being generated, filled in from the path already served.
   module VariantScopeHelper
     # rubocop:disable Rails/HelperInstanceVariable
     def variant_scope_project = @project
     # rubocop:enable Rails/HelperInstanceVariable
 
-    # Where the trail starts. The tabs and the wizard both need it, and administration's roots are
-    # screens a project administrator cannot open, so it follows the scope like everything else.
+    # A project administrator cannot open administration's roots, so the trail starts elsewhere.
     def variant_scope_breadcrumb_roots
       return administration_breadcrumb_roots if variant_scope_project.nil?
 
@@ -51,17 +46,15 @@ module WorkPackageTypes
        { href: project_settings_work_packages_types_path(project), text: I18n.t(:label_work_package_plural) }]
     end
 
-    # Where the trail ends up when the wizard or a tab is left: a project has no screen for the
-    # type itself. This route has no in_project_id segment to absorb the one the request carries,
-    # so it has to be dropped or it rides along as a query parameter.
+    # This route has no in_project_id segment to absorb the one the request carries, so it has to
+    # be dropped or it rides along as a query parameter.
     def variant_scope_types_path
       return types_path if variant_scope_project.nil?
 
       project_settings_work_packages_types_path(variant_scope_project, in_project_id: nil)
     end
 
-    # What to call the place these screens are rendered in, for the page title. The layout appends
-    # the project itself, so naming it here would say it twice.
+    # The layout appends the project itself, so naming it here would say it twice.
     def variant_scope_title
       return I18n.t(:label_administration) if variant_scope_project.nil?
 

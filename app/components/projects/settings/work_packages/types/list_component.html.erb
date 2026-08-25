@@ -27,8 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# One collapsed row per type family, expandable to the named variants this project may use.
-    The header row is the type itself, whose configuration is its base variant. %>
 <%= component_wrapper do %>
   <% active_project_types.each do |project_type| %>
     <%= render(
@@ -44,8 +42,6 @@ See COPYRIGHT and LICENSE files for more details.
         <% header.with_title do %>
           <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(project_type.type) } %>
           <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { project_type.type.name } %>
-          <%# The header row is the type's own configuration, so when that is what the project uses
-              it carries the same label as any other row in use, rather than being named. %>
           <% if project_type.variant.default? %>
             <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { t("projects.settings.types.in_use") } %>
           <% else %>
@@ -65,7 +61,6 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% selectable_variants(project_type).each do |variant| %>
         <% list.with_item(data: { test_selector: "project-types-variant-#{variant.id}" }) do |item| %>
-          <%# Only a variant this project owns is one it may edit or delete. %>
           <% if owned?(variant) && manageable? %>
             <% item.with_menu { |menu| variant_actions(menu, variant) } %>
           <% end %>

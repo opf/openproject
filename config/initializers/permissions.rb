@@ -246,10 +246,8 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
-      # Deliberately separate from :manage_types, which is about which types a project uses.
-      # This one is about authoring the project's own variants of them. The controllers are
-      # administration's own: one route with an optional project segment serves both addresses,
-      # and they authorize with this permission when a project is in the path.
+      # Separate from :manage_types, which is about which types a project uses. This one is about
+      # authoring the project's own variants of them, on administration's own controllers.
       map.permission :manage_project_variants,
                      {
                        "work_package_types/variants": %i[destroy menu],

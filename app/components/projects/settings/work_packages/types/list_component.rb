@@ -53,13 +53,10 @@ module Projects
                                         .sort_by { |project_type| project_type.type.position }
           end
 
-          # A family whose only named variants belong to other projects offers this one nothing.
           def switchable?(project_type)
             selectable_variants(project_type).any?
           end
 
-          # The named variants this project may use: the global ones plus its own. Another
-          # project's are not merely unlisted, they cannot be switched onto either.
           def selectable_variants(project_type)
             project_type.type.variants.non_default_variants.available_in(project).in_display_order
           end
@@ -72,14 +69,12 @@ module Projects
             variant.project_id == project.id
           end
 
-          # Only a variant this project owns is one it may configure; the global ones belong
-          # to administration.
           def manageable?
             User.current.allowed_in_project?(:manage_project_variants, project)
           end
 
-          # This page is the project's own, not one of the shared variant screens, so it names
-          # the project rather than relying on the controller to keep it in the path.
+          # Named explicitly: this page is not one of the variant screens, so no request carries
+          # the project for it.
           def add_variant_path(type)
             new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
           end

@@ -113,7 +113,6 @@ class TypeVariant < ApplicationRecord
   scope :global, -> { where(project_id: nil) }
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
-  # Everything a project may configure with or switch onto: the global variants plus its own.
   scope :available_in, ->(project) { where(project: [nil, project]) }
 
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
