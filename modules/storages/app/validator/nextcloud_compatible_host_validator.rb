@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 32
+  MINIMAL_NEXTCLOUD_VERSION = 30
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"
 
   HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
@@ -78,7 +78,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     error_type = check_capabilities_response(response)
 
     if error_type
-      contract.errors.add(attribute, error_type)
+      contract.errors.add(attribute, error_type, version: MINIMAL_NEXTCLOUD_VERSION)
       Rails.logger.info(message(value, response, error_type))
     end
   end
@@ -87,7 +87,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     return :cannot_be_connected_to if response.error.present?
     return :cannot_be_connected_to unless response.status.in? 200..299
     return :not_nextcloud_server unless read_version(response)
-    return :minimal_nextcloud_version_unmet unless major_version_sufficient?(response)
+    return :minimal_nextcloud_version unless major_version_sufficient?(response)
 
     nil
   end
@@ -128,7 +128,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
       message << ": #{response.class}: #{response}"
     when :not_nextcloud_server
       message << ": either was not valid json, or value at 'ocs/data/version/major' was not defined"
-    when :minimal_nextcloud_version_unmet
+    when :minimal_nextcloud_version
       message << ": version detected is #{read_version(response).inspect}, minimum is #{MINIMAL_NEXTCLOUD_VERSION}"
     end
 
