@@ -35,7 +35,7 @@ In the top-right corner, click the **More (three dots)** icon to open a menu wit
 - [Add a subproject](#create-a-subproject)
 - [Duplicate a project](#duplicate-a-project)
 - [Make a project public](#make-a-project-public)
-- [Set a project as a template](../project-templates)
+- [Set a project as a template](../../project-templates)
 - [Archive a project](#archive-a-project)
 - [Delete a project](#delete-a-project)
 
