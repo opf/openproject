@@ -81,6 +81,7 @@ module Saml
           type: :number,
           min: 0,
           max: Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT,
+          step: "any",
           label: I18n.t("activerecord.attributes.saml/provider.allowed_clock_drift"),
           caption: I18n.t("saml.instructions.allowed_clock_drift"),
           disabled: provider.seeded_from_env?,

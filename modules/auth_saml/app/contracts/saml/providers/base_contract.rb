@@ -73,7 +73,6 @@ module Saml
       attribute :allowed_clock_drift
       validates :allowed_clock_drift,
                 numericality: {
-                  only_integer: true,
                   allow_nil: true,
                   greater_than_or_equal_to: 0,
                   less_than_or_equal_to: MAX_ALLOWED_CLOCK_DRIFT

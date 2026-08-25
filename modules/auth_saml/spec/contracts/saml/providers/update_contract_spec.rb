@@ -38,7 +38,7 @@ RSpec.describe Saml::Providers::UpdateContract do
 
   describe "allowed_clock_drift persisted out of bounds" do
     let(:current_user) { build_stubbed(:admin) }
-    let(:provider) { build_stubbed(:saml_provider, allowed_clock_drift: -1) }
+    let(:provider) { build_stubbed(:saml_provider, allowed_clock_drift: -0.5) }
 
     it_behaves_like "contract is valid"
   end

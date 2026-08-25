@@ -58,7 +58,7 @@ If you have used the metadata exchange, the next form will be pre-filled like in
 
 If some of the required fields (marked with an asterisk) are missing, fill them out with the information from your identity provider. OpenProject assumes you're using the URL of your OpenProject instance as the Service entity ID by default. If your provider expects a different format, this can be an arbitrary string.
 
-The optional **Allowed clock drift** field relaxes the validation of the timestamps contained in the identity provider response by the given number of seconds. Leave it empty unless authentication fails because the clocks of OpenProject and the identity provider are out of sync, and prefer synchronizing the clocks over raising this value: a large tolerance weakens the protection against replayed assertions.
+The optional **Allowed clock drift** field relaxes the validation of the timestamps contained in the identity provider response by the given number of seconds, fractions of a second included. Leave it empty unless authentication fails because the clocks of OpenProject and the identity provider are out of sync, and prefer synchronizing the clocks over raising this value: a large tolerance weakens the protection against replayed assertions.
 
 Once you verified the configuration with your settings from the identity provider, click on **Continue**.
 
@@ -261,6 +261,8 @@ The timestamps in the identity provider response are validated against the clock
 ```shell
 OPENPROJECT_SAML_SAML_ALLOWED__CLOCK__DRIFT="5"
 ```
+
+Fractions of a second are accepted as well, for example `"0.5"`.
 
 Prefer synchronizing the clocks over setting this value, and keep it as low as possible. A large tolerance weakens the protection against replayed assertions. Note that the tolerance applies to the login response only, not to logout requests initiated by the identity provider.
 

@@ -143,11 +143,11 @@ RSpec.describe Saml::ConfigurationMapper, type: :model do
   end
 
   describe "allowed_clock_drift" do
-    let(:configuration) { { allowed_clock_drift: 5 } }
+    let(:configuration) { { allowed_clock_drift: 0.5 } }
 
     subject { result["options"] }
 
-    it { is_expected.to include("allowed_clock_drift" => 5) }
+    it { is_expected.to include("allowed_clock_drift" => 0.5) }
   end
 
   describe "idp_cert" do

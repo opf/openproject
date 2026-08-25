@@ -315,8 +315,18 @@ RSpec.describe Saml::Provider do
       end
 
       it "outputs it as a top-level option for the ruby-saml response validation" do
-        expect(provider.to_h).to include(allowed_clock_drift: 5)
+        expect(provider.to_h).to include(allowed_clock_drift: 5.0)
         expect(provider.to_h[:security]).not_to include(:allowed_clock_drift)
+      end
+    end
+
+    context "when allowed_clock_drift is set to a fraction of a second" do
+      before do
+        provider.allowed_clock_drift = 0.5
+      end
+
+      it "keeps the fraction" do
+        expect(provider.to_h).to include(allowed_clock_drift: 0.5)
       end
     end
 

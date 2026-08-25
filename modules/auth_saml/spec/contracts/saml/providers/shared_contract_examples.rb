@@ -60,14 +60,26 @@ RSpec.shared_context "as saml provider contract" do
       it_behaves_like "contract is valid"
     end
 
+    context "with a fraction of a second" do
+      let(:value) { 0.5 }
+
+      it_behaves_like "contract is valid"
+    end
+
     context "with a negative number of seconds" do
       let(:value) { -1 }
 
       it_behaves_like "contract is invalid", allowed_clock_drift: :greater_than_or_equal_to
     end
 
+    context "with a negative fraction of a second" do
+      let(:value) { -0.5 }
+
+      it_behaves_like "contract is invalid", allowed_clock_drift: :greater_than_or_equal_to
+    end
+
     context "with a value exceeding the maximum" do
-      let(:value) { Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT + 1 }
+      let(:value) { Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT + 0.5 }
 
       it_behaves_like "contract is invalid", allowed_clock_drift: :less_than_or_equal_to
     end
