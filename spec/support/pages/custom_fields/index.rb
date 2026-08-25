@@ -52,10 +52,6 @@ module Pages
         fill_in "custom_field[default_value]", with: value
       end
 
-      def set_all_projects(value)
-        find_by_id("is_for_all").set value
-      end
-
       def has_form_element?(name)
         page.has_css? "label.form--label", text: name
       end
