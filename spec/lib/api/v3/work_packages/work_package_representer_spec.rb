@@ -1853,6 +1853,44 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             let(:link) { "updateImmediately" }
           end
         end
+
+        context "when just rendered without timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [Timestamp.new(1.hour.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when just rendered with timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [Timestamp.new(1.hour.ago)], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+        end
       end
 
       context "when passing a query" do
