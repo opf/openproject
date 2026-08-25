@@ -101,4 +101,3 @@ Before the conversion, clients that read or write only the single `version` link
 - Once multiple target versions are enabled, an additional `targetVersion` filter is available with the same semantics.
 - Both filters support the usual list operators as well as the open, closed, and locked version status operators.
 
-<!-- TODO (docs team): please review the API section and expand it once the remaining API changes are finalized. -->
