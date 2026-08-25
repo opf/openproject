@@ -37,7 +37,7 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
 
   current_user { create(:admin) }
 
-  # The work package tab is the default one, and it renders a column per custom field.
+  # The work package tab is the default one.
   it "lists the work package custom fields and the types configuring them" do
     get custom_fields_path
 
