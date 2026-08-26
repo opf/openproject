@@ -59,7 +59,7 @@ Every migrated project is created **private** and **active**, with no parent —
 
 ## Custom fields
 
-For field type mapping, supported/unsupported types, and edge cases (checkboxes, cascading selects, Labels, Field Contexts, deduplication behavior — including how both interact with separate import runs/batches), see the official [Custom fields migration](../custom-fields/) documentation.
+For field type mapping, supported/unsupported types, and edge cases, see the [Custom fields migration](../custom-fields/) documentation.
 
 
 ------
