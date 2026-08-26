@@ -184,9 +184,11 @@ module Type::AttributeGroups
   # If it has activated custom fields through +custom_field_ids=+,
   # it will put them into the other group.
   def work_package_attributes_by_default_group_key # rubocop:disable Metrics/AbcSize
+    active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
-      .select { |key| default_attribute?(active_custom_field_attributes, key) }
+      .select { |key| default_attribute?(active_cfs, key) }
       .reject { |key| EXCLUDED_DEFAULT_ATTRIBUTES.include?(key) }
       .sort_by { |key| default_group_map.keys.index(key.to_sym) || default_group_map.keys.size }
       .group_by { |key| default_group_key(key.to_sym) }
