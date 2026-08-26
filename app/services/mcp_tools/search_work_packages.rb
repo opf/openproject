@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchWorkPackages < Base
+  class SearchWorkPackages < SearchTool
     default_title "Search work packages"
     default_description "Search work packages matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -94,14 +94,12 @@ module McpTools
     output_filter McpOutputFilters::RemoveFormattableHtml.new
     output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(WorkPackage.visible, filters)
-      work_packages, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(WorkPackage.visible)
+    end
 
-      {
-        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::WorkPackages::WorkPackageRepresenter.create(item, current_user:)
     end
   end
 end

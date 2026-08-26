@@ -78,10 +78,12 @@ module McpTools
       }
     )
 
+    private
+
     def call(from_work_package_id:, to_work_package_id:, type: "relates", description: nil, lag: nil)
       from = WorkPackage.visible(current_user).find_by(id: from_work_package_id)
       to = WorkPackage.visible(current_user).find_by(id: to_work_package_id)
-      return { error: "The given work package could not be found." } if from.nil? || to.nil?
+      return Failure("The given work package could not be found.") if from.nil? || to.nil?
 
       result = Relations::CreateService.new(user: current_user).call(
         from:,
@@ -91,10 +93,14 @@ module McpTools
         lag:
       )
 
+      format_result(result)
+    end
+
+    def format_result(result)
       if result.success?
-        API::V3::Relations::RelationRepresenter.create(result.result, current_user:)
+        Success(API::V3::Relations::RelationRepresenter.create(result.result, current_user:))
       else
-        { error: result.message }
+        Failure(result.message)
       end
     end
   end

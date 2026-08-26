@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class ListWorkPackageComments < Base
+  class ListWorkPackageComments < SearchTool
     default_title "List work package comments"
     default_description "List comments of the given work package."
 
@@ -52,26 +52,30 @@ module McpTools
     output_filter McpOutputFilters::RemoveFormattableHtml.new
     output_filter McpOutputFilters::RemoveLinks.new(%w[update addAttachment])
 
-    def call(work_package_id:, page: nil)
+    def scope_param_names
+      %i[work_package_id]
+    end
+
+    def base_scope(work_package_id:)
       work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
-      return { error: "Can't find given work package." } if work_package.nil?
+      return Failure("Can't find given work package.") if work_package.nil?
 
-      comments = work_package
-                  .journals
-                  .internal_visible
-                  .includes(:data,
-                            :customizable_journals,
-                            :attachable_journals,
-                            :storable_journals,
-                            :bcf_comment)
-                  .where.not(notes: "")
-                  .order(created_at: :desc)
+      Success(
+        work_package
+          .journals
+          .internal_visible
+          .includes(:data,
+                    :customizable_journals,
+                    :attachable_journals,
+                    :storable_journals,
+                    :bcf_comment)
+          .where.not(notes: "")
+          .order(created_at: :desc)
+      )
+    end
 
-      comments, total = apply_pagination(comments, page)
-      {
-        items: comments.map { |c| ::API::V3::Activities::ActivityRepresenter.new(c, current_user:, embed_emoji_reactions: true) },
-        total:
-      }
+    def format_item(item)
+      ::API::V3::Activities::ActivityRepresenter.new(item, current_user:, embed_emoji_reactions: true)
     end
   end
 end
