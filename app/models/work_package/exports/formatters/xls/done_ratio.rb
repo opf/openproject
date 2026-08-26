@@ -32,7 +32,7 @@ module WorkPackage::Exports
     module XLS
       class DoneRatio < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          name.to_sym.in?(%i[done_ratio derived_done_ratio]) && export_format == :csv
+          name.to_sym.in?(%i[done_ratio derived_done_ratio]) && export_format == :xls
         end
 
         def format_value(value, _options = {})

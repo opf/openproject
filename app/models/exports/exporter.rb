@@ -69,7 +69,12 @@ module Exports
     protected
 
     def formatter_for(attribute, export_format)
-      ::Exports::Register.formatter_for(model, attribute, export_format)
+      formatter_cache[[attribute, export_format]] ||=
+        ::Exports::Register.formatter_for(model, attribute, export_format)
+    end
+
+    def formatter_cache
+      @formatter_cache ||= {}
     end
 
     def format_attribute(object, attribute, export_format, **)

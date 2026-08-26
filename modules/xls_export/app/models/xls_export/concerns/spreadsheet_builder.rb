@@ -55,17 +55,25 @@ module XlsExport
 
       def column_values(object)
         columns.collect do |column|
-          format_attribute(object, column[:name], :csv)
+          format_attribute(object, column[:name], :xls)
         end
       end
 
       def set_column_format_options!(spreadsheet)
         columns.each_with_index do |column, i|
-          options = formatter_for(column[:name], :csv)
+          options = formatter_for(column[:name], :xls)
                       .format_options
 
-          spreadsheet.add_format_option_to_column i, options
+          column_format_indexes(i).each do |index|
+            spreadsheet.add_format_option_to_column index, options
+          end
         end
+      end
+
+      # The sheet columns the i-th exported column is written to.
+      # Exporters which shift or repeat the column block override this.
+      def column_format_indexes(index)
+        [index]
       end
 
       def spreadsheet_builder
@@ -73,6 +81,13 @@ module XlsExport
       end
 
       def headers
+        record_headers
+      end
+
+      # The headers of a single exported record. Exporters appending columns to
+      # #row extend this; exporters which shift or repeat the column block
+      # arrange them in #headers.
+      def record_headers
         columns.pluck(:caption)
       end
 
