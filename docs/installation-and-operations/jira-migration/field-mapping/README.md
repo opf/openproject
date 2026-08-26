@@ -52,7 +52,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Active flag           | Account status               | Created locked; unlocked automatically only after you Approve the import, and only for users who were active in Jira |
 | Display name          | First / last name            | Split automatically; single-word names get used for both     |
 | Email                 | Email                        | If a Jira user has no email, a placeholder one is generated so the account can still be created. Not always a direct 1:1 copy of the Jira value — see the email/login collision handling below |
-| Jira group membership | OpenProject Group membership | Groups are matched or created by name                        |
+| Jira group membership | OpenProject Group membership | Matched or created by name. Note: pulls in the user's entire Jira group list, not just groups relevant to the migrated projects
 | Username              | Login                        | Not always a direct 1:1 copy either — same collision handling as Email, below |
 | Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward |
 
