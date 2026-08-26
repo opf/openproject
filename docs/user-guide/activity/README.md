@@ -22,7 +22,16 @@ When you first access this tab, you will see the comments and list of changes in
 
 You can scroll up and down to go forwards or backwards in time.
 
-By default, the Activity tab shows comments, changes, and meeting updates, but you can filter this to only show one or the other:
+By default, the Activity tab shows comments, changes, and meeting updates, but you can filter these to only show specific types of activity.
+
+Meeting updates include changes related to one-time and recurring meetings. For example, an activity entry is created when a work package is added to, removed from, or moved between meetings, when it is discussed or added as a meeting outcome, and when it is added to or removed from meeting templates, including recurring meeting series templates.
+
+For recurring meetings, an activity entry is also created when a meeting occurrence containing the work package is created.
+
+> [!NOTE]
+> Meeting-related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
+
+To hide these entries, select **Hide meetings updates** from the Activity tab filter.
 
 ![Dropdown menu to filter what is displayed under the activity tab](openproject_user_guide_activity_display_filter.png)
 
