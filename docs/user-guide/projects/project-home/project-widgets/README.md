@@ -113,7 +113,7 @@ Add the project **status description** and further important information, such a
 
 ### Project timeline widget
 
-The project timeline widget under the overview tab displays a timeline chart of your **Project phases**, **Phase gates**, **Milestones** and **Sprints**. Hover your cursor over an item to view the name and date(s). For a more detailed or compact view, use your cursor to expand or reduce the size of the timeline chart. If there are no phases and gates enabled in your project, no milestones and sprints, the widget is empty. 
+The project timeline widget under the overview tab displays a timeline chart of your **Project phases**, **Phase gates**, **Milestones** and **Sprints**. Hover your cursor over an item to view the name and date(s). For a more detailed or compact view, scroll to expand or reduce the size of the timeline chart. If there are no phases and gates enabled in your project, no milestones and sprints, the widget is empty. 
 
 Click **See more details** below the widget to view your project milestones in a Gantt chart and see an overview of all project sprints.
 
