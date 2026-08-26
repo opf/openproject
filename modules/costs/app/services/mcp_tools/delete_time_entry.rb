@@ -29,46 +29,35 @@
 #++
 
 module McpTools
-  class CreateWorkPackage < Base
-    default_title "Create work package"
-    default_description "Create a new work package."
+  class DeleteTimeEntry < Base
+    default_title "Delete time entry"
+    default_description "Delete an existing time entry."
 
-    name "create_work_package"
-    annotations read_only: false, idempotent: false, destructive: false
+    name "delete_time_entry"
+    annotations read_only: false, idempotent: true, destructive: true
 
     input_schema(
       additionalProperties: false,
-      required: %i[data],
+      required: %i[id],
       properties: {
-        data: {
-          type: %w[object],
-          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3.",
-          properties: {
-            _links: {
-              description: "Contains related resources, such as projects, statuses, types, etc. They are represented as links, " \
-                           "i.e. objects with an 'href' property."
-            }
-          }
+        id: {
+          type: :number,
+          description: "The ID of the time entry to be removed."
         }
       }
     )
 
-    def call(data:)
-      attributes = parse_work_package(data).on_failure { |result| return { error: result.message } }.result
+    def call(id:)
+      time_entry = TimeEntry.visible(current_user).find_by(id:)
+      return { error: "The given time entry could not be found." } if time_entry.nil?
 
-      result = WorkPackages::CreateService.new(user: current_user).call(**attributes)
+      result = TimeEntries::DeleteService.new(user: current_user, model: time_entry).call
 
       if result.success?
-        API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)
+        API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:)
       else
         { error: result.message }
       end
-    end
-
-    private
-
-    def parse_work_package(data)
-      ::API::V3::WorkPackages::ParseParamsService.new(current_user, model: WorkPackage).call(data.deep_stringify_keys)
     end
   end
 end

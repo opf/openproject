@@ -44,7 +44,7 @@ MCP.configure do |config|
   end
 end
 
-Rails.application.config.after_initialize do
+Rails.application.config.to_prepare do
   McpTools.register McpTools::CreateWorkPackage,
                     McpTools::CreateWorkPackageComment,
                     McpTools::CreateWorkPackageRelation,

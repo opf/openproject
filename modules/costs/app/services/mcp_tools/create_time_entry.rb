@@ -29,11 +29,11 @@
 #++
 
 module McpTools
-  class CreateWorkPackage < Base
-    default_title "Create work package"
-    default_description "Create a new work package."
+  class CreateTimeEntry < Base
+    default_title "Create time entry"
+    default_description "Create a new time entry."
 
-    name "create_work_package"
+    name "create_time_entry"
     annotations read_only: false, idempotent: false, destructive: false
 
     input_schema(
@@ -41,12 +41,32 @@ module McpTools
       required: %i[data],
       properties: {
         data: {
-          type: %w[object],
-          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3.",
+          type: :object,
+          description: "JSON Representation of the time entry to be created. The format is the same as accepted by APIv3.",
           properties: {
             _links: {
-              description: "Contains related resources, such as projects, statuses, types, etc. They are represented as links, " \
-                           "i.e. objects with an 'href' property."
+              description: "Contains related resources, such as the entity that this entry is associated to.",
+              properties: {
+                entity: { type: :object },
+                user: { type: :object }
+              }
+            },
+            hours: {
+              type: :string,
+              format: :duration,
+              description: "The time quantifying the expenditure."
+            },
+            spentOn: {
+              type: :string,
+              format: :date,
+              description: "The date the expenditure is booked for."
+            },
+            comment: {
+              type: :object,
+              description: "A comment to the time entry. Passed as a formattable property",
+              properties: {
+                raw: { type: :string, description: "The raw markdown formatted text." }
+              }
             }
           }
         }
@@ -54,12 +74,12 @@ module McpTools
     )
 
     def call(data:)
-      attributes = parse_work_package(data).on_failure { |result| return { error: result.message } }.result
-
-      result = WorkPackages::CreateService.new(user: current_user).call(**attributes)
+      parsed = parse_time_entry(data).on_failure { |result| return { error: result.message } }.result
+      parsed = parsed.reverse_merge(user_id: current_user.id, spent_on: Date.current)
+      result = TimeEntries::CreateService.new(user: current_user).call(**parsed)
 
       if result.success?
-        API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)
+        API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:)
       else
         { error: result.message }
       end
@@ -67,8 +87,8 @@ module McpTools
 
     private
 
-    def parse_work_package(data)
-      ::API::V3::WorkPackages::ParseParamsService.new(current_user, model: WorkPackage).call(data.deep_stringify_keys)
+    def parse_time_entry(data)
+      ::API::V3::ParseResourceParamsService.new(current_user, model: TimeEntry).call(data.deep_stringify_keys)
     end
   end
 end
