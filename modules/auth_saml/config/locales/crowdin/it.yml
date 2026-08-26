@@ -34,8 +34,8 @@ it:
           unmatched_private_key: non appartiene al certificato fornito
     models:
       saml/provider:
-        one: SAML provider
-        other: SAML providers
+        one: Provider SAML
+        other: Provider SAML
   saml:
     delete_heading: Eliminare questo provider SAML?
     delete_title: Elimina fornitore SAML

@@ -95,7 +95,7 @@ module RecurringMeetings
       recurring_meeting.template.participants.where(invited: true).find_each do |participant|
         MeetingMailer
           .ended_series(recurring_meeting, participant.user, User.current)
-          .deliver_now
+          .deliver_later
       rescue StandardError => e
         Rails.logger.error do
           "Failed to deliver series ended notification for #{recurring_meeting.id} to #{participant.user.mail}: #{e.message}"

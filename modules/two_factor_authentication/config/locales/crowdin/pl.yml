@@ -21,25 +21,25 @@ pl:
               error_phone_number_format: musi posiadać format +XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        few: Backup codes
-        many: Backup codes
-        other: Backup codes
+        one: Kod zapasowy
+        few: Kody zapasowe
+        many: Kody zapasowe
+        other: Kody zapasowe
       two_factor_authentication/device:
-        one: 2FA device
-        few: 2FA devices
-        many: 2FA devices
-        other: 2FA devices
+        one: Urządzenie 2FA
+        few: Urządzenia 2FA
+        many: Urządzenia 2FA
+        other: Urządzenia 2FA
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        few: Mobile phones
-        many: Mobile phones
-        other: Mobile phones
+        one: Telefon komórkowy
+        few: Telefony komórkowe
+        many: Telefony komórkowe
+        other: Telefony komórkowe
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        few: Authenticator applications
-        many: Authenticator applications
-        other: Authenticator applications
+        one: Aplikacja uwierzytelniająca
+        few: Aplikacje uwierzytelniające
+        many: Aplikacje uwierzytelniające
+        other: Aplikacje uwierzytelniające
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         few: WebAuthn

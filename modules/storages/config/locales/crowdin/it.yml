@@ -74,23 +74,23 @@ it:
               unknown_error: non è stato convalidato con il provider di archiviazione file. Verifica che la connessione funzioni correttamente.
     models:
       storages/file_link:
-        one: File link
-        other: File links
+        one: Collegamento al file
+        other: Collegamenti ai file
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        other: Nextcloud storages
+        one: Archivio Nextcloud
+        other: Archivi Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
-        other: OneDrive storages
+        one: Archivio OneDrive
+        other: Archivi OneDrive
       storages/project_storage:
-        one: Project storage
-        other: Project storages
+        one: Archivio del progetto
+        other: Archivi dei progetti
       storages/sharepoint_storage:
-        one: SharePoint storage
-        other: SharePoint storages
+        one: Archivio SharePoint
+        other: Archivi SharePoint
       storages/storage:
-        one: Storage
-        other: Storages
+        one: Archivio
+        other: Archivi
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'

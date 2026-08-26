@@ -55,7 +55,7 @@ zh-CN:
         presenter: 演讲者
         title: 标题
       meeting_outcome:
-        kind: Kind
+        kind: 种类
       meeting_participant:
         attended: 已参加
         invited: 已邀请

@@ -71,6 +71,15 @@ pt-PT:
           name: Equipa e gestor de projetos
         item_1:
           name: Função global padrão
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -130,7 +139,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           boards:
             kanban:
               name: Quadro Kanban

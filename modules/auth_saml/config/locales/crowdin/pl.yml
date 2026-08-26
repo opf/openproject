@@ -34,10 +34,10 @@ pl:
           unmatched_private_key: nie należy do danego certyfikatu
     models:
       saml/provider:
-        one: SAML provider
-        few: SAML providers
-        many: SAML providers
-        other: SAML providers
+        one: Dostawca SAML
+        few: Dostawcy SAML
+        many: Dostawcy SAML
+        other: Dostawcy SAML
   saml:
     delete_heading: Usunąć tego dostawcę SAML?
     delete_title: Usuń dostawcę SAML

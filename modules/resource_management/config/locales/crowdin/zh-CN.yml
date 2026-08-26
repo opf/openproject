@@ -291,7 +291,7 @@ zh-CN:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: "%{count} members of this project match the allocation's filter criteria."
+          other: 此项目的 %{count} 个成员符合该分配的筛选条件。
       blank:
         add_work_package: 添加工作包
         configure_view: 配置视图

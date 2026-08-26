@@ -284,18 +284,18 @@ zh-CN:
   setting_enforce_tracking_start_and_end_times: 需要开始和完成时间
   setting_enforce_tracking_start_and_end_times_caption: 记录时间时强制输入开始和结束时间。
   setting_enforce_without_allow: 如果不允许，则无法要求开始和结束时间
-  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours: 用户工作时数限制
   setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: 每天的最大时数
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_max_hours_per_day: 每天的最大小时数
+  setting_time_entries_max_hours_per_day_caption: 限制用户可以在一天内登录的总小时数。值为 0 表示没有限制。
+  setting_time_entries_max_hours_per_entry: 每个时间条目的最大小时数
+  setting_time_entries_max_hours_per_entry_caption: 限制单个时间条目的小时数。值为 0 表示没有限制。
+  setting_time_entries_past_month_grace_days: 过去几个月的宽限期
+  setting_time_entries_past_month_grace_days_caption: 定义在新的月份开始时用户具有的天数，以记录过去一个月的时间条目。值为 5 表示用户记录上个月到本月 5 号的时间。值为 0 表示完全没有宽限期。
+  setting_time_entries_prohibit_logging_for_past_months: 不允许对过去几个月进行记录
+  setting_time_entries_prohibit_logging_for_past_months_caption: 将时间条目的添加、更改和删除限制在当月范围内。过去几个月记录的时间将无法再进行修改。
+  setting_time_entries_prohibit_logging_on_non_working_days: 不允许在非工作日记录时间
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: 对于被管理员或单个用户在帐户设置中定义为非工作日的日期，用户将无法记录时间。
   text_assign_time_and_cost_entries_to_project: 将已上报的工时和成本提交到项目中
   text_destroy_cost_entries_question: 您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？
   text_destroy_time_and_cost_entries: 删除已上报的工时和成本

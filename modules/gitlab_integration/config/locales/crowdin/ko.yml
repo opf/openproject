@@ -40,7 +40,7 @@ ko:
               invalid_schema: '키가 있는 해시 배열이어야 합니다: color, title'
     models:
       gitlab_issue:
-        other: GitLab issues
+        other: GitLab 이슈
       gitlab_merge_request:
         other: GitLab merge requests
       gitlab_pipeline:

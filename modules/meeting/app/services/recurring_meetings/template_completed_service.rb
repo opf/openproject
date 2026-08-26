@@ -41,12 +41,32 @@ module RecurringMeetings
 
     def perform
       notify = params.fetch(:notify)
-      first_occurrence = params.fetch(:first_occurrence)
+      first_occurrence = params[:first_occurrence] || @recurring_meeting.next_occurrence
+      return no_next_occurrence_failure if first_occurrence.nil?
+      return already_completed_failure if already_completed?(first_occurrence)
+
+      restoring = restoring?(first_occurrence)
 
       call = update_template(notify)
-      init_first_occurrence(call, first_occurrence) if call.success?
+      finalize(call, first_occurrence, restoring) if call.success?
 
       call
+    end
+
+    def finalize(call, first_occurrence, restoring)
+      init_first_occurrence(call, first_occurrence)
+      return unless call.success?
+
+      schedule_next_occurrence(first_occurrence)
+      deliver_invitation_mails unless restoring
+    end
+
+    def restoring?(first_occurrence)
+      @recurring_meeting
+        .meetings
+        .not_templated
+        .find_by(recurrence_start_time: first_occurrence)
+        &.cancelled?
     end
 
     def update_template(notify)
@@ -61,6 +81,36 @@ module RecurringMeetings
                     .call(start_time: first_occurrence)
 
       call.merge!(init_call)
+    end
+
+    def schedule_next_occurrence(from_time)
+      next_occurrence = @recurring_meeting.next_occurrence(from_time:)
+      return if next_occurrence.nil?
+
+      ::RecurringMeetings::InitNextOccurrenceJob
+        .set(wait_until: from_time)
+        .perform_later(@recurring_meeting, next_occurrence)
+    end
+
+    def deliver_invitation_mails
+      return unless @recurring_meeting.template.notify?
+
+      @recurring_meeting.template.participants.invited.find_each do |participant|
+        MeetingSeriesMailer.invited(@recurring_meeting, participant.user, @user).deliver_later
+      end
+    end
+
+    def no_next_occurrence_failure
+      ServiceResult.failure(message: I18n.t("recurring_meeting.occurrence.error_no_next"))
+    end
+
+    def already_completed?(first_occurrence)
+      !@recurring_meeting.template.draft? &&
+        @recurring_meeting.meetings.not_templated.not_cancelled.exists?(recurrence_start_time: first_occurrence)
+    end
+
+    def already_completed_failure
+      ServiceResult.failure(message: I18n.t("recurring_meeting.occurrence.first_already_exists"))
     end
   end
 end

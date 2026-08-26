@@ -168,7 +168,7 @@ gem "meta-tags", "~> 2.23.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.1.0"
+gem "statesman", "~> 13.3.0"
 
 gem "job-iteration"
 
@@ -237,7 +237,7 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
