@@ -27,6 +27,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
 | Issue creation date                                | Work package created date | Matches when the issue was originally created in Jira, not when the migration ran |
+| Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
 | Issue links (blocks/relates to/etc.)               | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
 | Issue type                                         | Type                      | Matched by name (not case-sensitive); a new Type is created automatically if nothing matches, and it's attached to the right projects (mirroring Jira's per-project Issue Type Scheme). Only the name and description come across — no migrated type is marked as the project's default, even if it was the default in Jira, and there's no equivalent to Jira's dedicated "Sub-task" type behavior |
