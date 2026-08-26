@@ -307,6 +307,7 @@ Highlight all work packages which you want to edit.
 Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
 
 To open the quick context menu, **press the RIGHT mouse button**.
+![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
 
 Then you have the possibility to:
 
@@ -317,7 +318,10 @@ Then you have the possibility to:
 - Bulk duplicate all selected work packages, incl. the hierarchy relations (parent-child relations).
 - Bulk delete all selected work packages.
 
-![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
+If the Backlogs module is active, you can also change the **Sprint** and **Backlog** assignments of the selected work packages when bulk editing.
+
+> [!NOTE]
+> The **Manage sprint items** permission is required to change Sprint and Backlog assignments.
 
 At the bottom of the page you can decide whether notifications about these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 

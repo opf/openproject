@@ -279,17 +279,17 @@ ko:
   setting_enforce_tracking_start_and_end_times_caption: 시간을 기록할 때 시작 및 완료 시간을 필수로 입력해야 합니다.
   setting_enforce_without_allow: 이 옵션을 허용하지 않으면 시작 및 완료 시간 요구가 가능하지 않습니다
   setting_time_entries_limit_to_user_working_hours: 사용자의 근무 시간으로 제한
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_limit_to_user_working_hours_caption: 하루에 기록할 수 있는 총 시간을 해당 사용자의 유효한 근무 시간으로 제한합니다. 근무 시간이 정의되지 않은 사용자는 제한되지 않습니다.
+  setting_time_entries_max_hours_per_day: 일별 최대 시간
+  setting_time_entries_max_hours_per_day_caption: 사용자가 하루에 기록할 수 있는 총 시간을 제한합니다. 값이 0이면 제한이 없음을 의미합니다.
+  setting_time_entries_max_hours_per_entry: 시간 항목별 최대 시간
+  setting_time_entries_max_hours_per_entry_caption: 단일 시간 항목에 입력할 수 있는 시간을 제한합니다. 값이 0이면 제한이 없음을 의미합니다.
+  setting_time_entries_past_month_grace_days: 지난 몇 개월에 대한 유예 기간
+  setting_time_entries_past_month_grace_days_caption: 새로운 달이 시작될 때 사용자가 지난달의 시간 항목을 기록할 수 있는 기간(일)을 정의하세요. 값을 5로 설정하면 사용자는 이전 달의 시간을 현재 달의 5일까지 기록할 수 있습니다. 값을 0으로 설정하면 유예 기간이 전혀 없음을 의미합니다.
+  setting_time_entries_prohibit_logging_for_past_months: 지난 몇 개월간의 기록 허용 안 함
+  setting_time_entries_prohibit_logging_for_past_months_caption: 시간 항목 추가, 변경 및 삭제를 현재 달로 제한합니다. 지난 몇 개월에 기록된 시간은 더 이상 수정할 수 없습니다.
+  setting_time_entries_prohibit_logging_on_non_working_days: 휴무일에 시간 기록 허용 안 함
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: 관리자 또는 자신의 계정 설정에서 개별 사용자가 휴무일로 정의한 날에는 사용자가 시간을 기록할 수 없습니다.
   text_assign_time_and_cost_entries_to_project: 보고된 시간 및 비용을 프로젝트에 할당
   text_destroy_cost_entries_question: "%{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"
   text_destroy_time_and_cost_entries: 보고된 시간 및 비용 삭제

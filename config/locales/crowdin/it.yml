@@ -67,8 +67,8 @@ it:
       '
     login_with_auth_provider: o accedi con il tuo account esistente
     omniauth_login: Accedi per attivare il tuo account.
-    signup_title: Create an account in %{app_title}
-    signup_with_external_account: Sign up with an external account
+    signup_title: Crea un account in %{app_title}
+    signup_with_external_account: Registrati con un account esterno
   actionview_instancetag_blank_option: Si prega di selezionare
   activemodel:
     attributes:
@@ -343,7 +343,7 @@ it:
         token_name: Nome del token
       type:
         attribute_groups: Configurazione del modulo
-        children: Variants
+        children: Varianti
         color: Colore
         dependent_configuration_links: Tipi collegati
         description: Testo predefinito per la descrizione
@@ -488,7 +488,7 @@ it:
         before_or_equal_to: deve essere precedente o uguale al %{date}.
         blank: non può essere lasciato vuoto.
         blank_nested: deve avere la proprietà '%{property}' impostata.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: non è consentito. Utilizza un indirizzo email di un dominio diverso.
         cannot_delete_mapping: è necessario. Non può essere cancellato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
@@ -700,9 +700,9 @@ it:
               cannot_assign_variant_and_parent: 'Non è possibile assegnare una variante insieme al suo genitore '
               cannot_assign_variants_yet: Non è ancora possibile abilitare le varianti in un progetto. Abilita il flag di funzionalità per provarle
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
-              switch_target_not_in_family: Can only switch to another type of the same family
+              switch_target_blank: Seleziona la variante a cui passare
+              switch_target_identical: Il tipo di destinazione deve essere diverso da quello attualmente utilizzato dal progetto
+              switch_target_not_in_family: È possibile passare solo a un altro tipo della stessa famiglia
           cannot_be_assigned_to_artifact_work_package: L'utente selezionato non è autorizzato a essere assegnato alle macro-attività.
           foreign_wps_reference_version: Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.
         project/phase:
@@ -720,9 +720,9 @@ it:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: deve essere un tipo di primo livello. Un progetto utilizza i tipi radice e determina una variante separatamente.
             variant:
-              must_belong_to_the_type: must be a variant of the type the project uses.
+              must_belong_to_the_type: deve essere una variante del tipo utilizzato dal progetto.
         queries/filters/base:
           attributes:
             values:
@@ -821,8 +821,8 @@ it:
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             parent:
               cannot_be_self: non può essere il tipo stesso.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: non può essere modificato finché dei progetti utilizzano ancora questo tipo.
+              cannot_have_children: non può essere impostato perché questo tipo ha già varianti.
               must_be_a_root: deve essere a sua volta un tipo di primo livello. I tipi possono essere nidificati solo di un livello.
               standard_type_must_be_root: non può essere impostato per il tipo standard.
             patterns:
@@ -830,7 +830,7 @@ it:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
         user:
           attributes:
             base:
@@ -1034,7 +1034,7 @@ it:
           heading: Rendere pubblico questo commento?
           title: Rendere pubblico questo commento?
         internal_journal: I commenti interni sono visibili solo a un gruppo ristretto di membri.
-        label_activity_hide_meetings: Hide meetings updates
+        label_activity_hide_meetings: Nascondi gli aggiornamenti delle riunioni
         label_activity_show_all: Mostra tutto
         label_activity_show_only_changes: Mostra solo le modifiche
         label_activity_show_only_comments: Mostra solo commenti
@@ -1522,40 +1522,40 @@ it:
           error: Impossibile riordinare la sezione.
       versions_and_categories:
         banner:
-          button_more_information: More information
-          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+          button_more_information: Ulteriori informazioni
+          message: Sono previste importanti modifiche alle versioni e alle categorie. Esamina attentamente le seguenti impostazioni.
         categories:
-          heading: Categories
+          heading: Categorie
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
-            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+            heading: Modifiche previste in una versione futura
+            renamed: Il campo "Categoria" verrà rinominato "Categorie".
+            single_value: Questo campo attualmente accetta un solo valore. Verrà inoltre convertito per consentire più valori.
+            upcoming_choice: Potrai scegliere di abilitare più valori prima che avvenga questa conversione automatica.
         dialog:
-          checkbox_label: I understand that this action is not reversible
-          confirm_button: Enable
-          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
-          heading: Enable multiple target versions?
-          irreversible_notice: Once enabled, it will not be possible to go back to single values.
-          title: Enable multiple target versions
+          checkbox_label: Sono consapevole che questa azione non è reversibile
+          confirm_button: Abilita
+          description_html: Questa operazione convertirà l'attuale campo Versione a valore singolo in modo che accetti più valori. Nessun dato andrà perso, ma ciò potrebbe influire sulle integrazioni personalizzate. Consulta la <a href="%{link}" target="_blank" rel="noopener">documentazione</a> prima di procedere.
+          heading: Abilitare più versioni di destinazione?
+          irreversible_notice: Una volta abilitate, non sarà possibile tornare ai valori singoli.
+          title: Abilita più versioni di destinazione
         target_versions:
           action_required:
-            button: Enable multiple values
-            heading: Action required
-            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
-          heading: Target versions
+            button: Abilita più valori
+            heading: Azione richiesta
+            manual_conversion_hint: Puoi scegliere di eseguire manualmente la conversione per abilitare più valori prima che avvenga la migrazione automatica.
+            not_writable_hint: Queste impostazioni sono configurate tramite variabili di ambiente. Se desideri eseguire manualmente la conversione per abilitare più valori prima della migrazione automatica, aggiorna il file configuration.yml.
+          heading: Versioni di destinazione
           in_progress:
-            heading: Enabling multiple versions
+            heading: Abilitazione di più versioni
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            heading: Modifiche previste in una versione futura
+            renamed: Il campo "Versione" verrà rinominato "Versioni di destinazione".
+            single_value: Questo campo attualmente accetta un solo valore. Verrà convertito per consentire più valori.
           recent_changes:
-            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
-            heading: Recent changes
-            multiple_values: The “Target versions” field now allows multiple values.
-            renamed: The “Version” field has now been renamed “Target versions”.
+            documentation_html: Per ulteriori informazioni su questa modifica e su come aggiornare i client API, consulta la <a href="%{link}" target="_blank" rel="noopener">nostra documentazione</a>.
+            heading: Modifiche recenti
+            multiple_values: Il campo "Versioni di destinazione" ora consente più valori.
+            renamed: Il campo "Versione" è stato rinominato "Versioni di destinazione".
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Deve iniziare con una lettera maiuscola
@@ -1763,7 +1763,7 @@ it:
     entity_type: Entità
     estimated_hours: Lavoro
     estimated_time: Lavoro
-    exact_match: Exact match
+    exact_match: Corrispondenza esatta
     expires_at: Scadenza
     filter: Filtro
     firstname: Nome
@@ -2581,7 +2581,7 @@ it:
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
   error_in_dependent: 'Errore nel tentativo di modificare l''oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
+  error_invalid_list_move_anchor: L'elemento non può essere spostato nella posizione richiesta. Ricarica la pagina e riprova.
   error_invalid_selected_value: Valore selezionato non valido.
   error_journal_attribute_not_present: Il diario non contiene l'attributo %{attribute}.
   error_menu_item_not_created: La voce di menu non può essere aggiunta
@@ -2849,14 +2849,14 @@ it:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Azioni assistite dall'IA su macro-attività, commenti e relazioni con il server MCP (piano Professional).
+            line_1: Più versioni di destinazione per le macro-attività.
+            line_2: Limiti e restrizioni globali per le registrazioni orarie (piano Professional).
+            line_3: Miglioramenti Agile per la modifica in blocco e il trascinamento delle schede dei backlog in applicazioni esterne.
+            line_4: Macro wiki disponibili in più editor di testo.
+            line_5: Ricerca migliorata degli identificatori delle macro-attività.
+            line_6: 'Disponibile nella Community: visualizzazione delle relazioni nelle tabelle delle macro-attività.'
+          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -2903,11 +2903,11 @@ it:
         field_updated: "%{field} aggiornato"
         header: modifiche di %{author}
         set_with_diff: "%{field} impostato (%{link})"
-      meeting_cancelled: "(cancelled)"
-      meeting_deleted: "(deleted)"
-      meeting_series_backlog_html: backlog for meeting series %{link}
-      meeting_series_template_html: template for meeting series %{link}
-      meeting_template_html: meeting template %{link}
+      meeting_cancelled: "(annullata)"
+      meeting_deleted: "(eliminata)"
+      meeting_series_backlog_html: backlog per la serie di riunioni %{link}
+      meeting_series_template_html: modello per la serie di riunioni %{link}
+      meeting_template_html: modello di riunione %{link}
       progress_mode_changed_to_status_based: La modalità di calcolo dell'avanzamento è impostata in funzione dello stato.
       status_excluded_from_totals_set_to_false_message: ora incluso nei totali della gerarchia
       status_excluded_from_totals_set_to_true_message: ora escluso dai totali della gerarchia
@@ -2920,7 +2920,7 @@ it:
         progress_calculation_adjusted_from_disabled_mode: Il calcolo dei progressi è <a href="%{href}" target="_blank">impostato automaticamente in modalità basata sul lavoro e modificato con l'aggiornamento della versione</a>.
         scheduling_mode_adjusted: Modalità di programmazione regolata automaticamente con aggiornamento della versione.
         sprint_migration: La versione '%{version_name}' è stata copiata come sprint.
-        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
+        target_versions_repaired: Le versioni di destinazione sono state sincronizzate automaticamente con il campo Versione prima dell'abilitazione di più versioni di destinazione.
         totals_removed_from_childless_work_packages: I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
       total_percent_complete_mode_changed_to_simple_average: I valori di Lavoro delle macro-attività figlie vengono ignorati.
       total_percent_complete_mode_changed_to_work_weighted_average: Le macro-attività figlie senza Lavoro vengono ignorate.
@@ -2944,14 +2944,14 @@ it:
       dates_changed: Date cambiate
       default_attribute_written: Attributi di sola lettura scritti
       import: Importato
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
-      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>Aggiunto alla riunione</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Aggiunto a</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discusso nella riunione</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Spostato nella riunione</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Spostato in</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Rimosso dalla riunione</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Rimosso da</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Aggiunto come esito nella riunione</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Calcolo dei progressi aggiornato
       status_changed: Stato '%{status_name}'
       system_update: 'Aggiornamento del sistema OpenProject:'
@@ -2961,15 +2961,15 @@ it:
       work_package_parent_deleted: Genitore rimosso
     changes_retracted: Le modifiche sono state annullate.
     non_visible:
-      budget: a non-visible budget
-      category: a non-visible category
-      default: a non-visible record
-      issue_priority: a non-visible priority
-      project: a non-visible project
-      sprint: a non-visible sprint
-      time_entry_activity: a non-visible activity
-      version: a non-visible version
-      work_package: a non-visible work package
+      budget: un budget non visibile
+      category: una categoria non visibile
+      default: un record non visibile
+      issue_priority: una priorità non visibile
+      project: un progetto non visibile
+      sprint: uno sprint non visibile
+      time_entry_activity: un'attività non visibile
+      version: una versione non visibile
+      work_package: una macro-attività non visibile
   label_accessibility: Accessibilità
   label_account: Account
   label_actions: Azioni
@@ -3326,7 +3326,7 @@ it:
   label_me: io
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_new: Nuovo membro
-  label_member_of_project: Member of project
+  label_member_of_project: Membro del progetto
   label_member_plural: Membri
   label_member_role: Ruolo del progetto
   label_membership_added: Membro aggiunto
@@ -3478,7 +3478,7 @@ it:
   label_project_hide_details: Nascondi dettagli progetto
   label_project_hierarchy: Gerarchia del progetto
   label_project_identifier: Identificatore di progetto
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: Esporta %{project_creation_name} come PDF
   label_project_latest: Ultimi progetti
   label_project_life_cycle: Ciclo di vita del progetto
   label_project_list_plural: Elenchi progetto
@@ -3590,7 +3590,7 @@ it:
   label_subitems: Sottoelementi
   label_subject_or_id: Oggetto o ID
   label_subproject: Sottoprogetto
-  label_subproject_add: Add subproject
+  label_subproject_add: Aggiungi sottoprogetto
   label_subproject_plural: Sotto-progetti
   label_subtask_plural: Sottoattività
   label_summary: Sommario
@@ -3654,7 +3654,7 @@ it:
   label_version_sharing_none: Non condivisi
   label_version_sharing_system: Con tutti i progetti
   label_version_sharing_tree: Con albero di progetto
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: Versioni e categorie
   label_videos: Video
   label_view_all_revisions: Mostra tutte le revisioni
   label_view_diff: Mostra le differenze
@@ -4679,7 +4679,7 @@ it:
 
     '
   permission_move_work_packages: Spostare le macro-attività
-  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
+  permission_project_identifier_visibility_caution: 'Attenzione: gli utenti con questa autorizzazione possono sapere se un identificatore di progetto è già in uso, anche da parte di progetti che non possono visualizzare. [Ulteriori informazioni](project_identifier_visibility_url)'
   permission_save_bcf_queries: Salva query BCF
   permission_save_queries: Salva viste
   permission_search_project: Cerca progetto
@@ -4772,8 +4772,8 @@ it:
   project:
     archive:
       archived: Archiviato
-      confirmation_heading: Are you sure you want to continue?
-      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
+      confirmation_heading: Vuoi davvero continuare?
+      confirmation_message: L'archiviazione di questo progetto renderà il progetto e tutti i suoi discendenti non disponibili per tutti gli utenti di questa istanza. I progetti archiviati possono essere ripristinati.
       title: Archivia progetto
     count:
       one: 1 progetto
@@ -4903,7 +4903,7 @@ it:
       header_identifier: Identificatore
       header_relations: Relazioni del progetto
       header_status: Stato
-      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
+      identifier_visibility_warning: Gli identificatori dei progetti non sono privati. Se il progetto è riservato, scegli un identificatore generico.
       life_cycle:
         filter:
           label: Ricerca fase di progetto
@@ -4980,15 +4980,15 @@ it:
         no_results_title_text: Al momento non sono disponibili tipi.
         remove_from_project: Rimuovi dal progetto
         switch_dialog:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
+          apply: Applica
+          description: Seleziona una variante diversa di questo tipo da utilizzare in questo progetto.
+          success: Il progetto ora utilizza %{type}.
+          target_label: Variante
+          title: "%{type}: cambia variante"
+          warning: Se cambi variante, potresti perdere le informazioni associate ai campi personalizzati che potrebbero non essere presenti nella nuova variante.
+        switch_type: Cambia variante
         type_not_found: Impossibile trovare il tipo selezionato.
-        variant_prefix: 'Variant:'
+        variant_prefix: 'Variante:'
       versions:
         no_results_content_text: Crea una nuova versione
         no_results_title_text: Al momento non esistono versioni per il progetto.
@@ -5260,7 +5260,7 @@ it:
   setting_default_language: Lingua predefinita
   setting_default_projects_modules: Moduli abilitati in automatico su nuovi progetti
   setting_default_projects_public: I nuovi progetti sono pubblici come impostazione predefinita
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Abilita per impostazione predefinita la funzionalità wiki per i nuovi progetti
   setting_diff_max_lines_displayed: Numero massimo di linee diff visualizzate
   setting_disable_password_login: Disabilita l'autenticazione con password
   setting_display_subprojects_work_packages: Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita
@@ -5395,7 +5395,7 @@ it:
   setting_work_package_done_ratio_status_caption_html: Ogni stato ha un valore di <i>% completamento</i> associato a esso. Cambiando lo stato cambierà la <i>% completamento</i>.
   setting_work_package_list_default_highlighted_attributes: Attributi evidenziati in linea predefiniti
   setting_work_package_list_default_highlighting_mode: Modalità evidenziazione predefinita
-  setting_work_package_multiple_versions: Multiple target versions
+  setting_work_package_multiple_versions: Più versioni di destinazione
   setting_work_package_properties: Proprietà della macro-attività
   setting_work_package_startdate_is_adddate: Usa la data corrente come data di inizio per le nuove macro-attività
   setting_work_packages_identifier_classic: Sequenza numerica a livello di istanza (predefinita)
@@ -5788,7 +5788,7 @@ it:
   text_destroy_what_to_do: Cosa vuoi fare?
   text_destroy_with_associated: 'Ci sono ulteriori oggetti associati con la/le macro-attività che devono essere eliminati. Tali oggetti sono dei seguenti tipi:'
   text_diff_truncated: "... Questo diff è stato troncato perché supera la dimensione massima che può essere visualizzata."
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
+  text_email_delivery_letter_opener: Letter Opener viene utilizzato per eseguire il rendering delle email come file nella cartella tmp di Rails. Se supportato, le email si apriranno automaticamente nel browser.
   text_email_delivery_not_configured: |-
     Consegna email non configurata. Le notifiche sono state disabilitate.
     Configura il tuo server SMTP per abilitarle.
@@ -5813,14 +5813,14 @@ it:
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} eliminato"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
   text_journal_file_link_added: Link %{label} a %{value} (%{storage}) aggiunto
   text_journal_file_link_deleted: Link %{label} a %{old} (%{storage}) rimosso
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: Non disponi dell'autorizzazione per visualizzare questa attività del registro.
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: insieme di %{label} (%{link})
   text_latest_note: 'L''ultimo commento è: %{note}'
@@ -5942,7 +5942,7 @@ it:
         project_attributes: Attributi del progetto
         projects: Progetti
         workflows: Flussi di lavoro
-      success: Variant created successfully.
+      success: Variante creata con successo.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -5990,7 +5990,7 @@ it:
           actions:
             label_disable_all: Disabilita tutto
             label_enable_all: Abilita tutto
-            label_toggle_template: Toggle %{template}
+            label_toggle_template: Attiva/disattiva %{template}
           label: Modelli di esportazione PDF
         tab: Genera PDF
         templates:
@@ -6010,9 +6010,9 @@ it:
         edit_query: Modifica query
         empty_group_hint: Trascina qui gli attributi
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
-          section_label: Inherit section %{section}
+          attribute_label: Eredita %{attribute}
+          excluded: Nascosto
+          section_label: Eredita sezione %{section}
         filter_inactive: Filtra attributi
         group_actions: Azioni di sezione
         group_name_label: Nome sezione
@@ -6038,9 +6038,9 @@ it:
           label_disable_all: Disabilita tutto
           label_enable_all: Abilita tutto
         description: Seleziona gli attributi del progetto da abilitare per questo tipo di macro-attività. Gli attributi abilitati vengono visualizzati in una scheda separata nelle macro-attività di questo tipo. Gli utenti con le autorizzazioni necessarie possono visualizzarli e modificarli in tale scheda.
-        disabled: Disabled
+        disabled: Disabilitato
         exclusions:
-          attribute_label: Inherit %{attribute}
+          attribute_label: Eredita %{attribute}
         filter: Ricerca per sezione o per nome
         tab: Attributi del progetto
       projects:
@@ -6063,8 +6063,8 @@ it:
           invalid_source: La configurazione non può essere copiata dal tipo selezionato. Seleziona un tipo di origine diverso.
           success: La configurazione è stata copiata.
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
+          not_linked: Questo tipo dispone di una propria configurazione per questa sezione, quindi non c'è nulla da escludere. Modifica direttamente la configurazione.
+          unknown_aspect: Sezione di configurazione "%{aspect}" sconosciuta.
         independent:
           confirm_dialog:
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali
@@ -6278,7 +6278,7 @@ it:
         availability_description: Il fattore di disponibilità rappresenta la percentuale effettiva del tuo tempo di lavoro dedicata alle attività di progetto. Tiene conto di riunioni, email, attività amministrative e altre attività non legate al progetto.
         availability_factor: Fattore di disponibilità
         availability_factor_caption: Definisci la percentuale del tuo tempo di lavoro dedicata al lavoro di progetto.
-        effective_hours: Effective work hours
+        effective_hours: Ore di lavoro effettive
         hours_mode_label: Modalità ore
         hours_per_day: Ore al giorno
         individual_hours_mode: Ore giornaliere separate

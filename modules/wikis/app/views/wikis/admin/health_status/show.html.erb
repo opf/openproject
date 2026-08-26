@@ -91,7 +91,15 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
       <% if @report.present? %>
-        <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "wikis.health_checks")) %>
+        <%=
+          render(
+            HealthReports::ReportComponent.new(
+              @report,
+              i18n_scope: "wikis.health_checks",
+              docs_href: ::OpenProject::Static::Links.url_for(:wiki_docs, :health_status)
+            )
+          )
+        %>
       <% else %>
         <%=
           render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|

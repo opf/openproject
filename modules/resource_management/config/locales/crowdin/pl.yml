@@ -289,10 +289,10 @@ pl:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          few: "%{count} members of this project match the allocation's filter criteria."
-          many: "%{count} members of this project match the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} uczestnik tego projektu spełnia kryteria filtrowania przydziału."
+          few: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          many: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          other: "%{count} uczestnika tego projektu spełnia kryteria filtrowania przydziału."
       blank:
         add_work_package: Dodaj pakiet roboczy
         configure_view: Konfiguruj widok
