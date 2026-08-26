@@ -219,7 +219,6 @@ RSpec.describe "API v3 file links resource" do
 
     context "if a collection with an offset is requested" do
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?pageSize=2&offset=2" }
-      # let(:path) { api_v3_paths.file_links(work_package.id) }
       let(:second_file_link) { create(:file_link, creator: current_user, container: work_package, storage:) }
       let(:third_file_link) { create(:file_link, creator: current_user, container: work_package, storage:) }
       let(:initialize_file_links) { [file_link, second_file_link, third_file_link] }
