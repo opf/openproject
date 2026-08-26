@@ -138,8 +138,8 @@ class Header::ProjectsController < ApplicationController
     @user_project_favorites ||= Favorite.where(favorited_type: "Project", user_id: current_user.id)
   end
 
-  # Builds a nested structure from a flat, lft-ordered list of projects.
-  # Each level is sorted alphabetically by project name.
+  # Builds the nested tree from a flat, lft-ordered list of projects and
+  # decorates each node with its query-match and expansion state.
   def build_tree(projects)
     decorate_nodes(Project.build_projects_hierarchy(projects))
   end
@@ -152,6 +152,13 @@ class Header::ProjectsController < ApplicationController
     end
   end
 
+  # A node is expanded so its children are revealed when:
+  # - favorited mode is active (always expand to surface favorites), or
+  # - a child is grafted onto this node because its real parent is hidden
+  #   (child.parent_id != this node's id) and would otherwise be concealed
+  #   behind a collapsed ancestor, or
+  # - a child is the current project, or
+  # - a child is itself expanded, propagating expansion up the visible chain.
   def expanded_node?(node)
     filter_mode == "favorited" || node[:children].any? do |child|
       child[:project].parent_id != node[:project].id ||

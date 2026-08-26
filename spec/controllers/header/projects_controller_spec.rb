@@ -99,6 +99,31 @@ RSpec.describe Header::ProjectsController do
       end
     end
 
+    context "when a hidden project sits mid-way in a visible chain" do
+      shared_let(:visible_root) { create(:project, name: "Root Visible") }
+      shared_let(:visible_mid)  { create(:project, name: "Mid Visible", parent: visible_root) }
+      shared_let(:hidden_middle) { create(:private_project, name: "Hidden Middle", parent: visible_mid) }
+      shared_let(:visible_leaf) { create(:project, name: "Leaf Visible", parent: hidden_middle) }
+
+      before do
+        create(:member, principal: current_user, project: visible_root, roles: [role])
+        create(:member, principal: current_user, project: visible_mid,  roles: [role])
+        create(:member, principal: current_user, project: visible_leaf, roles: [role])
+      end
+
+      it "expands every visible ancestor down to the grafted leaf", :aggregate_failures do
+        make_request
+
+        tree = assigns(:tree)
+        root_node = tree.find { |node| node[:project] == visible_root }
+        mid_node = root_node[:children].find { |node| node[:project] == visible_mid }
+
+        expect(root_node[:expanded]).to be(true)
+        expect(mid_node[:expanded]).to be(true)
+        expect(mid_node[:children].pluck(:project)).to include(visible_leaf)
+      end
+    end
+
     context "when searching by query" do
       subject(:make_request) { get :index, params: { query: "Beta" } }
 
