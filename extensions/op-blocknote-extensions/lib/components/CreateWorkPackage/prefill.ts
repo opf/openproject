@@ -105,13 +105,21 @@ async function offeredProject(field:FormField, id:string | number):Promise<Allow
 export async function projectPrefill(field:FormField | undefined):Promise<Prefill> {
   if (!field) return prefillOf([]);
 
-  const id = contextProjectId() ?? projectIdFromHref(lastSelection()[PROJECT_KEY]?.href);
-  const chosen = id === undefined ? undefined : await offeredProject(field, id);
+  // A project picked by hand outranks the one the editor is rendered in, which
+  // seeds the first creation and stands in where the picked one is gone.
+  const candidates = [projectIdFromHref(lastSelection()[PROJECT_KEY]?.href), contextProjectId()];
 
-  return prefillOf([[PROJECT_KEY, chosen]]);
+  for (const id of candidates) {
+    if (id === undefined) continue;
+
+    const chosen = await offeredProject(field, id);
+    if (chosen) return prefillOf([[PROJECT_KEY, chosen]]);
+  }
+
+  return prefillOf([]);
 }
 
-/** The values the given fields open with, from what the session remembers and what the API defaults to. */
+/** The values the given fields open with, from what the document remembers and what the API defaults to. */
 export async function prefillFor(fields:FormField[], payload:WorkPackagePayload):Promise<Prefill> {
   const remembered = lastSelection();
   const chosen:[string, AllowedValue | undefined][] = [];

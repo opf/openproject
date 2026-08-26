@@ -120,6 +120,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
+  useEffect(() => { panelRef.current?.focus(); }, []);
   useColors();
   const {
     primaryFields,
@@ -132,6 +133,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     isDirty,
     selectedTypeLabel,
     loading,
+    initialising,
     loadError,
     notAllowed,
     submitting,
@@ -182,6 +184,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
       >
         <Panel
           ref={panelRef}
+          tabIndex={-1}
           aria-label={t('createWorkPackage.title')}
           onMouseDown={(event) => event.stopPropagation()}
           onKeyDown={(event) => {
@@ -213,10 +216,12 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
 
               {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
 
-              {primaryFields.map(renderField)}
+              {primaryFields
+                .filter((field) => !initialising || !dependencyOf(field.key))
+                .map(renderField)}
 
               {loading && (
-                <LoadingRow>
+                <LoadingRow data-testid="create-wp-loading" $reserveHeight={initialising}>
                   <Spinner><SyncIcon size={14} /></Spinner>
                   {selectedTypeLabel
                     ? t('createWorkPackage.loadingTypeFields', { type: selectedTypeLabel })
@@ -224,11 +229,11 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
                 </LoadingRow>
               )}
 
-              {extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+              {!initialising && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
-              {extraFields.map(renderField)}
+              {!initialising && extraFields.map(renderField)}
 
-              {unsupportedFields.length > 0 && (
+              {!initialising && unsupportedFields.length > 0 && (
                 <Notice>
                   <AlertIcon size={14} />
                   <span>

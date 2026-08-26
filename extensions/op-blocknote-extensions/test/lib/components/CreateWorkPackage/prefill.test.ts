@@ -168,10 +168,22 @@ describe('create work package prefill', () => {
       expect(String(fetchSpy.mock.calls[0][0])).toContain('%22id%22');
     });
 
-    it('outranks the project of the last creation with the one it is rendered in', async () => {
+    it('is outranked by the project of the last creation', async () => {
       initEditorContext({ projectId: 2 });
       rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
-      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 2, name: 'Scrum project' }));
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 1, name: 'Demo project' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBe('/api/v3/projects/1');
+    });
+
+    it('stands in with the project it is rendered in when the remembered one is gone', async () => {
+      initEditorContext({ projectId: 2 });
+      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      vi.spyOn(global, 'fetch')
+        .mockResolvedValueOnce(projectsResponse())
+        .mockResolvedValueOnce(projectsResponse({ id: 2, name: 'Scrum project' }));
 
       const prefill = await projectPrefill(projectField);
 
@@ -180,7 +192,6 @@ describe('create work package prefill', () => {
 
     it('leaves the project empty where work packages cannot be created in it', async () => {
       initEditorContext({ projectId: 9 });
-      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
       vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse());
 
       const prefill = await projectPrefill(projectField);

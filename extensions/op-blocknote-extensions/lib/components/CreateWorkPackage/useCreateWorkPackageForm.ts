@@ -31,6 +31,7 @@ export interface CreateWorkPackageFormState {
   isDirty:boolean;
   selectedTypeLabel?:string;
   loading:boolean;
+  initialising:boolean;
   loadError:string | null;
   notAllowed:boolean;
   submitting:boolean;
@@ -74,6 +75,8 @@ export function useCreateWorkPackageForm(
   const typeHref = typeof values.type === 'string' && values.type ? values.type : undefined;
 
   const loading = loaded === null || loaded.project !== projectHref || loaded.type !== typeHref;
+
+  const initialising = loading && !touched;
 
   useEffect(() => {
     let active = true;
@@ -228,6 +231,7 @@ export function useCreateWorkPackageForm(
     isDirty,
     selectedTypeLabel,
     loading,
+    initialising,
     loadError: loading ? null : loadError,
     notAllowed: loading ? false : notAllowed,
     submitting,

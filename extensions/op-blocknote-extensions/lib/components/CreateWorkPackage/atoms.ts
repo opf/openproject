@@ -13,6 +13,7 @@ const colorDotSize = '12px';
 const colorDotWidth = `calc(var(--spacer-l) + ${colorDotSize} + var(--spacer-m))`;
 
 const MODAL_WIDTH = '460px';
+const MODAL_TOP_OFFSET = 'min(10vh, 4rem)';
 
 export const Overlay = styled.div.attrs({
   className: 'op-bn-create-wp-overlay',
@@ -93,12 +94,13 @@ export const Panel = styled.div.attrs({
 })`
   display: flex;
   flex-direction: column;
-  /*  Centered by its margins: a centered flex item cannot be scrolled back to
-      once it outgrows its container.  */
-  margin: auto;
+  /*  Not centered: the fields arrive in groups, and centering moves the ones
+      already shown on every arrival. Margins rather than alignment, so the
+      panel can still be scrolled to once it outgrows its container.  */
+  margin: ${MODAL_TOP_OFFSET} auto auto;
   width: ${MODAL_WIDTH};
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100% - ${MODAL_TOP_OFFSET});
   overflow: hidden;
   border-radius: ${radiusLarge};
   background: ${surfaceColor};
@@ -374,13 +376,20 @@ export const Spinner = styled.span`
   animation: ${spin} 0.9s linear infinite;
 `;
 
-export const LoadingRow = styled.div`
+export const LoadingRow = styled.div<{ $reserveHeight?:boolean }>`
   display: flex;
   align-items: center;
   gap: var(--spacer-m);
   padding-bottom: var(--spacer-xl);
   font-size: 0.85em;
   color: var(--op-create-wp-muted);
+
+  /*  Stands in for the fields still loading, holding part of their height.  */
+  ${({ $reserveHeight }) => $reserveHeight && css`
+    justify-content: center;
+    min-height: 12rem;
+    padding-bottom: 0;
+  `}
 `;
 
 export const SuggestionList = styled.div.attrs({ role: 'listbox' })`

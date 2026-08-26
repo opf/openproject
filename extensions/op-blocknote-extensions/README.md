@@ -45,7 +45,7 @@ initializeOpBlockNoteExtensions({
 });
 ```
 
-Optionally, you can pass a `projectId`: the id of the project the edited document belongs to. Creating a work package from the document then opens on that project instead of on the project the last work package of the session was created in. Pass it wherever the surrounding application knows the project, and leave it out where the editor is not rendered in one.
+Optionally, you can pass a `projectId`: the numeric id of the project the edited document belongs to. The first work package created from the document opens on that project; afterwards the form opens on the project the last work package was created in, for as long as the same document stays open. Pass it wherever the surrounding application knows the project, and leave it out where the editor is not rendered in one.
 
 ```js
 initializeOpBlockNoteExtensions({
