@@ -165,9 +165,9 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
       other_version.update_attribute(:updated_at, 10.seconds.from_now)
 
       expect(new_checksum)
-        .not_to eql previous_checksum  
+        .not_to eql previous_checksum
     end
-    
+
     it "produces a different checksum on moving a version between kinds" do
       work_package.work_package_versions.where(kind: "target").update_all(kind: "observed_in")
 
