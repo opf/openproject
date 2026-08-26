@@ -139,10 +139,12 @@ the migrator reuses it instead of creating a duplicate. The existing custom fiel
 
 For **Hierarchy** and **List** fields, deduplication is not attempted because option lists may differ - a new custom field is always created for these types.
 This applies every time the import runs, not just once: if you migrate in separate batches, each batch creates its own new
-Hierarchy or List fields rather than reusing ones a previous batch already created, even when the option values are identical.
+Hierarchy or List fields rather than reusing ones a previous batch already created, even when the option values are identical. 
 
 If a name collision exists but the formats differ, the migrator appends a numeric suffix to the new field name (e.g., `My Field (2)`).
 
 This is a separate mechanism from the option merging described under [Field contexts](#field-contexts) above, which only
 combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
 exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
+
+Note that the deduplication behavior is under active development and that the number of duplicated fields will be reduced in the future (tracked by [JIM-170] (https://community.openproject.org/projects/JIM/work_packages/JIM-170/activity).
