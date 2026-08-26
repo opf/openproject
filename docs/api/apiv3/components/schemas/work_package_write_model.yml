@@ -131,7 +131,7 @@ properties:
         items:
           $ref: './link.yml'
         description: |-
-          List of versions in which the work package was observed
+          List of versions in which the behaviour described by the work package was observed
 
           **Resource**: Collection of Version
       parent:
