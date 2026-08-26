@@ -29,11 +29,16 @@
 import KeepCollapsedStateController from './keep-collapsed-state.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
-// Mirrors the contract both Primer collapsibles share: the state lives in
-// `data-collapsed` and `toggle()` flips it.
+// Mirrors the contract both Primer collapsibles share, including Catalyst's
+// boolean-attribute semantics: `collapsed` reflects the presence of
+// `data-collapsed`, and `toggle()` flips it.
 class StubCollapsible extends HTMLElement {
+  get collapsed():boolean {
+    return this.hasAttribute('data-collapsed');
+  }
+
   toggle():void {
-    this.toggleAttribute('data-collapsed', !this.hasAttribute('data-collapsed'));
+    this.toggleAttribute('data-collapsed', !this.collapsed);
   }
 }
 

@@ -27,14 +27,11 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import type { CollapsibleElement } from '@openproject/primer-view-components/app/components/primer/open_project/collapsible';
 
 const COLLAPSED_ATTRIBUTE = 'data-collapsed';
 const COLLAPSIBLE_SELECTOR = 'collapsible-header, collapsible-section';
 const TOGGLE_SELECTOR = '[data-collapsible-toggle]';
-
-interface CollapsibleElement extends HTMLElement {
-  toggle():void;
-}
 
 // Carries the collapsed state of Primer collapsibles over turbo frame and
 // turbo stream renders, which would otherwise reset them to the state the
@@ -80,7 +77,7 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
     const key = this.keyOf(collapsible);
 
     if (key) {
-      this.collapsedByKey.set(key, this.collapsed(collapsible));
+      this.collapsedByKey.set(key, collapsible.collapsed);
     }
   }
 
@@ -88,7 +85,7 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
     const key = this.keyOf(collapsible);
     const collapsed = key ? this.collapsedByKey.get(key) : undefined;
 
-    if (collapsed !== undefined && collapsed !== this.collapsed(collapsible)) {
+    if (collapsed !== undefined && collapsed !== collapsible.collapsed) {
       collapsible.toggle();
     }
   }
@@ -107,9 +104,5 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
 
   private keyOf(collapsible:CollapsibleElement):string|undefined {
     return collapsible.querySelector(TOGGLE_SELECTOR)?.getAttribute('aria-controls') || undefined;
-  }
-
-  private collapsed(collapsible:CollapsibleElement):boolean {
-    return collapsible.hasAttribute(COLLAPSED_ATTRIBUTE);
   }
 }
