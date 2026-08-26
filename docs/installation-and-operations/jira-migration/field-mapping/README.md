@@ -26,7 +26,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Due date                                           | Due date                  | Copied as-is                                                 |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
-| Issue creation date                                | Work package created date | Matches when the issue was originally created in Jira, not when the migration ran |
+| Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189))  |
 | Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
 | Issue links (blocks/relates to/etc.)               | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
