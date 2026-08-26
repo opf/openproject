@@ -64,6 +64,12 @@ module McpTools
     input_schema(
       additionalProperties: false,
       properties: {
+        level_of_detail: {
+          type: :string,
+          enum: %w[reduced full],
+          description: "Defines how much information is returned per work package. By default a reduced representation " \
+                       "is returned, but passing 'full' can return all information."
+        },
         assigned_to_id: {
           type: %w[number null],
           description: "The ID of the user or group that is assigned to this work package. " \
@@ -100,6 +106,33 @@ module McpTools
 
     def format_item(item)
       API::V3::WorkPackages::WorkPackageRepresenter.create(item, current_user:)
+    end
+
+    def condensed_attributes
+      @condensed_attributes ||= %w[
+        _links
+        id
+        displayId
+        subject
+        lockVersion
+        date
+        startDate
+        dueDate
+        derivedStartDate
+        derivedDueDate
+        createdAt
+        updatedAt
+      ].to_set
+    end
+
+    def condensed_links
+      @condensed_links ||= %w[
+        project
+        status
+        type
+        author
+        assignee
+      ].to_set
     end
   end
 end

@@ -95,14 +95,14 @@ module McpTools
 
     private
 
-    def call(page: nil, **filters_and_scope_params)
+    def call(page: nil, level_of_detail: "condensed", **filters_and_scope_params)
       scope_params = filters_and_scope_params.slice(*scope_param_names)
       filters = filters_and_scope_params.except(*scope_param_names).reverse_merge(default_filters)
       base_scope(**scope_params).bind do |scope|
         filtered = apply_filters(scope, filters)
         items, total = apply_pagination(filtered, page)
 
-        Success({ items: items.map { |item| format_item(item) }, total: })
+        Success({ items: items.map { |item| apply_lod(format_item(item), level_of_detail:) }, total: })
       end
     end
 
@@ -129,6 +129,15 @@ module McpTools
       [scope.offset((page_number - 1) * page_size).limit(page_size), total]
     end
 
+    def apply_lod(item, level_of_detail:)
+      return item if level_of_detail == "full" || (condensed_attributes.empty? && condensed_links.empty?)
+
+      hash = item.as_json
+      hash.delete_if { |attr| condensed_attributes.exclude?(attr) }
+      hash["_links"]&.delete_if { |l| condensed_links.exclude?(l) }
+      hash
+    end
+
     ### Methods intended for overwriting in subclasses ###
 
     # Must return a scope that's used to list items of the given search. The result of this will be passed down
@@ -143,5 +152,13 @@ module McpTools
 
     # Defines formatting of each item returned from the search. Must return something that responds to #as_json.
     def format_item(_item) = raise SubclassResponsibilityError
+
+    # List of attributes that shall be returned in the condensed level-of-detail.
+    # If neither #condensed_attributes nor #condensed links are present, only full level-of-detail will be rendered.
+    def condensed_attributes = []
+
+    # List of links that shall be returned in the condensed level-of-detail.
+    # If neither #condensed_attributes nor #condensed links are present, only full level-of-detail will be rendered.
+    def condensed_links = []
   end
 end
