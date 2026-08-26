@@ -1,4 +1,4 @@
-# Jira to OpenProject Post Migration Checklist
+# Jira to OpenProject Post-Migration Checklist
 Things to do by hand after an import, given the tool's current scope. If you're migrating in multiple batches, repeat the "Right after import" steps for each batch — they're not a one-time event.
 
 ## Right after import
@@ -25,11 +25,11 @@ This is where you act on what you decided in the "confirm you can accept what do
 ## Clean-up and verification
 
 - [ ] Reorganize the new custom fields — they land in a generic group unattached to most projects by default.
-- [ ] If you didn't standardize Type/Status/Priority names in Jira beforehand (see Pre-Migration Checklist), **merge any that ended up duplicated** because the Jira names genuinely differed (not just by casing). Fixing this in Jira next time avoids having to redo the merge on every re-run.
+- [ ] If you didn't standardize Type/Status/Priority names in Jira beforehand (see Pre-Migration checklist), **merge any that ended up duplicated** because the Jira names genuinely differed (not just by casing). Fixing this in Jira next time avoids having to redo the merge on every re-run.
 - [ ] **Mark migrated statuses as closed where appropriate.** None of them are flagged as "closed" automatically, even ones that represented a finished state in Jira (Done, Closed, Resolved, etc.) — go through Administration → Work packages → Status and set this manually, or filtering/reporting on open vs. finished work will be wrong.
-- [ ] **Reorder priorities and set default types per project**, if you noted this as something to fix in the [Pre-Migration Checklist](../pre-migration-checklist/).
+- [ ] **Reorder priorities and set default types per project**, if you noted this as something to fix in the [Pre-Migration checklist](../pre-migration-checklist/).
 - [ ] **Fix estimated/remaining hours** — confirmed via testing to come across 60× too high (e.g. Jira's `1d` becomes `480` instead of `8`). Divide affected values by 60, either manually or via a bulk update/script. Tracked as [JIM-185](https://community.openproject.org/projects/JIM/work_packages/JIM-185).
 - [ ] **Find and fix inline images** in descriptions/comments — they still point at the original Jira server and will break once Jira is decommissioned.
 - [ ] Spot-check activity history on a few heavily-edited issues against Jira's original view, since near-simultaneous edits get merged into fewer entries, and comment timestamps after a transition-with-comment have been confirmed to sometimes show the migration date instead of the original one ([JIM-152](https://community.openproject.org/projects/JIM/work_packages/JIM-152)).
 - [ ] Manually clean up formatting that didn't convert: find and remove the leftover raw `{info}`/`{warning}`/`{note}`/`{tip}`/`{toc}`/`{expand}`/`{section}`/`{column}` tag text sitting in descriptions and comments (the content itself is intact, just the tags are ugly and unconverted), and turn bare issue-key links (`[PROJECT-123]`) and attachment links (`[^file.pdf]`) back into working links manually.
-- [ ] Update the external integrations, webhooks, or tools you identified in the Pre-Migration Checklist.
+- [ ] Update the external integrations, webhooks, or tools you identified in the [Pre-Migration checklist](../pre-migration-checklist/).

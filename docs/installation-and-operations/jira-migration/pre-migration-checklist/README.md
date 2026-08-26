@@ -1,4 +1,4 @@
-# Jira to OpenProject Pre Migration Checklist
+# Jira to OpenProject Pre-Migration Checklist
 
 Actions to take in Jira, in OpenProject and in your migration planning before you start an import run, to reduce the number of surprises and manual clean-up steps afterward.
 
@@ -6,7 +6,7 @@ Actions to take in Jira, in OpenProject and in your migration planning before yo
 
 - [ ] Confirm your Jira instance is Data Center 10.x / 11.x. Server is officially not supported, but depending on your configuration is still likely to work. Cloud is not supported at all at the moment — plan a different route if you're on Cloud.
 - [ ] Confirm your Jira instance is reachable from OpenProject by using the connection test.
-- [ ] If your organization logs into OpenProject via LDAP, check whether Jira usernames match your LDAP login names. If they do, flag this to your team now — those users' real LDAP passwords will stop working right after migration until an admin fixes each affected account (see Post-Migration checklist). Not relevant if you only use local/password accounts.
+- [ ] If your organization logs into OpenProject via LDAP, check whether Jira usernames match your LDAP login names. If they do, flag this to your team now — those users' real LDAP passwords will stop working right after migration until an admin fixes each affected account (see [Post-Migration checklist](../post-migration-checklist/)). Not relevant if you only use local/password accounts.
 - [ ] Sync your external user directories (LDAP/AD) in Jira before migrating (Administration → User Management → User Directories → Sync). The migrator reads user data (email, display name) directly from Jira at the time of migration — if the sync is stale, that stale data gets carried over.
 - [ ] Run Jira's built-in **Database Integrity Checker** (Administration → System → Integrity Checker) and/or the **Integrity Check for Jira** Marketplace app before migrating. These catch broken/orphaned data (e.g. required fields with no value, dangling references) that could otherwise cause unexpected errors partway through the import.
 - [ ] For large migrations, check your Jira instance's capacity for the migration window: heap size, database connection pool, and free disk space. The migrator makes a large number of API calls (per-issue fetches, per-project/issue-type metadata lookups for custom fields), which can strain an under-resourced instance the same way any bulk API consumer would.
@@ -52,7 +52,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Anything in Confluence
 - [ ] Any Marketplace app data (e.g. Tempo time tracking, Xray/Zephyr test management, Structure hierarchies) — the migrator only handles core Jira issue/project/user data and the specific custom field types listed above. Inventory which apps your teams actually depend on and decide separately how to handle each one's data.
 
-For anything on this list your teams actually rely on, decide now how you'll handle it — export it separately, accept the loss, or plan to recreate it manually after migration (see the Post-Migration checklist for what that looks like). Don't discover this after the fact.
+For anything on this list your teams actually rely on, decide now how you'll handle it — export it separately, accept the loss, or plan to recreate it manually after migration (see the [Post-Migration checklist](../post-migration-checklist/) for what that looks like). Don't discover this after the fact.
 
 ## Preparation
 
