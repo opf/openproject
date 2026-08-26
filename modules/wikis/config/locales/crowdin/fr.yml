@@ -28,8 +28,8 @@ fr:
         one: Lien de page en ligne
         other: Liens de page en ligne
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: Internal provider
+        other: Internal providers
       wikis/provider:
         one: Fournisseur de wiki
         other: Fournisseurs de wiki
@@ -44,11 +44,9 @@ fr:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: Wikis
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: Gérer les liens vers les pages wiki
-  project_module_wiki_internal: Wiki du projet
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Wiki du projet
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -199,7 +197,7 @@ fr:
     page_link_forms:
       labels:
         page_title: Titre
-        parent: Page wiki parent
+        parent: Parent
         wiki_page: Page wiki
       search:
         no_results: Aucune page wiki trouvée
@@ -219,6 +217,8 @@ fr:
         caption: Cela permet d'activer les fonctionnalités wiki natives pour ce projet. Les membres pourront créer et consulter des pages wiki stockées dans OpenProject.
         enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

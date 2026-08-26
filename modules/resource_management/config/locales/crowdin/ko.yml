@@ -283,7 +283,7 @@ ko:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: "%{count} members of this project match the allocation's filter criteria."
+          other: 이 프로젝트의 멤버 %{count}명이 할당의 필터 기준에 맞습니다.
       blank:
         add_work_package: 작업 패키지 추가
         configure_view: 보기 구성

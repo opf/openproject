@@ -18,8 +18,10 @@ of the collapsible header and is hidden when the list is collapsed.
 **Items**
 The list rows. Items can render generic row content or a work package card.
 
-**Empty state** *(optional)*
-Shown when the list has no items.
+**Empty state**
+Shown when the list has no items. The component renders a generic empty state by
+default; use `with_empty_state` only when the list needs domain-specific copy,
+an icon, or custom system arguments.
 
 **Footer** *(optional)*
 Shown below the items. Use it for summary or follow-up content.
@@ -35,6 +37,7 @@ comparable lists should use headers.
 | `scheme` | `Symbol` | `:default` | Visual scheme. Use `:transparent` for list containers that should blend into their surrounding surface |
 | `padding` | `Symbol` | `:default` | Row padding forwarded to the underlying `Primer::Beta::BorderBox`. Supports Primer BorderBox padding values such as `:condensed`, `:default`, and `:spacious` |
 | `header_padding` | `Symbol` | `:inherit` | Header-only vertical padding override. Supports `:inherit`, `:condensed`, `:default`, and `:spacious` |
+| `empty_state_behavior` | `Symbol` | `:static` | Policy for the empty state shown when the list has no items. See [Empty-state behavior](#empty-state-behavior) below |
 | `interactive` | `Boolean` | `false` | Enables polite ARIA live-region announcements for counter and configured empty-state updates |
 | `collapsible` | `Boolean` | `false` | Renders the header as a collapsible toggle when a header is present |
 | `current_user` | `User` | `User.current` | User context forwarded to work package item rows |
@@ -47,7 +50,7 @@ comparable lists should use headers.
 | `with_header` | Optional section header. See [Header parameters](#header-parameters) and [Header slots](#header-slots) below |
 | `with_item` | Generic list row that renders the provided block content |
 | `with_work_package_item` | Work package row that renders a work package card |
-| `with_empty_state` | Empty-state content rendered when no items are present |
+| `with_empty_state` | Custom empty-state content rendered when no items are present |
 | `with_footer` | Optional footer row below the list items |
 
 ## Header
@@ -68,10 +71,12 @@ comparable lists should use headers.
 | Slot | Description |
 |---|---|
 | `with_title` | Block-based alternative to `title:`, for titles that need more than plain text. Takes precedence over `title:` |
+| `with_breadcrumbs` | Breadcrumb trail (`Primer::Beta::Breadcrumbs`) rendered in the title position. The title stays mandatory and renders visually hidden, keeping the list's accessible name. Not available on collapsible headers |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
-| `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |
+| `with_action_icon_button` | Icon button rendered in the header actions area |
+| `with_menu` | Action menu rendered in the header actions area. Pass `button_arguments:` for the default trigger button |
 
 ### Collapsible headers
 
@@ -112,13 +117,47 @@ for card-specific layout, parameters, and slots.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_work_package_items, panels: %i[source] %>
 
+### Custom header content
+
+Use `with_title` when a header title needs composed **inline phrasing content**,
+such as a link or an emphasized fragment. The slot renders inside the heading
+element, so never nest block layouts, counters, or buttons in it — the counter
+belongs to `count:` and actions to the header action slots. Use
+`menu.with_show_button` when the default action-menu trigger is not specific
+enough for the list action.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :custom_header_content, panels: %i[source] %>
+
+### Header breadcrumbs
+
+Use `with_breadcrumbs` when a list header should show a hierarchy trail in the
+title position, such as a department's place in the organization structure.
+The breadcrumbs replace the visible title; `title:` remains mandatory and
+renders as a visually hidden heading, keeping the list's accessible name and
+heading navigation intact. The last crumb is marked as the current page
+automatically. Breadcrumbs are not available on collapsible headers.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
+
 ### Empty state
 
-Use `with_empty_state` when the list can be rendered without items. It renders a
-`Primer::Beta::Blankslate` under the hood, accepting `title:`, `description:`,
-and `icon:` keywords.
+When no items are present, the component renders a generic
+`Primer::Beta::Blankslate` with the global empty-state copy. Use
+`with_empty_state` for domain-specific copy, icons, a call-to-action
+(`action_label:`, `action_icon:`, `action_arguments:`), or custom Blankslate
+system arguments.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
+
+### Empty-state behavior
+
+`empty_state_behavior:` controls what happens when the list has no items:
+
+- `:static` (default) — renders the generic empty state described above, unless a custom one is declared via `with_empty_state`.
+- `:none` — suppresses the empty state entirely, including any declared `with_empty_state` slot. Use this for grouped lists where a generic blankslate per empty group would be noisy.
+- `:dynamic` — reserved for client-side lifecycle handling on sortable and filtered lists; see lifecycle controller.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_behavior_none, panels: %i[source] %>
 
 ## Usage guidelines
 
@@ -172,7 +211,7 @@ render OpenProject::Common::BorderBoxListComponent.new(
     header.with_description(id: "project-attributes-description", font_size: :small) do
       "Visible in the project overview"
     end
-    header.with_menu(button_aria_label: "Project attribute actions") do |menu|
+    header.with_menu(button_arguments: { aria: { label: "Project attribute actions" } }) do |menu|
       menu.with_item(label: "Edit", href: edit_project_path(@project))
     end
   end

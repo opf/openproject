@@ -48,7 +48,7 @@ module WorkPackageTypes
       if result.success?
         redirect_to edit_type_projects_path(@type), notice: I18n.t(:notice_successful_update)
       else
-        flash_error(result, permitted_project_params[:project_ids])
+        flash.now[:error] = deactivation_error_message(result, permitted_project_params[:project_ids])
         load_projects
         render :edit, status: :unprocessable_entity
       end
@@ -63,13 +63,14 @@ module WorkPackageTypes
 
       result = sync_projects(project_ids)
 
-      if result.success?
-        replace_via_turbo_stream(component: ProjectsComponent.new(@type, projects: @projects))
-        respond_with_turbo_streams
-      else
-        flash_error(result, project_ids)
-        render :edit, status: :unprocessable_entity
+      unless result.success?
+        render_error_flash_message_via_turbo_stream(message: deactivation_error_message(result, project_ids))
       end
+
+      # Failures are answered with :ok as well. Primer's toggle switch discards the turbo streams
+      # of a non-2xx response and prints the raw response body as its error message instead.
+      replace_via_turbo_stream(component: ProjectsComponent.new(@type, projects: @projects))
+      respond_with_turbo_streams
     end
 
     private
@@ -91,8 +92,15 @@ module WorkPackageTypes
       enabled_project_ids = @type.effective_in_projects.pluck(:id)
 
       ServiceResult.success(result: @type).tap do |aggregated|
-        apply(aggregated, ::Projects::Types::AddService, desired_project_ids - enabled_project_ids)
-        apply(aggregated, ::Projects::Types::RemoveService, enabled_project_ids - desired_project_ids)
+        ActiveRecord::Base.transaction do
+          apply(aggregated, ::Projects::Types::AddService, desired_project_ids - enabled_project_ids)
+          apply(aggregated, ::Projects::Types::RemoveService, enabled_project_ids - desired_project_ids)
+
+          # The per-project services each succeed or fail on their own, so without this the
+          # projects that could be written stay written while the error only names the ones that
+          # could not — leaving the tab reporting a failed save it half applied.
+          raise ActiveRecord::Rollback if aggregated.failure?
+        end
       end
     end
 
@@ -104,14 +112,14 @@ module WorkPackageTypes
       end
     end
 
-    def flash_error(result, project_ids)
+    def deactivation_error_message(result, project_ids)
       deactivated_project_ids = deactivated_project_ids_with_work_packages(project_ids)
 
-      flash.now[:error] = if deactivated_project_ids.any?
-                            type_deactivation_error_message(@type, project_ids: deactivated_project_ids)
-                          else
-                            project_error_messages(result)
-                          end
+      if deactivated_project_ids.any?
+        type_deactivation_error_message(@type, project_ids: deactivated_project_ids)
+      else
+        project_error_messages(result)
+      end
     end
 
     # The services report against the project they were called on, so the project has to be named

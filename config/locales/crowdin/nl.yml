@@ -191,7 +191,7 @@ nl:
         port: Poort
         tls_certificate_string: LDAP server SSL-certificaat
       mcp_configuration:
-        description: Description
+        description: Omschrijving
         enabled: Enabled
         title: Title
       member:
@@ -488,6 +488,7 @@ nl:
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
         blank_nested: moet de eigenschap '%{property}' ingesteld hebben.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is vereist. Kan niet worden verwijderd.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
@@ -1029,6 +1030,7 @@ nl:
           heading: Make this comment public?
           title: Make this comment public?
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Alles tonen
         label_activity_show_only_changes: Alleen wijzigingen weergeven
         label_activity_show_only_comments: Alleen opmerkingen tonen
@@ -1514,6 +1516,42 @@ nl:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1835,7 +1873,7 @@ nl:
   button_add_non_working_time: Time off
   button_add_sub_item: Add sub-item
   button_add_watcher: Watcher toevoegen
-  button_all_filters: All filters
+  button_all_filters: Alle filters
   button_annotate: Aantekeningen
   button_apply: Toepassen
   button_apply_changes: Veranderingen doorvoeren
@@ -2488,8 +2526,6 @@ nl:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Werkpakketten delen met gebruikers die geen lid zijn van het project.
       work_package_subject_generation:
@@ -2807,14 +2843,15 @@ nl:
     blocks:
       community: OpenProject gemeenschap
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2862,6 +2899,11 @@ nl:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -2874,6 +2916,7 @@ nl:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
@@ -2897,6 +2940,14 @@ nl:
       dates_changed: Data gewijzigd
       default_attribute_written: Alleen-lezen kenmerken geschreven
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Voortgangsberekening bijgewerkt
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject systeemupdate:'
@@ -3127,7 +3178,7 @@ nl:
   label_end_to_start: einde tot start
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
-  label_enterprise_edition: Enterprise edition
+  label_enterprise_edition: Enterprise editie
   label_enterprise_support: Ondernemingsondersteuning
   label_enumeration_new: Nieuwe opsommingswaarde
   label_enumeration_value: Opsommingswaarde
@@ -3378,7 +3429,7 @@ nl:
   label_password_rule_numeric: Numerieke tekens
   label_password_rule_special: Speciale tekens
   label_password_rule_uppercase: Hoofdletters
-  label_past: Past
+  label_past: Vorige
   label_path_encoding: Pad codering
   label_people: Mensen
   label_per_page: 'Per pagina:'
@@ -3423,7 +3474,7 @@ nl:
   label_project_hide_details: Verberg project details
   label_project_hierarchy: Projecthiërarchie
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Meest recente projecten
   label_project_life_cycle: Project life cycle
   label_project_list_plural: Projectlijsten
@@ -3449,7 +3500,7 @@ nl:
   label_related_work_packages: Verwante werkpakketten
   label_relates: Gerelateerd aan
   label_relates_to: Gerelateerd aan
-  label_relation: Relation
+  label_relation: Relatie
   label_relation_actions: Relation actions
   label_relation_delete: Relatie verwijderen
   label_relation_edit: Edit relation
@@ -3535,7 +3586,7 @@ nl:
   label_subitems: Subitems
   label_subject_or_id: Onderwerp of ID
   label_subproject: Subproject
-  label_subproject_new: Nieuwe subproject
+  label_subproject_add: Add subproject
   label_subproject_plural: Subprojecten
   label_subtask_plural: Subtaken
   label_summary: Samenvatting
@@ -3570,7 +3621,7 @@ nl:
   label_type_new: Nieuw type
   label_type_plural: Typen
   label_ui: Gebruiksinterface
-  label_upcoming: Upcoming
+  label_upcoming: Binnenkort
   label_updated_time: Bijgewerkt %{value} geleden
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Bijgewerkt door %{author} %{age} geleden
@@ -3599,6 +3650,7 @@ nl:
   label_version_sharing_none: Niet gedeeld
   label_version_sharing_system: Met alle projecten
   label_version_sharing_tree: Met projectstructuur
+  label_versions_and_categories: Versions and categories
   label_videos: Video 's
   label_view_all_revisions: Alle herzieningen bekijken
   label_view_diff: Bekijk verschillen
@@ -3742,7 +3794,7 @@ nl:
       start_tls_description: Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections.
     tls_options:
       tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string.
-      verify_peer: Verify SSL certificate
+      verify_peer: SSL-certificaat verifiëren
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
         '
@@ -3778,7 +3830,6 @@ nl:
         invalid_type: Geen type gevonden met de naam '%{type}' in het project '%{project}'.
         no_project_context: Create_work_package_link macro aanroepen buitenom de project context.
       link_name: Nieuw werkpakket
-      link_name_type: Nieuwe %{type_name}
     errors:
       missing_or_invalid_parameter: Ontbrekende of ongeldige parameter van de macro.
     include_wiki_page:
@@ -4008,7 +4059,7 @@ nl:
   menus:
     admin:
       aggregation: Aggregatie
-      ai: Artificial Intelligence (AI)
+      ai: Kunstmatige intelligentie (AI)
       api_and_webhooks: API en webhooks
       mail_notification: E-mailnotificaties
       mails_and_notifications: E-mails en meldingen
@@ -4714,7 +4765,8 @@ nl:
   project:
     archive:
       archived: Gearchiveerd
-      are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 project
@@ -4865,7 +4917,7 @@ nl:
         actions:
           label_disable_single: Inactief in dit project, klik om in te schakelen
           label_enable_single: Actief in dit project, klik om uit te schakelen
-          remove_from_project: Remove from project
+          remove_from_project: Verwijder uit project
         enabled_via_assignee_when_submitted_html: This project attribute cannot be disabled since it is set as <a href=%{pir_submission_url} target="_blank">assignee when submitted</a> for project initiation requests.
         filter:
           label: Zoek project attribuut
@@ -5195,6 +5247,7 @@ nl:
   setting_default_language: Standaard taal
   setting_default_projects_modules: Standaard actieve modules voor nieuwe projecten
   setting_default_projects_public: Nieuwe projecten zijn standaard publiek
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximaal aantal afwijkende regels getoond
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Toon standaard de werkpakketten van onderliggende projecten bij hoofdprojecten
@@ -5329,6 +5382,7 @@ nl:
   setting_work_package_done_ratio_status_caption_html: Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_list_default_highlighted_attributes: Inline gemarkeerd standaardkenmerken
   setting_work_package_list_default_highlighting_mode: Standaardmodus markeren
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Werkpakketeigenschappen
   setting_work_package_startdate_is_adddate: Huidige datum als begindatum voor nieuwe werkpakketten gebruiken
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5722,6 +5776,7 @@ nl:
   text_destroy_what_to_do: Wat wilt u doen?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... deze diff is truncated vanwege dat de maximale grote is overschreden om te tonen."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     E-mailbezorging is niet geconfigureerd, en meldingen zijn uitgeschakeld.
     Configureer uw SMTP-server om deze in te schakelen.
@@ -5753,6 +5808,7 @@ nl:
   text_journal_file_link_deleted: "%{label} link naar %{old} (%{storage}) verwijderd"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} ingesteld op %{value}"
   text_journal_set_with_diff: "%{label} ingesteld (%{link})"
   text_latest_note: 'De laatste opmerking is: %{note}'
@@ -5924,6 +5980,7 @@ nl:
           actions:
             label_disable_all: Alles uitschakelen
             label_enable_all: Alles inschakelen
+            label_toggle_template: Toggle %{template}
           label: PDF Export templates
         tab: Generate PDF
         templates:
@@ -6211,6 +6268,7 @@ nl:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6224,7 +6282,6 @@ nl:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours
@@ -6311,10 +6368,10 @@ nl:
       comment_verb: comment
       edit: Wijzig
       edit_description: Kan dit werkpakket bekijken, becommentariëren en bewerken.
-      edit_verb: edit
+      edit_verb: bewerk
       view: Toon
       view_description: Can view this work package.
-      view_verb: view
+      view_verb: bekijk
     progress:
       derivation_hints:
         done_ratio:

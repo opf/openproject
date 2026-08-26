@@ -30,18 +30,30 @@
 
 module Wikis::Adapters::Results
   class PageSearchTreeNode
-    attr_accessor :enabled
+    TYPES = %i[wiki page].freeze
+
+    Key = Data.define(:type, :identifier) do
+      def self.parse(string)
+        type, identifier = string.to_s.split(":", 2)
+        return if identifier.blank? || TYPES.exclude?(type&.to_sym)
+
+        new(type: type.to_sym, identifier:)
+      end
+
+      def to_s = "#{type}:#{identifier}"
+
+      def page? = type == :page
+    end
 
     attr_reader :identifier, :type, :name, :children
 
-    def initialize(identifier:, type:, name:, children:, enabled:)
+    def initialize(identifier:, type:, name:, children:)
       @identifier = identifier
       @type = type
       @name = name
       @children = children
-      @enabled = enabled
     end
 
-    def key = "#{type}:#{identifier}"
+    def key = Key.new(type:, identifier:)
   end
 end

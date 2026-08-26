@@ -51,10 +51,8 @@ module WorkPackages
             @color = color
           end
 
-          # The text is one flex item so that inline markup inside it keeps the
-          # surrounding spaces; separate items would have theirs discarded.
           def call
-            render(Primer::Box.new(display: :flex, mt: 2)) do
+            render(Primer::Box.new(display: :flex, align_items: :center, mt: 2)) do
               render(Primer::Beta::Octicon.new(icon: @icon, mr: 2, color: @color)) +
                 render(Primer::Beta::Text.new) { content }
             end

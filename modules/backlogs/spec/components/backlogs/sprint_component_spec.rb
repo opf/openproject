@@ -67,6 +67,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
 
+      it "parks the empty-state prototype in a template for the dynamic controller" do
+        expect(rendered_component)
+          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+      end
+
       it "renders a Primer::Beta::BorderBox with the sprint id" do
         expect(rendered_component).to have_css(".Box#sprint_#{sprint.id}")
       end

@@ -44,9 +44,8 @@ module Wikis
             end
 
             def call(input_data:, auth_strategy:)
-              parent_result = fetch_canonical_parent(identifier: input_data.parent_identifier, auth_strategy:)
-              parent_result.bind do |canonical_parent|
-                identifier = "#{canonical_parent}.#{self.class.derive_page_id(input_data.title)}.WebHome"
+              parent_reference(input_data, auth_strategy:).bind do |reference_prefix|
+                identifier = "#{reference_prefix}#{self.class.derive_page_id(input_data.title)}.WebHome"
 
                 create_page_request(identifier, title: input_data.title, auth_strategy:) do |data|
                   success(Queries::StablePageInfo.json_to_page_info(data, provider:))
@@ -55,6 +54,12 @@ module Wikis
             end
 
             private
+
+            def parent_reference(input_data, auth_strategy:)
+              return success("#{input_data.parent_identifier}:") if input_data.wiki_parent?
+
+              fetch_canonical_parent(identifier: input_data.parent_identifier, auth_strategy:).fmap { "#{it}." }
+            end
 
             def fetch_canonical_parent(identifier:, auth_strategy:)
               ref = StablePageReference.parse(identifier)

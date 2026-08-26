@@ -68,7 +68,7 @@ de:
     login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
     signup_title: Create an account in %{app_title}
-    signup_with_external_account: Sign up with an external account
+    signup_with_external_account: Mit einem externen Konto anmelden
   actionview_instancetag_blank_option: Bitte auswählen
   activemodel:
     attributes:
@@ -276,7 +276,7 @@ de:
       project_custom_field:
         custom_field_section: Abschnitt
       query:
-        child_work_packages: Kinder
+        child_work_packages: Unteraufgaben
         column_names: Spalten
         columns: Spalten
         display_representation: Anzeigemodus
@@ -488,6 +488,7 @@ de:
         before_or_equal_to: muss vor oder gleich %{date} sein.
         blank: muss ausgefüllt werden.
         blank_nested: muss die Eigenschaft '%{property}' gesetzt haben.
+        blocked_domain: ist nicht als gültige Domain erlaubt. Bitte verwenden Sie eine E-Mail-Adresse aus einer anderen Domain.
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
@@ -699,9 +700,9 @@ de:
               cannot_assign_variant_and_parent: 'Eine Variante und deren übergeordnete Variante können nicht beide aktiv sein '
               cannot_assign_variants_yet: Varianten können derzeit noch nicht auf Projektebene aktiviert werden. Aktivieren Sie das Feature Flag, um Varianten auszuprobieren
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
-              switch_target_not_in_family: Can only switch to another type of the same family
+              switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
+              switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
+              switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
           cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
@@ -719,9 +720,9 @@ de:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: muss ein Typ der obersten Ebene sein. Ein Projekt kann separate eine Variante verwenden.
             variant:
-              must_belong_to_the_type: must be a variant of the type the project uses.
+              must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
         queries/filters/base:
           attributes:
             values:
@@ -820,7 +821,7 @@ de:
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             parent:
               cannot_be_self: kann nicht der Typ selbst sein.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
+              cannot_change_while_used_by_projects: kann nicht geändert werden, solange Projekte diesen Typ noch verwenden.
               cannot_have_children: kann nicht gesetzt werden, da dieser Typ bereits Varianten hat.
               must_be_a_root: muss selbst ein Typ der obersten Ebene sein. Typen dürfen nur eine Ebene tief verschachtelt werden.
               standard_type_must_be_root: kann nicht für den Standardtyp gesetzt werden.
@@ -829,7 +830,7 @@ de:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: diese Konfigurationen in einer Schleife verknüpfen.
+              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
         user:
           attributes:
             base:
@@ -938,7 +939,7 @@ de:
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in diesem Typ vorhanden ist.
               status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
@@ -1029,6 +1030,7 @@ de:
           heading: Diesen Kommentar öffentlich machen?
           title: Diesen Kommentar öffentlich machen?
         internal_journal: Interne Kommentare sind nur für eine einschränkbare Gruppe von Mitgliedern sichtbar.
+        label_activity_hide_meetings: Meeting-Updates ausblenden
         label_activity_show_all: Alles anzeigen
         label_activity_show_only_changes: Nur Änderungen anzeigen
         label_activity_show_only_comments: Nur Kommentare anzeigen
@@ -1114,7 +1116,7 @@ de:
       tab_pdf_export_styles: PDF-Exportstile
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      add_token: Enterprise edition Support Token hochladen
+      add_token: Enterprise-Edition Support Token hochladen
       book_now: Jetzt buchen
       buttons:
         contact: Kontaktieren Sie uns für eine Demo
@@ -1131,9 +1133,9 @@ de:
       enterprise_link: Klicken Sie hier für weitere Informationen.
       get_quote: Angebot anfordern
       order: Enterprise on-premises bestellen
-      paste: Enterprise edition Support Token hier einfügen
+      paste: Enterprise-Edition Support Token hier einfügen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
       start_trial: Kostenlose Testversion starten
       status:
         expired: Abgelaufen
@@ -1514,6 +1516,42 @@ de:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
+      versions_and_categories:
+        banner:
+          button_more_information: Weitere Informationen
+          message: Es stehen wichtige Änderungen der Versionen und Kategorien bevor. Bitte überprüfen Sie die folgenden Einstellungen sorgfältig.
+        categories:
+          heading: Kategorien
+          planned_changes:
+            heading: Änderungen in zukünftigen Releases
+            renamed: Das Feld „Kategorie“ wird in „Kategorien“ umbenannt.
+            single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird ebenfalls so angepasst, dass mehrere Werte möglich sind.
+            upcoming_choice: Schon bevor die automatische Umwandlung erfolgt, werden Sie die Möglichkeit erhalten, die Mehrfachauswahl manuell zu aktivieren.
+        dialog:
+          checkbox_label: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
+          confirm_button: Aktivieren
+          description_html: Dadurch wird das bestehende Feld „Version“, das bisher nur einen Wert zuließ, so verändert, dass nun auch die Auswahl mehrere Werte möglich ist. Es gehen keine Daten verloren, allerdings sind Auswirkungen auf kundenspezifische Integrationen möglich. Bitte lesen Sie die <a href="%{link}" target="_blank" rel="noopener">Dokumentation</a>, bevor Sie fortfahren.
+          heading: Mehrfachauswahl für Zielversionen aktivieren?
+          irreversible_notice: Sobald diese Funktion aktiviert ist, ist eine Rückkehr zu Einzelwerten nicht mehr möglich.
+          title: Mehrfachauswahl für Zielversionen aktivieren
+        target_versions:
+          action_required:
+            button: Mehrfachauswahl aktivieren
+            heading: Handlung erforderlich
+            manual_conversion_hint: Sie können die Konvertierung auf Mehrfachauswahl manuell durchführen, bevor diese automatische Migration stattfindet.
+            not_writable_hint: Diese Einstellungen werden über Umgebungsvariablen konfiguriert. Wenn Sie die Konvertierung zur Mehrfachauswahl manuell ausführen möchten, um diese vor der automatischen Migration zu aktivieren, passen Sie bitte Ihre „configuration.yml“ Datei an.
+          heading: Zielversionen
+          in_progress:
+            heading: Mehrfachauswahl für Versionen wird aktiviert
+          planned_changes:
+            heading: Änderungen in zukünftigen Releases
+            renamed: Das Feld „Version“ wird in „Zielversionen“ umbenannt.
+            single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird so angepasst, dass mehrere Werte möglich sind.
+          recent_changes:
+            documentation_html: Weitere Informationen zu dieser Änderung und zur Aktualisierung von API-Clients finden Sie in <a href="%{link}" target="_blank" rel="noopener">unserer Dokumentation</a>.
+            heading: Aktuelle Änderungen
+            multiple_values: Das Feld „Zielversionen“ erlaubt nun mehrere Werte.
+            renamed: Das Feld „Version“ wurde nun in „Zielversionen“ umbenannt.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Muss mit einem Großbuchstaben beginnen
@@ -1585,9 +1623,9 @@ de:
           other: "%{count} Status entfernen?"
         title: Status entfernen
       tabs:
-        always: Default transitions
+        always: Standard-Übergänge
         aria_label: Workflow-Übergänge
-        assignee: User is assignee
+        assignee: Benutzer ist zugewiesen
         author: Benutzer ist Autor
         descriptions:
           always: In allen Fällen stehen Übergänge in den ausgewählten Rollen zur Verfügung.
@@ -1721,7 +1759,7 @@ de:
     entity_type: Entität
     estimated_hours: Aufwand
     estimated_time: Aufwand
-    exact_match: Exact match
+    exact_match: Exakte Übereinstimmung
     expires_at: Verfällt am
     filter: Filter
     firstname: Vorname
@@ -2488,8 +2526,6 @@ de:
         description: Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind.
       weighted_item_lists:
         description: Mit Gewichteten Listen können Sie eine Liste erstellen, die mit numerischen Werten verknüpft ist.
-      work_package_query_relation_columns:
-        description: Möchten Sie Beziehungen oder Unteraufgaben als Spalten in der Arbeitspaketliste sehen können?
       work_package_sharing:
         description: Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind.
       work_package_subject_generation:
@@ -2536,12 +2572,12 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
-  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_external_authentication_failed_message: 'Die externe Authentifizierung ist fehlgeschlagen: %{message}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
+  error_invalid_list_move_anchor: Das Element kann nicht an die gewünschte Position verschoben werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
   error_invalid_selected_value: Ausgewählter Wert ist ungültig.
   error_journal_attribute_not_present: Journal enthält Attribut %{attribute} nicht.
   error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
@@ -2807,15 +2843,16 @@ de:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Neues Ressourcenmanagementmodul für Kapazitätsplanung und Personalplanung (Premium Plan).
-            line_1: Bessere Organisationsverwaltung mit Abteilungen, Benutzerattributen wie Jobtiteln und Arbeitszeiten.
-            line_2: Mehrere aktive Sprints ohne Sprints zu teilen (Basic Plan).
-            line_3: Verbesserte "Backlog und Sprints"-Ansicht mit Mehrfachauswahlfiltern, besserem Drag & Drop und der Möglichkeit, bestehende Arbeitspakete hinzuzufügen.
-            line_4: PM2/PMflex Artefakt-Export und ein neues Widget für Projektphasen und -gates Übersicht.
-            line_5: Globaler Wiki-Seitenindex und einfachere Navigation zwischen verwandten Seiten.
-          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki-Makros sind in weiteren Texteditoren verfügbar.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -2862,7 +2899,12 @@ de:
         field_updated: "%{field} aktualisiert"
         header: Änderungen durch %{author}
         set_with_diff: "%{field} gesetzt (%{link})"
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
+      meeting_cancelled: "(abgesagt)"
+      meeting_deleted: "(gelöscht)"
+      meeting_series_backlog_html: Backlog der Terminserie %{link}
+      meeting_series_template_html: Vorlage der Terminserie %{link}
+      meeting_template_html: Besprechungsvorlage %{link}
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -2874,6 +2916,7 @@ de:
         progress_calculation_adjusted_from_disabled_mode: Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch auf den aufwandsbezogenen Modus gesetzt und durch das Systemupdate angepasst</a>.
         scheduling_mode_adjusted: Planungsmodus wird beim Versionsupdate automatisch angepasst.
         sprint_migration: Die Version '%{version_name}' wurde als Sprint kopiert.
+        target_versions_repaired: Die Zielversionen wurden automatisch mit dem Feld „Version“ synchronisiert, bevor Mehrfachauswahl für Zielversionen aktiviert wurde.
         totals_removed_from_childless_work_packages: Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
       total_percent_complete_mode_changed_to_simple_average: Arbeitswerte von Unteraufgaben werden ignoriert.
       total_percent_complete_mode_changed_to_work_weighted_average: Unteraufgaben ohne Arbeit werden ignoriert.
@@ -2881,7 +2924,7 @@ de:
       work_package_children_changed_times: durch Änderungen an Unteraufgabe %{link}
       work_package_duplicate_closed: Der Status wurde automatisch durch das als Duplikat markierte Arbeitspaket %{link} aktualisiert
       work_package_parent_changed_times: durch Änderungen am übergeordneten Arbeitspaket %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: da das übergeordnete Arbeitspaket gelöscht wurde
       work_package_predecessor_changed_times: durch Änderungen am Vorgänger %{link}
       work_package_related_changed_times: durch Änderungen an verwandtem Arbeitspaket %{link}
       working_days_changed:
@@ -2897,23 +2940,31 @@ de:
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
       import: Importiert
+      meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Hinzugefügt zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Diskutiert in der Besprechung</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Besprechung verschoben zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Verschoben zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Entfernt aus</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Entfernt aus</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Als Ergebnis ergänzt in Besprechung</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Fortschrittsberechnung aktualisiert
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject-Systemaktualisierung:'
       total_percent_complete_mode_changed_to_simple_average: Die Berechnung der Gesamtwerte für % abgeschlossen basiert jetzt auf dem einfachen Durchschnitt der % abgeschlossen-Werte.
       total_percent_complete_mode_changed_to_work_weighted_average: Die Berechnung der Gesamtwerte für % abgeschlossen wird jetzt nach Aufwand gewichtet.
       work_package_duplicate_closed: 'Dupliziertes Arbeitspaket aktualisiert:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Elternelement entfernt
     changes_retracted: Die Änderungen wurden zurückgezogen.
     non_visible:
-      budget: a non-visible budget
-      category: a non-visible category
-      default: a non-visible record
-      issue_priority: a non-visible priority
+      budget: ein nicht sichtbares Budget
+      category: eine nicht sichtbare Kategorie
+      default: ein nicht sichtbarer Datensatz
+      issue_priority: eine nicht sichtbare Priorität
       project: ein nicht sichtbares Projekt
-      sprint: a non-visible sprint
-      time_entry_activity: a non-visible activity
-      version: a non-visible version
+      sprint: ein nicht sichtbarer Sprint
+      time_entry_activity: eine nicht sichtbare Aktivität
+      version: eine nicht sichtbare Version
       work_package: ein nicht sichtbares Arbeitspaket
   label_accessibility: Barrierefreiheit
   label_account: Konto
@@ -3127,7 +3178,7 @@ de:
   label_end_to_start: Ende - Anfang
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise edition
+  label_enterprise_edition: Enterprise Edition
   label_enterprise_support: Enterprise Support
   label_enumeration_new: Neuer Aufzählungswert
   label_enumeration_value: Aufzählungswert
@@ -3271,7 +3322,7 @@ de:
   label_me: ich
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_new: Neues Mitglied
-  label_member_of_project: Member of project
+  label_member_of_project: Projektmitglied
   label_member_plural: Mitglieder
   label_member_role: Projektrolle
   label_membership_added: Mitglied hinzugefügt
@@ -3423,7 +3474,7 @@ de:
   label_project_hide_details: Projektdetails verstecken
   label_project_hierarchy: Projekthierarchie
   label_project_identifier: Projektkennung
-  label_project_initiation_export_pdf: PDF-Export für %{project_creation_name}
+  label_project_initiation_export_pdf: Exportiere %{project_creation_name} als PDF
   label_project_latest: Neueste Projekte
   label_project_life_cycle: Projekt-Lebenszyklus
   label_project_list_plural: Projektlisten
@@ -3535,7 +3586,7 @@ de:
   label_subitems: Unterelemente
   label_subject_or_id: Titel oder ID
   label_subproject: Unterprojekt
-  label_subproject_new: Neues Unterprojekt
+  label_subproject_add: Neues Unterprojekt
   label_subproject_plural: Unterprojekte
   label_subtask_plural: Unteraufgaben
   label_summary: Zusammenfassung
@@ -3599,6 +3650,7 @@ de:
   label_version_sharing_none: Nicht gemeinsam verwenden
   label_version_sharing_system: Mit allen Projekten
   label_version_sharing_tree: Mit Projektbaum
+  label_versions_and_categories: Versionen und Kategorien
   label_videos: Videos
   label_view_all_revisions: Alle Revisionen anzeigen
   label_view_diff: Unterschiede anzeigen
@@ -3779,7 +3831,6 @@ de:
         invalid_type: Es konnte kein Typ namens '%{type}' im Projekt '%{project}' gefunden werden.
         no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
       link_name: Neues Arbeitspaket
-      link_name_type: Neu %{type_name}
     errors:
       missing_or_invalid_parameter: Fehlende oder ungültige Makro-Parameter.
     include_wiki_page:
@@ -4628,7 +4679,7 @@ de:
 
     '
   permission_move_work_packages: Arbeitspakete verschieben
-  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
+  permission_project_identifier_visibility_caution: 'Achtung: Benutzer mit dieser Berechtigung können feststellen, ob eine Projekt-Kennung bereits vergeben ist, und zwar auch bei Projekten, die für sie nicht sichtbar sind. [Weitere Informationen](project_identifier_visibility_url)'
   permission_save_bcf_queries: BCF-Abfragen speichern
   permission_save_queries: Ansichten speichern
   permission_search_project: Projekt suchen
@@ -4721,7 +4772,8 @@ de:
   project:
     archive:
       archived: Archiviert
-      are_you_sure: Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?
+      confirmation_heading: Sind Sie sicher, dass Sie fortfahren möchten?
+      confirmation_message: Durch die Archivierung dieses Projekts werden dieses Projekt und alle daraus abgeleiteten Projekte für alle Benutzer dieser Instanz nicht mehr verfügbar sein. Archivierte Projekte können wiederhergestellt werden.
       title: Projekt archivieren
     count:
       one: 1 Projekt
@@ -4851,7 +4903,7 @@ de:
       header_identifier: Kennung
       header_relations: Projektbeziehungen
       header_status: Status
-      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
+      identifier_visibility_warning: Projektkennungen sind nicht vertraulich. Sollte Ihr Projekt vertraulich sein, wählen Sie bitte eine unauffällige Kennung.
       life_cycle:
         filter:
           label: Projektphase suchen
@@ -4913,8 +4965,8 @@ de:
         title: Einstellungen der Vorlage
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
-          none_addable: All available types are already active in this project.
+          description: Wählen Sie den Typ oder die Variante, die dieses Projekt verwenden soll.
+          none_addable: Alle verfügbaren Typen sind in diesem Projekt bereits aktiv.
           submit: Hinzufügen
           title: Typ hinzufügen
           type_label: Typ
@@ -4928,15 +4980,15 @@ de:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         remove_from_project: Aus dem Projekt entfernen
         switch_dialog:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
+          apply: Anwenden
+          description: Wählen Sie eine andere Variante dieses Typs aus, die Sie in diesem Projekt verwenden möchten.
+          success: Das Projekt nutzt nun %{type}.
+          target_label: Variante
+          title: "%{type}: Variante wechseln"
+          warning: Wenn Sie die Variante wechseln, gehen möglicherweise Informationen zu benutzerdefinierten Feldern verloren, die in der neuen Variante nicht vorhanden sind.
+        switch_type: Variante wechseln
         type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
-        variant_prefix: 'Variant:'
+        variant_prefix: 'Variante:'
       versions:
         no_results_content_text: Neue Version erstellen
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
@@ -5079,7 +5131,7 @@ de:
       not_available: Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
       update_timeout: |-
@@ -5208,6 +5260,7 @@ de:
   setting_default_language: Standard-Sprache
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
+  setting_default_projects_wiki: Aktiviert standardmäßig die Wiki-Funktionalität für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
   setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen
@@ -5342,6 +5395,7 @@ de:
   setting_work_package_done_ratio_status_caption_html: Jeder Status ist mit einem Wert für <i>% abgeschlossen</i> verbunden. Wenn Sie den Status ändern, ändert sich auch <i>% abgeschlossen</i>.
   setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline Hervorherbung
   setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
+  setting_work_package_multiple_versions: Mehrere Zielversionen
   setting_work_package_properties: Arbeitspaket-Eigenschaften
   setting_work_package_startdate_is_adddate: Neue Arbeitspakete haben "Heute" als Anfangsdatum
   setting_work_packages_identifier_classic: Instanzweite numerische Sequenz (Standard)
@@ -5732,6 +5786,7 @@ de:
   text_destroy_what_to_do: Was soll mit den Objekten geschehen?
   text_destroy_with_associated: 'Es sind weitere Datenobjekte mit den bzw. dem zu löschenden Arbeitpaket(en) verbunden. Es handelt sich dabei um Objekte der folgenden Typen:'
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
+  text_email_delivery_letter_opener: Letter-Opener wird zur Entwicklung verwendet, um E-Mails als Dateien in Ihrem temporären Ordner von Rails zu rendern. E-Mails werden automatisch in Ihrem Browser geöffnet, wenn sie unterstützt werden.
   text_email_delivery_not_configured: |-
     E-Mail-Zustellung ist nicht konfiguriert und Benachrichtigungen sind deaktiviert.
     Konfigurieren Sie Ihren SMTP-Server, um sie zu aktivieren.
@@ -5763,6 +5818,7 @@ de:
   text_journal_file_link_deleted: "%{label} Link zu %{old} (%{storage}) entfernt"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: Sie haben keine Berechtigung, diese Aktivität einzusehen.
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
   text_latest_note: 'Der letzte Kommentar ist: %{note}'
@@ -5936,6 +5992,7 @@ de:
           actions:
             label_disable_all: Alles deaktivieren
             label_enable_all: Alles aktivieren
+            label_toggle_template: "%{template} umschalten"
           label: PDF-Exportvorlagen
         tab: PDF generieren
         templates:
@@ -5957,7 +6014,7 @@ de:
         exclusions:
           attribute_label: "%{attribute} erben"
           excluded: Ausgeblendet
-          section_label: Inherit section %{section}
+          section_label: Übernommener Abschnitt %{section}
         filter_inactive: Attribute filtern
         group_actions: Abschnittsoptionen
         group_name_label: Name des Abschnitts
@@ -6008,8 +6065,8 @@ de:
           invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ kopiert werden. Bitte wählen Sie einen anderen Quelltyp aus.
           success: Die Konfiguration wurde kopiert.
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
+          not_linked: Dieser Typ verwaltet seine eine eigene Konfiguration für diesen Abschnitt, sodass nichts ausgeschlossen werden kann. Bearbeiten Sie stattdessen die Konfiguration direkt.
+          unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         independent:
           confirm_dialog:
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
@@ -6061,7 +6118,7 @@ de:
     index:
       add_variant: Variante von %{name} hinzufügen
       add_variant_action: Variante hinzufügen
-      description: 'Jeder Konfigurationsbereich innerhalb von Typen und Varianten kann unabhängig konfiguriert, gegenüber einem anderen Typ eingeschränkt oder vollständig mit einer Quelle verknüpft werden.
+      description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '
       duplicate_name: Kopie von %{name}
@@ -6223,6 +6280,7 @@ de:
         availability_description: Der Verfügbarkeitsfaktor gibt den Prozentsatz der Arbeitszeit an, der für Projektaufgaben verplant werden kann. Dieser Faktor dient dazu Besprechungen, E-Mails, Verwaltungsarbeit und andere projektfremde Tätigkeiten zu berücksichtigen.
         availability_factor: Verfügbarkeitsfaktor
         availability_factor_caption: Legen Sie den Prozentsatz der Arbeitszeit fest, der für Projektarbeit verplant werden kann.
+        effective_hours: Effektive Arbeitszeiten
         hours_mode_label: Stundenmodus
         hours_per_day: Stunden pro Tag
         individual_hours_mode: Unterschiedliche Stunden an jedem Arbeitstag
@@ -6236,7 +6294,6 @@ de:
         title_current: Aktuellen Arbeitszeitplan bearbeiten
         title_days_and_hours: Tage und Stunden
         title_future_dates: Zukünftiger Arbeitszeitplan
-        total_available_hours: Verfügbare Zeit für Projektarbeit
         total_work_hours: Wöchentliche Arbeitszeit
         work_days: Arbeitstage
         work_hours: Arbeitsstunden
@@ -6295,7 +6352,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   wiki:
@@ -6375,7 +6432,7 @@ de:
       blocked_by_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocked_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocks_description: Das verknüpfte Arbeitspaket kann erst geschlossen werden, wenn dieses Arbeitspaket geschlossen ist
-      child: Kind
+      child: Unteraufgabe
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       duplicated_by_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
       duplicated_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
@@ -6479,7 +6536,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
+          automatic_with_children: Unteraufgaben bestimmen Termine.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.

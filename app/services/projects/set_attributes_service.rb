@@ -60,6 +60,7 @@ module Projects
       attribute_keys = attributes.keys.map(&:to_s)
 
       set_default_public(attribute_keys.include?("public"))
+      set_default_wiki
       set_default_module_names(attribute_keys.include?("enabled_module_names"))
       set_default_types(attribute_keys.intersect?(%w[types type_ids project_types]))
       set_default_active_work_package_custom_fields(attribute_keys.include?("work_package_custom_fields"))
@@ -68,6 +69,10 @@ module Projects
 
     def set_default_public(provided)
       model.public = Setting.default_projects_public? unless provided
+    end
+
+    def set_default_wiki
+      model.build_wiki(start_page: "Wiki", enabled: Setting.default_projects_wiki?) if model.wiki.nil?
     end
 
     def set_default_module_names(provided)

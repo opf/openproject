@@ -490,6 +490,7 @@ ms:
         before_or_equal_to: mesti sebelum atau sama dengan %{date}.
         blank: tidak boleh dibiarkan kosong.
         blank_nested: perlu ada ciri-ciri '%{property}' yang ditetapkan.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: diperlukan. Tidak boleh dipadam.
         cant_link_a_work_package_with_a_descendant: Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya.
         circular_dependency: Hubungan ini akan mencipta kebergantungan bulat.
@@ -1017,6 +1018,7 @@ ms:
           heading: Make this comment public?
           title: Make this comment public?
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Papar semua
         label_activity_show_only_changes: Papar perubahan sahaja
         label_activity_show_only_comments: Papar komen sahaja
@@ -1492,6 +1494,42 @@ ms:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -2446,8 +2484,6 @@ ms:
         description: Pastikan fail yang dimuat naik dalam OpenProject diimbas untuk virus sebelum boleh diakses oleh pengguna lain.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Kongsi pakej kerja dengan pengguna yang bukan ahli projek.
       work_package_subject_generation:
@@ -2765,14 +2801,15 @@ ms:
     blocks:
       community: Komuniti OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2820,6 +2857,11 @@ ms:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Mod pengiraan perkembangan ditetapkan kepada berasaskan status
       status_excluded_from_totals_set_to_false_message: kini termasuk dalam jumlah hierarki
       status_excluded_from_totals_set_to_true_message: kini dikeluarkan daripada jumlah hierarki
@@ -2832,6 +2874,7 @@ ms:
         progress_calculation_adjusted_from_disabled_mode: Perkembangan pengiraan <a href="%{href}" target="_blank">ditetapkan ke mod berasaskan kerja secara automatik dan diselaraskan dengan versi kemas kini</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Jumlah kerja dan perkembangan dipadam untuk pakej kerja bukan induk secara automatik dengan <a href="%{href}" target="_blank">versi kemas kini</a>. Ini ialah tugasan penyelenggaraan dan boleh diabaikan dengan selamat.
       total_percent_complete_mode_changed_to_simple_average: Nilai kerja pakej kerja kanak-kanak diabaikan.
       total_percent_complete_mode_changed_to_work_weighted_average: Pakej kerja kanak-kanak tanpa Kerja diabaikan.
@@ -2855,6 +2898,14 @@ ms:
       dates_changed: Tarikh ditukar
       default_attribute_written: Atribut baca-sahaja ditulis
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Pengiraan perkembangan dikemas kini
       status_changed: Status '%{status_name}'
       system_update: 'Kemas kini sistem OpenProject:'
@@ -3383,7 +3434,7 @@ ms:
   label_project_hide_details: Sembunyikan butiran projek
   label_project_hierarchy: Hierarki projek
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Projek terkini
   label_project_life_cycle: Project life cycle
   label_project_list_plural: Senarai projek
@@ -3497,7 +3548,7 @@ ms:
   label_subitems: Subitems
   label_subject_or_id: Subjek atau ID
   label_subproject: Subprojek
-  label_subproject_new: Subprojek baharu
+  label_subproject_add: Add subproject
   label_subproject_plural: Subprojek
   label_subtask_plural: Subtugas
   label_summary: Ringkasan
@@ -3561,6 +3612,7 @@ ms:
   label_version_sharing_none: Tidak dikongsikan
   label_version_sharing_system: Dengan semua projek
   label_version_sharing_tree: Dengan pokok projek
+  label_versions_and_categories: Versions and categories
   label_videos: Video
   label_view_all_revisions: Lihat semua semakan
   label_view_diff: Lihat perbezaan
@@ -3738,7 +3790,6 @@ ms:
         invalid_type: Tiada jenis ditemui dengan nama '%{type}' dalam projek '%{project}'.
         no_project_context: 'Memanggil makro create_work_package_link dari luar konteks projek. '
       link_name: Pakej kerja baharu
-      link_name_type: "%{type_name} baharu"
     errors:
       missing_or_invalid_parameter: Parameter makro hilang atau tidak sah.
     include_wiki_page:
@@ -4666,7 +4717,8 @@ ms:
   project:
     archive:
       archived: Telah diarkibkan
-      are_you_sure: Adakah anda pasti anda ingin mengarkib projek '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 projek
@@ -5152,6 +5204,7 @@ ms:
   setting_default_language: Bahasa default
   setting_default_projects_modules: Modul yang diaktifkan secara default untuk projek baharu
   setting_default_projects_public: Projek baharu adalah awam secara default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Jumlah maksimum baris perbezaan yang dipaparkan
   setting_disable_password_login: Lumpuhkan pengesahan kata laluan
   setting_display_subprojects_work_packages: Paparkan subprojek pakej kerja di projek utama secara default
@@ -5286,6 +5339,7 @@ ms:
   setting_work_package_done_ratio_status_caption_html: Setiap status mempunyai nilai <i>% Lengkap</i> yang dikaitkan dengannya. Menukar status akan berubah <i>% Selesai</i>.
   setting_work_package_list_default_highlighted_attributes: Atribut disorot sebaris default
   setting_work_package_list_default_highlighting_mode: Mod penyorotan default
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Ciri-ciri pakej kerja
   setting_work_package_startdate_is_adddate: Guna tarikh semasa sebagai tarikh mula untuk pakej kerja baharu
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5679,6 +5733,7 @@ ms:
   text_destroy_what_to_do: Apakah yang anda ingin lakukan?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Perbezaan ini dipendekkan kerana ia melebihi saiz maksimum yang boleh dipaparkan."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Penghantaran e-mel belum dikonfigurasi, dan pemberitahuan telah dinyahaktifkan.
     Konfigurasikan server SMTP anda untuk mengaktifkannya.
@@ -5710,6 +5765,7 @@ ms:
   text_journal_file_link_deleted: "%{label} terpaut pada %{old} (%{storage}) dikeluarkan"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} ditetapkan kepada %{value}"
   text_journal_set_with_diff: "%{label} ditetapkan (%{link})"
   text_latest_note: 'Komen terkini ialah: %{note}'
@@ -5879,6 +5935,7 @@ ms:
           actions:
             label_disable_all: Lumpuhkan semua
             label_enable_all: Dayakan semua
+            label_toggle_template: Toggle %{template}
           label: PDF Export templates
         tab: Hasilkan PDF
         templates:
@@ -6164,6 +6221,7 @@ ms:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6177,7 +6235,6 @@ ms:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

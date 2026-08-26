@@ -36,9 +36,12 @@ RSpec.describe "network errors for storage interaction", :webmock do
   let(:user) { create(:user) }
   let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
   let(:fields) { Storages::Adapters::Providers::OneDrive::Queries::FilesQuery::FIELDS }
-  let(:request_url) { "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{fields}" }
+  let(:maximum) { Storages::Adapters::Providers::OneDrive::Queries::FilesQuery::MAXIMUM }
   let(:input_data) { Storages::Adapters::Input::Files.build(folder: "/").value! }
   let(:auth_strategy) { Storages::Adapters::Input::Strategy.build(key: :oauth_user_token, user:) }
+  let(:request_url) do
+    "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children?$top=#{maximum}&$select=#{fields}"
+  end
 
   context "if a timeout happens" do
     it "must return an error with wrapped network error response" do

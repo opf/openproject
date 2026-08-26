@@ -343,7 +343,7 @@ hy:
         token_name: Թոքենի անվանում
       type:
         attribute_groups: Ձևի կազմաձևում
-        children: Տարատեսակներ
+        children: Variants
         color: Գույն
         dependent_configuration_links: Կապակցված տեսակներ
         description: Նկարագրության կանխադրված տեքստ
@@ -488,6 +488,7 @@ hy:
         before_or_equal_to: պետք է լինի %{date}-ից առաջ կամ հավասար դրան։
         blank: չի կարող դատարկ լինել։
         blank_nested: պետք է ունենա սահմանված '%{property}' հատկություն։
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: պարտադիր է։ Հնարավոր չէ ջնջել։
         cant_link_a_work_package_with_a_descendant: Աշխատանքային փաթեթը չի կարող կապվել իր ենթաառաջադրանքներից մեկի հետ։
         circular_dependency: Այս կապը կստեղծի ցիկլային կախվածություն։
@@ -821,7 +822,7 @@ hy:
             parent:
               cannot_be_self: չի կարող լինել տեսակն ինքը։
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: հնարավոր չէ սահմանել, քանի որ այս տեսակն արդեն ունի տարատեսակներ։
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
               standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
             patterns:
@@ -829,7 +830,7 @@ hy:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: կկապի այս կազմաձևումները ցիկլի մեջ։
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1029,6 +1030,7 @@ hy:
           heading: Դարձնե՞լ այս մեկնաբանությունը հրապարակային
           title: Դարձնե՞լ այս մեկնաբանությունը հրապարակային
         internal_journal: Ներքին մեկնաբանությունները տեսանելի են անդամների սահմանափակ խմբին։
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Ցուցադրել ամեն ինչ
         label_activity_show_only_changes: Ցուցադրել միայն փոփոխությունները
         label_activity_show_only_comments: Ցուցադրել միայն մեկնաբանությունները
@@ -1514,6 +1516,42 @@ hy:
           error: Բաժինը չհաջողվեց վերադասավորել։
         move:
           error: Բաժինը չհաջողվեց վերադասավորել։
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Պետք է սկսվի մեծատառով
@@ -2484,8 +2522,6 @@ hy:
         description: Ապահովեք, որ OpenProject-ում վերբեռնված նիշքերը վիրուսների առկայության համար ստուգվեն նախքան այլ օգտատերերին հասանելի դառնալը։
       weighted_item_lists:
         description: Կշռված տարրերի ցանկերը թույլ են տալիս Ձեզ ստեղծել ցանկ, որի տարրերին կապակցված են թվային արժեքներ։
-      work_package_query_relation_columns:
-        description: Անհրաժե՞շտ է տեսնել կապերը կամ դուստր տարրերը աշխատանքային փաթեթների ցանկում։
       work_package_sharing:
         description: Համօգտագործեք աշխատանքային փաթեթները նախագծի անդամ չհանդիսացող օգտատերերի հետ։
       work_package_subject_generation:
@@ -2805,15 +2841,16 @@ hy:
     blocks:
       community: OpenProject համայնք
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Ռեսուրսների կառավարման նոր մոդուլ՝ հզորությունների պլանավորման և կադրերի համալրման համար (Premium փաթեթ)։
-            line_1: Ավելի լավ կազմակերպչական կառավարում ստորաբաժանումների, օգտատերերի հատկանիշների, ինչպիսիք են պաշտոնները, և աշխատանքային ժամերի միջոցով։
-            line_2: Մի քանի ակտիվ սպրինտ առանց համօգտագործման (Basic փաթեթ)։
-            line_3: Բարելավված բեքլոգ և սպրինտներ՝ բազմակի ընտրության զտիչներով, ավելի հարմար քարշ տալով և թողնելով, ինչպես նաև առկա աշխատանքային փաթեթներ ավելացնելու հնարավորությամբ։
-            line_4: PM²/PMflex արտեֆակտների արտահանում և նոր վիջեթ՝ նախագծի փուլերի և դարպասների ընդհանուր տեսքի համար։
-            line_5: Վիքի էջերի գլոբալ ցանկ և ավելի հարմար նավարկում կապակցված էջերի միջև։
-          new_features_title: 'Թողարկումը պարունակում է տարբեր նոր հնարավորություններ և բարելավումներ, ինչպիսիք են՝
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Կարդացեք նոր հնարավորությունների և արտադրանքի թարմացումների մասին։
@@ -2860,6 +2897,11 @@ hy:
         field_updated: "%{field} թարմացվել է"
         header: "%{author}-ի կատարած փոփոխություններ"
         set_with_diff: "%{field} սահմանվել է (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկման ռեժիմը սահմանվել է կարգավիճակի հիմքով
       status_excluded_from_totals_set_to_false_message: այժմ ներառված է հիերարխիայի ընդհանուր գումարներում
       status_excluded_from_totals_set_to_true_message: այժմ բացառված է հիերարխիայի ընդհանուր գումարներից
@@ -2872,6 +2914,7 @@ hy:
         progress_calculation_adjusted_from_disabled_mode: Առաջընթացի հաշվարկն ավտոմատ կերպով <a href="%{href}" target="_blank">սահմանվել է աշխատանքի հիմքով ռեժիմ և ճշգրտվել է տարբերակի թարմացման հետ</a>։
         scheduling_mode_adjusted: Պլանավորման ռեժիմն ավտոմատ կերպով ճշգրտվել է տարբերակի թարմացման հետ։
         sprint_migration: "'%{version_name}' տարբերակը պատճենվել է որպես սպրինտ։"
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Աշխատանքի և առաջընթացի ընդհանուր գումարներն ավտոմատ կերպով հեռացվել են ոչ ծնող աշխատանքային փաթեթներից <a href="%{href}" target="_blank">տարբերակի թարմացման</a> հետ։ Սա սպասարկման աշխատանք է և կարող է անվտանգ կերպով անտեսվել։
       total_percent_complete_mode_changed_to_simple_average: Դուստր աշխատանքային փաթեթների «Աշխատանք» արժեքներն անտեսվում են։
       total_percent_complete_mode_changed_to_work_weighted_average: Առանց «Աշխատանք» արժեքի դուստր աշխատանքային փաթեթներն անտեսվում են։
@@ -2895,6 +2938,14 @@ hy:
       dates_changed: Ամսաթվերը փոխվել են
       default_attribute_written: Միայն ընթերցելի հատկանիշները գրանցվել են
       import: Ներմուծված
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Առաջընթացի հաշվարկը թարմացվել է
       status_changed: Կարգավիճակ '%{status_name}'
       system_update: OpenProject-ի համակարգային թարմացում՝
@@ -3421,7 +3472,7 @@ hy:
   label_project_hide_details: Թաքցնել նախագծի մանրամասները
   label_project_hierarchy: Նախագծերի հիերարխիա
   label_project_identifier: Նախագծի նույնացուցիչ
-  label_project_initiation_export_pdf: Արտահանել PDF %{project_creation_name}-ի համար
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Վերջին նախագծեր
   label_project_life_cycle: Նախագծի կենսացիկլ
   label_project_list_plural: Նախագծերի ցանկեր
@@ -3533,7 +3584,7 @@ hy:
   label_subitems: Ենթատարրեր
   label_subject_or_id: Վերնագիր կամ ID
   label_subproject: Ենթանախագիծ
-  label_subproject_new: Նոր ենթանախագիծ
+  label_subproject_add: Add subproject
   label_subproject_plural: Ենթանախագծեր
   label_subtask_plural: Ենթաառաջադրանքներ
   label_summary: Ամփոփում
@@ -3597,6 +3648,7 @@ hy:
   label_version_sharing_none: Համօգտագործված չէ
   label_version_sharing_system: Բոլոր նախագծերով
   label_version_sharing_tree: Նախագծերի ծառով
+  label_versions_and_categories: Versions and categories
   label_videos: Տեսանյութեր
   label_view_all_revisions: Դիտել բոլոր ռևիզիաները
   label_view_diff: Դիտել տարբերությունները
@@ -3778,7 +3830,6 @@ hy:
         invalid_type: "'%{project}' նախագծում '%{type}' անվամբ տեսակ չի գտնվել։"
         no_project_context: create_work_package_link մակրոյի կանչ նախագծի համատեքստից դուրս։
       link_name: Նոր աշխատանքային փաթեթ
-      link_name_type: Նոր %{type_name}
     errors:
       missing_or_invalid_parameter: Բացակայող կամ անվավեր մակրոյի պարամետր։
     include_wiki_page:
@@ -4714,7 +4765,8 @@ hy:
   project:
     archive:
       archived: Արխիվացված
-      are_you_sure: Համոզվա՞ծ եք, որ ցանկանում եք արխիվացնել '%{name}' նախագիծը։
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Արխիվացնել նախագիծը
     count:
       one: 1 նախագիծ
@@ -5203,6 +5255,7 @@ hy:
   setting_default_language: Կանխադրված լեզու
   setting_default_projects_modules: Նոր նախագծերի համար կանխադրված միացված մոդուլներ
   setting_default_projects_public: Նոր նախագծերն ըստ կանխադրման հանրային են
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Ցուցադրվող տարբերության տողերի առավելագույն քանակ
   setting_disable_password_login: Անջատել գաղտնաբառով նույնականացումը
   setting_display_subprojects_work_packages: Ըստ կանխադրման ցուցադրել ենթանախագծերի աշխատանքային փաթեթները հիմնական նախագծերում
@@ -5335,6 +5388,7 @@ hy:
   setting_work_package_done_ratio_status_caption_html: Յուրաքանչյուր կարգավիճակ ունի իր հետ կապված <i>Կատարման %</i> արժեք։ Կարգավիճակի փոփոխությունը կփոխի <i>Կատարման %</i>-ը։
   setting_work_package_list_default_highlighted_attributes: Տեղում ընդգծված կանխադրված հատկանիշներ
   setting_work_package_list_default_highlighting_mode: Կանխադրված ընդգծման ռեժիմ
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Աշխատանքային փաթեթի հատկություններ
   setting_work_package_startdate_is_adddate: Օգտագործել ընթացիկ ամսաթիվը որպես նոր աշխատանքային փաթեթների սկզբի ամսաթիվ
   setting_work_packages_identifier_classic: Համակարգի մասշտաբով թվային հաջորդականություն (կանխադրված)
@@ -5728,6 +5782,7 @@ hy:
   text_destroy_what_to_do: Ի՞նչ եք ցանկանում անել։
   text_destroy_with_associated: Ջնջվելիք աշխատանքային փաթեթ(ներ)ի հետ կապված կան լրացուցիչ օբյեկտներ։ Այդ օբյեկտները հետևյալ տեսակների են՝
   text_diff_truncated: "... Այս տարբերությունը կրճատվել է, քանի որ գերազանցում է ցուցադրման համար թույլատրելի առավելագույն չափը։"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Էլ. փոստի առաքումը կազմաձևված չէ, և ծանուցումներն անջատված են։
     Դրանք միացնելու համար կազմաձևեք Ձեր SMTP սերվերը։
@@ -5759,6 +5814,7 @@ hy:
   text_journal_file_link_deleted: "%{label} հղումը %{old}-ին (%{storage}) հեռացվել է"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} սահմանվել է %{value}"
   text_journal_set_with_diff: "%{label} սահմանվել է (%{link})"
   text_latest_note: Վերջին մեկնաբանությունն է՝ %{note}
@@ -5884,7 +5940,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Տարատեսակը հաջողությամբ ստեղծվել է։
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
       defaults:
@@ -5932,6 +5988,7 @@ hy:
           actions:
             label_disable_all: Անջատել բոլորը
             label_enable_all: Միացնել բոլորը
+            label_toggle_template: Toggle %{template}
           label: PDF արտահանման ձևանմուշներ
         tab: Ստեղծել PDF
         templates:
@@ -6219,6 +6276,7 @@ hy:
         availability_description: Հասանելիության գործակիցը ցույց է տալիս Ձեր աշխատաժամանակի փաստացի այն տոկոսը, որը հատկացվում է նախագծային առաջադրանքներին։ Այն հաշվի է առնում հանդիպումները, էլ. նամակները, վարչական աշխատանքը և այլ ոչ նախագծային գործունեությունը։
         availability_factor: Հասանելիության գործակից
         availability_factor_caption: Սահմանեք Ձեր աշխատաժամանակի այն տոկոսը, որը հատկացվում է նախագծային աշխատանքին։
+        effective_hours: Effective work hours
         hours_mode_label: Ժամերի ռեժիմ
         hours_per_day: Օրվա ժամեր
         individual_hours_mode: Առանձին ժամեր յուրաքանչյուր օրվա համար
@@ -6232,7 +6290,6 @@ hy:
         title_current: Խմբագրել ընթացիկ աշխատանքային ժամանակացույցը
         title_days_and_hours: Օրեր և ժամեր
         title_future_dates: Ապագա ամսաթվեր
-        total_available_hours: Ընդհանուր հասանելի աշխատանքային ժամեր
         total_work_hours: Ընդհանուր աշխատանքային ժամեր
         work_days: Աշխատանքային օրեր
         work_hours: Աշխատանքային ժամեր

@@ -257,6 +257,70 @@ RSpec.describe "time entry dialog", :js do
     end
   end
 
+  describe "hours limit validation", with_ee: %i[time_entry_time_restrictions] do
+    let(:permissions) { %i[log_own_time view_own_time_entries view_work_packages] }
+
+    before do
+      visit work_package_path(work_package_a)
+
+      find("#action-show-more-dropdown-menu .button").click
+      find(".menu-item", text: "Log time").click
+      time_logging_modal.is_visible(true)
+    end
+
+    context "with a maximum number of hours per entry", with_settings: { time_entries_max_hours_per_entry: 2 } do
+      it "informs the user that the entry exceeds the limit" do
+        time_logging_modal.update_field("hours_display", "4")
+
+        expect do
+          time_logging_modal.submit
+          wait_for_network_idle
+        end.not_to change(TimeEntry, :count)
+
+        time_logging_modal.field_has_error("hours_display",
+                                           "The logged hours cannot exceed the limit of 2 hours for a single time " \
+                                           "entry defined by the administrator.")
+      end
+    end
+
+    context "with a maximum number of hours per day", with_settings: { time_entries_max_hours_per_day: 2 } do
+      it "informs the user that the day total exceeds the limit" do
+        time_logging_modal.update_field("hours_display", "4")
+
+        expect do
+          time_logging_modal.submit
+          wait_for_network_idle
+        end.not_to change(TimeEntry, :count)
+
+        time_logging_modal.field_has_error("hours_display",
+                                           "The logged hours cannot exceed the limit of 2 hours for a single day " \
+                                           "defined by the administrator.")
+      end
+
+      it "takes hours already logged on that day into account" do
+        create(:time_entry, entity: work_package_a, project:, user:, spent_on: Time.zone.today, hours: 1.5)
+
+        time_logging_modal.update_field("hours_display", "1")
+
+        expect do
+          time_logging_modal.submit
+          wait_for_network_idle
+        end.not_to change(TimeEntry, :count)
+
+        time_logging_modal.field_has_error("hours_display",
+                                           "The logged hours cannot exceed the limit of 2 hours for a single day " \
+                                           "defined by the administrator.")
+
+        time_logging_modal.update_field("hours_display", "0.5")
+
+        expect do
+          time_logging_modal.submit
+          wait_for_network_idle
+        end.to change(TimeEntry, :count).by(1)
+      end
+    end
+  end
+
   describe "when the user can edit time entries" do
     let(:permissions) { %i[log_own_time view_own_time_entries edit_own_time_entries view_work_packages] }
     let!(:time_entry) { create(:time_entry, entity: work_package_a, project: work_package_a.project, user: user) }
