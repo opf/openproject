@@ -27,7 +27,7 @@ The following Jira custom field types are imported:
 | Text field                   | Text (short)           | 
 | Text area                    | Text (long)            | 
 | Date picker                  | Date                   | 
-| Date Time Picker             | Date — **the time-of-day is not migrated, only the date** | 
+| Date Time Picker             | Date — **the time-of-day is not migrated, only the date** (planned: [JIM-1](https://community.openproject.org/projects/JIM/work_packages/JIM-1)) | 
 | Number                       | Float                  |  
 | URL                          | Link (URL)             |  
 | User picker                  | User                   |
