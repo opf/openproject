@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it, vi,
-} from 'vitest';
 import type { ApplicationRef, ComponentRef } from '@angular/core';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { addTurboAngularWrapper } from './turbo-angular-wrapper';
