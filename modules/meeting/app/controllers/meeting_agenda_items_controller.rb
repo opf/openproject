@@ -277,7 +277,7 @@ class MeetingAgendaItemsController < ApplicationController
     duplicate_call = duplicate_agenda_item_in_meeting(next_occurrence)
 
     if duplicate_call.success?
-      close_dialog_via_turbo_stream("#duplicate-in-next-meeting-dialog")
+      close_dialog_via_turbo_stream("duplicate-in-next-meeting-dialog")
       render_next_meeting_flash(:text_agenda_item_duplicated_in_next_meeting, next_occurrence)
       update_header_component_via_turbo_stream
       respond_with_turbo_streams
