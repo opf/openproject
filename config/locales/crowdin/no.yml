@@ -76,6 +76,13 @@
         dependencies: Avhengigheter
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Vise til
       attachment:
@@ -256,6 +263,7 @@
         templated_value:
           false: avmerket som mal
           true: markert som mal
+        type_variant: Work package type variant
         types: Typer
         versions: Versjoner
         work_packages: Arbeidspakker
@@ -499,6 +507,7 @@
         before_or_equal_to: må være før eller lik %{date}.
         blank: kan ikke være blank.
         blank_nested: må ha egenskapen '%{property}' aktivert.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: er påkrevd. Kan ikke slettes.
         cant_link_a_work_package_with_a_descendant: En arbeidspakke kan ikke knyttes til en av sine deloppgaver.
         circular_dependency: En slik relasjon ville lage en sirkulær avhengighet.
@@ -970,58 +979,249 @@
           one: 1 feil forhindret lagring av denne %{model}
           other: "%{count} feil forhindret lagring av denne %{model}"
     models:
-      attachment: Fil
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Kategori
-      color: Farge
-      comment: Kommentar
-      custom_action: Tilpasset handling
-      custom_field: Egendefinert felt
-      customized: Customized
-      doorkeeper/application: OAuth program
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global rolle
-      group: Gruppe
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Prioritet
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Medlem
-      message: Message
-      news: Nyheter
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Varsling
         other: Varsler
-      placeholder_user: Plassholder bruker
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Prosjekt
         other: Prosjekter
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Prosjektlister
-      query: Egendefinert spørring
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Rolle
         other: Rolle
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Status for arbeidspakke
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Access token
         other: Tilgangsnøkler
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1031,12 +1231,57 @@
       type_variant:
         one: Variant
         other: Variants
-      user: Bruker
-      version: Versjon
-      wiki: Wiki
-      wiki_page: Wiki-side
-      work_package: Arbeidspakke
-      workflow: Arbeidsflyt
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
@@ -1768,6 +2013,7 @@
     custom_field: Egendefinert felt
     custom_options: Mulige verdier
     custom_values: Egendefinerte felter
+    customized: Customized
     date: Dato
     dates_interval: Datointervall
     default_columns: Standardkolonner
@@ -1794,6 +2040,7 @@
     is_default: Standardverdi
     is_for_all: For alle prosjekter
     issue: Arbeidspakke
+    jira: Jira
     journal: Journal
     journal_notes: Kommentar
     lastname: Etternavn
@@ -2348,8 +2595,12 @@
   description_available_columns: Tilgjengelige Kolonner
   description_category_reassign: Velg kategori
   description_choose_project: Prosjekter
-  description_compare_from: Sammenlign fra
-  description_compare_to: Sammenlign med
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Du er her: '
   description_date_from: Skriv startdato
   description_date_to: Skriv sluttdato
@@ -2551,8 +2802,6 @@
         description: Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Del arbeidspakker med brukere som ikke er medlemmer i prosjektet.
       work_package_subject_generation:
@@ -2578,7 +2827,6 @@
   error_attribute_not_highlightable: 'Egenskap(er) kan ikke utheves: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) for bruker '%{value}' mislyktes
   error_can_not_archive_project: 'Prosjektet kan ikke arkiveres: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Kunne ikke slette det egendefinerte feltet
   error_can_not_delete_entry: Kan ikke slette oppføring
@@ -2589,6 +2837,7 @@
   error_can_not_find_all_resources: Kunne ikke finne alle relaterte ressurser til denne forespørselen.
   error_can_not_invite_user: Kunne ikke sende invitasjon til bruker.
   error_can_not_remove_role: Denne rollen er i bruk og kan ikke slettes.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: En arbeidspakke tilknyttet en lukket versjon kan ikke gjenåpnes
   error_can_not_unarchive_project: 'Prosjektet kan ikke avarkiveres: %{errors}'
   error_check_user_and_role: Velg en bruker og en rolle.
@@ -2871,14 +3120,15 @@
     blocks:
       community: OpenProject fellesskap
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3051,7 +3301,6 @@
   label_available_project_work_package_types: Tilgjengelige arbeidspakketyper
   label_available_projects: Tilgjengelige prosjekter
   label_backup: Sikkerhetskopi
-  label_backup_code: Sikkerhetskopieringskode
   label_basic_details: Basic details
   label_between: mellom
   label_blocked_by: blokkert av
@@ -3071,7 +3320,6 @@
   label_calendar_show: Vis kalender
   label_calendar_subscriptions: Abonnementer til kalendere
   label_calendars_and_dates: Kalendere og datoer
-  label_category: Kategori
   label_change_parent: Endre overordnet
   label_change_password: Change password
   label_change_plural: Endringer
@@ -3080,9 +3328,9 @@
   label_change_status_of_user: 'Endre status på #{username}'
   label_change_view_all: Vis alle endringer
   label_changes_details: Detaljer for alle endringer
-  label_changeset: Endringssett
   label_changeset_id: Endringssett ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sjekk/Avmerk alle i kolonnen
   label_check_uncheck_all_in_row: Sjekk/Avmerk alle på rad
   label_checked: valgt
@@ -3229,6 +3477,7 @@
   label_feeds_access_key: RSS tilgangsnøkkel
   label_feeds_access_key_created_on: RSS tilgangsnøkkel opprettet for %{value} siden
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Filer
   label_filter: Filtre
   label_filter_add: Legg til filter
@@ -3253,7 +3502,6 @@
   label_git_path: Sti til .git-mappe
   label_global: Globalt
   label_global_modules: Global modules
-  label_global_role: Global rolle
   label_global_roles: Globale roller
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3322,7 +3570,6 @@
   label_last_week: siste uke
   label_latest_revision: Siste revisjon
   label_latest_revision_plural: Siste revideringer
-  label_ldap_auth_source: LDAP-tilkobling
   label_ldap_auth_source_new: Ny LDAP-forbindelse
   label_ldap_auth_source_plural: LDAP-forbindelser
   label_ldap_authentication: LDAP-autentisering
@@ -3349,9 +3596,9 @@
   label_me: meg
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_new: Nytt medlem
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Medlemmer
-  label_member_role: Prosjektrolle
   label_membership_added: Medlem lagt til
   label_membership_plural: Medlemskap
   label_membership_updated: Medlem oppdatert
@@ -3464,7 +3711,6 @@
   label_permissions: Tilganger
   label_permissions_report: Tilgangsrapport
   label_personalize_page: Tilpass denne siden
-  label_placeholder_user: Plassholder bruker
   label_placeholder_user_new: Ny plassholderbruker
   label_placeholder_user_plural: Plassholder brukere
   label_planning: Planlegging
@@ -3527,7 +3773,6 @@
   label_related_work_packages: Relaterte arbeidspakker
   label_relates: relatert til
   label_relates_to: relatert til
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Slett relasjon
   label_relation_edit: Edit relation
@@ -3580,7 +3825,6 @@
   label_send_information: Send nye opplysninger til brukeren
   label_send_invitation: Send invitasjon
   label_send_test_email: Send en testmail
-  label_session: Sesjon
   label_setting_plural: Innstillinger
   label_share: Del
   label_share_project_list: Del prosjektliste
@@ -3656,7 +3900,6 @@
   label_used_by: Brukt av
   label_used_by_types: Brukt av typer
   label_used_in_projects: Brukes i prosjekter
-  label_user: Bruker
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Brukere og tillatelser
   label_user_anonymous: Anonym
@@ -3687,19 +3930,17 @@
   label_week: Uke
   label_weighted_item_list: Weighted item list
   label_what_is_this: Hva er dette?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki-side lagt til
   label_wiki_content_updated: Wiki-side oppdatert
   label_wiki_dont_show_menu_item: Ikke vis denne wiki-siden i prosjektmenyen
   label_wiki_edit: Wiki-redigering
   label_wiki_edit_plural: Wiki-redigeringer
-  label_wiki_menu_item: Wiki menyelement
   label_wiki_navigation: Wiki-meny
-  label_wiki_page: Wiki-side
   label_wiki_page_attachments: Wiki-side vedlegg
   label_wiki_page_id: Wiki-side ID
   label_wiki_page_plural: Wiki-sider
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Vis undermenyelement 'Innholdsfortegnelse'
   label_wiki_show_menu_item: Vis som menyelement i prosjektmeny
   label_wiki_show_new_page_link: Vis undermenyelement 'Opprett ny underside'
@@ -3716,7 +3957,6 @@
   label_work_package_hierarchy: Hierarki for arbeidspakker
   label_work_package_new: Ny arbeidspakke
   label_work_package_plural: Arbeidspakker
-  label_work_package_status: Status for arbeidspakke
   label_work_package_status_new: Ny status
   label_work_package_status_plural: Statuser for arbeidspakke
   label_work_package_tracking: Sporing av arbeidspakke
@@ -3859,7 +4099,6 @@
         invalid_type: Ingen type funnet med navn '%{type}' i prosjektet '%{project}'.
         no_project_context: Kjør create_work_package_link makro fra utenfor prosjektkontekst.
       link_name: Ny arbeidspakke
-      link_name_type: Ny %{type_name}
     errors:
       missing_or_invalid_parameter: Manglende eller ugyldig makroparameter.
     include_wiki_page:
@@ -5003,13 +5242,28 @@
           enable_type_in_project: Aktiver type "%{type}"
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5286,6 +5540,7 @@
   setting_default_language: Standardspråk
   setting_default_projects_modules: Standardaktiverte moduler for nye prosjekter
   setting_default_projects_public: Nye prosjekter er offentlige som standard
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maks antall linjeforskjeller som vises
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Vis arbeidspakker for underprosjekter som standard for hovedprosjekter
@@ -5812,6 +6067,7 @@
   text_destroy_what_to_do: Hva vil du gjøre?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Denne diff ble forkortet fordi den overstiger maksimalgrensen for hva som kan vises."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     E-postlevering er ikke konfigurert, og varsler er deaktivert.
     Konfigurer SMTP-serveren for å aktivere dem.
@@ -6066,6 +6322,13 @@
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6073,6 +6336,17 @@
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6140,6 +6414,14 @@
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6307,6 +6589,7 @@
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6320,7 +6603,6 @@
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

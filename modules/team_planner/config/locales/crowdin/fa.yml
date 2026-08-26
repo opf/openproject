@@ -2,20 +2,20 @@
 fa:
   ee:
     feature_names:
-      team_planner_view: برنامه ریز تیم
+      team_planner_view: برنامه‌ریز تیم
     upsell:
       team_planner_view:
-        description: یک نمای کلی از برنامه ریزی تیم با استفاده از برنامه ریز تیم دریافت کنید. به منظور اصلاح تاریخ، جابه جا کردن بسته های کاری و یا تغییر نمایندگان از بسط دادن، کوتاه کردن و یا کشیدن و رها کردن آنها  استفاده کنید.
-        title: برنامه ریز تیم
+        description: با برنامه‌ریز تیم، نمای کاملی از برنامه‌ریزی تیم خود داشته باشید. با کشیدن، کوتاه یا بلند کردن بسته‌های کاری، تاریخ‌ها را تغییر دهید، آن‌ها را جابه‌جا کنید یا مسئول انجام را تغییر دهید.
+        title: برنامه‌ریز تیم
   permission_manage_team_planner: مدیریت برنامه ریز تیم
   permission_view_team_planner: مشاهده برنامه ریز تیم
   plugin_openproject_team_planner:
     description: دیدگاه های برنامه ریزی تیم را فراهم می دهد.
     name: برنامه ریز تیم اپن‌پروژه
-  project_module_team_planner_view: برنامه ریزهای تیم
+  project_module_team_planner_view: برنامه‌ریزهای تیم
   team_planner:
     label_assignees: نمایندگان
-    label_create_new_team_planner: ایجاد برنامه ریز جدید تیم
+    label_create_new_team_planner: ایجاد برنامه‌ریز تیم جدید
     label_new_team_planner: برنامه ریز تیم جدید
-    label_team_planner: برنامه ریز تیم
-    label_team_planner_plural: برنامه ریزهای تیم
+    label_team_planner: برنامه‌ریز تیم
+    label_team_planner_plural: برنامه‌ریزهای تیم

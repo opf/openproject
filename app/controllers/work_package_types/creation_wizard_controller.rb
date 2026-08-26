@@ -43,6 +43,7 @@ module WorkPackageTypes
     before_action :find_type, only: %i[show update]
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
+    before_action :set_back_url
 
     def show; end
 
@@ -173,10 +174,17 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:), status: :see_other
+        redirect_to type_creation_wizard_path(**variant_path_args, step:, back_url: @back_url), status: :see_other
       else
-        redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
+        flash[:notice] = t("types.creation_wizard.success")
+        redirect_back_or_default(types_path, status: :see_other)
       end
+    end
+
+    # The wizard hands this straight to the cancel button, so it is validated here rather than
+    # where it is rendered.
+    def set_back_url
+      @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used

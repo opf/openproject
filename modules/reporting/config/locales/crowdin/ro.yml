@@ -21,6 +21,12 @@
 #++
 ---
 ro:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
   button_save_report_as: Salvează raportul ca...
   comments: Comentariu
   cost_reports_title: Timp și costuri
@@ -46,7 +52,6 @@ ro:
   label_closed: închis
   label_columns: Coloane
   label_cost_entry_attributes: Atribute poziție cost
-  label_cost_report: Raport de cost
   label_cost_report_plural: Rapoarte cost
   label_count: Număr
   label_days_ago: în ultimele zile

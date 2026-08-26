@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.3"
+gem "doorkeeper", "~> 5.9.6"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
@@ -70,7 +70,7 @@ gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.7.0"
-gem "rubytree", "~> 2.2.1"
+gem "rubytree", "~> 2.2.2"
 
 gem "addressable", "~> 2.9.0"
 
@@ -168,7 +168,7 @@ gem "meta-tags", "~> 2.23.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.1.0"
+gem "statesman", "~> 13.3.0"
 
 gem "job-iteration"
 
@@ -204,9 +204,9 @@ gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.251"
+gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.228"
+gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.12.0"
 
@@ -214,7 +214,7 @@ gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.2", require: false
+gem "mini_magick", "~> 5.3.3", require: false
 
 gem "validate_url"
 
@@ -237,7 +237,7 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
@@ -299,7 +299,7 @@ group :test do
   gem "cuprite", "~> 0.17.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.38"
+  gem "selenium-webdriver", "~> 4.47"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -375,7 +375,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.5"
+  gem "brakeman", "~> 8.0.6"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
@@ -414,7 +414,7 @@ gem "activerecord-nulldb-adapter", "~> 1.2.2"
 
 # Have application level locks on the database to have a mutex shared between workers/hosts.
 # We e.g. employ this to safeguard the creation of journals.
-gem "with_advisory_lock", "~> 7.5.0"
+gem "with_advisory_lock", "~> 7.6.0"
 
 # Load Gemfile.modules explicitly to allow dependabot to work
 eval_gemfile "./Gemfile.modules"
@@ -430,7 +430,7 @@ end
 
 # Set cooldown 0 for our own gems
 source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.36.0"
-  gem "openproject-octicons_helper", "~>19.36.0"
+  gem "openproject-octicons", "~>19.37.0"
+  gem "openproject-octicons_helper", "~>19.37.0"
   gem "openproject-primer_view_components", "~>0.91.1"
 end

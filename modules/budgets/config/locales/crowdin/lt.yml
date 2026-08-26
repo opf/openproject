@@ -46,9 +46,21 @@ lt:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Biudžetas
-      labor_budget_item: Planned labor cost
-      material_budget_item: Vienetas
+      budget:
+        one: Budget
+        few: Budgets
+        many: Budgets
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        few: Planned labor costs
+        many: Planned labor costs
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        few: Units
+        many: Units
+        other: Units
   activity:
     filter:
       budget: Biudžetai
@@ -102,7 +114,6 @@ lt:
   help_click_to_edit: Spauskite čia norėdami redaguoti.
   help_currency_format: Rodomos valiutos formatas. %n yra pakeičiamas valiutos reikšme, %u yra pakeičiamas valiutos vienetu.
   help_override_rate: Įveskite reikšmę, kad pakeistumėte numatytąjį koeficientą.
-  label_budget: Biudžetas
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Biudžetas #%{id}'

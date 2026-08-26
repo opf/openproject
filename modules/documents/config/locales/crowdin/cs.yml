@@ -31,13 +31,22 @@ cs:
         document_type:
           one_or_more_required: Nelze odstranit poslední typ dokumentu
     models:
-      document: Dokument
-      documents: Dokumenty
+      document:
+        one: Document
+        few: Documents
+        many: Documents
+        other: Documents
+      document_type:
+        one: Document type
+        few: Document types
+        many: Document types
+        other: Document types
   activity:
     filter:
       document: Dokumenty
   attributes:
     collaborative_editing_hocuspocus_url: URL serveru Hocuspocus
+    documents: Documents
   default_doc_category_tech: Technická dokumentace
   default_doc_category_user: Dokumentace uživatele
   documents:

@@ -76,6 +76,13 @@ fr:
         dependencies: Dépendances
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -256,6 +263,7 @@ fr:
         templated_value:
           false: non marqué comme modèle
           true: marqué comme modèle
+        type_variant: Work package type variant
         types: Types
         versions: Versions
         work_packages: Lots de travaux
@@ -499,6 +507,7 @@ fr:
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         blank: ne peut pas être vide.
         blank_nested: doit avoir la propriété « %{property} » définie.
+        blocked_domain: n'est pas autorisé. Veuillez utiliser une adresse e-mail appartenant à un autre domaine.
         cannot_delete_mapping: est requis. Ne peut être supprimé.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
@@ -970,58 +979,249 @@ fr:
           one: 1 erreur empêche ce %{model} d'être sauvegardé
           other: "%{count} erreurs interdisant ce %{model} d'être sauvegardé"
     models:
-      attachment: Fichier
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Texte d'aide de l'attribut
         other: Textes d'aide des attributs
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Fournisseur d'authentification
         other: Fournisseurs d'authentification
-      category: Catégorie
-      color: Couleur
-      comment: Commentaire
-      custom_action: Action personnalisée
-      custom_field: Champ personnalisé
-      customized: Personnalisé
-      doorkeeper/application: Application OAuth
+      backup:
+        one: Sauvegarde
+        other: Backups
+      capability:
+        one: Capacité
+        other: Capabilities
+      category:
+        one: Catégorie
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Couleur
+        other: Couleurs
+      comment:
+        one: Commentaire
+        other: Commentaires
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Jeton Enterprise
         other: Jetons Enterprise
-      forum: Forum
-      global_role: Rôle global
-      group: Groupe
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Priorité
         other: Priorités
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Participant à la réunion
-      member: Membre
-      message: Message
-      news: Actualités
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: Actualité
+        other: Actualités
+      non_working_day:
+        one: Jour non travaillé
+        other: Jours non travaillés
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Utilisateur fictif
+      notification_setting:
+        one: Paramètre des notifications
+        other: Paramètres de notifications
+      oauth_client:
+        one: Client OAuth
+        other: Clients OAuth
+      oauth_client_token:
+        one: Jeton client OAuth
+        other: Jetons clients OAuth
+      persisted_query:
+        one: Requête persistante
+        other: Requêtes persistantes
+      persisted_view:
+        one: Vue persistante
+        other: Vues persistantes
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Projet
         other: Projets
+      project/phase:
+        one: Phase de projet
+        other: Phases du projet
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Attribut du projet
+        other: Attributs du projet
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Liste de projets
         other: Listes de projets
-      query: Requête personnalisée
-      reminder: Rappel
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Dépôt Git
+        other: Dépôts Git
+      repository/subversion:
+        one: Dépôt Subversion
+        other: Dépôts Subversion
       role:
         one: Rôle
         other: Rôles
       scim_client:
         one: Client SCIM
         other: Clients SCIM
-      status: Statut du lot de travaux
+      service_account:
+        one: Compte de service
+        other: Comptes de service
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Jeton d'accès
         other: Jetons d'accès
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: Jeton RSS
         other: Jetons RSS
@@ -1031,12 +1231,57 @@ fr:
       type_variant:
         one: Variante
         other: Variantes
-      user: Utilisateur
-      version: Version
-      wiki: Wiki
-      wiki_page: Page wiki
-      work_package: Lot de travaux
-      workflow: Flux de travail
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Page wiki
+        other: Pages wiki
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Il n'y a pas eu d'activité pour le projet pendant cette période.
@@ -1560,22 +1805,22 @@ fr:
           title: Activer plusieurs versions cibles
         target_versions:
           action_required:
-            button: Enable multiple values
-            heading: Action required
-            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
-          heading: Target versions
+            button: Activer les valeurs multiples
+            heading: Action Requise
+            manual_conversion_hint: Vous pouvez choisir de lancer manuellement la conversion afin d'activer la prise en charge de plusieurs valeurs avant que cette migration automatique n'ait lieu.
+            not_writable_hint: Ces paramètres sont définis via des variables d'environnement. Si vous souhaitez lancer manuellement la conversion afin d'activer les valeurs multiples avant la migration automatique, veuillez mettre à jour votre fichier configuration.yml.
+          heading: Versions cibles
           in_progress:
-            heading: Enabling multiple versions
+            heading: Activation de plusieurs versions
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            heading: Modifications prévues dans une prochaine version
+            renamed: Le champ « Version » sera renommé en « Versions cibles ».
+            single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera également modifié pour permettre la saisie de plusieurs valeurs.
           recent_changes:
-            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
-            heading: Recent changes
-            multiple_values: The “Target versions” field now allows multiple values.
-            renamed: The “Version” field has now been renamed “Target versions”.
+            documentation_html: Pour plus d'informations sur cette modification et sur la manière de mettre à jour les clients API, veuillez consulter <a href="%{link}" target="_blank" rel="noopener">notre documentation</a>.
+            heading: Changements récents
+            multiple_values: Le champ « Versions cibles » autorise désormais plusieurs valeurs.
+            renamed: Le champ « Version » sera renommé en « Versions cibles ».
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Doit commencer par une lettre majuscule
@@ -1768,6 +2013,7 @@ fr:
     custom_field: Champ personnalisé
     custom_options: Valeurs possibles
     custom_values: Champs personnalisés
+    customized: Customized
     date: Date
     dates_interval: Plage de dates
     default_columns: Colonnes par défaut
@@ -1794,6 +2040,7 @@ fr:
     is_default: Valeur par défaut
     is_for_all: Pour tous les projets
     issue: Lot de travaux
+    jira: Jira
     journal: Journal
     journal_notes: Commentaire
     lastname: Nom de famille
@@ -1826,7 +2073,7 @@ fr:
     start_date: Date de début
     state: État
     status: Statut
-    status_id: Status
+    status_id: Statut
     subject: Sujet
     summary: Résumé
     template: Modèle
@@ -2348,8 +2595,12 @@ fr:
   description_available_columns: Colonnes disponibles
   description_category_reassign: Choisir une catégorie
   description_choose_project: Projets
-  description_compare_from: Comparer avec
-  description_compare_to: Comparer avec
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Vous êtes ici :'
   description_date_from: Saisir date de début
   description_date_to: Saisir échéance
@@ -2551,8 +2802,6 @@ fr:
         description: Assurez-vous que les fichiers importés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
       weighted_item_lists:
         description: Les listes d'éléments pondérés vous permettent de créer une liste à laquelle sont associées des valeurs numériques sous-jacentes.
-      work_package_query_relation_columns:
-        description: Vous avez besoin de voir les relations ou les éléments enfants dans la liste des lots de travaux ?
       work_package_sharing:
         description: Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet.
       work_package_subject_generation:
@@ -2578,7 +2827,6 @@ fr:
   error_attribute_not_highlightable: 'Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l'utilisateur '%{value}' a échoué
   error_can_not_archive_project: 'Ce projet ne peut être archivé : %{errors}'
-  error_can_not_deactivate_type: Impossible de désactiver le type « %{type} », car il est toujours utilisé par %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: Il existe également des lots de travaux dans des projets que vous ne pouvez pas voir.
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_entry: Impossible de supprimer l'élément
@@ -2589,6 +2837,7 @@ fr:
   error_can_not_find_all_resources: Impossible de trouver toutes les ressources liées à cette demande.
   error_can_not_invite_user: Échec de l'envoi de l'invitation à l'utilisateur.
   error_can_not_remove_role: Ce rôle est utilisé et ne peut être supprimé.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Un lot de travaux assigné à une version fermée ne peut être ré-ouvert
   error_can_not_unarchive_project: 'Ce projet ne peut être désarchivé : %{errors}'
   error_check_user_and_role: Veuillez choisir un utilisateur et un rôle.
@@ -2871,15 +3120,16 @@ fr:
     blocks:
       community: Communauté OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Nouveau module de gestion des ressources pour la planification des capacités et la gestion des effectifs (formule Premium).
-            line_1: Une meilleure gestion organisationnelle grâce aux services, aux attributs utilisateur tels que les intitulés de poste et aux horaires de travail.
-            line_2: Plusieurs sprints actifs sans partage (formule Basic).
-            line_3: Amélioration du backlog et des sprints grâce à des filtres à sélection multiple, à un glisser-déposer optimisé et à la possibilité d'ajouter des lots de travaux existants.
-            line_4: Exportation d'artefacts PM²/PMflex et nouveau widget offrant une vue d'ensemble des phases de projet et des portes de phase.
-            line_5: Index global des pages du wiki et navigation simplifiée entre les pages associées.
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que :
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
@@ -2926,8 +3176,8 @@ fr:
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_cancelled: "(cancelled)"
-      meeting_deleted: "(deleted)"
+      meeting_cancelled: "(annulé)"
+      meeting_deleted: "(supprimé)"
       meeting_series_backlog_html: backlog for meeting series %{link}
       meeting_series_template_html: template for meeting series %{link}
       meeting_template_html: meeting template %{link}
@@ -2943,7 +3193,7 @@ fr:
         progress_calculation_adjusted_from_disabled_mode: Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         scheduling_mode_adjusted: Mode de planification automatiquement ajusté avec la mise à jour de version.
         sprint_migration: La version '%{version_name}' a été copiée en tant que sprint.
-        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
+        target_versions_repaired: Les versions cibles ont été automatiquement synchronisées avec le champ Version avant d'activer plusieurs versions cibles.
         totals_removed_from_childless_work_packages: Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
       total_percent_complete_mode_changed_to_simple_average: Les valeurs de travail des lots de travaux enfants sont ignorées.
       total_percent_complete_mode_changed_to_work_weighted_average: Les lots de travaux enfants sans travail sont ignorés.
@@ -2967,10 +3217,10 @@ fr:
       dates_changed: Dates modifiées
       default_attribute_written: Attributs en lecture seule écrits
       import: Importé
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>Ajouté à la réunion</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Ajouté à</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discuté lors de la réunion</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Reporté à la réunion</strong> %{meeting_title_information}"
       meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
       meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
@@ -3051,7 +3301,6 @@ fr:
   label_available_project_work_package_types: Types de lot de travaux disponibles
   label_available_projects: Projets disponibles
   label_backup: Sauvegarde
-  label_backup_code: Code de sauvegarde
   label_basic_details: Informations de base
   label_between: entre
   label_blocked_by: bloqué par
@@ -3071,7 +3320,6 @@ fr:
   label_calendar_show: Afficher le calendrier
   label_calendar_subscriptions: Abonnements au calendrier
   label_calendars_and_dates: Calendriers et dates
-  label_category: Catégorie
   label_change_parent: Changer le parent
   label_change_password: Changer de mot de passe
   label_change_plural: Changements
@@ -3080,9 +3328,9 @@ fr:
   label_change_status_of_user: 'Changer le statut de #{username}'
   label_change_view_all: Afficher tous les changements
   label_changes_details: Détails de tous les changements
-  label_changeset: Lot de modification
   label_changeset_id: ID de lot de modification
   label_changeset_plural: Lots de modification
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Cocher/Décocher tout dans la colonne
   label_check_uncheck_all_in_row: Cocher/Décocher tout dans la ligne
   label_checked: vérifié
@@ -3229,6 +3477,7 @@ fr:
   label_feeds_access_key: Clé d'accès RSS
   label_feeds_access_key_created_on: Clé d'accès RSS créé il y a %{value}
   label_feeds_access_key_type: RSS
+  label_file: Fichier
   label_file_plural: Fichiers
   label_filter: Filtres
   label_filter_add: Ajouter le filtre
@@ -3253,7 +3502,6 @@ fr:
   label_git_path: Chemin d'accès au répertoire .git
   label_global: Global
   label_global_modules: Modules globaux
-  label_global_role: Rôle global
   label_global_roles: Rôles globaux
   label_go_back: Revenir en arrière d'un niveau dans le menu
   label_go_forward: Ouvrir le sous-menu %{module}
@@ -3322,7 +3570,6 @@ fr:
   label_last_week: la semaine dernière
   label_latest_revision: La toute dernière révision
   label_latest_revision_plural: Les toute dernières révisions
-  label_ldap_auth_source: Connexion LDAP
   label_ldap_auth_source_new: Nouvelle connexion LDAP
   label_ldap_auth_source_plural: Connexions LDAP
   label_ldap_authentication: Authentification LDAP
@@ -3349,9 +3596,9 @@ fr:
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_new: Nouveau membre
-  label_member_of_project: Member of project
+  label_member_of_group: Membre du groupe
+  label_member_of_project: Membre du projet
   label_member_plural: Membres
-  label_member_role: Rôle dans le projet
   label_membership_added: Membre ajouté
   label_membership_plural: Adhésions
   label_membership_updated: Membre mis à jour
@@ -3464,7 +3711,6 @@ fr:
   label_permissions: Autorisations
   label_permissions_report: Rapport d'autorisations
   label_personalize_page: Personnaliser cette page
-  label_placeholder_user: Utilisateur fictif
   label_placeholder_user_new: Nouvel utilisateur fictif
   label_placeholder_user_plural: Utilisateurs fictifs
   label_planning: Planification
@@ -3501,7 +3747,7 @@ fr:
   label_project_hide_details: Masquer les détails du projet
   label_project_hierarchy: Hiérarchie du projet
   label_project_identifier: Identifiant de projet
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: Exporter %{project_creation_name} en PDF
   label_project_latest: Derniers projets
   label_project_life_cycle: Cycle de vie du projet
   label_project_list_plural: Listes de projets
@@ -3527,7 +3773,6 @@ fr:
   label_related_work_packages: Lots de travaux associés
   label_relates: En relation avec
   label_relates_to: En relation avec
-  label_relation: Relation
   label_relation_actions: Actions de relation
   label_relation_delete: Supprimer la relation
   label_relation_edit: Éditer la relation
@@ -3580,7 +3825,6 @@ fr:
   label_send_information: Envoyer de nouveaux identifiants à l'utilisateur
   label_send_invitation: Envoyer une invitation
   label_send_test_email: Envoyer un e-mail de test
-  label_session: Session
   label_setting_plural: Paramètres
   label_share: Partager
   label_share_project_list: Partager la liste des projets
@@ -3613,7 +3857,7 @@ fr:
   label_subitems: Sous-éléments
   label_subject_or_id: Objet ou ID
   label_subproject: Sous-projet
-  label_subproject_add: Add subproject
+  label_subproject_add: Ajouter des sous-projets
   label_subproject_plural: Sous-projets
   label_subtask_plural: Sous-tâche
   label_summary: Résumé
@@ -3656,7 +3900,6 @@ fr:
   label_used_by: Utilisé par
   label_used_by_types: Utilisé par types
   label_used_in_projects: Utilisé dans les projets
-  label_user: Utilisateur
   label_user_activity_html: Activité de %{value}
   label_user_and_permission: Utilisateurs et autorisations
   label_user_anonymous: Anonyme
@@ -3677,7 +3920,7 @@ fr:
   label_version_sharing_none: Non partagé
   label_version_sharing_system: Avec tous les projets
   label_version_sharing_tree: Avec l'arbre du projet
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: Versions et catégories
   label_videos: Vidéos
   label_view_all_revisions: Afficher toutes les révisions
   label_view_diff: Afficher les différences
@@ -3687,19 +3930,17 @@ fr:
   label_week: Semaine
   label_weighted_item_list: Liste d'éléments pondérés
   label_what_is_this: Qu'est-ce que c'est?
-  label_widget: Widget
   label_widget_new: Nouveau widget
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
   label_wiki_dont_show_menu_item: Ne pas afficher cette page wiki dans le menu de navigation du projet
   label_wiki_edit: Modification wiki
   label_wiki_edit_plural: Modifications wiki
-  label_wiki_menu_item: Élément de menu wiki
   label_wiki_navigation: Navigation wiki
-  label_wiki_page: Page wiki
   label_wiki_page_attachments: Pièces jointes de la page wiki
   label_wiki_page_id: ID de la page Wiki
   label_wiki_page_plural: Pages wiki
+  label_wiki_page_versions: Versions de la page Wiki
   label_wiki_show_index_page_link: Montrer l'entrée de sous-menu 'Table des Matières'
   label_wiki_show_menu_item: Afficher en tant qu'élément dans le menu de navigation du projet
   label_wiki_show_new_page_link: Montrer le sous-menu 'Créer une nouvelle page enfant'
@@ -3716,7 +3957,6 @@ fr:
   label_work_package_hierarchy: Hiérarchie du lot de travaux
   label_work_package_new: Nouveau lot de travaux
   label_work_package_plural: Lots de travaux
-  label_work_package_status: Statut du lot de travaux
   label_work_package_status_new: Nouveau statut
   label_work_package_status_plural: Statuts du lot de travaux
   label_work_package_tracking: Suivi des lots de travaux
@@ -3859,7 +4099,6 @@ fr:
         invalid_type: Aucun type trouvé avec le nom '%{type}' dans le projet '%{project}'.
         no_project_context: Appel de la macro create_work_package_link depuis un contexte de projet externe.
       link_name: Nouveau lot de travaux
-      link_name_type: Nouveau %{type_name}
     errors:
       missing_or_invalid_parameter: Paramètre macro manquante ou invalide.
     include_wiki_page:
@@ -5003,13 +5242,28 @@ fr:
           enable_type_in_project: Autorise le type « %{type} »
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         remove_from_project: Supprimer du projet
-        switch_dialog:
-          apply: Appliquer
-          description: Veuillez sélectionner une autre variante de ce type à utiliser dans ce projet.
-          success: Le projet utilise désormais %{type}.
-          target_label: Variante
-          title: "%{type}: Variante de commutateur"
-          warning: Si vous changez de variante, vous risquez de perdre des informations associées à des champs personnalisés qui pourraient ne pas exister dans la nouvelle variante.
+        switch:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         switch_type: Changer de variante
         type_not_found: Le type sélectionné est introuvable.
         variant_prefix: 'Variante :'
@@ -5284,6 +5538,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
+  setting_default_projects_wiki: Activer la fonctionnalité wiki pour les nouveaux projets par défaut
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents
@@ -5807,6 +6062,7 @@ fr:
   text_destroy_what_to_do: Que voulez-vous faire?
   text_destroy_with_associated: 'Il y a des objets supplémentaires associés à ce(s) lot(s) de travaux qui doivent être supprimés. Ces objets sont des types suivants :'
   text_diff_truncated: "... Cette « diff » a été tronquée car elle dépasse la taille maximale d'affichage."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     L'envoi d'e-mails n'est pas configuré et les notifications sont désactivées.
     Configurer votre serveur SMTP pour les activer.
@@ -5949,11 +6205,11 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Ajouter une variante à %{name}
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
-        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
+        variant_name_caption: Nomme cette configuration de %{type}. Les lots de travaux continuent à utiliser %{type} lui-même.
       finish: Terminer
       placeholder_description: Cette étape sera bientôt disponible.
       progress_label: Étape %{number} sur %{total}
@@ -5965,7 +6221,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         workflows: Flux de travail
-      success: Created successfully.
+      success: Créé avec succès.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
       defaults:
@@ -5990,7 +6246,7 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
-        inherited_from_type_html: Inherited from type <b>%{type}</b>.
+        inherited_from_type_html: Hérité du type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
       export_configuration:
@@ -6014,7 +6270,7 @@ fr:
           actions:
             label_disable_all: Désactiver tout
             label_enable_all: Activer tout
-            label_toggle_template: Toggle %{template}
+            label_toggle_template: Basculer %{template}
           label: Modèles d'exportation PDF
         tab: Générer un fichier PDF
         templates:
@@ -6061,6 +6317,13 @@ fr:
         actions:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
+        blankslate:
+          independent:
+            description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
+            title: Aucun attribut de projet n'est disponible
+          linked:
+            description: Ce type n'est associé à aucun attribut de projet.
+            title: Aucun attribut de projet n'a été configuré
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:
@@ -6068,6 +6331,17 @@ fr:
         filter: Rechercher par section ou par nom
         tab: Attributs du projet
       projects:
+        actions:
+          confirm_remove: Supprimer le type %{type} de %{project}?
+          remove_from_project: Supprimer du projet
+          switch_variant: Modifier la variante
+        add_dialog:
+          no_projects_selected: Veuillez choisir au moins un projet.
+          search_placeholder: Rechercher des projets
+        disable_all: Désactiver pour tous les projets
+        empty_state:
+          description: Ajouter un projet pour utiliser cette configuration.
+          no_results: Aucun projet correspondant.
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
@@ -6135,6 +6409,14 @@ fr:
           switch_to_independent: Passer en mode indépendant
           title: Mode lié
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'Vous pouvez créer des variantes afin de proposer différentes versions de ce type à divers projets.<br> Chaque variante peut hériter, copier ou disposer de sa propre configuration personnalisée pour le modèle par défaut, les champs personnalisés, les workflows et les préférences.
+
+            '
+          title: Il n'existe aucune variante pour ce type
+        filter: Filtrer par texte
+        filter_no_results: No variants match this filter
       workflow:
         tab: Flux de travail
     index:
@@ -6300,6 +6582,7 @@ fr:
         availability_description: Le facteur de disponibilité représente le pourcentage réel de votre temps de travail consacré aux tâches du projet. Il tient compte des réunions, des courriels, du travail administratif et d'autres activités non liées au projet.
         availability_factor: Facteur de disponibilité
         availability_factor_caption: Définissez le pourcentage de votre temps de travail consacré au projet.
+        effective_hours: Heures de travail effectives
         hours_mode_label: Mode heures
         hours_per_day: Heures par jour
         individual_hours_mode: Heures individuelles par jour
@@ -6313,7 +6596,6 @@ fr:
         title_current: Modifier l'horaire de travail actuel
         title_days_and_hours: Jours et heures
         title_future_dates: Dates futures
-        total_available_hours: Total des heures de travail disponibles
         total_work_hours: Heures de travail totales
         work_days: Jours de travail
         work_hours: Heures de travail
@@ -6656,7 +6938,7 @@ fr:
         target_role_ids:
           label: Rôles cibles
         target_variant_ids:
-          label: Target types
+          label: Types de cibles
       from_roles:
         create:
           notice:
@@ -6665,8 +6947,8 @@ fr:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Le flux de travail a été copié avec succès vers '%{type_name}'.
+            other: Le flux de travail a été copié avec succès vers %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

@@ -1,5 +1,10 @@
 ---
 pt-PT:
+  activerecord:
+    models:
+      job_status/status:
+        one: Estado do trabalho em segundo plano
+        other: Estados do trabalho em segundo plano
   job_status_dialog:
     click_to_download: Ou [clique aqui](download_url) para descarregar.
     download_starts: A transferência deve começar automaticamente.

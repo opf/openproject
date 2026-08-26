@@ -29,11 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { I18n.t("projects_settings_wiki.title") }
+    header.with_title { I18n.t("menus.project_settings.wiki") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
        { href: project_settings_general_path(@project.id), text: I18n.t("label_project_settings") },
-       I18n.t("projects_settings_wiki.title")]
+       I18n.t("menus.project_settings.wiki")]
     )
   end
 %>

@@ -20,10 +20,21 @@ it:
             phone_number:
               error_phone_number_format: deve essere di formato + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispositivo 2FA
-      two_factor_authentication/device/sms: Cellulare
-      two_factor_authentication/device/totp: Applicazione di autenticazione
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Codice di backup
+        other: Codici di backup
+      two_factor_authentication/device:
+        one: Dispositivo 2FA
+        other: Dispositivi 2FA
+      two_factor_authentication/device/sms:
+        one: Cellulare
+        other: Cellulari
+      two_factor_authentication/device/totp:
+        one: Applicazione di autenticazione
+        other: Applicazioni di autenticazione
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continua
   button_make_active: Attiva
   button_make_default: Segna come predefinito

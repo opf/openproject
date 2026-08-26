@@ -1,5 +1,10 @@
 ---
 it:
+  activerecord:
+    models:
+      boards/grid:
+        one: Bacheca
+        other: Bacheche
   boards:
     board_type_attributes:
       assignee: Assegnatario

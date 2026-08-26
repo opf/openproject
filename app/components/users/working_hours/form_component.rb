@@ -65,7 +65,8 @@ module Users
             id: FORM_ID,
             data: {
               turbo: true,
-              controller: "users--working-hours-form"
+              controller: "users--working-hours-form",
+              **DurationConverter.stimulus_data_values("users--working-hours-form")
             }
           }
         }

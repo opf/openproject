@@ -46,9 +46,12 @@ ko:
             principal:
               not_a_member_of_budget_project: "- 예산 프로젝트의 멤버가 아닙니다"
     models:
-      budget: 예산
-      labor_budget_item: 계획된 노동 비용
-      material_budget_item: 단위
+      budget:
+        other: 예산
+      labor_budget_item:
+        other: 계획된 노동 비용
+      material_budget_item:
+        other: 단위
   activity:
     filter:
       budget: 예산
@@ -102,7 +105,6 @@ ko:
   help_click_to_edit: 편집하려면 여기를 클릭하세요.
   help_currency_format: 표시된 통화 값의 형식입니다. %n은(는) 통화 값으로 바뀌고, %u은(는) 통화 단위로 바뀝니다.
   help_override_rate: 기본 요금을 재정의하려면 여기에 값을 입력하세요.
-  label_budget: 예산
   label_budget_available: 사용 가능한 예산
   label_budget_details: 예산 세부 정보
   label_budget_id: '예산 #%{id}'

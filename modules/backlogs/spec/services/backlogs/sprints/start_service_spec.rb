@@ -47,9 +47,10 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when no task board exists yet" do
-    it "creates the board and starts the sprint", :aggregate_failures do
+    it "creates the board and starts the sprint", :aggregate_failures, :freeze_time do
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to be_present
     end
   end
@@ -69,10 +70,11 @@ RSpec.describe Backlogs::Sprints::StartService do
   context "when a task board already exists" do
     let!(:existing_board) { create(:board_grid_with_query, project:, linked: sprint) }
 
-    it "starts the sprint without creating another board", :aggregate_failures do
+    it "starts the sprint without creating another board", :aggregate_failures, :freeze_time do
       expect { result }.not_to change(Boards::Grid, :count)
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to eq(existing_board)
     end
   end
@@ -81,10 +83,11 @@ RSpec.describe Backlogs::Sprints::StartService do
     let!(:other_project) { create(:project) }
     let!(:other_board) { create(:board_grid_with_query, project: other_project, linked: sprint) }
 
-    it "creates a board for the sprint project", :aggregate_failures do
+    it "creates a board for the sprint project", :aggregate_failures, :freeze_time do
       expect { result }.to change(Boards::Grid, :count).by(1)
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to be_present
       expect(sprint.task_board_for(project)).not_to eq(other_board)
       expect(sprint.task_board_for(other_project)).to eq(other_board)
@@ -105,6 +108,7 @@ RSpec.describe Backlogs::Sprints::StartService do
     it "returns failure and leaves the sprint in planning", :aggregate_failures do
       expect(result).not_to be_success
       expect(sprint.reload).to be_in_planning
+      expect(sprint.started_at).to be_nil
       expect(sprint.task_board_for(project)).to be_nil
     end
   end

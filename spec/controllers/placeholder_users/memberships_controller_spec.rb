@@ -80,7 +80,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
       it "returns an error" do
         put :update, params: {
           placeholder_user_id: placeholder_user.id,
-          id: 1234
+          id: not_existing_id(Member)
         }
 
         expect(response).to have_http_status :not_found
@@ -91,7 +91,7 @@ RSpec.describe PlaceholderUsers::MembershipsController do
       it "returns an error" do
         delete :destroy, params: {
           placeholder_user_id: placeholder_user.id,
-          id: 1234
+          id: not_existing_id(Member)
         }
 
         expect(response).to have_http_status :not_found

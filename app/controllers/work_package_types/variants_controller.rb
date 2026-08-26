@@ -38,18 +38,29 @@ module WorkPackageTypes
       :types
     end
 
+    # The filter input drives the list's turbo frame, so a frame request only needs the list
+    # component: Turbo picks the frame out of it and drops the rest.
+    def index
+      return unless turbo_frame_request?
+
+      render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+    end
+
     def menu
-      render Types::VariantActionsComponent.new(variant: named_variant), layout: false
+      render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url]),
+             layout: false
     end
 
     def destroy
       service_call = DeleteVariantService.new(user: current_user, model: named_variant).call
 
       if service_call.success?
-        redirect_to types_path, notice: t(:notice_successful_delete), status: :see_other
+        flash[:notice] = t(:notice_successful_delete)
       else
-        redirect_to types_path, alert: service_call.errors.full_messages.to_sentence, status: :see_other
+        flash[:error] = service_call.errors.full_messages.to_sentence
       end
+
+      redirect_back_or_default(types_path, status: :see_other)
     end
 
     def make_default
@@ -80,7 +91,7 @@ module WorkPackageTypes
         flash[:error] = service_call.errors.full_messages
       end
 
-      redirect_to types_path, status: :see_other
+      redirect_back_or_default(types_path, status: :see_other)
     end
 
     def named_variant

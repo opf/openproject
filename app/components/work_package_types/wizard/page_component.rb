@@ -33,10 +33,11 @@ module WorkPackageTypes
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:, variant: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil)
         super(type)
 
         @current_step = current_step
+        @back_url = back_url
         # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
         # editing once here, so nothing below has to ask what it was given.
         @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
@@ -44,7 +45,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :current_step, :variant
+      attr_reader :current_step, :variant, :back_url
 
       def type = model
 
@@ -71,6 +72,7 @@ module WorkPackageTypes
       end
 
       def cancel_href
+        return back_url if back_url.present?
         return types_path unless type.persisted?
 
         edit_type_details_path(type_id: type.id)
@@ -78,7 +80,7 @@ module WorkPackageTypes
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step)
+      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
 
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
@@ -86,7 +88,7 @@ module WorkPackageTypes
       def step_form_url
         return step_url if record_persisted?
 
-        adding_variant? ? creation_wizard_types_path(type_id: type.id) : creation_wizard_types_path
+        adding_variant? ? creation_wizard_types_path(type_id: type.id, back_url:) : creation_wizard_types_path(back_url:)
       end
 
       def step_form_method

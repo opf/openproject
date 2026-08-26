@@ -27,13 +27,13 @@ fa:
         author: نویسنده
         available: در دسترس
         base_amount: مبلغ پایه
-        budget: برنامه‌ریزی شده
+        budget: برنامه‌ریزی‌شده
         budget_ratio: هزینه(نسبت)
         description: توضیحات
-        labor_budget: هزینه های نیروی کار برنامه‌ریزی شده
-        labor_budget_items: Planned labor costs
+        labor_budget: هزینه‌های نیروی کار برنامه‌ریزی‌شده
+        labor_budget_items: هزینه‌های نیروی کار برنامه‌ریزی‌شده
         material_budget: هزینه‌های واحد برنامه‌ریزی شده
-        spent: صرف شده
+        spent: مصرف‌شده
         status: وضعیت
         subject: موضوع
         type: نوع هزینه
@@ -44,52 +44,58 @@ fa:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: عضو پروژه بودجه نیست
     models:
-      budget: بودجه
-      labor_budget_item: Planned labor cost
-      material_budget_item: واحد
+      budget:
+        one: بودجه
+        other: بودجه‌ها
+      labor_budget_item:
+        one: هزینه نیروی کار برنامه‌ریزی‌شده
+        other: هزینه‌های نیروی کار برنامه‌ریزی‌شده
+      material_budget_item:
+        one: واحد
+        other: واحدها
   activity:
     filter:
-      budget: بودجه ها
+      budget: بودجه‌ها
   attributes:
     budget: بودجه
   budgets:
     widgets:
       budget_by_cost_type:
         blankslate:
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-          heading: Start project controlling
+          description: برای پیگیری مؤثر وضعیت سلامت پروژه، نمایی کلی از بودجه‌ها و هزینه‌های خود داشته باشید
+          heading: کنترل پروژه را شروع کنید
         blankslate_zero:
-          description: Add details about your planned budget to see data here
-          heading: Budget details missing
+          description: برای مشاهده داده‌ها در اینجا، جزئیات بودجه برنامه‌ریزی‌شده خود را اضافه کنید
+          heading: جزئیات بودجه موجود نیست
         count_caption:
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-          zero: No budget data.
+          one: داده‌ها از %{count} بودجه تجمیع شده‌اند
+          other: داده‌ها از %{count} بودجه تجمیع شده‌اند
+          zero: داده‌ای برای بودجه وجود ندارد.
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: داده‌ها از %{count} بودجه موجود در این سبد پروژه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            other: داده‌ها از %{count} بودجه موجود در این سبد پروژه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            zero: داده‌ای برای بودجه وجود ندارد.
           program:
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-            zero: No budget data.
+            one: داده‌ها از %{count} بودجه موجود در این برنامه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            other: داده‌ها از %{count} بودجه موجود در این برنامه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            zero: داده‌ای برای بودجه وجود ندارد.
           project:
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-            zero: No budget data.
-        title: Budget by cost type
-        view_details: View budget details
+            one: داده‌ها از %{count} بودجه موجود در این پروژه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            other: داده‌ها از %{count} بودجه موجود در این پروژه و زیرمجموعه‌های آن تجمیع شده‌اند.
+            zero: داده‌ای برای بودجه وجود ندارد.
+        title: بودجه به تفکیک نوع هزینه
+        view_details: مشاهده جزئیات بودجه
       budget_totals:
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        title: Budget totals
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-  budgets_title: بودجه ها
-  button_add_budget: اضافه کردن بودجه
+        remaining_budget: بودجه باقی‌مانده
+        spent_budget: بودجه مصرف‌شده
+        title: مجموع بودجه
+        total_actual_costs: کل هزینه‌های واقعی
+        total_planned_budget: کل بودجه برنامه‌ریزی‌شده
+  budgets_title: بودجه‌ها
+  button_add_budget: افزودن بودجه
   button_add_budget_item: افزودن هزینه برنامه‌ریزی شده
   button_add_cost_type: افزودن نوع هزینه
   button_cancel_edit_budget: لغو ویرایش بودجه
@@ -102,13 +108,12 @@ fa:
   help_click_to_edit: برای ویرایش اینجا کلیک کنید.
   help_currency_format: فرمت مقادیر واحدهای پولی نمایش داده شده به این صورت است که %n با مقدار واحد پولی جایگزین می‌شود و %u با واحد پولی جایگزین می‌شود.
   help_override_rate: در صورت ورود یک مقدار در قسمت، نرخ (ضریب پرداختی) پیش‌فرض نادیده گرفته می شود.
-  label_budget: بودجه
   label_budget_available: بودجه موجود
   label_budget_details: جزئیات بودجه
   label_budget_id: 'بودجه #%{id}'
   label_budget_new: بودجه جدید
   label_budget_planned: بودجه برنامه‌ریزی شده
-  label_budget_plural: بودجه ها
+  label_budget_plural: بودجه‌ها
   label_budget_spent: بودجه صرف شده
   label_budget_spent_ratio: نسبت بودجه صرف شده
   label_budget_totals: جمع کل
@@ -116,13 +121,13 @@ fa:
   label_example_placeholder: به عنوان مثال، %{decimal}
   label_view_all_budgets: مشاهده همه بودجه‌ها
   label_yes: بله
-  notice_budget_conflict: Work packages must be of the same project.
+  notice_budget_conflict: بسته‌های کاری باید متعلق به یک پروژه باشند.
   notice_no_budgets_available: بودجه‌ای در دسترس نیست.
   permission_edit_budgets: ویرایش بودجه‌ها
   permission_view_budgets: مشاهده بودجه‌ها
   plugin_budgets_engine:
-    name: بودجه ها
-  project_module_budgets: بودجه ها
+    name: بودجه‌ها
+  project_module_budgets: بودجه‌ها
   text_budget_delete: حذف بودجه از تمامی پکیج‌های کاری .
   text_budget_destroy_assigned_wp: در حال حاضر تعداد %{count} پکیج‌کاری به این بودجه اختصاص داده شده است. شما قصد انجام چه کاری را دارید؟
   text_budget_reassign_to: 'آنها را مجدداً به این بودجه اختصاص دهید:'

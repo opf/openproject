@@ -105,7 +105,7 @@ RSpec.describe RootSeeder,
       template = Meeting.templated.first
       expect(template).not_to be_draft
       expect(template.duration).to eq 1.0
-      expect(template.agenda_items.count).to eq 9
+      expect(template.agenda_items.count).to eq 6
       expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
 
       # The meeting organizer (admin) is the author of every item.
@@ -116,7 +116,7 @@ RSpec.describe RootSeeder,
       expect(Meeting.where(template: false).count).to eq 5
       Meeting.not_templated.find_each do |instance|
         expect(instance.duration).to eq 1.0
-        expect(instance.agenda_items.count).to eq 9
+        expect(instance.agenda_items.count).to eq 6
         expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
       end
     end
@@ -213,6 +213,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
     include_examples "it creates records", model: Workflow, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 

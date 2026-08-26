@@ -64,7 +64,7 @@ module Versions
 
       f.select_list(
         name: :wiki_page_title,
-        label: I18n.t(:label_wiki_page),
+        label: WikiPage.model_name.human,
         include_blank: true,
         disabled: wiki_pages_disabled?,
         input_width: :large

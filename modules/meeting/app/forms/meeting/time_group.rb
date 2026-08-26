@@ -88,7 +88,8 @@ class Meeting::TimeGroup < ApplicationForm
         required: true,
         caption: I18n.t("text_in_hours"),
         data: {
-          controller: "chronic-duration"
+          controller: "chronic-duration",
+          **DurationConverter.stimulus_data_values("chronic-duration")
         }
       )
     end

@@ -14,7 +14,16 @@ ru:
         secret: Секретный ключ-подпись
         url: URL-адрес загрузки
     models:
-      webhooks/outgoing_webhook: Исходящий веб-хук
+      webhooks/log:
+        one: Журнал вебхуков
+        few: Webhook logs
+        many: Webhook logs
+        other: Журналы вебхуков
+      webhooks/webhook:
+        one: Вебхук
+        few: Webhooks
+        many: Webhooks
+        other: Вебхуки
   plugin_openproject_webhooks:
     description: Предоставляет плагин API для поддержки вебхуков OpenProject для лучшей сторонней интеграции.
     name: Веб-хуки OpenProject

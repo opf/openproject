@@ -73,8 +73,18 @@ ja:
               invalid_password: は無効です。
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: ファイル
-      storages/storage: ストレージ
+      storages/file_link:
+        other: File links
+      storages/nextcloud_storage:
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        other: OneDrive storages
+      storages/project_storage:
+        other: Project storages
+      storages/sharepoint_storage:
+        other: SharePoint storages
+      storages/storage:
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: 一度に作成された要素が多すぎます。 %{max} の期待値は %{actual} です。

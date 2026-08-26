@@ -1047,11 +1047,30 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         allow(meeting).to receive(:cancelled?).and_return(true)
       end
 
-      it "keeps the entry with a generic label" do
+      it "renders the meeting label as plain text with '(cancelled)'" do
+        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
+        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
         expect(cause).to render_html_variant(
           I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_cancelled"))
+                 meeting_title_information: "#{label} #{cancelled}")
         )
+      end
+
+      it "renders the meeting label with '(cancelled)' when rendering raw text" do
+        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
+        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
+        expect(cause).to render_raw_variant(
+          ActionController::Base.helpers.strip_tags(
+            I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
+                   meeting_title_information: "#{label} #{cancelled}")
+          )
+        )
+      end
+
+      it "escapes a malicious meeting title when rendering HTML" do
+        allow(meeting).to receive(:title).and_return("<script>alert('xss')</script>")
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>alert('xss')</script>"))
       end
     end
   end

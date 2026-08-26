@@ -76,6 +76,13 @@ bg:
         dependencies: Зависимости
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Показване до
       attachment:
@@ -256,6 +263,7 @@ bg:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Видове
         versions: Версии
         work_packages: Работен пакет
@@ -499,6 +507,7 @@ bg:
         before_or_equal_to: трябва да бъде преди или е равно на %{date}.
         blank: не може да бъде празно.
         blank_nested: трябва да бъде зададено свойството '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: е необходимо. Не може да бъде изтрит.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде свързан с една от неговите подзадачи.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
@@ -970,58 +979,249 @@ bg:
           one: 1 грешка забранява този %{model} да се запише
           other: "%{count} грешки забраняват този %{model} да се запише"
     models:
-      attachment: Файл
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Категория
-      color: Цвят
-      comment: Коментар
-      custom_action: Custom action
-      custom_field: Потребителски полета
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Форум
-      global_role: Global role
-      group: Група
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Приоритет
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Член
-      message: Message
-      news: Новини
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Потребител на заместител
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Проект
         other: Проекти
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Project lists
-      query: Потребителска заявка
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Роля
         other: Роли
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Статус на работен пакет
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Маркер за достъп
         other: Токени за достъп
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1031,12 +1231,57 @@ bg:
       type_variant:
         one: Variant
         other: Variants
-      user: Потребител
-      version: Версия
-      wiki: Wiki
-      wiki_page: Wiki страница
-      work_package: Работен пакет
-      workflow: Работен поток
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: В рамките на този период от време по проекта не са извършвани никакви дейности.
@@ -1768,6 +2013,7 @@ bg:
     custom_field: Потребителски полета
     custom_options: Възможните стойности
     custom_values: допълнителни полета
+    customized: Customized
     date: Дата
     dates_interval: Период
     default_columns: Колони по подразбиране
@@ -1794,6 +2040,7 @@ bg:
     is_default: Стойност по подразбиране
     is_for_all: За всички проекти
     issue: Работен пакет
+    jira: Jira
     journal: Дневник
     journal_notes: Коментар
     lastname: Фамилно име
@@ -2348,8 +2595,12 @@ bg:
   description_available_columns: Достъпни колони
   description_category_reassign: Изберете категория
   description_choose_project: Проекти
-  description_compare_from: Сравнете от
-  description_compare_to: Сравнете с
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Вие сте тук:'
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
@@ -2551,8 +2802,6 @@ bg:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -2578,7 +2827,6 @@ bg:
   error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   error_auth_source_sso_failed: Неуспешно единично влизане (SSO) за потребител '%{value}'
   error_can_not_archive_project: 'Този проект не може да бъде архивиран: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Не може да изтриете това потребителско поле
   error_can_not_delete_entry: Unable to delete entry
@@ -2589,6 +2837,7 @@ bg:
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_can_not_invite_user: Failed to send invitation to user.
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Работен пакет, присвоен към затворена версия, не може да бъде отворен наново
   error_can_not_unarchive_project: 'This project cannot be unarchived: %{errors}'
   error_check_user_and_role: Моля, изберете потребител и роля.
@@ -2869,14 +3118,15 @@ bg:
     blocks:
       community: OpenProject Общността
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3049,7 +3299,6 @@ bg:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: между
   label_blocked_by: блокирано от
@@ -3069,7 +3318,6 @@ bg:
   label_calendar_show: Показване на календар
   label_calendar_subscriptions: Абонаменти за календари
   label_calendars_and_dates: Calendars and dates
-  label_category: Категория
   label_change_parent: Смяна на главният работен пакет
   label_change_password: Change password
   label_change_plural: Промени
@@ -3078,9 +3326,9 @@ bg:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: Покажи всички промени
   label_changes_details: Подробности за всички промени
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Набори от промени
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Проверете/махнете отметката на всички в колона
   label_check_uncheck_all_in_row: Проверете/махнете отметката на всички в реда
   label_checked: проверени
@@ -3227,6 +3475,7 @@ bg:
   label_feeds_access_key: RSS ключ за достъп
   label_feeds_access_key_created_on: RSS ключ за достъп създаден преди %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Файлове
   label_filter: Филтри
   label_filter_add: Добавяне на филтър
@@ -3251,7 +3500,6 @@ bg:
   label_git_path: Път до .git директория
   label_global: Глобален
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3320,7 +3568,6 @@ bg:
   label_last_week: Миналата седмица
   label_latest_revision: Последна редакция
   label_latest_revision_plural: Последни редакции
-  label_ldap_auth_source: LDAP връзка
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: Удостоверяване LDAP
@@ -3347,9 +3594,9 @@ bg:
   label_me: мен
   label_member_all_admin: "(Всички роли се дължат на статута на администратор)"
   label_member_new: Нов потребител
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Потребители
-  label_member_role: Project role
   label_membership_added: Добавен член
   label_membership_plural: Членства
   label_membership_updated: Актуализиран член
@@ -3462,7 +3709,6 @@ bg:
   label_permissions: Права
   label_permissions_report: Доклади за права
   label_personalize_page: Персонализирай тази страница
-  label_placeholder_user: Потребител на заместител
   label_placeholder_user_new: Нов потребител на заместител
   label_placeholder_user_plural: Потребители на резервни части
   label_planning: Планиране
@@ -3525,7 +3771,6 @@ bg:
   label_related_work_packages: Свързани работени пакети
   label_relates: свързани с
   label_relates_to: свързани с
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Изтриване на връзка
   label_relation_edit: Edit relation
@@ -3578,7 +3823,6 @@ bg:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Изпрати пробен имейл
-  label_session: Сесия
   label_setting_plural: Настройки
   label_share: Споделяне
   label_share_project_list: Споделяне на списък с проекти
@@ -3654,7 +3898,6 @@ bg:
   label_used_by: Използван от
   label_used_by_types: Използва се от типове
   label_used_in_projects: Използвани в проекти
-  label_user: Потребител
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Потребители и правомощия
   label_user_anonymous: Анонимен
@@ -3685,19 +3928,17 @@ bg:
   label_week: Седмица
   label_weighted_item_list: Weighted item list
   label_what_is_this: Какво е това?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki страница добавена
   label_wiki_content_updated: Wiki страница обновена
   label_wiki_dont_show_menu_item: Не показвай този wikipage в проектната навигация
   label_wiki_edit: Редактиране на Wiki
   label_wiki_edit_plural: Wiki редакции
-  label_wiki_menu_item: Wiki елемент от меню
   label_wiki_navigation: Wiki навигация
-  label_wiki_page: Wiki страница
   label_wiki_page_attachments: Прикачени файлове към страници в Уикипедия
   label_wiki_page_id: Идентификатор на страницата в Уикипедия
   label_wiki_page_plural: Wiki страници
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показване на елемент от подменюто "Съдържание"
   label_wiki_show_menu_item: Покажи като меню в проектната навигация
   label_wiki_show_new_page_link: Показване на елемент от подменю "Създай нова подстраница"
@@ -3714,7 +3955,6 @@ bg:
   label_work_package_hierarchy: Йерархия на работните пакети
   label_work_package_new: Нов работен пакет
   label_work_package_plural: Работни пакети
-  label_work_package_status: Статус на работен пакет
   label_work_package_status_new: Ново състояние
   label_work_package_status_plural: Статуси на работни пакети
   label_work_package_tracking: Проследяване на работен пакет
@@ -3857,7 +4097,6 @@ bg:
         invalid_type: Не е намерен тип с име '%{type}' в проекта '%{project}'.
         no_project_context: Извикване на макроса create_work_package_link извън контекста на проекта.
       link_name: Нов работен пакет
-      link_name_type: Нов %{type_name}
     errors:
       missing_or_invalid_parameter: Липсващ или невалиден макропараметър.
     include_wiki_page:
@@ -4999,13 +5238,28 @@ bg:
           enable_type_in_project: Enable type "%{type}"
         no_results_title_text: В момента има няма типове на разположение.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5280,6 +5534,7 @@ bg:
   setting_default_language: Език по подразбиране
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
@@ -5808,6 +6063,7 @@ bg:
   text_destroy_what_to_do: Какво искате да правите?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -6062,6 +6318,13 @@ bg:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6069,6 +6332,17 @@ bg:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6136,6 +6410,14 @@ bg:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6303,6 +6585,7 @@ bg:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6316,7 +6599,6 @@ bg:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

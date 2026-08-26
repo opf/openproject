@@ -25,14 +25,11 @@
 .op-border-box-list
   --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
 
-  &.Box--condensed
-    --op-border-box-list-header-row-gap: 0
-
   &.Box--spacious
     --op-border-box-list-header-row-gap: var(--stack-gap-condensed)
 
   &.op-border-box-list_header-padding-condensed
-    --op-border-box-list-header-row-gap: 0
+    --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
 
     > .Box-header
       padding-block: var(--stack-padding-condensed)

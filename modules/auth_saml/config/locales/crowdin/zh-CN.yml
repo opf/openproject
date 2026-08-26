@@ -32,6 +32,9 @@ zh-CN:
           invalid_certificate: 不是有效的 PEM 格式证书： %{additional_message}
           invalid_private_key: 不是有效的 PEM 格式私钥： %{additional_message}
           unmatched_private_key: 不属于给定证书
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: 是否删除此 SAML 提供商？
     delete_title: 删除 SAML 提供商

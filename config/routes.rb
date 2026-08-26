@@ -155,7 +155,7 @@ Rails.application.routes.draw do
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
   resources :types, module: "work_package_types", except: [:update] do
-    resources :variants, controller: "variants", only: %i[destroy] do
+    resources :variants, controller: "variants", only: %i[index destroy] do
       member do
         get :menu
         post :make_default
@@ -169,9 +169,17 @@ Rails.application.routes.draw do
     # the type member rather than in front of it.
     nested do
       scope "(variants/:variant_id)" do
-        resource :projects, controller: "projects_tab", only: %i[update edit] do
+        resource :projects, controller: "projects_tab", only: %i[edit update] do
           collection do
             post :enable_all, to: "projects_tab#enable_all_projects"
+
+            get :new_link
+            get :tree
+            post :link
+            delete :unlink
+
+            get :new_switch
+            post :switch
           end
         end
 
@@ -451,7 +459,9 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             patch :bulk_update, on: :collection
 
-            resource :switch, only: %i[new create], controller: "types/switches"
+            resource :switch, only: %i[new create], controller: "types/switches" do
+              resource :impact, only: :create, controller: "types/switches/impacts"
+            end
           end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]

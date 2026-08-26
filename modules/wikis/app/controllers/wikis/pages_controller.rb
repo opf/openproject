@@ -35,11 +35,11 @@ module Wikis
     include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
 
-    before_action :authorize, except: %i[search]
+    before_action :authorize, except: %i[search browse]
 
-    # The search is project independent and thus permission independent. The user will see results according to
+    # search and browse are project independent and thus permission independent. The user will see results according to
     # the permissions set in each wiki.
-    no_authorization_required! :search
+    no_authorization_required! :search, :browse
 
     def create_and_link # rubocop:disable Metrics/AbcSize
       parameters = create_new_page_params
@@ -49,7 +49,8 @@ module Wikis
         .new(provider:, user: current_user)
         .create_page_and_link(
           title: parameters[:page_title],
-          parent_identifier: parameters[:parent_page_identifier],
+          parent_identifier: parameters[:parent_identifier],
+          parent_type: parameters[:parent_type],
           linkable_type: parameters[:linkable_type],
           linkable_id: parameters[:linkable_id]
         )
@@ -72,21 +73,47 @@ module Wikis
     end
 
     def search
-      query = params[:query]
-      form_name = params[:name]
+      query, name = params.values_at(:query, :name)
       builder = form_builder
-      search_result = search_pages(query, fetch_provider)
 
-      search_result.either(
-        ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
+      if query.blank?
+        render_browsing_tree(name, builder)
+      else
+        search_pages(query, fetch_provider).either(
+          ->(pages) {
+            render(Wikis::SearchPagesResultComponent.new(pages, form_name: name, builder:, wikis_selectable:), layout: false)
+          },
+          ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+        )
+      end
+    end
+
+    def browse
+      path = JSON.parse(params[:path])
+
+      browse_pages(params.expect(:parent)).either(
+        ->(pages) {
+          render(Wikis::BrowsePagesFragmentComponent.new(pages, path, fetch_provider.id, wikis_selectable:), layout: false)
+        },
         ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
       )
     end
 
     private
 
+    def render_browsing_tree(name, builder)
+      browse_pages(nil).either(
+        ->(pages) { render Wikis::BrowsePagesComponent.new(pages, builder, name, fetch_provider.id, wikis_selectable:) },
+        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+      )
+    end
+
     def fetch_provider
       Provider.visible.enabled.find(params.expect(:provider_id))
+    end
+
+    def wikis_selectable
+      ActiveModel::Type::Boolean.new.cast(params[:wikis_selectable]) || false
     end
 
     def form_builder
@@ -97,9 +124,15 @@ module Wikis
       PageSearchService.new(provider:, user: current_user).search_pages(query)
     end
 
+    def browse_pages(parent_identifier)
+      BrowsePagesService.new(provider: fetch_provider, user: current_user).call(parent_identifier)
+    end
+
     def create_new_page_params
+      parent = parse_selected_node(params[:wiki_page_selection])
+
       params.expect(wikis_forms_create_new_wiki_page_form_model: %i[provider_id linkable_type linkable_id page_title])
-            .merge(parent_page_identifier: parse_identifier(params[:wiki_page_selection]))
+            .merge(parent_identifier: parent&.identifier, parent_type: parent&.type)
     end
   end
 end

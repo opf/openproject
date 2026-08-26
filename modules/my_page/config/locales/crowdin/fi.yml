@@ -1,4 +1,9 @@
 ---
 fi:
+  activerecord:
+    models:
+      grids/my_page:
+        one: My page
+        other: My pages
   my_page:
     label: Oma sivu

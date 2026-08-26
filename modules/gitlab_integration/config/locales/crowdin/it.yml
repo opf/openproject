@@ -38,6 +38,19 @@ it:
           attributes:
             labels:
               invalid_schema: 'deve essere un array di hash con le chiavi: colore, titolo'
+    models:
+      gitlab_issue:
+        one: Problema GitLab
+        other: Problemi GitLab
+      gitlab_merge_request:
+        one: Merge request GitLab
+        other: Merge request GitLab
+      gitlab_pipeline:
+        one: Pipeline GitLab
+        other: Pipeline GitLab
+      gitlab_user:
+        one: Utente GitLab
+        other: Utenti GitLab
   attributes:
     commit: Applica
     gitlab: Identificatore di GitLab

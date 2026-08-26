@@ -21,6 +21,10 @@
 #++
 ---
 ja:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: 名前を付けてレポートの保存
   comments: コメント
   cost_reports_title: 時間とコスト
@@ -46,7 +50,6 @@ ja:
   label_closed: 完了
   label_columns: 列
   label_cost_entry_attributes: コストエントリの属性
-  label_cost_report: コストレポート
   label_cost_report_plural: コストレポート
   label_count: 回数
   label_days_ago: 直近の日の間

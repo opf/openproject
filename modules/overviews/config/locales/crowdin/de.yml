@@ -1,5 +1,10 @@
 ---
 de:
+  activerecord:
+    models:
+      grids/overview:
+        one: Übersicht
+        other: Übersichten
   overviews:
     label_dashboard: Dashboard
     label_home: "%{workspace_type}-Startseite"

@@ -54,6 +54,14 @@ class Queries::WorkPackages::Filter::WatcherFilter <
     :watcher_id
   end
 
+  # Without the permission the me value is the only candidate, which an inline
+  # `<select>` already renders correctly.
+  def autocomplete_options
+    return {} unless view_work_package_watchers_allowed?
+
+    super
+  end
+
   def where
     if User.current.admin?
       # Admins can always see all watchers
@@ -64,6 +72,10 @@ class Queries::WorkPackages::Filter::WatcherFilter <
   end
 
   private
+
+  def autocomplete_principal_types
+    %w[User]
+  end
 
   def view_work_package_watchers_allowed?
     if project

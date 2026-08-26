@@ -28,8 +28,11 @@ de:
         one: Inline-Seitenlink
         other: Inline-Seitenlinks
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: Interner Anbieter
+        other: Interne Anbieter
+      wikis/page_link:
+        one: Seitenlink
+        other: Seitenlinks
       wikis/provider:
         one: Wiki-Anbieter
         other: Wiki-Anbieter
@@ -41,14 +44,12 @@ de:
         other: XWiki-Anbieter
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: Externe Wiki-Anbieter
+      internal_wiki_provider: Projekt-Wikis
       wikis: Wikis
+    project_settings:
+      wiki: Projekt-Wiki
   permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
-  project_module_wiki_internal: Projekt-Wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Projekt-Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -77,11 +78,11 @@ de:
           no_health_report_description: Führen Sie jetzt die Prüfungen für einen vollständigen Statusbericht dieses Dateispeichers durch.
           title: Systemstatusbericht
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Projekten die Nutzung von Projekt-Wikis neben externen Wiki-Anbietern erlauben
+        checkbox_label: OpenProject Projekt-Wikis aktivieren
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Wählen Sie aus, ob Sie Projekt-Wikis aktivieren oder deaktivieren möchten
       oauth_application_info_component:
         confirm_replace_oauth_application: Diese Aktion setzt die aktuellen OAuth-Anmeldedaten zurück. Nach der Bestätigung müssen Sie die Anmeldedaten erneut in Ihre XWiki-Instanz eingeben und alle Konten müssen sich erneut autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
         label_oauth_client_id: OAuth-Client-ID
@@ -166,7 +167,7 @@ de:
     index:
       column_last_edited: Zuletzt bearbeitet
       column_name: Wiki-Seite
-      column_parent: Parent
+      column_parent: Übergeordnete Seite
       column_project: Projekt
       column_sub_pages: Unterseiten
       filter_by_name: Nach Seitennamen filtern
@@ -199,7 +200,7 @@ de:
     page_link_forms:
       labels:
         page_title: Titel
-        parent: Parent
+        parent: Übergeordnete Seite
         wiki_page: Wiki-Seite
       search:
         no_results: Keine Wiki-Seiten gefunden
@@ -214,11 +215,13 @@ de:
         parent: Übergeordnet
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: In dieser Instanz sind Projekt-Wikis global deaktiviert, deshalb können sie nicht pro Projekt aktiviert werden. Fragen Sie bitte Ihren Administrator, die Projekt-Wikis in the Administrationseinstellungen zu aktivieren.
+        blankslate_title: Projekt-Wikis sind global deaktiviert
         caption: Dies aktiviert native Wiki-Funktionalität für dieses Projekt. Mitglieder können Wiki-Seiten erstellen und lesen, die in OpenProject gespeichert sind.
-        enable: Enable the OpenProject wiki for this project
+        enable: OpenProject Wiki für dieses Projekt aktivieren
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

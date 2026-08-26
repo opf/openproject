@@ -251,8 +251,8 @@ module Import
             status:,
             assigned_to:,
             due_date: jira_issue.payload.dig("fields", "duedate"),
-            estimated_hours: (original_estimate_seconds / 60 if original_estimate_seconds),
-            remaining_hours: (remaining_estimate_seconds / 60 if remaining_estimate_seconds),
+            estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
+            remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
             **custom_field_attrs
           )

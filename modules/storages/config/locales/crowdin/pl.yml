@@ -73,8 +73,36 @@ pl:
               invalid_password: jest nieprawidłowe
               unknown_error: nie udało się zweryfikować z dostawcą usługi przechowywania plików. Sprawdź, czy połączenie działa prawidłowo.
     models:
-      file_link: Plik
-      storages/storage: Magazyn
+      storages/file_link:
+        one: Link do pliku
+        few: Linki do plików
+        many: Linki do plików
+        other: Linki do plików
+      storages/nextcloud_storage:
+        one: Magazyn Nextcloud
+        few: Magazyny Nextcloud
+        many: Magazyny Nextcloud
+        other: Magazyny Nextcloud
+      storages/one_drive_storage:
+        one: Magazyn OneDrive
+        few: Magazyny OneDrive
+        many: Magazyny OneDrive
+        other: Magazyny OneDrive
+      storages/project_storage:
+        one: Magazyn projektu
+        few: Magazyny projektów
+        many: Magazyny projektów
+        other: Magazyny projektów
+      storages/sharepoint_storage:
+        one: Magazyn SharePoint
+        few: Magazyny SharePoint
+        many: Magazyny SharePoint
+        other: Magazyny SharePoint
+      storages/storage:
+        one: Magazyn
+        few: Magazyny
+        many: Magazyny
+        other: Magazyny
   api_v3:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.

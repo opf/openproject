@@ -79,7 +79,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     result.on_failure do
       render_error_flash_message_via_turbo_stream(
         message: join_flash_messages(
-          type_deactivation_error_messages(::Type.where(id: variant.type_id), project_ids: [@project.id])
+          type_deactivation_error_messages(variant, project_ids: [@project.id])
         )
       )
     end
@@ -93,7 +93,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     if UpdateProjectsTypesService.new(@project).call(type_ids)
       flash[:notice] = success_message
     else
-      flash[:error] = type_deactivation_error_messages(types_missing_from(type_ids), project_ids: [@project.id])
+      flash[:error] = type_deactivation_error_messages(variants_missing_from(type_ids), project_ids: [@project.id])
     end
 
     redirect_to project_settings_types_path(@project.identifier)
@@ -121,9 +121,10 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     )
   end
 
-  def types_missing_from(type_ids)
+  def variants_missing_from(type_ids)
     @project
       .types_used_by_work_packages
       .where.not(id: type_ids.presence)
+      .map { |type| @project.type_variant(type) }
   end
 end

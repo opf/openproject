@@ -71,6 +71,15 @@ mn:
           name: Staff and projects manager
         item_1:
           name: Standard global role
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:

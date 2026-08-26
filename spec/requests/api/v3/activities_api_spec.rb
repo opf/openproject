@@ -276,7 +276,7 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
       end
 
       context "requesting nonexistent activity" do
-        let(:get_path) { api_v3_paths.activity 9999 }
+        let(:get_path) { api_v3_paths.activity(not_existing_id(Journal)) }
 
         it_behaves_like "not found"
       end

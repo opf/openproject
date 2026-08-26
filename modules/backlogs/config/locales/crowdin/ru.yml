@@ -94,11 +94,21 @@ ru:
               task_version_must_be_the_same_as_story_version: должен совпадать с версией родительской истории.
           backlog_bucket_xor_sprint: не может быть назначен для спринта и для раздела бэклога одновременно.
     models:
+      backlog_bucket:
+        one: Раздел бэклога
+        few: Backlog buckets
+        many: Backlog buckets
+        other: Разделы бэклога
       sprint:
         one: Спринт
         few: Спринта
         many: Спринтов
         other: Спринтов
+      sprint_goal:
+        one: Цель спринта
+        few: Sprint goals
+        many: Sprint goals
+        other: Цели спринта
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Добавить существующий пакет работ
@@ -287,7 +297,7 @@ ru:
   notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
   notice_unsuccessful_start: Спринт не может быть запущен.
   notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
-  notice_work_package_invisible_after_move: 'Данный рабочий пакет был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
+  notice_work_package_invisible_after_move: 'Данный пакет работ был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
 
     '
   permission_create_sprints: Создание спринтов

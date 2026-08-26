@@ -38,7 +38,26 @@ pl:
               ifc_attachment_missing: Nie załączono żadnych plików IFC.
               invalid_ifc_file: Podany plik nie jest prawidłowym plikiem IFC.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        one: Komentarz BCF
+        few: Komentarze BCF
+        many: Komentarze BCF
+        other: Komentarze BCF
+      bim/bcf/issue:
+        one: Problem BCF
+        few: Problemy BCF
+        many: Problemy BCF
+        other: Problemy BCF
+      bim/bcf/viewpoint:
+        one: Punkt widzenia BCF
+        few: Punkty widzenia BCF
+        many: Punkty widzenia BCF
+        other: Punkty widzenia BCF
+      bim/ifc_models/ifc_model:
+        one: Model IFC
+        few: Modele IFC
+        many: Modele IFC
+        other: Modele IFC
   attributes:
     bcf_thumbnail: Migawka BCF
   bcf:
