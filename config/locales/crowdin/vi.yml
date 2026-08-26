@@ -488,6 +488,7 @@ vi:
         before_or_equal_to: phải có trước hay tương đương với %{date}
         blank: không được để trống
         blank_nested: cần phải đặt thuộc tính '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
@@ -1013,6 +1014,7 @@ vi:
           heading: Công khai nhận xét này?
           title: Công khai nhận xét này?
         internal_journal: Nhận xét nội bộ được hiển thị cho một nhóm thành viên hạn chế.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Hiển thị mọi thứ
         label_activity_show_only_changes: Chỉ hiển thị các thay đổi
         label_activity_show_only_comments: Chỉ hiển thị nhận xét
@@ -1488,6 +1490,42 @@ vi:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1669,7 +1707,7 @@ vi:
     body: cơ thể
     category: thể loại
     color: màu sắc
-    comment: Nhận xét
+    comment: bình luận
     comments: bình luận
     content: Nội dung
     created_at: Tạo ngày
@@ -2438,8 +2476,6 @@ vi:
         description: Đảm bảo các tệp được tải lên trong OpenProject được quét vi-rút trước khi người dùng khác có thể truy cập được.
       weighted_item_lists:
         description: Danh sách mục có trọng số cho phép bạn tạo danh sách có các giá trị số cơ bản được liên kết.
-      work_package_query_relation_columns:
-        description: Cần xem các mối quan hệ hoặc các phần tử con trong danh sách gói công việc?
       work_package_sharing:
         description: Chia sẻ các gói công việc với người dùng không phải là thành viên của dự án.
       work_package_subject_generation:
@@ -2755,14 +2791,15 @@ vi:
     blocks:
       community: Cộng đồng OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2810,6 +2847,11 @@ vi:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ được đặt thành dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số thứ bậc
       status_excluded_from_totals_set_to_true_message: hiện đã bị loại khỏi tổng số thứ bậc
@@ -2822,6 +2864,7 @@ vi:
         progress_calculation_adjusted_from_disabled_mode: Tính toán tiến độ tự động <a href="%{href}" target="_blank">được đặt thành chế độ dựa trên công việc và điều chỉnh với cập nhật phiên bản</a>.
         scheduling_mode_adjusted: Chế độ lập lịch tự động điều chỉnh khi cập nhật phiên bản.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Tổng số công việc và tiến độ tự động bị xóa cho các gói công việc không có cha với <a href="%{href}" target="_blank">cập nhật phiên bản</a>. Đây là một nhiệm vụ bảo trì và có thể được bỏ qua một cách an toàn.
       total_percent_complete_mode_changed_to_simple_average: Giá trị công việc của gói công việc con bị bỏ qua.
       total_percent_complete_mode_changed_to_work_weighted_average: Các gói công việc con không có Công việc sẽ bị bỏ qua.
@@ -2845,6 +2888,14 @@ vi:
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Đã cập nhật tính toán tiến độ
       status_changed: Trạng thái '%{status_name}'
       system_update: 'Cập nhật hệ thống OpenProject:'
@@ -3371,7 +3422,7 @@ vi:
   label_project_hide_details: Ẩn chi tiết Dự án
   label_project_hierarchy: Phân cấp dự án
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Xuất PDF cho %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Dự án mới nhất
   label_project_life_cycle: Vòng đời dự án
   label_project_list_plural: Danh sách dự án
@@ -3483,7 +3534,7 @@ vi:
   label_subitems: mục phụ
   label_subject_or_id: Chủ đề hoặc Mã
   label_subproject: dự án con
-  label_subproject_new: Thêm dự án con
+  label_subproject_add: Add subproject
   label_subproject_plural: Dự án con
   label_subtask_plural: Tác vụ con
   label_summary: Tóm tắt
@@ -3526,7 +3577,7 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: Người dùng
+  label_user: người dùng
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Người dùng và quyền
   label_user_anonymous: vô danh
@@ -3547,6 +3598,7 @@ vi:
   label_version_sharing_none: Không được chia sẻ
   label_version_sharing_system: Với tất cả dự án
   label_version_sharing_tree: Với cây dự án
+  label_versions_and_categories: Versions and categories
   label_videos: Các đoạn phim
   label_view_all_revisions: Xem tất cả các phiên bản
   label_view_diff: Xem sự khác biệt
@@ -3726,7 +3778,6 @@ vi:
         invalid_type: Không tìm thấy loại nào có tên '%{type}' trong dự án '%{project}'.
         no_project_context: Gọi macro create_work_package_link từ ngữ cảnh bên ngoài dự án.
       link_name: Work package mới
-      link_name_type: Mới %{type_name}
     errors:
       missing_or_invalid_parameter: Các tham số macro thiếu hoặc không hợp lệ.
     include_wiki_page:
@@ -4660,7 +4711,8 @@ vi:
   project:
     archive:
       archived: Đã lưu
-      are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Lưu trữ dự án
     count:
       one: 1 dự án
@@ -5148,6 +5200,7 @@ vi:
   setting_default_language: Ngôn ngữ mặc định
   setting_default_projects_modules: Các mô-đun được bật mặc định cho các dự án mới
   setting_default_projects_public: Các dự án mới được công khai theo mặc định
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
   setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định
@@ -5282,6 +5335,7 @@ vi:
   setting_work_package_done_ratio_status_caption_html: Mỗi trạng thái có một giá trị <i>% Hoàn thành</i> được liên kết với nó. Việc thay đổi trạng thái sẽ thay đổi <i>% Hoàn thành</i>.
   setting_work_package_list_default_highlighted_attributes: Thuộc tính được đánh dấu nội tuyến mặc định
   setting_work_package_list_default_highlighting_mode: Chế độ đánh dấu mặc định
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Thuộc tính gói công việc
   setting_work_package_startdate_is_adddate: Sử dụng ngày hiện tại làm ngày bắt đầu cho các gói công việc mới
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5675,6 +5729,7 @@ vi:
   text_destroy_what_to_do: Bạn muốn làm gì?
   text_destroy_with_associated: 'There are additional objects associated with the gói công việc (work package)(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Sự khác biệt này đã bị cắt bớt vì nó vượt quá kích thước tối đa có thể được hiển thị."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Gửi email không được cấu hình và thông báo bị vô hiệu hóa.
     Cấu hình máy chủ SMTP của bạn để kích hoạt chúng.
@@ -5706,6 +5761,7 @@ vi:
   text_journal_file_link_deleted: "%{label} liên kết tới %{old} (%{storage}) đã bị xóa"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} được đặt thành %{value}"
   text_journal_set_with_diff: "%{label} đặt (%{link})"
   text_latest_note: 'Bình luận mới nhất là: %{note}'
@@ -5879,6 +5935,7 @@ vi:
           actions:
             label_disable_all: Vô hiệu hóa tất cả
             label_enable_all: Kích hoạt tất cả
+            label_toggle_template: Toggle %{template}
           label: Mẫu xuất PDF
         tab: Tạo PDF
         templates:
@@ -6164,6 +6221,7 @@ vi:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6177,7 +6235,6 @@ vi:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

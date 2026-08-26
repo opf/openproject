@@ -44,11 +44,11 @@ module Wikis
 
       if url?(query)
         search_by_url(query).either(
-          ->(page) { Success([to_tree_node(page:, enabled: true)]) },
+          ->(page) { Success([to_tree_node(page:)]) },
           ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
         )
       else
-        search_by_query(query).fmap { build_result_tree(it) }
+        search_by_query(query)
       end
     end
 
@@ -73,35 +73,43 @@ module Wikis
     def search_by_query(query)
       Adapters::Input::SearchPages.build(query:).bind do |input_data|
         provider.auth_strategy_for(user).bind do |auth_strategy|
-          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
+          matching_pages(input_data:, auth_strategy:).bind do |pages|
+            matching_wikis(input_data:, auth_strategy:).fmap { build_result_tree(pages:, wikis: it) }
+          end
         end
       end
     end
 
-    def to_tree_node(page:, enabled:)
+    def matching_pages(input_data:, auth_strategy:)
+      provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
+    end
+
+    def matching_wikis(input_data:, auth_strategy:)
+      provider.resolve("queries.search_wikis").call(input_data:, auth_strategy:)
+    end
+
+    def to_tree_node(page:)
       Adapters::Results::PageSearchTreeNode.new(identifier: page.identifier,
                                                 type: :page,
                                                 name: page.title,
-                                                children: [],
-                                                enabled:)
+                                                children: [])
     end
 
-    def build_result_tree(pages)
-      root = Adapters::Results::PageSearchTreeNode.new(identifier: "root",
-                                                       type: :root,
-                                                       name: "root",
-                                                       children: [],
-                                                       enabled: false)
+    # Wikis matched by their own name are inserted first, so that they are listed above the wikis that only
+    # appear as the container of a matching page. A wiki matched in both ways is inserted only once.
+    def build_result_tree(pages:, wikis:)
+      accumulator = { wiki_nodes: [], all_nodes: [] }
 
-      tree_construct = pages.reduce({ root:, all_nodes: [root] }) do |acc, page|
-        insert_wiki_node(acc, page.wiki)
-        insert_ancestor_nodes(acc, page)
-        insert_page_node(acc, page)
+      wikis.each { insert_wiki_node(accumulator, it) }
+      pages.each { insert_page_hierarchy(accumulator, it) }
 
-        acc
-      end
+      accumulator[:wiki_nodes]
+    end
 
-      tree_construct[:root].children
+    def insert_page_hierarchy(accumulator, page_hierarchy)
+      insert_wiki_node(accumulator, page_hierarchy.wiki)
+      insert_ancestor_nodes(accumulator, page_hierarchy)
+      insert_page_node(accumulator, page_hierarchy)
     end
 
     def insert_wiki_node(accumulator, wiki)
@@ -111,10 +119,9 @@ module Wikis
       wiki_node = Adapters::Results::PageSearchTreeNode.new(identifier: wiki.identifier,
                                                             type: :wiki,
                                                             name: wiki.name,
-                                                            children: [],
-                                                            enabled: false)
+                                                            children: [])
       accumulator[:all_nodes] << wiki_node
-      accumulator[:root].children << wiki_node
+      accumulator[:wiki_nodes] << wiki_node
     end
 
     def insert_ancestor_nodes(accumulator, page) # rubocop:disable Metrics/AbcSize
@@ -127,7 +134,7 @@ module Wikis
       ancestors.reverse_each do |ancestor|
         ancestor_node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: ancestor.identifier) }
         if ancestor_node.nil?
-          ancestor_node = to_tree_node(page: ancestor, enabled: false)
+          ancestor_node = to_tree_node(page: ancestor)
           previous_ancestor_node.children << ancestor_node
           accumulator[:all_nodes] << ancestor_node
         end
@@ -139,10 +146,10 @@ module Wikis
     def insert_page_node(accumulator, page_hierarchy)
       page_hierarchy => { page:, ancestors:, wiki: }
 
-      return if enable_if_node_exists(accumulator, page)
+      return if node_exists?(accumulator, page)
 
       parent_node = find_parent(accumulator, ancestors, wiki)
-      new_node = to_tree_node(page:, enabled: true)
+      new_node = to_tree_node(page:)
       parent_node.children << new_node
       accumulator[:all_nodes] << new_node
     end
@@ -158,16 +165,12 @@ module Wikis
       end
     end
 
-    def enable_if_node_exists(accumulator, page) # rubocop:disable Naming/PredicateMethod
-      node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: page.identifier) }
-      return false if node.nil?
-
-      node.enabled = true
-      true
+    def node_exists?(accumulator, page)
+      accumulator[:all_nodes].any? { it.key == node_key(type: :page, identifier: page.identifier) }
     end
 
     def node_key(type:, identifier:)
-      "#{type}:#{identifier}"
+      Adapters::Results::PageSearchTreeNode::Key.new(type:, identifier:)
     end
   end
 end

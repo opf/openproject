@@ -343,7 +343,7 @@ pt-BR:
         token_name: Nome do token
       type:
         attribute_groups: Configuração do formulário
-        children: Variantes
+        children: Variants
         color: Cor
         dependent_configuration_links: Tipos vinculados
         description: Texto padrão para descrição
@@ -488,6 +488,7 @@ pt-BR:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         blank: não pode ficar em branco.
         blank_nested: 'precisa ter a propriedade ''%{property}'' definida. '
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: é obrigatório. Não pode ser excluído.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas.
         circular_dependency: Esta relação vai criar uma dependência circular.
@@ -821,7 +822,7 @@ pt-BR:
             parent:
               cannot_be_self: não pode ser o próprio tipo.
               cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: não pode ser definido porque este tipo já possui variantes.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: deve ser um tipo de nível superior. Os tipos só podem ser aninhados em um único nível.
               standard_type_must_be_root: não pode ser definido para o tipo padrão.
             patterns:
@@ -829,7 +830,7 @@ pt-BR:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: criaria um loop ao vincular estas configurações.
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1029,6 +1030,7 @@ pt-BR:
           heading: Tornar este comentário público?
           title: Tornar este comentário público?
         internal_journal: Comentários internos são visíveis apenas para um grupo restrito de membros.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Exibir tudo
         label_activity_show_only_changes: Exibir apenas alterações
         label_activity_show_only_comments: Exibir apenas comentários
@@ -1514,6 +1516,42 @@ pt-BR:
           error: Não foi possível reordenar a seção.
         move:
           error: Não foi possível reordenar a seção.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Deve começar com uma letra maiúscula
@@ -2488,8 +2526,6 @@ pt-BR:
         description: Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários.
       weighted_item_lists:
         description: Listas de itens ponderados permitem criar uma lista com valores numéricos associados.
-      work_package_query_relation_columns:
-        description: Precisa visualizar as relações ou elementos filhos na lista de pacotes de trabalho?
       work_package_sharing:
         description: Compartilhe pacotes de trabalho com usuários que não são membros do projeto.
       work_package_subject_generation:
@@ -2809,15 +2845,16 @@ pt-BR:
     blocks:
       community: Comunidade do OpenProject
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Novo módulo de gerenciamento de recursos para planejamento de capacidade e alocação de pessoal (plano Premium).
-            line_1: Melhor gerenciamento organizacional com Departamentos, atributos de usuário como cargos e horários de trabalho.
-            line_2: Vários sprints ativos sem compartilhamento (plano Básico).
-            line_3: Backlog e Sprints aprimorados com filtros de seleção múltipla, melhor recurso de arrastar e soltar e a possibilidade de adicionar pacotes de trabalho existentes.
-            line_4: Exportação de artefatos PM²/PMflex e um novo widget para visão geral das fases e marcos de controle do projeto.
-            line_5: Índice global de páginas da wiki e navegação mais fácil entre páginas relacionadas.
-          new_features_title: 'A versão contém vários novos recursos e melhorias, como:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novos recursos e atualizações do produto.
@@ -2864,6 +2901,11 @@ pt-BR:
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
         set_with_diff: "%{field} definido (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Modo de cálculo de progresso definido como com base no status
       status_excluded_from_totals_set_to_false_message: agora incluído nos totais da hierarquia
       status_excluded_from_totals_set_to_true_message: agora excluído dos totais da hierarquia
@@ -2876,6 +2918,7 @@ pt-BR:
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão "%{version_name}" foi copiada como um sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
       total_percent_complete_mode_changed_to_simple_average: Os valores de trabalho dos pacotes de trabalho filhos são ignorados.
       total_percent_complete_mode_changed_to_work_weighted_average: Pacotes de trabalho infantil sem Trabalho são ignorados.
@@ -2899,6 +2942,14 @@ pt-BR:
       dates_changed: Datas alteradas
       default_attribute_written: Atributos de somente leitura escritos
       import: Importado
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Cálculo de progresso atualizado
       status_changed: Status '%{status_name}'
       system_update: 'Atualização do sistema OpenProject:'
@@ -3425,7 +3476,7 @@ pt-BR:
   label_project_hide_details: Ocultar detalhes do projeto
   label_project_hierarchy: Hierarquia de projeto
   label_project_identifier: Identificador do projeto
-  label_project_initiation_export_pdf: Exportar PDF para %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Últimos projetos
   label_project_life_cycle: Ciclo de vida do projeto
   label_project_list_plural: Listas de projeto
@@ -3537,7 +3588,7 @@ pt-BR:
   label_subitems: Subitens
   label_subject_or_id: Assunto ou ID
   label_subproject: Subprojeto
-  label_subproject_new: Novo subprojeto
+  label_subproject_add: Add subproject
   label_subproject_plural: Subprojetos
   label_subtask_plural: Subtarefas
   label_summary: Sumário
@@ -3601,6 +3652,7 @@ pt-BR:
   label_version_sharing_none: Não compartilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projetos
+  label_versions_and_categories: Versions and categories
   label_videos: Vídeos
   label_view_all_revisions: Ver todas as revisões
   label_view_diff: Ver diferenças
@@ -3782,7 +3834,6 @@ pt-BR:
         invalid_type: Nenhum tipo com o nome '%{type}' encontrado no projeto '%{project}'.
         no_project_context: Chamando macro create_work_package_link fora do contexto do projeto.
       link_name: Novo pacote de trabalho
-      link_name_type: Novo %{type_name}
     errors:
       missing_or_invalid_parameter: Parâmetro de macro ausente ou inválido.
     include_wiki_page:
@@ -4719,7 +4770,8 @@ pt-BR:
   project:
     archive:
       archived: Arquivado
-      are_you_sure: Tem certeza de que deseja arquivar o projeto '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Arquivar projeto
     count:
       one: 1 projeto
@@ -5200,6 +5252,7 @@ pt-BR:
   setting_default_language: Idioma padrão
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
   setting_default_projects_public: Novos projetos são públicos por padrão
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Número máximo de linhas diferentes exibidas
   setting_disable_password_login: Desativar a autenticação por senha
   setting_display_subprojects_work_packages: Exibir pacotes de trabalho de subprojetos no projeto principal por padrão
@@ -5334,6 +5387,7 @@ pt-BR:
   setting_work_package_done_ratio_status_caption_html: Cada status tem um valor de <i>% de conclusão</i> associado. Ao mudar o status, o <i>% de conclusão</i> será atualizado automaticamente.
   setting_work_package_list_default_highlighted_attributes: Atributos embutidos com destaque padrão
   setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Propriedades do pacote de trabalho
   setting_work_package_startdate_is_adddate: Usar a data atual como data para início dos novos pacotes de trabalho
   setting_work_packages_identifier_classic: Sequência numérica global da instância (padrão)
@@ -5724,6 +5778,7 @@ pt-BR:
   text_destroy_what_to_do: O que você quer fazer?
   text_destroy_with_associated: 'Há objetos adicionais associados ao(s) pacote(s) de trabalho que será(ão) excluído(s). Esses objetos são dos seguintes tipos:'
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     O envio de e-mails não está configurado e as notificações estão desativadas.
     Configure seu servidor de SMTP para ativá-los.
@@ -5755,6 +5810,7 @@ pt-BR:
   text_journal_file_link_deleted: Link de %{label} para %{old} (%{storage}) removido
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"
   text_latest_note: 'O comentário mais recente é: %{note}'
@@ -5874,7 +5930,7 @@ pt-BR:
         project_attributes: Atributos do projeto
         projects: Projetos
         workflows: Fluxos de trabalho
-      success: Variante criada com sucesso.
+      success: Variant created successfully.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -5922,6 +5978,7 @@ pt-BR:
           actions:
             label_disable_all: Desabilitar todos
             label_enable_all: Habilitar todos
+            label_toggle_template: Toggle %{template}
           label: Modelos de exportação de PDF
         tab: Gerar PDF
         templates:
@@ -6209,6 +6266,7 @@ pt-BR:
         availability_description: O fator de disponibilidade representa a porcentagem real do seu tempo de trabalho dedicada às tarefas do projeto. Isso inclui reuniões, e-mails, atividades administrativas e outras tarefas que não estão diretamente relacionadas ao projeto.
         availability_factor: Fator de disponibilidade
         availability_factor_caption: Defina a porcentagem do seu tempo de trabalho dedicada aos trabalhos do projeto.
+        effective_hours: Effective work hours
         hours_mode_label: Modo de horas
         hours_per_day: Horas por dia
         individual_hours_mode: Horas individuais por dia
@@ -6222,7 +6280,6 @@ pt-BR:
         title_current: Editar a agenda de trabalho atual
         title_days_and_hours: Dias e horas
         title_future_dates: Datas futuras
-        total_available_hours: Total de horas de trabalho disponíveis
         total_work_hours: Total de horas de trabalho
         work_days: Dias úteis
         work_hours: Horas de trabalho

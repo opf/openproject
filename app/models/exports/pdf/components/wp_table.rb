@@ -48,12 +48,21 @@ module Exports::PDF::Components::WpTable
 
   def write_grouped!(work_packages, query, columns)
     groups_with_work_packages = work_packages.group_by do |work_package|
-      query.group_by_column.value(work_package)
+      group_value(query, work_package)
     end
-    sums = transformed_sum_group(query)
+    sums = transformed_sum_group(query).transform_keys { |group| group_sums_key(group) }
     groups_with_work_packages.each do |group, grouped_work_packages|
-      write_group!(group, grouped_work_packages, query, columns, sums[group] || {})
+      write_group!(group, grouped_work_packages, query, columns, sums[group_sums_key(group)] || {})
     end
+  end
+
+  def group_value(query, work_package)
+    value = query.group_by_column.value(work_package)
+    value.is_a?(ActiveRecord::Relation) ? value.to_a : value
+  end
+
+  def group_sums_key(group)
+    group.is_a?(Array) ? group.map(&:to_s).sort : group
   end
 
   # -- start workaround

@@ -87,6 +87,21 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
 .ck.ck-sticky-panel__content
   position: unset !important
 
+// Keep the grouped toolbar dropdown within the editor when surrounding split
+// panes reduce its available width.
+.ck.ck-toolbar.ck-toolbar_grouping
+  container-type: inline-size
+
+  > .ck-toolbar__grouped-dropdown > .ck-dropdown__panel
+    max-width: calc(100cqw - 8px)
+
+    > .ck-toolbar
+      max-width: 100%
+
+      > .ck-toolbar__items
+        max-width: 100%
+        flex-wrap: wrap
+
 // Mentions autocomplete
 .ck-list__item .mention-list-item
   display: block

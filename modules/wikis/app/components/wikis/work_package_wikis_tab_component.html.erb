@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
               ::Wikis::CollapsiblePageLinksComponent.new(
                 inline_page_links,
                 heading: t(".inline_page_links"),
+                container: :inline_page_links,
                 linkable: work_package,
                 already_related_page_keys:
               )
@@ -56,6 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
               ::Wikis::CollapsiblePageLinksComponent.new(
                 referencing_wiki_pages,
                 heading: t(".referencing_pages"),
+                container: :referencing_wiki_pages,
                 linkable: work_package,
                 already_related_page_keys:
               )

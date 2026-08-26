@@ -27,7 +27,7 @@ pt-PT:
           one: e mais um membro.
           other: e mais %{count} membros.
       news:
-        no_results: Nada de novo no relatório.
+        no_results: Não há novidades a reportar.
       not_available: Este widget não está disponível.
       project_timeline:
         footer_actions_label: Ver mais detalhes

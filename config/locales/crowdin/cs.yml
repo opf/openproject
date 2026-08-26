@@ -228,7 +228,7 @@ cs:
         enabled_modules: Povolené moduly
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
-        parent: Podprojekt
+        parent: Nadřazený projekt
         portfolio: Portfolio
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
@@ -490,6 +490,7 @@ cs:
         before_or_equal_to: musí být před nebo rovno %{date}.
         blank: nemůže být prázdné.
         blank_nested: musí mít nastavenou vlastnost '%{property}'.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: je povinné. Nelze odstranit.
         cant_link_a_work_package_with_a_descendant: Pracovní balíček nemůže být propojen s jedním z jeho podúkolů.
         circular_dependency: Tento vztah by vytvořil kruhovou závislost.
@@ -670,7 +671,7 @@ cs:
               format: "%{message}"
               taken: Nepracovní den již existuje pro %{value}.
         notifications:
-          at_least_one_channel: Alespoň jeden kanál pro odesílání oznámení musí být specifikován.
+          at_least_one_channel: Pro odesílání notifikací musí být specifikován alespoň jeden kanál
           attributes:
             mail_reminder_sent:
               set_on_creation: 'nelze nastavit na prevdivé při vytváření oznámení '
@@ -997,11 +998,11 @@ cs:
       message: Zpráva
       news: Novinky
       notification:
-        one: Oznámení
-        few: Oznámení
-        many: Oznámení
-        other: Oznámení
-      placeholder_user: placeholder uživatel
+        one: Notifikace
+        few: Notifikací
+        many: Notifikací
+        other: Notifikace
+      placeholder_user: Placeholder uživatel
       project:
         one: Projekt
         few: Projekty
@@ -1063,6 +1064,7 @@ cs:
           heading: Zveřejnit tento komentář?
           title: Zveřejnit tento komentář?
         internal_journal: Interní komentáře jsou viditelné jen pro omezenou skupinu členů.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Zobrazit vše
         label_activity_show_only_changes: Zobrazit pouze změny
         label_activity_show_only_comments: Zobrazit pouze komentáře
@@ -1568,6 +1570,42 @@ cs:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          in_progress:
+            heading: Enabling multiple versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -2590,8 +2628,6 @@ cs:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
       work_package_subject_generation:
@@ -2919,14 +2955,15 @@ cs:
     blocks:
       community: OpenProject komunita
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2974,6 +3011,11 @@ cs:
         field_updated: "%{field} aktualizováno"
         header: změny od %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Režim výpočtu průběhu nastaven na základě stavu
       status_excluded_from_totals_set_to_false_message: nyní zahrnuty v součtech hierarchie
       status_excluded_from_totals_set_to_true_message: nyní vyloučen z součtů hierarchie
@@ -2986,6 +3028,7 @@ cs:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Verze '%{version_name}' byla zkopírována jako sprint.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Pracovní hodnoty podřízených pracovních balíčků jsou ignorovány.
       total_percent_complete_mode_changed_to_work_weighted_average: Podřízené pracovní balíčky bez položky Práce jsou ignorovány.
@@ -3009,6 +3052,14 @@ cs:
       dates_changed: Data změněna
       default_attribute_written: Zápis atributů pouze pro čtení
       import: Importováno
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Výpočet průběhu byl aktualizován
       status_changed: Stav '%{status_name}'
       system_update: 'Aktualizace systémem OpenProject:'
@@ -3498,9 +3549,9 @@ cs:
   label_permissions: Práva
   label_permissions_report: Přehled oprávnění
   label_personalize_page: Přizpůsobit tuto stránku
-  label_placeholder_user: placeholder uživatel
+  label_placeholder_user: Placeholder uživatel
   label_placeholder_user_new: ''
-  label_placeholder_user_plural: placeholder uživatelé
+  label_placeholder_user_plural: Placeholder uživatelé
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
@@ -3528,14 +3579,14 @@ cs:
   label_project_attribute_plural: Atributy projektu
   label_project_attributes_plural: Atributy projektu
   label_project_attributes_settings: ''
-  label_project_copy_notifications: Během kopie projektu odeslat oznámení e-mailem
+  label_project_copy_notifications: Během kopírování projektu odeslat notifikace e-mailem
   label_project_count: Celkový počet projektů
   label_project_custom_field_plural: Atributy projektu
   label_project_default_type: Povolit prázdný typ
   label_project_hide_details: Skrýt detail projektu
   label_project_hierarchy: Hierarchie projektu
   label_project_identifier: Identifikátor projektu
-  label_project_initiation_export_pdf: Export PDF pro %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Nejnovější projekty
   label_project_life_cycle: Životní cyklus projektu
   label_project_list_plural: Seznamy projektů
@@ -3647,7 +3698,7 @@ cs:
   label_subitems: Dílčí položky
   label_subject_or_id: Předmět nebo ID
   label_subproject: Podprojekt
-  label_subproject_new: Nový podprojekt
+  label_subproject_add: Add subproject
   label_subproject_plural: Podprojekty
   label_subtask_plural: Podúkoly
   label_summary: Souhrn
@@ -3706,11 +3757,12 @@ cs:
   label_version_edit: Upravit verzi
   label_version_new: Nová verze
   label_version_plural: Verze
-  label_version_sharing_descendants: S Podprojekty
+  label_version_sharing_descendants: S podprojekty
   label_version_sharing_hierarchy: S hierarchií projektu
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
   label_version_sharing_tree: Se stromem projektu
+  label_versions_and_categories: Versions and categories
   label_videos: Videa
   label_view_all_revisions: Zobrazit všechny revize
   label_view_diff: Zobrazit rozdíly
@@ -3900,7 +3952,6 @@ cs:
         invalid_type: Nenalezen typ s názvem '%{type}' v projektu '%{project}".
         no_project_context: Volání create_work_package_link makra z kontextu vnějšího projektu.
       link_name: Nový pracovní balíček
-      link_name_type: Nový %{type_name}
     errors:
       missing_or_invalid_parameter: Chybějící nebo neplatný makroparametr.
     include_wiki_page:
@@ -3916,14 +3967,14 @@ cs:
     digests:
       including_mention_plural: včetně %{number_mentioned} zmínění
       including_mention_singular: včetně zmínky
-      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
-      unread_notification_singular: 1 nepřečtené oznámení
+      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
+      unread_notification_singular: 1 nepřečtená notifikace
       you_have: Máte
     logo_alt_text: Logo
     mention:
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
-      center: Centrum oznámení
+      center: Centrum notifikací
       see_in_center: Zobrazit komentář v oznamovacím centru
       settings: Změnit nastavení e-mailu
     reminder_notifications:
@@ -3973,21 +4024,21 @@ cs:
             text: Pro více informací zkontrolujte úložiště souborů
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
-      login_to_see_all: Přihlaste se pro zobrazení všech oznámení.
+      login_to_see_all: Přihlaste se pro zobrazení všech notifikací.
       mentioned: Byli jste <b>zmíněni v komentáři</b>
       mentioned_by: "%{user} vás zmínil v komentáři OpenProject"
       more_to_see:
-        one: Máte ještě 1 pracovní balíček s notifikací.
-        few: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
-        many: Máte ještě  %{count}  pracovních balíčků s notifikacemi.
-        other: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
+        one: Existuje ještě 1 pracovní balíček s notifikací.
+        few: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        many: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        other: Existuje ještě %{count} pracovních balíčků s notifikacema.
       open_in_browser: Otevřít v prohlížeči
       reason:
         assigned: Přiřazen
         date_alert_due_date: Upozornění na datum
         date_alert_start_date: Upozornění na datum
         mentioned: Zmíněné
-        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
         reminder: Připomínka
         responsible: Odpovědný
         shared: Sdílené
@@ -4146,7 +4197,7 @@ cs:
       aggregation: Agregace
       ai: Umělá Inteligence (AI)
       api_and_webhooks: API & Webhooky
-      mail_notification: E-mailová upozornění
+      mail_notification: E-mailové notifikace
       mails_and_notifications: E-maily a oznámení
       mcp_configurations: Protokol MCP (Model Context Protocol)
     quick_add:
@@ -4427,7 +4478,7 @@ cs:
       responsible: Odpovědný
       shared: Sdíleno
       watched: Sledující
-    send_notifications: Odeslat oznámení pro tuto akci
+    send_notifications: Pro tuto akci odeslat notifikaci
     work_packages:
       subject:
         assigned: Byli jste přiřazeni k %{work_package}
@@ -4765,7 +4816,7 @@ cs:
   permission_move_work_packages: Přesun pracovních balíčků
   permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Uložit dotazy BCF
-  permission_save_queries: Uložit pohled
+  permission_save_queries: Uložit zobrazení
   permission_search_project: Hledat projekt
   permission_select_custom_fields: Vybrat vlastní pole
   permission_select_project_custom_fields: Vyberte atributy projektu
@@ -4858,7 +4909,8 @@ cs:
   project:
     archive:
       archived: Archivováno
-      are_you_sure: Opravdu chcete archivovat projekt '%{name}'?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archivovat projekt
     count:
       one: 1 projekt
@@ -5349,6 +5401,7 @@ cs:
   setting_default_language: Výchozí jazyk
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_disable_password_login: Zakázat ověřování hesla
   setting_display_subprojects_work_packages: Automaticky zobrazit úkoly podprojektu v hlavním projektu
@@ -5483,6 +5536,7 @@ cs:
   setting_work_package_done_ratio_status_caption_html: Každý stav má přiřazenou hodnotu <i>% kompletní</i> . Změna stavu změní <i>% Dokončeno</i>.
   setting_work_package_list_default_highlighted_attributes: Výchozí inline zvýrazněné atributy
   setting_work_package_list_default_highlighting_mode: Výchozí režim zvýraznění
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Vlastnosti pracovního balíčku
   setting_work_package_startdate_is_adddate: Použít aktuální datum jako počáteční datum pro nové úkoly
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5564,7 +5618,7 @@ cs:
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
       delay_minutes_explanation: Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení.
-      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.
+      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.
     other: Ostatní
     passwords: Hesla
     project_attributes:
@@ -5876,8 +5930,9 @@ cs:
   text_destroy_what_to_do: Co chcete udělat?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
-    Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.
+    Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.
     Nakonfigurujte váš SMTP server pro jejich povolení.
   text_enumeration_category_reassign_to: 'Přiřadit je k této hodnotě:'
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
@@ -5907,6 +5962,7 @@ cs:
   text_journal_file_link_deleted: "%{label} odkaz na %{old} (%{storage}) přidán"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
   text_latest_note: 'Poslední komentář je: %{note}'
@@ -6080,6 +6136,7 @@ cs:
           actions:
             label_disable_all: Zakázat vše
             label_enable_all: Povolit vše
+            label_toggle_template: Toggle %{template}
           label: Šablony pro export do PDF
         tab: Vytvořit PDF
         templates:
@@ -6371,6 +6428,7 @@ cs:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Faktor dostupnosti
         availability_factor_caption: Určete procento svého pracovního času věnovaného projektové práci.
+        effective_hours: Effective work hours
         hours_mode_label: Režim hodin
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6384,7 +6442,6 @@ cs:
         title_current: Upravit aktuální pracovní plán
         title_days_and_hours: Dny a hodiny
         title_future_dates: Budoucí termíny
-        total_available_hours: Celkový počet dostupných pracovních hodin
         total_work_hours: Celkový počet odpracovaných hodin
         work_days: Pracovní dny
         work_hours: Work hours

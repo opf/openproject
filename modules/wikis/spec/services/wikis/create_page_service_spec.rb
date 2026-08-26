@@ -40,6 +40,7 @@ module Wikis
                      .create_page_and_link(
                        title:,
                        parent_identifier:,
+                       parent_type:,
                        linkable_type: linkable.class.name,
                        linkable_id: linkable.id
                      )
@@ -49,6 +50,7 @@ module Wikis
     let(:linkable) { build_stubbed(:work_package) }
     let(:title) { "My Page" }
     let(:parent_identifier) { "MySpace.Parent" }
+    let(:parent_type) { :page }
     let(:page_identifier) { "#{parent_identifier}.MyPage" }
     let(:provider) { instance_double(Provider, id: 1) }
     let(:auth_strategy) { instance_double(Adapters::AuthenticationStrategies::BearerToken) }
