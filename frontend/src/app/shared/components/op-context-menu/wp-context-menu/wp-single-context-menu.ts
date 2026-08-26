@@ -52,6 +52,7 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -260,8 +261,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     return this.items;
   }
 
-  private handleTimeEntryDialogClose(event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement, submitted:boolean } };
+  private handleTimeEntryDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
 
     if (dialog.id === 'time-entry-dialog' && submitted) {
       void this.apiV3Service
