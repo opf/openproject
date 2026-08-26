@@ -58,6 +58,7 @@ export interface ProjectSprintData {
   startDate:string;
   endDate:string;
   status:string;
+  statusName:string;
   row:number;
 }
 
@@ -210,12 +211,13 @@ export class ProjectTimelineItemBuilder {
     milestones:ProjectMilestoneData[],
     sprints:ProjectSprintData[],
   ):AccessibleProjectTimelineItem[] {
-    const items:AccessibleProjectTimelineItem[] = [];
+    const items:(AccessibleProjectTimelineItem & { date:string })[] = [];
 
     for (const phase of phases) {
       if (phase.startDate && phase.endDate) {
         items.push({
           id: `phase-${phase.id}`,
+          date: phase.startDate,
           text: this.i18n.t('js.grid.widgets.project_timeline.accessible_phase', {
             name: phase.name,
             date: this.accessibleDate(phase.startDate, phase.endDate),
@@ -226,6 +228,7 @@ export class ProjectTimelineItemBuilder {
       if (phase.startGate && phase.startDate) {
         items.push({
           id: `gate-start-${phase.id}`,
+          date: phase.startDate,
           text: this.accessibleGateText(phase.startGateName ?? phase.name, phase.startDate),
         });
       }
@@ -233,6 +236,7 @@ export class ProjectTimelineItemBuilder {
       if (phase.finishGate && phase.endDate) {
         items.push({
           id: `gate-finish-${phase.id}`,
+          date: phase.endDate,
           text: this.accessibleGateText(phase.finishGateName ?? phase.name, phase.endDate),
         });
       }
@@ -241,6 +245,7 @@ export class ProjectTimelineItemBuilder {
     for (const milestone of milestones) {
       items.push({
         id: `milestone-${milestone.id}`,
+        date: milestone.date,
         text: this.i18n.t('js.grid.widgets.project_timeline.accessible_milestone', {
           name: milestone.subject,
           date: this.timezone.formattedDate(milestone.date),
@@ -251,14 +256,18 @@ export class ProjectTimelineItemBuilder {
     for (const sprint of sprints) {
       items.push({
         id: `sprint-${sprint.id}`,
+        date: sprint.startDate,
         text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
           name: sprint.name,
           date: this.accessibleDate(sprint.startDate, sprint.endDate),
+          status: sprint.statusName,
         }),
       });
     }
 
-    return items;
+    return items
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(({ id, text }) => ({ id, text }));
   }
 
   private accessibleDate(startDate:string, endDate:string):string {

@@ -39,7 +39,7 @@ en:
           accessible_gate: "Phase gate %{name}: %{date}"
           accessible_milestone: "Milestone %{name}: %{date}"
           accessible_phase: "Phase %{name}: %{date}"
-          accessible_sprint: "Sprint %{name}: %{date}"
+          accessible_sprint: "Sprint %{name}: %{date}. Status: %{status}"
           tooltip_type_gate: 'Phase gate'
           tooltip_type_milestone: 'Milestone'
           tooltip_type_phase: 'Phase'

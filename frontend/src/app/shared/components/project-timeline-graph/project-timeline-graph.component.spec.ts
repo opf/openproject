@@ -45,7 +45,7 @@ describe('ProjectTimelineGraphComponent', () => {
         'js.grid.widgets.project_timeline.accessible_phase': `Phase ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_milestone': `Milestone ${options.name}: ${options.date}`,
-        'js.grid.widgets.project_timeline.accessible_sprint': `Sprint ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_sprint': `Sprint ${options.name}: ${options.date}. Status: ${options.status}`,
         'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
@@ -117,6 +117,7 @@ describe('ProjectTimelineGraphComponent', () => {
     startDate: '2024-01-01',
     endDate: '2024-01-14',
     status: 'active',
+    statusName: 'Active',
     row: 0,
   };
 
@@ -545,7 +546,17 @@ describe('ProjectTimelineGraphComponent', () => {
 
     it('creates screen reader text for sprints', () => {
       expect(buildAccessibleItems([], [], [sprint])).toEqual([
-        { id: 'sprint-20', text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14' },
+        { id: 'sprint-20', text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active' },
+      ]);
+    });
+
+    it('orders all item types chronologically', () => {
+      expect(buildAccessibleItems([phaseWithGates], [milestone], [sprint]).map(({ id }) => id)).toEqual([
+        'sprint-20',
+        'phase-2',
+        'gate-start-2',
+        'gate-finish-2',
+        'milestone-10',
       ]);
     });
   });
@@ -575,7 +586,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
       const text = (fixture.nativeElement as HTMLElement).querySelector('ul.sr-only')?.textContent;
       expect(text).toContain('Milestone Launch: 2024-06-30');
-      expect(text).toContain('Sprint Sprint 1: 2024-01-01 to 2024-01-14');
+      expect(text).toContain('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
     });
 
     it('hides the loading skeleton once the initial draw completes', async () => {
