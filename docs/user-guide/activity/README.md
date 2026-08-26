@@ -22,7 +22,7 @@ When you first access this tab, you will see the comments and list of changes in
 
 You can scroll up and down to go forwards or backwards in time.
 
-By default, the Activity tab shows comments, changes, ands meeting updates, but you can filter this to only show one or the other:
+By default, the Activity tab shows comments, changes, and meeting updates, but you can filter this to only show one or the other:
 
 ![Dropdown menu to filter what is displayed under the activity tab](openproject_user_guide_activity_display_filter.png)
 
@@ -156,7 +156,7 @@ For each update concerning a work package, you will see:
 
 ![Work package activity updates displayed in Activity module](openproject-user_guide_project_activity_workpackge_attributes.png)
 
-Starting with version 12.5, the Activity module also lists changes to project details, including project custom fields. For each update, you will see:
+The Activity module also lists changes to project details, including project custom fields. For each update, you will see:
 
 - the name of the project or sub-project
 - the user who was responsible for the change
