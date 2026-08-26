@@ -22,7 +22,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Comments                                           | Activity/notes            | Author and date preserved; text converted from Jira markup   |
 | Components                                         | **Not migrated**          | — (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107)) |
 | Creator                                            | Author                    | —                                                            |
-| Description                                        | Description               | Converted from Jira's markup to OpenProject's — headings, bold/italic, links, code/quote blocks, and tables all convert. Some elements don't: `{info}`/`{warning}`/`{note}`/`{tip}` boxes, `{toc}`, and `{expand}`/`{section}`/`{column}` layouts aren't recognized at all — their content is kept, but the raw `{macro}` tag text is left behind, visible and unconverted, rather than being cleanly stripped or styled. Bare issue-key links like `[PROJECT-123]` and attachment links like `[^file.pdf]` are also left as literal, non-clickable text. See the [Pre-Migration Checklist](./pre-migration-checklist/) and [Post-Migration Checklist](../post-migration-checklist/) |
+| Description                                        | Description               | Converted from Jira's markup to OpenProject's — headings, bold/italic, links, code/quote blocks, and tables all convert. Some elements don't: `{info}`/`{warning}`/`{note}`/`{tip}` boxes, `{toc}`, and `{expand}`/`{section}`/`{column}` layouts aren't recognized at all — their content is kept, but the raw `{macro}` tag text is left behind, visible and unconverted, rather than being cleanly stripped or styled. Bare issue-key links like `[PROJECT-123]` and attachment links like `[^file.pdf]` are also left as literal, non-clickable text. See the [Pre-Migration Checklist](../pre-migration-checklist/) and [Post-Migration Checklist](../post-migration-checklist/) |
 | Due date                                           | Due date                  | Copied as-is                                                 |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
@@ -59,7 +59,7 @@ Every migrated project is created **private** and **active**, with no parent —
 
 ## Custom fields
 
-For field type mapping, supported/unsupported types, and edge cases (checkboxes, cascading selects, Labels, Field Contexts, deduplication behavior — including how both interact with separate import runs/batches), see the official [Custom fields migration](./custom-fields/) documentation.
+For field type mapping, supported/unsupported types, and edge cases (checkboxes, cascading selects, Labels, Field Contexts, deduplication behavior — including how both interact with separate import runs/batches), see the official [Custom fields migration](../custom-fields/) documentation.
 
 
 ------
