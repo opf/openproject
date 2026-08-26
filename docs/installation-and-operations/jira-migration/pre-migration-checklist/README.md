@@ -70,7 +70,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 - [ ] **Take a full OpenProject backup.** Approving an import run is irreversible; reverting is only possible while the run is still "in review."
 - [ ] **Audit existing OpenProject custom fields** for name collisions with fields you expect to import, especially List and Hierarchy typed fields — these never reuse/merge into an existing field of the same name, so a collision results in an auto-renamed extra field (e.g. My Field (2)) rather than keeping the original name. Rename or delete the conflicting OpenProject field beforehand if you'd rather it merge with the imported one, or plan to consolidate them manually after migration.
 - [ ] **Check for Jira group names that collide with existing, unrelated OpenProject groups.** Groups are matched/created by name — if you already have an OpenProject group called e.g. "Developers" that has nothing to do with Jira, and Jira also has a "Developers" group, the migrator will add Jira members into your existing group rather than keeping them separate. Rename one side beforehand if that's not what you want.
-- [ ] Decide now whether you have (or plan to buy) the **Enterprise custom-field-hierarchies add-on** — it changes how cascading-select fields import (native hierarchy vs. flattened list), and there is no auotmated way right now to change this afterwards.
+- [ ] Decide now whether you have (or plan to buy) the **Enterprise custom-field-hierarchies add-on** — it changes how cascading-select fields import (native hierarchy vs. flattened list), and there is no automated way right now to change this afterwards.
 
 ## Jira data clean-up
 
