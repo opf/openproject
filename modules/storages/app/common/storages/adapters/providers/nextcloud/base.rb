@@ -85,7 +85,7 @@ module Storages
           # @return [Dry::Result]
           def parse_json(response, error)
             Success(response.json(symbolize_keys: true))
-          rescue HTTPX::Error, MultiJson::ParseError
+          rescue HTTPX::Error, MultiJSON::ParseError
             Failure(error.with(code: :invalid_response, payload: response))
           end
 
