@@ -227,6 +227,67 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
+  describe "project lifecycle" do
+    let(:options) { { include_lifecycle: "true" } }
+    let(:user) do
+      create(:user,
+             member_with_permissions: {
+               project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases]
+             })
+    end
+    let(:color) { create(:color, name: "Phase color", hexcode: "#123456") }
+    let(:definition) do
+      create(:project_phase_definition, :with_start_gate,
+             name: "Initiation", color:, start_gate_name: "Kickoff approved")
+    end
+    let!(:phase) do
+      create(:project_phase,
+             project:,
+             definition:,
+             start_date: Date.new(2026, 2, 1),
+             finish_date: Date.new(2026, 2, 15))
+    end
+
+    it "renders the section title, phase name, formatted date range and gate name" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      expect(joined).to include("Initiation")
+      expect(joined).to include(format_date(phase.start_date))
+      expect(joined).to include(format_date(phase.finish_date))
+      expect(joined).to include("Kickoff approved")
+    end
+
+    it "adds a table of contents entry for the lifecycle section" do
+      expect(pdf_strings.join(" ")).to include(I18n.t(:label_table_of_contents))
+    end
+
+    context "when the option is disabled" do
+      let(:options) { { include_lifecycle: "false" } }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+
+    context "when the project has no phases with a date range or set gate" do
+      let!(:phase) { nil }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+
+    context "when the user cannot view project phases" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+      end
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+  end
+
   describe "table of contents" do
     let(:section) { create(:project_custom_field_section, name: "TOC Section") }
     let!(:string_cf) do

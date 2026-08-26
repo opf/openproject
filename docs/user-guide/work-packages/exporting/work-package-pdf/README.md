@@ -79,6 +79,7 @@ The export contains:
 - A table of contents, if the option below is activated.
 - The work package description.
 - All [project attributes](../../../projects/project-settings/project-attributes/) of the project, section by section. Empty sections are skipped.
+- The project's lifecycle (phases), if the options below are activated.
 - All work package attributes, grouped as in the form configuration of the work package type.
 - Related work packages from embedded tables of the form configuration. Unlike the other templates, 
   these are not listed as table rows but rendered with their attributes, their description and their long text custom fields, so the artefact is complete on its own.
@@ -86,6 +87,7 @@ The export contains:
 In addition to the options above, you can adjust the following:
 
 - **Table of contents** - if selected, a table of contents page indexing the section headers is added to the export. The entries are linked to the respective pages and list the project attribute sections and the work package attribute groups. This option is activated by default.
+- **Project lifecycle** - if selected, the project's [phases](../../../projects/project-settings/project-life-cycle/) are listed with their date ranges and, where set, their start/finish gate names. Only phases with a date range or a set gate are included, and the section is only shown to users who can view the project's phases. This option is deactivated by default.
 
 > [!TIP]
 > Administrators can configure [automatic artefact export](../../../../system-admin-guide/manage-work-packages/work-package-types/#automatic-artefact-export) for a work package type. The artefact is then generated whenever the status of a work package changes and either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.

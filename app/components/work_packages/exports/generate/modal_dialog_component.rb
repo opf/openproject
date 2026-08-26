@@ -83,6 +83,8 @@ module WorkPackages
           stored = template_settings("artefact")
           {
             toc: resolve_boolean_setting(stored, :toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC),
+            include_lifecycle: resolve_boolean_setting(stored, :include_lifecycle,
+                                                       WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE),
             hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
             hyphenation_language: hyphenation_language_for(stored)
           }

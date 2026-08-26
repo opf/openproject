@@ -36,11 +36,15 @@ module WorkPackages
           TEMPLATE_ID = "artefact"
 
           def self.fields
-            %w[toc hyphenation hyphenation_language]
+            %w[toc include_lifecycle hyphenation hyphenation_language]
           end
 
           def toc
             boolean_setting(:toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC)
+          end
+
+          def include_lifecycle
+            boolean_setting(:include_lifecycle, WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE)
           end
         end
       end

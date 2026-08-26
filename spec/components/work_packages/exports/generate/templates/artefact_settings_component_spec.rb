@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,11 +33,15 @@ require "spec_helper"
 RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent, type: :component do
   subject(:rendered_component) { render_inline(described_class.new(settings:, disabled:)) }
 
-  let(:settings) { { toc: true, hyphenation: false, hyphenation_language: "en" } }
+  let(:settings) { { toc: true, include_lifecycle: true, hyphenation: false, hyphenation_language: "en" } }
   let(:disabled) { false }
 
   it "renders the toc checkbox checked" do
     expect(rendered_component).to have_checked_field "Table of contents"
+  end
+
+  it "renders the lifecycle checkbox checked by default" do
+    expect(rendered_component).to have_checked_field "Project lifecycle"
   end
 
   it "renders the hyphenation checkbox unchecked and the language pre-selected" do
@@ -64,11 +68,22 @@ RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsCompo
     end
   end
 
-  context "when toc and hyphenation are stored as the string" do
-    let(:settings) { { toc: "true", hyphenation: "true" } }
+  context "when lifecycle is false" do
+    let(:settings) { { include_lifecycle: false } }
 
-    it "renders the toc and hyphenation checkboxes checked" do
+    it "renders the lifecycle checkbox unchecked" do
+      expect(rendered_component).to have_unchecked_field "Project lifecycle"
+    end
+  end
+
+  context "when toc, lifecycle and hyphenation are stored as the string \"true\"" do
+    let(:settings) do
+      { toc: "true", include_lifecycle: "true", hyphenation: "true" }
+    end
+
+    it "renders all of them checked" do
       expect(rendered_component).to have_checked_field "Table of contents"
+      expect(rendered_component).to have_checked_field "Project lifecycle"
       expect(rendered_component).to have_checked_field "Hyphenation"
     end
   end
@@ -76,9 +91,11 @@ RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsCompo
   context "when settings is empty" do
     let(:settings) { {} }
 
-    it "renders the toc checkbox with the exporter's default and hyphenation unchecked" do
+    it "renders the section checkboxes with the exporter's defaults and hyphenation unchecked" do
       expect(rendered_component).to have_field "Table of contents",
                                                checked: WorkPackage::PDFExport::Artefact::DEFAULT_TOC
+      expect(rendered_component).to have_field "Project lifecycle",
+                                               checked: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE
       expect(rendered_component).to have_unchecked_field "Hyphenation"
     end
 
@@ -93,6 +110,7 @@ RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsCompo
 
     it "renders every field disabled" do
       expect(rendered_component).to have_field "Table of contents", disabled: true
+      expect(rendered_component).to have_field "Project lifecycle", disabled: true
       expect(rendered_component).to have_field "Hyphenation", disabled: true
       expect(rendered_component).to have_select "hyphenation_language", disabled: true
     end
