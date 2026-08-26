@@ -28,6 +28,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import type { CollapsibleElement } from '@openproject/primer-view-components/app/components/primer/open_project/collapsible';
+import { useMutation } from 'stimulus-use';
 
 const COLLAPSED_ATTRIBUTE = 'data-collapsed';
 const COLLAPSIBLE_SELECTOR = 'collapsible-header, collapsible-section';
@@ -45,25 +46,21 @@ const TOGGLE_SELECTOR = '[data-collapsible-toggle]';
 export default class KeepCollapsedStateController extends Controller<HTMLElement> {
   private collapsedByKey = new Map<string, boolean>();
 
-  private observer:MutationObserver|null = null;
-
   connect():void {
-    this.observer = new MutationObserver((mutations) => this.sync(mutations));
-    this.observer.observe(this.element, {
+    useMutation(this, {
       childList: true,
       subtree: true,
       attributes: true,
       attributeFilter: [COLLAPSED_ATTRIBUTE],
+      dispatchEvent: false,
     });
   }
 
   disconnect():void {
-    this.observer?.disconnect();
-    this.observer = null;
     this.collapsedByKey.clear();
   }
 
-  private sync(mutations:MutationRecord[]):void {
+  mutate(mutations:MutationRecord[]):void {
     mutations.forEach(({ type, target, addedNodes }) => {
       if (type === 'attributes') {
         this.remember(target as CollapsibleElement);
