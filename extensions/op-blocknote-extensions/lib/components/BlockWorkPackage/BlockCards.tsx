@@ -8,6 +8,7 @@ import {
   WorkPackageStatus,
   WorkPackageTitle,
   WorkPackageTitleLink,
+  WRAP_OPPORTUNITY,
 } from '../WorkPackage/atoms';
 import {
   typeColor,
@@ -19,6 +20,9 @@ import {
 import { formatWorkPackageId } from '../../utils/id';
 
 const DESCRIPTION_MAX_CHARS = 300;
+
+/* keeps the ↑ / ◈ marker on the same line as the label it marks  */
+const MARKER_GAP = '\u00A0';
 
 export interface BlockCardSharedProps {
   workPackage:WorkPackage;
@@ -61,11 +65,13 @@ const CardBase = styled.div<{ $inDropdown:boolean }>`
 const CardDetails = styled.div.attrs({
   className: 'op-bn-work-package--details',
 })`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 10px;
   width: 100%;
   font-size: 0.86em;
+  line-height: 1.5;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
 `;
 
 const CardDetailsSpaced = styled(CardDetails)`
@@ -90,6 +96,40 @@ const DescriptionSnippet = styled.p`
   -webkit-box-orient: vertical;
 `;
 
+const CardMeta = ({
+  workPackage,
+  withRelations = false,
+}:{ workPackage:WorkPackage; withRelations?:boolean }) => (
+  <>
+    <WorkPackageType $color={typeColor(workPackage)}>
+      {workPackage._links?.type?.title}
+    </WorkPackageType>
+    {WRAP_OPPORTUNITY}
+    <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
+    {WRAP_OPPORTUNITY}
+    <WorkPackageStatus
+      $baseColor={statusColor(workPackage)}
+      $borderColor={statusBorderColor()}
+      $textColor={statusTextColor()}
+      $bgColor={statusBackgroundColor()}
+    >
+      {workPackage._links?.status?.title}
+    </WorkPackageStatus>
+    {withRelations && workPackage._links?.parent?.title && (
+      <>
+        {WRAP_OPPORTUNITY}
+        <MetaItem>↑{MARKER_GAP}{workPackage._links.parent.title}</MetaItem>
+      </>
+    )}
+    {withRelations && workPackage._links?.project?.title && (
+      <>
+        {WRAP_OPPORTUNITY}
+        <MetaItem>◈{MARKER_GAP}{workPackage._links.project.title}</MetaItem>
+      </>
+    )}
+  </>
+);
+
 // M — Compact card: Type, ID, Status + Subject
 export const BlockCardM = ({
   workPackage,
@@ -111,18 +151,7 @@ export const BlockCardM = ({
     style={onClick ? { cursor: 'pointer' } : undefined}
   >
     <CardDetails>
-      <WorkPackageType $color={typeColor(workPackage)}>
-        {workPackage._links?.type?.title}
-      </WorkPackageType>
-      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
-      <WorkPackageStatus
-        $baseColor={statusColor(workPackage)}
-        $borderColor={statusBorderColor()}
-        $textColor={statusTextColor()}
-        $bgColor={statusBackgroundColor()}
-      >
-        {workPackage._links?.status?.title}
-      </WorkPackageStatus>
+      <CardMeta workPackage={workPackage} />
     </CardDetails>
     <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
   </CardBase>
@@ -147,24 +176,7 @@ export const BlockCardL = ({
     style={onClick ? { cursor: 'pointer' } : undefined}
   >
     <CardDetailsSpaced>
-      <WorkPackageType $color={typeColor(workPackage)}>
-        {workPackage._links?.type?.title}
-      </WorkPackageType>
-      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
-      <WorkPackageStatus
-        $baseColor={statusColor(workPackage)}
-        $borderColor={statusBorderColor()}
-        $textColor={statusTextColor()}
-        $bgColor={statusBackgroundColor()}
-      >
-        {workPackage._links?.status?.title}
-      </WorkPackageStatus>
-      {workPackage._links?.parent?.title && (
-        <MetaItem>↑ {workPackage._links.parent.title}</MetaItem>
-      )}
-      {workPackage._links?.project?.title && (
-        <MetaItem>◈ {workPackage._links.project.title}</MetaItem>
-      )}
+      <CardMeta workPackage={workPackage} withRelations />
     </CardDetailsSpaced>
     <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
   </CardBase>
@@ -197,24 +209,7 @@ export const BlockCardXL = ({
       style={onClick ? { cursor: 'pointer' } : undefined}
     >
       <CardDetailsSpaced>
-        <WorkPackageType $color={typeColor(workPackage)}>
-          {workPackage._links?.type?.title}
-        </WorkPackageType>
-        <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
-        <WorkPackageStatus
-          $baseColor={statusColor(workPackage)}
-          $borderColor={statusBorderColor()}
-          $textColor={statusTextColor()}
-          $bgColor={statusBackgroundColor()}
-        >
-          {workPackage._links?.status?.title}
-        </WorkPackageStatus>
-        {workPackage._links?.parent?.title && (
-          <MetaItem>↑ {workPackage._links.parent.title}</MetaItem>
-        )}
-        {workPackage._links?.project?.title && (
-          <MetaItem>◈ {workPackage._links.project.title}</MetaItem>
-        )}
+        <CardMeta workPackage={workPackage} withRelations />
       </CardDetailsSpaced>
       <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
       {snippetText && (

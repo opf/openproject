@@ -255,7 +255,7 @@ describe('Preview popover - long work package type', () => {
   const longType = 'CECILE CONFIGURATION FORM TEST TYPE AND SOME MORE WORDS SO THE TYPE GETS LONG';
   const longTypeWp:WorkPackage = {
     ...previewWp,
-    _links: { ...previewWp._links, type: { title: longType, href: '/api/v3/types/1' } },
+    _links: { ...previewWp._links!, type: { title: longType, href: '/api/v3/types/1' } },
   };
 
   it('wraps a long type instead of overflowing the preview', async () => {
@@ -270,5 +270,18 @@ describe('Preview popover - long work package type', () => {
     expect(typeRect.right).toBeLessThanOrEqual(previewElement.getBoundingClientRect().right);
     // scrollWidth > clientWidth means content sticks out to the right of the preview.
     expect(previewElement.scrollWidth).toBeLessThanOrEqual(previewElement.clientWidth);
+  });
+
+  it('continues the meta line after a wrapped type instead of breaking to a new one', async () => {
+    render(<PreviewHarness anchorTop={50} workPackage={longTypeWp} />);
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+
+    const previewElement = page.getByTestId('wp-preview').element();
+    const typeRect = page.getByTestId('op-bn-work-package--type').element().getBoundingClientRect();
+    const idRect = previewElement.querySelector('.op-bn-work-package--id')!.getBoundingClientRect();
+
+    expect(idRect.top).toBeLessThan(typeRect.bottom);
+    expect(idRect.left).toBeGreaterThan(typeRect.left);
   });
 });

@@ -7,6 +7,9 @@ import {
 } from '../../services/colors';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 
+/* lets a line break between two meta parts that are each kept unbroken  */
+export const WRAP_OPPORTUNITY = '\u200B';
+
 export const defaultWpVariables = css`
   --spacer-s: 4px;
   --spacer-m: 8px;
@@ -70,7 +73,6 @@ export const WorkPackageType = styled.span.attrs({
     $compact &&
     css`
       font-size: 12px;
-      white-space: nowrap;
     `}
 `;
 

@@ -5,11 +5,11 @@ import { WpChipXS, WpChipS } from '../../../../lib/components/InlineWorkPackage/
 import { mockWorkPackage } from '../../../mocks/handlers';
 
 // Container narrow enough that the meta cluster (#ID TYPE [STATUS]) cannot sit on a single
-// line, but wide enough for the widest single part. Each part is `white-space: nowrap`, so the
-// only way to avoid horizontal overflow is to wrap *between* parts. Before the fix the parts
-// had no soft-wrap opportunity between them and the cluster overflowed; now a zero-width space
-// between parts lets it wrap. The S chip has the extra (wide) status pill, so it needs more
-// room for its widest single part than the XS chip does.
+// line, but wide enough for the widest single part. The ID and the status pill are
+// `white-space: nowrap`, so the only way to avoid horizontal overflow is to wrap *between*
+// parts. Before the fix the parts had no soft-wrap opportunity between them and the cluster
+// overflowed; now a zero-width space between parts lets it wrap. The S chip has the extra
+// (wide) status pill, so it needs more room for its widest single part than the XS chip does.
 const S_NARROW_WIDTH = '110px';
 const XS_NARROW_WIDTH = '80px';
 
@@ -48,5 +48,42 @@ describe('InlineChips - wrap between meta parts', () => {
 
     const wrapperElement = await wrapperLocator.element();
     expect(wrapperElement.scrollWidth).toBeLessThanOrEqual(wrapperElement.clientWidth);
+  });
+
+  const renderWithType = (typeTitle:string) => {
+    const wp = {
+      ...mockWorkPackage,
+      _links: { ...mockWorkPackage._links, type: { ...mockWorkPackage._links.type, title: typeTitle } },
+    };
+
+    render(
+      <div data-testid="narrow-wrapper" style={{ width: '320px' }}>
+        <WpChipS wp={wp} />
+      </div>
+    );
+    return page.getByTestId('narrow-wrapper');
+  };
+
+  it('WpChipS wraps a type that is wider than the container', async () => {
+    const typeTitle = 'TYPE WITH EXCEPTIONALLY LONG NAME TO MATCH WHAT CECILE HAS ON THE QA INSTANCE';
+    const wrapperLocator = renderWithType(typeTitle);
+
+    await expect.element(wrapperLocator).toBeVisible();
+    await expect.element(page.getByText(typeTitle)).toBeVisible();
+
+    const wrapperElement = await wrapperLocator.element();
+    expect(wrapperElement.scrollWidth).toBeLessThanOrEqual(wrapperElement.clientWidth);
+  });
+
+  it('WpChipS breaks a type that is a single word wider than the container', async () => {
+    const typeTitle = 'VERYVERYVERYVERYVERYVERYVERYVERYVERYVERYVERYVERYLONGTYPE';
+    const wrapperLocator = renderWithType(typeTitle);
+
+    await expect.element(wrapperLocator).toBeVisible();
+    await expect.element(page.getByText(typeTitle)).toBeVisible();
+
+    const wrapperElement = await wrapperLocator.element();
+    const chipPadding = 2 * 6;
+    expect(wrapperElement.scrollWidth - wrapperElement.clientWidth).toBeLessThanOrEqual(chipPadding);
   });
 });

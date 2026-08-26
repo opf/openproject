@@ -13,11 +13,11 @@ import {
   WorkPackageStatus,
   WorkPackageTitleLink,
   workPackageLinkProps,
+  WRAP_OPPORTUNITY,
 } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 
 const resolvedDisplayId = (wp:WorkPackage) => wp.displayId ?? String(wp.id);
-const WRAP_OPPORTUNITY = '\u200B'; /*zero-width space*/
 
 const titleLinkProps = (wp:WorkPackage) => ({
   as: 'a' as const,
