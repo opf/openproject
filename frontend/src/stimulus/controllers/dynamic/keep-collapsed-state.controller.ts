@@ -34,6 +34,9 @@ const COLLAPSED_ATTRIBUTE = 'data-collapsed';
 const COLLAPSIBLE_SELECTOR = 'collapsible-header, collapsible-section';
 const TOGGLE_SELECTOR = '[data-collapsible-toggle]';
 
+const isCollapsible = (node:Node):node is CollapsibleElement => node instanceof Element
+  && node.matches(COLLAPSIBLE_SELECTOR);
+
 // Carries the collapsed state of Primer collapsibles over turbo frame and
 // turbo stream renders, which would otherwise reset them to the state the
 // server rendered.
@@ -63,7 +66,9 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
   mutate(mutations:MutationRecord[]):void {
     mutations.forEach(({ type, target, addedNodes }) => {
       if (type === 'attributes') {
-        this.remember(target as CollapsibleElement);
+        if (isCollapsible(target)) {
+          this.remember(target);
+        }
       } else {
         addedNodes.forEach((node) => this.eachCollapsibleIn(node, (el) => this.restore(el)));
       }
@@ -92,8 +97,8 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
       return;
     }
 
-    if (node.matches(COLLAPSIBLE_SELECTOR)) {
-      callback(node as CollapsibleElement);
+    if (isCollapsible(node)) {
+      callback(node);
     }
 
     node.querySelectorAll<CollapsibleElement>(COLLAPSIBLE_SELECTOR).forEach(callback);

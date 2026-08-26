@@ -131,6 +131,22 @@ describe('KeepCollapsedStateController', () => {
     expect(collapsed('collapsible-section')).toBe(false);
   });
 
+  // The remembered state lives and dies with the mounted element, which is what returns the boxes to their default
+  // once the user leaves the tab.
+  it('forgets everything once its element leaves the DOM', async () => {
+    await toggle('collapsible-header');
+
+    const root = ctx.container.querySelector('[data-controller="keep-collapsed-state"]')!;
+    root.remove();
+    await ctx.nextFrame();
+    ctx.container.appendChild(root);
+    await ctx.nextFrame();
+
+    await rerender();
+
+    expect(collapsed('collapsible-header')).toBe(true);
+  });
+
   it('ignores collapsibles whose toggle controls a different id on re-render', async () => {
     await toggle('collapsible-header');
 
