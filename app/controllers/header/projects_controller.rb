@@ -141,28 +141,22 @@ class Header::ProjectsController < ApplicationController
   # Builds a nested structure from a flat, lft-ordered list of projects.
   # Each level is sorted alphabetically by project name.
   def build_tree(projects)
-    nodes = Project.build_projects_hierarchy(projects)
-    mark_query_matches(nodes)
-    sort_nodes(nodes)
+    decorate_nodes(Project.build_projects_hierarchy(projects))
   end
 
-  def mark_query_matches(nodes)
+  def decorate_nodes(nodes)
     nodes.each do |node|
+      decorate_nodes(node[:children])
       node[:matches_query] = @matching_ids.nil? || @matching_ids.include?(node[:project].id)
-      mark_query_matches(node[:children])
-    end
-  end
-
-  def sort_nodes(nodes)
-    nodes.sort_by { |n| n[:project].name.downcase }.each do |node|
-      node[:children] = sort_nodes(node[:children])
       node[:expanded] = expanded_node?(node)
     end
   end
 
   def expanded_node?(node)
     filter_mode == "favorited" || node[:children].any? do |child|
-      child[:project].id == @current_project_id || child[:expanded]
+      child[:project].parent_id != node[:project].id ||
+        child[:project].id == @current_project_id ||
+        child[:expanded]
     end
   end
 end

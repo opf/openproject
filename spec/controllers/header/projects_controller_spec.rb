@@ -69,6 +69,13 @@ RSpec.describe Header::ProjectsController do
       expect(response).to render_template(layout: false)
     end
 
+    it "keeps ordinary parent projects collapsed by default" do
+      make_request
+
+      parent_node = assigns(:tree).find { |node| node[:project] == parent_project }
+      expect(parent_node[:expanded]).to be(false)
+    end
+
     context "when an invisible project is between two visible projects" do
       shared_let(:invisible_project) { create(:private_project, name: "Invisible", parent: parent_project) }
       shared_let(:visible_grandchild) { create(:project, name: "Visible Grandchild", parent: invisible_project) }
@@ -87,6 +94,7 @@ RSpec.describe Header::ProjectsController do
         expect(assigns(:projects)).not_to include(invisible_project)
         expect(tree.pluck(:project)).not_to include(visible_grandchild)
         expect(parent_node[:children].pluck(:project)).to include(visible_grandchild)
+        expect(parent_node[:expanded]).to be(true)
       end
     end
 
