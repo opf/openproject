@@ -31,7 +31,9 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
-import { BaseChartDirective } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import PrimerColorsPlugin from './../plugin.primer-colors';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -51,6 +53,9 @@ interface ChartDataSet {
   standalone: true,
   imports: [
     BaseChartDirective
+  ],
+  providers: [
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
   ],
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
@@ -79,6 +84,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public internalChartOptions:ChartOptions;
 
   public initialized = false;
+
+  public readonly chartPlugins = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
@@ -190,8 +197,6 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           display: this.datasets.length > 1,
         },
         datalabels: {
-          // Opt-in explicitly: render chartjs-plugin-datalabels (see init-chartjs.ts)
-          display: true,
           anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
           color: bodyFontColor,

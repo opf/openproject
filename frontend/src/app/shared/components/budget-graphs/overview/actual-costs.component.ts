@@ -38,13 +38,15 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { chartFont, chartLegend, createBarTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
-import { BaseChartDirective } from 'ng2-charts';
+import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @Component({
   selector: 'opce-actual-costs',
   templateUrl: './actual-costs.component.html',
   imports: [BaseChartDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
 })
 export class ActualCostsComponent {
   private readonly i18n = inject(I18nService);
