@@ -30,7 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request do
+RSpec.describe "Admin text transform actions", :skip_csrf,
+               type: :rails_request, with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
 
@@ -274,6 +275,21 @@ RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request 
       post toggle_setting_admin_text_transform_actions_path, params: { value: "1" }
       expect(response).to have_http_status(:forbidden)
       expect(Setting.ai_text_transform_actions_enabled?).to be(false)
+    end
+  end
+
+  context "when the feature flag is inactive", with_flag: { ai_text_transform_actions: false } do
+    let!(:action) { create(:ai_text_transform_action) }
+
+    it "responds with 404 for the list" do
+      get admin_text_transform_actions_path
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "responds with 404 for mutations without changing anything" do
+      post toggle_admin_text_transform_action_path(action), params: { value: "0" }
+      expect(response).to have_http_status(:not_found)
+      expect(action.reload).to be_active
     end
   end
 end

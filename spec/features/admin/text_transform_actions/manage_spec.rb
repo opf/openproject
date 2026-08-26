@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Managing text transform actions", :js do
+RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type_bug) { create(:type, name: "Bug") }
   shared_let(:type_task) { create(:type, name: "Task") }
@@ -99,7 +99,7 @@ RSpec.describe "Managing text transform actions", :js do
     expect(find_test_selector("text-transform-action-select-types")).to have_text("Bug")
 
     check "Insert work package type template"
-    wait_for_turbo { click_on "Create" }
+    wait_for_turbo(wait: 10) { click_on "Create" }
 
     expect(page).to have_current_path(admin_text_transform_actions_path)
     expect_flash(message: "Successful creation.")
@@ -121,7 +121,7 @@ RSpec.describe "Managing text transform actions", :js do
 
     fill_in "Label", with: "Fix spelling"
     select "All work package types", from: "Scope"
-    wait_for_turbo { click_on "Save" }
+    wait_for_turbo(wait: 10) { click_on "Save" }
 
     expect(page).to have_current_path(admin_text_transform_actions_path)
     expect_flash(message: "Successful update.")
@@ -194,5 +194,18 @@ RSpec.describe "Managing text transform actions", :js do
     wait_for_turbo_stream { find(:button, accessible_name: "Enable text transform actions").click }
     expect(page).to have_button(accessible_name: "Enable text transform actions", aria: { pressed: true })
     expect(Setting.find_by(name: "ai_text_transform_actions_enabled")&.value).to be(true)
+  end
+
+  it "hides the menu entry and the page when the feature flag is inactive",
+     with_flag: { ai_text_transform_actions: false } do
+    visit mcp_configurations_path
+
+    within("#menu-sidebar") do
+      expect(page).to have_link("Model Context Protocol (MCP)")
+      expect(page).to have_no_link("Text transform actions")
+    end
+
+    visit admin_text_transform_actions_path
+    expect(page).to have_text("[Error 404]")
   end
 end

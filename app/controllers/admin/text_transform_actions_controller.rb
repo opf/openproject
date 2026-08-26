@@ -31,8 +31,10 @@
 module Admin
   class TextTransformActionsController < ::ApplicationController
     include OpTurbo::ComponentStream
+    include AI::TextTransformActionsFeature
 
     before_action :require_admin
+    before_action :require_ai_text_transform_actions_feature
     before_action :find_text_transform_action, only: %i[edit update deletion_dialog destroy toggle drop]
 
     menu_item :text_transform_actions

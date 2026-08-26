@@ -30,7 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Text transform actions drop", :skip_csrf, type: :rails_request do
+RSpec.describe "Text transform actions drop", :skip_csrf,
+               type: :rails_request, with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:action_a) { create(:ai_text_transform_action) }
   shared_let(:action_b) { create(:ai_text_transform_action) }
