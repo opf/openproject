@@ -92,6 +92,7 @@ RSpec.describe Header::ProjectsController do
 
         expect(assigns(:projects)).to include(visible_grandchild)
         expect(assigns(:projects)).not_to include(invisible_project)
+        expect(response.body).not_to include("Invisible")
         expect(tree.pluck(:project)).not_to include(visible_grandchild)
         expect(parent_node[:children].pluck(:project)).to include(visible_grandchild)
         expect(parent_node[:expanded]).to be(true)
