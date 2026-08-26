@@ -34,6 +34,11 @@ pl:
         few: Dostawcy wewnętrzni
         many: Dostawcy wewnętrzni
         other: Dostawcy wewnętrzni
+      wikis/page_link:
+        one: Link do strony
+        few: Linki do stron
+        many: Linki do stron
+        other: Linki do stron
       wikis/provider:
         one: Dostawca wiki
         few: Dostawcy wiki

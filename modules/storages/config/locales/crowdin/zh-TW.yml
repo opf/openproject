@@ -73,8 +73,18 @@ zh-TW:
               invalid_password: 無效。
               unknown_error: 無法與檔案儲存提供者驗證。請確認連線運作正常。
     models:
-      file_link: 檔案
-      storages/storage: 儲存空間
+      storages/file_link:
+        other: File links
+      storages/nextcloud_storage:
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        other: OneDrive storages
+      storages/project_storage:
+        other: Project storages
+      storages/sharepoint_storage:
+        other: SharePoint storages
+      storages/storage:
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。

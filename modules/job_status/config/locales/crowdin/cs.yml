@@ -1,5 +1,12 @@
 ---
 cs:
+  activerecord:
+    models:
+      job_status/status:
+        one: Background job status
+        few: Background job statuses
+        many: Background job statuses
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Or [click here](download_url) to download.
     download_starts: Stahování by mělo začít automaticky.

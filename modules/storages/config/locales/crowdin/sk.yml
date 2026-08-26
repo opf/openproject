@@ -73,8 +73,36 @@ sk:
               invalid_password: is not valid.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: Súbor
-      storages/storage: Storage
+      storages/file_link:
+        one: File link
+        few: File links
+        many: File links
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        few: Nextcloud storages
+        many: Nextcloud storages
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        few: OneDrive storages
+        many: OneDrive storages
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        few: Project storages
+        many: Project storages
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        few: SharePoint storages
+        many: SharePoint storages
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        few: Storages
+        many: Storages
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.

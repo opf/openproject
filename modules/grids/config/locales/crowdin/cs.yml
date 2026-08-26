@@ -14,6 +14,17 @@ cs:
           end_before_start: konečná hodnota musí být větší než počáteční hodnota.
           outside: je mimo mřížku.
           overlaps: se překrývá.
+    models:
+      grids/grid:
+        one: Grid
+        few: Grids
+        many: Grids
+        other: Grids
+      grids/widget:
+        one: Widget
+        few: Widgets
+        many: Widgets
+        other: Widgets
   grids:
     label_widget_in_grid: Widget obsažený v mřížce %{grid_name}
     widgets:

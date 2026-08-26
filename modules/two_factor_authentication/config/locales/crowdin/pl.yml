@@ -20,10 +20,31 @@ pl:
             phone_number:
               error_phone_number_format: musi posiadać format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Urządzenie 2FA (2 Factory Authenticator)
-      two_factor_authentication/device/sms: Telefon komórkowy
-      two_factor_authentication/device/totp: Aplikacja Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Kod zapasowy
+        few: Kody zapasowe
+        many: Kody zapasowe
+        other: Kody zapasowe
+      two_factor_authentication/device:
+        one: Urządzenie 2FA
+        few: Urządzenia 2FA
+        many: Urządzenia 2FA
+        other: Urządzenia 2FA
+      two_factor_authentication/device/sms:
+        one: Telefon komórkowy
+        few: Telefony komórkowe
+        many: Telefony komórkowe
+        other: Telefony komórkowe
+      two_factor_authentication/device/totp:
+        one: Aplikacja uwierzytelniająca
+        few: Aplikacje uwierzytelniające
+        many: Aplikacje uwierzytelniające
+        other: Aplikacje uwierzytelniające
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Dalej
   button_make_active: Aktywuj
   button_make_default: Oznacz jako domyślny

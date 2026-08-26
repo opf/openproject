@@ -34,6 +34,11 @@ ru:
         few: Internal providers
         many: Internal providers
         other: Внутренние поставщики
+      wikis/page_link:
+        one: Ссылка на страницу
+        few: Ссылки на страницы
+        many: Page links
+        other: Page links
       wikis/provider:
         one: Провайдер Wiki
         few: Провайдера Wiki

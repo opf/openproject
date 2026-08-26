@@ -98,16 +98,30 @@
       cost_entry:
         one: Kostnad
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Kostnadstype
         other: Kostnadstyper
-      rate: Sats
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Timeføring
         other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Tidregistrering aktiviteter
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@
   label_greater_or_equal: ">="
   label_group_by: Grupper etter
   label_group_by_add: Legg til grupperingsfelt
-  label_hourly_rate: Timesats
   label_include_deleted: Inkluder slettet
   label_kind: Type
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@
   label_previous_month: Previous month
   label_previous_week: Forrige uke
   label_previous_workweek: Previous work week
-  label_rate: Sats
   label_rate_plural: Satser
   label_show: Vis
   label_specific_day: Day %{day}
@@ -241,7 +253,6 @@
   label_today_capitalized: I dag
   label_units: Kostenheter
   label_until: fram til
-  label_user: Bruker
   label_valid_from: Gyldig fra
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Legg til arbeidspakke-filter

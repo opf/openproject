@@ -91,8 +91,12 @@ ko:
               task_version_must_be_the_same_as_story_version: 은(는) 부모 스토리의 버전과 동일해야 합니다.
           backlog_bucket_xor_sprint: "- 스프린트와 백로그 버킷 모두에 할당할 수는 없습니다."
     models:
+      backlog_bucket:
+        other: 백로그 버킷
       sprint:
         other: 스프린트
+      sprint_goal:
+        other: 스프린트 목표
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: 기존 작업 패키지 추가

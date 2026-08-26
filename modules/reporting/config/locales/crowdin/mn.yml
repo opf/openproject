@@ -21,6 +21,11 @@
 #++
 ---
 mn:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: Comment
   cost_reports_title: Цаг хугацаа ба зардал
@@ -46,7 +51,6 @@ mn:
   label_closed: closed
   label_columns: Columns
   label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: Cost report
   label_cost_report_plural: Cost reports
   label_count: Count
   label_days_ago: during the last days

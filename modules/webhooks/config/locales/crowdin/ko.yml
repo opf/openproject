@@ -14,7 +14,10 @@ ko:
         secret: 서명 비밀번호
         url: 페이로드 URL
     models:
-      webhooks/outgoing_webhook: 발신 Webhook
+      webhooks/log:
+        other: Webhook 로그
+      webhooks/webhook:
+        other: Webhook
   plugin_openproject_webhooks:
     description: 개선된 타사 통합을 위해 OpenProject Webhook을 지원하는 플러그인 API를 제공합니다.
     name: OpenProject Webhook

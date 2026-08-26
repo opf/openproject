@@ -30,6 +30,9 @@ it:
       wikis/internal_provider:
         one: Provider interno
         other: Provider interni
+      wikis/page_link:
+        one: Collegamento alla pagina
+        other: Collegamenti alle pagine
       wikis/provider:
         one: Fornitore Wiki
         other: Fornitori Wiki

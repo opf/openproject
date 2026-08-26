@@ -55,6 +55,8 @@ fa:
         position: موقعیت
         presenter: ارائه‌دهنده
         title: عنوان
+      meeting_outcome:
+        kind: نوع
       meeting_participant:
         attended: حضور داشته
         invited: دعوت‌شده
@@ -98,11 +100,27 @@ fa:
         recurring_meeting_interim_response:
           not_an_occurrence: زمان نوبت معتبری برای این جلسه تکرارشونده نیست
     models:
-      meeting: جلسه یک‌باره
-      meeting_agenda: دستور جلسه
-      meeting_agenda_item: مورد دستور جلسه
-      meeting_section: بخش
-      recurring_meeting: جلسه تکرارشونده
+      meeting:
+        one: جلسه یک‌باره
+        other: جلسات یک‌باره
+      meeting_agenda_item:
+        one: مورد دستور جلسه
+        other: موارد دستور جلسه
+      meeting_outcome:
+        one: نتیجه
+        other: نتایج
+      meeting_participant:
+        one: شرکت‌کننده جلسه
+        other: شرکت‌کنندگان جلسه
+      meeting_section:
+        one: بخش
+        other: بخش‌ها
+      recurring_meeting:
+        one: جلسه تکرارشونده
+        other: جلسات تکرارشونده
+      scheduled_meeting:
+        one: جلسه زمان‌بندی‌شده
+        other: جلسات زمان‌بندی‌شده
       token/ical_meeting:
         one: اشتراک iCal جلسات
         other: اشتراک iCal جلسات
@@ -253,7 +271,6 @@ fa:
   label_past_meetings: جلسات گذشته
   label_past_meetings_short: گذشته
   label_recurring_filter: فیلتر تکرار
-  label_recurring_meeting: جلسه تکرارشونده
   label_recurring_meeting_cancel: لغو این نوبت
   label_recurring_meeting_create: باز
   label_recurring_meeting_delete: حذف نوبت

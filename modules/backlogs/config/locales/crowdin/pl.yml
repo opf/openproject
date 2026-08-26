@@ -94,11 +94,21 @@ pl:
               task_version_must_be_the_same_as_story_version: musi być taka sama jak wersja story nadrzędnej.
           backlog_bucket_xor_sprint: nie można przypisać zarówno do sprintu, jak i kategorii backlogu.
     models:
+      backlog_bucket:
+        one: Kategoria backlogu
+        few: Kategorie backlogu
+        many: Kategorie backlogu
+        other: Kategorie backlogu
       sprint:
         one: Sprint
         few: Sprinty
         many: Sprinty
         other: Sprinty
+      sprint_goal:
+        one: Cel sprintu
+        few: Cele sprintów
+        many: Cele sprintów
+        other: Cele sprintów
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Dodaj istniejący pakiet roboczy

@@ -21,6 +21,11 @@
 #++
 ---
 bg:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Запазване на отчета като...
   comments: Коментар
   cost_reports_title: Време и разходи
@@ -46,7 +51,6 @@ bg:
   label_closed: затворен
   label_columns: Колони
   label_cost_entry_attributes: Атрибути за вписване на разходи
-  label_cost_report: Доклад за разходите
   label_cost_report_plural: Отчети за разходите
   label_count: Брой
   label_days_ago: през последните дни

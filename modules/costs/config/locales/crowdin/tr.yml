@@ -98,16 +98,30 @@ tr:
       cost_entry:
         one: Maliyet girişi
         other: Maliyet girişleri
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Maliyet türü
         other: Maliyet türü
-      rate: Oran
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Zaman girişi
         other: Zaman girişleri
       time_entry_activity:
         one: Zaman izleme etkinliği
         other: Zaman izleme faaliyetleri
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ tr:
   label_greater_or_equal: ">="
   label_group_by: Grupla
   label_group_by_add: Gruplama alanı ekle
-  label_hourly_rate: Saatlik ücret
   label_include_deleted: Silinenleri ekle
   label_kind: Tür
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ tr:
   label_previous_month: Önceki ay
   label_previous_week: Geçen Hafta
   label_previous_workweek: Önceki çalışma haftası
-  label_rate: Oranlar
   label_rate_plural: Oranlar
   label_show: Göster
   label_specific_day: Gün %{day}
@@ -241,7 +253,6 @@ tr:
   label_today_capitalized: Bugün
   label_units: Maliyet birimleri
   label_until: kadar
-  label_user: Kullanıcı
   label_valid_from: Geçerlilik
   label_view_mode_switcher: Görünümü değiştir
   label_work_package_filter_add: İş paketi filtresi ekle

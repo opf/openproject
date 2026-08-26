@@ -32,6 +32,10 @@ hr:
         one: Internal provider
         few: Internal providers
         other: Internal providers
+      wikis/page_link:
+        one: Page link
+        few: Page links
+        other: Page links
       wikis/provider:
         one: Wiki provider
         few: Wiki providers

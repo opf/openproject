@@ -100,12 +100,31 @@ cs:
         few: Nákladové položky
         many: Nákladových položek
         other: Nákladových položek
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Druh nákladů
         few: Typy nákladů
         many: Typy nákladů
         other: Typy nákladů
-      rate: Sazba
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Časová položka
         few: Časové položky
@@ -116,6 +135,11 @@ cs:
         few: Položky výkazu
         many: Položek výkazu
         other: Položek výkazu
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -214,7 +238,6 @@ cs:
   label_greater_or_equal: ">="
   label_group_by: Seskupit podle
   label_group_by_add: Přidat skupinové pole
-  label_hourly_rate: Hodinová sazba
   label_include_deleted: Zahrnout smazané
   label_kind: Typ
   label_less_or_equal: "<="
@@ -235,7 +258,6 @@ cs:
   label_previous_month: Předchozí měsíc
   label_previous_week: Předchozí týden
   label_previous_workweek: Předchozí pracovní týden
-  label_rate: Sazba
   label_rate_plural: Kurzy
   label_show: Zobrazit
   label_specific_day: Den %{day}
@@ -249,7 +271,6 @@ cs:
   label_today_capitalized: Dnes
   label_units: Jednotky nákladu
   label_until: do
-  label_user: Uživatel
   label_valid_from: Platné od
   label_view_mode_switcher: Změnit zobrazení
   label_work_package_filter_add: Přidat filtr pracovního balíčku

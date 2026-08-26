@@ -98,16 +98,30 @@ fa:
       cost_entry:
         one: ورودی هزینه
         other: ورودی‌های هزینه
+      cost_rate:
+        one: نرخ هزینه
+        other: نرخ‌های هزینه
       cost_type:
         one: نوع هزینه
         other: انواع هزینه
-      rate: نرخ
+      default_hourly_rate:
+        one: نرخ ساعتی پیش‌فرض
+        other: نرخ‌های ساعتی پیش‌فرض
+      hourly_rate:
+        one: نرخ ساعتی
+        other: نرخ‌های ساعتی
+      rate:
+        one: نرخ
+        other: نرخ‌ها
       time_entry:
         one: ورودی زمان
         other: ورودی‌های زمان
       time_entry_activity:
         one: فعالیت ثبت زمان
         other: فعالیت‌های ثبت زمان
+      time_entry_custom_field:
+        one: فیلد سفارشی ثبت زمان
+        other: فیلدهای سفارشی ثبت زمان
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ fa:
   label_greater_or_equal: ">="
   label_group_by: گروه‌بندی بر اساس
   label_group_by_add: افزودن فیلد گروه‌بندی
-  label_hourly_rate: نرخ (حقوق) ساعتی
   label_include_deleted: شامل حذف‌شده‌ها
   label_kind: نوع
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ fa:
   label_previous_month: ماه قبل
   label_previous_week: هفته قبل
   label_previous_workweek: هفته کاری قبل
-  label_rate: نرخ
   label_rate_plural: نرخ‌ها
   label_show: نمایش
   label_specific_day: "%{day} روز"
@@ -241,7 +253,6 @@ fa:
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
-  label_user: کاربر
   label_valid_from: معتبر از
   label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری

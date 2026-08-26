@@ -38,6 +38,15 @@ vi:
           attributes:
             labels:
               invalid_schema: 'phải là một mảng băm có khóa: màu sắc, tiêu đề'
+    models:
+      gitlab_issue:
+        other: GitLab issues
+      gitlab_merge_request:
+        other: GitLab merge requests
+      gitlab_pipeline:
+        other: GitLab pipelines
+      gitlab_user:
+        other: GitLab users
   attributes:
     commit: cam kết
     gitlab: Mã định danh GitLab

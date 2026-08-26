@@ -55,6 +55,8 @@ hy:
         position: Դիրք
         presenter: Զեկուցող
         title: Վերնագիր
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Ներկա
         invited: Հրավիրված
@@ -98,11 +100,27 @@ hy:
         recurring_meeting_interim_response:
           not_an_occurrence: վավեր կրկնության ժամանակ չէ այս կրկնվող հանդիպման համար
     models:
-      meeting: Մեկանգամյա հանդիպում
-      meeting_agenda: Օրակարգ
-      meeting_agenda_item: Օրակարգի կետ
-      meeting_section: Բաժին
-      recurring_meeting: Կրկնվող հանդիպում
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal հանդիպումների բաժանորդագրություն
         other: iCal հանդիպումների բաժանորդագրություն
@@ -253,7 +271,6 @@ hy:
   label_past_meetings: Անցյալ հանդիպումներ
   label_past_meetings_short: Անցյալ
   label_recurring_filter: Կրկնվող հանդիպումների զտիչ
-  label_recurring_meeting: Կրկնվող հանդիպում
   label_recurring_meeting_cancel: Չեղարկել այս կրկնությունը
   label_recurring_meeting_create: Բաց
   label_recurring_meeting_delete: Ջնջել կրկնությունը

@@ -14,6 +14,15 @@ lv:
           end_before_start: end value needs to be larger than the start value.
           outside: atrodas ārpus režģa.
           overlaps: pārklājas.
+    models:
+      grids/grid:
+        zero: Grids
+        one: Grid
+        other: Grids
+      grids/widget:
+        zero: Widgets
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Rīknē iekļautais logrīks %{grid_name}
     widgets:

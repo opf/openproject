@@ -97,13 +97,22 @@ th:
     models:
       cost_entry:
         other: Cost entries
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: Cost types
-      rate: Rate
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: Time entries
       time_entry_activity:
         other: Time tracking activities
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ th:
   label_greater_or_equal: ">="
   label_group_by: จัดกลุ่มโดย
   label_group_by_add: พิ่มฟิลด์การจัดกลุ่ม
-  label_hourly_rate: อัตราต่อชั่วโมง
   label_include_deleted: รวมสิ่งที่ถูกลบ
   label_kind: ประเภท
   label_less_or_equal: "<="
@@ -223,7 +231,6 @@ th:
   label_previous_month: Previous month
   label_previous_week: สัปดาห์ก่อนหน้านี้
   label_previous_workweek: Previous work week
-  label_rate: อัตรา
   label_rate_plural: อัตรา
   label_show: แสดง
   label_specific_day: Day %{day}
@@ -237,7 +244,6 @@ th:
   label_today_capitalized: Today
   label_units: หน่วยต้นทุน
   label_until: จนถึง
-  label_user: ผู้ใช้
   label_valid_from: มีผลตั้งแต่
   label_view_mode_switcher: Change view
   label_work_package_filter_add: เพิ่มตัวกรองชุดงาน

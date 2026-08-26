@@ -55,6 +55,8 @@ de:
         position: Position
         presenter: Referent
         title: Titel
+      meeting_outcome:
+        kind: Art
       meeting_participant:
         attended: Teilgenommen
         invited: Eingeladen
@@ -96,13 +98,29 @@ de:
             one: Es gibt eine offene Besprechung in der Terminserie, die nicht durch den neuen Zeitplan abgedeckt ist. Passen Sie den Zeitplan an, um alle bestehenden Meetings einzuschließen.
             other: Es gibt %{count} offene Besprechungen in der Terminserie, die nicht durch den neuen Zeitplan abgedeckt sind. Passen Sie den Zeitplan an, um alle bestehenden Meetings einzuschließen.
         recurring_meeting_interim_response:
-          not_an_occurrence: ist keine gültige Uhrzeit für diese wiederkehrende Besprechung
+          not_an_occurrence: ist keine gültige Uhrzeit für dieses wiederkehrende Treffen
     models:
-      meeting: Einmalige Besprechung
-      meeting_agenda: Agenda
-      meeting_agenda_item: Tagesordnungspunkt
-      meeting_section: Abschnitt
-      recurring_meeting: Wiederkehrende Besprechung
+      meeting:
+        one: Einmalige Besprechung
+        other: Einmalige Besprechungen
+      meeting_agenda_item:
+        one: Tagesordnungspunkt
+        other: Tagesordnungspunkte
+      meeting_outcome:
+        one: Ergebnis
+        other: Ergebnisse
+      meeting_participant:
+        one: Teilnehmender der Besprechung
+        other: Teilnehmende der Besprechung
+      meeting_section:
+        one: Abschnitt
+        other: Abschnitte
+      recurring_meeting:
+        one: Wiederkehrende Besprechung
+        other: Wiederkehrende Besprechungen
+      scheduled_meeting:
+        one: Geplante Besprechung
+        other: Geplante Besprechungen
       token/ical_meeting:
         one: iCal Meeting Abonnement
         other: iCal Meeting Abonnements
@@ -253,7 +271,6 @@ de:
   label_past_meetings: Vergangene Meetings
   label_past_meetings_short: Vergangen
   label_recurring_filter: Wiederkehrender Filter
-  label_recurring_meeting: Wiederkehrende Besprechung
   label_recurring_meeting_cancel: Diese Besprechung absagen
   label_recurring_meeting_create: Öffnen
   label_recurring_meeting_delete: Besprechung löschen
@@ -535,8 +552,8 @@ de:
   placeholder_meeting_template_select_project_first: Wählen Sie zuerst ein Projekt aus
   placeholder_section_select_meeting_first: Besprechungsauswahl ist zuerst erforderlich
   plugin_openproject_meeting:
-    description: Besprechungen für OpenProject
-    name: OpenProject Besprechung
+    description: Dieses Modul fügt Funktionen zur Unterstützung von Besprechungen zu OpenProject hinzu. Sie können Besprechungen planen und dabei Teilnehmende aus demselben Projekt auswählen, die an der Besprechung teilnehmen sollen. Es kann eine Tagesordnung erstellt und an die Eingeladenen gesendet werden. Nach der Besprechung können die Teilnehmenden ausgewählt und Protokolle auf der Grundlage der Tagesordnung erstellt werden. Schließlich kann das Protokoll an alle Teilnehmenden und Eingeladenen gesendet werden.
+    name: OpenProject Besprechungen
   project_module_meetings: Besprechungen
   recurring_meeting:
     actual_first_occurrence_mismatch_html: 'Das erste Vorkommen dieses Serientermins wird sein: %{first_occurrence}'

@@ -98,16 +98,30 @@ bg:
       cost_entry:
         one: Въвеждане на разходи
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Тип разход
         other: Видове разходи
-      rate: Ставка
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Time entry
         other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Дейности за проследяване на времето
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ bg:
   label_greater_or_equal: ">="
   label_group_by: Групиране по
   label_group_by_add: Добавете поле за групиране
-  label_hourly_rate: Часова ставка
   label_include_deleted: Включете изтритите
   label_kind: Тип
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ bg:
   label_previous_month: Previous month
   label_previous_week: Предишната седмица
   label_previous_workweek: Previous work week
-  label_rate: Ставка
   label_rate_plural: Цени
   label_show: Покажи
   label_specific_day: Day %{day}
@@ -241,7 +253,6 @@ bg:
   label_today_capitalized: Днес
   label_units: Разходни единици
   label_until: докато
-  label_user: Потребител
   label_valid_from: Валиден от
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Добавете филтър за работен пакет

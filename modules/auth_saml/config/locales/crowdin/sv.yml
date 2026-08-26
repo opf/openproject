@@ -32,6 +32,10 @@ sv:
           invalid_certificate: 'är inte ett giltigt PEM-formaterat certifikat: %{additional_message}'
           invalid_private_key: 'inte är en giltig PEM-formaterad privat nyckel: %{additional_message}'
           unmatched_private_key: inte tillhör det angivna certifikatet
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Ta bort SAML-leverantör

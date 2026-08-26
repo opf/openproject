@@ -21,6 +21,11 @@
 #++
 ---
 sv:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Spara rapporten som...
   comments: Kommentar
   cost_reports_title: Tid och kostnader
@@ -46,7 +51,6 @@ sv:
   label_closed: stängd
   label_columns: Kolumner
   label_cost_entry_attributes: Kostnadspostattribut
-  label_cost_report: Kostnadsrapport
   label_cost_report_plural: Kostnadsrapporter
   label_count: Antal
   label_days_ago: under de senaste dagarna

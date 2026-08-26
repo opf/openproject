@@ -30,6 +30,9 @@ fa:
       wikis/internal_provider:
         one: ارائه‌دهندهٔ داخلی
         other: ارائه‌دهندگان داخلی
+      wikis/page_link:
+        one: پیوند صفحه
+        other: پیوندهای صفحه
       wikis/provider:
         one: ارائه‌دهندهٔ ویکی
         other: ارائه‌دهندگان ویکی

@@ -98,16 +98,30 @@ ca:
       cost_entry:
         one: Entrada de costs
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Estil de cost
         other: Estils de cost
-      rate: Tarifa
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Entrada de temps
         other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Activitats de rastrejament del temps
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ ca:
   label_greater_or_equal: ">="
   label_group_by: Agrupa per
   label_group_by_add: Afegeix camp de grup
-  label_hourly_rate: Tarifa per hora
   label_include_deleted: Inclou eliminats
   label_kind: Tipus
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ ca:
   label_previous_month: Previous month
   label_previous_week: Setmana anterior
   label_previous_workweek: Previous work week
-  label_rate: Tarifa
   label_rate_plural: Tarifes
   label_show: Mostra
   label_specific_day: Day %{day}
@@ -241,7 +253,6 @@ ca:
   label_today_capitalized: Avui
   label_units: Cost d'unitat
   label_until: fins a
-  label_user: Usuari
   label_valid_from: Vàlid des de
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Afegeix un filtre de paquet de treball
