@@ -1,5 +1,10 @@
 ---
 af:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Beheerpaneel
     label_home: "%{workspace_type} home"

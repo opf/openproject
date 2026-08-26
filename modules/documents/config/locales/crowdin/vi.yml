@@ -31,13 +31,16 @@ vi:
         document_type:
           one_or_more_required: Không thể xóa loại tài liệu cuối cùng
     models:
-      document: tài liệu
-      documents: tài liệu
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: tài liệu
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Tài liệu kỹ thuật
   default_doc_category_user: Tài liệu người dùng
   documents:

@@ -4,86 +4,90 @@ fa:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: واحد سازمانی
+        ldap_auth_source: اتصال LDAP
+        users_count: اعضا
       ldap_departments/synchronized_tree:
         base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
-        ou_name_attribute: OU name attribute
-        structure_filter_string: Organizational unit filter
-        sync_users: Sync users
-        user_filter_string: User filter
+        guid_attribute: Attribute شناسهٔ یکتا
+        ldap_auth_source: اتصال LDAP
+        name: نام
+        ou_name_attribute: Attribute نام OU
+        structure_filter_string: فیلتر واحد سازمانی
+        sync_users: همگام‌سازی کاربران
+        user_filter_string: فیلتر کاربر
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
-          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+          must_contain_base_dn: Base DN باید در Base DN اتصال LDAP قرار داشته باشد.
+          overlaps_other_tree: با Base DN یک همگام‌سازی دیگر روی همان اتصال LDAP هم‌پوشانی دارد.
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department:
+        one: واحد سازمانی همگام‌شده
+        other: واحدهای سازمانی همگام‌شده
+      ldap_departments/synchronized_tree:
+        one: همگام‌سازی واحدهای سازمانی LDAP
+        other: همگام‌سازی‌های واحدهای سازمانی LDAP
   ee:
     upsell:
       ldap_departments:
-        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
-        title: LDAP department synchronization
+        description: ساختار واحدهای سازمانی LDAP خود را در سلسله‌مراتب دپارتمان‌های OpenProject بازتاب دهید و اعضای دپارتمان‌ها را به‌طور خودکار همگام نگه دارید.
+        title: همگام‌سازی واحدهای سازمانی LDAP
   ldap_departments:
-    label_menu_item: LDAP department synchronization
-    label_synchronize: Synchronize organizational units
+    label_menu_item: همگام‌سازی واحدهای سازمانی LDAP
+    label_synchronize: همگام‌سازی واحدهای سازمانی
     synchronized_departments:
       blankslate:
-        description: Run the synchronization to import the organizational units of this base DN as departments.
-        heading: No departments synchronized yet
+        description: همگام‌سازی را اجرا کنید تا واحدهای سازمانی این Base DN به‌عنوان واحدهای سازمانی وارد شوند.
+        heading: هنوز واحد سازمانی‌ای همگام نشده است
       destroy:
-        confirmation: If you continue, %{name} is no longer managed by LDAP synchronization.
-        heading: Stop managing %{name}?
-        info: The department and its members are kept. It becomes a regular department that you can edit or delete manually.
-        title: Stop managing %{name}
-      managed_notice: Managed by LDAP synchronization
-      no_results: No departments have been synchronized yet.
-      plural: Synchronized departments
-      singular: Synchronized department
+        confirmation: در صورت ادامه، %{name} دیگر توسط همگام‌سازی LDAP مدیریت نخواهد شد.
+        heading: مدیریت %{name} متوقف شود؟
+        info: واحد سازمانی و اعضای آن حفظ می‌شوند و به یک واحد سازمانی عادی تبدیل می‌شود که می‌توانید آن را به‌صورت دستی ویرایش یا حذف کنید.
+        title: توقف مدیریت %{name}
+      managed_notice: مدیریت‌شده توسط همگام‌سازی LDAP
+      no_results: هنوز هیچ واحد سازمانی‌ای همگام نشده است.
+      plural: واحدهای سازمانی همگام‌شده
+      singular: واحد سازمانی همگام‌شده
     synchronized_trees:
-      add_new: Add LDAP department synchronization
+      add_new: افزودن همگام‌سازی واحدهای سازمانی LDAP
       blankslate:
-        description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
-        heading: No LDAP department synchronizations
+        description: یک همگام‌سازی راه‌اندازی کنید تا ساختار واحدهای سازمانی LDAP شما در سلسله‌مراتب واحدهای سازمانی اوپن‌پروجکت منعکس شود.
+        heading: هیچ همگام‌سازی واحد سازمانی LDAP وجود ندارد
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
-        heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
-        title: Remove synchronization %{name}
+          one: در صورت ادامه، همگام‌سازی %{name} حذف می‌شود و %{count} واحد سازمانی آن دیگر توسط LDAP مدیریت نخواهد شد.
+          other: در صورت ادامه، همگام‌سازی %{name} حذف می‌شود و %{count} واحد سازمانی آن دیگر توسط LDAP مدیریت نخواهند شد.
+        heading: همگام‌سازی %{name} حذف شود؟
+        info: دپارتمان‌ها و اعضای آن‌ها حفظ می‌شوند و به دپارتمان‌های معمولی تبدیل خواهند شد. سپس می‌توانید آن‌ها را از «مدیریت → کاربران و مجوزها → سازمان» به‌صورت دستی ویرایش یا حذف کنید.
+        title: حذف همگام‌سازی %{name}
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: اتصال LDAP مورد استفاده را انتخاب کنید.
+        base_dn_text: 'base DN مربوط به واحدهای سازمانی قابل همگام‌سازی را وارد کنید. OUهای فرزند مستقیم آن به دپارتمان‌های سطح بالا تبدیل می‌شوند. این DN باید زیر base DN اتصال LDAP انتخاب‌شده باشد.
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: 'اختیاری. مشخصهٔ LDAP حاوی شناسهٔ یکتای پایدار (مانند "objectGUID" یا "entryUUID"). با تنظیم آن، دپارتمان‌ها پس از تغییر نام یا جابه‌جایی OU حفظ می‌شوند. برای تطبیق بر اساس DN خالی بگذارید.
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: Attribute در LDAP که برای نام‌گذاری واحد سازمانی استفاده می‌شود (مثلاً «ou»).
         sections:
-          connection: LDAP connection
-          structure: Organizational units
-          users: Users
-        structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
-        sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
+          connection: اتصال LDAP
+          structure: واحدهای سازمانی
+          users: کاربران
+        structure_filter_string_text: فیلتر LDAP مطابق RFC4515 برای شناسایی ورودی‌های واحد سازمانی.
+        sync_users_text: 'اگر فعال باشد، کاربرانی که زیر base DN پیدا شوند نیز در OpenProject ایجاد می‌شوند. در غیر این صورت فقط حساب‌های موجود به دپارتمان‌ها اختصاص می‌یابند.
 
           '
-        user_filter_string_text: 'Optional RFC4515 LDAP filter identifying user entries. Leave empty to use the connection filter, or a generic person filter when none is set.
+        user_filter_string_text: 'فیلتر اختیاری LDAP مطابق RFC4515 برای شناسایی ورودی‌های کاربر. برای استفاده از فیلتر اتصال، یا در نبود آن یک فیلتر عمومی person، این فیلد را خالی بگذارید.
 
           '
-      help_text: 'This module mirrors the organizational unit (OU) structure of your LDAP directory into the OpenProject department hierarchy. Each OU below the configured base DN becomes a department, and users are assigned to the department of the OU they reside in. Departments are synchronized regularly through a cron job.
+      help_text: 'این ماژول ساختار واحد سازمانی (OU) دایرکتوری LDAP را در سلسله‌مراتب دپارتمان‌های OpenProject بازتاب می‌دهد. هر OU زیر base DN پیکربندی‌شده به دپارتمان تبدیل می‌شود و کاربران به دپارتمان OU محل خود اختصاص می‌یابند. همگام‌سازی منظم از طریق cron job انجام می‌شود.
 
         '
-      no_results: No LDAP department synchronizations configured yet.
-      plural: LDAP department synchronizations
-      singular: LDAP department synchronization
-      synchronization_started: Synchronization started in the background. Departments will appear once it completes.
+      no_results: هنوز هیچ همگام‌سازی واحد سازمانی LDAP پیکربندی نشده است.
+      plural: همگام‌سازی‌های واحد سازمانی LDAP
+      singular: همگام‌سازی واحدهای سازمانی LDAP
+      synchronization_started: همگام‌سازی در پس‌زمینه آغاز شد. واحدهای سازمانی پس از تکمیل فرایند نمایش داده خواهند شد.
   plugin_openproject_ldap_departments:
-    description: Synchronization of LDAP organizational units into OpenProject departments.
-    name: OpenProject LDAP departments
+    description: همگام‌سازی واحدهای سازمانی LDAP با واحدهای سازمانی اوپن‌پروجکت.
+    name: واحدهای سازمانی LDAP در OpenProject

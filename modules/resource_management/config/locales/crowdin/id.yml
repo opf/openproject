@@ -39,10 +39,18 @@ id:
             query:
               must_be_work_package_query: must be a work package query.
     models:
-      resource_allocation: Resource Allocation
-      resource_planner: Resource Planner
-      resource_user_card: User cards
-      resource_work_package_list: Work packages list
+      resource_allocation:
+        other: Resource Allocations
+      resource_planner:
+        other: Resource Planners
+      resource_user_card:
+        other: User cards
+      resource_user_timeline:
+        other: User timelines
+      resource_work_package_list:
+        other: Work packages lists
+      resource_work_package_timeline:
+        other: Work packages timelines
   button_next: Next
   ee:
     features:

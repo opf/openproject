@@ -14,7 +14,10 @@ zh-TW:
         secret: 簽章金鑰
         url: Payload URL
     models:
-      webhooks/outgoing_webhook: 外部webhook
+      webhooks/log:
+        other: Webhook logs
+      webhooks/webhook:
+        other: Webhooks
   plugin_openproject_webhooks:
     description: 為更良好整合第三方服務，提供外掛程式 API 支援 OpenProject Webhook
     name: OpenProject Webhooks

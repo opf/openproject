@@ -76,6 +76,13 @@ ja:
         dependencies: 依存関係
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: までを表示
       attachment:
@@ -971,59 +978,208 @@ ja:
         header:
           other: "%{count} つのエラーにより %{model} を保存できませんでした"
     models:
-      attachment: ファイル
+      action:
+        other: Actions
+      ai/text_transform_action:
+        other: Text transform actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 認証プロバイダー
-      category: カテゴリ
-      color: 色
-      comment: コメント
-      custom_action: カスタムアクション
-      custom_field: カスタムフィールド
-      customized: Customized
-      doorkeeper/application: OAuthアプリケーション
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: エンタープライズトークン
-      forum: フォーラム
-      global_role: グローバルロール
-      group: グループ
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 優先度
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: メンバー
-      message: Message
-      news: ニュース
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 通知
-      placeholder_user: プレースホルダー ユーザー
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: プロジェクト
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: プロジェクト一覧
-      query: ユーザのクエリ
-      reminder: リマインダ
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: ロール
       scim_client:
         other: SCIMクライアント
-      status: ステータス名
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: アクセストークン
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
       type_variant:
         other: Variants
-      user: ユーザ
-      version: バージョン
-      wiki: Wiki
-      wiki_page: Wiki ページ
-      work_package: ワーク パッケージ
-      workflow: ワークフロー
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: この期間内にプロジェクトの活動はありませんでした。
@@ -1742,6 +1898,7 @@ ja:
     custom_field: カスタムフィールド
     custom_options: 選択肢
     custom_values: カスタムフィールド
+    customized: Customized
     date: 日付
     dates_interval: 期間
     default_columns: 既定の列
@@ -1768,6 +1925,7 @@ ja:
     is_default: デフォルト値
     is_for_all: 全プロジェクト向け
     issue: ワーク パッケージ
+    jira: Jira
     journal: 履歴記述
     journal_notes: コメント
     lastname: 苗字
@@ -2302,8 +2460,12 @@ ja:
   description_available_columns: 利用できる項目
   description_category_reassign: 新しいカテゴリを選択してください。
   description_choose_project: プロジェクト
-  description_compare_from: 以下と比較：
-  description_compare_to: 比較：
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: '現在の位置: '
   description_date_from: 開始日
   description_date_to: 終了日
@@ -2504,8 +2666,6 @@ ja:
         description: 他のユーザーがアクセスできるようになる前に、OpenProjectにアップロードされたファイルがウイルスでスキャンされていることを確認してください。
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: ワークパッケージの一覧で関係を表示しますか？
       work_package_sharing:
         description: プロジェクトのメンバーではないユーザーとワークパッケージを共有します。
       work_package_subject_generation:
@@ -3001,7 +3161,6 @@ ja:
   label_available_project_work_package_types: 利用可能なワークパッケージのタイプ
   label_available_projects: 利用可能なプロジェクト
   label_backup: バックアップ
-  label_backup_code: バックアップコード
   label_basic_details: 基本的な詳細
   label_between: 次の範囲内
   label_blocked_by: ブロックされている
@@ -3021,7 +3180,6 @@ ja:
   label_calendar_show: カレンダーを表示
   label_calendar_subscriptions: カレンダーのサブスクリプション
   label_calendars_and_dates: カレンダーと日付
-  label_category: カテゴリ
   label_change_parent: 親タスクの変更
   label_change_password: Change password
   label_change_plural: 変更
@@ -3030,9 +3188,9 @@ ja:
   label_change_status_of_user: "#{username} のステータスを変更"
   label_change_view_all: 全変更を表示
   label_changes_details: 全変更の詳細
-  label_changeset: 変更セット
   label_changeset_id: 変更セット ID
   label_changeset_plural: 更新履歴
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: すべての欄をチェック/チェックを外す
   label_check_uncheck_all_in_row: すべての行をチェック/チェックを外す
   label_checked: 選択済み
@@ -3179,6 +3337,7 @@ ja:
   label_feeds_access_key: RSSアクセスキー
   label_feeds_access_key_created_on: RSSアクセスキーが%{value}前に作成されました
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: ファイルを添付する
   label_filter: フィルタ
   label_filter_add: フィルタを追加
@@ -3203,7 +3362,6 @@ ja:
   label_git_path: ".gitディレクトリへのパス"
   label_global: 全般
   label_global_modules: グローバルモジュール
-  label_global_role: グローバルロール
   label_global_roles: グローバルロール
   label_go_back: 1つのメニューレベルに戻る
   label_go_forward: "%{module} サブメニューを開く"
@@ -3272,7 +3430,6 @@ ja:
   label_last_week: 先週
   label_latest_revision: 最新のリビジョン
   label_latest_revision_plural: 最新のリビジョン
-  label_ldap_auth_source: LDAP 接続
   label_ldap_auth_source_new: 新しい LDAP 接続
   label_ldap_auth_source_plural: LDAP 接続
   label_ldap_authentication: LDAP認証
@@ -3302,7 +3459,6 @@ ja:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: メンバー
-  label_member_role: プロジェクトロール
   label_membership_added: メンバーが追加されました
   label_membership_plural: メンバシップ
   label_membership_updated: メンバーが更新されました
@@ -3415,7 +3571,6 @@ ja:
   label_permissions: 権限
   label_permissions_report: 権限のレポート
   label_personalize_page: このページを個人用にカスタマイズする
-  label_placeholder_user: プレースホルダー ユーザー
   label_placeholder_user_new: 新しいプレースホルダー ユーザー
   label_placeholder_user_plural: プレースホルダー ユーザー
   label_planning: 計画
@@ -3478,7 +3633,6 @@ ja:
   label_related_work_packages: 関係するワークパッケージ
   label_relates: 関係している
   label_relates_to: 関連している
-  label_relation: 関連
   label_relation_actions: リレーションアクション
   label_relation_delete: 関係の削除
   label_relation_edit: リレーションを編集
@@ -3531,7 +3685,6 @@ ja:
   label_send_information: ユーザーに新しい資格情報を送信
   label_send_invitation: 招待状を送信
   label_send_test_email: テスト電子メールを送信
-  label_session: セッション
   label_setting_plural: 設定
   label_share: 共有
   label_share_project_list: プロジェクト一覧を共有
@@ -3607,7 +3760,6 @@ ja:
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
-  label_user: ユーザ
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: ユーザーと権限
   label_user_anonymous: 匿名ユーザ
@@ -3638,19 +3790,17 @@ ja:
   label_week: 週
   label_weighted_item_list: Weighted item list
   label_what_is_this: これは何ですか?
-  label_widget: ウィジェット
   label_widget_new: 新規ウィジェット
   label_wiki_content_added: Wikiページが追加されました。
   label_wiki_content_updated: Wikiページが更新されました。
   label_wiki_dont_show_menu_item: プロジェクトのメニューでこのWikiページを非表示
   label_wiki_edit: Wikiの編集
   label_wiki_edit_plural: Wikiの編集
-  label_wiki_menu_item: Wikiのメニュー項目
   label_wiki_navigation: Wikiのメニュー
-  label_wiki_page: Wiki ページ
   label_wiki_page_attachments: Wiki ページの添付ファイル
   label_wiki_page_id: WikiページのID
   label_wiki_page_plural: Wikiページ
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 下位のメニューで「目次」を表示
   label_wiki_show_menu_item: プロジェクトのメニューで項目として表示
   label_wiki_show_new_page_link: 下位のメニューで「子ページを新規作成」の項目を表示
@@ -3667,7 +3817,6 @@ ja:
   label_work_package_hierarchy: ワークパッケージの階層
   label_work_package_new: 新しいワークパッケージ
   label_work_package_plural: ワークパッケージ
-  label_work_package_status: ステータス名
   label_work_package_status_new: 新規ステータス
   label_work_package_status_plural: ステータスの種類
   label_work_package_tracking: ワークパッケージの追跡
@@ -4937,13 +5086,25 @@ ja:
           enable_type_in_project: "「%{type}」型を有効にする"
         no_results_title_text: 現在、有効な種類はありません。
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              other: "%{count} work packages have a value"
+            work_packages:
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5745,6 +5906,7 @@ ja:
   text_destroy_what_to_do: どれかを選択して下さい。
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... 差分の行数が表示可能な上限を超えました。超過分は表示しません。"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     メール配信が設定されておらず、通知が無効になっています。
     SMTPサーバーを有効にしてください。
@@ -6091,6 +6253,14 @@ ja:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6256,6 +6426,7 @@ ja:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6269,7 +6440,6 @@ ja:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

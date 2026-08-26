@@ -76,6 +76,13 @@ lv:
         dependencies: Saistītie projekti
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Display until
       attachment:
@@ -975,56 +982,290 @@ lv:
           one: Modelī %{model} ir kļūda kas neļauj to saglabāt
           other: Modelī %{model} ir %{count} kļūdas, kas neļauj to saglabāt
     models:
-      attachment: Fails
+      action:
+        zero: Actions
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        zero: Text transform actions
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        zero: Announcements
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        zero: Anonymous users
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        zero: Files
+        one: File
+        other: Files
       attribute_help_text:
         zero: Attribute help texts
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        zero: Project attribute help texts
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        zero: User attribute help texts
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        zero: Work package attribute help texts
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         zero: Authentication providers
         one: Authentication provider
         other: Authentication providers
-      category: Sadaļa
-      color: Krāsa
-      comment: Komentârs
-      custom_action: Custom action
-      custom_field: Custom field
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        zero: Backups
+        one: Backup
+        other: Backups
+      capability:
+        zero: Capabilities
+        one: Capability
+        other: Capabilities
+      category:
+        zero: Categories
+        one: Category
+        other: Categories
+      change:
+        zero: File changes
+        one: File change
+        other: File changes
+      changeset:
+        zero: Changesets
+        one: Changeset
+        other: Changesets
+      color:
+        zero: Colors
+        one: Color
+        other: Colors
+      comment:
+        zero: Comments
+        one: Comment
+        other: Comments
+      custom_action:
+        zero: Custom actions
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        zero: Custom fields
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        zero: Hierarchy items
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        zero: Custom field sections
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        zero: Custom field options
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        zero: Designs
+        one: Design
+        other: Designs
+      day:
+        zero: Days
+        one: Day
+        other: Days
+      deleted_user:
+        zero: Deleted users
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        zero: Design colors
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        zero: OAuth applications
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        zero: Emoji reactions
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         zero: Enterprise tokens
         one: Enterprise token
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Group
+      enterprise_trial:
+        zero: Enterprise trials
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        zero: Enumerations
+        one: Enumeration
+        other: Enumerations
+      export:
+        zero: Exports
+        one: Export
+        other: Exports
+      export_setting:
+        zero: Export settings
+        one: Export setting
+        other: Export settings
+      forum:
+        zero: Forums
+        one: Forum
+        other: Forums
+      global_role:
+        zero: Global roles
+        one: Global role
+        other: Global roles
+      group:
+        zero: Groups
+        one: Group
+        other: Groups
+      group_custom_field:
+        zero: Group custom fields
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        zero: Health reports
+        one: Health report
+        other: Health reports
       issue_priority:
         zero: Priorities
         one: Prioritāte
         other: Priorities
-      jira:
-        zero: Jira
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Member
-      message: Message
-      news: Jaunumi
+      ldap_auth_source:
+        zero: LDAP connections
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        zero: MCP configurations
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        zero: Members
+        one: Member
+        other: Members
+      menu_item:
+        zero: Menu items
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        zero: Wiki menu items
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        zero: Messages
+        one: Message
+        other: Messages
+      news:
+        zero: News
+        one: News
+        other: News
+      non_working_day:
+        zero: Non-working days
+        one: Non-working day
+        other: Non-working days
       notification:
         zero: Notifications
         one: Notification
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        zero: Notification settings
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        zero: OAuth clients
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        zero: OAuth client tokens
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        zero: Persisted queries
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        zero: Persisted views
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        zero: Placeholder users
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        zero: Plugin authentication providers
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        zero: Principals
+        one: Principal
+        other: Principals
       project:
         zero: Projekti
         one: Projekts
         other: Projekti
+      project/phase:
+        zero: Project phases
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        zero: Project phase definitions
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        zero: Project attributes
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        zero: Project attribute sections
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         zero: Project lists
         one: Project list
         other: Project lists
-      query: Custom query
-      reminder: Reminder
+      project_query_role:
+        zero: Project list roles
+        one: Project list role
+        other: Project list roles
+      project_role:
+        zero: Project roles
+        one: Project role
+        other: Project roles
+      query:
+        zero: Custom queries
+        one: Custom query
+        other: Custom queries
+      relation:
+        zero: Relations
+        one: Relation
+        other: Relations
+      reminder:
+        zero: Reminders
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        zero: Remote identities
+        one: Remote identity
+        other: Remote identities
+      repository:
+        zero: Repositories
+        one: Repository
+        other: Repositories
+      repository/git:
+        zero: Git repositories
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        zero: Subversion repositories
+        one: Subversion repository
+        other: Subversion repositories
       role:
         zero: Lomas
         one: Loma
@@ -1033,11 +1274,38 @@ lv:
         zero: SCIM clients
         one: SCIM client
         other: SCIM clients
-      status: Work package status
+      service_account:
+        zero: Service accounts
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        zero: Sessions
+        one: Session
+        other: Sessions
+      setting:
+        zero: Settings
+        one: Setting
+        other: Settings
+      status:
+        zero: Work package statuses
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        zero: System users
+        one: System user
+        other: System users
       token/api:
         zero: Access tokens
         one: Piekļuves pilnvara
         other: Access tokens
+      token/base:
+        zero: Tokens
+        one: Token
+        other: Tokens
+      token/ical:
+        zero: iCalendar tokens
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         zero: RSS tokens
         one: RSS token
@@ -1050,12 +1318,74 @@ lv:
         zero: Variants
         one: Variant
         other: Variants
-      user: Lietotāji
-      version: Versija
-      wiki: Wiki
-      wiki_page: Wiki page
-      work_package: Darba pieteikums
-      workflow: Darbplūsma
+      user:
+        zero: Users
+        one: User
+        other: Users
+      user_custom_field:
+        zero: User attributes
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        zero: User attribute sections
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        zero: Non-working times
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        zero: Passwords
+        one: Password
+        other: Passwords
+      user_preference:
+        zero: User preferences
+        one: User preference
+        other: User preferences
+      user_query:
+        zero: User lists
+        one: User list
+        other: User lists
+      user_working_hours:
+        zero: Working hours
+        one: Working hours
+        other: Working hours
+      version:
+        zero: Versions
+        one: Version
+        other: Versions
+      version_custom_field:
+        zero: Version custom fields
+        one: Version custom field
+        other: Version custom fields
+      view:
+        zero: Views
+        one: View
+        other: Views
+      wiki:
+        zero: Wikis
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        zero: Wiki pages
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        zero: Work packages
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        zero: Work package custom fields
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        zero: Work package roles
+        one: Work package role
+        other: Work package roles
+      workflow:
+        zero: Workflows
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: There has not been any activity for the project within this time frame.
@@ -1800,6 +2130,7 @@ lv:
     custom_field: Custom field
     custom_options: Iespējamās vērtības
     custom_values: Pielāgotie lauki
+    customized: Customized
     date: Datums
     dates_interval: Date range
     default_columns: Default columns
@@ -1826,6 +2157,7 @@ lv:
     is_default: Noklusējuma vērtība
     is_for_all: Visiem projektiem
     issue: Darba pieteikums
+    jira: Jira
     journal: Journal
     journal_notes: Komentârs
     lastname: Uzvārds
@@ -2400,8 +2732,12 @@ lv:
   description_available_columns: Available Columns
   description_category_reassign: Choose category
   description_choose_project: Projekti
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_to: Enter end date
@@ -2604,8 +2940,6 @@ lv:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3109,7 +3443,6 @@ lv:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: between
   label_blocked_by: blocked by
@@ -3129,7 +3462,6 @@ lv:
   label_calendar_show: Show Calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Sadaļa
   label_change_parent: Mainīt vecāku
   label_change_password: Change password
   label_change_plural: Changes
@@ -3138,9 +3470,9 @@ lv:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Izvēlēties/noņemt visus kolonnā
   label_check_uncheck_all_in_row: Izvēlēties/noņemt visus rindā
   label_checked: checked
@@ -3287,6 +3619,7 @@ lv:
   label_feeds_access_key: RSS piekļuves atslēga
   label_feeds_access_key_created_on: API piekļuves atslēga izveidota pirms %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Faili
   label_filter: Filtri
   label_filter_add: Pievienot filtru
@@ -3311,7 +3644,6 @@ lv:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3380,7 +3712,6 @@ lv:
   label_last_week: last week
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3410,7 +3741,6 @@ lv:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Dalībnieki
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3523,7 +3853,6 @@ lv:
   label_permissions: Permissions
   label_permissions_report: Permissions report
   label_personalize_page: Personalizēt šo lapu
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planning
@@ -3586,7 +3915,6 @@ lv:
   label_related_work_packages: Saistītie pieteikumi
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3639,7 +3967,6 @@ lv:
   label_send_information: Send new credentials to the user
   label_send_invitation: Nosūtīt ielūgumu
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: Iestatījumi
   label_share: Koplietot
   label_share_project_list: Share project list
@@ -3715,7 +4042,6 @@ lv:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: Lietotāji
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonymous
@@ -3746,19 +4072,17 @@ lv:
   label_week: Week
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki labojumi
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3775,7 +4099,6 @@ lv:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: Jauns pieteikums
   label_work_package_plural: Pieteikumi
-  label_work_package_status: Work package status
   label_work_package_status_new: New status
   label_work_package_status_plural: Pieteikumu statusi
   label_work_package_tracking: Pieteikumi
@@ -5075,13 +5398,31 @@ lv:
           enable_type_in_project: Enable type "%{type}"
         no_results_title_text: Pašlaik nav pieejams neviens veids.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              zero: "%{count} work packages"
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              zero: "%{count} work packages have a value"
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              zero: "%{count} work packages will use the new configuration"
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5888,6 +6229,7 @@ lv:
   text_destroy_what_to_do: What do you want to do?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -6234,6 +6576,14 @@ lv:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6403,6 +6753,7 @@ lv:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6416,7 +6767,6 @@ lv:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

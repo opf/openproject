@@ -38,7 +38,14 @@ zh-TW:
               ifc_attachment_missing: 未附加 ifc 檔案。
               invalid_ifc_file: 提供的檔案不是一個有效的 IFC 檔案。
     models:
-      bim/ifc_models/ifc_model: IFC 模式
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF 快照
   bcf:

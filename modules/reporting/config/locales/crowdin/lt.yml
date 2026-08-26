@@ -21,6 +21,13 @@
 #++
 ---
 lt:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: Įrašyti ataskaitą kaip...
   comments: Komentaras
   cost_reports_title: Laikas ir išlaidos
@@ -46,7 +53,6 @@ lt:
   label_closed: uždaryta
   label_columns: Stulpeliai
   label_cost_entry_attributes: Kaštų įrašų atributai
-  label_cost_report: Kaštų ataskaita
   label_cost_report_plural: Kaštų ataskaitos
   label_count: Skaičius
   label_days_ago: per pastarąsias dienas

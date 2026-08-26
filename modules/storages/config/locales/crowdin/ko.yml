@@ -73,8 +73,18 @@ ko:
               invalid_password: "- 유효하지 않습니다."
               unknown_error: 파일 저장소 공급자에서 유효성을 검사할 수 없습니다. 연결이 제대로 작동되고 있는지 확인하세요.
     models:
-      file_link: 파일
-      storages/storage: 저장소
+      storages/file_link:
+        other: 파일 링크
+      storages/nextcloud_storage:
+        other: Nextcloud 저장소
+      storages/one_drive_storage:
+        other: OneDrive 저장소
+      storages/project_storage:
+        other: 프로젝트 저장소
+      storages/sharepoint_storage:
+        other: SharePoint 저장소
+      storages/storage:
+        other: 저장소
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.

@@ -30,7 +30,12 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position)
+    # Offset past the named seed types' hard-coded 1..4 (and past types.position's DB default of
+    # 1, which acts_as_list reads as "append me at the bottom"). Without the offset the position a
+    # type gets depends on how many types the whole rspec process built before it, so an unrelated
+    # spec creating a type shifts this one ahead of :type_task and silently becomes
+    # project.enabled_types.first / the work_package factory's type fallback.
+    sequence(:position) { |n| n + 100 }
     name { |a| "Type No. #{a.position}" }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }

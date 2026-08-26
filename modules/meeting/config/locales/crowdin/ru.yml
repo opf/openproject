@@ -58,7 +58,7 @@ ru:
         presenter: Ведущий
         title: Заголовок
       meeting_outcome:
-        kind: Kind
+        kind: Тип
       meeting_participant:
         attended: Участвовал
         invited: Приглашённые
@@ -102,11 +102,41 @@ ru:
         recurring_meeting_interim_response:
           not_an_occurrence: не является допустимым временем повторения совещания
     models:
-      meeting: Однократное совещание
-      meeting_agenda: Повестка дня
-      meeting_agenda_item: Пункт повестки
-      meeting_section: Раздел
-      recurring_meeting: Повторяющееся совещание
+      meeting:
+        one: Однократное совещание
+        few: One-time meetings
+        many: One-time meetings
+        other: Однократные совещания
+      meeting_agenda_item:
+        one: Пункт повестки
+        few: Agenda items
+        many: Agenda items
+        other: Пункты повестки
+      meeting_outcome:
+        one: Итог
+        few: Outcomes
+        many: Outcomes
+        other: Итоги
+      meeting_participant:
+        one: Участник совещания
+        few: Meeting participants
+        many: Meeting participants
+        other: Участники совещания
+      meeting_section:
+        one: Раздел
+        few: Sections
+        many: Sections
+        other: Разделы
+      recurring_meeting:
+        one: Повторяющееся совещание
+        few: Recurring meetings
+        many: Recurring meetings
+        other: Повторяющиеся совещания
+      scheduled_meeting:
+        one: Запланированное совещание
+        few: Scheduled meetings
+        many: Scheduled meetings
+        other: Запланированные совещания
       token/ical_meeting:
         one: " iCal подписка на совещание"
         few: " iCal подписки на совещание"
@@ -261,7 +291,6 @@ ru:
   label_past_meetings: Прошедшие совещания
   label_past_meetings_short: Прошедшие
   label_recurring_filter: Повторяющийся фильтр
-  label_recurring_meeting: Повторяющееся совещание
   label_recurring_meeting_cancel: Отменить это событие
   label_recurring_meeting_create: Открыть
   label_recurring_meeting_delete: Удалить событие

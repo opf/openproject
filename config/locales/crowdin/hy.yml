@@ -76,6 +76,13 @@ hy:
         dependencies: Կախվածություններ
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Ցուցադրել մինչև
       attachment:
@@ -972,58 +979,249 @@ hy:
           one: 1 սխալ արգելեց այս %{model}-ի պահպանումը
           other: "%{count} սխալ արգելեց այս %{model}-ի պահպանումը"
     models:
-      attachment: Նիշք
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Հատկանիշի օգնության տեքստ
         other: Հատկանիշների օգնության տեքստեր
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Նույնականացման մատակարար
         other: Նույնականացման մատակարարներ
-      category: Կատեգորիա
-      color: Գույն
-      comment: Մեկնաբանություն
-      custom_action: Հատուկ գործողություն
-      custom_field: Հատուկ դաշտ
-      customized: Հարմարեցված
-      doorkeeper/application: OAuth հավելված
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise թոքեն
         other: Enterprise թոքեններ
-      forum: Ֆորում
-      global_role: Գլոբալ դեր
-      group: Խումբ
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Առաջնահերթություն
         other: Առաջնահերթություններ
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Հանդիպման մասնակից
-      member: Անդամ
-      message: Հաղորդագրություն
-      news: Նորություններ
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Ծանուցում
         other: Ծանուցումներ
-      placeholder_user: Տեղապահ օգտատեր
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Նախագիծ
         other: Նախագծեր
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Նախագծերի ցանկ
         other: Նախագծերի ցանկեր
-      query: Հատուկ հարցում
-      reminder: Հիշեցում
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Դեր
         other: Դերեր
       scim_client:
         one: SCIM հաճախորդ
         other: SCIM հաճախորդներ
-      status: Աշխատանքային փաթեթի կարգավիճակ
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Մուտքի թոքեն
         other: Մուտքի թոքեններ
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS թոքեն
         other: RSS թոքեններ
@@ -1033,12 +1231,57 @@ hy:
       type_variant:
         one: Variant
         other: Variants
-      user: Օգտատեր
-      version: Տարբերակ
-      wiki: Վիքի
-      wiki_page: Վիքի էջ
-      work_package: Աշխատանքային փաթեթ
-      workflow: Աշխատանքային հոսք
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Այս ժամանակահատվածում նախագծի համար գործունեություն չի եղել։
@@ -1768,6 +2011,7 @@ hy:
     custom_field: Հատուկ դաշտ
     custom_options: Հնարավոր արժեքներ
     custom_values: Հատուկ դաշտեր
+    customized: Customized
     date: Ամսաթիվ
     dates_interval: Ամսաթվերի միջակայք
     default_columns: Կանխադրված սյունակներ
@@ -1794,6 +2038,7 @@ hy:
     is_default: Կանխադրված արժեք
     is_for_all: Բոլոր նախագծերի համար
     issue: Աշխատանքային փաթեթ
+    jira: Jira
     journal: Մատյան
     journal_notes: Մեկնաբանություն
     lastname: Ազգանուն
@@ -2348,8 +2593,12 @@ hy:
   description_available_columns: Հասանելի սյունակներ
   description_category_reassign: Ընտրեք կատեգորիա
   description_choose_project: Նախագծեր
-  description_compare_from: Համեմատել սկսած
-  description_compare_to: Համեմատել մինչև
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Դուք այստեղ եք՝ '
   description_date_from: Մուտքագրեք սկզբի ամսաթիվը
   description_date_to: Մուտքագրեք ավարտի ամսաթիվը
@@ -2549,8 +2798,6 @@ hy:
         description: Ապահովեք, որ OpenProject-ում վերբեռնված նիշքերը վիրուսների առկայության համար ստուգվեն նախքան այլ օգտատերերին հասանելի դառնալը։
       weighted_item_lists:
         description: Կշռված տարրերի ցանկերը թույլ են տալիս Ձեզ ստեղծել ցանկ, որի տարրերին կապակցված են թվային արժեքներ։
-      work_package_query_relation_columns:
-        description: Անհրաժե՞շտ է տեսնել կապերը կամ դուստր տարրերը աշխատանքային փաթեթների ցանկում։
       work_package_sharing:
         description: Համօգտագործեք աշխատանքային փաթեթները նախագծի անդամ չհանդիսացող օգտատերերի հետ։
       work_package_subject_generation:
@@ -3050,7 +3297,6 @@ hy:
   label_available_project_work_package_types: Հասանելի աշխատանքային փաթեթների տեսակներ
   label_available_projects: Հասանելի նախագծեր
   label_backup: Պահուստավորում
-  label_backup_code: Պահուստային կոդ
   label_basic_details: Հիմնական մանրամասներ
   label_between: միջև
   label_blocked_by: արգելափակված է
@@ -3070,7 +3316,6 @@ hy:
   label_calendar_show: Ցուցադրել օրացույցը
   label_calendar_subscriptions: Օրացույցի բաժանորդագրություններ
   label_calendars_and_dates: Օրացույցներ և ամսաթվեր
-  label_category: Կատեգորիա
   label_change_parent: Փոխել ծնողը
   label_change_password: Փոփոխել գաղտնաբառը
   label_change_plural: Փոփոխություններ
@@ -3079,9 +3324,9 @@ hy:
   label_change_status_of_user: 'Փոխել #{username}-ի կարգավիճակը'
   label_change_view_all: Դիտել բոլոր փոփոխությունները
   label_changes_details: Բոլոր փոփոխությունների մանրամասները
-  label_changeset: Փոփոխությունների խումբ
   label_changeset_id: Փոփոխությունների խմբի ID
   label_changeset_plural: Փոփոխությունների խմբեր
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Նշել/Հանել նշումը սյունակում
   label_check_uncheck_all_in_row: Նշել/Հանել նշումը տողում
   label_checked: նշված
@@ -3228,6 +3473,7 @@ hy:
   label_feeds_access_key: RSS մուտքի բանալի
   label_feeds_access_key_created_on: RSS մուտքի բանալին ստեղծվել է %{value} առաջ
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Նիշքեր
   label_filter: Զտիչներ
   label_filter_add: Ավելացնել զտիչ
@@ -3252,7 +3498,6 @@ hy:
   label_git_path: Ուղի .git պանակին
   label_global: Գլոբալ
   label_global_modules: Գլոբալ մոդուլներ
-  label_global_role: Գլոբալ դեր
   label_global_roles: Գլոբալ դերեր
   label_go_back: Վերադառնալ ցանկի մեկ մակարդակ հետ
   label_go_forward: Բացել %{module} ենթացանկը
@@ -3321,7 +3566,6 @@ hy:
   label_last_week: անցյալ շաբաթ
   label_latest_revision: Վերջին ռևիզիա
   label_latest_revision_plural: Վերջին ռևիզիաներ
-  label_ldap_auth_source: LDAP կապ
   label_ldap_auth_source_new: Նոր LDAP կապ
   label_ldap_auth_source_plural: LDAP կապեր
   label_ldap_authentication: LDAP նույնականացում
@@ -3351,7 +3595,6 @@ hy:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Անդամներ
-  label_member_role: Նախագծի դեր
   label_membership_added: Անդամն ավելացվել է
   label_membership_plural: Անդամակցություններ
   label_membership_updated: Անդամը թարմացվել է
@@ -3464,7 +3707,6 @@ hy:
   label_permissions: Թույլտվություններ
   label_permissions_report: Թույլտվությունների հաշվետվություն
   label_personalize_page: Անհատականացնել այս էջը
-  label_placeholder_user: Տեղապահ օգտատեր
   label_placeholder_user_new: Նոր տեղապահ օգտատեր
   label_placeholder_user_plural: Տեղապահ օգտատերեր
   label_planning: Պլանավորում
@@ -3527,7 +3769,6 @@ hy:
   label_related_work_packages: Կապակցված աշխատանքային փաթեթներ
   label_relates: կապված է
   label_relates_to: կապված է
-  label_relation: Կապ
   label_relation_actions: Կապի գործողություններ
   label_relation_delete: Ջնջել կապը
   label_relation_edit: Խմբագրել կապը
@@ -3580,7 +3821,6 @@ hy:
   label_send_information: Ուղարկել նոր մուտքի տվյալները օգտատիրոջը
   label_send_invitation: Ուղարկել հրավեր
   label_send_test_email: Ուղարկել փորձնական էլ. նամակ
-  label_session: Աշխատաշրջան
   label_setting_plural: Կարգավորումներ
   label_share: Համօգտագործել
   label_share_project_list: Համօգտագործել նախագծերի ցանկը
@@ -3656,7 +3896,6 @@ hy:
   label_used_by: Օգտագործվում է
   label_used_by_types: Օգտագործվում է տեսակներում
   label_used_in_projects: Օգտագործվում է նախագծերում
-  label_user: Օգտատեր
   label_user_activity_html: "%{value}-ի գործունեություն"
   label_user_and_permission: Օգտատերեր և թույլտվություններ
   label_user_anonymous: Անանուն
@@ -3687,19 +3926,17 @@ hy:
   label_week: Շաբաթ
   label_weighted_item_list: Կշռված տարրերի ցանկ
   label_what_is_this: Ի՞նչ է սա
-  label_widget: Վիջեթ
   label_widget_new: Նոր վիջեթ
   label_wiki_content_added: Վիքի էջն ավելացվել է
   label_wiki_content_updated: Վիքի էջը թարմացվել է
   label_wiki_dont_show_menu_item: Չցուցադրել այս վիքի էջը նախագծի նավիգացիայում
   label_wiki_edit: Վիքի խմբագրում
   label_wiki_edit_plural: Վիքի խմբագրումներ
-  label_wiki_menu_item: Վիքի ընտրացանկի տարր
   label_wiki_navigation: Վիքի նավիգացիա
-  label_wiki_page: Վիքի էջ
   label_wiki_page_attachments: Վիքի էջի կցորդներ
   label_wiki_page_id: Վիքի էջի ID
   label_wiki_page_plural: Վիքի էջեր
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Ցուցադրել 'Բովանդակության ցանկ' ենթակետը
   label_wiki_show_menu_item: Ցուցադրել որպես ընտրացանկի տարր նախագծի նավիգացիայում
   label_wiki_show_new_page_link: Ցուցադրել 'Ստեղծել նոր ենթաէջ' ենթակետը
@@ -3716,7 +3953,6 @@ hy:
   label_work_package_hierarchy: Աշխատանքային փաթեթների հիերարխիա
   label_work_package_new: Նոր աշխատանքային փաթեթ
   label_work_package_plural: Աշխատանքային փաթեթներ
-  label_work_package_status: Աշխատանքային փաթեթի կարգավիճակ
   label_work_package_status_new: Նոր կարգավիճակ
   label_work_package_status_plural: Աշխատանքային փաթեթների կարգավիճակներ
   label_work_package_tracking: Աշխատանքային փաթեթների հետագծում
@@ -5000,13 +5236,28 @@ hy:
           enable_type_in_project: Միացնել "%{type}" տեսակը
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
         remove_from_project: Հեռացնել նախագծից
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
         variant_prefix: 'Variant:'
@@ -5810,6 +6061,7 @@ hy:
   text_destroy_what_to_do: Ի՞նչ եք ցանկանում անել։
   text_destroy_with_associated: Ջնջվելիք աշխատանքային փաթեթ(ներ)ի հետ կապված կան լրացուցիչ օբյեկտներ։ Այդ օբյեկտները հետևյալ տեսակների են՝
   text_diff_truncated: "... Այս տարբերությունը կրճատվել է, քանի որ գերազանցում է ցուցադրման համար թույլատրելի առավելագույն չափը։"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Էլ. փոստի առաքումը կազմաձևված չէ, և ծանուցումներն անջատված են։
     Դրանք միացնելու համար կազմաձևեք Ձեր SMTP սերվերը։
@@ -6156,6 +6408,14 @@ hy:
           switch_to_independent: Անցնել անկախ ռեժիմին
           title: Կապակցված ռեժիմ
         parent_suffix: " (ծնող)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Աշխատանքային հոսքեր
     index:
@@ -6323,6 +6583,7 @@ hy:
         availability_description: Հասանելիության գործակիցը ցույց է տալիս Ձեր աշխատաժամանակի փաստացի այն տոկոսը, որը հատկացվում է նախագծային առաջադրանքներին։ Այն հաշվի է առնում հանդիպումները, էլ. նամակները, վարչական աշխատանքը և այլ ոչ նախագծային գործունեությունը։
         availability_factor: Հասանելիության գործակից
         availability_factor_caption: Սահմանեք Ձեր աշխատաժամանակի այն տոկոսը, որը հատկացվում է նախագծային աշխատանքին։
+        effective_hours: Effective work hours
         hours_mode_label: Ժամերի ռեժիմ
         hours_per_day: Օրվա ժամեր
         individual_hours_mode: Առանձին ժամեր յուրաքանչյուր օրվա համար
@@ -6336,7 +6597,6 @@ hy:
         title_current: Խմբագրել ընթացիկ աշխատանքային ժամանակացույցը
         title_days_and_hours: Օրեր և ժամեր
         title_future_dates: Ապագա ամսաթվեր
-        total_available_hours: Ընդհանուր հասանելի աշխատանքային ժամեր
         total_work_hours: Ընդհանուր աշխատանքային ժամեր
         work_days: Աշխատանքային օրեր
         work_hours: Աշխատանքային ժամեր

@@ -67,7 +67,7 @@ RSpec.describe "API v3 Portfolios resource show", content_type: :json do
     end
 
     context "when requesting nonexistent portfolio" do
-      let(:get_path) { api_v3_paths.portfolio 9999 }
+      let(:get_path) { api_v3_paths.portfolio(not_existing_id(Project)) }
 
       before do
         response

@@ -3,233 +3,236 @@ fa:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: شناسه
+        provider: ارائه‌دهندهٔ ویکی
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: نام
+        universal_identifier: شناسهٔ سراسری
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: روش احراز هویت
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
-        url: Instance URL
-        wiki_audience: XWiki Audience
+          oauth2_sso: ورود یکپارچه از طریق ارائه‌دهنده هویت OpenID Connect
+          two_way_oauth2: جریان Authorization Code در OAuth 2.0 دوطرفه
+        token_exchange_scope: Scope در XWiki
+        url: URL نمونه
+        wiki_audience: Audience در XWiki
     errors:
       models:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: متعلق به ارائه‌دهندهٔ ویکی‌ای است که پیش‌تر با نام «%{name}» شناخته شده است.
+              wiki_provider_unreachable: قابل دسترسی نبود.
     models:
       wikis/inline_page_link:
-        one: Inline page link
-        other: Inline page links
+        one: پیوند درون‌خطی صفحه
+        other: پیوندهای درون‌خطی صفحه
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: ارائه‌دهندهٔ داخلی
+        other: ارائه‌دهندگان داخلی
+      wikis/page_link:
+        one: پیوند صفحه
+        other: پیوندهای صفحه
       wikis/provider:
-        one: Wiki provider
-        other: Wiki providers
+        one: ارائه‌دهندهٔ ویکی
+        other: ارائه‌دهندگان ویکی
       wikis/relation_page_link:
-        one: Relation page link
-        other: Relation page links
+        one: پیوند صفحهٔ مرتبط
+        other: پیوندهای صفحهٔ مرتبط
       wikis/xwiki_provider:
-        one: XWiki provider
-        other: XWiki providers
+        one: ارائه‌دهندهٔ XWiki
+        other: ارائه‌دهندگان XWiki
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
-      wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Project wiki
+      external_wiki_providers: ارائه‌دهندگان ویکی خارجی
+      internal_wiki_provider: ویکی‌های پروژه
+      wikis: ویکی‌ها
+    project_settings:
+      wiki: ویکی پروژه
+  permission_manage_wiki_page_links: مدیریت پیوندهای صفحهٔ ویکی
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
-        heading: Permanently delete this wiki provider?
-        title: Delete wiki provider
+        description_html: ارائه‌دهندهٔ ویکی %{wiki_provider} و همهٔ پیوندهای مرتبط صفحات ویکی حذف خواهند شد. علاوه بر این، همهٔ پیوندهای درون‌متنی صفحات ویکی دیگر قابل دسترسی نخواهند بود. این اقدام برگشت‌ناپذیر است.
+        heading: این ارائه‌دهندهٔ ویکی برای همیشه حذف شود؟
+        title: حذف ارائه‌دهندهٔ ویکی
       forms:
         general_info_form_component:
-          provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
+          provider_description: پیش از راه‌اندازی مطمئن شوید در نمونهٔ XWiki خود دسترسی مدیریتی دارید.
         oauth_application_form_component:
-          application_id: OpenProject OAuth Application ID
-          application_secret: OpenProject OAuth Application secret
+          application_id: شناسهٔ برنامهٔ OAuth اوپن‌پروجکت
+          application_secret: رمز برنامهٔ OAuth اوپن‌پروجکت
         oauth_client_form_component:
-          client_id: Wiki OAuth Client ID
-          client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          client_id: شناسهٔ کلاینت OAuth ویکی
+          client_secret: رمز کلاینت OAuth ویکی
+          redirect_uri: URI بازگشت
+          redirect_uri_caption: این مقدار را در فیلد Redirect URI ثبت کلاینت OIDC در XWiki خود کپی کنید.
       health_status:
         show:
           actions:
-            download_report: Download
-            rerun_checks: Re-run all checks
-            run_checks: Run checks now
-          last_check: 'Last check: %{datetime}'
-          no_health_report: No report available
-          no_health_report_description: Run the checks now for a full health status report for this wiki provider.
-          title: Health Report
+            download_report: دریافت
+            rerun_checks: اجرای دوبارهٔ همهٔ بررسی‌ها
+            run_checks: اجرای بررسی‌ها اکنون
+          last_check: 'آخرین بررسی: %{datetime}'
+          no_health_report: گزارشی در دسترس نیست
+          no_health_report_description: برای دریافت گزارش کامل وضعیت سلامت این ارائه‌دهندهٔ ویکی، بررسی‌ها را اکنون اجرا کنید.
+          title: گزارش سلامت
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: اجازه به پروژه‌ها برای استفاده از ویکی پروژه در کنار ارائه‌دهندگان ویکی خارجی
+        checkbox_label: فعال‌کردن ویکی‌های پروژهٔ اوپن‌پروجکت
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: فعال یا غیرفعال‌بودن ویکی‌های پروژه را انتخاب کنید
       oauth_application_info_component:
-        confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in your XWiki instance and all users will have to reauthorize. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_application: Replace OpenProject OAuth application
+        confirm_replace_oauth_application: این اقدام اطلاعات ورود OAuth فعلی را بازنشانی می‌کند. پس از تأیید باید اطلاعات ورود جدید را در نمونهٔ XWiki وارد کنید و همهٔ کاربران دوباره مجوز دسترسی بدهند. آیا مطمئن هستید؟
+        label_oauth_client_id: شناسهٔ کلاینت OAuth
+        replace_oauth_application: جایگزینی برنامهٔ OAuth اوپن‌پروجکت
       oauth_client_info_component:
-        confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_client: Replace XWiki OAuth application
+        confirm_replace_oauth_client: این اقدام اطلاعات ورود OAuth فعلی XWiki را بازنشانی می‌کند. همهٔ کاربران باید دوباره به XWiki مجوز دسترسی بدهند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟
+        label_oauth_client_id: شناسهٔ کلاینت OAuth
+        replace_oauth_client: جایگزینی برنامهٔ OAuth در XWiki
       side_panel:
         health_status_component:
-          last_check: 'Last check: %{datetime}'
-          open_report: Open full health report
-          run_checks: Run checks now
-          title: Health status report
+          last_check: 'آخرین بررسی: %{datetime}'
+          open_report: بازکردن گزارش کامل سلامت
+          run_checks: اجرای بررسی‌ها اکنون
+          title: گزارش وضعیت سلامت
       wiki_provider_list_component:
-        label_creation_time: Created
-        label_name: Name
-        label_provider: Provider
-        no_results_description: Add a wiki provider to see them here.
-        no_results_title: You don't have any wiki providers set up yet.
+        label_creation_time: ایجادشده
+        label_name: نام
+        label_provider: ارائه‌دهنده
+        no_results_description: یک ارائه‌دهندهٔ ویکی اضافه کنید تا در اینجا نمایش داده شود.
+        no_results_title: هنوز هیچ ارائه‌دهندهٔ ویکی راه‌اندازی نکرده‌اید.
       wiki_providers:
-        index_description: Add an external wiki service to link work packages to existing wiki pages or create new ones directly from OpenProject.
-        label_add_new: Add new wiki provider
-        label_edit: Edit XWiki provider
-        label_new_provider: New XWiki provider
-        label_wiki_platform: Wiki provider
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
-        name_placeholder: XWiki knowledge base
-        new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        index_description: یک سرویس ویکی خارجی اضافه کنید تا بسته‌های کاری را به صفحه‌های ویکی موجود پیوند دهید یا صفحه‌های جدید را مستقیماً از اوپن‌پروجکت ایجاد کنید.
+        label_add_new: افزودن ارائه‌دهندهٔ ویکی جدید
+        label_edit: ویرایش ارائه‌دهندهٔ XWiki
+        label_new_provider: ارائه‌دهندهٔ XWiki جدید
+        label_wiki_platform: ارائه‌دهندهٔ ویکی
+        name_caption: برای ارائه‌دهندهٔ ویکی نامی تعیین کنید تا کاربران بتوانند چند پلتفرم ویکی را از یکدیگر تشخیص دهند.
+        name_placeholder: پایگاه دانش XWiki
+        new_provider_html: برای اطلاعات بیشتر، مستندات ما دربارهٔ [راه‌اندازی یکپارچه‌سازی XWiki](docs_url) را مطالعه کنید.
         oauth:
-          openproject_oauth: OpenProject OAuth
+          openproject_oauth: OAuth اوپن‌پروجکت
         sections:
-          general_information: General information
-          oauth_configuration: OAuth configuration
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+          general_information: اطلاعات عمومی
+          oauth_configuration: پیکربندی OAuth
+        url_caption: نشانی میزبان پلتفرم ویکی را همراه با https:// وارد کنید. طول آن نباید بیشتر از ۲۵۵ نویسه باشد.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
-            provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
-          openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth.
-          xwiki_oauth: XWiki OAuth
-          xwiki_oauth_description: Allow OpenProject to access XWiki data using an OAuth.
+            openproject_oauth_description: به XWiki اجازه دهید با استفاده از یک برنامهٔ OAuth به داده‌های اوپن‌پروجکت دسترسی داشته باشد.
+            provider_oauth: OAuth ویکی
+            provider_oauth_configuration: این مقادیر را در [کلاینت اتصال OIDC در XWiki](xwiki_oidc_link) کپی کنید.
+            provider_oauth_description: به اوپن‌پروجکت اجازه دهید با OAuth به داده‌های XWiki دسترسی داشته باشد.
+          openproject_oauth_description: به XWiki اجازه دهید با OAuth به داده‌های اوپن‌پروجکت دسترسی داشته باشد.
+          xwiki_oauth: OAuth در XWiki
+          xwiki_oauth_description: به اوپن‌پروجکت اجازه دهید با OAuth به داده‌های XWiki دسترسی داشته باشد.
     buttons:
-      connect_account: Connect %{provider} account
-      done_continue: Done, continue
-      open_wiki: Open wiki
-      save_and_continue: Save and continue
-      wiki_page: Wiki page
+      connect_account: اتصال حساب %{provider}
+      done_continue: انجام شد، ادامه
+      open_wiki: بازکردن ویکی
+      save_and_continue: ذخیره و ادامه
+      wiki_page: صفحه Wiki
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: ایجاد صفحه Wiki جدید
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: در حال بارگذاری…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: پیوند صفحهٔ ویکی مرتبط حذف شود؟
+      title: حذف پیوند صفحهٔ ویکی مرتبط
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occurred.
+      connection_error: اتصال به ارائه‌دهندهٔ ویکی برقرار نشد.
+      invalid_parent: صفحهٔ انتخاب‌شده یک صفحهٔ والد معتبر نیست.
+      invalid_response: ارائه‌دهندهٔ ویکی پاسخی غیرمنتظره ارسال کرد.
+      missing_token: حساب کاربر هنوز به ارائه‌دهندهٔ ویکی متصل نشده است.
+      request_failed: ارائه‌دهندهٔ ویکی با خطای غیرمنتظره‌ای روبه‌رو شد.
+      unauthorized: خطای مجوزدهی رخ داد.
     health_checks:
       authentication:
-        existing_token: User token
-        header: Authentication
-        user_bound_request: User-based request authentication
+        existing_token: توکن کاربر
+        header: احراز هویت
+        user_bound_request: احراز هویت درخواست مبتنی بر کاربر
       base_configuration:
-        header: Configuration
-        provider_configured: Configuration complete
-        universal_id_known: Provider recognized
+        header: پیکربندی
+        provider_configured: تکمیل پیکربندی
+        universal_id_known: ارائه‌دهنده شناسایی شد
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
-        xwiki_oauth_connection_error: OpenProject could not connect to the configured XWiki instance.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
-        xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
-        xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+        connection_error: اوپن‌پروجکت نتوانست به ارائه‌دهندهٔ ویکی متصل شود.
+        not_configured: اتصال قابل اعتبارسنجی نیست. لطفاً ابتدا پیکربندی را تکمیل کنید.
+        uid_mismatch: شناسهٔ یکتایی که ارائه‌دهندهٔ ویکی گزارش کرده است با شناسه‌ای که OpenProject هنگام راه‌اندازی ثبت کرده مطابقت ندارد.
+        xwiki_oauth_connection_error: اوپن‌پروجکت نتوانست به نمونهٔ XWiki پیکربندی‌شده متصل شود.
+        xwiki_oauth_request_error: هنگام تلاش برای ارتباط با نمونهٔ XWiki خطای غیرمنتظره‌ای رخ داد.
+        xwiki_oauth_token_missing: اوپن‌پروجکت نمی‌تواند ارتباط در سطح کاربر با XWiki را آزمایش کند، زیرا کاربر هنوز حساب XWiki خود را متصل نکرده است.
+        xwiki_oauth_unauthorized: توکن کاربر توسط XWiki شناسایی نشد.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_parent: Parent
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
-      menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      column_last_edited: آخرین ویرایش
+      column_name: صفحه Wiki
+      column_parent: والد
+      column_project: پروژه
+      column_sub_pages: زیرصفحه‌ها
+      filter_by_name: فیلتر بر اساس نام صفحه
+      filter_placeholder: جستجو بر اساس نام
+      menu_title: ویکی
+      no_results_description: هیچ صفحهٔ ویکی‌ای در دسترس نیست.
+      no_results_title: هنوز صفحهٔ ویکی‌ای وجود ندارد
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: همهٔ صفحه‌های ویکی
+        main: صفحه‌های اصلی ویکی
       sub_pages_count:
-        one: 1 sub-page
-        other: "%{count} sub-pages"
+        one: ۱ زیرصفحه
+        other: "%{count} زیرصفحه"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: افزودن صفحهٔ ویکی موجود
+      title_create: ایجاد صفحه Wiki جدید
     instructions:
       xwiki:
-        integration: XWiki Administration
-        oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
+        integration: مدیریت XWiki
+        oauth_application_details_html: پس از بستن این پنجره دیگر مقدار رمز کلاینت در دسترس نخواهد بود. این مقادیر را در [تنظیمات XWiki OpenProject Integration](xwiki_admin_link) کپی کنید.
     link_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: افزودن صفحهٔ ویکی موجود
     oauth_login_component:
-      connect_button: Connect %{provider} account
-      description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
-      heading: Not connected to %{provider}
+      connect_button: اتصال حساب %{provider}
+      description: برای مشاهده و مدیریت صفحه‌های ویکی مرتبط از این نمونهٔ اوپن‌پروجکت، وارد %{provider} شوید.
+      heading: به %{provider} متصل نیست
     page_link_component:
-      add_to_related_pages: Add to related pages
-      remove: Remove page link
+      add_to_related_pages: افزودن به صفحه‌های مرتبط
+      remove: حذف پیوند صفحه
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent
-        wiki_page: Wiki page
+        page_title: عنوان
+        parent: والد
+        wiki_page: صفحه Wiki
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: هیچ صفحهٔ ویکی‌ای پیدا نشد
+        placeholder: جست‌وجوی صفحهٔ ویکی (یا واردکردن URL آن)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: پیوندی پویا به یک صفحهٔ ویکی که با ماکرو درج شده است.
       errors:
-        page_access_forbidden: You do not have permission to access this wiki page
-        page_not_found: Linked wiki page no longer available
-        unexpected: An unexpected error occurred
+        page_access_forbidden: مجوز دسترسی به این صفحهٔ ویکی را ندارید
+        page_not_found: صفحهٔ ویکی پیوندشده دیگر در دسترس نیست
+        unexpected: خطای غیرمنتظره‌ای رخ داد
       source:
-        parent: As parent
+        parent: به‌عنوان والد
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        blankslate_description: ویکی پروژه در این نمونه به‌صورت سراسری غیرفعال است و بنابراین برای هر پروژه قابل فعال‌کردن نیست. از مدیر بخواهید ویکی‌های سراسری را در تنظیمات مدیریت فعال کند.
+        blankslate_title: ویکی‌های پروژه به‌صورت سراسری غیرفعال‌اند
+        caption: این گزینه قابلیت ویکی بومی را برای این پروژه فعال می‌کند. اعضا می‌توانند صفحات ویکی ذخیره‌شده در OpenProject را ایجاد و مطالعه کنند.
+        enable: فعال‌کردن ویکی اوپن‌پروجکت برای این پروژه
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
-      empty_heading: No related pages
-      empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      empty_heading: صفحهٔ مرتبطی وجود ندارد
+      empty_text: صفحه‌های ویکی مرتبط با این بستهٔ کاری را اضافه کنید.
+      link_existing: صفحهٔ ویکی موجود
+      link_new: صفحهٔ ویکی جدید
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: XWiki را به OpenProject متصل کنید تا مستندات و کارها همگام بمانند؛ صفحات را پیوند دهید، ارجاع‌ها را دنبال کنید و همه‌چیز را در یک محل مدیریت کنید.
+        title: یکپارچه‌سازی XWiki
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
-      referencing_pages: Referenced in
+      inline_page_links: ذکرشده در توضیحات
+      referencing_pages: ارجاع‌شده در

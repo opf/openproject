@@ -1,5 +1,9 @@
 ---
 ko:
+  activerecord:
+    models:
+      job_status/status:
+        other: 백그라운드 작업 상태
   job_status_dialog:
     click_to_download: 또는 [여기를 클릭](download_url)하여 다운로드하세요.
     download_starts: 자동으로 다운로드가 시작됩니다.

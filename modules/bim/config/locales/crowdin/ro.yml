@@ -38,7 +38,22 @@ ro:
               ifc_attachment_missing: Nu este atașat niciun fișier ifc.
               invalid_ifc_file: Fișierul furnizat nu este un fișier IFC valid.
     models:
-      bim/ifc_models/ifc_model: Modelul IFC
+      bim/bcf/comment:
+        one: BCF comment
+        few: BCF comments
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        few: BCF issues
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        few: BCF viewpoints
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        few: IFC models
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF instantaneu
   bcf:

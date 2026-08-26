@@ -44,7 +44,7 @@ module Wikis
 
       if url?(query)
         search_by_url(query).either(
-          ->(page) { Success([to_tree_node(page:, enabled: true)]) },
+          ->(page) { Success([to_tree_node(page:)]) },
           ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
         )
       else
@@ -88,8 +88,8 @@ module Wikis
       provider.resolve("queries.search_wikis").call(input_data:, auth_strategy:)
     end
 
-    def to_tree_node(page:, enabled:)
-      Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title, enabled:)
+    def to_tree_node(page:)
+      Adapters::Results::PageSearchTreeNode.page(page.identifier, page.title)
     end
 
     def build_result_tree(page_hierarchies, wikis)
@@ -123,7 +123,7 @@ module Wikis
       previous_ancestor_node = existing_nodes[node_key(:wiki, wiki.identifier)]
 
       ancestors.reverse.reduce(previous_ancestor_node) do |previous, current|
-        ancestor_node = to_tree_node(page: current, enabled: false)
+        ancestor_node = to_tree_node(page: current)
 
         existing_nodes.fetch(ancestor_node.key) do
           previous.find_or_add_child(ancestor_node)
@@ -135,8 +135,8 @@ module Wikis
     def insert_page_node(existing_nodes, page_hierarchy)
       page_hierarchy => { page:, ancestors:, wiki: }
 
-      new_node = to_tree_node(page:, enabled: true)
-      return if enable_if_node_exists(existing_nodes, new_node)
+      new_node = to_tree_node(page:)
+      return if existing_nodes[new_node.key]
 
       parent_node = find_parent(existing_nodes, ancestors, wiki)
       parent_node.find_or_add_child(new_node)
@@ -155,11 +155,6 @@ module Wikis
 
     def node_key(type, identifier)
       Adapters::Results::PageSearchTreeNode::NodeKey.new(type, identifier)
-    end
-
-    def enable_if_node_exists(existing_nodes, node)
-      existing_node = existing_nodes.fetch(node.key) { return false }
-      existing_node.enable
     end
   end
 end

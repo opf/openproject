@@ -46,9 +46,15 @@ de:
             principal:
               not_a_member_of_budget_project: ist kein Mitglied des Budgetprojekts
     models:
-      budget: Budget
-      labor_budget_item: Geplante Personaleinzelkosten
-      material_budget_item: Stück
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Geplante Personaleinzelkosten
+        other: Geplante Personaleinzelkosten
+      material_budget_item:
+        one: Stück
+        other: Stücke
   activity:
     filter:
       budget: Budgets
@@ -102,7 +108,6 @@ de:
   help_click_to_edit: Hier Klicken zum bearbeiten.
   help_currency_format: Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung.
   help_override_rate: Hier einen Wert eingeben um den Standardwert zu Überschreiben.
-  label_budget: Budget
   label_budget_available: Verfügbares Budget
   label_budget_details: Budgetdetails
   label_budget_id: 'Budget #%{id}'

@@ -38,7 +38,18 @@ de:
               ifc_attachment_missing: Keine IFC-Datei angehängt.
               invalid_ifc_file: Die angegebene Datei ist keine gültige IFC-Datei.
     models:
-      bim/ifc_models/ifc_model: IFC-Modell
+      bim/bcf/comment:
+        one: BCF-Kommentar
+        other: BCF-Kommentare
+      bim/bcf/issue:
+        one: BCF-Fall
+        other: BCF-Fälle
+      bim/bcf/viewpoint:
+        one: BCF-Viewpoint
+        other: BCF-Viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC-Modell
+        other: IFC-Modelle
   attributes:
     bcf_thumbnail: BCF-Snapshot
   bcf:

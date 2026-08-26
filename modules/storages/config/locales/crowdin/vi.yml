@@ -73,8 +73,18 @@ vi:
               invalid_password: không hợp lệ.
               unknown_error: không thể xác thực với nhà cung cấp lưu trữ tệp. Vui lòng xác minh rằng kết nối đang hoạt động bình thường.
     models:
-      file_link: tập tin
-      storages/storage: Lưu trữ
+      storages/file_link:
+        other: File links
+      storages/nextcloud_storage:
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        other: OneDrive storages
+      storages/project_storage:
+        other: Project storages
+      storages/sharepoint_storage:
+        other: SharePoint storages
+      storages/storage:
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Quá nhiều yếu tố được tạo cùng một lúc. Dự kiến ​​nhiều nhất là %{max}, đã nhận được %{actual}.

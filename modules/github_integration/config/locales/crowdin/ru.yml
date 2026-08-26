@@ -21,6 +21,33 @@
 #++
 ---
 ru:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Проверка статуса развертывания
+        few: Deployment status checks
+        many: Deployment status checks
+        other: Проверки статуса развертывания
+      deploy_target:
+        one: Цель развертывания
+        few: Deployment targets
+        many: Deployment targets
+        other: Цели развертывания
+      github_check_run:
+        one: Запуск проверки GitHub
+        few: GitHub check runs
+        many: GitHub check runs
+        other: Запуски проверок GitHub
+      github_pull_request:
+        one: Пулл реквест GitHub
+        few: GitHub pull requests
+        many: GitHub pull requests
+        other: Пулл реквесты GitHub
+      github_user:
+        one: Пользователь GitHub
+        few: GitHub users
+        many: GitHub users
+        other: Пользователи GitHub
   attributes:
     additions_count: Количество добавлений
     changed_files_count: Изменённые файлы

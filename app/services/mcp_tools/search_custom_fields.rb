@@ -41,6 +41,7 @@ module McpTools
     filter :name, filter_proc: ->(cfs, v) { cfs.where("name ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
+      additionalProperties: false,
       properties: {
         id: {
           type: %i[number array],

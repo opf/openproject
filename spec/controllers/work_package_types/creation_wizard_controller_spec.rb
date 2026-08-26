@@ -127,6 +127,36 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
         it { expect(flash[:notice]).to eq(I18n.t("types.creation_wizard.success")) }
       end
+
+      describe "returning to where the wizard was entered from" do
+        let(:back_url) { type_variants_path(type_id: type.id) }
+
+        it "carries the back_url from step to step" do
+          patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker" }, back_url: }
+
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults, back_url:))
+        end
+
+        it "returns there once the wizard finishes" do
+          patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last, back_url: }
+
+          expect(response).to redirect_to(back_url)
+          expect(flash[:notice]).to eq(I18n.t("types.creation_wizard.success"))
+        end
+
+        it "offers the cancel button the same target" do
+          get :show, params: { type_id: type.id, step: :details, back_url: }
+
+          expect(response.body).to include(CGI.escapeHTML(back_url))
+        end
+
+        it "drops a back_url pointing at another host" do
+          patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last,
+                                   back_url: "https://evil.example.com/types" }
+
+          expect(response).to redirect_to(types_path)
+        end
+      end
     end
   end
 

@@ -21,7 +21,7 @@
         tag: :a,
         **new_document_path_options
       ) do
-        I18n.t("activerecord.models.document")
+        Document.model_name.human
       end
     end
   end

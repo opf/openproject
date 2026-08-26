@@ -35,7 +35,6 @@ import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/wid
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { BehaviorSubject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 

@@ -74,7 +74,7 @@
             href: project_documents_path(project)
           ) do |button|
             button.with_leading_visual_icon(icon: :plus)
-            I18n.t("activerecord.models.document")
+            Document.model_name.human
           end
         end
       end

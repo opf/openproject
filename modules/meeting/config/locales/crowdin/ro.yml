@@ -101,15 +101,38 @@ ro:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: Întâlnire unică
-      meeting_agenda: Agendă
-      meeting_agenda_item: Punct pe ordinea de zi
-      meeting_section: Secțiune
-      recurring_meeting: Întâlnire recurentă
+      meeting:
+        one: One-time meeting
+        few: One-time meetings
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        few: Agenda items
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        few: Outcomes
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        few: Meeting participants
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        few: Sections
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        few: Recurring meetings
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        few: Scheduled meetings
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
-        few: iCal Meeting subscription
-        other: iCal Meeting subscription
+        few: iCal Meeting subscriptions
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Întâlniri
@@ -258,7 +281,6 @@ ro:
   label_past_meetings: Întâlniri anterioare
   label_past_meetings_short: Trecute
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Întâlnire recurentă
   label_recurring_meeting_cancel: Anulează această apariție
   label_recurring_meeting_create: Deschisă
   label_recurring_meeting_delete: Șterge apariția

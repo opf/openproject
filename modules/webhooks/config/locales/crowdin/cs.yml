@@ -18,7 +18,16 @@ cs:
 
           '
     models:
-      webhooks/outgoing_webhook: Odchozí webhook
+      webhooks/log:
+        one: Webhook log
+        few: Webhook logs
+        many: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        few: Webhooks
+        many: Webhooks
+        other: Webhooks
   plugin_openproject_webhooks:
     description: ''
     name: OpenProject Webhooks

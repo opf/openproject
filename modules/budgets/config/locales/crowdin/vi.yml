@@ -46,9 +46,12 @@ vi:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Ngân sách
-      labor_budget_item: Planned labor cost
-      material_budget_item: Đơn vị
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
       budget: ngân sách
@@ -102,7 +105,6 @@ vi:
   help_click_to_edit: Nhấn vào đây để chỉnh sửa.
   help_currency_format: Định dạng của giá trị tiền tệ được hiển thị. %n được thay thế bằng giá trị tiền tệ, %u được thay thế bằng đơn vị tiền tệ.
   help_override_rate: Nhập một giá trị vào đây để ghi đè tỷ lệ mặc định.
-  label_budget: Ngân sách
   label_budget_available: Ngân sách có sẵn
   label_budget_details: Chi tiết ngân sách
   label_budget_id: 'Ngân sách #%{id}'

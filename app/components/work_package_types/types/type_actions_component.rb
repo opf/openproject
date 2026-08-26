@@ -70,7 +70,7 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(type_id: type.id)) do |item|
+                       href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
         end
       end

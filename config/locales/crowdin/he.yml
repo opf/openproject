@@ -76,6 +76,13 @@ he:
         dependencies: Dependencies
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Display until
       attachment:
@@ -978,64 +985,361 @@ he:
           many: "%{count} שגיאות מנעו מ%{model} זה להשמר"
           other: "%{count} שגיאות מנעו מ%{model} זה להשמר"
     models:
-      attachment: קובץ
+      action:
+        one: Action
+        two: Actions
+        many: Actions
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        two: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        two: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        two: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        two: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         two: Attribute help texts
         many: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        two: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        two: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        two: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         two: Authentication providers
         many: Authentication providers
         other: Authentication providers
-      category: קטגוריה
-      color: צבע
-      comment: תגובה
-      custom_action: Custom action
-      custom_field: שדה מותאם אישית
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        two: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        two: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        two: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        two: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        two: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        two: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        two: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        two: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        two: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        two: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        two: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        two: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        two: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        two: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        two: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        two: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        two: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        two: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         two: Enterprise tokens
         many: Enterprise tokens
         other: Enterprise tokens
-      forum: פורום
-      global_role: Global role
-      group: קבוצה
+      enterprise_trial:
+        one: Enterprise trial
+        two: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        two: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        two: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        two: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        two: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        two: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        two: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        two: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        two: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: עדיפות
         two: Priorities
         many: Priorities
         other: Priorities
-      jira:
-        one: Jira
-        two: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: חבר
-      message: Message
-      news: חדשות
+      ldap_auth_source:
+        one: LDAP connection
+        two: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        two: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        two: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        two: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        two: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        two: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        two: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        two: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Notification
         two: Notifications
         many: Notifications
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        two: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        two: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        two: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        two: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        two: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        two: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        two: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        two: Principals
+        many: Principals
+        other: Principals
       project:
         one: פרוייקט
         two: פרויקטים
         many: פרויקטים
         other: פרויקטים
+      project/phase:
+        one: Project phase
+        two: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        two: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        two: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        two: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Project list
         two: Project lists
         many: Project lists
         other: Project lists
-      query: שאילתה מותאמת אישית
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        two: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        two: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        two: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        two: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        two: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        two: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        two: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        two: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        two: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: תפקיד
         two: תפקידים
@@ -1046,12 +1350,46 @@ he:
         two: SCIM clients
         many: SCIM clients
         other: SCIM clients
-      status: מצב חבילת העבודה
+      service_account:
+        one: Service account
+        two: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        two: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        two: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        two: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        two: System users
+        many: System users
+        other: System users
       token/api:
         one: Access token
         two: Access tokens
         many: Access tokens
         other: Access tokens
+      token/base:
+        one: Token
+        two: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        two: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         two: RSS tokens
@@ -1067,12 +1405,91 @@ he:
         two: Variants
         many: Variants
         other: Variants
-      user: משתמש
-      version: גירסה
-      wiki: ויקי
-      wiki_page: דף ויקי
-      work_package: חבילת עבודה
-      workflow: זרימת עבודה
+      user:
+        one: User
+        two: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        two: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        two: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        two: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        two: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        two: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        two: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        two: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        two: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        two: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        two: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        two: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        two: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        two: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        two: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        two: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        two: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: בפרק זמן זה לא הייתה כל פעילות עבור הפרויקט.
@@ -1830,6 +2247,7 @@ he:
     custom_field: שדה מותאם אישית
     custom_options: הערכים האפשריים
     custom_values: שדות מותאמים אישית
+    customized: Customized
     date: תאריך
     dates_interval: טווח תאריכים
     default_columns: עמודות ברירת המחדל
@@ -1856,6 +2274,7 @@ he:
     is_default: ערך ברירת המחדל
     is_for_all: עבור כל הפרוייקטים
     issue: חבילת עבודה
+    jira: Jira
     journal: Journal
     journal_notes: תגובה
     lastname: שם משפחה
@@ -2450,8 +2869,12 @@ he:
   description_available_columns: עמודות זמינות
   description_category_reassign: בחר קטגוריה
   description_choose_project: פרויקטים
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: הזן תאריך התחלה
   description_date_to: הזן תאריך סיום
@@ -2655,8 +3078,6 @@ he:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3164,7 +3585,6 @@ he:
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: between
   label_blocked_by: חסום על ידי
@@ -3184,7 +3604,6 @@ he:
   label_calendar_show: הצג לוח שנה
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: קטגוריה
   label_change_parent: שנה אב
   label_change_password: Change password
   label_change_plural: שינויים
@@ -3193,9 +3612,9 @@ he:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: הצג את כל השינויים
   label_changes_details: פרטי כל השינויים
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: שינויים
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: נבדק
@@ -3342,6 +3761,7 @@ he:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: קבצים
   label_filter: מסננים
   label_filter_add: Add filter
@@ -3366,7 +3786,6 @@ he:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3435,7 +3854,6 @@ he:
   label_last_week: שבוע שעבר
   label_latest_revision: מהדורה אחרונה
   label_latest_revision_plural: מהדורות אחרונות
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3465,7 +3883,6 @@ he:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: חברים
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3578,7 +3995,6 @@ he:
   label_permissions: Permissions
   label_permissions_report: Permissions report
   label_personalize_page: Personalize this page
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: תכנון
@@ -3641,7 +4057,6 @@ he:
   label_related_work_packages: Related work packages
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3694,7 +4109,6 @@ he:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: הגדרות
   label_share: שתף
   label_share_project_list: Share project list
@@ -3770,7 +4184,6 @@ he:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: משתמש
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: אנונימי
@@ -3801,19 +4214,17 @@ he:
   label_week: שבוע
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_menu_item: פריט ויקי בתפריט
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: דף ויקי
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3830,7 +4241,6 @@ he:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: New work package
   label_work_package_plural: חבילת עבודה
-  label_work_package_status: מצב חבילת העבודה
   label_work_package_status_new: New status
   label_work_package_status_plural: Work package statuses
   label_work_package_tracking: Work package tracking
@@ -5144,13 +5554,34 @@ he:
           enable_type_in_project: Enable type "%{type}"
         no_results_title_text: There are currently no types available.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              two: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              two: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              two: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5958,6 +6389,7 @@ he:
   text_destroy_what_to_do: What do you want to do?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -6304,6 +6736,14 @@ he:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6475,6 +6915,7 @@ he:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6488,7 +6929,6 @@ he:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

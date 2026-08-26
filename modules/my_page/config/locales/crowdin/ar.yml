@@ -1,4 +1,13 @@
 ---
 ar:
+  activerecord:
+    models:
+      grids/my_page:
+        zero: My pages
+        one: My page
+        two: My pages
+        few: My pages
+        many: My pages
+        other: My pages
   my_page:
     label: صفحتي

@@ -76,6 +76,13 @@ ro:
         dependencies: Dependenţe
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Afişare până la
       attachment:
@@ -975,56 +982,290 @@ ro:
           few: "%{count} erori au împiedicat salvarea acestui %{model}"
           other: "%{count} de erori au împiedicat salvarea acestui %{model}"
     models:
-      attachment: Fișier
+      action:
+        one: Action
+        few: Actions
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         few: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         few: Authentication providers
         other: Authentication providers
-      category: Categorie
-      color: Culoare
-      comment: Comentariu
-      custom_action: Adaugă acțiune personalizată
-      custom_field: Câmp personalizat
-      customized: Customized
-      doorkeeper/application: Aplicație OAuth
+      backup:
+        one: Backup
+        few: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         few: Enterprise tokens
         other: Enterprise tokens
-      forum: Forum
-      global_role: Rol Global
-      group: Grup
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        other: Health reports
       issue_priority:
         one: Prioritate
         few: Priorități
         other: Priorități
-      jira:
-        one: Jira
-        few: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Membru
-      message: Message
-      news: Noutăţi
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        other: Non-working days
       notification:
         one: Notificari
         few: Notificări
         other: Notificări
-      placeholder_user: Utilizator Placeholder
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        other: Principals
       project:
         one: Proiect
         few: Proiecte
         other: Proiecte
+      project/phase:
+        one: Project phase
+        few: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Listă proiecte
         few: Listă proiecte
         other: Listă de proiecte
-      query: Interogare personalizată
-      reminder: Memento
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        other: Subversion repositories
       role:
         one: Rol
         few: Roluri
@@ -1033,11 +1274,38 @@ ro:
         one: Client SCIM
         few: Clienți SCIM
         other: Clienți SCIM
-      status: Stare pachet de lucru
+      service_account:
+        one: Service account
+        few: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        other: System users
       token/api:
         one: Token acces
         few: Token-uri de acces
         other: Token-uri de acces
+      token/base:
+        one: Token
+        few: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         few: RSS tokens
@@ -1050,12 +1318,74 @@ ro:
         one: Variant
         few: Variants
         other: Variants
-      user: Utilizator
-      version: Versiune
-      wiki: Wiki
-      wiki_page: Pagină wiki
-      work_package: Pachet de lucru
-      workflow: Flux de lucru
+      user:
+        one: User
+        few: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect în această perioadă de timp.
@@ -1800,6 +2130,7 @@ ro:
     custom_field: Câmp personalizat
     custom_options: Valori posibile
     custom_values: Câmpuri personalizate
+    customized: Customized
     date: Data
     dates_interval: Interval calendaristic
     default_columns: Coloane implicite
@@ -1826,6 +2157,7 @@ ro:
     is_default: Valoare implicită
     is_for_all: Pentru toate proiectele
     issue: Pachet de lucru
+    jira: Jira
     journal: Jurnal
     journal_notes: Comentariu
     lastname: Nume
@@ -2400,8 +2732,12 @@ ro:
   description_available_columns: Coloane disponibile
   description_category_reassign: Alege categoria
   description_choose_project: Proiecte
-  description_compare_from: Comparați de la
-  description_compare_to: compară cu
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Ești aici: '
   description_date_from: Introdu dată început
   description_date_to: Introduceţi data de sfârşit
@@ -2604,8 +2940,6 @@ ro:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -3109,7 +3443,6 @@ ro:
   label_available_project_work_package_types: Tipuri disponibile pachete de lucru
   label_available_projects: Proiecte disponibile
   label_backup: Backup
-  label_backup_code: Cod copie de rezervă
   label_basic_details: Informații de bază
   label_between: între
   label_blocked_by: blocat de
@@ -3129,7 +3462,6 @@ ro:
   label_calendar_show: Afișare calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendare și dăți
-  label_category: Categorie
   label_change_parent: Modifică părinte
   label_change_password: Change password
   label_change_plural: Modificări
@@ -3138,9 +3470,9 @@ ro:
   label_change_status_of_user: 'Schimbă starea lui #{username}'
   label_change_view_all: Vizualizare modificări
   label_changes_details: Detaliile modificărilor
-  label_changeset: Set de modificări
   label_changeset_id: ID-ul setului de modificări
   label_changeset_plural: Seturi de modificări
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Bifare/debifare toate în coloană
   label_check_uncheck_all_in_row: Bifare/debifare toate pe rând
   label_checked: bifat
@@ -3287,6 +3619,7 @@ ro:
   label_feeds_access_key: Cheie de acces RSS
   label_feeds_access_key_created_on: Cheia de acces RSS a fost creată acum %{value}
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Fișiere
   label_filter: Filtre
   label_filter_add: Adaugă filtru
@@ -3311,7 +3644,6 @@ ro:
   label_git_path: Calea catre directorul .git
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Rol Global
   label_global_roles: Roluri globale
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3380,7 +3712,6 @@ ro:
   label_last_week: săptămâna trecută
   label_latest_revision: Ultima revizie
   label_latest_revision_plural: Ultimele revizii
-  label_ldap_auth_source: Conexiune LDAP
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: Autentificare LDAP
@@ -3410,7 +3741,6 @@ ro:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Membri
-  label_member_role: Rol proiect
   label_membership_added: Membru adăugat
   label_membership_plural: Membri
   label_membership_updated: Membru actualizat
@@ -3523,7 +3853,6 @@ ro:
   label_permissions: Drepturi
   label_permissions_report: Raport drepturi
   label_personalize_page: Personalizare pagină
-  label_placeholder_user: Utilizator placeholder
   label_placeholder_user_new: Utilizator placeholder nou
   label_placeholder_user_plural: Utilizatori de tip Placeholder
   label_planning: Planificare
@@ -3586,7 +3915,6 @@ ro:
   label_related_work_packages: Pachete de lucru asociate
   label_relates: asociat cu
   label_relates_to: asociat cu
-  label_relation: Relație
   label_relation_actions: Acțiuni relație
   label_relation_delete: Ștergere relație
   label_relation_edit: Edit relation
@@ -3639,7 +3967,6 @@ ro:
   label_send_information: Trimite credențiale noi utilizatorului
   label_send_invitation: Trimite invitație
   label_send_test_email: Trimite e-mail de test
-  label_session: Sesiune
   label_setting_plural: Setări
   label_share: Distribuie
   label_share_project_list: Distribuie lista de proiecte
@@ -3715,7 +4042,6 @@ ro:
   label_used_by: Folosit de
   label_used_by_types: Folosit/ă/e de tipurile
   label_used_in_projects: Folosit/ă/e în proiectele
-  label_user: Utilizator
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Utilizatori și permisiuni
   label_user_anonymous: Anonim
@@ -3746,19 +4072,17 @@ ro:
   label_week: Săptămână
   label_weighted_item_list: Weighted item list
   label_what_is_this: Discutați cu noi?
-  label_widget: Widget
   label_widget_new: Widget nou
   label_wiki_content_added: Pagină wiki adăugată
   label_wiki_content_updated: Pagină wiki actualizată
   label_wiki_dont_show_menu_item: Pagină wiki ascunsă în navigarea proiectului
   label_wiki_edit: Editare wiki
   label_wiki_edit_plural: Modificări wiki
-  label_wiki_menu_item: Meniu wiki
   label_wiki_navigation: Navigare wiki
-  label_wiki_page: Pagină wiki
   label_wiki_page_attachments: Atașamentele paginilor Wiki
   label_wiki_page_id: ID-ul paginii Wiki
   label_wiki_page_plural: Pagini wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Afișare submeniu 'Cuprins'
   label_wiki_show_menu_item: Afișare ca meniu în navigarea proiectului
   label_wiki_show_new_page_link: Afișează submeniu 'Creează pagină copil'
@@ -3775,7 +4099,6 @@ ro:
   label_work_package_hierarchy: Ierarhia pachetelor de lucru
   label_work_package_new: Pachet de lucru nou
   label_work_package_plural: Pachete de lucru
-  label_work_package_status: Stare pachet de lucru
   label_work_package_status_new: Stare nouă
   label_work_package_status_plural: Setări pachete de lucru
   label_work_package_tracking: Urmărire pachete de lucru
@@ -5075,13 +5398,31 @@ ro:
           enable_type_in_project: Activează tip %{type}
         no_results_title_text: În acest moment nu există tipuri disponibile.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5884,6 +6225,7 @@ ro:
   text_destroy_what_to_do: Ce vrei să faci?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Acest diff a fost trunchiat deoarece depășește dimensiunea maximă care poate fi afișată."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Livrarea e-mailurilor nu este configurată, iar notificările sunt dezactivate.
     Configurați serverul SMTP pentru a le activa.
@@ -6228,6 +6570,14 @@ ro:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6397,6 +6747,7 @@ ro:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6410,7 +6761,6 @@ ro:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

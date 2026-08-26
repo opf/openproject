@@ -20,10 +20,16 @@ ko:
             phone_number:
               error_phone_number_format: 은(는) +XX XXXXXXXXX 형식이어야 합니다.
     models:
-      two_factor_authentication/device: 2FA 장치
-      two_factor_authentication/device/sms: 휴대폰
-      two_factor_authentication/device/totp: 인증자 애플리케이션
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: 백업 코드
+      two_factor_authentication/device:
+        other: 2FA 장치
+      two_factor_authentication/device/sms:
+        other: 휴대폰
+      two_factor_authentication/device/totp:
+        other: 인증자 애플리케이션
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: 계속
   button_make_active: 활성화
   button_make_default: 기본값으로 표시

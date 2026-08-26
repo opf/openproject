@@ -20,10 +20,21 @@ tr:
             phone_number:
               error_phone_number_format: "+ XX XXXdiven formatında olmalı"
     models:
-      two_factor_authentication/device: 2FA cihazı
-      two_factor_authentication/device/sms: Cep telefonu
-      two_factor_authentication/device/totp: Kimlik doğrulayıcı uygulama
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Devam et
   button_make_active: Activate
   button_make_default: Varsayılan olarak işaretleyin

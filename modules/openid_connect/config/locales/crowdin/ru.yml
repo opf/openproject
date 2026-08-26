@@ -43,6 +43,17 @@ ru:
           invalid_claims_location: 'содержат неподдерживаемые местоположения: %{invalid}. К поддерживаемым местоположениям относятся: %{supported}.'
           invalid_claims_values: не определяет массив значений в %{attribute}.
           non_object_attribute: не определяет JSON объект в %{attribute}.
+    models:
+      openid_connect/provider:
+        one: Провайдер OpenID Connect
+        few: OpenID Connect providers
+        many: OpenID Connect providers
+        other: Провайдеры OpenID Connect
+      openid_connect/user_token:
+        one: Токен OpenID Connect
+        few: OpenID Connect tokens
+        many: OpenID Connect tokens
+        other: Токены OpenID Connect
   logout_warning: 'Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
 
     '

@@ -43,6 +43,15 @@ lv:
           invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
           invalid_claims_values: does not define an array at %{attribute}.
           non_object_attribute: does not define a JSON object at %{attribute}.
+    models:
+      openid_connect/provider:
+        zero: OpenID Connect providers
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        zero: OpenID Connect tokens
+        one: OpenID Connect token
+        other: OpenID Connect tokens
   logout_warning: 'You have been logged out. The contents of any form you submit may be lost. Please [log in].
 
     '

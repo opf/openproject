@@ -32,6 +32,9 @@ ms:
           invalid_certificate: 'bukan sijil berformat PEM yang sah: %{additional_message}'
           invalid_private_key: 'bukan kunci peribadi berformat PEM yang sah: %{additional_message}'
           unmatched_private_key: tidak tergolong dalam sijil yang diberikan
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Padam Penyedia SAML

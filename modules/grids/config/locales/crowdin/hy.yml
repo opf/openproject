@@ -14,6 +14,13 @@ hy:
           end_before_start: ավարտի արժեքը պետք է մեծ լինի սկզբի արժեքից։
           outside: ցանցի սահմաններից դուրս է։
           overlaps: վերածածկվում են։
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: "%{grid_name} ցանցում պարունակվող վիջեթ"
     widgets:

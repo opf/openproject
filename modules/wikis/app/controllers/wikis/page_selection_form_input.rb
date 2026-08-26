@@ -30,13 +30,22 @@
 
 module Wikis
   module PageSelectionFormInput
-    def parse_identifier(wiki_page_selection)
+    # The tree view submits the key of the selected node, i.e. its type and identifier.
+    def parse_selected_node(wiki_page_selection)
       case wiki_page_selection
-      in [selected_page]
-        MultiJson.load(selected_page, symbolize_keys: true)[:nodeId]
+      in [selected_node]
+        Adapters::Results::PageSearchTreeNode::NodeKey.parse(
+          MultiJson.load(selected_node, symbolize_keys: true)[:nodeId]
+        )
       else
         nil
       end
+    end
+
+    def parse_page_identifier(wiki_page_selection)
+      node_key = parse_selected_node(wiki_page_selection)
+
+      node_key&.identifier if node_key&.type == :page
     end
   end
 end

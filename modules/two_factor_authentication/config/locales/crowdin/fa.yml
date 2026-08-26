@@ -3,179 +3,190 @@ fa:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        channel: Channel
-        default: Use as default
+        channel: کانال
+        default: استفاده به‌عنوان پیش‌فرض
         identifier: شناسه
       two_factor_authentication/device/sms:
-        phone_number: Phone number
+        phone_number: شماره تلفن
       two_factor_authentication/device/webauthn:
-        webauthn_external: WebAuthn ID
-        webauthn_public_key: WebAuthn public key
+        webauthn_external: شناسه WebAuthn
+        webauthn_public_key: کلید عمومی WebAuthn
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: is already set for another OTP device.
+          default_already_exists: از قبل برای دستگاه OTP دیگری تنظیم شده است.
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: must be of format +XX XXXXXXXXX
+              error_phone_number_format: باید با قالب +XX XXXXXXXXX باشد
     models:
-      two_factor_authentication/device: 2FA device
-      two_factor_authentication/device/sms: Mobile phone
-      two_factor_authentication/device/totp: Authenticator application
-      two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Continue
-  button_make_active: Activate
-  button_make_default: Mark as default
+      two_factor_authentication/backup_code:
+        one: کد پشتیبان
+        other: کدهای پشتیبان
+      two_factor_authentication/device:
+        one: دستگاه 2FA
+        other: دستگاه‌های 2FA
+      two_factor_authentication/device/sms:
+        one: تلفن همراه
+        other: تلفن‌های همراه
+      two_factor_authentication/device/totp:
+        one: برنامه احراز هویت
+        other: برنامه‌های احراز هویت
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
+  button_continue: ادامه
+  button_make_active: فعال‌کردن
+  button_make_default: تنظیم به‌عنوان پیش‌فرض
   button_otp_by_sms: SMS
-  button_otp_by_voice: Voice call
-  button_resend_otp_form: Resend
-  field_otp: One-time password
-  label_confirmed: Confirmed
-  label_otp_channel: Delivery channel
-  notice_account_has_no_phone: No cell phone number is associated with your account.
-  notice_account_otp_expired: The one-time password you entered expired.
-  notice_account_otp_invalid: Invalid one-time password.
-  notice_account_otp_send_failed: Your one-time password could not be sent.
-  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
-  notice_phone_number_format: 'Please enter the number in the following format: +XX XXXXXXXX.'
+  button_otp_by_voice: تماس صوتی
+  button_resend_otp_form: ارسال مجدد
+  field_otp: گذرواژه یک‌بارمصرف
+  label_confirmed: تأییدشده
+  label_otp_channel: کانال تحویل
+  notice_account_has_no_phone: هیچ شماره تلفن همراهی به حساب شما مرتبط نیست.
+  notice_account_otp_expired: گذرواژه یک‌بارمصرف واردشده منقضی شده است.
+  notice_account_otp_invalid: گذرواژه یک‌بارمصرف نامعتبر است.
+  notice_account_otp_send_failed: گذرواژه یک‌بارمصرف شما ارسال نشد.
+  notice_developer_strategy_otp: 'راهبرد توسعه‌دهنده گذرواژه یک‌بارمصرف زیر را تولید کرد: %{token} (کانال: %{channel})'
+  notice_phone_number_format: لطفاً شماره را با قالب +XX XXXXXXXX وارد کنید.
   plugin_openproject_two_factor_authentication:
-    description: این افزونه OpenProject احراز هویت کاربران شما را با استفاده از احراز هویت دو مرحله ای با استفاده از رمز عبور یک بار مصرف از طریق استاندارد TOTP (Google Authenticator) یا ارسال به تلفن همراه کاربر از طریق پیام کوتاه یا تماس صوتی انجام می دهد.
-    name: 'تأیید هویت دو مرحله‌ای OpenProject '
-  text_otp_not_receive: Other verification methods
-  text_send_otp_again: 'Resend one-time password by:'
+    description: این افزونهٔ OpenProject کاربران را با احراز هویت دومرحله‌ای از طریق گذرواژهٔ یک‌بارمصرف مبتنی بر استاندارد TOTP (مانند Google Authenticator) یا کد ارسال‌شده به تلفن همراه از طریق SMS یا تماس صوتی احراز هویت می‌کند.
+    name: احراز هویت دومرحله‌ای OpenProject
+  text_otp_not_receive: روش‌های تأیید دیگر
+  text_send_otp_again: 'ارسال مجدد گذرواژه یک‌بارمصرف از طریق:'
   two_factor_authentication:
     admin:
-      all_devices_deleted: All 2FA devices of this user have been deleted
-      button_delete_all_devices: Delete registered 2FA devices
-      button_register_mobile_phone_for_user: Register mobile phone
-      delete_all_are_you_sure: Are you sure you want to delete all 2FA devices for this user?
-      no_devices_for_user: No 2FA device has been registered for this user.
-      only_sms_allowed: Only SMS delivery can be set up for other users.
-      self_edit_forbidden: You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      text_2fa_disabled: The user did not set up a 2FA device through their 'My account page'
-      text_2fa_enabled: Upon every login, this user will be requested to enter a OTP token from their default 2FA device.
+      all_devices_deleted: همه دستگاه‌های 2FA این کاربر حذف شدند
+      button_delete_all_devices: حذف دستگاه‌های 2FA ثبت‌شده
+      button_register_mobile_phone_for_user: ثبت تلفن همراه
+      delete_all_are_you_sure: مطمئنید می‌خواهید همه دستگاه‌های 2FA این کاربر را حذف کنید؟
+      no_devices_for_user: هیچ دستگاه 2FA برای این کاربر ثبت نشده است.
+      only_sms_allowed: برای کاربران دیگر فقط تحویل از طریق SMS قابل تنظیم است.
+      self_edit_forbidden: از این مسیر نمی‌توانید دستگاه‌های 2FA خودتان را ویرایش کنید. به «حساب من > احراز هویت دومرحله‌ای» بروید.
+      self_edit_path_html: برای افزودن یا تغییر دستگاه‌های 2FA خود، به [احراز هویت دومرحله‌ای در صفحه حساب](self_edit_link) بروید.
+      text_2fa_disabled: کاربر از طریق صفحه «حساب من» دستگاه 2FA تنظیم نکرده است
+      text_2fa_enabled: در هر ورود، از این کاربر خواسته می‌شود توکن OTP دستگاه پیش‌فرض 2FA خود را وارد کند.
     backup_codes:
       generate:
-        keep_safe_as_password: Important! Treat these codes as passwords.
-        keep_safe_warning: Either save them in your password manager, or print this page and put in a safe place.
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
-        title: Generate backup codes
+        keep_safe_as_password: مهم! با این کدها مانند گذرواژه رفتار کنید.
+        keep_safe_warning: آن‌ها را در مدیر گذرواژه ذخیره کنید یا این صفحه را چاپ کرده و در محل امن نگه دارید.
+        regenerate_warning: 'هشدار: اگر قبلاً کد پشتیبان ساخته‌اید، نامعتبر می‌شوند و دیگر کار نخواهند کرد.'
+        title: تولید کدهای پشتیبان
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
-      plural: Backup codes
-      singular: Backup code
-    channel_unavailable: The delivery channel %{channel} is unavailable.
+        اگر به دستگاه‌های احراز هویت دومرحله‌ای خود دسترسی ندارید، می‌توانید با کد پشتیبان دوباره به حساب خود دسترسی پیدا کنید.
+        برای تولید مجموعه جدید کدهای پشتیبان از دکمه زیر استفاده کنید.
+      plural: کدهای پشتیبان
+      singular: کد پشتیبان
+    channel_unavailable: کانال تحویل %{channel} در دسترس نیست.
     devices:
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      add_new: Add new 2FA device
-      button_complete_registration: Complete 2FA registration
-      cannot_delete_default: Cannot delete default device
-      confirm_default: Confirm changing default device
-      confirm_device: Confirm device
-      confirm_now: Not confirmed, click here to activate
-      confirm_send_failed: Confirmation of your 2FA device failed.
-      deletion_are_you_sure: Are you sure you want to delete this 2FA device?
-      failed_to_delete: Failed to delete 2FA device.
-      is_default_cannot_delete: The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.
-      make_default_are_you_sure: Are you sure you want to make this 2FA device your default?
-      make_default_failed: Failed to update the default 2FA device.
-      not_existing: No 2FA device has been registered for your account.
-      register: Register device
-      registration_complete: 2FA device registration complete!
-      registration_failed_token_invalid: 2FA device registration failed, the token was invalid.
-      registration_failed_update: 2FA device registration failed, the token was valid but the device could not be updated.
+      2fa_from_input_html: برای تأیید هویت، کد دستگاه <strong>%{device_name}</strong> را وارد کنید.
+      2fa_from_webauthn_html: لطفاً دستگاه WebAuthn <strong>%{device_name}</strong> را ارائه کنید. اگر USB است، آن را متصل و لمس کنید. سپس روی دکمه ورود کلیک کنید.
+      add_new: افزودن دستگاه 2FA جدید
+      button_complete_registration: تکمیل ثبت 2FA
+      cannot_delete_default: دستگاه پیش‌فرض قابل حذف نیست
+      confirm_default: تأیید تغییر دستگاه پیش‌فرض
+      confirm_device: تأیید دستگاه
+      confirm_now: تأیید نشده؛ برای فعال‌سازی اینجا کلیک کنید
+      confirm_send_failed: تأیید دستگاه 2FA شما ناموفق بود.
+      deletion_are_you_sure: مطمئنید می‌خواهید این دستگاه 2FA را حذف کنید؟
+      failed_to_delete: حذف دستگاه 2FA ناموفق بود.
+      is_default_cannot_delete: این دستگاه به‌عنوان پیش‌فرض علامت‌گذاری شده و به‌دلیل سیاست امنیتی فعال قابل حذف نیست. پیش از حذف، دستگاه دیگری را پیش‌فرض کنید.
+      make_default_are_you_sure: مطمئنید می‌خواهید این دستگاه 2FA را پیش‌فرض کنید؟
+      make_default_failed: به‌روزرسانی دستگاه پیش‌فرض 2FA ناموفق بود.
+      not_existing: هیچ دستگاه 2FA برای حساب شما ثبت نشده است.
+      register: ثبت دستگاه
+      registration_complete: ثبت دستگاه 2FA کامل شد!
+      registration_failed_token_invalid: ثبت دستگاه 2FA ناموفق بود؛ توکن نامعتبر بود.
+      registration_failed_update: ثبت دستگاه 2FA ناموفق بود؛ توکن معتبر بود اما دستگاه به‌روزرسانی نشد.
       sms:
-        description: 'Receive 2FA code via a text message on your phone each time you log in.
+        description: 'در هر ورود، کد 2FA را از طریق پیامک روی تلفن خود دریافت کنید.
 
           '
-        redacted_identifier: Mobile device (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}"
-        title: Mobile device
-      text_confirm_to_change_default_html: Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device.
-      text_confirm_to_complete_html: Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device.
-      text_identifier: You can give the device a custom identifier using this field.
+        redacted_identifier: دستگاه همراه (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}، یک کد احراز هویت از طریق %{delivery_channel} برای شما ارسال کردیم"
+        title: دستگاه همراه
+      text_confirm_to_change_default_html: لطفاً با واردکردن گذرواژه یک‌بارمصرف از دستگاه پیش‌فرض فعلی، تغییر دستگاه پیش‌فرض به <strong>%{new_identifier}</strong> را تأیید کنید.
+      text_confirm_to_complete_html: لطفاً با واردکردن گذرواژه یک‌بارمصرف از دستگاه پیش‌فرض، ثبت دستگاه <strong>%{identifier}</strong> را تکمیل کنید.
+      text_identifier: می‌توانید با این فیلد یک شناسه دلخواه برای دستگاه تعیین کنید.
       totp:
-        account: Account name / Issuer
-        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
+        account: نام حساب / صادرکننده
+        description: 'از کد یک‌بارمصرف تولیدشده توسط Authenticatorهایی مانند Authy یا Google Authenticator استفاده کنید.
 
           '
-        provisioning_uri: Provisioning URI
-        question_cannot_scan: 'Unable to scan the code using your application?
+        provisioning_uri: URI تأمین
+        question_cannot_scan: 'نمی‌توانید کد را با برنامه خود اسکن کنید؟
 
           '
-        secret_key: Secret key
+        secret_key: کلید محرمانه
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
-        text_cannot_scan: 'If you can''t scan the code, you can enter the entry manually using the following details:
+          برای راه‌اندازی احراز هویت دومرحله‌ای با Google Authenticator، برنامه را از Apple App Store یا Google Play Store دریافت کنید.
+          پس از بازکردن برنامه، می‌توانید QR Code زیر را برای ثبت دستگاه اسکن کنید.
+        text_cannot_scan: 'اگر نمی‌توانید کد را اسکن کنید، می‌توانید با جزئیات زیر آن را دستی وارد کنید:
 
           '
-        time_based: Time based
-        title: App-based authenticator
+        time_based: مبتنی بر زمان
+        title: Authenticator مبتنی بر برنامه
       webauthn:
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: یک دستگاه FIDO2 (مانند YubiKey) یا Secure Enclave دستگاه همراه خود را ثبت کنید.
+        further_steps: پس از انتخاب نام، روی دکمه ادامه کلیک کنید. مرورگر از شما می‌خواهد دستگاه WebAuthn را ارائه کنید. پس از انجام آن، ثبت دستگاه کامل است.
         title: WebAuthn
-    error_2fa_disabled: 2FA delivery has been disabled.
-    error_invalid_backup_code: Invalid 2FA backup code
-    error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
-    error_no_device: No registered 2FA device found for this user, despite being required for this instance.
-    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administratior.
+    error_2fa_disabled: تحویل 2FA غیرفعال شده است.
+    error_invalid_backup_code: کد پشتیبان 2FA نامعتبر است
+    error_is_enforced_not_active: 'خطای پیکربندی: احراز هویت دومرحله‌ای اجباری شده، اما هیچ راهبرد فعالی وجود ندارد.'
+    error_no_device: با وجود اجباری‌بودن، هیچ دستگاه 2FA ثبت‌شده‌ای برای این کاربر پیدا نشد.
+    error_no_matching_strategy: هیچ راهبرد 2FA منطبقی برای این کاربر در دسترس نیست. لطفاً با مدیر تماس بگیرید.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
-    label_2fa_disabled: Two-factor authentication not active
-    label_2fa_enabled: Two-factor authentication is active
-    label_default_device: Default 2FA device
-    label_device: 2FA device
-    label_device_type: Device type
-    label_devices: 2FA devices
-    label_two_factor_authentication: Two-factor authentication
+      required_to_add_device: مدیر احراز هویت دومرحله‌ای را برای این نمونه اجباری کرده است. برای ورود، یک روش احراز هویت دومرحله‌ای اضافه کنید.
+    label_2fa_disabled: احراز هویت دومرحله‌ای فعال نیست
+    label_2fa_enabled: احراز هویت دومرحله‌ای فعال است
+    label_default_device: دستگاه پیش‌فرض 2FA
+    label_device: دستگاه 2FA
+    label_device_type: نوع دستگاه
+    label_devices: دستگاه‌های 2FA
+    label_two_factor_authentication: احراز هویت دومرحله‌ای
     login:
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      enter_backup_code_title: Enter backup code
-      other_device: Use another device or backup code
+      enter_backup_code_text: اگر دیگر به دستگاه‌های 2FA ثبت‌شده دسترسی ندارید، یک کد پشتیبان معتبر از فهرست کدهای خود وارد کنید.
+      enter_backup_code_title: واردکردن کد پشتیبان
+      other_device: استفاده از دستگاه دیگر یا کد پشتیبان
     message_bird:
-      sms_delivery_failed: MessageBird SMS delivery failed.
-      voice_delivery_failed: MessageBird voice call failed.
-    mobile_transmit_notification: A one-time password has been sent to your cell phone.
-    no_valid_phone_number: No valid phone number exists.
-    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
+      sms_delivery_failed: ارسال SMS توسط MessageBird ناموفق بود.
+      voice_delivery_failed: تماس صوتی MessageBird ناموفق بود.
+    mobile_transmit_notification: یک گذرواژه یک‌بارمصرف به تلفن همراه شما ارسال شد.
+    no_valid_phone_number: شماره تلفن معتبری وجود ندارد.
+    notice_not_writable: تنظیمات 2FA از طریق متغیرهای محیطی ارائه شده‌اند و قابل بازنویسی نیستند.
     remember:
-      active_session_notice: 'Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      active_session_notice: 'حساب شما یک Cookie یادآوری فعال تا %{expires_on} دارد. این Cookie به شما اجازه می‌دهد تا آن زمان بدون عامل دوم وارد حساب شوید.
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
-      cookie_removed: All remembered 2FA sessions have been removed.
-      dont_ask_again: Create cookie to remember 2FA authentication on this client for %{days} days.
-      label: Remember
-      other_active_session_notice: Your account has an active remember cookie on another session.
+      clear_cookie: حذف همه Sessionهای 2FA به‌یادمانده.
+      cookie_removed: همه Sessionهای 2FA به‌یادمانده حذف شدند.
+      dont_ask_again: ایجاد Cookie برای به‌یادسپاری احراز هویت 2FA روی این کلاینت به‌مدت %{days} روز.
+      label: به‌خاطر سپردن
+      other_active_session_notice: حساب شما در Session دیگری Cookie یادآوری فعال دارد.
     settings:
-      current_configuration: Current configuration
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
-      label_active_strategies: Active 2FA strategies
-      label_enforced: Enforce 2FA
-      label_remember: Remember 2FA login
-      text_configuration: 'Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      current_configuration: پیکربندی فعلی
+      failed_to_save_settings: 'به‌روزرسانی تنظیمات 2FA ناموفق بود: %{message}'
+      label_active_strategies: راهبردهای فعال 2FA
+      label_enforced: اجباری‌کردن 2FA
+      label_remember: به‌خاطر سپردن ورود 2FA
+      text_configuration: 'توجه: این مقادیر پیکربندی فعلی در سطح کل برنامه را نشان می‌دهند. نمی‌توانید تنظیماتی را که توسط پیکربندی اجباری شده‌اند غیرفعال کنید یا راهبردهای فعال فعلی را تغییر دهید، زیرا به راه‌اندازی مجدد سرور نیاز دارند.
 
         '
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.
+      text_configuration_guide: برای اطلاعات بیشتر، راهنمای پیکربندی را بررسی کنید.
+      text_enforced: این تنظیم را فعال کنید تا همه کاربران در ورود بعدی مجبور به ثبت دستگاه 2FA شوند. فقط زمانی قابل غیرفعال‌کردن است که پیکربندی آن را اجباری نکرده باشد.
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      title: 2FA settings
+        مقداری بزرگ‌تر از صفر تنظیم کنید تا کاربران بتوانند احراز هویت 2FA خود را برای این تعداد روز به خاطر بسپارند.
+        در این بازه دوباره از آن‌ها درخواست نمی‌شود. فقط وقتی قابل تنظیم است که پیکربندی آن را اجباری نکرده باشد.
+      title: تنظیمات 2FA
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'تحویل SNS ناموفق بود:'
     strategies:
-      resdt: SMS Rest API
+      resdt: REST API پیامک
       sns: Amazon SNS
-      totp: Authenticator application
+      totp: برنامه Authenticator
       webauthn: WebAuthn
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
-    text_2fa_enabled: Upon every login, you will be requested to enter a OTP token from your default 2FA device.
-    text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
-    text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
+    text_2fa_disabled: برای فعال‌کردن احراز هویت دومرحله‌ای، با دکمه زیر یک دستگاه 2FA جدید ثبت کنید. اگر از قبل دستگاهی دارید، باید آن را به‌عنوان پیش‌فرض تنظیم کنید.
+    text_2fa_enabled: در هر ورود، از شما خواسته می‌شود توکن OTP دستگاه پیش‌فرض 2FA خود را وارد کنید.
+    text_otp_delivery_message_sms: گذرواژه یک‌بارمصرف %{app_title} شما %{token} است
+    text_otp_delivery_message_voice: 'گذرواژه یک‌بارمصرف %{app_title} شما این است: %{pause} %{token}. %{pause} تکرار می‌کنم: %{pause} %{token}'

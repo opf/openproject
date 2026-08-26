@@ -3,163 +3,170 @@ fa:
   activerecord:
     attributes:
       openid_connect/group_link:
-        oidc_group_name: OpenID group identifier
+        oidc_group_name: شناسه گروه OpenID
       openid_connect/provider:
-        acr_values: ACR values
-        authorization_endpoint: Authorization endpoint
-        claims: Claims
-        client_id: Client ID
-        client_secret: Client secret
-        display_name: نمایش نام
-        end_session_endpoint: End session endpoint
-        grant_types_supported: Supported grant types
-        group_regexes: Patterns (regular expressions)
-        groups_claim: Groups claim
-        icon: نماد دلخواه
-        issuer: Issuer
-        jwks_uri: JWKS URI
-        limit_self_registration: محدودیت ثبت
-        metadata_url: آدرس فراداده
+        acr_values: مقادیر ACR
+        authorization_endpoint: نقطه پایانی مجوزدهی
+        claims: Claimها
+        client_id: شناسه کلاینت
+        client_secret: رمز کلاینت
+        display_name: نام نمایشی
+        end_session_endpoint: نقطه پایانی پایان نشست
+        grant_types_supported: انواع Grant پشتیبانی‌شده
+        group_regexes: الگوها (عبارت‌های منظم)
+        groups_claim: Claim گروه‌ها
+        icon: آیکون سفارشی
+        issuer: صادرکننده
+        jwks_uri: URI مربوط به JWKS
+        limit_self_registration: محدودکردن ثبت‌نام خودکار
+        metadata_url: URL فراداده
         name: نام
-        post_logout_redirect_uri: Post logout redirect URI
-        redirect_url: Redirect URL
-        scope: حوزه
-        secret: مخفی
-        slug: Unique identifier
-        sync_groups: Synchronize groups
+        post_logout_redirect_uri: URI تغییر مسیر پس از خروج
+        redirect_url: URL تغییر مسیر
+        scope: دامنه
+        secret: رمز
+        slug: شناسه یکتا
+        sync_groups: همگام‌سازی گروه‌ها
         tenant: Tenant
-        token_endpoint: Token endpoint
-        userinfo_endpoint: User information endpoint
+        token_endpoint: نقطه پایانی توکن
+        userinfo_endpoint: نقطه پایانی اطلاعات کاربر
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: Discovery endpoint URL %{message}
-              response_is_not_json: " does not return JSON body."
-              response_is_not_successful: " responds with %{status}."
-              response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
-          invalid_claims_essential: does not define a boolean at %{attribute}.
-          invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
-          invalid_claims_values: does not define an array at %{attribute}.
-          non_object_attribute: does not define a JSON object at %{attribute}.
-  logout_warning: 'You have been logged out. The contents of any form you submit may be lost. Please [log in].
+              format: نشانی نقطه پایانی Discovery %{message}
+              response_is_not_json: " بدنه JSON برنمی‌گرداند."
+              response_is_not_successful: " با وضعیت %{status} پاسخ می‌دهد."
+              response_misses_required_attributes: " ویژگی‌های الزامی را برنمی‌گرداند. ویژگی‌های موجود نیستند: %{missing_attributes}."
+          invalid_claims_essential: در %{attribute} مقدار بولی تعریف نمی‌کند.
+          invalid_claims_location: 'شامل موقعیت‌های پشتیبانی‌نشده است: %{invalid}. موقعیت‌های پشتیبانی‌شده: %{supported}.'
+          invalid_claims_values: در %{attribute} آرایه تعریف نمی‌کند.
+          non_object_attribute: در %{attribute} یک شیء JSON تعریف نمی‌کند.
+    models:
+      openid_connect/provider:
+        one: ارائه‌دهنده OpenID Connect
+        other: ارائه‌دهندگان OpenID Connect
+      openid_connect/user_token:
+        one: توکن OpenID Connect
+        other: توکن‌های OpenID Connect
+  logout_warning: 'از سیستم خارج شده‌اید. ممکن است محتوای فرم‌هایی که ارسال می‌کنید از دست برود. لطفاً [وارد شوید].
 
     '
   openid_connect:
-    delete_heading: Delete this OpenID Connect provider?
-    delete_title: Delete OpenID Connect provider
-    group_links_heading: OpenID Connect group links
+    delete_heading: این ارائه‌دهنده OpenID Connect حذف شود؟
+    delete_title: حذف ارائه‌دهنده OpenID Connect
+    group_links_heading: پیوندهای گروه OpenID Connect
     groups:
       match_preview_component:
-        placeholder_none: No groups currently match the pattern.
-        title: Extracted group names
+        placeholder_none: در حال حاضر هیچ گروهی با الگو مطابقت ندارد.
+        title: نام‌های گروه استخراج‌شده
       match_preview_dialog_component:
-        description: This allows you to test your regular expression pattern against sample data to verify that the group names you want extracted are indeed extracted properly. You can modify your pattern here but the test string and matches themselves will not be saved with the configuration.
-        group_names_description: Enter one group name per line as it would appear in the OIDC claim, to see how your regular expression patterns affect them.
-        group_names_label: Test group names
-        show_button: Test pattern
-        title: Test regular expressions
+        description: با این بخش می‌توانید الگوی عبارت منظم خود را روی داده نمونه آزمایش کنید تا مطمئن شوید نام گروه‌های موردنظر به‌درستی استخراج می‌شوند. می‌توانید الگو را اینجا تغییر دهید، اما رشته آزمایشی و نتیجه‌های تطبیق همراه پیکربندی ذخیره نمی‌شوند.
+        group_names_description: برای مشاهده اثر الگوهای عبارت منظم، در هر خط یک نام گروه دقیقاً همان‌طور که در Claim مربوط به OIDC ظاهر می‌شود وارد کنید.
+        group_names_label: آزمایش نام گروه‌ها
+        show_button: آزمایش الگو
+        title: آزمایش عبارت‌های منظم
     instructions:
-      acr_values: 'Request non-essential claims in an easier format. See [our documentation on acr_values](docs_url) for more information.
+      acr_values: 'Claimهای غیرضروری را در قالبی ساده‌تر درخواست کنید. برای اطلاعات بیشتر [مستندات acr_values](docs_url) را ببینید.
 
         '
-      claims: 'You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
+      claims: 'می‌توانید برای نقاط پایانی userinfo و ID token، Claimهای بیشتری درخواست کنید. برای اطلاعات بیشتر [مستندات OpenID Connect](docs_url) را ببینید.
 
         '
-      client_id: This is the client ID given to you by your OpenID Connect provider
-      client_secret: This is the client secret given to you by your OpenID Connect provider
-      display_name: نام ارائه دهنده. این به عنوان دکمه ورود به سیستم و در لیست ارائه دهندگان نمایش داده می شود.
-      endpoint_url: The endpoint URL given to you by the OpenID Connect provider
-      group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
-      group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
-      group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
-      group_sync: Automatically extract and synchronise group membership information from the identity provider.
-      groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
-      limit_self_registration: If enabled, users can only register using this provider if configuration on the provider's end allows it.
-      mapping_admin: 'Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
+      client_id: این همان Client ID است که ارائه‌دهنده OpenID Connect در اختیار شما قرار داده است.
+      client_secret: این همان Client Secret است که ارائه‌دهنده OpenID Connect در اختیار شما قرار داده است.
+      display_name: نام ارائه‌دهنده. این نام روی دکمه ورود و در فهرست ارائه‌دهندگان نمایش داده می‌شود.
+      endpoint_url: نشانی نقطه پایانی ارائه‌شده توسط ارائه‌دهنده OpenID Connect
+      group_regexes: در هر خط یک الگوی عبارت منظم وارد کنید. برای اطلاعات بیشتر [مستندات](docs_url) را بخوانید.
+      group_regexes_detail: در صورت نیاز، با استفاده از عبارت‌های منظم الگوهایی برای تطبیق نام گروه‌ها از Claim گروه‌ها تعریف کنید. برای نمونه، الگوی <code>^Level1/Level2/([\w/]+)$</code> از پاسخی شامل “Level1/Level2/GroupName/SubGroup”، گروه “Groupname/SubGroup” را استخراج می‌کند. اگر هیچ الگویی تطبیق نکند، گروه نادیده گرفته می‌شود. برای همگام‌سازی همه گروه‌ها با نام کاملشان این قسمت را خالی بگذارید.
+      group_regexes_testing: برای آزمایش الگوی عبارت منظم روی نمونه userinfo مربوط به OIDC، روی 'آزمایش الگو' کلیک کنید.
+      group_sync: اطلاعات عضویت گروه را به‌طور خودکار از ارائه‌دهنده هویت استخراج و همگام‌سازی کنید.
+      groups_claim: نام Claimای را مشخص کنید که انتظار می‌رود نام گروه‌های عضو کاربر را ارائه کند.
+      limit_self_registration: اگر فعال باشد، کاربران فقط زمانی می‌توانند با این ارائه‌دهنده ثبت‌نام کنند که پیکربندی سمت ارائه‌دهنده اجازه دهد.
+      mapping_admin: 'یک نگاشت سفارشی در پاسخ userinfo برای وضعیت مدیر ارائه کنید. مقدار این ویژگی باید بولی باشد.
 
         '
-      mapping_email: 'Provide a custom mapping in the userinfo response to be used for the email attribute.
+      mapping_email: 'یک نگاشت سفارشی در پاسخ userinfo برای ویژگی ایمیل ارائه کنید.
 
         '
-      mapping_first_name: 'Provide a custom mapping in the userinfo response to be used for the first name.
+      mapping_first_name: 'یک نگاشت سفارشی در پاسخ userinfo برای نام ارائه کنید.
 
         '
-      mapping_last_name: 'Provide a custom mapping in the userinfo response to be used for the last name.
+      mapping_last_name: 'یک نگاشت سفارشی در پاسخ userinfo برای نام خانوادگی ارائه کنید.
 
         '
-      mapping_login: 'Provide a custom mapping in the userinfo response to be used for the login attribute.
+      mapping_login: 'یک نگاشت سفارشی در پاسخ userinfo برای ویژگی نام کاربری ارائه کنید.
 
         '
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
-      oidc_information: These values are needed to configure the OpenID Connect provider.
-      post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
-      scope: If you want to request custom scopes, you can add one or multiple scope values separated by spaces here. For more information, see the [OpenID Connect documentation](docs_url).
-      tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
-    menu_title: OpenID providers
+      metadata_none: این اطلاعات را ندارم
+      metadata_url: نشانی نقطه پایانی Discovery را دارم
+      oidc_information: این مقادیر برای پیکربندی ارائه‌دهنده OpenID Connect لازم هستند.
+      post_logout_redirect_uri: نشانی‌ای که ارائه‌دهنده OpenID Connect پس از درخواست خروج باید به آن هدایت کند.
+      scope: اگر می‌خواهید Scopeهای سفارشی درخواست کنید، یک یا چند مقدار Scope را با فاصله در اینجا وارد کنید. برای اطلاعات بیشتر [مستندات OpenID Connect](docs_url) را ببینید.
+      tenant: در صورت نیاز، Tenant پیش‌فرض را با Tenant خودتان جایگزین کنید. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">این راهنما</a> را ببینید.
+    menu_title: ارائه‌دهندگان OpenID
     providers:
-      client_details_description: Configuration details of OpenProject as an OIDC client
+      client_details_description: جزئیات پیکربندی OpenProject به‌عنوان کلاینت OIDC
       custom:
-        name: Custom
+        name: سفارشی
       google:
         name: Google
-      label_add_new: Add a new OpenID provider
-      label_advanced_configuration: Advanced configuration
-      label_attribute_mapping: نگاشت ویژگی ها
+      label_add_new: افزودن ارائه‌دهنده OpenID جدید
+      label_advanced_configuration: پیکربندی پیشرفته
+      label_attribute_mapping: نگاشت ویژگی‌ها
       label_automatic_configuration: پیکربندی خودکار
-      label_client_details: Client details
+      label_client_details: جزئیات کلاینت
       label_configuration_details: فراداده
-      label_edit: Edit OpenID provider %{name}
-      label_empty_description: یک ارائه دهنده اضافه کنید تا آن را در اینجا ببینید.
-      label_empty_title: No OpenID providers configured yet.
-      label_group_mapping: Group mapping
-      label_metadata: OpenID Connect Discovery Endpoint
-      label_optional_configuration: Optional configuration
-      label_providers: Providers
+      label_edit: ویرایش ارائه‌دهنده OpenID با نام %{name}
+      label_empty_description: برای نمایش ارائه‌دهندگان در اینجا، یک ارائه‌دهنده اضافه کنید.
+      label_empty_title: هنوز هیچ ارائه‌دهنده OpenID پیکربندی نشده است.
+      label_group_mapping: نگاشت گروه‌ها
+      label_metadata: نقطه پایانی Discovery برای OpenID Connect
+      label_optional_configuration: پیکربندی اختیاری
+      label_providers: ارائه‌دهندگان
       microsoft_entra:
         name: Microsoft Entra
-      no_results_table: No providers have been defined yet.
-      notice_created: A new OpenID provider was successfully created.
-      plural: OpenID providers
+      no_results_table: هنوز هیچ ارائه‌دهنده‌ای تعریف نشده است.
+      notice_created: ارائه‌دهنده OpenID جدید با موفقیت ایجاد شد.
+      plural: ارائه‌دهندگان OpenID
       section_texts:
-        attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
-        claims: Request additional claims for the ID token or userinfo response.
-        configuration: Configuration details of the OpenID Connect provider
-        configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
-        display_name: The display name visible to users.
-        group_mapping: Map group names provided by the identity provider to groups in OpenProject.
-        metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
-        metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
-        metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
-        metadata_form_title: OpenID Connect Discovery endpoint
+        attribute_mapping: نگاشت ویژگی‌ها بین OpenProject و ارائه‌دهنده OpenID Connect را پیکربندی کنید.
+        claims: Claimهای بیشتری برای ID token یا پاسخ userinfo درخواست کنید.
+        configuration: جزئیات پیکربندی ارائه‌دهنده OpenID Connect
+        configuration_metadata: اطلاعات با استفاده از نقطه پایانی Discovery ارائه‌شده از پیش پر شده‌اند و در بیشتر موارد نیازی به ویرایش ندارند.
+        display_name: نام نمایشی قابل مشاهده برای کاربران.
+        group_mapping: نام گروه‌های ارائه‌شده توسط ارائه‌دهنده هویت را به گروه‌های OpenProject نگاشت کنید.
+        metadata: پیکربندی را با استفاده از نشانی نقطه پایانی Discovery مربوط به OpenID Connect از پیش پر کنید
+        metadata_form_banner: ویرایش نقطه پایانی Discovery ممکن است مقادیر فراداده از پیش پرشده را بازنویسی کند.
+        metadata_form_description: اگر ارائه‌دهنده هویت شما نقطه پایانی Discovery دارد، از آن در زیر برای تکمیل خودکار پیکربندی استفاده کنید.
+        metadata_form_title: نقطه پایانی Discovery برای OpenID Connect
       side_panel:
         information_component:
-          backchannel_logout_url: Backchannel logout URL
-      singular: OpenID provider
+          backchannel_logout_url: نشانی خروج Backchannel
+      singular: ارائه‌دهنده OpenID
       upsell:
-        description: Connect OpenProject to an OpenID connect identity provider
-        title: Single Sign-On (SSO) with OpenID connect
+        description: اتصال OpenProject به یک ارائه‌دهنده هویت OpenID Connect
+        title: ورود یکپارچه (SSO) با OpenID Connect
     setting_instructions:
-      limit_self_registration: 'در صورت فعال بودن، کاربران تنها در صورتی می توانند با استفاده از این ارائه دهنده ثبت نام کنند که تنظیمات ثبت نام خود اجازه می دهد.
+      limit_self_registration: 'اگر فعال باشد، کاربران فقط زمانی می‌توانند با این ارائه‌دهنده ثبت‌نام کنند که تنظیم ثبت‌نام شخصی اجازه دهد.
 
         '
     settings:
-      endpoint_url: Endpoint URL
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
+      endpoint_url: نشانی نقطه پایانی
+      metadata_none: این اطلاعات را ندارم
+      metadata_url: نشانی نقطه پایانی Discovery را دارم
   plugin_openproject_openid_connect:
-    description: Adds OmniAuth OpenID Connect strategy providers to OpenProject.
+    description: Strategyهای OmniAuth OpenID Connect را به OpenProject اضافه می‌کند.
     name: OpenProject OpenID Connect
   provider:
     delete_warning:
-      delete_result_1: Remove the provider from the list of available providers.
-      delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
+      delete_result_1: ارائه‌دهنده را از فهرست ارائه‌دهندگان در دسترس حذف کنید.
+      delete_result_direct: این ارائه‌دهنده به‌عنوان ارائه‌دهنده ورود مستقیم مشخص شده است. این تنظیم حذف می‌شود و کاربران دیگر برای ورود به ارائه‌دهنده هدایت نخواهند شد.
       delete_result_user_count:
-        one: One user is currently still using this provider. They will need to be re-invited or logging in with another provider.
-        other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
-        zero: No users are currently using this provider. No further action is required.
-      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: Deleting an SSO provider is an irreversible action.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+        one: در حال حاضر یک کاربر هنوز از این ارائه‌دهنده استفاده می‌کند. باید دوباره دعوت شود یا با ارائه‌دهنده دیگری وارد شود.
+        other: در حال حاضر %{count} کاربر هنوز از این ارائه‌دهنده استفاده می‌کنند. باید دوباره دعوت شوند یا با ارائه‌دهنده دیگری وارد شوند.
+        zero: در حال حاضر هیچ کاربری از این ارائه‌دهنده استفاده نمی‌کند. اقدام دیگری لازم نیست.
+      input_delete_confirmation_html: برای تأیید حذف، نام ارائه‌دهنده %{name} را وارد کنید.
+      irreversible_notice: حذف ارائه‌دهنده SSO عملی بازگشت‌ناپذیر است.
+      provider_html: 'آیا مطمئنید می‌خواهید ارائه‌دهنده SSO با نام %{name} را حذف کنید؟ توجه داشته باشید که این کار:'
