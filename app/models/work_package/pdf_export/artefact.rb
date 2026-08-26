@@ -239,7 +239,9 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def build_lifecycle_toc_entries
-    [(toc_entry("lifecycle", I18n.t("pdf_generator.dialog.include_lifecycle.label")) if with_lifecycle? && lifecycle_section?)].compact
+    return [] unless with_lifecycle? && lifecycle_section?
+
+    [toc_entry("lifecycle", I18n.t("pdf_generator.dialog.include_lifecycle.label"))]
   end
 
   def build_wp_attribute_group_toc_entries
