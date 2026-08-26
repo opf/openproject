@@ -125,6 +125,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
           this.halNotification.showEditingBlockedError(schema.name || fieldName);
+          this.closeEditFields([fieldName]);
           return Promise.reject();
         }
 
@@ -294,17 +295,12 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * values loaded.
    * @param fieldName
    */
-  protected loadFieldSchema(fieldName:string, noWarnings = false):Promise<IFieldSchema> {
+  protected loadFieldSchema(fieldName:string, _noWarnings = false):Promise<IFieldSchema> {
     return this.getFormFieldSchema(fieldName).then((fieldSchema) => {
       if (!fieldSchema) {
         this.closeEditFields([fieldName]);
 
         throw new Error();
-      }
-
-      if (!fieldSchema.writable && !noWarnings) {
-        this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
-        this.closeEditFields([fieldName]);
       }
 
       return fieldSchema;
@@ -318,30 +314,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    */
   private getFormFieldSchema(fieldName:string):Promise<IFieldSchema|null> {
-    // Sync fast path: whatever schema the changeset currently exposes (form-derived if
-    // loaded, otherwise the pristine resource's cached schema) usually contains the
-    // field. Returning it synchronously lets the field activate without waiting on the
-    // form request — required by Capybara specs whose activate! check has a tight
-    // timeout, and by tests that intentionally disable AJAX before activating a field.
-    const cachedSchema = (this.change.schema as ISchemaProxy).ofProperty(fieldName);
-    if (cachedSchema) {
-      // Still kick off the form load (or piggy-back on an in-flight one) so the form's
-      // defaults, allowed values, and projected payload are populated for subsequent
-      // edits/submissions. We don't await it, but we do surface any error (e.g. a 409
-      // lock-version conflict when the resource was modified elsewhere) through the
-      // same notification path the awaited code-path uses — otherwise the user would
-      // open the editor without ever being told their copy is stale.
-      this.change.getForm().catch((error:unknown) => {
-        console.error('Background form load failed for %s: %o', fieldName, error);
-        this.halNotification.handleRawError(error, this.resource);
-      });
-      return Promise.resolve(cachedSchema);
-    }
-
-    // Cached schema doesn't know about this field. Either the form hasn't been loaded
-    // at all, or the cached form is stale (e.g. the work package type was just changed
-    // and the new type's custom fields aren't in the cached form yet). Load the form,
-    // then retry; if still missing, force a full reload once.
     return this.change.getForm()
       .then(():Promise<IFieldSchema|null> => {
         const fieldSchema:IFieldSchema|null = (this.change.schema as ISchemaProxy).ofProperty(fieldName);

@@ -63,6 +63,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /** Reference and load promise for the current form */
   protected form$ = input<FormResource>();
 
+  /** The latest form request, if one is currently running */
+  private formRequest:Promise<FormResource>|null = null;
+
+  private formRequestId = 0;
+
   /** Request cache for objects within the changeset for the current form */
   protected cache:Record<string, Promise<unknown>> = {};
 
@@ -148,7 +153,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Returns the cached form or loads it if necessary.
    */
   public getForm(reload = false):Promise<FormResource> {
-    if ((this.form$.isPristine() || reload) && !this.form$.hasActivePromiseRequest()) {
+    if (this.formRequest) {
+      return this.formRequest;
+    }
+
+    if (this.form$.isPristine() || reload) {
       return this.updateForm();
     }
 
@@ -173,18 +182,37 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const promise = this.pristineResource
+    const formRequest = this.pristineResource
       .$links
-      .update(payload)
-      .then((form:FormResource) => {
-        this.cache = {};
-        this.form$.putValue(form);
-        this.setNewDefaults(form);
-        this.push();
-        return form;
-      }) as Promise<FormResource>;
+      .update(payload) as Promise<FormResource>;
+    const requestId = ++this.formRequestId;
 
-    this.form$.putFromPromiseIfPristine(() => promise);
+    const promise = formRequest.then((form:FormResource) => {
+      if (this.formRequestId !== requestId) {
+        return this.getForm();
+      }
+
+      this.cache = {};
+      this.form$.putValue(form);
+      this.setNewDefaults(form);
+      this.push();
+      return form;
+    });
+
+    this.formRequest = promise;
+    void promise.then(
+      () => {
+        if (this.formRequestId === requestId) {
+          this.formRequest = null;
+        }
+      },
+      () => {
+        if (this.formRequestId === requestId) {
+          this.formRequest = null;
+        }
+      },
+    );
+
     return promise;
   }
 

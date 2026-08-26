@@ -29,11 +29,15 @@
 import { ApplicationRef, Injector } from '@angular/core';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { afterEach, vi } from 'vitest';
 import type { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 class TestEditForm extends EditForm<HalResource> {
+  public changeValue?:ResourceChangeset<HalResource>;
+
   constructor(injector:Injector, private readonly requireVisibleSpy:(fieldName:string) => Promise<void>, private readonly resetSpy:(fieldName:string, focus?:boolean) => void) {
     super(injector);
   }
@@ -52,14 +56,99 @@ class TestEditForm extends EditForm<HalResource> {
     this.resetSpy(fieldName, focus);
   }
 
+  public loadSchema(fieldName:string):Promise<IFieldSchema> {
+    return this.loadFieldSchema(fieldName);
+  }
+
+  public override get change():ResourceChangeset<HalResource> {
+    return this.changeValue ?? super.change;
+  }
+
   protected focusOnFirstError():void {
     return undefined;
   }
 }
 
 describe('EditForm', () => {
+  const buildSchemaForm = (change:object) => {
+    const notification = {
+      handleRawError: vi.fn(),
+      showEditingBlockedError: vi.fn(),
+    };
+    const injector = {
+      get: vi.fn().mockImplementation((token:unknown) => (
+        token === HalResourceNotificationService ? notification : null
+      )),
+    } as Injector;
+    const form = new TestEditForm(injector, vi.fn(), vi.fn());
+
+    form.resource = { id: 1 } as unknown as HalResource;
+    form.changeValue = change as unknown as ResourceChangeset<HalResource>;
+
+    return { form, notification };
+  };
+
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  it('waits for the current form before using a cached field schema', async () => {
+    const staleSchema = { writable: true, name: 'Stale' } as IFieldSchema;
+    const currentSchema = { writable: true, name: 'Current' } as IFieldSchema;
+    let schema = staleSchema;
+    const getForm = vi.fn().mockImplementation(() => {
+      schema = currentSchema;
+      return Promise.resolve({});
+    });
+    const change = {
+      getForm,
+      schema: {
+        ofProperty: vi.fn().mockImplementation(() => schema),
+      },
+    };
+    const { form } = buildSchemaForm(change);
+
+    await expect(form.loadSchema('foo')).resolves.toBe(currentSchema);
+    expect(getForm).toHaveBeenCalledOnce();
+  });
+
+  it('reloads the form once when its schema does not contain the field', async () => {
+    const currentSchema = { writable: true, name: 'Current' } as IFieldSchema;
+    let schema:IFieldSchema|null = null;
+    const getForm = vi.fn().mockImplementation((reload = false) => {
+      if (reload) {
+        schema = currentSchema;
+      }
+      return Promise.resolve({});
+    });
+    const change = {
+      getForm,
+      schema: {
+        ofProperty: vi.fn().mockImplementation(() => schema),
+      },
+    };
+    const { form } = buildSchemaForm(change);
+
+    await expect(form.loadSchema('foo')).resolves.toBe(currentSchema);
+    expect(getForm).toHaveBeenNthCalledWith(1);
+    expect(getForm).toHaveBeenNthCalledWith(2, true);
+  });
+
+  it('shows one notification when the current schema is not writable', async () => {
+    const reset = vi.fn();
+    const change = {
+      getForm: vi.fn().mockResolvedValue({}),
+      reset,
+      schema: {
+        ofProperty: vi.fn().mockReturnValue({ writable: false, name: 'Blocked' }),
+      },
+    };
+    const { form, notification } = buildSchemaForm(change);
+
+    await form.activate('foo').catch(() => undefined);
+
+    expect(notification.showEditingBlockedError).toHaveBeenCalledExactlyOnceWith('Blocked');
+    expect(reset).toHaveBeenCalledWith('foo');
   });
 
   it('does not require visibility twice for newly erroneous inactive fields', async () => {
