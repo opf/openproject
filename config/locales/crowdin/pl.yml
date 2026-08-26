@@ -67,8 +67,8 @@ pl:
       '
     login_with_auth_provider: lub zaloguj się za pomocą istniejącego konta
     omniauth_login: Zaloguj się, aby aktywować konto.
-    signup_title: Create an account in %{app_title}
-    signup_with_external_account: Sign up with an external account
+    signup_title: Utwórz konto w %{app_title}
+    signup_with_external_account: Zarejestruj się za pomocą konta zewnętrznego
   actionview_instancetag_blank_option: Proszę wybrać
   activemodel:
     attributes:
@@ -343,7 +343,7 @@ pl:
         token_name: Nazwa tokena
       type:
         attribute_groups: Konfiguracja formularza
-        children: Variants
+        children: Warianty
         color: Kolor
         dependent_configuration_links: Powiązane typy
         description: Domyślny tekst opisu
@@ -722,7 +722,7 @@ pl:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: musi być typem najwyższego poziomu. Projekt wykorzystuje typy główne i oddzielnie rozpoznaje warianty.
             variant:
               must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
         queries/filters/base:
@@ -823,8 +823,8 @@ pl:
               query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
             parent:
               cannot_be_self: nie może być samym typem.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: nie można zmienić, gdy projekty nadal używają tego typu.
+              cannot_have_children: nie można ustawić, ponieważ ten typ ma już warianty.
               must_be_a_root: musi być typem najwyższego poziomu. Typy można zagnieżdżać tylko o jeden poziom w głąb.
               standard_type_must_be_root: nie można ustawić dla typu standardowego.
             patterns:
@@ -832,7 +832,7 @@ pl:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: połączyłby te konfiguracje w pętlę.
         user:
           attributes:
             base:
@@ -1062,7 +1062,7 @@ pl:
           heading: Upublicznić ten komentarz?
           title: Upublicznić ten komentarz?
         internal_journal: Komentarze wewnętrzne są widoczne dla ograniczonej grupy członków.
-        label_activity_hide_meetings: Hide meetings updates
+        label_activity_hide_meetings: Ukryj aktualizacje spotkań
         label_activity_show_all: Pokaż wszystko
         label_activity_show_only_changes: Pokaż tylko zmiany
         label_activity_show_only_comments: Pokaż tylko komentarze
@@ -1189,8 +1189,8 @@ pl:
     jemalloc_allocator: Alokator pamięci Jemalloc
     jira:
       actions:
-        button_edit: Edit configuration
-        button_open: Open runs
+        button_edit: Edytuj konfigurację
+        button_open: Otwórz uruchomienia
       banner:
         contribution_callout: 'Prosimy o pomoc w ulepszaniu narzędzia Migrator Jira poprzez przekazywanie opinii i udostępnianie nam swoich danych. Możesz [dołączyć do społeczności programistów](link) narzędzia Migrator Jira.
 
@@ -1212,11 +1212,11 @@ pl:
         ssrf_blocked: 'Połączenie zablokowane: host Jira jest rozpoznawany jako prywatny adres IP. Jeśli instancja Jira działa w sieci wewnętrznej, należy zezwolić na jej adres IP za pomocą zmiennej środowiskowej OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Dodano
-        creator: Creator
+        creator: Twórca
         label_ago: "%{amount} temu"
         last_change: Ostatnia zmiana
         projects: Projekty
-        server_url: Server URL
+        server_url: Adres URL serwera
       configuration:
         new: Nowa konfiguracja
         title: Konfiguracja usługi Jira
@@ -1237,11 +1237,11 @@ pl:
           personal_access_token: Osobisty token dostępu
           url: Adres URL serwera / centrum danych Jira
         label_testing: Testowanie konfiguracji...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: Możesz przetestować tę konfigurację, [klikając tutaj](test)
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: Edytuj uruchomienie
+          button_open_history: Otwórz historię uruchamiania
         blank:
           description: Utwórz uruchomienie importu, aby rozpocząć importowanie informacji z tego wystąpienia usługi Jira
           title: Nie skonfigurowano jeszcze żadnych uruchomień importu
@@ -1254,8 +1254,8 @@ pl:
         project_identifier_taken: 'Próbujesz zaimportować projekt z już używanym identyfikatorem: %{taken_identifier}. Zaktualizuj identyfikator projektu w Jira, a następnie kliknij przycisk Ponów próbę.'
         remove_error: Importu Jira nie można usunąć, gdy jest uruchomiony
         side_panel:
-          open_history: Open the run history
-          run_status: Run status
+          open_history: Otwórz historię uruchamiania
+          run_status: Status uruchomienia
         status:
           configuring: Wybierz zakres
           finalizing: Finalizowanie
@@ -1289,7 +1289,7 @@ pl:
             configuration:
               title: Sknfiguruj import
             run_and_review:
-              title: Run and review import
+              title: Uruchom i sprawdź import
           import_dialog:
             confirm: Rozumiem i mam kopię zapasową
             confirm_button: Rozpocznij import
@@ -1337,7 +1337,7 @@ pl:
               button_start: Rozpocznij import
               caption: Sprawdź ustawienia importu i rozpocznij import
               caption_done: Ukończono
-              caption_done_info: All data has been imported
+              caption_done_info: Wszystkie dane zostały zaimportowane
               description: W ten sposób rozpoczniesz import z następującymi ustawieniami.
               label_available_data: Dane do zaimportowania
               label_import_data: Aktualnie importowane
@@ -1345,12 +1345,12 @@ pl:
               label_users_import_explanation: Użytkownicy zaangażowani w wybrane projekty (w tym członkostwo w grupach)
               title: Importuj dane
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: Przejdź do wyboru zakresu
               button_fetch: Sprawdź dostępne dane
               caption_done: Ukończono
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: Metadane pobrano z %{server_info}
               description: Sprawdź, jakie dane są dostępne do importu w wystąpieniu hosta Jira.
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: Dostępne dane — %{server_info}
               label_progress: Pobieranie danych z Jira...
               title: Pobierz metadane wystąpienia
             groups_and_users:
@@ -1369,18 +1369,18 @@ pl:
               preview_description: Zaimportowane dane są obecnie w trybie przeglądu. Kliknij przycisk „Zatwierdź import”, aby zaimportować dane na stałe lub „Cofnij import”, aby cofnąć wszystkie zmiany wprowadzone wskutek importu.
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: Inne ustawienia
+                  subtitle: W tym typy i status
                 projects:
-                  label: Projects
-                  subtitle: Selected as scope
-                title: Data imported
+                  label: Projekty
+                  subtitle: Wybrano jako zakres
+                title: Zaimportowano dane
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: Użytkownicy i grupy
+                  subtitle: 'Uczestniczące w importowanych projektach '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: Pakiety robocze
+                  subtitle: Z załącznikami
               title: Wyniki importu
             import_scope:
               button_continue: Kontynuuj
@@ -1389,10 +1389,10 @@ pl:
               caption: Wybierz co chcesz zaimportować do OpenProject
               caption_done: Ukończono
               caption_done_description:
-                one: 1 project selected as scope
-                few: "%{count} projects selected as scope"
-                many: "%{count} projects selected as scope"
-                other: "%{count} projects selected as scope"
+                one: Jako zakres wybrano 1 projekt
+                few: Jako zakres wybrano %{count} projekty
+                many: Jako zakres wybrano %{count} projektów
+                other: Jako zakres wybrano %{count} projektu
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               elements:
                 custom_fields: Podzestaw pól niestandardowych
@@ -1411,17 +1411,17 @@ pl:
               label_coming_soon: Wkrótce (III kwartał 2026 r.)
               label_import: Wybierz projekty, które chcesz zaimportować.
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
-              label_progress: Fetching data
+              label_progress: Pobieranie danych
               label_selected_data: Wybrane dane do zaimportowania
               label_supported_data: Obsługiwane dane
               title: Zakres importu
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
-            info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            button_select: Wybierz
+            button_select_all: Wybierz wszystko
+            button_unselect_all: Anuluj wybór wszystkich
+            filter_projects: Filtruj według tekstu
+            info: Jako zakres importu można wybrać jedynie te projekty, których członkiem jest właściciel tokenu Jira.
+            title: Wybierz projekty do zaimportowania
       test:
         api_error: Interfejs API Jira zwrócił status błędu %{status}. Sprawdź adres URL wystąpienia usługi Jira i token interfejsu API.
         connection_error: 'Błąd połączenia: %{message}'
@@ -1570,40 +1570,40 @@ pl:
           error: Nie można zmienić kolejności sekcji.
       versions_and_categories:
         banner:
-          button_more_information: More information
-          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+          button_more_information: Więcej informacji
+          message: Wkrótce nastąpią istotne zmiany dotyczące wersji i kategorii. Dokładnie zapoznaj się z poniższymi ustawieniami.
         categories:
-          heading: Categories
+          heading: Kategorie
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
-            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+            heading: Planowane zmiany w przyszłej wersji
+            renamed: Nazwa pola „Kategoria” zostanie zmieniona na „Kategorie”.
+            single_value: To pole obecnie pozwala na wprowadzenie tylko jednej wartości. Zostanie ono również zmodyfikowane tak, aby umożliwić wprowadzenie wielu wartości.
+            upcoming_choice: Można będzie wybrać włączenie wielu wartości, nim nastąpi ta automatyczna konwersja.
         dialog:
-          checkbox_label: I understand that this action is not reversible
-          confirm_button: Enable
-          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
-          heading: Enable multiple target versions?
-          irreversible_notice: Once enabled, it will not be possible to go back to single values.
-          title: Enable multiple target versions
+          checkbox_label: Rozumiem, że to działanie jest nieodwracalne
+          confirm_button: Włącz
+          description_html: Spowoduje to przekonwertowanie istniejącego jednowartościowej wersji pola w celu akceptowania wielu wartości. Żadne dane nie zostaną utracone, ale może to mieć wpływ na niestandardowe integracje. Przed kontynuowaniem zapoznaj się z <a href="%{link}" target="_blank" rel="noopener">dokumentacją </a>.
+          heading: Włączyć wiele wersji docelowych?
+          irreversible_notice: Po włączeniu tej opcji nie będzie można powrócić do pojedynczych wartości.
+          title: Włącz wiele wersji docelowych
         target_versions:
           action_required:
-            button: Enable multiple values
-            heading: Action required
-            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
-          heading: Target versions
+            button: Włącz wiele wartości
+            heading: Wymagane działanie
+            manual_conversion_hint: Możesz wybrać ręczne uruchomienie konwersji, aby włączyć wiele wartości, nim nastąpi ta automatyczna migracja.
+            not_writable_hint: Ustawienia te konfiguruje się za pomocą zmiennych środowiskowych. Aby ręcznie uruchomić konwersję w celu włączenia wielu wartości przed automatyczną migracją, zaktualizuj plik configuration.yml.
+          heading: Wersje docelowe
           in_progress:
-            heading: Enabling multiple versions
+            heading: Włączanie wielu wersji
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            heading: Planowane zmiany w przyszłej wersji
+            renamed: Nazwa pola „Wersja” zostanie zmieniona na „Wersje docelowe”.
+            single_value: To pole obecnie pozwala na wprowadzenie tylko jednej wartości. Zostanie ono zmodyfikowane tak, aby umożliwić wprowadzenie wielu wartości.
           recent_changes:
-            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
-            heading: Recent changes
-            multiple_values: The “Target versions” field now allows multiple values.
-            renamed: The “Version” field has now been renamed “Target versions”.
+            documentation_html: Więcej informacji na temat tej zmiany oraz sposobu aktualizacji klientów interfejsu API można znaleźć w <a href="%{link}" target="_blank" rel="noopener">naszej dokumentacji</a>.
+            heading: Ostatnie zmiany
+            multiple_values: W polu „Wersje docelowe” można teraz wprowadzać wiele wartości.
+            renamed: Nazwa pola „Wersja” została zmieniona na „Wersje docelowe”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Musi zaczynać się wielką literą
@@ -1681,14 +1681,14 @@ pl:
           other: Usunąć %{count} statusu?
         title: Usuń statusy
       tabs:
-        always: Default transitions
+        always: Przejścia domyślne
         aria_label: Przejścia przepływu pracy
-        assignee: User is assignee
-        author: User is author
+        assignee: Użytkownik jest przypisaną osobą
+        author: Użytkownik jest autorem
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
+          always: Przejścia dostępne dla wybranych ról we wszystkich przypadkach.
+          assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
+          author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
   announcements:
     is_active: obecnie wyświetlane
@@ -1817,7 +1817,7 @@ pl:
     entity_type: Podmiot
     estimated_hours: Praca
     estimated_time: Praca
-    exact_match: Exact match
+    exact_match: Dokładne dopasowanie
     expires_at: Wygasa
     filter: Filtr
     firstname: Imię
@@ -2675,7 +2675,7 @@ pl:
   error_failed_to_delete_entry: Nie udało się usunąć tego wpisu.
   error_in_dependent: 'Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Błąd podczas próby utworzenia obiektu zależnego: %{dependent_class} — %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
+  error_invalid_list_move_anchor: Nie można przenieść tego elementu w wybrane miejsce. Ponownie załaduj stronę i ponów próbę.
   error_invalid_selected_value: Nieprawidłowa wybrana wartość.
   error_journal_attribute_not_present: Dziennik nie zawiera atrybutu %{attribute}.
   error_menu_item_not_created: Nie można dodać elementu menu
@@ -2951,14 +2951,14 @@ pl:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Wspomagane przez sztuczną inteligencję działania dotyczące pakietów roboczych, komentarzy oraz relacji z serwerem MCP (plan Professional).
+            line_1: Wiele wersji docelowych do pakietów roboczych.
+            line_2: Ogólne limity i ograniczenia dotyczące wpisów czasu (plan Professional).
+            line_3: Ulepszenia w ramach metodyki zwinnej dotyczące edycji zbiorczej oraz przeciągania kart backlogów do aplikacji zewnętrznych.
+            line_4: Makra wiki dostępne w większej liczbie edytorów tekstu.
+            line_5: Ulepszono funkcję wyszukiwania identyfikatorów pakietów roboczych.
+            line_6: 'Funkcja udostępniona społeczności: wyświetlanie relacji w tabelach pakietów roboczych.'
+          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
 
             '
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
@@ -3005,11 +3005,11 @@ pl:
         field_updated: Zaktualizowano %{field}
         header: zmiany wprowadzone przez %{author}
         set_with_diff: Ustawiono pole %{field} (%{link})
-      meeting_cancelled: "(cancelled)"
-      meeting_deleted: "(deleted)"
-      meeting_series_backlog_html: backlog for meeting series %{link}
-      meeting_series_template_html: template for meeting series %{link}
-      meeting_template_html: meeting template %{link}
+      meeting_cancelled: "(anulowano)"
+      meeting_deleted: "(usunięto)"
+      meeting_series_backlog_html: backlog serii spotkań %{link}
+      meeting_series_template_html: szablon serii spotkań %{link}
+      meeting_template_html: szablon spotkań %{link}
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_excluded_from_totals_set_to_false_message: teraz uwzględniono w sumach hierarchii
       status_excluded_from_totals_set_to_true_message: teraz wyłączono z sum hierarchii
@@ -3022,7 +3022,7 @@ pl:
         progress_calculation_adjusted_from_disabled_mode: Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">ustawiane na tryb oparty na pracy i dostosowywane wraz z aktualizacją wersji</a>.
         scheduling_mode_adjusted: Tryb planowania automatycznie dostosowywany w razie aktualizacji wersji.
         sprint_migration: Wersja „%{version_name}” została skopiowana jako sprint.
-        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
+        target_versions_repaired: Wersje docelowe są automatycznie synchronizowane z polem Wersja przed włączeniem funkcji wielu wersji docelowych.
         totals_removed_from_childless_work_packages: Sumy pracy i postępu są automatycznie usuwane dla pakietów pracy innych niż nadrzędne wraz z <a href="%{href}" target="_blank">aktualizacją wersji</a>. Jest to zadanie konserwacyjne i można je bezpiecznie zignorować.
       total_percent_complete_mode_changed_to_simple_average: Wartości parametru Praca podrzędnych pakietów roboczych są ignorowane.
       total_percent_complete_mode_changed_to_work_weighted_average: Podrzędne pakiety robocze bez parametru Praca są ignorowane.
@@ -3030,7 +3030,7 @@ pl:
       work_package_children_changed_times: przez zmiany elementu podrzędnego %{link}
       work_package_duplicate_closed: Status został automatycznie zaktualizowany przez zduplikowany pakiet roboczy %{link}
       work_package_parent_changed_times: przez zmiany elementu nadrzędnego %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: ponieważ nadrzędny pakiet roboczy został usunięty
       work_package_predecessor_changed_times: przez zmiany poprzednika %{link}
       work_package_related_changed_times: przez zmiany powiązanego %{link}
       working_days_changed:
@@ -3046,32 +3046,32 @@ pl:
       dates_changed: Daty zostały zmienione
       default_attribute_written: Zapisano atrybuty tylko do odczytu
       import: Zaimportowano
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
-      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>Dodano do spotkania</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Dodano do</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Omówiono podczas posiedzenia</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Przeniesiono do spotkania</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Przeniesiono do</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Usunięto ze spotkania</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Usunięto z</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Dodano jako wynik na spotkaniu</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Zaktualizowano obliczenie postępu
       status_changed: Status „%{status_name}”
       system_update: 'Aktualizacja systemu OpenProjekt:'
       total_percent_complete_mode_changed_to_simple_average: Obliczanie % Ukończenia opiera się teraz na średniej arytmetycznej % Ukończenia.
       total_percent_complete_mode_changed_to_work_weighted_average: Obliczanie % Ukończenia jest teraz ważone parametrem Praca.
       work_package_duplicate_closed: 'Zaktualizowano zduplikowany pakiet roboczy:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Element nadrzędny został usunięty
     changes_retracted: Zmiany zostały wycofane.
     non_visible:
-      budget: a non-visible budget
-      category: a non-visible category
-      default: a non-visible record
-      issue_priority: a non-visible priority
-      project: a non-visible project
-      sprint: a non-visible sprint
-      time_entry_activity: a non-visible activity
-      version: a non-visible version
-      work_package: a non-visible work package
+      budget: budżet niewidoczny
+      category: kategoria niewidoczna
+      default: rekord niewidoczny
+      issue_priority: priorytet niewidoczny
+      project: projekt niewidoczny
+      sprint: sprint niewidoczny
+      time_entry_activity: aktywność niewidoczna
+      version: wersja niewidoczna
+      work_package: pakiet roboczy niewidoczny
   label_accessibility: Dostępność
   label_account: Konto
   label_actions: Działania
@@ -3428,7 +3428,7 @@ pl:
   label_me: ja
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_new: Nowy członek
-  label_member_of_project: Member of project
+  label_member_of_project: Członek projektu
   label_member_plural: Członkowie
   label_member_role: Rola w projekcie
   label_membership_added: Dodano członka
@@ -3580,7 +3580,7 @@ pl:
   label_project_hide_details: Ukryj szczegóły projektu
   label_project_hierarchy: Hierarchia projektu
   label_project_identifier: Identyfikator projektu
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: Wyeksportuj %{project_creation_name} jako PDF
   label_project_latest: Najnowsze projekty
   label_project_life_cycle: Cykl życia projektu
   label_project_list_plural: Listy projektów
@@ -3692,7 +3692,7 @@ pl:
   label_subitems: Podpozycje
   label_subject_or_id: Temat lub identyfikator
   label_subproject: Podprojekt
-  label_subproject_add: Add subproject
+  label_subproject_add: Dodaj podprojekt
   label_subproject_plural: Podprojekty
   label_subtask_plural: Zadania podrzędne
   label_summary: Podsumowanie
@@ -3756,7 +3756,7 @@ pl:
   label_version_sharing_none: Nie udostępnione
   label_version_sharing_system: Z wszystkich projektów
   label_version_sharing_tree: Z drzewa projektu
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: Wersje i kategorie
   label_videos: Filmy
   label_view_all_revisions: Zobacz wszystkie rewizje
   label_view_diff: Widok różnic
@@ -4811,7 +4811,7 @@ pl:
 
     '
   permission_move_work_packages: Przenoszenie pakietów roboczych
-  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
+  permission_project_identifier_visibility_caution: 'Przestroga: użytkownicy mający to uprawnienie mogą sprawdzić, czy dany identyfikator projektu jest już zajęty, nawet przez projekty, do których nie mają dostępu. [Dowiedz się więcej](project_identifier_visibility_url)'
   permission_save_bcf_queries: Zapisz zapytania BCF
   permission_save_queries: Zapisz widoki
   permission_search_project: Wyszukaj projekt
@@ -4906,8 +4906,8 @@ pl:
   project:
     archive:
       archived: Zarchiwizowano
-      confirmation_heading: Are you sure you want to continue?
-      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
+      confirmation_heading: Czy na pewno chcesz kontynuować?
+      confirmation_message: Archiwizacja tego projektu spowoduje, że zarówno on sam, jak i wszystkie jego elementy potomne staną się niedostępne dla wszystkich użytkowników tego wystąpienia. Zarchiwizowane projekty można przywrócić.
       title: Zarchiwizuj projekt
     count:
       one: 1 projekt
@@ -5037,7 +5037,7 @@ pl:
       header_identifier: Identyfikator
       header_relations: Relacje projektu
       header_status: Status
-      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
+      identifier_visibility_warning: Identyfikatory projektów nie są prywatne. Jeśli projekt jest poufny, wybierz identyfikator, który nie zdradza jego treści.
       life_cycle:
         filter:
           label: Wyszukaj fazę projektu
@@ -5099,30 +5099,30 @@ pl:
         title: Ustawienia szablonu
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
-          none_addable: All available types are already active in this project.
-          submit: Add
-          title: Add type
-          type_label: Type
-          type_placeholder: Select a type
-        add_type: Add type
+          description: W projekcie używany jest jeden członek każdej rodziny typów. Wybierz typ lub wariant, którego ma używać ten projekt.
+          none_addable: Wszystkie dostępne typy są już aktywne w tym projekcie.
+          submit: Dodaj
+          title: Dodaj typ
+          type_label: Typ
+          type_placeholder: Wybierz typ
+        add_type: Dodaj typ
         empty_state:
-          description: Add a type to let people create work packages of that type in this project.
-          title: No types are active in this project
+          description: Dodaj typ, aby umożliwić użytkownikom tworzenie pakietów roboczych tego typu w tym projekcie.
+          title: W tym projekcie nie są aktywne żadne typy
         form:
           enable_type_in_project: Włącz typ „%{type}”
         no_results_title_text: Nie ma dostępnych typów.
-        remove_from_project: Remove from project
+        remove_from_project: Usuń z projektu
         switch_dialog:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
-        type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+          apply: Zastosuj
+          description: Wybierz inny wariant tego typu do użycia w tym projekcie.
+          success: Projekt używa teraz %{type}.
+          target_label: Wariant
+          title: "%{type}: przełącz wariant"
+          warning: Jeśli przełączysz warianty, możesz utracić informacje związane z polami niestandardowymi, które mogą nie być obecne w nowym wariancie.
+        switch_type: Przełącz wariant
+        type_not_found: Nie można znaleźć wybranego typu.
+        variant_prefix: 'Wariant:'
       versions:
         no_results_content_text: Utwórz nową wersję projektu
         no_results_title_text: Nie ma innych wersji tego projektu.
@@ -5386,7 +5386,7 @@ pl:
   setting_default_language: Język domyślny
   setting_default_projects_modules: Domyślnie włączone moduły dla nowych projektów
   setting_default_projects_public: Nowe projekty są publiczne (domyślnie)
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Domyślnie włącza funkcje wiki dla nowych projektów
   setting_diff_max_lines_displayed: Maksymalna wyświetlana liczba linii różnic
   setting_disable_password_login: Wyłącz uwierzytelnianie hasłem
   setting_display_subprojects_work_packages: Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie
@@ -5521,7 +5521,7 @@ pl:
   setting_work_package_done_ratio_status_caption_html: Każdy status ma powiązaną wartość parametru <i>% Ukończenia</i>. Zmiana statusu zmieni <i>% Ukończenia</i>.
   setting_work_package_list_default_highlighted_attributes: Domyślnie wyróżniane atrybuty wyświetlane w treści
   setting_work_package_list_default_highlighting_mode: Domyślny tryb wyróżniania
-  setting_work_package_multiple_versions: Multiple target versions
+  setting_work_package_multiple_versions: Wiele wersji docelowych
   setting_work_package_properties: Właściwości pakietu roboczego
   setting_work_package_startdate_is_adddate: Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych
   setting_work_packages_identifier_classic: Sekwencja liczbowa dla całego wystąpienia (domyślnie)
@@ -5913,7 +5913,7 @@ pl:
   text_destroy_what_to_do: Co chcesz zrobić?
   text_destroy_with_associated: 'Istnieją dodatkowe obiekty powiązane z pakietami roboczymi, które będą usunięte. Te obiekty są następujących typów:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
+  text_email_delivery_letter_opener: Otwieracz listów służy do renderowania wiadomości e-mail jako plików w folderze tmp aplikacji Rails. Wiadomości e-mail będą automatycznie otwierane w przeglądarce, o ile jest to obsługiwane.
   text_email_delivery_not_configured: |-
     Dostarczanie poczty elektronicznej nie jest skonfigurowane, a powiadomienia są wyłączone.
     Skonfiguruj swój serwer SMTP, aby je włączyć.
@@ -5938,14 +5938,14 @@ pl:
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: Usunięto %{label}
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_file_link_added: Dodano link %{label} do %{value} (%{storage})
   text_journal_file_link_deleted: Usunięto link %{label} do %{old} (%{storage})
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: Nie masz uprawnień do przeglądania tej aktywności w dzienniku.
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_latest_note: 'Ostatni komentarz: %{note}'
@@ -6071,7 +6071,7 @@ pl:
         project_attributes: Atrybuty projektu
         projects: Projekty
         workflows: Przepływy pracy
-      success: Variant created successfully.
+      success: Wariant został utworzony.
     edit:
       breadcrumb_variant: 'Wariant: %{name}'
       defaults:
@@ -6119,7 +6119,7 @@ pl:
           actions:
             label_disable_all: Wyłącz wszystkie
             label_enable_all: Włącz wszystkie
-            label_toggle_template: Toggle %{template}
+            label_toggle_template: Przełącz %{template}
           label: Szablony eksportu PDF
         tab: Wygeneruj PDF
         templates:
@@ -6139,9 +6139,9 @@ pl:
         edit_query: Edytuj zapytanie
         empty_group_hint: Przeciągnij atrybuty tutaj
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
-          section_label: Inherit section %{section}
+          attribute_label: Dziedzicz %{attribute}
+          excluded: Ukryte
+          section_label: Dziedzicz sekcję %{section}
         filter_inactive: Filtruj atrybuty
         group_actions: Działania sekcji
         group_name_label: Nazwa sekcji
@@ -6167,9 +6167,9 @@ pl:
           label_disable_all: Wyłącz wszystkie
           label_enable_all: Włącz wszystkie
         description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
-        disabled: Disabled
+        disabled: Wyłączono
         exclusions:
-          attribute_label: Inherit %{attribute}
+          attribute_label: Dziedzicz %{attribute}
         filter: Wyszukaj według sekcji lub nazwy
         tab: Atrybuty projektu
       projects:
@@ -6192,8 +6192,8 @@ pl:
           invalid_source: Nie można skopiować konfiguracji z wybranego typu. Wybierz inny typ źródłowy.
           success: Konfiguracja została skopiowana.
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
+          not_linked: Ten typ ma własną konfigurację tej sekcji, więc nie ma tu niczego do wykluczenia. Zamiast tego edytuj bezpośrednio konfigurację.
+          unknown_aspect: Nieznana sekcja konfiguracji „%{aspect}”.
         independent:
           confirm_dialog:
             check_box: Rozumiem, że to zastąpi bieżące ustawienia
@@ -6244,19 +6244,19 @@ pl:
         tab: Przepływy pracy
     index:
       add_variant: Dodaj wariant do %{name}
-      add_variant_action: Add variant
+      add_variant_action: Dodaj wariant
       description: 'Każdy obszar konfiguracji wewnątrz typów i wariantów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
 
         '
-      duplicate_name: Copy of %{name}
-      duplicate_notice: "%{name} was duplicated."
+      duplicate_name: Kopia %{name}
+      duplicate_notice: "%{name} zduplikowano."
       enabled_in_new_projects: Aktywne w nowych projektach
       make_default: Aktywuj w nowych projektach
-      make_default_notice: "%{name} is now activated in new projects."
+      make_default_notice: "%{name} aktywowano teraz w nowych projektach."
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
       remove_default: Nie aktywuj w nowych projektach
-      remove_default_notice: "%{name} is no longer activated in new projects."
+      remove_default_notice: "%{name} nie jest już aktywowany w nowych projektach."
       type_label: Typ
       variant_enabled_in_new_projects: Wariant %{name} aktywny w nowych projektach
       variant_label: Wariant
@@ -6265,7 +6265,7 @@ pl:
         few: "%{count} warianty"
         many: "%{count} wariantów"
         other: "%{count} wariantu"
-    milestone_indicator: Milestone
+    milestone_indicator: Kamień milowy
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.
@@ -6411,7 +6411,7 @@ pl:
         availability_description: Współczynnik dostępności reprezentuje rzeczywisty procent czasu pracy poświęconego na zadania projektowe. Obejmuje on spotkania, wiadomości e-mail, prace administracyjne i inne czynności niezwiązane z projektem.
         availability_factor: Współczynnik dostępności
         availability_factor_caption: Określ procent czasu pracy poświęcony pracom projektowym.
-        effective_hours: Effective work hours
+        effective_hours: Faktyczne godziny pracy
         hours_mode_label: Tryb godzinowy
         hours_per_day: Liczba godzin dziennie
         individual_hours_mode: Indywidualna liczba godzin dziennie
@@ -6625,49 +6625,49 @@ pl:
   work_packages:
     bulk:
       copy_failed: Nie można skopiować pakietów roboczych.
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 'Nie można usunąć następujących pakietów roboczych:'
       could_not_be_saved: 'Nie można zapisać następujących pakietów roboczych:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
-        few: Successfully deleted %{count} work packages.
-        many: Successfully deleted %{count} work packages.
-        other: Successfully deleted %{count} work packages.
+        one: Usunięto 1 pakiet roboczy.
+        few: Usunięto %{count} pakiety robocze.
+        many: Usunięto %{count} pakietów roboczych.
+        other: Usunięto %{count} pakietu roboczego.
       descendant: elementy potomne wybranego
       move_failed: Nie można przenieść pakietów roboczych.
       none_could_be_saved: Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}.
       selected_because_descendants: Wybrano pakiety robocze w liczbie %{selected}, ale dotyczy to łącznie %{total} pakietów roboczych, w tym pakietów potomnych.
       x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 'Zostaną również usunięte następujące elementy potomne:'
+      confirm_deletion: Potwierdzam, że wybrane pakiety robocze i wszystkie powiązane dane zostaną usunięte.
+      confirm_descendants_deletion: Potwierdzam, że zostaną usunięte również wszystkie elementy potomne wymienione powyżej.
+      cross_project_warning_html: 'Te pakiety robocze obejmują wiele projektów: %{projects}'
+      description: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie powiązane dane?
+      description_with_all_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie ich elementy potomne?
+      description_with_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie następujące elementy potomne?
+      description_with_visible_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie widoczne elementy potomne?
       heading: Czy usunąć trwale te pakiety robocze (%{count})?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Jest jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja zostanie usunięta.
+        few: Są %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Jest %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Jest %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja zostanie usunięta.
+        few: Wszystkie widoczne elementy potomne zostaną usunięte. Są jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
       title: Usuń pakiety robocze (%{count})
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
     datepicker_modal:
       banner:
         description:
@@ -6711,32 +6711,32 @@ pl:
         successors: Następcy
       update_inputs_aria_live_message: Zaktualizowano selektor dat. %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: Potwierdzam, że pakiet roboczy i wszystkie powiązane dane zostaną usunięte.
+      confirm_descendants_deletion: Potwierdzam, że zostaną usunięte również wszystkie elementy potomne wymienione powyżej.
+      cross_project_warning_html: 'Zostaną usunięte pakiety robocze z następujących projektów: %{projects}'
+      description: Czy na pewno chcesz usunąć „%{name}”?
       heading: Czy trwale usunąć ten pakiet roboczy?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Ten pakiet roboczy ma jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja hierarchiczna zostanie usunięta.
+        few: Ten pakiet roboczy ma %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        many: Ten pakiet roboczy ma %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        other: Ten pakiet roboczy ma %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja hierarchiczna zostanie usunięta.
+        few: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        many: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        other: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
       title: Usuwanie pakietu roboczego
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
     move:
       bulk_current_type_not_available_in_target_project: 'Typy pakietów roboczych lub ich elementów potomnych nie są włączone w projekcie docelowym. Włącz brakujące typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
 

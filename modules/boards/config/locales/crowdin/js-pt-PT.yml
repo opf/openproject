@@ -50,10 +50,10 @@ pt-PT:
           subtasks: pai-filho
           version: versão
         board_type_title:
-          assignee: Atribuído para
+          assignee: Encarregado
           basic: Básico
-          status: Situação
-          subproject: Sub-projecto
+          status: Estado
+          subproject: Subprojeto
           subtasks: Pai-filho
           version: Versão
         free: básico

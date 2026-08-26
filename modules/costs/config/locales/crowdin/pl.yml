@@ -291,17 +291,17 @@ pl:
   setting_enforce_tracking_start_and_end_times_caption: Wymusza wprowadzenie czasów rozpoczęcia i zakończenia w razie rejestrowania czasu.
   setting_enforce_without_allow: Nie można wymagać czasów rozpoczęcia i zakończenia bez zezwolenia na nie
   setting_time_entries_limit_to_user_working_hours: Ogranicz do godzin pracy użytkownika
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_limit_to_user_working_hours_caption: Ogranicza łączną liczbę godzin, jaką można zarejestrować dziennie, do faktycznego czasu pracy danego użytkownika. Użytkownicy, dla których nie określono godzin pracy, nie podlegają tym ograniczeniom.
+  setting_time_entries_max_hours_per_day: Maksymalna liczba godzin dziennie
+  setting_time_entries_max_hours_per_day_caption: Ogranicza łączną liczbę godzin, jaką użytkownik może zarejestrować w ciągu jednego dnia. Wartość 0 oznacza brak ograniczeń.
+  setting_time_entries_max_hours_per_entry: Maksymalna liczba godzin na jeden wpis czasu
+  setting_time_entries_max_hours_per_entry_caption: Ogranicza maksymalną liczbę godzin, jaką może obejmować pojedynczy wpis czasu. Wartość 0 oznacza brak ograniczeń.
+  setting_time_entries_past_month_grace_days: Okres karencji za minione miesiące
+  setting_time_entries_past_month_grace_days_caption: Określ liczbę dni, jaką użytkownik ma do dyspozycji od początku nowego miesiąca na rejestrowanie wpisów czasu za miniony miesiąc. Wartość 5 znaczy, że użytkownicy mogą rejestrować czas pracy za poprzedni miesiąc do 5. dnia bieżącego miesiąca. Wartość 0 oznacza brak jakiegokolwiek okresu karencji.
+  setting_time_entries_prohibit_logging_for_past_months: Nie zezwalaj na rejestrowanie danych za poprzednie miesiące
+  setting_time_entries_prohibit_logging_for_past_months_caption: Ogranicza dodawanie, zmianę i usuwanie wpisów czasu wyłącznie do bieżącego miesiąca. Czas zarejestrowany w poprzednich miesiącach nie może być już modyfikowany.
+  setting_time_entries_prohibit_logging_on_non_working_days: Nie zezwalaj na rejestrowanie czasu pracy w dni wolne od pracy
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Użytkownicy nie będą mogli rejestrować czasu w dni określone jako dni wolne od pracy zarówno przez administratora, jak i przez poszczególnych użytkowników w ustawieniach ich kont.
   text_assign_time_and_cost_entries_to_project: Przypisz zgłoszone godziny i koszty do projektu
   text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
   text_destroy_time_and_cost_entries: Usuń zgłoszone godziny i koszty
