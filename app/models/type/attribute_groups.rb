@@ -31,8 +31,6 @@
 module Type::AttributeGroups
   extend ActiveSupport::Concern
 
-  EXCLUDED_DEFAULT_ATTRIBUTES = %w[observed_in_versions].freeze
-
   included do
     before_save :write_attribute_groups_objects
     after_save :unset_attribute_groups_objects
@@ -183,13 +181,12 @@ module Type::AttributeGroups
   # Get the default attribute groups for this type.
   # If it has activated custom fields through +custom_field_ids=+,
   # it will put them into the other group.
-  def work_package_attributes_by_default_group_key # rubocop:disable Metrics/AbcSize
+  def work_package_attributes_by_default_group_key
     active_cfs = active_custom_field_attributes
 
     work_package_attributes
       .keys
       .select { |key| default_attribute?(active_cfs, key) }
-      .reject { |key| EXCLUDED_DEFAULT_ATTRIBUTES.include?(key) }
       .sort_by { |key| default_group_map.keys.index(key.to_sym) || default_group_map.keys.size }
       .group_by { |key| default_group_key(key.to_sym) }
   end
@@ -198,6 +195,8 @@ module Type::AttributeGroups
   # Custom fields should not get included into the default form configuration.
   # This method might get patched by modules.
   def default_attribute?(active_cfs, key)
+    return false if key == "observed_in_versions"
+
     !(CustomField.custom_field_attribute?(key) && active_cfs.exclude?(key))
   end
 
