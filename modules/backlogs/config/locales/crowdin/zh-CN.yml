@@ -99,7 +99,7 @@ zh-CN:
         other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 添加现有工作包
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -249,11 +249,11 @@ zh-CN:
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 多个处于有效状态的冲刺
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺

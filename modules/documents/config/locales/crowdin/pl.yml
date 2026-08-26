@@ -32,21 +32,21 @@ pl:
           one_or_more_required: Nie można usunąć ostatniego typu dokumentu
     models:
       document:
-        one: Document
-        few: Documents
-        many: Documents
-        other: Documents
+        one: Dokument
+        few: Dokumenty
+        many: Dokumenty
+        other: Dokumenty
       document_type:
-        one: Document type
-        few: Document types
-        many: Document types
-        other: Document types
+        one: Typ dokumentu
+        few: Typy dokumentów
+        many: Typy dokumentów
+        other: Typy dokumentów
   activity:
     filter:
       document: Dokumenty
   attributes:
     collaborative_editing_hocuspocus_url: Adres URL serwera Hocuspocus
-    documents: Documents
+    documents: Dokumenty
   default_doc_category_tech: Dokumentacja techniczna
   default_doc_category_user: Dokumentacja użytkownika
   documents:

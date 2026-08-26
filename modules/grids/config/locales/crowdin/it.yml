@@ -16,11 +16,11 @@ it:
           overlaps: sovrapposizione.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Griglia
+        other: Griglie
       grids/widget:
         one: Widget
-        other: Widgets
+        other: Widget
   grids:
     label_widget_in_grid: Widget contenuto nella griglia %{grid_name}
     widgets:

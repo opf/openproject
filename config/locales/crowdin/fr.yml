@@ -76,6 +76,13 @@ fr:
         dependencies: Dépendances
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -975,6 +982,9 @@ fr:
       action:
         one: Action
         other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
       announcement:
         one: Announcement
         other: Announcements
@@ -5232,13 +5242,28 @@ fr:
           enable_type_in_project: Autorise le type « %{type} »
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         remove_from_project: Supprimer du projet
-        switch_dialog:
-          apply: Appliquer
-          description: Veuillez sélectionner une autre variante de ce type à utiliser dans ce projet.
-          success: Le projet utilise désormais %{type}.
-          target_label: Variante
-          title: "%{type}: Variante de commutateur"
-          warning: Si vous changez de variante, vous risquez de perdre des informations associées à des champs personnalisés qui pourraient ne pas exister dans la nouvelle variante.
+        switch:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         switch_type: Changer de variante
         type_not_found: Le type sélectionné est introuvable.
         variant_prefix: 'Variante :'

@@ -74,35 +74,35 @@ pl:
               unknown_error: nie udało się zweryfikować z dostawcą usługi przechowywania plików. Sprawdź, czy połączenie działa prawidłowo.
     models:
       storages/file_link:
-        one: File link
-        few: File links
-        many: File links
-        other: File links
+        one: Link do pliku
+        few: Linki do plików
+        many: Linki do plików
+        other: Linki do plików
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        few: Nextcloud storages
-        many: Nextcloud storages
-        other: Nextcloud storages
+        one: Magazyn Nextcloud
+        few: Magazyny Nextcloud
+        many: Magazyny Nextcloud
+        other: Magazyny Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
-        few: OneDrive storages
-        many: OneDrive storages
-        other: OneDrive storages
+        one: Magazyn OneDrive
+        few: Magazyny OneDrive
+        many: Magazyny OneDrive
+        other: Magazyny OneDrive
       storages/project_storage:
-        one: Project storage
-        few: Project storages
-        many: Project storages
-        other: Project storages
+        one: Magazyn projektu
+        few: Magazyny projektów
+        many: Magazyny projektów
+        other: Magazyny projektów
       storages/sharepoint_storage:
-        one: SharePoint storage
-        few: SharePoint storages
-        many: SharePoint storages
-        other: SharePoint storages
+        one: Magazyn SharePoint
+        few: Magazyny SharePoint
+        many: Magazyny SharePoint
+        other: Magazyny SharePoint
       storages/storage:
-        one: Storage
-        few: Storages
-        many: Storages
-        other: Storages
+        one: Magazyn
+        few: Magazyny
+        many: Magazyny
+        other: Magazyny
   api_v3:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.

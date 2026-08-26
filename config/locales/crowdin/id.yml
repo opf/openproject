@@ -76,6 +76,13 @@ id:
         dependencies: Dependensi
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Display until
       attachment:
@@ -971,6 +978,8 @@ id:
     models:
       action:
         other: Actions
+      ai/text_transform_action:
+        other: Text transform actions
       announcement:
         other: Announcements
       anonymous_user:
@@ -5081,13 +5090,25 @@ id:
           enable_type_in_project: Aktifkan Tipe "%{type}"
         no_results_title_text: There are currently no types available.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              other: "%{count} work packages have a value"
+            work_packages:
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'

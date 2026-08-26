@@ -13,9 +13,9 @@ ko:
           meeting_agenda_items:
             item_0:
               title: 반가운 소식
-              notes: What went well this week?
+              notes: 이번 주에 잘된 일은 무엇이었나요?
             item_1:
-              title: Team updates
+              title: 팀 업데이트
               notes: News and focused topics for the upcoming week.
             item_2:
               notes: "**Today's topic**: Organizing the open-source conference."
@@ -26,5 +26,5 @@ ko:
               title: Core values feedback
               notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: General topics
+              title: 일반 주제
               notes: Solving or discussing topics together.

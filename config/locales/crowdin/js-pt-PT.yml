@@ -55,13 +55,13 @@ pt-PT:
       not_found: Nenhum item encontrado
       type_to_search: Digite para pesquisar
     autocomplete_select:
-      active: Ativar %{label} %{name}
+      active: "%{label} %{name} ativo"
       placeholder:
         multi: Adicionar "%{name}"
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
-      notFoundText: Nenhum item encontrado
+      notFoundText: Nenhum elemento encontrado
       placeholder: Digite para pesquisar
       project:
         placeholder: Selecionar projeto
@@ -113,10 +113,10 @@ pt-PT:
       toggle_title: Linha de base
     breadcrumb: Estrutural
     button_add: Adicionar
-    button_add_watcher: Adicionar observadores
+    button_add_watcher: Adicionar observador
     button_advanced_filter: Filtro avançado
     button_back: Voltar
-    button_back_to_list_view: Voltar à visualização de lista
+    button_back_to_list_view: Voltar à vista de lista
     button_cancel: Cancelar
     button_change_project: Mover para outro projeto
     button_check_all: Seleccionar Todos
@@ -269,7 +269,7 @@ pt-PT:
     error_attachment_upload: 'Ocorreu um erro ao enviar o ficheiro: %{error}'
     error_attachment_upload_permission: Não tem permissão para carregar ficheiros para este recurso.
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_could_not_resolve_version_name: Não consegui resolver o nome da versão
+    error_could_not_resolve_version_name: Não foi possível resolver o nome da versão
     exclusion_info:
       modal:
         content: O estado "%{status_name}" foi configurado para ser excluído dos totais hierárquicos de Trabalho, Trabalho restante e % Completo. Os totais não levam em conta este valor.
@@ -422,9 +422,9 @@ pt-PT:
     label_added_by: adicionado por
     label_added_time_by: Adicionado por <a href="%{authorLink}">%{author}</a> a %{age}
     label_ago: dias atrás
-    label_all: todos
+    label_all: tudo
     label_all_projects: Todos os projetos
-    label_all_uppercase: Todas
+    label_all_uppercase: Tudo
     label_all_work_packages: todas as tarefas
     label_and: e
     label_ascending: Ascendente
@@ -447,7 +447,7 @@ pt-PT:
     label_collapse_text: Recolher texto
     label_collapsed: oculto
     label_columns: Colunas
-    label_comment: Comentario
+    label_comment: Comentário
     label_contains: contém
     label_create: Criar
     label_create_work_package: Criar nova tarefa
@@ -512,7 +512,7 @@ pt-PT:
     label_meeting_minutes: Minutos
     label_moderate_comment: Moderar comentário
     label_more_than_ago: mais do que dias atrás
-    label_next: Próxima
+    label_next: Seguinte
     label_no_color: Sem cor
     label_no_data: Sem dados para apresentar
     label_no_date: sem data
@@ -532,7 +532,7 @@ pt-PT:
     label_please_wait: Aguarde, por favor
     label_press_enter_to_save: Pressione Enter para guardar.
     label_previous: Anterior
-    label_project: Projecto
+    label_project: Projeto
     label_project_plural: Projetos
     label_public_query: Público
     label_quote_comment: Citar este comentário
@@ -548,7 +548,7 @@ pt-PT:
     label_remove_watcher: Remover o observador %{name}
     label_report: Relatório
     label_repository_plural: Repositórios
-    label_reset: Reiniciar
+    label_reset: Repor
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Guardar como
     label_search_columns: Pesquisar uma coluna
@@ -597,7 +597,7 @@ pt-PT:
     label_work_package_details_you_are_here: Está na aba %{tab} por %{type} %{subject}.
     label_work_package_parent: Pacote de trabalho pai
     label_work_package_plural: Pacotes de trabalho
-    label_work_package_upload_notification: 'Upload de ficheiros para a tarefa #%{id}: %{subject}'
+    label_work_package_upload_notification: 'A carregar ficheiros para o pacote de trabalho n.º %{id}: %{subject}'
     label_wp_id_added_by: "#%{id} adicionado por %{author}"
     modals:
       button_apply: Aplicar
@@ -674,7 +674,7 @@ pt-PT:
     onboarding:
       buttons:
         got_it: Entendi
-        next: Próxima
+        next: Seguinte
         skip: Saltar
       steps:
         boards:
@@ -722,7 +722,7 @@ pt-PT:
       description: 'Descrição: Clique para editar...'
       relation_description: Clique para adicionar a descrição para esta relação
       selection: Por favor, selecione
-      subject: Introduzir assunto aqui
+      subject: Introduza aqui o assunto
     project:
       autocompleter:
         label: Conclusão automática do Projecto
@@ -982,7 +982,7 @@ pt-PT:
       message_successful_show_in_fullscreen: Clique aqui para abrir este pacote de trabalho na visualização de ecrã cheio.
       message_view_spent_time: Mostrar o tempo gasto para este pacote de trabalho
       message_work_package_read_only: O pacote de trabalho está bloqueado no presente estado. Nenhum atributo que não seja o estado pode ser alterado.
-      message_work_package_status_blocked: O estado do pacote de trabalho não pode ser gravado devido ao estado fechado e à versão fechada estarem a ser atribuídas.
+      message_work_package_status_blocked: O estado do pacote de trabalho não pode ser alterado porque lhe foi atribuído um estado fechado e uma versão fechada.
       no_results:
         description: Ou não foram criados ou todos os pacotes de trabalho estão filtrados.
         title: Não há pacotes de trabalho para exibir.
@@ -993,7 +993,7 @@ pt-PT:
       progress:
         title: Estimativas de trabalho e progresso
       properties:
-        assignee: Atribuído para
+        assignee: Encarregado
         author: Autor
         category: Categoria
         createdAt: Criado em
@@ -1005,16 +1005,16 @@ pt-PT:
         percentCompleteAlternative: Progresso
         percentageDone: Percentagem feito
         priority: Prioridade
-        projectName: Projecto
+        projectName: Projeto
         remainingTime: Trabalho restante
         remainingWork: Trabalho restante
         remainingWorkAlternative: Horas restantes
         responsible: Responsável
         spentTime: Tempo usado
         startDate: Data de início
-        status: Situação
+        status: Estado
         subject: Assunto
-        subproject: Sub-projecto
+        subproject: Subprojeto
         title: Título
         type: Tipo
         updatedAt: Atualizado em
@@ -1096,7 +1096,7 @@ pt-PT:
           inline_all: Todos os atributos
           none: Sem destaque
           priority: Prioridade
-          status: Situação
+          status: Estado
           type: Tipo
         modal_title: Configuração de tabela de pacote de trabalho
         relation_filters:
