@@ -106,7 +106,7 @@
     "@ng-select/ng-option-highlight": "^23.2.0",
     "@ng-select/ng-select": "^23.2.0",
     "@ngneat/content-loader": "^7.0.0",
-    "@openproject/octicons-angular": "^19.36.0",
+    "@openproject/octicons-angular": "^19.37.0",
     "@openproject/primer-view-components": "^0.91.1",
     "@openproject/reactivestates": "^3.0.1",
     "@openproject/stimulus-elements": "^0.2.0",

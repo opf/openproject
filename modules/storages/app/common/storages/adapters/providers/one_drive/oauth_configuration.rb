@@ -46,6 +46,10 @@ module Storages
             @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
           end
 
+          def token_endpoint
+            UrlBuilder.url(@oauth_uri, "/token")
+          end
+
           def to_httpx_oauth_config
             AuthenticationStrategies::OAuthConfiguration.new(
               client_id: @oauth_client.client_id,
@@ -68,7 +72,7 @@ module Storages
               host: @oauth_uri.host,
               port: @oauth_uri.port,
               authorization_endpoint: "#{@oauth_uri.path}/authorize",
-              token_endpoint: "#{@oauth_uri.path}/token"
+              token_endpoint: URI(token_endpoint).path
             )
           end
         end

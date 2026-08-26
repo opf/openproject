@@ -49,7 +49,8 @@ module Wikis
         .new(provider:, user: current_user)
         .create_page_and_link(
           title: parameters[:page_title],
-          parent_identifier: parameters[:parent_page_identifier],
+          parent_identifier: parameters[:parent_identifier],
+          parent_type: parameters[:parent_type],
           linkable_type: parameters[:linkable_type],
           linkable_id: parameters[:linkable_id]
         )
@@ -78,7 +79,9 @@ module Wikis
       search_result = search_pages(query, fetch_provider)
 
       search_result.either(
-        ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
+        ->(pages) do
+          render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:, wikis_selectable:), layout: false)
+        end,
         ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
       )
     end
@@ -87,6 +90,10 @@ module Wikis
 
     def fetch_provider
       Provider.visible.enabled.find(params.expect(:provider_id))
+    end
+
+    def wikis_selectable
+      ActiveModel::Type::Boolean.new.cast(params[:wikis_selectable]) || false
     end
 
     def form_builder
@@ -98,8 +105,10 @@ module Wikis
     end
 
     def create_new_page_params
+      parent = parse_selected_node(params[:wiki_page_selection])
+
       params.expect(wikis_forms_create_new_wiki_page_form_model: %i[provider_id linkable_type linkable_id page_title])
-            .merge(parent_page_identifier: parse_identifier(params[:wiki_page_selection]))
+            .merge(parent_identifier: parent&.identifier, parent_type: parent&.type)
     end
   end
 end

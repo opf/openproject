@@ -343,7 +343,7 @@ de:
         token_name: Tokenname
       type:
         attribute_groups: Formularkonfiguration
-        children: Variants
+        children: Varianten
         color: Farbe
         dependent_configuration_links: Verknüpfte Typen
         description: Standardtext für Beschreibung
@@ -488,7 +488,7 @@ de:
         before_or_equal_to: muss vor oder gleich %{date} sein.
         blank: muss ausgefüllt werden.
         blank_nested: muss die Eigenschaft '%{property}' gesetzt haben.
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: ist nicht als gültige Domain erlaubt. Bitte verwenden Sie eine E-Mail-Adresse aus einer anderen Domain.
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
@@ -720,7 +720,7 @@ de:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: muss ein Typ der obersten Ebene sein. Ein Projekt kann separate eine Variante verwenden.
             variant:
               must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
         queries/filters/base:
@@ -821,8 +821,8 @@ de:
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             parent:
               cannot_be_self: kann nicht der Typ selbst sein.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: kann nicht geändert werden, solange Projekte diesen Typ noch verwenden.
+              cannot_have_children: kann nicht gesetzt werden, da dieser Typ bereits Varianten hat.
               must_be_a_root: muss selbst ein Typ der obersten Ebene sein. Typen dürfen nur eine Ebene tief verschachtelt werden.
               standard_type_must_be_root: kann nicht für den Standardtyp gesetzt werden.
             patterns:
@@ -830,7 +830,7 @@ de:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
         user:
           attributes:
             base:
@@ -1546,7 +1546,7 @@ de:
           planned_changes:
             heading: Änderungen in zukünftigen Releases
             renamed: Das Feld „Version“ wird in „Zielversionen“ umbenannt.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            single_value: Dieses Feld ist derzeit auf einen einzelnen Wert beschränkt. Es wird so angepasst, dass mehrere Werte möglich sind.
           recent_changes:
             documentation_html: Weitere Informationen zu dieser Änderung und zur Aktualisierung von API-Clients finden Sie in <a href="%{link}" target="_blank" rel="noopener">unserer Dokumentation</a>.
             heading: Aktuelle Änderungen
@@ -2526,8 +2526,6 @@ de:
         description: Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind.
       weighted_item_lists:
         description: Mit Gewichteten Listen können Sie eine Liste erstellen, die mit numerischen Werten verknüpft ist.
-      work_package_query_relation_columns:
-        description: Möchten Sie Beziehungen oder Unteraufgaben als Spalten in der Arbeitspaketliste sehen können?
       work_package_sharing:
         description: Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind.
       work_package_subject_generation:
@@ -2845,15 +2843,16 @@ de:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: Neues Ressourcenmanagementmodul für Kapazitätsplanung und Personalplanung (Premium Plan).
-            line_1: Bessere Organisationsverwaltung mit Abteilungen, Benutzerattributen wie Jobtiteln und Arbeitszeiten.
-            line_2: Mehrere aktive Sprints ohne Sprints zu teilen (Basic Plan).
-            line_3: Verbesserte "Backlog und Sprints"-Ansicht mit Mehrfachauswahlfiltern, besserem Drag & Drop und der Möglichkeit, bestehende Arbeitspakete hinzuzufügen.
-            line_4: PM2/PMflex Artefakt-Export und ein neues Widget für Projektphasen und -gates Übersicht.
-            line_5: Globaler Wiki-Seitenindex und einfachere Navigation zwischen verwandten Seiten.
-          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki-Makros sind in weiteren Texteditoren verfügbar.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -2902,9 +2901,9 @@ de:
         set_with_diff: "%{field} gesetzt (%{link})"
       meeting_cancelled: "(abgesagt)"
       meeting_deleted: "(gelöscht)"
-      meeting_series_backlog_html: backlog for meeting series %{link}
-      meeting_series_template_html: template for meeting series %{link}
-      meeting_template_html: meeting template %{link}
+      meeting_series_backlog_html: Backlog der Terminserie %{link}
+      meeting_series_template_html: Vorlage der Terminserie %{link}
+      meeting_template_html: Besprechungsvorlage %{link}
       progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
@@ -2941,21 +2940,21 @@ de:
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
       import: Importiert
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
-      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Hinzugefügt zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Diskutiert in der Besprechung</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Besprechung verschoben zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Verschoben zu</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Entfernt aus</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Entfernt aus</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Als Ergebnis ergänzt in Besprechung</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Fortschrittsberechnung aktualisiert
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject-Systemaktualisierung:'
       total_percent_complete_mode_changed_to_simple_average: Die Berechnung der Gesamtwerte für % abgeschlossen basiert jetzt auf dem einfachen Durchschnitt der % abgeschlossen-Werte.
       total_percent_complete_mode_changed_to_work_weighted_average: Die Berechnung der Gesamtwerte für % abgeschlossen wird jetzt nach Aufwand gewichtet.
       work_package_duplicate_closed: 'Dupliziertes Arbeitspaket aktualisiert:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Elternelement entfernt
     changes_retracted: Die Änderungen wurden zurückgezogen.
     non_visible:
       budget: ein nicht sichtbares Budget
@@ -4966,7 +4965,7 @@ de:
         title: Einstellungen der Vorlage
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
+          description: Wählen Sie den Typ oder die Variante, die dieses Projekt verwenden soll.
           none_addable: Alle verfügbaren Typen sind in diesem Projekt bereits aktiv.
           submit: Hinzufügen
           title: Typ hinzufügen
@@ -5261,6 +5260,7 @@ de:
   setting_default_language: Standard-Sprache
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
+  setting_default_projects_wiki: Aktiviert standardmäßig die Wiki-Funktionalität für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
   setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen
@@ -5786,6 +5786,7 @@ de:
   text_destroy_what_to_do: Was soll mit den Objekten geschehen?
   text_destroy_with_associated: 'Es sind weitere Datenobjekte mit den bzw. dem zu löschenden Arbeitpaket(en) verbunden. Es handelt sich dabei um Objekte der folgenden Typen:'
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
+  text_email_delivery_letter_opener: Letter-Opener wird zur Entwicklung verwendet, um E-Mails als Dateien in Ihrem temporären Ordner von Rails zu rendern. E-Mails werden automatisch in Ihrem Browser geöffnet, wenn sie unterstützt werden.
   text_email_delivery_not_configured: |-
     E-Mail-Zustellung ist nicht konfiguriert und Benachrichtigungen sind deaktiviert.
     Konfigurieren Sie Ihren SMTP-Server, um sie zu aktivieren.
@@ -5941,7 +5942,7 @@ de:
         project_attributes: Projektattribute
         projects: Projekte
         workflows: Workflows
-      success: Variant created successfully.
+      success: Variante erfolgreich erstellt.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
       defaults:
@@ -6117,7 +6118,7 @@ de:
     index:
       add_variant: Variante von %{name} hinzufügen
       add_variant_action: Variante hinzufügen
-      description: 'Jeder Konfigurationsbereich innerhalb von Typen und Varianten kann unabhängig konfiguriert, gegenüber einem anderen Typ eingeschränkt oder vollständig mit einer Quelle verknüpft werden.
+      description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '
       duplicate_name: Kopie von %{name}
@@ -6279,6 +6280,7 @@ de:
         availability_description: Der Verfügbarkeitsfaktor gibt den Prozentsatz der Arbeitszeit an, der für Projektaufgaben verplant werden kann. Dieser Faktor dient dazu Besprechungen, E-Mails, Verwaltungsarbeit und andere projektfremde Tätigkeiten zu berücksichtigen.
         availability_factor: Verfügbarkeitsfaktor
         availability_factor_caption: Legen Sie den Prozentsatz der Arbeitszeit fest, der für Projektarbeit verplant werden kann.
+        effective_hours: Effektive Arbeitszeiten
         hours_mode_label: Stundenmodus
         hours_per_day: Stunden pro Tag
         individual_hours_mode: Unterschiedliche Stunden an jedem Arbeitstag
@@ -6292,7 +6294,6 @@ de:
         title_current: Aktuellen Arbeitszeitplan bearbeiten
         title_days_and_hours: Tage und Stunden
         title_future_dates: Zukünftiger Arbeitszeitplan
-        total_available_hours: Verfügbare Zeit für Projektarbeit
         total_work_hours: Wöchentliche Arbeitszeit
         work_days: Arbeitstage
         work_hours: Arbeitsstunden

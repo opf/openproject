@@ -173,7 +173,7 @@ pt-PT:
     strategies:
       resdt: SMS Rest API
       sns: Amazon SNS
-      totp: Aplicação autenticadora
+      totp: Aplicação de autenticação
       webauthn: WebAuthn
     text_2fa_disabled: Para ativar a autenticação de dois fatores, utilize o botão abaixo para registar um novo dispositivo 2FA. Se já tiver um dispositivo, terá de o definir como predefinido.
     text_2fa_enabled: Em cada login, você será solicitado a inserir um token OTP do seu dispositivo 2FA padrão.

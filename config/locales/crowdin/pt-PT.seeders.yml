@@ -130,7 +130,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           boards:
             kanban:
               name: Quadro Kanban

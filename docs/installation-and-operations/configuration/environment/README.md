@@ -297,6 +297,7 @@ OPENPROJECT_MAIL__HANDLER__API__KEY (default=nil) API key
 OPENPROJECT_MAIL__HANDLER__BODY__DELIMITER__REGEX (default="") Truncate emails matching this regex
 OPENPROJECT_MAIL__HANDLER__BODY__DELIMITERS (default="") Truncate emails after one of these lines
 OPENPROJECT_MAIL__HANDLER__IGNORE__FILENAMES (default="signature.asc") Ignored mail attachments
+OPENPROJECT_MAIL__RECIPIENT__LIMITS (default=0) Maximum distinct recipients an instance may send emails to per day. Mails to addresses over that limit will be dropped. 0 equals unlimited recipients.
 OPENPROJECT_MAIL__SUFFIX__SEPARATORS (default="+")
 OPENPROJECT_MAIN__CONTENT__LANGUAGE (default="english") Main content language for PostgreSQL full text features
 OPENPROJECT_MCP__TOOL__RESPONSE__FORMAT (default=:full) How to format responses for MCP tools. Using values other than full may improve language model performance.

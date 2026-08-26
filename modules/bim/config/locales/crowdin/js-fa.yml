@@ -6,7 +6,7 @@ fa:
       delete_viewpoint: حذف نقطه دید
       export: خروجی
       export_bcf_xml_file: خروجی گرفتن از فایل XML مربوط به BCF (نسخه BCF 2.1)
-      import: درون‌ریزی
+      import: واردکردن
       import_bcf_xml_file: وارد کردن فایل XML BCF (نسخه BCF 2.1)
       label_bcf: BCF
       management: مدیریت BCF

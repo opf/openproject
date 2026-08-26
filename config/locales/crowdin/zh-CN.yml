@@ -67,8 +67,8 @@ zh-CN:
       '
     login_with_auth_provider: 或使用您的现有帐户登录
     omniauth_login: 请登录以激活您的帐户。
-    signup_title: Create an account in %{app_title}
-    signup_with_external_account: Sign up with an external account
+    signup_title: 在 %{app_title} 中创建帐户
+    signup_with_external_account: 使用外部帐户注册
   actionview_instancetag_blank_option: 请选择
   activemodel:
     attributes:
@@ -343,7 +343,7 @@ zh-CN:
         token_name: 令牌名称
       type:
         attribute_groups: 表单配置
-        children: Variants
+        children: 变体
         color: 颜色
         dependent_configuration_links: 关联的类型
         description: 默认描述文本
@@ -488,7 +488,7 @@ zh-CN:
         before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
         blank_nested: 需要设置属性“%{property}”。
-        blocked_domain: is not allowed. Please use an email address from a different domain.
+        blocked_domain: 不允许使用。请使用来自其他域的电子邮件地址。
         cannot_delete_mapping: 必需项，不能删除
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
@@ -699,9 +699,9 @@ zh-CN:
               cannot_assign_variant_and_parent: 无法指定变体及其父项
               cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
-              switch_target_not_in_family: Can only switch to another type of the same family
+              switch_target_blank: 选择要切换到的变体
+              switch_target_identical: 目标类型必须不同于项目现在使用的类型
+              switch_target_not_in_family: 只能切换到同一品类的其他类型
           cannot_be_assigned_to_artifact_work_package: 不允许将所选用户指定至工作包。
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
         project/phase:
@@ -719,9 +719,9 @@ zh-CN:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: 必须为顶层类型。项目会使用根类型，并单独解析变体。
             variant:
-              must_belong_to_the_type: must be a variant of the type the project uses.
+              must_belong_to_the_type: 必须是该项目所用类型的变体。
         queries/filters/base:
           attributes:
             values:
@@ -820,8 +820,8 @@ zh-CN:
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
             parent:
               cannot_be_self: 不能是类型本身。
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: 无法更改，因为项目仍在使用此类型。
+              cannot_have_children: 无法设置，因为此类型已有变体。
               must_be_a_root: 本身必须是顶层类型。类型只能嵌套一层深度。
               standard_type_must_be_root: 无法为标准类型设置。
             patterns:
@@ -829,7 +829,7 @@ zh-CN:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: 将在循环中链接这些配置。
         user:
           attributes:
             base:
@@ -1014,7 +1014,7 @@ zh-CN:
           heading: 公开此评论吗？
           title: 公开此评论吗？
         internal_journal: 内部评论仅对有限的成员组可见。
-        label_activity_hide_meetings: Hide meetings updates
+        label_activity_hide_meetings: 隐藏会议更新
         label_activity_show_all: 显示所有
         label_activity_show_only_changes: 仅显示更改
         label_activity_show_only_comments: 仅显示评论
@@ -1492,40 +1492,40 @@ zh-CN:
           error: 此分区无法重新排序。
       versions_and_categories:
         banner:
-          button_more_information: More information
-          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+          button_more_information: 更多信息
+          message: 版本和类别方面即将进行重要调整。请仔细检查以下设置。
         categories:
-          heading: Categories
+          heading: 类别
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Category” field will be renamed “Categories”.
-            single_value: This field is currently single-value. It will also be converted to allow multiple values.
-            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+            heading: 未来版本中的计划变更
+            renamed: "“Category”（类别）字段将更名为“Categories”（类别）。"
+            single_value: 此字段目前为单值字段。它也将转换为允许多个值。
+            upcoming_choice: 您可以选择在进行此自动转换之前启用多个值。
         dialog:
-          checkbox_label: I understand that this action is not reversible
-          confirm_button: Enable
-          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
-          heading: Enable multiple target versions?
-          irreversible_notice: Once enabled, it will not be possible to go back to single values.
-          title: Enable multiple target versions
+          checkbox_label: 我明白此操作无法撤消
+          confirm_button: 启用
+          description_html: 这会将现有单值版本转换为接受多个值。数据不会丢失，但这可能会影响自定义集成。在继续操作前，请参阅此<a href="%{link}" target="_blank" rel="noopener">文档</a>。
+          heading: 是否启用多个目标版本？
+          irreversible_notice: 启用后，将无法再切换回单个值。
+          title: 启用多个目标版本
         target_versions:
           action_required:
-            button: Enable multiple values
-            heading: Action required
-            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
-            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
-          heading: Target versions
+            button: 启用多个值
+            heading: 需要采取操作
+            manual_conversion_hint: 在自动迁移开始之前，您可以选择手动进行转换，以启用多个值。
+            not_writable_hint: 这些设置通过环境变量进行配置。如果您想在自动迁移之前手动进行转换以启用多个值，请更新您的 configuration.yml 文件。
+          heading: 目标版本
           in_progress:
-            heading: Enabling multiple versions
+            heading: 启用多个版本
           planned_changes:
-            heading: Planned changes in a future release
-            renamed: The “Version” field will be renamed “Target versions”.
-            single_value: This field is currently single-value. It will be converted to allow multiple values.
+            heading: 未来版本中的计划变更
+            renamed: "“Version”（版本）字段将更名为“Target versions”（目标版本）。"
+            single_value: 此字段目前为单值字段。它将转换为允许多个值。
           recent_changes:
-            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
-            heading: Recent changes
-            multiple_values: The “Target versions” field now allows multiple values.
-            renamed: The “Version” field has now been renamed “Target versions”.
+            documentation_html: 有关此变更以及如何更新 API 客户端的更多信息，请参阅<a href="%{link}" target="_blank" rel="noopener">我们的文档</a>。
+            heading: 近期变更
+            multiple_values: "“Target versions”（目标版本）字段现在支持多个值。"
+            renamed: "“Version”（版本）字段现已更名为“Target versions”（目标版本）。"
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: 必须以大写字母开头
@@ -1596,14 +1596,14 @@ zh-CN:
           other: 是否移除 %{count} 种状态？
         title: 移除状态
       tabs:
-        always: Default transitions
+        always: 默认转换
         aria_label: 工作流过渡
-        assignee: User is assignee
-        author: User is author
+        assignee: 用户是受理人
+        author: 用户是作者
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
+          always: 在所有情况下对所选角色可用的过渡。
+          assignee: 对工作包受理人可用的其他过渡。
+          author: 对工作包作者可用的其他过渡。
         menu_label: 显示的过渡
   announcements:
     is_active: 当前已显示
@@ -1732,7 +1732,7 @@ zh-CN:
     entity_type: 实体
     estimated_hours: 工时
     estimated_time: 工时
-    exact_match: Exact match
+    exact_match: 精确匹配
     expires_at: 到期时间
     filter: 筛选器
     firstname: 名字
@@ -2478,8 +2478,6 @@ zh-CN:
         description: 确保在 OpenProject 中上传的文件在被其他用户访问之前进行病毒扫描。
       weighted_item_lists:
         description: 加权项目列表允许您创建带有关联数值的列表。
-      work_package_query_relation_columns:
-        description: 需要在工作包列表中看到关系或子项吗？
       work_package_sharing:
         description: 与非此项目成员的用户共享工作包。
       work_package_subject_generation:
@@ -2531,7 +2529,7 @@ zh-CN:
   error_failed_to_delete_entry: 无法删除此条目。
   error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}'
   error_in_new_dependent: '尝试创建依赖对象时出错：%{dependent_class} - %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
+  error_invalid_list_move_anchor: 无法将该条目移动到所请求的位置。请刷新页面后重试。
   error_invalid_selected_value: 选中的值无效。
   error_journal_attribute_not_present: 日志不包含 %{attribute} 属性。
   error_menu_item_not_created: 不能添加菜单项
@@ -2795,14 +2793,15 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: 新的资源管理模块，用于产能规划和人员配置（Premium 方案）。
-            line_1: 通过部门、用户特性（如职务名称）以及工作时数提升了组织管理。
-            line_2: 多个处于有效状态且未共享的冲刺（Basic 方案）。
-            line_3: 通过多选筛选器、更好的拖放功能以及添加现有工作包的功能，改进了积压工作和冲刺。
-            line_4: PM²/PMflex 工件导出和用于项目阶段和关口概览的新微件。
-            line_5: 全球 Wiki 页面索引，更容易在相关页面之间导航。
+            line_0: 针对工作包、评论以及与 MCP 服务器关系的 AI 辅助操作（专业方案）。
+            line_1: 工作包的多个目标版本。
+            line_2: 时间条目的全局限制和约束（专业方案）。
+            line_3: 敏捷改进，支持批量编辑和将积压工作卡拖放到外部应用程序。
+            line_4: 可在更多文本编辑器中使用 Wiki 宏。
+            line_5: 改进了对工作包标识符的搜索。
+            line_6: 已发布到社区：在工作包表中显示关系。
           new_features_title: '此版本包含多项新功能和改进，例如：
 
             '
@@ -2850,11 +2849,11 @@ zh-CN:
         field_updated: "“%{field}”已更新"
         header: 更改者：%{author}
         set_with_diff: "“%{field}”已设置 (%{link})"
-      meeting_cancelled: "(cancelled)"
-      meeting_deleted: "(deleted)"
-      meeting_series_backlog_html: backlog for meeting series %{link}
-      meeting_series_template_html: template for meeting series %{link}
-      meeting_template_html: meeting template %{link}
+      meeting_cancelled: "（已取消）"
+      meeting_deleted: "（已删除）"
+      meeting_series_backlog_html: 系列会议 %{link} 的积压工作
+      meeting_series_template_html: 系列会议 %{link} 的模板
+      meeting_template_html: 会议模板 %{link}
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
@@ -2867,7 +2866,7 @@ zh-CN:
         progress_calculation_adjusted_from_disabled_mode: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         scheduling_mode_adjusted: 随版本更新自动适配调度模式。
         sprint_migration: 版本 '%{version_name}' 已复制为冲刺。
-        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
+        target_versions_repaired: 在启用多个目标版本之前，目标版本会自动与 Version（版本）字段同步。
         totals_removed_from_childless_work_packages: 使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
       total_percent_complete_mode_changed_to_simple_average: 忽略子工作包的工时值。
       total_percent_complete_mode_changed_to_work_weighted_average: 无工时的子工作包被忽略。
@@ -2875,7 +2874,7 @@ zh-CN:
       work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_duplicate_closed: 重复的工作包自动更新了状态 %{link}
       work_package_parent_changed_times: 通过对父级的更改 %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: 因为父工作包已被删除
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
       working_days_changed:
@@ -2891,32 +2890,32 @@ zh-CN:
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
       import: 已导入
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
-      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} <strong>中讨论</strong>
+      meeting_agenda_item_moved_html: "<strong>已移至会议</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>已移至</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: 已从会议 %{meeting_title_information} <strong>中移除</strong>
+      meeting_agenda_item_removed_template_html: 已从 %{meeting_title_information} <strong>中移除</strong>
+      meeting_outcome_recorded_html: "<strong>已添加为会议</strong> %{meeting_title_information} 中的结果"
       progress_mode_changed_to_status_based: 更新进度计算
       status_changed: 状态 '%{status_name}'
       system_update: OpenProject 系统更新：
       total_percent_complete_mode_changed_to_simple_average: 完成% 总数的计算现在仅基于完成% 值的简单平均值。
       total_percent_complete_mode_changed_to_work_weighted_average: 现在按工作加权计算的 完成% 总数。
       work_package_duplicate_closed: 重复的工作包已更新：
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: 父项已移除
     changes_retracted: 更改已撤回。
     non_visible:
-      budget: a non-visible budget
-      category: a non-visible category
-      default: a non-visible record
-      issue_priority: a non-visible priority
-      project: a non-visible project
-      sprint: a non-visible sprint
-      time_entry_activity: a non-visible activity
-      version: a non-visible version
-      work_package: a non-visible work package
+      budget: 一个不可见的预算
+      category: 一个不可见的类别
+      default: 一个不可见的记录
+      issue_priority: 一个不可见的优先级
+      project: 一个不可见的项目
+      sprint: 一个不可见的冲刺
+      time_entry_activity: 一个不可见的活动
+      version: 一个不可见的版本
+      work_package: 一个不可见的工作包
   label_accessibility: 辅助功能
   label_account: 帐户
   label_actions: 操作
@@ -3273,7 +3272,7 @@ zh-CN:
   label_me: 我
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_new: 新成员
-  label_member_of_project: Member of project
+  label_member_of_project: 项目成员
   label_member_plural: 成员
   label_member_role: 项目角色
   label_membership_added: 成员已添加
@@ -3425,7 +3424,7 @@ zh-CN:
   label_project_hide_details: 隐藏项目详细信息
   label_project_hierarchy: 项目层次结构
   label_project_identifier: 项目标识符
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_initiation_export_pdf: 将 %{project_creation_name} 导出为 PDF
   label_project_latest: 最新的项目
   label_project_life_cycle: 项目生命周期
   label_project_list_plural: 项目列表
@@ -3537,7 +3536,7 @@ zh-CN:
   label_subitems: 子条目
   label_subject_or_id: 主题或ID
   label_subproject: 子项目
-  label_subproject_add: Add subproject
+  label_subproject_add: 添加子项目
   label_subproject_plural: 子项目
   label_subtask_plural: 子任务
   label_summary: 摘要
@@ -3601,7 +3600,7 @@ zh-CN:
   label_version_sharing_none: 不共享
   label_version_sharing_system: 与所有项目
   label_version_sharing_tree: 与项目树
-  label_versions_and_categories: Versions and categories
+  label_versions_and_categories: 版本和类别
   label_videos: 视频
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
@@ -4614,7 +4613,7 @@ zh-CN:
 
     '
   permission_move_work_packages: 移动工作包
-  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
+  permission_project_identifier_visibility_caution: 注意：拥有此权限的用户可以查询某个项目标识符是否已被占用，即使是他们看不到的项目。[了解详情](project_identifier_visibility_url)
   permission_save_bcf_queries: 保存 BCF 查询
   permission_save_queries: 保存界面设置
   permission_search_project: 搜索项目
@@ -4706,8 +4705,8 @@ zh-CN:
   project:
     archive:
       archived: 已存档
-      confirmation_heading: Are you sure you want to continue?
-      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
+      confirmation_heading: 确定要继续吗？
+      confirmation_message: 将此项目归档后，此实例的所有用户将无法再使用此项目及其所有后代。可以对已归档的项目进行恢复。
       title: 归档项目
     count:
       one: 1个项目
@@ -4837,7 +4836,7 @@ zh-CN:
       header_identifier: 标识符
       header_relations: 项目关系
       header_status: 状态
-      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
+      identifier_visibility_warning: 项目标识符并非私密信息。如果您的项目属于机密项目，请选择一个不引人注目的标识符。
       life_cycle:
         filter:
           label: 搜索项目阶段
@@ -4899,30 +4898,30 @@ zh-CN:
         title: 模板设置
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
-          none_addable: All available types are already active in this project.
-          submit: Add
-          title: Add type
-          type_label: Type
-          type_placeholder: Select a type
-        add_type: Add type
+          description: 该项目使用每个类型系列的一个成员。请选择该项目应使用的类型或变体。
+          none_addable: 所有可用类型均已在此项目中处于有效状态。
+          submit: 添加
+          title: 添加类型
+          type_label: 类型
+          type_placeholder: 选择类型
+        add_type: 添加类型
         empty_state:
-          description: Add a type to let people create work packages of that type in this project.
-          title: No types are active in this project
+          description: 添加一种类型，以便用户可以在该项目中创建该类型的工作包。
+          title: 此项目中没有有效的类型
         form:
           enable_type_in_project: 启用类型“%{type}”
         no_results_title_text: 目前有可用的类型。
-        remove_from_project: Remove from project
+        remove_from_project: 从项目中移除
         switch_dialog:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
-        type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+          apply: 应用
+          description: 选择要在此项目中使用的此类型的其他变体。
+          success: 项目现在使用 %{type}。
+          target_label: 变体
+          title: "%{type}：切换变体"
+          warning: 如果您切换变体，与自定义字段相关联的信息可能会丢失，因为这些字段在新变体中可能不存在。
+        switch_type: 切换变体
+        type_not_found: 找不到所选类型。
+        variant_prefix: 变体：
       versions:
         no_results_content_text: 创建一个新的版本
         no_results_title_text: 目前这个项目没有版本。
@@ -5185,6 +5184,7 @@ zh-CN:
   setting_default_language: 默认语言
   setting_default_projects_modules: 新项目的默认启用模块
   setting_default_projects_public: 新项目默认公开
+  setting_default_projects_wiki: 默认情况下为新项目启用 Wiki 功能
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
   setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
@@ -5319,7 +5319,7 @@ zh-CN:
   setting_work_package_done_ratio_status_caption_html: 每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
   setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
   setting_work_package_list_default_highlighting_mode: 默认突出显示模式
-  setting_work_package_multiple_versions: Multiple target versions
+  setting_work_package_multiple_versions: 多个目标版本
   setting_work_package_properties: 工作包属性
   setting_work_package_startdate_is_adddate: 使用当前日期作为新工作包的开始日期
   setting_work_packages_identifier_classic: 实例范围的数字序列（默认）
@@ -5712,6 +5712,7 @@ zh-CN:
   text_destroy_what_to_do: 你想做什么？
   text_destroy_with_associated: 有额外的对象关联到要删除的工作包。这些对象是以下类型：
   text_diff_truncated: "...这个比较被截断，因为它超出了可显示的最大大小。"
+  text_email_delivery_letter_opener: Letter opener 用于将电子邮件渲染为 Rails tmp 文件夹中的文件。如果支持您的浏览器，电子邮件将自动在浏览器中打开。
   text_email_delivery_not_configured: |-
     电子邮件传送未配置，通知已禁用。
     配置您的 SMTP 服务器将其启用。
@@ -5736,14 +5737,14 @@ zh-CN:
   text_journal_changed_plain: "%{label} 已从 %{old} %{linebreak}更改为 %{new}"
   text_journal_changed_with_diff: "%{label} 已更改 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} 已删除"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} 已删除 (%{link})"
   text_journal_file_link_added: "%{value} (%{storage}) 的 %{label} 链接已添加"
   text_journal_file_link_deleted: "%{old} (%{storage}) 的 %{label} 链接已移除"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: 您无权查看此日志活动。
   text_journal_set_to: "%{label} 设置为 %{value}"
   text_journal_set_with_diff: "%{label} 设置 (%{link})"
   text_latest_note: '最新的注释是: %{note}'
@@ -5869,7 +5870,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         workflows: 工作流
-      success: Variant created successfully.
+      success: 变体创建成功。
     edit:
       breadcrumb_variant: 变体：%{name}
       defaults:
@@ -5917,7 +5918,7 @@ zh-CN:
           actions:
             label_disable_all: 全部禁用
             label_enable_all: 全部启用
-            label_toggle_template: Toggle %{template}
+            label_toggle_template: 切换 %{template}
           label: PDF 导出模板
         tab: 生成 PDF
         templates:
@@ -5937,9 +5938,9 @@ zh-CN:
         edit_query: 编辑查询
         empty_group_hint: 将特性拖动到此处
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
-          section_label: Inherit section %{section}
+          attribute_label: 继承 %{attribute}
+          excluded: 已隐藏
+          section_label: 继承 %{section} 分区
         filter_inactive: 筛选特性
         group_actions: 小节操作
         group_name_label: 小节名称
@@ -5965,9 +5966,9 @@ zh-CN:
           label_disable_all: 全部禁用
           label_enable_all: 全部启用
         description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
-        disabled: Disabled
+        disabled: 已禁用
         exclusions:
-          attribute_label: Inherit %{attribute}
+          attribute_label: 继承 %{attribute}
         filter: 按分区或名称搜索
         tab: 项目特性
       projects:
@@ -5990,8 +5991,8 @@ zh-CN:
           invalid_source: 无法从所选类型复制该配置。请选择其他源类型。
           success: 配置已复制。
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
+          not_linked: 此类型拥有其针对此分区的配置，因此无需排除任何内容。请直接编辑该配置。
+          unknown_aspect: 未知的配置分区“%{aspect}”。
         independent:
           confirm_dialog:
             check_box: 我明白，这会覆盖当前设置
@@ -6042,25 +6043,25 @@ zh-CN:
         tab: 工作流
     index:
       add_variant: 将变体添加到 %{name}
-      add_variant_action: Add variant
+      add_variant_action: 添加变体
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '
-      duplicate_name: Copy of %{name}
-      duplicate_notice: "%{name} was duplicated."
+      duplicate_name: "%{name} 的副本"
+      duplicate_notice: "%{name} 重复。"
       enabled_in_new_projects: 在新项目中有效
       make_default: 在新项目中激活
-      make_default_notice: "%{name} is now activated in new projects."
+      make_default_notice: "%{name} 现已在新项目中激活。"
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
       remove_default: 不在新项目中激活
-      remove_default_notice: "%{name} is no longer activated in new projects."
+      remove_default_notice: "%{name} 不再在新项目中激活。"
       type_label: 类型
       variant_enabled_in_new_projects: 变体 %{name} 在新项目中处于有效状态
       variant_label: 变体
       variants_count:
         other: "%{count} 个变体"
-    milestone_indicator: Milestone
+    milestone_indicator: 里程碑
   unsupported_browser:
     close_warning: 请忽略这个警告。
     message: 此页面可能会发生运行错误和不良用户体验。
@@ -6203,6 +6204,7 @@ zh-CN:
         availability_description: 空闲系数表示您实际投入项目任务的工作时间百分比。这会考虑会议、电子邮件、管理工作和其他非项目活动。
         availability_factor: 空闲系数
         availability_factor_caption: 定义您投入项目工作的工作时间百分比。
+        effective_hours: Effective work hours
         hours_mode_label: 小时模式
         hours_per_day: 每天时数
         individual_hours_mode: 每天不同时数
@@ -6216,7 +6218,6 @@ zh-CN:
         title_current: 编辑当前工作时间表
         title_days_and_hours: 天数和时数
         title_future_dates: 未来日期
-        total_available_hours: 可用工作时数总计
         total_work_hours: 总工作时数
         work_days: 工作日
         work_hours: 工作时数
@@ -6416,34 +6417,34 @@ zh-CN:
   work_packages:
     bulk:
       copy_failed: 无法复制工作包。
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 以下工作包无法删除：
       could_not_be_saved: 无法保存以下工作包：
       deletion_successful:
-        other: Successfully deleted %{count} work packages.
+        other: 成功删除 %{count} 个工作包。
       descendant: 所选项的子工作包
       move_failed: 无法移动工作包。
       none_could_be_saved: "%{total} 个工作包全部无法更新。"
       selected_because_descendants: 虽然选择了 %{selected} 个工作包，但共有 %{total} 个工作包受到影响，包括子工作包。
       x_out_of_y_could_be_saved: 在 %{total} 个工作包中，%{failing} 个无法更新，%{success} 个可以更新。
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 以下后代也将被删除：
+      confirm_deletion: 我确认所选工作包和所有相关数据都将被删除。
+      confirm_descendants_deletion: 我确认上述所有后代也将被删除。
+      cross_project_warning_html: 这些工作包跨越多个项目：%{projects}
+      description: 确定要删除所选的工作包及所有相关数据吗？
+      description_with_all_descendants: 确定要删除所选的工作包及其所有后代吗？
+      description_with_descendants: 确定要删除所选的工作包及以下所有后代吗？
+      description_with_visible_descendants: 确定要删除所选的工作包及所有可见后代吗？
       heading: 永久删除这些 %{count} 工作包？
       hidden_descendants_only_warning:
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: 有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
       hidden_descendants_warning:
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: 所有可见后代都将被移除。但是，有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
       title: 删除 %{count} 个工作包
       undeletable_descendants_warning:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
       undeletable_descendants_warning_html:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: 由于在 %{projects} 中缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
     datepicker_modal:
       banner:
         description:
@@ -6487,20 +6488,20 @@ zh-CN:
         successors: 后置项
       update_inputs_aria_live_message: 日期选择器已更新。 %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: 我确认此工作包和所有相关数据都将被删除。
+      confirm_descendants_deletion: 我确认上述所有后代也将被删除。
+      cross_project_warning_html: 将删除以下项目中的工作包：%{projects}
+      description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: 此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
       hidden_descendants_warning:
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: 所有可见后代都将被删除。但是，此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
       title: 删除工作包
       undeletable_descendants_warning:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
       undeletable_descendants_warning_html:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: 由于在 %{projects} 中缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
     move:
       bulk_current_type_not_available_in_target_project: '目标项目中未启用这些工作包或其后代的类型。如果您希望工作包类型保持不变，请在目标项目中启用缺少的类型。否则，请从列表中选择目标项目中的可用类型。
 

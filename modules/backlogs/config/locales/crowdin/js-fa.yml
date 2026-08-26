@@ -27,4 +27,4 @@ fa:
       points: امتیاز ها
     work_packages:
       properties:
-        storyPoints: وزن دهی کار
+        storyPoints: امتیاز داستان

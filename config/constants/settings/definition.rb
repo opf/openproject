@@ -966,6 +966,14 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
+      mail_recipient_limits: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum distinct recipients an instance may send emails to per day. " \
+                     "Mails to addresses over that limit will be dropped. 0 equals unlimited recipients."
+      },
       rate_limiting: {
         default: {},
         description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."

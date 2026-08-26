@@ -2480,8 +2480,6 @@ zh-TW:
         description: 確保在其他使用者存取 OpenProject 中上傳的檔案前，對其進行病毒掃描。
       weighted_item_lists:
         description: 加權項目清單可讓您建立一個與基本數值相關的清單。
-      work_package_query_relation_columns:
-        description: 需要在工作套件清單中查看關聯或子套件嗎？
       work_package_sharing:
         description: 與不是專案成員的使用者共同參與工作套件。
       work_package_subject_generation:
@@ -2797,14 +2795,15 @@ zh-TW:
     blocks:
       community: OpenProject 社群
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -5196,6 +5195,7 @@ zh-TW:
   setting_default_language: 預設語言
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_default_projects_public: 新專案預設為公開
+  setting_default_projects_wiki: Enables wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件
@@ -5724,6 +5724,7 @@ zh-TW:
   text_destroy_what_to_do: 您想要做什麼？
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... 此差異被截斷, 因為它超出了可以顯示的最大大小。"
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     電子郵件傳送未配置，通知已禁用。
     配置您的 SMTP 服務器將其啓用。
@@ -6215,6 +6216,7 @@ zh-TW:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6228,7 +6230,6 @@ zh-TW:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours
