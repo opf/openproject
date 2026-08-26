@@ -29,31 +29,32 @@
 #++
 
 module AI
-  class TextTransformAction < ApplicationRecord
-    SORTABLE_LIST_TYPE = "text_transform_action"
+  module TextTransformActions
+    class SetAttributesService < ::BaseServices::SetAttributes
+      private
 
-    acts_as_list
-    include Lists::MoveAfterAnchor
+      def set_attributes(params)
+        type_ids = params.delete(:type_ids)
 
-    has_many :text_transform_action_types,
-             class_name: "AI::TextTransformActionType",
-             foreign_key: :ai_text_transform_action_id,
-             inverse_of: :text_transform_action,
-             dependent: :destroy
-    has_many :types, through: :text_transform_action_types
+        super
 
-    enum :usage_scope, {
-      everywhere: "everywhere",
-      all_work_package_types: "all_work_package_types",
-      specific_work_package_types: "specific_work_package_types"
-    }, default: "everywhere", validate: true
+        assign_types(type_ids)
+        reset_template_injection
+      end
 
-    validates :label, presence: true, length: { maximum: 255 }
-    validates :prompt, presence: true
-    validates :types, presence: true, if: :specific_work_package_types?
-    validates :injects_type_template, absence: true, if: :everywhere?
+      # The scope select only hides the type picker client-side, so stale
+      # type ids may still arrive; the scope decides whether they are kept.
+      def assign_types(type_ids)
+        if model.specific_work_package_types?
+          model.type_ids = Array(type_ids).compact_blank.map(&:to_i) unless type_ids.nil?
+        else
+          model.types = []
+        end
+      end
 
-    scope :active, -> { where(active: true) }
-    scope :ordered, -> { order(:position, :id) }
+      def reset_template_injection
+        model.injects_type_template = false if model.everywhere?
+      end
+    end
   end
 end

@@ -47,6 +47,10 @@ module Settings
         format: :string,
         default: nil
       },
+      ai_text_transform_actions_enabled: {
+        description: "Enable AI text transform actions in the rich text editor",
+        default: false
+      },
       allowed_link_protocols: {
         format: :array,
         description: "Allowed protocols for links in the WYSIWYG editor and formatted texts",

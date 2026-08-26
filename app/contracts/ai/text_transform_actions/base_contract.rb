@@ -29,31 +29,14 @@
 #++
 
 module AI
-  class TextTransformAction < ApplicationRecord
-    SORTABLE_LIST_TYPE = "text_transform_action"
+  module TextTransformActions
+    class BaseContract < ::ModelContract
+      include RequiresAdminGuard
 
-    acts_as_list
-    include Lists::MoveAfterAnchor
-
-    has_many :text_transform_action_types,
-             class_name: "AI::TextTransformActionType",
-             foreign_key: :ai_text_transform_action_id,
-             inverse_of: :text_transform_action,
-             dependent: :destroy
-    has_many :types, through: :text_transform_action_types
-
-    enum :usage_scope, {
-      everywhere: "everywhere",
-      all_work_package_types: "all_work_package_types",
-      specific_work_package_types: "specific_work_package_types"
-    }, default: "everywhere", validate: true
-
-    validates :label, presence: true, length: { maximum: 255 }
-    validates :prompt, presence: true
-    validates :types, presence: true, if: :specific_work_package_types?
-    validates :injects_type_template, absence: true, if: :everywhere?
-
-    scope :active, -> { where(active: true) }
-    scope :ordered, -> { order(:position, :id) }
+      attribute :label
+      attribute :prompt
+      attribute :usage_scope
+      attribute :injects_type_template
+    end
   end
 end
