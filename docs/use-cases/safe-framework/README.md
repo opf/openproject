@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Scaled Agile Framework (SAFe)
   priority: 975
 description: Learn how to set up and configure OpenProject to support the Scaled Agile Framework (SAFe) to successfully deliver value to customers using agile practices at scale.
-keywords: safe, scaled agile, release train, program increment, PI planning, ART backlog, roadmap, portfolio backlog, solution train, kanban, enabler, capability, scrum, risk management, dependencies
+keywords: safe, scaled agile, release train, program increment, PI planning, ART backlog, roadmap, portfolio backlog, solution train, kanban, enabler, capability, scrum, sprint, risk management, dependencies
 
 ---
 
@@ -16,11 +16,11 @@ This guide contains the following sections:
 | Section | Description |
 | --- | --- |
 | [Structure and terminology](#structure-and-terminology) | What concepts in SAFe translate to in OpenProject and how to structure them |
-| [Setting up Agile Release Trains](#setting-up-agile-release-trains) | Configuring portfolios, projects and project templates to create and administer Agile Release Trains and teams |
+| [Setting up Agile Release Trains](#setting-up-agile-release-trains) | Configuring SAFe portfolios, ART spaces (programs), team spaces (projects) and project templates to create and manage Agile Release Trains and teams |
 | [Planning Program Increments](#planning-program-increments) | Using hierarchy custom fields in OpenProject to define Program Increments (PIs) and assign work to PI cycles |
-| [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Epics, Capabilities, Enablers, Features and User Stories |
+| [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories and Spikes |
 | [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages, dependencies and PI scope |
-| [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organizing work and facilitating planning using Backlogs, Kanban boards and Team planner |
+| [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organizing work and facilitating planning using Backlog and Sprints, Kanban boards, Sprint boards and Team planner |
 | [Managing risks](#managing-risks) | Tracking risks with dedicated work packages, probability and impact fields, and saved risk views |
 
 ## Structure and terminology
@@ -37,8 +37,8 @@ It is important to note that OpenProject terminology can vary somewhat from SAFe
 
 | **SAFe terminology** | **OpenProject terminology** |
 | --- | --- |
-| Portfolio | Portfolio / project hierarchy |
-| Agile Release Train | Project / project hierarchy |
+| SAFe Portfolio / solution train | Portfolio |
+| Agile Release Train | Program |
 | Agile team | Project or sub-project |
 | Program increment (PI) | Hierarchy custom field |
 | Capability/Epic | Epic (work package type) |
@@ -46,7 +46,7 @@ It is important to note that OpenProject terminology can vary somewhat from SAFe
 | Enabler | Enabler (custom work package type) |
 | User Story | User story (work package type) |
 | Risk | Risk (custom work package type) |
-| Kanban | Boards |
+| Kanban boards | Kanban boards |
 | Roadmap | Gantt chart / saved work package views |
 | Backlog | Backlog |
 
@@ -54,14 +54,14 @@ In the example configuration used throughout this guide, the structure consists 
 
 ## Setting up Agile Release Trains
 
-In OpenProject, Agile Release Trains and teams can be represented using projects and project hierarchies.
+In OpenProject, Agile Release Trains and agile teams can be represented using programs, projects and project hierarchies.
 
 ![Viewing epics, features and stories across teams](art_view_one_sprint.png)
 
 A project consists of a number of different elements:
 
 - **Members**: individual members can be created at an instance level and then added to individual projects, or external users can directly be invited to a project. Each member can have different roles in different projects.
-- **Modules** like Work packages, Gantt chart, Backlogs, Team planner, Wiki, Forums and Meetings.
+- **Modules** like Work packages, Gantt chart, Backlogs, Team planner, Wiki, Documents and Meetings.
 - **Work packages** that can be of different types, including epics, features, enablers, user stories, risks and bugs.
 - **Integrations** like external file storages.
 
@@ -71,7 +71,7 @@ To learn how to use the Work packages module to configure epics, features and us
 
 ### Project templates
 
-You can use [project templates](../../user-guide/projects/project-templates/) to make it easier to create new ARTs or teams with the same set of enabled modules, project structure or work package templates. Once a new project is created using a template, it can then be modified in any way.
+You can use [project templates](../../user-guide/projects/project-templates/) to make it easier to create new SAFe portfolios, solution trains, ARTs or agile teams with the same set of enabled modules, project structure or work package templates. Once a new project is created using a template, it can then be modified in any way.
 
 Agile teams within an Agile Release Train can be organized as projects or sub-projects. Saved cross-project views can then provide a consolidated view across teams. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
@@ -145,7 +145,7 @@ A saved **PI objectives** view can, for example, filter for Type = Objective and
 
 Once the instance, project structure and Program Increment hierarchy are set up, you are ready to move on to the configuration of individual work initiatives.
 
-In OpenProject, all work is expressed as work packages of various types. For SAFe, OpenProject already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability**, **Enabler**, **Objective** and **Risk** types can be created and configured.
+In OpenProject, all work is expressed as work packages of various types. For SAFe, OpenProject already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Strategic theme**, **Capability**, **Enabler**, **Objective** and **Risk** types can be created and configured.
 
 Apart from milestones, which have the particularity of having a single date, other types can be freely configured and new ones created.
 
