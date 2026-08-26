@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         { href: admin_import_jira_index_path, text: I18n.t(:"admin.jira.title") },
         { href: admin_import_jira_path(@jira), text: @jira.name || @jira.url },
         { href: admin_import_jira_run_path(id: @jira_import.id), text: "Run: #{@jira_import.id}" },
-        I18n.t(:"admin.jira.run.history"),
+        I18n.t(:"admin.jira.run.history")
       ]
     )
   end
@@ -101,7 +101,14 @@ See COPYRIGHT and LICENSE files for more details.
             end
             if error_backtrace = model.metadata["error_backtrace"]
               component.with_row(bg: :danger, p: 2) do
-                error_backtrace.inspect
+                render(OpPrimer::ExpandableTextComponent.new(expansion: :dialog)) do |component|
+                  component.with_dialog(title: t(:label_backtrace), size: :xlarge) do |dialog|
+                    dialog.with_header(variant: :large)
+                    dialog.with_body_content(error_backtrace.inspect)
+                  end
+
+                  error_backtrace.inspect
+                end
               end
             end
           end
@@ -117,6 +124,7 @@ See COPYRIGHT and LICENSE files for more details.
       [
         [:from_state, { caption: "From state" }],
         [:to_state, { caption: "To state" }],
+        [:created_at, { caption: Attachment.human_attribute_name(:created_at) }],
         [:metadata, { caption: "Metadata" }]
       ]
     end
