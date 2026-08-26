@@ -186,7 +186,7 @@ A confirmation warning will also be shown.
 
 ### 1. Preparation
 
-- Review the [Jira pre migration checklist](./pre-migration-checklist/).
+- Review the [Jira Pre-Migration checklist](./pre-migration-checklist/).
 
 ### 2. Testing
 
@@ -202,7 +202,7 @@ A confirmation warning will also be shown.
 
 ### 4. Post-migration
 
-- Review the [Jira post migration checklist](./post-migration-checklist/).
+- Review the [Jira Post-Migration checklist](./post-migration-checklist/).
 - Provide training to users.
 - Archive or decommission the legacy systems if applicable.
 
