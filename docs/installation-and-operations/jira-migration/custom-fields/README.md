@@ -40,7 +40,7 @@ the [Hierarchy format](../../../system-admin-guide/custom-fields/#hierarchy-cust
 
 ## Currently unsupported field types
 
-Jira custom field types not listed above are skipped. This includes (but is not limited to):
+Jira custom field types not listed above are skipped. This includes, but is not limited to, the following fields. (See [JIM-55](https://community.openproject.org/projects/JIM/work_packages/JIM-55/activity]) for details):
 
 - Version fields
 - Sprint assignment
@@ -50,6 +50,8 @@ Jira custom field types not listed above are skipped. This includes (but is not 
   return type — see [Date Time Picker](#date-time-picker) below
 
 If a field is skipped, its values are not imported and no OpenProject custom field is created for it.
+
+
 
 ## Field type details and edge cases
 
