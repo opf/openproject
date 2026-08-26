@@ -26,7 +26,7 @@ By default, the Activity tab shows comments, changes, and meeting updates, but y
 
 Meeting updates include changes related to one-time and recurring meetings. For example, an activity entry is created when a work package is added to, removed from, or moved between meetings, when it is discussed or added as a meeting outcome, and when it is added to or removed from meeting templates, including recurring meeting series templates.
 
-For recurring meetings, an activity entry is also created when a meeting occurrence containing the work package is created.
+For recurring meetings, an activity entry is also added on creation of each occurrence when the work package is in the series template.
 
 > [!NOTE]
 > Meeting-related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
