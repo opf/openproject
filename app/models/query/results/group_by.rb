@@ -51,7 +51,6 @@ module ::Query::Results::GroupBy
       .joins(query.group_by_join_statement)
       .group(group_by_for_count)
       .visible
-      .references(:statuses, :projects)
       .where(query.statement)
       .order(order_for_count)
       .pluck(*pluck_for_count)
@@ -60,7 +59,7 @@ module ::Query::Results::GroupBy
 
   def work_packages_with_includes_for_count
     WorkPackage
-      .includes(all_includes)
+      .eager_load(all_includes)
       .joins(all_filter_joins)
   end
 

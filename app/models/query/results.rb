@@ -108,8 +108,7 @@ class Query::Results
 
   def work_package_scope
     WorkPackage
-      .includes(all_includes)
-      .references(:projects)
+      .eager_load(all_includes)
   end
 
   def all_includes
