@@ -37,14 +37,13 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated, specific to custom fields:**
 
-*(Note: Jira's Date Time Picker custom field type is actually migrated — as an OpenProject Date field, with the time-of-day dropped, since OpenProject has no native Date+Time custom field format yet. See the Custom fields migration docs.)*
-
-- [ ] Version-picker custom fields
-- [ ] User picker / multi-user picker custom field values. If the referenced user isn't a member of the migrated project the value comes across empty, with no reliable way to prevent this in advance.
-- [ ] Sprint field
+- [ ] Date Time Picker
 - [ ] Epic Link / Epic Name
+- [ ] Sprint field
 - [ ] Story Points
-- [ ] Any third-party plugin-provided custom field type
+- [ ] User picker / multi-user picker custom field values. If the referenced user isn't a member of the migrated project the value comes across empty, with no reliable way to prevent this in advance.
+- [ ] Version-picker
+- [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
 
 **Not migrated, beyond individual issues:**
 
