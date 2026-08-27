@@ -159,11 +159,8 @@ export function fetchTypes():Promise<TypeCollection> {
   });
 }
 
-/*  Large enough for a whole project tree to be browsed without typing.  */
+/*  Beyond one page of them a listing is searched rather than browsed.  */
 const ALLOWED_VALUES_PAGE_SIZE = 100;
-
-/*  Beyond this a listing is searched rather than browsed.  */
-const ALLOWED_VALUES_MAX_PAGES = 5;
 
 /**
  * Asks the API which attributes a new work package needs: an empty payload yields
@@ -205,43 +202,9 @@ function withQuery(href:string, added:HalFilter[], nested:boolean):string {
   return `${path}?${params.toString()}`;
 }
 
-function pageAsked(url:string):number {
-  const separator = url.indexOf('?');
-  const params = new URLSearchParams(separator === -1 ? '' : url.slice(separator + 1));
-  return Number(params.get('offset')) || 1;
-}
-
-function atPage(url:string, page:number):string {
-  const separator = url.indexOf('?');
-  const params = new URLSearchParams(separator === -1 ? '' : url.slice(separator + 1));
-  params.set('offset', String(page));
-
-  return `${separator === -1 ? url : url.slice(0, separator)}?${params.toString()}`;
-}
-
-async function collectPages(url:string):Promise<HalResource[]> {
-  const collected:HalResource[] = [];
-  const seen = new Set<string>();
-  const first = pageAsked(url);
-
-  for (let step = 0; step < ALLOWED_VALUES_MAX_PAGES; step += 1) {
-    const data = await get<HalCollection<HalResource>>(step === 0 ? url : atPage(url, first + step));
-    const elements = data._embedded?.elements ?? [];
-
-    for (const element of elements) {
-      const self = element._links?.self?.href;
-      if (typeof self === 'string') {
-        if (seen.has(self)) continue;
-        seen.add(self);
-      }
-      collected.push(element);
-    }
-
-    const walked = (first + step) * (data.pageSize ?? elements.length);
-    if (typeof data.total !== 'number' || elements.length === 0 || walked >= data.total) break;
-  }
-
-  return collected;
+async function listValues(url:string):Promise<HalResource[]> {
+  const data = await get<HalCollection<HalResource>>(url);
+  return data._embedded?.elements ?? [];
 }
 
 function assertApiHref(href:string):void {
@@ -273,15 +236,14 @@ export async function fetchAllowedValues(
   if (trimmedQuery) {
     try {
       const narrowing = [...kept, TYPEAHEAD_FILTER(trimmedQuery)];
-      const filtered = await collectPages(withQuery(href, narrowing, nested));
-      return { resources: filtered, filtered: true };
+      return { resources: await listValues(withQuery(href, narrowing, nested)), filtered: true };
     } catch (error) {
       if (!(error instanceof OpenProjectApiError) || error.responseStatus !== 400) throw error;
       console.warn('[OpenProjectApi] typeahead filter rejected, retrying unfiltered:', error);
     }
   }
 
-  return { resources: await collectPages(withQuery(href, kept, nested)), filtered: false };
+  return { resources: await listValues(withQuery(href, kept, nested)), filtered: false };
 }
 
 /** Follows the `allowedValues` link of a schema attribute, narrowed to the resource of the given id. */

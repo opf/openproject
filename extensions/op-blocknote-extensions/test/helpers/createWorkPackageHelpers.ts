@@ -29,8 +29,6 @@ export async function pickProject(name = 'Demo project') {
   await userEvent.click(page.getByRole('treeitem', { name }));
 }
 
-// The picked project is let go from its own row in the list, the field itself
-// being read-only.
 export async function clearProject() {
   await userEvent.click(page.getByLabelText('Project *'));
   await userEvent.click(page.getByTestId('op-bn-create-wp-project-list-deselect'));

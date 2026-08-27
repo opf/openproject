@@ -154,7 +154,7 @@ describe('Create work package', () => {
     await openCreateModal();
 
     await userEvent.click(page.getByLabelText('Project *'));
-    await userEvent.fill(page.getByTestId('op-bn-create-wp-project-search'), 'Scrum');
+    await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
     await expect.element(page.getByRole('treeitem', { name: 'Scrum project' })).toBeVisible();
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
   });

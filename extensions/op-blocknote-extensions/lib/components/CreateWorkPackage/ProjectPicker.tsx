@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SearchIcon as SearchGlyph, XCircleFillIcon } from '@primer/octicons-react';
+import { XCircleFillIcon } from '@primer/octicons-react';
 import { PickerArrowsGlyph } from './PickerArrows';
 import { Suggestions } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
@@ -9,10 +9,7 @@ import {
   ACTION_ICON_SIZE,
   FilterMode,
   FilterModes,
-  SearchBox,
-  SearchControl,
-  SearchIcon,
-  TextControl,
+  PickerControl,
   TrailingActions,
   TrailingButton,
   TypeaheadWrapper,
@@ -48,9 +45,13 @@ export const ProjectPicker = ({
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const [mode, setMode] = useState<FilterModeName>('all');
-  const [pickedLabel, setPickedLabel] = useState<string | null>(null);
-  const [triggerEl, setTriggerEl] = useState<HTMLInputElement | null>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
+
+  const pickedLabel = value ? (selectedLabel ?? valueLabel ?? '') : '';
+  const namesPick = isOpen && Boolean(pickedLabel);
+  const shownValue = isOpen ? query : pickedLabel;
+  const hint = namesPick ? pickedLabel : placeholder;
 
   const listId = `${id}-list`;
   const { options, loading, toggleExpanded, expand } = usePickerOptions({
@@ -67,65 +68,78 @@ export const ProjectPicker = ({
     Math.max(0, options.length - 1)
   );
 
-  const shownLabel = value ? (pickedLabel ?? valueLabel ?? '') : '';
-
-  useEffect(() => {
-    if (isOpen) searchRef.current?.focus();
-  }, [isOpen]);
-
   const open = () => setIsOpen(true);
 
   const close = (returnFocus = false) => {
     setIsOpen(false);
     setQuery('');
     setFocusedIndex(null);
-    if (returnFocus) triggerEl?.focus();
+    if (returnFocus) inputEl?.focus();
   };
 
   const select = (option:AllowedValue) => {
-    setPickedLabel(option.label);
+    setSelectedLabel(option.label);
     expand(option.ancestors ?? []);
     onChange(option.href, option.label);
     close(true);
   };
 
+  const startTerm = (term:string) => {
+    setQuery(term);
+    setFocusedIndex(0);
+    open();
+  };
+
   const deselect = () => {
-    setPickedLabel(null);
-    onChange('');
-    searchRef.current?.focus();
+    setSelectedLabel(null);
+    setQuery('');
+    setFocusedIndex(null);
+    if (value) onChange('');
+    inputEl?.focus();
   };
 
   const handleKeyDown = (event:React.KeyboardEvent) => {
     const focused = options[activeIndex];
 
+    if (!isOpen && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      startTerm(event.key);
+      return;
+    }
+
     switch (event.key) {
+      case 'Backspace':
+      case 'Delete':
+        if (value && !query) {
+          event.preventDefault();
+          deselect();
+        }
+        break;
       case 'ArrowDown':
         event.preventDefault();
-        setFocusedIndex(Math.max(0, Math.min(activeIndex + 1, options.length - 1)));
+        if (!isOpen) open();
+        else setFocusedIndex(Math.max(0, Math.min(activeIndex + 1, options.length - 1)));
         break;
       case 'ArrowUp':
         event.preventDefault();
-        setFocusedIndex(Math.max(activeIndex - 1, 0));
+        if (isOpen) setFocusedIndex(Math.max(activeIndex - 1, 0));
         break;
       case 'ArrowRight':
-        if (!query && focused?.hasChildren && !focused.expanded) {
+        if (isOpen && !query && focused?.hasChildren && !focused.expanded) {
           event.preventDefault();
           toggleExpanded(focused.href);
         }
         break;
       case 'ArrowLeft':
-        if (!query && focused?.expanded) {
+        if (isOpen && !query && focused?.expanded) {
           event.preventDefault();
           toggleExpanded(focused.href);
         }
         break;
       case 'Enter':
         event.preventDefault();
-        if (focused) select(focused);
-        break;
-      case 'Escape':
-        event.stopPropagation();
-        close(true);
+        if (!isOpen) open();
+        else if (focused) select(focused);
         break;
     }
   };
@@ -148,56 +162,17 @@ export const ProjectPicker = ({
   );
 
   const header = (
-    <>
-      <SearchBox>
-        <SearchIcon>
-          <SearchGlyph size={14} />
-        </SearchIcon>
-        <SearchControl
-          ref={searchRef}
-          type="text"
-          role="combobox"
-          aria-haspopup="tree"
-          aria-expanded
-          aria-controls={listId}
-          aria-autocomplete="list"
-          aria-activedescendant={options[activeIndex] ? optionId(activeIndex) : undefined}
-          aria-label={t('createWorkPackage.searchPlaceholder')}
-          autoComplete="off"
-          spellCheck={false}
-          data-testid={`${id}-search`}
-          value={query}
-          onChange={(event) => {
-            setQuery(event.target.value);
-            setFocusedIndex(0);
-          }}
-          onKeyDown={handleKeyDown}
-        />
-        <TrailingActions>
-          <TrailingButton
-            aria-label={t('createWorkPackage.clear')}
-            data-testid={`${id}-clear`}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => {
-              setQuery('');
-              setFocusedIndex(null);
-              searchRef.current?.focus();
-            }}
-          >
-            <XCircleFillIcon size={ACTION_ICON_SIZE} />
-          </TrailingButton>
-        </TrailingActions>
-      </SearchBox>
-
-      <FilterModes aria-label={t('createWorkPackage.filterBy')}>
-        {modeButton('all', t('createWorkPackage.allValues'))}
-        {modeButton('favored', t('createWorkPackage.favorites'))}
-      </FilterModes>
-    </>
+    <FilterModes aria-label={t('createWorkPackage.filterBy')}>
+      {modeButton('all', t('createWorkPackage.allValues'))}
+      {modeButton('favored', t('createWorkPackage.favorites'))}
+    </FilterModes>
   );
+
+  const clearable = Boolean(value || query);
 
   return (
     <TypeaheadWrapper
+      $actions={clearable ? 2 : 1}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) close();
       }}
@@ -208,29 +183,45 @@ export const ProjectPicker = ({
         }
       }}
     >
-      <TextControl
+      <PickerControl
         id={id}
-        ref={setTriggerEl}
+        ref={setInputEl}
+        $namesPick={namesPick}
         type="text"
         role="combobox"
-        readOnly
         aria-expanded={isOpen}
         aria-controls={listId}
         aria-haspopup="tree"
+        aria-autocomplete="list"
+        aria-activedescendant={isOpen && options[activeIndex] ? optionId(activeIndex) : undefined}
         aria-invalid={invalid ? true : undefined}
         aria-describedby={describedBy}
-        placeholder={placeholder}
-        value={shownLabel}
-        onClick={() => (isOpen ? close() : open())}
-        onKeyDown={(event) => {
-          if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            open();
-          }
+        autoComplete="off"
+        spellCheck={false}
+        placeholder={hint}
+        value={shownValue}
+        onClick={open}
+        onChange={(event) => startTerm(event.target.value)}
+        onPaste={(event) => {
+          if (isOpen) return;
+          event.preventDefault();
+          startTerm(event.clipboardData.getData('text'));
         }}
+        onKeyDown={handleKeyDown}
       />
 
       <TrailingActions>
+        {clearable && (
+          <TrailingButton
+            aria-label={t(value ? 'createWorkPackage.deselect' : 'createWorkPackage.clear')}
+            data-testid={`${id}-clear`}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={deselect}
+          >
+            <XCircleFillIcon size={ACTION_ICON_SIZE} />
+          </TrailingButton>
+        )}
+
         <TrailingButton
           aria-label={t(isOpen ? 'createWorkPackage.closeOptions' : 'createWorkPackage.openOptions')}
           aria-expanded={isOpen}
@@ -238,9 +229,9 @@ export const ProjectPicker = ({
           data-testid={`${id}-toggle`}
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
-            if (isOpen) close(true);
+            if (isOpen) close();
             else open();
-            triggerEl?.focus();
+            inputEl?.focus();
           }}
         >
           <PickerArrowsGlyph />
@@ -251,7 +242,7 @@ export const ProjectPicker = ({
         <Suggestions
           id={listId}
           label={label}
-          anchorEl={triggerEl}
+          anchorEl={inputEl}
           options={options}
           focusedIndex={activeIndex}
           selectedHref={value}

@@ -579,32 +579,7 @@ describe('openProjectApi', () => {
       }
     });
 
-    it('follows the offsets until the whole listing is in', async () => {
-      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      const page = (elements:{ _links:{ self:{ href:string } } }[]) => mockResponse({
-        ok: true,
-        json: async () => ({ total: 3, count: elements.length, _embedded: { elements } }),
-      });
-      const fetchSpy = vi.spyOn(global, 'fetch')
-        .mockResolvedValueOnce(page([{ _links: { self: { href: '/api/v3/projects/1' } } }]))
-        .mockResolvedValueOnce(page([{ _links: { self: { href: '/api/v3/projects/2' } } }]))
-        .mockResolvedValueOnce(page([{ _links: { self: { href: '/api/v3/projects/3' } } }]));
-
-      try {
-        const { resources } = await fetchAllowedValues('/api/v3/work_packages/available_projects');
-
-        expect(resources.map((resource) => resource._links?.self?.href))
-          .toEqual(['/api/v3/projects/1', '/api/v3/projects/2', '/api/v3/projects/3']);
-        // The first page is the one the href asks for; the rest carry an offset.
-        expect(new URL(calledUrl(fetchSpy.mock.calls)).searchParams.has('offset')).toBe(false);
-        expect(new URL(calledUrl(fetchSpy.mock.calls, 1)).searchParams.get('offset')).toBe('2');
-        expect(new URL(calledUrl(fetchSpy.mock.calls, 2)).searchParams.get('offset')).toBe('3');
-      } finally {
-        fetchSpy.mockRestore();
-      }
-    });
-
-    it('gives up on an instance too large to be walked page by page', async () => {
+    it('takes the first page of a listing, and asks for no page after it', async () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
         ok: true,
@@ -618,8 +593,9 @@ describe('openProjectApi', () => {
       try {
         const { resources } = await fetchAllowedValues('/api/v3/work_packages/available_projects');
 
-        expect(fetchSpy).toHaveBeenCalledTimes(5);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
         expect(resources).toHaveLength(1);
+        expect(new URL(calledUrl(fetchSpy.mock.calls)).searchParams.has('offset')).toBe(false);
       } finally {
         fetchSpy.mockRestore();
       }

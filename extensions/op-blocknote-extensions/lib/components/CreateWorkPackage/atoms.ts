@@ -12,18 +12,24 @@ const radiusLarge = '12px';
 const colorDotSize = '12px';
 const colorDotWidth = `calc(var(--spacer-l) + ${colorDotSize} + var(--spacer-m))`;
 
-const trailingWidth = '32px';
 const indentStep = 14;
 
 export const ACTION_ICON_SIZE = 14;
+
+const actionSize = '20px';
+const actionsGap = 'var(--spacer-s)';
+const actionsInset = 'calc(var(--spacer-l) - 4px)';
+
+const roomForActions = (actions:number) => `calc(${actionsInset} + ${actions} * ${actionSize}`
+  + ` + ${actions - 1} * ${actionsGap} + var(--spacer-s))`;
 
 const actionStyles = css`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: ${actionSize};
+  height: ${actionSize};
   padding: 0;
   border: none;
   border-radius: ${radiusSmall};
@@ -352,6 +358,14 @@ export const TextControl = styled.input`
   ${controlStyles}
 `;
 
+export const PickerControl = styled(TextControl)<{ $namesPick?:boolean }>`
+  ${({ $namesPick }) => $namesPick && css`
+    &&&:focus::placeholder {
+      opacity: 1;
+    }
+  `}
+`;
+
 export const TextAreaControl = styled.textarea`
   ${controlStyles}
   min-height: 72px;
@@ -364,7 +378,7 @@ export const SelectControl = styled.select`
   cursor: pointer;
 
   && {
-    padding-right: ${trailingWidth};
+    padding-right: ${roomForActions(1)};
   }
 
   /*  OpenProject paints its own arrow onto every select with !important.  */
@@ -511,12 +525,13 @@ export const FavoredMark = styled.span`
   color: var(--button-star-iconColor, #eac54f);
 `;
 
-/*  Held above the options so the search stays reachable however far the list
-    scrolls, as OpenProject keeps it too.  */
+/*  Held above the options so the filters stay reachable however far the list
+    scrolls. Over the marks of a row too, which lift themselves over their own
+    row to answer the pointer.  */
 export const SuggestionHeader = styled.div`
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: var(--spacer-m);
@@ -524,34 +539,6 @@ export const SuggestionHeader = styled.div`
   padding: var(--spacer-s) var(--spacer-s) var(--spacer-m);
   border-bottom: 1px solid ${borderColor};
   background: ${surfaceColor};
-`;
-
-export const SearchBox = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex: 1;
-  min-width: 0;
-`;
-
-export const SearchIcon = styled.span`
-  position: absolute;
-  left: var(--spacer-m);
-  display: flex;
-  line-height: 0;
-  pointer-events: none;
-  color: var(--op-create-wp-muted);
-`;
-
-export const SearchControl = styled.input`
-  ${controlStyles}
-
-  && {
-    padding-top: var(--spacer-s);
-    padding-bottom: var(--spacer-s);
-    padding-left: 30px;
-    padding-right: ${trailingWidth};
-  }
 `;
 
 export const FilterModes = styled.div.attrs({ role: 'group' })`
@@ -648,26 +635,23 @@ export const SuggestionEmpty = styled.div`
   color: var(--op-create-wp-muted);
 `;
 
-export const TypeaheadWrapper = styled.div`
+/*  Sized here rather than on the field: the popover is not portalled out of it.  */
+export const TypeaheadWrapper = styled.div<{ $actions?:number }>`
   position: relative;
   display: flex;
   align-items: center;
 
-  /*  Held to the control itself, the dropdown's own search box sizing its
-      padding: the popover is not portalled out of here.  */
   && > input {
-    padding-right: ${trailingWidth};
+    padding-right: ${({ $actions = 1 }) => roomForActions($actions)};
   }
 `;
 
 export const TrailingActions = styled.span`
   position: absolute;
-  /*  Pulled in by the padding its buttons carry for their hover background, so
-      the glyphs stand where the bare arrows of a native select stand.  */
-  right: calc(var(--spacer-l) - 4px);
+  right: ${actionsInset};
   display: flex;
   align-items: center;
-  gap: var(--spacer-s);
+  gap: ${actionsGap};
 `;
 
 /*  Doubled, as OpenProject styles every button of its own. Only the background

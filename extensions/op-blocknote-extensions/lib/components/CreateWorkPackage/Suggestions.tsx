@@ -82,11 +82,9 @@ export const Suggestions = ({
     <SuggestionList
       ref={listRef}
       data-testid={`${id}-popover`}
-      onMouseDown={(event) => {
-        if (!(event.target instanceof HTMLInputElement)) event.preventDefault();
-      }}
+      onMouseDown={(event) => event.preventDefault()}
     >
-      {header && <SuggestionHeader>{header}</SuggestionHeader>}
+      {header && <SuggestionHeader data-testid={`${id}-header`}>{header}</SuggestionHeader>}
 
       <SuggestionTree role={hierarchical ? 'tree' : 'listbox'} id={id} aria-label={label}>
         {options.map((option, index) => (

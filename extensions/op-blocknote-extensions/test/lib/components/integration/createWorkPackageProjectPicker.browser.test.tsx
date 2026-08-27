@@ -12,7 +12,7 @@ const PROJECT_FIELD = 'Project *';
 const LIST = 'op-bn-create-wp-project-list';
 const TOGGLE = 'op-bn-create-wp-project-toggle';
 const CLEAR = 'op-bn-create-wp-project-clear';
-const SEARCH = 'op-bn-create-wp-project-search';
+const HEADER = 'op-bn-create-wp-project-list-header';
 
 async function openProjectPicker(firstProject = 'Demo project') {
   renderEditor();
@@ -21,55 +21,26 @@ async function openProjectPicker(firstProject = 'Demo project') {
   await expect.element(page.getByRole('treeitem', { name: firstProject })).toBeVisible();
 }
 
-/*  Stands in for ALLOWED_VALUES_PAGE_SIZE, so that a listing runs over its
-    pages without a hundred projects having to be invented for it.  */
-const PAGE_SIZE = 2;
-
-const alpha = { href: '/api/v3/projects/11', title: 'Alpha' };
-const beta = { href: '/api/v3/projects/14', title: 'Beta' };
-
-const pagedProjects = [
-  { id: 11, name: 'Alpha', _links: { self: { href: alpha.href } } },
-  { id: 12, name: 'Alpha sub 1', _links: { self: { href: '/api/v3/projects/12' }, ancestors: [alpha] } },
-  { id: 13, name: 'Alpha sub 2', _links: { self: { href: '/api/v3/projects/13' }, ancestors: [alpha] } },
-  { id: 14, name: 'Beta', _links: { self: { href: beta.href } } },
-  { id: 15, name: 'Beta sub 1', _links: { self: { href: '/api/v3/projects/15' }, ancestors: [beta] } },
-];
-
-function servePagedProjects({ overlapping = false } = {}):number[] {
-  const pagesAsked:number[] = [];
+function serveManyProjects() {
+  const parent = { href: '/api/v3/projects/100', title: 'Parent project' };
+  const elements = [
+    { id: 100, name: 'Parent project', _links: { self: { href: parent.href } } },
+    ...Array.from({ length: 30 }, (_, index) => ({
+      id: 200 + index,
+      name: `Child project ${String(index + 1).padStart(2, '0')}`,
+      _links: { self: { href: `/api/v3/projects/${200 + index}` }, ancestors: [parent] },
+    })),
+  ];
 
   worker.use(
-    http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
-      const asked = Number(new URL(request.url).searchParams.get('offset') ?? '1');
-      pagesAsked.push(asked);
-
-      const start = Math.max(0, (asked - 1) * PAGE_SIZE - (overlapping && asked > 1 ? 1 : 0));
-      const elements = pagedProjects.slice(start, start + PAGE_SIZE);
-
-      return HttpResponse.json({
-        total: pagedProjects.length,
-        count: elements.length,
-        pageSize: PAGE_SIZE,
-        offset: asked,
-        _embedded: { elements },
-      });
-    })
+    http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
+      HttpResponse.json({ _embedded: { elements } })
+    )
   );
-
-  return pagesAsked;
-}
-
-async function unfoldPagedProjects() {
-  await openProjectPicker('Alpha');
-  await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
-  await expect.element(page.getByRole('treeitem', { name: 'Alpha sub 1' })).toBeVisible();
-  await userEvent.click(page.getByTestId(`${LIST}-twisty-3`));
-  await expect.element(page.getByRole('treeitem', { name: 'Beta sub 1' })).toBeVisible();
 }
 
 function search(term:string) {
-  return userEvent.fill(page.getByTestId(SEARCH), term);
+  return userEvent.fill(page.getByLabelText(PROJECT_FIELD), term);
 }
 
 function optionLabels() {
@@ -136,9 +107,8 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByRole('tree')).toBeVisible();
     expect(document.querySelectorAll('[role="listbox"], [role="option"]')).toHaveLength(0);
 
-    // What the field and its search say they open has to agree with it too.
+    // What the field says it opens has to agree with it too.
     await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveAttribute('aria-haspopup', 'tree');
-    await expect.element(page.getByTestId(SEARCH)).toHaveAttribute('aria-haspopup', 'tree');
 
     const child = page.getByRole('treeitem', { name: 'Demo sub 1' });
     await expect.element(child).toHaveAttribute('aria-level', '2');
@@ -166,8 +136,8 @@ describe('Create work package - project picker', () => {
       .element().querySelector(`[data-testid="${LIST}-level-line"]`)!;
     const drawn = () => getComputedStyle(line, '::before').opacity;
 
-    // Away from the tree: the search box is part of the dropdown, not of it.
-    await userEvent.hover(page.getByTestId(SEARCH));
+    // Away from the tree: the filters are part of the dropdown, not of it.
+    await userEvent.hover(page.getByTestId(`${LIST}-mode-all`));
     await expect.poll(drawn).toBe('0');
 
     await userEvent.hover(page.getByRole('treeitem', { name: 'Demo sub 1' }));
@@ -275,7 +245,7 @@ describe('Create work package - project picker', () => {
     await search('demo');
     await expect.element(page.getByRole('treeitem', { name: 'Demo sub 1' })).toBeVisible();
 
-    const input = page.getByTestId(SEARCH).element() as HTMLInputElement;
+    const input = page.getByLabelText(PROJECT_FIELD).element() as HTMLInputElement;
     expect(input.selectionStart).toBe(4);
     await userEvent.keyboard('{ArrowLeft}');
 
@@ -408,46 +378,13 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByTestId('op-bn-create-wp-assignee-list-mode-favored')).not.toBeInTheDocument();
   });
 
-  it('asks for a hundred projects rather than a first handful', async () => {
+  it('asks for one page of a hundred projects, and for no page after it', async () => {
     const asked = await requestsDuring('/available_projects', () => openProjectPicker());
-    const pageSizes = asked.map((url) => new URL(url).searchParams.get('pageSize'));
 
-    expect(pageSizes.length).toBeGreaterThan(0);
-    expect(pageSizes.every((size) => size === '100')).toBe(true);
-  });
-
-  it('walks the pages of a listing that does not fit into one', async () => {
-    const pagesAsked = servePagedProjects();
-
-    await unfoldPagedProjects();
-
-    expect(optionLabels()).toEqual(['Alpha', 'Alpha sub 1', 'Alpha sub 2', 'Beta', 'Beta sub 1']);
-    expect([...new Set(pagesAsked)]).toEqual([1, 2, 3]);
-  });
-
-  it('lists a project once where a page repeats what the one before it had', async () => {
-    servePagedProjects({ overlapping: true });
-
-    await unfoldPagedProjects();
-
-    const labels = optionLabels();
-    expect(labels).toEqual(['Alpha', 'Alpha sub 1', 'Alpha sub 2', 'Beta', 'Beta sub 1']);
-    expect(new Set(labels).size).toBe(labels.length);
-  });
-
-  it('keeps a subtree whole where the page boundary cuts through it', async () => {
-    servePagedProjects();
-
-    await openProjectPicker('Alpha');
-    await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
-
-    await expect.element(page.getByRole('treeitem', { name: 'Alpha sub 2' })).toBeVisible();
-    expect(labelLeft('Alpha sub 2')).toBe(labelLeft('Alpha sub 1'));
-
-    const cutOff = page.getByRole('treeitem', { name: 'Alpha sub 2' });
-    await expect.element(cutOff).toHaveAttribute('aria-level', '2');
-    await expect.element(cutOff).toHaveAttribute('aria-posinset', '2');
-    await expect.element(cutOff).toHaveAttribute('aria-setsize', '2');
+    expect(asked).toHaveLength(1);
+    const params = new URL(asked[0]).searchParams;
+    expect(params.get('pageSize')).toBe('100');
+    expect(params.get('offset')).toBe(null);
   });
 
   it('closes and reopens the list from the arrows on the right', async () => {
@@ -467,7 +404,7 @@ describe('Create work package - project picker', () => {
 
     await userEvent.click(page.getByTestId(CLEAR));
 
-    await expect.element(page.getByTestId(SEARCH)).toHaveValue('');
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('');
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
   });
 
@@ -570,13 +507,25 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
   });
 
-  it('stands the clear button in the search box before anything is typed', async () => {
+  it('holds a cross at the end of the field once there is something to clear', async () => {
     await openProjectPicker();
 
+    await expect.element(page.getByTestId(CLEAR)).not.toBeInTheDocument();
+
+    await search('scrum');
     await expect.element(page.getByTestId(CLEAR)).toBeVisible();
-    // Inside the search box, not out on the field itself.
-    expect(page.getByTestId(SEARCH).element().parentElement!.contains(page.getByTestId(CLEAR).element()))
-      .toBe(true);
+  });
+
+  it('lets the pick go from the cross at the end of the field', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await expect.element(page.getByTestId(CLEAR)).toBeVisible();
+
+    await userEvent.click(page.getByTestId(CLEAR));
+
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('');
+    await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
   });
 
   it('opens on the project already picked, marked and reached first', async () => {
@@ -604,7 +553,7 @@ describe('Create work package - project picker', () => {
     const walkedOnto = page.getByRole('treeitem', { name: 'Demo project' });
     await expect.element(picked).toHaveAttribute('aria-selected', 'true');
     await expect.element(walkedOnto).toHaveAttribute('aria-selected', 'false');
-    await expect.element(page.getByTestId(SEARCH))
+    await expect.element(page.getByLabelText(PROJECT_FIELD))
       .toHaveAttribute('aria-activedescendant', walkedOnto.element().id);
 
     const marked = getComputedStyle(picked.element()).backgroundColor;
@@ -651,7 +600,7 @@ describe('Create work package - project picker', () => {
     expect(cross.getBoundingClientRect().right - parseFloat(shown.right)).toBeCloseTo(row.right, 2);
   });
 
-  it('keeps the field naming the pick, and searches in the dropdown instead', async () => {
+  it('searches in the one field that names the pick, the dropdown holding none', async () => {
     await openProjectPicker();
     await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
 
@@ -659,9 +608,47 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByRole('tree')).not.toBeInTheDocument();
 
     await userEvent.click(page.getByLabelText(PROJECT_FIELD));
-
-    await expect.element(page.getByTestId(SEARCH)).toHaveValue('');
+    expect(page.getByTestId(`${LIST}-popover`).element().querySelectorAll('input')).toHaveLength(0);
     expect(optionLabels()).toEqual(['Demo project', 'Scrum project']);
+
+    await search('scrum');
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('scrum');
+    expect(optionLabels()).toEqual(['Scrum project']);
+  });
+
+  it('starts a fresh term when a key is typed on the field naming the pick', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('Demo project');
+
+    await userEvent.keyboard('s');
+
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('s');
+    await expect.element(page.getByRole('treeitem', { name: 'Scrum project' })).toBeVisible();
+  });
+
+  it('lets the pick go from the keyboard alone', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+
+    await userEvent.keyboard('{Backspace}');
+
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('');
+    await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
+  });
+
+  it('names the pick as a hint while the field is searched in', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
+
+    await userEvent.click(page.getByLabelText(PROJECT_FIELD));
+
+    const field = page.getByLabelText(PROJECT_FIELD).element();
+    expect(field.getAttribute('placeholder')).toBe('Demo project');
+    expect(getComputedStyle(field, '::placeholder').opacity).toBe('1');
   });
 
   it('forgets a search once the dropdown is left', async () => {
@@ -672,7 +659,7 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByTestId(TOGGLE));
     await userEvent.click(page.getByTestId(TOGGLE));
 
-    await expect.element(page.getByTestId(SEARCH)).toHaveValue('');
+    await expect.element(page.getByLabelText(PROJECT_FIELD)).toHaveValue('');
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
   });
 
@@ -750,11 +737,40 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByText('Loading…')).toBeVisible();
   });
 
-  it('sizes the search box for its own trailing button, not for the field one', async () => {
+  it('sizes the field for the trailing actions it carries', async () => {
     await openProjectPicker();
 
-    expect(getComputedStyle(page.getByTestId(SEARCH).element()).paddingRight).toBe('32px');
     expect(getComputedStyle(page.getByLabelText(PROJECT_FIELD).element()).paddingRight).toBe('32px');
+
+    await search('scrum');
+
+    expect(getComputedStyle(page.getByLabelText(PROJECT_FIELD).element()).paddingRight).toBe('56px');
+  });
+
+  it('keeps the rows walking under the header hidden by it, fold markers and all', async () => {
+    serveManyProjects();
+    await openProjectPicker('Parent project');
+    await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
+    await expect.element(page.getByRole('treeitem', { name: 'Child project 01' })).toBeVisible();
+
+    const popover = page.getByTestId(`${LIST}-popover`).element();
+    const header = page.getByTestId(HEADER).element();
+    const marker = page.getByTestId(`${LIST}-twisty-0`).element().querySelector('svg')!;
+
+    // Scrolled until the fold marker of the first row sits under the header.
+    const spot = header.getBoundingClientRect().bottom - 4;
+    const markerCenter = () => {
+      const bounds = marker.getBoundingClientRect();
+      return bounds.top + bounds.height / 2;
+    };
+    popover.scrollTop += markerCenter() - spot;
+
+    const bounds = marker.getBoundingClientRect();
+    expect(markerCenter()).toBeGreaterThan(header.getBoundingClientRect().top);
+    expect(markerCenter()).toBeLessThan(header.getBoundingClientRect().bottom);
+
+    const painted = document.elementFromPoint(bounds.left + bounds.width / 2, markerCenter());
+    expect(header.contains(painted)).toBe(true);
   });
 
   it('keeps working where the API says nothing about favorites or nesting', async () => {
