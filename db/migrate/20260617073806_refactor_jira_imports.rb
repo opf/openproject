@@ -53,7 +53,10 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
       t.remove_references :jira, foreign_key: { on_delete: :cascade, on_update: :cascade }
       t.rename :jira_issue_id, :origin_id
       t.remove :jira_project_id, type: :string
+      # It is fine because we are truncating this table in this migration
+      # rubocop:disable Rails/NotNullColumn
       t.references :jira_project, foreign_key: { on_delete: :cascade, on_update: :cascade }, null: false
+      # rubocop:enable Rails/NotNullColumn
       t.index %i[jira_import_id origin_id], unique: true
       t.change_null :origin_id, false
       t.change_null :jira_import_id, false
