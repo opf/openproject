@@ -16,15 +16,15 @@ ko:
               notes: 이번 주에 잘된 일은 무엇이었나요?
             item_1:
               title: 팀 업데이트
-              notes: News and focused topics for the upcoming week.
+              notes: 다음 주의 뉴스 및 주요 주제.
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**오늘의 주제**: 오픈 소스 컨퍼런스 기획."
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: 분기별 목표 검토
+              notes: 정의된 분기별 목표의 상태 및 진행 상황 평가.
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: 핵심 가치 피드백
+              notes: 이번 주 핵심 가치를 실천한 직원들을 소개합니다.
             item_5:
               title: 일반 주제
-              notes: Solving or discussing topics together.
+              notes: 주제를 함께 해결하거나 논의.

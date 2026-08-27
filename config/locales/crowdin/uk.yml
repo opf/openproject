@@ -1280,20 +1280,20 @@ uk:
         many: Project phases
         other: Project phases
       project/phase_definition:
-        one: Project phase definition
+        one: Визначення етапу проєкту
         few: Project phase definitions
         many: Project phase definitions
         other: Project phase definitions
       project_custom_field:
-        one: Project attribute
-        few: Project attributes
-        many: Project attributes
-        other: Project attributes
+        one: Атрибут проєкту
+        few: Атрибути проєкту
+        many: Атрибути проєкту
+        other: Атрибути проєкту
       project_custom_field_section:
-        one: Project attribute section
-        few: Project attribute sections
-        many: Project attribute sections
-        other: Project attribute sections
+        one: Розділ з атрибутами проєкту
+        few: Розділи з атрибутами проєкту
+        many: Розділи з атрибутами проєкту
+        other: Розділи з атрибутами проєкту
       project_query:
         one: Список проєктів
         few: Списки проєктів
@@ -1305,40 +1305,40 @@ uk:
         many: Project list roles
         other: Project list roles
       project_role:
-        one: Project role
-        few: Project roles
-        many: Project roles
-        other: Project roles
+        one: Роль у проєкті
+        few: Ролі в проєкті
+        many: Ролі в проєкті
+        other: Ролі в проєкті
       query:
-        one: Custom query
-        few: Custom queries
-        many: Custom queries
-        other: Custom queries
+        one: Користувацький запит
+        few: Користувацькі запити
+        many: Користувацькі запити
+        other: Користувацькі запити
       relation:
-        one: Relation
-        few: Relations
-        many: Relations
-        other: Relations
+        one: Зв’язок
+        few: Звʼязки
+        many: Звʼязки
+        other: Звʼязки
       reminder:
-        one: Reminder
-        few: Reminders
-        many: Reminders
-        other: Reminders
+        one: Нагадування
+        few: Нагадування
+        many: Нагадування
+        other: Нагадування
       remote_identity:
-        one: Remote identity
-        few: Remote identities
-        many: Remote identities
-        other: Remote identities
+        one: Віддалена ідентичність
+        few: Віддалені ідентичності
+        many: Віддалені ідентичності
+        other: Віддалені ідентичності
       repository:
-        one: Repository
-        few: Repositories
-        many: Repositories
-        other: Repositories
+        one: Репозиторій
+        few: Репозиторії
+        many: Репозиторії
+        other: Репозиторії
       repository/git:
-        one: Git repository
-        few: Git repositories
-        many: Git repositories
-        other: Git repositories
+        one: Репозиторій Git
+        few: Репозиторії Git
+        many: Репозиторії Git
+        other: Репозиторії Git
       repository/subversion:
         one: Subversion repository
         few: Subversion repositories

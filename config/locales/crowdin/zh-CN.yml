@@ -848,7 +848,7 @@ zh-CN:
             form_configuration_source_id:
               would_create_cycle: 将在循环中链接这些配置。
             patterns:
-              invalid_tokens: 字段内的一个或多个特性无效。请在保存前修正。
+              invalid_tokens: 字段内的一个或多个特性无效。请先修正特性，然后再保存。
             pdf_export_source_id:
               would_create_cycle: 将在循环中链接这些配置。
             project_attributes_source_id:
@@ -1195,7 +1195,7 @@ zh-CN:
           heading: 公开此评论吗？
           title: 公开此评论吗？
         internal_journal: 内部评论仅对有限的成员组可见。
-        label_activity_hide_meetings: 隐藏会议更新
+        label_activity_hide_meetings: 隐藏会议动态
         label_activity_show_all: 显示所有
         label_activity_show_only_changes: 仅显示更改
         label_activity_show_only_comments: 仅显示评论
@@ -1692,7 +1692,7 @@ zh-CN:
         target_versions:
           action_required:
             button: 启用多个值
-            heading: 需要采取操作
+            heading: 需要采取行动
             manual_conversion_hint: 在自动迁移开始之前，您可以选择手动进行转换，以启用多个值。
             not_writable_hint: 这些设置通过环境变量进行配置。如果您想在自动迁移之前手动进行转换以启用多个值，请更新您的 configuration.yml 文件。
           heading: 目标版本
@@ -2716,7 +2716,7 @@ zh-CN:
   error_failed_to_delete_entry: 无法删除此条目。
   error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}'
   error_in_new_dependent: '尝试创建依赖对象时出错：%{dependent_class} - %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: 无法将该条目移动到所请求的位置。请刷新页面后重试。
+  error_invalid_list_move_anchor: 无法将该条目移动到请求的位置。请刷新页面并重试。
   error_invalid_selected_value: 选中的值无效。
   error_journal_attribute_not_present: 日志不包含 %{attribute} 属性。
   error_menu_item_not_created: 不能添加菜单项
@@ -2986,7 +2986,7 @@ zh-CN:
             line_1: 工作包的多个目标版本。
             line_2: 时间条目的全局限制和约束（专业方案）。
             line_3: 敏捷改进，支持批量编辑和将积压工作卡拖放到外部应用程序。
-            line_4: 可在更多文本编辑器中使用 Wiki 宏。
+            line_4: 可以在更多文本编辑器中使用 Wiki 宏。
             line_5: 改进了对工作包标识符的搜索。
             line_6: 已发布到社区：在工作包表中显示关系。
           new_features_title: '此版本包含多项新功能和改进，例如：
@@ -3079,11 +3079,11 @@ zh-CN:
       import: 已导入
       meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} <strong>中讨论</strong>
+      meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} 中<strong>讨论</strong>
       meeting_agenda_item_moved_html: "<strong>已移至会议</strong> %{meeting_title_information}"
       meeting_agenda_item_moved_template_html: "<strong>已移至</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: 已从会议 %{meeting_title_information} <strong>中移除</strong>
-      meeting_agenda_item_removed_template_html: 已从 %{meeting_title_information} <strong>中移除</strong>
+      meeting_agenda_item_removed_html: 已从会议 %{meeting_title_information} 中<strong>移除</strong>
+      meeting_agenda_item_removed_template_html: 已从 %{meeting_title_information} 中<strong>移除</strong>
       meeting_outcome_recorded_html: "<strong>已添加为会议</strong> %{meeting_title_information} 中的结果"
       progress_mode_changed_to_status_based: 更新进度计算
       status_changed: 状态 '%{status_name}'
@@ -5074,7 +5074,7 @@ zh-CN:
         title: 模板设置
       types:
         add_dialog:
-          description: 该项目使用每个类型系列的一个成员。请选择该项目应使用的类型或变体。
+          description: 该项目使用每个类型系列的一个成员。请选择此项目应使用的类型或变体。
           none_addable: 所有可用类型均已在此项目中处于有效状态。
           submit: 添加
           title: 添加类型
@@ -5082,7 +5082,7 @@ zh-CN:
           type_placeholder: 选择类型
         add_type: 添加类型
         empty_state:
-          description: 添加一种类型，以便用户可以在该项目中创建该类型的工作包。
+          description: 添加一种类型，以便用户可以在此项目中创建该类型的工作包。
           title: 此项目中没有有效的类型
         form:
           enable_type_in_project: 启用类型“%{type}”
@@ -6157,7 +6157,7 @@ zh-CN:
           label_enable_all: 全部启用
         blankslate:
           independent:
-            description: 在您[创建了项目特性](administration_url)后，这些特性将显示在此处，并可添加到类型中。
+            description: 在您[创建项目特性](administration_url)后，这些特性将显示在此处，并且可以添加到类型中。
             title: 没有可用的项目特性
           linked:
             description: 此类型没有与之相关联的任何项目特性。
@@ -6647,15 +6647,15 @@ zh-CN:
       confirm_deletion: 我确认所选工作包和所有相关数据都将被删除。
       confirm_descendants_deletion: 我确认上述所有后代也将被删除。
       cross_project_warning_html: 这些工作包跨越多个项目：%{projects}
-      description: 确定要删除所选的工作包及所有相关数据吗？
-      description_with_all_descendants: 确定要删除所选的工作包及其所有后代吗？
-      description_with_descendants: 确定要删除所选的工作包及以下所有后代吗？
-      description_with_visible_descendants: 确定要删除所选的工作包及所有可见后代吗？
+      description: 确定要删除所选工作包和所有相关数据吗？
+      description_with_all_descendants: 确定要删除所选工作包及其所有后代吗？
+      description_with_descendants: 确定要删除所选工作包和以下所有后代吗？
+      description_with_visible_descendants: 确定要删除所选工作包和所有可见后代吗？
       heading: 永久删除这些 %{count} 工作包？
       hidden_descendants_only_warning:
         other: 有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
       hidden_descendants_warning:
-        other: 所有可见后代都将被移除。但是，有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
+        other: 所有可见后代都将被移除。不过，有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
       title: 删除 %{count} 个工作包
       undeletable_descendants_warning:
         other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
@@ -6712,7 +6712,7 @@ zh-CN:
       hidden_descendants_only_warning:
         other: 此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
       hidden_descendants_warning:
-        other: 所有可见后代都将被删除。但是，此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
+        other: 所有可见后代都将被删除。不过，此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
       title: 删除工作包
       undeletable_descendants_warning:
         other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
