@@ -29,26 +29,41 @@
 #++
 
 module WorkPackageTypes
-  class DeleteVariantContract < ::ModelContract
-    include AuthorizesVariantAuthoring
+  module Types
+    class DeletionFormComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-    def self.model = TypeVariant
+      def initialize(variant:, targets:, url:, selected: nil, impact: nil, validation_message: nil)
+        super()
 
-    validate :variant_is_named
-    validate :migration_target_is_available
+        @variant = variant
+        @targets = targets
+        @url = url
+        @selected = selected
+        @impact = impact
+        @validation_message = validation_message
+      end
 
-    private
+      private
 
-    # A type is nothing without a configuration to fall back on, so its base variant goes only
-    # when the type does.
-    def variant_is_named
-      errors.add(:base, :is_default_variant) if model.is_default_variant?
-    end
+      attr_reader :variant, :targets, :url, :selected, :impact, :validation_message
 
-    def migration_target_is_available
-      target = options[:target]
+      def preview_path
+        deletion_preview_type_variant_path(type_id: variant.type_id, id: variant.id)
+      end
 
-      errors.add(:base, :migration_target_invalid) if target && model.migration_targets.exclude?(target)
+      def refresh_data
+        {
+          controller: "refresh-on-form-changes",
+          refresh_on_form_changes_target: "form",
+          refresh_on_form_changes_turbo_stream_url_value: preview_path
+        }
+      end
+
+      def dialog_id
+        DeletionDialogComponent::DIALOG_ID
+      end
     end
   end
 end

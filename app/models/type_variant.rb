@@ -175,8 +175,12 @@ class TypeVariant < ApplicationRecord
     WorkPackage.where(type_id:, project_id: project_types.select(:project_id))
   end
 
-  def sibling_variants
-    self.class.where(type_id:).where.not(id:)
+  # TODO: Replace the raw project_id checks with the scopes FND-110 adds
+  def migration_targets
+    siblings = self.class.where(type_id:).where.not(id:)
+    owners = projects.distinct.pluck(:id)
+
+    owners.one? ? siblings.where(project_id: [nil, owners.first]) : siblings.where(project_id: nil)
   end
 
   def workflows

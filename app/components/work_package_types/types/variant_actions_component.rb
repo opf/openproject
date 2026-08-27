@@ -102,6 +102,25 @@ module WorkPackageTypes
       end
 
       def delete_action(menu)
+        if variant.project_types.exists?
+          delete_with_migration_action(menu)
+        else
+          simple_delete_action(menu)
+        end
+      end
+
+      def delete_with_migration_action(menu)
+        menu.with_item(
+          label: t(:button_delete),
+          scheme: :danger,
+          href: deletion_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+
+      def simple_delete_action(menu)
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,

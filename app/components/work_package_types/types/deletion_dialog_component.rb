@@ -29,26 +29,26 @@
 #++
 
 module WorkPackageTypes
-  class DeleteVariantContract < ::ModelContract
-    include AuthorizesVariantAuthoring
+  module Types
+    class DeletionDialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-    def self.model = TypeVariant
+      DIALOG_ID = "variant-deletion-dialog"
 
-    validate :variant_is_named
-    validate :migration_target_is_available
+      def initialize(variant:, targets:, selected:, impact:, url:)
+        super()
 
-    private
+        @variant = variant
+        @targets = targets
+        @selected = selected
+        @impact = impact
+        @url = url
+      end
 
-    # A type is nothing without a configuration to fall back on, so its base variant goes only
-    # when the type does.
-    def variant_is_named
-      errors.add(:base, :is_default_variant) if model.is_default_variant?
-    end
+      private
 
-    def migration_target_is_available
-      target = options[:target]
-
-      errors.add(:base, :migration_target_invalid) if target && model.migration_targets.exclude?(target)
+      attr_reader :variant, :targets, :selected, :impact, :url
     end
   end
 end

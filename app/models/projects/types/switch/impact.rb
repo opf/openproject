@@ -41,10 +41,13 @@ module Projects
       class Impact
         Field = Data.define(:key, :label, :kind)
 
-        def initialize(project:, source:, target:)
-          @project = project
+        def initialize(source:, target:, project: nil, work_packages: nil)
+          raise ArgumentError, "Pass either 'project' or 'work_packages'" unless [project, work_packages].compact.one?
+
           @source = source
           @target = target
+          @project = project
+          @work_packages = work_packages
         end
 
         def work_package_count
@@ -89,14 +92,25 @@ module Projects
           hidden_fields.any? || new_fields.any? || missing_statuses.any?
         end
 
+        def single_project?
+          project.present?
+        end
+
+        # The projects the impact covers: the one it is scoped to, or every project applying the
+        # source variant. The preview uses these to filter its global work-package links down to
+        # the same projects the counts came from.
+        def project_ids
+          single_project? ? [project.id] : source.projects.ids
+        end
+
         # Public so the report can link to the work packages behind its counters.
         attr_reader :project, :source, :target
 
         private
 
-        # Scoped on the type, not the variant: a work package stores its type whichever variant
-        # the project resolves to, so scoping on the variant would match nothing and quietly
-        # report an impact of zero on every count drawn from here.
+        # The project-derived default, used unless work_packages are explicitly passed.
+        # Scoped on the type, not the variant: a work package stores its type whichever variant the project resolves to,
+        # so scoping on the variant would match nothing and quietly report an impact of zero.
         def work_packages
           @work_packages ||= ::WorkPackage.where(project:, type_id: source.type_id)
         end
