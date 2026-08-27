@@ -30,35 +30,35 @@ See COPYRIGHT and LICENSE files for more details.
 <% if linked? %>
   <%= render(OpPrimer::InsetBoxComponent.new(scheme: :info, h: :full)) do |box| %>
     <% box.with_title_icon(icon: :link) %>
-    <% box.with_title { t("types.edit.reuse_mode.linked.title") } %>
+    <% box.with_title { t("types.edit.reuse_mode.mirrored.title") } %>
     <% box.with_action_button(
          tag: :a,
          href: link_dialog_path,
          data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
-       ) { t("types.edit.reuse_mode.linked.change_source") } %>
+       ) { t("types.edit.reuse_mode.mirrored.change_source") } %>
     <% box.with_action_button(
          tag: :a,
          href: independent_dialog_path,
          data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-independent" }
-       ) { t("types.edit.reuse_mode.linked.switch_to_independent") } %>
+       ) { t("types.edit.reuse_mode.mirrored.configure_manually") } %>
     <%= linked_description %>
   <% end %>
 <% else %>
   <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
     <% box.with_title_icon(icon: :pencil) %>
-    <% box.with_title { t("types.edit.reuse_mode.independent.title") } %>
+    <% box.with_title { t("types.edit.reuse_mode.manual.title") } %>
     <% if copy_supported? %>
       <% box.with_action_button(
            tag: :a,
            href: copy_dialog_path,
            data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-variant" }
-         ) { t("types.edit.reuse_mode.independent.copy_from_type") } %>
+         ) { t("types.edit.reuse_mode.manual.copy_from_type") } %>
     <% end %>
     <% box.with_action_button(
          tag: :a,
          href: link_dialog_path,
          data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
-       ) { t("types.edit.reuse_mode.independent.switch_to_linked") } %>
-    <%= t("types.edit.reuse_mode.independent.description") %>
+       ) { t("types.edit.reuse_mode.manual.mirror_another_type") } %>
+    <%= t("types.edit.reuse_mode.manual.description") %>
   <% end %>
 <% end %>

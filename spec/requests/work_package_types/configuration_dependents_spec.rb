@@ -46,7 +46,7 @@ RSpec.describe "Work package type configuration dependents",
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("No dependents")
+      expect(response.body).to include("Not mirrored")
     end
 
     it "counts the dependents once another variant borrows the aspect" do
@@ -54,8 +54,8 @@ RSpec.describe "Work package type configuration dependents",
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("1 dependent")
-      expect(response.body).to include("View dependents")
+      expect(response.body).to include("Mirrored by 1 type or variant")
+      expect(response.body).to include("View dependent types")
     end
   end
 

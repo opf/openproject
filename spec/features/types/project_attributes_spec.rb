@@ -202,7 +202,7 @@ RSpec.describe "Work package type project attributes", :js do
     end
   end
 
-  describe "in linked mode", with_flag: { type_variants: true } do
+  describe "with a mirrored configuration", with_flag: { type_variants: true } do
     let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
     let(:source_type) { create(:type, name: "Source type") }
     let(:linked_type) { create(:type, name: "Linked type") }
@@ -232,7 +232,7 @@ RSpec.describe "Work package type project attributes", :js do
       expect(page).to have_no_css("[data-test-selector='type-project-attribute-section-#{select_section.id}']")
     end
 
-    it "disables an inherited attribute for the variant via its toggle" do
+    it "disables a mirrored attribute for the variant via its toggle" do
       expect(active_custom_field_ids)
         .to contain_exactly(boolean_project_custom_field.id, string_project_custom_field.id)
 
@@ -263,7 +263,7 @@ RSpec.describe "Work package type project attributes", :js do
 
       # Boolean was disabled by B and is hidden on C
       expect(page).to have_no_text("Boolean field")
-      # String is still inherited and controllable on C
+      # String is still mirrored and controllable on C
       expect(page).to have_text("String field")
     end
 

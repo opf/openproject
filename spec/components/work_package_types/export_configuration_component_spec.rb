@@ -42,7 +42,7 @@ RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component 
       expect(page).to have_no_css("[data-test-selector='disable-all-pdf-export-templates']")
     end
 
-    it "renders the inherited artefact export mode as disabled radios" do
+    it "renders the mirrored artefact export mode as disabled radios" do
       render_inline(described_class.new(variant, readonly: true))
 
       expect(page.find("input[type=radio][value='#{Type::ArtefactExport::OFF}']")).to be_disabled

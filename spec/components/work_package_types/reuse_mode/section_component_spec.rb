@@ -49,8 +49,8 @@ RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component, 
     before { render_inline(component) }
 
     it "shows the reuse mode and the dependents side by side" do
-      expect(page).to have_text("Independent mode")
-      expect(page).to have_text("No dependents")
+      expect(page).to have_text("Manual configuration")
+      expect(page).to have_text("Not mirrored")
     end
 
     it "gives both boxes half of the row" do

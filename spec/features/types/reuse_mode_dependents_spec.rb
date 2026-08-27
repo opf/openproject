@@ -44,9 +44,9 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
   it "shows both boxes side by side, and the reuse mode actions still work" do
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    expect(page).to have_text("Independent mode")
-    expect(page).to have_text("No dependents")
-    expect(page).to have_text("No other type or variant inherits from this configuration")
+    expect(page).to have_text("Manual configuration")
+    expect(page).to have_text("Not mirrored")
+    expect(page).to have_text("No other type or variant mirrors this configuration")
 
     # Both boxes share the row, so neither spans it alone.
     row_width, left_width, right_width = page.evaluate_script(<<~JS)
@@ -63,10 +63,9 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
     expect(left_width).to be_within(1).of(right_width)
     expect(left_width).to be_within(row_width * 0.1).of(row_width / 2)
 
-    # The mode box still drives the switch dialog the banner used to.
-    click_on "Switch to linked mode"
+    click_on "Mirror another type"
 
-    expect(page).to have_text("Linked mode")
+    expect(page).to have_text("Mirror the configuration of a source type")
     expect(page).to have_button("Switch")
   end
 
@@ -77,11 +76,11 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
     visit edit_type_form_configuration_path(type_id: type.id)
 
     within_test_selector("reuse-mode-dependents") do
-      expect(page).to have_text("2 dependents")
-      expect(page).to have_text("inherited by 2 other dependent types or variants")
+      expect(page).to have_text("Mirrored by 2 types and variants")
+      expect(page).to have_text("A change you make here also changes the dependent types and variants.")
     end
 
-    click_on "View dependents"
+    click_on "View dependent types"
 
     within_test_selector("dependents-list") do
       expect(page).to have_link("Feature")
@@ -94,13 +93,13 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
 
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    click_on "View dependents"
+    click_on "View dependent types"
     click_on "Feature: Mobile"
 
     expect(page).to have_current_path(
       edit_type_form_configuration_path(type_id: borrowing_type.id, variant_id: borrowing_variant.id)
     )
-    expect(page).to have_text("Linked mode")
-    expect(page).to have_css(".color-bg-accent", text: "Linked mode")
+    expect(page).to have_text("Mirrored configuration")
+    expect(page).to have_css(".color-bg-accent", text: "Mirrored configuration")
   end
 end

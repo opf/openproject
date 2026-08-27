@@ -62,7 +62,7 @@ RSpec.describe "form configuration exclusions", :js,
     visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end
 
-  it "stops and resumes inheriting an attribute" do
+  it "stops and resumes mirroring an attribute" do
     expect(page).to have_text("Assignee")
     expect_toggle("assignee", pressed: true)
 

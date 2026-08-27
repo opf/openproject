@@ -43,12 +43,12 @@ RSpec.describe "Work package type configuration source",
   before { login_as admin }
 
   context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "renders the tab's own editor without the reuse mode banner" do
+    it "renders the tab's own editor without the reuse mode boxes" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("Independent mode")
-      expect(response.body).not_to include("Linked mode")
+      expect(response.body).not_to include("Manual configuration")
+      expect(response.body).not_to include("Mirrored configuration")
     end
 
     it "blocks the switch endpoint" do
@@ -61,18 +61,18 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "rendering the tabs" do
-    it "renders the PDF tab with the reuse mode banner in independent mode" do
+    it "renders the PDF tab with the reuse mode boxes in manual mode" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Manual configuration")
     end
 
-    it "renders the subject tab with the reuse mode banner in independent mode" do
+    it "renders the subject tab with the reuse mode boxes in manual mode" do
       get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Manual configuration")
     end
 
     it "shows the type's own editor when Independent" do
@@ -81,12 +81,12 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("PDF Export templates")
     end
 
-    it "shows the linked banner and links to the source type when Linked" do
+    it "shows the mirrored box and links to the source type when mirrored" do
       link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Mirrored configuration")
       expect(response.body).to include(source.name)
     end
 
@@ -102,14 +102,14 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "read-only preview of a Linked aspect" do
-    it "shows the inherited subject pattern and links to the source" do
+    it "shows the mirrored subject pattern and links to the source" do
       source.default_variant.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
       link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
 
       get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Mirrored configuration")
       expect(response.body).to include("PR-{{id}}")
       expect(response.body).to include(
         edit_type_defaults_path(type_id: source.id, variant_id: source.default_variant.id)
@@ -118,11 +118,11 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "GET dialog" do
-    it "renders the linked source picker" do
+    it "renders the mirror source picker" do
       get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Mirror another type")
       expect(response.body).to include("Switch")
     end
 
@@ -205,7 +205,7 @@ RSpec.describe "Work package type configuration source",
            as: :turbo_stream
 
       expect(response.body).not_to include("Switch configuration mode?")
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.invalid_source"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.mirrored.invalid_source"))
     end
   end
 
@@ -221,7 +221,7 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("dispatchEvent")
       expect(response.body)
         .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.success"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.mirrored.success"))
     end
 
     it "flashes an error and links nothing on a cyclic source" do

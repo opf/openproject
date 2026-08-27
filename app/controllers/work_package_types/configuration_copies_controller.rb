@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  # "Copy from type" on a type's configuration tabs: the source-picker dialog,
+  # "Copy from another type" on a type's configuration tabs: the source-picker dialog,
   # the danger confirmation, and the copy itself, which is delegated to the
   # aspect's CopyConfiguration service.
   class ConfigurationCopiesController < BaseTabController

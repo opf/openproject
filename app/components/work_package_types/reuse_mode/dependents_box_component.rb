@@ -55,15 +55,15 @@ module WorkPackageTypes
       def icon = any_dependents? ? :alert : :"git-branch"
 
       def title
-        return t("types.edit.reuse_mode.dependents.blank.title") unless any_dependents?
+        return t("types.edit.reuse_mode.mirrored_by.blank.title") unless any_dependents?
 
-        t("types.edit.reuse_mode.dependents.title", count: dependents_count)
+        t("types.edit.reuse_mode.mirrored_by.title", count: dependents_count)
       end
 
       def description
-        return t("types.edit.reuse_mode.dependents.blank.description") unless any_dependents?
+        return t("types.edit.reuse_mode.mirrored_by.blank.description") unless any_dependents?
 
-        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
+        t("types.edit.reuse_mode.mirrored_by.description", count: dependents_count)
       end
 
       def dialog_path

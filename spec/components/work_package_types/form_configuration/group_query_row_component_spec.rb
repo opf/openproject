@@ -32,7 +32,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
                                         ee_available: false, readonly: true, exclusions:))
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-query_7']")
-      expect(toggle.find("button")["aria-label"]).to eq("Inherit section Related")
+      expect(toggle.find("button")["aria-label"]).to eq("Mirror section Related")
     end
 
     it "is omitted for a group whose query was deleted" do

@@ -10,7 +10,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
     WorkPackageTypes::ExclusionState.new(variant:, own: effective, effective:)
   end
 
-  def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")
+  def component(exclusions: exclusion_state, element_key: "assignee", label: "Mirror Assignee")
     described_class.new(exclusions:, element_key:, label:)
   end
 
@@ -35,7 +35,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
       render_inline(component)
 
       expect(toggle.find("button")["aria-pressed"]).to eq("true")
-      expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
+      expect(toggle.find("button")["aria-label"]).to eq("Mirror Assignee")
       expect(toggle["src"]).to eq(
         "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=assignee"
       )
@@ -48,13 +48,13 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
     end
 
     it "keys the endpoint and selector on the element, not on an attribute name", :aggregate_failures do
-      render_inline(component(element_key: "query_7", label: "Inherit section Related"))
+      render_inline(component(element_key: "query_7", label: "Mirror section Related"))
 
       switch = page.find("[data-test-selector='toggle-form-config-exclusion-query_7']")
       expect(switch["src"]).to eq(
         "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=query_7"
       )
-      expect(switch.find("button")["aria-label"]).to eq("Inherit section Related")
+      expect(switch.find("button")["aria-label"]).to eq("Mirror section Related")
     end
   end
 end

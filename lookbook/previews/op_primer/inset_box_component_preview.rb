@@ -70,7 +70,7 @@ module OpPrimer
       render OpPrimer::InsetBoxComponent.new(scheme: :info) do |box|
         box.with_title_icon(icon: :info)
         box.with_title { "Good to know" }
-        "This variant inherits its configuration from another type."
+        "This variant mirrors the configuration of another type."
       end
     end
 
@@ -101,38 +101,38 @@ module OpPrimer
     def with_title
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title { "Reuse mode" }
-        "The configuration of this section is inherited from another type."
+        "The configuration of this section mirrors another type."
       end
     end
 
     def with_title_icon
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
-        "The configuration of this section is inherited from another type."
+        box.with_title { "Mirrored configuration" }
+        "The configuration of this section mirrors another type."
       end
     end
 
     def with_action_buttons
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Mirrored configuration" }
         box.with_action_button { "Change source type" }
-        box.with_action_button(scheme: :primary) { "Switch to independent mode" }
-        "The configuration of this section is inherited from another type."
+        box.with_action_button(scheme: :primary) { "Configure manually" }
+        "The configuration of this section mirrors another type."
       end
     end
 
     def with_action_menu
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :"git-branch")
-        box.with_title { "Dependents" }
+        box.with_title { "Mirrored by" }
         box.with_action_menu do |menu|
           menu.with_show_button { "Actions" }
-          menu.with_item(label: "Show dependents", href: "#")
-          menu.with_item(label: "Unlink all", href: "#", scheme: :danger)
+          menu.with_item(label: "View dependent types", href: "#")
+          menu.with_item(label: "Remove mirror", href: "#", scheme: :danger)
         end
-        "Two types inherit this configuration."
+        "Two types mirror this configuration."
       end
     end
 

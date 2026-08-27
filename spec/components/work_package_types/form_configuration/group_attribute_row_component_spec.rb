@@ -49,7 +49,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
                                .new(variant:, own: [], effective: []))
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
-      expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
+      expect(toggle.find("button")["aria-label"]).to eq("Mirror Assignee")
     end
   end
 end
