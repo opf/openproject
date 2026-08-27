@@ -54,13 +54,19 @@ module Admin::Import::Jira::ImportRuns
       render(Primer::OpenProject::FlexLayout.new) do |component|
         component.with_row(p: 1) { model.created_at.to_s }
         user_row(component)
-        job_row(component)
-        batch_row(component)
+        if good_job_dashboard_enabled?
+          job_row(component)
+          batch_row(component)
+        end
         error_rows(component)
       end
     end
 
     private
+
+    def good_job_dashboard_enabled?
+      Rails.application.routes.url_helpers.respond_to?(:good_job_path)
+    end
 
     def gj_url_helpers
       GoodJob::Engine.routes.url_helpers

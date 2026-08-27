@@ -31,6 +31,7 @@
 module Admin::Import::Jira::ImportRuns
   class JobStatusComponent < Primer::Component
     include OpPrimer::ComponentHelpers
+    include Admin::Import::Jira::ImportRunsHelper
 
     def initialize(job:)
       super()
@@ -48,16 +49,7 @@ module Admin::Import::Jira::ImportRuns
               # concat(render(Primer::Beta::Text.new) { "(36/45)" })
             end)
             concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
-              case @job.status
-              when :running
-                concat(render(Primer::Beta::Octicon.new(icon: :"kebab-horizontal", color: :muted)))
-              when :queued, :retried, :scheduled
-                concat(render(Primer::Beta::Octicon.new(icon: :clock, color: :muted)))
-              when :succeeded
-                concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
-              when :discarded
-                concat(render(Primer::Beta::Octicon.new(icon: :"x-circle-fill", color: :danger)))
-              end
+              concat(render(Primer::Beta::Octicon.new(**job_status_icon(@job.status))))
               concat(
                 render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |c|
                   percentage = if @job.status == :succeeded

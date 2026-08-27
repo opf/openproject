@@ -135,7 +135,7 @@ See COPYRIGHT and LICENSE files for more details.
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(**job_status_icon)
+              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:projects_meta_fetching).actual_job.status))
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
             end
           )
