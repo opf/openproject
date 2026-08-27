@@ -62,15 +62,15 @@ module API
         end
 
         link :configureForm do
-          if current_user.admin? &&
-             represented.type_id &&
-             represented.type_id != 0
-            {
-              href: edit_type_form_configuration_path(represented.type_id),
-              type: "text/html",
-              title: "Configure form"
-            }
-          end
+          next unless current_user.admin? && represented.type_id && represented.type_id != 0
+
+          path_args = represented.type_variant&.path_args || { type_id: represented.type_id }
+
+          {
+            href: edit_type_form_configuration_path(**path_args),
+            type: "text/html",
+            title: "Configure form"
+          }
         end
       end
     end
