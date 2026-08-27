@@ -2,7 +2,7 @@
 // It is used for local development, but should not be relied upon as a proper
 // authentication method with an external OpenProject instance
 
-const originalFetch = window.fetch;
+const originalFetch = window.fetch.bind(window);
 const apiKey = btoa(`apikey:${import.meta.env.VITE_API_KEY}`);
 window.fetch = (url, options = {}) => {
   const headers = new Headers(options.headers);
