@@ -52,11 +52,9 @@ module Backlogs
             widget.with_body do
               helpers.angular_component_tag(
                 "opce-wp-overview-graph",
-                inputs: {
-                  "global-scope": false,
-                  "initial-filters": graph_filters,
-                  "show-group-by-options": false
-                }
+                "global-scope": false,
+                "initial-filters": graph_filters.to_json,
+                "show-group-by-options": false
               )
             end
           end
