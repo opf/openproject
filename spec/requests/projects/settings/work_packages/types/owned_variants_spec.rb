@@ -114,6 +114,27 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
+  # Every action the concern routes has to be in the permission map, or #authorize raises on a
+  # permission it cannot find rather than answering. The export tab's per-template settings are
+  # part of an aspect the project configures, so they belong to it.
+  describe "the export tab's per-template settings" do
+    it "opens for a template of the variant it owns" do
+      get edit_settings_type_pdf_export_template_path(in_project_id: project, type_id: type.id,
+                                                      variant_id: ours.id, id: "attributes"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "saves them" do
+      patch update_settings_type_pdf_export_template_path(in_project_id: project, type_id: type.id,
+                                                          variant_id: ours.id, id: "attributes"),
+            params: { settings: {} }, as: :turbo_stream
+
+      expect(response).not_to have_http_status(:forbidden)
+    end
+  end
+
   describe "a variant another project owns" do
     it "gives 404 on every tab" do
       tab_paths(theirs).each do |name, path|

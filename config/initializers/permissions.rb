@@ -261,7 +261,8 @@ Rails.application.reloader.to_prepare do
                          %i[edit toggle enable_all_of_section disable_all_of_section],
                        "work_package_types/workflow_tab": %i[edit],
                        "work_package_types/pdf_export_template":
-                         %i[edit toggle drop enable_all disable_all update_artefact_export],
+                         %i[edit toggle drop enable_all disable_all update_artefact_export
+                            edit_settings update_settings],
                        "work_package_types/excluded_elements": %i[toggle],
                        "work_package_types/configuration_links": %i[dialog confirm switch],
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
