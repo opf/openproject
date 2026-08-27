@@ -63,19 +63,17 @@ class WorkPackages::StaleTargetVersionRemediation
     out.puts "[REPORT ONLY - DRY RUN]"
     out.puts
 
-    # Findings print as they are classified so a tailed run shows progress.
-    results = stale_repair_journals.filter_map do |journal|
-      classify(journal)&.tap { |finding| out.puts describe_finding(finding) }
-    end
+    results = classified_findings(out)
     print_summary(results, out, remove_label: "would fix %d work packages")
 
     results
   end
 
   def apply(out: $stdout)
-    results = findings
+    results = classified_findings(out)
     failures = []
 
+    out.puts
     results.select { it.action == :remove }.each do |finding|
       remove_stale_version(finding, out:)
     rescue StandardError => e
@@ -90,6 +88,13 @@ class WorkPackages::StaleTargetVersionRemediation
   end
 
   private
+
+  # Findings print as they are classified so a tailed run shows progress.
+  def classified_findings(out)
+    stale_repair_journals.filter_map do |journal|
+      classify(journal)&.tap { |finding| out.puts describe_finding(finding) }
+    end
+  end
 
   def stale_repair_journals
     scope = Journal
