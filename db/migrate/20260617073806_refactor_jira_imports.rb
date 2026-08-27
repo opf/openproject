@@ -106,7 +106,7 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
     end
 
     create_table :jira_import_job_cursors do |t|
-      t.belongs_to :jira_import, null: false
+      t.belongs_to :jira_import, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
       t.string :job_class, null: false
       t.jsonb :arguments, null: false
       t.jsonb :cursor, null: false
