@@ -118,7 +118,7 @@ module Storages
     # otherwise it will run the request every test suite run.
     # Then we disable both VCR and WebMock to return to the usual state
     shared_let(:original_folder_ids) do
-      use_storages_vcr_cassette("one_drive/sync_service_original_folders") do
+      use_storages_vcr_cassette("onedrive/sync_service_original_folders") do
         original_folders
       end
     end
