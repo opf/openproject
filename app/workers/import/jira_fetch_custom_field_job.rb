@@ -54,8 +54,8 @@ module Import
 
     def collect_used_custom_field_ids
       used_ids = Set.new
-      Import::JiraProject.where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids).find_each do |jira_project|
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: jira_project.id).find_each do |issue|
+      Import::JiraProject.where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids).find_each do |jira_project|
+        Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id).find_each do |issue|
           issue.payload["fields"].each do |key, value|
             used_ids << key if key.start_with?("customfield_") && value.present?
           end
@@ -68,17 +68,16 @@ module Import
       used_fields = @jira_client.fields.select do |field|
         field.fetch("custom", false) && used_custom_field_ids.include?(field.fetch("id"))
       end
-      fields_upsert_data = used_fields.map do |field|
+      fields_upsert_data = used_fields.map do |payload|
         {
-          payload: field,
-          jira_id: @jira_id,
-          jira_field_id: field.fetch("id"),
+          payload:,
+          origin_id: payload.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraField.upsert_all(fields_upsert_data, unique_by: %i[jira_id jira_field_id]) if fields_upsert_data.any?
+      Import::JiraField.upsert_all(fields_upsert_data, unique_by: %i[jira_import_id origin_id]) if fields_upsert_data.any?
     end
 
     # For every list-type JiraField, populates `contextGroups` on its payload describing the
@@ -102,9 +101,9 @@ module Import
     # per distinct group.
     def sync_custom_field_options
       option_based_fields_by_jira_id = Import::JiraField
-                                         .where(jira_id: @jira_id, jira_import_id: @jira_import.id)
+                                         .where(jira_import_id: @jira_import.id)
                                          .select { |f| option_based_field?(f) }
-                                         .index_by(&:jira_field_id)
+                                         .index_by(&:origin_id)
       return if option_based_fields_by_jira_id.empty?
 
       collect_field_contexts_via_editmeta(option_based_fields_by_jira_id)
@@ -121,9 +120,9 @@ module Import
     def each_sample_issue_per_project_issuetype
       seen = Set.new
       project_ids = Import::JiraProject
-                      .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
+                      .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
                       .pluck(:id)
-      Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: project_ids).find_each do |jira_issue|
+      Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: project_ids).find_each do |jira_issue|
         key = issue_context_key(jira_issue)
         next if seen.include?(key)
 

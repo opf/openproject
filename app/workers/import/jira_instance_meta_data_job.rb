@@ -45,18 +45,12 @@ module Import
 
     def perform(jira_import_id)
       jira_import = Import::JiraImport.find(jira_import_id)
-      get_meta(jira_import)
-    end
-
-    def get_meta(jira_import)
       jira = jira_import.jira
       @client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      available = collect_metadata
-      jira_import.update!(job_id: nil, available:, error: nil)
+      jira_import.update!(available: collect_metadata)
       jira_import.transition_to!(:instance_meta_done)
     rescue StandardError => e
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
-      jira_import&.update!(job_id: nil, error: e.message)
     end
 
     def collect_metadata

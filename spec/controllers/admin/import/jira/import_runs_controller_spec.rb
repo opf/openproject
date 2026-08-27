@@ -229,8 +229,7 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
         end.to change(GoodJob::BatchRecord, :count).by(1)
 
         expect(jira_import.reload.current_state).to eq("importing")
-        expect(jira_import.import_batch_id).to be_present
-        expect(jira_import.last_transition.metadata).to include("batch_id" => jira_import.import_batch_id,
+        expect(jira_import.last_transition.metadata).to include("batch_id" => GoodJob::BatchRecord.last.id,
                                                                 "user_id" => admin.id)
       end
     end
@@ -260,7 +259,7 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       before { transition_to_state(jira_import, "import_error") }
 
       it "retries the existing import batch instead of enqueueing a new one" do
-        batch_id = jira_import.reload.import_batch_id
+        batch_id = jira_import.last_transition_to(:importing).actual_batch.id
         expect(batch_id).to be_present
 
         expect do
@@ -268,7 +267,7 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
         end.not_to change(GoodJob::BatchRecord, :count)
 
         expect(jira_import.reload.current_state).to eq("importing")
-        expect(jira_import.import_batch_id).to eq(batch_id)
+        expect(jira_import.last_transition_to(:importing).metadata["batch_id"]).to eq(batch_id)
       end
     end
 

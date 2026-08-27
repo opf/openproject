@@ -44,17 +44,16 @@ module Import
     private
 
     def fetch_data
-      priorities_upsert_data = @jira_client.priorities.map do |priority|
+      priorities_upsert_data = @jira_client.priorities.map do |payload|
         {
-          payload: priority,
-          jira_id: @jira_id,
-          jira_priority_id: priority.fetch("id"),
+          payload:,
+          origin_id: payload.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraPriority.upsert_all(priorities_upsert_data, unique_by: %i[jira_id jira_priority_id])
+      Import::JiraPriority.upsert_all(priorities_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
   end
 end

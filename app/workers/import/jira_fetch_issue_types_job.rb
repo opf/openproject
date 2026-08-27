@@ -44,17 +44,16 @@ module Import
     private
 
     def fetch_data
-      issue_types_upsert_data = @jira_client.issue_types.map do |issue_type|
+      issue_types_upsert_data = @jira_client.issue_types.map do |payload|
         {
-          payload: issue_type,
-          jira_id: @jira_id,
-          jira_issue_type_id: issue_type.fetch("id"),
+          payload:,
+          origin_id: payload.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraIssueType.upsert_all(issue_types_upsert_data, unique_by: %i[jira_id jira_issue_type_id])
+      Import::JiraIssueType.upsert_all(issue_types_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
   end
 end

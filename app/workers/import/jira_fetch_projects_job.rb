@@ -44,17 +44,16 @@ module Import
     private
 
     def fetch_data
-      projects_upsert_data = @jira_client.projects.map do |p|
+      projects_upsert_data = @jira_client.projects.map do |payload|
         {
-          payload: p,
-          jira_id: @jira_id,
-          jira_project_id: p.fetch("id"),
+          payload:,
+          origin_id: payload.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraProject.upsert_all(projects_upsert_data, unique_by: %i[jira_id jira_project_id])
+      Import::JiraProject.upsert_all(projects_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
   end
 end

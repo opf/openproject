@@ -28,11 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-ActiveSupport.on_load(:good_job_application_controller) do
-  include Accounts::CurrentUser
-
-  before_action do
-    user_setup
-    raise ActionController::RoutingError.new("Not Found") unless current_user.admin?
+# On development, the GoodJob dashboard is fully accessible.
+if OpenProject::Configuration.good_job_engine_basic_auth.present?
+  GoodJob::Engine.middleware.use(Rack::Auth::Basic) do |_, password|
+    ActiveSupport::SecurityUtils.secure_compare(OpenProject::Configuration.good_job_engine_basic_auth, password)
   end
 end

@@ -141,55 +141,56 @@ module Admin::Import::Jira::ImportRuns
                         concat(render(Primer::Beta::Text.new) { job.error.to_s })
                       end
 
-                      flex.with_row(style: "background-color: #F6F8FA;", p: 3, border: true, border_radius: 2) do
-                        full_backtrace = job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)
+                      full_backtrace = job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)
+                      if full_backtrace.present?
                         app_backtrace = Rails.backtrace_cleaner.clean(full_backtrace)
-
-                        render(Primer::Alpha::UnderlinePanels.new(label: "Test navigation")) do |component|
-                          component.with_tab(selected: true, id: "tab-1") do |tab|
-                            tab.with_text { "Application Trace" }
-                            tab.with_panel(p: 3) do
-                              flex_layout(style: "gap: 16px;") do |flex|
-                                flex.with_row do
-                                  app_backtrace.each_with_index do |item, index|
-                                    concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
-                                      render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
-                                        render(Primer::Beta::Text.new) { item }
-                                    end)
+                        flex.with_row(style: "background-color: #F6F8FA;", p: 3, border: true, border_radius: 2) do
+                          render(Primer::Alpha::UnderlinePanels.new(label: "Test navigation")) do |component|
+                            component.with_tab(selected: true, id: "tab-1") do |tab|
+                              tab.with_text { "Application Trace" }
+                              tab.with_panel(p: 3) do
+                                flex_layout(style: "gap: 16px;") do |flex|
+                                  flex.with_row do
+                                    app_backtrace.each_with_index do |item, index|
+                                      concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
+                                        render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
+                                          render(Primer::Beta::Text.new) { item }
+                                      end)
+                                    end
                                   end
-                                end
-                                flex.with_row do
-                                  render(
-                                    Primer::Beta::ClipboardCopyButton.new(
-                                      id: "clipboard-button1231231",
-                                      aria: { label: "Copy backtrace" },
-                                      value: app_backtrace.join("\n")
+                                  flex.with_row do
+                                    render(
+                                      Primer::Beta::ClipboardCopyButton.new(
+                                        id: "clipboard-button1231231",
+                                        aria: { label: "Copy backtrace" },
+                                        value: app_backtrace.join("\n")
+                                      )
                                     )
-                                  )
+                                  end
                                 end
                               end
                             end
-                          end
-                          component.with_tab(selected: false, id: "tab-2") do |tab|
-                            tab.with_text { "Full Trace" }
-                            tab.with_panel do
-                              flex_layout(style: "gap: 16px;") do |flex|
-                                flex.with_row do
-                                  full_backtrace.each_with_index do |item, index|
-                                    concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
-                                      render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
-                                        render(Primer::Beta::Text.new) { item }
-                                    end)
+                            component.with_tab(selected: false, id: "tab-2") do |tab|
+                              tab.with_text { "Full Trace" }
+                              tab.with_panel do
+                                flex_layout(style: "gap: 16px;") do |flex|
+                                  flex.with_row do
+                                    full_backtrace.each_with_index do |item, index|
+                                      concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
+                                        render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
+                                          render(Primer::Beta::Text.new) { item }
+                                      end)
+                                    end
                                   end
-                                end
-                                flex.with_row do
-                                  render(
-                                    Primer::Beta::ClipboardCopyButton.new(
-                                      id: "clipboard-button1231231",
-                                      aria: { label: "Copy backtrace" },
-                                      value: full_backtrace.join("\n")
+                                  flex.with_row do
+                                    render(
+                                      Primer::Beta::ClipboardCopyButton.new(
+                                        id: "clipboard-button1231231",
+                                        aria: { label: "Copy backtrace" },
+                                        value: full_backtrace.join("\n")
+                                      )
                                     )
-                                  )
+                                  end
                                 end
                               end
                             end

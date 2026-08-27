@@ -39,7 +39,7 @@ module Import
       user_keys, mention_usernames = collect_user_to_import(jira_import)
       resolve_mention_user_keys(mention_usernames, user_keys, jira_import.client)
       upsert_data = build_users_upsert_data(user_keys, jira_import)
-      Import::JiraUser.upsert_all(upsert_data, unique_by: %i[jira_id jira_user_key])
+      Import::JiraUser.upsert_all(upsert_data, unique_by: %i[jira_import_id origin_id])
     end
 
     private
@@ -146,9 +146,8 @@ module Import
       jira_user_by_key = jira_client.user_by_key(key: jira_user_key)
       {
         payload: jira_user_by_key,
-        jira_id: jira_import.jira_id,
         jira_import_id: jira_import.id,
-        jira_user_key:,
+        origin_id: jira_user_key,
         created_at:,
         updated_at:
       }

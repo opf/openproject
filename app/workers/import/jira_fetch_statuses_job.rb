@@ -47,14 +47,13 @@ module Import
       statuses_upsert_data = @jira_client.statuses.map do |status|
         {
           payload: status,
-          jira_id: @jira_id,
-          jira_status_id: status.fetch("id"),
+          origin_id: status.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraStatus.upsert_all(statuses_upsert_data, unique_by: %i[jira_id jira_status_id])
+      Import::JiraStatus.upsert_all(statuses_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
   end
 end

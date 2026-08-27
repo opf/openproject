@@ -35,7 +35,7 @@ module Import
 
       def collect_custom_field_attributes(custom_field_registry, jira_issue)
         custom_field_registry.each_with_object({}) do |entry, attrs|
-          field_key = entry[:jira_field].jira_field_id
+          field_key = entry[:jira_field].origin_id
           raw_value = jira_issue.payload["fields"][field_key]
           next if raw_value.blank?
 
@@ -49,7 +49,7 @@ module Import
 
       def custom_fields_for_issue(custom_field_registry, jira_issue)
         custom_field_registry.filter_map do |entry|
-          raw_value = jira_issue.payload["fields"][entry[:jira_field].jira_field_id]
+          raw_value = jira_issue.payload["fields"][entry[:jira_field].origin_id]
           next if raw_value.blank?
 
           find_context_for_issue(entry, jira_issue)&.dig(:custom_field)
@@ -64,7 +64,7 @@ module Import
         return [] if jira_field_ids.empty?
 
         Import::JiraField
-          .where(jira_id: @jira_id, jira_field_id: jira_field_ids)
+          .where(jira_import_id: @jira_import.id, origin_id: jira_field_ids)
           .flat_map { |jira_field| build_registry_entries_for_field(jira_field) }
       end
 
@@ -160,7 +160,7 @@ module Import
 
       def all_jira_import_project_ids
         @all_jira_import_project_ids ||= Import::JiraProject
-                                           .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
+                                           .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
                                            .pluck(:id)
       end
 
@@ -235,11 +235,11 @@ module Import
       end
 
       def issue_option_values(jira_field)
-        issue_field_values_index[:options][jira_field.jira_field_id].values
+        issue_field_values_index[:options][jira_field.origin_id].values
       end
 
       def issue_string_values(jira_field)
-        issue_field_values_index[:strings][jira_field.jira_field_id].to_a.sort
+        issue_field_values_index[:strings][jira_field.origin_id].to_a.sort
       end
 
       def issue_field_values_index
@@ -252,7 +252,7 @@ module Import
 
       def build_issue_field_values_index
         index = new_issue_field_values_index
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
+        Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
           scope = issue_context_scope(issue)
           used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
         end
@@ -332,7 +332,7 @@ module Import
         if existing_cf
           unless Import::JiraOpenProjectReference.exists?(op_entity_id: existing_cf.id,
                                                           op_entity_class: existing_cf.class.to_s,
-                                                          jira_id: @jira_id)
+                                                          jira_import_id: @jira_import.id)
             create_reference!(op_leg: existing_cf, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
           end
           return existing_cf

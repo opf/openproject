@@ -80,21 +80,20 @@ module Import
       end
     end
 
-    def each_iteration(issues_and_total, _jira_import_id, jira_project_id)
+    def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
       issues_and_total["total"]
-      issues_upsert_data = issues.map do |issue|
+      issues_upsert_data = issues.map do |payload|
         {
-          payload: issue,
-          jira_id: @jira_id,
-          jira_project_id: jira_project_id,
-          jira_issue_id: issue.fetch("id"),
-          jira_import_id: @jira_import.id,
+          payload:,
+          jira_project_id:,
+          origin_id: payload.fetch("id"),
+          jira_import_id:,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
+      Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
     # rubocop:enable Metrics/AbcSize
   end

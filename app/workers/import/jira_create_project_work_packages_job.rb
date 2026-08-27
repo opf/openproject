@@ -172,7 +172,7 @@ module Import
       end
 
       enable_type(project, type)
-      jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
+      jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
     end
@@ -193,7 +193,7 @@ module Import
         status = Status.create!(name: issue_status["name"])
         uses_existing = false
       end
-      jira_status = Import::JiraStatus.find_by!(jira_status_id: issue_status["id"], jira_id: @jira_id)
+      jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
     end
@@ -207,7 +207,7 @@ module Import
           priority = IssuePriority.create!(name: issue_priority["name"])
           uses_existing = false
         end
-        jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
+        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
         create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
         priority
       end
@@ -327,7 +327,7 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
+      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
       if jira_user
         ref = JiraOpenProjectReference.find_by(
           jira_entity_class: "Import::JiraUser",

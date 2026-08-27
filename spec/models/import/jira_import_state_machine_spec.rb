@@ -204,18 +204,16 @@ RSpec.describe Import::JiraImportStateMachine do
 
       expect { state_machine.transition_to!("importing") }.to change(GoodJob::BatchRecord, :count).by(1)
 
-      batch_id = jira_import.reload.import_batch_id
-      expect(batch_id).to be_present
-      expect(jira_import.last_transition.metadata).to include("batch_id" => batch_id, "user_id" => author.id)
+      expect(jira_import.last_transition.metadata).to include("batch_id" => GoodJob::BatchRecord.last.id,
+                                                              "user_id" => author.id)
     end
 
     it "retries the existing batch when transitioning to importing again" do
       transition_to_state("import_error")
-      batch_id = jira_import.reload.import_batch_id
+      batch_id = GoodJob::BatchRecord.last.id
 
       expect { state_machine.transition_to!("importing") }.not_to change(GoodJob::BatchRecord, :count)
 
-      expect(jira_import.reload.import_batch_id).to eq(batch_id)
       expect(jira_import.last_transition.metadata["batch_id"]).to eq(batch_id)
     end
 

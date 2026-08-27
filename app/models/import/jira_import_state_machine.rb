@@ -99,15 +99,21 @@ module Import
     end
 
     after_transition(to: :importing) do |jira_import, transition|
-      if jira_import.import_batch_id.nil?
+      last_importing_transition =
+        jira_import
+          .transitions
+          .where(to_state: "importing", most_recent: false)
+          .order(created_at: :desc)
+          .first
+
+      if last_importing_transition.nil?
         batch = GoodJob::Batch.enqueue(on_success: Import::JiraStagedImportJob,
                                        on_finish: Import::JiraStagedImportJob::FinishCallbackJob,
                                        on_discard: Import::JiraStagedImportJob::DiscardCallbackJob,
                                        jira_import_id: jira_import.id,
                                        stage: nil)
-        jira_import.update_column(:import_batch_id, batch.id)
       else
-        batch = GoodJob::Batch.find(jira_import.import_batch_id)
+        batch = last_importing_transition.actual_batch
         batch.retry
       end
       transition.metadata["batch_id"] = batch.id

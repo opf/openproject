@@ -30,9 +30,6 @@
 
 module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
-    include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
-
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       "Download work package attachments for '#{jira_project_name}'"
@@ -136,7 +133,7 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
+      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
       if jira_user
         ref = JiraOpenProjectReference.find_by(
           jira_entity_class: "Import::JiraUser",
