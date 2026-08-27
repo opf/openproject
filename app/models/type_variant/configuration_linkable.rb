@@ -191,6 +191,15 @@ class TypeVariant
         candidate
       end
 
+      # Look up which variants are reusing a certain aspect from the given variant_id
+      def dependents_of(variant_id, aspect)
+        where("#{validated_configuration_aspect(aspect)}_source_id": variant_id)
+          .joins(:type)
+          .preload(:type)
+          .order(Type.arel_table[:position].asc)
+          .in_display_order
+      end
+
       def validated_configuration_aspect(aspect)
         aspect.to_s.tap do |candidate|
           raise ArgumentError, "Unknown configuration aspect #{aspect.inspect}" unless TypeVariant::ASPECTS.include?(candidate)
@@ -251,6 +260,10 @@ class TypeVariant
 
     def source_for(aspect)
       public_send(:"#{self.class.validated_configuration_aspect(aspect)}_source")
+    end
+
+    def dependents_for(aspect)
+      self.class.dependents_of(id, aspect)
     end
 
     def link!(aspect, source:)

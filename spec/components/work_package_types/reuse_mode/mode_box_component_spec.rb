@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component, with_flag: { type_variants: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type) }
@@ -42,20 +42,17 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
   subject(:component) { described_class.new(variant:, aspect:) }
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "does not render" do
-      render_inline(component)
-
-      expect(page.text).to be_blank
-    end
-  end
-
   context "when the aspect is independent" do
     before { render_inline(component) }
 
     it "shows the independent state" do
       expect(page).to have_text("Independent mode")
       expect(page).to have_text("No settings are inherited")
+    end
+
+    it "keeps the neutral scheme" do
+      expect(page).to have_css(".color-bg-inset")
+      expect(page).to have_no_css(".color-bg-accent")
     end
 
     it "links the copy action to the copy dialog" do
@@ -90,6 +87,10 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       link_configuration(variant, source:, aspect:)
 
       render_inline(component)
+    end
+
+    it "marks the linked state with the info scheme" do
+      expect(page).to have_css(".color-bg-accent.color-border-accent")
     end
 
     it "shows the linked state with a link to the source variant" do

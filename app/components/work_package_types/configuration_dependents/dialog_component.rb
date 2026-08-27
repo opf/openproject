@@ -29,36 +29,27 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
+  module ConfigurationDependents
+    class DialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-      def initialize(variant:)
-        super(variant)
-      end
+      DIALOG_ID = "configuration-dependents-dialog"
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
+      def initialize(variant:, aspect:)
+        super()
+
+        @variant = variant
+        @aspect = aspect
       end
 
       private
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
+      attr_reader :variant, :aspect
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
-      end
+      def dependents = @dependents ||= variant.dependents_for(aspect)
+
+      def dependent_path(dependent) = helpers.aspect_edit_path(dependent, aspect)
     end
   end
 end

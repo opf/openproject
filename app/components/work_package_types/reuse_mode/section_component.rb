@@ -29,36 +29,23 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
+  module ReuseMode
+    # Renders the reuse mode and dependents inset boxes
+    class SectionComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:)
+      def initialize(variant:, aspect:)
+        @aspect = aspect
         super(variant)
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
-      end
+      def render? = OpenProject::FeatureDecisions.type_variants_active?
 
       private
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
+      attr_reader :aspect
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
-      end
+      def variant = model
     end
   end
 end

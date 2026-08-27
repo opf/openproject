@@ -29,36 +29,29 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  # "View dependents" on a type's configuration tabs: the read-only list of the variants that
+  # borrow the shown aspect from this one.
+  class ConfigurationDependentsController < BaseTabController
+    include TypeVariantsFeature
+    include OpTurbo::ComponentStream
 
-      def initialize(variant:)
-        super(variant)
-      end
+    before_action :require_type_variants_feature
+    before_action :require_valid_aspect
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
-      end
+    current_menu_item do
+      :types
+    end
 
-      private
+    def dialog
+      respond_with_dialog ConfigurationDependents::DialogComponent.new(variant: @variant, aspect:)
+    end
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
+    private
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
-      end
+    def aspect = params[:aspect]
+
+    def require_valid_aspect
+      render_404 unless TypeVariant::ASPECTS.include?(aspect)
     end
   end
 end

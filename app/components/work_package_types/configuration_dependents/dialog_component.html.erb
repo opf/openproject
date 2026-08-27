@@ -27,19 +27,30 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
-
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
 <%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("types.edit.reuse_mode.dependents.dialog.title"),
+        size: :medium_portrait
       )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
 
-  <%= render WorkPackageTypes::ExportConfigurationComponent.new(
-        @variant,
-        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
-      ) %>
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("types.edit.reuse_mode.dependents.dialog.description") } %>
+
+    <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "dependents", padding: :condensed, test_selector: "dependents-list")) do |list| %>
+      <% dependents.each do |dependent| %>
+        <% list.with_item do %>
+          <%= render(Primer::Beta::Link.new(href: dependent_path(dependent), data: { turbo_frame: "_top" })) do %>
+            <%= dependent.composite_name %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_close) } %>
+  <% end %>
 <% end %>

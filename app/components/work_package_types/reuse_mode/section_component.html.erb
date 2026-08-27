@@ -27,19 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<%=
+  flex_layout(mb: 3, align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |section|
+    section.with_box(flex: 1) do
+      render(WorkPackageTypes::ReuseMode::ModeBoxComponent.new(variant:, aspect:))
+    end
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
-
-<%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
-      )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
-
-  <%= render WorkPackageTypes::ExportConfigurationComponent.new(
-        @variant,
-        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
-      ) %>
-<% end %>
+    section.with_box(flex: 1) do
+      render(WorkPackageTypes::ReuseMode::DependentsBoxComponent.new(variant:, aspect:))
+    end
+  end
+%>

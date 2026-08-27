@@ -6585,6 +6585,20 @@ en:
             title: "Copy configuration"
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
           success: "The configuration was copied."
+        dependents:
+          blank:
+            description: "No other type or variant inherits from this configuration"
+            title: "No dependents"
+          description:
+            one: "The following configuration is inherited by 1 other dependent type or variant. Any changes you make here will also change the dependent."
+            other: "The following configuration is inherited by %{count} other dependent types or variants. Any changes you make here will also change the dependents."
+          dialog:
+            description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
+            title: "Dependents"
+          title:
+            one: "1 dependent"
+            other: "%{count} dependents"
+          view: "View dependents"
         exclusions:
           not_linked: "This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'

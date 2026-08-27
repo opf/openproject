@@ -29,35 +29,45 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
+  module ReuseMode
+    class DependentsBoxComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:)
+      def initialize(variant:, aspect:)
+        @aspect = aspect
         super(variant)
-      end
-
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
       end
 
       private
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
+      attr_reader :aspect
+
+      def variant = model
+
+      def dependents_count
+        @dependents_count ||= variant.dependents_for(aspect).count
       end
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
+      def any_dependents? = dependents_count.positive?
+
+      def scheme = any_dependents? ? :warning : :default
+
+      def icon = any_dependents? ? :alert : :"git-branch"
+
+      def title
+        return t("types.edit.reuse_mode.dependents.blank.title") unless any_dependents?
+
+        t("types.edit.reuse_mode.dependents.title", count: dependents_count)
+      end
+
+      def description
+        return t("types.edit.reuse_mode.dependents.blank.description") unless any_dependents?
+
+        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
+      end
+
+      def dialog_path
+        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
       end
     end
   end

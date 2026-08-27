@@ -27,38 +27,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require "rails_helper"
 
-module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component, with_flag: { type_variants: true } do
+  shared_let(:type) { create(:type, name: "Task") }
+  shared_let(:variant) { type.default_variant }
 
-      def initialize(variant:)
-        super(variant)
-      end
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
-      end
+  subject(:component) { described_class.new(variant:, aspect:) }
 
-      private
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
+    it "does not render" do
+      render_inline(component)
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
-      end
+      expect(page.text).to be_blank
+    end
+  end
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
-      end
+  context "with the feature enabled" do
+    before { render_inline(component) }
+
+    it "shows the reuse mode and the dependents side by side" do
+      expect(page).to have_text("Independent mode")
+      expect(page).to have_text("No dependents")
+    end
+
+    it "gives both boxes half of the row" do
+      expect(page).to have_css(".d-flex.flex-column.flex-md-row.gap-3")
+      expect(page).to have_css(".flex-1", count: 2)
     end
   end
 end

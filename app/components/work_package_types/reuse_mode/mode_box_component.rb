@@ -29,35 +29,52 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class ProjectAttributesStepComponent < ApplicationComponent
+  module ReuseMode
+    class ModeBoxComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:)
+      def initialize(variant:, aspect:)
+        @aspect = aspect
         super(variant)
-      end
-
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
       end
 
       private
 
-      def project_custom_field_sections
-        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
+      attr_reader :aspect
+
+      def variant = model
+
+      def linked? = variant.linked?(aspect)
+
+      def source = variant.source_for(aspect)
+
+      def source_is_default? = source.present? && source == variant.type.default_variant
+
+      def source_path = helpers.aspect_edit_path(source, aspect)
+
+      def copy_supported? = CopyConfiguration.supported?(aspect)
+
+      def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
+
+      def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
+
+      def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
+
+      def dialog_path_args = variant.path_args.merge(aspect:)
+
+      def linked_description
+        helpers.link_translate(
+          "types.edit.reuse_mode.linked.description",
+          i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
+          links: { source_url: source_path },
+          external: false,
+          # This is being rendered in a frame, so we need to break out of it here.
+          data: { turbo_frame: "_top" }
+        )
       end
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
+      def parent_suffix
+        source_is_default? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
       end
     end
   end
