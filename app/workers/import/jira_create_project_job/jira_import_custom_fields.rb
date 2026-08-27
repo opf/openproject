@@ -252,7 +252,10 @@ module Import
 
       def build_issue_field_values_index
         index = new_issue_field_values_index
-        Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
+        Import::JiraIssue
+          .where(jira_import_id: @jira_import.id,
+                 jira_project_id: all_jira_import_project_ids)
+          .find_each do |issue|
           scope = issue_context_scope(issue)
           used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
         end

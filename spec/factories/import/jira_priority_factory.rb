@@ -30,6 +30,6 @@
 
 FactoryBot.define do
   factory :jira_priority, class: "Import::JiraPriority" do
-    sequence(:origin_id) { |n| "#{n}" }
+    sequence(:origin_id, &:to_s)
   end
 end

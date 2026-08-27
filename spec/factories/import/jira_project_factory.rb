@@ -30,6 +30,6 @@
 
 FactoryBot.define do
   factory :jira_project, class: "Import::JiraProject" do
-    sequence(:origin_id) { |n| "#{10000 + n}" }
+    sequence(:origin_id) { |n| (10000 + n).to_s }
   end
 end

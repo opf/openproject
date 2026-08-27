@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class RefactorJiraImports < ActiveRecord::Migration[8.1]
+  # rubocop:disable Metrics/AbcSize
   def change
     reversible do |dir|
       dir.up do
-        connection.execute <<~SQL
+        connection.execute <<~SQL.squish
           TRUNCATE TABLE
             jira_issues,
             jira_projects,
@@ -20,8 +21,6 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
             jira_project_types
           RESTART IDENTITY
         SQL
-      end
-      dir.down do
       end
     end
 
@@ -130,4 +129,5 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
       t.timestamps
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end
