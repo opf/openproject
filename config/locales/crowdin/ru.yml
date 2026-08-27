@@ -76,6 +76,13 @@ ru:
         dependencies: Связи
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Отобразить до
       attachment:
@@ -983,6 +990,11 @@ ru:
         few: Actions
         many: Actions
         other: Действия
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
       announcement:
         one: Объявление
         few: Announcements
@@ -5539,13 +5551,34 @@ ru:
           enable_type_in_project: Разрешить тип «%{type}»
         no_results_title_text: На данный момент доступных типов нет.
         remove_from_project: Удалить из проекта
-        switch_dialog:
-          apply: Применить
-          description: Выберите другой вариант данного типа для использования в этом проекте.
-          success: Проект теперь использует %{type}.
-          target_label: Вариант
-          title: "%{type}: Переключить вариант"
-          warning: При переключении вариантов вы можете потерять информацию, связанную с пользовательскими полями, которые могут отсутствовать в новой.
+        switch:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         switch_type: Переключить вариант
         type_not_found: Выбранный тип не найден.
         variant_prefix: 'Вариант:'

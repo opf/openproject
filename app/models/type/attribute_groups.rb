@@ -195,7 +195,9 @@ module Type::AttributeGroups
   # Custom fields should not get included into the default form configuration.
   # This method might get patched by modules.
   def default_attribute?(active_cfs, key)
-    !(CustomField.custom_field_attribute?(key) && !active_cfs.include?(key))
+    return false if key == "observed_in_versions"
+
+    !(CustomField.custom_field_attribute?(key) && active_cfs.exclude?(key))
   end
 
   def to_attribute_group_class(groups)

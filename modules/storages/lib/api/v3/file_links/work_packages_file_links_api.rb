@@ -76,6 +76,7 @@ module API
 
             FileLinkCollectionRepresenter.new(
               relation,
+              page: params[:offset],
               per_page: params[:pageSize],
               self_link: api_v3_paths.file_links(@work_package.id),
               current_user:

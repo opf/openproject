@@ -168,7 +168,7 @@ gem "meta-tags", "~> 2.23.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.1.0"
+gem "statesman", "~> 13.3.0"
 
 gem "job-iteration"
 
@@ -237,7 +237,7 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.12.0"
@@ -299,7 +299,7 @@ group :test do
   gem "cuprite", "~> 0.17.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.38"
+  gem "selenium-webdriver", "~> 4.47"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -414,7 +414,7 @@ gem "activerecord-nulldb-adapter", "~> 1.2.2"
 
 # Have application level locks on the database to have a mutex shared between workers/hosts.
 # We e.g. employ this to safeguard the creation of journals.
-gem "with_advisory_lock", "~> 7.5.0"
+gem "with_advisory_lock", "~> 7.6.0"
 
 # Load Gemfile.modules explicitly to allow dependabot to work
 eval_gemfile "./Gemfile.modules"

@@ -76,6 +76,13 @@ uk:
         dependencies: Залежності
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Показувати до
       attachment:
@@ -987,6 +994,11 @@ uk:
         few: Actions
         many: Actions
         other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
       announcement:
         one: Announcement
         few: Announcements
@@ -1268,20 +1280,20 @@ uk:
         many: Project phases
         other: Project phases
       project/phase_definition:
-        one: Project phase definition
+        one: Визначення етапу проєкту
         few: Project phase definitions
         many: Project phase definitions
         other: Project phase definitions
       project_custom_field:
-        one: Project attribute
-        few: Project attributes
-        many: Project attributes
-        other: Project attributes
+        one: Атрибут проєкту
+        few: Атрибути проєкту
+        many: Атрибути проєкту
+        other: Атрибути проєкту
       project_custom_field_section:
-        one: Project attribute section
-        few: Project attribute sections
-        many: Project attribute sections
-        other: Project attribute sections
+        one: Розділ з атрибутами проєкту
+        few: Розділи з атрибутами проєкту
+        many: Розділи з атрибутами проєкту
+        other: Розділи з атрибутами проєкту
       project_query:
         one: Список проєктів
         few: Списки проєктів
@@ -1293,40 +1305,40 @@ uk:
         many: Project list roles
         other: Project list roles
       project_role:
-        one: Project role
-        few: Project roles
-        many: Project roles
-        other: Project roles
+        one: Роль у проєкті
+        few: Ролі в проєкті
+        many: Ролі в проєкті
+        other: Ролі в проєкті
       query:
-        one: Custom query
-        few: Custom queries
-        many: Custom queries
-        other: Custom queries
+        one: Користувацький запит
+        few: Користувацькі запити
+        many: Користувацькі запити
+        other: Користувацькі запити
       relation:
-        one: Relation
-        few: Relations
-        many: Relations
-        other: Relations
+        one: Зв’язок
+        few: Звʼязки
+        many: Звʼязки
+        other: Звʼязки
       reminder:
-        one: Reminder
-        few: Reminders
-        many: Reminders
-        other: Reminders
+        one: Нагадування
+        few: Нагадування
+        many: Нагадування
+        other: Нагадування
       remote_identity:
-        one: Remote identity
-        few: Remote identities
-        many: Remote identities
-        other: Remote identities
+        one: Віддалена ідентичність
+        few: Віддалені ідентичності
+        many: Віддалені ідентичності
+        other: Віддалені ідентичності
       repository:
-        one: Repository
-        few: Repositories
-        many: Repositories
-        other: Repositories
+        one: Репозиторій
+        few: Репозиторії
+        many: Репозиторії
+        other: Репозиторії
       repository/git:
-        one: Git repository
-        few: Git repositories
-        many: Git repositories
-        other: Git repositories
+        one: Репозиторій Git
+        few: Репозиторії Git
+        many: Репозиторії Git
+        other: Репозиторії Git
       repository/subversion:
         one: Subversion repository
         few: Subversion repositories
@@ -5545,13 +5557,34 @@ uk:
           enable_type_in_project: Дозволити тип «%{type}»?
         no_results_title_text: Наразі немає доступних типів.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'

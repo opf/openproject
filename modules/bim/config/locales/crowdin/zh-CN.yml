@@ -7,10 +7,10 @@ zh-CN:
         bim_snippet: BIM 片段
         reference_links: 参考链接
         stage: 阶段
-        status_id: Status
+        status_id: 状态
         viewpoint: 视点
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: 状态
       bim/ifc_models/ifc_model:
         attachments: IFC 文件
         ifc_attachment: IFC 文件

@@ -23,24 +23,33 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Admin
-    module WikiProvidersHelper
-      # TODO: temp helper — unblocks work until a proper per-user connection status
-      # is tracked and surfaced via a dedicated component.
-      def current_user_xwiki_token_missing?(wiki_provider)
-        oauth_client = wiki_provider.oauth_client
-        return false if oauth_client.nil?
+module Projects
+  module Settings
+    module WorkPackages
+      module Types
+        # Everything the switch asks for and reports, with no container of its
+        # own: the dialog wraps this in Dialog::Body, and a settings page could
+        # wrap the same component in page chrome instead.
+        class SwitchFieldsComponent < ApplicationComponent
+          include OpPrimer::ComponentHelpers
 
-        token = OAuthClientToken.find_by(user: current_user, oauth_client:)
-        return true if token.nil?
+          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
+          # in force, which has nothing to report.
+          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
+            super()
 
-        token.expires_in.present? && token.updated_at + token.expires_in.seconds < Time.current
+            @form = form
+            @targets = targets
+            @selected = selected
+            @validation_message = validation_message
+            @impact = impact
+          end
+        end
       end
     end
   end

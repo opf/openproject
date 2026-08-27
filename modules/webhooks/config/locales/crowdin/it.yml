@@ -15,11 +15,11 @@ it:
         url: URL Payload
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Log del webhook
+        other: Log del webhook
       webhooks/webhook:
         one: Webhook
-        other: Webhooks
+        other: Webhook
   plugin_openproject_webhooks:
     description: Fornisce un'API plug-in per supportare i webhook OpenProject per una migliore integrazione di terze parti.
     name: Webhook OpenProject

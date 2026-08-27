@@ -247,7 +247,7 @@ module WorkPackageTypes
       )
       refresh_projects
       render_success_flash_message_via_turbo_stream(
-        message: I18n.t("projects.settings.types.switch_dialog.success", type: target.composite_name)
+        message: I18n.t("projects.settings.types.switch.success", type: target.composite_name)
       )
     end
 

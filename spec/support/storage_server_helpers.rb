@@ -34,7 +34,7 @@ module StorageServerHelpers
                                         response_headers: nil,
                                         response_body: nil,
                                         timeout: false,
-                                        response_nextcloud_major_version: 22)
+                                        response_nextcloud_major_version: NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION)
     response_code ||= 200
     response_headers ||= {
       "Content-Type" => "application/json; charset=utf-8"

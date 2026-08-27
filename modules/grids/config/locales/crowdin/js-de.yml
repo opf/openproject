@@ -34,7 +34,7 @@ de:
           title: Status
         project_timeline:
           accessible_date_range: "%{start} bis %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_gate: 'Phase Gate %{name}: %{date}'
           accessible_phase: 'Phase %{name}: %{date}'
           tooltip_type_gate: Phasen Gates
           tooltip_type_milestone: Meilenstein

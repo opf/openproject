@@ -76,6 +76,13 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: نمایش تا
       attachment:
@@ -973,6 +980,9 @@ fa:
       action:
         one: اقدام
         other: اقدام‌ها
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
       announcement:
         one: اعلان
         other: اعلان‌ها
@@ -5226,13 +5236,28 @@ fa:
           enable_type_in_project: فعال‌کردن نوع «%{type}»
         no_results_title_text: در حال حاضر هیچ نوعی در دسترس نیست.
         remove_from_project: حذف از پروژه
-        switch_dialog:
-          apply: اعمال
-          description: گونه متفاوتی از این نوع را برای استفاده در این پروژه انتخاب کنید.
-          success: پروژه اکنون از %{type} استفاده می‌کند.
-          target_label: گونه
-          title: "%{type}: تغییر گونه"
-          warning: اگر گونه را تغییر دهید، ممکن است اطلاعات مرتبط با فیلدهای سفارشی‌ای که در گونه جدید وجود ندارند از دست بروند.
+        switch:
+          apply: Apply
+          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         switch_type: تغییر گونه
         type_not_found: نوع انتخاب‌شده یافت نشد.
         variant_prefix: 'گونه:'

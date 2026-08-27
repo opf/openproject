@@ -24,15 +24,15 @@ ko:
   activerecord:
     models:
       deploy_status_check:
-        other: Deployment status checks
+        other: 배포 상태 확인
       deploy_target:
-        other: Deployment targets
+        other: 배포 대상
       github_check_run:
-        other: GitHub check runs
+        other: GitHub 검사 실행
       github_pull_request:
-        other: GitHub pull requests
+        other: GitHub 끌어오기 요청
       github_user:
-        other: GitHub users
+        other: GitHub 사용자
   attributes:
     additions_count: 추가 항목 수
     changed_files_count: 파일 변경

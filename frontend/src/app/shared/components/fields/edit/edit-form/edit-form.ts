@@ -44,6 +44,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -294,48 +295,68 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    */
   protected loadFieldSchema(fieldName:string, noWarnings = false):Promise<IFieldSchema> {
-    return new Promise((resolve, reject) => {
-      this.loadFormAndCheck(fieldName, noWarnings);
-      const fieldSchema:IFieldSchema = this.change.schema.ofProperty(fieldName);
-
+    return this.getFormFieldSchema(fieldName).then((fieldSchema) => {
       if (!fieldSchema) {
+        this.closeEditFields([fieldName]);
+
         throw new Error();
       }
 
-      resolve(fieldSchema);
+      if (!fieldSchema.writable && !noWarnings) {
+        this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
+        this.closeEditFields([fieldName]);
+      }
+
+      return fieldSchema;
     });
   }
 
   /**
-   * Ensure the form gets loaded and we show an error when the field cannot be opened
+   * Load the form and return the field schema, reloading the form once if the schema is
+   * not present in the cached version (e.g. after a type change).
+   * Returns null if the schema is still absent after a forced reload.
    * @param fieldName
-   * @param noWarnings
    */
-  private loadFormAndCheck(fieldName:string, noWarnings = false) {
-    // Ensure the form is being loaded if necessary
-    this.change
-      .getForm()
-      .then(() => {
-        // Look up whether we're actually editable
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const fieldSchema = this.change.schema.ofProperty(fieldName);
+  private getFormFieldSchema(fieldName:string):Promise<IFieldSchema|null> {
+    // Sync fast path: whatever schema the changeset currently exposes (form-derived if
+    // loaded, otherwise the pristine resource's cached schema) usually contains the
+    // field. Returning it synchronously lets the field activate without waiting on the
+    // form request — required by Capybara specs whose activate! check has a tight
+    // timeout, and by tests that intentionally disable AJAX before activating a field.
+    const cachedSchema = (this.change.schema as ISchemaProxy).ofProperty(fieldName);
+    if (cachedSchema) {
+      // Still kick off the form load (or piggy-back on an in-flight one) so the form's
+      // defaults, allowed values, and projected payload are populated for subsequent
+      // edits/submissions. We don't await it, but we do surface any error (e.g. a 409
+      // lock-version conflict when the resource was modified elsewhere) through the
+      // same notification path the awaited code-path uses — otherwise the user would
+      // open the editor without ever being told their copy is stale.
+      this.change.getForm().catch((error:unknown) => {
+        console.error('Background form load failed for %s: %o', fieldName, error);
+        this.halNotification.handleRawError(error, this.resource);
+      });
+      return Promise.resolve(cachedSchema);
+    }
 
-        // If the type changed while we tried to activate the form
-        // silently close the field as it will no longer be writable
-        if (!fieldSchema) {
-          this.closeEditFields([fieldName]);
-          return;
+    // Cached schema doesn't know about this field. Either the form hasn't been loaded
+    // at all, or the cached form is stale (e.g. the work package type was just changed
+    // and the new type's custom fields aren't in the cached form yet). Load the form,
+    // then retry; if still missing, force a full reload once.
+    return this.change.getForm()
+      .then(():Promise<IFieldSchema|null> => {
+        const fieldSchema:IFieldSchema|null = (this.change.schema as ISchemaProxy).ofProperty(fieldName);
+        if (fieldSchema) {
+          return Promise.resolve(fieldSchema);
         }
 
-        if (!fieldSchema.writable && !noWarnings) {
-          this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
-          this.closeEditFields([fieldName]);
-        }
+        return this.change.getForm(true).then(
+          ():IFieldSchema|null => (this.change.schema as ISchemaProxy).ofProperty(fieldName),
+        );
       })
-      .catch((error:any) => {
+      .catch((error:unknown) => {
         console.error('Failed to build edit field: %o', error);
         this.halNotification.handleRawError(error, this.resource);
-        this.closeEditFields([fieldName]);
+        return null;
       });
   }
 

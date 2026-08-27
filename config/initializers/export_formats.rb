@@ -54,6 +54,7 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
       formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
+      formatter WorkPackage, WorkPackage::Exports::Formatters::ObservedInVersions
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::TypedAttribute
 
       list Project, Projects::Exports::CSV

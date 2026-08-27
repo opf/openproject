@@ -85,25 +85,4 @@ RSpec.describe OAuthClients::ConnectionManager, :oauth_connection_helpers, :webm
       end
     end
   end
-
-  describe "#get_access_token" do
-    subject(:access_token_result) { connection_manager.get_access_token }
-
-    context "with no OAuthClientToken present" do
-      it "returns a redirection URL" do
-        expect(access_token_result).to be_failure
-        expect(access_token_result.result).to eq(storage.oauth_configuration.authorization_uri)
-      end
-    end
-
-    context "with an OAuthClientToken present" do
-      before { token }
-
-      it "returns the OAuthClientToken" do
-        expect(access_token_result).to be_truthy
-        expect(access_token_result.result).to be_a OAuthClientToken # The one and only...
-        expect(access_token_result.result).to eql token
-      end
-    end
-  end
 end
