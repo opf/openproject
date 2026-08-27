@@ -3402,6 +3402,7 @@ en:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
+  label_backtrace: "Backtrace"
   label_backup: "Backup"
   label_basic_details: "Basic details"
   label_between: "between"
