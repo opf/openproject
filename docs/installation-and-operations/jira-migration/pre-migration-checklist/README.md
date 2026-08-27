@@ -25,6 +25,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Watchers (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180))
 - [ ] Sub-tasks and parent/child hierarchy (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75))
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
+- [ ] Labels (planned: [JIM-109](https://community.openproject.org/projects/JIM/work_packages/JIM-109))
 - [ ] Logged work / time entries (only the *estimated* and *remaining* hours fields come across — actual time logged does not) (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93))
 - [ ] Votes
 - [ ] Resolution and Resolution date (planned as custom field: [JIM-149](https://community.openproject.org/projects/JIM/work_packages/JIM-149); broader native support: [FND-231](https://community.openproject.org/projects/FND/work_packages/FND-231))
@@ -50,7 +51,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153))
 - [ ] Permission schemes / roles (planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97))
 - [ ] Agile boards (Scrum/Kanban setup, filters, swimlanes) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106))
-- [ ] Anything in Confluence
+- [ ] Integration with Confluence
 - [ ] Any Marketplace app data (e.g. Tempo time tracking, Xray/Zephyr test management, Structure hierarchies) — the migrator only handles core Jira issue/project/user data and the specific custom field types listed above. Inventory which apps your teams actually depend on and decide separately how to handle each one's data.
 
 For anything on this list your teams actually rely on, decide now how you'll handle it — export it separately, accept the loss, or plan to recreate it manually after migration (see the [Post-Migration checklist](../post-migration-checklist/) for what that looks like). Don't discover this after the fact.
