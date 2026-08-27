@@ -82,6 +82,7 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
       t.remove_index %i[jira_id jira_field_id], unique: true
       t.remove_references :jira, foreign_key: { on_delete: :cascade, on_update: :cascade }
       t.rename :jira_field_id, :origin_id
+      t.jsonb :issue_values
       t.index %i[jira_import_id origin_id], unique: true
       t.change_null :origin_id, false
       t.change_null :jira_import_id, false
