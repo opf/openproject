@@ -48,6 +48,8 @@ module Admin::Import::Jira::ImportRuns
       end
     end
 
+    delegate :created_at, to: :model
+
     def metadata
       render(Primer::OpenProject::FlexLayout.new) do |component|
         component.with_row(p: 1) { model.created_at.to_s }
@@ -93,8 +95,17 @@ module Admin::Import::Jira::ImportRuns
       if (error = model.metadata["error"])
         component.with_row(bg: :danger, p: 1) { error }
       end
-      if (error_backtrace = model.metadata["error_backtrace"])
-        component.with_row(bg: :danger, p: 2) { error_backtrace.inspect }
+      if error_backtrace = model.metadata["error_backtrace"]
+        component.with_row(bg: :danger, p: 2) do
+          render(OpPrimer::ExpandableTextComponent.new(expansion: :dialog)) do |component|
+            component.with_dialog(title: t(:label_backtrace), size: :xlarge) do |dialog|
+              dialog.with_header(variant: :large)
+              dialog.with_body_content(error_backtrace.inspect)
+            end
+
+            error_backtrace.inspect
+          end
+        end
       end
     end
   end

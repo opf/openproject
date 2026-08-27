@@ -49,6 +49,7 @@ module Admin::Import::Jira::ImportRuns
     def headers
       [
         [:from_to, { caption: "From To" }],
+        [:created_at, { caption: Attachment.human_attribute_name(:created_at) }],
         [:metadata, { caption: "Metadata" }]
       ]
     end

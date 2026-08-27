@@ -62,6 +62,10 @@ module OAuthClients
       end
     end
 
+    def connected?(oauth_client:)
+      OAuthClientToken.exists?(user:, oauth_client:)
+    end
+
     private
 
     def refresh(token)

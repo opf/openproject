@@ -42,8 +42,9 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
 
   before do
     allow(wiki_provider).to receive(:oauth_client).and_return(oauth_client)
-    allow(OAuthClientToken).to receive(:for_user_and_client).with(user, oauth_client)
-      .and_return(instance_double(ActiveRecord::Relation, first: instance_double(OAuthClientToken, access_token: "some-token")))
+    allow(OAuthClientToken).to receive(:find_by)
+      .with(user:, oauth_client:)
+      .and_return(instance_double(OAuthClientToken, access_token: "some-token", expires_in: nil))
   end
 
   it "is registered" do
