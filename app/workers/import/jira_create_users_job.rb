@@ -129,7 +129,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
-      unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.jira_user_key)
+      unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.origin_id)
       if reusable_user
         create_reference!(
           op_leg: reusable_user,
