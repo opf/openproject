@@ -6,9 +6,8 @@ import { mockWorkPackage } from '../../../mocks/handlers';
 
 // Container narrow enough that the meta cluster (#ID TYPE [STATUS]) cannot sit on a single
 // line, but wide enough for the widest single part. The ID and the status pill are
-// `white-space: nowrap`, so the only way to avoid horizontal overflow is to wrap *between*
-// parts. Before the fix the parts had no soft-wrap opportunity between them and the cluster
-// overflowed; now a zero-width space between parts lets it wrap. The S chip has the extra
+// `white-space: nowrap`, so the cluster can only stay inside the container by wrapping
+// *between* parts, at the zero-width space that separates them. The S chip has the extra
 // (wide) status pill, so it needs more room for its widest single part than the XS chip does.
 const S_NARROW_WIDTH = '110px';
 const XS_NARROW_WIDTH = '80px';
