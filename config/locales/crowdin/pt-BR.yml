@@ -3025,6 +3025,7 @@ pt-BR:
   label_available_project_work_package_categories: Categorias de pacote de trabalho disponíveis
   label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
   label_available_projects: Projetos disponíveis
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Código de backup
   label_basic_details: Detalhes básicos

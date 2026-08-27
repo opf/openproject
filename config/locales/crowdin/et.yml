@@ -3025,6 +3025,7 @@ et:
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Varukoopia
   label_backup_code: Varukoopia kood
   label_basic_details: Põhiandmed

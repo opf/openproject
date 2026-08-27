@@ -3023,6 +3023,7 @@ ca:
   label_available_project_work_package_categories: Categories de paquet de treball disponibles
   label_available_project_work_package_types: Classes de paquet de treball disponibles
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Còpia de seguretat
   label_backup_code: Codi de còpia de seguretat
   label_basic_details: Basic details

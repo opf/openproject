@@ -3021,6 +3021,7 @@ fa:
   label_available_project_work_package_categories: دسته‌بندی‌های بسته کاری موجود
   label_available_project_work_package_types: نوع‌های بسته کاری موجود
   label_available_projects: پروژه‌های موجود
+  label_backtrace: Backtrace
   label_backup: پشتیبان‌گیری
   label_backup_code: کد پشتیبان
   label_basic_details: جزئیات پایه

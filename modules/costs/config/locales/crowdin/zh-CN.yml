@@ -171,7 +171,7 @@ zh-CN:
   description_costs_settings: 定义所有项目成本的理想格式。
   description_date_for_new_rate: 新费率的日期
   description_time_entry_restrictions: 定义用户记录时间时使用的限值。这适用于所有项目。
-  description_time_settings: 时间条目可以具有特定的开始和结束时间，它们可以是可选项，也可以是必填项。
+  description_time_settings: 时间条目可以具有特定的开始和结束时间，可以是可选项，也可以是必选项。
   ee:
     features:
       time_entry_time_restrictions: 时间条目限制
@@ -285,7 +285,7 @@ zh-CN:
   setting_time_entries_max_hours_per_entry: 每个时间条目的最大小时数
   setting_time_entries_max_hours_per_entry_caption: 限制单个时间条目的小时数。值为 0 表示没有限制。
   setting_time_entries_past_month_grace_days: 过去几个月的宽限期
-  setting_time_entries_past_month_grace_days_caption: 定义在新的月份开始时用户具有的天数，以记录过去一个月的时间条目。值为 5 表示用户记录上个月到本月 5 号的时间。值为 0 表示完全没有宽限期。
+  setting_time_entries_past_month_grace_days_caption: 定义在新的月份开始时用户具有的天数，以记录过去一个月的时间条目。值为 5 表示用户记录上个月到本月 5 日的时间。值为 0 表示完全没有宽限期。
   setting_time_entries_prohibit_logging_for_past_months: 不允许对过去几个月进行记录
   setting_time_entries_prohibit_logging_for_past_months_caption: 将时间条目的添加、更改和删除限制在当月范围内。过去几个月记录的时间将无法再进行修改。
   setting_time_entries_prohibit_logging_on_non_working_days: 不允许在非工作日记录时间

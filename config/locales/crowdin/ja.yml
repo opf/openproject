@@ -2973,6 +2973,7 @@ ja:
   label_available_project_work_package_categories: 有効なワークパッケージのカテゴリ
   label_available_project_work_package_types: 利用可能なワークパッケージのタイプ
   label_available_projects: 利用可能なプロジェクト
+  label_backtrace: Backtrace
   label_backup: バックアップ
   label_backup_code: バックアップコード
   label_basic_details: 基本的な詳細

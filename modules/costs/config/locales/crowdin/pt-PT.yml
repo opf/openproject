@@ -101,7 +101,7 @@ pt-PT:
       cost_type:
         one: Tipo de custo
         other: Tipos de custos
-      rate: Taxa
+      rate: Tarifa
       time_entry:
         one: Entrada de hora
         other: Entradas de hora
@@ -123,7 +123,7 @@ pt-PT:
     valid_from: Válido desde
   button_add_activity: Atividade
   button_add_rate: Adicionar Taxa
-  button_add_time_entry: Tempo de registro
+  button_add_time_entry: Hora de registo
   button_log_costs: Registar custos unitários
   button_log_time: Registo
   button_stop_timer: Parar temporizador
@@ -227,7 +227,7 @@ pt-PT:
   label_previous_month: Mês anterior
   label_previous_week: Semana passada
   label_previous_workweek: Semana de trabalho anterior
-  label_rate: Taxa
+  label_rate: Tarifa
   label_rate_plural: Taxas
   label_show: Mostrar
   label_specific_day: Dia %{day}

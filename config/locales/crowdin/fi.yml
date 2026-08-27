@@ -3023,6 +3023,7 @@ fi:
   label_available_project_work_package_categories: Olemassa olevat tehtäväluokat
   label_available_project_work_package_types: Olemassa olevat tehtävätyypit
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Palautuskoodi
   label_basic_details: Basic details

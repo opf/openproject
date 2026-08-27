@@ -2981,6 +2981,7 @@ ms:
   label_available_project_work_package_categories: Kategori pakej kerja yang tersedia
   label_available_project_work_package_types: Jenis pakej kerja yang tersedia
   label_available_projects: Projek yang tersedia
+  label_backtrace: Backtrace
   label_backup: Sandaran
   label_backup_code: Kod sandaran
   label_basic_details: Butiran asas

@@ -3025,6 +3025,7 @@
   label_available_project_work_package_categories: Tilgjengelige arbeidspakkekategorier
   label_available_project_work_package_types: Tilgjengelige arbeidspakketyper
   label_available_projects: Tilgjengelige prosjekter
+  label_backtrace: Backtrace
   label_backup: Sikkerhetskopi
   label_backup_code: Sikkerhetskopieringskode
   label_basic_details: Basic details

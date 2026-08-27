@@ -3025,6 +3025,7 @@ da:
   label_available_project_work_package_categories: Tilgængelige arbejdspakkekategorier
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Backup code
   label_basic_details: Basic details

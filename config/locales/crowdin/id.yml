@@ -2978,6 +2978,7 @@ id:
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Jenis paket pekerjaan yang tersedia
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Cadangan
   label_backup_code: Kode cadangan
   label_basic_details: Basic details

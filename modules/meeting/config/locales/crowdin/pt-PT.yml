@@ -100,7 +100,7 @@ pt-PT:
     models:
       meeting: Reunião única
       meeting_agenda: Agenda
-      meeting_agenda_item: Pontos da ordem de trabalhos
+      meeting_agenda_item: Ponto da ordem de trabalhos
       meeting_section: Secção
       recurring_meeting: Reunião recorrente
       token/ical_meeting:

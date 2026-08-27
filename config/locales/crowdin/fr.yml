@@ -3025,6 +3025,7 @@ fr:
   label_available_project_work_package_categories: Catégories de lots de travaux disponibles
   label_available_project_work_package_types: Types de lot de travaux disponibles
   label_available_projects: Projets disponibles
+  label_backtrace: Backtrace
   label_backup: Sauvegarde
   label_backup_code: Code de sauvegarde
   label_basic_details: Informations de base

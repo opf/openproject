@@ -719,7 +719,7 @@ ko:
         project_type:
           attributes:
             type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
+              must_be_a_root_type: "- 최상위 유형이어야 합니다. 프로젝트는 루트를 사용하며, 변형을 별도로 확인합니다."
             variant:
               must_belong_to_the_type: "- 프로젝트에서 사용하는 유형의 변형이어야 합니다."
         queries/filters/base:
@@ -820,8 +820,8 @@ ko:
               query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
             parent:
               cannot_be_self: "- 해당 유형 자체일 수는 없습니다."
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
+              cannot_change_while_used_by_projects: "- 프로젝트에서 이 유형을 계속 사용하는 동안에는 변경할 수 없습니다."
+              cannot_have_children: "- 이 유형에는 이미 변형이 있으므로 설정할 수 없습니다."
               must_be_a_root: "- 그 자체로 최상위 유형이어야 합니다. 유형은 한 수준까지만 중첩될 수 있습니다."
               standard_type_must_be_root: "- 표준 유형에 대해 설정할 수 없습니다."
             patterns:
@@ -829,7 +829,7 @@ ko:
         type/configuration_link:
           attributes:
             source_id:
-              would_create_cycle: would link these configurations in a loop.
+              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
         user:
           attributes:
             base:
@@ -2865,9 +2865,9 @@ ko:
         set_with_diff: "%{field} 설정됨(%{link})"
       meeting_cancelled: "(취소됨)"
       meeting_deleted: "(삭제됨)"
-      meeting_series_backlog_html: backlog for meeting series %{link}
-      meeting_series_template_html: template for meeting series %{link}
-      meeting_template_html: meeting template %{link}
+      meeting_series_backlog_html: 미팅 시리즈의 백로그 %{link}
+      meeting_series_template_html: 미팅 시리즈의 템플릿 %{link}
+      meeting_template_html: 미팅 템플릿 %{link}
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
@@ -2888,7 +2888,7 @@ ko:
       work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
       work_package_duplicate_closed: 중복 작업 패키지에 의해 자동으로 상태가 업데이트되었습니다(%{link})
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: 상위 작업 패키지가 삭제되었기 때문에
       work_package_predecessor_changed_times: 선행 단계 %{link}에 대한 변경 사항 기준
       work_package_related_changed_times: 관련 %{link}에 대한 변경 사항 기준
       working_days_changed:
@@ -2904,21 +2904,21 @@ ko:
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
       import: 가져옴
-      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
-      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
-      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
-      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_html: "<strong>미팅에 추가됨:</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>다음에 추가됨:</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>미팅에서 논의됨</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>미팅으로 이동됨:</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>다음으로 이동됨:</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>미팅에서 제거됨:</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>다음에서 제거됨:</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>미팅에서 결과로 추가됨</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: 진행률 계산 업데이트됨
       status_changed: 상태 '%{status_name}'
       system_update: 'OpenProject 시스템 업데이트:'
       total_percent_complete_mode_changed_to_simple_average: 이제 완료 % 합계 계산은 완료 % 값의 단순 평균만을 기반으로 합니다.
       total_percent_complete_mode_changed_to_work_weighted_average: 이제 완료 % 합계 계산에는 작업별로 가중치가 적용됩니다.
       work_package_duplicate_closed: '중복 작업 패키지가 업데이트되었습니다:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: 부모 제거됨
     changes_retracted: 변경 사항이 취소되었습니다.
     non_visible:
       budget: 표시되지 않는 예산
@@ -2987,6 +2987,7 @@ ko:
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
+  label_backtrace: Backtrace
   label_backup: 백업
   label_backup_code: 백업 코드
   label_basic_details: 기본 세부 정보
@@ -5728,7 +5729,7 @@ ko:
   text_destroy_what_to_do: 어떤 작업을 수행하시겠습니까?
   text_destroy_with_associated: '삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다:'
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
-  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
+  text_email_delivery_letter_opener: Letter opener는 이메일을 Rails tmp 폴더의 파일로 렌더링하는 데 사용됩니다. 지원되는 경우 이메일이 브라우저에서 자동으로 열립니다.
   text_email_delivery_not_configured: |-
     이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.
     SMTP 서버를 구성하여 활성화하세요.
@@ -6453,14 +6454,14 @@ ko:
       description_with_visible_descendants: 선택한 작업 패키지 및 표시된 모든 하위 항목을 삭제하시겠습니까?
       heading: 이러한 작업 패키지 %{count}개를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
       hidden_descendants_warning:
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
       title: "%{count}개 작업 패키지 삭제"
       undeletable_descendants_warning:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
       undeletable_descendants_warning_html:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
     datepicker_modal:
       banner:
         description:
@@ -6510,14 +6511,14 @@ ko:
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
       hidden_descendants_warning:
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
       title: 작업 패키지 삭제
       undeletable_descendants_warning:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
       undeletable_descendants_warning_html:
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
     move:
       bulk_current_type_not_available_in_target_project: '작업 패키지 또는 해당 하위 항목의 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 누락된 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
 

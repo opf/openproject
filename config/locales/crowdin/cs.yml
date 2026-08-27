@@ -3135,6 +3135,7 @@ cs:
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
   label_available_projects: Dostupné projekty
+  label_backtrace: Backtrace
   label_backup: Záloha
   label_backup_code: Záložní kód
   label_basic_details: Základní údaje

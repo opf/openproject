@@ -3027,6 +3027,7 @@ it:
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
   label_available_projects: Progetti disponibili
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Codice di backup
   label_basic_details: Informazioni base

@@ -3149,6 +3149,7 @@ sl:
   label_available_project_work_package_categories: Razpoložljive kategorije delovnih paketov
   label_available_project_work_package_types: Razpoložljive vrste delovnih paketov
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Varnostna kopija
   label_backup_code: Rezervna koda
   label_basic_details: Basic details

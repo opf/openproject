@@ -39,7 +39,7 @@ pt-PT:
             labels:
               invalid_schema: 'deve ser um conjunto de hashes com as chaves: cor, título'
   attributes:
-    commit: Confirmar
+    commit: Commit
     gitlab: Identificador do GitLab
     gitlab_avatar_url: URL do Avatar
     gitlab_email: E-mail do GitLab

@@ -2975,6 +2975,7 @@ zh-TW:
   label_available_project_work_package_categories: 可用的工作套件類別
   label_available_project_work_package_types: 可用的工作套件類型
   label_available_projects: 可用專案
+  label_backtrace: Backtrace
   label_backup: 備份
   label_backup_code: 備份代碼
   label_basic_details: 基本訊息
