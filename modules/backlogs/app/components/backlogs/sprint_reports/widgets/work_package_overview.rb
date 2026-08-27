@@ -63,7 +63,7 @@ module Backlogs
         end
 
         def breakdown_blocks # rubocop:disable Metrics/AbcSize
-          return [] unless sprint.date_range_set?
+          return [] unless sprint.started_at?
 
           [
             block(
@@ -151,7 +151,7 @@ module Backlogs
             sprint,
             project,
             extra_filters: status_filters(status_filter_operator),
-            timestamps: Array(timestamps).map { |date| date.in_time_zone.end_of_day.iso8601 }
+            timestamps:
           )
         end
 
