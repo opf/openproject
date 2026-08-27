@@ -43,8 +43,8 @@ module WorkPackageTypes
             group.radio_button(
               value: mode,
               checked: index.zero?,
-              label: I18n.t("types.edit.reuse_mode.independent.modes.#{mode}.label"),
-              caption: I18n.t("types.edit.reuse_mode.independent.modes.#{mode}.caption")
+              label: I18n.t("types.edit.reuse_mode.manual.modes.#{mode}.label"),
+              caption: I18n.t("types.edit.reuse_mode.manual.modes.#{mode}.caption")
             )
           end
         end

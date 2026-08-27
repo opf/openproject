@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  # "View dependents" on a type's configuration tabs: the read-only list of the variants that
+  # "View dependent types" on a type's configuration tabs: the read-only list of the variants that
   # borrow the shown aspect from this one.
   class ConfigurationDependentsController < BaseTabController
     include TypeVariantsFeature

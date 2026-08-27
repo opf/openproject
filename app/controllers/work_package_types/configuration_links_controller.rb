@@ -29,11 +29,11 @@
 #++
 
 module WorkPackageTypes
-  # "Switch to linked mode" / "Change source type" on a type's configuration
+  # "Inherit from another type" / "Change source type" on a type's configuration
   # tabs: the source-picker dialog, the danger confirmation (whose wording
-  # depends on whether the type is currently Independent or Linked), and the
+  # depends on whether the configuration is currently manual or inherited), and the
   # switch itself. Built to mirror ConfigurationCopiesController; the reverse
-  # switch back to Independent lives in ConfigurationIndependenceController.
+  # switch back to manual lives in ConfigurationIndependenceController.
   class ConfigurationLinksController < BaseTabController
     include TypeVariantsFeature
     include OpTurbo::ComponentStream
@@ -51,7 +51,7 @@ module WorkPackageTypes
 
     def confirm
       if source.nil?
-        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
+        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.inherited.invalid_source"))
       else
         close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
         dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
@@ -82,7 +82,7 @@ module WorkPackageTypes
 
     def respond_to_switch(result)
       if result.success?
-        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.success"))
+        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.inherited.success"))
         dispatch_event_via_turbo_stream(
           ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
           detail: { type_id: @type.id, aspect: }

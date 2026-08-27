@@ -47,8 +47,8 @@ RSpec.describe "Work package type configuration source",
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("Independent mode")
-      expect(response.body).not_to include("Linked mode")
+      expect(response.body).not_to include("Manual configuration")
+      expect(response.body).not_to include("Inherited configuration")
     end
 
     it "blocks the switch endpoint" do
@@ -61,18 +61,18 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "rendering the tabs" do
-    it "renders the PDF tab with the reuse mode banner in independent mode" do
+    it "renders the PDF tab with the reuse mode boxes in manual mode" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Manual configuration")
     end
 
-    it "renders the subject tab with the reuse mode banner in independent mode" do
+    it "renders the subject tab with the reuse mode boxes in manual mode" do
       get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
+      expect(response.body).to include("Manual configuration")
     end
 
     it "shows the type's own editor when Independent" do
@@ -86,7 +86,7 @@ RSpec.describe "Work package type configuration source",
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Inherited configuration")
       expect(response.body).to include(source.name)
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "Work package type configuration source",
       get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Inherited configuration")
       expect(response.body).to include("PR-{{id}}")
       expect(response.body).to include(
         edit_type_defaults_path(type_id: source.id, variant_id: source.default_variant.id)
@@ -118,11 +118,11 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "GET dialog" do
-    it "renders the linked source picker" do
+    it "renders the inheritance source picker" do
       get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("Inherit from another type")
       expect(response.body).to include("Switch")
     end
 
@@ -205,7 +205,7 @@ RSpec.describe "Work package type configuration source",
            as: :turbo_stream
 
       expect(response.body).not_to include("Switch configuration mode?")
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.invalid_source"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.inherited.invalid_source"))
     end
   end
 
@@ -221,7 +221,7 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("dispatchEvent")
       expect(response.body)
         .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.linked.success"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.inherited.success"))
     end
 
     it "flashes an error and links nothing on a cyclic source" do

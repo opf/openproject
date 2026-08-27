@@ -74,7 +74,7 @@ RSpec.describe "Workflow copy from role", :js do
   describe "from the creation wizard", with_flag: { type_variants: true } do
     before do
       visit type_creation_wizard_path(type, step: :workflows)
-      # Scope to the matrix; the wizard's reuse banner also has a "Copy from type" button.
+      # Scope to the matrix; the wizard's reuse mode box also has a "Copy from another type" button.
       within("#workflow-table") { click_link "Copy" }
     end
 

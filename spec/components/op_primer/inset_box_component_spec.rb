@@ -107,10 +107,10 @@ RSpec.describe OpPrimer::InsetBoxComponent, type: :component do
     it "renders the title icon in front of the title" do
       rendered = render_inline(described_class.new) do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Inherited configuration" }
       end
 
-      expect(rendered).to have_css(".octicon-link + h3", text: "Linked mode")
+      expect(rendered).to have_css(".octicon-link + h3", text: "Inherited configuration")
     end
 
     it "honours a custom heading tag" do

@@ -44,13 +44,13 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     before { render_inline(component) }
 
     it "shows the blank state without a warning" do
-      expect(page).to have_text("No dependents")
-      expect(page).to have_text("No other type or variant inherits from this configuration")
+      expect(page).to have_text("Not inherited")
+      expect(page).to have_text("No other type or variant inherits this configuration")
       expect(page).to have_no_css(".color-bg-attention")
     end
 
     it "offers no action" do
-      expect(page).to have_no_link("View dependents")
+      expect(page).to have_no_link("View dependent types")
     end
   end
 
@@ -63,8 +63,8 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     end
 
     it "counts the dependents in the title and the description" do
-      expect(page).to have_text("2 dependents")
-      expect(page).to have_text("inherited by 2 other dependent types or variants")
+      expect(page).to have_text("Inherited by 2 types and variants")
+      expect(page).to have_text("A change you make here also changes the dependent types and variants.")
     end
 
     it "warns about them" do
@@ -74,7 +74,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     it "links the action to the dependents dialog" do
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{type_configuration_dependents_dialog_path(type_id: type.id, aspect:)}']",
-        text: "View dependents"
+        text: "View dependent types"
       )
     end
   end
@@ -87,8 +87,8 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     end
 
     it "uses the singular" do
-      expect(page).to have_text("1 dependent")
-      expect(page).to have_text("inherited by 1 other dependent type or variant")
+      expect(page).to have_text("Inherited by 1 type or variant")
+      expect(page).to have_text("A change you make here also changes the dependent type or variant.")
     end
   end
 
@@ -100,7 +100,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
     end
 
     it "counts only the shown aspect" do
-      expect(page).to have_text("No dependents")
+      expect(page).to have_text("Not inherited")
     end
   end
 end

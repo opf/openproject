@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   module Wizard
-    # The PDF export wizard step: the reuse-mode banner over the export
+    # The PDF export wizard step: the reuse-mode boxes over the export
     # configuration, shown read-only while the aspect is Linked. Mirrors the PDF
     # export tab and FormConfigurationStepComponent.
     class PdfStepComponent < ApplicationComponent

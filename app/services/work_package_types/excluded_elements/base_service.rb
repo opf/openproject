@@ -93,7 +93,7 @@ module WorkPackageTypes
       end
 
       def not_linked_result
-        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_linked"))
+        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
 
         ServiceResult.failure(result: variant, errors: variant.errors)
       end

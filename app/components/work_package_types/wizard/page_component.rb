@@ -139,7 +139,7 @@ module WorkPackageTypes
         )
       end
 
-      def reuse_mode_banner
+      def reuse_mode_section
         return unless step_editor.linkable_aspect?
 
         render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant:, aspect: step_editor.aspect))
