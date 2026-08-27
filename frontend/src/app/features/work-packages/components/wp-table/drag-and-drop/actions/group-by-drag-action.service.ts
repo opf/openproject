@@ -64,7 +64,7 @@ export class GroupByDragActionService extends TableDragActionService {
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
     const changeset = this.halEditing.changeFor(workPackage);
-    const groupedValue = this.getValueForGroup(el);
+    const groupedValue = this.getValueForGroup(workPackage, el);
 
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
@@ -73,7 +73,7 @@ export class GroupByDragActionService extends TableDragActionService {
       .catch((e) => this.halNotification.handleRawError(e, workPackage));
   }
 
-  private getValueForGroup(el:HTMLElement):unknown|null {
+  private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown|null {
     const groupHeader = locatePredecessorBySelector(el, `.${rowGroupClassName}`)!;
     const match = this.groups.find((group) => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
 
@@ -83,6 +83,11 @@ export class GroupByDragActionService extends TableDragActionService {
 
     if (match._links && match._links.valueLink) {
       const links = match._links.valueLink;
+      const fieldSchema = this.schemaCache.of(workPackage).ofProperty(this.groupedAttribute!);
+
+      if (fieldSchema?.type?.startsWith('[]')) {
+        return links;
+      }
 
       // Unwrap single links to properly use them
       return links.length === 1 ? links[0] : links;
