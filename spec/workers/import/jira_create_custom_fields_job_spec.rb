@@ -40,8 +40,8 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
   let(:global_context) { { "projects" => [], "issuetypes" => [] } }
 
   let!(:list_field) do
-    create(:jira_field, jira:, jira_import:,
-                        jira_field_id: "customfield_10264",
+    create(:jira_field, jira_import:,
+                        origin_id: "customfield_10264",
                         payload: {
                           "id" => "customfield_10264",
                           "name" => "CF List",
@@ -58,8 +58,8 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
   end
 
   let!(:string_field) do
-    create(:jira_field, jira:, jira_import:,
-                        jira_field_id: "customfield_10255",
+    create(:jira_field, jira_import:,
+                        origin_id: "customfield_10255",
                         payload: {
                           "id" => "customfield_10255",
                           "name" => "CF String",
@@ -72,9 +72,9 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
   end
 
   let!(:jira_issue) do
-    create(:jira_issue, jira:, jira_import:,
-                        jira_issue_id: "10200",
-                        jira_project_id: jira_project.id,
+    create(:jira_issue, jira_import:,
+                        origin_id: "10200",
+                        jira_project:,
                         payload: { "key" => "#{jira_project_key}-1",
                                    "fields" => { "customfield_10264" => { "value" => "Cat" },
                                                  "customfield_10255" => "a value" } })
@@ -117,8 +117,8 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
     end
 
     it "ignores jira fields that no imported issue carries a value for" do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_19999",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_19999",
                           payload: {
                             "id" => "customfield_19999",
                             "name" => "CF Unused",

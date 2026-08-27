@@ -29,5 +29,7 @@
 #++
 
 FactoryBot.define do
-  factory :jira_priority, class: "Import::JiraPriority"
+  factory :jira_priority, class: "Import::JiraPriority" do
+    sequence(:origin_id) { |n| "#{n}" }
+  end
 end

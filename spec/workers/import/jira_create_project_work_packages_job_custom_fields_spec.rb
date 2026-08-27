@@ -46,36 +46,31 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   # Standard Jira-side entities required for every import run
   let!(:jira_issue_type) do
     create(:jira_issue_type,
-           jira:,
            jira_import:,
-           jira_issue_type_id: "10100",
+           origin_id: "10100",
            payload: { "id" => "10100", "name" => "Task" })
   end
   let!(:jira_status) do
     create(:jira_status,
-           jira:,
            jira_import:,
-           jira_status_id: "3",
+           origin_id: "3",
            payload: { "id" => "3", "name" => "In Progress" })
   end
   let!(:jira_priority) do
     create(:jira_priority,
-           jira:,
            jira_import:,
-           jira_priority_id: "1",
+           origin_id: "1",
            payload: { "id" => "1", "name" => "Highest" })
   end
   let!(:jira_user) do
     create(:jira_user,
-           jira:,
            jira_import:,
-           jira_user_key: "JIRAUSER10000",
+           origin_id: "JIRAUSER10000",
            payload: jira_user_payload)
   end
   let!(:op_user) { create(:user, login: "e.xample", mail: "e.xample@example.com") }
   let!(:jira_user_reference) do
     create(:jira_open_project_reference,
-           jira:,
            jira_import:,
            jira_entity_class: "Import::JiraUser",
            jira_entity_id: jira_user.id.to_s,
@@ -101,8 +96,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "string field (com.atlassian.jira.plugin.system.customfieldtypes:textfield)" do
     # Jira value: plain string -> stored as-is.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10255",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10255",
                           payload: {
                             "id" => "customfield_10255",
                             "name" => "CF String",
@@ -114,9 +109,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -133,8 +128,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
   describe "textarea field (com.atlassian.jira.plugin.system.customfieldtypes:textarea)" do
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10275",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10275",
                           payload: {
                             "id" => "customfield_10275",
                             "name" => "CF Text",
@@ -146,9 +141,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -165,8 +160,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
   describe "number field (com.atlassian.jira.plugin.system.customfieldtypes:float)" do
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10254",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10254",
                           payload: {
                             "id" => "customfield_10254",
                             "name" => "CF Number",
@@ -178,9 +173,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -198,8 +193,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "date field (com.atlassian.jira.plugin.system.customfieldtypes:datepicker)" do
     # Jira value: ISO date string "2024-06-15".
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10261",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10261",
                           payload: {
                             "id" => "customfield_10261",
                             "name" => "CF Date",
@@ -211,9 +206,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -230,8 +225,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
   describe "URL field (com.atlassian.jira.plugin.system.customfieldtypes:url)" do
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10257",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10257",
                           payload: {
                             "id" => "customfield_10257",
                             "name" => "CF URL",
@@ -243,9 +238,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -263,8 +258,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "single-select list field (com.atlassian.jira.plugin.system.customfieldtypes:select)" do
     # contextGroups populated as JiraFetchCustomFields would after editmeta.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10264",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10264",
                           payload: {
                             "id" => "customfield_10264",
                             "name" => "CF List",
@@ -286,9 +281,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -312,8 +307,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
   describe "multi-select list field (com.atlassian.jira.plugin.system.customfieldtypes:multiselect)" do
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10265",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10265",
                           payload: {
                             "id" => "customfield_10265",
                             "name" => "CF Multi-List",
@@ -334,9 +329,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -385,14 +380,14 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
 
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10260",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10260",
                           payload: multicheckboxes_field_payload)
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -423,8 +418,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "multicheckboxes field with a single option (com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes)" do
     # A single checkbox option produces one boolean custom field.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10260",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10260",
                           payload: {
                             "id" => "customfield_10260",
                             "name" => "CF Booleans",
@@ -447,9 +442,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -469,8 +464,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "multicheckboxes with multiple context groups and different multi-option sets per context" do
     # Two context groups each have 2+ options (different sets) -> one list CF per context group.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10285",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10285",
                           payload: {
                             "id" => "customfield_10285",
                             "name" => "CF Multi-Context Checks",
@@ -495,9 +490,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -528,8 +523,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "multicheckboxes with multiple context groups each having a different single option" do
     # Each context group has a different single option -> so one boolean CF per group.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10287",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10287",
                           payload: {
                             "id" => "customfield_10287",
                             "name" => "CF Different-Single Checks",
@@ -552,9 +547,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -576,8 +571,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "radiobuttons field (com.atlassian.jira.plugin.system.customfieldtypes:radiobuttons)" do
     # Jira value: single option object -> stored as a single-select (non-multi) list value.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10290",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10290",
                           payload: {
                             "id" => "customfield_10290",
                             "name" => "CF Radio",
@@ -597,9 +592,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -629,8 +624,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "radiobuttons with multiple context groups (com.atlassian.jira.plugin.system.customfieldtypes:radiobuttons)" do
     # Two context groups have different option sets -> one single-select list CF per context group.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10291",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10291",
                           payload: {
                             "id" => "customfield_10291",
                             "name" => "CF Radio Multi-Context",
@@ -654,9 +649,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -687,8 +682,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "string-array list field (com.atlassian.jira.plugin.system.customfieldtypes:labels)" do
     # Jira value: plain string array -> options collected from issues, stored as multi-value list.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10280",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10280",
                           payload: {
                             "id" => "customfield_10280",
                             "name" => "CF Labels",
@@ -702,9 +697,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -729,8 +724,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   describe "user field (com.atlassian.jira.plugin.system.customfieldtypes:userpicker)" do
     # Jira value: user object with "key" -> resolved to OP User via JiraOpenProjectReference.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10258",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10258",
                           payload: {
                             "id" => "customfield_10258",
                             "name" => "CF User",
@@ -742,9 +737,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -764,8 +759,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
            with_ee: [:custom_field_hierarchies] do
     # Jira value: option-with-child -> hierarchy item.
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10266",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10266",
                           payload: {
                             "id" => "customfield_10266",
                             "name" => "CF Cascading",
@@ -792,9 +787,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -830,8 +825,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     # every node (root + children) as an option. The selected value is imported
     # as all nodes on the selected path (parent + child).
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10266",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10266",
                           payload: {
                             "id" => "customfield_10266",
                             "name" => "CF Cascading",
@@ -858,9 +853,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                           })
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -894,16 +889,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     # can be absent altogether or lack options that issues still carry. The options actually used
     # by the imported issues must be recovered so their values survive the import.
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
     def jira_list_field(id:, name:, schema:, context_groups: nil)
       payload = { "id" => id, "name" => name, "schema" => schema }
       payload["contextGroups"] = context_groups if context_groups
-      create(:jira_field, jira:, jira_import:, jira_field_id: id, payload:)
+      create(:jira_field, jira_import:, origin_id: id, payload:)
     end
 
     context "with a single-select field and no contextGroups at all" do
@@ -1031,9 +1026,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                         )])
       end
       let!(:jira_issue_without_value) do
-        create(:jira_issue, jira:, jira_import:,
-                            jira_issue_id: "10201",
-                            jira_project_id: jira_project.id,
+        create(:jira_issue, jira_import:,
+                            origin_id: "10201",
+                            jira_project:,
                             payload: issue_payload.deep_dup.tap do |p|
                               p["key"] = "DYX-3"
                               p["fields"]["summary"] = "Issue without the list value"
@@ -1130,15 +1125,15 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       ].map do |field_def|
         payload = { "id" => field_def[:id], "name" => field_def[:name], "schema" => field_def[:schema] }
         payload["contextGroups"] = field_def[:context_groups] if field_def[:context_groups]
-        create(:jira_field, jira:, jira_import:,
-                            jira_field_id: field_def[:id],
+        create(:jira_field, jira_import:,
+                            origin_id: field_def[:id],
                             payload:)
       end
     end
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
@@ -1215,8 +1210,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
   describe "custom fields shared by several imported projects" do
     let!(:second_jira_project) do
-      create(:jira_project, jira:, jira_import:,
-                            jira_project_id: "10013",
+      create(:jira_project, jira_import:,
+                            origin_id: "10013",
                             payload: { "id" => "10013",
                                        "key" => "SECOND",
                                        "name" => "Second project",
@@ -1225,8 +1220,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
 
     let!(:jira_field) do
-      create(:jira_field, jira:, jira_import:,
-                          jira_field_id: "customfield_10264",
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10264",
                           payload: {
                             "id" => "customfield_10264",
                             "name" => "CF List",
@@ -1242,16 +1237,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
 
     let!(:jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10200",
-                          jira_project_id: jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
                           payload: issue_payload)
     end
 
     let!(:second_jira_issue) do
-      create(:jira_issue, jira:, jira_import:,
-                          jira_issue_id: "10201",
-                          jira_project_id: second_jira_project.id,
+      create(:jira_issue, jira_import:,
+                          origin_id: "10201",
+                          jira_project: second_jira_project,
                           payload: issue_payload.deep_dup.tap do |payload|
                             payload["id"] = "10201"
                             payload["key"] = "SECOND-1"
@@ -1298,8 +1293,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
       let!(:jira_field) do
-        create(:jira_field, jira:, jira_import:,
-                            jira_field_id: "customfield_10266",
+        create(:jira_field, jira_import:,
+                            origin_id: "customfield_10266",
                             payload: {
                               "id" => "customfield_10266",
                               "name" => "CF Cascading",

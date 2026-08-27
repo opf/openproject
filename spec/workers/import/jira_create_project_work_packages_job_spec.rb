@@ -157,10 +157,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
         let!(:other_jira_issue) do
           create(:jira_issue,
-                 jira:,
                  jira_import: other_jira_import,
-                 jira_issue_id: "99999",
-                 jira_project_id: jira_project.id,
+                 origin_id: "99999",
+                 jira_project:,
                  payload: other_issue_payload)
         end
 

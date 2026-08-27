@@ -65,8 +65,8 @@ module Admin::Import::Jira::ImportRuns
             end)
           end
         end
-        # rubocop:enable Metrics/AbcSize
       end
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

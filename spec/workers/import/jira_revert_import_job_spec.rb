@@ -44,7 +44,6 @@ RSpec.describe Import::JiraRevertImportJob do
 
   def reference_for(entity, entity_class, uses_existing: false, import: jira_import)
     create(:jira_open_project_reference,
-           jira:,
            jira_import: import,
            op_entity_class: entity_class,
            op_entity_id: entity.id.to_s,
@@ -283,7 +282,7 @@ RSpec.describe Import::JiraRevertImportJob do
   end
 
   describe "#delete_jira_objects" do
-    let!(:jira_user) { create(:jira_user, jira:, jira_import:) }
+    let!(:jira_user) { create(:jira_user, jira_import:) }
 
     before { transition_to_reverting }
 

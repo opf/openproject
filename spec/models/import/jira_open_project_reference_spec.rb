@@ -35,10 +35,9 @@ RSpec.describe Import::JiraOpenProjectReference do
   let(:author) { create(:user) }
   let(:jira_import) { create(:jira_import, jira:, author:) }
 
-  subject(:reference) { create(:jira_open_project_reference, jira:, jira_import:) }
+  subject(:reference) { create(:jira_open_project_reference, jira_import:) }
 
   describe "associations" do
-    it { is_expected.to belong_to(:jira).class_name("Import::Jira") }
     it { is_expected.to belong_to(:jira_import).class_name("Import::JiraImport") }
   end
 
@@ -47,7 +46,6 @@ RSpec.describe Import::JiraOpenProjectReference do
       let(:user) { create(:user) }
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: user.id.to_s,
                op_entity_class: "User")
@@ -61,7 +59,6 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when op_entity does not exist" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: "999999",
                op_entity_class: "User")
@@ -76,7 +73,6 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when op_entity_class is nil" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: "123",
                op_entity_class: nil)
@@ -90,10 +86,9 @@ RSpec.describe Import::JiraOpenProjectReference do
 
   describe "#jira_leg" do
     context "when jira_entity exists" do
-      let(:jira_user) { create(:jira_user, jira:, jira_import:) }
+      let(:jira_user) { create(:jira_user, jira_import:) }
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: jira_user.id.to_s,
                jira_entity_class: "Import::JiraUser")
@@ -107,7 +102,6 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when jira_entity does not exist" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: "999999",
                jira_entity_class: "Import::JiraUser")
@@ -122,7 +116,6 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when jira_entity_class is nil" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: "123",
                jira_entity_class: nil)

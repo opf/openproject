@@ -60,7 +60,7 @@ RSpec.describe Import::JiraStagedImportJob do
   describe "the stage creating the projects" do
     let(:stage) { 5 }
     let!(:jira_project) do
-      create(:jira_project, jira:, jira_import:, jira_project_id: "10012",
+      create(:jira_project, jira_import:, origin_id: "10012",
                             payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
     end
 

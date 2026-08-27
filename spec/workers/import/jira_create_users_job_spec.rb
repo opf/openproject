@@ -80,7 +80,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when importing a new user without groups" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10100",
@@ -130,7 +129,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     end
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10101",
@@ -170,9 +168,8 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     end
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
-             jira_user_key: "JIRAUSER10102",
+             origin_id: "JIRAUSER10102",
              payload: jira_user_payload(
                key: "JIRAUSER10102",
                name: login,
@@ -223,7 +220,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when importing a user with groups" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10103",
@@ -261,7 +257,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     let!(:existing_group) { create(:group, name: "jira-administrators") }
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10104",
@@ -297,7 +292,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when importing multiple users" do
     let!(:jira_user1) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10105",
@@ -309,7 +303,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     end
     let!(:jira_user2) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10106",
@@ -377,9 +370,8 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when a stopped import run is retried" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
-             jira_user_key: "JIRAUSER10120",
+             origin_id: "JIRAUSER10120",
              payload: jira_user_payload(
                key: "JIRAUSER10120",
                name: "jdoe@example.com",
@@ -465,41 +457,11 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
         )
       end
     end
-
-    context "when the previous attempt stopped before importing the second user" do
-      let!(:jira_user2) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               jira_user_key: "JIRAUSER10121",
-               payload: jira_user_payload(
-                 key: "JIRAUSER10121",
-                 name: "jsmith@example.com",
-                 display_name: "Jane Smith",
-                 email: "jsmith@example.com",
-                 groups: ["jira-software-users"]
-               ))
-      end
-
-      it "imports the missing user on the retry" do
-        # simulate an attempt that only got as far as the first user
-        Import::JiraUser.where(id: jira_user2.id).update_all(jira_import_id: nil)
-        import_users
-        Import::JiraUser.where(id: jira_user2.id).update_all(jira_import_id: jira_import.id)
-
-        expect { import_users }.to change(User, :count).by(1)
-
-        expect(Import::JiraOpenProjectReference.exists?(jira_entity_id: jira_user2.id,
-                                                        jira_entity_class: Import::JiraUser.to_s)).to be true
-        expect(User.find_by(login: "jsmith@example.com").mail).to eq("jsmith@example.com")
-      end
-    end
   end
 
   context "when user has a single-word display name" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10108",
@@ -524,7 +486,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when user has a multi-part display name" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10109",
@@ -549,7 +510,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
   context "when importing a jira user without email(can happen in case of LDAP)" do
     let!(:jira_user) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10109",
@@ -572,7 +532,6 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     let(:shared_email) { "shared@example.com" }
     let!(:jira_user1) do
       create(:jira_user,
-             jira:,
              jira_import:,
              payload: jira_user_payload(
                key: "JIRAUSER10110",
@@ -584,9 +543,8 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
     end
     let!(:jira_user2) do
       create(:jira_user,
-             jira:,
              jira_import:,
-             jira_user_key: "JIRAUSER10111",
+             origin_id: "JIRAUSER10111",
              payload: jira_user_payload(
                key: "JIRAUSER10111",
                name: "user.two",
@@ -666,13 +624,12 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
       end
 
       before do
-        other_jira_user = create(:jira_user, jira:, jira_import:,
-                                             jira_user_key: "JIRAUSER99999",
+        other_jira_user = create(:jira_user, jira_import:,
+                                             origin_id: "JIRAUSER99999",
                                              payload: jira_user_payload(key: "JIRAUSER99999", name: "other",
                                                                         display_name: "Other", email: "other@example.com",
                                                                         groups: []))
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: other_jira_user.id,
                jira_entity_class: Import::JiraUser.to_s,

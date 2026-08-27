@@ -85,8 +85,8 @@ RSpec.describe Import::JiraCreateProjectJob,
     # hierarchy custom field, because those are never looked up by name.
     context "with a jira issue carrying a list custom field" do
       let!(:jira_field) do
-        create(:jira_field, jira:, jira_import:,
-                            jira_field_id: "customfield_10264",
+        create(:jira_field, jira_import:,
+                            origin_id: "customfield_10264",
                             payload: {
                               "id" => "customfield_10264",
                               "name" => "CF List",
@@ -99,9 +99,9 @@ RSpec.describe Import::JiraCreateProjectJob,
       end
 
       let!(:jira_issue) do
-        create(:jira_issue, jira:, jira_import:,
-                            jira_issue_id: "10200",
-                            jira_project_id: jira_project.id,
+        create(:jira_issue, jira_import:,
+                            origin_id: "10200",
+                            jira_project:,
                             payload: { "key" => "#{jira_project_key}-1",
                                        "fields" => { "customfield_10264" => { "value" => "Option A" } } })
       end

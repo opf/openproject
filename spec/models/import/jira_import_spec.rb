@@ -103,13 +103,13 @@ RSpec.describe Import::JiraImport do
   end
 
   describe "#destroy_jira_objects" do
-    let!(:jira_field) { create(:jira_field, jira:, jira_import:) }
-    let!(:jira_issue) { create(:jira_issue, jira:, jira_import:) }
-    let!(:jira_issue_type) { create(:jira_issue_type, jira:, jira_import:) }
-    let!(:jira_priority) { create(:jira_priority, jira:, jira_import:) }
-    let!(:jira_project) { create(:jira_project, jira:, jira_import:) }
-    let!(:jira_status) { create(:jira_status, jira:, jira_import:) }
-    let!(:jira_user) { create(:jira_user, jira:, jira_import:) }
+    let!(:jira_project) { create(:jira_project, jira_import:) }
+    let!(:jira_field) { create(:jira_field, jira_import:) }
+    let!(:jira_issue) { create(:jira_issue, jira_import:, jira_project:) }
+    let!(:jira_issue_type) { create(:jira_issue_type, jira_import:) }
+    let!(:jira_priority) { create(:jira_priority, jira_import:) }
+    let!(:jira_status) { create(:jira_status, jira_import:) }
+    let!(:jira_user) { create(:jira_user, jira_import:) }
 
     it "destroys all associated jira objects" do
       expect { jira_import.destroy_jira_objects }
@@ -124,7 +124,7 @@ RSpec.describe Import::JiraImport do
 
     it "does not destroy objects from other imports" do
       other_import = create(:jira_import, jira:, author:)
-      other_field = create(:jira_field, jira:, jira_import: other_import)
+      other_field = create(:jira_field, jira_import: other_import)
 
       jira_import.destroy_jira_objects
 

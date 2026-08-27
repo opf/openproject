@@ -50,9 +50,8 @@ RSpec.shared_context "with jira project import data" do
 
   let!(:jira_project) do
     create(:jira_project,
-           jira:,
            jira_import:,
-           jira_project_id:,
+           origin_id: jira_project_id,
            payload: jira_project_payload)
   end
 
@@ -92,42 +91,37 @@ RSpec.shared_context "with a jira demo issue" do
 
   let!(:jira_issue) do
     create(:jira_issue,
-           jira:,
            jira_import:,
-           jira_issue_id: "10405",
-           jira_project_id: jira_project.id,
+           origin_id: "10405",
+           jira_project:,
            payload: jira_issue_payload)
   end
 
   let!(:jira_issue_type) do
     create(:jira_issue_type,
-           jira:,
            jira_import:,
-           jira_issue_type_id: "10004",
+           origin_id: "10004",
            payload: { "id" => "10004", "name" => "Bug" })
   end
 
   let!(:jira_status) do
     create(:jira_status,
-           jira:,
            jira_import:,
-           jira_status_id: "3",
+           origin_id: "3",
            payload: { "id" => "3", "name" => "In Progress" })
   end
 
   let!(:jira_priority) do
     create(:jira_priority,
-           jira:,
            jira_import:,
-           jira_priority_id: "1",
+           origin_id: "1",
            payload: { "id" => "1", "name" => "Highest" })
   end
 
   let!(:jira_user) do
     create(:jira_user,
-           jira:,
            jira_import:,
-           jira_user_key: "JIRAUSER10000",
+           origin_id: "JIRAUSER10000",
            payload: jira_user_payload)
   end
 
@@ -135,7 +129,6 @@ RSpec.shared_context "with a jira demo issue" do
 
   let!(:jira_user_reference) do
     create(:jira_open_project_reference,
-           jira:,
            jira_import:,
            jira_entity_class: "Import::JiraUser",
            jira_entity_id: jira_user.id.to_s,
