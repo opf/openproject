@@ -56,6 +56,7 @@ class TypeVariant < ApplicationRecord
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
+  store_attribute :pdf_export_templates_config, :export_templates_settings, :json
 
   belongs_to :type
 

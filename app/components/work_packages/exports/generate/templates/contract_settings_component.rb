@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,42 +23,34 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateRowComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module WorkPackages
+  module Exports
+    module Generate
+      module Templates
+        class ContractSettingsComponent < BaseSettingsComponent
+          TEMPLATE_ID = "contract"
 
-    def initialize(variant:, template:, readonly: false)
-      super
+          def self.fields
+            %w[footer_text_center hyphenation hyphenation_language]
+          end
 
-      @template = template
-      @variant = variant
-      @readonly = readonly
-    end
+          def footer_text_center
+            settings[:footer_text_center].to_s
+          end
 
-    def readonly? = @readonly
+          def footer_text_center_caption
+            caption = I18n.t("pdf_generator.dialog.footer_center.caption")
+            return caption unless show_default_hint
 
-    def edit_settings_path
-      edit_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id)
-    end
-
-    def wrapper_uniq_by
-      @template.id
-    end
-
-    private
-
-    def toggle_label
-      I18n.t(
-        "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
-        template: @template.label
-      )
+            "#{caption} #{I18n.t('pdf_generator.dialog.footer_center.default_hint_subject')}"
+          end
+        end
+      end
     end
   end
 end

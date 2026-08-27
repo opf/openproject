@@ -58,6 +58,15 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     end
   end
 
+  it "links each template label to its settings page" do
+    draggable_records.each do |template|
+      expect(rendered_component).to have_link(
+        template.label,
+        href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+      )
+    end
+  end
+
   it "labels each template toggle button with its template" do
     draggable_records.each do |template|
       expect(rendered_component).to have_button(
@@ -83,6 +92,15 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     it "renders no header actions", :aggregate_failures do
       expect(rendered_component).to have_no_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
       expect(rendered_component).to have_no_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
+    end
+
+    it "renders each template label as plain text instead of a link to its settings page" do
+      draggable_records.each do |template|
+        expect(rendered_component).to have_no_link(
+          href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+        )
+        expect(rendered_component).to have_text(template.label)
+      end
     end
   end
 end
