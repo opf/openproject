@@ -28,8 +28,6 @@ When accessing a particular wiki page:
 
 Select a wiki page in the sidebar to display it in the main content area.
 
-> [!NOTE]
-> You can only see wiki pages in the sidebar to which you have access.
 
 ## Search the wiki hierarchy
 

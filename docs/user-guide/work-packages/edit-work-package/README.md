@@ -75,7 +75,7 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 Depending on your system configuration, you can choose between:
 
 - **OpenProject **, if the OpenProject project wiki is enabled by an administrator.
-- **External wiki**, if an administrator has configured an external wiki integration, such as **XWiki** (Enterprise add-on).
+- an external wiki, if an administrator has configured it, such as **XWiki** (Enterprise add-on).
 
 > [!NOTE]
 > If only one wiki provider is configured, OpenProject automatically uses it and skips the **Wiki provider** selection step.
