@@ -35,6 +35,7 @@ module WorkPackageTypes
     def self.model = TypeVariant
 
     validate :variant_is_named
+    validate :migration_target_is_a_sibling_variant
 
     private
 
@@ -42,6 +43,12 @@ module WorkPackageTypes
     # when the type does.
     def variant_is_named
       errors.add(:base, :is_default_variant) if model.is_default_variant?
+    end
+
+    def migration_target_is_a_sibling_variant
+      target = options[:target]
+
+      errors.add(:base, :migration_target_invalid) if target && model.sibling_variants.exclude?(target)
     end
   end
 end

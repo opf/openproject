@@ -557,6 +557,8 @@ en:
         is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         ldap_managed: "This department is managed by LDAP synchronization and cannot be changed manually."
         less_than_or_equal_to: "must be less than or equal to %{count}."
+        migration_failed: "The variant could not be switched for project '%{project}': %{reason}"
+        migration_target_invalid: "The selected variant is not a sibling of the same type."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "is not a number."

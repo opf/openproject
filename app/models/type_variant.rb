@@ -171,6 +171,14 @@ class TypeVariant < ApplicationRecord
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"
   end
 
+  def work_packages
+    WorkPackage.where(type_id:, project_id: project_types.select(:project_id))
+  end
+
+  def sibling_variants
+    self.class.where(type_id:).where.not(id:)
+  end
+
   def workflows
     return own_workflows unless resolve_aspect_in_sql?
 
