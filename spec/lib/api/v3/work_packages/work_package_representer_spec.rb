@@ -1571,6 +1571,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:href) { edit_type_form_configuration_path(work_package.type_id) }
           let(:title) { "Configure form" }
         end
+
+        context "when the project applies a variant of the type" do
+          let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+          let(:workspace) { create(:project, types: [variant]) }
+          let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+          it "points at the configuration in force rather than the type's own" do
+            expect(generated)
+              .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+                    .at_path("_links/configureForm/href")
+          end
+        end
       end
     end
 

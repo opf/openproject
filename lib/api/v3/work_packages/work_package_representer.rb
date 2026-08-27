@@ -170,8 +170,12 @@ module API
              cache_if: -> { current_user.admin? } do
           next unless represented.type_id
 
+          # Falls back to the type's own configuration when no variant resolves, e.g. a project
+          # that does not use the type.
+          path_args = represented.type_variant&.path_args || { type_id: represented.type_id }
+
           {
-            href: edit_type_form_configuration_path(represented.type_id),
+            href: edit_type_form_configuration_path(**path_args),
             type: "text/html",
             title: "Configure form"
           }
