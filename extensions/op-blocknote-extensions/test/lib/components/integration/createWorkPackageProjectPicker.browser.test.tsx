@@ -71,6 +71,22 @@ function search(term:string) {
   return userEvent.fill(page.getByTestId(SEARCH), term);
 }
 
+async function projectRequestsDuring(act:() => Promise<void>):Promise<string[]> {
+  const asked:string[] = [];
+  const record = ({ request }:{ request:Request }) => {
+    if (request.url.includes('/available_projects')) asked.push(request.url);
+  };
+
+  worker.events.on('request:start', record);
+  try {
+    await act();
+  } finally {
+    worker.events.removeListener('request:start', record);
+  }
+
+  return asked;
+}
+
 function optionLabels() {
   return Array
     .from(document.querySelectorAll('[role="treeitem"]'))
@@ -408,21 +424,11 @@ describe('Create work package - project picker', () => {
   });
 
   it('asks for a hundred projects rather than a first handful', async () => {
-    const pageSizes:(string | null)[] = [];
-    const record = ({ request }:{ request:Request }) => {
-      if (request.url.includes('/available_projects')) {
-        pageSizes.push(new URL(request.url).searchParams.get('pageSize'));
-      }
-    };
-    worker.events.on('request:start', record);
+    const asked = await projectRequestsDuring(() => openProjectPicker());
+    const pageSizes = asked.map((url) => new URL(url).searchParams.get('pageSize'));
 
-    try {
-      await openProjectPicker();
-      expect(pageSizes.length).toBeGreaterThan(0);
-      expect(pageSizes.every((size) => size === '100')).toBe(true);
-    } finally {
-      worker.events.removeListener('request:start', record);
-    }
+    expect(pageSizes.length).toBeGreaterThan(0);
+    expect(pageSizes.every((size) => size === '100')).toBe(true);
   });
 
   it('walks the pages of a listing that does not fit into one', async () => {
@@ -477,6 +483,105 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByTestId(CLEAR));
 
     await expect.element(page.getByTestId(SEARCH)).toHaveValue('');
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+  });
+
+  it('lists everything again from what it has, asking for none of it twice', async () => {
+    await openProjectPicker();
+    await search('scrum');
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+
+    const asked = await projectRequestsDuring(async () => {
+      await userEvent.click(page.getByTestId(CLEAR));
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+    });
+
+    expect(asked).toEqual([]);
+    expect(optionLabels()).toEqual(['Demo project', 'Scrum project']);
+  });
+
+  it('reopens on the listing it was given, without asking for it again', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByTestId(TOGGLE));
+    await expect.element(page.getByRole('tree')).not.toBeInTheDocument();
+
+    const asked = await projectRequestsDuring(async () => {
+      await userEvent.click(page.getByTestId(TOGGLE));
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+      // The list stands there from memory at once; an ask would follow the debounce.
+      await new Promise((resolve) => setTimeout(resolve, 600));
+    });
+
+    expect(asked).toEqual([]);
+  });
+
+  it('opens a second create modal on the listing the first one was given', async () => {
+    await openProjectPicker();
+    await userEvent.keyboard('{Escape}');
+    await expect.element(page.getByRole('tree')).not.toBeInTheDocument();
+
+    await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+
+    const asked = await projectRequestsDuring(async () => {
+      await openCreateModal();
+      await userEvent.click(page.getByLabelText(PROJECT_FIELD));
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+    });
+
+    expect(asked).toEqual([]);
+  });
+
+  it('searches once for a term, and answers it from memory the next time', async () => {
+    await openProjectPicker();
+
+    const first = await projectRequestsDuring(async () => {
+      await search('scrum');
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+    });
+    expect(first).toHaveLength(1);
+
+    await userEvent.click(page.getByTestId(CLEAR));
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+
+    const again = await projectRequestsDuring(async () => {
+      await search('scrum');
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+    });
+    expect(again).toEqual([]);
+  });
+
+  it('comes back to the favorites it has already been given', async () => {
+    await openProjectPicker();
+    await userEvent.click(page.getByTestId(`${LIST}-mode-favored`));
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+    await userEvent.click(page.getByTestId(`${LIST}-mode-all`));
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+
+    const asked = await projectRequestsDuring(async () => {
+      await userEvent.click(page.getByTestId(`${LIST}-mode-favored`));
+      await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
+    });
+
+    expect(asked).toEqual([]);
+    expect(optionLabels()).toEqual(['Scrum project']);
+  });
+
+  it('keeps nothing of a listing it was refused, and asks for it again', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
+        new HttpResponse(null, { status: 500 }))
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await userEvent.click(page.getByLabelText(PROJECT_FIELD));
+    await expect.element(page.getByText('No results')).toBeVisible();
+
+    worker.resetHandlers();
+    await userEvent.click(page.getByTestId(TOGGLE));
+    await userEvent.click(page.getByTestId(TOGGLE));
+
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
   });
 

@@ -59,6 +59,7 @@ export const ProjectPicker = ({
     isOpen,
     favoredOnly: mode === 'favored',
     nested: true,
+    cached: true,
   });
 
   const selectedIndex = options.findIndex((option) => option.href === value);
