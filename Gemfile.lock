@@ -446,9 +446,9 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     climate_control (1.2.0)
-    closure_tree (9.7.0)
+    closure_tree (9.8.0)
       activerecord (>= 7.2.0)
-      with_advisory_lock (>= 7.5.0)
+      with_advisory_lock (>= 7.6.0)
       zeitwerk (~> 2.7)
     coderay (1.1.3)
     color_conversion (0.1.2)
@@ -1590,7 +1590,7 @@ DEPENDENCIES
   carrierwave (~> 2.2.7)
   carrierwave_direct (~> 3.0.0)
   climate_control
-  closure_tree (~> 9.7.0)
+  closure_tree (~> 9.8.0)
   colored2
   commonmarker (~> 2.8.3)
   compare-xml (~> 1.0)
@@ -1851,7 +1851,7 @@ CHECKSUMS
   cgi (0.5.2) sha256=61ca30298171190fd4fa0d8018e57ada456eae9b7a2b78526debf7f0a0e6f8bb
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
   climate_control (1.2.0) sha256=36b21896193fa8c8536fa1cd843a07cf8ddbd03aaba43665e26c53ec1bd70aa5
-  closure_tree (9.7.0) sha256=54403254741e70b5da35eefffc6b8172505da71c004ff75635f4e1299e6ba44c
+  closure_tree (9.8.0) sha256=c7f4ce93952e1ca2b9ee87bb288c36c483703e8d8af7a7a99cc7195393458a1e
   coderay (1.1.3) sha256=dc530018a4684512f8f38143cd2a096c9f02a1fc2459edcfe534787a7fc77d4b
   color_conversion (0.1.2) sha256=99bea5fa412e1527a11389975aa6ad445ff8528ebae202c11d08c45ea2b94c96
   colored2 (4.0.3) sha256=63e1038183976287efc43034f5cca17fb180b4deef207da8ba78d051cbce2b37
