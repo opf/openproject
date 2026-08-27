@@ -83,6 +83,18 @@ RSpec.describe Admin::Settings::VersionsAndCategoriesController do
       end
     end
 
+    context "when the current user is not an admin" do
+      current_user { create(:user) }
+
+      it "renders 403 and leaves the setting off" do
+        expect do
+          post :enable_multiple_versions, format: :turbo_stream
+        end.not_to change(Setting, :work_package_multiple_versions?).from(false)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
     context "when the setting is not writable" do
       before do
         allow(Settings::Definition[:work_package_multiple_versions])
