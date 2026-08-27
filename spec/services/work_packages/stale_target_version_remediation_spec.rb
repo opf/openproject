@@ -327,5 +327,55 @@ RSpec.describe WorkPackages::StaleTargetVersionRemediation, type: :model do
       expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
         .to contain_exactly(version_b.id)
     end
+
+    it "rolls back the removal and reports a failure when the corrective journal is not written" do
+      work_package, version_a, version_b = build_reinstated_corruption
+
+      silent_service = instance_double(Journals::CreateService,
+                                       call: ServiceResult.success(result: nil))
+      allow(Journals::CreateService).to receive(:new).and_return(silent_service)
+
+      out = StringIO.new
+      results = remediation.apply(out:)
+
+      expect(results.sole.action).to eq(:failed)
+      expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
+        .to contain_exactly(version_a.id, version_b.id)
+
+      output = out.string
+      expect(output).to include("failed 1 (rolled back): #{work_package.id}")
+      expect(output).to include("WP##{work_package.id}: corrective journal was not created")
+    end
+
+    it "continues with the remaining work packages when one of them fails" do
+      failing_work_package, failing_version_a, failing_version_b = build_reinstated_corruption
+
+      # Journals are stamped with database now(), which time travel cannot reach, so a
+      # work package created while the clock is traveled ahead would order its journals
+      # backwards. Return to real time before building the second corruption.
+      travel_back
+      healthy_work_package, _healthy_version_a, healthy_version_b = build_reinstated_corruption
+
+      allow(Journals::CreateService).to receive(:new).and_call_original
+      silent_service = instance_double(Journals::CreateService,
+                                       call: ServiceResult.success(result: nil))
+      allow(Journals::CreateService).to receive(:new)
+        .with(failing_work_package, User.system).and_return(silent_service)
+
+      out = StringIO.new
+      results = remediation.apply(out:)
+
+      expect(results.map { [it.work_package, it.action] })
+        .to contain_exactly([failing_work_package, :failed], [healthy_work_package, :remove])
+
+      expect(WorkPackageVersion.where(work_package_id: failing_work_package.id, kind: "target").pluck(:version_id))
+        .to contain_exactly(failing_version_a.id, failing_version_b.id)
+      expect(WorkPackageVersion.where(work_package_id: healthy_work_package.id, kind: "target").pluck(:version_id))
+        .to contain_exactly(healthy_version_b.id)
+
+      output = out.string
+      expect(output).to include("fixed 1 work packages: #{healthy_work_package.id}")
+      expect(output).to include("failed 1 (rolled back): #{failing_work_package.id}")
+    end
   end
 end

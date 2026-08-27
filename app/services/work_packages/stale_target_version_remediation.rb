@@ -43,7 +43,8 @@ class WorkPackages::StaleTargetVersionRemediation
     skip_manual_change: "skipped %d (manual change since)",
     skip_no_prior_version: "skipped %d (no prior version)",
     skip_anomaly: "skipped %d (anomaly - needs human review)",
-    already_corrected: "already corrected %d"
+    already_corrected: "already corrected %d",
+    failed: "failed %d (rolled back)"
   }.freeze
 
   Finding = Struct.new(:work_package, :journal, :stale_version, :action, :reason, keyword_init: true)
@@ -73,9 +74,17 @@ class WorkPackages::StaleTargetVersionRemediation
 
   def apply(out: $stdout)
     results = findings
+    failures = []
 
-    results.select { it.action == :remove }.each { |finding| remove_stale_version(finding, out:) }
+    results.select { it.action == :remove }.each do |finding|
+      remove_stale_version(finding, out:)
+    rescue StandardError => e
+      finding.action = :failed
+      failures << [finding, e]
+    end
+
     print_summary(results, out, remove_label: "fixed %d work packages")
+    print_failures(failures, out)
 
     results
   end
@@ -202,14 +211,21 @@ class WorkPackages::StaleTargetVersionRemediation
         .where(work_package_id: work_package.id, version_id: finding.stale_version.id, kind: "target")
         .delete_all
 
-      Journal::NotificationConfiguration.with(false) do
-        Journals::CreateService.new(work_package, User.system).call(
-          cause: Journal::CausedBySystemUpdate.new(feature: CORRECTIVE_CAUSE_FEATURE)
-        )
-      end
+      create_corrective_journal!(work_package)
     end
 
     out.puts "WP##{work_package.id}: removed stale target version #{finding.stale_version.name}"
+  end
+
+  def create_corrective_journal!(work_package)
+    Journal::NotificationConfiguration.with(false) do
+      result = Journals::CreateService.new(work_package, User.system).call(
+        cause: Journal::CausedBySystemUpdate.new(feature: CORRECTIVE_CAUSE_FEATURE)
+      )
+      # The journal service reports success even when no journal row was written;
+      # raising rolls back the removal so it never lands without its audit journal.
+      raise "corrective journal was not created" if result.result.nil?
+    end
   end
 
   def describe_finding(finding)
@@ -233,6 +249,16 @@ class WorkPackages::StaleTargetVersionRemediation
     end
 
     print_anomalies(results, out)
+  end
+
+  def print_failures(failures, out)
+    return if failures.empty?
+
+    out.puts
+    out.puts "Failures (rolled back, unchanged in the database):"
+    failures.each do |finding, error|
+      out.puts "  WP##{finding.work_package.id}: #{error.message}"
+    end
   end
 
   def print_anomalies(results, out)
