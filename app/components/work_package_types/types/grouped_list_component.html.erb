@@ -53,7 +53,16 @@ See COPYRIGHT and LICENSE files for more details.
           <% listed_variants(root).each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
-              <%= render(WorkPackageTypes::VariantRowComponent.new(variant: child, caption: t("types.index.variant_label"))) %>
+              <%= render(
+                    WorkPackageTypes::VariantRowComponent.new(
+                      variant: child,
+                      caption: t("types.index.variant_label")
+                    )
+                  ) do |row| %>
+                <% if child.enabled_in_new_projects? %>
+                  <% row.with_status_label { t("types.index.enabled_in_new_projects") } %>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
 

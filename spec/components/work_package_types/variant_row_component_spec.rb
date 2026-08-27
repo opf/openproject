@@ -65,45 +65,33 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     end
   end
 
-  it "says nothing about an owner while every project may use the variant" do
-    expect(rendered_component).to have_no_text("Owned by")
+  it "renders the labels its caller gives it" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_label { "Only available in this project" }
+      row.with_label(scheme: :accent) { "In use" }
+    end
+
+    expect(rendered).to have_css(".Label", text: "Only available in this project")
+    expect(rendered).to have_css(".Label--accent", text: "In use")
   end
 
-  context "when a project owns the variant" do
-    shared_let(:owning_project) { create(:project, name: "Apollo") }
-    shared_let(:owned) do
-      create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Internal")
-    end
-
-    subject(:rendered_component) { render_inline(described_class.new(variant: owned, caption:)) }
-
-    it "attributes the row to the project owning it" do
-      expect(rendered_component).to have_text("Owned by Apollo")
-    end
-
-    # Reached from administration's variants tab, where the row is listed. The project's copy of
-    # the screen is the coherent one: it is the only place the variant is used, and the tabs there
-    # leave out the projects a type is used in.
-    it "links into the project owning it" do
-      expect(rendered_component)
-        .to have_link("Internal",
-                      href: edit_type_details_path(in_project_id: owning_project,
-                                                   type_id: type.id, variant_id: owned.id))
-    end
-
-    # Whose it is, is a statement of fact about the row. The accent is reserved for what a
-    # reader is looking for, which is which variant is in use.
-    it "does not accent the attribution" do
-      expect(rendered_component).to have_css(".Label", text: "Owned by Apollo")
-      expect(rendered_component).to have_no_css(".Label--accent", text: "Owned by Apollo")
-    end
+  it "says nothing of its own about ownership or new projects" do
+    expect(rendered_component).to have_no_css(".Label")
   end
 
-  context "when new projects start with this variant" do
-    before { variant.update!(enabled_in_new_projects: true) }
-
-    it "labels the row" do
-      expect(rendered_component).to have_text(I18n.t("types.index.enabled_in_new_projects"))
+  # Right-aligned, for status rather than an affordance.
+  it "sets a status label apart from the rest" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_status_label { "Active in new projects" }
     end
+
+    expect(rendered).to have_css(".Label", text: "Active in new projects")
+  end
+
+  it "renders the name as plain text when it is not linked" do
+    rendered = render_inline(described_class.new(variant:, linked: false))
+
+    expect(rendered).to have_text("Hardware")
+    expect(rendered).to have_no_link("Hardware")
   end
 end

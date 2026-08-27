@@ -64,28 +64,16 @@ See COPYRIGHT and LICENSE files for more details.
           <% if configurable?(variant) %>
             <% item.with_menu { |menu| variant_actions(menu, variant) } %>
           <% end %>
-          <%= flex_layout(align_items: :center) do |row| %>
-            <% row.with_column(mr: 2) do %>
-              <%# The type's own configuration and the global variants are administration's. %>
-              <% if configurable?(variant) %>
-                <%= render(Primer::Beta::Link.new(href: edit_variant_path(variant), font_weight: :bold)) do %>
-                  <%= variant.variant_name %>
-                <% end %>
-              <% else %>
-                <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { variant.variant_name } %>
-              <% end %>
-            <% end %>
-            <% if owned?(variant) %>
-              <% row.with_column(mr: 2) do %>
-                <%= render(Primer::Beta::Label.new) do %>
-                  <%= t("projects.settings.types.only_available_here") %>
-                <% end %>
-              <% end %>
-            <% end %>
+          <%# Unlinked unless the reader may open it: the global variants are administration's. %>
+          <%= render(
+                WorkPackageTypes::VariantRowComponent.new(
+                  variant:,
+                  linked: configurable?(variant)
+                )
+              ) do |row| %>
+            <% row.with_label { t("projects.settings.types.only_available_here") } if owned?(variant) %>
             <% if in_use?(project_type, variant) %>
-              <% row.with_column do %>
-                <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("projects.settings.types.in_use") } %>
-              <% end %>
+              <% row.with_label(scheme: :accent) { t("projects.settings.types.in_use") } %>
             <% end %>
           <% end %>
         <% end %>
