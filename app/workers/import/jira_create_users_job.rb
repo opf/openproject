@@ -162,7 +162,7 @@ module Import
     # rubocop:enable Metrics/AbcSize
 
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
-      unique_login = resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
+      unique_login = resolve_jira_login(user_attrs[:login], jira_user.origin_id)
       new_call = Users::CreateService
                    .new(user: User.system, contract_class: EmptyContract)
                    .call(user_attrs.merge(login: unique_login))
