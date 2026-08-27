@@ -4,22 +4,22 @@ class RefactorJiraImports < ActiveRecord::Migration[8.1]
   def change
     reversible do |dir|
       dir.up do
-        connection.truncate_tables(
-          :jira_issues,
-          :jira_projects,
-          :jira_statuses,
-          :jira_priorities,
-          :jira_fields,
-          :jira_users,
-          :jira_issue_types,
-          :jira_imports,
-          :jira_import_transitions,
-          :jira_open_project_references,
-          # the following tables are deleted later and are most likely empty, but they do not allow other tables to be
-          # truncated due to foreign key constraints
-          :jira_status_categories,
-          :jira_project_types
-        )
+        connection.execute <<~SQL
+          TRUNCATE TABLE
+            jira_issues,
+            jira_projects,
+            jira_statuses,
+            jira_priorities,
+            jira_fields,
+            jira_users,
+            jira_issue_types,
+            jira_imports,
+            jira_import_transitions,
+            jira_open_project_references,
+            jira_status_categories,
+            jira_project_types
+          RESTART IDENTITY
+        SQL
       end
       dir.down do
       end
