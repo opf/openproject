@@ -140,7 +140,7 @@ module Import
       else
         overrides = {
           mail: unique_mail,
-          login: resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
+          login: resolve_jira_login(user_attrs[:login], jira_user.origin_id)
         }
 
         new_call = Users::CreateService
