@@ -52,6 +52,32 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, type: :component do
     expect(page).to have_css(".color-bg-attention .octicon-alert + h3", text: "Careful")
   end
 
+  it "renders the playground with a single action button" do
+    render_preview(:playground, from: described_class, params: { action: :button })
+
+    expect(page).to have_button("Primary action")
+  end
+
+  it "renders the playground with two action buttons" do
+    render_preview(:playground, from: described_class, params: { action: :buttons })
+
+    expect(page).to have_button("Secondary action")
+    expect(page).to have_button("Primary action")
+  end
+
+  it "renders the playground with an action menu" do
+    render_preview(:playground, from: described_class, params: { action: :menu })
+
+    expect(page).to have_button("Actions")
+    expect(page).to have_text("First action")
+  end
+
+  it "renders the playground without an action" do
+    render_preview(:playground, from: described_class, params: { action: :none })
+
+    expect(page).to have_no_button
+  end
+
   it "renders the playground without a title icon" do
     render_preview(:playground, from: described_class, params: { title_icon: :none })
 

@@ -41,11 +41,13 @@ module OpPrimer
     # @param scheme [Symbol] select [default, info, warning, danger, success]
     # @param title [String]
     # @param title_icon [Symbol] select [none, info, alert, stop, check-circle, link, pencil, git-branch]
+    # @param action [Symbol] select [none, button, buttons, menu]
     # @param content [String]
     def playground(border: true,
                    scheme: :default,
                    title: "Inset box title",
                    title_icon: :none,
+                   action: :none,
                    content: "Group some information here")
       render OpPrimer::InsetBoxComponent.new(
         border: ActiveModel::Type::Boolean.new.cast(border),
@@ -53,6 +55,7 @@ module OpPrimer
       ) do |box|
         box.with_title_icon(icon: title_icon.to_sym) unless title_icon.to_s == "none"
         box.with_title { title } if title.present?
+        playground_actions(box, action.to_sym)
         content
       end
     end
@@ -130,6 +133,24 @@ module OpPrimer
           menu.with_item(label: "Unlink all", href: "#", scheme: :danger)
         end
         "Two types inherit this configuration."
+      end
+    end
+
+    private
+
+    def playground_actions(box, action)
+      case action
+      when :button
+        box.with_action_button { "Primary action" }
+      when :buttons
+        box.with_action_button { "Secondary action" }
+        box.with_action_button(scheme: :primary) { "Primary action" }
+      when :menu
+        box.with_action_menu do |menu|
+          menu.with_show_button { "Actions" }
+          menu.with_item(label: "First action", href: "#")
+          menu.with_item(label: "Second action", href: "#")
+        end
       end
     end
   end
