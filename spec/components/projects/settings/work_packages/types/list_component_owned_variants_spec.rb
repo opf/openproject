@@ -84,6 +84,25 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
+    # The name is the affordance administration's list already uses. The others have no page
+    # this reader may open: the type's own configuration and the global variants are
+    # administration's.
+    it "links the name of the variant it owns" do
+      expect(page).to have_link(
+        "Internal review",
+        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+      )
+    end
+
+    it "leaves a global variant's name unlinked" do
+      expect(page).to have_text("Mobile")
+      expect(page).to have_no_link("Mobile")
+    end
+
+    it "leaves the type's own name unlinked" do
+      expect(page).to have_no_link("Bug")
+    end
+
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
@@ -183,6 +202,11 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "offers no way to configure one" do
       expect(page).to have_no_link("Edit")
+    end
+
+    it "leaves even its own variant's name unlinked" do
+      expect(page).to have_text("Internal review")
+      expect(page).to have_no_link("Internal review")
     end
   end
 end

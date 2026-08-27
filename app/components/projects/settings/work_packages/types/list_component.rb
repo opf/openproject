@@ -69,6 +69,10 @@ module Projects
             variant.project_id == project.id
           end
 
+          def configurable?(variant)
+            owned?(variant) && manageable?
+          end
+
           def manageable?
             User.current.allowed_in_project?(:manage_project_variants, project)
           end
