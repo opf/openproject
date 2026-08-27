@@ -28,6 +28,7 @@ jobs:
         echo "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__STORAGES__MODULE__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__SHOW__CHANGES__ACTIVE=true" >> .env.pullpreview
+        echo "OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_LOOKBOOK__ENABLED=true" >> .env.pullpreview
         echo "OPENPROJECT_HSTS=false" >> .env.pullpreview
         echo "OPENPROJECT_NOTIFICATIONS_POLLING_INTERVAL=10000" >> .env.pullpreview
