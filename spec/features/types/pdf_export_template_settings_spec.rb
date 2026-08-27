@@ -113,8 +113,15 @@ RSpec.describe "type PDF export template settings", :js do
       visit edit_type_pdf_export_template_index_path(type)
     end
 
+    it "does not link the template label to its settings", :aggregate_failures do
+      label = type.default_variant.pdf_export_templates.find("attributes").label
+
+      expect(page).to have_text(label)
+      expect(page).to have_no_link(label)
+    end
+
     it "shows the inherited settings with disabled fields" do
-      click_link_or_button type.default_variant.pdf_export_templates.find("attributes").label
+      visit edit_settings_type_pdf_export_template_path(type_id: type.id, id: "attributes")
 
       expect(page).to have_field("footer_text", with: "Source footer", disabled: true)
       expect(page).to have_button(I18n.t(:button_save), disabled: true)
