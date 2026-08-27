@@ -3139,6 +3139,7 @@ uk:
   label_available_project_work_package_categories: Доступні категорії робочих пакетів
   label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_projects: Доступні проєкти
+  label_backtrace: Backtrace
   label_backup: Резервна копія
   label_backup_code: Код резервної копії
   label_basic_details: Основна інформація

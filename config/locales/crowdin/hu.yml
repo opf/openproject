@@ -3081,6 +3081,7 @@ hu:
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag kategóriák
   label_available_project_work_package_types: Rendelkezésre álló munkacsomag típusok
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Biztonsági mentés
   label_backup_code: Visszaállítási kulcs
   label_basic_details: Basic details

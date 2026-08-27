@@ -3025,6 +3025,7 @@ sv:
   label_available_project_work_package_categories: Tillgängliga arbetspaketkategorier
   label_available_project_work_package_types: Tillgängliga typer för arbetspaket
   label_available_projects: Tillgängliga projekt
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Reservkod
   label_basic_details: Grundläggande detaljer

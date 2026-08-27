@@ -3133,6 +3133,7 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
+  label_backtrace: Backtrace
   label_backup: Резервное копирование
   label_backup_code: Резервный код
   label_basic_details: Основные детали

@@ -3079,6 +3079,7 @@ ro:
   label_available_project_work_package_categories: Categorii disponibile pachete de lucru
   label_available_project_work_package_types: Tipuri disponibile pachete de lucru
   label_available_projects: Proiecte disponibile
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Cod copie de rezervă
   label_basic_details: Informații de bază

@@ -3129,6 +3129,7 @@ pl:
   label_available_project_work_package_categories: Dostępne kategorie Zadań
   label_available_project_work_package_types: Dostępne typy pakietów roboczych
   label_available_projects: Dostępne projekty
+  label_backtrace: Backtrace
   label_backup: Kopia zapasowa
   label_backup_code: Kod kopii zapasowej
   label_basic_details: Podstawowe szczegóły

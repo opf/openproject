@@ -3023,6 +3023,7 @@ nl:
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
   label_available_project_work_package_types: Beschikbare werkpakkettypes
   label_available_projects: Beschikbare projecten
+  label_backtrace: Backtrace
   label_backup: Back-up
   label_backup_code: Back-up code
   label_basic_details: Basic details

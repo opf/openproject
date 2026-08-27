@@ -3019,6 +3019,7 @@ es:
   label_available_project_work_package_categories: Categorias de paquetes de trabjo disponibles
   label_available_project_work_package_types: Tipos de paquete de trabajo disponibles
   label_available_projects: Proyectos disponibles
+  label_backtrace: Backtrace
   label_backup: Copia de seguridad
   label_backup_code: Código de copia de seguridad
   label_basic_details: Detalles básicos

@@ -2971,6 +2971,7 @@ vi:
   label_available_project_work_package_categories: Danh mục gói công việc có sẵn
   label_available_project_work_package_types: Các loại gói công việc có sẵn
   label_available_projects: Dự án có sẵn
+  label_backtrace: Backtrace
   label_backup: Sao lưu
   label_backup_code: Mã dự phòng
   label_basic_details: Chi tiết cơ bản

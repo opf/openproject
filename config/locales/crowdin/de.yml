@@ -67,7 +67,7 @@ de:
       '
     login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
-    signup_title: Create an account in %{app_title}
+    signup_title: Erstellen Sie ein Konto bei %{app_title}
     signup_with_external_account: Mit einem externen Konto anmelden
   actionview_instancetag_blank_option: Bitte auswählen
   activemodel:
@@ -1154,7 +1154,7 @@ de:
     jira:
       actions:
         button_edit: Konfiguration bearbeiten
-        button_open: Open runs
+        button_open: Offene Importe
       banner:
         contribution_callout: 'Bitte helfen Sie uns, den Jira Migrator mit Ihrem Feedback und Ihren privaten Datenspenden zu verbessern. Sie können [der Entwicklergemeinschaft](link) des Jira Migrator beitreten.
 
@@ -1201,11 +1201,11 @@ de:
           personal_access_token: Persönlicher Zugangs-Token
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: Sie können die Konfiguration testen, indem sie [hier klicken](test)
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: Import bearbeiten
+          button_open_history: Importverlauf öffnen
         blank:
           description: Erstellen Sie einen Importlauf, um den Import von Informationen aus dieser Jira-Instanz zu starten
           title: Noch keine Importläufe eingerichtet
@@ -1218,8 +1218,8 @@ de:
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
-          open_history: Open the run history
-          run_status: Run status
+          open_history: Importverlauf öffnen
+          run_status: Importstatus
         status:
           configuring: Umfang auswählen
           finalizing: Abschließen
@@ -1253,7 +1253,7 @@ de:
             configuration:
               title: Import konfigurieren
             run_and_review:
-              title: Run and review import
+              title: Import ausführen und überprüfen
           import_dialog:
             confirm: Ich verstehe und habe ein Backup
             confirm_button: Import starten
@@ -1297,10 +1297,10 @@ de:
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: Weiter zur Auswahl
               button_fetch: Verfügbare Daten prüfen
               caption_done: Abgeschlossen
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: Metadaten von %{server_info} abgerufen
               description: Prüfen Sie, welche Daten in der Host-Jira-Instanz zum Import verfügbar sind.
               label_available_server_data: Verfügbare Daten auf %{server_info}
               label_progress: Abrufen von Daten aus Jira...
@@ -1325,7 +1325,7 @@ de:
                   subtitle: Einschließlich Typen und Status
                 projects:
                   label: Projekte
-                  subtitle: Selected as scope
+                  subtitle: Als Umfang ausgewählt
                 title: Daten importiert
                 users_and_groups:
                   label: Benutzer & Gruppen
@@ -1341,8 +1341,8 @@ de:
               caption: Wählen Sie, was Sie in OpenProject importieren möchten
               caption_done: Abgeschlossen
               caption_done_description:
-                one: 1 project selected as scope
-                other: "%{count} projects selected as scope"
+                one: 1 Projekt als Umfang ausgewählt
+                other: "%{count} Projekte als Anwendungsbereich ausgewählt"
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               elements:
                 custom_fields: Ein Teil der benutzerdefinierten Felder
@@ -1370,7 +1370,7 @@ de:
             button_select_all: Alle auswählen
             button_unselect_all: Auswahl aufheben
             filter_projects: Nach Text filtern
-            info: Only projects where the Jira token owner is member are selectable as import scope.
+            info: Nur Projekte, bei denen der Besitzer des Jira Token Mitglied ist, sind für den Import auswählbar.
             title: Projekte zum Importieren auswählen
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
@@ -2845,14 +2845,14 @@ de:
       new_features:
         '17_8':
           new_features_list:
-            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
-            line_1: Multiple target versions for work packages.
-            line_2: Global limits and restrictions for time entries (Professional plan).
-            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_0: KI-gestützte Aktionen auf Arbeitspaketen, Kommentaren und Verbindungen zum MCP-Server (Professional-Plan).
+            line_1: Mehrere Zielversionen für Arbeitspakete.
+            line_2: Globale Begrenzungen und Einschränkungen für Zeiteinträge (Professional-Plan).
+            line_3: Verbesserungen bei der Massenbearbeitung im agilen Kontext und das Ziehen von Backlog-Karten in externe Anwendungen.
             line_4: Wiki-Makros sind in weiteren Texteditoren verfügbar.
-            line_5: Improved search for work package identifiers.
-            line_6: 'Released to Community: Display relations in work package tables.'
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_5: Verbesserte Suche nach Arbeitspaket-Identifikatoren.
+            line_6: 'Für die Community freigegeben: Darstellung von Beziehungen in Arbeitspaket-Tabellen.'
+          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -3023,6 +3023,7 @@ de:
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
   label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
   label_available_projects: Verfügbare Projekte
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Backupcode
   label_basic_details: Allgemeine Informationen

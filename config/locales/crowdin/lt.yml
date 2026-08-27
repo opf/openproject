@@ -3137,6 +3137,7 @@ lt:
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
   label_available_project_work_package_types: Galimi darbo paketų tipai
   label_available_projects: Galimi projektai
+  label_backtrace: Backtrace
   label_backup: Atsarginė kopija
   label_backup_code: Atsarginis kodas
   label_basic_details: Basic details

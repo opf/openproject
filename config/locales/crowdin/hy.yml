@@ -3021,6 +3021,7 @@ hy:
   label_available_project_work_package_categories: Հասանելի աշխատանքային փաթեթների կատեգորիաներ
   label_available_project_work_package_types: Հասանելի աշխատանքային փաթեթների տեսակներ
   label_available_projects: Հասանելի նախագծեր
+  label_backtrace: Backtrace
   label_backup: Պահուստավորում
   label_backup_code: Պահուստային կոդ
   label_basic_details: Հիմնական մանրամասներ

@@ -602,7 +602,6 @@ he:
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."
             two: "%{name} is used in project attribute calculations: %{links}."
-            many: "%{name} is used in project attribute calculations: %{links}."
             other: "%{name} is used in project attribute calculations: %{links}."
         custom_fields_project:
           attributes:
@@ -848,7 +847,6 @@ he:
               reused:
                 one: שומש בעבר. נא בחר אחד שונה מהאחרון שהשתמשתה בו.
                 two: שומש בעבר. נא בחר אחד שונה מ %{count} האחרונים שהשתמשתה בהם.
-                many: שומש בעבר. נא בחר אחד שונה מ %{count} האחרונים שהשתמשתה בהם.
                 other: שומש בעבר. נא בחר אחד שונה מ %{count} האחרונים שהשתמשתה בהם.
               special: מיוחדים (למשל ' %')
               uppercase: אותיות רישיות (למשל ' A')
@@ -952,19 +950,16 @@ he:
         header:
           one: שגיאה אחת מנעה מ%{model} להשמר
           two: "%{count} שגיאות מנעו מ%{model} זה להשמר"
-          many: "%{count} שגיאות מנעו מ%{model} זה להשמר"
           other: "%{count} שגיאות מנעו מ%{model} זה להשמר"
     models:
       attachment: קובץ
       attribute_help_text:
         one: Attribute help text
         two: Attribute help texts
-        many: Attribute help texts
         other: Attribute help texts
       auth_provider:
         one: Authentication provider
         two: Authentication providers
-        many: Authentication providers
         other: Authentication providers
       category: קטגוריה
       color: צבע
@@ -976,7 +971,6 @@ he:
       enterprise_token:
         one: Enterprise token
         two: Enterprise tokens
-        many: Enterprise tokens
         other: Enterprise tokens
       forum: פורום
       global_role: Global role
@@ -984,12 +978,10 @@ he:
       issue_priority:
         one: עדיפות
         two: Priorities
-        many: Priorities
         other: Priorities
       jira:
         one: Jira
         two: Jira
-        many: Jira
         other: Jira
       meeting_participant: Meeting participant
       member: חבר
@@ -998,46 +990,38 @@ he:
       notification:
         one: Notification
         two: Notifications
-        many: Notifications
         other: Notifications
       placeholder_user: Placeholder user
       project:
         one: פרוייקט
         two: פרויקטים
-        many: פרויקטים
         other: פרויקטים
       project_query:
         one: Project list
         two: Project lists
-        many: Project lists
         other: Project lists
       query: שאילתה מותאמת אישית
       reminder: Reminder
       role:
         one: תפקיד
         two: תפקידים
-        many: תפקידים
         other: תפקידים
       scim_client:
         one: SCIM client
         two: SCIM clients
-        many: SCIM clients
         other: SCIM clients
       status: מצב חבילת העבודה
       token/api:
         one: Access token
         two: Access tokens
-        many: Access tokens
         other: Access tokens
       token/rss:
         one: RSS token
         two: RSS tokens
-        many: RSS tokens
         other: RSS tokens
       type:
         one: Type
         two: Types
-        many: Types
         other: Types
       user: משתמש
       version: גירסה
@@ -1102,12 +1086,10 @@ he:
         hour:
           one: "%{count} hour"
           two: "%{count} שעות"
-          many: "%{count} שעות"
           other: "%{count} שעות"
         hour_html:
           one: "<i>%{count} hour</i>"
           two: "<i>%{count} hours</i>"
-          many: "<i>%{count} hours</i>"
           other: "<i>%{count} hours</i>"
         logged_for: Logged for
         updated: changed from %{old_value} to %{value}
@@ -1301,32 +1283,26 @@ he:
             issues:
               one: 1 issue
               two: "%{count} issues"
-              many: "%{count} issues"
               other: "%{count} issues"
             projects:
               one: 1 project
               two: "%{count} projects"
-              many: "%{count} projects"
               other: "%{count} projects"
             statuses:
               one: 1 status
               two: "%{count} statuses"
-              many: "%{count} statuses"
               other: "%{count} statuses"
             types:
               one: 1 type
               two: "%{count} types"
-              many: "%{count} types"
               other: "%{count} types"
             users:
               one: 1 user
               two: "%{count} users"
-              many: "%{count} users"
               other: "%{count} users"
             work_packages:
               one: 1 work package
               two: "%{count} work packages"
-              many: "%{count} work packages"
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
@@ -1391,7 +1367,6 @@ he:
               caption_done_description:
                 one: 1 project selected as scope
                 two: "%{count} projects selected as scope"
-                many: "%{count} projects selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -1485,7 +1460,6 @@ he:
         description_with_work_packages:
           one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           two: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -1618,7 +1592,6 @@ he:
           remaining_projects:
             one: "... 1 more project"
             two: "... %{count} more projects"
-            many: "... %{count} more projects"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -1663,7 +1636,6 @@ he:
         roles:
           one: One role selected
           two: "%{count} roles selected"
-          many: "%{count} roles selected"
           other: "%{count} roles selected"
         title: Select roles
       status_button: Status
@@ -1677,7 +1649,6 @@ he:
         heading:
           one: Remove 1 status?
           two: Remove %{count} statuses?
-          many: Remove %{count} statuses?
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
@@ -2278,104 +2249,84 @@ he:
       about_x_hours:
         one: בערך שעה אחד
         two: בערך %{count} שעות
-        many: בערך %{count} שעות
         other: בערך %{count} שעות
       about_x_months:
         one: בערך חודש אחד
         two: בערך %{count} חודשים
-        many: בערך %{count} חודשים
         other: בערך %{count} חודשים
       about_x_years:
         one: בערך שנה אחד
         two: בערך %{count} שנים
-        many: בערך %{count} שנים
         other: בערך %{count} שנים
       almost_x_years:
         one: כמעט שנה
         two: כמעט %{count} שנים
-        many: כמעט %{count} שנים
         other: כמעט %{count} שנים
       half_a_minute: חצי דקה
       less_than_x_minutes:
         one: פחות מדקה
         two: פחות מ- %{count} דקות
-        many: פחות מ- %{count} דקות
         other: פחות מ- %{count} דקות
       less_than_x_seconds:
         one: פחות משנייה
         two: פחות מ- %{count} שניות
-        many: פחות מ- %{count} שניות
         other: פחות מ- %{count} שניות
       over_x_years:
         one: מעל שנה
         two: מעל %{count} שנים
-        many: מעל %{count} שנים
         other: מעל %{count} שנים
       x_days:
         one: יום אחד
         two: "%{count} ימים"
-        many: "%{count} ימים"
         other: "%{count} ימים"
       x_hours:
         one: שעה אחת
         two: "%{count} שעות"
-        many: "%{count} שעות"
         other: "%{count} שעות"
       x_hours_abbreviated:
         one: 1 hr
         two: "%{count} hrs"
-        many: "%{count} hrs"
         other: "%{count} hrs"
       x_minutes:
         one: דקה אחת
         two: "%{count} דקות"
-        many: "%{count} דקות"
         other: "%{count} דקות"
       x_minutes_abbreviated:
         one: 1 min
         two: "%{count} mins"
-        many: "%{count} mins"
         other: "%{count} mins"
       x_months:
         one: חודש אחד
         two: "%{count} חודשים"
-        many: "%{count} חודשים"
         other: "%{count} חודשים"
       x_seconds:
         one: שנייה אחת
         two: "%{count} שניות"
-        many: "%{count} שניות"
         other: "%{count} שניות"
       x_seconds_abbreviated:
         one: 1 s
         two: "%{count} s"
-        many: "%{count} s"
         other: "%{count} s"
       x_weeks:
         one: 1 week
         two: "%{count} weeks"
-        many: "%{count} weeks"
         other: "%{count} weeks"
       x_years:
         one: 1 year
         two: "%{count} years"
-        many: "%{count} years"
         other: "%{count} years"
     units:
       day:
         one: day
         two: ימים
-        many: ימים
         other: ימים
       hour:
         one: שעה
         two: שעות
-        many: שעות
         other: שעות
       minute_abbreviated:
         one: min
         two: mins
-        many: mins
         other: mins
   departments:
     add_department: Add department
@@ -2515,7 +2466,6 @@ he:
       title:
         one: One day left of %{trial_plan} trial token
         two: "%{count} days left of %{trial_plan} trial token"
-        many: "%{count} days left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
@@ -2717,12 +2667,10 @@ he:
     header_additional_invalid_fields:
       one: 'Additionally, there was a problem with the following field:'
       two: 'Additionally, there were problems with the following fields:'
-      many: 'Additionally, there were problems with the following fields:'
       other: 'Additionally, there were problems with the following fields:'
     header_invalid_fields:
       one: 'There was a problem with the following field:'
       two: 'היו בעיות עם השדות הבאים:'
-      many: 'היו בעיות עם השדות הבאים:'
       other: 'היו בעיות עם השדות הבאים:'
     messages:
       invalid_child_for_parent: is not allowed as a parent for this view type.
@@ -2919,13 +2867,11 @@ he:
         failures:
           one: "%{count} check failed"
           two: "%{count} checks failed"
-          many: "%{count} checks failed"
           other: "%{count} checks failed"
         success: All checks passed
         warnings:
           one: "%{count} check returned a warning"
           two: "%{count} checks returned a warning"
-          many: "%{count} checks returned a warning"
           other: "%{count} checks returned a warning"
       summary:
         failure: Some checks failed and the system does not work as expected.
@@ -3133,6 +3079,7 @@ he:
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
   label_backup_code: Backup code
   label_basic_details: Basic details
@@ -3823,7 +3770,6 @@ he:
   label_x_days:
     one: 1 day
     two: "%{count} days"
-    many: "%{count} days"
     other: "%{count} days"
   label_x_files:
     one: 1 file
@@ -3836,7 +3782,6 @@ he:
   label_x_items_selected:
     one: One item selected
     two: "%{count} items selected"
-    many: "%{count} items selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
     one: אחד פתוח
@@ -3853,12 +3798,10 @@ he:
   label_x_working_days:
     one: 1 working day
     two: "%{count} working days"
-    many: "%{count} working days"
     other: "%{count} working days"
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     two: 'Time off: %{count} working days'
-    many: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
   label_yesterday: אתמול
   label_zen_mode: Zen mode
@@ -4028,7 +3971,6 @@ he:
       more_to_see:
         one: There is 1 more work package with notifications.
         two: There are %{count} more work packages with notifications.
-        many: There are %{count} more work packages with notifications.
         other: There are %{count} more work packages with notifications.
       open_in_browser: Open in browser
       reason:
@@ -4124,7 +4066,6 @@ he:
       also_work_packages_shared_with_user_html:
         one: Also, %{shared_work_packages_link} has been shared with this user.
         two: Also, %{shared_work_packages_link} have been shared with this user.
-        many: Also, %{shared_work_packages_link} have been shared with this user.
         other: Also, %{shared_work_packages_link} have been shared with this user.
       can_remove_direct_but_not_shared_roles: You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group.
       cannot_delete_inherited_membership: You cannot delete this member because they belong to a group that is itself a member of this project.
@@ -4133,12 +4074,10 @@ he:
       however_work_packages_shared_with_group_html:
         one: However, %{shared_work_packages_link} has also been shared with this group.
         two: However, %{shared_work_packages_link} have also been shared with this group.
-        many: However, %{shared_work_packages_link} have also been shared with this group.
         other: However, %{shared_work_packages_link} have also been shared with this group.
       however_work_packages_shared_with_user_html:
         one: However, %{shared_work_packages_link} has also been shared with this user.
         two: However, %{shared_work_packages_link} have also been shared with this user.
-        many: However, %{shared_work_packages_link} have also been shared with this user.
         other: However, %{shared_work_packages_link} have also been shared with this user.
       remove_project_membership_or_work_package_shares_too: Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?
       remove_work_packages_shared_with_group_too: A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?
@@ -4158,17 +4097,14 @@ he:
       shared_with_permission_html:
         one: Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions.
         two: Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions.
-        many: Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions.
         other: Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions.
       shared_with_this_group_html:
         one: "%{all_shared_work_packages_link} has been shared with this group."
         two: "%{all_shared_work_packages_link} have been shared with this group."
-        many: "%{all_shared_work_packages_link} have been shared with this group."
         other: "%{all_shared_work_packages_link} have been shared with this group."
       shared_with_this_user_html:
         one: "%{all_shared_work_packages_link} has been shared with this user."
         two: "%{all_shared_work_packages_link} have been shared with this user."
-        many: "%{all_shared_work_packages_link} have been shared with this user."
         other: "%{all_shared_work_packages_link} have been shared with this user."
       title: Revoke work package shares
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
@@ -4500,7 +4436,6 @@ he:
           byte:
             one: בייט
             two: בייטים
-            many: בייטים
             other: בייטים
           gb: GB
           kb: kB
@@ -4551,7 +4486,6 @@ he:
     confirm_revoke_my_application:
       one: Do you really want to remove this application? This will revoke one token active for it.
       two: Do you really want to remove this application? This will revoke %{count} tokens active for it.
-      many: Do you really want to remove this application? This will revoke %{count} tokens active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -4884,7 +4818,6 @@ he:
       sub_items_html:
         one: "<strong>1</strong> sub-item"
         two: "<strong>%{count}</strong> sub-items"
-        many: "<strong>%{count}</strong> sub-items"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Active portfolios
@@ -5172,7 +5105,6 @@ he:
     and_others:
       one: and 1 other
       two: and %{count} others
-      many: and %{count} others
       other: and %{count} others
     and_user: and %{user}
     react_with: React with %{reaction}
@@ -6278,7 +6210,6 @@ he:
       variants_count:
         one: 1 variant
         two: "%{count} variants"
-        many: "%{count} variants"
         other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
@@ -6301,7 +6232,6 @@ he:
     blocked_num_failed_logins:
       one: נעול באופן זמני (נסיון כניסה כושל אחד)
       two: נעול זמנית (%{count} ניסיונות כניסה)
-      many: נעול זמנית (%{count} ניסיונות כניסה)
       other: נעול זמנית (%{count} ניסיונות כניסה)
     confirm_status_change: You are about to change the status of '%{name}'. Are you sure you want to continue?
     deleted: Deleted user
@@ -6464,7 +6394,6 @@ he:
         work_days_count:
           one: 1 working day
           two: "%{count} working days"
-          many: "%{count} working days"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: סגור
@@ -6647,7 +6576,6 @@ he:
       deletion_successful:
         one: Successfully deleted 1 work package.
         two: Successfully deleted %{count} work packages.
-        many: Successfully deleted %{count} work packages.
         other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
       move_failed: The work packages could not be moved.
@@ -6667,23 +6595,19 @@ he:
       hidden_descendants_only_warning:
         one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
         two: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
         one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
         two: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
         one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -6736,23 +6660,19 @@ he:
       hidden_descendants_only_warning:
         one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         two: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
         one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         two: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
         one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
@@ -6787,7 +6707,6 @@ he:
     x_descendants:
       one: One descendant work package
       two: "%{count} work package descendants"
-      many: "%{count} work package descendants"
       other: "%{count} work package descendants"
   workflows:
     copies:
@@ -6810,14 +6729,12 @@ he:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             two: Successfully copied workflow to %{count} roles.
-            many: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
       from_types:
         create:
           notice:
             one: Successfully copied workflow to '%{type_name}' type.
             two: Successfully copied workflow to %{count} types.
-            many: Successfully copied workflow to %{count} types.
             other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
