@@ -139,7 +139,7 @@ module Import
     end
 
     def record_editmeta_contexts_for_issue(jira_issue, option_based_fields_by_jira_id, groups_by_field)
-      issue_key = jira_issue.payload["key"] || jira_issue.jira_issue_id
+      issue_key = jira_issue.payload["key"] || jira_issue.origin_id
       project_key, issuetype_id = issue_context_key(jira_issue)
       result = @jira_client.issue_editmeta(issue_key)
       record_editmeta_fields(result["fields"], project_key, issuetype_id, option_based_fields_by_jira_id, groups_by_field)
