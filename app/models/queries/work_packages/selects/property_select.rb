@@ -146,6 +146,10 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
             WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
         SQL
     },
+    observed_in_versions: {
+      sortable: false,
+      groupable: false
+    },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"
     },

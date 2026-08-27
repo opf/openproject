@@ -20,8 +20,8 @@ pt-PT:
         bim/bcf/issue:
           uuid_already_taken: Não é possível importar este assunto BCF, pois já existe outro com o mesmo GUID. Este assunto do BCF pode já ter sido importado para um projeto diferente?
         bim/bcf/viewpoint:
-          bitmaps_not_writable: Os bitmaps não são graváveis pois ainda não estão implementados.
-          index_not_integer: o índice não é um numero inteiro.
+          bitmaps_not_writable: não é possível gravar em bitmaps porque ainda não foi implementado.
+          index_not_integer: o índice não é um número inteiro.
           invalid_clipping_planes: clipping_planes é inválido.
           invalid_components: componentes inválidos.
           invalid_lines: linhas inválidas.

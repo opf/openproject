@@ -177,11 +177,11 @@ module McpTools
 
     # Intended to be implemented by subclasses. It should return a structured result (e.g. a Hash or Array).
     def call(**)
-      raise NotImplemented, "#{self.class} needs to implement #call method"
+      raise SubclassResponsibilityError, "#{self.class} needs to implement #call method"
     end
 
     def format_response(result)
-      result = self.class.output_filters.inject(JSON.parse(result.to_json)) { |r, f| f.filter(r) }
+      result = self.class.output_filters.each_with_object(result.as_json) { |f, r| f.filter(r) }
       plain = render_plain_content? ? format_content(result) : []
       structured_content = render_structured_content? ? format_structured_content(result) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)

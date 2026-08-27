@@ -28,9 +28,9 @@ ko:
       deploy_target:
         other: 배포 대상
       github_check_run:
-        other: GitHub check runs
+        other: GitHub 검사 실행
       github_pull_request:
-        other: GitHub pull requests
+        other: GitHub 끌어오기 요청
       github_user:
         other: GitHub 사용자
   attributes:

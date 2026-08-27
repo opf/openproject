@@ -73,13 +73,13 @@ de:
           name: Globale Standardrolle
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Grammatik korrigieren
         item_1:
-          label: Make concise
+          label: Prägnant formulieren
         item_2:
-          label: Translate to English
+          label: Ins Englische übersetzen
         item_3:
-          label: Sort into template
+          label: In Vorlage sortieren
     standard:
       project_phases:
         item_0:

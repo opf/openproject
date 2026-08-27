@@ -113,13 +113,15 @@ Add the project **status description** and further important information, such a
 
 ### Project timeline widget
 
-The project timeline widget under the overview tab displays a timeline chart of your **Project phases** and **Phase gates**. Hover your cursor over a phase or gate on the timeline to view the name and date(s). You can also use your cursor to expand or reduce the size of the timeline chart for a more detailed or compact view. If there are no phases and gates enabled in your project, the widget is empty.
+The project timeline widget under the overview tab displays a timeline chart of your **Project phases**, **Phase gates**, **Milestones** and **Sprints**. Hover your cursor over an item to view the name and date(s). For a more detailed or compact view, scroll to expand or reduce the size of the timeline chart. If there are no phases and gates enabled in your project, no milestones and sprints, the widget is empty. 
+
+Click **See more details** below the widget to view your project milestones in a Gantt chart and see an overview of all project sprints.
 
 ![Project timeline widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_timeline_widget.png)
 
 > [!NOTE]
 > 
-> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. In addition, the widget is visible only to users with the right permissions.
+> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. This also applies to milestones and sprints. In addition, the widget is visible only to users with the right permissions to view project lifecycle attributes, work packages and sprints.
 
 ### Subitems widget
 
