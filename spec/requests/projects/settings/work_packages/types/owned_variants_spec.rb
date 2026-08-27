@@ -319,6 +319,26 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
+  # The steps carry the form the reader has come to fill in — the workflow matrix widest of all —
+  # and the project menu leaves it too little room on a laptop. The breadcrumb still says where
+  # this is, so the trail does not depend on the menu.
+  describe "the wizard's chrome" do
+    it "leaves the project menu out" do
+      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
+                                    step: "workflows")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include('id="main-menu"')
+    end
+
+    it "still says where it is" do
+      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
+                                    step: "workflows")
+
+      expect(response.body).to include(project_settings_work_packages_types_path(project))
+    end
+  end
+
   describe "the wizard's steps" do
     # A variant only this project uses is never activated anywhere else, so the step that
     # picks projects must not be reachable, sidebar or URL.
