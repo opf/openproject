@@ -73,7 +73,7 @@ export class GroupByDragActionService extends TableDragActionService {
       .catch((e) => this.halNotification.handleRawError(e, workPackage));
   }
 
-  private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown|null {
+  private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown {
     const groupHeader = locatePredecessorBySelector(el, `.${rowGroupClassName}`)!;
     const match = this.groups.find((group) => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
 
@@ -81,9 +81,10 @@ export class GroupByDragActionService extends TableDragActionService {
       return null;
     }
 
-    if (match._links && match._links.valueLink) {
+    if (match._links?.valueLink) {
       const links = match._links.valueLink;
-      const fieldSchema = this.schemaCache.of(workPackage).ofProperty(this.groupedAttribute!);
+      const schema = this.schemaCache.state(workPackage).value;
+      const fieldSchema = schema && this.schemaCache.proxied(workPackage, schema).ofProperty(this.groupedAttribute!);
 
       if (fieldSchema?.type?.startsWith('[]')) {
         return links;
