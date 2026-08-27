@@ -139,6 +139,27 @@ RSpec.describe TypeVariant, "ownership" do
     end
   end
 
+  # Every screen addresses a variant through this, so carrying the owner here is what keeps a
+  # caller from reaching an owned variant at administration's address by forgetting to say so.
+  describe "#path_args" do
+    it "names the project owning the variant" do
+      owned = create(:project_owned_type_variant, type:, project:)
+
+      expect(owned.path_args).to eq(type_id: type.id, variant_id: owned.id, in_project_id: project)
+    end
+
+    it "names no project for one every project may use" do
+      global = create(:type_variant, type:, variant_name: "Mobile")
+
+      expect(global.path_args).to eq(type_id: type.id, variant_id: global.id)
+    end
+
+    # The base variant is the type's own configuration and can never be owned.
+    it "names only the type for the base variant" do
+      expect(type.default_variant.path_args).to eq(type_id: type.id)
+    end
+  end
+
   describe "when the owning project goes away" do
     it "takes the variant with it" do
       owned = create(:project_owned_type_variant, type:, project: create(:project))

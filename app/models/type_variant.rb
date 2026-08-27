@@ -162,7 +162,8 @@ class TypeVariant < ApplicationRecord
   def project_owned? = project_id.present?
 
   def path_args
-    is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
+    args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
+    project_id.nil? ? args : args.merge(in_project_id: project)
   end
 
   # Full variant name, e.g., "Bug: Hardware"

@@ -45,6 +45,10 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
       .to have_link("Hardware", href: edit_type_details_path(type_id: type.id, variant_id: variant.id))
   end
 
+  it "names no project for a variant every project may use" do
+    expect(rendered_component).to have_no_link("Hardware", href: /in-project/)
+  end
+
   it "leaves out the caption unless one is given" do
     expect(rendered_component).to have_no_text(I18n.t("types.index.variant_label"))
   end
@@ -75,6 +79,16 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
 
     it "attributes the row to the project owning it" do
       expect(rendered_component).to have_text("Owned by Apollo")
+    end
+
+    # Reached from administration's variants tab, where the row is listed. The project's copy of
+    # the screen is the coherent one: it is the only place the variant is used, and the tabs there
+    # leave out the projects a type is used in.
+    it "links into the project owning it" do
+      expect(rendered_component)
+        .to have_link("Internal",
+                      href: edit_type_details_path(in_project_id: owning_project,
+                                                   type_id: type.id, variant_id: owned.id))
     end
 
     # Whose it is, is a statement of fact about the row. The accent is reserved for what a

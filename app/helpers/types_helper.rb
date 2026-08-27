@@ -65,7 +65,7 @@ module ::TypesHelper
       },
       {
         name: "projects",
-        path: (edit_type_projects_path(**variant_args) unless variant_scope_project),
+        path: (edit_type_projects_path(**variant_args) if projects_tab?),
         label: I18n.t("types.edit.projects.tab")
       },
       {
@@ -82,6 +82,10 @@ module ::TypesHelper
   def type_variant_tab_args
     @variant&.path_args || { type_id: @type.id }
   end
+
+  # A variant a project owns may only ever be used there, an administrator included, so which
+  # projects use it is not a question. Mirrors Wizard::Steps.available_for.
+  def projects_tab? = variant_scope_project.nil? && !@variant&.project_owned?
 
   def variants_tab
     return unless OpenProject::FeatureDecisions.type_variants_active?

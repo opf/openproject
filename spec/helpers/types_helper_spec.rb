@@ -67,6 +67,30 @@ RSpec.describe TypesHelper do
           expect(tab_names).not_to include("variants")
         end
       end
+
+      context "when a variant a project owns is addressed" do
+        let(:addressed_variant) do
+          build_stubbed(:project_owned_type_variant, type:, project: build_stubbed(:project))
+        end
+
+        # It is only ever used in the project owning it, so which projects use it is not a
+        # question — for an administrator either, which is who sees this tab set.
+        it "omits the projects tab" do
+          expect(tab_names).not_to include("projects")
+        end
+
+        it "still offers the tabs that configure it" do
+          expect(tab_names).to include("details", "defaults", "form_configuration")
+        end
+      end
+
+      context "when a variant every project may use is addressed" do
+        let(:addressed_variant) { variant }
+
+        it "offers the projects tab" do
+          expect(tab_names).to include("projects")
+        end
+      end
     end
 
     context "with the type_variants feature disabled", with_flag: { type_variants: false } do

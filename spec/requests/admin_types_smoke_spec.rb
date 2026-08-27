@@ -105,6 +105,39 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_fl
     expect(response).to have_http_status(:ok)
   end
 
+  # The variants tab lists every project's, and its rows link into the project owning them, so an
+  # administrator arrives at a project-scoped address. It has to open, and it has to leave out the
+  # projects a type is used in: a variant a project owns is only ever used there.
+  describe "a variant a project owns, reached from the variants tab" do
+    shared_let(:owning_project) { create(:project) }
+    shared_let(:owned) do
+      create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Internal")
+    end
+
+    it "opens where the row points, inside the project" do
+      get edit_type_details_path(in_project_id: owning_project, type_id: type.id, variant_id: owned.id)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "offers no projects tab there" do
+      get edit_type_details_path(in_project_id: owning_project, type_id: type.id, variant_id: owned.id)
+
+      expect(response.body)
+        .not_to include(edit_type_projects_path(in_project_id: owning_project, type_id: type.id,
+                                                variant_id: owned.id))
+      expect(response.body).not_to include(edit_type_projects_path(type_id: type.id, variant_id: owned.id))
+    end
+
+    # Administration's own address for it still opens, and must not offer the tab either.
+    it "offers no projects tab at administration's address" do
+      get edit_type_details_path(type_id: type.id, variant_id: owned.id)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(edit_type_projects_path(type_id: type.id, variant_id: owned.id))
+    end
+  end
+
   it "creates a named variant" do
     post creation_wizard_types_path(type_id: type.id), params: { type_variant: { variant_name: "Hardware" } }
     expect(response).to have_http_status(:see_other)
