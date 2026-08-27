@@ -8,7 +8,6 @@ export const mockWorkPackage = {
     self:   { href: '/api/v3/work_packages/123' },
     type:   { title: 'Bug',         href: '/api/v3/types/1'    },
     status: { title: 'In Progress', href: '/api/v3/statuses/1' },
-    assignee: null,
   },
 };
 
@@ -20,7 +19,6 @@ export const mockWorkPackage2 = {
     self:   { href: '/api/v3/work_packages/456' },
     type:   { title: 'Feature', href: '/api/v3/types/2' },
     status: { title: 'Open',    href: '/api/v3/statuses/2' },
-    assignee: null,
   },
 };
 
@@ -32,7 +30,6 @@ export const mockWorkPackageWithSemanticId = {
     self:   { href: '/api/v3/work_packages/789' },
     type:   { title: 'Feature', href: '/api/v3/types/2' },
     status: { title: 'Open',    href: '/api/v3/statuses/2' },
-    assignee: null,
   },
 };
 
@@ -44,7 +41,6 @@ export const mockCreatedWorkPackage = {
     self:   { href: '/api/v3/work_packages/999' },
     type:   { title: 'Task', href: '/api/v3/types/1'    },
     status: { title: 'New',  href: '/api/v3/statuses/1' },
-    assignee: null,
   },
 };
 

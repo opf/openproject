@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { page } from 'vitest/browser';
-import type { WorkPackage } from '../../../../lib/openProjectTypes';
 import { BlockCardL } from '../../../../lib/components/BlockWorkPackage/BlockCards';
 
-const cardWp:WorkPackage = {
+const cardWp = {
   id: 81,
   displayId: '81',
   subject: 'Fix login bug',
@@ -12,16 +11,15 @@ const cardWp:WorkPackage = {
     self: { href: '/api/v3/work_packages/81' },
     type: { title: 'BUG', href: '/api/v3/types/1' },
     status: { title: 'In progress', href: '/api/v3/statuses/1' },
-    assignee: null,
     parent: { title: 'Parent WP', href: '/api/v3/work_packages/1' },
     project: { title: 'A project with a name long enough to need a line of its own', href: '/api/v3/projects/1' },
   },
 };
 
-function renderCard(workPackage:WorkPackage = cardWp) {
+function renderCard() {
   render(
     <div data-testid="card-host" style={{ width: 260 }}>
-      <BlockCardL workPackage={workPackage} linkTitle />
+      <BlockCardL workPackage={cardWp} linkTitle />
     </div>,
   );
 }
@@ -36,7 +34,7 @@ describe('Block card - meta line', () => {
     const [parent, project] = Array.from(metaItems).slice(-2);
 
     expect(parent.textContent).toBe('↑\u00A0Parent WP');
-    expect(project.textContent).toBe(`◈\u00A0${cardWp._links!.project!.title}`);
+    expect(project.textContent).toBe(`◈\u00A0${cardWp._links.project.title}`);
   });
 
   it('wraps a long relation title instead of overflowing the card', async () => {
