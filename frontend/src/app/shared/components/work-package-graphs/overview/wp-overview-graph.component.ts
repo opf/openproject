@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject, input,
+  booleanAttribute, model,
+} from '@angular/core';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
@@ -41,6 +44,7 @@ import {
   WpGraphQueryParams,
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
+type GraphFilter = Record<string, { operator:string; values:unknown[] }>;
 
 @Component({
   selector: 'opce-wp-overview-graph',
@@ -58,19 +62,22 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   readonly graphConfigurationService = inject(WpGraphConfigurationService);
   protected readonly cdr = inject(ChangeDetectorRef);
 
-  @Input() initialFilters:any;
+  // Rendered as a custom element, so inputs may arrive as attribute strings.
+  readonly initialFilters = input<GraphFilter[]|null, string|GraphFilter[]|null>(null, {
+    transform: (value) => (typeof value === 'string' ? JSON.parse(value) as GraphFilter[] : value),
+  });
 
-  @Input() globalScope:boolean;
+  readonly globalScope = input(false, { transform: booleanAttribute });
 
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
 
   @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
 
-  @Input() groupBy = 'status';
+  readonly groupBy = model('status');
 
-  @Input() showGroupByOptions = true;
+  readonly showGroupByOptions = input(true, { transform: booleanAttribute });
 
-  @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
+  readonly chartOptions = input<ChartOptions>({ maintainAspectRatio: false });
 
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
 
@@ -92,30 +99,6 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement;
-
-    const initialFiltersAttr =
-      element.getAttribute('initial-filters') ??
-      element.getAttribute('data-initial-filters');
-
-    this.initialFilters = initialFiltersAttr
-      ? (JSON.parse(initialFiltersAttr) as [])
-      : null;
-
-    const globalScopeAttr =
-      element.getAttribute('global-scope') ??
-      element.getAttribute('data-global-scope');
-
-    this.globalScope = globalScopeAttr === 'true';
-
-    const showGroupByOptionsAttr =
-      element.getAttribute('show-group-by-options') ??
-      element.getAttribute('data-show-group-by-options');
-
-    if (showGroupByOptionsAttr !== null) {
-      this.showGroupByOptions = showGroupByOptionsAttr !== 'false';
-    }
-
     this.setQueryProps();
   }
 
@@ -125,7 +108,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     const params = this.graphParams;
 
     this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
-    this.graphConfigurationService.globalScope = this.globalScope;
+    this.graphConfigurationService.globalScope = this.globalScope();
 
     // 'finally' was not available yet so the code for the change detection is duplicated
     this
@@ -146,7 +129,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   public get graphParams() {
     const params = [];
 
-    if (this.groupBy === 'status') {
+    if (this.groupBy() === 'status') {
       this.displayModeSingle = true;
 
       params.push({ name: this.I18n.t('js.label_all'), props: this.propsBoth });
@@ -178,12 +161,12 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     return this.baseProps({ status: { operator: 'c', values: [] } });
   }
 
-  private baseProps(filter?:any) {
-    const filters = [];
+  private baseProps(filter?:GraphFilter) {
+    const filters:GraphFilter[] = [];
 
-    if (Array.isArray(this.initialFilters)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      filters.push(...this.initialFilters);
+    const initialFilters = this.initialFilters();
+    if (initialFilters) {
+      filters.push(...initialFilters);
     } else {
       filters.push({ subprojectId: { operator: '*', values: [] } });
     }
@@ -195,7 +178,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     return {
       'columns[]': [],
       filters: JSON.stringify(filters),
-      group_by: this.groupBy,
+      group_by: this.groupBy(),
       pageSize: 0,
     };
   }

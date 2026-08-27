@@ -85,7 +85,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   public initialized = false;
 
-  public readonly chartPlugins = [ChartDataLabels];
+  public readonly plugins = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
