@@ -30,7 +30,7 @@
 
 module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
-    def self.from_params(params)
+    def self.from_params(params) # rubocop:disable Metrics/AbcSize
       new(
         bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
                       id == "inbox" ? "inbox" : id.to_i.nonzero?

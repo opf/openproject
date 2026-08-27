@@ -77,22 +77,22 @@ module Backlogs::Concerns
     # Since the Query class does not support "OR" conditions, separate queries are generated for the
     # inbox and the bucket ids. The resulting arel queries are joined with an `.or` query.
     def filtered_backlog_work_packages
-      selected_bucket_ids = backlog_filters.bucket_ids_without_inbox
-
-      conditions = []
-
-      if selected_bucket_ids.nil?
-        # No bucket_ids param at all means no explicit bucket selection was made, so all buckets are shown.
-        conditions << [[:backlog_bucket_id, "*", []]]
-      elsif selected_bucket_ids.present?
-        conditions << [[:backlog_bucket_id, "=", selected_bucket_ids.map(&:to_s)]]
-      end
-
-      conditions << [[:backlog_inbox, "=", [OpenProject::Database::DB_VALUE_TRUE]]] if backlog_filters.show_inbox?
-
-      conditions
+      backlog_conditions
         .map { |extra_filters| backlog_query_builder.build(extra_filters:).results.work_packages }
         .reduce { |relation, other| relation.or(other) }
+    end
+
+    def backlog_conditions
+      selected_bucket_ids = backlog_filters.bucket_ids_without_inbox
+
+      # No bucket_ids param at all means no explicit bucket selection was made. in_backlog_for
+      # (merged in by the caller) already scopes to buckets + inbox, so no extra restriction is needed.
+      return [[]] if selected_bucket_ids.nil?
+
+      conditions = []
+      conditions << [[:backlog_bucket_id, "=", selected_bucket_ids.map(&:to_s)]] if selected_bucket_ids.present?
+      conditions << [[:backlog_inbox, "=", [OpenProject::Database::DB_VALUE_TRUE]]] if backlog_filters.show_inbox?
+      conditions
     end
 
     def backlog_query_builder

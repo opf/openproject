@@ -30,7 +30,6 @@
 
 module Backlogs
   class BacklogFilterButtonComponent < Filter::FilterButtonComponent
-
     def filters_count
       @filters_count ||= query.filters.count do |filter|
         Backlogs::BacklogFiltersComponent::PICKER_CONTROLLED_FILTER_NAMES.exclude?(filter.name)
