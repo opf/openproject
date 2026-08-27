@@ -58,7 +58,6 @@ export interface ProjectSprintData {
   startDate:string;
   endDate:string;
   status:string;
-  statusName:string;
   row:number;
 }
 
@@ -260,7 +259,7 @@ export class ProjectTimelineItemBuilder {
         text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
           name: sprint.name,
           date: this.accessibleDate(sprint.startDate, sprint.endDate),
-          status: sprint.statusName,
+          status: this.i18n.t<string>(`js.grid.widgets.project_timeline.sprint_status.${sprint.status}`),
         }),
       });
     }

@@ -65,8 +65,7 @@ module Grids
         assign_sprint_rows(sprints_scope)
           .map do |sprint, row|
           { id: sprint.id, name: sprint.name, startDate: sprint.start_date.iso8601,
-            endDate: sprint.finish_date.iso8601, status: sprint.status,
-            statusName: I18n.t("activerecord.attributes.sprint.statuses.#{sprint.status}"), row: }
+            endDate: sprint.finish_date.iso8601, status: sprint.status, row: }
         end
           .to_json
       end

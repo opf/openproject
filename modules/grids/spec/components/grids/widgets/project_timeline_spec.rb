@@ -265,7 +265,6 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
           "startDate" => sprint.start_date.iso8601,
           "endDate" => sprint.finish_date.iso8601,
           "status" => sprint.status,
-          "statusName" => I18n.t("activerecord.attributes.sprint.statuses.#{sprint.status}"),
           "row" => 0
         )
       end

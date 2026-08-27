@@ -46,6 +46,9 @@ describe('ProjectTimelineGraphComponent', () => {
         'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_milestone': `Milestone ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_sprint': `Sprint ${options.name}: ${options.date}. Status: ${options.status}`,
+        'js.grid.widgets.project_timeline.sprint_status.active': 'Active',
+        'js.grid.widgets.project_timeline.sprint_status.completed': 'Completed',
+        'js.grid.widgets.project_timeline.sprint_status.in_planning': 'In planning',
         'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
@@ -117,7 +120,6 @@ describe('ProjectTimelineGraphComponent', () => {
     startDate: '2024-01-01',
     endDate: '2024-01-14',
     status: 'active',
-    statusName: 'Active',
     row: 0,
   };
 
