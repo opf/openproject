@@ -4,6 +4,7 @@ import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
+import { requestsDuring } from '../../../helpers/requestHelpers';
 import { mockCreatedWorkPackage } from '../../../mocks/handlers';
 
 afterEach(() => worker.resetHandlers());
@@ -248,6 +249,27 @@ describe('Create work package', () => {
     await userEvent.keyboard('{Enter}');
 
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
+  });
+
+  it('opens a second create modal on the assignees the first one was given', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await userEvent.click(page.getByLabelText('Assignee'));
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+
+    await userEvent.keyboard('{Escape}');
+    await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+
+    const asked = await requestsDuring('/available_assignees', async () => {
+      await openCreateModal();
+      await pickProject();
+      await userEvent.click(page.getByLabelText('Assignee'));
+      await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+    });
+
+    expect(asked).toEqual([]);
   });
 
   it('asks for every required custom field the type brings, whatever its kind', async () => {

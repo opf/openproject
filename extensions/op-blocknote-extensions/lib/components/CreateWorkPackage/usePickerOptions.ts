@@ -17,7 +17,6 @@ export interface PickerOptionsInput {
   isOpen:boolean;
   favoredOnly?:boolean;
   nested?:boolean;
-  cached?:boolean;
 }
 
 export interface PickerOptions {
@@ -56,7 +55,6 @@ export function usePickerOptions({
   isOpen,
   favoredOnly = false,
   nested = false,
-  cached = false,
 }:PickerOptionsInput):PickerOptions {
   const [values, setValues] = useState<AllowedValue[]>([]);
   const [loaded, setLoaded] = useState<string | null>(null);
@@ -74,9 +72,7 @@ export function usePickerOptions({
     let active = true;
 
     const read = () => {
-      const ask = () => askApi(href, query, favoredOnly, nested);
-
-      (cached ? remember(asked, ask) : ask())
+      remember(asked, () => askApi(href, query, favoredOnly, nested))
         .then((found) => {
           if (!active) return;
           setValues(found);
@@ -92,7 +88,7 @@ export function usePickerOptions({
         });
     };
 
-    if (cached && rememberedValues.has(asked)) {
+    if (rememberedValues.has(asked)) {
       read();
       return () => { active = false; };
     }
@@ -103,7 +99,7 @@ export function usePickerOptions({
       active = false;
       clearTimeout(timer);
     };
-  }, [href, query, isOpen, favoredOnly, nested, cached, asked]);
+  }, [href, query, isOpen, favoredOnly, nested, asked]);
 
   const options = useMemo(() => listedValues(values, expanded), [values, expanded]);
 

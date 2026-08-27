@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { openCreateModal } from '../../../helpers/createWorkPackageHelpers';
+import { requestsDuring } from '../../../helpers/requestHelpers';
 import { worker } from '../../../mocks/browser';
 
 afterEach(() => worker.resetHandlers());
@@ -69,22 +70,6 @@ async function unfoldPagedProjects() {
 
 function search(term:string) {
   return userEvent.fill(page.getByTestId(SEARCH), term);
-}
-
-async function projectRequestsDuring(act:() => Promise<void>):Promise<string[]> {
-  const asked:string[] = [];
-  const record = ({ request }:{ request:Request }) => {
-    if (request.url.includes('/available_projects')) asked.push(request.url);
-  };
-
-  worker.events.on('request:start', record);
-  try {
-    await act();
-  } finally {
-    worker.events.removeListener('request:start', record);
-  }
-
-  return asked;
 }
 
 function optionLabels() {
@@ -424,7 +409,7 @@ describe('Create work package - project picker', () => {
   });
 
   it('asks for a hundred projects rather than a first handful', async () => {
-    const asked = await projectRequestsDuring(() => openProjectPicker());
+    const asked = await requestsDuring('/available_projects', () => openProjectPicker());
     const pageSizes = asked.map((url) => new URL(url).searchParams.get('pageSize'));
 
     expect(pageSizes.length).toBeGreaterThan(0);
@@ -491,7 +476,7 @@ describe('Create work package - project picker', () => {
     await search('scrum');
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
 
-    const asked = await projectRequestsDuring(async () => {
+    const asked = await requestsDuring('/available_projects', async () => {
       await userEvent.click(page.getByTestId(CLEAR));
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
     });
@@ -505,7 +490,7 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByTestId(TOGGLE));
     await expect.element(page.getByRole('tree')).not.toBeInTheDocument();
 
-    const asked = await projectRequestsDuring(async () => {
+    const asked = await requestsDuring('/available_projects', async () => {
       await userEvent.click(page.getByTestId(TOGGLE));
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
       // The list stands there from memory at once; an ask would follow the debounce.
@@ -523,7 +508,7 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
 
-    const asked = await projectRequestsDuring(async () => {
+    const asked = await requestsDuring('/available_projects', async () => {
       await openCreateModal();
       await userEvent.click(page.getByLabelText(PROJECT_FIELD));
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
@@ -535,7 +520,7 @@ describe('Create work package - project picker', () => {
   it('searches once for a term, and answers it from memory the next time', async () => {
     await openProjectPicker();
 
-    const first = await projectRequestsDuring(async () => {
+    const first = await requestsDuring('/available_projects', async () => {
       await search('scrum');
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
     });
@@ -544,7 +529,7 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByTestId(CLEAR));
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
 
-    const again = await projectRequestsDuring(async () => {
+    const again = await requestsDuring('/available_projects', async () => {
       await search('scrum');
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
     });
@@ -558,7 +543,7 @@ describe('Create work package - project picker', () => {
     await userEvent.click(page.getByTestId(`${LIST}-mode-all`));
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
 
-    const asked = await projectRequestsDuring(async () => {
+    const asked = await requestsDuring('/available_projects', async () => {
       await userEvent.click(page.getByTestId(`${LIST}-mode-favored`));
       await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
     });
