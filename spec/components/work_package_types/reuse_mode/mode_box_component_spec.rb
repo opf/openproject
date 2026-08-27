@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component, with_flag: { type_variants: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type) }
@@ -42,33 +42,30 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
   subject(:component) { described_class.new(variant:, aspect:) }
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "does not render" do
-      render_inline(component)
-
-      expect(page.text).to be_blank
-    end
-  end
-
   context "when the aspect is independent" do
     before { render_inline(component) }
 
     it "shows the independent state" do
-      expect(page).to have_text("Independent mode")
+      expect(page).to have_text("Manual configuration")
       expect(page).to have_text("No settings are inherited")
+    end
+
+    it "keeps the neutral scheme" do
+      expect(page).to have_css(".color-bg-inset")
+      expect(page).to have_no_css(".color-bg-accent")
     end
 
     it "links the copy action to the copy dialog" do
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{type_configuration_copy_dialog_path(**variant.path_args, aspect:)}']",
-        text: "Copy from type"
+        text: "Copy from another type"
       )
     end
 
-    it "links the switch action to the linked mode dialog" do
+    it "links the switch action to the inheritance dialog" do
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']",
-        text: "Switch to linked mode"
+        text: "Inherit from another type"
       )
     end
   end
@@ -81,7 +78,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
     it "does not render the copy action" do
       render_inline(component)
 
-      expect(page).to have_no_text("Copy from type")
+      expect(page).to have_no_text("Copy from another type")
     end
   end
 
@@ -92,8 +89,12 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       render_inline(component)
     end
 
+    it "marks the linked state with the info scheme" do
+      expect(page).to have_css(".color-bg-accent.color-border-accent")
+    end
+
     it "shows the linked state with a link to the source variant" do
-      expect(page).to have_text("Linked mode")
+      expect(page).to have_text("Inherited configuration")
       expect(page).to have_link(
         "Feature",
         href: edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
@@ -115,7 +116,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       )
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{independence_path}']",
-        text: "Switch to independent mode"
+        text: "Configure manually"
       )
     end
   end

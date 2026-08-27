@@ -27,23 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Dialog.new(
-        id: DIALOG_ID,
-        title: t("types.edit.reuse_mode.manual.dialog.title"),
-        size: :medium_portrait
-      )
-    ) do |dialog| %>
-  <% dialog.with_header(variant: :large) %>
-
-  <%= primer_form_with(url: confirm_path, method: :post) do |form| %>
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= render(WorkPackageTypes::ConfigurationIndependence::ModeForm.new(form, aspect:)) %>
-    <% end %>
-
-    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t("types.edit.reuse_mode.manual.dialog.submit") } %>
-    <% end %>
+<%= render(OpPrimer::InsetBoxComponent.new(scheme:, h: :full, test_selector: "reuse-mode-dependents")) do |box| %>
+  <% box.with_title_icon(icon:) %>
+  <% box.with_title { title } %>
+  <% if any_dependents? %>
+    <% box.with_action_button(
+         tag: :a,
+         href: dialog_path,
+         data: { controller: "async-dialog", test_selector: "reuse-mode-view-dependents" }
+       ) { t("types.edit.reuse_mode.dependents.view") } %>
   <% end %>
+  <%= description %>
 <% end %>

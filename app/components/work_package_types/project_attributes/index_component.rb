@@ -39,7 +39,7 @@ module WorkPackageTypes
       end
 
       def blankslate_i18n_scope
-        "types.edit.project_attributes.blankslate.#{linked? ? 'linked' : 'independent'}"
+        "types.edit.project_attributes.blankslate.#{linked? ? 'inherited' : 'manual'}"
       end
 
       def blankslate_description

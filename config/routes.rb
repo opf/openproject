@@ -222,6 +222,10 @@ Rails.application.routes.draw do
       post :copy
     end
 
+    scope "dependents/:aspect", controller: "configuration_dependents", as: :configuration_dependents do
+      get :dialog
+    end
+
     scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
       post :toggle
     end

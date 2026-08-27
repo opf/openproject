@@ -29,47 +29,27 @@
 #++
 
 module WorkPackageTypes
-  module ConfigurationLinks
-    class ConfirmDialogComponent < ApplicationComponent
-      include OpTurbo::Streamable
+  class ConfigurationDependentsController < BaseTabController
+    include TypeVariantsFeature
+    include OpTurbo::ComponentStream
 
-      DIALOG_ID = "configuration-link-confirm-dialog"
+    before_action :require_type_variants_feature
+    before_action :require_valid_aspect
 
-      def initialize(variant:, aspect:, source:)
-        super()
+    current_menu_item do
+      :types
+    end
 
-        @variant = variant
-        @aspect = aspect
-        @source = source
-      end
+    def dialog
+      respond_with_dialog ConfigurationDependents::DialogComponent.new(variant: @variant, aspect:)
+    end
 
-      private
+    private
 
-      attr_reader :variant, :aspect, :source
+    def aspect = params[:aspect]
 
-      def changing_source?
-        variant.linked?(aspect)
-      end
-
-      def title
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
-        end
-      end
-
-      def heading
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
-        end
-      end
-
-      def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
-      end
+    def require_valid_aspect
+      render_404 unless TypeVariant::ASPECTS.include?(aspect)
     end
   end
 end

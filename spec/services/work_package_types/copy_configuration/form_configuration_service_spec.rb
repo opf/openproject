@@ -265,8 +265,6 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  # "Copy from type" on the form configuration tab passes an arbitrary source, whose own
-  # exclusions are what the user saw when picking it.
   describe "copying from an unrelated Linked type", with_flag: { type_variants: true } do
     let(:owner) { create(:type).default_variant }
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }

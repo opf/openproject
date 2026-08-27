@@ -27,49 +27,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require "rails_helper"
 
-module WorkPackageTypes
-  module ConfigurationLinks
-    class ConfirmDialogComponent < ApplicationComponent
-      include OpTurbo::Streamable
+RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component, with_flag: { type_variants: true } do
+  shared_let(:type) { create(:type, name: "Task") }
+  shared_let(:variant) { type.default_variant }
 
-      DIALOG_ID = "configuration-link-confirm-dialog"
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
-      def initialize(variant:, aspect:, source:)
-        super()
+  subject(:component) { described_class.new(variant:, aspect:) }
 
-        @variant = variant
-        @aspect = aspect
-        @source = source
-      end
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
+    it "does not render" do
+      render_inline(component)
 
-      private
+      expect(page.text).to be_blank
+    end
+  end
 
-      attr_reader :variant, :aspect, :source
+  context "with the feature enabled" do
+    before { render_inline(component) }
 
-      def changing_source?
-        variant.linked?(aspect)
-      end
+    it "shows the reuse mode and the dependents side by side" do
+      expect(page).to have_text("Manual configuration")
+      expect(page).to have_text("No dependent types")
+    end
 
-      def title
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
-        end
-      end
-
-      def heading
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
-        end
-      end
-
-      def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
-      end
+    it "gives both boxes half of the row" do
+      expect(page).to have_css(".d-flex.flex-column.flex-md-row.gap-3")
+      expect(page).to have_css(".flex-1", count: 2)
     end
   end
 end

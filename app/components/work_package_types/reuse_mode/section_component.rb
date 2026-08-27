@@ -29,47 +29,22 @@
 #++
 
 module WorkPackageTypes
-  module ConfigurationLinks
-    class ConfirmDialogComponent < ApplicationComponent
-      include OpTurbo::Streamable
+  module ReuseMode
+    class SectionComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      DIALOG_ID = "configuration-link-confirm-dialog"
-
-      def initialize(variant:, aspect:, source:)
-        super()
-
-        @variant = variant
+      def initialize(variant:, aspect:)
         @aspect = aspect
-        @source = source
+        super(variant)
       end
+
+      def render? = OpenProject::FeatureDecisions.type_variants_active?
 
       private
 
-      attr_reader :variant, :aspect, :source
+      attr_reader :aspect
 
-      def changing_source?
-        variant.linked?(aspect)
-      end
-
-      def title
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
-        end
-      end
-
-      def heading
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
-        end
-      end
-
-      def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
-      end
+      def variant = model
     end
   end
 end
