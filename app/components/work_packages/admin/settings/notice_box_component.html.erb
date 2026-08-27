@@ -29,8 +29,8 @@
   ++#
 %>
 
-<%= render(OpPrimer::InsetBoxComponent.new(**system_arguments)) do %>
-  <%= render(Primer::Beta::Heading.new(tag: :h4)) { heading } %>
+<%= render(OpPrimer::InsetBoxComponent.new(**system_arguments)) do |box| %>
+  <% box.with_title(tag: :h4) { heading } %>
   <% rows.each do |row| %>
     <%= row %>
   <% end %>

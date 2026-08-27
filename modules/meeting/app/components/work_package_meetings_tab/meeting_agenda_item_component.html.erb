@@ -22,8 +22,8 @@
       outcomes = @meeting_agenda_item.outcomes.to_a
       outcomes.each_with_index do |outcome, index|
         flex.with_row do
-          render(OpPrimer::InsetBoxComponent.new(border: false, mt: 2, classes: "outcome-container")) do
-            concat render(Primer::Beta::Heading.new(tag: :h5)) { outcome_heading(outcomes, index) }
+          render(OpPrimer::InsetBoxComponent.new(border: false, mt: 2, classes: "outcome-container")) do |box|
+            box.with_title(tag: :h5) { outcome_heading(outcomes, index) }
             if outcome.work_package_kind?
               work_package_outcome_text(outcome)
             else
