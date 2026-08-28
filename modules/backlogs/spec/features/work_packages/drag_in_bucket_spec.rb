@@ -164,7 +164,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
   it "moves a work package from a bucket into the Inbox" do
     backlogs_page.visit!
-
+    backlogs_page.apply_bucket_filter(bucket_alpha, include_inbox: true)
     backlogs_page.drag_work_package_to_backlog_inbox(alpha_wp1)
 
     backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
@@ -176,6 +176,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
   it "moves a work package from the Inbox into a bucket" do
     backlogs_page.visit!
+    backlogs_page.apply_bucket_filter(bucket_beta, include_inbox: true)
 
     backlogs_page.drag_work_package_to_backlog_bucket(inbox_wp1, bucket_beta)
 
@@ -197,6 +198,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
   it "shows the blankslate after dragging the last work package out of a bucket" do
     backlogs_page.visit!
+    backlogs_page.apply_bucket_filter(bucket_gamma, include_inbox: true)
     backlogs_page.expect_no_backlog_bucket_blankslate(bucket_gamma)
 
     backlogs_page.drag_work_package_to_backlog_inbox(gamma_wp1)
