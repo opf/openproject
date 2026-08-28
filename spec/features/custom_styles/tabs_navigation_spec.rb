@@ -87,7 +87,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(custom_style.reload.theme).to eq("OpenProject Gray")
     end
 
-    it "changes accent color and redirects to interface tab" do
+    it "changes accent color and redirects to interface tab", :js do
       find_test_selector("edit-design-color-accent-color").click
       fill_in "design_colors[]accent-color", with: "#333333"
       find_test_selector("save-design-color-accent-color").click
@@ -95,7 +95,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "interface")
     end
 
-    it "restores the inherited color by clearing an override" do
+    it "restores the inherited color by clearing an override", :js do
       create(:design_color, variable: "accent-color", hexcode: "#333333")
       visit custom_style_path(tab: "interface")
 
