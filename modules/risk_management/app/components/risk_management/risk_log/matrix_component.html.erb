@@ -1,0 +1,89 @@
+<%= render Grids::WidgetBoxComponent.new(
+      key: "risk-exposure-matrix",
+      title: t("risk_management.risk_log.matrix.title"),
+      turbo_enabled: false,
+      half_width: true,
+      classes: "op-risk-matrix"
+    ) do %>
+    <section>
+      <div class="op-risk-matrix__scroll-container">
+    <table class="op-risk-matrix__table">
+      <caption class="sr-only"><%= t("risk_management.risk_log.matrix.description") %></caption>
+      <thead>
+        <tr>
+          <td class="op-risk-matrix__corner" colspan="2" aria-hidden="true"></td>
+          <th class="op-risk-matrix__impact-axis" colspan="<%= impact_options.size %>" scope="colgroup">
+            <%= t("risk_management.risk_log.matrix.impact") %>
+          </th>
+        </tr>
+        <tr>
+          <td class="op-risk-matrix__corner" colspan="2" aria-hidden="true"></td>
+          <% impact_options.each do |impact| %>
+            <% selected = column_selected?(impact) %>
+            <th class="op-risk-matrix__column-label" scope="col">
+              <%= render Primer::Beta::Link.new(
+                    href: impact_path(impact),
+                    classes: class_names("op-risk-matrix__axis-label", "op-risk-matrix__axis-label--selected": selected),
+                    underline: false,
+                    aria: {
+                      current: selected ? "true" : nil,
+                      label: t("risk_management.risk_log.matrix.filter_impact", value: option_label(impact))
+                    }
+                  ) do %>
+                <%= option_label(impact) %>
+              <% end %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+      <% likelihood_options.each_with_index do |likelihood, index| %>
+        <tr>
+          <% if index.zero? %>
+            <th class="op-risk-matrix__likelihood-axis"
+                rowspan="<%= likelihood_options.size %>"
+                scope="rowgroup">
+              <span><%= t("risk_management.risk_log.matrix.likelihood") %></span>
+            </th>
+          <% end %>
+          <% selected = row_selected?(likelihood) %>
+          <th class="op-risk-matrix__row-label" scope="row">
+            <%= render Primer::Beta::Link.new(
+                  href: likelihood_path(likelihood),
+                  classes: class_names("op-risk-matrix__axis-label", "op-risk-matrix__axis-label--selected": selected),
+                  underline: false,
+                  aria: {
+                    current: selected ? "true" : nil,
+                    label: t("risk_management.risk_log.matrix.filter_likelihood", value: option_label(likelihood))
+                  }
+                ) do %>
+              <%= option_label(likelihood) %>
+            <% end %>
+          </th>
+        <% impact_options.each do |impact| %>
+          <% is_selected = selected?(likelihood, impact) %>
+          <td>
+            <%= link_to cell_path(likelihood, impact),
+                        class: class_names(
+                          "op-risk-matrix__cell",
+                          "op-risk-matrix__cell--#{risk_level(likelihood, impact)}",
+                          "op-risk-matrix__cell--selected": is_selected
+                        ),
+                        role: "checkbox",
+                        aria: {
+                          checked: is_selected,
+                          label: cell_accessible_label(likelihood, impact, selected: is_selected)
+                        } do %>
+              <%= render Primer::Beta::Text.new(font_weight: :bold, font_size: 3) do %>
+                <%= count(likelihood, impact) %>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+      </div>
+    </section>
+<% end %>

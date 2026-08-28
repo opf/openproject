@@ -1,0 +1,15 @@
+<% html_title t(:label_administration), t("risk_management.admin.categories.new") %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t("risk_management.admin.categories.new") } %>
+  <% header.with_breadcrumbs(
+       [
+         { href: admin_index_path, text: t(:label_administration) },
+         { href: risk_management_admin_settings_path, text: t("risk_management.label") },
+         { href: risk_management_admin_categories_path, text: t("risk_management.admin.categories.label") },
+         t("risk_management.admin.categories.new")
+       ]
+     ) %>
+<% end %>
+<%= primer_form_with(model: @category, url: risk_management_admin_categories_path) do |form| %>
+  <%= render RiskManagement::Admin::CategoryForm.new(form) %>
+<% end %>

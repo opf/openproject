@@ -1,0 +1,52 @@
+<% html_title t("risk_management.plan.label") %>
+
+<% content_for :content_header do %>
+  <%= render Primer::OpenProject::PageHeader.new do |header| %>
+    <% header.with_title { t("risk_management.plan.label") } %>
+    <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name }, t("risk_management.plan.label")]) %>
+    <% if User.current.allowed_in_project?(:manage_risk_management_plan, @project) %>
+      <% header.with_action_button(
+           tag: :a,
+           href: project_edit_risk_management_plan_path(@project),
+           mobile_icon: :pencil,
+           mobile_label: t(:button_edit)
+         ) do |button| %>
+        <% button.with_leading_visual_icon(icon: :pencil) %>
+        <%= t(:button_edit) %>
+      <% end %>
+    <% end %>
+    <% header.with_tab_nav(label: t("risk_management.risk_log.navigation.label")) do |tabs| %>
+      <% tabs.with_tab(selected: false, href: project_risk_log_path(@project)) do |tab| %>
+        <% tab.with_text { t("risk_management.risk_log.label") } %>
+      <% end %>
+      <% tabs.with_tab(selected: true, href: project_risk_management_plan_path(@project)) do |tab| %>
+        <% tab.with_text { t("risk_management.plan.label") } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% content_for :content_body do %>
+  <div class="op-risk-plan-layout widget-boxes">
+    <%= render Grids::WidgetBoxComponent.new(key: "risk-management-plan", title: t("risk_management.plan.label"), turbo_enabled: false, full_width: true) do %>
+      <% if @plan.body.present? %>
+        <div class="wiki"><%= format_text(@plan, :body) %></div>
+      <% else %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("risk_management.plan.empty") } %>
+      <% end %>
+    <% end %>
+
+    <%= render Grids::WidgetBoxComponent.new(key: "risk-management-tasks", title: t("risk_management.plan.tasks.title"), turbo_enabled: false, full_width: true) do %>
+      <%= render Primer::Beta::BorderBox.new do |box| %>
+        <% @tasks.each do |key, item| %>
+          <% next if item[:count].zero? %>
+          <% box.with_row do %>
+            <%= render Primer::Beta::Link.new(href: project_risk_log_path(@project, view: key)) do %>
+              <%= t("risk_management.risk_log.dashboard.attention.#{key}", count: item[:count]) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,235 @@
+---
+en:
+  activemodel:
+    attributes:
+      risk_management/configuration:
+        impact_high_max: Upper impact limit for high
+        impact_low_max: Upper impact limit for low
+        impact_medium_max: Upper impact limit for medium
+        impact_very_low_max: Upper impact limit for very low
+  activerecord:
+    attributes:
+      risk_management/plan:
+        body: Risk management plan
+      risk_management/risk_category:
+        active: Active
+        color_id: Color
+        name: Name
+      work_package:
+        risk_category: Risk category
+        risk_category_ids: Risk categories
+        risk_exposure: Risk exposure
+        risk_impact: Impact
+        risk_likelihood: Likelihood
+        risk_owner: Risk owner
+        risk_response: Risk response
+  permission_manage_risk_management_plan: Manage risk management plan
+  permission_view_risk_log: View risk log
+  plugin_openproject_risk_management:
+    description: Adds configurable risk management capabilities to OpenProject.
+    name: OpenProject Risk Management
+  project_module_risk_log: Risk log
+  risk_management:
+    admin:
+      categories:
+        edit: Edit risk category
+        label: Risk categories
+        manage: Manage risk categories
+        new: New risk category
+      configure: Configure risk management
+      description: Define how risks are represented by work packages.
+      impact_thresholds:
+        caption: Impact boundary in the system currency (%{currency}).
+        impact_high_max:
+          label: High impact up to
+        impact_low_max:
+          label: Low impact up to
+        impact_medium_max:
+          label: Medium impact up to
+        impact_very_low_max:
+          label: Very low impact up to
+    errors:
+      impact_thresholds_must_increase: Impact boundaries must be strictly increasing.
+      risk_type_missing: The built-in Risk work package type is not available.
+    label: Risk management
+    plan:
+      edit: Edit risk management plan
+      empty: No risk management plan has been defined yet.
+      label: Risk management plan
+      tasks:
+        title: Risk management tasks
+    risk_log:
+      actions:
+        add_to_agenda: Add to agenda
+        open_details: Open details
+        open_work_package: Open fullscreen
+      create_dialog:
+        title: New risk
+      dashboard:
+        attention:
+          empty: No risks currently require action.
+          mitigation_pending: "%{count} mitigation actions pending"
+          not_evaluated: "%{count} not evaluated"
+          title: Risks requiring attention
+          without_mitigation: "%{count} action responses without mitigation plan"
+          without_owner: "%{count} without owner"
+          without_response: "%{count} without risk response"
+        coverage:
+          action_required:
+            one: "%{count} risk requires action"
+            other: "%{count} risks require action"
+          bar_label: "%{label}: %{percentage}%"
+          count: "%{count} of %{total}"
+          gaps:
+            mitigation_completed: "%{count} pending"
+            mitigation_planned: "%{count} without plan"
+            owner_assigned: "%{count} without owner"
+            response_defined: "%{count} without response"
+          mitigation_completed: Mitigation completed
+          mitigation_planned: Mitigation planned
+          owner_assigned: Risk owner assigned
+          response_defined: Risk response defined
+          title: Mitigation coverage
+        metrics:
+          highest_exposure: Highest exposure
+          label: Risk key figures
+          monitored: Monitored risks
+          requiring_attention: Risks requiring action
+          total_exposure: Total risk exposure
+        top_risks:
+          bar_label: "%{subject}: %{value} risk exposure"
+          empty: No evaluated monitored risks available.
+          impact: "%{impact} impact"
+          likelihood: "%{likelihood} likelihood"
+          response: 'Response: %{response}'
+          title: Top risk exposure
+      description: Assess and track the risks of this project.
+      filters:
+        active: Active filters
+        category: Risk category
+        clear_all: Clear all filters
+        impact: Impact
+        likelihood: Likelihood
+        owner: Risk owner
+        response: Risk response
+        risk_value: Risk value
+        status: Status
+      label: Risk log
+      list:
+        blank_description: Create a risk or adjust the active filters.
+        blank_title: No risks found
+        category: Risk category
+        id: ID
+        impact: Impact
+        likelihood: Likelihood
+        owner: Risk owner
+        risk_value: Risk value
+        status: Status
+        subject: Title
+        title: Risks
+      matrix:
+        description: Risk matrix with likelihood in rows and impact in columns. Select
+          one or more cells to filter the risk list.
+        filter_impact: Filter by impact %{value}
+        filter_likelihood: Filter by likelihood %{value}
+        impact: Impact
+        levels:
+          high: High
+          low: Low
+          medium: Medium
+          very_high: Very high
+          very_low: Very low
+        likelihood: Likelihood
+        risks: "%{count} risks"
+        selected: Filter active
+        title: Risk exposure distribution
+      navigation:
+        attention: Requires attention
+        closed: Closed
+        created_by_me: Created by me
+        high: High or critical risks
+        label: Risk management views
+        last_updated: Last updated
+        newly_added: Newly added (7 days)
+        not_evaluated: Not evaluated
+        occurred: Occurred
+        without_mitigation: Without mitigation plan
+        without_owner: Without owner
+      new_risk: Risk
+      owner: Risk owner
+      response:
+        description: Distribution of monitored risks by risk response. Select a segment
+          to filter the risk list.
+        not_specified: Not specified
+        title: Risk response
+      split_view:
+        hide: Disable split view
+        label: Split view
+        show: Enable split view
+      summary:
+        activity:
+          created: Newly created
+          description: Activities recorded %{horizon}. Select a key figure to filter
+            the risk list.
+          evaluated: Evaluated
+          mitigation_done: Mitigation done
+          mitigation_planned: Mitigation planned
+          occurred: Occurred
+          rejected: Rejected
+          title: Activity
+        development:
+          description: Cumulative flow chart showing risk statuses over time.
+          title: Risk development
+        horizons:
+          month: This month
+          week: This week
+          yesterday: Since yesterday
+        response_status:
+          description:
+            one: Response status for %{count} evaluated risk. New risks are excluded.
+            other: Response status for %{count} evaluated risks. New risks are excluded.
+          segment: "%{status}: %{count} risks"
+          title: Risk response status
+        status_by_category:
+          description: Stacked bar chart showing current risk statuses for each risk
+            category.
+          title: Status by category
+        time_horizon: Select time horizon
+        title: Risk overview
+        total: Total risks
+        total_count:
+          one: "%{count} risk in total"
+          other: "%{count} risks in total"
+      workflow:
+        current: Current
+        current_label: "%{status}: %{count} current risks"
+        date_from: From
+        date_to: To
+        description: Current processing status and changes %{horizon}. Select a value
+          to filter the risk list.
+        entered: entered
+        horizons:
+          custom: Custom range
+          last_working_day: Since last working day
+          month: Last 30 days
+          week: Last 7 days
+          yesterday: Since yesterday
+        left: left
+        metrics:
+          high_and_critical: High and critical risks
+          label: Risk key figures
+          mitigation_done: Mitigation done
+          mitigation_planned: Mitigation planned
+          monitored: Risks under monitoring
+          newly_identified: Newly added (7 days)
+        progress_label: Distribution of active risks by mitigation status
+        time_horizon: Select time horizon
+        title: Risk mitigation status
+    risk_responses:
+      accept: Accept
+      avoid: Avoid
+      mitigate: Mitigate
+      transfer: Transfer
+  types:
+    errors:
+      builtin_cannot_be_deleted: This built-in work package type cannot be deleted.

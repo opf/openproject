@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -285,6 +287,32 @@ module API
                                    required: false,
                                    show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
                                    href_callback: ->(*) { labels_autocompleter }
+
+          schema_with_allowed_link :risk_owner,
+                                   type: "User",
+                                   required: false,
+                                   href_callback: ->(*) { assignee_user_autocompleter }
+
+          schema :risk_likelihood,
+                 type: "Decimal",
+                 required: false
+
+          schema :risk_impact,
+                 type: "Decimal",
+                 required: false
+
+          schema :risk_exposure,
+                 type: "Decimal",
+                 required: false,
+                 writable: false
+
+          schema :risk_response,
+                 type: "String",
+                 required: false
+
+          schema :risk_category_ids,
+                 type: "[]Integer",
+                 required: false
 
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,

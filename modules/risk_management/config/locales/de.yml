@@ -1,0 +1,240 @@
+---
+de:
+  activemodel:
+    attributes:
+      risk_management/configuration:
+        impact_high_max: Obere Auswirkungsgrenze für hoch
+        impact_low_max: Obere Auswirkungsgrenze für niedrig
+        impact_medium_max: Obere Auswirkungsgrenze für mittel
+        impact_very_low_max: Obere Auswirkungsgrenze für sehr niedrig
+  activerecord:
+    attributes:
+      risk_management/plan:
+        body: Risikomanagementplan
+      risk_management/risk_category:
+        active: Aktiv
+        color_id: Farbe
+        name: Name
+      work_package:
+        risk_category: Risikokategorie
+        risk_category_ids: Risikokategorien
+        risk_exposure: Risikowert
+        risk_impact: Auswirkung
+        risk_likelihood: Eintrittswahrscheinlichkeit
+        risk_owner: Risk Owner
+        risk_response: Risikobehandlung
+  permission_manage_risk_management_plan: Risikomanagementplan verwalten
+  permission_view_risk_log: Risikoprotokoll anzeigen
+  plugin_openproject_risk_management:
+    description: Erweitert OpenProject um konfigurierbares Risikomanagement.
+    name: OpenProject Risikomanagement
+  project_module_risk_log: Risk log
+  risk_management:
+    admin:
+      categories:
+        edit: Risikokategorie bearbeiten
+        label: Risikokategorien
+        manage: Risikokategorien verwalten
+        new: Neue Risikokategorie
+      configure: Risikomanagement konfigurieren
+      description: Legen Sie fest, wie Risiken durch Arbeitspakete abgebildet werden.
+      impact_thresholds:
+        caption: Auswirkungsgrenze in der Systemwährung (%{currency}).
+        impact_high_max:
+          label: Hohe Auswirkung bis
+        impact_low_max:
+          label: Niedrige Auswirkung bis
+        impact_medium_max:
+          label: Mittlere Auswirkung bis
+        impact_very_low_max:
+          label: Sehr niedrige Auswirkung bis
+    errors:
+      impact_thresholds_must_increase: Die Auswirkungsgrenzen müssen streng ansteigen.
+      risk_type_missing: Der integrierte Arbeitspaket-Typ „Risk“ ist nicht verfügbar.
+    label: Risikomanagement
+    plan:
+      edit: Risikomanagementplan bearbeiten
+      empty: Es wurde noch kein Risikomanagementplan definiert.
+      label: Risikomanagementplan
+      tasks:
+        title: Aufgaben im Risikomanagement
+    risk_log:
+      actions:
+        add_to_agenda: Zur Agenda hinzufügen
+        open_details: Details öffnen
+        open_work_package: Im Vollbild öffnen
+      create_dialog:
+        title: Neues Risiko
+      dashboard:
+        attention:
+          empty: Aktuell erfordert kein Risiko eine Aktion.
+          mitigation_pending: "%{count} ausstehende Risikomaßnahmen"
+          not_evaluated: "%{count} nicht bewertet"
+          title: Risiken mit Handlungsbedarf
+          without_mitigation: "%{count} Risikobehandlungen ohne Maßnahmenplan"
+          without_owner: "%{count} ohne Verantwortlichen"
+          without_response: "%{count} ohne Risikobehandlung"
+        coverage:
+          action_required:
+            one: "%{count} Risiko erfordert eine Aktion"
+            other: "%{count} Risiken erfordern eine Aktion"
+          bar_label: "%{label}: %{percentage}%"
+          count: "%{count} von %{total}"
+          gaps:
+            mitigation_completed: "%{count} ausstehend"
+            mitigation_planned: "%{count} ohne Plan"
+            owner_assigned: "%{count} ohne Verantwortlichen"
+            response_defined: "%{count} ohne Risikobehandlung"
+          mitigation_completed: Maßnahmen abgeschlossen
+          mitigation_planned: Maßnahmen geplant
+          owner_assigned: Risk Owner zugewiesen
+          response_defined: Risikobehandlung definiert
+          title: Abdeckung der Risikomaßnahmen
+        metrics:
+          highest_exposure: Höchster Risikowert
+          label: Risikokennzahlen
+          monitored: Überwachte Risiken
+          requiring_attention: Risiken mit Handlungsbedarf
+          total_exposure: Gesamtrisiko
+        top_risks:
+          bar_label: "%{subject}: %{value} Risikowert"
+          empty: Keine bewerteten überwachten Risiken vorhanden.
+          impact: "%{impact} Schadenshöhe"
+          likelihood: "%{likelihood} Eintrittswahrscheinlichkeit"
+          response: 'Risikobehandlung: %{response}'
+          title: Höchste Risikowerte
+      description: Bewerten und verfolgen Sie die Risiken dieses Projekts.
+      filters:
+        active: Aktive Filter
+        category: Risiko Kategorie
+        clear_all: Alle Filter zurücksetzen
+        impact: Auswirkung
+        likelihood: Eintrittswahrscheinlichkeit
+        owner: Risk Owner
+        response: Risikobehandlung
+        risk_value: Risikowert
+        status: Status
+      label: Risk log
+      list:
+        blank_description: Erstellen Sie ein Risiko oder passen Sie die aktiven Filter
+          an.
+        blank_title: Keine Risiken gefunden
+        category: Risiko Kategorie
+        id: ID
+        impact: Auswirkung
+        likelihood: Eintrittswahrscheinlichkeit
+        owner: Risk Owner
+        risk_value: Risikowert
+        status: Status
+        subject: Titel
+        title: Risiken
+      matrix:
+        description: Risikomatrix mit Eintrittswahrscheinlichkeit in den Zeilen und
+          Auswirkung in den Spalten. Wählen Sie eine oder mehrere Zellen aus, um die
+          Risikoliste zu filtern.
+        filter_impact: Nach Auswirkung %{value} filtern
+        filter_likelihood: Nach Eintrittswahrscheinlichkeit %{value} filtern
+        impact: Auswirkung
+        levels:
+          high: Hoch
+          low: Niedrig
+          medium: Mittel
+          very_high: Sehr hoch
+          very_low: Sehr niedrig
+        likelihood: Eintrittswahrscheinlichkeit
+        risks: "%{count} Risiken"
+        selected: Filter aktiv
+        title: Verteilung der Risikoexposition
+      navigation:
+        attention: Handlungsbedarf
+        closed: Geschlossen
+        created_by_me: Von mir erstellt
+        high: Hohe oder kritische Risiken
+        label: Risikomanagement-Ansichten
+        last_updated: Zuletzt aktualisiert
+        newly_added: Neu hinzugefügt (7 Tage)
+        not_evaluated: Nicht bewertet
+        occurred: Eingetreten
+        without_mitigation: Ohne Maßnahmenplan
+        without_owner: Ohne Verantwortlichen
+      new_risk: Risiko
+      owner: Risk Owner
+      response:
+        description: Verteilung der überwachten Risiken nach Risikobehandlung. Wählen
+          Sie ein Segment aus, um die Risikoliste zu filtern.
+        not_specified: Nicht angegeben
+        title: Risikobehandlung
+      split_view:
+        hide: Split-View deaktivieren
+        label: Split-View
+        show: Split-View aktivieren
+      summary:
+        activity:
+          created: Neu erstellt
+          description: Aktivitäten, die %{horizon} erfasst wurden. Wählen Sie eine
+            Kennzahl, um die Risikoliste zu filtern.
+          evaluated: Bewertet
+          mitigation_done: Maßnahmen durchgeführt
+          mitigation_planned: Maßnahmen geplant
+          occurred: Eingetreten
+          rejected: Abgelehnt
+          title: Aktivität
+        development:
+          description: Kumulatives Flussdiagramm der Risikostatus im Zeitverlauf.
+          title: Risikoentwicklung
+        horizons:
+          month: Dieser Monat
+          week: Diese Woche
+          yesterday: Seit gestern
+        response_status:
+          description:
+            one: Maßnahmenstatus für %{count} bewertetes Risiko. Neue Risiken sind
+              ausgenommen.
+            other: Maßnahmenstatus für %{count} bewertete Risiken. Neue Risiken sind
+              ausgenommen.
+          segment: "%{status}: %{count} Risiken"
+          title: Status der Risikomaßnahmen
+        status_by_category:
+          description: Gestapeltes Säulendiagramm mit den aktuellen Risikostatus je
+            Risikokategorie.
+          title: Status nach Kategorie
+        time_horizon: Zeithorizont auswählen
+        title: Risikoübersicht
+        total: Risiken gesamt
+        total_count:
+          one: "%{count} Risiko insgesamt"
+          other: "%{count} Risiken insgesamt"
+      workflow:
+        current: Aktuell
+        current_label: "%{status}: %{count} aktuelle Risiken"
+        date_from: Von
+        date_to: Bis
+        description: Aktueller Bearbeitungsstatus und Änderungen %{horizon}. Wählen
+          Sie einen Wert, um die Risikoliste zu filtern.
+        entered: hinzugekommen
+        horizons:
+          custom: Benutzerdefinierter Zeitraum
+          last_working_day: Seit dem letzten Arbeitstag
+          month: Letzte 30 Tage
+          week: Letzte 7 Tage
+          yesterday: Seit gestern
+        left: weggefallen
+        metrics:
+          high_and_critical: Hohe und kritische Risiken
+          label: Risikokennzahlen
+          mitigation_done: Maßnahmen durchgeführt
+          mitigation_planned: Maßnahmen geplant
+          monitored: Risiken unter Beobachtung
+          newly_identified: Neu hinzugefügt (7 Tage)
+        progress_label: Verteilung aktiver Risiken nach Maßnahmenstatus
+        time_horizon: Zeithorizont auswählen
+        title: Status der Risikomaßnahmen
+    risk_responses:
+      accept: Akzeptieren
+      avoid: Vermeiden
+      mitigate: Reduzieren
+      transfer: Übertragen
+  types:
+    errors:
+      builtin_cannot_be_deleted: Dieser integrierte Arbeitspaket-Typ kann nicht gelöscht
+        werden.

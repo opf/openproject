@@ -1,0 +1,99 @@
+<% html_title t("risk_management.risk_log.label") %>
+
+<% content_for :content_header do %>
+  <%= render RiskManagement::RiskLog::PageHeaderComponent.new(
+        project: @project,
+        risk_type: @risk_type
+      ) %>
+<% end %>
+
+<% content_for :content_body do %>
+  <% if @configuration.valid? %>
+    <%= render RiskManagement::RiskLog::MetricsComponent.new(
+          metrics: @dashboard[:metrics],
+          project: @project
+        ) %>
+
+    <div class="op-risk-log-dashboard op-risk-log-dashboard--primary widget-boxes">
+      <%= render RiskManagement::RiskLog::TopRisksComponent.new(
+            risks: @dashboard[:top_risks], project: @project
+          ) %>
+    </div>
+
+    <div class="op-risk-log-dashboard op-risk-log-dashboard--secondary widget-boxes">
+      <%= render RiskManagement::RiskLog::MatrixComponent.new(
+            project: @project,
+            query: @query,
+            counts: @matrix_counts,
+            selected_cells: @selected_cell_pairs,
+            configuration: @configuration
+          ) %>
+      <%= render RiskManagement::RiskLog::AttentionComponent.new(
+            items: @dashboard[:attention], project: @project, selected_view: params[:view]
+          ) %>
+    </div>
+
+    <div class="op-risk-log-dashboard widget-boxes">
+      <%= render RiskManagement::RiskLog::WorkflowComponent.new(
+            workflow: @dashboard[:workflow], project: @project
+          ) %>
+    </div>
+
+    <%= render RiskManagement::RiskLog::SubHeaderComponent.new(
+          project: @project,
+          query: @query,
+          owners: @owners
+        ) %>
+
+    <div class="op-risk-log-list-heading">
+      <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 0)) { t("risk_management.risk_log.list.title") } %>
+      <% if @risks.any? %>
+        <% split_view_open = render_work_package_split_view? %>
+        <% split_view_path = if split_view_open
+                               project_risk_log_path(
+                                 @project,
+                                 request.query_parameters.except(:work_package_id, :tab, :split_view)
+                               )
+                             else
+                               project_risk_log_details_path(
+                                 @project,
+                                 @risks.first,
+                                 request.query_parameters.except(:work_package_id, :tab, :split_view)
+                               )
+                             end %>
+        <%= render Primer::Beta::IconButton.new(
+              tag: :a,
+              href: split_view_path,
+              icon: :"op-view-split",
+              scheme: split_view_open ? :default : :invisible,
+              aria: { label: t("risk_management.risk_log.split_view.#{split_view_open ? 'hide' : 'show'}") },
+              test_selector: "risk-log-split-view-toggle"
+            ) %>
+      <% end %>
+    </div>
+
+    <%= render RiskManagement::RiskLog::TableComponent.new(
+          rows: @risks,
+          project: @project,
+          configuration: @configuration,
+          query_params: request.query_parameters
+        ) %>
+  <% else %>
+    <%= render Primer::Beta::Blankslate.new(border: true) do |blank_slate| %>
+      <% blank_slate.with_visual_icon(icon: :gear, size: :medium) %>
+      <% blank_slate.with_heading(tag: :h2) { t("risk_management.label") } %>
+      <% blank_slate.with_description { @configuration.errors.full_messages.to_sentence } %>
+      <% if User.current.admin? %>
+        <% blank_slate.with_primary_action(
+             href: risk_management_admin_settings_path,
+             label: t("risk_management.admin.configure")
+           ) { t("risk_management.admin.configure") } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%= turbo_stream.set_title(title: page_title(*html_title_parts)) if turbo_frame_request? %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+<% end %>
