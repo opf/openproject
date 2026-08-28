@@ -156,12 +156,6 @@ RSpec.describe "Watcher tab", :js, :selenium do
     end
   end
 
-  context "within a split screen" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
-
-    it_behaves_like "watchers tab"
-  end
-
   context "within a primerized split screen" do
     let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
     let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }

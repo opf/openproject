@@ -83,7 +83,7 @@ class Projects::CreationWizardController < ApplicationController
     # upload to Nextcloud that needs to be shown to the user
     if creation_call.success?
       flash[:error] = creation_call.errors.full_messages if creation_call.errors.any?
-      redirect_to project_work_packages_path(@project, @project.project_creation_wizard_artifact_work_package_id),
+      redirect_to project_work_package_path(@project, @project.project_creation_wizard_artifact_work_package_id),
                   notice: I18n.t("projects.wizard.success")
     else
       flash.now[:error] = creation_call.errors.full_messages
