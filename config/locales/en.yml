@@ -3011,6 +3011,9 @@ en:
         scheduling_mode_adjusted: >-
           Scheduling mode automatically adjusted with version update.
         sprint_migration: "Version '%{version_name}' has been copied as a sprint."
+        stale_target_versions_removed: >-
+          Outdated target version automatically removed. It had been incorrectly re-added when multiple target
+          versions were enabled.
         target_versions_repaired: >-
           Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: >-
