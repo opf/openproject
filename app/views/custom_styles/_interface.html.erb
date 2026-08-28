@@ -47,7 +47,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% label = t("admin.custom_styles.colors.#{variable}") %>
       <% instruction = t("admin.custom_styles.instructions.#{variable}", default: "") %>
       <% hexcode = effective_design_color(design_color, current_theme: @current_theme) %>
-      <% form_id = "design-color-#{variable}-form" %>
 
       <% list.with_item do %>
         <%= flex_layout(
@@ -68,59 +67,13 @@ See COPYRIGHT and LICENSE files for more details.
 
           <% row.with_column(ml: 2) do %>
             <%= render(
-                  Primer::Alpha::Dialog.new(
-                    title: label,
-                    id: "design-color-#{variable}-dialog"
+                  CustomStyles::DesignColorDialogComponent.new(
+                    design_color:,
+                    label:,
+                    instruction:,
+                    hexcode:
                   )
-                ) do |dialog| %>
-              <% dialog.with_show_button(
-                   icon: :pencil,
-                   scheme: :invisible,
-                   "aria-label": t("admin.custom_styles.edit_color", color: label),
-                   data: { test_selector: "edit-design-color-#{variable}" }
-                 ) %>
-              <% dialog.with_header(variant: :large) %>
-              <% dialog.with_body do %>
-                <%=
-                  primer_form_with(
-                    url: update_design_colors_path,
-                    method: :post,
-                    id: form_id,
-                    data: { turbo: false }
-                  ) do |form_builder|
-                    render_inline_form(form_builder) do |form|
-                      form.text_field(
-                        name: "design_colors[]#{variable}",
-                        id: "design_colors_#{variable}",
-                        label:,
-                        visually_hide_label: true,
-                        caption: instruction,
-                        value: design_color.hexcode,
-                        placeholder: hexcode,
-                        input_width: :medium,
-                        scope_name_to_model: false,
-                        data: { variable_name: variable }
-                      )
-                    end
-                  end
-                %>
-              <% end %>
-              <% dialog.with_footer do %>
-                <%= render(Primer::Beta::Button.new(data: { close_dialog_id: "design-color-#{variable}-dialog" })) do %>
-                  <%= t(:button_cancel) %>
-                <% end %>
-                <%= render(
-                      Primer::Beta::Button.new(
-                        type: :submit,
-                        scheme: :primary,
-                        form: form_id,
-                        data: { test_selector: "save-design-color-#{variable}" }
-                      )
-                    ) do %>
-                  <%= t(:button_save) %>
-                <% end %>
-              <% end %>
-            <% end %>
+                ) %>
           <% end %>
         <% end %>
       <% end %>
