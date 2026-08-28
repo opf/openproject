@@ -195,6 +195,7 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
@@ -387,6 +388,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
     registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
+    registerCustomElement('opce-work-packages-view', WorkPackageViewPageEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
     registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });
