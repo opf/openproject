@@ -1068,10 +1068,8 @@ module Pages
     def selenium_drag_backlogs_item(source:, target:, edge: nil)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
-      scroll_backlogs_source_into_view(source)
-
-      target_x, target_y = selenium_target_point(target.native.rect, edge:)
-      perform_native_drag(source:, target_x:, target_y:)
+      offset_x, offset_y = selenium_target_offset(target.native.rect, edge:)
+      perform_native_drag(source:, target:, offset_x:, offset_y:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -1080,18 +1078,18 @@ module Pages
       clear_pragmatic_dnd_honey_pot
     end
 
-    def selenium_target_point(rect, edge:)
+    def selenium_target_offset(rect, edge:)
       offset = [6, rect.height / 4].min
 
       [
-        rect.x + (rect.width / 2),
+        0,
         case edge
         when :top
-          rect.y + offset
+          offset - (rect.height / 2)
         when :bottom
-          rect.y + rect.height - offset
+          (rect.height / 2) - offset
         else
-          rect.y + (rect.height / 2)
+          0
         end
       ].map(&:round)
     end
