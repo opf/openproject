@@ -71,15 +71,13 @@ Start at the highest level of the hierarchy by setting up the SAFe Portfolio.
 
 In OpenProject, a **portfolio** can represent a SAFe Portfolio and, where required, also a Solution Train. It provides an entry point for organizing the programs representing ARTs and the team spaces belonging to them.
 
-Project portfolios allow you to view, organize, sort and filter spaces and their hierarchies.
+Portfolios allow you to view, organize, sort and filter spaces and their hierarchies.
 
 OpenProject offers a **portfolio overview** and project list that can be used to understand the structure and current state of the portfolio at a glance.
 
 Custom project lists can be created and saved using your own filter criteria and can display custom project attributes. Individual spaces can also be favorited for easier access.
 
 ![SAFe Portfolio overview](safe_portfolio_dashboard.png)
-
-![You can create custom project lists](project_list_-_solution_train.png)
 
 A typical portfolio could contain two ARTs:
 
@@ -111,7 +109,7 @@ This provides an explicit ART level between the SAFe Portfolio and individual te
 
 Portfolios, programs and projects can each be configured with a number of different elements:
 
-- **Members**: individual members can be created at an instance level and then added to individual spaces, or external users can directly be invited. Each member can have different roles in different spaces.
+- **Members**: individual members can be created at the instance level and then added to individual spaces, or external users can directly be invited. Each member can have different roles in different spaces.
 - **Roles and workflows**: each role can have a specific workflow in each space. This is particularly useful for SAFe approval processes and other role-specific status transitions.
 - **Modules** like Work packages, Gantt chart, Backlogs, Team planner, Wiki, Documents and Meetings.
 - **Work packages** of SAFe-relevant types such as Strategic Theme, Epic, Capability, Feature, Enabler, User Story, Spike, Objective and Risk, as well as other types such as Bug or Milestone.
@@ -145,32 +143,28 @@ Agile teams within an Agile Release Train can be organized as projects or sub-pr
 
 A **Program Increment (PI)** is a planning cycle used to align the teams within an ART around a common set of objectives and planned work.
 
-In OpenProject, we recommend representing PIs with a **custom field of type hierarchy** rather than with versions.
+In OpenProject, we recommend representing PIs with a [custom field of type hierarchy](../../system-admin-guide/custom-fields/#hierarchy-custom-field-enterprise-add-on) rather than with versions.
 
 This keeps Program Increments independent from versions so that versions remain available for release and product-versioning use cases.
 
 > [!NOTE]
 > OpenProject plans to provide a dedicated PI object in the future to support the PI planning cycle even more directly.
 
-Create a hierarchy custom field named, for example, **Program Increment** and make it available on the relevant work package types.
+Create a hierarchy custom field named, for example, **Program Increment** and make it available on the relevant work package types. See the [custom fields documentation](../../system-admin-guide/custom-fields/) for information on creating hierarchy custom fields and assigning them to work package types and projects.
 
 A typical organization using four PIs per year could use a structure such as:
 
 - 2027
-  - PI #1 (01.01.2027 - 31.03.2027)
-  - PI #2 (01.04.2027 - 30.06.2027)
-  - PI #3 (01.07.2027 - 30.09.2027)
-  - PI #4 (01.10.2027 - 31.12.2027)
+  - PI 2027.1 (01.01.2027 - 31.03.2027) #1
+  - PI 2027.2 (01.04.2027 - 30.06.2027) #2
+  - PI 2027.3 (01.07.2027 - 30.09.2027) #3
+  - PI 2027.4 (01.10.2027 - 31.12.2027) #4
 
-Including the start and finish dates in the hierarchy values makes the planning period immediately visible to users.
+Including the start and finish dates in the hierarchy values makes the planning period immediately visible to users. The hierarchy can be extended over time with new years and PIs. Users with the appropriate permissions can maintain the hierarchy values as the planning structure evolves.
 
-The hierarchy can be extended over time with new years and PIs. Users with the appropriate permissions can maintain the hierarchy values as the planning structure evolves.
+![Program Increment custom field of type hierarchy created in OpenProject administration](openproject_use_case_safe_custom_field_pi_create.png)
 
-![Program Increment custom field of type hierarchy](program_increment_hierarchy.png)
-
-Work packages can then be assigned to the relevant PI using the **Program Increment** field.
-
-<!-- TODO: Screenshot: Show an example of efficiently assigning work packages to a Program Increment, e.g. using a custom work package table grouped by Program Increment. Include unassigned work packages that can be moved into the relevant PI group. If possible, also demonstrate bulk editing for assigning multiple work packages to a PI. -->
+Work packages can then be assigned to the relevant PI using the **Program Increment** field. 
 
 The field can be used by different work package types at the same time. Strategic Themes, Epics, Capabilities, Features, User Stories, Enablers, Spikes, Risks and Objectives can therefore all be associated with the same PI cycle and queried together.
 
@@ -187,40 +181,39 @@ A useful planning view can:
 - show the owning team
 - include relevant dependencies and other planning attributes
 
-This allows planners to see both existing PI buckets and an **unassigned** group. Work packages can then be moved from the unassigned group into the relevant PI as planning progresses.
+This allows planners to see both existing PI buckets and an **unassigned** group. Work packages can then be moved from the unassigned group into the relevant PI as planning progresses. In the Work packages module, add the **Program Increment** column to the work package table and group the view by Program Increment. See [work package table configuration](../../user-guide/work-packages/work-package-table-configuration/) for information on adding columns, grouping work packages and saving custom views.
 
-![PI planning view grouped by Program Increment, including unassigned work](pi_scope.png)
+Useful columns to include are:
 
-The work package table can also be used with **bulk editing** to assign multiple work packages to a PI efficiently.
-
-Useful columns include:
-
-- Type
 - Subject
-- Team
+- Type
+- Team (Project column)
 - Program Increment
 - Sprint
 - Status
 - Assignee
-- Start date
-- Finish date
-- relevant work package relations
 
 The **Team** information is particularly useful in a cross-project view because it shows which agile team owns the work.
 
-Configured views can be saved and favorited so that PI scope is easy to access throughout planning and execution.
+This makes it easy to see which work packages are already assigned to a PI and which remain unassigned.
+
+You can assign individual work packages to a PI directly or use [bulk editing](../../user-guide/work-packages/edit-work-package/#bulk-edit-work-packages) to assign multiple work packages to the same PI at once.
+
+![Work package table showing ART-1 scope, including 'program increment' column, work packages grouped by Program Increment](openproject_use_case_safe_wp_table_grouped_by_pi.png)
+
+Configured views can be saved and favorited so that PI scope is easy to access throughout planning and execution. They can also be set to be public, so they are available across your organization. 
 
 After PI planning is complete, another saved view can filter exclusively for the selected PI, for example **PI #2**.
 
 Within that view, work can additionally be grouped by **Sprint**, providing the next iteration level within the Program Increment.
 
-![PI scope grouped by Sprint after PI planning](pi_scope_by_sprint.png)
+![Work package table showing ART-1 scope, PI scope grouped by Sprint after PI planning](openproject_use_case_safe_wp_table_pi_scope_by_sprint.png)
 
 ### Dependencies
 
 Dependencies between work items are especially important during PI planning, particularly **cross-team dependencies within a single ART**.
 
-Work package relations can be used to connect work that:
+[Work package relations](../../user-guide/work-packages/work-package-relations-hierarchies/) can be used to connect work that:
 
 - blocks another work package
 - is blocked by another work package
@@ -237,7 +230,7 @@ A saved cross-project dependency view can help teams identify:
 - which dependencies need to be resolved before planned milestones
 - which teams need to coordinate during the PI
 
-![Cross-team dependencies within an ART during PI planning](pi_dependencies.png)
+![Cross-team dependencies within an ART during PI planning](openproject_use_case_safe_wp_table_dependencies.png)
 
 Dependencies can also be visualized in the Gantt chart, providing a timeline perspective on cross-team planning.
 
@@ -254,7 +247,7 @@ A saved **PI objectives** view can, for example, filter for:
 
 Relations between Objectives and the contributing work packages make it possible to see directly which work supports each objective.
 
-<!-- TODO: Screenshot: Show work package relations for PI Objectives so that it is clear which work packages contribute to or are related to each Objective. -->
+![Work package table showing PI Objectives and their related contributing work packages](openproject_use_case_safe_wp_table_objectives_pi.png)
 
 ## Working with epics, features and stories
 
@@ -284,10 +277,9 @@ In the context of SAFe, it is best to pre-configure the set of types required fo
 
 Types can be shared between spaces, allowing the same structure to be used consistently across multiple teams and ARTs.
 
-
 ### Type template
 
-A [type template (or default text for description)](../../system-admin-guide/manage-work-packages/work-package-types/) can be defined for each type.
+A [type template (or default text for description)](../../system-admin-guide/manage-work-packages/work-package-types/) can be defined for each work package type.
 
 A **Feature**, for example, can be pre-configured to include:
 
@@ -306,26 +298,11 @@ Similarly, a template can be defined for **User Stories** so that they can be ex
 
 ### Work package form and relationship tables
 
-The work package form can be configured for each type.
+The work package form can be configured for each type to show the fields and custom fields relevant to that work package.
 
-In addition to fields and custom fields, **relationship tables** are particularly useful for SAFe use cases.
+**Relationship tables** can also be added to the form to provide direct access to related work. For example, a Feature can display its related User Stories and dependencies, while an Objective can show the work packages that contribute to it.
 
-Relationship tables can be configured to make related work directly visible on the work package form, for example:
-
-- blockers and other dependencies
-- Epics belonging to a Strategic Theme
-- Capabilities belonging to an Epic
-- Features belonging to an Epic or Capability
-- User Stories belonging to a Feature
-- work packages contributing to a PI Objective
-
-This provides valuable context without requiring users to navigate away from the work package.
-
-![Work package form showing relationship tables](work_package_relationship_tables.png)
-
-For example, an Epic form can display its related Features and dependencies, while a Feature can display the User Stories that contribute to it.
-
-![Feature with related User Stories and dependencies](feature_relationships.png)
+This complements the dependency and PI Objective views described above by making the same relationships available directly from the individual work package.
 
 ### Custom fields
 
@@ -375,10 +352,6 @@ The work package table view lets you view and edit work packages of all types, i
 
 These tables are highly customizable and can be [configured](../../user-guide/work-packages/work-package-table-configuration/) to show precisely the information you need. Tables can be **sorted** by attributes such as ID, subject, start date, project, assignee or priority, **grouped** and **filtered** to create highly precise views. They can also show nested parent-child relations in **hierarchy view**.
 
-For SAFe, useful cross-project views include **PI #2 scope**, **PI objectives**, **Cross-team dependencies** and **PI #2 risks**.
-
-<!-- TODO: Screenshot: Update the work package table screenshot to show Risks with typical risk-management columns, including Probability and Impact. -->
-
 The combination of the **Program Increment** and **Project** columns is particularly useful: it lets users see both the PI assignment and the team responsible for each work item.
 
 Configured tables can be saved as private or public views and favorited for quick access.
@@ -419,27 +392,21 @@ This separation allows teams to use their backlog and release structures without
 
 For an individual team, a pre-configured Kanban board provides a useful execution view of the currently planned work.
 
-For PI planning, a **multi-project board** can provide a broader view. A board filtered for **Program Increment = PI #2** can show work from Team Atlas and Team Hermes together.
+For PI planning, a **multi-project board** can provide a broader view. Create a sub-project board and show work from all or select teams together.
 
-![Multi-project board showing PI scope](pi_board.png)
+![Multi-project board showing PI scope](openproject_use_case_safe_boards_multi_team_board.png)
 
 This makes it possible to see the complete PI scope while retaining information about which team each work package belongs to. Users can then zoom into an individual team by applying a project filter or opening a team-specific view.
 
 ### Sprint boards and Sprint planning
 
-At team level, **Sprint boards** provide a focused view of work planned for a Sprint.
+At team level, **Boards** provide a focused view of work planned for a Sprint.
 
-Teams can use the Backlogs module to prepare and assign work to a Sprint and then use a Sprint board during execution.
+Teams can use the Backlogs module to prepare and assign work to a Sprint and then use a Sprint board during execution. 
 
-A Sprint board can, for example, show work grouped by status so that the team can follow User Stories, Spikes, Bugs and other work through the Sprint workflow.
+A Kanban board can, for example, show work grouped by status so that the team can follow User Stories, Spikes, Bugs and other work through the Sprint workflow.
 
-![Sprint board for an agile team](sprint_board.png)
-
-Within the context of a Program Increment, the PI defines the broader planning cycle while Sprints provide the next iteration level.
-
-A saved PI view grouped by Sprint can therefore be used to understand how the work planned for the PI is distributed across individual Sprints.
-
-![PI scope grouped by Sprint](pi_scope_by_sprint.png)
+![Kanban board for an agile team](openproject_use_case_safe_board_sprint_planning.png)
 
 ### Team planner
 
@@ -467,15 +434,11 @@ A typical Risk type can include custom fields such as:
 - **Risk category**
 - **Program Increment**
 
-Probability and Impact should use consistent **qualitative risk-evaluation values** rather than a numeric scale.
+Probability and Impact should use consistent **qualitative risk-evaluation values** rather than a numeric scale. Adding these fields as columns creates a simple risk register that can be filtered, sorted and grouped.
 
-<!-- TODO: Configuration: Match the exact Probability and Impact option labels configured in the SAFe demo instance. -->
+A saved **PI #2 risks** view can filter for Risk impact and probability, while showing Team, Probability, Impact, Risk owner and Status as columns.
 
-Adding these fields as columns creates a simple risk register that can be filtered, sorted and grouped.
-
-![Risk register showing Probability and Impact columns](pi_risks.png)
-
-A saved **PI #2 risks** view can filter for Type = Risk and Program Increment = PI #2, while showing Team, Probability, Impact, Risk owner and Status as columns.
+![Cross-project work package view showing PI scope and risks across teams](openproject_use_case_safe_wp_table_pi_scope_risks.png)
 
 Risk work packages can also be related to the Features, Epics or other work they affect.
 
@@ -506,7 +469,7 @@ Planned and ongoing improvements include:
 
 - **Agile reporting** for Scrum, Kanban and SAFe, including cross-project reporting at ART and portfolio level. See [Agile reporting in OpenProject](https://www.openproject.org/blog/openproject-agile-reporting/).
 - **Better support for Program Increments**, including plans for a dedicated PI object.
-- **Boards for PI planning sessions**, enabling more collaborative visual PI planning workflows. More details [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-265/activity?query_id=7850) and [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-267/activity?query_id=7850)
+- **Boards for PI planning sessions**, enabling more collaborative visual PI planning workflows. More details [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-265/activity?query_id=7850) and [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-267/activity?query_id=7850).
 - A **global Backlog module**.
 - Further **board improvements**, such as swimlanes, filters, WIP limits and private and public views.
 - **Global boards** for cross-project planning and visualization.
@@ -520,6 +483,6 @@ These upcoming capabilities will complement the existing work package, Gantt, Ba
 
 ## Here for you
 
-OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your particular scaled agile implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules, such as [budgets](../../user-guide/budgets/), [time and cost tracking](../../user-guide/time-and-costs/), [wiki](../../user-guide/wiki/), [meetings](../../user-guide/meetings/) and [file storage integrations](../../development/file-storage-integration/), that further enable your agile teams to work efficiently and deliver value.
+OpenProject is a powerful and highly configurable tool that can be customized to meet the needs of your particular scaled agile implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules, such as [budgets](../../user-guide/budgets/), [time and cost tracking](../../user-guide/time-and-costs/), [wiki](../../user-guide/wiki/), [meetings](../../user-guide/meetings/) and [file storage integrations](../../development/file-storage-integration/), that further enable your agile teams to work efficiently and deliver value.
 
 If you have questions about how to [use](../../getting-started/) and [configure](../../system-admin-guide/) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself.
