@@ -246,7 +246,7 @@ RSpec.describe "API v3 Work package resource",
   end
 
   describe "GET /api/v3/work_packages/:id?timestamps=" do
-    let(:timestamps_param) { CGI.escape(timestamps.map(&:to_s).join(",")) }
+    let(:timestamps_param) { CGI.escape(timestamps.join(",")) }
     let(:get_path) { "#{api_v3_paths.work_package(work_package.id)}?timestamps=#{timestamps_param}" }
 
     describe "response body" do
@@ -498,10 +498,6 @@ RSpec.describe "API v3 Work package resource",
 
             before do
               travel_to(business_day_at_noon)
-            end
-
-            after do
-              travel_back
             end
 
             it "has an embedded link to the baseline work package" do
