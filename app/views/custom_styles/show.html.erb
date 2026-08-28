@@ -36,37 +36,42 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
   <%= error_messages_for "custom_style" %>
   <% if show_theme_selector? %>
-    <%= form_tag(
-          update_design_themes_path,
-          method: :post,
-          data: {
-            controller: "auto-submit",
-            turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
-          }
-        ) do %>
-      <%= render(
-            Primer::Alpha::Select.new(
-              name: "theme",
-              label: t("admin.custom_styles.color_theme"),
-              caption: t("admin.custom_styles.color_theme_caption"),
-              input_width: :large,
-              data: {
-                action: "auto-submit#submit",
-                test_selector: "color-theme-select"
-              }
-            )
-          ) do |select| %>
-        <% @theme_options.each do |option| %>
-          <% label, value, attributes = option.is_a?(Array) ? option : [option, option, {}] %>
-          <% select.option(
-               label:,
-               value:,
-               selected: attributes&.fetch(:selected, value == @current_theme),
-               disabled: attributes&.fetch(:disabled, false)
-             ) %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <% theme_options = @theme_options %>
+    <% current_theme = @current_theme %>
+    <%=
+      primer_form_with(
+        url: update_design_themes_path,
+        method: :post,
+        data: {
+          controller: "auto-submit",
+          turbo_confirm: (t("admin.custom_styles.theme_warning") if @current_theme.blank?)
+        }
+      ) do |form_builder|
+        render_inline_form(form_builder) do |form|
+          form.select_list(
+            name: :theme,
+            label: helpers.t("admin.custom_styles.color_theme"),
+            caption: helpers.t("admin.custom_styles.color_theme_caption"),
+            input_width: :medium,
+            scope_name_to_model: false,
+            data: {
+              action: "auto-submit#submit",
+              test_selector: "color-theme-select"
+            }
+          ) do |select|
+            theme_options.each do |option|
+              label, value, attributes = option.is_a?(Array) ? option : [option, option, {}]
+              select.option(
+                label:,
+                value:,
+                selected: attributes&.fetch(:selected, value == current_theme),
+                disabled: attributes&.fetch(:disabled, false)
+              )
+            end
+          end
+        end
+      end
+    %>
   <% end %>
 
   <%= render_tabs design_tabs %>
