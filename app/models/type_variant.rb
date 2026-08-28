@@ -128,6 +128,12 @@ class TypeVariant < ApplicationRecord
     type.default_variant[reflection.foreign_key] unless is_default_variant?
   end
 
+  # Mirrors WorkPackageTypes::ConfiguredInScope: only a project-owned variant is addressable
+  # through a project, and that project is the one the controllers authorize against.
+  def configurable_by?(user)
+    user.admin? || (project_owned? && user.allowed_in_project?(:manage_project_variants, project))
+  end
+
   # Full variant name, e.g., "Bug: Hardware"
   def composite_name
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"
