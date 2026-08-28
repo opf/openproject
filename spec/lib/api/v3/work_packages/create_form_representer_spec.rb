@@ -186,6 +186,22 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
           expect(generated).not_to have_json_path("_links/configureForm")
         end
       end
+
+      context "for a nonadmin allowed to manage the project's own variants" do
+        let(:project) { create(:project) }
+        let(:variant) { create(:project_owned_type_variant, type: create(:type), project:) }
+        let(:work_package) do
+          build_stubbed(:work_package, project:, type: variant.type).tap do |wp|
+            allow(wp).to receive_messages(assignable_versions: [], type_variant: variant)
+          end
+        end
+
+        it "has a link to the configuration the project owns" do
+          expect(generated)
+            .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+            .at_path("_links/configureForm/href")
+        end
+      end
     end
   end
 end
