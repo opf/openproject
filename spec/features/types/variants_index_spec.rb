@@ -203,4 +203,28 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page).to have_text(I18n.t(:notice_successful_update))
     expect(feature_type.reload.position).to be < bug_type.reload.position
   end
+
+  describe "deleting a variant that projects still apply" do
+    shared_let(:project) { create(:project, types: [bug_type]) }
+
+    before { project.project_types.find_by(type: bug_type).update!(variant: zeta_variant) }
+
+    it "migrates the applying projects to a chosen sibling, then deletes it" do
+      visit types_path(expand: bug_type.id)
+
+      within(".Box-row", text: zeta_variant.variant_name) do
+        find("action-menu > button").click
+        click_on I18n.t(:button_delete)
+      end
+
+      within("##{WorkPackageTypes::Types::DeletionDialogComponent::DIALOG_ID}") do
+        select alfa_variant.composite_name, from: I18n.t("projects.settings.types.switch.target_label")
+        click_on I18n.t(:button_delete)
+      end
+
+      expect(page).to have_text(I18n.t(:notice_successful_delete))
+      expect { zeta_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
+    end
+  end
 end

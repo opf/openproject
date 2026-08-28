@@ -83,5 +83,32 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
         expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.make_default")
       end
     end
+
+    describe "deleting" do
+      context "when no project applies the variant" do
+        it "deletes it directly, behind a confirmation" do
+          rendered_component
+
+          expect(page).to have_css(
+            "form[action='#{type_variant_path(type_id: root_type.id, id: variant.id)}'][data-turbo-confirm]"
+          )
+        end
+      end
+
+      context "when projects apply the variant" do
+        before do
+          project = create(:project, types: [root_type])
+          project.project_types.find_by(type: root_type).update!(variant:)
+        end
+
+        it "opens the migration dialog instead of deleting straight away", :aggregate_failures do
+          rendered_component
+          link = page.find_link(I18n.t(:button_delete))
+
+          expect(link[:href]).to eq deletion_dialog_type_variant_path(type_id: root_type.id, id: variant.id)
+          expect(link["data-controller"]).to eq("async-dialog")
+        end
+      end
+    end
   end
 end

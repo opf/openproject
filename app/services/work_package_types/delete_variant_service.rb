@@ -46,6 +46,7 @@ module WorkPackageTypes
 
       ActiveRecord::Base.transaction do
         switch_applying_projects(params[:target])
+        model.project_types.reset
         destroyed = model.destroy
         raise ActiveRecord::Rollback unless destroyed
       end
