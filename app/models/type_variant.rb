@@ -161,6 +161,12 @@ class TypeVariant < ApplicationRecord
   # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
 
+  # Mirrors WorkPackageTypes::ConfiguredInScope: only a project-owned variant is addressable
+  # through a project, and that project is the one the controllers authorize against.
+  def configurable_by?(user)
+    user.admin? || (project_owned? && user.allowed_in_project?(:manage_project_variants, project))
+  end
+
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
