@@ -89,10 +89,12 @@ module WorkPackageTypes
       )
     end
 
+    # Scoped here rather than on the record: a copy carries values across and records no source,
+    # so there is no foreign key for the model to validate afterwards.
     def source
       return @source if defined?(@source)
 
-      @source = TypeVariant.find_by(id: params[:source_id])
+      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
     end
 
     def require_supported_aspect

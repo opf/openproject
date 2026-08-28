@@ -74,10 +74,11 @@ module WorkPackageTypes
 
     def aspect = params[:aspect]
 
+    # Only what this variant may borrow from: everything global, plus the project's own.
     def source
       return @source if defined?(@source)
 
-      @source = TypeVariant.find_by(id: params[:source_id])
+      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
     end
 
     def respond_to_switch(result)
