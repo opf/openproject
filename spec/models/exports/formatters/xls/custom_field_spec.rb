@@ -35,6 +35,7 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
   shared_let(:float_cf) { create(:float_wp_custom_field) }
   shared_let(:date_cf)  { create(:date_wp_custom_field) }
   shared_let(:list_cf)  { create(:list_wp_custom_field) }
+  shared_let(:bool_cf)  { create(:boolean_wp_custom_field) }
 
   describe ".apply?" do
     it "applies to custom field columns of the xls export" do
@@ -49,12 +50,14 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
   end
 
   describe "#format" do
+    let(:bool_value) { true }
     let(:work_package) do
       build_stubbed(:work_package) do |wp|
-        allow(wp).to receive(:available_custom_fields).and_return([int_cf, float_cf, date_cf, list_cf])
+        allow(wp).to receive(:available_custom_fields).and_return([int_cf, float_cf, date_cf, list_cf, bool_cf])
         allow(wp).to receive(:typed_custom_value_for).with(int_cf).and_return(42)
         allow(wp).to receive(:typed_custom_value_for).with(float_cf).and_return(1234.5)
         allow(wp).to receive(:typed_custom_value_for).with(date_cf).and_return(Date.new(2026, 10, 5))
+        allow(wp).to receive(:typed_custom_value_for).with(bool_cf).and_return(bool_value)
         allow(wp).to receive(:formatted_custom_value_for).with(list_cf).and_return("A")
       end
     end
@@ -69,6 +72,18 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
 
     it "keeps date custom values as dates" do
       expect(described_class.new(date_cf.column_name).format(work_package)).to eq(Date.new(2026, 10, 5))
+    end
+
+    it "keeps boolean custom values as booleans" do
+      expect(described_class.new(bool_cf.column_name).format(work_package)).to be true
+    end
+
+    context "when the boolean custom value is not set" do
+      let(:bool_value) { nil }
+
+      it "exports it as false" do
+        expect(described_class.new(bool_cf.column_name).format(work_package)).to be false
+      end
     end
 
     it "leaves other formats to the generic formatter" do
@@ -87,6 +102,10 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
 
     it "formats date custom fields with the configured date format", with_settings: { date_format: "%d.%m.%Y" } do
       expect(described_class.new(date_cf.column_name).format_options).to eq({ number_format: "DD.MM.YYYY" })
+    end
+
+    it "leaves boolean custom fields unformatted" do
+      expect(described_class.new(bool_cf.column_name).format_options).to eq({})
     end
 
     it "leaves untyped custom fields unformatted" do

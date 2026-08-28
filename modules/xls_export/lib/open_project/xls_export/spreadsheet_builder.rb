@@ -131,9 +131,10 @@ module OpenProject::XlsExport
     end
 
     # Add a simple row. This will default to the next row in the sequence.
-    # Numeric, Date and Time instances are preserved so that the cell formats set
-    # on the columns apply, all other types are converted to String as the
-    # spreadsheet gem cannot do more formats
+    # Numeric, Date, Time and boolean instances are preserved so that they are
+    # written as native cells and the cell formats set on the columns apply,
+    # all other types are converted to String as the spreadsheet gem cannot do
+    # more formats
     def add_row(arr, idx = nil)
       idx ||= [@sheet.last_row_index + 1, 1].max
       column_array = []
@@ -141,7 +142,7 @@ module OpenProject::XlsExport
         value = case c
                 when BigDecimal
                   c.to_f
-                when Date, Time, Numeric
+                when Date, Time, Numeric, true, false
                   c
                 else
                   c.to_s.gsub("\r\n", "\n").tr("\r", "\n")

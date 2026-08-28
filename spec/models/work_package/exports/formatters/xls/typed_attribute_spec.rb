@@ -32,11 +32,12 @@ require "spec_helper"
 
 RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
   describe ".apply?" do
-    it "applies to date, datetime and numeric database columns" do
+    it "applies to date, datetime, numeric and boolean database columns" do
       expect(described_class.apply?(:start_date, :xls)).to be true
       expect(described_class.apply?(:created_at, :xls)).to be true
       expect(described_class.apply?(:id, :xls)).to be true
       expect(described_class.apply?(:estimated_hours, :xls)).to be true
+      expect(described_class.apply?(:schedule_manually, :xls)).to be true
     end
 
     it "does not apply to other columns or virtual attributes" do
@@ -56,7 +57,8 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
       build_stubbed(:work_package,
                     start_date: Date.new(2026, 8, 24),
                     due_date: nil,
-                    duration: 7)
+                    duration: 7,
+                    schedule_manually: false)
     end
 
     it "keeps dates as dates" do
@@ -77,6 +79,10 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
 
       expect(formatted).to eq(work_package.created_at)
       expect(formatted.time_zone).to eq(zone)
+    end
+
+    it "keeps booleans as booleans" do
+      expect(described_class.new(:schedule_manually).format(work_package)).to be false
     end
 
     it "returns nil for blank values" do
@@ -100,6 +106,10 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
 
     it "formats floats with two decimals" do
       expect(described_class.new(:derived_estimated_hours).format_options).to eq({ number_format: "0.00" })
+    end
+
+    it "leaves booleans unformatted" do
+      expect(described_class.new(:schedule_manually).format_options).to eq({})
     end
   end
 end

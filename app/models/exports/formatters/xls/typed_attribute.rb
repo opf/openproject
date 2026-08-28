@@ -32,7 +32,7 @@ module Exports
   module Formatters
     module XLS
       class TypedAttribute < Default
-        COLUMN_TYPES = %i[date datetime integer float decimal].freeze
+        COLUMN_TYPES = %i[date datetime integer float decimal boolean].freeze
 
         class << self
           def model_class
@@ -56,6 +56,7 @@ module Exports
           when :date then value.to_date
           when :datetime then in_user_zone(value)
           when :integer then value.to_i
+          when :boolean then value
           else value.to_f
           end
         end
@@ -65,6 +66,7 @@ module Exports
           when :date then { number_format: DateFormat.date }
           when :datetime then { number_format: DateFormat.datetime }
           when :integer then { number_format: integer_format }
+          when :boolean then {}
           else { number_format: }
           end
         end

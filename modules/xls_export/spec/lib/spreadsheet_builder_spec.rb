@@ -94,6 +94,13 @@ RSpec.describe "SpreadsheetBuilder" do
     end
   end
 
+  it "keeps booleans as booleans" do
+    builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+    builder.add_row([true, false])
+
+    expect(builder.send(:raw_sheet).last_row.to_a).to eq([true, false])
+  end
+
   it "alwayses use unix newlines" do
     @spreadsheet.add_row(["Some text including a windows newline (\r\n)", "And an old-style mac os newline (\r)"])
     2.times do |i|

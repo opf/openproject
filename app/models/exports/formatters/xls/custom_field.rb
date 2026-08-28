@@ -45,7 +45,7 @@ module Exports
         end
 
         def format_value(value, options)
-          return value if value.is_a?(Date) || value.is_a?(Numeric)
+          return value if value.is_a?(Date) || value.is_a?(Numeric) || value.in?([true, false])
 
           super
         end
