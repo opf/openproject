@@ -41,7 +41,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Epic Link / Epic Name
 - [ ] Sprint field
 - [ ] Story Points
-- [ ] User picker / multi-user picker custom field values. If the referenced user isn't a member of the migrated project the value comes across empty, with no reliable way to prevent this in advance.
+- [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance. 
 - [ ] Version-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
 
