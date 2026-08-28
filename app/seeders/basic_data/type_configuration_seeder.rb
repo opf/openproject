@@ -36,8 +36,8 @@ module BasicData
     def seed_data!
       seed_data.each("type_configuration") do |type_configuration_data|
         variant = seed_data.find_reference(type_configuration_data["type"]).default_variant
-        groups = query_groups(type_configuration_data)
-        groups += variant.default_attribute_groups if merge_form_configuration?(type_configuration_data)
+        groups = form_groups(type_configuration_data)
+        groups = merge_with_default_groups(groups, variant) if merge_form_configuration?(type_configuration_data)
         variant.update(attribute_groups: groups)
       end
     end
@@ -51,7 +51,7 @@ module BasicData
       references = []
       seed_data.each("type_configuration") do |type_configuration_data|
         Array(type_configuration_data["form_configuration"]).each do |form_config_attr|
-          references << form_config_attr["query"]
+          references << form_config_attr["query"] if form_config_attr["query"]
         end
       end
       references
@@ -61,17 +61,33 @@ module BasicData
 
     # Whether the form configuration defined in the seed data should be merged with the
     # variant's default form configuration as defined in the Ruby code. Defaults to false,
-    # in which case only the query groups from the seed data make up the form configuration.
+    # in which case only the groups from the seed data make up the form configuration.
     def merge_form_configuration?(type_configuration_data)
       ActiveModel::Type::Boolean.new.cast(type_configuration_data["merge_form_configuration"])
     end
 
-    def query_groups(type_configuration_data)
+    def form_groups(type_configuration_data)
       type_configuration_data["form_configuration"].map do |form_config_attr|
-        query = seed_data.find_reference(form_config_attr["query"])
-        query_association = "query_#{query.id}"
-        [form_config_attr["group_name"], [query_association.to_sym]]
+        if form_config_attr["query"]
+          query = seed_data.find_reference(form_config_attr["query"])
+          query_association = "query_#{query.id}"
+          [form_config_attr["group_name"], [query_association.to_sym]]
+        else
+          [form_config_attr["group_name"], Array(form_config_attr["attributes"]).map(&:to_s)]
+        end
       end
+    end
+
+    def merge_with_default_groups(groups, variant)
+      default_groups = variant.default_attribute_groups
+      default_keys = default_groups.map(&:first)
+
+      merged_defaults = default_groups.map do |key, members|
+        seeded = groups.find { |seeded_key, *| seeded_key == key }
+        seeded ? [key, members + seeded[1]] : [key, members]
+      end
+
+      groups.reject { |key, *| default_keys.include?(key) } + merged_defaults
     end
   end
 end
