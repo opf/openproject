@@ -1582,6 +1582,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
               .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
                     .at_path("_links/configureForm/href")
           end
+
+          context "when the project owns that variant" do
+            before { variant.update!(project: workspace) }
+
+            it "addresses it through the owning project" do
+              href = "/types/#{variant.type_id}/in-project/#{workspace.identifier}" \
+                     "/variants/#{variant.id}/form_configuration/edit"
+
+              expect(generated).to be_json_eql(href.to_json).at_path("_links/configureForm/href")
+            end
+          end
         end
       end
     end
