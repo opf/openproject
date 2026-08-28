@@ -167,7 +167,7 @@ module API
         end
 
         link :configureForm,
-             cache_if: -> { current_user.admin? } do
+             cache_if: -> { configure_form_allowed? } do
           next unless represented.type_id
 
           # Falls back to the type's own configuration when no variant resolves, e.g. a project
@@ -802,6 +802,13 @@ module API
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def configure_form_allowed?
+          return @configure_form_allowed if defined?(@configure_form_allowed)
+
+          @configure_form_allowed =
+            represented.type_variant&.configurable_by?(current_user) || current_user.admin?
         end
 
         def project_phase

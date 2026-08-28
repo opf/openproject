@@ -280,4 +280,41 @@ RSpec.describe TypeVariant do
       expect(variant).to be_inherits_from_project_owned_variant
     end
   end
+
+  describe "#configurable_by?" do
+    let(:project) { create(:project) }
+    let(:type) { create(:type) }
+
+    it "lets an administrator configure any variant" do
+      expect(create(:type_variant, type:)).to be_configurable_by(build_stubbed(:admin))
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(build_stubbed(:admin))
+    end
+
+    # Only the owning project's URL carries the project segment the controllers authorize against,
+    # so a variant nobody owns is administration's alone.
+    it "refuses a variant no project owns" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:type_variant, type:)).not_to be_configurable_by(user)
+    end
+
+    it "lets the owning project's manager configure its own variant" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(user)
+    end
+
+    it "refuses a manager of another project" do
+      elsewhere = create(:project)
+      user = create(:user, member_with_permissions: { elsewhere => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
+    end
+
+    it "refuses a member without the permission" do
+      user = create(:user, member_with_permissions: { project => %i[manage_types] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
+    end
+  end
 end
