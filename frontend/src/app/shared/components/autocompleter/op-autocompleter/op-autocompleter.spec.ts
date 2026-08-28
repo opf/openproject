@@ -79,8 +79,8 @@ describe('autocompleter', () => {
       name: 'Workpackage 2',
       formattedId: 'PROJ-2',
       author: {
-        href: '/api/v3/users/2',
-        name: 'Author2',
+        href: null,
+        name: 'Deleted user',
       },
       type: { id: 2, name: 'Bug' },
       status: { id: 2, name: 'Closed' },
@@ -233,6 +233,34 @@ describe('autocompleter', () => {
         const renderedIds = Array.from(wpIdElements).map(el => el.textContent?.trim());
 
         expect(renderedIds).toContain('#1');
+      }
+      finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should display a fallback avatar when the author has been deleted', () => {
+      vi.useFakeTimers();
+      try {
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        fixture.detectChanges();
+        const select = fixture.componentInstance.ngSelectInstance;
+
+        select.open();
+        select.focus();
+
+        const inputDebugElement = fixture.debugElement.query(By.css('input[role=combobox]'));
+        const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
+
+        inputElement.value = 'package 2';
+        inputElement.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+
+        expect(document.querySelector('op-principal.op-autocompleter--option-principal')).toBeNull();
+        expect(document.querySelector('.op-autocompleter--option-principal-fallback')).not.toBeNull();
       }
       finally {
         vi.useRealTimers();
