@@ -91,7 +91,9 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       find_test_selector("edit-design-color-accent-color").click
       fill_in "design_colors[]accent-color", with: "#333333"
       find_test_selector("save-design-color-accent-color").click
-      expect(page).to have_css("#design_colors_accent-color", value: "#333333")
+
+      expect(page).to have_text("#333333")
+      expect(DesignColor.find_by(variable: "accent-color").hexcode).to eq("#333333")
       expect(page).to have_current_path custom_style_path(tab: "interface")
     end
 

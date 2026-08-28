@@ -27,22 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Beta::Heading.new(
-        tag: :h2,
-        font_size: 3,
-        font_weight: :normal,
-        mt: 4,
-        mb: 2,
-        pb: 2,
-        border: :bottom
-      )
-    ) do %>
-  <%= t(:label_interface_colors) %>
-<% end %>
-
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) do %>
-  <%= t(:label_interface_colors_description) %>
+<%= render(Primer::Beta::Subhead.new(mt: 4, mb: 3)) do |subhead| %>
+  <% subhead.with_heading(tag: :h2, size: :medium) { t(:label_interface_colors) } %>
+  <% subhead.with_description { t(:label_interface_colors_description) } %>
 <% end %>
 
 <% design_color_groups.each do |group_name, design_colors| %>
