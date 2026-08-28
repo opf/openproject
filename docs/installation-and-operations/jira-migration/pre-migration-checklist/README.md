@@ -37,7 +37,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated, specific to custom fields:**
 
-- [ ] Date Time Picker
+- [ ] Date Time Picker: the time-of-day (the date itself is migrated — see [Custom fields migration](../custom-fields/#date-time-picker))      
 - [ ] Epic Link / Epic Name
 - [ ] Sprint field
 - [ ] Story Points
