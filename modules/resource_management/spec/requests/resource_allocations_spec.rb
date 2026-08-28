@@ -684,7 +684,7 @@ RSpec.describe "ResourceAllocations requests",
 
       expect(response.body).to have_turbo_stream(
         action: "closeDialog",
-        target: "##{ResourceAllocations::EditDialogComponent::DIALOG_ID}"
+        target: ResourceAllocations::EditDialogComponent::DIALOG_ID
       )
     end
   end
@@ -759,7 +759,7 @@ RSpec.describe "ResourceAllocations requests",
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: user_dialog_id)
       expect(response.body).not_to include('value="filter"')
     end
 

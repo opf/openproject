@@ -32,6 +32,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Injectable({ providedIn: 'root' })
 export class OpInviteUserDialogService implements OnDestroy {
@@ -59,11 +60,9 @@ export class OpInviteUserDialogService implements OnDestroy {
     );
   }
 
-  private handleDialogClose(event:CustomEvent):void {
-    const {
-      detail: { dialog, submitted, additional },
-    } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean, additional:{ user_id:number } } };
-    if (dialog.id === 'user-invitation-dialog' && submitted) {
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail<{ user_id:number }>>):void {
+    const { detail: { dialog, submitted, additional } } = event;
+    if (dialog.id === 'user-invitation-dialog' && submitted && additional) {
       this
         .apiV3Service
         .principals
