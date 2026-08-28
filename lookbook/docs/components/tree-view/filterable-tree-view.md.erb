@@ -118,12 +118,12 @@ Checked nodes are identified by `data-node-id` and preserved across tree replace
 Pass `form_arguments:` to the component as usual. In async mode, the `include_sub_items` value is automatically included in the form submission (unlike client-side mode, where it is a purely visual control).
 
 ```erb
-<%= form_with(url: my_path) do |f| %>
-  <%= render(Primer::OpenProject::FilterableTreeView.new(
+<%%= form_with(url: my_path) do |f| %>
+  <%%= render(Primer::OpenProject::FilterableTreeView.new(
     src: my_items_path,
     form_arguments: { builder: f, name: "items" }
   )) %>
-<% end %>
+<%% end %>
 ```
 
 When using forms, pass `form_arguments:` to the `TreeView` in your endpoint fragment as well, so node checkboxes are wired to the form. The component sends `name` as a query parameter automatically, so your controller can reconstruct a `FormBuilder`:
@@ -139,13 +139,13 @@ end
 ```
 
 ```erb
-<%# app/views/my_items/index.html.erb – with form support %>
-<%= render(Primer::Alpha::TreeView.new(
+<%%# app/views/my_items/index.html.erb – with form support %>
+<%%= render(Primer::Alpha::TreeView.new(
   data: { target: "filterable-tree-view.treeViewList" },
   form_arguments: { builder: builder, name: name }
 )) do |tree| %>
   ...
-<% end %>
+<%% end %>
 ```
 
 #### How to use the component in OpenProject
@@ -155,7 +155,7 @@ end
 Pass a `src:` URL pointing to your server endpoint. The component fetches and renders the tree on mount, and re-fetches on every filter change.
 
 ```erb
-<%= render(Primer::OpenProject::FilterableTreeView.new(src: my_items_path)) %>
+<%%= render(Primer::OpenProject::FilterableTreeView.new(src: my_items_path)) %>
 ```
 
 > **Note:** Do not pass `tree_view_arguments:` alongside `src:`. The initial tree shell is replaced by the first fetch, so those arguments would be lost. Configure the `TreeView` inside your endpoint instead.
@@ -200,14 +200,14 @@ When `include_sub_items` is `"true"`, the server should include all descendants 
 The response must be a single `<tree-view>` element with `data-target="filterable-tree-view.treeViewList"`. Use `Primer::Alpha::TreeView` to render it.
 
 ```erb
-<%# app/views/my_items/index.html.erb %>
-<%= render(Primer::Alpha::TreeView.new(
+<%%# app/views/my_items/index.html.erb %>
+<%%= render(Primer::Alpha::TreeView.new(
   data: { target: "filterable-tree-view.treeViewList" }
 )) do |tree| %>
-  <% @nodes.each do |node| %>
-    <%= render partial: "my_items/node", locals: { component: tree, node: node, query: query } %>
-  <% end %>
-<% end %>
+  <%% @nodes.each do |node| %>
+    <%%= render partial: "my_items/node", locals: { component: tree, node: node, query: query } %>
+  <%% end %>
+<%% end %>
 ```
 
 ###### Node partial requirements
@@ -217,8 +217,8 @@ Each node **must** carry a stable `data-node-id` so the component can preserve s
 **Leaf nodes:**
 
 ```erb
-<%# app/views/my_items/_node.html.erb (leaf) %>
-<% component.with_leaf(
+<%%# app/views/my_items/_node.html.erb (leaf) %>
+<%% component.with_leaf(
   label: node.label,
   data: { node_id: node.id }
 ) %>
@@ -227,17 +227,17 @@ Each node **must** carry a stable `data-node-id` so the component can preserve s
 **Sub-tree (branch) nodes:**
 
 ```erb
-<%# app/views/my_items/_node.html.erb (branch) %>
-<% component.with_sub_tree(
+<%%# app/views/my_items/_node.html.erb (branch) %>
+<%% component.with_sub_tree(
   label: node.label,
   sub_tree_component_klass: Primer::OpenProject::FilterableTreeView::SubTree,
   select_strategy: :self,
   data: { node_id: node.id }
 ) do |sub| %>
-  <% node.children.each do |child| %>
-    <%= render partial: "my_items/node", locals: { component: sub, node: child, query: query } %>
-  <% end %>
-<% end %>
+  <%% node.children.each do |child| %>
+    <%%= render partial: "my_items/node", locals: { component: sub, node: child, query: query } %>
+  <%% end %>
+<%% end %>
 ```
 
 > **Important:** Pass `sub_tree_component_klass:` and `select_strategy:` only at the **top-level** `TreeView`. `FilterableTreeView::SubTree#with_sub_tree` already forwards them to nested levels — passing them again will raise a `keyword argument duplicated` error.
@@ -279,11 +279,11 @@ toolbar, and will be passed as the third argument to the filter function (see be
 Here's how to add a custom filter mode in addition to the default ones:
 
 ```erb
-&lt;%= render(Primer::OpenProject::FilterableTreeView.new) do |tree_view| %&gt;
-  <%# remove this line to prevent that the default modes "All" and "Selected" are shown %>
-  &lt;% tree_view.with_default_filter_modes %&gt;
-  &lt;% tree_view.with_filter_mode(name: "Custom third option") %&gt;
-&lt;% end %>
+<%%= render(Primer::OpenProject::FilterableTreeView.new) do |tree_view| %>
+  <%%# remove this line to prevent that the default modes "All" and "Selected" are shown %>
+  <%% tree_view.with_default_filter_modes %>
+  <%% tree_view.with_filter_mode(name: "Custom third option") %>
+<%% end %>
 ```
 
 #### Custom filter function
