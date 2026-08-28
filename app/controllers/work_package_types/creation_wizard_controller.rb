@@ -35,7 +35,7 @@ module WorkPackageTypes
     include ::WorkPackageTypes::ConfiguredInScope
     include TypeVariantsFeature
 
-    layout "no_side_menu"
+    layout "no_menu"
 
     helper_method :adding_variant?
     before_action :require_type_variants_feature
