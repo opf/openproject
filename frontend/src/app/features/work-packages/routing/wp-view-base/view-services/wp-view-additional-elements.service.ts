@@ -60,7 +60,6 @@ export class WorkPackageViewAdditionalElementsService {
   readonly schemaCache = inject(SchemaCacheService);
   readonly wpRelations = inject(WorkPackageRelationsService);
 
-
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
     const workPackageIds = rows.map((el) => el.id!);
@@ -73,15 +72,15 @@ export class WorkPackageViewAdditionalElementsService {
       this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
     ]).then((wpResults:string[][]) => {
-      this.loadAdditional(wpResults.flat());
+      this.loadAdditional(wpResults.flat(), query.timestamps);
     });
   }
 
-  private loadAdditional(wpIds:string[]) {
+  private loadAdditional(wpIds:string[], timestamps:string[]) {
     this
       .apiV3Service
       .work_packages
-      .requireAll(wpIds)
+      .requireAll(wpIds, timestamps)
       .then(() => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })

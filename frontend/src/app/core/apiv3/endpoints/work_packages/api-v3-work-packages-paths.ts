@@ -62,15 +62,16 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * Load a collection of work packages and put them all into cache
    *
    * @param ids
+   * @param timestamps Baseline timestamps to load the work packages at, if any
    */
-  public requireAll(ids:string[]):Promise<unknown> {
+  public requireAll(ids:string[], timestamps?:string[]):Promise<unknown> {
     if (ids.length === 0) {
       return Promise.resolve();
     }
 
     return new Promise<undefined>((resolve, reject) => {
       this
-        .loadCollectionsFor(Array.from(new Set(ids)))
+        .loadCollectionsFor(Array.from(new Set(ids)), timestamps)
         .then((pagedResults:WorkPackageCollectionResource[]) => {
           pagedResults.forEach((results) => {
             if (results.schemas) {
@@ -158,7 +159,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param ids
    * @return {WorkPackageCollectionResource[]}
    */
-  protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+  protected loadCollectionsFor(ids:string[], timestamps?:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
       .getAllPaginated(
@@ -166,6 +167,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
         {
           filters: ApiV3Filter('id', '=', ids).toJson(),
           valid_subset: true,
+          ...(timestamps?.length ? { timestamps: timestamps.join(',') } : {}),
         },
       )
       .toPromise() as Promise<WorkPackageCollectionResource[]>;
