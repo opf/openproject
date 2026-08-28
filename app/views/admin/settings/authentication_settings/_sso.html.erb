@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
         value:,
         caption: t(
           :setting_password_login_none_caption_html,
-          internal_login_link: link_to("/login/internal", internal_signin_path)
+          internal_login_link: link_to(internal_signin_url, internal_signin_path)
         )
       }
     else
@@ -52,6 +52,34 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3)) do %>
       <%= t("settings.authentication.password_login_requires_sso_provider") %>
     <% end %>
+  <% end %>
+
+  <%
+    environment_configured_settings = [
+      (I18n.t(:setting_password_login) unless Setting.password_login_writable?),
+      (I18n.t(:setting_password_login_bypass_principal_ids) unless Setting.password_login_bypass_principal_ids_writable?)
+    ].compact
+  %>
+  <% if environment_configured_settings.any? %>
+    <%=
+      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
+        message = t(
+          "settings.authentication.password_login_configured_by_environment",
+          count: environment_configured_settings.size,
+          setting: environment_configured_settings.first
+        )
+        if environment_configured_settings.one?
+          message
+        else
+          safe_join(
+            [
+              message,
+              tag.ul(safe_join(environment_configured_settings.map { |setting| tag.li(setting) }))
+            ]
+          )
+        end
+      end
+    %>
   <% end %>
 
   <%=
@@ -68,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: I18n.t(:setting_omniauth_direct_login_provider),
           caption: t(
             "settings.authentication.omniauth_direct_login_hint_html",
-            internal_path: internal_signin_url
+            internal_path: link_to(internal_signin_url, internal_signin_path)
           ),
           include_blank: I18n.t(:label_none_parentheses),
           disabled: !omniauth_configured
@@ -92,10 +120,11 @@ See COPYRIGHT and LICENSE files for more details.
           caption: I18n.t("settings.authentication.remapping_existing_users_hint")
         )
 
+        password_login_disabled = !omniauth_configured || form.setting_disabled?(:password_login)
         form.radio_button_group(
           name: :password_login,
           values: policy_values,
-          disabled: !omniauth_configured,
+          disabled: password_login_disabled,
           button_options: {
             data: {
               show_when_value_selected_target: "cause",
@@ -112,14 +141,15 @@ See COPYRIGHT and LICENSE files for more details.
             not_value: Users::PasswordLogin::ALL
           }
         ) do |group|
+          bypass_disabled = !omniauth_configured || form.setting_disabled?(:password_login_bypass_principal_ids)
           group.hidden(
             name: "settings[password_login_bypass_principal_ids][]",
             value: "",
+            disabled: bypass_disabled,
             scope_name_to_model: false,
             scope_id_to_model: false
           )
 
-          bypass_disabled = !omniauth_configured || form.setting_disabled?(:password_login_bypass_principal_ids)
           group.autocompleter(
             name: :password_login_bypass_principal_ids,
             label: I18n.t(:setting_password_login_bypass_principal_ids),
