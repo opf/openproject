@@ -28,13 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
-Rails.application.reloader.to_prepare do
-  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
-  ApplicationMailer.register_interceptor Interceptors::RemoveBlockedRecipients
-  ApplicationMailer.register_interceptor Interceptors::LimitDistinctRecipients
-  ApplicationMailer.register_interceptor Interceptors::RateLimitEmails
-  # following needs to be the last interceptor
-  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+require "spec_helper"
+
+RSpec.describe TokenBucketState do
+  describe ".with_instance" do
+    # This is supposed to test that concurrent access to the singleton is blocked on DB level. However I wasn't able to
+    # get this to work in the tests, as transactional fixtures are messing with the semantics of transactions in the
+    # test context. Therefore, we're merely testing that `SELECT ... FOR UPDATE` is used.
+    it "uses PostgreSQL row locking" do
+      sql_queries = []
+
+      callback = lambda do |_name, _start, _finish, _id, payload|
+        sql_queries << payload[:sql]
+      end
+
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+        described_class.with_instance(:email_limit_per_day) {} # trigger action
+      end
+
+      expect(sql_queries).to include(
+        a_string_matching(/SELECT .* FROM "token_bucket_states" .* FOR UPDATE/i)
+      )
+    end
+
+    it "passes the singleton instance into the block" do
+      instance = described_class.with_instance(:email_limit_per_day) { it }
+
+      expect(instance.identifier).to eq "email_limit_per_day"
+    end
+  end
 end
