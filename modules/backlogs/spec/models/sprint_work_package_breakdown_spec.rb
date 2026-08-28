@@ -65,28 +65,49 @@ RSpec.describe SprintWorkPackageBreakdown do
     travel_to(Time.zone.local(2024, 6, 20, 12, 0)) { example.run }
   end
 
-  describe "reference_start and reference_finish" do
-    context "when the sprint is still ongoing (finish date in the future)" do
+  describe "#reference_start and #reference_finish" do
+    context "when the sprint is still ongoing" do
       let(:sprint) do
-        create(:sprint, project:, start_date: Time.zone.today - 10.days, finish_date: Time.zone.today + 4.days)
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 10.days,
+                        finish_date: Time.zone.today + 4.days,
+                        started_at: 10.days.ago)
       end
 
-      it "keeps reference_start at the sprint start date" do
-        expect(breakdown.reference_start).to eq(sprint.start_date)
+      it "keeps reference_start at the actual start timestamp" do
+        expect(breakdown.reference_start).to eq(Timestamp.new(sprint.started_at))
       end
 
-      it "clips reference_finish to today rather than the future finish date" do
-        expect(breakdown.reference_finish).to eq(Time.zone.today)
+      it "clips reference_finish to now" do
+        expect(breakdown.reference_finish).to eq(Timestamp.now)
       end
     end
 
-    context "when viewing the report after the sprint has already finished" do
+    context "when the sprint was completed before its finish date" do
       let(:sprint) do
-        create(:sprint, project:, start_date: Time.zone.today - 20.days, finish_date: Time.zone.today - 5.days)
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 20.days,
+                        finish_date: Time.zone.today + 5.days,
+                        started_at: 20.days.ago,
+                        completed_at: 1.day.ago)
       end
 
-      it "keeps reference_finish at the sprint finish date rather than today" do
-        expect(breakdown.reference_finish).to eq(sprint.finish_date)
+      it "keeps reference_finish at the sprint completion timestamp rather than current time" do
+        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.completed_at))
+      end
+    end
+
+    context "when the sprint was completed after its finish date" do
+      let(:sprint) do
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 20.days,
+                        finish_date: Time.zone.today - 5.days,
+                        started_at: 20.days.ago,
+                        completed_at: 1.day.ago)
+      end
+
+      it "keeps reference_finish at the sprint completion timestamp rather than current time" do
+        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.completed_at))
       end
     end
 
@@ -95,15 +116,39 @@ RSpec.describe SprintWorkPackageBreakdown do
         create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
       end
 
-      it "clips reference_start to today rather than the future start date" do
-        expect(breakdown.reference_start).to eq(Time.zone.today)
+      it "has nil timestamps" do
+        expect(breakdown.reference_start).to be_nil
+        expect(breakdown.reference_finish).to be_nil
       end
+    end
+  end
+
+  describe "a sprint that has not started" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
+    end
+
+    let!(:planned_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5)
+    end
+
+    it "reports empty breakdown" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 0, story_points: 0)
+      expect(breakdown.completed).to have_attributes(work_package_count: 0, story_points: 0)
+      expect(breakdown.unfinished).to have_attributes(work_package_count: 0, story_points: 0)
+      expect(breakdown.changed_after_start)
+        .to have_attributes(added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0)
+      expect(breakdown.added_after_start_ids).to be_empty
+      expect(breakdown.removed_after_start_ids).to be_empty
     end
   end
 
   describe "#initially_planned, #completed and #unfinished" do
     let(:sprint) do
-      create(:sprint, project:, start_date: Time.zone.today - 10.days, finish_date: Time.zone.today + 4.days)
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
     end
 
     let!(:open_work_package) do
@@ -140,7 +185,10 @@ RSpec.describe SprintWorkPackageBreakdown do
 
   describe "#changed_after_start" do
     let(:sprint) do
-      create(:sprint, project:, start_date: Time.zone.today - 10.days, finish_date: Time.zone.today + 4.days)
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
     end
 
     let!(:stable_work_package) do
@@ -233,6 +281,53 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(result.added_story_points).to eq(0)
         expect(result.removed_story_points).to eq(6)
       end
+    end
+  end
+
+  describe "#added_after_start_ids and #removed_after_start_ids" do
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:stable_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:added_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 2,
+                            created_at: sprint.start_date + 3.days, updated_at: sprint.start_date + 3.days)
+    end
+
+    let!(:removed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 4,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:flipping_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 1,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before do
+      [stable_work_package, added_work_package, removed_work_package, flipping_work_package].each do |wp|
+        backdate_creation_journal(wp)
+      end
+
+      set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 2.days)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+    end
+
+    it "returns the ids of the work packages that entered the sprint" do
+      expect(breakdown.added_after_start_ids).to contain_exactly(added_work_package.id)
+    end
+
+    it "returns the ids of the work packages that left the sprint" do
+      expect(breakdown.removed_after_start_ids).to contain_exactly(removed_work_package.id)
     end
   end
 end

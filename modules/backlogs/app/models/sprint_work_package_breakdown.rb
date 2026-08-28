@@ -31,10 +31,11 @@
 # Reconstructs how a sprint's work package set moved over its lifetime, using
 # WorkPackage.at_timestamp (see Journable::Timestamps) to read historic
 # sprint_id/status_id/story_points values from work_package_journals.
+# The references are the actual start and completion timestamps of the sprint.
 class SprintWorkPackageBreakdown
-  Block = Struct.new(:work_package_count, :story_points, :from_date, :to_date, keyword_init: true)
+  Block = Struct.new(:work_package_count, :story_points, keyword_init: true)
   ChangeBlock = Struct.new(:added_count, :removed_count, :added_story_points, :removed_story_points,
-                           :from_date, :to_date, keyword_init: true)
+                           keyword_init: true)
 
   def initialize(sprint:, project:)
     @sprint = sprint
@@ -53,29 +54,46 @@ class SprintWorkPackageBreakdown
     snapshot_block(reference_finish, done: false)
   end
 
-  def changed_after_start # rubocop:disable Metrics/AbcSize
-    start_points = sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
-    finish_points = sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
+  def changed_after_start
+    return empty_change_block unless started?
 
-    added_ids = finish_points.keys - start_points.keys
-    removed_ids = start_points.keys - finish_points.keys
+    added_ids = added_after_start_ids
+    removed_ids = removed_after_start_ids
 
     ChangeBlock.new(
       added_count: added_ids.size,
       removed_count: removed_ids.size,
       added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 },
-      from_date: reference_start,
-      to_date: reference_finish
+      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
     )
   end
 
   def reference_start
-    [@sprint.start_date, Time.zone.today].min
+    return nil unless started?
+
+    Timestamp.new(@sprint.started_at)
   end
 
   def reference_finish
-    [@sprint.finish_date, Time.zone.today].min
+    return nil unless started?
+
+    if @sprint.completed_at
+      Timestamp.new(@sprint.completed_at)
+    else
+      Timestamp.now
+    end
+  end
+
+  def added_after_start_ids
+    return [] unless started?
+
+    finish_points.keys - start_points.keys
+  end
+
+  def removed_after_start_ids
+    return [] unless started?
+
+    start_points.keys - finish_points.keys
   end
 
   def done_status_ids
@@ -84,19 +102,34 @@ class SprintWorkPackageBreakdown
 
   private
 
-  def snapshot_block(date, done: nil)
-    scope = sprint_work_packages_at(date)
-    scope = filter_by_done(scope, done)
+  def started? = @sprint.started_at?
 
-    Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0,
-              from_date: date, to_date: date)
+  def empty_change_block
+    ChangeBlock.new(added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0)
   end
 
-  def sprint_work_packages_at(date)
+  def start_points
+    @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
+  end
+
+  def finish_points
+    @finish_points ||= sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
+  end
+
+  def snapshot_block(timestamp, done: nil)
+    return Block.new(work_package_count: 0, story_points: 0) unless started?
+
+    scope = sprint_work_packages_at(timestamp)
+    scope = filter_by_done(scope, done)
+
+    Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0)
+  end
+
+  def sprint_work_packages_at(timestamp)
     WorkPackage
       .where(project: @project, sprint: @sprint)
       .visible
-      .at_timestamp(Timestamp.parse(date.in_time_zone.end_of_day.iso8601))
+      .at_timestamp(timestamp)
   end
 
   def filter_by_done(scope, done)

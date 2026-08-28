@@ -24,19 +24,26 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
+++# %>
 
-++#%>
-
-<% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
-
-<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
-
-<%= render(Grids::WidgetGridComponent.new(mb: 3)) do |grid| %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageOverview, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::CompletedTable, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::UnfinishedTable, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::AddedTable, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::RemovedTable, @sprint, @project) %>
-<% end %>
+<%=
+  widget_wrapper do |container|
+    container.with_body do
+      if show_table?
+        helpers.angular_component_tag(
+          "opce-embedded-work-package-table",
+          inputs: {
+            queryProps: query_props,
+            configuration: table_configuration
+          }
+        )
+      else
+        render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+          blankslate.with_visual_icon(icon: blankslate_icon)
+          blankslate.with_heading(tag: :h3).with_content(blankslate_text(:heading))
+          blankslate.with_description_content(blankslate_text(:description))
+        end
+      end
+    end
+  end
+%>

@@ -32,7 +32,12 @@ require "rails_helper"
 
 RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :component do
   let(:project) { build_stubbed(:project) }
-  let(:sprint) { build_stubbed(:sprint, project:, start_date: 1.week.ago.to_date, finish_date: 1.week.from_now.to_date) }
+  let(:sprint) do
+    build_stubbed(:sprint, :active, project:,
+                                    start_date: 1.week.ago.to_date,
+                                    finish_date: 1.week.from_now.to_date,
+                                    started_at: 1.week.ago)
+  end
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
@@ -43,23 +48,22 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
   end
 
   context "with the EE plan for sprint report widgets", with_ee: %i[sprint_report_pro_widgets] do
-    context "when the sprint has a date range set" do
+    context "when the sprint has started" do
       current_user { build_stubbed(:user) }
 
       let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
       let(:planned) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, from_date: sprint.start_date)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
       end
       let(:changed) do
         SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                    removed_story_points: 2, from_date: sprint.start_date,
-                                                    to_date: Time.zone.today)
+                                                    removed_story_points: 2)
       end
       let(:completed) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8, from_date: Time.zone.today)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
       end
       let(:unfinished) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5, from_date: Time.zone.today)
+        SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
       end
 
       before do
@@ -71,8 +75,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
           changed_after_start: changed,
           completed:,
           unfinished:,
-          reference_start: sprint.start_date,
-          reference_finish: Time.zone.today,
+          reference_start: Timestamp.new(sprint.started_at),
+          reference_finish: Timestamp.now,
           done_status_ids: [1, 2]
         )
       end
@@ -112,7 +116,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       let(:type_feature) { create(:type_feature) }
       let(:issue_open) { create(:status, name: "Open", is_default: true) }
       let(:sprint) do
-        create(:sprint, project:, start_date: Time.zone.today - 5.days, finish_date: Time.zone.today + 5.days)
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 5.days,
+                        finish_date: Time.zone.today + 5.days,
+                        started_at: 5.days.ago)
       end
 
       let!(:work_package) do
@@ -189,6 +196,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         it "does not render the widget" do
           expect(rendered_component.to_html).to be_blank
         end
+      end
+    end
+
+    context "when the sprint has dates but was never started" do
+      let(:sprint) do
+        build_stubbed(:sprint, project:,
+                               start_date: 1.week.ago.to_date,
+                               finish_date: 1.week.from_now.to_date,
+                               started_at: nil)
+      end
+
+      current_user { build_stubbed(:user) }
+
+      before do
+        mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+      end
+
+      it "renders the progress bar without any breakdown block" do
+        expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
+        expect(rendered_component).to have_text("work packages")
       end
     end
 

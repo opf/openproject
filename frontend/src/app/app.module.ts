@@ -92,6 +92,9 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 import {
   EmbeddedTablesMacroComponent,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import {
+  WorkPackageEmbeddedTableEntryComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table-entry.component';
 import { OpPrincipalComponent } from 'core-app/shared/components/principal/principal.component';
 import {
   OpBasicSingleDatePickerComponent,
@@ -363,6 +366,7 @@ export class OpenProjectModule implements DoBootstrap {
 
   private registerCustomElements(injector:Injector) {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
