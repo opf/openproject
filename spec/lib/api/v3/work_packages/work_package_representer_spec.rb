@@ -1556,10 +1556,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "formConfiguration" do
+    describe "configureForm" do
       context "when not admin" do
         it_behaves_like "has no link" do
-          let(:link) { "formConfiguration" }
+          let(:link) { "configureForm" }
         end
       end
 
