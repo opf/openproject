@@ -105,6 +105,6 @@ export default class KeepCollapsedStateController extends Controller<HTMLElement
   }
 
   private keyOf(collapsible:CollapsibleElement):string|undefined {
-    return collapsible.querySelector(TOGGLE_SELECTOR)?.getAttribute('aria-controls') || undefined;
+    return collapsible.querySelector(TOGGLE_SELECTOR)?.getAttribute('aria-controls') ?? undefined;
   }
 }
