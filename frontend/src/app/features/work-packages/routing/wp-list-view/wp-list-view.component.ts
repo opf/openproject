@@ -52,8 +52,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
 import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -76,7 +76,6 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
-  readonly $state = inject(StateService);
   readonly keepTab = inject(KeepTabService);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly wpViewFilters = inject(WorkPackageViewFiltersService);
@@ -87,6 +86,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
   readonly pathHelper = inject(PathHelperService);
+  readonly urlParams = inject(UrlParamsService);
   readonly states = inject(States);
 
   text = {
@@ -182,13 +182,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
     const routingId = resolveRoutingId(this.states, event.workPackageId);
-    const params = {
-      workPackageId: routingId,
-      focus: true,
-    };
-
     if (event.requestedState === 'split') {
-      this.keepTab.goCurrentDetailsState(params);
+      this.openInSplitView(routingId);
     } else {
       this.openInFullView(routingId);
     }
@@ -210,5 +205,17 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     const routingId = resolveRoutingId(this.states, workPackageId);
     const projectIdentifier = this.CurrentProject.identifier;
     window.location.href = this.pathHelper.genericWorkPackagePath(projectIdentifier, routingId) + window.location.search;
+  }
+
+  /**
+   * Works for both the plain work-packages list and the gantt list, since both
+   * mount this component and only differ in their base path (/work_packages vs /gantt).
+   */
+  private openInSplitView(workPackageId:string):void {
+    const basePath = this.urlParams.basePathWithoutDetails();
+    Turbo.visit(
+      `${basePath}/details/${workPackageId}/${this.keepTab.currentDetailsTab}${window.location.search}`,
+      { frame: 'content-bodyRight', action: 'advance' },
+    );
   }
 }

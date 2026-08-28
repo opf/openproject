@@ -50,6 +50,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -88,6 +89,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   readonly uiRouterGlobals = inject(UIRouterGlobals);
 
+  readonly urlParams = inject(UrlParamsService);
+
   readonly configuration = inject(ConfigurationService);
 
   text:Record<string, string> = {
@@ -109,10 +112,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Do we currently have query props ? */
   showToolbarSaveButton:boolean;
 
-  /** Listener callbacks */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  removeTransitionSubscription:Function;
-
   /** Determine when query is initially loaded */
   showToolbar = false;
 
@@ -133,22 +132,22 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   ngOnInit():void {
     super.ngOnInit();
 
-    this.showToolbarSaveButton = !!this.$state.params.query_props;
+    this.showToolbarSaveButton = !!this.urlParams.get('query_props');
     this.setPartition(this.$state.current);
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      const params = transition.params('to');
-      const toState = transition.to();
-      this.showToolbarSaveButton = !!params.query_props;
-      this.setPartition(toState);
+    this.urlParams.changed$
+      .pipe(this.untilDestroyed())
+      .subscribe(():void => {
+        this.showToolbarSaveButton = !!this.urlParams.get('query_props');
+        this.setPartition(this.$state.current);
 
-      const query = this.querySpace.query.value;
-      if (query && this.shouldUpdateHtmlTitle()) {
-        // Update the title if we're in the list state alone
-        this.titleService.setFirstPart(this.queryTitle(query));
-      }
+        const query = this.querySpace.query.value;
+        if (query && this.shouldUpdateHtmlTitle()) {
+          // Update the title if we're in the list state alone
+          this.titleService.setFirstPart(this.queryTitle(query));
+        }
 
-      this.cdRef.detectChanges();
-    });
+        this.cdRef.detectChanges();
+      });
 
     // Load the query. If it hasn't been loaded before, do that visibly.
     this.loadInitialQuery();
@@ -209,7 +208,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
   }
 

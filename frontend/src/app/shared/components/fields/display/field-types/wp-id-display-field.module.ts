@@ -26,24 +26,27 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { StateService } from '@uirouter/core';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { IdDisplayField } from 'core-app/shared/components/fields/display/field-types/id-display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export class WorkPackageIdDisplayField extends IdDisplayField {
-  @LazyInject() $state!:StateService;
-
   @LazyInject() keepTab!:KeepTabService;
 
   @LazyInject() currentProject!:CurrentProjectService;
 
   @LazyInject() pathHelper!:PathHelperService;
 
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab, this.currentProject, this.pathHelper);
+  @LazyInject() urlParams!:UrlParamsService;
+
+  @LazyInject() $state!:StateService;
+
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams, this.$state);
 
   public get valueString():string {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access

@@ -27,13 +27,13 @@
 //++
 
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { AbstractWorkPackageButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-buttons.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -41,22 +41,17 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
   selector: 'wp-details-view-button',
   standalone: false,
 })
-export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
-  readonly $state = inject(StateService);
+export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   readonly I18n:I18nService;
-  readonly transitions = inject(TransitionService);
   readonly cdRef = inject(ChangeDetectorRef);
   states = inject(States);
   wpTableFocus = inject(WorkPackageViewFocusService);
   keepTab = inject(KeepTabService);
+  urlParams = inject(UrlParamsService);
 
   public projectIdentifier:string;
 
   public accessKey = 8;
-
-  public activeState = 'work-packages.partitioned.list.details';
-
-  public listState = 'work-packages.partitioned.list';
 
   public buttonId = 'work-packages-details-view-button';
 
@@ -68,8 +63,6 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public deactivateLabel:string;
 
-  private transitionListener:Function;
-
   constructor() {
     const I18n = inject(I18nService);
 
@@ -79,16 +72,16 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
     this.activateLabel = I18n.t('js.button_open_details');
     this.deactivateLabel = I18n.t('js.button_close_details');
-
-    this.transitionListener = this.transitions.onSuccess({}, () => {
-      this.isActive = this.$state.includes(this.activeState);
-      this.cdRef.detectChanges();
-    });
   }
 
-  public ngOnDestroy() {
-    super.ngOnDestroy();
-    this.transitionListener();
+  public ngOnInit() {
+    this.urlParams
+      .pathMatching$(/(\/details\/)/)
+      .pipe(this.untilDestroyed())
+      .subscribe((match) => {
+        this.isActive = !!match;
+        this.cdRef.detectChanges();
+      });
   }
 
   public get label():string {
@@ -104,7 +97,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public performAction(event:Event) {
     if (this.isActive) {
-      this.$state.go(this.listState);
+      this.closeDetailsView();
     } else {
       this.openDetailsView();
     }
@@ -115,10 +108,20 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public openDetailsView():void {
     const focused = this.wpTableFocus.focusedWorkPackage;
-    const params = {
-      workPackageId: focused ? resolveRoutingId(this.states, focused) : focused,
-    };
+    if (!focused) {
+      return;
+    }
 
-    this.keepTab.goCurrentDetailsState(params);
+    const routingId = resolveRoutingId(this.states, focused);
+    const basePath = this.urlParams.basePathWithoutDetails();
+    Turbo.visit(
+      `${basePath}/details/${routingId}/${this.keepTab.currentDetailsTab}${window.location.search}`,
+      { frame: 'content-bodyRight', action: 'advance' },
+    );
+  }
+
+  private closeDetailsView():void {
+    const basePath = this.urlParams.basePathWithoutDetails();
+    Turbo.visit(`${basePath}${window.location.search}`, { frame: 'content-bodyRight', action: 'replace' });
   }
 }

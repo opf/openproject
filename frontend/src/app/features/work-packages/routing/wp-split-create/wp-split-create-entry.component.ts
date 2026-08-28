@@ -42,7 +42,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   template: `
     <div class="op-work-package-split-view">
       <wp-new-split-view
-        [stateParams]="{ projectPath: projectIdentifier, type: type }"
+        [stateParams]="{ projectPath: projectIdentifier, type: type, parent_id: parentId }"
         [routedFromAngular]="false"
       />
     </div>
@@ -54,6 +54,7 @@ export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDe
 
   @Input() projectIdentifier?:string;
   @Input() type?:string;
+  @Input() parentId?:string;
 
   constructor() {
     populateInputsFromDataset(this);

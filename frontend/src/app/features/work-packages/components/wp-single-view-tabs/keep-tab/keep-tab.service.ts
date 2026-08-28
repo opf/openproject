@@ -26,37 +26,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  StateService,
-  Transition,
-  TransitionService,
-  UIRouterGlobals,
-} from '@uirouter/core';
 import { ReplaySubject } from 'rxjs';
 import { Injectable, inject } from '@angular/core';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+
+/** Matches the full-view "show" page: /work_packages/:id/:tab (project-scoped or global). */
+const showTabPattern = /\/work_packages\/[^/]+\/([^/?]+)$/;
+
+/** Matches the split-view "details" pane: <any list base>/details/:id/:tab. */
+const detailsTabPattern = /\/details\/[^/]+\/([^/?]+)$/;
 
 @Injectable({ providedIn: 'root' })
 export class KeepTabService {
-  protected $state = inject(StateService);
-  protected uiRouterGlobals = inject(UIRouterGlobals);
-  protected $transitions = inject(TransitionService);
   protected pathHelper = inject(PathHelperService);
   protected currentProject = inject(CurrentProjectService);
+  protected urlParams = inject(UrlParamsService);
 
   protected currentTab = 'overview';
 
   protected subject = new ReplaySubject<Record<string, string>>(1);
 
   constructor() {
-    const $transitions = this.$transitions;
-
     this.updateTabs();
-    $transitions.onSuccess({}, (transition:Transition) => {
-      this.updateTabs(transition.params('to').tabIdentifier);
-    });
+    this.urlParams.changed$.subscribe(() => this.updateTabs());
   }
 
   public get observable() {
@@ -67,7 +61,7 @@ export class KeepTabService {
    * Return the last active tab.
    */
   public get lastActiveTab():string {
-    if (this.isCurrentState('show')) {
+    if (this.currentShowTabFromUrl) {
       return this.currentShowTab;
     }
 
@@ -81,19 +75,6 @@ export class KeepTabService {
   public currentShowHref(workPackageId:string):string {
     const projectIdentifier = this.currentProject.identifier;
     return this.pathHelper.genericWorkPackagePath(projectIdentifier, workPackageId, this.currentShowTab) + window.location.search;
-  }
-
-  public goCurrentDetailsState(params:Record<string, unknown> = {}):void {
-    const route = splitViewRoute(this.$state);
-
-    this.$state.go(
-      `${route}.tabs`,
-      {
-        ...this.uiRouterGlobals.params,
-        ...params,
-        tabIdentifier: this.currentDetailsTab,
-      },
-    );
   }
 
   public isDetailsState(stateName:string):boolean {
@@ -114,11 +95,6 @@ export class KeepTabService {
     return this.currentTab;
   }
 
-  get currentTabIdentifier():string|undefined {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.uiRouterGlobals.params.tabIdentifier;
-  }
-
   protected notify() {
     // Notify when updated
     this.subject.next({
@@ -128,33 +104,28 @@ export class KeepTabService {
     });
   }
 
-  protected updateTab(stateName:string) {
-    if (this.isCurrentState(stateName)) {
-      this.currentTab = this.uiRouterGlobals.params.tabIdentifier;
+  private get currentShowTabFromUrl():string|null {
+    return this.urlParams.pathMatching(showTabPattern);
+  }
 
+  private get currentDetailsTabFromUrl():string|null {
+    return this.urlParams.pathMatching(detailsTabPattern);
+  }
+
+  public updateTabs():void {
+    const showTab = this.currentShowTabFromUrl;
+    if (showTab) {
+      // Ignore the switch from show#activity to details#activity
+      // and show details#overview instead
+      this.currentTab = showTab === 'activity' ? 'overview' : showTab;
+      this.notify();
+      return;
+    }
+
+    const detailsTab = this.currentDetailsTabFromUrl;
+    if (detailsTab) {
+      this.currentTab = detailsTab;
       this.notify();
     }
-  }
-
-  protected isCurrentState(stateName:string):boolean {
-    if (stateName === 'show') {
-      return this.$state.includes('work-packages.show.*');
-    }
-    if (stateName === 'details') {
-      return this.$state.includes('**.details.*');
-    }
-
-    return false;
-  }
-
-  public updateTabs(currentTab?:string) {
-    // Ignore the switch from show#activity to details#activity
-    // and show details#overview instead
-    if (this.isCurrentState('show') && currentTab === 'activity') {
-      this.currentTab = 'overview';
-      return this.notify();
-    }
-    this.updateTab('show');
-    this.updateTab('details');
   }
 }

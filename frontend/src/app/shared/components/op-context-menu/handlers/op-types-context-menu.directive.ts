@@ -38,6 +38,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { extendSearchParams } from 'core-stimulus/helpers/url-helpers';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Directive({
   selector: '[opTypesCreateDropdown]',
@@ -45,10 +46,12 @@ import { BrowserDetector } from 'core-app/core/browser/browser-detector.service'
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
   readonly wpCreate = inject(WorkPackageCreateService);
+  /** Only used for the legacy uiRouter contexts still routing through `stateName` (e.g. BIM). */
   readonly $state = inject(StateService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
   readonly browser = inject(BrowserDetector);
+  readonly urlParams = inject(UrlParamsService);
 
   @Input() public projectIdentifier:string|null|undefined;
 
@@ -100,25 +103,46 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
     this.items = types.map((type:TypeResource) => ({
       disabled: false,
       linkText: type.name,
-      href: this.$state.href(this.stateName, { type: type.id! }),
+      href: this.buildHref(type),
       ariaLabel: type.name,
       class: Highlighting.inlineClass('type', type.id!),
-      onClick: (event:MouseEvent) => {
-        if (this.routedFromAngular && !this.browser.isMobile) {
-          this.isOpen = false;
-          if (isClickedWithModifier(event)) {
-            return false;
-          }
-
-          this.$state.go(this.stateName, { type: type.id });
-        } else {
-          window.location.href = extendSearchParams(
-            this.pathHelper.projectWorkPackageNewPath(this.currentProject.id!),
-            { type: type.id! },
-          );
-        }
-        return true;
-      },
+      onClick: (event:MouseEvent) => this.handleClick(event, type),
     }));
+  }
+
+  /**
+   * `routedFromAngular` distinguishes contexts still driven by the classic uiRouter
+   * state tree (e.g. BIM) from those already migrated to Rails/Turbo split views
+   * (work packages, gantt), where the create form opens inline via splitCreatePath.
+   */
+  private buildHref(type:TypeResource):string {
+    if (this.routedFromAngular) {
+      return this.$state.href(this.stateName, { type: type.id! });
+    }
+
+    return extendSearchParams(this.urlParams.splitCreatePath(), { type: type.id! });
+  }
+
+  private handleClick(event:MouseEvent, type:TypeResource):boolean {
+    if (this.browser.isMobile) {
+      window.location.href = extendSearchParams(
+        this.pathHelper.projectWorkPackageNewPath(this.currentProject.id!),
+        { type: type.id! },
+      );
+      return true;
+    }
+
+    this.isOpen = false;
+    if (isClickedWithModifier(event)) {
+      return false;
+    }
+
+    if (this.routedFromAngular) {
+      this.$state.go(this.stateName, { type: type.id });
+    } else {
+      Turbo.visit(this.buildHref(type), { frame: 'content-bodyRight', action: 'advance' });
+    }
+
+    return true;
   }
 }

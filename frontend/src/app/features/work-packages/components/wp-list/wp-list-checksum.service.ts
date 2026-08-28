@@ -90,7 +90,7 @@ export class WorkPackagesListChecksumService {
     return this.isOutdated(query.id, newQueryChecksum);
   }
 
-  public executeIfOutdated(newId:string,
+  public executeIfOutdated(newId:string|null,
     newChecksum:string|null,
     callback:Function) {
     if (this.isUninitialized() || this.isOutdated(newId, newChecksum)) {

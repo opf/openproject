@@ -35,6 +35,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { take } from 'rxjs/operators';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   selector: 'wp-create-button',
@@ -43,11 +44,13 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   standalone: false,
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  /** Only used for the legacy uiRouter contexts still routing through stateName (e.g. BIM). */
   readonly $state = inject(StateService);
   readonly currentUser = inject(CurrentUserService);
   readonly currentProject = inject(CurrentProjectService);
   readonly authorisationService = inject(AuthorisationService);
   readonly transition = inject(TransitionService);
+  readonly urlParams = inject(UrlParamsService);
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -63,7 +66,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   types:any;
 
-  transitionUnregisterFn:Function;
+  transitionUnregisterFn:Function|undefined;
 
   text = {
     title: this.I18n.t('js.work_packages.create.title'),
@@ -86,16 +89,25 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
         this.updateDisabledState();
       });
 
-    this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
+    if (this.routedFromAngular) {
+      this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
+    } else {
+      this.urlParams.changed$
+        .pipe(this.untilDestroyed())
+        .subscribe(() => this.updateDisabledState());
+    }
   }
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.transitionUnregisterFn();
+    this.transitionUnregisterFn?.();
   }
 
   private updateDisabledState() {
-    this.disabled = !this.allowed || this.$state.includes('**.new');
+    const isCreating = this.routedFromAngular
+      ? this.$state.includes('**.new')
+      : window.location.pathname.endsWith('/create_new');
+    this.disabled = !this.allowed || isCreating;
     this.cdRef.detectChanges();
   }
 }

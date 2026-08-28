@@ -99,7 +99,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
-      const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
+      const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);
       const permittedActions = this.getPermittedActions(authorization);
 
       this.buildItems(permittedActions);

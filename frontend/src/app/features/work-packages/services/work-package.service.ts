@@ -71,12 +71,19 @@ export class WorkPackageService {
 
           ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' }));
 
-          const routeWpId = this.$state.params.workPackageId as string;
-          const numericId = resolveNumericId(this.states, routeWpId);
-          if (numericId
-            && this.$state.includes('**.list.details.**')
-            && ids.includes(numericId)) {
-            this.$state.go('work-packages.partitioned.list', this.$state.params);
+          const routeWpId = /\/details\/([^/]+)/.exec(window.location.pathname)?.[1];
+          const numericId = routeWpId ? resolveNumericId(this.states, routeWpId) : undefined;
+
+          if (numericId && ids.includes(numericId)) {
+            if (this.$state.current.name) {
+              const baseRoute = (this.$state.current.data as { baseRoute?:string } | undefined)?.baseRoute;
+              if (baseRoute) {
+                void this.$state.go(baseRoute, this.$state.params);
+              }
+            } else {
+              const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+              Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
+            }
           }
         })
         .catch(() => {
