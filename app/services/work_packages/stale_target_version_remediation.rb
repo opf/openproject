@@ -49,10 +49,12 @@ class WorkPackages::StaleTargetVersionRemediation
 
   Finding = Struct.new(:work_package, :journal, :stale_version, :action, :reason, keyword_init: true)
 
-  # Optionally scopes the run to the given work packages, for a sanity check
-  # on a few items before touching the whole dataset.
-  def initialize(work_package_ids: nil)
+  # Optionally scopes the run to the given work packages or to repair journals
+  # created within the given time range, for a sanity check on a few items or a
+  # smaller blast radius before touching the whole dataset.
+  def initialize(work_package_ids: nil, created_between: nil)
     @work_package_ids = work_package_ids.presence
+    @created_between = created_between
   end
 
   def findings
@@ -62,6 +64,7 @@ class WorkPackages::StaleTargetVersionRemediation
   def report(out: $stdout)
     out.puts "[REPORT ONLY - DRY RUN]"
     out.puts
+    print_scope(out)
 
     results = classified_findings(out)
     print_summary(results, out, remove_label: "would fix %d work packages")
@@ -70,6 +73,7 @@ class WorkPackages::StaleTargetVersionRemediation
   end
 
   def apply(out: $stdout)
+    print_scope(out)
     results = classified_findings(out)
     failures = []
 
@@ -102,7 +106,31 @@ class WorkPackages::StaleTargetVersionRemediation
       .where("cause ->> 'feature' = ?", CAUSE_FEATURE)
       .order(:journable_id, :version)
     scope = scope.where(journable_id: @work_package_ids) if @work_package_ids
+    scope = scope.where(created_at: @created_between) if @created_between
     scope
+  end
+
+  def print_scope(out)
+    return if @work_package_ids.nil? && @created_between.nil?
+
+    out.puts "This run is limited to:"
+    out.puts "  - work packages #{@work_package_ids.join(', ')}" if @work_package_ids
+    out.puts "  - repair journals created #{humanized_time_range}" if @created_between
+    out.puts "Everything outside this scope is left untouched."
+    out.puts
+  end
+
+  def humanized_time_range
+    from = @created_between.begin&.strftime("%Y-%m-%d %H:%M %Z")
+    to = @created_between.end&.strftime("%Y-%m-%d %H:%M %Z")
+
+    if from && to
+      "between #{from} and #{to}"
+    elsif from
+      "after #{from}"
+    else
+      "before #{to}"
+    end
   end
 
   def classify(journal)

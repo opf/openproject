@@ -76,6 +76,28 @@ RSpec.describe Rake::Task do
       expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
         .to contain_exactly(version_a.id, version_b.id)
     end
+
+    it "treats a single time bound as an open-ended from" do
+      work_package, = build_stale_target_version
+      repair_time = work_package.journals.reload.last.created_at
+
+      expect { subject.invoke((repair_time + 1.hour).iso8601) }
+        .to output(/journals created after .*would fix 0 work packages/m).to_stdout
+    end
+
+    it "rejects an argument that is neither a work package id nor an ISO8601 time" do
+      expect { subject.invoke("15.5") }.to raise_error(ArgumentError, /unrecognized argument/)
+    end
+
+    it "rejects a from bound that comes after the to bound" do
+      expect { subject.invoke("2026-08-28", "2026-08-27") }
+        .to raise_error(ArgumentError, /from time must come before/)
+    end
+
+    it "rejects more than two time bounds" do
+      expect { subject.invoke("2026-08-27", "2026-08-28", "2026-08-29") }
+        .to raise_error(ArgumentError, /at most two time bounds/)
+    end
   end
 
   describe "target_versions:stale:fix" do
@@ -87,6 +109,28 @@ RSpec.describe Rake::Task do
       work_package, _version_a, version_b = build_stale_target_version
 
       subject.invoke
+
+      expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
+        .to contain_exactly(version_b.id)
+    end
+
+    it "treats numeric arguments as work package ids and other arguments as time bounds" do
+      work_package, version_a, version_b = build_stale_target_version
+      repair_time = work_package.journals.reload.last.created_at
+
+      expect do
+        subject.invoke(work_package.id.to_s,
+                       (repair_time + 1.hour).iso8601,
+                       (repair_time + 2.hours).iso8601)
+      end.to output(/This run is limited to:.*work packages #{work_package.id}.*journals created between/m).to_stdout
+
+      expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
+        .to contain_exactly(version_a.id, version_b.id)
+
+      subject.reenable
+      subject.invoke(work_package.id.to_s,
+                     (repair_time - 1.minute).iso8601,
+                     (repair_time + 1.minute).iso8601)
 
       expect(WorkPackageVersion.where(work_package_id: work_package.id, kind: "target").pluck(:version_id))
         .to contain_exactly(version_b.id)

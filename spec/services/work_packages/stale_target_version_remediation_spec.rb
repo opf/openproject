@@ -92,6 +92,24 @@ RSpec.describe WorkPackages::StaleTargetVersionRemediation, type: :model do
       expect(scoped.findings.map(&:work_package)).to contain_exactly(scoped_work_package)
     end
 
+    it "covers only repair journals created within the given time range" do
+      work_package, = build_reinstated_corruption
+      repair_time = work_package.journals.reload.last.created_at
+
+      covering = described_class.new(created_between: (repair_time - 1.minute)..(repair_time + 1.minute))
+      expect(covering.findings.map(&:work_package)).to contain_exactly(work_package)
+
+      outside = described_class.new(created_between: (repair_time + 1.hour)..(repair_time + 2.hours))
+      expect(outside.findings).to be_empty
+    end
+
+    it "announces an upper-bound-only time scope as created before that time" do
+      out = StringIO.new
+      described_class.new(created_between: ..Time.zone.now).report(out:)
+
+      expect(out.string).to include("repair journals created before")
+    end
+
     it "flags a version that was reinstated after being replaced" do
       work_package, version_a, version_b = build_reinstated_corruption
 

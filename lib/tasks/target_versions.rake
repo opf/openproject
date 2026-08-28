@@ -30,21 +30,41 @@
 
 namespace :target_versions do
   namespace :stale do
-    # Both tasks take optional work package ids, e.g. rake "target_versions:stale:report[15,16]",
-    # to sanity-check a few items; without arguments the run covers everything.
+    # Both tasks take optional arguments to narrow the run; without any, it covers everything.
+    # Numeric arguments are work package ids, anything else is parsed as a time and bounds the
+    # repair journals' creation time (first = from, second = to). Examples:
+    #   rake "target_versions:stale:report[15,16]"
+    #   rake "target_versions:stale:fix[2026-08-27T08:00:00+02:00,2026-08-27T09:00:00+02:00]"
+    #   rake "target_versions:stale:fix[15,2026-08-27T08:00:00+02:00,2026-08-27T09:00:00+02:00]"
+    parse_time = ->(raw) {
+      unless raw.match?(/\A\d{4}-\d{2}-\d{2}/)
+        raise ArgumentError, "unrecognized argument: #{raw} (work package id or ISO8601 time expected)"
+      end
+
+      Time.zone.parse(raw) || raise(ArgumentError, "unparsable time: #{raw}")
+    }
+
     remediation = ->(args) {
-      ids = ([args[:work_package_ids]] + args.extras).compact.map { it.to_s.strip.to_i }
-      WorkPackages::StaleTargetVersionRemediation.new(work_package_ids: ids)
+      ids, times = [args[:scope], *args.extras].compact.map { it.to_s.strip }
+                                               .partition { it.match?(/\A\d+\z/) }
+      from, to, overflow = times.map { parse_time.call(it) }
+      raise ArgumentError, "at most two time bounds (from, to) are supported" if overflow
+      raise ArgumentError, "the from time must come before the to time" if from && to && from > to
+
+      WorkPackages::StaleTargetVersionRemediation.new(
+        work_package_ids: ids.map(&:to_i),
+        created_between: (from || to) && Range.new(from, to)
+      )
     }
 
     desc "Report target versions stale-reinstated by the frozen version_id column"
-    task :report, [:work_package_ids] => :environment do |_task, args|
+    task :report, [:scope] => :environment do |_task, args|
       $stdout.sync = true
       remediation.call(args).report
     end
 
     desc "Remove target versions stale-reinstated by the frozen version_id column"
-    task :fix, [:work_package_ids] => :environment do |_task, args|
+    task :fix, [:scope] => :environment do |_task, args|
       $stdout.sync = true
       remediation.call(args).apply
     end
