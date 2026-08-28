@@ -13,7 +13,7 @@ zh-CN:
           meeting_agenda_items:
             item_0:
               title: 好消息
-              notes: What went well this week?
+              notes: 本周哪些项目进展良好？
             item_1:
               title: Team updates
               notes: News and focused topics for the upcoming week.

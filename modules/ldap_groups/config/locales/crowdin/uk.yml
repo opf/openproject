@@ -21,15 +21,15 @@ uk:
           must_contain_base_dn: 'Базове унікальне ім‘я фільтра має входити в базове унікальне ім’я LDAP-підключення '
     models:
       ldap_groups/synchronized_filter:
-        one: LDAP Group synchronization filter
-        few: LDAP Group synchronization filters
-        many: LDAP Group synchronization filters
-        other: LDAP Group synchronization filters
+        one: Фільтр синхронізації групи LDAP
+        few: Фільтри синхронізації групи LDAP
+        many: Фільтри синхронізації групи LDAP
+        other: Фільтри синхронізації групи LDAP
       ldap_groups/synchronized_group:
-        one: Synchronized LDAP group
-        few: Synchronized LDAP groups
-        many: Synchronized LDAP groups
-        other: Synchronized LDAP groups
+        one: Синхронізована група LDAP
+        few: Синхронізовані групи LDAP
+        many: Синхронізовані групи LDAP
+        other: Синхронізовані групи LDAP
   ee:
     upsell:
       ldap_groups:

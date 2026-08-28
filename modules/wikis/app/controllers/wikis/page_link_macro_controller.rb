@@ -73,7 +73,7 @@ module Wikis
 
     def close_existing_page_dialog
       params = inline_existing_params
-      close_dialog_via_turbo_stream("##{InlineWikiPageDialog::DIALOG_ID}",
+      close_dialog_via_turbo_stream(InlineWikiPageDialog::DIALOG_ID,
                                     additional: {
                                       action: "close_existing_page_dialog",
                                       providerId: params[:provider_id],
@@ -93,7 +93,7 @@ module Wikis
 
       result.either(
         ->(info) do
-          close_dialog_via_turbo_stream("##{InlineWikiPageDialog::DIALOG_ID}",
+          close_dialog_via_turbo_stream(InlineWikiPageDialog::DIALOG_ID,
                                         additional: {
                                           action: "close_new_page_dialog",
                                           providerId: provider.id,

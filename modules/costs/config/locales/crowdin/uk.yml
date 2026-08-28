@@ -85,7 +85,7 @@ uk:
               max_hours_per_entry_exceeded: Кількість зареєстрованих годин не може перевищувати ліміт для одного запису часу, установлений адміністратором, тобто %{limit} год.
             spent_on:
               format: "%{message}"
-              in_past_month: Неможливо планувати час за минулий місяць. Записи часу можна додавати, змінювати або видаляти, починаючи з %{date}.
+              in_past_month: Неможливо планувати час за минулий місяць. Записи часу можна додавати, змінювати або видаляти для періоду з %{date}.
               not_a_working_day: Вибраний день є неробочим для цього користувача.
             start_time:
               format: "%{message}"
@@ -206,14 +206,14 @@ uk:
         view_details: Переглянути дані про фактичні витрати
   description_costs_settings: Визначте бажаний формат витрат для всіх проєктів.
   description_date_for_new_rate: Дата нової ставки
-  description_time_entry_restrictions: Визначте обмеження щодо того, коли користувач може реєструвати час роботи. Вони стосуються всіх проєктів.
+  description_time_entry_restrictions: Визначте обмеження щодо того, коли користувач може реєструвати час. Вони стосуються всіх проєктів.
   description_time_settings: Записи часу можуть включати певний час початку й завершення роботи (можна вибрати, чи обовʼязково вказувати ці дані).
   ee:
     features:
       time_entry_time_restrictions: Обмеження для записів часу
     upsell:
       time_entry_time_restrictions:
-        description: Поліпшіть систему обліку робочого часу, дозволивши працівникам вводити точний час початку й завершення роботи або зобов’язавши їх це робити, а також встановивши обмеження щодо того, коли учасник проєкту може реєструвати час і яку кількість.
+        description: Поліпште систему обліку часу, дозволивши працівникам вводити точний час початку й завершення або зобов’язавши їх це робити, а також установивши обмеження щодо того, коли учасник проєкту може реєструвати час і яку кількість.
   group_by_others: ні в якій групі
   label_available_cost_types_projects: Доступні проєкти з типами витрат
   label_between: між ними
@@ -314,15 +314,15 @@ uk:
   setting_time_entries_limit_to_user_working_hours: Обмежити робочим часом користувача
   setting_time_entries_limit_to_user_working_hours_caption: Як ліміт загальної кількості годин, які можна зареєструвати для одного дня, використовується ефективний робочий час відповідного користувача. Це обмеження не поширюється на користувачів, робочі години яких не визначено.
   setting_time_entries_max_hours_per_day: Максимальна кількість годин на день
-  setting_time_entries_max_hours_per_day_caption: Використовується як ліміт загальної кількості годин, які користувач може зареєструвати для одного дня. Значення 0 означає, що обмежень немає.
+  setting_time_entries_max_hours_per_day_caption: Використовується як ліміт загальної кількості годин, які користувач може зареєструвати для одного дня. Значення «0» указує на те, що обмежень немає.
   setting_time_entries_max_hours_per_entry: Максимальна кількість годин в одному записі часу
-  setting_time_entries_max_hours_per_entry_caption: Використовується як ліміт кількості годин, яку можна зареєструвати в межах одного запису часу. Значення 0 означає, що обмежень немає.
+  setting_time_entries_max_hours_per_entry_caption: Використовується як ліміт кількості годин, яку можна зареєструвати в межах одного запису часу. Значення «0» указує на те, що обмежень немає.
   setting_time_entries_past_month_grace_days: Відстрочка для звітування за минулі місяці
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_past_month_grace_days_caption: Укажіть кількість днів, протягом яких користувачі можуть вносити записи часу за минулий місяць після його завершення. Значення «5» указує на те, що це можна робити до 5-го числа поточного місяця, а «0» означає відсутність відстрочки.
   setting_time_entries_prohibit_logging_for_past_months: Не дозволяти реєструвати час за минулі місяці
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_prohibit_logging_for_past_months_caption: Додавати, змінювати й видаляти можна лише записи часу для поточного місяця. Час, зареєстрований у минулих місяцях, більше не можна змінювати.
+  setting_time_entries_prohibit_logging_on_non_working_days: Не дозволяти реєструвати час у неробочі дні
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Користувачі не можуть реєструвати час у дні, позначені як неробочі або адміністратором, або самим користувачем у налаштуваннях свого облікового запису.
   text_assign_time_and_cost_entries_to_project: Призначення повідомлених годин і витрат проекту
   text_destroy_cost_entries_question: "%{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
   text_destroy_time_and_cost_entries: Видаліть звітні години та витрати

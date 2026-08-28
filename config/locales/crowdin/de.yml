@@ -471,6 +471,7 @@ de:
           true: Mit Wochenenden
         journal_internal: Internes Journal
         notify: Benachrichtigung
+        observed_in_versions: Observed in versions
         parent: Übergeordnetes Arbeitspaket
         parent_issue: Übergeordnetes Arbeitspaket
         parent_work_package: Übergeordnetes Arbeitspaket
@@ -3298,6 +3299,7 @@ de:
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
   label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
   label_available_projects: Verfügbare Projekte
+  label_backtrace: Backtrace
   label_backup: Backup
   label_basic_details: Allgemeine Informationen
   label_between: zwischen
@@ -4826,6 +4828,8 @@ de:
     dialog:
       footer_center:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Text in der Fußzeile
       footer_right:
         caption: Dieser Text wird auf jeder Seite in der rechten Ecke der Fußzeile angezeigt.
@@ -6277,7 +6281,12 @@ de:
           label: PDF-Exportvorlagen
         tab: PDF generieren
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF-Exportvorlagen
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Abschnitt
         add_query_group: Zugehörige Arbeitspaket-Tabelle

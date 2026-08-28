@@ -44,6 +44,10 @@ module WorkPackageTypes
 
     def readonly? = @readonly
 
+    def edit_settings_path
+      edit_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id)
+    end
+
     def wrapper_uniq_by
       @template.id
     end

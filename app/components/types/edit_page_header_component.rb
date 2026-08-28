@@ -34,39 +34,51 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, variant: nil, tabs: nil)
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil)
       super
       @type = type
       @variant = variant
       @tabs = tabs
+      @additional_breadcrumb_items = additional_breadcrumb_items
+      @title = title
+    end
+
+    def title
+      @title || variant_or_type_name
     end
 
     def breadcrumb_items
       [{ href: admin_index_path, text: t("label_administration") },
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
-       *type_breadcrumb_item,
-       breadcrumb_leaf]
-    end
-
-    def title
-      return @type.name unless named_variant?
-
-      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+       *variant_breadcrumb_item,
+       *own_breadcrumb_item,
+       *@additional_breadcrumb_items]
     end
 
     private
 
     def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-    def type_breadcrumb_item
+    def variant_or_type_name
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
+    end
+
+    # Link back to the type's own page when we are on a named variant, since the crumb below
+    # then shows the variant's name rather than the type's.
+    def variant_breadcrumb_item
       return [] unless named_variant?
 
       [{ href: edit_type_details_path(type_id: @type.id), text: @type.name }]
     end
 
-    def breadcrumb_leaf
-      title
+    def own_breadcrumb_item
+      text = variant_or_type_name
+      return [text] if @additional_breadcrumb_items.blank?
+
+      [{ href: edit_type_details_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
     end
   end
 end

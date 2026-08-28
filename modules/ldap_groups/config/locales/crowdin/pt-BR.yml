@@ -21,11 +21,11 @@ pt-BR:
           must_contain_base_dn: O DN base do filtro deve estar contido no DN base da conexão da LDAP
     models:
       ldap_groups/synchronized_filter:
-        one: LDAP Group synchronization filter
-        other: LDAP Group synchronization filters
+        one: Filtro de sincronização de grupos LDAP
+        other: Filtros de sincronização de grupos LDAP
       ldap_groups/synchronized_group:
-        one: Synchronized LDAP group
-        other: Synchronized LDAP groups
+        one: Grupo LDAP sincronizado
+        other: Grupos LDAP sincronizado
   ee:
     upsell:
       ldap_groups:

@@ -471,6 +471,7 @@ hy:
           true: ներառել ոչ աշխատանքային օրերը
         journal_internal: Ներքին մատյան
         notify: Ծանուցել
+        observed_in_versions: Observed in versions
         parent: Ծնող
         parent_issue: Ծնող
         parent_work_package: Ծնող
@@ -3296,6 +3297,7 @@ hy:
   label_available_project_work_package_categories: Հասանելի աշխատանքային փաթեթների կատեգորիաներ
   label_available_project_work_package_types: Հասանելի աշխատանքային փաթեթների տեսակներ
   label_available_projects: Հասանելի նախագծեր
+  label_backtrace: Backtrace
   label_backup: Պահուստավորում
   label_basic_details: Հիմնական մանրամասներ
   label_between: միջև
@@ -4819,6 +4821,8 @@ hy:
     dialog:
       footer_center:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Էջատակի տեքստ
       footer_right:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի աջ մասում։
@@ -6273,7 +6277,12 @@ hy:
           label: PDF արտահանման ձևանմուշներ
         tab: Ստեղծել PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF արտահանման ձևանմուշներ
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Բաժին
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ

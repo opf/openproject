@@ -77,12 +77,12 @@ pt-PT:
   activerecord:
     attributes:
       ai/text_transform_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+        active: Ativo
+        injects_type_template: Inserir modelo de tipo de pacote de trabalho
+        label: Etiqueta
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Tipos de pacotes de trabalho
+        usage_scope: Âmbito
       announcements:
         show_until: Exibir até
       attachment:
@@ -203,7 +203,7 @@ pt-PT:
         title: Título
       member:
         blocked: Bloqueado
-        roles: Papel
+        roles: Funções
       notification:
         read_ian: Ler na aplicação
         resource: Recurso
@@ -471,6 +471,7 @@ pt-PT:
           true: incluir dias não úteis
         journal_internal: Diário Interno
         notify: Notificar
+        observed_in_versions: Observed in versions
         parent: Mãe
         parent_issue: Principal
         parent_work_package: Principal
@@ -568,7 +569,7 @@ pt-PT:
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
-        status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador atual.
+        status_transition_invalid: é inválido porque não existe transição válida da antiga para as funções do utilizador atual.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
         taken: já está a ser utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
@@ -675,7 +676,7 @@ pt-PT:
             principal:
               unassignable: não pode ser atribuído a um projeto.
             roles:
-              more_than_one: tem mais do que um cargo.
+              more_than_one: tem mais do que uma função.
               ungrantable: tem uma função que não é possível de atribuir.
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
           role_blank: tem de ser atribuído.
@@ -964,7 +965,7 @@ pt-PT:
               violates_relationships: só pode ser definida como %{soonest_start} ou posterior de modo a não violar as relações do pacote de trabalho.
             status:
               status_invalid_in_type: é inválido porque o estado atual não existe neste tipo.
-              status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador atual.
+              status_transition_invalid: é inválido porque não existe transição válida da antiga para os cargos do utilizador atual.
             status_id:
               status_invalid_in_type: é inválido porque não existe o status atual deste tipo.
               status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador actual.
@@ -983,8 +984,8 @@ pt-PT:
         one: Ação
         other: Ações
       ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+        one: Ação de transformação de texto
+        other: Ações de transformação de texto
       announcement:
         one: Anúncio
         other: Anúncios
@@ -1897,7 +1898,7 @@ pt-PT:
         assignee: O utilizador é encarregado
         author: O utilizador é autor
         descriptions:
-          always: Transições disponíveis para os cargos selecionados em todos os casos.
+          always: Transições disponíveis para as funções selecionadas em todos os casos.
           assignee: Transições adicionais disponíveis para o encarregado pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor pelo pacote de trabalho.
         menu_label: Transições apresentadas
@@ -2160,7 +2161,7 @@ pt-PT:
   button_clear: Limpar
   button_click_to_reveal: Clique para revelar
   button_close: Fechar
-  button_collapse_all: Ocultar tudo
+  button_collapse_all: Recolher tudo
   button_complete: Concluído
   button_configure: Configurar
   button_configure_menu_entry: Configurar elemento do menu
@@ -3292,7 +3293,7 @@ pt-PT:
   label_authentication: Autenticação
   label_auto_option: "(automático)"
   label_available_custom_fields_projects: Projetos de campos personalizados disponíveis
-  label_available_global_roles: Cargos globais disponíveis
+  label_available_global_roles: Funções globais disponíveis
   label_available_project_attributes: Atributos do projeto disponíveis
   label_available_project_forums: Fóruns disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -3300,6 +3301,7 @@ pt-PT:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
   label_available_projects: Projetos disponíveis
+  label_backtrace: Voltar atrás
   label_backup: Cópia de segurança
   label_basic_details: Detalhes básicos
   label_between: entre
@@ -3339,8 +3341,8 @@ pt-PT:
   label_close_versions: Fechar versões concluídas
   label_closed: fechado
   label_closed_work_packages: fechado
-  label_collapse: Colapso
-  label_collapsed_click_to_show: Ocultado. Clique para visualizar
+  label_collapse: Recolher
+  label_collapsed_click_to_show: Recolhido. Clique para mostrar
   label_color_plural: Cores
   label_columns: Colunas
   label_comment_add: Adicionar comentário
@@ -3465,7 +3467,7 @@ pt-PT:
   label_everywhere: em todo o lado
   label_example: Exemplo
   label_expand: Expandir
-  label_expanded_click_to_collapse: Expandido. Clique para ocultar
+  label_expanded_click_to_collapse: Expandido. Clique para recolher
   label_experimental: Experimental
   label_export_plural: Exportações
   label_export_to: 'Também disponível em:'
@@ -3492,7 +3494,7 @@ pt-PT:
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
-  label_forum_sticky: Afixado
+  label_forum_sticky: Fixado
   label_forums_locked: Bloqueado
   label_function_plural: Funções
   label_gantt_chart: Gráfico de Gantt
@@ -3502,7 +3504,7 @@ pt-PT:
   label_git_path: Caminho para o diretório .git
   label_global: Global
   label_global_modules: Módulos globais
-  label_global_roles: Cargos globais
+  label_global_roles: Funções globais
   label_go_back: Retroceder um nível de menu
   label_go_forward: Abrir sub-menu %{module}
   label_greater_or_equal: ">="
@@ -4225,7 +4227,7 @@ pt-PT:
     subject: "%{project} - Você foi adicionado como membro"
   mail_member_updated_global:
     body:
-      roles: 'Dispõe agora das seguintes funções:'
+      roles: 'Tem agora as seguintes funções:'
       updated_by:
         with_message: "%{user} atualizou as funções que você tem globalmente com a seguinte mensagem:"
         without_message: "%{user} atualizou as funções que você tem globalmente."
@@ -4821,6 +4823,8 @@ pt-PT:
     dialog:
       footer_center:
         caption: Esse texto vai aparecer em todas as páginas do centro do rodapé.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Texto do rodapé
       footer_right:
         caption: Esse texto vai aparecer em todas as páginas à direita do rodapé.
@@ -5239,27 +5243,27 @@ pt-PT:
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         remove_from_project: Remover do projeto
         switch:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
+          apply: Aplicar
+          description: Selecione uma variante diferente deste tipo para utilizar neste projeto.
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
-            nothing_affected: No fields or statuses are affected.
+            hidden_heading: Campos que deixarão de ser apresentados
+            missing_statuses_description: O fluxo de trabalho para o qual está a mudar não prevê nenhuma transição a partir destes estados, pelo que ninguém poderá avançar com estes pacotes de trabalho.
+            missing_statuses_heading: Pacotes de trabalho que ficam bloqueados
+            new_heading: Campos que ficam disponíveis
+            nothing_affected: Nenhum campo ou estado é afetado.
             status_count:
-              one: 1 work package
-              other: "%{count} work packages"
-            table_suffix: "(table)"
+              one: 1 pacote de trabalho
+              other: "%{count} pacotes de trabalho"
+            table_suffix: "(tabela)"
             value_count:
-              one: 1 work package has a value
-              other: "%{count} work packages have a value"
+              one: 1 pacote de trabalho tem um valor
+              other: "%{count} pacotes de trabalho têm um valor"
             work_packages:
-              one: 1 work package will use the new configuration
-              other: "%{count} work packages will use the new configuration"
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
+              one: 1 pacote de trabalho utilizará a nova configuração
+              other: "%{count} pacotes de trabalho utilizarão a nova configuração"
+          success: O projeto utiliza agora %{type}.
+          target_label: Variante
+          title: "%{type}: Mudar variante"
         switch_type: Mudar variante
         type_not_found: Não foi possível encontrar o tipo selecionado.
         variant_prefix: 'Variante:'
@@ -6264,7 +6268,12 @@ pt-PT:
           label: Modelos de Exportação PDF
         tab: Gerar PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Modelos de exportação para PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -6513,9 +6522,9 @@ pt-PT:
         description: 'Esta é a função que o utilizador irá receber quando se juntar ao seu projeto. A função define as ações que pode realizar e as informações que pode ver. [Mais informações sobre funções e permissões.](docs_url)
 
           '
-        label: Cargo em %{project}
-        no_roles_found: Nenhum cargo foi encontrado.
-        required: Selecione um cargo
+        label: Função em %{project}
+        no_roles_found: Não foram encontradas funções
+        required: Selecione uma função
       success_message:
         group: O grupo faz agora parte de %{project}. Entretanto, já pode planear com esse grupo e atribuir pacotes de trabalho, por exemplo.
         placeholder_user: O espaço reservado agora pode ser usado em %{project}. Enquanto isso, já pode planear com este utilizador e atribuir pacotes de trabalho, por exemplo.
@@ -6529,7 +6538,7 @@ pt-PT:
       type:
         already_member_message: Já é membro de %{project}
         group:
-          description: Permissões com base numa função atribuída no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar grupo para %{project_name}
         placeholder_user:
           description: Não tem acesso ao projeto e não são enviados e-mails.
@@ -6537,7 +6546,7 @@ pt-PT:
           title_no_ee: Utilizador de espaço reservado (complemento apenas para a edição Enterprise)
         required: Selecione o tipo a ser convidado
         user:
-          description: Permissões com base no cargo atribuído no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar utilizador para %{project_name}
     memberships:
       no_results_title_text: Este utilizador atualmente não é um membro de um projeto.

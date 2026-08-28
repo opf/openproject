@@ -471,6 +471,7 @@ vi:
           true: bao gồm những ngày không làm việc
         journal_internal: Tạp chí nội bộ
         notify: thông báo
+        observed_in_versions: Observed in versions
         parent: Cha
         parent_issue: cha mẹ
         parent_work_package: cha mẹ
@@ -3158,6 +3159,7 @@ vi:
   label_available_project_work_package_categories: Danh mục gói công việc có sẵn
   label_available_project_work_package_types: Các loại gói công việc có sẵn
   label_available_projects: Dự án có sẵn
+  label_backtrace: Backtrace
   label_backup: Sao lưu
   label_basic_details: Chi tiết cơ bản
   label_between: giữa
@@ -4678,6 +4680,8 @@ vi:
     dialog:
       footer_center:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Văn bản chân trang
       footer_right:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở bên phải chân trang.
@@ -6129,7 +6133,12 @@ vi:
           label: Mẫu xuất PDF
         tab: Tạo PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

@@ -51,7 +51,7 @@ module WorkPackageTypes
     # The mode picker's submit: swaps the picker for the danger confirmation.
     def confirm
       if IndependentMode.available?(aspect, mode)
-        close_dialog_via_turbo_stream("##{ConfigurationIndependence::DialogComponent::DIALOG_ID}")
+        close_dialog_via_turbo_stream(ConfigurationIndependence::DialogComponent::DIALOG_ID)
         dialog_via_turbo_stream(component: ConfigurationIndependence::ConfirmDialogComponent.new(variant: @variant, aspect:,
                                                                                                  mode:))
       else
@@ -64,7 +64,7 @@ module WorkPackageTypes
     def switch
       result = SwitchToIndependentModeService.new(variant: @variant, aspect:, user: current_user).call(mode:)
 
-      close_dialog_via_turbo_stream("##{ConfigurationIndependence::ConfirmDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ConfigurationIndependence::ConfirmDialogComponent::DIALOG_ID)
 
       respond_to_switch(result)
 

@@ -493,4 +493,128 @@ RSpec.describe Type do
                    pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
     end
   end
+
+  describe "#pdf_export_templates settings" do
+    subject(:type) { create(:type).default_variant }
+
+    it "defaults to an empty hash for a fresh type" do
+      expect(type.pdf_export_templates.settings_for("attributes")).to eq({})
+    end
+
+    it "round-trips settings through #update_settings/#settings_for for each template" do
+      %w[attributes contract artefact].each do |template_id|
+        type.pdf_export_templates.update_settings(template_id, "hyphenation" => "true")
+      end
+      type.save!
+
+      %w[attributes contract artefact].each do |template_id|
+        expect(type.reload.pdf_export_templates.settings_for(template_id)).to eq(hyphenation: "true")
+      end
+    end
+
+    it "merges rather than replaces on repeated #update_settings calls" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A")
+      type.pdf_export_templates.update_settings("attributes", "page_orientation" => "landscape")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes"))
+        .to eq(footer_text: "A", page_orientation: "landscape")
+    end
+
+    it "#clear_setting removes just one field, leaving the others" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A", "page_orientation" => "landscape")
+      type.save!
+
+      type.pdf_export_templates.clear_setting("attributes", "footer_text")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq(page_orientation: "landscape")
+    end
+
+    it "rejects an unknown template id" do
+      expect { type.pdf_export_templates.settings_for("bogus") }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.update_settings("bogus", {}) }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.clear_setting("bogus", "footer_text") }.to raise_error(ArgumentError)
+    end
+
+    it "resolves through a configuration link", with_flag: { type_variants: true } do
+      source = create(:type).default_variant
+      source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+      source.save!
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+
+      expect(type.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Source footer")
+    end
+
+    describe "#readonly?" do
+      it "is false for an unlinked type" do
+        expect(type.pdf_export_templates).not_to be_readonly
+      end
+
+      context "when linked to a source type", with_flag: { type_variants: true } do
+        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+
+        it "is true" do
+          expect(type.pdf_export_templates).to be_readonly
+        end
+      end
+
+      context "when linked but type_variants is disabled" do
+        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+
+        it "is false, since the link has no effect with the flag off" do
+          expect(type.pdf_export_templates).not_to be_readonly
+        end
+      end
+    end
+
+    context "when linked to a source type", with_flag: { type_variants: true } do
+      let(:source) { create(:type).default_variant }
+
+      before do
+        # `type` already has its own stored `contract` settings before being linked -
+        # this is the data #update_settings must not clobber while resolving through the link.
+        type.pdf_export_templates.update_settings("contract", "footer_text_center" => "Type's own contract footer")
+        type.save!
+        source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+        source.pdf_export_templates.update_settings("contract", "footer_text_center" => "Source contract footer")
+        source.save!
+        link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      end
+
+      it "refuses to write via #update_settings, #clear_setting, #toggle, #move, #enable_all, #disable_all" do
+        pdf_export_templates = type.pdf_export_templates
+
+        expect { pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.clear_setting("attributes", "footer_text") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.toggle("attributes") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.move("attributes", 1) }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.enable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.disable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+      end
+
+      it "does not corrupt the type's own settings for a different template once unlinked" do
+        # Attempting to edit "attributes" while linked used to merge onto the *source's*
+        # resolved settings hash (which includes the source's "contract" entry) and write
+        # the whole thing back onto `type`'s own column, clobbering `type`'s own "contract"
+        # settings with a copy of the source's. Guard against a regression of that.
+        begin
+          type.pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override")
+        rescue Type::PdfExportTemplates::ReadonlyError
+          # expected - the write must not happen at all
+        end
+
+        unlink_configuration(type, aspect: TypeVariant::PDF_EXPORT)
+
+        expect(type.reload.pdf_export_templates.settings_for("contract"))
+          .to eq(footer_text_center: "Type's own contract footer")
+      end
+    end
+  end
 end

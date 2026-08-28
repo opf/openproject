@@ -368,6 +368,13 @@ class TypeVariant
       source.export_templates_order
     end
 
+    def export_templates_settings
+      source = linked_configuration_source(TypeVariant::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_settings
+    end
+
     # Follows the reader-override pattern above, but yields this variant's own groups while a
     # change is pending: the switch-to-Independent copy assigns groups and reads them back to
     # sync active custom fields while the link still exists

@@ -73,13 +73,13 @@ pt-PT:
           name: Função global padrão
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Corrigir a gramática
         item_1:
-          label: Make concise
+          label: Tornar conciso
         item_2:
-          label: Translate to English
+          label: Traduzir para inglês
         item_3:
-          label: Sort into template
+          label: Organizar num modelo
     standard:
       project_phases:
         item_0:

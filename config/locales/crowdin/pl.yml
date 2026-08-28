@@ -471,6 +471,7 @@ pl:
           true: włącz dni wolne od pracy
         journal_internal: Dziennik wewnętrzny
         notify: Powiadom
+        observed_in_versions: Observed in versions
         parent: Rodzic
         parent_issue: Rodzic
         parent_work_package: Rodzic
@@ -3580,6 +3581,7 @@ pl:
   label_available_project_work_package_categories: Dostępne kategorie Zadań
   label_available_project_work_package_types: Dostępne typy pakietów roboczych
   label_available_projects: Dostępne projekty
+  label_backtrace: Backtrace
   label_backup: Kopia zapasowa
   label_basic_details: Podstawowe szczegóły
   label_between: pomiędzy
@@ -5134,6 +5136,8 @@ pl:
     dialog:
       footer_center:
         caption: Ten tekst będzie wyświetlany na każdej stronie pośrodku stopki.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Tekst stopki
       footer_right:
         caption: Ten tekst będzie wyświetlany na każdej stronie po prawej stronie stopki.
@@ -6586,7 +6590,12 @@ pl:
           label: Szablony eksportu PDF
         tab: Wygeneruj PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Szablony eksportu PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Sekcja
         add_query_group: Tabela powiązanych pakietów roboczych

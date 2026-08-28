@@ -21,25 +21,25 @@ uk:
               error_phone_number_format: має бути формату + XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        few: Backup codes
-        many: Backup codes
-        other: Backup codes
+        one: Резервний код
+        few: Резервні коди
+        many: Резервні коди
+        other: Резервні коди
       two_factor_authentication/device:
-        one: 2FA device
-        few: 2FA devices
-        many: 2FA devices
-        other: 2FA devices
+        one: Пристрій для двофакторної аутентифікації
+        few: Пристрої для двофакторної аутентифікації
+        many: Пристрої для двофакторної аутентифікації
+        other: Пристрої для двофакторної аутентифікації
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        few: Mobile phones
-        many: Mobile phones
-        other: Mobile phones
+        one: Мобільний телефон
+        few: Мобільні телефони
+        many: Мобільні телефони
+        other: Мобільні телефони
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        few: Authenticator applications
-        many: Authenticator applications
-        other: Authenticator applications
+        one: Додаток-автентифікатор
+        few: Додатки-автентифікатори
+        many: Додатки-автентифікатори
+        other: Додатки-автентифікатори
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         few: WebAuthn

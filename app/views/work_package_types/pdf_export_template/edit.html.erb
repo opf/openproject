@@ -40,6 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render WorkPackageTypes::ExportConfigurationComponent.new(
         @variant,
-        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
+        readonly: @variant.pdf_export_templates.readonly?
       ) %>
 <% end %>

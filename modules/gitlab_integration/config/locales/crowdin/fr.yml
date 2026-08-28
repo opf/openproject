@@ -40,19 +40,19 @@ fr:
               invalid_schema: 'doit être un tableau de hachages avec les clés : color, title'
     models:
       gitlab_issue:
-        one: GitLab issue
-        other: GitLab issues
+        one: Ticket GitLab
+        other: Tickets GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        other: GitLab merge requests
+        one: Merge request GitLab
+        other: Merge requests GitLab
       gitlab_pipeline:
-        one: GitLab pipeline
-        other: GitLab pipelines
+        one: Pipeline GitLab
+        other: Pipelines GitLab
       gitlab_user:
-        one: GitLab user
-        other: GitLab users
+        one: Utilisateur GitLab
+        other: Utilisateurs GitLab
   attributes:
-    commit: Appliquer
+    commit: Commit
     gitlab: Identifiant GitLab
     gitlab_avatar_url: URL de l'avatar
     gitlab_email: E-mail GitLab

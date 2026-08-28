@@ -3,7 +3,11 @@ zh-CN:
   activerecord:
     models:
       boards/grid:
-        other: Boards
+        other: |-
+          One
+          面板
+          Other
+          面板
   boards:
     board_type_attributes:
       assignee: 受理人

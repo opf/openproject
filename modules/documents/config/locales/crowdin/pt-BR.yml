@@ -32,17 +32,17 @@ pt-BR:
           one_or_more_required: Não é possível excluir o último tipo de documento
     models:
       document:
-        one: Document
-        other: Documents
+        one: Documento
+        other: Documentos
       document_type:
-        one: Document type
-        other: Document types
+        one: Tipo de documento
+        other: Tipos de documento
   activity:
     filter:
       document: Documentos
   attributes:
     collaborative_editing_hocuspocus_url: URL do servidor Hocuspocus
-    documents: Documents
+    documents: Documentos
   default_doc_category_tech: Documentação técnica
   default_doc_category_user: Documentação do usuário
   documents:

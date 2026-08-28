@@ -103,7 +103,7 @@ pt-BR:
         other: Objetivos da sprint
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: Adicionar pacote de trabalho existente
     administration_blankslate:
       text: Estamos reformulando o módulo de Backlogs. Em breve, você poderá ver aqui as configurações de administração de sprints e backlogs. As configurações do projeto continuam disponíveis normalmente.
       title: As configurações administrativas do backlog estão evoluindo
@@ -256,11 +256,11 @@ pt-BR:
     story_points_ideal: Pontos de história (ideal)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Vários sprints ativos
       sprint_sharing: Compartilhamento de sprints
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Execute vários sprints em paralelo para diferentes equipes no seu projeto e tenha mais controle e flexibilidade.
       sprint_sharing:
         description: Compartilhe sprints entre projetos para alinhar equipes e coordenar o trabalho em configurações ágeis em escala (SAFe).
   label_all_sprints: Todos os sprints

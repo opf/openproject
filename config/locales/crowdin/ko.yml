@@ -471,6 +471,7 @@ ko:
           true: 휴무일 포함
         journal_internal: 내부 저널
         notify: 알림
+        observed_in_versions: Observed in versions
         parent: 부모
         parent_issue: 부모
         parent_work_package: 부모
@@ -3174,6 +3175,7 @@ ko:
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_projects: 사용 가능한 프로젝트
+  label_backtrace: Backtrace
   label_backup: 백업
   label_basic_details: 기본 세부 정보
   label_between: 사이에
@@ -4688,6 +4690,8 @@ ko:
     dialog:
       footer_center:
         caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: 바닥글 텍스트
       footer_right:
         caption: 이 텍스트는 모든 페이지의 바닥글 오른쪽에 나타납니다.
@@ -6128,7 +6132,12 @@ ko:
           label: PDF 내보내기 템플릿
         tab: PDF 생성
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF 내보내기 템플릿
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: 섹션
         add_query_group: 관련 작업 패키지 테이블

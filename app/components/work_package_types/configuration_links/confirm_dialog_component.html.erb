@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
         id: DIALOG_ID,
         test_selector: DIALOG_ID,
         title:,
+        size: :medium_portrait,
         confirm_button_text: t(:button_confirm),
         cancel_button_text: t(:button_close),
         form_arguments: {
@@ -42,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |dialog| %>
   <% dialog.with_confirmation_message do |message| %>
-    <% message.with_heading(tag: :h2) { title } %>
+    <% message.with_heading(tag: :h2) { heading } %>
     <% if changing_source? %>
       <% message.with_description_content(
            t(

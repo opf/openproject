@@ -473,6 +473,7 @@ cs:
           true: zahrnuje nepracovní dny
         journal_internal: Internal Journal
         notify: Oznámit
+        observed_in_versions: Observed in versions
         parent: Nadřazený
         parent_issue: Nadřazený
         parent_work_package: Nadřazený
@@ -3586,6 +3587,7 @@ cs:
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
   label_available_projects: Dostupné projekty
+  label_backtrace: Backtrace
   label_backup: Záloha
   label_basic_details: Základní údaje
   label_between: mezi
@@ -5137,6 +5139,8 @@ cs:
     dialog:
       footer_center:
         caption: Tento text se zobrazí na každé stránce uprostřed zápatí.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Text záhlaví
       footer_right:
         caption: Tento text se zobrazí na každé stránce napravo v zápatí.
@@ -6603,7 +6607,12 @@ cs:
           label: Šablony pro export do PDF
         tab: Vytvořit PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

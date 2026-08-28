@@ -473,6 +473,7 @@ ja:
           true: 休業日を含む
         journal_internal: 社内雑誌
         notify: 通知する
+        observed_in_versions: Observed in versions
         parent: 親項目
         parent_issue: 親項目
         parent_work_package: 親項目
@@ -3160,6 +3161,7 @@ ja:
   label_available_project_work_package_categories: 有効なワークパッケージのカテゴリ
   label_available_project_work_package_types: 利用可能なワークパッケージのタイプ
   label_available_projects: 利用可能なプロジェクト
+  label_backtrace: Backtrace
   label_backup: バックアップ
   label_basic_details: 基本的な詳細
   label_between: 次の範囲内
@@ -4670,6 +4672,8 @@ ja:
     dialog:
       footer_center:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: フッターテキスト
       footer_right:
         caption: このテキストはフッターの右側にあるすべてのページに表示されます。
@@ -6118,7 +6122,12 @@ ja:
           label: PDF エクスポート テンプレート
         tab: PDFを生成
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

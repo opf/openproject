@@ -69,7 +69,7 @@ gem "scimitar", "~> 2.13"
 gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
-gem "closure_tree", "~> 9.7.0"
+gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
 gem "addressable", "~> 2.9.0"
@@ -227,7 +227,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.9", require: false
+gem "appsignal", "~> 4.10", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
