@@ -510,8 +510,6 @@ RSpec.describe "form configuration", :js, :selenium,
     end
 
     describe "custom fields" do
-      let(:project_cf_settings_page) { Pages::Projects::Settings::WorkPackageCustomFields.new(project) }
-
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
       let(:cf_identifier) { custom_field.attribute_name }
@@ -535,45 +533,10 @@ RSpec.describe "form configuration", :js, :selenium,
         form.expect_attribute(key: cf_identifier)
       end
 
-      context "if inactive in project" do
-        it "can be added to the type, but is not shown" do
-          add_cf_to_group
-
-          # Visit work package with that type
-          wp_page.visit!
-          wp_page.ensure_page_loaded
-
-          # CF should be hidden
-          wp_page.expect_no_group("New Group")
-          wp_page.expect_attribute_hidden(cf_identifier_api)
-
-          # Enable in project, should then be visible
-          project_cf_settings_page.visit!
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
-
-          id_checkbox = find("input[name='project[work_package_custom_field_ids][]'][value='#{custom_field.id}']")
-          expect(id_checkbox).not_to be_checked
-          id_checkbox.set(true)
-
-          click_button "Save"
-
-          # Visit work package with that type
-          wp_page.visit!
-          wp_page.ensure_page_loaded
-
-          # Category should be hidden
-          wp_page.expect_group("New Group") do
-            wp_page.expect_attributes cf_identifier_api => "-"
-          end
-        end
-      end
-
       context "if active in project" do
         let(:project) do
           create(:project,
-                 types: [type],
-                 work_package_custom_fields: custom_fields)
+                 types: [type])
         end
 
         it "can be added to type and is visible" do
@@ -583,16 +546,9 @@ RSpec.describe "form configuration", :js, :selenium,
           wp_page.visit!
           wp_page.ensure_page_loaded
 
-          # Category should be hidden
           wp_page.expect_group("New Group") do
             wp_page.expect_attributes cf_identifier_api => "-"
           end
-
-          # Ensure CF is checked
-          project_cf_settings_page.visit!
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
-          expect(page).to have_css("input[name='project[work_package_custom_field_ids][]'][value='#{custom_field.id}'][checked]")
         end
       end
     end

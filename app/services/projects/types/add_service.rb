@@ -65,7 +65,6 @@ module Projects
 
       def add_variant(variant)
         model.project_types.create!(type_id: variant.type_id, variant:)
-        enable_work_package_custom_fields(variant)
       end
     end
   end

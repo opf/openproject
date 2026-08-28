@@ -44,8 +44,9 @@ module Admin
 
         private
 
+        # An archived project's mapping cannot be changed.
         def more_menu_detach_project
-          if User.current.allowed_in_project?(:select_custom_fields, project)
+          if project.active? && User.current.admin?
             {
               scheme: :default,
               icon: nil,
@@ -54,14 +55,6 @@ module Admin
               data: { turbo_method: :delete }
             }
           end
-        end
-
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id },
-            page: current_page
-          )
         end
       end
     end

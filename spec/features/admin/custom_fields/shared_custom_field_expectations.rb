@@ -210,7 +210,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_no_label(label_editable)
     end
 
-    if type in "Work package" | "Project"
+    if type == "Project"
       expect(page).to have_field(label_is_for_all)
     else
       expect(page).to have_no_label(label_is_for_all)

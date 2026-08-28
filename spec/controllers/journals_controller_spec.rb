@@ -137,7 +137,6 @@ RSpec.describe JournalsController do
 
       let!(:custom_field) do
         create(factory_name).tap do |custom_field|
-          project.work_package_custom_fields << custom_field
           type.default_variant.custom_fields << custom_field
         end
       end

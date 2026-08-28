@@ -80,7 +80,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     let(:multi_value_field) { create(:multi_list_wp_custom_field) }
     let(:custom_field_not_configured) { create(:string_wp_custom_field) }
     let(:type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [custom_field, multi_value_field]) } }
-    let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field, multi_value_field]) }
+    let(:project) { create(:project, types: [type]) }
     let(:project_custom_field) { create(:project_custom_field, projects: [project], field_format: "string") }
 
     let(:subject_pattern) do
@@ -123,7 +123,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     let(:source_cf) { create(:string_wp_custom_field) }
     let(:source_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
     let(:linked_type) { create(:type) }
-    let(:project) { create(:project, types: [linked_type], work_package_custom_fields: [source_cf]) }
+    let(:project) { create(:project, types: [linked_type]) }
     let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
 
     let(:work_package) do

@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::TypesController do
   let(:project) do
-    create(:project,
-           work_package_custom_fields: [custom_field_2])
+    create(:project)
   end
   let(:custom_field_1) do
     create(:work_package_custom_field,
@@ -262,7 +261,6 @@ RSpec.describe WorkPackageTypes::TypesController do
         let(:archived_project) do
           create(:project,
                  :archived,
-                 work_package_custom_fields: [custom_field_2],
                  types: [type2])
         end
         let!(:work_package) do

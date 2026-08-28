@@ -347,8 +347,6 @@ Rails.application.routes.draw do
 
     scope module: :admin do
       scope module: :custom_fields do
-        resources :projects, controller: "/admin/custom_fields/custom_field_projects", only: %i[index new create]
-        resource :project, controller: "/admin/custom_fields/custom_field_projects", only: :destroy
         resources :items, controller: "/admin/custom_fields/hierarchy/items" do
           member do
             get :change_parent, action: :change_parent_dialog
@@ -469,7 +467,6 @@ Rails.application.routes.draw do
         resource :versions, only: %i[show]
         resource :storage, only: %i[show], controller: "storage"
         get :types, to: redirect("projects/%{project_id}/settings/work_packages/types")
-        get :custom_fields, to: redirect("projects/%{project_id}/settings/work_packages/custom_fields")
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
@@ -481,7 +478,6 @@ Rails.application.routes.draw do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
           end
-          resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
       end

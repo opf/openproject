@@ -45,15 +45,6 @@ RSpec.describe Projects::Types::AddService do
       expect(project.enabled_types).to contain_exactly(type)
     end
 
-    it "enables the type's work package custom fields on the project" do
-      custom_field = create(:text_wp_custom_field, type_variants: [variant])
-
-      expect { service_call }
-        .to change { project.reload.work_package_custom_field_ids }
-        .from([])
-        .to([custom_field.id])
-    end
-
     context "when the type is already enabled" do
       let(:project) { create(:project, types: [type]) }
 
@@ -89,35 +80,6 @@ RSpec.describe Projects::Types::AddService do
         it "succeeds without adding a second row" do
           expect(service_call).to be_success
           expect(project.reload.project_types.sole.variant).to eq(variant)
-        end
-      end
-
-      # Without this the work package form is empty for the variant: a variant inheriting its
-      # form configuration owns no custom_fields_types rows of its own.
-      context "when the variant inherits its form configuration" do
-        let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
-
-        before do
-          variant.update!(form_configuration_source: type.default_variant)
-        end
-
-        it "enables the fields the variant actually shows, which are the type's" do
-          expect { service_call }
-            .to change { project.reload.work_package_custom_field_ids }
-            .from([])
-            .to([type_custom_field.id])
-        end
-      end
-
-      context "when the variant owns its form configuration" do
-        let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
-        let!(:variant_custom_field) { create(:text_wp_custom_field, type_variants: [variant]) }
-
-        it "enables its own fields rather than the type's" do
-          expect { service_call }
-            .to change { project.reload.work_package_custom_field_ids }
-            .from([])
-            .to([variant_custom_field.id])
         end
       end
 

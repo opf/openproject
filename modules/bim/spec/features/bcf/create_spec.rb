@@ -5,8 +5,7 @@ RSpec.describe "Create BCF", :js,
   let(:project) do
     create(:project,
            types: [type, type_with_cf],
-           enabled_module_names: %i[bim work_package_tracking],
-           work_package_custom_fields: [integer_cf])
+           enabled_module_names: %i[bim work_package_tracking])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }

@@ -45,7 +45,6 @@ RSpec.describe "custom fields", :js do
     it "shows all form elements" do
       expect(cf_page).to have_field("Name")
       expect(cf_page).to have_field("Default value")
-      expect(cf_page).to have_field("For all projects")
       expect(cf_page).to have_field("Used as a filter")
     end
   end

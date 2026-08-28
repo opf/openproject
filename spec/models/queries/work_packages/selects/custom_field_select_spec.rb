@@ -39,93 +39,42 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
   it_behaves_like "query column", sortable_by_default: true
 
   describe "instances" do
-    let(:user) { create(:user) }
-    let(:text_custom_field) { create(:text_wp_custom_field) }
-    let(:list_custom_field) { create(:list_wp_custom_field) }
-    let(:wp_relation) { double }
+    shared_let(:type) { create(:type) }
+    shared_let(:visible_project) { create(:project, public: false, types: [type]) }
+    shared_let(:text_custom_field) { create(:text_wp_custom_field, types: [type]) }
+    shared_let(:list_custom_field) { create(:list_wp_custom_field, types: [type]) }
+    shared_let(:member) { create(:user, member_with_permissions: { visible_project => [] }) }
 
-    current_user { user }
+    current_user { member }
 
-    context "within project" do
-      before do
-        allow(project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return(wp_relation)
+    context "within a project whose types configure the fields" do
+      it "contains only non text cf columns" do
+        expect(described_class.instances(visible_project).map(&:custom_field))
+          .to contain_exactly(list_custom_field)
       end
+    end
 
-      context "with a user that can see the custom field" do
-        before do
-          allow(wp_relation).to receive(:on_visible_type_and_project)
-                                  .with(user)
-                                  .and_return([text_custom_field, list_custom_field])
-        end
+    context "with a user who cannot see the project" do
+      current_user { create(:user) }
 
-        it "contains only non text cf columns" do
-          expect(described_class.instances(project).length)
-            .to eq 1
-
-          expect(described_class.instances(project)[0].custom_field)
-            .to eq list_custom_field
-        end
-      end
-
-      context "with a user that cannot see custom fields" do
-        before do
-          allow(wp_relation).to receive(:on_visible_type_and_project)
-                                  .with(user)
-                                  .and_return([])
-        end
-
-        it "is empty" do
-          expect(described_class.instances).to be_empty
-        end
+      it "is empty" do
+        expect(described_class.instances(visible_project)).to be_empty
       end
     end
 
     context "when global" do
-      before do
-        allow(WorkPackageCustomField)
-          .to receive(:all)
-          .and_return(wp_relation)
+      it "contains only non text cf columns" do
+        expect(described_class.instances.map(&:custom_field))
+          .to contain_exactly(list_custom_field)
       end
 
-      context "with a user that can see the custom field" do
-        before do
-          allow(wp_relation).to receive(:on_visible_type_and_project)
-                                  .with(user)
-                                  .and_return([text_custom_field, list_custom_field])
-        end
-
-        it "contains only non text cf columns" do
-          expect(described_class.instances.length)
-            .to eq 1
-
-          expect(described_class.instances[0].custom_field)
-            .to eq list_custom_field
-        end
-      end
-
-      context "with a user that cannot see custom fields" do
-        before do
-          allow(wp_relation).to receive(:on_visible_type_and_project)
-                                  .with(user)
-                                  .and_return([])
-        end
+      context "with a user who cannot see any project" do
+        current_user { create(:user) }
 
         it "is empty" do
           expect(described_class.instances).to be_empty
         end
       end
-    end
-  end
-
-  describe "#value" do
-    let(:mock) { instance_double(WorkPackage) }
-
-    it "delegates to formatted_custom_value_for" do
-      allow(mock).to receive(:formatted_custom_value_for).with(custom_field)
-      instance.value(mock)
-      expect(mock).to have_received(:formatted_custom_value_for).with(custom_field)
     end
   end
 end

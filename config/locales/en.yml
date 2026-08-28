@@ -2416,7 +2416,7 @@ en:
           short: "Short name"
           weight: "Weight"
       notice:
-        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+        remember_items_and_projects: "Remember to set items for this custom field, and to make sure it is used in at least one project."
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -3402,7 +3402,6 @@ en:
   label_attribute_plural: "Attributes"
   label_authentication: "Authentication"
   label_auto_option: "(auto)"
-  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -4012,7 +4011,6 @@ en:
   label_upgrade_guides: "Upgrade guides"
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
-  label_used_in_projects: "Used in projects"
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: "Users and permissions"
   label_user_anonymous: "Anonymous"
@@ -4698,7 +4696,6 @@ en:
   notice_password_confirmation_failed: "The entered password is not correct."
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
-  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_project_not_deleted: "The project wasn't deleted."
   notice_project_not_found: "Project not found."
   notice_requires_enterprise_token: "Enterprise token missing or doesn't allow access to this page."
@@ -4708,9 +4705,6 @@ en:
   notice_successful_create: "Successful creation."
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
-  notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unsuccessful_create: "Creation failed."
   notice_unsuccessful_create_with_reason: "Creation failed: %{reason}"
@@ -5088,7 +5082,6 @@ en:
   permission_save_bcf_queries: "Save BCF queries"
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
-  permission_select_custom_fields: "Select custom fields"
   permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Select project modules"
   permission_select_project_phases: "Select project phases"

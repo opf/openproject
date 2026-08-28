@@ -53,7 +53,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
       work_package.type.default_variant.custom_fields << custom_field
     end
   end
@@ -63,7 +62,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:boolean_custom_field) do
     create(:boolean_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
       work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", false)
@@ -73,7 +71,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:date_custom_field) do
     create(:date_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
       work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", "2025-10-03T13:37:00Z")
@@ -83,17 +80,10 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:mult_list_custom_field) do
     create(:multi_list_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
       work_package.type.default_variant.custom_fields << custom_field
 
       work_package.send(:"custom_field_#{custom_field.id}=", custom_field.possible_values.take(2))
       work_package.save!
-    end
-  end
-
-  shared_let(:not_activated_custom_field) do
-    create(:string_wp_custom_field).tap do |custom_field|
-      work_package.type.default_variant.custom_fields << custom_field
     end
   end
 
@@ -142,10 +132,11 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       expect(token.call(work_package)).to eq("2025-10-03")
     end
 
-    it "must return :attribute_not_available if custom field is not activated in project" do
+    # Every work package custom field gets a parent_ token, whether or not the type configures it.
+    it "must return :attribute_not_available if the custom field is on no type" do
       enabled, = subject
       token = enabled.detect do |t|
-        t.key == :"custom_field_#{not_activated_custom_field.id}"
+        t.key == :"parent_custom_field_#{custom_field_not_on_type.id}"
       end
 
       expect { token.call(work_package) }.not_to raise_error

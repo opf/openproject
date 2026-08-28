@@ -43,15 +43,8 @@ module DevelopmentData
     end
 
     def create_types!(cfs)
-      # Create ALL CFs types
-      non_req_cfs = cfs.reject(&:is_required).map(&:attribute_name)
-      type = FactoryBot.create :type, name: "All CFS"
-      extend_group(type, ["Custom fields", non_req_cfs])
-
-      # Create type
-      req_cfs = cfs.select(&:is_required).map(&:attribute_name)
-      type_req = FactoryBot.create :type, name: "Required CF"
-      extend_group(type_req, ["Custom fields", req_cfs])
+      extend_group(FactoryBot.create(:type, name: "All CFS"), cfs.reject(&:is_required))
+      extend_group(FactoryBot.create(:type, name: "Required CF"), cfs.select(&:is_required))
     end
 
     def create_cfs!
@@ -92,10 +85,14 @@ module DevelopmentData
       cfs
     end
 
-    def extend_group(type, group)
+    # A group only names attributes; the fields also have to be on the form configuration, which
+    # is what decides whether a work package offers them.
+    def extend_group(type, custom_fields)
       variant = type.default_variant
+      variant.custom_fields += custom_fields
+
       groups = variant.send(:custom_attribute_groups) || variant.default_attribute_groups
-      groups << group
+      groups << ["Custom fields", custom_fields.map(&:attribute_name)]
       variant.attribute_groups = groups
       variant.save!
     end

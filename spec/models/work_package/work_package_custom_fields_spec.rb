@@ -51,7 +51,6 @@ RSpec.describe WorkPackage do
 
     shared_context "project with custom field" do |save = true|
       before do
-        project.work_package_custom_fields << custom_field
         type.default_variant.custom_fields << custom_field
 
         work_package.save if save
@@ -256,7 +255,6 @@ RSpec.describe WorkPackage do
       end
 
       before do
-        project.work_package_custom_fields << custom_field_2
         project.project_types.create!(type: type_feature)
       end
 
@@ -402,6 +400,19 @@ RSpec.describe WorkPackage do
         expect(work_package.errors.full_messages.first)
           .to eq "PIN is too long (maximum is 4 characters)."
       end
+    end
+  end
+
+  describe "#available_custom_fields for a field the project has not activated" do
+    let(:type) { create(:type_task) }
+    let(:field) { create(:work_package_custom_field, is_for_all: false) }
+    let(:project) { create(:project, types: [type]) }
+    let(:work_package) { create(:work_package, project:, type:) }
+
+    before { type.default_variant.custom_fields << field }
+
+    it "offers the field" do
+      expect(work_package.available_custom_fields).to include(field)
     end
   end
 end

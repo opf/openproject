@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe "Work Package group by boolean field", :js do
   let(:user) { create(:admin) }
 
-  let(:project) { create(:project, types: [type], work_package_custom_fields: [bool_cf]) }
+  let(:project) { create(:project, types: [type]) }
   let(:bool_cf) { create(:boolean_wp_custom_field, name: "booleanField", types: [type]) }
   let(:type) { create(:type) }
 

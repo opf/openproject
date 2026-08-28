@@ -157,7 +157,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
       context "when the target project has a type with a required field" do
         let(:required_cf) { create(:integer_wp_custom_field, is_required: true) }
         let(:type2) { create(:type, name: "Risk", custom_fields: [required_cf]) }
-        let!(:project2) { create(:project, name: "Target", types: [type2], work_package_custom_fields: [required_cf]) }
+        let!(:project2) { create(:project, name: "Target", types: [type2]) }
 
         it "does not moves the work package when the required field is missing" do
           select "Risk", from: "Type"
@@ -200,8 +200,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     priority = create(:priority, name: "High")
     required_cf = create(:integer_wp_custom_field,
                          name: "Risk score",
-                         is_required: true,
-                         projects: [project, project2])
+                         is_required: true)
     create(:workflow, type:, old_status: status, new_status:, role: mover_role)
     create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
     type2.default_variant.custom_fields << required_cf

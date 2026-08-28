@@ -39,7 +39,7 @@ RSpec.describe Queries::Filters::Shared::CustomFields::User do
   let(:user) { create(:user, member_with_roles: { project => [role] }) }
 
   let(:custom_field) do
-    create(:user_wp_custom_field, projects: [project], types: [type])
+    create(:user_wp_custom_field, types: [type])
   end
 
   let(:shared_group_member) { create(:user) }

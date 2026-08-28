@@ -1515,15 +1515,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "customFields" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "customFields" }
-        let(:permission) { :select_custom_fields }
-        let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
-        let(:title) { "Custom fields" }
-      end
-    end
-
     describe "customField" do
       let(:available_custom_fields) { [custom_field] }
       let(:custom_field_values) { [build_stubbed(:custom_value, custom_field:, value:)] }
@@ -1565,10 +1556,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "formConfiguration" do
+    describe "configureForm" do
       context "when not admin" do
         it_behaves_like "has no link" do
-          let(:link) { "formConfiguration" }
+          let(:link) { "configureForm" }
         end
       end
 
@@ -1579,6 +1570,53 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "configureForm" }
           let(:href) { edit_type_form_configuration_path(work_package.type_id) }
           let(:title) { "Configure form" }
+        end
+
+        context "when the project applies a variant of the type" do
+          let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+          let(:workspace) { create(:project, types: [variant]) }
+          let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+          it "points at the configuration in force rather than the type's own" do
+            expect(generated)
+              .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+                    .at_path("_links/configureForm/href")
+          end
+
+          context "when the project owns that variant" do
+            before { variant.update!(project: workspace) }
+
+            it "addresses it through the owning project" do
+              href = "/types/#{variant.type_id}/in-project/#{workspace.identifier}" \
+                     "/variants/#{variant.id}/form_configuration/edit"
+
+              expect(generated).to be_json_eql(href.to_json).at_path("_links/configureForm/href")
+            end
+          end
+        end
+      end
+
+      context "when allowed to manage the project's own variants" do
+        let(:permissions) { all_permissions + [:manage_project_variants] }
+        let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+        let(:workspace) { create(:project, types: [variant]) }
+        let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+        context "when the project owns the applied variant" do
+          before { variant.update!(project: workspace) }
+
+          it_behaves_like "has a titled link" do
+            let(:link) { "configureForm" }
+            let(:href) { edit_type_form_configuration_path(**variant.path_args) }
+            let(:title) { "Configure form" }
+          end
+        end
+
+        # The type-level URL these resolve to is administration's alone, so a link would only 403.
+        context "when the applied variant belongs to no project" do
+          it_behaves_like "has no link" do
+            let(:link) { "configureForm" }
+          end
         end
       end
     end

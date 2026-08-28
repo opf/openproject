@@ -66,7 +66,6 @@ module Import
         Import::JiraProject.where(jira_import_id: @jira_import.id,
                                   jira_project_id: @jira_import.project_ids).find_each do |jira_project|
           project = import_project(jira_project)
-          update_custom_fields_in_project(project, jira_project, custom_field_registry)
           Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id).find_each do |jira_issue|
             import_issue(jira_issue, project, custom_field_registry)
           end
@@ -183,15 +182,6 @@ module Import
       else
         groups << [JIRA_IMPORT_GROUP_KEY, cf_keys]
       end
-    end
-
-    def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      applicable_cfs = Import::JiraIssue
-                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
-                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
-      existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
-      new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
-      project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
     def import_type(jira_issue, project)

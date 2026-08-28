@@ -676,7 +676,6 @@ RSpec.describe CustomActions::Actions::CustomField do
 
       before do
         # Ensure the work package has the custom field
-        work_package.project.work_package_custom_fields << custom_field
         work_package.type.default_variant.custom_fields << custom_field
         work_package.reload # Reload to pick up the new custom field associations
       end
@@ -715,7 +714,6 @@ RSpec.describe CustomActions::Actions::CustomField do
         let(:another_instance) { described_class.for(another_custom_field.attribute_name).new }
 
         before do
-          work_package.project.work_package_custom_fields << another_custom_field
           work_package.type.default_variant.custom_fields << another_custom_field
         end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,45 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
-class Queries::Projects::Filters::AvailableCustomFieldsProjectsFilter < Queries::Projects::Filters::Base
-  def self.key
-    :available_custom_fields_projects
-  end
+require "spec_helper"
 
-  def type
-    :list
-  end
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
 
-  def allowed_values
-    @allowed_values ||= CustomFieldsProject
-      .includes(:custom_field)
-      .distinct
-      .pluck(:name, :custom_field_id)
-  end
+  current_user { create(:admin) }
 
-  def available?
-    User.current.admin?
-  end
+  # The work package tab is the default one.
+  it "lists the work package custom fields and the types configuring them" do
+    get custom_fields_path
 
-  def apply_to(_query_scope)
-    case operator
-    when "="
-      super.with_available_custom_fields(values)
-    when "!"
-      super.without_available_custom_fields(values)
-    else
-      raise "unsupported operator"
-    end
-  end
-
-  def where
-    nil
-  end
-
-  def human_name
-    I18n.t(:label_available_custom_fields_projects)
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
   end
 end
