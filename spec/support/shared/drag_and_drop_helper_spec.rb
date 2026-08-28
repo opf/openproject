@@ -69,7 +69,7 @@ end
 # chains, so multi-`perform` sequences never deliver the drop. Coordinates are
 # viewport-absolute; callers pick the exact drop point (edge targeting).
 def perform_native_drag(source:, target_x:, target_y:)
-  scroll_to_element(source)
+  scroll_to_element(source, block: :nearest)
 
   rect = source.native.rect
   source_x = (rect.x + (rect.width / 2)).to_i
