@@ -46,12 +46,14 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% design_color_groups.each do |group_name, design_colors| %>
-  <%= render(Primer::Beta::BorderBox.new(mb: 3, test_selector: "design-color-group-#{group_name}")) do |box| %>
-    <% box.with_header do %>
-      <%= render(Primer::Beta::Text.new(font_weight: :bold)) do %>
-        <%= t("admin.custom_styles.color_groups.#{group_name}") %>
-      <% end %>
-    <% end %>
+  <%= render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "design-color-group-#{group_name}",
+          mb: 3,
+          test_selector: "design-color-group-#{group_name}"
+        )
+      ) do |list| %>
+    <% list.with_header(title: t("admin.custom_styles.color_groups.#{group_name}")) %>
 
     <% design_colors.each do |design_color| %>
       <% variable = design_color.variable %>
@@ -60,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% hexcode = effective_design_color(design_color, current_theme: @current_theme) %>
       <% form_id = "design-color-#{variable}-form" %>
 
-      <% box.with_row do %>
+      <% list.with_item do %>
         <%= render(
               Primer::OpenProject::FlexLayout.new(
                 align_items: :center,
