@@ -1,0 +1,5 @@
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t("risk_management.label") } %>
+  <% header.with_description { t("risk_management.admin.description") } %>
+  <% header.with_breadcrumbs(breadcrumb_items) %>
+<% end %>

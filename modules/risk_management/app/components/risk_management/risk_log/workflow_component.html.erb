@@ -1,0 +1,25 @@
+<%= render Grids::WidgetBoxComponent.new(
+      key: "risk-mitigation-status",
+      title: t("risk_management.risk_log.workflow.title"),
+      turbo_enabled: false,
+      full_width: true,
+      classes: "op-risk-workflow"
+    ) do %>
+  <%= render Primer::Beta::ProgressBar.new(size: :small) do |bar| %>
+    <% @workflow[:statuses].each_with_index do |status, index| %>
+      <% bar.with_item(percentage: percentage(status), bg: color(index)) %>
+    <% end %>
+  <% end %>
+
+  <%= render Primer::Box.new(display: :flex, flex_wrap: :wrap, gap: 3, mt: 3) do %>
+    <% @workflow[:statuses].each_with_index do |status, index| %>
+      <%= render Primer::Box.new(display: :flex, align_items: :center) do %>
+        <%= render Primer::Beta::Link.new(href: status_path(status)) do %>
+          <%= render Primer::Beta::Octicon.new(icon: :"dot-fill", color: legend_color(index), mr: 1, aria: { hidden: true }) %>
+          <%= status[:name] %>
+        <% end %>
+        <%= render Primer::Beta::Counter.new(count: status[:current], ml: 1) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

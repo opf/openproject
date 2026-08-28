@@ -65,7 +65,7 @@ module WorkPackageTypes
           menu.with_divider
         end
 
-        delete_action(menu)
+        delete_action(menu) unless type.builtin?
       end
 
       def add_variant_action(menu)

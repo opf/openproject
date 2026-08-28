@@ -117,7 +117,7 @@ module WorkPackageTypes
     protected
 
     def find_type
-      @type = ::Type.find(params[:id])
+      @type = ::Type.find(params.expect(:id))
     end
 
     def types_for_index

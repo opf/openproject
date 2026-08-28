@@ -1,0 +1,32 @@
+<%= render Primer::OpenProject::PageHeader.new do |header| %>
+  <% header.with_title { t("risk_management.risk_log.label") } %>
+  <% header.with_breadcrumbs(
+       [
+         { href: project_overview_path(@project), text: @project.name },
+         t("risk_management.risk_log.label")
+       ]
+     ) %>
+  <% if @risk_type && User.current.allowed_in_project?(:add_work_packages, @project) %>
+    <% header.with_action_button(
+         tag: :a,
+         scheme: :primary,
+         mobile_icon: :plus,
+         mobile_label: t("risk_management.risk_log.new_risk"),
+         size: :medium,
+         href: new_project_work_packages_dialog_path(@project, type_id: @risk_type.id),
+         aria: { label: t("risk_management.risk_log.new_risk") },
+         data: { controller: "async-dialog" }
+       ) do |button| %>
+      <% button.with_leading_visual_icon(icon: :plus) %>
+      <%= t("risk_management.risk_log.new_risk") %>
+    <% end %>
+  <% end %>
+  <% header.with_tab_nav(label: t("risk_management.risk_log.navigation.label")) do |tabs| %>
+    <% tabs.with_tab(selected: true, href: project_risk_log_path(@project)) do |tab| %>
+      <% tab.with_text { t("risk_management.risk_log.label") } %>
+    <% end %>
+    <% tabs.with_tab(selected: false, href: project_risk_management_plan_path(@project)) do |tab| %>
+      <% tab.with_text { t("risk_management.plan.label") } %>
+    <% end %>
+  <% end %>
+<% end %>

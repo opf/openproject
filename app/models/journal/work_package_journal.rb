@@ -34,4 +34,5 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
   belongs_to :project
   belongs_to :assigned_to, class_name: "Principal"
   belongs_to :responsible, class_name: "Principal"
+  belongs_to :risk_owner, class_name: "User"
 end

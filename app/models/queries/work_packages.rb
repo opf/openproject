@@ -47,6 +47,11 @@ module Queries::WorkPackages
     filter Filter::PriorityFilter
     filter Filter::ProjectFilter
     filter Filter::ResponsibleFilter
+    filter Filter::RiskOwnerFilter
+    filter Filter::RiskLikelihoodFilter
+    filter Filter::RiskImpactFilter
+    filter Filter::RiskResponseFilter
+    filter Filter::RiskCategoryFilter
     filter Filter::RoleFilter
     filter Filter::SharedWithUserFilter
     filter Filter::SharedWithMeFilter

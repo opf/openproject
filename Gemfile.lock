@@ -218,6 +218,11 @@ PATH
     openproject-resource_management (1.0.0)
 
 PATH
+  remote: modules/risk_management
+  specs:
+    openproject-risk_management (1.0.0)
+
+PATH
   remote: modules/storages
   specs:
     openproject-storages (1.0.0)
@@ -1685,6 +1690,7 @@ DEPENDENCIES
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
+  openproject-risk_management!
   openproject-storages!
   openproject-team_planner!
   openproject-token (~> 8.12.0)
@@ -2062,6 +2068,7 @@ CHECKSUMS
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
+  openproject-risk_management (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
   openproject-token (8.12.0) sha256=4523f1ce2c2dc91c1b676ae193d9badff12a7e9e1e99453567dbbefa160f4090

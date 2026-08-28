@@ -44,7 +44,51 @@ module WorkPackages::Dialogs
     end
 
     form do |f|
-      f.autocompleter(
+      render_type_selector(form: f)
+
+      f.text_field(
+        name: :subject,
+        label: WorkPackage.human_attribute_name(:subject),
+        required: true,
+        autofocus: autofocus_subject?,
+        input_width: subject_input_width,
+        disabled: !@schema.writable?(:subject)
+      )
+
+      f.rich_text_area(
+        name: :description,
+        label: WorkPackage.human_attribute_name(:description),
+        rich_text_options: {
+          resource: work_package,
+          showAttachments: false
+        },
+        disabled: !@schema.writable?(:description)
+      )
+
+      render_additional_attributes(form: f)
+      render_custom_fields(form: f)
+
+      # Keep hidden fields for relevant changes
+      work_package.changes
+                  .slice(*writable_attributes)
+                  .except(:description, :subject, :type_id)
+                  .each do |attribute, value|
+        f.hidden(name: attribute, value:)
+      end
+    end
+
+    def additional_custom_field_input_arguments
+      { wrapper_id: }
+    end
+
+    def autofocus_subject?
+      work_package.errors.empty? && work_package.custom_values.all? { |cv| cv.errors.empty? }
+    end
+
+    private
+
+    def render_type_selector(form:)
+      form.autocompleter(
         name: :type_id,
         required: true,
         include_blank: false,
@@ -71,46 +115,15 @@ module WorkPackages::Dialogs
                         selected: work_package.type_id == value)
         end
       end
-
-      f.text_field(
-        name: :subject,
-        label: WorkPackage.human_attribute_name(:subject),
-        required: true,
-        autofocus: autofocus_subject?,
-        input_width: :large,
-        disabled: !@schema.writable?(:subject)
-      )
-
-      f.rich_text_area(
-        name: :description,
-        label: WorkPackage.human_attribute_name(:description),
-        rich_text_options: {
-          resource: work_package,
-          showAttachments: false
-        },
-        disabled: !@schema.writable?(:description)
-      )
-
-      render_custom_fields(form: f)
-
-      # Keep hidden fields for relevant changes
-      work_package.changes
-                  .slice(*writable_attributes)
-                  .except(:description, :subject, :type_id)
-                  .each do |attribute, value|
-        f.hidden(name: attribute, value:)
-      end
     end
 
-    def additional_custom_field_input_arguments
-      { wrapper_id: }
+    def subject_input_width
+      :large
     end
 
-    def autofocus_subject?
-      work_package.errors.empty? && work_package.custom_values.all? { |cv| cv.errors.empty? }
+    def render_additional_attributes(form:)
+      # Extension point for modules that add fields to the compact create dialog.
     end
-
-    private
 
     def custom_fields
       @custom_fields ||= work_package.available_custom_fields.select(&:required?)

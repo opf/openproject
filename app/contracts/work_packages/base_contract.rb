@@ -113,6 +113,22 @@ module WorkPackages
                               assignable_responsibles
     end
 
+    attribute :risk_owner_id do
+      next unless model.project
+
+      validate_people_visible :risk_owner,
+                              "risk_owner_id",
+                              assignable_risk_owners
+    end
+
+    attribute :risk_likelihood
+    attribute :risk_impact
+    attribute :risk_response
+    attribute :risk_category_ids do
+      unknown_ids = Array(model.risk_category_ids).map(&:to_i) - RiskManagement::RiskCategory.pluck(:id)
+      errors.add(:risk_category_ids, :invalid) if unknown_ids.any?
+    end
+
     attribute :schedule_manually
     attribute :ignore_non_working_days,
               writable: ->(*) {
@@ -247,6 +263,10 @@ module WorkPackages
       end
     end
     alias_method :assignable_responsibles, :assignable_assignees
+
+    def assignable_risk_owners
+      assignable_assignees.where(type: "User")
+    end
 
     def valid?(context = :saving_custom_fields) = super
 

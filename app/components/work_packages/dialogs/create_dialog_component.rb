@@ -43,5 +43,9 @@ module WorkPackages::Dialogs
       @work_package = work_package
       @project = project
     end
+
+    def dialog_title
+      I18n.t(:label_work_package_new)
+    end
   end
 end
