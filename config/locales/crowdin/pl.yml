@@ -1593,8 +1593,6 @@ pl:
             manual_conversion_hint: Możesz wybrać ręczne uruchomienie konwersji, aby włączyć wiele wartości, nim nastąpi ta automatyczna migracja.
             not_writable_hint: Ustawienia te konfiguruje się za pomocą zmiennych środowiskowych. Aby ręcznie uruchomić konwersję w celu włączenia wielu wartości przed automatyczną migracją, zaktualizuj plik configuration.yml.
           heading: Wersje docelowe
-          in_progress:
-            heading: Włączanie wielu wersji
           planned_changes:
             heading: Planowane zmiany w przyszłej wersji
             renamed: Nazwa pola „Wersja” zostanie zmieniona na „Wersje docelowe”.
@@ -6199,7 +6197,8 @@ pl:
           confirm_dialog:
             check_box: Rozumiem, że to zastąpi bieżące ustawienia
             description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
-            title: Przełączyć tryb konfiguracji?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Skopiuj z typu
           description: Żadne ustawienia nie są dziedziczone. W razie potrzeby nadal można jednorazowo skopiować ustawienia z innego typu.
           dialog:
@@ -6224,11 +6223,13 @@ pl:
           confirm_dialog:
             change_source:
               description_html: Zmieniając typ źródłowy na %{source_name}, zastąpisz bieżące ustawienia i może to mieć wpływ na istniejące informacje o pakietach roboczych tego typu.
-              title: Zmienić typ źródłowy?
+              heading: Change source type?
+              title: Change source type
             check_box: Rozumiem, że to zastąpi bieżące ustawienia
             from_independent:
               description: Wszystkie aktualnie wybrane ustawienia zostaną zastąpione i mogą wpłynąć na istniejące informacje dotyczące pakietów roboczych tego typu.
-              title: Przełączyć tryb konfiguracji?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Ta konfiguracja jest powiązana z typem źródłowym [%{source_name}](source_url)%{source_suffix} i dziedziczy z niego ustawienia.
           dialog:
             description: Skopiuj i przejmij te ustawienia ze źródła. Wszelkie nowe konfiguracje dodane do źródła będą również dodawane tutaj.

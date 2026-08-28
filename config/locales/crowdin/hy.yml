@@ -1541,8 +1541,6 @@ hy:
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -6068,7 +6066,8 @@ hy:
           confirm_dialog:
             check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
             description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-            title: Փոխե՞լ կազմաձևման ռեժիմը։
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Պատճենել տեսակից
           description: Ոչ մի կարգավորում չի ժառանգվում։ Ցանկության դեպքում Դուք դեռևս կարող եք միանգամյա պատճենել կարգավորումները այլ տեսակից։
           dialog:
@@ -6093,11 +6092,13 @@ hy:
           confirm_dialog:
             change_source:
               description_html: Աղբյուրի տեսակը %{source_name}-ի փոխելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ աղբյուրի տեսակը։
+              heading: Change source type?
+              title: Change source type
             check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
             from_independent:
               description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ կազմաձևման ռեժիմը։
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Այս կազմաձևումը կապակցված է և ժառանգում է իր կարգավորումները [%{source_name}](source_url)%{source_suffix} աղբյուրի տեսակից։
           dialog:
             description: Պատճենեք և ժառանգեք այս կարգավորումները աղբյուրից։ Աղբյուրին ավելացված ցանկացած նոր կազմաձևում կավելացվի նաև այստեղ։

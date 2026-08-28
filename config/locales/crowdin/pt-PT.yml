@@ -196,7 +196,7 @@ pt-PT:
         title: Título
       member:
         blocked: Bloqueado
-        roles: Papel
+        roles: Funções
       notification:
         read_ian: Ler na aplicação
         resource: Recurso
@@ -655,7 +655,7 @@ pt-PT:
             principal:
               unassignable: não pode ser atribuído a um projeto.
             roles:
-              more_than_one: tem mais do que um cargo.
+              more_than_one: tem mais do que uma função.
               ungrantable: tem uma função que não é possível de atribuir.
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
           role_blank: tem de ser atribuído.
@@ -1541,8 +1541,6 @@ pt-PT:
             manual_conversion_hint: Pode optar por executar manualmente a conversão para permitir vários valores antes de ocorrer esta migração automática.
             not_writable_hint: Estas definições são configuradas através de variáveis de ambiente. Se pretender executar manualmente a conversão para permitir vários valores antes da migração automática, atualize o seu ficheiro configuration.yml.
           heading: Versões de destino
-          in_progress:
-            heading: Ativar várias versões
           planned_changes:
             heading: Alterações previstas para uma versão futura
             renamed: O nome do campo “Versão” será alterado para “Versões de destino”.
@@ -1628,7 +1626,7 @@ pt-PT:
         assignee: O utilizador é encarregado
         author: O utilizador é autor
         descriptions:
-          always: Transições disponíveis para os cargos selecionados em todos os casos.
+          always: Transições disponíveis para as funções selecionadas em todos os casos.
           assignee: Transições adicionais disponíveis para o encarregado pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor pelo pacote de trabalho.
         menu_label: Transições apresentadas
@@ -1888,7 +1886,7 @@ pt-PT:
   button_clear: Limpar
   button_click_to_reveal: Clique para revelar
   button_close: Fechar
-  button_collapse_all: Ocultar tudo
+  button_collapse_all: Recolher tudo
   button_complete: Concluído
   button_configure: Configurar
   button_configure_menu_entry: Configurar elemento do menu
@@ -3017,7 +3015,7 @@ pt-PT:
   label_authentication: Autenticação
   label_auto_option: "(automático)"
   label_available_custom_fields_projects: Projetos de campos personalizados disponíveis
-  label_available_global_roles: Cargos globais disponíveis
+  label_available_global_roles: Funções globais disponíveis
   label_available_project_attributes: Atributos do projeto disponíveis
   label_available_project_forums: Fóruns disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -3025,7 +3023,7 @@ pt-PT:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
   label_available_projects: Projetos disponíveis
-  label_backtrace: Backtrace
+  label_backtrace: Voltar atrás
   label_backup: Cópia de segurança
   label_backup_code: Código de cópia de segurança
   label_basic_details: Detalhes básicos
@@ -3067,8 +3065,8 @@ pt-PT:
   label_close_versions: Fechar versões concluídas
   label_closed: fechado
   label_closed_work_packages: fechado
-  label_collapse: Colapso
-  label_collapsed_click_to_show: Ocultado. Clique para visualizar
+  label_collapse: Recolher
+  label_collapsed_click_to_show: Recolhido. Clique para mostrar
   label_color_plural: Cores
   label_columns: Colunas
   label_comment_add: Adicionar comentário
@@ -3193,7 +3191,7 @@ pt-PT:
   label_everywhere: em todo o lado
   label_example: Exemplo
   label_expand: Expandir
-  label_expanded_click_to_collapse: Expandido. Clique para ocultar
+  label_expanded_click_to_collapse: Expandido. Clique para recolher
   label_experimental: Experimental
   label_export_plural: Exportações
   label_export_to: 'Também disponível em:'
@@ -3219,7 +3217,7 @@ pt-PT:
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
-  label_forum_sticky: Afixado
+  label_forum_sticky: Fixado
   label_forums_locked: Bloqueado
   label_function_plural: Funções
   label_gantt_chart: Gráfico de Gantt
@@ -3230,7 +3228,7 @@ pt-PT:
   label_global: Global
   label_global_modules: Módulos globais
   label_global_role: Função global
-  label_global_roles: Cargos globais
+  label_global_roles: Funções globais
   label_go_back: Retroceder um nível de menu
   label_go_forward: Abrir sub-menu %{module}
   label_greater_or_equal: ">="
@@ -3961,7 +3959,7 @@ pt-PT:
     subject: "%{project} - Você foi adicionado como membro"
   mail_member_updated_global:
     body:
-      roles: 'Dispõe agora das seguintes funções:'
+      roles: 'Tem agora as seguintes funções:'
       updated_by:
         with_message: "%{user} atualizou as funções que você tem globalmente com a seguinte mensagem:"
         without_message: "%{user} atualizou as funções que você tem globalmente."
@@ -6059,7 +6057,8 @@ pt-PT:
           confirm_dialog:
             check_box: Compreendo que isto vai substituir as definições atuais
             description: Todas as definições selecionadas serão substituídas, e poderão afetar as informações existentes relativas aos pacotes de trabalho deste tipo.
-            title: Ativar o modo de configuração?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copiar do tipo
           description: Nenhuma configuração foi herdada. Se quiser, ainda pode copiar configurações de outro tipo.
           dialog:
@@ -6084,11 +6083,13 @@ pt-PT:
           confirm_dialog:
             change_source:
               description_html: Ao alterar o tipo de fonte para %{source_name}, irá substituir as definições atuais, o que pode afetar as informações existentes nos pacotes de trabalho deste tipo.
-              title: Alterar o tipo de origem?
+              heading: Change source type?
+              title: Change source type
             check_box: Compreendo que isto vai substituir as definições atuais
             from_independent:
               description: Todas as definições selecionadas serão substituídas, e poderão afetar as informações existentes relativas aos pacotes de trabalho deste tipo.
-              title: Alterar o modo de configuração?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Esta configuração está associada ao tipo de origem [%{source_name}](source_url)%{source_suffix} e herda as definições desse tipo.
           dialog:
             description: Copie e herde estas definições de uma origem. Qualquer nova configuração adicionada à origem será também adicionada aqui.
@@ -6207,9 +6208,9 @@ pt-PT:
         description: 'Esta é a função que o utilizador irá receber quando se juntar ao seu projeto. A função define as ações que pode realizar e as informações que pode ver. [Mais informações sobre funções e permissões.](docs_url)
 
           '
-        label: Cargo em %{project}
-        no_roles_found: Nenhum cargo foi encontrado.
-        required: Selecione um cargo
+        label: Função em %{project}
+        no_roles_found: Não foram encontradas funções
+        required: Selecione uma função
       success_message:
         group: O grupo faz agora parte de %{project}. Entretanto, já pode planear com esse grupo e atribuir pacotes de trabalho, por exemplo.
         placeholder_user: O espaço reservado agora pode ser usado em %{project}. Enquanto isso, já pode planear com este utilizador e atribuir pacotes de trabalho, por exemplo.
@@ -6223,7 +6224,7 @@ pt-PT:
       type:
         already_member_message: Já é membro de %{project}
         group:
-          description: Permissões com base numa função atribuída no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar grupo para %{project_name}
         placeholder_user:
           description: Não tem acesso ao projeto e não são enviados e-mails.
@@ -6231,7 +6232,7 @@ pt-PT:
           title_no_ee: Utilizador de espaço reservado (complemento apenas para a edição Enterprise)
         required: Selecione o tipo a ser convidado
         user:
-          description: Permissões com base no cargo atribuído no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar utilizador para %{project_name}
     memberships:
       no_results_title_text: Este utilizador atualmente não é um membro de um projeto.

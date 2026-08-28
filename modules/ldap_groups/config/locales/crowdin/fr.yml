@@ -26,7 +26,7 @@ fr:
     upsell:
       ldap_groups:
         description: Synchroniser les groupes LDAP avec les groupes OpenProject pour gérer les utilisateurs, modifier leurs autorisations et faciliter la gestion des utilisateurs à travers les groupes.
-        title: Synchronisation de groupe LDAP
+        title: Synchronisation des groupes LDAP
   ldap_groups:
     label_group_key: Clé de filtre de groupe LDAP
     label_menu_item: Synchronisation de groupe LDAP
@@ -38,7 +38,7 @@ fr:
       add_new: Ajouter un filtre LDAP synchronisé
       destroy:
         confirmation: Si vous continuez, le filtre synchronisé %{name} et tous les groupes %{groups_count} créés seront supprimés.
-        heading: Supprimer le filtre synchronisé %{name} ?
+        heading: Supprimer le filtre synchronisé %{name} ?
         removed_groups: 'Attention : ceci supprimera les groupes suivants d''OpenProject et le supprimera de tous les projets !'
         title: Supprimer le filtre synchronisé %{name}
         verification_html: Saisissez le nom du filtre %{name} pour valider la suppression.
@@ -61,7 +61,7 @@ fr:
       add_new: Ajouter un groupe LDAP synchronisé
       destroy:
         confirmation: Si vous continuez, le groupe synchronisé %{name} et tous les utilisateurs %{users_count} synchronisés par le biais de celui-ci seront supprimés.
-        heading: Supprimer le groupe synchronisé %{name} ?
+        heading: Supprimer le groupe synchronisé %{name} ?
         info: Le groupe OpenProject lui-même et les membres ajoutés en dehors de cette synchronisation LDAP ne seront pas supprimés.
         title: Supprimer le groupe synchronisé %{name}
       form:
@@ -87,5 +87,5 @@ fr:
       upsell:
         description: Profitez des groupes LDAP synchronisés pour gérer les utilisateurs, modifier leurs autorisations et faciliter la gestion des utilisateurs à travers les groupes.
   plugin_openproject_ldap_groups:
-    description: Synchronisation des membres du groupe LDAP.
+    description: Synchronisation des appartenances aux groupes LDAP.
     name: Groupes LDAP OpenProject

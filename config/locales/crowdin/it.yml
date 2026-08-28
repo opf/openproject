@@ -1545,8 +1545,6 @@ it:
             manual_conversion_hint: Puoi scegliere di eseguire manualmente la conversione per abilitare più valori prima che avvenga la migrazione automatica.
             not_writable_hint: Queste impostazioni sono configurate tramite variabili di ambiente. Se desideri eseguire manualmente la conversione per abilitare più valori prima della migrazione automatica, aggiorna il file configuration.yml.
           heading: Versioni di destinazione
-          in_progress:
-            heading: Abilitazione di più versioni
           planned_changes:
             heading: Modifiche previste in una versione futura
             renamed: Il campo "Versione" verrà rinominato "Versioni di destinazione".
@@ -6070,7 +6068,8 @@ it:
           confirm_dialog:
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali
             description: Tutte le impostazioni selezionate verranno sovrascritte e potrebbero influenzare le informazioni esistenti sulle macro-attività di questo tipo.
-            title: Cambiare modalità di configurazione?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copia dal tipo
           description: Nessuna impostazione viene ereditata. Se lo desideri, puoi comunque copiare una tantum le impostazioni da un altro tipo.
           dialog:
@@ -6095,11 +6094,13 @@ it:
           confirm_dialog:
             change_source:
               description_html: Cambiando il tipo di origine a %{source_name}, sovrascriverai le impostazioni attuali e potresti modificare le informazioni esistenti nelle macro-attività di questo tipo.
-              title: Cambiare il tipo di origine?
+              heading: Change source type?
+              title: Change source type
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali
             from_independent:
               description: Tutte le impostazioni selezionate verranno sovrascritte e potrebbero influenzare le informazioni esistenti sulle macro-attività di questo tipo.
-              title: Cambiare modalità di configurazione?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Questa configurazione è collegata ed eredita le impostazioni dal tipo di origine [%{source_name}](source_url)%{source_suffix}.
           dialog:
             description: Copia ed eredita queste impostazioni da un'origine. Tutte le nuove configurazioni aggiunte all'origine verranno aggiunte anche qui.

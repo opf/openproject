@@ -1515,8 +1515,6 @@ zh-CN:
             manual_conversion_hint: 在自动迁移开始之前，您可以选择手动进行转换，以启用多个值。
             not_writable_hint: 这些设置通过环境变量进行配置。如果您想在自动迁移之前手动进行转换以启用多个值，请更新您的 configuration.yml 文件。
           heading: 目标版本
-          in_progress:
-            heading: 启用多个版本
           planned_changes:
             heading: 未来版本中的计划变更
             renamed: "“Version”（版本）字段将更名为“Target versions”（目标版本）。"
@@ -2503,7 +2501,7 @@ zh-CN:
   error_attribute_not_highlightable: 未高亮显示的属性：%{attributes}
   error_auth_source_sso_failed: 用户 "%{value}" 的单次登录 (SSO) 失败
   error_can_not_archive_project: 此项目无法存档：%{errors}
-  error_can_not_deactivate_type: 无法停用类型 %{type}，因为它仍在被 %{work_packages_link} 使用
+  error_can_not_deactivate_type: 无法停用类型“%{type}”，因为它仍在被 %{work_packages_link} 使用
   error_can_not_deactivate_type_invisible_projects: 项目中仍有一些您看不到的工作包。
   error_can_not_delete_custom_field: 无法删除自定义字段
   error_can_not_delete_entry: 无法删除条目
@@ -2973,7 +2971,7 @@ zh-CN:
   label_available_project_work_package_categories: 可用的工作包类别
   label_available_project_work_package_types: 可用的工作包类型
   label_available_projects: 可用的项目
-  label_backtrace: Backtrace
+  label_backtrace: 回溯
   label_backup: 备份
   label_backup_code: 备份代码
   label_basic_details: 基本详细信息
@@ -4812,7 +4810,7 @@ zh-CN:
       creation_wizard:
         enabled_because_required_html: 无法为此项目启动请求禁用此项目特性，因为它被定义为必选项。实例管理员可以在<a href=%{admin_settings_url} target="_blank">管理设置</a>中更改此设置。
         errors:
-          no_status_when_submitted: 无法启用项目启动请求，因为工作包类型 %{type} 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
+          no_status_when_submitted: 无法启用项目启动请求，因为工作包类型“%{type}” 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
           no_work_package_type: 无法启用项目启动请求，因为它至少需要一个有效工作包类型，但此项目没有。请为此项目至少添加一种工作包类型。
         export:
           description_attachment_export: 生成的工件将以 PDF 附件的形式保存到工件工作包中。
@@ -4916,7 +4914,7 @@ zh-CN:
         switch_dialog:
           apply: 应用
           description: 选择要在此项目中使用的此类型的其他变体。
-          success: 项目现在使用 %{type}。
+          success: 项目现在使用“%{type}”。
           target_label: 变体
           title: "%{type}：切换变体"
           warning: 如果您切换变体，与自定义字段相关联的信息可能会丢失，因为这些字段在新变体中可能不存在。
@@ -5011,7 +5009,7 @@ zh-CN:
       title_not_managed: 移除仓库
     errors:
       build_failed: 在所选的配置下无法创建存储库。%{reason}
-      disabled_or_unknown_type: 所选的类型 %{type} 是禁用状态或不再为SCM提供商 %{vendor} 可用。
+      disabled_or_unknown_type: 所选的类型“%{type}” 是禁用状态或不再为SCM提供商 %{vendor} 可用。
       disabled_or_unknown_vendor: SCM提供商 %{vendor} 是被禁用状态或不再可用。
       empty_repository: 存储库已存在，不过该库是空的。它还不包括任何版本。
       exception_title: 不能访问 %{message} 存储库
@@ -5998,7 +5996,8 @@ zh-CN:
           confirm_dialog:
             check_box: 我明白，这会覆盖当前设置
             description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-            title: 是否切换配置模式？
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: 从类型复制
           description: 任何设置都不会继承。如果需要，您仍可以从另一种类型中一次性复制设置。
           dialog:
@@ -6023,11 +6022,13 @@ zh-CN:
           confirm_dialog:
             change_source:
               description_html: 如果将源类型更改为 %{source_name}，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
-              title: 是否更改源类型？
+              heading: Change source type?
+              title: Change source type
             check_box: 我明白，这会覆盖当前设置
             from_independent:
               description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-              title: 是否切换配置模式？
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: 此配置已与源类型 [%{source_name}](source_url)%{source_suffix} 建立关联，并继承其设置。
           dialog:
             description: 从源类型中复制并继承此设置。源类型中添加的任何新配置也会添加到此处。
@@ -6205,7 +6206,7 @@ zh-CN:
         availability_description: 空闲系数表示您实际投入项目任务的工作时间百分比。这会考虑会议、电子邮件、管理工作和其他非项目活动。
         availability_factor: 空闲系数
         availability_factor_caption: 定义您投入项目工作的工作时间百分比。
-        effective_hours: Effective work hours
+        effective_hours: 有效工作时数
         hours_mode_label: 小时模式
         hours_per_day: 每天时数
         individual_hours_mode: 每天不同时数

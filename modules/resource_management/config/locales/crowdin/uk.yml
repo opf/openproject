@@ -289,10 +289,10 @@ uk:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          few: "%{count} members of this project match the allocation's filter criteria."
-          many: "%{count} members of this project match the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} учасник цього проєкту відповідає критеріям фільтрації виділення."
+          few: "%{count} учасники цього проєкту відповідають критеріям фільтрації виділення."
+          many: "%{count} учасників цього проєкту відповідають критеріям фільтрації виділення."
+          other: "%{count} учасника цього проєкту відповідають критеріям фільтрації виділення."
       blank:
         add_work_package: Додати пакет робіт
         configure_view: Налаштувати подання

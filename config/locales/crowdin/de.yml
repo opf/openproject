@@ -1541,8 +1541,6 @@ de:
             manual_conversion_hint: Sie können die Konvertierung auf Mehrfachauswahl manuell durchführen, bevor diese automatische Migration stattfindet.
             not_writable_hint: Diese Einstellungen werden über Umgebungsvariablen konfiguriert. Wenn Sie die Konvertierung zur Mehrfachauswahl manuell ausführen möchten, um diese vor der automatischen Migration zu aktivieren, passen Sie bitte Ihre „configuration.yml“ Datei an.
           heading: Zielversionen
-          in_progress:
-            heading: Mehrfachauswahl für Versionen wird aktiviert
           planned_changes:
             heading: Änderungen in zukünftigen Releases
             renamed: Das Feld „Version“ wird in „Zielversionen“ umbenannt.
@@ -6072,7 +6070,8 @@ de:
           confirm_dialog:
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
-            title: Konfigurationsmodus wechseln?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Kopiere vom Typ
           description: Es werden keine Einstellungen übernommen. Falls gewünscht, können Sie dennoch einmalig Einstellungen von einem anderen Typ kopieren.
           dialog:
@@ -6097,11 +6096,13 @@ de:
           confirm_dialog:
             change_source:
               description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
-              title: Quelltyp ändern?
+              heading: Change source type?
+              title: Change source type
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_independent:
               description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
-              title: Konfigurationsmodus wechseln?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Diese Konfiguration ist mit dem Quelltyp [%{source_name}](source_url)%{source_suffix} verknüpft und übernimmt dessen Einstellungen.
           dialog:
             description: Kopieren Sie diese Einstellungen von einer Quelle und übernehmen Sie sie. Alle neuen Konfigurationen, die der Quelle hinzugefügt werden, werden auch hier hinzugefügt.

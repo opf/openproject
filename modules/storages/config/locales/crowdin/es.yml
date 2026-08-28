@@ -126,7 +126,7 @@ es:
       sharepoint_sync_service:
         create_folder: 'Creación de carpetas de proyecto gestionadas:'
         ensure_root_folder_permissions: 'Establecer permisos de carpeta base:'
-        hide_inactive_folders: 'Ocultar paso de carpetas inactivas:'
+        hide_inactive_folders: 'Paso de ocultar carpetas inactivas:'
         remote_folders: 'Leer el contenido de la carpeta raíz de la unidad:'
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
         set_folder_permission: 'Configurar los permisos de la carpeta del proyecto gestionado:'
@@ -431,7 +431,7 @@ es:
         application_link_text: Sitio de SharePoint
         integration: Administración de SharePoint / OpenProject
         oauth_configuration: Copie estos valores de la aplicación deseada en %{application_link_text}.
-        provider_configuration: Asegúrese de tener privilegios de administración en la %{application_link_text} o póngase en contacto con el administrador de Microsoft antes de realizar la configuración. En el portal, también es necesario registrar una aplicación Azure o utilizar una ya existente para la autenticación.
+        provider_configuration: Asegúrese de tener privilegios de administración en %{application_link_text} o póngase en contacto con el administrador de Microsoft antes de realizar la configuración. En el portal, también es necesario registrar una aplicación Azure o utilizar una ya existente para la autenticación.
       type: 'Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:'
       type_link_text: "“Integración OpenProject”"
     label_active: Activo

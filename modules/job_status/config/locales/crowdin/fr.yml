@@ -17,5 +17,5 @@ fr:
     title: Statut de la tâche en arrière-plan
   label_job_status_plural: Statuts de tâches
   plugin_openproject_job_status:
-    description: Liste et état des tâches d'arrière-plan.
-    name: Statut de tâches OpenProject
+    description: Liste et statut des tâches d'arrière-plan.
+    name: Statut des tâches OpenProject

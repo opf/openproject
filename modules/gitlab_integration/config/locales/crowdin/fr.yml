@@ -39,7 +39,7 @@ fr:
             labels:
               invalid_schema: 'doit être un tableau de hachages avec les clés : color, title'
   attributes:
-    commit: Appliquer
+    commit: Commit
     gitlab: Identifiant GitLab
     gitlab_avatar_url: URL de l'avatar
     gitlab_email: E-mail GitLab
