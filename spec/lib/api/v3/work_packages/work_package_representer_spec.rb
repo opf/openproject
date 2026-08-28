@@ -1595,6 +1595,30 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
       end
+
+      context "when allowed to manage the project's own variants" do
+        let(:permissions) { all_permissions + [:manage_project_variants] }
+        let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+        let(:workspace) { create(:project, types: [variant]) }
+        let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+        context "when the project owns the applied variant" do
+          before { variant.update!(project: workspace) }
+
+          it_behaves_like "has a titled link" do
+            let(:link) { "configureForm" }
+            let(:href) { edit_type_form_configuration_path(**variant.path_args) }
+            let(:title) { "Configure form" }
+          end
+        end
+
+        # The type-level URL these resolve to is administration's alone, so a link would only 403.
+        context "when the applied variant belongs to no project" do
+          it_behaves_like "has no link" do
+            let(:link) { "configureForm" }
+          end
+        end
+      end
     end
 
     describe "customActions" do
