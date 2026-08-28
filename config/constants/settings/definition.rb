@@ -861,7 +861,16 @@ module Settings
         description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
                      "users, or nobody (except the break-glass whitelist).",
         format: :string,
-        default: "all",
+        default: lambda {
+          if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
+            "none"
+          else
+            "all"
+          end
+        },
+        writable: lambda {
+          OpenProject::Configuration::TRUE_VALUES.exclude?(OpenProject::Configuration["disable_password_login"])
+        },
         allowed: %w[all except_sso none]
       },
       password_login_bypass_logins: {
@@ -1965,8 +1974,3 @@ module Settings
   end
 end
 # rubocop:enable Metrics/CollectionLiteralLength
-
-# OPENPROJECT_DISABLE__PASSWORD__LOGIN remains the ENV alias for mode 3.
-Settings::Definition.add_value_override(:password_login) do
-  "none" if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
-end

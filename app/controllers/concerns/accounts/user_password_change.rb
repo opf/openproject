@@ -42,25 +42,12 @@ module Accounts::UserPasswordChange
     # auth sources in the admin UI, so this shouldn't normally happen.
     return if redirect_if_password_change_not_allowed(user)
 
-    # Check if user is locked due to too many failed attempts
-    if user.failed_too_many_recent_login_attempts?
-      flash_and_log_invalid_credentials(is_logged_in: !show_user_name)
-      return render_password_change(user, nil, show_user_name:)
-    end
+    rejection = reject_password_change_attempt(user, params, update_legacy:, show_user_name:)
+    return rejection if rejection
 
-    # Ensure the current password is validated
-    unless user.check_password?(params[:password], update_legacy:)
-      user.log_failed_login
-      flash_and_log_invalid_credentials(is_logged_in: !show_user_name)
-      return render_password_change(user, nil, show_user_name:)
-    end
-
-    # Call the service to set the new password
     call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
 
-    # Yield the success to the caller
     if call.success?
-      # Reset failed login count on successful password change
       User.reset_failed_login_count_for(user)
 
       response = yield call
@@ -69,8 +56,25 @@ module Accounts::UserPasswordChange
       return response
     end
 
-    # Render the username to hint to a user in case of a forced password change
     render_password_change user, call.message, show_user_name:
+  end
+
+  def reject_password_change_attempt(user, params, update_legacy:, show_user_name:)
+    if user.failed_too_many_recent_login_attempts?
+      return invalid_password_change_response(user, show_user_name:)
+    end
+
+    unless user.check_password?(params[:password], update_legacy:)
+      user.log_failed_login
+      return invalid_password_change_response(user, show_user_name:)
+    end
+
+    nil
+  end
+
+  def invalid_password_change_response(user, show_user_name:)
+    flash_and_log_invalid_credentials(is_logged_in: !show_user_name)
+    render_password_change(user, nil, show_user_name:)
   end
 
   def render_password_change(user, message, show_user_name: false)

@@ -212,19 +212,19 @@ module OpenProject
         self["lookbook_enabled"]
       end
 
-      # Raw ENV/config value. Defined explicitly so +method_missing+ cannot
-      # overwrite {#disable_password_login?} with a boolean-only predicate.
+      # Defined explicitly so +method_missing+ does not replace the mapped
+      # {#disable_password_login?} predicate with the legacy boolean value.
       def disable_password_login
         self["disable_password_login"]
       end
 
-      # True when password login is off for the whole instance (tri-state mode
-      # +none+, or the legacy ENV +disable_password_login+).
+      # True when the mapped password-login mode disables it instance-wide.
       def disable_password_login?
-        return true if TRUE_VALUES.include?(disable_password_login)
-        return true if self["password_login"] == "none"
-
-        defined?(Setting) && Setting.respond_to?(:password_login) && Setting.password_login == "none"
+        if defined?(Setting) && Setting.respond_to?(:password_login)
+          Setting.password_login == "none"
+        else
+          self["password_login"] == "none"
+        end
       end
 
       def ssrf_protection_ip_allowlist

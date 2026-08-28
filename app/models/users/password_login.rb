@@ -33,8 +33,8 @@ module Users
   #
   # Modes:
   # * +all+ — anyone with a password
-  # * +except_sso+ — OmniAuth-linked users are refused unless they are on the whitelist
-  # * +none+ — nobody, except the whitelist (and the ENV login overlay)
+  # * +except_sso+ — Users that are not connected to an SSO auth provider
+  # * +none+ — Only users on the whitelist may use their internal password
   module PasswordLogin
     ALL = "all"
     EXCEPT_SSO = "except_sso"
@@ -44,8 +44,6 @@ module Users
     module_function
 
     def mode
-      return NONE if OpenProject::Configuration.disable_password_login?
-
       value = Setting.password_login
       MODES.include?(value) ? value : ALL
     end
@@ -53,6 +51,7 @@ module Users
     def all? = mode == ALL
     def except_sso? = mode == EXCEPT_SSO
     def none? = mode == NONE
+    def enabled? = !none?
     def restricted? = !all?
 
     def allowed?(user)
