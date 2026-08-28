@@ -45,11 +45,11 @@ pt-PT:
           non_object_attribute: não define um objeto JSON em %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: Fornecedor do OpenID Connect
+        other: Fornecedores do OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: Token OpenID Connect
+        other: Tokens OpenID Connect
   logout_warning: 'A sua sessão foi terminada. O conteúdo de qualquer formulário que enviar poderá ser perdido. Por favor [inicie a sessão].
 
     '
@@ -83,7 +83,7 @@ pt-PT:
       group_regexes_testing: Clique em "Testar padrão" para testar o seu padrão de expressão regular em relação a um exemplo de informação de utilizador do OIDC.
       group_sync: Extraia e sincronize automaticamente as informações de associação de grupos do fornecedor de identidade.
       groups_claim: Especifique o nome da afirmação que se espera que indique os nomes dos grupos de que o utilizador é membro.
-      limit_self_registration: Se estiver ativado, os utilizadores só podem registar-se utilizando este fornecedor se a configuração do fornecedor o permitir.
+      limit_self_registration: Se esta opção estiver ativada, os utilizadores só poderão registar-se através deste prestador se a configuração do prestador o permitir.
       mapping_admin: 'Forneça um mapeamento personalizado na resposta userinfo a ser utilizado para o estado do administrador. Espera que seja devolvido um atributo booleano.
 
         '

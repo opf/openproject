@@ -24,7 +24,7 @@ ko:
   activerecord:
     models:
       cost_query:
-        other: Cost reports
+        other: 비용 보고서
   button_save_report_as: 다른 이름으로 보고서로 저장...
   comments: 코멘트
   cost_reports_title: 시간 및 비용

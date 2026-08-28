@@ -40,23 +40,23 @@ pt-BR:
               must_be_work_package_query: deve ser uma consulta de pacote de trabalho.
     models:
       resource_allocation:
-        one: Resource Allocation
-        other: Resource Allocations
+        one: Alocação de recursos
+        other: Alocações de recursos
       resource_planner:
-        one: Resource Planner
-        other: Resource Planners
+        one: Planejador de recursos
+        other: Planejadores de recursos
       resource_user_card:
-        one: User card
-        other: User cards
+        one: Cartão do usuário
+        other: Cartões do usuário
       resource_user_timeline:
-        one: User timeline
-        other: User timelines
+        one: Linha do tempo do usuário
+        other: Linhas do tempo do usuário
       resource_work_package_list:
-        one: Work packages list
-        other: Work packages lists
+        one: Lista de pacotes de trabalho
+        other: Listas de pacotes de trabalho
       resource_work_package_timeline:
-        one: Work packages timeline
-        other: Work packages timelines
+        one: Linha do tempo dos pacotes de trabalho
+        other: Linhas do tempo dos pacotes de trabalho
   button_next: Próximo
   ee:
     features:
@@ -299,8 +299,8 @@ pt-BR:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} membro deste projeto corresponde aos critérios de filtro da alocação."
+          other: "%{count} membros deste projeto correspondem aos critérios de filtro da alocação."
       blank:
         add_work_package: Adicionar pacote de trabalho
         configure_view: Configurar exibição

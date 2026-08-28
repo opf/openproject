@@ -54,7 +54,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     result = ::Projects::Types::AddService.new(user: current_user, model: @project).call(variant:)
 
     result.on_success do
-      close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(Projects::Settings::WorkPackages::Types::AddDialogComponent::DIALOG_ID)
       replace_types_list
     end
 

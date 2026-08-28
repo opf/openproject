@@ -23,25 +23,30 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Admin
-    module WikiProvidersHelper
-      # TODO: temp helper — unblocks work until a proper per-user connection status
-      # is tracked and surfaced via a dedicated component.
-      def current_user_xwiki_token_missing?(wiki_provider)
-        oauth_client = wiki_provider.oauth_client
-        return false if oauth_client.nil?
+# Who may author a variant. A global one is instance configuration and stays with the
+# administrators; one a project owns may also be authored from inside that project.
+#
+module AuthorizesVariantAuthoring
+  extend ActiveSupport::Concern
 
-        token = OAuthClientToken.find_by(user: current_user, oauth_client:)
-        return true if token.nil?
-
-        token.expires_in.present? && token.updated_at + token.expires_in.seconds < Time.current
-      end
-    end
+  included do
+    validate :validate_may_author_variant
   end
+
+  def validate_may_author_variant
+    return errors.add(:base, :error_unauthorized) unless user.active?
+    return if user.admin?
+    return if owning_project && user.allowed_in_project?(:manage_project_variants, owning_project)
+
+    errors.add(:base, :error_unauthorized)
+  end
+
+  private
+
+  def owning_project = model.project
 end

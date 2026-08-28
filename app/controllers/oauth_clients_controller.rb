@@ -82,10 +82,8 @@ class OAuthClientsController < ApplicationController
     integration = oauth_client.integration
     destination_url = destination_url(params.fetch(:destination_url, ""))
     configuration = integration.oauth_configuration
-    connection = ::OAuthClients::ConnectionManager.new(user: User.current, configuration:)
-                                                  .get_access_token
 
-    if connection.success?
+    if ::OAuthClients::TokenFetcher.new(user: User.current).connected?(oauth_client: configuration.oauth_client)
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid

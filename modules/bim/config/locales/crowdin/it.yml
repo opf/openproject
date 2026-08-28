@@ -7,10 +7,10 @@ it:
         bim_snippet: Snippet BIM
         reference_links: Link di riferimento
         stage: Fase
-        status_id: Status
+        status_id: Stato
         viewpoint: Punto di vista
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: Stato
       bim/ifc_models/ifc_model:
         attachments: File IFC
         ifc_attachment: File IFC
@@ -39,17 +39,17 @@ it:
               invalid_ifc_file: Il file fornito non è un file IFC valido.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        other: BCF comments
+        one: Commento BCF
+        other: Commenti BCF
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: Problema BCF
+        other: Problemi BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        other: BCF viewpoints
+        one: Punto di vista BCF
+        other: Punti di vista BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
-        other: IFC models
+        one: Modello IFC
+        other: Modelli IFC
   attributes:
     bcf_thumbnail: Snapshot BCF
   bcf:

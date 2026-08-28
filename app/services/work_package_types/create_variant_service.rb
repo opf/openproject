@@ -30,6 +30,8 @@ module WorkPackageTypes
   # It starts out Linked to the type's base variant for every aspect, which is what makes it a
   # variation of that configuration rather than an empty one. Each aspect goes Independent
   # later, when someone edits it.
+  # Pass +project+ to make the variant that project's own. Whether the user may is
+  # CreateVariantContract's business.
   class CreateVariantService < ::BaseServices::Create
     def initialize(user:, type:, contract_class: nil, contract_options: {})
       @type = type

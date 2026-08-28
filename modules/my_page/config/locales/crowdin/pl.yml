@@ -3,9 +3,9 @@ pl:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        few: My pages
-        many: My pages
-        other: My pages
+        one: Moja strona
+        few: Moje strony
+        many: Moje strony
+        other: Moje strony
   my_page:
     label: Moja strona

@@ -13,18 +13,18 @@ es:
           meeting_agenda_items:
             item_0:
               title: Buenas noticias
-              notes: What went well this week?
+              notes: "¿Qué ha salido bien esta semana?"
             item_1:
-              title: Team updates
-              notes: News and focused topics for the upcoming week.
+              title: Actualizaciones del equipo
+              notes: Noticias y temas destacados para la próxima semana.
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**Tema de hoy**: organización de la conferencia de código abierto."
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: Revisión de los objetivos trimestrales
+              notes: Evaluación del estado y el avance de los objetivos trimestrales definidos.
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: Comentarios sobre los valores fundamentales
+              notes: Destacar a los empleados que hayan puesto en práctica los valores fundamentales esta semana.
             item_5:
-              title: General topics
-              notes: Solving or discussing topics together.
+              title: Temas generales
+              notes: Resolución o debate conjunto sobre temas.

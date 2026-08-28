@@ -37,13 +37,17 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
   let(:start_date) { Date.new(2024, 1, 1) }
   let(:finish_date) { Date.new(2024, 1, 10) }
   let(:status) { "in_planning" }
+  let(:started_at) { Time.zone.local(2024, 1, 1, 9, 0) }
+  let(:completed_at) { Time.zone.local(2024, 1, 10, 17, 0) }
   let(:sprint) do
     build_stubbed(:sprint,
                   project: workspace,
                   status:,
                   name: "Sprint 1",
                   start_date:,
-                  finish_date:)
+                  finish_date:,
+                  started_at:,
+                  completed_at:)
   end
   let(:current_user) { build_stubbed(:user) }
   let(:embed_links) { true }
@@ -134,6 +138,20 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
       it_behaves_like "has ISO 8601 date only" do
         let(:date) { finish_date }
         let(:json_path) { "finishDate" }
+      end
+    end
+
+    describe "startedAt" do
+      it_behaves_like "has UTC ISO 8601 date and time" do
+        let(:date) { started_at }
+        let(:json_path) { "startedAt" }
+      end
+    end
+
+    describe "completedAt" do
+      it_behaves_like "has UTC ISO 8601 date and time" do
+        let(:date) { completed_at }
+        let(:json_path) { "completedAt" }
       end
     end
 

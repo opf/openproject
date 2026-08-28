@@ -7,10 +7,10 @@ pt-PT:
         bim_snippet: Snippet BIM
         reference_links: Links de referência
         stage: Fase
-        status_id: Status
+        status_id: Estado
         viewpoint: Ponto de vista
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: Estado
       bim/ifc_models/ifc_model:
         attachments: Ficheiro IFC
         ifc_attachment: Ficheiro IFC
@@ -20,8 +20,8 @@ pt-PT:
         bim/bcf/issue:
           uuid_already_taken: Não é possível importar este assunto BCF, pois já existe outro com o mesmo GUID. Este assunto do BCF pode já ter sido importado para um projeto diferente?
         bim/bcf/viewpoint:
-          bitmaps_not_writable: Os bitmaps não são graváveis pois ainda não estão implementados.
-          index_not_integer: o índice não é um numero inteiro.
+          bitmaps_not_writable: não é possível gravar em bitmaps porque ainda não foi implementado.
+          index_not_integer: o índice não é um número inteiro.
           invalid_clipping_planes: clipping_planes é inválido.
           invalid_components: componentes inválidos.
           invalid_lines: linhas inválidas.
@@ -39,17 +39,17 @@ pt-PT:
               invalid_ifc_file: O ficheiro fornecido não é um ficheiro IFC válido.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        other: BCF comments
+        one: Comentário BCF
+        other: Comentários BCF
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: Problema de BCF
+        other: Problemas de BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        other: BCF viewpoints
+        one: Ponto de vista BCF
+        other: Pontos de vista BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
-        other: IFC models
+        one: Modelo IFC
+        other: Modelos IFC
   attributes:
     bcf_thumbnail: Instantâneo BCF
   bcf:

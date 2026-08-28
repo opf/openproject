@@ -3,7 +3,11 @@ zh-CN:
   activerecord:
     models:
       grids/overview:
-        other: Overviews
+        other: |-
+          One
+          概览
+          Other
+          概览
   overviews:
     label_dashboard: 仪表板
     label_home: "%{workspace_type} 首页"

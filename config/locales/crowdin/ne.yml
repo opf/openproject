@@ -76,6 +76,13 @@ ne:
         dependencies: Dependencies
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Display until
       attachment:
@@ -464,6 +471,7 @@ ne:
           true: include non-working days
         journal_internal: Internal Journal
         notify: Notify
+        observed_in_versions: Observed in versions
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -975,6 +983,9 @@ ne:
       action:
         one: Action
         other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
       announcement:
         one: Announcement
         other: Announcements
@@ -3290,6 +3301,7 @@ ne:
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: उपलब्ध कार्य प्याकेजको प्रकारहरू
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
   label_basic_details: Basic details
   label_between: between
@@ -4815,6 +4827,8 @@ ne:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -5232,13 +5246,28 @@ ne:
           enable_type_in_project: Enable type "%{type}"
         no_results_title_text: There are currently no types available.
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -6256,7 +6285,12 @@ ne:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

@@ -44,6 +44,26 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     new_creation_wizard_types_path(type_id: type.id, back_url: type_variants_path(type_id: type.id))
   end
 
+  # The types index counts these rather than listing them, so this tab is where an administrator
+  # sees whose they are.
+  context "with a variant a project owns" do
+    shared_let(:owning_project) { create(:project, name: "Apollo") }
+    shared_let(:owned) do
+      create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Internal")
+    end
+
+    it "attributes it to the project owning it" do
+      expect(rendered_component).to have_text("Owned by Apollo")
+    end
+
+    it "links it into the project owning it" do
+      expect(rendered_component)
+        .to have_link("Internal",
+                      href: edit_type_details_path(in_project_id: owning_project,
+                                                   type_id: type.id, variant_id: owned.id))
+    end
+  end
+
   context "with named variants" do
     let!(:zeta) { create(:type_variant, type:, variant_name: "Zeta") }
     let!(:alfa) { create(:type_variant, type:, variant_name: "Alfa") }

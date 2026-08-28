@@ -40,17 +40,17 @@ es:
               invalid_schema: 'debe ser una matriz de hashes con las claves: color, título'
     models:
       gitlab_issue:
-        one: GitLab issue
-        other: GitLab issues
+        one: Incidencia de GitLab
+        other: Incidencias de GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        other: GitLab merge requests
+        one: Solicitud de fusión de GitHub
+        other: Solicitudes de fusión de GitHub
       gitlab_pipeline:
-        one: GitLab pipeline
-        other: GitLab pipelines
+        one: Canalización de GitLab
+        other: Canalizaciones de GitLab
       gitlab_user:
-        one: GitLab user
-        other: GitLab users
+        one: Usuario de GitLab
+        other: Usuarios de GitLab
   attributes:
     commit: Commit
     gitlab: Identificador de GitLab

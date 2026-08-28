@@ -55,6 +55,26 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       )
     end
 
+    # A new project would start on a configuration only the owning project can see, so this is
+    # not an action a project-owned variant has. TypeVariant refuses it as well.
+    context "when a project owns the variant" do
+      shared_let(:owned) do
+        create(:project_owned_type_variant, type: root_type, project: create(:project), variant_name: "Internal")
+      end
+
+      subject(:rendered_component) { render_inline(described_class.new(variant: owned)) }
+
+      it "offers no activating in new projects", :aggregate_failures do
+        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.make_default")
+        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.remove_default")
+      end
+
+      it "still offers configuring and deleting it", :aggregate_failures do
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure)
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
+      end
+    end
+
     context "when the variant is the one new projects start with" do
       before { variant.update!(enabled_in_new_projects: true) }
 

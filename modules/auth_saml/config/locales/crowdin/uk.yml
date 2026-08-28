@@ -3,6 +3,7 @@ uk:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Допустима різниця в часі
         assertion_consumer_service_url: URL-адреса ACS (Служба підтримки споживачів)
         authn_requests_signed: Підписувати запити SAML AuthnRequest
         certificate: Сертифікат, який OpenProject використовує для запитів SAML
@@ -34,10 +35,10 @@ uk:
           unmatched_private_key: не належить до даного сертифікату
     models:
       saml/provider:
-        one: SAML provider
-        few: SAML providers
-        many: SAML providers
-        other: SAML providers
+        one: Постачальник SAML
+        few: Постачальники SAML
+        many: Постачальники SAML
+        other: Постачальники SAML
   saml:
     delete_heading: Видалити цього постачальника SAML?
     delete_title: Видалити постачальника SAML
@@ -47,6 +48,9 @@ uk:
         '
       title: Параметри конфігурації протоколу SAML
     instructions:
+      allowed_clock_drift: 'Допуск у секундах, що застосовується для перевірки часових міток у відповіді постачальника ідентифікаційних даних. Можна вказувати значення, менші за секунду. Застосовуйте цей параметр, лише якщо відомо, що годинники OpenProject і постачальника ідентифікаційних даних не синхронізовано. При цьому слід використовувати якомога менше значення (за умовчанням указано «0»).
+
+        '
       authn_requests_signed: 'Якщо вибрано, OpenProject підписуватиме запити SAML AuthnRequest. Вам потрібно буде надати сертифікат підпису й закритий ключ за допомогою полів нижче.
 
         '

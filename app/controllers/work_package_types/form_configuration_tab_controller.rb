@@ -34,8 +34,6 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::FormConfigurationComponentStreams
 
-    layout "admin"
-
     current_menu_item [:edit, :update, :reset_dialog, :move, :drop, :destroy] do
       :types
     end

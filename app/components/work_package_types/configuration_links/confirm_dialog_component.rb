@@ -59,6 +59,14 @@ module WorkPackageTypes
         end
       end
 
+      def heading
+        if changing_source?
+          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.heading")
+        else
+          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.heading")
+        end
+      end
+
       def switch_path
         type_configuration_link_switch_path(**variant.path_args, aspect:)
       end

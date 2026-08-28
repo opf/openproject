@@ -46,7 +46,13 @@ module Projects::EnabledTypes
     def type_variant(type)
       return if type.nil?
 
-      project_types.find_by(type_id: type.id)&.variant || type.default_variant
+      project_type = if association(:project_types).loaded?
+                       project_types.find { |candidate| candidate.type_id == type.id }
+                     else
+                       project_types.find_by(type_id: type.id)
+                     end
+
+      project_type&.variant || type.default_variant
     end
 
     def type_variants(*types)

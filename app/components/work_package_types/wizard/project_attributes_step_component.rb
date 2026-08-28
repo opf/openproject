@@ -57,7 +57,7 @@ module WorkPackageTypes
       end
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
+        type_creation_wizard_path(**model.path_args, step: :project_attributes)
       end
     end
   end

@@ -58,13 +58,7 @@ module WorkPackageTypes
       end
 
       def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          *parent_breadcrumb_item,
-          title
-        ]
+        [*helpers.variant_scope_breadcrumb_roots, *parent_breadcrumb_item, title]
       end
 
       def parent_breadcrumb_item
@@ -73,7 +67,7 @@ module WorkPackageTypes
 
       def cancel_href
         return back_url if back_url.present?
-        return types_path unless type.persisted?
+        return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
         edit_type_details_path(type_id: type.id)
       end
@@ -85,10 +79,16 @@ module WorkPackageTypes
       # A type still being created has no variant to address yet.
       def variant_path_args = variant&.path_args || { type_id: type.id }
 
+      # Named here because this route is on the type collection: no segment of the request
+      # matches it, so the form would otherwise post to administration.
       def step_form_url
         return step_url if record_persisted?
 
-        adding_variant? ? creation_wizard_types_path(type_id: type.id, back_url:) : creation_wizard_types_path(back_url:)
+        scope = { in_project_id: helpers.variant_scope_project, back_url: }
+
+        return creation_wizard_types_path(type_id: type.id, **scope) if adding_variant?
+
+        creation_wizard_types_path(**scope)
       end
 
       def step_form_method

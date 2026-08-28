@@ -48,6 +48,7 @@ class TypeVariant
       end
 
       validate :sources_would_not_create_a_cycle
+      validate :sources_are_available_to_this_variant
       before_destroy :ensure_nothing_links_here
     end
 
@@ -368,6 +369,13 @@ class TypeVariant
       source.export_templates_order
     end
 
+    def export_templates_settings
+      source = linked_configuration_source(TypeVariant::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_settings
+    end
+
     # Follows the reader-override pattern above, but yields this variant's own groups while a
     # change is pending: the switch-to-Independent copy assigns groups and reads them back to
     # sync active custom fields while the link still exists
@@ -417,6 +425,18 @@ class TypeVariant
         next if source_id.blank?
 
         errors.add(:"#{aspect}_source_id", :would_create_cycle) if reaches_self?(source_id, aspect)
+      end
+    end
+
+    # A rule about the variant, not about who is editing it: an administrator sees every
+    # project's variants, and linking one project's configuration into another's would tie the
+    # two together.
+    def sources_are_available_to_this_variant
+      TypeVariant::ASPECTS.each do |aspect|
+        source = public_send(:"#{aspect}_source")
+        next if source.nil? || source.project_id.nil? || source.project_id == project_id
+
+        errors.add(:"#{aspect}_source_id", :must_be_available_to_the_variant)
       end
     end
 

@@ -45,15 +45,15 @@ pl:
           non_object_attribute: nie definiuje obiektu JSON w %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        few: OpenID Connect providers
-        many: OpenID Connect providers
-        other: OpenID Connect providers
+        one: Dostawca OpenID Connect
+        few: Dostawcy OpenID Connect
+        many: Dostawcy OpenID Connect
+        other: Dostawcy OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        few: OpenID Connect tokens
-        many: OpenID Connect tokens
-        other: OpenID Connect tokens
+        one: Token OpenID Connect
+        few: Tokeny OpenID Connect
+        many: Tokeny OpenID Connect
+        other: Tokeny OpenID Connect
   logout_warning: 'Wylogowano cię. Zawartość każdego przesłanego formularza może zostać utracona. [Zaloguj się].
 
     '
