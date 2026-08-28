@@ -42,7 +42,7 @@ If you are unsure whether breadcrumbs should be omitted on a particular page, pl
 **To intentionally render a PageHeader without breadcrumbs, always pass nil explicitly**
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { "Hello" }
       header.with_breadcrumbs(nil)
@@ -52,7 +52,7 @@ If you are unsure whether breadcrumbs should be omitted on a particular page, pl
         "Star"
       end
     end
-  %&gt;
+  %>
 ```
 
 ## Best practices
@@ -133,13 +133,13 @@ The PageHeader can be called directly in any `show`/`edit`/`index`/... `.html.er
 
 ```html
   <!-- app/views/module_a/index.html.erb -->
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { "Some title" }
       header.with_breadcrumbs([{ href: "/foo", text: "Foo" },
                                "Bar"])
     end
-  %&gt;
+  %>
 ```
 
 As soon as the header is more complex, it is recommended to extract it into a separate component. A good rule of thumb is to extract the PageHeader as soon as there are actions involved, because it will increase the component code significantly.
@@ -185,7 +185,7 @@ end
 
 ```html
   <!-- app/components/module_a/index_page_header_component.html.erb -->
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { 'Some title' }
       header.with_breadcrumbs(breadcrumb_items)
@@ -194,10 +194,10 @@ end
 
       #... additional logic
     end
-  %&gt;
+  %>
 ```
 
 ```html
   <!-- app/views/module_a/index.html.erb -->
-  &lt;%= render(ModuleA::IndexPageHeaderComponent.new) %&gt;
+  <%%= render(ModuleA::IndexPageHeaderComponent.new) %>
 ```
