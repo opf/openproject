@@ -471,6 +471,7 @@ it:
           true: includi giorni non lavorativi
         journal_internal: Diario interno
         notify: Notifica
+        observed_in_versions: Observed in versions
         parent: Superiore
         parent_issue: Superiore
         parent_work_package: Superiore
@@ -3302,6 +3303,7 @@ it:
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
   label_available_projects: Progetti disponibili
+  label_backtrace: Backtrace
   label_backup: Backup
   label_basic_details: Informazioni base
   label_between: tra
@@ -4826,6 +4828,8 @@ it:
     dialog:
       footer_center:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Testo del piè di pagina
       footer_right:
         caption: Questo testo apparirà in ogni pagina a destra nel piè di pagina.
@@ -6275,7 +6279,12 @@ it:
           label: Modelli di esportazione PDF
         tab: Genera PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Modelli di esportazione PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Sezione
         add_query_group: Tabella di macro-attività correlate

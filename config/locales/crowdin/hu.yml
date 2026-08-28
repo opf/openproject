@@ -473,6 +473,7 @@ hu:
           true: Munkaszüneti napok beleszámítva
         journal_internal: Internal Journal
         notify: Értesítés
+        observed_in_versions: Observed in versions
         parent: Szülő
         parent_issue: Szülő
         parent_work_package: Szülő
@@ -3356,6 +3357,7 @@ hu:
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag kategóriák
   label_available_project_work_package_types: Rendelkezésre álló munkacsomag típusok
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Biztonsági mentés
   label_basic_details: Basic details
   label_between: között
@@ -4925,6 +4927,8 @@ hu:
     dialog:
       footer_center:
         caption: Ez a szöveg minden oldalon, a fejléc közepén fog megjelenni.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Lábléc szöveg
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -6387,7 +6391,12 @@ hu:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF-exportálási sablonok
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

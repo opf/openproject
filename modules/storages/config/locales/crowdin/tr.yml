@@ -66,7 +66,7 @@ tr:
             host:
               authorization_header_missing: tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
               cannot_be_connected_to: ulaşılamadı. Lütfen ana bilgisayara erişilebildiğinden ve OpenProject entegrasyon uygulamasının yüklü olduğundan emin olun.
-              minimal_nextcloud_version_unmet: minimum sürüm gereksinimlerini karşılamıyor (Nextcloud 23 veya üstü olmalıdır)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: bir Nextcloud sunucusu değil
               op_application_not_installed: '"OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.'
             password:
@@ -151,6 +151,7 @@ tr:
         error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:

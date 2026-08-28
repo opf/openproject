@@ -27,7 +27,7 @@ fr:
     label_hours: heures
     myTimeTracking:
       noSpecificTime: Aucune heure spécifique
-    text_are_you_sure: Êtes-vous sûr ?
+    text_are_you_sure: Confirmez-vous ?
     work_packages:
       properties:
         overallCosts: Coûts globaux

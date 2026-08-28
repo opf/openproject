@@ -471,6 +471,7 @@ ru:
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
         notify: Уведомлять
+        observed_in_versions: Observed in versions
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
@@ -3584,6 +3585,7 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
+  label_backtrace: Backtrace
   label_backup: Резервное копирование
   label_basic_details: Основные детали
   label_between: между
@@ -5132,6 +5134,8 @@ ru:
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Текст нижнего колонтитула
       footer_right:
         caption: Этот текст появится на каждой странице с правой стороны нижнего колонтитула.
@@ -6580,7 +6584,12 @@ ru:
           label: Шаблоны экспорта в PDF
         tab: Создать PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Шаблоны экспорта в PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Секция
         add_query_group: Таблица связанных пакетов работ

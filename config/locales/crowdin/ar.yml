@@ -471,6 +471,7 @@ ar:
           true: include non-working days
         journal_internal: Internal Journal
         notify: Notify
+        observed_in_versions: Observed in versions
         parent: الجذر
         parent_issue: الجذر
         parent_work_package: الجذر
@@ -3866,6 +3867,7 @@ ar:
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
   label_basic_details: Basic details
   label_between: بين
@@ -5445,6 +5447,8 @@ ar:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -6907,7 +6911,12 @@ ar:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

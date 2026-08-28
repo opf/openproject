@@ -471,6 +471,7 @@ zh-TW:
           true: 包含非工作日
         journal_internal: 內部日誌
         notify: 通知
+        observed_in_versions: Observed in versions
         parent: 上層目錄：
         parent_issue: 上層工作套件
         parent_work_package: 上層工作套件
@@ -3162,6 +3163,7 @@ zh-TW:
   label_available_project_work_package_categories: 可用的工作套件類別
   label_available_project_work_package_types: 可用的工作套件類型
   label_available_projects: 可用專案
+  label_backtrace: Backtrace
   label_backup: 備份
   label_basic_details: 基本訊息
   label_between: 介於
@@ -4677,6 +4679,8 @@ zh-TW:
     dialog:
       footer_center:
         caption: 此文字將會出現在每一頁頁尾的中心。
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: 頁尾文字
       footer_right:
         caption: 此文字將會出現在每一頁頁尾右邊。
@@ -6124,7 +6128,12 @@ zh-TW:
           label: PDF匯出範本
         tab: 產生PDF檔案
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

@@ -77,12 +77,12 @@ zh-CN:
   activerecord:
     attributes:
       ai/text_transform_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
-        prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        active: 激活
+        injects_type_template: 插入工作包类型模板
+        label: 标签
+        prompt: 提示
+        types: 工作包类型
+        usage_scope: 范围
       announcements:
         show_until: 显示截止日期
       attachment:
@@ -471,6 +471,7 @@ zh-CN:
           true: 包括非工作日
         journal_internal: 内部日记
         notify: 通知
+        observed_in_versions: Observed in versions
         parent: 父级
         parent_issue: 父级
         parent_work_package: 父级
@@ -977,113 +978,309 @@ zh-CN:
           other: "%{count} 个错误使得 %{model} 无法保存"
     models:
       action:
-        other: Actions
+        other: |-
+          One
+          操作
+          Other
+          操作
       ai/text_transform_action:
-        other: Text transform actions
+        other: |-
+          One
+          文本转换操作
+          Other
+          文本转换操作
       announcement:
-        other: Announcements
+        other: |-
+          One
+          公告
+          Other
+          公告
       anonymous_user:
-        other: Anonymous users
+        other: |-
+          One
+          匿名用户
+          Other
+          匿名用户
       attachment:
-        other: Files
+        other: |-
+          One
+          文件
+          Other
+          文件
       attribute_help_text:
         other: 特性帮助文本
       attribute_help_text/project:
-        other: Project attribute help texts
+        other: |-
+          One
+          项目属性帮助文本
+          Other
+          项目属性帮助文本
       attribute_help_text/user:
-        other: User attribute help texts
+        other: |-
+          One
+          用户属性帮助文本
+          Other
+          用户属性帮助文本
       attribute_help_text/work_package:
-        other: Work package attribute help texts
+        other: |-
+          One
+          工作包属性帮助文本
+          Other
+          工作包属性帮助文本
       auth_provider:
         other: 身份验证提供方
       backup:
-        other: Backups
+        other: |-
+          One
+          备份
+          Other
+          备份
       capability:
-        other: Capabilities
+        other: |-
+          One
+          能力
+          Other
+          能力
       category:
-        other: Categories
+        other: |-
+          One
+          类别
+          Other
+          类别
       change:
-        other: File changes
+        other: |-
+          One
+          文件更改
+          Other
+          文件更改
       changeset:
-        other: Changesets
+        other: |-
+          One
+          更改集
+          Other
+          更改集
       color:
-        other: Colors
+        other: |-
+          One
+          颜色
+          Other
+          颜色
       comment:
-        other: Comments
+        other: |-
+          One
+          评论
+          Other
+          评论
       custom_action:
-        other: Custom actions
+        other: |-
+          One
+          自定义操作
+          Other
+          自定义操作
       custom_field:
-        other: Custom fields
+        other: |-
+          One
+          自定义字段
+          Other
+          自定义字段
       custom_field/hierarchy/item:
-        other: Hierarchy items
+        other: |-
+          One
+          层级机构项
+          Other
+          层级机构项
       custom_field_section:
-        other: Custom field sections
+        other: |-
+          One
+          自定义字段分区
+          Other
+          自定义字段分区
       custom_option:
-        other: Custom field options
+        other: |-
+          One
+          自定义字段选项
+          Other
+          自定义字段选项
       custom_style:
-        other: Designs
+        other: |-
+          One
+          设计
+          Other
+          设计
       day:
-        other: Days
+        other: |-
+          One
+          天
+          Other
+          天
       deleted_user:
-        other: Deleted users
+        other: |-
+          One
+          已删除的用户
+          Other
+          已删除的用户
       design_color:
-        other: Design colors
+        other: |-
+          One
+          设计颜色
+          Other
+          设计颜色
       doorkeeper/application:
-        other: OAuth applications
+        other: |-
+          One
+          OAuth 应用程序
+          Other
+          OAuth 应用程序
       emoji_reaction:
-        other: Emoji reactions
+        other: |-
+          One
+          表情回应
+          Other
+          表情回应
       enterprise_token:
         other: 企业令牌
       enterprise_trial:
-        other: Enterprise trials
+        other: |-
+          One
+          企业版试用
+          Other
+          企业版试用
       enumeration:
-        other: Enumerations
+        other: |-
+          One
+          枚举
+          Other
+          枚举
       export:
-        other: Exports
+        other: |-
+          One
+          导出
+          Other
+          导出
       export_setting:
-        other: Export settings
+        other: |-
+          One
+          导出设置
+          Other
+          导出设置
       forum:
-        other: Forums
+        other: |-
+          One
+          论坛
+          Other
+          论坛
       global_role:
-        other: Global roles
+        other: |-
+          One
+          全局角色
+          Other
+          全局角色
       group:
-        other: Groups
+        other: |-
+          One
+          组
+          Other
+          组
       group_custom_field:
-        other: Group custom fields
+        other: |-
+          One
+          组自定义字段
+          Other
+          组自定义字段
       health_report:
-        other: Health reports
+        other: |-
+          One
+          健康报告
+          Other
+          健康报告
       issue_priority:
         other: 优先事项
       ldap_auth_source:
-        other: LDAP connections
+        other: |-
+          One
+          LDAP 连接
+          Other
+          LDAP 连接
       mcp_configuration:
-        other: MCP configurations
+        other: |-
+          One
+          MCP 配置
+          Other
+          MCP 配置
       member:
-        other: Members
+        other: |-
+          One
+          成员
+          Other
+          成员
       menu_item:
-        other: Menu items
+        other: |-
+          One
+          菜单项
+          Other
+          菜单项
       menu_items/wiki_menu_item:
-        other: Wiki menu items
+        other: |-
+          One
+          Wiki 菜单项
+          Other
+          Wiki 菜单项
       message:
-        other: Messages
+        other: |-
+          One
+          消息
+          Other
+          消息
       news:
-        other: News
+        other: |-
+          One
+          新闻
+          Other
+          新闻
       non_working_day:
-        other: Non-working days
+        other: |-
+          One
+          非工作日
+          Other
+          非工作日
       notification:
         other: 通知
       notification_setting:
-        other: Notification settings
+        other: |-
+          One
+          通知设置
+          Other
+          通知设置
       oauth_client:
-        other: OAuth clients
+        other: |-
+          One
+          OAuth 客户端
+          Other
+          OAuth 客户端
       oauth_client_token:
-        other: OAuth client tokens
+        other: |-
+          One
+          OAuth 客户端令牌
+          Other
+          OAuth 客户端令牌
       persisted_query:
-        other: Persisted queries
+        other: |-
+          One
+          持续查询
+          Other
+          持续查询
       persisted_view:
-        other: Persisted views
+        other: |-
+          One
+          持久化视图
+          Other
+          持久化视图
       placeholder_user:
-        other: Placeholder users
+        other: |-
+          One
+          占位符用户
+          Other
+          占位符用户
       plugin_auth_provider:
         other: Plugin authentication providers
       principal:
@@ -3160,6 +3357,7 @@ zh-CN:
   label_available_project_work_package_categories: 可用的工作包类别
   label_available_project_work_package_types: 可用的工作包类型
   label_available_projects: 可用的项目
+  label_backtrace: 回溯
   label_backup: 备份
   label_basic_details: 基本详细信息
   label_between: 介于
@@ -3800,7 +3998,7 @@ zh-CN:
   label_wiki_page_attachments: 维基页面附件
   label_wiki_page_id: 维基页面ID
   label_wiki_page_plural: 维基页面
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: Wiki 页面版本
   label_wiki_show_index_page_link: 显示‘目录’子菜单项
   label_wiki_show_menu_item: 显示为项目导航中的菜单项
   label_wiki_show_new_page_link: 显示‘创建新的子页面’子菜单项
@@ -4672,6 +4870,8 @@ zh-CN:
     dialog:
       footer_center:
         caption: 此文本将出现在每一页的页脚中心。
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: 页脚文本
       footer_right:
         caption: 此文本将出现在每一页的页脚右侧。
@@ -4987,7 +5187,7 @@ zh-CN:
       creation_wizard:
         enabled_because_required_html: 无法为此项目启动请求禁用此项目特性，因为它被定义为必选项。实例管理员可以在<a href=%{admin_settings_url} target="_blank">管理设置</a>中更改此设置。
         errors:
-          no_status_when_submitted: 无法启用项目启动请求，因为工作包类型 %{type} 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
+          no_status_when_submitted: 无法启用项目启动请求，因为工作包类型“%{type}” 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
           no_work_package_type: 无法启用项目启动请求，因为它至少需要一个有效工作包类型，但此项目没有。请为此项目至少添加一种工作包类型。
         export:
           description_attachment_export: 生成的工件将以 PDF 附件的形式保存到工件工作包中。
@@ -5089,24 +5289,36 @@ zh-CN:
         no_results_title_text: 目前有可用的类型。
         remove_from_project: 从项目中移除
         switch:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
+          apply: 应用
+          description: 选择要在此项目中使用的此类型的其他变体。
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
-            nothing_affected: No fields or statuses are affected.
+            hidden_heading: 将不再显示的字段
+            missing_statuses_description: 您正在切换的工作流不存在从这些状态转出的过渡路径，因此所有用户都无法继续推进这些工作包。
+            missing_statuses_heading: 停滞的工作包
+            new_heading: 变为可用状态的字段
+            nothing_affected: 没有任何字段或状态受到影响。
             status_count:
-              other: "%{count} work packages"
-            table_suffix: "(table)"
+              other: |-
+                One
+                1 个工作包
+                Other
+                %{count} 个工作包
+            table_suffix: "（表格）"
             value_count:
-              other: "%{count} work packages have a value"
+              other: |-
+                One
+                1 个工作包具有数值
+                Other
+                %{count} 个工作包具有数值
             work_packages:
-              other: "%{count} work packages will use the new configuration"
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
+              other: |-
+                One
+                1 个工作包将使用新配置
+                Other
+                %{count} 个工作包将使用新配置
+          success: 项目现在使用 %{type}。
+          target_label: 变体
+          title: "%{type}：切换变体"
         switch_type: 切换变体
         type_not_found: 找不到所选类型。
         variant_prefix: 变体：
@@ -5198,7 +5410,7 @@ zh-CN:
       title_not_managed: 移除仓库
     errors:
       build_failed: 在所选的配置下无法创建存储库。%{reason}
-      disabled_or_unknown_type: 所选的类型 %{type} 是禁用状态或不再为SCM提供商 %{vendor} 可用。
+      disabled_or_unknown_type: 所选的类型“%{type}” 是禁用状态或不再为SCM提供商 %{vendor} 可用。
       disabled_or_unknown_vendor: SCM提供商 %{vendor} 是被禁用状态或不再可用。
       empty_repository: 存储库已存在，不过该库是空的。它还不包括任何版本。
       exception_title: 不能访问 %{message} 存储库
@@ -6047,7 +6259,7 @@ zh-CN:
       create_type: 创建类型
       create_variant: 创建变体
       fields:
-        variant_name_caption: 对 %{type} 的此配置命名。工作包仍继续使用 %{type} 本身。
+        variant_name_caption: 对“%{type}”的此配置命名。工作包仍继续使用“%{type}”。
       finish: 完成
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
@@ -6112,7 +6324,12 @@ zh-CN:
           label: PDF 导出模板
         tab: 生成 PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF 导出模板
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: 小节
         add_query_group: 相关的工作包表
@@ -6170,7 +6387,7 @@ zh-CN:
         tab: 项目特性
       projects:
         actions:
-          confirm_remove: 是否从 %{project} 中移除类型 %{type}？
+          confirm_remove: 是否从 %{project} 中移除类型“%{type}”？
           remove_from_project: 从项目中移除
           switch_variant: 更改变体
         add_dialog:
@@ -6249,12 +6466,12 @@ zh-CN:
         parent_suffix: "（父项）"
       variants:
         blankslate:
-          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+          description_html: '您可以创建变体，为不同项目提供此类型的不同版本。<br>每个变体均可针对默认模板、自定义字段、工作流及首选项执行继承、复制操作，也可拥有自己的自定义配置。
 
             '
-          title: No variants exist for this type
-        filter: Filter by text
-        filter_no_results: No variants match this filter
+          title: 此类型不存在变体
+        filter: 按文本筛选
+        filter_no_results: 没有任何变体匹配此筛选条件
       workflow:
         tab: 工作流
     index:
@@ -6420,7 +6637,7 @@ zh-CN:
         availability_description: 空闲系数表示您实际投入项目任务的工作时间百分比。这会考虑会议、电子邮件、管理工作和其他非项目活动。
         availability_factor: 空闲系数
         availability_factor_caption: 定义您投入项目工作的工作时间百分比。
-        effective_hours: Effective work hours
+        effective_hours: 有效工作时数
         hours_mode_label: 小时模式
         hours_per_day: 每天时数
         individual_hours_mode: 每天不同时数

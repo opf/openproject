@@ -471,6 +471,7 @@ lt:
           true: įtraukti nedarbo dienas
         journal_internal: Internal Journal
         notify: Pranešti
+        observed_in_versions: Observed in versions
         parent: Tėvas
         parent_issue: Tėvas
         parent_work_package: Tėvas
@@ -3588,6 +3589,7 @@ lt:
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
   label_available_project_work_package_types: Galimi darbo paketų tipai
   label_available_projects: Galimi projektai
+  label_backtrace: Backtrace
   label_backup: Atsarginė kopija
   label_basic_details: Basic details
   label_between: tarp
@@ -5138,6 +5140,8 @@ lt:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -6596,7 +6600,12 @@ lt:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

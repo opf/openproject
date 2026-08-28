@@ -56,7 +56,7 @@ pt-BR:
         presenter: Apresentador
         title: Título
       meeting_outcome:
-        kind: Kind
+        kind: Tipo
       meeting_participant:
         attended: Participou
         invited: Convidado
@@ -101,26 +101,26 @@ pt-BR:
           not_an_occurrence: não é um horário válido para esta reunião recorrente
     models:
       meeting:
-        one: One-time meeting
-        other: One-time meetings
+        one: Reunião única
+        other: Reuniões únicas
       meeting_agenda_item:
-        one: Agenda item
-        other: Agenda items
+        one: Item da agenda
+        other: Itens da agenda
       meeting_outcome:
-        one: Outcome
-        other: Outcomes
+        one: Resultado
+        other: Resultados
       meeting_participant:
-        one: Meeting participant
-        other: Meeting participants
+        one: Participante da reunião
+        other: Participantes da reunião
       meeting_section:
-        one: Section
-        other: Sections
+        one: Seção
+        other: Seções
       recurring_meeting:
-        one: Recurring meeting
-        other: Recurring meetings
+        one: Reunião recorrente
+        other: Reuniões recorrentes
       scheduled_meeting:
-        one: Scheduled meeting
-        other: Scheduled meetings
+        one: Reunião agendada
+        other: Reuniões agendadas
       token/ical_meeting:
         one: Assinatura da Reunião iCal
         other: Assinaturas da Reunião iCal
