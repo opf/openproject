@@ -149,4 +149,4 @@ This is a separate mechanism from the option merging described under [Field cont
 combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
 exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
 
-Note that the deduplication behavior is under active development and that the number of duplicated fields will be reduced in the future (tracked by [JIM-170] (https://community.openproject.org/projects/JIM/work_packages/JIM-170/activity).
+Note that the deduplication behavior is under active development and that the number of duplicated fields will be reduced in the future (tracked by [JIM-170](https://community.openproject.org/projects/JIM/work_packages/JIM-170/activity)).
