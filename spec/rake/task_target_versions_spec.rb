@@ -85,6 +85,14 @@ RSpec.describe Rake::Task do
         .to output(/journals created after .*would fix 0 work packages/m).to_stdout
     end
 
+    it "ignores blank arguments, such as one left by a trailing comma" do
+      work_package, = build_stale_target_version
+      repair_time = work_package.journals.reload.last.created_at
+
+      expect { subject.invoke((repair_time + 1.hour).iso8601, "") }
+        .to output(/journals created after .*would fix 0 work packages/m).to_stdout
+    end
+
     it "rejects an argument that is neither a work package id nor an ISO8601 time" do
       expect { subject.invoke("15.5") }.to raise_error(ArgumentError, /unrecognized argument/)
     end

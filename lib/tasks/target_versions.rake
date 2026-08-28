@@ -45,7 +45,8 @@ namespace :target_versions do
     }
 
     remediation = ->(args) {
-      ids, times = [args[:scope], *args.extras].compact.map { it.to_s.strip }
+      ids, times = [args[:scope], *args.extras].map { it.to_s.strip }
+                                               .compact_blank
                                                .partition { it.match?(/\A\d+\z/) }
       from, to, overflow = times.map { parse_time.call(it) }
       raise ArgumentError, "at most two time bounds (from, to) are supported" if overflow
