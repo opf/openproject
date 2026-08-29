@@ -15,17 +15,9 @@ zh-CN:
         url: 有效负载 URL
     models:
       webhooks/log:
-        other: |-
-          One
-          Webhook 日志
-          Other
-          Webhook 日志
+        other: Webhook 日志
       webhooks/webhook:
-        other: |-
-          One
-          Webhook
-          Other
-          Webhooks
+        other: Webhook
   plugin_openproject_webhooks:
     description: 提供插件 API 以支持OpenProject Webhooks，以实现更好的第三方集成。
     name: OpenProject Webhooks

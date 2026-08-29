@@ -100,47 +100,19 @@ zh-CN:
           not_an_occurrence: 不是此定期会议的有效事件时间
     models:
       meeting:
-        other: |-
-          One
-          一次性会议
-          Other
-          一次性会议
+        other: 一次性会议
       meeting_agenda_item:
-        other: |-
-          One
-          议程项目
-          Other
-          议程项目
+        other: 议程条目
       meeting_outcome:
-        other: |-
-          One
-          成果
-          Other
-          成果
+        other: 成果
       meeting_participant:
-        other: |-
-          One
-          会议参与者
-          Other
-          会议参与者
+        other: 会议参与者
       meeting_section:
-        other: |-
-          One
-          分区
-          Other
-          分区
+        other: 小节
       recurring_meeting:
-        other: |-
-          One
-          定期会议
-          Other
-          定期会议
+        other: 定期会议
       scheduled_meeting:
-        other: |-
-          One
-          预定会议
-          Other
-          预定会议
+        other: 预定会议
       token/ical_meeting:
         other: iCal 会议订阅
   activity:

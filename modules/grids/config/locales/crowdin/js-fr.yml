@@ -21,7 +21,7 @@ fr:
         project_description:
           title: Description
         project_favorites:
-          no_results: Vous n'avez actuellement aucun projet favori. Ajoutez un ou plusieurs projets comme favoris dans leur aperçu ou dans une liste de projets.
+          no_results: Vous n'avez actuellement aucun projet favori. Ajoutez un ou plusieurs projets aux favoris depuis leur vue d'ensemble ou depuis une liste de projets.
           title: Projets favoris
         project_status:
           at_risk: À risque

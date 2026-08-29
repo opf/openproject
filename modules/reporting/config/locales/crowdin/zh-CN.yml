@@ -24,11 +24,7 @@ zh-CN:
   activerecord:
     models:
       cost_query:
-        other: |-
-          One
-          成本报告
-          Other
-          成本报告
+        other: 成本报告
   button_save_report_as: 报表另存为...
   comments: 注释
   cost_reports_title: 工时和成本

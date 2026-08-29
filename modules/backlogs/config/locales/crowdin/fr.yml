@@ -50,9 +50,9 @@ fr:
         story_points: Story points
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: ne peut pas être lancé tant que le projet bénéficie de sprints partagés.
-        dates_required: Les dates de début et de fin sont nécessaires pour lancer le sprint.
-        must_be_in_planning: doit être en planification pour commencer.
+        cannot_start_while_receiving_shared_sprints: ne peut pas démarrer tant que le projet reçoit des sprints partagés.
+        dates_required: Les dates de début et de fin sont requises pour démarrer le sprint.
+        must_be_in_planning: doit être en phase de planification pour démarrer.
         only_one_active_sprint_allowed: un seul sprint actif est autorisé par projet.
       models:
         project:
@@ -105,7 +105,7 @@ fr:
     add_existing_work_package_dialog_component:
       title_without_container: Ajouter un lot de travaux existant
     administration_blankslate:
-      text: Nous sommes en train de redessiner le module Backlogs. Les paramètres d'administration pour les sprints et les backlogs seront visibles ici dans un futur proche. Les paramètres au niveau du projet restent disponibles.
+      text: Nous remanions actuellement le module Backlogs. Les paramètres d'administration des sprints et des backlogs seront bientôt disponibles ici. Les paramètres au niveau du projet restent disponibles.
       title: Les paramètres d'administration du backlog évoluent
     backlog_component:
       button_new_backlog_bucket: Nouveau bucket de backlog
@@ -142,13 +142,13 @@ fr:
     finish_sprint_dialog_component:
       actions:
         move_to_bottom_of_backlog: Déplacez-les en bas du backlog
-        move_to_sprint: Déplacez-les vers un autre sprint
-        move_to_top_of_backlog: Déplacez-les en haut du backlog
+        move_to_sprint: Les déplacer vers un autre sprint
+        move_to_top_of_backlog: Les déplacer en haut du backlog
       body: "%{message} Que souhaitez-vous faire de ces lots de travaux ?"
       button_complete_sprint: Terminer le sprint
       legend: Action pour les lots de travaux inachevés
-      select_sprint_label: Sélectionnez le sprint
-      title: Il y a des travaux en cours
+      select_sprint_label: Sélectionner un sprint
+      title: Certains éléments sont encore en cours
     inbox_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -194,7 +194,7 @@ fr:
       label_start_sprint: Démarrer le sprint
       start_sprint_disabled_reason_active_sprint: Un autre sprint est déjà en cours.
       start_sprint_disabled_reason_missing_dates: Les dates de début et de fin sont nécessaires pour lancer le sprint.
-      start_sprint_disabled_reason_receiving_shared_sprints: Les sprints propres à ce projet ne peuvent pas être lancés tant qu'il reçoit des sprints partagés.
+      start_sprint_disabled_reason_receiving_shared_sprints: Les sprints propres à ce projet ne peuvent pas démarrer tant qu'il reçoit des sprints partagés.
       start_sprint_disabled_reason_shared_sprint: Ce sprint provient d'un autre projet qui ne prend pas en charge plusieurs sprints actifs.
     sprint_form:
       goal_caption: L'objectif du sprint est propre à ce projet et n'est pas partagé avec d'autres projets utilisant également ce sprint.
@@ -235,7 +235,7 @@ fr:
       header_backlogs: Module des backlogs
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copier l'URL dans le presse-papier
+        copy_url_to_clipboard: Copier l'URL dans le presse-papiers
         copy_work_package_id: Copier l'ID du lot de travaux
         move_menu: Déplacer vers la position
         move_to_backlog_bucket: Déplacer vers un bucket de backlog
@@ -262,7 +262,7 @@ fr:
       multiple_active_sprints:
         description: Menez plusieurs sprints en parallèle pour les différentes équipes de votre projet afin de bénéficier d'un meilleur contrôle et d'une plus grande flexibilité.
       sprint_sharing:
-        description: Partager les sprints entre les projets afin d'aligner les équipes et de coordonner le travail dans des configurations agiles à grande échelle (SAFe).
+        description: Partagez des sprints entre les projets pour aligner les équipes et coordonner le travail dans des environnements agiles à l'échelle (SAFe).
   label_all_sprints: Tous les sprints
   label_backlog: Backlog
   label_backlog_and_sprints: Backlog et sprints
@@ -278,10 +278,10 @@ fr:
   label_sprint_new: Nouveau sprint
   label_task_board: Tableau des tâches
   notice_successful_finish: Le sprint est terminé.
-  notice_successful_start: Le sprint a commencé.
+  notice_successful_start: Le sprint a démarré.
   notice_unsuccessful_finish: Le sprint n'a pas pu être terminé.
   notice_unsuccessful_finish_with_reason: 'Le sprint n''a pas pu être achevé : %{reason}'
-  notice_unsuccessful_start: Le sprint n'a pas pu être lancé.
+  notice_unsuccessful_start: Le sprint n'a pas pu démarrer.
   notice_unsuccessful_start_with_reason: 'Le sprint n''a pas pu être démarré : %{reason}'
   notice_work_package_invisible_after_move: 'Le lot de travaux a été déplacé vers %{backlog}, mais il n''est pas visible, car son type ou son statut est exclu du backlog.
 
@@ -307,7 +307,7 @@ fr:
       backlog_sharing:
         options:
           no_sharing:
-            caption: Les sprints créés dans ce projet ne seront disponibles et visibles que pour ce projet. Ils ne seront pas non plus visibles par les sous-projets.
+            caption: Les sprints créés dans ce projet ne seront disponibles et visibles que pour ce projet. Ils ne seront pas non plus visibles dans les sous-projets.
             label: Ne pas partager
           receive_shared:
             caption: Ce projet ne peut utiliser que des sprints partagés par d'autres projets.
@@ -320,7 +320,7 @@ fr:
             label: Tous les projets
           share_subprojects:
             caption: Les sprints créés dans ce projet seront disponibles pour tous les sous-projets du projet en cours.
-            info: Le partage d'un sprint entraîne le partage du nom, du statut et des dates de début et de fin dans tous les projets. Ceux-ci ne peuvent pas être modifiés dans les projets qui reçoivent et utilisent ces sprints.
+            info: Le partage d'un sprint entraîne le partage de son nom, de son statut et de ses dates de début et de fin dans tous les projets. Ces informations ne peuvent pas être modifiées dans les projets qui reçoivent et utilisent ces sprints.
             label: Sous-projets
         sprint_sharing: Partager les sprints
       backlogs:

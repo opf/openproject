@@ -72,9 +72,9 @@ fr:
           actions:
             download_report: Télécharger
             rerun_checks: Relancer toutes les vérifications
-            run_checks: Vérifier maintenant
+            run_checks: Lancer les vérifications maintenant
           last_check: 'Dernière vérification : %{datetime}'
-          no_health_report: Aucun rapport disponible
+          no_health_report: Aucun bilan de santé disponible
           no_health_report_description: Lancez les vérifications maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur de wiki.
           title: Bilan de santé
       internal_provider_form:
@@ -94,9 +94,9 @@ fr:
       side_panel:
         health_status_component:
           last_check: 'Dernière vérification : %{datetime}'
-          open_report: Ouvrir le rapport complet sur l'état de santé
-          run_checks: Vérifier maintenant
-          title: Rapport sur l'état de santé
+          open_report: Ouvrir le bilan de santé complet
+          run_checks: Lancer les vérifications maintenant
+          title: Bilan de santé
       wiki_provider_list_component:
         label_creation_time: Créé
         label_name: Nom

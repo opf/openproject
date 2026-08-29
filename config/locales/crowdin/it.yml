@@ -741,6 +741,7 @@ it:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: deve essere una variante del tipo utilizzato dal progetto.
         queries/filters/base:
           attributes:
@@ -844,20 +845,26 @@ it:
               restrict_dependent_destroy:
                 has_many: Non può essere eliminata mentre è ancora utilizzata da alcuni progetti.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: è già impostato per un'altra configurazione di questo tipo.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             patterns:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
         user:
           attributes:
@@ -1815,8 +1822,6 @@ it:
             manual_conversion_hint: Puoi scegliere di eseguire manualmente la conversione per abilitare più valori prima che avvenga la migrazione automatica.
             not_writable_hint: Queste impostazioni sono configurate tramite variabili di ambiente. Se desideri eseguire manualmente la conversione per abilitare più valori prima della migrazione automatica, aggiorna il file configuration.yml.
           heading: Versioni di destinazione
-          in_progress:
-            heading: Abilitazione di più versioni
           planned_changes:
             heading: Modifiche previste in una versione futura
             renamed: Il campo "Versione" verrà rinominato "Versioni di destinazione".
@@ -3196,6 +3201,7 @@ it:
         progress_calculation_adjusted_from_disabled_mode: Il calcolo dei progressi è <a href="%{href}" target="_blank">impostato automaticamente in modalità basata sul lavoro e modificato con l'aggiornamento della versione</a>.
         scheduling_mode_adjusted: Modalità di programmazione regolata automaticamente con aggiornamento della versione.
         sprint_migration: La versione '%{version_name}' è stata copiata come sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Le versioni di destinazione sono state sincronizzate automaticamente con il campo Versione prima dell'abilitazione di più versioni di destinazione.
         totals_removed_from_childless_work_packages: I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
       total_percent_complete_mode_changed_to_simple_average: I valori di Lavoro delle macro-attività figlie vengono ignorati.
@@ -4932,6 +4938,7 @@ it:
     '
   permission_manage_placeholder_user: Crea, modifica ed elimina utenti del segnaposto
   permission_manage_project_activities: Gestire le attività del progetto
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Gestisci query BCF pubbliche
   permission_manage_public_project_queries: Gestisci elenchi di progetti pubblici
   permission_manage_public_queries: Gestisci viste pubbliche
@@ -5240,12 +5247,15 @@ it:
           type_label: Tipo
           type_placeholder: Seleziona un tipo
         add_type: Aggiungi tipo
+        add_variant: Add a variant for this project
         empty_state:
           description: Aggiungi un tipo per consentire agli utenti di creare macro-attività di quel tipo in questo progetto.
           title: Nessun tipo è attivo in questo progetto
         form:
           enable_type_in_project: Abilita il tipo "%{type}"
+        in_use: In use
         no_results_title_text: Al momento non sono disponibili tipi.
+        only_available_here: Only available in this project
         remove_from_project: Rimuovi dal progetto
         switch:
           apply: Apply
@@ -6377,7 +6387,8 @@ it:
           confirm_dialog:
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali
             description: Tutte le impostazioni selezionate verranno sovrascritte e potrebbero influenzare le informazioni esistenti sulle macro-attività di questo tipo.
-            title: Cambiare modalità di configurazione?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copia dal tipo
           description: Nessuna impostazione viene ereditata. Se lo desideri, puoi comunque copiare una tantum le impostazioni da un altro tipo.
           dialog:
@@ -6402,12 +6413,15 @@ it:
           confirm_dialog:
             change_source:
               description_html: Cambiando il tipo di origine a %{source_name}, sovrascriverai le impostazioni attuali e potresti modificare le informazioni esistenti nelle macro-attività di questo tipo.
-              title: Cambiare il tipo di origine?
+              heading: Change source type?
+              title: Change source type
             check_box: Comprendo che ciò sovrascriverà le impostazioni attuali
             from_independent:
               description: Tutte le impostazioni selezionate verranno sovrascritte e potrebbero influenzare le informazioni esistenti sulle macro-attività di questo tipo.
-              title: Cambiare modalità di configurazione?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Questa configurazione è collegata ed eredita le impostazioni dal tipo di origine [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copia ed eredita queste impostazioni da un'origine. Tutte le nuove configurazioni aggiunte all'origine verranno aggiunte anche qui.
             source_label: Origine collegata
@@ -6442,6 +6456,10 @@ it:
       make_default_notice: "%{name} è ora attivo in nuovi progetti."
       no_results_content_text: Crea un nuovo tipo
       no_results_title_text: Al momento non esistono tipi.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Non attivare nei nuovi progetti
       remove_default_notice: "%{name} non è più attivo in nuovi progetti."
       type_label: Tipo

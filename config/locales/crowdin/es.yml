@@ -741,6 +741,7 @@ es:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: debe ser una variante del tipo que se utiliza en el proyecto.
         queries/filters/base:
           attributes:
@@ -844,20 +845,26 @@ es:
               restrict_dependent_destroy:
                 has_many: No se puede eliminar mientras haya proyectos que aún lo estén utilizando.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: ya está establecido para otra configuración de este tipo.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
             patterns:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
             variant:
               must_belong_to_the_type: debe ser una variante de este tipo.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: enlazaría estas configuraciones en un bucle.
         user:
           attributes:
@@ -1811,8 +1818,6 @@ es:
             manual_conversion_hint: Puede optar por ejecutar el cambio manualmente para habilitar múltiples valores antes de que se lleve a cabo esta migración automática.
             not_writable_hint: Estos ajustes se configuran mediante variables de entorno. Si desea ejecutar los cambios manualmente para habilitar múltiples valores antes de la migración automática, actualice el archivo configuration.yml.
           heading: Versiones de destino
-          in_progress:
-            heading: Activación de múltiples versiones
           planned_changes:
             heading: Cambios previstos en un lanzamiento futuro
             renamed: El campo «Versión» pasará a denominarse «Versiones de destino».
@@ -3188,6 +3193,7 @@ es:
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progreso automático <a href="%{href}" target="_blank">establecido en modo de trabajo y ajustado con la actualización de versión</a>.
         scheduling_mode_adjusted: El modo de programación se ajusta automáticamente con la actualización de la versión.
         sprint_migration: La versión «%{version_name}» se ha copiado como sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Las versiones de destino se sincronizaron automáticamente con el campo «Versión» antes de habilitar múltiples versiones de destino.
         totals_removed_from_childless_work_packages: Los totales de trabajo y progreso se eliminan automáticamente para los paquetes de trabajo no padres con la <a href="%{href}" target="_blank">actualización de la versión</a>. Se trata de una tarea de mantenimiento y puede ignorarse con seguridad.
       total_percent_complete_mode_changed_to_simple_average: Se ignoran los valores de trabajo de los paquetes de trabajo secundarios.
@@ -4924,6 +4930,7 @@ es:
     '
   permission_manage_placeholder_user: Crear, editar y eliminar usuarios de marcador de posición
   permission_manage_project_activities: Gestionar actividades del proyecto
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Administrar consultas BCF públicas
   permission_manage_public_project_queries: Administrar listas públicas de proyectos
   permission_manage_public_queries: Administrar vistas públicas
@@ -5232,12 +5239,15 @@ es:
           type_label: Tipo
           type_placeholder: Seleccione un tipo
         add_type: Añadir tipo
+        add_variant: Add a variant for this project
         empty_state:
           description: Añada un tipo para que los usuarios puedan crear paquetes de trabajo de ese tipo en este proyecto.
           title: No hay tipos activos en este proyecto
         form:
           enable_type_in_project: Habilitar tipo «%{type}»
+        in_use: In use
         no_results_title_text: Actualmente no hay tipos disponibles.
+        only_available_here: Only available in this project
         remove_from_project: Eliminar del proyecto
         switch:
           apply: Aplicar
@@ -6366,7 +6376,8 @@ es:
           confirm_dialog:
             check_box: Entiendo que esto reemplazará la configuración actual
             description: Se sobrescribirán todos los ajustes seleccionados actualmente y esto podría afectar a la información existente sobre los paquetes de trabajo de este tipo.
-            title: "¿Cambiar al modo de configuración?"
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copiar del tipo
           description: No se heredan los ajustes. Si quieres, siempre puedes copiar los ajustes de otro tipo una sola vez.
           dialog:
@@ -6391,12 +6402,15 @@ es:
           confirm_dialog:
             change_source:
               description_html: Al cambiar el tipo de fuente a %{source_name}, se sobrescribirán los ajustes actuales y podría verse afectada la información existente sobre los paquetes de trabajo de este tipo.
-              title: "¿Cambiar el tipo de fuente?"
+              heading: Change source type?
+              title: Change source type
             check_box: Entiendo que esto reemplazará la configuración actual
             from_independent:
               description: Se sobrescribirán todos los ajustes seleccionados actualmente y esto podría afectar a la información existente sobre los paquetes de trabajo de este tipo.
-              title: "¿Cambiar al modo de configuración?"
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Esta configuración está vinculada al tipo de origen [%{source_name}](source_url)%{source_suffix} y hereda sus ajustes de este.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copia y hereda esta configuración de una fuente. Cualquier nueva configuración que se añada a la fuente también se añadirá aquí.
             source_label: Fuente vinculada
@@ -6431,6 +6445,10 @@ es:
       make_default_notice: "%{name} ya está activado en los nuevos proyectos."
       no_results_content_text: Crear un nuevo tipo
       no_results_title_text: Actualmente no existen tipos.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: No activar en nuevos proyectos
       remove_default_notice: "%{name} ya no está activado en los nuevos proyectos."
       type_label: Tipo

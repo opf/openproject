@@ -49,17 +49,9 @@ zh-CN:
       budget:
         other: 预算
       labor_budget_item:
-        other: |-
-          One
-          计划劳动力成本
-          Other
-          计划劳动力成本
+        other: 计划劳动力成本
       material_budget_item:
-        other: |-
-          One
-          单位
-          Other
-          单位
+        other: 单位
   activity:
     filter:
       budget: 预算

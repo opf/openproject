@@ -150,7 +150,7 @@ fr:
       messages:
         error: Une erreur inattendue s'est produite. Veuillez consulter les journaux d'OpenProject pour obtenir plus d'informations ou contactez un administrateur
         folder_id_collision: Plusieurs espaces de stockage de projet tentent de gérer le dossier de projet %{folder}. Sa synchronisation a été ignorée.
-        forbidden: OpenProject n'a pas pu accéder à la ressource demandée. Veuillez vérifier la configuration de vos permissions sur le fournisseur de stockage.
+        forbidden: OpenProject n'a pas pu accéder à la ressource demandée. Veuillez vérifier la configuration de vos autorisations auprès du fournisseur de stockage.
         invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject n'a pas pu s'authentifier auprès du fournisseur de stockage. Veuillez vous assurer que vous y avez accès.
       models:
@@ -189,7 +189,7 @@ fr:
           group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
-          not_found: OpenProject n'a pas pu trouver le fichier sur le fournisseur de stockage Nextcloud. Veuillez vérifier s'il n'a pas été supprimé.
+          not_found: OpenProject n'a pas trouvé le fichier chez le fournisseur de stockage Nextcloud. Veuillez vérifier qu'il n'a pas été supprimé.
           unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
           user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
         one_drive_sync_service:
@@ -256,9 +256,9 @@ fr:
     confirm_replace_oauth_client: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier auprès de %{provider_type} . Voulez-vous vraiment continuer ?
     delete_warning:
       project_storage_delete_result_1: Tous les liens vers les fichiers et dossiers correspondants seront retirés
-      project_storage_delete_result_2: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
+      project_storage_delete_result_2: Le dossier de projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
       project_storage_html: Voulez-vous vraiment retirer %{file_storage} de ce projet ?
-      storage_delete_result_1: Le stockage sera retiré de tous les projets qui l'utilisent actuellement.
+      storage_delete_result_1: L'espace de stockage sera retiré de tous les projets qui l'utilisent actuellement.
       storage_delete_result_2: Tous les liens vers les fichiers et dossiers correspondants seront retirés
       storage_delete_result_3: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
       storage_html: Voulez-vous vraiment supprimer %{file_storage} en tant qu'espace de stockage de fichiers externe ?
@@ -273,10 +273,10 @@ fr:
     file_storage_view:
       access_management:
         automatic_management: Activer la gestion automatique des accès et des dossiers
-        automatic_management_description: Chaque projet pourra décider, lorsqu'un espace de stockage lui est ajouté, s'il souhaite une approche manuelle ou automatique de la gestion des dossiers et des accès.
+        automatic_management_description: Chaque projet pourra choisir, lors de l'ajout d'un espace de stockage, entre la gestion automatique et la gestion manuelle des dossiers et des accès.
         description: OpenProject peut créer et gérer automatiquement les dossiers de projet lorsqu'un espace de stockage de fichiers est ajouté à un projet. Cela peut permettre d'obtenir une structure de dossiers mieux organisée et une gestion des accès plus simple, garantissant l'accès à tous les utilisateurs concernés.
-        manual_management: N'autoriser que les accès et les dossiers gérés manuellement
-        manual_management_description: Les projets utilisant ce stockage ne pourront pas bénéficier de l'approche de gestion automatique. Les dossiers et l'accès doivent être gérés manuellement.
+        manual_management: N'autoriser que la gestion manuelle des accès et des dossiers
+        manual_management_description: Les projets utilisant cet espace de stockage ne pourront pas choisir la gestion automatique. Les dossiers et les accès devront être gérés manuellement.
         setup_incomplete: Sélectionnez le type de gestion de l'accès des utilisateurs et de la création de dossiers.
         subtitle: Gestion des dossiers et des accès
       access_management_section: Dossiers d'accès et de projets
@@ -287,8 +287,8 @@ fr:
         access_management:
           automatic_management: Activer la gestion automatique des accès et des dossiers
           automatic_management_description: Chaque projet utilisant ce stockage de fichiers devra nécessairement utiliser l'approche de gestion automatique des dossiers et des accès. Il ne pourra pas les gérer manuellement.
-          manual_management: N'autoriser que les accès et les dossiers gérés manuellement
-          manual_management_description: Les projets utilisant ce stockage ne pourront pas bénéficier de l'approche de gestion automatique. Les dossiers et l'accès doivent être gérés manuellement.
+          manual_management: N'autoriser que la gestion manuelle des accès et des dossiers
+          manual_management_description: Les projets utilisant cet espace de stockage ne pourront pas choisir la gestion automatique. Les dossiers et les accès devront être gérés manuellement.
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
       project_folders: Dossiers du projet

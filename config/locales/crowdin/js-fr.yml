@@ -62,7 +62,7 @@ fr:
       remove: Supprimer %{name}
     autocompleter:
       notFoundText: Aucun élément trouvé
-      placeholder: Taper pour rechercher
+      placeholder: Saisir pour rechercher
       project:
         placeholder: Sélectionnez le projet
       search: Recherche
@@ -229,8 +229,8 @@ fr:
         embedded_calendar:
           text: "[Placeholder] Calendrier embarqué"
         embedded_table:
-          button: Intégrer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux intégré"
+          button: Intégrer le tableau des lots de travaux
+          text: "[Placeholder] Tableau des lots de travaux intégré"
         error: 'Impossible d''étendre la macro : %{message}'
         macro_dropdown:
           caption: Insérer
@@ -400,7 +400,7 @@ fr:
         minlength: "%{field} ne peut pas contenir moins de %{minLength} chiffre(s)"
         number: "%{field} n'est pas un nombre valide"
         required: "%{field} ne peut pas être vide"
-      link_formatting_help: Aide pour le formatage du texte
+      link_formatting_help: Aide à la mise en forme du texte
       null_value_label: Aucune valeur
     invalid_job_response: Réponse invalide du serveur.
     invite_user_modal:
@@ -497,7 +497,7 @@ fr:
     label_in_more_than: dans plus de
     label_incoming_emails: E-mails entrants
     label_infinity: Infini
-    label_information_plural: Information
+    label_information_plural: Informations
     label_invalid: Non valide
     label_last_updated_on: Dernière modification le
     label_latest_activity: Dernière activité
@@ -519,7 +519,7 @@ fr:
     label_no_due_date: pas de date de fin
     label_no_start_date: pas de date de début
     label_no_value: Aucune valeur
-    label_none: aucune
+    label_none: aucun
     label_not_available: Indisponible
     label_not_contains: ne contient pas
     label_not_equals: n'est pas
@@ -651,7 +651,7 @@ fr:
         property_is_deleted: a été supprimée.
         property_today: a lieu aujourd'hui.
         property_was: avait lieu il y a %{difference_in_days}.
-      no_unread: Pas de notification non lue
+      no_unread: Aucune notification non lue
       reasons:
         assigned: Personne assignée
         commented: Commenté
@@ -679,14 +679,14 @@ fr:
       steps:
         boards:
           add: Cliquez sur l'icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.
-          drag: Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l'icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.
+          drag: Réorganisez vos cartes par glisser-déposer au sein d'une liste, ou déplacez-les vers une autre liste. <br> Vous pouvez cliquer sur l'icône d'information (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.
           lists_basic: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.
           lists_kanban: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.
           overview: Sélectionnez <b>Tableaux</b> pour changer de vue et gérer votre projet à l'aide de la vue des tableaux agiles.
         help_menu: Le menu Aide (?) fournit des <b>ressources d'aide supplémentaires</b>. Vous y trouverez un guide utilisateur, des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !
         members: Invitez de nouveaux <b>membres</b> à rejoindre votre projet.
         quick_add_button: Cliquez sur l'icône plus (+) dans l'en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.
-        sidebar_arrow: Utilisez la flèche de retour dans le coin supérieur gauche pour retourner au <b>menu principal</b> du projet.
+        sidebar_arrow: Utilisez la flèche de retour dans le coin supérieur gauche pour revenir au <b>menu principal</b> du projet.
         team_planner:
           add_assignee: Pour commencer, ajoutez des responsables au planificateur d'équipe.
           add_existing: Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d'équipe pour les assigner instantanément à un membre de l'équipe et définir les dates de début et de fin.
@@ -696,7 +696,7 @@ fr:
         welcome: Découvrez les <b>fonctionnalités les plus importantes</b> grâce à cette visite guidée de trois minutes. <br> Nous vous recommandons d'aller jusqu'au bout. Vous pouvez relancer la visite à tout moment.
         wiki: Dans le <b>wiki</b>, vous pouvez documenter et partager vos connaissances avec votre équipe.
         wp:
-          back_button: Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et retourner à la liste des lots de travaux.
+          back_button: Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et revenir à la liste des lots de travaux.
           create_button: Le bouton <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.
           full_view: La vue des <b>détails du lot de travaux</b> fournit toutes les informations pertinentes sur un lot de travaux donné, notamment sa description, son statut, sa priorité, ses activités, ses dépendances et ses commentaires.
           gantt_menu: Créez facilement des calendriers et des frises chronologiques pour vos projets à l'aide du module de diagramme de Gantt.
@@ -710,7 +710,7 @@ fr:
       waiting_title:
         timeout: Délai d'inactivité
     pagination:
-      no_other_page: Vous êtes sur la seule page.
+      no_other_page: Il n'y a qu'une seule page.
       page_navigation: Navigation par pagination
       pages:
         page_number: Page %{number}
@@ -725,7 +725,7 @@ fr:
       subject: Saisir l'objet ici
     project:
       autocompleter:
-        label: Remplissage automatique du projet
+        label: Complétion automatique du projet
       click_to_switch_to_project: 'Projet : %{projectname}'
       context: Contexte du projet
       not_available: Projet N/D
@@ -752,7 +752,7 @@ fr:
       group_by_relation_type: Grouper par type de relation
       group_by_wp_type: Grouper par type de lot de travaux
       hierarchy_indent: Indenter la hiérarchie
-      hierarchy_outdent: Supprimer l'indentation de la hiérarchie
+      hierarchy_outdent: Désindenter dans la hiérarchie
       remove: Retirer la relation
       remove_child: Retirer l'enfant
       remove_parent: Retirer le parent
@@ -772,7 +772,7 @@ fr:
       follows: Suit
       includes: Comporte
       parent: Parent
-      partof: Partie de
+      partof: Fait partie de
       precedes: Précède
       relates: En relation avec
       relation_type: type de relation
@@ -783,7 +783,7 @@ fr:
       remove: Retirer la relation
     relations_autocomplete:
       parent_placeholder: Choisissez un nouveau parent ou appuyez sur Échap pour annuler.
-      placeholder: Taper pour rechercher
+      placeholder: Saisir pour rechercher
     relations_hierarchy:
       children_headline: Enfants
       hierarchy_headline: Hiérarchie
@@ -846,11 +846,11 @@ fr:
         configure_view: Configurer la vue
         delete: Supprimer
         display_hierarchy: Afficher la hiérarchie
-        display_sums: Afficher les sommes
+        display_sums: Afficher les totaux
         export: Exporter
         group_by: Grouper par
         hide_hierarchy: Masquer la hiérarchie
-        hide_sums: Masquer les sommes
+        hide_sums: Masquer les totaux
         page_settings: Renommer la vue
         save: Enregistrer
         save_as: Enregistrer sous
@@ -894,7 +894,7 @@ fr:
       typeahead_placeholder: Rechercher les observateurs potentiels
     wiki_formatting:
       code: Code en ligne
-      deleted: Supprimé
+      deleted: Barré
       heading1: Titre 1
       heading2: Titre 2
       heading3: Titre 3
@@ -920,19 +920,19 @@ fr:
         edit: Modifier en bloc
         move: Changer de projet en bloc
       button_clear: Effacer
-      comment_added: Le commentaire a été ajouté avec succès.
+      comment_added: Le commentaire a été ajouté.
       comment_send_failed: Une erreur s'est produite. Impossible de soumettre le commentaire.
-      comment_updated: Le commentaire a été mis à jour avec succès.
+      comment_updated: Le commentaire a été mis à jour.
       confirm_edit_cancel: Voulez-vous vraiment annuler la modification du lot de travaux ?
       create:
         button: Créer
         header: Nouveau %{type}
         header_no_type: Nouveau lot de travaux (type non encore spécifié)
-        header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
+        header_with_parent: 'Création : %{type} (enfant de %{parent_type} #%{id})'
         title: Nouveau lot de travaux
       default_queries:
         all_open: Tous les éléments ouverts
-        assigned_to_me: Assigné à moi
+        assigned_to_me: Qui me sont assignés
         created_by_me: Créés par moi
         latest_activity: Dernière activité
         manually_sorted: Nouvelle requête triée manuellement
@@ -949,7 +949,7 @@ fr:
         title: Dupliquer les lots de travaux
       edit_attribute: "%{attribute} : Modifier"
       faulty_query:
-        description: Votre vue est erronée et n'a pas pu être traitée.
+        description: Votre vue contient une erreur et n'a pas pu être traitée.
         title: Les lots de travaux n'ont pas pu être chargés.
       filters:
         baseline_incompatible: Cet attribut de filtre n'est pas pris en compte en mode Référence.
@@ -978,7 +978,7 @@ fr:
       label_options: Options
       limited_results: Seuls %{count} lots de travaux peuvent être affichés en mode de tri manuel. Réduisez le nombre de résultats en appliquant des filtres ou passez au tri automatique.
       message_error_during_bulk_delete: Une erreur s'est produite lors de la tentative de suppression des lots de travaux.
-      message_successful_bulk_delete: Les lots de travaux ont été correctement supprimés.
+      message_successful_bulk_delete: Les lots de travaux ont été supprimés.
       message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux en affichage plein écran.
       message_view_spent_time: Afficher le temps passé pour ce lot de travaux
       message_work_package_read_only: Le lot de travaux est verrouillé dans ce statut. Aucun autre attribut que le statut ne peut être modifié.
@@ -988,7 +988,7 @@ fr:
         title: Aucun lot de travaux à afficher.
       placeholder_filter_by_text: Objet, description, commentaires, ...
       placeholders:
-        date: Sélectionnez la date
+        date: Sélectionner une date
         default: "-"
       progress:
         title: Estimation des travaux et de la progression
@@ -1031,7 +1031,7 @@ fr:
         click_to_edit_query_name: Cliquez pour modifier le titre de cette vue.
         column_names: Colonnes
         confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera rétabli à sa valeur précédente.
-        display_sums: Afficher les sommes
+        display_sums: Afficher les totaux
         errors:
           duplicate_query_title: Ce nom de vue existe déjà. Continuer quand même ?
           not_found: Cette vue n'existe pas
@@ -1084,7 +1084,7 @@ fr:
         default: par défaut
         default_mode: Liste
         display_settings: Paramètres d'affichage
-        display_sums_hint: Afficher les sommes de tous les attributs sommables dans une ligne sous les résultats du tableau.
+        display_sums_hint: Afficher, sous les résultats du tableau, une ligne contenant les totaux de tous les attributs pouvant être additionnés.
         embedded_tab_disabled: Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier.
         hierarchy_hint: Tous les résultats filtrés du tableau seront complétés par leurs ancêtres. Les hiérarchies peuvent être dépliées et repliées.
         hierarchy_mode: Hiérarchie
@@ -1092,7 +1092,7 @@ fr:
         highlighting_mode:
           description: Surligner en couleur
           entire_row_by: Ligne entière par
-          inline: Attribut(s) en surbrillance
+          inline: Attributs en surbrillance
           inline_all: Tous les attributs
           none: Aucune mise en surbrillance
           priority: Priorité

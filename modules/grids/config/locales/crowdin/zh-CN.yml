@@ -16,17 +16,9 @@ zh-CN:
           overlaps: 重叠.
     models:
       grids/grid:
-        other: |-
-          One
-          网格
-          Other
-          网格
+        other: 网格
       grids/widget:
-        other: |-
-          One
-          微件
-          Other
-          微件
+        other: 微件
   grids:
     label_widget_in_grid: 网格 %{grid_name} 中包含的微件
     widgets:

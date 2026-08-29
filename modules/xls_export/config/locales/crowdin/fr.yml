@@ -8,7 +8,7 @@ fr:
       xls_with_relations: XLS avec relations
   export_to_excel: Exporter XLS
   plugin_openproject_xls_export:
-    description: Exporter les listes de tickets sous la forme de feuilles de calcul Excel (.xls).
+    description: Permet d'exporter les listes de lots de travaux sous forme de feuilles de calcul Excel (.xls).
     name: Exportation XLS OpenProject
   print_with_description: Imprimer l'aperçu avec une description
   sentence_separator_or: ou
