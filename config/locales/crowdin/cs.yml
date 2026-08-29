@@ -3026,6 +3026,7 @@ cs:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Verze '%{version_name}' byla zkopírována jako sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Pracovní hodnoty podřízených pracovních balíčků jsou ignorovány.
@@ -5400,7 +5401,7 @@ cs:
   setting_default_language: Výchozí jazyk
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_disable_password_login: Zakázat ověřování hesla
   setting_display_subprojects_work_packages: Automaticky zobrazit úkoly podprojektu v hlavním projektu

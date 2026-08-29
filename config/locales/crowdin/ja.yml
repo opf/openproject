@@ -2864,6 +2864,7 @@ ja:
         progress_calculation_adjusted_from_disabled_mode: 進捗計算は自動的に<a href="%{href}" target="_blank">作業ベースのモードに設定され、バージョン更新時に調整されます</a>。
         scheduling_mode_adjusted: スケジュールモードはバージョンアップ時に自動的に調整されます。
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: <a href="%{href}" target="_blank">バージョンアップデート</a>を伴う親でないワークパッケージに対して作業と進捗の合計が自動的に削除されます。 これはメンテナンス作業であり、無視することができます。
       total_percent_complete_mode_changed_to_simple_average: 子ワークパッケージの作業値が無視されています。
@@ -5189,7 +5190,7 @@ ja:
   setting_default_language: デフォルトの言語
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 差分の表示行数の上限
   setting_disable_password_login: パスワード認証を無効にする
   setting_display_subprojects_work_packages: デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する

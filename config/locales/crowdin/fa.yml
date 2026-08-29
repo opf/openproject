@@ -2912,6 +2912,7 @@ fa:
         progress_calculation_adjusted_from_disabled_mode: محاسبه پیشرفت با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار روی حالت مبتنی بر کار تنظیم و اصلاح شد.
         scheduling_mode_adjusted: حالت زمان‌بندی با به‌روزرسانی نسخه به‌طور خودکار اصلاح شد.
         sprint_migration: نسخه «%{version_name}» به‌عنوان اسپرینت کپی شد.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: پیش از فعال‌سازی چند نسخه هدف، نسخه‌های هدف به‌طور خودکار با فیلد نسخه همگام شدند.
         totals_removed_from_childless_work_packages: مقادیر کار و مجموع پیشرفت برای بسته‌های کاری غیرِوالد با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار حذف شدند. این یک وظیفه نگهداری است و می‌توانید با خیال راحت آن را نادیده بگیرید.
       total_percent_complete_mode_changed_to_simple_average: مقادیر کار بسته‌های کاری فرزند نادیده گرفته می‌شوند.
@@ -5254,7 +5255,7 @@ fa:
   setting_default_language: زبان پیش‌فرض
   setting_default_projects_modules: ماژول‌های فعال پیش‌فرض برای پروژه‌های جدید
   setting_default_projects_public: پروژه‌های جدید به‌طور پیش‌فرض عمومی هستند
-  setting_default_projects_wiki: قابلیت Wiki را به‌طور پیش‌فرض برای پروژه‌های جدید فعال می‌کند
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
   setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض

@@ -75,14 +75,14 @@ zh-CN:
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
+              blank: 因不能为空而记录。
               cannot_log_for_this_work_package: 您没有为此工作包记录时间的权限。
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: 记录的小时数不得超过用户工作日可用的小时数上限 %{limit}。
+              exceeds_user_working_hours: 记录的小时数不能超过用户工作日可用的小时数上限 %{limit} 小时。
               format: "%{message}"
-              max_hours_per_day_exceeded: 记录的小时数不得超过管理员规定的单日小时数上限 %{limit}。
-              max_hours_per_entry_exceeded: 记录的小时数不得超过管理员规定的单个时间条目的小时数上限 %{limit}。
+              max_hours_per_day_exceeded: 记录的小时数不能超过管理员规定的单日小时数上限 %{limit} 小时。
+              max_hours_per_entry_exceeded: 记录的小时数不能超过管理员规定的单个时间条目的小时数上限 %{limit} 小时。
             spent_on:
               format: "%{message}"
               in_past_month: 无法将时间规划到过去的月份。仅可从 %{date}开始添加、更改或删除时间条目。
@@ -90,7 +90,7 @@ zh-CN:
             start_time:
               format: "%{message}"
               invalid_time: 时间无效。时间必须在 00:00 和 23:59 之间。
-          duplicate_ongoing: 另一个计时器已在运行。同一时间只能有一个定时器处于激活状态。
+          duplicate_ongoing: 另一个计时器已在运行。同一时间只能有一个定时器处于有效状态。
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作包 #%{id} 不是重新分配成本条目的有效目标。'
           nullify_is_not_valid_for_cost_entries: 无法将成本条目分配到项目。

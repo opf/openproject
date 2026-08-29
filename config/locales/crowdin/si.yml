@@ -2916,6 +2916,7 @@ si:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
@@ -5260,7 +5261,7 @@ si:
   setting_default_language: පෙරනිමි භාෂාව
   setting_default_projects_modules: නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල
   setting_default_projects_public: නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: ප්රදර්ශනය diff රේඛා උපරිම සංඛ්යාව
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: පෙරනිමියෙන් ප්රධාන ව්යාපෘතිවල උප ව්යාපෘති වැඩ පැකේජ ප්රදර්ශනය කරන්න

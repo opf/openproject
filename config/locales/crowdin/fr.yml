@@ -67,7 +67,7 @@ fr:
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
     omniauth_login: Veuillez vous connecter pour activer votre compte.
-    signup_title: Créez un compte sur %{app_title}
+    signup_title: Créer un compte sur %{app_title}
     signup_with_external_account: S'inscrire avec un compte externe
   actionview_instancetag_blank_option: Veuillez sélectionner
   activemodel:
@@ -405,21 +405,21 @@ fr:
         availability_factor: Facteur de disponibilité
         days: Jours ouvrés
         friday: Vendredi
-        friday_hours: Horaires du vendredi
+        friday_hours: Heures du vendredi
         monday: Lundi
-        monday_hours: Horaires du lundi
+        monday_hours: Heures du lundi
         saturday: Samedi
         saturday_hours: Horaires du samedi
         shared_hours: Heures de travail
         sunday: Dimanche
-        sunday_hours: Horaires du dimanche
+        sunday_hours: Heures du dimanche
         thursday: Jeudi
-        thursday_hours: Horaires du jeudi
+        thursday_hours: Heures du jeudi
         tuesday: Mardi
-        tuesday_hours: Horaires du mardi
+        tuesday_hours: Heures du mardi
         valid_from: Valable à partir du
         wednesday: Mercredi
-        wednesday_hours: Horaires du mercredi
+        wednesday_hours: Heures du mercredi
       users/invitation/form_model:
         id_or_email: Nom ou adresse e-mail
         principal_type: Type d'invitation
@@ -633,7 +633,7 @@ fr:
         group:
           attributes:
             parent_id:
-              circular_dependency: créerait une hiérarchie de groupe circulaire.
+              circular_dependency: créerait une hiérarchie de groupes circulaire.
               organizational_unit_mismatch: doit avoir le même paramètre d'unité organisationnelle que le groupe.
               parent_ldap_managed: est gérée par synchronisation LDAP et ne permet pas d'ajouter manuellement des services.
         ical_token_query_assignment:
@@ -700,7 +700,7 @@ fr:
               cannot_assign_variant_and_parent: Impossible d'affecter à la fois une variante et son type parent
               cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
-              switch_target_blank: Sélectionnez la variante vers laquelle vous souhaitez basculer
+              switch_target_blank: Sélectionnez la variante à utiliser
               switch_target_identical: Le type cible doit être différent du type actuellement utilisé par le projet
               switch_target_not_in_family: Vous ne pouvez passer qu'à un autre type appartenant à la même famille
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
@@ -731,7 +731,7 @@ fr:
         queries/principals/filters/internal_mentionable_on_work_package_filter:
           attributes:
             values:
-              single_value_requirement: doit être un lot de travaux unique
+              single_value_requirement: doit être un seul lot de travaux
         query:
           attributes:
             column_names:
@@ -1219,10 +1219,10 @@ fr:
         remove_error: Un cycle d'importation Jira ne peut pas être supprimé pendant son exécution
         side_panel:
           open_history: Ouvrir l'historique des exécutions
-          run_status: Statut d'exécution
+          run_status: Statut de l'exécution
         status:
           configuring: Sélectionnez la portée
-          finalizing: Finalisation
+          finalizing: Finalisation en cours
           finalizing_done: Terminé
           finalizing_error: Erreur lors de la finalisation
           import_error: Erreur lors de l'importation
@@ -1238,8 +1238,8 @@ fr:
           projects_meta_fetching: Récupération des données du projet
           revert_cancelled: Retour arrière annulé
           revert_cancelling: Annulation du retour arrière
-          revert_error: Erreur lors de la restauration
-          reverted: Restauré
+          revert_error: Erreur lors de l'annulation
+          reverted: Annulé
           reverting: Rétablissement en cours
         title: Cycle d'importation
         wizard:
@@ -1300,7 +1300,7 @@ fr:
               button_continue: Continuer vers la sélection du périmètre
               button_fetch: Vérifier les données disponibles
               caption_done: Terminé
-              caption_done_description: Métadonnées extraites de %{server_info}
+              caption_done_description: Métadonnées récupérées depuis %{server_info}
               description: Vérifiez quelles données sont disponibles pour l'importation dans l'instance Jira hôte.
               label_available_server_data: Données disponibles sur %{server_info}
               label_progress: Récupération des données de Jira...
@@ -1371,7 +1371,7 @@ fr:
             button_unselect_all: Désélectionner tout
             filter_projects: Filtrer par texte
             info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés dans le périmètre d'importation.
-            title: Sélectionnez les projets à importer
+            title: Sélectionner les projets à importer
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -1501,7 +1501,7 @@ fr:
     settings:
       new_project:
         notification_text_default: "<p>Bonjour,</p> <p>Un nouveau projet a été créé : projectValue:name</p> <p>Merci</p>\n"
-        project_creation: Création d'un projet
+        project_creation: Création de projets
       project_custom_field_sections:
         destroy:
           error: La section n'a pas pu être supprimée.
@@ -1526,7 +1526,7 @@ fr:
             heading: Modifications prévues dans une prochaine version
             renamed: Le champ « Catégorie » sera renommé « Catégories ».
             single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera également modifié pour permettre la saisie de plusieurs valeurs.
-            upcoming_choice: Vous pourrez choisir d'activer plusieurs valeurs avant que cette conversion automatique n'ait lieu.
+            upcoming_choice: Vous pourrez choisir d'activer la prise en charge de plusieurs valeurs avant que cette conversion automatique n'ait lieu.
         dialog:
           checkbox_label: Je comprends que cette action n'est pas réversible
           confirm_button: Activer
@@ -1539,7 +1539,7 @@ fr:
             button: Activer plusieurs valeurs
             heading: Action requise
             manual_conversion_hint: Vous pouvez choisir de lancer manuellement la conversion afin d'activer la prise en charge de plusieurs valeurs avant que cette migration automatique n'ait lieu.
-            not_writable_hint: Ces paramètres sont définis via des variables d'environnement. Si vous souhaitez lancer manuellement la conversion afin d'activer les valeurs multiples avant la migration automatique, veuillez mettre à jour votre fichier configuration.yml.
+            not_writable_hint: Ces paramètres sont définis via des variables d'environnement. Si vous souhaitez lancer manuellement la conversion afin d'activer la prise en charge de plusieurs valeurs avant la migration automatique, mettez à jour votre fichier configuration.yml.
           heading: Versions cibles
           planned_changes:
             heading: Modifications prévues dans une prochaine version
@@ -1547,7 +1547,7 @@ fr:
             single_value: Ce champ n'accepte actuellement qu'une seule valeur. Il sera modifié pour permettre plusieurs valeurs.
           recent_changes:
             documentation_html: Pour plus d'informations sur cette modification et sur la manière de mettre à jour les clients API, veuillez consulter <a href="%{link}" target="_blank" rel="noopener">notre documentation</a>.
-            heading: Changements récents
+            heading: Modifications récentes
             multiple_values: Le champ « Versions cibles » autorise désormais plusieurs valeurs.
             renamed: Le champ « Version » s'appelle désormais « Versions cibles ».
       work_packages_identifier:
@@ -1586,7 +1586,7 @@ fr:
           title: Modifier les identifiants de lots de travaux
         in_progress:
           footer_message: La conversion en arrière-plan est en cours. Vous pouvez quitter cette page en toute sécurité.
-          header_classic: Conversion en identifiants numériques
+          header_classic: Conversion des identifiants au format numérique
           header_semantic: Conversion en identifiants basés sur les projets
         page_header:
           description: Vous avez le choix entre des identifiants numériques classiques pour les lots de travaux et des identifiants sémantiques spécifiques aux projets, qui ajoutent l'identifiant du projet à l'identifiant du lot de travaux.
@@ -1715,7 +1715,7 @@ fr:
       workPackage: 'Non divulgué : le lot de travaux est invisible en raison d''autorisations insuffisantes.'
   attribute_help_texts:
     add_new: Ajouter le texte d'aide
-    caption: Cette version courte sera affichée comme légende de l'attribut.
+    caption: Cette version courte sera affichée comme libellé de l'attribut.
     edit_field_name: Modifier le texte d'aide pour %{attribute_field_name}
     note_public: Le texte et les images que vous ajoutez dans ce champ sont visibles par tous les utilisateurs connectés.
     show_preview: Texte d'aperçu
@@ -1852,7 +1852,7 @@ fr:
       info: 'Vous devrez générer un jeton de sauvegarde pour pouvoir créer une sauvegarde. Vous devrez fournir ce jeton à chaque fois que vous demanderez une sauvegarde. Vous pouvez supprimer le jeton de sauvegarde pour désactiver les sauvegardes pour cet utilisateur.
 
         '
-      verification_html: 'Entrez %{word} pour confirmer que vous souhaitez %{action} le jeton de sauvegarde.
+      verification_html: 'Saisissez %{word} pour confirmer que vous souhaitez %{action} le jeton de sauvegarde.
 
         '
       verification_word_create: créer
@@ -2023,21 +2023,21 @@ fr:
     blank_template:
       description: Commencez de zéro. Ajoutez manuellement les attributs, les membres et les modules du portefeuille.
       label: Portefeuille vierge
-    template_heading: Sélectionnez un modèle de portefeuille pour travailler avec les méthodes de gestion de projet les plus courantes, ou créez un portefeuille à partir de zéro.
+    template_heading: Sélectionnez un modèle de portefeuille pour utiliser les méthodes de gestion de projet les plus courantes, ou créez un portefeuille à partir de zéro.
   create_program:
     blank_template:
       description: Commencez de zéro. Ajoutez manuellement les attributs, les membres et les modules du programme.
       label: Programme vierge
     template_heading: Sélectionnez un modèle de programme pour travailler avec les méthodes de gestion de projet les plus courantes, ou créez un programme à partir de zéro.
   create_project:
-    attributes_heading: Remplissez ces informations obligatoires pour pouvoir travailler sur vos projets.
+    attributes_heading: Renseignez ces informations obligatoires pour pouvoir travailler sur vos projets.
     blank_description: Aucune description n'est fournie.
     blank_template:
       description: Partez de zéro. Ajoutez manuellement les attributs, les membres et les modules du projet.
       label: Projet vierge
     copy_options:
       dependencies_label: Copier à partir du modèle
-    template_heading: Sélectionnez un modèle de projet pour travailler avec les méthodes de gestion de projet les plus courantes, ou créez un projet à partir de zéro.
+    template_heading: Sélectionnez un modèle de projet pour utiliser les méthodes de gestion de projet les plus courantes, ou créez un projet à partir de zéro.
     template_label: Utiliser le modèle
   create_wiki_page: Créer une nouvelle page wiki
   create_wiki_page_button: Page wiki
@@ -2083,7 +2083,7 @@ fr:
       notice:
         remember_items_and_projects: N'oubliez pas de définir les éléments et les projets dans les onglets respectifs de ce champ personnalisé.
       role_assignment:
-        description: Vous pouvez accorder automatiquement un certain rôle de projet à tout utilisateur affecté à cet attribut de projet, quel que soit le rôle initial de cet utilisateur dans ce projet.
+        description: Vous pouvez automatiquement accorder un rôle donné dans le projet à tout utilisateur associé à cet attribut de projet, quel que soit son rôle initial dans ce projet.
         dialog:
           change: Changer
           changes:
@@ -2099,7 +2099,7 @@ fr:
 
           '
         role_field_caption: Ce rôle de projet sera automatiquement accordé à tout utilisateur affecté à cet attribut de projet
-        role_field_label: Rôle du projet
+        role_field_label: Rôle dans le projet
         title: Attribution des rôles
         warning: En fonction du rôle sélectionné ci-dessous, l'utilisateur affecté à cet attribut de projet peut obtenir beaucoup plus d'autorisations qu'auparavant, notamment la possibilité d'ajouter de nouveaux membres et d'élever leur rôle.
     calculated_field_not_editable: Attribut non modifiable. Cette valeur est calculée automatiquement.
@@ -2143,7 +2143,7 @@ fr:
     is_enabled_globally: Est activé globalement
     multi_value_more:
       other: et %{count} autres
-    no_role_assigment: Pas d'attribution de rôle
+    no_role_assigment: Aucune attribution de rôle
     placeholder_version_select: La sélection d'un lot de travaux ou d'un projet est requise en premier lieu
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
@@ -2390,7 +2390,7 @@ fr:
       date_alerts: Alertes de date
       define_custom_style: Thème et logo personnalisés
       edit_attribute_groups: Modifier les groupes d'attributs
-      gantt_pdf_export: Exportation PDF de diagramme de Gantt
+      gantt_pdf_export: Exportation du diagramme de Gantt au format PDF
       internal_comments: Commentaires internes
       ldap_groups: Synchronisation des utilisateurs et groupes LDAP
       mcp_server: Protocole de contexte de modèle (MCP)
@@ -2575,7 +2575,7 @@ fr:
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_in_dependent: 'Erreur lors de la tentative de modification de l''objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}'
   error_in_new_dependent: 'Erreur lors de la tentative de création d''un objet dépendant : %{dependent_class} - %{related_subject} : %{error}'
-  error_invalid_list_move_anchor: L'élément ne peut pas être déplacé vers l'emplacement demandé. Veuillez actualiser la page et réessayer.
+  error_invalid_list_move_anchor: L'élément ne peut pas être déplacé à la position demandée. Veuillez recharger la page et réessayer.
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_journal_attribute_not_present: Le journal ne contient pas l'attribut %{attribute}.
   error_menu_item_not_created: L'élément de menu n'a pas pu être ajouté
@@ -2620,7 +2620,7 @@ fr:
       other: 'Des erreurs se sont produites avec les champs suivants :'
     messages:
       invalid_child_for_parent: n'est pas autorisé en tant que parent pour ce type de vue.
-      invalid_input: L'entrée n'est pas valide.
+      invalid_input: La saisie n'est pas valide.
       must_be_template: doit être un modèle
       storage_error: Une erreur s'est produite lors de la connexion à l'espace de stockage.
       unsupported_storage_type: n'est pas un type de stockage pris en charge.
@@ -2819,7 +2819,7 @@ fr:
           other: "%{count} vérifications ont renvoyé un avertissement"
       summary:
         failure: Certaines vérifications ont échoué et le système ne fonctionne pas comme prévu.
-        success: Toutes les connexions et les systèmes fonctionnent comme prévu.
+        success: Toutes les connexions et tous les systèmes fonctionnent comme prévu.
         warning: Certaines vérifications ont renvoyé un avertissement. Cela peut entraîner un comportement inattendu.
     result_component:
       status:
@@ -2836,7 +2836,7 @@ fr:
     additional:
       favorite_projects:
         no_results: Vous n'avez pas de projet favori
-        no_results_subtext: Ajoutez un ou plusieurs projets comme favoris dans leur vue d'ensemble ou dans une liste de projets.
+        no_results_subtext: Ajoutez un ou plusieurs projets aux favoris depuis leur vue d'ensemble ou depuis une liste de projets.
       no_visible_projects: Il n'y a aucun projet visible dans cette instance.
       projects: Les projets visibles les plus récents de cette instance.
       users: Les utilisateurs enregistrés les plus récents de cette instance.
@@ -2899,8 +2899,8 @@ fr:
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
         set_with_diff: "%{field} set (%{link})"
-      meeting_cancelled: "(annulé)"
-      meeting_deleted: "(supprimé)"
+      meeting_cancelled: "(annulée)"
+      meeting_deleted: "(supprimée)"
       meeting_series_backlog_html: backlog de la série de réunions %{link}
       meeting_series_template_html: modèle de la série de réunions %{link}
       meeting_template_html: modèle de réunion %{link}
@@ -2916,6 +2916,7 @@ fr:
         progress_calculation_adjusted_from_disabled_mode: Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         scheduling_mode_adjusted: Mode de planification automatiquement ajusté avec la mise à jour de version.
         sprint_migration: La version '%{version_name}' a été copiée en tant que sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Les versions cibles ont été automatiquement synchronisées avec le champ Version avant d'activer plusieurs versions cibles.
         totals_removed_from_childless_work_packages: Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
       total_percent_complete_mode_changed_to_simple_average: Les valeurs de travail des lots de travaux enfants sont ignorées.
@@ -2960,7 +2961,7 @@ fr:
       budget: un budget non visible
       category: une catégorie non visible
       default: un enregistrement non visible
-      issue_priority: une priorité invisible
+      issue_priority: une priorité non visible
       project: un projet non visible
       sprint: une priorité non visible
       time_entry_activity: une activité non visible
@@ -3417,7 +3418,7 @@ fr:
   label_other: Autre
   label_overall_activity: Activité totale
   label_overview: Vue globale
-  label_parent_group_caption: 'La définition d''un groupe parent fera de ce groupe un sous-groupe du groupe parent sélectionné. Il héritera également de toutes les adhésions, y compris les autorisations du groupe parent.
+  label_parent_group_caption: 'La définition d''un groupe parent fera de ce groupe un sous-groupe du groupe parent sélectionné. Il héritera également de toutes les appartenances du groupe parent, y compris de ses autorisations.
 
     '
   label_part_of: partie de
@@ -4082,7 +4083,7 @@ fr:
         token/api:
           attention_text: Traitez les jetons API comme des mots de passe. Toute personne possédant ce jeton aura accès aux informations de cette instance. Partagez-le uniquement avec des utilisateurs de confiance.
           create_button: Créer
-          dialog_body: Ce jeton permettra aux applications tierces de communiquer avec votre instance. Pour différencier le nouveau jeton d'API, veuillez lui donner un nom.
+          dialog_body: Ce jeton permettra aux applications tierces de communiquer avec votre instance. Pour différencier le nouveau jeton API, veuillez lui donner un nom.
           dialog_title: Créer un nouveau jeton d'API
           name_label: Nom du jeton
       failed_to_create_token: 'Impossible de créer le jeton d''accès : %{error}'
@@ -4105,8 +4106,8 @@ fr:
         action: Action
         expiration: Expiration
       ical:
-        blank_description: Pour ajouter un jeton iCalendar, abonnez-vous à un calendrier nouveau ou existant à partir du module Calendrier d'un projet. Vous devez disposer des autorisations nécessaires.
-        blank_title: Pas de jeton iCalendar
+        blank_description: Pour ajouter un jeton iCalendar, abonnez-vous à un nouveau calendrier ou à un calendrier existant depuis le module Calendrier d'un projet. Vous devez disposer des autorisations nécessaires.
+        blank_title: Aucun jeton iCalendar
         disabled_text: Les abonnements iCalendar ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité.
         table_title: Jetons iCalendar
         text_hint_link: Les jetons iCalendar permettent aux utilisateurs de [s'abonner aux calendriers OpenProject](docs_url) et d'afficher des informations à jour sur les lots de travaux provenant de clients externes.
@@ -4118,18 +4119,18 @@ fr:
       oauth_application:
         active_tokens: Jetons actifs
         blank_description: Aucun accès à une application tierce n'est configuré et actif pour vous.
-        blank_title: Pas de jeton d'application OAuth
+        blank_title: Aucun jeton d'application OAuth
         last_refreshed_at: Dernière actualisation le
         table_title: Jetons d'application OAuth
         text_hint: Les jetons d'application OAuth permettent aux applications tierces de se connecter à cette instance d'OpenProject.
         title: OAuth
       oauth_client:
         blank_description: Il n'y a pas encore de jetons clients OAuth.
-        blank_title: Pas de jeton client OAuth
+        blank_title: Aucun jeton client OAuth
         failed: Une erreur s'est produite et le jeton n'a pas pu être supprimé. Veuillez réessayer plus tard.
         integration_type: Type d'intégration
         remove_token: Voulez-vous vraiment supprimer ce jeton ? Vous devrez vous reconnecter à %{integration}.
-        removed: Le jeton client OAuth a été supprimé avec succès
+        removed: Le jeton client OAuth a été supprimé.
         table_title: Jetons clients OAuth
         text_hint: Les jetons clients OAuth permettent à cette instance d'OpenProject de se connecter à des applications externes, telles que des stockages de fichiers.
         title: OAuth
@@ -4145,7 +4146,7 @@ fr:
       token/api:
         add_button: Jeton d'API
         blank_description: Il n'y a pas encore de jeton API. Vous pouvez en créer un en utilisant le bouton ci-dessous.
-        blank_title: Pas de jeton API
+        blank_title: Aucun jeton API
         disabled_text: Les jetons API ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité.
         static_token_name: Jeton API
         table_title: Jetons API
@@ -4154,12 +4155,12 @@ fr:
       token/rss:
         add_button: Jeton RSS
         blank_description: Il n'y a pas encore de jeton RSS. Vous pouvez en créer un en utilisant le bouton ci-dessous.
-        blank_title: Pas de jeton RSS
+        blank_title: Aucun jeton RSS
         disabled_text: Les jetons RSS ne sont pas activés par l'administrateur. Veuillez contacter votre administrateur pour utiliser cette fonctionnalité.
         static_token_name: Jeton RSS
         table_title: Jetons RSS
         text_hint: Les jetons RSS permettent aux utilisateurs de se tenir au courant des derniers changements dans cette instance d'OpenProject via un lecteur RSS externe.
-        title: Flux RSS
+        title: RSS
     email_reminders:
       daily_reminders:
         add_time: Ajouter une heure
@@ -4494,7 +4495,7 @@ fr:
       defined: ne doit pas être défini.
       eql?: doit être égal à %{left}.
       filled?: doit être rempli.
-      format?: est dans un format non valide.
+      format?: n'est pas dans un format valide.
       greater_or_equal_zero: doit être supérieur ou égal à 0.
       gteq?: doit être supérieur ou égal à %{num}.
       hash?: doit être un hachage.
@@ -4869,7 +4870,7 @@ fr:
       change_identifier: Changer l'identifiant
       change_identifier_dialog_title: Modifier l'identifiant du projet
       change_identifier_format_hint_legacy: Uniquement des lettres minuscules (a-z), des chiffres, des tirets ou des traits de soulignement.
-      change_identifier_format_hint_semantic: Uniquement des lettres majuscules (A-Z), des chiffres ou des traits de soulignement. Maximum 10 caractères. Doit commencer par une lettre.
+      change_identifier_format_hint_semantic: Uniquement des lettres majuscules (A-Z), des chiffres ou des traits de soulignement. 10 caractères maximum. Doit commencer par une lettre.
       change_identifier_warning: 'Cela modifiera de manière permanente les identifiants et les URL de tous les lots de travaux de ce projet. Les identifiants et URL précédents continueront néanmoins à fonctionner.
 
         '
@@ -4947,7 +4948,7 @@ fr:
         no_template: Pas de modèle prédéfini
         program_template_caption: Sélectionnez un modèle de programme à utiliser par défaut pour les nouveaux sous-éléments de ce type.
         program_template_label: Modèle de programme
-        project_template_caption: Sélectionnez un modèle de projet à utiliser par défaut pour les nouveaux sous-éléments de ce type.
+        project_template_caption: Sélectionnez un projet modèle à utiliser par défaut pour les nouveaux sous-éléments de ce type.
         project_template_label: Modèle de projet
         template_section: 'Sélectionnez les modèles à utiliser lors de la création de nouveaux sous-éléments.
 
@@ -4968,7 +4969,7 @@ fr:
           submit: Ajouter
           title: Ajouter un type
           type_label: Type
-          type_placeholder: Sélectionnez un type
+          type_placeholder: Sélectionner un type
         add_type: Ajouter un type
         empty_state:
           description: Ajoutez un type afin de permettre aux utilisateurs de créer des lots de travaux de ce type dans ce projet.
@@ -5258,7 +5259,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
-  setting_default_projects_wiki: Activer la fonctionnalité wiki pour les nouveaux projets par défaut
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents
@@ -5843,7 +5844,7 @@ fr:
     '
   text_project_identifier_description: L’identifiant du projet est ajouté au début de tous les identifiants de lots de travaux. Si l’identifiant est « PROJ », par exemple, l’identifiant du lot de travaux sera « PROJ-12 » ou « PROJ-246 ».
   text_project_identifier_format: Doit commencer par une lettre minuscule. Seules les lettres minuscules (a-z), les chiffres, les tirets et les traits de soulignement sont autorisés.
-  text_project_identifier_handle_format: Doit commencer par une lettre et ne contenir que des majuscules, des chiffres et des traits de soulignement (10 caractères au maximum).
+  text_project_identifier_handle_format: Doit commencer par une lettre et ne contenir que des lettres majuscules, des chiffres et des traits de soulignement (10 caractères au maximum).
   text_project_identifier_info: Seulement les lettres en minuscule (a-z), les nombres, les tirets et les underscores sont autorisés, il est obligatoire de commencer avec une lettre en minuscule.
   text_project_identifier_url_description: L'identifiant du projet est inclus dans l'URL du projet.
   text_reassign: 'Réaffecter au lot de travaux :'
@@ -5988,7 +5989,7 @@ fr:
           actions:
             label_disable_all: Désactiver tout
             label_enable_all: Activer tout
-            label_toggle_template: Basculer %{template}
+            label_toggle_template: Activer/désactiver %{template}
           label: Modèles d'exportation PDF
         tab: Générer un fichier PDF
         templates:
@@ -5998,7 +5999,7 @@ fr:
         add_query_group: Tableau des lots de travaux associés
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
-        builtin_field: Champ intégré
+        builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
         confirm_reset: Voulez-vous vraiment réinitialiser la configuration du formulaire ?
         custom_field: Champ personnalisé
@@ -6006,24 +6007,24 @@ fr:
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
         drag_to_reorder: Faire glisser
         edit_query: Modifier la requête
-        empty_group_hint: Glisser les attributs ici
+        empty_group_hint: Faites glisser les attributs ici
         exclusions:
           attribute_label: Hériter de %{attribute}
           excluded: Masqué
           section_label: Hériter de la section %{section}
         filter_inactive: Filtrer les attributs
-        group_actions: Actions relatives à la section
+        group_actions: Actions de la section
         group_name_label: Nom de la section
         inactive_attributes_heading: Attributs inactifs
-        invalid_attribute_groups: La charge utile de la configuration du formulaire n'est pas valide.
+        invalid_attribute_groups: Les données de configuration du formulaire ne sont pas valides.
         invalid_query: La configuration de la requête intégrée n'est pas valide.
         label_group: Section
-        no_inactive_attributes: Pas d'attributs inactifs
+        no_inactive_attributes: Aucun attribut inactif
         not_found: L'élément de configuration du formulaire demandé n'a pas été trouvé.
-        query_group_label: Tableau des lots de travaux connexes
+        query_group_label: Tableau des lots de travaux associés
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
-        reset_description: 'Cette opération rétablit les attributs dans leur groupe par défaut et désactive TOUS les champs personnalisés.
+        reset_description: 'Cette opération réaffectera les attributs à leur groupe par défaut et désactivera TOUS les champs personnalisés.
 
           '
         reset_title: Réinitialiser la configuration du formulaire
@@ -6337,7 +6338,7 @@ fr:
       text_html: 'Votre application fonctionne avec le mode HTTPS réglé sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code>. Cela entraînera des erreurs ! Vous devrez définir la valeur de configuration suivante : <code>%{setting_value}</code>. Veuillez consulter <a href="%{more_info_path}">la documentation d''installation</a> pour savoir comment régler cette configuration.
 
         '
-      title: Mauvaise configuration du mode HTTPS
+      title: Incohérence dans la configuration du mode HTTPS
   warning_imminent_user_limit_html: 'Vous avez invité plus d''utilisateurs que ne le permet votre abonnement actuel. Les utilisateurs invités peuvent ne pas être en mesure de rejoindre votre environnement OpenProject. Veuillez [mettre à niveau votre abonnement](upgrade_url) ou bloquer les utilisateurs existants afin de permettre aux utilisateurs invités et enregistrés de rejoindre votre environnement.
 
     '
@@ -6545,7 +6546,7 @@ fr:
         description: Pour activer la planification automatique, ce lot de travaux doit avoir au moins un prédécesseur. Il sera alors automatiquement programmé pour démarrer après le prédécesseur le plus proche.
         title: Aucun prédécesseur
       ignore_non_working_days:
-        title: Jours ouvrés seulement
+        title: Jours ouvrés uniquement
       mode:
         automatic: Automatique
         manual: Manuel

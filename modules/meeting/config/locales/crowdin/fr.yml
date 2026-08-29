@@ -123,7 +123,7 @@ fr:
           updated: modifié de %{old_value} à %{value}
           updated_html: modifié de <i>%{old_value}</i> à <i>%{value}</i>
   caption_meeting_template_select: Sélectionnez un modèle pour copier automatiquement ses points de l'ordre du jour
-  caption_template_project_select: Veuillez sélectionner le projet dans lequel vous souhaitez créer ce modèle de réunion
+  caption_template_project_select: Veuillez sélectionner le projet dans lequel créer ce modèle de réunion
   description_attended: ont participé
   error_notification: Échec de l'envoi de la notification.
   error_notification_with_errors: 'L''envoi de notifications a échoué. Les destinataires suivant n''ont pas pu être notifiés : %{recipients}'
@@ -175,7 +175,7 @@ fr:
   label_attended: Participations
   label_attended_user: Utilisateur participant
   label_backlog_clear: Effacer le backlog
-  label_backlog_clear_button: Tout réinitialiser
+  label_backlog_clear_button: Tout effacer
   label_created_by_me: Créées par moi
   label_existing_work_package: Lot de travaux existant
   label_icalendar: Envoyer iCalendar
@@ -224,8 +224,8 @@ fr:
   label_meeting_reload: Actualiser
   label_meeting_reopen_action: Réouvrir la réunion
   label_meeting_selection_caption: Il n'est possible d'ajouter ce lot de travaux qu'à une réunion à venir ou en cours.
-  label_meeting_send_updates: Envoi d'invitations et de mises à jour du calendrier par e-mail
-  label_meeting_send_updates_caption: Envoyez des invitations par e-mail à tous les participants à cette réunion.
+  label_meeting_send_updates: Envoyer l'invitation au calendrier et les mises à jour par e-mail
+  label_meeting_send_updates_caption: Envoyez des invitations par e-mail à tous les participants de cette réunion.
   label_meeting_series: Série de réunions
   label_meeting_series_details: Détails de la série de réunions
   label_meeting_state: Statut de la réunion
@@ -289,7 +289,7 @@ fr:
   label_upcoming_meetings: Réunions à venir
   label_upcoming_meetings_short: À venir
   label_version: Version
-  label_view_meeting: Visualiser la réunion
+  label_view_meeting: Afficher la réunion
   label_view_meeting_series: Voir la série de réunions
   label_write_outcome: Rédiger un résultat
   meeting:
@@ -331,7 +331,7 @@ fr:
           '
         heading: Supprimer cette réunion ?
         template:
-          confirmation_message_html: 'Cette action n''est pas réversible. Veuillez procéder avec prudence. Les réunions existantes qui ont été créées à l''aide de ce modèle ne seront pas affectées.
+          confirmation_message_html: 'Cette action est irréversible. Veuillez procéder avec prudence. Les réunions existantes créées à l''aide de ce modèle ne seront pas affectées.
 
             '
           heading: Supprimer ce modèle ?
@@ -367,7 +367,7 @@ fr:
         summary: La série de réunions « %{title} » a été mise à jour par %{actor}
         title: "[%{project_name}] La série de réunions « %{title} » a été mise à jour"
       updated:
-        added_participants: Ajouté
+        added_participants: Ajoutés
         body: La réunion « %{title} » a été mise à jour par %{actor}.
         header: La réunion « %{title} » a été mise à jour
         new_date_time: Nouvelle date/heure
@@ -376,7 +376,7 @@ fr:
         old_date_time: Ancienne date/heure
         old_location: Ancien emplacement
         old_title: Ancien titre
-        removed_participants: Retiré
+        removed_participants: Retirés
         summary: La réunion « %{title} » a été mise à jour par %{actor}
     export:
       minutes:
@@ -484,7 +484,7 @@ fr:
     participation_status:
       accepted: Accepté
       declined: Refusé
-      needs_action: Pas de réponse
+      needs_action: Aucune réponse
       tentative: Peut-être
       unknown: Inconnu
   meeting_section:
@@ -561,9 +561,9 @@ fr:
       heading: Supprimer définitivement cette série de réunions ?
       title: Supprimer la série de réunions
     end_after:
-      iterations: Après un nombre d'occurrences
+      iterations: Après un certain nombre d'occurrences
       never: Jamais
-      specific_date: Après une date spécifique
+      specific_date: Après une date précise
     end_series_dialog:
       title: Terminer la série de réunions
     ended_blankslate:
@@ -573,7 +573,7 @@ fr:
     frequency:
       every_weekday: Chaque %{day_of_the_week}
       monthly_day_of_month: Jour du mois
-      monthly_nth_weekday: Tous les mois, un jour de semaine
+      monthly_nth_weekday: Chaque mois, un jour de la semaine
       working_days: Chaque jour ouvrable
       x_daily:
         one: Tous les jours
@@ -733,5 +733,5 @@ fr:
 
     '
   text_work_package_add_to_meeting_hint: Utilisez le bouton "Ajouter à la réunion" pour ajouter ce lot de travaux à une réunion à venir.
-  text_work_package_has_no_past_meeting_agenda_items: Ce lot de travaux n'a pas été ajouté comme point à l'ordre du jour lors d'une réunion précédente.
+  text_work_package_has_no_past_meeting_agenda_items: Ce lot de travaux n'a pas été ajouté comme point à l'ordre du jour lors d'une réunion antérieure.
   text_work_package_has_no_upcoming_meeting_agenda_items: Ce lot de travaux n'est pas encore inclus dans l'ordre du jour d'une prochaine réunion.

@@ -48,7 +48,7 @@ fr:
   permission_introspection: Consulter la version principale d'OpenProject et du build SHA en cours d'exécution
   permission_show_github_content: Afficher le contenu GitHub
   plugin_openproject_github_integration:
-    description: Permet une intégration étroite entre OpenProject et GitHub pour un meilleur flux de travail
+    description: Intègre OpenProject et GitHub pour améliorer le flux de travail
     name: Intégration de GitHub et OpenProject
   project_module_github: GitHub
   text_deploy_target_api_key_info: 'Une [clé API](docs_url) OpenProject appartenant à un utilisateur ayant la permission d''introspection globale.

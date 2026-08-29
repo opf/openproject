@@ -833,7 +833,7 @@ zh-CN:
         user:
           attributes:
             base:
-              one_must_be_active: 管理员用户无法被锁定/移除。必须至少有一个管理员处于激活状态。
+              one_must_be_active: 管理员用户无法被锁定/移除。必须至少有一个管理员处于有效状态。
               user_limit_reached: 已达到用户限制。当前方案无法创建更多帐户。
             password:
               lowercase: 小写字母 （如 'a')
@@ -2864,6 +2864,7 @@ zh-CN:
         progress_calculation_adjusted_from_disabled_mode: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         scheduling_mode_adjusted: 随版本更新自动适配调度模式。
         sprint_migration: 版本 '%{version_name}' 已复制为冲刺。
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: 在启用多个目标版本之前，目标版本会自动与 Version（版本）字段同步。
         totals_removed_from_childless_work_packages: 使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
       total_percent_complete_mode_changed_to_simple_average: 忽略子工作包的工时值。
@@ -5183,7 +5184,7 @@ zh-CN:
   setting_default_language: 默认语言
   setting_default_projects_modules: 新项目的默认启用模块
   setting_default_projects_public: 新项目默认公开
-  setting_default_projects_wiki: 默认情况下为新项目启用 Wiki 功能
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
   setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
@@ -5996,8 +5997,8 @@ zh-CN:
           confirm_dialog:
             check_box: 我明白，这会覆盖当前设置
             description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-            heading: Switch configuration mode?
-            title: Switch configuration mode
+            heading: 切换配置模式？
+            title: 切换配置模式
           copy_from_type: 从类型复制
           description: 任何设置都不会继承。如果需要，您仍可以从另一种类型中一次性复制设置。
           dialog:
@@ -6022,13 +6023,13 @@ zh-CN:
           confirm_dialog:
             change_source:
               description_html: 如果将源类型更改为 %{source_name}，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
-              heading: Change source type?
-              title: Change source type
+              heading: 更改源类型？
+              title: 更改源类型
             check_box: 我明白，这会覆盖当前设置
             from_independent:
               description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: 切换配置模式？
+              title: 切换配置模式
           description: 此配置已与源类型 [%{source_name}](source_url)%{source_suffix} 建立关联，并继承其设置。
           dialog:
             description: 从源类型中复制并继承此设置。源类型中添加的任何新配置也会添加到此处。

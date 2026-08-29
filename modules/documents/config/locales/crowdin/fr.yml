@@ -91,10 +91,10 @@ fr:
         one: Le type « %{type_name} » est actuellement utilisé dans %{document_count} document. Veuillez sélectionner le type auquel le réaffecter.
         other: Le type « %{type_name} » est actuellement utilisé dans %{document_count} documents. Veuillez sélectionner le type auquel les réaffecter.
       select_reassign_to_label: Réaffecter les documents à
-      title: Supprimer un type de document
+      title: Supprimer le type de document
     document_categories_deprecation_notice:
       description: |-
-        Vos catégories de fichiers existantes ont été converties en types de documents avec l'introduction du nouveau module Documents.
+        Vos catégories de fichiers existantes ont été converties en types de documents lors de l'introduction du nouveau module Documents.
         Tous les documents existants ont également été migrés vers ces nouveaux types.
       heading: Les catégories de fichiers sont désormais appelées « Types de documents »
       primary_action: Configurer les types de documents

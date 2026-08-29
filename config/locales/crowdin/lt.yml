@@ -3028,6 +3028,7 @@ lt:
         progress_calculation_adjusted_from_disabled_mode: Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
@@ -5395,7 +5396,7 @@ lt:
   setting_default_language: Numatytoji kalba
   setting_default_projects_modules: Pagal nutylėjimą naujame projekte įjungti moduliai
   setting_default_projects_public: Nauji projektai yra vieši pagal nutylėjimą
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maksimalus rodomas pakeitimų eilučių skaičius
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose.

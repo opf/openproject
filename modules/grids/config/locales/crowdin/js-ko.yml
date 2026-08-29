@@ -35,7 +35,13 @@ ko:
         project_timeline:
           accessible_date_range: "%{start} ~ %{end}"
           accessible_gate: '단계 게이트 %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: '단계 %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
           tooltip_type_gate: 단계 게이트
           tooltip_type_milestone: 마일스톤
           tooltip_type_phase: 단계

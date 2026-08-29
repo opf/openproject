@@ -79,9 +79,9 @@ fr:
               cannot_log_for_this_work_package: Vous n'avez pas les permissions nécessaires pour saisir du temps sur ce lot de travaux.
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: Le nombre d'heures enregistrées ne peut pas dépasser la limite de %{limit} heures disponibles au cours de la journée de travail de l'utilisateur.
+              exceeds_user_working_hours: Le nombre d'heures saisies ne peut pas dépasser la limite de %{limit} heures disponibles au cours de la journée de travail de l'utilisateur.
               format: "%{message}"
-              max_hours_per_day_exceeded: Le nombre d'heures enregistrées ne peut pas dépasser la limite de %{limit} heures par jour définie par l'administrateur.
+              max_hours_per_day_exceeded: Le nombre d'heures saisies ne peut pas dépasser la limite de %{limit} heures par jour définie par l'administrateur.
               max_hours_per_entry_exceeded: Les heures enregistrées ne peuvent pas dépasser la limite de %{limit} heures pour une seule saisie de temps définie par l'administrateur.
             spent_on:
               format: "%{message}"
@@ -90,7 +90,7 @@ fr:
             start_time:
               format: "%{message}"
               invalid_time: Heure invalide. L'heure doit être comprise entre 00:00 et 23:59.
-          duplicate_ongoing: Un autre minuteur est déjà en cours d'exécution. Un seul minuteur peut être actif en même temps.
+          duplicate_ongoing: Un autre minuteur est déjà en cours. Un seul minuteur peut être actif à la fois.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de coût.'
           nullify_is_not_valid_for_cost_entries: Des entrées de coût ne peuvent pas être assignées à un projet.
@@ -111,7 +111,7 @@ fr:
   api_v3:
     errors:
       validation:
-        start_time_different_date: La partie date de startTime (%{start_time}) doit être identique à la date de spentOn (%{spent_on}).
+        start_time_different_date: La date de startTime (%{start_time}) doit être identique à celle de spentOn (%{spent_on}).
   attributes:
     comment: Commentaire
     cost_type: Types de coût
@@ -220,7 +220,7 @@ fr:
   label_next_week: Semaine suivante
   label_next_workweek: Prochaine semaine de travail
   label_no: Non
-  label_no_time: Aucun suivi de temps
+  label_no_time: Aucun temps saisi
   label_option_plural: Options
   label_overall_costs: Coûts globaux
   label_previous_day: Jour précédent
@@ -248,7 +248,7 @@ fr:
   label_workweek: Semaine de travail
   label_yes: Oui
   notice_cost_logged_successfully: Coût unitaire enregistré avec succès.
-  notice_different_time_zones: Cet utilisateur a un fuseau horaire différent (%{tz}). L'heure sera enregistrée en utilisant son fuseau horaire.
+  notice_different_time_zones: Cet utilisateur a un fuseau horaire différent (%{tz}). Le temps sera saisi selon son fuseau horaire.
   notice_something_wrong: Quelque chose s'est mal passé. Veuillez réessayer.
   notice_successful_lock: Bloqué avec succès.
   notice_successful_restore: Restauration réussie.
@@ -282,7 +282,7 @@ fr:
   setting_enforce_tracking_start_and_end_times: Exiger les heures de début et de fin
   setting_enforce_tracking_start_and_end_times_caption: Rend la saisie des heures de début et de fin obligatoire lors de la journalisation.
   setting_enforce_without_allow: Il est nécessaire d'autoriser les heures de début et de fin pour pouvoir les exiger
-  setting_time_entries_limit_to_user_working_hours: Se limiter aux heures de travail de l'utilisateur
+  setting_time_entries_limit_to_user_working_hours: Limiter aux heures de travail de l'utilisateur
   setting_time_entries_limit_to_user_working_hours_caption: Limite le nombre total d'heures pouvant être saisies par jour aux heures de travail effectives de l'utilisateur. Les utilisateurs sans horaires de travail définis ne sont pas concernés par cette restriction.
   setting_time_entries_max_hours_per_day: Nombre maximal d'heures par jour
   setting_time_entries_max_hours_per_day_caption: Limite le nombre total d'heures qu'un utilisateur peut saisir au cours d'une même journée. Une valeur de 0 signifie qu'il n'y a aucune restriction.

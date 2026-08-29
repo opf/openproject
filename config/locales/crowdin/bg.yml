@@ -2914,6 +2914,7 @@ bg:
         progress_calculation_adjusted_from_disabled_mode: Изчисляването на напредъка автоматично се <a href="%{href}" target="_blank">настройва на режим, базиран на работата, и се коригира при актуализиране на версията</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Автоматично премахване на общите суми за работа и напредък за работни пакети, които не са родителски, при <a href="%{href}" target="_blank">актуализиране на версията</a>. Това е задача по поддръжката и може спокойно да бъде пренебрегната.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
@@ -5254,7 +5255,7 @@ bg:
   setting_default_language: Език по подразбиране
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
