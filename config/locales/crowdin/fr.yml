@@ -471,7 +471,7 @@ fr:
           true: Inclure les jours non ouvrés
         journal_internal: Journal interne
         notify: Notifier
-        observed_in_versions: Observed in versions
+        observed_in_versions: Constaté dans les versions
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -5552,7 +5552,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
-  setting_default_projects_wiki: Active la fonctionnalité wiki par défaut pour les nouveaux projets
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents

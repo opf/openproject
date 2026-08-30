@@ -5549,7 +5549,7 @@ el:
   setting_default_language: Προεπιλεγμένη γλώσσα
   setting_default_projects_modules: Ενότητα ενεργοποιημένες από προεπιλογή για τα νέα έργα
   setting_default_projects_public: Τα νέα έργα είναι δημόσια από προεπιλογή
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Εμφανίζεται ο μέγιστος αριθμός γραμμών diff
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Εμφάνιση πακέτων εργασίας υποέργων στα κύρια έργα από προεπιλογή

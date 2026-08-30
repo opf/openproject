@@ -5402,7 +5402,7 @@ vi:
   setting_default_language: Ngôn ngữ mặc định
   setting_default_projects_modules: Các mô-đun được bật mặc định cho các dự án mới
   setting_default_projects_public: Các dự án mới được công khai theo mặc định
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
   setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định

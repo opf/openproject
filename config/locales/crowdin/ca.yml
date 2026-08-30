@@ -5541,7 +5541,7 @@ ca:
   setting_default_language: Idioma per defecte
   setting_default_projects_modules: Mòduls activats per defecte en els projectes nous
   setting_default_projects_public: Els projectes nous són públics per defecte
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Nombre màxim de línies mostrades pels diff
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Mostrae els paquets de treball dels subprojectes en els projectes principals per defecte

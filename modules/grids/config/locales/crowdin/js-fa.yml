@@ -35,7 +35,13 @@ fa:
         project_timeline:
           accessible_date_range: "%{start} تا %{end}"
           accessible_gate: 'نقطه کنترل مرحله %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: 'مرحله %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
           tooltip_type_gate: نقطه کنترل مرحله
           tooltip_type_milestone: نقطه عطف
           tooltip_type_phase: مرحله

@@ -5560,7 +5560,7 @@ tr:
   setting_default_language: Varsayılan dil
   setting_default_projects_modules: Yeni projeler için varsayılan etkin modüller
   setting_default_projects_public: Yeni projeler varsayılan olarak herkese açık
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Görüntülenen fark satırlarının maksimum sayısı
   setting_disable_password_login: Parola kimlik doğrulamasını devre dışı bırak
   setting_display_subprojects_work_packages: Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster

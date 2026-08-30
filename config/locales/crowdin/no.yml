@@ -5554,7 +5554,7 @@
   setting_default_language: Standardspråk
   setting_default_projects_modules: Standardaktiverte moduler for nye prosjekter
   setting_default_projects_public: Nye prosjekter er offentlige som standard
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maks antall linjeforskjeller som vises
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Vis arbeidspakker for underprosjekter som standard for hovedprosjekter

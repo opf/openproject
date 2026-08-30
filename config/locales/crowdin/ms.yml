@@ -5406,7 +5406,7 @@ ms:
   setting_default_language: Bahasa default
   setting_default_projects_modules: Modul yang diaktifkan secara default untuk projek baharu
   setting_default_projects_public: Projek baharu adalah awam secara default
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Jumlah maksimum baris perbezaan yang dipaparkan
   setting_disable_password_login: Lumpuhkan pengesahan kata laluan
   setting_display_subprojects_work_packages: Paparkan subprojek pakej kerja di projek utama secara default

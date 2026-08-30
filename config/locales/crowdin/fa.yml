@@ -5548,7 +5548,7 @@ fa:
   setting_default_language: زبان پیش‌فرض
   setting_default_projects_modules: ماژول‌های فعال پیش‌فرض برای پروژه‌های جدید
   setting_default_projects_public: پروژه‌های جدید به‌طور پیش‌فرض عمومی هستند
-  setting_default_projects_wiki: قابلیت Wiki را به‌طور پیش‌فرض برای پروژه‌های جدید فعال می‌کند
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
   setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض

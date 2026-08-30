@@ -5859,7 +5859,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: По умолчанию включает функцию вики для новых проектов
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию

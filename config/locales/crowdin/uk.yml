@@ -5877,7 +5877,7 @@ uk:
   setting_default_language: Мова за замовчуванням
   setting_default_projects_modules: Включені по замовчуванню модулі для нових проектів
   setting_default_projects_public: Нові проекти є загальнодоступними
-  setting_default_projects_wiki: За умовчанням вмикає функцію Wiki для нових проєктів
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Відображається максимальна кількість рядків diff
   setting_disable_password_login: Вимкнути автентифікацію за допомогою пароля
   setting_display_subprojects_work_packages: Дисплей підпроекти пакети робіт на основні проекти за замовчуванням

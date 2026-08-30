@@ -5540,7 +5540,7 @@ nl:
   setting_default_language: Standaard taal
   setting_default_projects_modules: Standaard actieve modules voor nieuwe projecten
   setting_default_projects_public: Nieuwe projecten zijn standaard publiek
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximaal aantal afwijkende regels getoond
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Toon standaard de werkpakketten van onderliggende projecten bij hoofdprojecten
