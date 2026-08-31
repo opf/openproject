@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Install and log in
   priority: 790
-description: Follow these steps and requirements to start using OpenProject Mobile app.
+description: Follow these steps and requirements to start using the OpenProject Mobile app.
 keywords: mobile app first steps, getting started, log in, log-in, login, mobile log in, openproject mobile app, download, access, install, mobile installation
 ---
 
