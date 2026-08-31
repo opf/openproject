@@ -40,7 +40,7 @@ The Home dashboard is built from **sections/widgets** that summarize or link to 
 
 ## Customize your Home dashboard
 
-While the mobile dashboard is designed for simplicity, you can customize the **order and visibility of widgets** using the **edit widgets button** on the right side of the top navigation bar. Tapping the icon lets you show or hide widgets and reorder them.
+While the mobile dashboard is designed for simplicity, you can customize the **order and visibility of widgets** using the **Edit widgets button** on the right side of the top navigation bar. Tapping the icon lets you show or hide widgets and reorder them.
 
 ![Add and reorder widgets to the Home dashboard](home_dashboard-add_widgets.png)
 
