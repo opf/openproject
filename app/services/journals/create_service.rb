@@ -341,16 +341,14 @@ module Journals
     # * setting the updated_at timestamp on an updated (aggregated with) journal
     # * setting the validity_period (upper bound) of the preceding journal.
     def fetch_time_sql
-      timestamp_column = Journal.connection.quote_column_name(journable.class.aaj_options[:timestamp])
       timestamp = <<~SQL.squish
         COALESCE(
           (SELECT updated_at FROM touch_journable),
-          (SELECT #{timestamp_column} FROM #{journable_table_name} WHERE id = :journable_id),
-          :journable_timestamp
+          (SELECT #{journable_timestamp_column} FROM #{journable_table_name} WHERE id = :journable_id)
         )
       SQL
 
-      sanitize(<<~SQL, journable_id:, journable_timestamp:)
+      sanitize(<<~SQL, journable_id:)
         SELECT #{after_latest_journal_sql(timestamp)} AS updated_at
       SQL
     end
@@ -555,8 +553,8 @@ module Journals
       journable.class.columns_hash.select { |_, v| v.type == :text }.keys.map(&:to_sym) & journable.journaled_columns_names
     end
 
-    def journable_timestamp
-      journable.send(journable.class.aaj_options[:timestamp])
+    def journable_timestamp_column
+      Journal.connection.quote_column_name(journable.class.aaj_options[:timestamp])
     end
 
     def journable_type
