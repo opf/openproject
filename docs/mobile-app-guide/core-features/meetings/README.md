@@ -25,7 +25,7 @@ With the Meetings module, you can:
     - **Details**
     - **Participants**
     - **Attachments**
-- Update the **meeting status** (for example when the meeting starts or ends).
+- Update the **meeting status** (for example, when the meeting starts or ends).
 - Manage agendas:
     - add, edit, move, and delete **agenda sections**,
     - add, edit, move, and delete **agenda items**,
