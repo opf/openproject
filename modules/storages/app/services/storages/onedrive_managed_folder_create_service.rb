@@ -32,7 +32,7 @@ module Storages
   class OneDriveManagedFolderCreateService < BaseService
     using Peripherals::ServiceResultRefinements
 
-    def self.i18n_key = "one_drive_sync_service"
+    def self.i18n_key = "onedrive_sync_service"
 
     class << self
       def call(storage:, project_storages_scope: nil)

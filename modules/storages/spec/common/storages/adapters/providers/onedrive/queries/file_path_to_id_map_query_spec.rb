@@ -37,7 +37,7 @@ module Storages
       module OneDrive
         module Queries
           RSpec.describe FilePathToIdMapQuery, :disable_ssrf_filter, :webmock do
-            let(:storage) { create(:one_drive_sandbox_storage) }
+            let(:storage) { create(:onedrive_sandbox_storage) }
             let(:auth_strategy) { Adapters::Registry["onedrive.authentication.userless"].call }
             let(:depth) { Float::INFINITY }
             let(:input_data) { Input::FilePathToIdMap.build(folder:, depth:).value! }

@@ -392,7 +392,7 @@ RSpec.describe "Admin Edit File storage",
   end
 
   context "with OneDrive Storage" do
-    let(:storage) { create(:one_drive_storage, :as_automatically_managed, name: "Test Drive") }
+    let(:storage) { create(:onedrive_storage, :as_automatically_managed, name: "Test Drive") }
     let(:oauth_client) { create(:oauth_client, integration: storage) }
 
     before { oauth_client }
@@ -503,7 +503,7 @@ RSpec.describe "Admin Edit File storage",
   end
 
   context "with OneDrive Storage and not automatically managed" do
-    let(:storage) { create(:one_drive_storage, :as_not_automatically_managed, name: "Cloud Storage") }
+    let(:storage) { create(:onedrive_storage, :as_not_automatically_managed, name: "Cloud Storage") }
 
     it "renders health status information but without health notifications for automatically managed folders" do
       visit edit_admin_settings_storage_path(storage)

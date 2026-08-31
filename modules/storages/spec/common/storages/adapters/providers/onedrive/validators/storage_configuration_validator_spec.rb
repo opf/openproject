@@ -37,7 +37,7 @@ module Storages
       module OneDrive
         module Validators
           RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
-            let(:storage) { create(:one_drive_sandbox_storage, :as_automatically_managed) }
+            let(:storage) { create(:onedrive_sandbox_storage, :as_automatically_managed) }
             let(:auth_strategy) { Registry["onedrive.authentication.userless"].call }
             let(:error) { SimpleError.new(code: error_code, source: self) }
 
@@ -60,7 +60,7 @@ module Storages
               end
 
               context "when the storage isn't configured" do
-                let(:storage) { create(:one_drive_storage) }
+                let(:storage) { create(:onedrive_storage) }
 
                 it "the check fails" do
                   results = validator.call

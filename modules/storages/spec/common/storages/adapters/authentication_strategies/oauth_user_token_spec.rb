@@ -38,7 +38,7 @@ module Storages
         subject(:Authentication) { described_class }
 
         let(:user) { create(:user) }
-        let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+        let(:storage) { create(:onedrive_sandbox_storage, oauth_client_token_user: user) }
         let(:strategy_data) { Input::Strategy.build(user:, key: :oauth_user_token) }
 
         let(:token_fetcher) { instance_double(OAuthClients::TokenFetcher, access_token_for: Success(access_token)) }

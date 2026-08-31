@@ -70,7 +70,7 @@ RSpec.describe Storages::StoragesMailer do
     it_behaves_like "a health notification email" do
       let(:expected_subject_text) { "Storage \"#{storage.name}\" is now healthy!" }
       let(:reason) { "thou_shall_not_pass_error" }
-      let(:storage) { build_stubbed(:one_drive_storage, :as_healthy) }
+      let(:storage) { build_stubbed(:onedrive_storage, :as_healthy) }
 
       subject(:mail) { described_class.notify_healthy(admin, storage, reason) }
     end

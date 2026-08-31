@@ -41,7 +41,7 @@ module Storages
 
             context "when using OAuth2" do
               let(:user) { create(:user) }
-              let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+              let(:storage) { create(:onedrive_sandbox_storage, oauth_client_token_user: user) }
               let(:error) { SimpleError.new(code: :unauthorized, source: self) }
 
               before { User.current = user }

@@ -37,7 +37,7 @@ module Storages
       module OneDrive
         RSpec.describe OneDriveContract, :storage_server_helpers, :webmock do
           let(:current_user) { create(:admin) }
-          let(:storage) { build(:one_drive_storage) }
+          let(:storage) { build(:onedrive_storage) }
 
           # As the OneDriveContract is selected by the BaseContract to make writable attributes available,
           # the BaseContract needs to be instantiated here.
@@ -54,7 +54,7 @@ module Storages
           end
 
           context "with tenant that is no UUID" do
-            let(:storage) { build(:one_drive_storage, tenant_id: "123") }
+            let(:storage) { build(:onedrive_storage, tenant_id: "123") }
 
             it "is invalid" do
               expect(contract).not_to be_valid
@@ -64,7 +64,7 @@ module Storages
           end
 
           context "with blank Drive ID" do
-            let(:storage) { build(:one_drive_storage, drive_id: "") }
+            let(:storage) { build(:onedrive_storage, drive_id: "") }
 
             it "is invalid" do
               expect(contract).not_to be_valid
@@ -74,7 +74,7 @@ module Storages
           end
 
           context "with short Drive ID" do
-            let(:storage) { build(:one_drive_storage, drive_id: "1234567890") }
+            let(:storage) { build(:onedrive_storage, drive_id: "1234567890") }
 
             it "is invalid" do
               expect(contract).not_to be_valid
