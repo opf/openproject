@@ -60,6 +60,6 @@ Use the **Time tracker** tab when you want to measure time as you work:
 - You can always **Pause** the tracker if needed.
 - **Stop** the timer when you are done.
 - Review and edit the log time information.
-- Tap **Save** to create the time entry. Or, tap **Continue tracking** to keep the tracker running from where you left it.
+- Tap **Save** to create the time entry or tap **Continue tracking** to keep the tracker running from where you left it.
 
 ![Time tracker timer](time_tracking-timer.png)
