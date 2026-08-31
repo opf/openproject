@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: "Help and reference"
   priority: 860
-description: Get help and references when stuck with the OpenProject mobile app.
+description: Get help and references when you are stuck with the OpenProject mobile app.
 keywords: mobile app help, support, help, app help, faq, mobile app support, OpenProject mobile app 
 ---
 
