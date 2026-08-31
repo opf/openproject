@@ -84,7 +84,7 @@ Open **What’s new** to review highlights from the latest mobile app releases. 
 
 ### Mobile app documentation
 
-Opens the mobile app documentation guides in your browser, so you can look up how modules work and what features are available.
+The mobile app documentation opens documentation guides in your browser, so you can look up how modules work and what features are available.
 
 ### Switch instance
 
