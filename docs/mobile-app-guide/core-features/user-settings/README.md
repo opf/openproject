@@ -47,7 +47,7 @@ This typically includes:
 Use these settings to reduce noise and focus on what matters to you.
 
 > [!NOTE]
-> This settings are global, if you change them in the app this will also affect what notifications you recieve in the core browser app of OpenProject.
+> These settings are global. If you change them in the app this will also affect what notifications you receive in the core OpenProject browser app.
 
 ### Work package settings
 
