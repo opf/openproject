@@ -70,7 +70,7 @@ You can always **edit a work package** details from each field available on the 
 
 From all tabs you can access the **More actions** menu (three dots) with additional options. Depending on your current view, these may include:
 
-- **Share link: T**o share the work package through the OS sharing functionality.
+- **Share link:** To share the work package through the OS sharing functionality.
 - **Log time:** Log time to this work package.
 - **Start timer:** Start a timer in the application to log time to this work package.
 - **Start or stop watching:** Start or stop receiving notifications for this work package.
