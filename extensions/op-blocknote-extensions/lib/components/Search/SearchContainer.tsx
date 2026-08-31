@@ -5,37 +5,26 @@ import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
 
 /**
- * Container for the work package search UI.
- *
- * $floating — renders as an absolutely positioned popover (used inside
- * InlineWorkPackageChip where the search appears overlaid on the editor).
- * Without $floating it renders as a normal block element (used in BlockWorkPackage).
+ * Popover surface for the work package search UI, overlaying the pending chip or block
+ * it belongs to. Positioned by useAnchoredPopover whenever an anchor element is known.
  */
 export const SearchContainer = styled.div.attrs({
   className: 'op-bn-search',
-})<{ $floating?:boolean }>`
+})`
   ${defaultWpVariables}
-  position: ${({ $floating }) => ($floating ? 'absolute' : 'relative')};
-  z-index: ${({ $floating }) => ($floating ? FLOATING_Z_INDEX.search : 'auto')};
-  top: ${({ $floating }) => ($floating ? '1.6em' : 'auto')};
-  left: ${({ $floating }) => ($floating ? 0 : 'auto')};
-  overflow: ${({ $floating }) => ($floating ? 'hidden' : 'visible')};
-  width: ${({ $floating }) => ($floating ? '400px' : '100%')};
+  position: absolute;
+  z-index: ${FLOATING_Z_INDEX.search};
+  top: 1.6em;
+  left: 0;
+  overflow: hidden;
+  width: 400px;
   padding: var(--spacer-m) var(--spacer-xl);
   background-color: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   line-height: 1.5;
-
-  @media (min-width: 1120px) {
-    width: ${({ $floating }) => ($floating ? '400px' : '500px')};
-  }
 `;
 
-/**
- * Accessible label for the search input.
- * Linked to SearchInput via htmlFor / id = SEARCH_INPUT_ID.
- */
 export const SearchLabel = styled.label.attrs({
   className: 'op-bn-search--label',
   htmlFor: SEARCH_INPUT_ID,

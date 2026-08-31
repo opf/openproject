@@ -2,7 +2,6 @@ import type { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
 import { convertBlockToInlineChip } from '../../utils/inlineChipActions';
@@ -13,8 +12,7 @@ import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
-import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
-import { SearchDropdown } from '../Search/SearchDropdown';
+import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { CreateWorkPackageModal } from '../CreateWorkPackage';
 import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
@@ -57,7 +55,6 @@ export const BlockWorkPackageComponent = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editor:BlockNoteEditor<any>;
 }) => {
-  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const [blockEl, setBlockEl] = useState<HTMLDivElement | null>(null);
   // Fetch and cache colors.
@@ -195,17 +192,10 @@ export const BlockWorkPackageComponent = ({
         )}
 
         {pendingMode === 'link' && (
-          <SearchContainer $floating>
-            <SearchLabel>
-              {t('search.label')}
-            </SearchLabel>
-            <SearchDropdown
-              autoFocus
-              onSelect={handleSelectWorkPackage}
-              onCancel={handleCancelPending}
-              renderItem={(wp) => <BlockCard workPackage={wp} inDropdown />}
-            />
-          </SearchContainer>
+          <WorkPackageSearchPopover
+            onSelect={handleSelectWorkPackage}
+            onCancel={handleCancelPending}
+          />
         )}
 
         {block.props.wpid && (

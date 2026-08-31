@@ -70,7 +70,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
-    if (pendingCallbacks?.mode === 'create' || node === null) setChipEl(node);
+    if (pendingCallbacks || node === null) setChipEl(node);
     contentRef(node);
   };
 
@@ -139,23 +139,25 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       clearInlineWpCallbacks(rawWpid);
     };
 
+    const pendingPopover = pendingCallbacks.mode === 'create'
+      ? (
+        <CreateWorkPackageModal
+          anchorEl={chipEl}
+          onCreated={resolvePending}
+          onCancel={cancelPending}
+        />
+      )
+      : (
+        <WorkPackageSearchPopover
+          anchorEl={chipEl}
+          onSelect={resolvePending}
+          onCancel={cancelPending}
+        />
+      );
+
     return (
       <InlineChip ref={setRef}>
-        {pendingCallbacks.mode === 'create'
-          ? chipEl && (
-            <CreateWorkPackageModal
-              anchorEl={chipEl}
-              onCreated={resolvePending}
-              onCancel={cancelPending}
-            />
-          )
-          : (
-            <WorkPackageSearchPopover
-              onSelect={resolvePending}
-              onCancel={cancelPending}
-              renderItem={(searchResult) => <BlockCard workPackage={searchResult} inDropdown />}
-            />
-          )}
+        {chipEl && pendingPopover}
       </InlineChip>
     );
   }
