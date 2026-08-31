@@ -24,6 +24,6 @@ Work is ongoing to also make **meetings** available through global search.
 With global search you can:
 
 - Search by keyword or ID across supported content types.
-- Filter down the list with quick filters related to each content type.
+- Filter down the list using quick filters related to each content type.
 - See results grouped by type (for example work packages vs. projects).
 - Open a result directly to continue your work.
