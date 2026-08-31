@@ -18,7 +18,7 @@ With the Meetings module, you can:
     - **individual meetings**, and
     - **meeting series** (recurring meetings).
 - Browse meetings within a series, including **upcoming** and **past** meetings.
-- **Search and filter** meetings (for example by project or by switching queries).
+- **Search and filter** meetings (for example, by project or by switching queries).
 - Open meeting details and work with:
     - **Agenda**
     - **Backlog**
