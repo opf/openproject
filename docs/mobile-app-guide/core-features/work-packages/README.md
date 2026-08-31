@@ -74,7 +74,7 @@ From all tabs you can access the **More actions** menu (three dots) with additio
 - **Log time:** Log time to this work package.
 - **Start timer:** Start a timer in the application to log time to this work package.
 - **Start or stop watching:** Start or stop receiving notifications for this work package.
-- **Set reminder:** Set a reminder in the future to receive a notification at the desired time.
+- **Set reminder:** Set a reminder for the future to receive a notification at the desired time.
 - **Add to device calendar:** Add the work package to your native device calendar (available only if the work package has dates filled in).
 
 ![Work packages more actions](work_packages-more_actions.png)
