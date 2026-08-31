@@ -28,11 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ parameter used
-# by the work package move and bulk-edit forms. It is pulled out of the generic
-# scalar "none"/blank attribute transforms (which are built for scalar values)
-# and normalized here instead.
-module WorkPackages::TargetVersionNormalization
+# Shared normalization for the array-valued +target_version_ids+ and
+# +observed_in_version_ids+ parameters used by the work package move and
+# bulk-edit forms. It is pulled out of the generic scalar "none"/blank
+# attribute transforms (which are built for scalar values) and normalized
+# here instead.
+module WorkPackages::VersionIdsNormalization
   extend ActiveSupport::Concern
 
   included do
@@ -43,6 +44,15 @@ module WorkPackages::TargetVersionNormalization
     #   * "none" selection -> []   (clear all target_versions)
     #   * a version id      -> [id]
     def normalized_target_version_ids(raw)
+      normalized_version_ids(raw)
+    end
+
+    # Same magic values as #normalized_target_version_ids, applied to observed_in_version_ids.
+    def normalized_observed_in_version_ids(raw)
+      normalized_version_ids(raw)
+    end
+
+    def normalized_version_ids(raw)
       values = Array(raw).compact_blank
       values == ["none"] ? [] : values.presence
     end
