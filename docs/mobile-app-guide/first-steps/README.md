@@ -24,7 +24,7 @@ To use the OpenProject Mobile app (Beta), you need:
 - **OpenProject 17.0.0 or above**
 - An **OpenProject Cloud** workspace or **on-premises** installation (with API access enabled)
 - **HTTPS with a signed certificate** (http is not supported)
-- **Built-in OAuth applications enabled**: `{BASE_URL}/admin/oauth/applications`
+- **Built in OAuth applications enabled**: `{BASE_URL}/admin/oauth/applications`
 - **iOS 17+** or **Android 12+**
 - Internet access for syncing
 
