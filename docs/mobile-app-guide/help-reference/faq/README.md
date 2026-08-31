@@ -157,7 +157,7 @@ Check the following:
 - Your instance meets the **minimum version** requirement (17.0.0), or the OAuth feature flag is enabled.
 - Ensure your credentials are correct, and you have **API access** enabled on On-Premises instances.
 
-If none of the above solves the problem, check the [Login Troubleshooting Guide](../../first-steps/login-troubleshooting/).
+If none of the above solve the problem, check the [Login Troubleshooting Guide](../../first-steps/login-troubleshooting/).
 
 ## How can I provide feedback on the Beta app?
 
