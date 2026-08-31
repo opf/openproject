@@ -14,7 +14,7 @@ The app is released in **Beta** to provide early access while core functionality
 
 ## What is the OpenProject Mobile app?
 
-The OpenProject Mobile App is a companion to the OpenProject web and desktop applications. It helps you **stay informed, manage work packages, track time, and collaborate** while on the go. As the app is currently in **Beta**, some advanced features are still under development.
+The OpenProject Mobile app is a companion to the OpenProject web and desktop applications. It helps you **stay informed, manage work packages, track time, and collaborate** while on the go. As the app is currently in **Beta**, some advanced features are still under development.
 
 ## What platforms are supported?
 
