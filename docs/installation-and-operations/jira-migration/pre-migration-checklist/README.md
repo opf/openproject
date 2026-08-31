@@ -51,7 +51,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153))
 - [ ] Permission schemes / roles (planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97))
 - [ ] Agile boards (Scrum/Kanban setup, filters, swimlanes) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106))
-- [ ] Integration with Confluence
+- [ ] Integration with Confluence (planned: [JIM-193](https://community.openproject.org/projects/JIM/work_packages/JIM-193))
 - [ ] Any Marketplace app data (e.g. Tempo time tracking, Xray/Zephyr test management, Structure hierarchies) — the migrator only handles core Jira issue/project/user data and the specific custom field types listed above. Inventory which apps your teams actually depend on and decide separately how to handle each one's data.
 
 For anything on this list your teams actually rely on, decide now how you'll handle it — export it separately, accept the loss, or plan to recreate it manually after migration (see the [Post-Migration checklist](../post-migration-checklist/) for what that looks like). Don't discover this after the fact.
