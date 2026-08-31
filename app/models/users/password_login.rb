@@ -104,13 +104,5 @@ module Users
 
       bypass_logins.any? { |exempt| exempt.casecmp?(login) }
     end
-
-    def register_setting_overrides!
-      Settings::Definition.add_value_override(:disable_password_login) do
-        true if OpenProject::Configuration::TRUE_VALUES.include?(ENV["OPENPROJECT_DISABLE__PASSWORD__LOGIN"])
-      end
-    end
-
-    register_setting_overrides!
   end
 end

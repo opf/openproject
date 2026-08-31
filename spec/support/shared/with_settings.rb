@@ -100,7 +100,6 @@ RSpec.shared_context "with settings reset" do
     # Clear block-style overrides registered via add_value_override and the
     # cached file config so the next test re-reads from disk.
     Settings::Definition.clear_value_overrides
-    Users::PasswordLogin.register_setting_overrides!
     Settings::Definition.instance_variable_set(:@file_config, nil)
   end
 end

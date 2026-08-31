@@ -130,11 +130,14 @@ RSpec.describe "Authentication Settings",
   end
 
   describe "GET /admin/settings/authentication?tab=sso with password login configured by the environment",
+           :settings_reset,
            with_ee: %i[sso_auth_providers],
            with_env: { "OPENPROJECT_DISABLE__PASSWORD__LOGIN" => "true" } do
     let!(:provider) { create(:oidc_provider) }
 
     before do
+      reset(:disable_password_login)
+      reset(:password_login)
       get "/admin/settings/authentication.html?tab=sso"
     end
 

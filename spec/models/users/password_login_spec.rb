@@ -45,7 +45,11 @@ RSpec.describe Users::PasswordLogin do
     end
 
     it "maps the legacy disable_password_login env to a locked none setting",
+       :settings_reset,
        with_env: { "OPENPROJECT_DISABLE__PASSWORD__LOGIN" => "true" } do
+      reset(:disable_password_login)
+      reset(:password_login)
+
       expect(Setting.password_login).to eq described_class::NONE
       expect(Setting.password_login_writable?).to be false
       expect(described_class.mode).to eq described_class::NONE
