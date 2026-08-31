@@ -33,8 +33,6 @@ class Query < ApplicationRecord
   include Timestamps
   include Highlighting
   include ManualSorting
-  include DeprecatedVersionSelect
-  include DeprecatedVersionFilter
   include Queries::Filters::AvailableFilters
 
   belongs_to :project
@@ -296,7 +294,7 @@ class Query < ApplicationRecord
 
   def columns
     column_list = if has_default_columns?
-                    column_list = normalize_select_names(Setting.work_package_list_default_columns)
+                    column_list = Setting.work_package_list_default_columns.map(&:to_sym).uniq
                     # Adds the project column by default for cross-project lists
                     column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list

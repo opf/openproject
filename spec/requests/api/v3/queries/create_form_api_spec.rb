@@ -621,6 +621,35 @@ RSpec.describe "POST /api/v3/queries/form",
     end
   end
 
+  describe "with only the currently unavailable version filter key",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: [
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/version" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version.id) }]
+            }
+          }
+        ]
+      }
+    end
+
+    it "renders it under the available version filter, keeping its values" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/targetVersion"
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+        .to eq api_v3_paths.version(version.id)
+    end
+  end
+
   describe "posting to a project-query form with a CF present only there (Regression #29873)" do
     let(:custom_field) do
       create(

@@ -121,8 +121,8 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
-    # `version` and `target_versions` replace one another; stored names are
-    # translated on read, see Query::DeprecatedVersionSelect.
+    # `version` and `target_versions` replace one another; only one is offered
+    # at a time, gated by Setting::WorkPackageMultipleVersions.
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
       group_by_class_name: "Version",
