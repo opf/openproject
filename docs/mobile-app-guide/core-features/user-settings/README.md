@@ -55,7 +55,7 @@ Configure how work packages behave in the app.
 
 This includes:
 
-- **Activity tab “mark as read” behavior:** Choose how notifications/activities are marked as read when using the **Activity** tab (for example automatically when opening it, only when commenting, or only when quote replying).
+- **Activity tab “mark as read” behavior:** Choose how notifications/activities are marked as read when using the **Activity** tab (for example, automatically when opening it, only when commenting, or only when replying with a quote).
 - **Creation settings:** Adjust defaults used when creating new work packages.
 - **Default page for work package lists:** Choose what query from the default ones opens when you enter work package lists.
 
