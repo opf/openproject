@@ -8,7 +8,7 @@ keywords: Mobile app features work packages, work package, work packages, create
 
 # Work packages
 
-**Work packages** are the central items you work with in OpenProject, for example tasks, features, bugs, milestones, or any other work item type configured in your instance. In the mobile app, the Work packages module lets you browse, search, update and work packages while you are on the go.
+**Work packages** are the central items you work with in OpenProject, for example tasks, features, bugs, milestones, or any other work item type configured in your instance. In the mobile app, the Work packages module lets you browse, search, update, and work packages while you are on the go.
 
 ## What you can do
 
