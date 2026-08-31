@@ -43,7 +43,7 @@ OpenProject Mobile is organized into modules. See the module guides for details:
 
 The OpenProject Mobile app includes features designed specifically for mobile devices:
 
-- **Attach photos directly from your camera: c**apture and upload images to work packages or comments—useful for documenting on-site work, progress, or issues in real time.
+- **Attach photos directly from your camera:** capture and upload images to work packages or comments—useful for documenting on-site work, progress, or issues in real time.
 - **Run timers (focus mode):** track your work time with built-in timers that support accurate time logging.
 - **Configure modules and dashboards: c**ustomize what you see by enabling only the modules and views most relevant to you.
 - **Tablet-specific navigation and interface:** use an interface optimized for larger screens and tablet navigation patterns to make it easier to browse and work across the app on iPad/Android tablets.
