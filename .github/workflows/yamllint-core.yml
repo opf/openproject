@@ -22,7 +22,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Yamllint
-        uses: reviewdog/action-yamllint@f01d8a48fd8d89f89895499fca2cff09f9e9e8c0 # v1.21.0
+        uses: reviewdog/action-yamllint@de68272fdca5f2a961fb309e0d2e13c2eb186d9e # v1.23.1
         with:
           reporter: github-pr-annotations
           fail_level: any
