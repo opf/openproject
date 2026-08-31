@@ -8,7 +8,7 @@ keywords: Mobile app global search, search, mobile search, global search, OpenPr
 
 # Global search
 
-**Global search** lets you search across multiple types of content in your OpenProject instance from one place. Use it to quickly find what you need without manually browsing through projects/spaces or lists.
+**Global search** lets you search across multiple types of content in your OpenProject instance from one place. Use it to quickly find what you need without manually browsing through projects, spaces or lists.
 
 At the moment, global search supports:
 
