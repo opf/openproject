@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="op-logo">
           <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--link") %>
         </div>
-        <% if CustomStyle.current&.logo_mobile.present? || !custom_logo? %>
+        <% if mobile_logo_present? || !custom_logo? %>
           <%= link_to(I18n.t("label_home"), configurable_home_url, class: ["op-logo--icon", "op-logo--link"].compact) %>
         <% end %>
       </div>
