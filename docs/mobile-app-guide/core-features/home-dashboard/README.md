@@ -22,7 +22,7 @@ Depending on your configuration and permissions, the Home dashboard can help you
 
 ## What appears on the Home dashboard
 
-The Home dashboard is built from **sections/widgets** that summarize or link to content. The full list of available in the app are:
+The Home dashboard is built from **sections/widgets** that summarize or link to content. The full list of widgets available in the app are:
 
 - Notifications
 - Assigned to me
