@@ -50,6 +50,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:priority) { build_stubbed(:priority) }
   let(:version) { build_stubbed(:version) }
   let(:target_versions) { [version] }
+  let(:observed_in_versions) { [] }
   let(:parent) do
     build_stubbed(:work_package).tap do |wp|
       allow(wp)
@@ -99,7 +100,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
       allow(wp)
         .to receive_messages(available_custom_fields:,
                              custom_field_values: [custom_value],
-                             effective_target_versions: target_versions)
+                             effective_target_versions: target_versions,
+                             effective_observed_in_versions: observed_in_versions)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -304,6 +306,41 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             {
               "href" => api_v3_paths.version(version_b.id),
               "title" => version_b.name
+            }
+          ],
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with only the observed in versions changed" do
+    let(:observed_in_versions) { [version] }
+    let(:attributes_changed_to_baseline) { %w[observed_in_versions] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "observedInVersions" => [
+            {
+              "href" => api_v3_paths.version(version.id),
+              "title" => version.name
             }
           ],
           "self" => {
@@ -568,6 +605,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               "title" => version.name
             }
           ],
+          "observedInVersions" => [],
           "parent" => {
             "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
