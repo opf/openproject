@@ -98,7 +98,7 @@ You can create new meetings directly from the **Meetings** module.
 4. Fill in the required details, such as:
     - meeting title,
     - project,
-    - date and time (or start date / recurrence pattern for a series),
+    - date and time (or start date and recurrence pattern for a series),
     - participants.
 5. Tap **Create**.
 
