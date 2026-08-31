@@ -32,7 +32,7 @@ OpenProject Mobile is organized into modules. See the module guides for details:
 | --- | --- |
 | [**Home Dashboard**](core-features/home-dashboard) | Your personal overview of tasks, notifications, and project updates, giving you a quick snapshot of what matters most. |
 | [**Work Packages**](core-features/work-packages) | Create, view, and edit work packages directly from the app. Work packages are organized for quick access and easy collaboration. |
-| [**Notifications**](core-features/notification-center) | Receive updates about comments, mentions, and work package changes — ensuring you never miss an important activity. |
+| [**Notifications**](core-features/notification-center) | Receive updates about comments, mentions, and work package changes, ensuring you never miss an important activity. |
 | [**Time Tracking**](core-features/time-tracking) | Track time spent on work packages, run timers in focus mode, and keep your reporting accurate and up to date. |
 | [**Meetings**](core-features/meetings) | Access and react to meeting agendas, series and details directly in the app. |
 | [**Global search**](core-features/global-search) | Search across all the content available in the app from a single place. |
