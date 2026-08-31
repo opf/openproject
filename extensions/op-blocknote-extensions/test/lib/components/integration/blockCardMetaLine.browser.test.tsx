@@ -11,6 +11,7 @@ const cardWp = {
     self: { href: '/api/v3/work_packages/81' },
     type: { title: 'BUG', href: '/api/v3/types/1' },
     status: { title: 'In progress', href: '/api/v3/statuses/1' },
+    assignee: null,
     parent: { title: 'Parent WP', href: '/api/v3/work_packages/1' },
     project: { title: 'A project with a name long enough to need a line of its own', href: '/api/v3/projects/1' },
   },
