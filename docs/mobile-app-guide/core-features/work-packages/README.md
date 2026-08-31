@@ -64,7 +64,7 @@ A work package detail view is organized into sections/tabs, such as:
 
 ![Work package details view and information tabs](work_packages-details.png)
 
-You can always **edit a work package** details from each field available on the overview screen, but for more advanced editing tap on the Edit action (pencil icon) on the top navigation bar.
+You can always **edit a work package** details from each field available on the overview screen, but for more advanced editing, tap on the Edit action (pencil icon) on the top navigation bar.
 
 ### More actions
 
