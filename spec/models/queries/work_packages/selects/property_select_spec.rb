@@ -92,5 +92,25 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         end
       end
     end
+
+    describe "observed_in_versions column" do
+      it "is displayable, sortable and groupable" do
+        column = described_class.instances.find { it.name == :observed_in_versions }
+
+        expect(column).to be_displayable
+        expect(column).to be_sortable
+        expect(column).to be_groupable
+        expect(column.caption).to eq WorkPackage.human_attribute_name(:observed_in_versions)
+      end
+
+      it "sorts and groups via the work_package_versions join rows, scoped to the observed_in kind" do
+        column = described_class.instances.find { it.name == :observed_in_versions }
+
+        expect(Array(column.sortable)).to all include("work_package_versions")
+        expect(Array(column.sortable)).to all include("kind = 'observed_in'")
+        expect(column.groupable).to include("work_package_versions")
+        expect(column.groupable).to include("kind = 'observed_in'")
+      end
+    end
   end
 end
