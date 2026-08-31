@@ -63,7 +63,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 
 ## OpenProject-side prerequisites
 
-- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../README.md#test-configuration).
+- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count beforehand the migration.
 - [ ] **Check OpenProject's maximum attachment size setting** (Administration → Files → Attachments) against the largest attachments in your Jira data. OpenProject doesn't impose a total storage quota, but it does enforce a per-file size limit — a Jira attachment larger than this limit will fail to import. Since attachment failures are silently logged and skipped rather than stopping the run, this can otherwise go unnoticed until you check attachment counts post-migration. Raise the limit beforehand if needed.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
