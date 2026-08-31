@@ -12,7 +12,7 @@ keywords: Mobile app features work packages, work package, work packages, create
 
 ## What you can do
 
-From the Work packages module you can typically:
+From the Work packages module, you can typically:
 
 - **Browse work packages** across projects and queries.
 - **Search** for a specific work package by name.
