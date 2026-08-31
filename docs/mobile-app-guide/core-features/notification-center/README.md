@@ -77,7 +77,7 @@ If you want to change *which events* generate notifications, and which don’t, 
 > [!NOTE]
 > This is the central place to control your personal notification preferences. Changing these settings will affect the notifications received both on the mobile app and the core desktop app of OpenProject.
 
-#### Control when activities is marked as read automatically
+#### Control when activities are marked as read automatically
 
 You can also configure *when* items are marked as read automatically while working in a work package’s **Activity** tab. In **Account and settings → Work package settings**, choose one of the following behaviors:
 
