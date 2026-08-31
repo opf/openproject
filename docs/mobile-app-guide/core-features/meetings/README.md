@@ -78,7 +78,7 @@ With the Meetings module, you can:
 
 ### Change meeting details or participants, or attach files
 
-1. Open the meeting and go to the different available tabs: 
+1. Open the meeting and use the available tabs:
     1. **Details: V**iew and change the meeting general details, its status and change the email calendar updates for all participants.
     2. **Participants:** View and add participants to the meeting.
     3. **Attachments:** Attach relevant files or photos to the meeting.
