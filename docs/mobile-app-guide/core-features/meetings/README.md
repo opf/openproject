@@ -76,7 +76,7 @@ With the Meetings module, you can:
 
 ![Status update and writing outcomes in a meeting](meetings-status_and_outcomes.png)
 
-### Change meeting details, participants or attach files
+### Change meeting details or participants, or attach files
 
 1. Open the meeting and go to the different available tabs: 
     1. **Details: V**iew and change the meeting general details, its status and change the email calendar updates for all participants.
