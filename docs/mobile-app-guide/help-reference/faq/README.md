@@ -125,7 +125,7 @@ The **Meetings** module lets you manage both **one-time meetings** and **recurri
 - Delete or cancel meetings (depending on permissions and configuration)
 - View linked meetings from a work package via the **Meetings** tab
 
-[Learn more about Meetings in OpenProject mobile app](../../core-features/meetings/).
+[Learn more about Meetings in the OpenProject mobile app](../../core-features/meetings/).
 
 ## What settings can I configure in the app?
 
