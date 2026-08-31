@@ -60,7 +60,7 @@ To keep your inbox tidy, mark notifications as read after reviewing them. You ca
 - Using the more menu (three dots) in the notification list to mark all notifications from a single work package as read.
 - Swipe the entire card to the right or left to mark all notifications from a single work package as read.
 - Mark all notifications as read in the notification centre using the mark all as read action on the top right corner of the notification list. This action is also available on the header of the work package details view when it has notifications.
-- Additionally you can mark single activities as read without marking the rest inside the work packages activities by using the more menu (three dots) of each activity.
+- Additionally, you can mark single activities as read without marking the rest inside the work packages activities by using the more menu (three dots) for each activity.
 
 ![Different ways of marking notifications as read](notifications-mark_as_read.png)
 
