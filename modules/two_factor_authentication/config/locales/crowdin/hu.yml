@@ -20,10 +20,21 @@ hu:
             phone_number:
               error_phone_number_format: "+XX XXXXXXXXX formátumnak meg kell felelnie"
     models:
-      two_factor_authentication/device: 2FA eszköz
-      two_factor_authentication/device/sms: Mobiltelefon
-      two_factor_authentication/device/totp: Hitelesítő alkalmazás
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Folytatás
   button_make_active: Activate
   button_make_default: Megjelölés alapértelmezettként
@@ -40,8 +51,8 @@ hu:
   notice_developer_strategy_otp: 'A fejlesztői stratégia a következő egyszeri jelszót generálta: %{token} (Csatorna: %{channel})'
   notice_phone_number_format: A következő módon add meg a telefonszámot +XX XXXXXXXXX
   plugin_openproject_two_factor_authentication:
-    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
-    name: OpenProject Two-factor authentication
+    description: 'Ez az OpenProject-bővítmény kétfaktoros hitelesítést alkalmaz a felhasználók számára: egyszeri jelszóval a TOTP-szabvány (Google Authenticator) alapján, illetve SMS-ben vagy hanghívás formájában a felhasználó mobiltelefonjára elküldött jelszóval.'
+    name: OpenProject kétfaktoros hitelesítés
   text_otp_not_receive: Másik hitelesítési módszer használata
   text_send_otp_again: 'Egyszeri jelszó újra küldése: '
   two_factor_authentication:
@@ -51,7 +62,7 @@ hu:
       button_register_mobile_phone_for_user: Mobiltelefon regisztrálása
       delete_all_are_you_sure: Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?
       no_devices_for_user: Nincs regisztrált 2FA eszköze a felhasználónak.
-      only_sms_allowed: Only SMS delivery can be set up for other users.
+      only_sms_allowed: Más felhasználók számára csak az SMS-küldés állítható be.
       self_edit_forbidden: Ezen az útvonalon nem tudod szerkeszteni a 2FA-t. Menj a Saját Fiokom > Két faktorú azonosítás menübe
       self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
       text_2fa_disabled: A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon
@@ -123,8 +134,8 @@ hu:
         time_based: Idő alapú
         title: App-based authenticator
       webauthn:
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Regisztráljon egy FIDO2-eszközt (például YubiKey-t) vagy mobilkészüléke biztonsági enklávéját.
+        further_steps: Miután kiválasztott egy nevet, kattintson a „Tovább” gombra. A böngésző felkéri, hogy mutassa be a WebAuthn-eszközét. Miután ezt megtette, az eszköz regisztrációja befejeződött.
         title: WebAuthn
     error_2fa_disabled: 2FA szolgáltatás le van tiltva.
     error_invalid_backup_code: Érvénytelen 2FA visszaállítási kulcs.
@@ -138,7 +149,7 @@ hu:
 
       '
     forced_registration:
-      required_to_add_device: Az aktív biztonsági házirend megköveteli a kétfaktoros hitelesítés engedélyezését. Kérjük, használja az alábbi űrlapot egy eszköz regisztrálásához.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Kétlépcsős azonosítás kikapcsolva
     label_2fa_enabled: Kétlépcsős azonosítás aktív
     label_default_device: Alapértelmezett 2FA eszköz
@@ -191,7 +202,7 @@ hu:
       sns: Amazon SNS
       totp: Hitelesítő alkalmazás
       webauthn: WebAuthn
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: A kétlépcsős beléptetés engedélyezéséhez és egy új 2FA eszköz regisztrációjához nyomd meg a fenti gombot. Amennyiben már rendelkezel ilyen eszközzel, alapértelmezettnek kell beállítanod.
     text_2fa_enabled: Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.
     text_otp_delivery_message_sms: 'A %{app_title} egyszeri jelszavad: %{token}'
     text_otp_delivery_message_voice: 'A %{app_title} egyszeri jelszavad: %{pause} %{token}. %{pause} Megismétlem: %{pause} %{token}'

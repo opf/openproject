@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,10 +36,10 @@ module Bim::Bcf::API::V2_1
           ::Bim::Bcf::Issue.of_project(@project)
         end
 
-        def transform_attributes(attributes)
+        def transform_attributes(attributes, fill_defaults: false)
           wp_attributes = ::Bim::Bcf::Issues::TransformAttributesService
                             .new(@project)
-                            .call(attributes)
+                            .call(attributes, fill_defaults:)
                             .result
 
           attributes
@@ -45,19 +47,41 @@ module Bim::Bcf::API::V2_1
             .merge(wp_attributes)
         end
 
+        # Only for a topic that creates its own work package. A topic naming an existing one
+        # adopts it, and its type, status and priority are already that work package's own.
+        def create_params_with_defaults(attributes)
+          return attributes if ::Bim::Bcf::Issues::CreateService.adopts_work_package?(attributes[:reference_links])
+
+          attributes.reverse_merge(default_create_params)
+        end
+
+        # Compacted: reverse_merge fills absent keys, so a default that resolves to nothing
+        # would otherwise be planted as an explicit nil and clear the attribute.
+        def default_create_params
+          default_type = ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_create_type(@project)
+
+          {
+            type: default_type,
+            status: ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_status(@project, type: default_type),
+            priority: ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_priority
+          }.compact
+        end
+
         # In a put request, every non required and non provided
         # parameter needs to be nilled. As we cannot nil type, status and priority
         # as they are required for a work package we use the default values.
         def default_put_params
+          default_type = ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_put_type(@project)
+
           {
             index: nil,
             assigned_to: nil,
             description: nil,
             due_date: nil,
             subject: nil,
-            type: @project.types.default.first,
-            status: Status.default,
-            priority: IssuePriority.default
+            type: default_type,
+            status: ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_status(@project, type: default_type),
+            priority: ::Bim::Bcf::Issues::DefaultWorkPackageAttributes.default_priority
           }
         end
       end
@@ -76,7 +100,7 @@ module Bim::Bcf::API::V2_1
              .new(model: Bim::Bcf::Issue,
                   api_name: "Topics",
                   params_modifier: ->(attributes) {
-                    transform_attributes(attributes)
+                    create_params_with_defaults(transform_attributes(attributes))
                       .merge(project: @project)
                   })
              .mount

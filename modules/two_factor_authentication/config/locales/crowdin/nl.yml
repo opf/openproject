@@ -20,10 +20,21 @@ nl:
             phone_number:
               error_phone_number_format: moet de formaat + XX XXXXXXXXX zijn
     models:
-      two_factor_authentication/device: 2FA apparaat
-      two_factor_authentication/device/sms: Mobiele telefoon
-      two_factor_authentication/device/totp: Verificator toepassing
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Verdergaan
   button_make_active: Activate
   button_make_default: Markeren als standaard
@@ -126,7 +137,7 @@ nl:
     error_no_device: Geen geregistreerd 2FA-apparaat gevonden voor deze gebruiker, ondanks dat dit vereist is voor dit voorbeeld.
     error_no_matching_strategy: Er is geen overeenkomende 2FA-strategie beschikbaar voor deze gebruiker. Neem contact op met uw beheerder.
     forced_registration:
-      required_to_add_device: Voor een actief beveiligingsbeleid moet u authenticatie met twee factoren inschakelen. Gebruik het volgende formulier om een apparaat te registreren.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Twee-factor-authenticatie is niet actief
     label_2fa_enabled: Twee-factor-authenticatie is actief
     label_default_device: Standaard 2FA-apparaat

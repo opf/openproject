@@ -43,6 +43,13 @@ es:
           invalid_claims_location: 'contiene ubicaciones no compatibles: %{invalid}. Las ubicaciones compatibles son: %{supported}.'
           invalid_claims_values: no define una matriz en %{attribute}.
           non_object_attribute: no define un objeto JSON en %{attribute}.
+    models:
+      openid_connect/provider:
+        one: Proveedor de OpenID Connect
+        other: Proveedores de OpenID Connect
+      openid_connect/user_token:
+        one: Token de OpenID Connect
+        other: Tokens de OpenID Connect
   logout_warning: 'Se ha cerrado la sesión. Puede que se haya perdido el contenido de cualquier formulario que haya enviado. [Inicie la sesión].
 
     '

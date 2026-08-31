@@ -92,7 +92,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
     before do
       Storages::Adapters::Registry
         .stub("nextcloud.queries.open_file_link",
-              ->(_) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: self)) })
+              ->(_) { Failure(SimpleError.new(code: :error, source: self)) })
     end
 
     it "renders an error message", :aggregate_failures do
@@ -109,7 +109,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
   end
 
   context "when the user has no current token" do
-    let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :missing_token, source: self)) }
+    let(:user_query_result) { Failure(SimpleError.new(code: :missing_token, source: self)) }
 
     context "and the user authenticates through OAuth 2.0 at the storage" do
       it "ensures creation of a remote identity" do
@@ -127,7 +127,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
       let(:oidc_provider) { create(:oidc_provider, :token_exchange_capable) }
       let(:storage) { create(:nextcloud_storage, :oidc_sso_enabled) }
 
-      let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: self)) }
+      let(:user_query_result) { Failure(SimpleError.new(code: :unauthorized, source: self)) }
 
       current_user do
         create(:user, authentication_provider: oidc_provider, member_with_permissions: { project => permissions })
@@ -145,7 +145,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
 
   context "when we can't authenticate the user" do
     context "and the user authenticates through OAuth 2.0 at the storage" do
-      let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: self)) }
+      let(:user_query_result) { Failure(SimpleError.new(code: :unauthorized, source: self)) }
 
       it "renders an error message", :aggregate_failures do
         request
@@ -160,7 +160,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
     context "and the user authenticates through a common SSO IDP" do
       let(:oidc_provider) { create(:oidc_provider, :token_exchange_capable) }
       let(:storage) { create(:nextcloud_storage, :oidc_sso_enabled) }
-      let(:user_query_result) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: self)) }
+      let(:user_query_result) { Failure(SimpleError.new(code: :error, source: self)) }
 
       current_user do
         create(:user, authentication_provider: oidc_provider, member_with_permissions: { project => permissions })
@@ -240,7 +240,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
   end
 
   context "when the user has no permission to access the project folder in the storage" do
-    let(:file_info_result) { Storages::Adapters::Results::Error.new(code: :forbidden, source: self) }
+    let(:file_info_result) { SimpleError.new(code: :forbidden, source: self) }
 
     before do
       allow(Storages::NextcloudManagedFolderPermissionsService).to receive(:call).and_return(ServiceResult.success)

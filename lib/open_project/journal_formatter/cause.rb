@@ -33,12 +33,18 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include OpenProject::JournalFormatter::CauseMeetingRendering
+  include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers::TranslationHelper
 
   attr_reader :cause
 
   def render(_key, values, options = { html: true })
     @cause = values.last
     @html = options[:html]
+
+    return "" if hidden_meeting_cause?
+    return combined_meeting_message if meeting_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -50,13 +56,21 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def caused_change
-    caused_change_text = I18n.t("journals.caused_changes.#{mapped_cause_type}",
+    caused_change_text = I18n.t("journals.caused_changes.#{caused_change_key}",
                                 default: mapped_cause_type,
                                 status_name: cause["status_name"])
     if html?
       content_tag(:strong, caused_change_text)
     else
       caused_change_text
+    end
+  end
+
+  def caused_change_key
+    if meeting_template_cause?
+      "#{cause['type']}_template"
+    else
+      mapped_cause_type
     end
   end
 
@@ -85,6 +99,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       total_percent_complete_mode_changed_to_simple_average_message
     when "import"
       import_message
+    when "work_package_parent_deleted"
+      I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     else
       related_work_package_changed_message
     end

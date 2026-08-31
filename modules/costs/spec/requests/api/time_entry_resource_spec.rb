@@ -173,7 +173,7 @@ RSpec.describe "API v3 time_entry resource" do
 
     context "when filtering by work package" do
       let(:unwanted_work_package) do
-        create(:work_package, project:, type: project.types.first)
+        create(:work_package, project:, type: project.enabled_types.first)
       end
 
       let(:other_time_entry) do
@@ -595,7 +595,7 @@ RSpec.describe "API v3 time_entry resource" do
           .to be(422)
 
         expect(subject.body)
-          .to be_json_eql("An ongoing time entry already exists for this user.".to_json)
+          .to be_json_eql("Another timer is already running. Only one timer can be active at the same time.".to_json)
                 .at_path("message")
       end
     end

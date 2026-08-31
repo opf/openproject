@@ -20,10 +20,21 @@ el:
             phone_number:
               error_phone_number_format: πρέπει να έχει μορφή + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Συσκευή 2FA
-      two_factor_authentication/device/sms: Κινητό Τηλέφωνο
-      two_factor_authentication/device/totp: Εφαρμογή ταυτοποίησης
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Συνέχεια
   button_make_active: Activate
   button_make_default: Ορισμός ως προεπιλογή
@@ -126,7 +137,7 @@ el:
     error_no_device: Δεν βρέθηκαν καταχωρημένες 2FA συσκευές για αυτό τον χρήστη, παρόλο που απαιτείται για αυτό το στιγμιότυπο.
     error_no_matching_strategy: Δεν βρέθηκε διαθέσιμη στρατηγική 2FA για αυτό τον χρήστη που να ταιριάζει. Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας.
     forced_registration:
-      required_to_add_device: Μια ενεργή πολιτική ασφαλείας απαιτεί να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων. Παρακαλούμε χρησιμοποιήστε την ακόλουθη φόρμα για να καταχωρήσετε μια συσκευή.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Η ταυτοποίηση δύο παραγόντων δεν είναι ενεργή
     label_2fa_enabled: Η ταυτοποίηση δύο παραγόντων είναι ενεργή
     label_default_device: Προεπιλεγμένη συσκευή 2FA

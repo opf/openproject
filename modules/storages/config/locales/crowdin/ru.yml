@@ -31,18 +31,18 @@ ru:
         authentication_method: Метод аутентификации
         creator: Автор
         drive: ID диска
-        file_link_origin: File link origin ID
+        file_link_origin: ID ссылки на файл
         host: Хост
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
+        linkable_to_storage: Возможность подключения к хранилищу
+        linkable_to_storage_url: Ссылка на URL хранилища
         name: Имя
         password: Пароль приложения
         provider_type: Тип поставщика
-        storage: Storage
-        storage_url: Storage URL
+        storage: Хранилище
+        storage_url: URL хранилища
         tenant: ID каталога (арендатора)
       work_package:
-        file_links: File links
+        file_links: Ссылки на файлы
     errors:
       messages:
         invalid_host_url: не является допустимым URL-адресом.
@@ -66,15 +66,43 @@ ru:
             host:
               authorization_header_missing: не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
               cannot_be_connected_to: не удалось подключиться. Убедитесь, что хост доступен и установлено приложение интеграции OpenProject.
-              minimal_nextcloud_version_unmet: не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: не является сервером Nextcloud
               op_application_not_installed: похоже, что приложение "Интеграция с OpenProject" не установлено. Сначала установите его и повторите попытку.
             password:
               invalid_password: недействителен.
               unknown_error: не удалось подтвердить соединение с провайдером файлового хранилища. Пожалуйста, убедитесь, что соединение работает правильно.
     models:
-      file_link: Файл
-      storages/storage: Хранилище
+      storages/file_link:
+        one: Ссылка на файл
+        few: File links
+        many: File links
+        other: Ссылки на файл
+      storages/nextcloud_storage:
+        one: Хранилище Nextcloud
+        few: Nextcloud storages
+        many: Nextcloud storages
+        other: Хранилища Nextcloud
+      storages/one_drive_storage:
+        one: Хранилище OneDrive
+        few: OneDrive storages
+        many: OneDrive storages
+        other: Хранилища OneDrive
+      storages/project_storage:
+        one: Хранилище проекта
+        few: Project storages
+        many: Project storages
+        other: Хранилища проекта
+      storages/sharepoint_storage:
+        one: Хранилище SharePoint
+        few: SharePoint storages
+        many: SharePoint storages
+        other: Хранилища SharePoint
+      storages/storage:
+        one: Хранилище
+        few: Storages
+        many: Storages
+        other: Хранилища
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
@@ -115,26 +143,27 @@ ru:
         remote_folders: 'Чтение содержимого командной папки:'
         remove_user_from_group: 'Удалить пользователя из группы:'
         rename_project_folder: 'Переименовать управляемую папку проекта:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Разрешения для управляемых папок:'
       one_drive_sync_service:
         create_folder: 'Создание управляемых папок проекта:'
         ensure_root_folder_permissions: 'Установить разрешения для базовых папок:'
         hide_inactive_folders: 'Скрыть неактивные папки:'
         remote_folders: 'Чтение содержимого корневой папки диска:'
         rename_project_folder: 'Переименовать управляемую папку проекта:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Разрешения для управляемых папок:'
       sharepoint_sync_service:
         create_folder: 'Создание управляемых папок проекта:'
         ensure_root_folder_permissions: 'Установить разрешения для базовых папок:'
         hide_inactive_folders: 'Скрыть неактивные папки:'
         remote_folders: 'Чтение содержимого корневой папки диска:'
         rename_project_folder: 'Переименовать управляемую папку проекта:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Разрешения для управляемых папок:'
     errors:
       messages:
         error: Произошла непредвиденная ошибка. Пожалуйста, проверьте журналы OpenProject для получения дополнительной информации или свяжитесь с администратором
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
+        folder_id_collision: Несколько хранилищ проекта пытаются управлять папкой проекта %{folder}. Его синхронизация была пропущена.
         forbidden: OpenProject не смог получить доступ к запрашиваемому ресурсу. Пожалуйста, проверьте конфигурацию разрешений хранилища.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject не смог аутентифицироваться у поставщика хранилища. Пожалуйста, убедитесь, что у вас есть к нему доступ.
       models:
         copy_project_folders_service:

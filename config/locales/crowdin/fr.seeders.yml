@@ -71,6 +71,15 @@ fr:
           name: Personnel et gestionnaire de projets
         item_1:
           name: Rôle global standard
+      ai_text_transform_actions:
+        item_0:
+          label: Corriger la grammaire
+        item_1:
+          label: Rendre plus concis
+        item_2:
+          label: Traduire en anglais
+        item_3:
+          label: Organiser selon un modèle
     standard:
       project_phases:
         item_0:
@@ -502,6 +511,20 @@ fr:
           name: User story
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Sous-éléments de l''epic : user stories et bugs'
+        item_1:
+          name: 'Sous-éléments d''une user story : tâches'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: User stories et bugs
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tâches
       welcome:
         title: Bienvenue sur OpenProject !
         text: |

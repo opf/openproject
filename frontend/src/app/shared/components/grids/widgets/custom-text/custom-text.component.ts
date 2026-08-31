@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import {
@@ -63,8 +91,8 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public activate(event:MouseEvent) {
-    // Prevent opening the edit mode if a link was clicked
-    if (this.clickedElementIsLinkWithinDisplayContainer(event)) {
+    // Let interactive elements within the formatted text handle the click themselves.
+    if (this.clickedElementIsInteractiveWithinDisplayContainer(event)) {
       return;
     }
 
@@ -128,7 +156,24 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
   }
 
-  private clickedElementIsLinkWithinDisplayContainer(event:any) {
-    return this.displayContainer.nativeElement.contains(event.target.closest('a,macro'));
+  private clickedElementIsInteractiveWithinDisplayContainer(event:MouseEvent) {
+    const displayContainer = this.displayContainer.nativeElement;
+
+    // Pagination replaces the clicked button with the active-page span before
+    // this handler runs. The composed path retains the original button even
+    // after it has been detached from the DOM, unlike event.target.closest().
+    const eventPath = event.composedPath();
+    const displayContainerIndex = eventPath.indexOf(displayContainer);
+
+    if (displayContainerIndex === -1) {
+      return false;
+    }
+
+    const eventPathWithinDisplayContainer = eventPath.slice(0, displayContainerIndex);
+
+    return eventPathWithinDisplayContainer.some(
+      (target) => target instanceof Element
+        && target.matches('a, button, input, select, textarea, [role="button"], [role="link"]'),
+    );
   }
 }

@@ -50,7 +50,7 @@ module OpTurbo
 
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_streams, status: resolved_status
+          render turbo_stream: resolve_turbo_streams, status: resolved_status
         end
 
         yield(format) if format_block
@@ -83,11 +83,7 @@ module OpTurbo
 
     def modify_via_turbo_stream(component:, action:, status:, **)
       @turbo_status = status
-      turbo_streams << component.render_as_turbo_stream(
-        view_context:,
-        action:,
-        **
-      )
+      turbo_streams << -> { component.render_as_turbo_stream(view_context:, action:, **) }
     end
 
     def insert_via_turbo_stream(action:, component:, target_component:)
@@ -100,15 +96,15 @@ module OpTurbo
     end
 
     def append_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :append)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :append) }
     end
 
     def prepend_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :prepend) }
     end
 
     def add_before_via_turbo_stream(component:, target_component:)
-      turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :before) }
     end
 
     def render_success_flash_message_via_turbo_stream(message:, **)
@@ -129,7 +125,7 @@ module OpTurbo
       return if message.blank?
 
       instance = component.new(**).with_content(message)
-      turbo_streams << instance.render_as_turbo_stream(view_context:, action: :flash)
+      turbo_streams << -> { instance.render_as_turbo_stream(view_context:, action: :flash) }
     end
 
     def scroll_into_view_via_turbo_stream(target, behavior: :auto, block: :start)
@@ -144,9 +140,9 @@ module OpTurbo
         .render_in(view_context)
     end
 
-    def close_dialog_via_turbo_stream(target, additional: {})
+    def close_dialog_via_turbo_stream(dialog_id, additional: {})
       turbo_streams << OpTurbo::StreamComponent
-        .new(action: :closeDialog, target:, additional: additional.to_json)
+        .new(action: :closeDialog, target: dialog_id, additional: additional.to_json)
         .render_in(view_context)
     end
 
@@ -164,6 +160,10 @@ module OpTurbo
 
     def reload_frame_via_turbo_stream(target)
       turbo_streams << turbo_stream.turbo_frame_reload(target)
+    end
+
+    def set_frame_src_via_turbo_stream(target, src)
+      turbo_streams << turbo_stream.turbo_frame_set_src(target, src)
     end
 
     # Prefix required for all events dispatched via the `dispatchEvent` turbo
@@ -188,6 +188,15 @@ module OpTurbo
 
     def turbo_streams
       @turbo_streams ||= []
+    end
+
+    ##
+    # Resolves the content that shall be rendered in each queued up stream.
+    # turbo_streams supports directly adding content to it via a rendering method,
+    # but also doing so through a callable. Using a callable has the advantage that rendering
+    # is only executed in case the response is served with format turbo_stream
+    def resolve_turbo_streams
+      turbo_streams.map { |s| s.respond_to?(:call) ? s.call : s }
     end
 
     def turbo_status

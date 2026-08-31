@@ -14,6 +14,13 @@ es:
           end_before_start: el valor final necesita ser mayor que el valor inicial.
           outside: está fuera de la red.
           overlaps: superpuesto.
+    models:
+      grids/grid:
+        one: Cuadrícula
+        other: Cuadrículas
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contenido en la cuadrícula %{grid_name}
     widgets:
@@ -29,6 +36,14 @@ es:
       news:
         no_results: Nada nuevo sobre lo que informar.
       not_available: Este widget no está disponible.
+      project_timeline:
+        footer_actions_label: Ver más detalles
+        gantt_link: Hitos de Gantt
+        no_results_title: No se ha configurado ningún contenido relativo a la línea de tiempo del proyecto
+        sprints_link: Resumen del sprint
+        title: Cronograma del proyecto
+        title_portfolio: Cronograma de la cartera
+        title_program: Cronograma del programa
       subitems:
         button_text: Subelemento
         no_results: No hay subelementos visibles.

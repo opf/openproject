@@ -81,6 +81,23 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
         let(:elements) { Wikis::PageLink.where(linkable: work_package, provider: internal_wiki).order(id: :desc).all }
       end
     end
+
+    context "when paginated with an offset beyond the first page" do
+      let(:all_ids) { Wikis::PageLink.where(linkable: work_package).order(id: :desc).pluck(:id) }
+
+      before { get "#{path}?pageSize=2&offset=2" }
+
+      it "returns the second page, distinct from the first page" do
+        expect(last_response).to have_http_status(200)
+
+        body = JSON.parse(last_response.body)
+        expect(body["offset"]).to eq(2)
+
+        returned_ids = body["_embedded"]["elements"].pluck("id")
+        expect(returned_ids).to eq(all_ids[2, 2])
+        expect(returned_ids).not_to eq(all_ids[0, 2])
+      end
+    end
   end
 
   describe "POST /api/v3/work_packages/:id/wiki_page_links" do
@@ -180,6 +197,29 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
     end
 
+    context "when paginated with an offset beyond the first page" do
+      let(:all_ids) do
+        ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+        Wikis::PageLink.where.not(id: ids).order(id: :desc).pluck(:id)
+      end
+
+      before do
+        unaccessible_links
+        get "#{path}?pageSize=2&offset=2"
+      end
+
+      it "returns the second page, distinct from the first page" do
+        expect(last_response).to have_http_status(200)
+
+        body = JSON.parse(last_response.body)
+        expect(body["offset"]).to eq(2)
+
+        returned_ids = body["_embedded"]["elements"].pluck("id")
+        expect(returned_ids).to eq(all_ids[2, 2])
+        expect(returned_ids).not_to eq(all_ids[0, 2])
+      end
+    end
+
     context "when filtered by link type" do
       let(:filter) do
         [{ wiki_page_link_type:
@@ -212,8 +252,18 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
         get "#{path}?filters=#{CGI.escape(filter.to_json)}"
       end
 
-      it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
-        let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+      context "when a link with the requested identifier exists" do
+        it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
+        end
+      end
+
+      context "when a page link with the requested identifier does not exist" do
+        let(:filter) { [{ identifier: { operator: "=", values: "non_existent_identifier" } }] }
+
+        it_behaves_like "API V3 collection response", 0, 0, "WikiPageLink", "WikiPageLinkCollection" do
+          let(:elements) { [] }
+        end
       end
     end
   end

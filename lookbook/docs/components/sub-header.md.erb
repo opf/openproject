@@ -95,7 +95,7 @@ If you need an icon-only Button, you can pass an addition argument called `icon_
 The syntax for an `ActionMenu` within the SubHeader is a bit special due to the constraint of enforcing the icon. Here as well, you cannot use the `with_show_button` slot but rather pass the arguments when calling a dedicated slot:
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::SubHeader.new) do |component|
       component.with_action_menu(leading_icon: :plus, label: "Create", button_arguments: { scheme: :primary, "aria-label": "Menu" }) do |menu|
         menu.with_item(label: "Subitem 1") do |item|
@@ -106,7 +106,7 @@ The syntax for an `ActionMenu` within the SubHeader is a bit special due to the 
         end
       end
     end
-  %&gt;
+  %>
 ```
 
 
@@ -115,7 +115,7 @@ The syntax for an `ActionMenu` within the SubHeader is a bit special due to the 
 We currently only allow async dialogs to be rendered from the SubHeader. So you can render a normal action button that directs to an endpoint which returns the async dialog. For more details on how async dialogs work, please have a look [here](../patterns/dialogs).
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::SubHeader.new) do |component|
       component.with_action_button(leading_icon: :alert,
                                   label: "Open Dialog",
@@ -125,7 +125,7 @@ We currently only allow async dialogs to be rendered from the SubHeader. So you 
         "Open Dialog"
       end
     end
-  %&gt;
+  %>
 ```
 
 ### Sorting and grouping
@@ -133,7 +133,7 @@ We currently only allow async dialogs to be rendered from the SubHeader. So you 
 The sort and group actions are always displayed after the search but before the quick filters.
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::SubHeader.new) do |component|
         component.with_quick_sort do
           render(Foo::BarSortComponent.new(..))
@@ -143,15 +143,15 @@ The sort and group actions are always displayed after the search but before the 
           render(Foo::BarGroupComponent.new(..))
         end
     end
-  %&gt;
+  %>
 ```
 
 ### QuickFilters
 
-The `with_quick_filter` slot only offers a generic slot for a quick filter taking care of placement, responsiveness and mobile behaviour. The logic is part of the actual [QuickFilter components](../patterns/quick_filters).
+The `with_quick_filter` slot only offers a generic slot for a quick filter taking care of placement, responsiveness and mobile behaviour. The logic is part of the actual [QuickFilter components](./quick_filters).
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::SubHeader.new) do |component|
       component.with_quick_filter do
         render(Foo::BarFilterComponent.new(query: @query, project: @project))
@@ -166,7 +166,7 @@ The `with_quick_filter` slot only offers a generic slot for a quick filter takin
         render(Foo::AllFilterComponent.new(query: @query, project: @project))
       end
     end
-  %&gt;
+  %>
 ```
 
 ### All filters button

@@ -38,6 +38,19 @@ es:
           attributes:
             labels:
               invalid_schema: 'debe ser una matriz de hashes con las claves: color, título'
+    models:
+      gitlab_issue:
+        one: Incidencia de GitLab
+        other: Incidencias de GitLab
+      gitlab_merge_request:
+        one: Solicitud de fusión de GitHub
+        other: Solicitudes de fusión de GitHub
+      gitlab_pipeline:
+        one: Canalización de GitLab
+        other: Canalizaciones de GitLab
+      gitlab_user:
+        one: Usuario de GitLab
+        other: Usuarios de GitLab
   attributes:
     commit: Commit
     gitlab: Identificador de GitLab

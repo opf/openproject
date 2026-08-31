@@ -57,6 +57,8 @@ uk:
         position: Позиція
         presenter: Доповідач
         title: 'Назва '
+      meeting_outcome:
+        kind: Вид
       meeting_participant:
         attended: Відвідано
         invited: Запрошені
@@ -100,11 +102,41 @@ uk:
         recurring_meeting_interim_response:
           not_an_occurrence: не є дійсним часом проведення цієї повторюваної наради
     models:
-      meeting: Одноразова нарада
-      meeting_agenda: Порядок денний
-      meeting_agenda_item: Пункт порядку денного
-      meeting_section: Розділ
-      recurring_meeting: Повторювана нарада
+      meeting:
+        one: Одноразова нарада
+        few: Одноразові наради
+        many: Одноразові наради
+        other: Одноразові наради
+      meeting_agenda_item:
+        one: Пункт порядку денного
+        few: Пункти порядку денного
+        many: Пункти порядку денного
+        other: Пункти порядку денного
+      meeting_outcome:
+        one: Результат
+        few: Результати
+        many: Результати
+        other: Результати
+      meeting_participant:
+        one: Учасник наради
+        few: Учасники наради
+        many: Учасники наради
+        other: Учасники наради
+      meeting_section:
+        one: Розділ
+        few: Розділи
+        many: Розділи
+        other: Розділи
+      recurring_meeting:
+        one: Повторювана нарада
+        few: Повторювані наради
+        many: Повторювані наради
+        other: Повторювані наради
+      scheduled_meeting:
+        one: Запланована нарада
+        few: Заплановані наради
+        many: Заплановані наради
+        other: Заплановані наради
       token/ical_meeting:
         one: Підписка на наради iCal
         few: Підписки на наради iCal
@@ -259,7 +291,6 @@ uk:
   label_past_meetings: Минулі заходи
   label_past_meetings_short: Минулі
   label_recurring_filter: Рекурентний фільтр
-  label_recurring_meeting: Повторювана нарада
   label_recurring_meeting_cancel: Скасувати це повторення
   label_recurring_meeting_create: Відкрити
   label_recurring_meeting_delete: Видалити повторення
@@ -551,13 +582,13 @@ uk:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: Перша нарада цієї серії — %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Як результат, серія закінчиться %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        few: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Як результат, буде %{count} майбутня нарада
+        few: Як результат, буде %{count} майбутні наради
+        many: Як результат, буде %{count} майбутніх нарад
+        other: Як результат, буде %{count} майбутньої наради
+      occurrences_capped: Як результат, кількість майбутніх нарад перевищує %{count}
     day_of_month_skipping_info: Місяці з меншою кількістю днів, ніж %{monthly_day}, буде пропущено
     delete_dialog:
       confirmation_message_html:
@@ -630,7 +661,7 @@ uk:
         third: Третій(-я)
     occurrence:
       error_no_next: Це одноразова нарада.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: Шаблон серії нарад усе ще в режимі чернетки.
       first_already_exists: Перша нарада із цієї серії вже відбулася.
       first_created: 'Першу нараду створено на основі шаблона. Усі наступні наради створюватимуться автоматично в момент початку попередніх.
 

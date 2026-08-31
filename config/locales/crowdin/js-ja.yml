@@ -120,6 +120,7 @@ ja:
     button_cancel: キャンセル
     button_change_project: 他のプロジェクトに移る
     button_check_all: 全てを選択
+    button_clear: Clear
     button_close: 閉じる
     button_close_details: 詳細表示を閉じる
     button_collapse_all: 全てを折りたたむ
@@ -204,8 +205,11 @@ ja:
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 選択した属性 '%{name}' は存在しません。
-          macro_help_tooltip: このテキストセグメントはマクロによって動的にレンダリングされています。
           nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
           not_found: 要求されたリソースが見つかりませんでした
         child_pages:
@@ -799,6 +803,14 @@ ja:
       sorted_dsc: '降順の並べ替えを適用しました。 '
       sorted_no: '並べ替えは適用されていません。 '
       sorting_disabled: 並べ替えは無効です
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: モーダルを閉じる

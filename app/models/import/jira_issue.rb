@@ -32,7 +32,6 @@ module Import
   class JiraIssue < ApplicationRecord
     self.table_name = "jira_issues"
 
-    belongs_to :jira, class_name: "Import::Jira"
     belongs_to :jira_import, class_name: "Import::JiraImport"
     belongs_to :jira_project, class_name: "Import::JiraProject"
   end

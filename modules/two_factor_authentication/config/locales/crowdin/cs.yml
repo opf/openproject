@@ -20,10 +20,31 @@ cs:
             phone_number:
               error_phone_number_format: musí být ve formátu +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA zařízení
-      two_factor_authentication/device/sms: Mobilní telefon
-      two_factor_authentication/device/totp: Ověřovací aplikace
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        many: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        many: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Pokračovat
   button_make_active: Activate
   button_make_default: Označit jako výchozí
@@ -126,7 +147,7 @@ cs:
     error_no_device: Žádné registrované 2FA zařízení pro tohoto uživatele nebylo nalezeno, přestože bylo nezbytné pro tuto instanci.
     error_no_matching_strategy: Žádná odpovídající 2FA strategie pro tohoto uživatele. Obraťte se prosím na svého administrátora.
     forced_registration:
-      required_to_add_device: Aktivní bezpečnostní politika vyžaduje, abyste povolili dvoufaktorové ověřování. Pro registraci zařízení použijte následující formulář.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dvoufázové ověřování není aktivní
     label_2fa_enabled: Dvoufázové ověřování je aktivní
     label_default_device: Výchozí 2FA zařízení
@@ -145,14 +166,14 @@ cs:
     no_valid_phone_number: Neexistuje žádné platné telefonní číslo.
     notice_not_writable: Nastavení 2FA byla poskytnuta prostřednictvím proměnných prostředí a nelze je přepsat.
     remember:
-      active_session_notice: 'Váš účet má aktivní paměť cookie platná do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do té doby.
+      active_session_notice: 'Váš účet má aktivní cookie platnou do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do tohoto data.
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Odstranit všechny zapamatované 2FA relace.
       cookie_removed: Všechny zapamatované 2FA relace byly odstraněny.
       dont_ask_again: Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní.
       label: Zapamatovat
-      other_active_session_notice: Váš účet má aktivní paměť cookie v jiné relaci.
+      other_active_session_notice: Váš účet má aktivní cookie v jiné relaci.
     settings:
       current_configuration: Aktuální konfigurace
       failed_to_save_settings: 'Nepodařilo se aktualizovat nastavení 2FA: %{message}'

@@ -94,5 +94,6 @@ module Queries::WorkPackages
     select Selects::RelationChildSelect
     select Selects::ManualSortingSelect
     select Selects::TypeaheadSelect
+    select Selects::ExactMatchSelect
   end
 end

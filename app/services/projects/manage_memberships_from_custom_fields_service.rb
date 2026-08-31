@@ -62,7 +62,7 @@ module Projects
     end
 
     def add_member_or_add_role_to_member(add_user) # rubocop:disable Metrics/AbcSize
-      user_member = project.member_principals.find_by(principal: add_user)
+      user_member = project.members.find_by(principal: add_user)
 
       if user_member
         new_role_ids = (user_member.role_ids + [custom_field.role.id]).uniq
@@ -78,7 +78,7 @@ module Projects
     end
 
     def remove_member_or_remove_role_from_member(remove_user)
-      user_member = project.member_principals.find_by(principal: remove_user)
+      user_member = project.members.find_by(principal: remove_user)
 
       return unless user_member
 

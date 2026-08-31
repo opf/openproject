@@ -35,19 +35,20 @@ RSpec.describe Backlogs::AddExistingWorkPackageForm, type: :forms do
 
   let(:project) { build_stubbed(:project, id: 99) }
   let(:form_arguments) { { url: "/foo" } }
-  let(:params) { { project:, target_id: } }
+  let(:params) { { project:, target: } }
 
   subject(:form) { page }
 
   describe "#autocompleter" do
     context "when target is a sprint" do
-      let(:target_id) { "sprint:7" }
+      let(:target) { Backlogs::Target::SprintId[7] }
 
-      it "filters for work packages with open status and not in target sprint" do
+      it "filters for work packages with open status, no subproject, and not in target sprint" do
         expect(form).to have_element "opce-autocompleter" do |autocompleter|
           expect(autocompleter["data-filters"]).to be_json_eql <<-JSON
             [
               {"name": "status", "operator": "o"},
+              {"name": "subprojectId", "operator": "!*"},
               {"name": "sprint", "operator": "!", "values": [7]}
             ]
           JSON
@@ -56,13 +57,14 @@ RSpec.describe Backlogs::AddExistingWorkPackageForm, type: :forms do
     end
 
     context "when target is a backlog bucket" do
-      let(:target_id) { "backlog_bucket:3" }
+      let(:target) { Backlogs::Target::BucketId[3] }
 
-      it "filters for work packages with open status and not in target backlog bucket" do
+      it "filters for work packages with open status, no subproject, and not in target backlog bucket" do
         expect(form).to have_element "opce-autocompleter" do |autocompleter|
           expect(autocompleter["data-filters"]).to be_json_eql <<-JSON
             [
               {"name": "status", "operator": "o"},
+              {"name": "subprojectId", "operator": "!*"},
               {"name": "backlogBucket", "operator": "!", "values": [3]}
             ]
           JSON
@@ -71,13 +73,14 @@ RSpec.describe Backlogs::AddExistingWorkPackageForm, type: :forms do
     end
 
     context "when target is inbox" do
-      let(:target_id) { "inbox" }
+      let(:target) { Backlogs::Target::InboxId }
 
-      it "filters for work packages with open status and not in inbox" do
+      it "filters for work packages with open status, no subproject, and not in inbox" do
         expect(form).to have_element "opce-autocompleter" do |autocompleter|
           expect(autocompleter["data-filters"]).to be_json_eql <<-JSON
             [
               {"name": "status", "operator": "o"},
+              {"name": "subprojectId", "operator": "!*"},
               {"name": "backlogInbox", "operator": "=", "values": ["f"]}
             ]
           JSON

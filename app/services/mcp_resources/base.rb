@@ -69,32 +69,26 @@ module McpResources
         UriTemplate.new("#{Setting.protocol}://#{Setting.host_name}#{@template_suffix}")
       end
 
-      def resource
+      def resource(title:, description:)
         raise ArgumentError, "#{self.class.name} can't be used as resource, uri is blank" if uri.blank?
-
-        config = McpConfiguration.find_by(identifier: qualified_name)
-        return nil if config.nil?
 
         MCP::Resource.new(
           uri:,
           name:,
-          title: config.title,
-          description: config.description,
+          title:,
+          description:,
           mime_type: "application/json"
         )
       end
 
-      def resource_template
+      def resource_template(title:, description:)
         raise ArgumentError, "#{self.class.name} can't be used as resource_template, uri_template is blank" if uri_template.blank?
-
-        config = McpConfiguration.find_by(identifier: qualified_name)
-        return nil if config.nil?
 
         MCP::ResourceTemplate.new(
           uri_template:,
           name:,
-          title: config.title,
-          description: config.description,
+          title:,
+          description:,
           mime_type: "application/json"
         )
       end

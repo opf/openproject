@@ -118,6 +118,7 @@ es:
     button_cancel: Cancelar
     button_change_project: Mover a otro proyecto
     button_check_all: Seleccionar todos
+    button_clear: Eliminar
     button_close: Cerrar
     button_close_details: Cerrar vista detallada
     button_collapse_all: Colapsar todo
@@ -202,8 +203,11 @@ es:
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: Un atributo dinámico del proyecto insertado mediante una macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: Un atributo dinámico del paquete de trabajo insertado mediante una macro.
+          aria_label_work_package_link: Un enlace dinámico a un paquete de trabajo insertado mediante una macro.
           invalid_attribute: El atributo seleccionado («%{name}») no existe.
-          macro_help_tooltip: Este segmento de texto está siendo renderizado dinámicamente por una macro.
           nested_macro: Esta macro hace referencia recursivamente a %{model} %{id}.
           not_found: No se encuentra el recurso solicitado
         child_pages:
@@ -798,6 +802,14 @@ es:
       sorted_dsc: 'Orden descendiente aplicado, '
       sorted_no: 'Ningún tipo de orden aplicado, '
       sorting_disabled: ordenación deshabilitada
+    sortable_lists:
+      announcements:
+        fallback_item_label: Elemento
+        fallback_list_name: otra lista
+        move_failed_check_position: No se ha podido trasladar. Comprueba la posición actual del elemento.
+        move_failed_rolled_back: No se ha podido trasladar. %{label} regresó a su posición anterior.
+        moved: "%{label} se trasladó al puesto %{position} de %{total}"
+        moved_to_list: "%{label} se trasladó a %{list}, posición %{position} de %{total}"
     spot:
       drop_modal:
         close: Cerrar ventana modal

@@ -40,7 +40,7 @@ RSpec.describe "Team planner create new work package",
   let!(:priority) { create(:default_priority) }
 
   before do
-    project.types << type_task
+    project.project_types.create!(type: type_task)
   end
 
   shared_examples "can create a new work package" do

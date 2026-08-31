@@ -23,8 +23,8 @@
 hy:
   js:
     burndown:
-      day: Day
-      points: Points
+      day: Օր
+      points: Միավորներ
     work_packages:
       properties:
-        storyPoints: Story Points
+        storyPoints: Պատմության միավորներ

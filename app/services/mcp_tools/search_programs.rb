@@ -45,7 +45,7 @@ module McpTools
     filter :status_code
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the program. Accepts partial names, not case-sensitive." },
         identifier: { type: "string", description: "Program identifier. Case-sensitive, matching exactly." },
@@ -53,23 +53,13 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("program_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       filtered = apply_filters(Project.program.visible, filters)
-      programs = apply_pagination(filtered, page)
+      programs, total = apply_pagination(filtered, page)
 
       {
-        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
+        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
+        total:
       }
     end
   end

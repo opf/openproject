@@ -32,6 +32,10 @@ module Wikis
   class InternalProvider < Provider
     class << self
       def registry_prefix = "internal"
+
+      def enabled?
+        first&.enabled
+      end
     end
 
     def user_connected?(_user) = true
@@ -43,7 +47,7 @@ module Wikis
     end
 
     def name
-      model_name.human
+      I18n.t("wikis.provider_types.internal.name")
     end
   end
 end

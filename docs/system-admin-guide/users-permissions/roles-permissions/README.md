@@ -15,6 +15,8 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
+For more detailed description of each permission please refer to [Permissions guide](../permissions-guide)
+
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
@@ -85,6 +87,24 @@ OpenProject allows to share project information with **anonymous** users which a
 
 Administrators can add new roles with custom permissions or configure existing ones in _Administration_ > _Users and permissions_ > _Roles and permissions_.
 
+### Copy projects permission
+
+The **Copy projects** permission allows users to create a new project by copying an existing one.
+
+> [!NOTE]
+> A user copying a project is assigned the configured **New role for users that create projects** in the new project. This role may grant additional permissions compared to the user's role in the source project.
+
+To access the **Copy** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
+
+### Project identifier visibility
+
+The global **Create projects** permission and the project **Create subprojects** permission both allow users to validate a new project's identifier to check whether it is still available.
+
+> [!IMPORTANT]
+> Because project identifiers must be unique across the entire instance (they are used to address a project in URLs and the API), this check considers **all** projects, including those the user cannot otherwise see.
+
+As a result, a user with the permission to create projects or subprojects can infer whether an identifier is already in use, and therefore that a project with that identifier exists, even if it is not visible to them. Only the existence of the identifier is revealed; no other project attributes (such as its name, members, or contents) are exposed. Keep this in mind when granting the **Create projects** or **Create subprojects** permissions.
+
 ### Permissions report
 
 The permissions report is a good starting point to get an overview of the current configuration of roles and permissions. To open the permissions report, navigate to _Administration_ > _Users and permissions_ > _Permissions report_.
@@ -113,7 +133,7 @@ The form shows the available global permissions which can be assigned to the new
 - [Create projects](../../../getting-started/projects/#create-a-new-project)
 
 > [!TIP]
-> To create a subproject for an existing project the project permission "Create subprojects" is also required.
+> To create a subproject for an existing project the project permission "Create subprojects" is also required. Before granting either permission, we recommend to consider the [project identifier visibility aspect](#project-identifier-visibility).
 
 - Create portfolios
 

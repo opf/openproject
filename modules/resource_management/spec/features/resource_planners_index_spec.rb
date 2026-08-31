@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Resource planners index" do
+RSpec.describe "Resource planners index", with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
   shared_let(:viewer) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners] })

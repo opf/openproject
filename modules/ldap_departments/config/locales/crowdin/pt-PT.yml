@@ -22,8 +22,12 @@ pt-PT:
           must_contain_base_dn: O DN de base deve estar incluído no DN de base da ligação LDAP.
           overlaps_other_tree: Sobrepõe-se ao DN base de outra sincronização na mesma ligação LDAP.
     models:
-      ldap_departments/synchronized_department: Departamento sincronizado
-      ldap_departments/synchronized_tree: Sincronização de departamento LDAP
+      ldap_departments/synchronized_department:
+        one: Departamento sincronizado
+        other: Departamentos sincronizados
+      ldap_departments/synchronized_tree:
+        one: Sincronização de departamento LDAP
+        other: Sincronizações de departamento LDAP
   ee:
     upsell:
       ldap_departments:
@@ -52,8 +56,8 @@ pt-PT:
         heading: Não há sincronizações LDAP entre departamentos
       destroy:
         confirmation_message:
-          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
-          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          one: Se continuar, a sincronização %{name} será removida e o seu %{count} departamento deixará de ser gerido pelo LDAP.
+          other: Se continuar, a sincronização %{name} será removida, e os seus %{count} departamentos deixarão de ser geridos pelo LDAP.
         heading: Remover a sincronização %{name}?
         info: Os departamentos e os seus membros são mantidos, e passam a ser departamentos permanentes. Pode editá-los ou eliminá-los manualmente posteriormente em Administração → Utilizadores e permissões → Organização.
         title: Remover a sincronização %{name}

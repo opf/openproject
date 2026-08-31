@@ -1,4 +1,8 @@
 ---
 zh-CN:
+  activerecord:
+    models:
+      grids/my_page:
+        other: 我的页面
   my_page:
     label: 我的页面

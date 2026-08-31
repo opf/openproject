@@ -7,518 +7,541 @@ hy:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Կապույտ (մուգ)
         item_1:
-          name: Blue
+          name: Կապույտ
         item_2:
-          name: Blue (light)
+          name: Կապույտ (բաց)
         item_3:
-          name: Green (light)
+          name: Կանաչ (բաց)
         item_4:
-          name: Green (dark)
+          name: Կանաչ (մուգ)
         item_5:
-          name: Yellow
+          name: Դեղին
         item_6:
-          name: Orange
+          name: Նարնջագույն
         item_7:
-          name: Red
+          name: Կարմիր
         item_8:
-          name: Magenta
+          name: Մագենտա
         item_9:
-          name: White
+          name: Սպիտակ
         item_10:
-          name: Grey (light)
+          name: Մոխրագույն (բաց)
         item_11:
-          name: Grey
+          name: Մոխրագույն
         item_12:
-          name: Grey (dark)
+          name: Մոխրագույն (մուգ)
         item_13:
-          name: Black
+          name: Սև
       project_phase_colors:
         item_0:
-          name: PM2 Orange
+          name: PM2 Նարնջագույն
         item_1:
-          name: PM2 Red
+          name: PM2 Կարմիր
         item_2:
-          name: PM2 Magenta
+          name: PM2 Մագենտա
         item_3:
-          name: PM2 Green Yellow
+          name: PM2 Կանաչ-դեղին
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Նախագծերի հարցման դիտող
         item_1:
-          name: Project query editor
+          name: Նախագծերի հարցման խմբագրող
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Աշխատանքային փաթեթի խմբագրող
         item_1:
-          name: Work package commenter
+          name: Աշխատանքային փաթեթի մեկնաբանող
         item_2:
-          name: Work package viewer
+          name: Աշխատանքային փաթեթի դիտող
       project_roles:
         item_0:
-          name: Non member
+          name: Ոչ անդամ
         item_1:
-          name: Anonymous
+          name: Անանուն
         item_2:
-          name: Member
+          name: Անդամ
         item_3:
-          name: Reader
+          name: Ընթերցող
         item_4:
-          name: Project admin
+          name: Նախագծի ադմինիստրատոր
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Աշխատակազմի և նախագծերի կառավարիչ
         item_1:
-          name: Standard global role
+          name: Ստանդարտ գլոբալ դեր
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
-          name: Initiating
+          name: Նախաձեռնում
         item_1:
-          name: Planning
-          start_gate: Ready for Planning
+          name: Պլանավորում
+          start_gate: Պլանավորմանը պատրաստ
         item_2:
-          name: Executing
-          start_gate: Ready for Executing
+          name: Իրականացում
+          start_gate: Իրականացմանը պատրաստ
         item_3:
-          name: Closing
-          start_gate: Ready for Closing
+          name: Փակում
+          start_gate: Փակմանը պատրաստ
       priorities:
         item_0:
-          name: Low
+          name: Ցածր
         item_1:
-          name: Normal
+          name: Նորմալ
         item_2:
-          name: High
+          name: Բարձր
         item_3:
-          name: Immediate
+          name: Անհետաձգելի
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Մարքեթինգ և հաղորդակցություն
         item_1:
-          name: Public Relations
+          name: Հասարակայնության հետ կապեր
         item_2:
-          name: Design & Content
+          name: Դիզայն և բովանդակություն
         item_3:
-          name: Events & Operations
+          name: Միջոցառումներ և գործառնություններ
         item_4:
-          name: Web & IT
+          name: Վեբ և ՏՏ
         item_5:
-          name: Finance & Administration
+          name: Ֆինանսներ և վարչարարություն
         item_6:
-          name: Quality Assurance
+          name: Որակի ապահովում
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Ցուցադրական նախագիծ
+          status_explanation: Բոլոր առաջադրանքները ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական նախագծի նպատակների համառոտ ամփոփումն է։
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Բարի գալուստ Ձեր դեմո նախագիծ
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ուրախ ենք, որ միացել եք։
+                Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
+              description: Բուն նորությունը
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Project plan
+              name: Նախագծի պլան
             item_1:
-              name: Milestones
+              name: Հանգրվաններ
             item_2:
-              name: Tasks
+              name: Առաջադրանքներ
             item_3:
-              name: Team planner
+              name: Թիմային պլանավորիչ
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban տախտակ
             basic:
-              name: Basic board
+              name: Հիմնական տախտակ
               lists:
                 item_0:
-                  name: Wish list
+                  name: Ցանկությունների ցուցակ
                 item_1:
-                  name: Short list
+                  name: Կարճ ցուցակ
                 item_2:
-                  name: Priority list for today
+                  name: Այսօրվա առաջնահերթությունների ցուցակ
                 item_3:
-                  name: Never
+                  name: Երբեք
             parent_child:
-              name: Work breakdown structure
+              name: Աշխատանքների կազմալուծման կառուցվածք
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրախ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան՝ OpenProject-ում աշխատանքը սկսելու համար։
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Բացահայտեք ամենակարևոր հնարավորությունները մեր [Ուղղորդված շրջայցի]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) օգնությամբ։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Հրավիրեք նոր անդամներ Ձեր նախագիծ*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/demo-project/members) բաժին։
+                    2. *Դիտեք Ձեր նախագծի աշխատանքը*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Աշխատանքային փաթեթներ]({{opSetting:base_url}}/projects/demo-project/work_packages) բաժին։
+                    3. *Ստեղծեք նոր աշխատանքային փաթեթ*՝ &rightarrow; անցեք [Աշխատանքային փաթեթներ &rightarrow; Ստեղծել]({{opSetting:base_url}}/projects/demo-project/work_packages/new)։
+                    4. *Ստեղծեք և թարմացրեք նախագծի պլան*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Նախագծի պլան]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) բաժին։
+                    5. *Ակտիվացրեք լրացուցիչ մոդուլներ*՝ &rightarrow; անցեք [Նախագծի կարգավորումներ &rightarrow; Մոդուլներ]({{opSetting:base_url}}/projects/demo-project/settings/modules)։
+                    6. *Ավարտեք Ձեր առաջադրանքները նախագծում*՝ &rightarrow; անցեք [Աշխատանքային փաթեթներ &rightarrow; Առաջադրանքներ]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks)։
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Այստեղ կգտնեք մեր [Օգտատերի ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե հարցեր ունեք կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support[at]openproject.com](mailto:support@openproject.com)։
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ
               item_6:
                 options:
-                  name: Milestones
+                  name: Հանգրվաններ
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Նախագծի սկիզբ
             item_1:
-              subject: Organize open source conference
+              subject: Կազմակերպել բաց ելակետային կոդի կոնֆերանս
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Սահմանել կոնֆերանսի ամսաթիվը և վայրը
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Հրավեր ուղարկել բանախոսներին
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Կապվել հովանավոր գործընկերների հետ
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Ստեղծել հովանավորության բրոշյուր և բաժանվող նյութեր
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Հրավիրել մասնակիցներին կոնֆերանսին
                 item_2:
-                  subject: Setup conference website
+                  subject: Ստեղծել կոնֆերանսի կայքը
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Փորձարկել և որակի ստուգում անցկացնել կոնֆերանսի կայքի համար
             item_3:
-              subject: Conference
+              subject: Կոնֆերանս
             item_4:
-              subject: Follow-up tasks
+              subject: Հետագա առաջադրանքներ
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Վերբեռնել ներկայացումները կայքում
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Խնջույք կոնֆերանսի աջակիցների համար :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Գարեջուր
+                    *   [ ] Խորտիկներ
+                    *   [ ] Երաժշտություն
+                    *   [ ] Ավելի շատ գարեջուր
             item_5:
-              subject: End of project
+              subject: Նախագծի ավարտ
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _Այս վիքիում Դուք կարող եք համատեղ ստեղծել և խմբագրել էջեր և ենթաէջեր՝ նախագծի վիքի ստեղծելու համար։_
 
-            **You can:**
+            **Դուք կարող եք՝**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Տեղադրել տեքստ և պատկերներ, նաև այլ փաստաթղթերից պատճենելու և տեղադրելու միջոցով
+            * Ստեղծել էջերի հիերարխիա՝ ծնող էջերի միջոցով
+            * Ներառել վիքի էջեր նախագծի ընտրացանկում
+            * Օգտագործել մակրոներ՝ ներառելու համար, օր. բովանդակության ցանկ, աշխատանքային փաթեթների ցուցակներ կամ Գանտի գծապատկերներ
+            * Ներառել վիքի էջեր այլ տեքստային դաշտերում, օր. նախագծի ընդհանուր տեսքի էջում
+            * Ներառել հղումներ այլ փաստաթղթերի
+            * Դիտել փոփոխությունների պատմությունը
+            * Դիտել որպես Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Լրացուցիչ տեղեկություններ՝ [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Scrum նախագիծ
+          status_explanation: Բոլոր առաջադրանքները ընթանում են ըստ ժամանակացույցի։ Ներգրավված անձինք գիտեն իրենց առաջադրանքները։ Համակարգը լիովին կարգավորված է։
+          description: Սա այս ցուցադրական Scrum նախագծի նպատակների համառոտ ամփոփումն է։
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Բարի գալուստ Ձեր Scrum ցուցադրական նախագիծ
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Ուրախ ենք, որ միացել եք։
+                Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
           versions:
             item_0:
-              name: Bug Backlog
+              name: Վրիպակների բեքլոգ
             item_1:
-              name: Product Backlog
+              name: Արտադրանքի բեքլոգ
             item_2:
-              name: Sprint 1
+              name: Սպրինտ 1
               wiki:
-                title: Sprint 1
+                title: Սպրինտ 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Սպրինտի պլանավորման հանդիպում
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Խնդրում ենք այստեղ փաստագրել սպրինտի պլանավորման հանդիպման թեմաները_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Ժամանակով սահմանափակված (8 ժ)
+                  * Մուտք՝ Արտադրանքի բեքլոգ
+                  * Ելք՝ Սպրինտի բեքլոգ
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Բաժանված է 4 ժ տևողությամբ երկու լրացուցիչ ժամանակահատվածի՝
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Product Owner-ը թիմին ներկայացնում է [Արտադրանքի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և առաջնահերթությունները և բացատրում է Սպրինտի նպատակը, որին թիմը պետք է համաձայնի։ Միասին նրանք ըստ առաջնահերթության դասավորում են Արտադրանքի բեքլոգի այն թեմաները, որոնցով թիմը կզբաղվի հաջորդ սպրինտում։ Թիմը պարտավորվում է կատարել քննարկված առաքումը։
+                      * Թիմն ինքնուրույն (առանց Product Owner-ի) մանրամասն պլանավորում է և քննարկված պահանջներից առանձնացնում է առաջադրանքները՝ [Սպրինտի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ձևավորելու համար։
 
 
-                  ### Sprint Retrospective
+                  ### Ամենօրյա Scrum հանդիպում
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Խնդրում ենք այստեղ փաստագրել ամենօրյա Scrum հանդիպման թեմաները_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Թիմի կարճ, ամենօրյա հանդիպում ընթացիկ վիճակի վերաբերյալ։
+                  * Ժամանակով սահմանափակված (առավ. 15 ր)։
+                  * Ոտքի վրա անցկացվող հանդիպում՝ [Առաջադրանքների տախտակից](##sprint:scrum_project__version__sprint_1) հետևյալ թեմաները քննարկելու համար։
+                      * Ի՞նչ եմ պլանավորում անել մինչև հաջորդ ամենօրյա Scrum-ը։
+                      * Ի՞նչն է խոչընդոտել իմ աշխատանքը (խոչընդոտներ)։
+                  * Scrum Master-ը վարում է հանդիպումը և գրանցում [սպրինտի խոչընդոտները](##sprint:scrum_project__version__sprint_1)։
+                  * Product Owner-ը կարող է մասնակցել՝ տեղեկացված մնալու համար։
+
+                  ### Սպրինտի վերանայման հանդիպում
+
+                  _Խնդրում ենք այստեղ փաստագրել սպրինտի վերանայման հանդիպման թեմաները_
+
+                  * Ժամանակով սահմանափակված (4 ժ)։
+                  * Յուրաքանչյուր մասնակցի համար առավելագույնը մեկ ժամ նախապատրաստման ժամանակ։
+                  * Թիմը Product Owner-ին և այլ շահագրգիռ անձանց ցույց է տալիս, թե ինչ է ձեռք բերվել այս սպրինտում։
+                  * Կարևոր՝ ոչ մի մակետ և ոչ մի PowerPoint։ Պետք է ցուցադրվի միայն ավարտված արտադրանքի ֆունկցիոնալությունը (ինկրեմենտներ)։
+                  * Product Owner-ի, շահագրգիռ կողմերի և այլոց արձագանքը ցանկալի է և հաշվի կառնվի հետագա աշխատանքում։
+                  * Ցուցադրված ֆունկցիոնալության հիման վրա Product Owner-ը որոշում է այս ինկրեմենտը գործարկել կամ շարունակել մշակել այն։ Այս հնարավորությունը թույլ է տալիս ապահովել վաղ ROI։
+
+
+                  ### Սպրինտի ռետրոսպեկտիվ
+
+                  _Խնդրում ենք այստեղ փաստագրել սպրինտի ռետրոսպեկտիվ հանդիպման թեմաները_
+
+                  * Ժամանակով սահմանափակված (3 ժ)։
+                  * Անցկացվում է Սպրինտի վերանայումից հետո, վարում է Scrum Master-ը։
+                  * Թիմը քննարկում է սպրինտը՝ ինչն է լավ անցել, ինչը պետք է բարելավել, որպեսզի հաջորդ սպրինտում ավելի արդյունավետ լինի կամ նույնիսկ ավելի հաճելի անցնի։
             item_3:
-              name: Sprint 2
+              name: Սպրինտ 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
-              name: Project plan
+              name: Նախագծի պլան
             item_1:
-              name: Product backlog
+              name: Արտադրանքի բեքլոգ
             item_2:
-              name: Sprint 1
+              name: Սպրինտ 1
             item_3:
-              name: Tasks
+              name: Առաջադրանքներ
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban տախտակ
             basic:
-              name: Task board
+              name: Առաջադրանքների տախտակ
               lists:
                 item_0:
-                  name: Wish list
+                  name: Ցանկությունների ցուցակ
                 item_1:
-                  name: Short list
+                  name: Կարճ ցուցակ
                 item_2:
-                  name: Priority list for today
+                  name: Այսօրվա առաջնահերթությունների ցուցակ
                 item_3:
-                  name: Never
+                  name: Երբեք
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Բարի գալուստ
               item_1:
                 options:
-                  name: Getting started
+                  name: Ինչպես սկսել
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Ուրախ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան՝ OpenProject-ում աշխատանքը սկսելու համար։
 
-                    _Try the following steps:_
+                    _Փորձեք հետևյալ քայլերը՝_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Հրավիրեք նոր անդամներ Ձեր նախագիծ*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/your-scrum-project/members) բաժին։
+                    2. *Դիտեք Ձեր Արտադրանքի բեքլոգը և Սպրինտի բեքլոգները*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) բաժին։
+                    3. *Դիտեք Ձեր առաջադրանքների տախտակը*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; սեղմեք սպրինտի աջ սլաքի վրա &rightarrow; ընտրեք [Առաջադրանքների տախտակ](##sprint:scrum_project__version__sprint_1)։
+                    4. *Ստեղծեք նոր աշխատանքային փաթեթ*՝ &rightarrow; անցեք [Աշխատանքային փաթեթներ &rightarrow; Ստեղծել]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)։
+                    5. *Ստեղծեք և թարմացրեք նախագծի պլան*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Նախագծի պլան](##query:scrum_project__query__project_plan) բաժին։
+                    6. *Ստեղծեք Սպրինտի վիքի*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և սպրինտի աջ բացվող ընտրացանկից բացեք սպրինտի վիքին։ Դուք կարող եք խմբագրել [վիքի ձևանմուշը]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ըստ Ձեր կարիքների։
+                    7. *Ակտիվացրեք լրացուցիչ մոդուլներ*՝ &rightarrow; անցեք [Նախագծի կարգավորումներ &rightarrow; Մոդուլներ]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)։
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Այստեղ կգտնեք մեր [Օգտատերի ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
+                    Խնդրում ենք տեղեկացնել մեզ, եթե հարցեր ունեք կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support[at]openproject.com](mailto:support@openproject.com)։
               item_5:
                 options:
-                  name: Work packages
+                  name: Աշխատանքային փաթեթներ
               item_6:
                 options:
-                  name: Project plan
+                  name: Նախագծի պլան
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Մուտքի նոր էկրան
             item_1:
-              subject: Password reset does not send email
+              subject: Գաղտնաբառի վերականգնումը էլ. նամակ չի ուղարկում
             item_2:
-              subject: New website
+              subject: Նոր կայք
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Տեղեկագրի գրանցման ձև
                 item_1:
-                  subject: Implement product tour
+                  subject: Իրականացնել արտադրանքի շրջայցը
                 item_2:
-                  subject: New landing page
+                  subject: Նոր վայրէջքի էջ
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Ստեղծել կարկասային ուրվագծեր նոր վայրէջքի էջի համար
             item_3:
-              subject: Contact form
+              subject: Հետադարձ կապի ձև
             item_4:
-              subject: Feature carousel
+              subject: Հատկությունների կարուսել
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Պատրաստել էկրանահանումներ հատկությունների շրջայցի համար
             item_5:
-              subject: Wrong hover color
+              subject: Սխալ գույն մկնիկը վրայով անցնելիս
             item_6:
-              subject: SSL certificate
+              subject: SSL վկայագիր
             item_7:
-              subject: Set-up Staging environment
+              subject: Կարգավորել նախաարտադրական միջավայրը
             item_8:
-              subject: Choose a content management system
+              subject: Ընտրել բովանդակության կառավարման համակարգ
             item_9:
-              subject: Website navigation structure
+              subject: Կայքի նավիգացիայի կառուցվածք
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Մշակել կայքի նավիգացիայի հայեցակարգը։
             item_10:
-              subject: Internal link structure
+              subject: Ներքին հղումների կառուցվածք
             item_11:
-              subject: Develop v1.0
+              subject: Մշակել v1.0
             item_12:
-              subject: Release v1.0
+              subject: Թողարկել v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Մշակել v1.1
             item_14:
-              subject: Release v1.1
+              subject: Թողարկել v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Մշակել v2.0
             item_16:
-              subject: Release v2.0
+              subject: Թողարկել v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Սպրինտի պլանավորման հանդիպում
 
-            _Please document here topics to the Sprint planning meeting_
+            _Խնդրում ենք այստեղ փաստագրել Սպրինտի պլանավորման հանդիպման թեմաները_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Ժամանակով սահմանափակված (8 ժ)
+            * Մուտք՝ Արտադրանքի բեքլոգ
+            * Ելք՝ Սպրինտի բեքլոգ
 
-            * Divided into two additional time boxes of 4 h:
+            * Բաժանված է 4-ժամյա երկու լրացուցիչ ժամանակահատվածի՝
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * Արտադրանքի սեփականատերը թիմին ներկայացնում է [Արտադրանքի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և առաջնահերթությունները, ինչպես նաև բացատրում է Սպրինտի նպատակը, որին թիմը պետք է համաձայնի։ Միասին նրանք առաջնահերթություն են տալիս Արտադրանքի բեքլոգի այն թեմաներին, որոնցով թիմը կզբաղվի հաջորդ սպրինտում։ Թիմը պարտավորվում է ապահովել քննարկված արդյունքը։
+                * Թիմն ինքնուրույն (առանց Արտադրանքի սեփականատիրոջ) մանրամասն պլանավորում է և քննարկված պահանջները բաժանում է առաջադրանքների՝ [Սպրինտի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ձևավորելու համար։
 
 
-            ### Sprint Retrospective
+            ### Ամենօրյա Scrum հանդիպում
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Խնդրում ենք այստեղ փաստագրել Ամենօրյա Scrum հանդիպման թեմաները_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Թիմի կարճ, ամենօրյա կարգավիճակի հանդիպում։
+            * Ժամանակով սահմանափակված (առավելագույնը 15 ր)։
+            * Կանգնած անցկացվող հանդիպում՝ առաջադրանքների տախտակից հետևյալ թեմաները քննարկելու համար։
+                * Ի՞նչ եմ պլանավորում անել մինչև հաջորդ Ամենօրյա Scrum հանդիպումը։
+                * Ի՞նչն է խոչընդոտել իմ աշխատանքը (Խոչընդոտներ)։
+            * Scrum Master-ը վարում է հանդիպումը և արձանագրում Սպրինտի խոչընդոտները։
+            * Արտադրանքի սեփականատերը կարող է մասնակցել՝ տեղեկացված մնալու համար։
+
+            ### Սպրինտի վերանայման հանդիպում
+
+            _Խնդրում ենք այստեղ փաստագրել Սպրինտի վերանայման հանդիպման թեմաները_
+
+            * Ժամանակով սահմանափակված (4 ժ)։
+            * Յուրաքանչյուր անձի համար՝ առավելագույնը մեկ ժամ նախապատրաստման ժամանակ։
+            * Թիմը արտադրանքի սեփականատիրոջ և այլ շահագրգիռ անձանց ցույց է տալիս, թե ինչ է ձեռք բերվել այս սպրինտում։
+            * Կարևոր՝ ոչ մի մակետ և ոչ մի PowerPoint։ Պետք է ցուցադրվի միայն արտադրանքի ավարտված ֆունկցիոնալությունը (Ինկրեմենտներ)։
+            * Ցանկալի է Արտադրանքի սեփականատիրոջ, շահագրգիռ կողմերի և այլոց արձագանքը, որը կներառվի հետագա աշխատանքում։
+            * Ելնելով ցուցադրված ֆունկցիոնալությունից՝ Արտադրանքի սեփականատերը որոշում է կայացնում այս ինկրեմենտը գործարկել կամ շարունակել մշակել։ Այս հնարավորությունը թույլ է տալիս վաղ ROI ստանալ։
+
+
+            ### Սպրինտի ռետրոսպեկտիվ
+
+            _Խնդրում ենք այստեղ փաստագրել Սպրինտի ռետրոսպեկտիվ հանդիպման թեմաները_
+
+            * Ժամանակով սահմանափակված (3 ժ)։
+            * Սպրինտի վերանայումից հետո՝ կվարվի Scrum Master-ի կողմից։
+            * Թիմը քննարկում է սպրինտը՝ ինչն է լավ ընթացել, ինչը պետք է բարելավել՝ հաջորդ սպրինտում ավելի արդյունավետ լինելու կամ նույնիսկ ավելի հաճելի աշխատելու համար։
       statuses:
         item_0:
-          name: New
+          name: Նոր
         item_1:
-          name: In specification
+          name: Ճշգրտման փուլում
         item_2:
-          name: Specified
+          name: Ճշգրտված
         item_3:
-          name: Confirmed
+          name: Հաստատված
         item_4:
-          name: To be scheduled
+          name: Պլանավորման ենթակա
         item_5:
-          name: Scheduled
+          name: Պլանավորված
         item_6:
-          name: In progress
+          name: Ընթացքի մեջ
         item_7:
-          name: Developed
+          name: Մշակված
         item_8:
-          name: In testing
+          name: Փորձարկման փուլում
         item_9:
-          name: Tested
+          name: Փորձարկված
         item_10:
-          name: Test failed
+          name: Ձախողված փորձարկում
         item_11:
-          name: Closed
+          name: Փակված
         item_12:
-          name: On hold
+          name: Սպասման մեջ
         item_13:
-          name: Rejected
+          name: Մերժված
       time_entry_activities:
         item_0:
-          name: Management
+          name: Կառավարում
         item_1:
-          name: Specification
+          name: Բնութագիր
         item_2:
-          name: Development
+          name: Մշակում
         item_3:
-          name: Testing
+          name: Փորձարկում
         item_4:
-          name: Support
+          name: Աջակցություն
         item_5:
-          name: Other
+          name: Այլ
       types:
         item_0:
-          name: Task
+          name: Առաջադրանք
         item_1:
-          name: Milestone
+          name: Հանգրվան
         item_2:
-          name: Summary task
+          name: Ամփոփիչ առաջադրանք
         item_3:
-          name: Feature
+          name: Հատկություն
         item_4:
-          name: Epic
+          name: Էպիկ
         item_5:
-          name: User story
+          name: Օգտատիրոջ պատմություն
         item_6:
-          name: Bug
+          name: Վրիպակ
+      global_queries:
+        item_0:
+          name: Էպիկի դուստր տարրեր՝ օգտատիրոջ պատմություններ և վրիպակներ
+        item_1:
+          name: Օգտատիրոջ պատմության դուստր տարրեր՝ առաջադրանքներ
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Օգտատիրոջ պատմություններ և վրիպակներ
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Առաջադրանքներ
       welcome:
-        title: Welcome to OpenProject!
+        title: Բարի գալուստ OpenProject
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject-ը նախագծերի կառավարման առաջատար բաց ելակետային կոդով ծրագրաշար է։ Այն աջակցում է դասական, ճկուն, ինչպես նաև հիբրիդային նախագծերի կառավարմանը և Ձեզ տալիս է Ձեր տվյալների լիարժեք վերահսկողություն։
 
-          Core features and use cases:
+          Հիմնական հնարավորությունները և կիրառման դեպքերը՝
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Նախագծերի պորտֆոլիոյի կառավարում](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Նախագծերի պլանավորում և ժամանակացույցի կազմում](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Առաջադրանքների կառավարում և խնդիրների հետագծում](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Ճկուն տախտակներ (Scrum և Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Պահանջների կառավարում և թողարկումների պլանավորում](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Ժամանակի և ծախսերի հետագծում, բյուջեներ](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Թիմային համագործակցություն և փաստագրում](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Բարի գալուստ նախագծերի կառավարման ապագա։
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Ադմինիստրատորների համար՝ Դուք կարող եք փոփոխել այս ողջույնի տեքստը [այստեղ]({{opSetting:base_url}}/admin/settings/general)։

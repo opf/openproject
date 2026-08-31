@@ -1,0 +1,51 @@
+<%= render(StepWizard::PageLayoutComponent.new) do |layout| %>
+  <%= layout.with_page_header do %>
+    <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+      <% header.with_title { title } %>
+      <% header.with_breadcrumbs(breadcrumb_items) %>
+      <% header.with_action_icon_button(
+           tag: :a,
+           icon: :x,
+           mobile_icon: :x,
+           label: I18n.t(:button_cancel),
+           href: cancel_href,
+           aria: { label: I18n.t(:button_cancel) }
+         ) %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_wizard_content do %>
+    <%= grid_layout("op-work-package-types-wizard", tag: :div) do |page| %>
+      <% page.with_area("sidebar") do %>
+        <%= render(WorkPackageTypes::Wizard::SidebarComponent.new(type:, current_step:, variant:, back_url:)) %>
+      <% end %>
+
+      <% page.with_area("main") do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
+
+        <% if step_editor %>
+          <%= within_step_frame do %>
+            <%= reuse_mode_banner %>
+            <%= primer_form_with(**step_form_options) do |f| %>
+              <%= render(step_editor.editor(f)) %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%# Self-persisting editor: this form only advances to the next step on submit. %>
+          <%= render(step_body) %>
+          <%= primer_form_with(
+                url: step_url,
+                method: :patch,
+                html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
+              ) do %>
+            <%= tag.input(type: :hidden, name: :step, value: current_step) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_footer do %>
+    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:, variant:, back_url:)) %>
+  <% end %>
+<% end %>

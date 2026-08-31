@@ -1,5 +1,12 @@
 ---
 uk:
+  activerecord:
+    models:
+      grids/overview:
+        one: Огляд
+        few: Огляди
+        many: Огляди
+        other: Огляди
   overviews:
     label_dashboard: Панель керування
     label_home: Головна робочого простору «%{workspace_type}»

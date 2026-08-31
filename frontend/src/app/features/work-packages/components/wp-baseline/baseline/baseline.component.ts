@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,7 +51,6 @@ import {
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import moment from 'moment-timezone';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
 const DEFAULT_SELECTED_TIME = '08:00';

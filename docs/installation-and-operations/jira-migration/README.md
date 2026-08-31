@@ -23,6 +23,8 @@ With the [end of life for Jira Data Center](https://www.openproject.org/blog/jir
 > [!WARNING]
 > This feature is under active development. Please only use it in test setups. We inform you about our progress and our recommendations when you can use it in production setups.
 
+For concise answers to common questions, see the [Jira migration FAQ](./faq/).
+
 ## Data covered by the Jira Migrator
 
 This import tool is currently in beta and can only import basic data: 
@@ -51,7 +53,7 @@ This import tool is currently in beta and can only import basic data:
 
 ## Supported Jira versions
 
-- We currently only support Jira Server/Data Center versions 10.x and 11.x.
+- We currently only support Jira Data Center versions 10.x and 11.x.
 - Cloud  instances are **not** supported at this time.
 
 ## Import preparation
@@ -76,7 +78,7 @@ Navigate to _Administration → Import_. To create a new import configuration, c
 Provide the following details:
 
 - A name for the import configuration
-- Your Jira Server or Data Center URL
+- Your Jira URL
 - A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
 
 ### Test configuration

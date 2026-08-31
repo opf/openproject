@@ -30,11 +30,11 @@
 
 module Backlogs
   class AddExistingWorkPackageForm < ApplicationForm
-    def initialize(project:, target_id: nil)
+    def initialize(project:, target: nil)
       super()
 
       @project = project
-      @target_id = target_id
+      @target = target
     end
 
     form do |f|
@@ -60,7 +60,10 @@ module Backlogs
     def filters
       [
         { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol },
-        Target.parse(@target_id).to_filter
+        # Exclude work packages from subprojects. They are not visible within the backlog/sprints
+        # and should thus not be searchable here:
+        { name: "subprojectId", operator: Queries::Operators::None.symbol },
+        @target.to_filter
       ]
     end
   end

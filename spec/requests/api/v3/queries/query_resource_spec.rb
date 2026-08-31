@@ -226,6 +226,52 @@ RSpec.describe "API v3 Query resource",
         it_behaves_like "not found"
       end
     end
+
+    context "with a version filter stored under the interchangeable key" do
+      let(:version) { create(:version, project:) }
+
+      def store_raw_filters(filters_hash)
+        Query.where(id: query.id).update_all(["filters = ?", YAML.dump(filters_hash)])
+      end
+
+      context "when stored as version_id with multiple versions active",
+              with_settings: { work_package_multiple_versions: true } do
+        before do
+          store_raw_filters("version_id" => { "operator" => "=", "values" => [version.id.to_s] })
+
+          get base_path
+        end
+
+        it "renders the filter as targetVersion, keeping its values" do
+          expect(last_response.body)
+            .to be_json_eql("/api/v3/queries/filters/targetVersion".to_json)
+            .at_path("filters/0/_links/filter/href")
+
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("filters/0/_links/values/0/href")
+        end
+      end
+
+      context "when stored as target_version_id with multiple versions inactive",
+              with_settings: { work_package_multiple_versions: false } do
+        before do
+          store_raw_filters("target_version_id" => { "operator" => "=", "values" => [version.id.to_s] })
+
+          get base_path
+        end
+
+        it "renders the filter as version, keeping its values" do
+          expect(last_response.body)
+            .to be_json_eql("/api/v3/queries/filters/version".to_json)
+            .at_path("filters/0/_links/filter/href")
+
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("filters/0/_links/values/0/href")
+        end
+      end
+    end
   end
 
   describe "#get queries/default" do
@@ -338,7 +384,7 @@ RSpec.describe "API v3 Query resource",
         end
 
         context "when trying to star nonexistent query" do
-          let(:star_path) { api_v3_paths.query_star 999 }
+          let(:star_path) { api_v3_paths.query_star(not_existing_id(Query)) }
 
           it_behaves_like "not found"
         end
@@ -423,7 +469,7 @@ RSpec.describe "API v3 Query resource",
         end
 
         context "when trying to unstar nonexistent query" do
-          let(:unstar_path) { api_v3_paths.query_unstar 999 }
+          let(:unstar_path) { api_v3_paths.query_unstar(not_existing_id(Query)) }
 
           before do
             patch unstar_path

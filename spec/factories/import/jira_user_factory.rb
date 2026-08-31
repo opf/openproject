@@ -29,5 +29,7 @@
 #++
 
 FactoryBot.define do
-  factory :jira_user, class: "Import::JiraUser"
+  factory :jira_user, class: "Import::JiraUser" do
+    sequence(:origin_id) { |n| "JIRAUSER#{n}" }
+  end
 end

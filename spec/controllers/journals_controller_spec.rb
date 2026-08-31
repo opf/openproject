@@ -60,7 +60,7 @@ RSpec.describe JournalsController do
 
     context "for work package description" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first,
+        create(:work_package, type: project.enabled_types.first,
                               author: user,
                               project:,
                               description: "")
@@ -103,10 +103,10 @@ RSpec.describe JournalsController do
     context "for work package not visible to the current user" do
       shared_let(:private_project) { create(:project_with_types) }
       shared_let(:visible_work_package) do
-        create(:work_package, type: private_project.types.first, project: private_project)
+        create(:work_package, type: private_project.enabled_types.first, project: private_project)
       end
       shared_let(:hidden_work_package) do
-        create(:work_package, type: private_project.types.first, project: private_project, description: "")
+        create(:work_package, type: private_project.enabled_types.first, project: private_project, description: "")
       end
       shared_let(:wp_role) { create(:view_work_package_role) }
       shared_let(:shared_user) do
@@ -128,7 +128,7 @@ RSpec.describe JournalsController do
     end
 
     context "for work package custom field" do
-      shared_let(:type) { project.types.first }
+      shared_let(:type) { project.enabled_types.first }
       shared_let(:work_package) do
         create(:work_package, type:,
                               author: user,
@@ -138,7 +138,7 @@ RSpec.describe JournalsController do
       let!(:custom_field) do
         create(factory_name).tap do |custom_field|
           project.work_package_custom_fields << custom_field
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
         end
       end
 
@@ -391,7 +391,7 @@ RSpec.describe JournalsController do
 
     context "for another field than description" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first,
+        create(:work_package, type: project.enabled_types.first,
                               author: user,
                               project:)
       end
@@ -420,7 +420,7 @@ RSpec.describe JournalsController do
 
     context "for an import journal with a description diff" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first, author: user, project:, description: "")
+        create(:work_package, type: project.enabled_types.first, author: user, project:, description: "")
       end
 
       shared_let(:import_journal) do
@@ -455,7 +455,7 @@ RSpec.describe JournalsController do
 
     context "for an import journal where the description was set (no previous value)" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first, author: user, project:, description: "")
+        create(:work_package, type: project.enabled_types.first, author: user, project:, description: "")
       end
 
       shared_let(:import_journal) do
@@ -479,7 +479,7 @@ RSpec.describe JournalsController do
 
     context "for an import journal with a non-description field change" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first, author: user, project:)
+        create(:work_package, type: project.enabled_types.first, author: user, project:)
       end
 
       shared_let(:import_journal) do
@@ -501,7 +501,7 @@ RSpec.describe JournalsController do
 
     context "for an import journal when the field param does not match any import item" do
       shared_let(:work_package) do
-        create(:work_package, type: project.types.first, author: user, project:)
+        create(:work_package, type: project.enabled_types.first, author: user, project:)
       end
 
       shared_let(:import_journal) do

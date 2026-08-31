@@ -3,6 +3,7 @@ fr:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Dérive d'horloge autorisée
         assertion_consumer_service_url: URL ACS (Assertion Consumer Service)
         authn_requests_signed: Signer les requêtes SAML AuthnRequests
         certificate: Certificat utilisé par OpenProject pour les requêtes SAML
@@ -32,8 +33,12 @@ fr:
           invalid_certificate: 'n''est pas un certificat valide au format PEM : %{additional_message}'
           invalid_private_key: 'n''est pas une clé privée valide au format PEM : %{additional_message}'
           unmatched_private_key: n'appartient pas au certificat donné
+    models:
+      saml/provider:
+        one: Fournisseur SAML
+        other: Fournisseurs SAML
   saml:
-    delete_heading: Supprimer ce fournisseur SAML ?
+    delete_heading: Supprimer ce fournisseur SAML ?
     delete_title: Supprimer le fournisseur SAML
     info:
       description: 'Utilisez ces paramètres pour configurer la connexion de votre fournisseur d''identité à OpenProject.
@@ -41,6 +46,9 @@ fr:
         '
       title: Paramètres de configuration du protocole SAML
     instructions:
+      allowed_clock_drift: 'Tolérance, en secondes, appliquée lors de la validation des horodatages de la réponse du fournisseur d''identité. Les fractions de seconde sont acceptées. N''utilisez cette option que si les horloges d''OpenProject et du fournisseur d''identité sont connues pour être désynchronisées, et gardez la valeur la plus basse possible (valeur par défaut : 0).
+
+        '
       authn_requests_signed: 'Si cette option est cochée, OpenProject signera la requête SAML AuthnRequest. Vous devrez fournir un certificat de signature et une clé privée en utilisant les champs ci-dessous.
 
         '

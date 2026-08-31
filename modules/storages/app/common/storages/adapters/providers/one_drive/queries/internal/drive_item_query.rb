@@ -36,11 +36,7 @@ module Storages
           module Internal
             class DriveItemQuery < Base
               def call(http:, drive_item_id:, fields: [])
-                select_url_query = if fields.empty?
-                                     ""
-                                   else
-                                     "?$select=#{fields.join(',')}"
-                                   end
+                select_url_query = fields.empty? ? {} : { "$select" => fields.join(",") }
 
                 make_file_request(drive_item_id, http, select_url_query)
               end
@@ -49,11 +45,11 @@ module Storages
 
               def make_file_request(drive_item_id, http, select_url_query)
                 url = UrlBuilder.url(base_uri, uri_path_for(drive_item_id))
-                handle_response http.get("#{url}#{select_url_query}")
+                handle_response http.get(url, params: select_url_query)
               end
 
               def handle_response(response)
-                error = Results::Error.new(payload: response, source: self.class)
+                error = SimpleError.new(source: self.class, payload: response, code: :error)
 
                 case response
                 in { status: 200..299 }
@@ -65,7 +61,7 @@ module Storages
                 in { status: 401 }
                   Failure(error.with(code: :unauthorized))
                 else
-                  Failure(error.with(code: :error))
+                  Failure(error)
                 end
               end
 

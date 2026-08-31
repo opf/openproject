@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourcePlannerViews requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
@@ -227,7 +226,7 @@ RSpec.describe "ResourcePlannerViews requests",
     it "closes the dialog and replaces the tab nav and content in place" do
       perform
 
-      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "#edit-resource-planner-view-dialog")
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "edit-resource-planner-view-dialog")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-show-page-header-component")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
 

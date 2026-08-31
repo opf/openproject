@@ -6,11 +6,11 @@ on:
       - dev
       - release/*
     paths:
-      - 'docs/api/apiv3/**'
+      - "docs/api/apiv3/**"
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
-      - 'docs/api/apiv3/**'
+      - "docs/api/apiv3/**"
 
 jobs:
   api-spec:
@@ -20,14 +20,14 @@ jobs:
     permissions:
       contents: read
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      with:
-        persist-credentials: false
-    - uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
-      with:
-        bundler-cache: false
-    - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
-      with:
-        node-version: '24.18.0'
-        package-manager-cache: false
-    - run: ./script/api/validate_spec
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          bundler-cache: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24.18.0"
+          package-manager-cache: false
+      - run: ./script/api/validate_spec

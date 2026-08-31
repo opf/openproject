@@ -20,10 +20,21 @@ fil:
             phone_number:
               error_phone_number_format: kinakailangan na ma pormat +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Ang 2FA na aparato
-      two_factor_authentication/device/sms: Ang Mobile phone
-      two_factor_authentication/device/totp: Ang Aplikasyon sa Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Ipagpatuloy
   button_make_active: Activate
   button_make_default: Markahan bilang default
@@ -126,7 +137,7 @@ fil:
     error_no_device: Walang nakarehistro na 2FA sa natagpuan na aparato para sa gumagamit na ito, kahit na kinakailangan para sa pagkakataon na ito.
     error_no_matching_strategy: Hindi nagtugma ang 2FA na diskarte sa magamait para sa gumagamit na ito. Pakiusap na kontakin ang iyong administrador.
     forced_registration:
-      required_to_add_device: Ang aktibong siguridad sa patakaran ang mga kinakailngan ka upang mapagana ang dalawang-dahilan sa authentication.. Pakiusap na gamitin ang sumusunod na porma para magparehistro sa iyong aparato.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Ang Dalawang-dahilan ng hindi aktibo na pagpapatunay
     label_2fa_enabled: Ang Dalawang-dahilan ng aktibo na pagpapatunay
     label_default_device: I-Default ang 2FA na aparato

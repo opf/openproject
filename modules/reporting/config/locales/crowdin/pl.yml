@@ -21,6 +21,13 @@
 #++
 ---
 pl:
+  activerecord:
+    models:
+      cost_query:
+        one: Raport kosztów
+        few: Raporty kosztów
+        many: Raporty kosztów
+        other: Raporty kosztów
   button_save_report_as: Zapisz raport jako...
   comments: Komentarz
   cost_reports_title: Czas i koszty
@@ -46,7 +53,6 @@ pl:
   label_closed: Zamknięte
   label_columns: Kolumny
   label_cost_entry_attributes: Wejściowe parametry kosztów
-  label_cost_report: Raport kosztów
   label_cost_report_plural: Raporty kosztów
   label_count: Ilość
   label_days_ago: podczas ostatnich dni

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -117,7 +117,6 @@ import {
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 import moment from 'moment-timezone';
 import allLocales from '@fullcalendar/core/locales-all';
-import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import {
   personIconData,
   toDOMString,

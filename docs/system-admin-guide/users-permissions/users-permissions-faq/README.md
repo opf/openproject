@@ -90,5 +90,10 @@ Following user permissions are set on files and folder in **External Storages**:
 - **Automatically managed folders: Share files (Nextcloud)**
 
 > [!NOTE]
->
 > Please note that not all file permissions are applicable to all storage providers.
+
+### Why does a user have more permissions after copying a project?
+
+When a user copies a project, they become the creator of the new project and are assigned the configured **New role for users that create projects**. This role is independent of the user's role in the original project and may grant additional permissions.
+
+If you allow users to copy projects, review the permissions assigned to the **New role for users that create projects** to ensure they match your intended level of access.

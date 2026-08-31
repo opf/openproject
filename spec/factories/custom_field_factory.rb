@@ -29,6 +29,21 @@
 #++
 
 FactoryBot.define do
+  # A custom field is activated per variant. `types:` is kept as an alias so the many call
+  # sites that name a type keep reading naturally: a type contributes its base variant.
+  trait :activatable_on_types do
+    transient do
+      types { [] }
+    end
+
+    after(:create) do |custom_field, evaluator|
+      next if evaluator.types.empty?
+
+      variants = evaluator.types.map { |type| type.is_a?(TypeVariant) ? type : type.default_variant }
+      custom_field.type_variants = (custom_field.type_variants + variants).uniq
+    end
+  end
+
   factory :custom_field do
     transient do
       # These values are used internally to customize the custom field name
@@ -253,6 +268,8 @@ FactoryBot.define do
       _type_name { "WP custom field" }
       is_filter { true }
 
+      activatable_on_types
+
       transient do
         projects { [] }
       end
@@ -283,6 +300,8 @@ FactoryBot.define do
 
     factory :issue_custom_field, class: "WorkPackageCustomField" do
       _type_name { "issue custom field" }
+
+      activatable_on_types
     end
 
     factory :time_entry_custom_field, class: "TimeEntryCustomField" do

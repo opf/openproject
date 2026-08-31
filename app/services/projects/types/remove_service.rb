@@ -34,18 +34,18 @@ module Projects
       private
 
       def persist(service_call)
-        type = params[:type]
+        variant = params[:variant]
 
-        if used_by_work_packages?(type)
-          failure(:in_use_by_work_packages, types: type.name)
+        if used_by_work_packages?(variant)
+          failure(:in_use_by_work_packages, types: variant.name)
         else
-          model.types.delete(type)
+          model.project_types.where(type_id: variant.type_id).destroy_all
           service_call
         end
       end
 
-      def used_by_work_packages?(type)
-        WorkPackage.exists?(project: model, type:)
+      def used_by_work_packages?(variant)
+        WorkPackage.exists?(project: model, type_id: variant.type_id)
       end
     end
   end

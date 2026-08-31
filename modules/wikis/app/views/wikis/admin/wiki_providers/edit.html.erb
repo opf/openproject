@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% page_title = @wiki_provider.name.presence || t("wikis.admin.wiki_providers.label_edit") %>
 
-<% html_title t(:label_administration), t(:project_module_wiki_platforms), page_title %>
+<% html_title t(:label_administration), t("menus.admin.external_wiki_providers"), page_title %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title do %>
@@ -44,14 +44,14 @@ See COPYRIGHT and LICENSE files for more details.
       [
         { href: admin_index_path, text: t(:label_administration) },
         { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
-        { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
+        { href: admin_settings_wiki_providers_path, text: t("menus.admin.external_wiki_providers") },
         page_title
       ]
     )
   %>
 
   <%# TODO: temp — move to a dedicated per-user connection status component once designed %>
-  <% if current_user_xwiki_token_missing?(@wiki_provider) %>
+  <% unless @wiki_provider.user_connected?(current_user) %>
     <%
       header.with_action_button(
         tag: :a,

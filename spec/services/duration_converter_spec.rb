@@ -199,4 +199,12 @@ RSpec.describe DurationConverter do
       end
     end
   end
+
+  describe ".stimulus_data_values", with_settings: { hours_per_day: 6, days_per_month: 18 } do
+    it "returns the duration length settings as data values for the given controller" do
+      expect(described_class.stimulus_data_values("chronic-duration"))
+        .to eq("chronic-duration-hours-per-day-value" => 6,
+               "chronic-duration-days-per-month-value" => 18)
+    end
+  end
 end

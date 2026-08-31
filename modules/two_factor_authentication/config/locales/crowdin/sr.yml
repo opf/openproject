@@ -20,10 +20,26 @@ sr:
             phone_number:
               error_phone_number_format: must be of format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA device
-      two_factor_authentication/device/sms: Mobile phone
-      two_factor_authentication/device/totp: Authenticator application
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        other: WebAuthn
   button_continue: Continue
   button_make_active: Activate
   button_make_default: Mark as default
@@ -126,7 +142,7 @@ sr:
     error_no_device: No registered 2FA device found for this user, despite being required for this instance.
     error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administratior.
     forced_registration:
-      required_to_add_device: An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Two-factor authentication not active
     label_2fa_enabled: Two-factor authentication is active
     label_default_device: Default 2FA device

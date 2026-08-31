@@ -20,10 +20,21 @@ pt-BR:
             phone_number:
               error_phone_number_format: deve ter o formato +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispositivo 2FA
-      two_factor_authentication/device/sms: Telefone Celular
-      two_factor_authentication/device/totp: Aplicativo de autenticação
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Código de backup
+        other: Códigos de backup
+      two_factor_authentication/device:
+        one: Dispositivo de 2FA
+        other: Dispositivos de 2FA
+      two_factor_authentication/device/sms:
+        one: Celular
+        other: Celulares
+      two_factor_authentication/device/totp:
+        one: Aplicativo autenticador
+        other: Aplicativos autenticadores
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continuar
   button_make_active: Ativar
   button_make_default: Marque como padrão
@@ -126,7 +137,7 @@ pt-BR:
     error_no_device: Nenhum dispositivo 2FA registrado foi encontrado para este usuário, apesar de ser necessário para esta instância.
     error_no_matching_strategy: Nenhuma estratégia de 2FA disponível para este usuário. Entre em contato com o administrador.
     forced_registration:
-      required_to_add_device: Uma política de segurança ativa requer que você habilite a autenticação de dois fatores. Por favor, use o seguinte formulário para registrar o dispositivo.
+      required_to_add_device: O administrador impôs a autenticação de dois fatores para esta instância. Para entrar, adicione um método de autenticação de dois fatores.
     label_2fa_disabled: Autenticação de dois fatores não ativa
     label_2fa_enabled: Autenticação de dois fatores está ativa
     label_default_device: Dispositivo 2FA padrão

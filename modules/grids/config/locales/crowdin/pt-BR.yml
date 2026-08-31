@@ -14,6 +14,13 @@ pt-BR:
           end_before_start: o valor final precisa ser maior que o valor inicial.
           outside: está fora da grade.
           overlaps: sobreposição.
+    models:
+      grids/grid:
+        one: Grade
+        other: Grades
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contido na Grade %{grid_name}
     widgets:
@@ -29,6 +36,14 @@ pt-BR:
       news:
         no_results: Nada de novo para relatar.
       not_available: Este widget não está disponível.
+      project_timeline:
+        footer_actions_label: Ver mais detalhes
+        gantt_link: Marcos do gráfico de Gantt
+        no_results_title: Nenhum conteúdo da linha do tempo do projeto foi configurado
+        sprints_link: Visão geral dos sprints
+        title: Cronograma do projeto
+        title_portfolio: Linha do tempo do portfólio
+        title_program: Linha do tempo do programa
       subitems:
         button_text: Subitem
         no_results: Não há filhos visíveis.

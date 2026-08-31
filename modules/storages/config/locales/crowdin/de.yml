@@ -66,15 +66,31 @@ de:
             host:
               authorization_header_missing: ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
               cannot_be_connected_to: konnte nicht erreicht werden. Bitte stellen Sie sicher, dass der Host erreichbar ist und die OpenProject Integrations-App installiert ist.
-              minimal_nextcloud_version_unmet: erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: ist kein Nextcloud-Server
               op_application_not_installed: scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
             password:
               invalid_password: ist ungültig.
               unknown_error: konnte nicht mit dem Dateispeicheranbieter validiert werden. Bitte überprüfen Sie, ob die Verbindung ordnungsgemäß funktioniert.
     models:
-      file_link: Datei
-      storages/storage: Speicher
+      storages/file_link:
+        one: Datei-Link
+        other: Datei-Links
+      storages/nextcloud_storage:
+        one: Nextcloud-Speicher
+        other: Nextcloud-Speicher
+      storages/one_drive_storage:
+        one: OneDrive-Speicher
+        other: OneDrive-Speicher
+      storages/project_storage:
+        one: Projektspeicher
+        other: Projektspeicher
+      storages/sharepoint_storage:
+        one: SharePoint-Speicher
+        other: SharePoint-Speicher
+      storages/storage:
+        one: Speicher
+        other: Speicher
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
@@ -135,6 +151,7 @@ de:
         error: Ein unerwarteter Fehler ist aufgetreten. Bitte überprüfen Sie die OpenProject Logdateien für weitere Informationen oder kontaktieren Sie einen Administrator
         folder_id_collision: Mehrere Projektspeicher versuchen, den Projektordner %{folder} zu verwalten. Seine Synchronisierung wurde übersprungen.
         forbidden: OpenProject konnte nicht auf die angefragte Ressource zugreifen. Bitte überprüfen Sie Ihre Berechtigungskonfiguration auf dem Speicheranbieter.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject konnte sich nicht mit dem Speicheranbieter authentifizieren. Bitte überprüfen Sie Ihre Speicherkonfiguration und dessen Zugang.
       models:
         copy_project_folders_service:

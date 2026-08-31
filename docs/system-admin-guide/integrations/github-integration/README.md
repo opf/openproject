@@ -48,7 +48,7 @@ Once the user is created you need to generate an OpenProject API token for this 
 
 1. Login as the newly created user
 2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select _Account settings_)
-3. Go to [_Access Tokens_](../../../user-guide/account-settings/#access-tokens)
+3. Go to [_Access Tokens_](../../../user-guide/account-settings/access-tokens)
 4. Click on **+ API token**
 
 > [!IMPORTANT]

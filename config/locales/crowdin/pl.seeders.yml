@@ -71,6 +71,15 @@ pl:
           name: Kierownik personelu i projektów
         item_1:
           name: Standardowa rola globalna
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -504,6 +513,20 @@ pl:
           name: Wpis użytkownika
         item_6:
           name: Błąd
+      global_queries:
+        item_0:
+          name: 'Niezwykłe elementy podrzędne: historie użytkowników i błędy'
+        item_1:
+          name: 'Elementy podrzędne historii użytkownika: zadania'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Historie użytkowników i błędy
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Zadania
       welcome:
         title: Witamy w OpenProject!
         text: |

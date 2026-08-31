@@ -20,10 +20,16 @@ ms:
             phone_number:
               error_phone_number_format: perlu dalam format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 'Peranti 2FA '
-      two_factor_authentication/device/sms: Telefon bimbit
-      two_factor_authentication/device/totp: Aplikasi pengesahan
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: Teruskan
   button_make_active: Activate
   button_make_default: Tandakan sebagai default
@@ -126,7 +132,7 @@ ms:
     error_no_device: Tiada peranti 2FA berdaftar yang ditemui bagi pengguna ini, walaupun diperlukan untuk contoh ini.
     error_no_matching_strategy: Tiada strategi 2FA yang sepadan tersedia bagi pengguna ini. Sila hubungi pentadbir anda.
     forced_registration:
-      required_to_add_device: Polisi keselamatan yang aktif perlukan anda untuk membenarkan pengesahan dua faktor. Sila gunakan borang berikut untuk daftarkan peranti.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Pengesahan dua faktor tidak aktif
     label_2fa_enabled: Pengesahan dua faktor aktif
     label_default_device: 'Peranti default 2FA '

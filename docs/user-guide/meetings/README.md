@@ -86,7 +86,7 @@ In addition to viewing meetings, subscribing to meetings allows you to **respond
 
 #### Create a subscription
 
-You can subscribe to OpenProject meetings either within the _Meetings_ module, or from your [Account settings page](../account-settings/#icalendar). 
+You can subscribe to OpenProject meetings either within the _Meetings_ module, or from your [Account settings page](../account-settings/access-tokens/#icalendar). 
 
 On the meetings overview page (either global or project specific) click the **More (three dots)** icon and select **Subscribe to calendar**. 
 

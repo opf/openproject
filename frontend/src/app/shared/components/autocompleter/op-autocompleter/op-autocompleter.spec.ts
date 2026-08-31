@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import type { Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
@@ -51,8 +79,8 @@ describe('autocompleter', () => {
       name: 'Workpackage 2',
       formattedId: 'PROJ-2',
       author: {
-        href: '/api/v3/users/2',
-        name: 'Author2',
+        href: null,
+        name: 'Deleted user',
       },
       type: { id: 2, name: 'Bug' },
       status: { id: 2, name: 'Closed' },
@@ -205,6 +233,34 @@ describe('autocompleter', () => {
         const renderedIds = Array.from(wpIdElements).map(el => el.textContent?.trim());
 
         expect(renderedIds).toContain('#1');
+      }
+      finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should display a fallback avatar when the author has been deleted', () => {
+      vi.useFakeTimers();
+      try {
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        fixture.detectChanges();
+        const select = fixture.componentInstance.ngSelectInstance;
+
+        select.open();
+        select.focus();
+
+        const inputDebugElement = fixture.debugElement.query(By.css('input[role=combobox]'));
+        const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
+
+        inputElement.value = 'package 2';
+        inputElement.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+
+        expect(document.querySelector('op-principal.op-autocompleter--option-principal')).toBeNull();
+        expect(document.querySelector('.op-autocompleter--option-principal-fallback')).not.toBeNull();
       }
       finally {
         vi.useRealTimers();

@@ -9,26 +9,28 @@ module ResourcePlanners
       end
 
       form do |f|
-        f.group(layout: :horizontal) do |dates|
-          dates.single_date_picker(
-            name: :start_date,
-            label: ResourcePlanner.human_attribute_name(:start_date),
-            required: false,
-            value: model.start_date&.iso8601,
-            datepicker_options: {
-              inDialog: @dialog_id
-            }
-          )
-          dates.single_date_picker(
-            name: :end_date,
-            label: ResourcePlanner.human_attribute_name(:end_date),
-            required: false,
-            value: model.end_date&.iso8601,
-            datepicker_options: {
-              inDialog: @dialog_id
-            }
-          )
-        end
+        f.range_date_picker(
+          name: :date_range,
+          label: ResourcePlanner.human_attribute_name(:date_range),
+          required: false,
+          value: model.date_range,
+          validation_message: date_validation_message,
+          input_width: :large,
+          datepicker_options: {
+            inDialog: @dialog_id,
+            showClearButton: true
+          }
+        )
+      end
+
+      private
+
+      # The picker is a single input, so the errors both dates can carry have to
+      # be surfaced on it together.
+      def date_validation_message
+        (model.errors.full_messages_for(:start_date) + model.errors.full_messages_for(:end_date))
+          .to_sentence
+          .presence
       end
     end
   end

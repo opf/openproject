@@ -153,7 +153,8 @@ RSpec.describe Boards::SprintTaskBoardCreateService do
 
         it "sets column_count to match the number of statuses" do
           type_ids = sprint.work_packages.distinct.pluck(:type_id)
-          expected_count = Type.statuses(type_ids).count
+          variant_ids = project.type_variants(*type_ids).ids
+          expected_count = TypeVariant.statuses(variant_ids).count
 
           expect(subject.result.column_count).to eq(expected_count)
         end

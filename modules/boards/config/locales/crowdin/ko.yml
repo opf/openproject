@@ -1,5 +1,9 @@
 ---
 ko:
+  activerecord:
+    models:
+      boards/grid:
+        other: 보드
   boards:
     board_type_attributes:
       assignee: 담당자

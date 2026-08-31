@@ -21,87 +21,91 @@
 #++
 ---
 hy:
-  button_save_report_as: Save report as...
-  comments: Comment
-  cost_reports_title: Time and costs
-  description_drill_down: Show details
-  description_filter_selection: Selection
-  description_multi_select: Show multiselect
-  description_remove_filter: Remove filter
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
+  button_save_report_as: Պահպանել հաշվետվությունը որպես...
+  comments: Մեկնաբանություն
+  cost_reports_title: Ժամանակ և ծախսեր
+  description_drill_down: Ցուցադրել մանրամասները
+  description_filter_selection: Ընտրություն
+  description_multi_select: Ցուցադրել բազմակի ընտրությունը
+  description_remove_filter: Հեռացնել զտիչը
   export:
     cost_reports:
-      end_time: End time
-      start_time: Start time
-      title: Your Cost Reports XLS export
+      end_time: Ավարտի ժամ
+      start_time: Սկզբի ժամ
+      title: Ձեր ծախսերի հաշվետվությունների XLS արտահանում
     timesheet:
-      button: Export PDF timesheet
-      overview_per_user_day: 'Overview: Hours per user per day'
-      overview_per_user_total: 'Overview: Total hours per user'
-      sums_hours: Sums
-      time: Time
-      timesheet: Timesheet
-      title: Your PDF timesheet export
-  information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
-  label_click_to_edit: Click to edit.
-  label_closed: closed
-  label_columns: Columns
-  label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: Cost report
-  label_cost_report_plural: Cost reports
-  label_count: Count
-  label_days_ago: during the last days
-  label_entry: Cost entry
-  label_filter: Filter
-  label_filter_add: Add Filter
-  label_filter_plural: Filters
-  label_filter_text: Filter text
-  label_filter_value: Value
-  label_filters: Filter
+      button: Արտահանել աշխատաժամանակի տեղեկագիրը PDF-ով
+      overview_per_user_day: Ընդհանուր տեսք՝ ժամերն ըստ օգտատիրոջ և օրվա
+      overview_per_user_total: Ընդհանուր տեսք՝ ժամերի ընդհանուր քանակն ըստ օգտատիրոջ
+      sums_hours: Գումարներ
+      time: Ժամ
+      timesheet: Աշխատաժամանակի տեղեկագիր
+      title: Ձեր աշխատաժամանակի տեղեկագրի PDF արտահանում
+  information_restricted_depending_on_permission: Կախված Ձեր թույլտվություններից՝ այս էջը կարող է պարունակել սահմանափակ հասանելիությամբ տեղեկություն։
+  label_click_to_edit: Սեղմեք խմբագրելու համար։
+  label_closed: փակ
+  label_columns: Սյունակներ
+  label_cost_entry_attributes: Ծախսի գրառման հատկանիշներ
+  label_cost_report_plural: Ծախսերի հաշվետվություններ
+  label_count: Քանակ
+  label_days_ago: վերջին օրերի ընթացքում
+  label_entry: Ծախսի գրառում
+  label_filter: Զտիչ
+  label_filter_add: Ավելացնել զտիչ
+  label_filter_plural: Զտիչներ
+  label_filter_text: Զտիչի տեքստ
+  label_filter_value: Արժեք
+  label_filters: Զտիչ
   label_greater: ">"
-  label_group_by: Group by
-  label_group_by_add: Add Group-by Attribute
-  label_inactive: "«inactive»"
-  label_is_not_project_with_subprojects: is not (includes subprojects)
-  label_is_not_work_package_with_descendants: is not (includes descendants)
-  label_is_project_with_subprojects: is (includes subprojects)
-  label_is_work_package_with_descendants: is (includes descendants)
+  label_group_by: Խմբավորել ըստ
+  label_group_by_add: Ավելացնել խմբավորման հատկանիշ
+  label_inactive: "«ոչ ակտիվ»"
+  label_is_not_project_with_subprojects: չէ (ներառյալ ենթանախագծերը)
+  label_is_not_work_package_with_descendants: չէ (ներառյալ հետնորդները)
+  label_is_project_with_subprojects: է (ներառյալ ենթանախագծերը)
+  label_is_work_package_with_descendants: է (ներառյալ հետնորդները)
   label_less: "<"
-  label_logged_by_reporting: Logged by
-  label_money: Cash value
-  label_month_reporting: Month (Spent)
-  label_new_report: New cost report
-  label_no: 'No'
-  label_no_reports: There are no cost reports yet.
-  label_none: "(no data)"
-  label_open: open
-  label_operator: Operator
-  label_private_report_plural: Private cost reports
-  label_progress_bar_explanation: Generating report...
-  label_public_report_plural: Public cost reports
-  label_really_delete_question: Are you sure you want to delete this report?
-  label_report: Report
-  label_rows: Rows
-  label_saving: Saving ...
-  label_spent_on_reporting: Date (Spent)
-  label_sum: Sum
-  label_units: Units
-  label_week_reporting: Week (Spent)
-  label_work_package_attributes: Work package attributes
-  label_year_reporting: Year (Spent)
-  label_yes: 'Yes'
-  load_query_question: Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?
-  permission_save_cost_reports: Save public cost reports
-  permission_save_private_cost_reports: Save private cost reports
+  label_logged_by_reporting: Գրանցել է
+  label_money: Դրամական արժեք
+  label_month_reporting: Ամիս (ծախսված)
+  label_new_report: Նոր ծախսերի հաշվետվություն
+  label_no: Ոչ
+  label_no_reports: Դեռ ծախսերի հաշվետվություններ չկան։
+  label_none: "(տվյալներ չկան)"
+  label_open: բաց
+  label_operator: Օպերատոր
+  label_private_report_plural: Մասնավոր ծախսերի հաշվետվություններ
+  label_progress_bar_explanation: Հաշվետվությունը ստեղծվում է...
+  label_public_report_plural: Հանրային ծախսերի հաշվետվություններ
+  label_really_delete_question: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս հաշվետվությունը։
+  label_report: Հաշվետվություն
+  label_rows: Տողեր
+  label_saving: Պահպանվում է ...
+  label_spent_on_reporting: Ամսաթիվ (ծախսված)
+  label_sum: Գումար
+  label_units: Միավորներ
+  label_week_reporting: Շաբաթ (ծախսված)
+  label_work_package_attributes: Աշխատանքային փաթեթի հատկանիշներ
+  label_year_reporting: Տարի (ծախսված)
+  label_yes: Այո
+  load_query_question: Հաշվետվությունը կունենա %{size} աղյուսակի բջիջ և դրա ցուցադրումը կարող է որոշ ժամանակ պահանջել։ Այնուամենայնիվ ցանկանո՞ւմ եք փորձել ցուցադրել այն։
+  permission_save_cost_reports: Պահպանել հանրային ծախսերի հաշվետվությունները
+  permission_save_private_cost_reports: Պահպանել մասնավոր ծախսերի հաշվետվությունները
   plugin_openproject_reporting:
-    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
-    name: OpenProject Reporting
-  project_module_reporting_module: Cost reports
+    description: Այս հավելումը թույլ է տալիս ստեղծել հատուկ ծախսերի հաշվետվություններ՝ զտմամբ և խմբավորմամբ, որոնք ստեղծվել են OpenProject-ի Ժամանակ և ծախսեր հավելումի կողմից։
+    name: OpenProject-ի հաշվետվություն
+  project_module_reporting_module: Ծախսերի հաշվետվություններ
   reporting:
     group_by:
-      selected_columns: Selected columns
-      selected_rows: Selected rows
-  text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
-  toggle_multiselect: activate/deactivate multiselect
-  units: Units
-  validation_failure_date: is not a valid date
-  validation_failure_integer: is not a valid integer
+      selected_columns: Ընտրված սյունակներ
+      selected_rows: Ընտրված տողեր
+  text_costs_are_rounded_note: Ցուցադրվող արժեքները կլորացված են։ Բոլոր հաշվարկները հիմնված են չկլորացված արժեքների վրա։
+  toggle_multiselect: ակտիվացնել/ապաակտիվացնել բազմակի ընտրությունը
+  units: Միավորներ
+  validation_failure_date: վավեր ամսաթիվ չէ
+  validation_failure_integer: վավեր ամբողջ թիվ չէ

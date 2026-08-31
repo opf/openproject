@@ -60,7 +60,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       "admin/backups": %i[delete_token perform_token_reset reset_token show]
+                       "admin/backups": %i[delete_token perform_token_reset request_backup reset_token_dialog show]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -239,7 +239,38 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[show update]
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
+                       "projects/settings/work_packages/types/switches": %i[new create],
+                       "projects/settings/work_packages/types/switches/impacts": %i[create]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      # Separate from :manage_types, which is about which types a project uses. This one is about
+      # authoring the project's own variants of them, on administration's own controllers.
+      map.permission :manage_project_variants,
+                     {
+                       "work_package_types/variants": %i[destroy menu],
+                       "work_package_types/creation_wizard": %i[new create show update],
+                       "work_package_types/details_tab": %i[edit update],
+                       "work_package_types/defaults_tab": %i[edit update],
+                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog],
+                       "work_package_types/form_configuration_groups_tab":
+                         %i[create edit update destroy add_group cancel_edit drop move update_query],
+                       "work_package_types/project_attributes_tab":
+                         %i[edit toggle enable_all_of_section disable_all_of_section],
+                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/pdf_export_template":
+                         %i[edit toggle drop enable_all disable_all update_artefact_export
+                            edit_settings update_settings],
+                       "work_package_types/excluded_elements": %i[toggle],
+                       "work_package_types/configuration_links": %i[dialog confirm switch],
+                       "work_package_types/configuration_independence": %i[dialog confirm switch],
+                       "work_package_types/configuration_copies": %i[dialog confirm copy],
+                       "workflows/matrix": %i[show update status_dialog confirm_statuses],
+                       "workflows/copies": %i[new],
+                       "workflows/copies/from_variants": %i[create],
+                       "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,
                      require: :member
@@ -535,32 +566,6 @@ Rails.application.reloader.to_prepare do
       news.permission :comment_news,
                       { "news/comments": :create },
                       permissible_on: :project
-    end
-
-    map.project_module :wiki do |wiki|
-      wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu export] },
-                      permissible_on: :project
-
-      wiki.permission :view_wiki_edits,
-                      { wiki: %i[history diff annotate] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create rename] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :manage_wiki,
-                      {
-                        wiki: %i[destroy protect edit_parent_page update_parent_page],
-                        wikis: %i[edit destroy],
-                        wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
-                      },
-                      dependencies: :edit_wiki_pages,
-                      permissible_on: :project,
-                      require: :member
     end
 
     map.project_module :repository do |repo|

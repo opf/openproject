@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    if any_variants?
+      flex_layout do |page|
+        page.with_row do
+          form_tag(variants_path, method: :get, data: filter_form_data) do
+            render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+              subheader.with_filter_input(
+                name: "query",
+                value: query,
+                label: I18n.t("types.edit.variants.filter"),
+                placeholder: I18n.t("types.edit.variants.filter"),
+                leading_visual: { icon: :search, size: :small },
+                data: { action: "input->auto-submit#submit" }
+              )
+
+              subheader.with_action_button(
+                scheme: :primary,
+                leading_icon: :plus,
+                label: I18n.t("types.index.add_variant_action"),
+                tag: :a,
+                href: add_variant_path,
+                test_selector: "add-type-variant"
+              ) do
+                I18n.t("types.index.variant_label")
+              end
+            end
+          end
+        end
+
+        page.with_row do
+          helpers.turbo_frame_tag(FRAME_ID, target: "_top") do
+            render(
+              OpenProject::Common::BorderBoxListComponent.new(
+                container: "type-variants",
+                padding: :condensed,
+                mb: 3,
+                test_selector: "type-variants"
+              )
+            ) do |list|
+              list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
+
+              variants.each do |variant|
+                list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+                  item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+
+                  render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
+                    if variant.project_owned?
+                      row.with_label { t("types.index.owned_by", project: variant.project.name) }
+                    end
+                    if variant.enabled_in_new_projects?
+                      row.with_status_label { t("types.index.enabled_in_new_projects") }
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    else
+      render(Primer::Beta::Blankslate.new(border: true, spacious: true, test_selector: "type-variants-blankslate")) do |blankslate|
+        blankslate.with_heading(tag: :h3) { I18n.t("types.edit.variants.blankslate.title") }
+        blankslate.with_description { t("types.edit.variants.blankslate.description_html") }
+        blankslate.with_primary_action(href: add_variant_path, test_selector: "add-type-variant") do
+          I18n.t("types.index.add_variant_action")
+        end
+      end
+    end
+  end
+%>

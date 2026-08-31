@@ -61,7 +61,7 @@ This allows individual field components to declare that they always require a di
 
 **Simplified HTML of the `InplaceEditFieldComponent`:**
 ```html
-&lt;%= component_wrapper(tag: :div, class: "op-inplace-edit") do
+<%%= component_wrapper(tag: :div, class: "op-inplace-edit") do
   if display_field_component.present? && (!enforce_edit_mode || !writable?)
     render display_field_component
   else
@@ -107,7 +107,7 @@ Custom fields are registered automatically. The format-to-component mappings (e.
 
 `BaseFieldComponent` is the **base class for all edit field components**. It provides shared functionality that concrete field components can use, and should be inherited from when building new field components.
 
-It handles the optional rendering of a comment field for custom fields with comments enabled.
+It handles the optional rendering of a comment field for custom fields with comments enabled, and provides a shared `render_action_buttons` implementation with overridable hooks.
 
 **Class-level API:**
 
@@ -145,6 +145,28 @@ Call this helper from any field component's `call` method to conditionally rende
 
 The generated form field name follows the pattern `model[custom_comments][custom_field_id]` (e.g. `project[custom_comments][18]`), so that multiple custom field comments can coexist in the same form submission.
 
+**`render_action_buttons(form)`**
+
+Renders a horizontal button group with a Cancel link and a Save submit button. Call this from `call` when the field should display its own action buttons (controlled via `show_action_buttons`).
+
+The Cancel button always includes `data: { turbo_stream: true }` to ensure the reset request is handled via Turbo. Subclasses can customize the buttons by overriding the hook methods:
+
+| Method | Default | Description |
+|---|---|---|
+| `cancel_button_options` | `{ data: { turbo_stream: true } }` | Extra options merged into the Cancel button. Always call `super.merge(...)` to preserve `turbo_stream`. |
+| `submit_button_options` | `{}` | Extra options merged into the Save button. |
+
+```ruby
+# Override in a subclass to add test selectors:
+def cancel_button_options
+  super.merge(test_selector: "my-field-cancel")
+end
+
+def submit_button_options
+  { test_selector: "my-field-save" }
+end
+```
+
 #### EditFieldComponents
 
 `EditFieldComponents` are responsible for rendering the actual form field. They receive a form builder, the model, the attribute, and the forwarded system arguments.
@@ -168,17 +190,17 @@ module OpenProject
         def call
           form.rich_text_area(name: attribute, **@system_arguments)
           comment_field_if_enabled(form)
+          render_action_buttons(form) if show_action_buttons
+        end
 
-          form.group(layout: :horizontal) do |button_group|
-            button_group.submit(name: :reset,
-                                type: :submit,
-                                label: I18n.t(:button_cancel),
-                                formaction: inplace_edit_field_reset_path(model:, id:, attribute:),
-                                formmethod: :get)
-            button_group.submit(name: :submit,
-                                label: I18n.t(:button_save),
-                                scheme: :primary)
-          end
+        private
+
+        def cancel_button_options
+          super.merge(test_selector: "op-inplace-edit-field--textarea-cancel")
+        end
+
+        def submit_button_options
+          { test_selector: "op-inplace-edit-field--textarea-save" }
         end
       end
     end
@@ -386,7 +408,8 @@ To add a new editable attribute:
 
 1. Create an `EditFieldComponent` that inherits from `BaseFieldComponent`.
 2. Call `comment_field_if_enabled(form)` in `call` if the field should support custom field comments.
-3. Register it in the `FieldRegistry`. Optionally provide a display component.
+3. Call `render_action_buttons(form) if show_action_buttons` in `call` to render Save/Cancel buttons. Override `cancel_button_options` or `submit_button_options` to customize (e.g. add `test_selector`). Always call `super.merge(...)` in `cancel_button_options` to preserve the required `data: { turbo_stream: true }`.
+4. Register it in the `FieldRegistry`. Optionally provide a display component.
 
 No changes to the core component or controller should be required.
 

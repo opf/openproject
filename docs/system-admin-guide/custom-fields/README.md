@@ -15,7 +15,7 @@ Custom fields enable to configure your OpenProject exactly to your needs, i.e. t
 
 ## Add a new custom field
 
-To **create a new custom field** navigate to _Administration_ -> _Custom fields_ and select the section for which you will create a new custom field, e.g. for work packages.
+To **create a new custom field** navigate to _Administration_ -> _Custom fields_ and select the section for which you will create a new custom field, e.g. for work packages, spent time, versions or groups.
 
 You will see the list of all the custom fields that have been created so far, divided by the section on the different tabs for which they were created.
 

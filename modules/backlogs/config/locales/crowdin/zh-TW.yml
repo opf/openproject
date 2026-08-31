@@ -24,6 +24,7 @@ zh-TW:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: Excluded work package types
         sprint_sharing: Sprint 共用
         statuses_considered_closed: Statuses considered closed
@@ -49,15 +50,22 @@ zh-TW:
         story_points: 需求重要性
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: 要開始衝刺，必須要有開始和結束日期。
         must_be_in_planning: 必須在規劃中開始。
         only_one_active_sprint_allowed: 每個專案只允許一個活動衝刺。
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: 無法設定，因為專案 "%{name}" 已經與所有專案共用。
               share_all_projects_already_taken_anonymous: 無法設定，因為另一個專案已經與所有專案共用。
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: 正在接收共享衝刺的同時。無法建立自己的衝刺。
         sprint:
           attributes:
@@ -83,11 +91,15 @@ zh-TW:
               task_version_must_be_the_same_as_story_version: 必須與上層「使用者需求」(User Story)的版本相同。
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        other: Backlog buckets
       sprint:
         other: Sprints
+      sprint_goal:
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
       title: Backlog 管理設定不斷演進
@@ -109,8 +121,9 @@ zh-TW:
         add_new_work_package: Add new work package
         delete_backlog_bucket: Delete backlog bucket
         edit_backlog_bucket: Edit backlog bucket
-      blankslate_description: Drag items here to add them.
+      blankslate_description: Drag items here to add them
       blankslate_title: Backlog bucket is empty
+      drop_zone_label: Drop here to add this item
       label_actions: Backlog bucket actions
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -136,8 +149,9 @@ zh-TW:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: 此專案中所有開啟的工作任務都會自動出現在這裡。
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 積壓收件匣為空
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         other: 再顯示 %{count} 項
@@ -145,11 +159,13 @@ zh-TW:
     label_burndown_chart: 未完成圖
     label_is_done_status: 狀態 %{status_name} 表示完成
     label_sprint_board: 衝刺目標
+    label_sprint_report: Sprint report
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:
       label_sprint: 衝刺
       title: 移動到衝刺
+    multiple_active_sprints: Multiple active sprints
     points_label:
       other: 點
     positions_could_not_be_rebuilt: 無法重建位置
@@ -157,7 +173,7 @@ zh-TW:
     rebuild: 重建
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
-    sharing: 共享
+    sharing: Sprint sharing
     show_burndown_chart: 未完成圖
     sprint_component:
       action_menu:
@@ -166,17 +182,29 @@ zh-TW:
         edit_sprint: Edit sprint
       blankslate_description: 尚未規劃任何項目。將項目拖曳至此即可新增。
       blankslate_title: "%{name} 為空"
+      drop_zone_label: Drop here to add this item
       label_actions: Sprint actions
       label_complete_sprint: Complete sprint
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
       goal_for_this_project_label: "%{attribute} (for this project)"
     sprint_form_component:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
     sprints_component:
       blankslate:
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
@@ -211,18 +239,21 @@ zh-TW:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 故事點
     story_points_ideal: 理想估算故事點數
   ee:
     features:
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprint sharing
     upsell:
+      multiple_active_sprints:
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints
@@ -262,6 +293,9 @@ zh-TW:
     name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
@@ -283,7 +317,14 @@ zh-TW:
             label: Subprojects
         sprint_sharing: Share sprints
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
   query_fields:

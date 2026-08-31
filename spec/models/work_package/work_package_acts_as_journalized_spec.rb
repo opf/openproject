@@ -66,7 +66,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :priority,
                          "project_id" => :project,
                          "category_id" => :category,
-                         "version_id" => :version,
+                         "target_version_ids_replacements" => -> { [version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -179,7 +179,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -255,7 +255,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -334,7 +334,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -566,20 +566,6 @@ RSpec.describe WorkPackage do
         end
       end
 
-      # While the deprecated version_id column mirrors the target versions,
-      # every version change produces both a version_id and a target_versions
-      # diff. Only the target_versions representation is exposed.
-      context "when changing the version via the legacy version field" do
-        it "journals the change as target versions only" do
-          journable.update!(version:)
-
-          expect(journable.last_journal.details["target_versions"])
-            .to eq([nil, version.id.to_s])
-          expect(journable.last_journal.details)
-            .not_to have_key("version_id")
-        end
-      end
-
       context "when setting target versions via the replacements" do
         it "does not additionally journal the mirrored version_id" do
           set_target_versions([version])
@@ -621,7 +607,7 @@ RSpec.describe WorkPackage do
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
           project.work_package_custom_fields << custom_field
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
         end
       end
 
@@ -712,7 +698,7 @@ RSpec.describe WorkPackage do
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
               project.work_package_custom_fields << cf
-              type.custom_fields << cf
+              type.default_variant.custom_fields << cf
             end
           end
         end
@@ -725,7 +711,7 @@ RSpec.describe WorkPackage do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
             project.work_package_custom_fields << cf
-            type.custom_fields << cf
+            type.default_variant.custom_fields << cf
           end
         end
 
@@ -1236,7 +1222,7 @@ RSpec.describe WorkPackage do
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let(:work_package) do

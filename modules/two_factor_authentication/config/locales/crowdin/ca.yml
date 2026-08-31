@@ -20,10 +20,21 @@ ca:
             phone_number:
               error_phone_number_format: ha de tenir el format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispositiu de 2FA
-      two_factor_authentication/device/sms: Telèfon mòbil
-      two_factor_authentication/device/totp: Aplicació d'autentificació
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continua
   button_make_active: Activate
   button_make_default: Marca per defecte
@@ -126,7 +137,7 @@ ca:
     error_no_device: No s'ha trobat cap dispositiu 2FA registrat per a aquest usuari tot i ser necessari per a aquesta instància.
     error_no_matching_strategy: No hi ha cap estratègia 2FA coincident disponible per aquest usuari. Si us plau, contacta el teu administrador.
     forced_registration:
-      required_to_add_device: Una política de seguretat activa requereix que activis l'autentificació en dos passos. Si us plau, segueix el formulari següent per tal de registrar un dispositiu.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Autentificació de dos passos no habilitada
     label_2fa_enabled: Autenticació de dos passos habilitada
     label_default_device: Dispositiu de 2FA per defecte

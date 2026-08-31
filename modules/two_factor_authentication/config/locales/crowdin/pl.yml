@@ -20,10 +20,31 @@ pl:
             phone_number:
               error_phone_number_format: musi posiadać format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Urządzenie 2FA (2 Factory Authenticator)
-      two_factor_authentication/device/sms: Telefon komórkowy
-      two_factor_authentication/device/totp: Aplikacja Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Kod zapasowy
+        few: Kody zapasowe
+        many: Kody zapasowe
+        other: Kody zapasowe
+      two_factor_authentication/device:
+        one: Urządzenie 2FA
+        few: Urządzenia 2FA
+        many: Urządzenia 2FA
+        other: Urządzenia 2FA
+      two_factor_authentication/device/sms:
+        one: Telefon komórkowy
+        few: Telefony komórkowe
+        many: Telefony komórkowe
+        other: Telefony komórkowe
+      two_factor_authentication/device/totp:
+        one: Aplikacja uwierzytelniająca
+        few: Aplikacje uwierzytelniające
+        many: Aplikacje uwierzytelniające
+        other: Aplikacje uwierzytelniające
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Dalej
   button_make_active: Aktywuj
   button_make_default: Oznacz jako domyślny
@@ -126,7 +147,7 @@ pl:
     error_no_device: Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia.
     error_no_matching_strategy: Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem.
     forced_registration:
-      required_to_add_device: Aktywna polityka bezpieczeństwa wymaga włączenia uwierzytelniania dwuskładnikowego. Użyj poniższego formularza, aby zarejestrować urządzenie.
+      required_to_add_device: Administrator wymusza uwierzytelnianie dwuskładnikowe w tym wystąpieniu. Aby się zalogować, dodaj metodę uwierzytelniania dwuskładnikowego.
     label_2fa_disabled: Uwierzytelnianie dwuskładnikowe nie jest aktywne
     label_2fa_enabled: Uwierzytelnianie dwuskładnikowe jest aktywne
     label_default_device: Domyślne urządzenie 2FA

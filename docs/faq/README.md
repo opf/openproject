@@ -120,7 +120,7 @@ If you are the system administrator of an on-premises installation (Enterprise o
 
 This is not possible per se, there's no Ctrl+Z option or anything similar.
 
-Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
+Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/create-edit-wiki/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
 
 ### How can I increase or decrease the number of users in OpenProject?
 
@@ -137,7 +137,7 @@ You can do this as a system administrator in the [System settings](../system-adm
 
 ### How can I add a RACI matrix in OpenProject?
 
-You can add [project custom fields](../system-admin-guide/custom-fields/custom-fields-projects/) of the type "user" to your projects and track the respective persons there.
+You can add [project custom fields](../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects) of the type "user" to your projects and track the respective persons there.
 
 On a work package level you could use "Assignee" for "Responsible", "Accountable" for "Accountable" and [add custom fields](../system-admin-guide/custom-fields/) for "Consulted" and "Informed". For the latter one you could also just set the person as watcher instead.
 
@@ -161,7 +161,7 @@ Please find information on the features of OpenProject [here](https://www.openpr
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "Account settings" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/account-settings/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/account-settings/language-and-region/#change-your-language).
 
 ### Is there an OpenProject app?
 
@@ -197,9 +197,7 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 
 ### Does OpenProject offer resource management?
 
-You can [set up budgets](../user-guide/budgets), [set the estimated time in  the **Work** field](../user-guide/work-packages/edit-work-package/) of a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
-Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.org/projects/openproject/work_packages?query_id=1993).
-More information regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
+Yes. The Resource management module enables project managers to plan capacity, allocate work and staff projects based on team members' availability and skills. For details, see the [Resource management user guide](../user-guide/resource-management/).
 
 ### Does OpenProject offer portfolio management?
 

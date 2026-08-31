@@ -24,714 +24,731 @@ fa:
   activerecord:
     attributes:
       meeting:
-        duration: Duration
-        end_time: End time
+        duration: مدت
+        end_time: زمان پایان
         location: موقعیت مکانی
-        notes: یادداشت ها
-        notify: Send notifications
+        notes: یادداشت‌ها
+        notify: ارسال اعلان‌ها
         participant:
-          one: 1 Participant
-          other: "%{count} Participants"
+          one: ۱ شرکت‌کننده
+          other: "%{count} شرکت‌کننده"
         participants: شركت كنندگان
-        participants_added: 'Participants added:'
-        participants_attended: Attendees
+        participants_added: 'شرکت‌کنندگان افزوده‌شده:'
+        participants_attended: حاضران
         participants_invited: دعوت کنندگان
-        participants_removed: 'Participants removed:'
+        participants_removed: 'شرکت‌کنندگان حذف‌شده:'
         project: پروژه
-        recurrence_start_time: Scheduled start time
-        sharing: Sharing
+        recurrence_start_time: زمان شروع زمان‌بندی‌شده
+        sharing: اشتراک‌گذاری
         start_date: تاریخ
         start_time: زمان شروع
         start_time_hour: زمان شروع
-        template: Template
-        type: Meeting type
+        template: الگو
+        type: نوع جلسه
       meeting_agenda_item:
         author: نویسنده
-        description: یادداشت ها
-        duration_in_minutes: Duration
-        item_type: Type
-        lock_version: Lock version
-        notes: Notes
-        position: Position
-        presenter: Presenter
+        description: یادداشت‌ها
+        duration_in_minutes: مدت
+        item_type: نوع
+        lock_version: نسخه قفل
+        notes: یادداشت‌ها
+        position: موقعیت
+        presenter: ارائه‌دهنده
         title: عنوان
+      meeting_outcome:
+        kind: نوع
       meeting_participant:
-        attended: Attended
-        invited: Invited
-        participation_status: Participation status
+        attended: حضور داشته
+        invited: دعوت‌شده
+        participation_status: وضعیت مشارکت
       meeting_section:
-        position: Position
+        position: موقعیت
         title: عنوان
       recurring_meeting:
-        duration: Duration
-        end_after: Meeting series ends
-        end_date: End date
-        frequency: Frequency
-        interval: Interval
-        iterations: Occurrences
-        location: Location
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
-        notify: Send notifications
-        start_date: Starts on
+        duration: مدت
+        end_after: پایان مجموعه جلسات
+        end_date: تاریخ پایان
+        frequency: تناوب
+        interval: فاصله
+        iterations: نوبت‌ها
+        location: مکان
+        monthly_day: روز ماه
+        monthly_ordinal: موقعیت
+        monthly_weekday: روز هفته
+        notify: ارسال اعلان‌ها
+        start_date: شروع در
         start_time: زمان شروع
         start_time_hour: زمان شروع
-        time_zone: Time zone
-        title: Title
+        time_zone: منطقه زمانی
+        title: عنوان
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: زمان شروع
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: 'زمان معتبری نیست. قالب الزامی: HH:MM'
       models:
         meeting_agenda_item:
-          section_not_belong_to_meeting: Section does not belong to the same meeting.
-          user_invalid: is not a valid participant.
+          section_not_belong_to_meeting: بخش به همان جلسه تعلق ندارد.
+          user_invalid: شرکت‌کننده معتبری نیست.
         meeting_participant:
-          user_invalid: is not a valid participant.
+          user_invalid: شرکت‌کننده معتبری نیست.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
-            other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: یک جلسه باز در این مجموعه وجود دارد که برنامه جدید آن را پوشش نمی‌دهد. برنامه را طوری تنظیم کنید که همه جلسات موجود را شامل شود.
+            other: "%{count} جلسه باز در این مجموعه وجود دارد که برنامه جدید آن‌ها را پوشش نمی‌دهد. برنامه را طوری تنظیم کنید که همه جلسات موجود را شامل شود."
         recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+          not_an_occurrence: زمان نوبت معتبری برای این جلسه تکرارشونده نیست
     models:
-      meeting: One-time meeting
-      meeting_agenda: دستور کار
-      meeting_agenda_item: Agenda item
-      meeting_section: Section
-      recurring_meeting: Recurring meeting
+      meeting:
+        one: جلسه یک‌باره
+        other: جلسات یک‌باره
+      meeting_agenda_item:
+        one: مورد دستور جلسه
+        other: موارد دستور جلسه
+      meeting_outcome:
+        one: نتیجه
+        other: نتایج
+      meeting_participant:
+        one: شرکت‌کننده جلسه
+        other: شرکت‌کنندگان جلسه
+      meeting_section:
+        one: بخش
+        other: بخش‌ها
+      recurring_meeting:
+        one: جلسه تکرارشونده
+        other: جلسات تکرارشونده
+      scheduled_meeting:
+        one: جلسه زمان‌بندی‌شده
+        other: جلسات زمان‌بندی‌شده
       token/ical_meeting:
-        one: iCal Meeting subscription
-        other: iCal Meeting subscription
+        one: اشتراک iCal جلسات
+        other: اشتراک iCal جلسات
   activity:
     filter:
       meeting: جلسات
     item:
       meeting_agenda_item:
         duration:
-          added: set to %{value}
-          added_html: set to <i>%{value}</i>
-          removed: removed
-          updated: changed from %{old_value} to %{value}
-          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
+          added: روی %{value} تنظیم شد
+          added_html: روی <i>%{value}</i> تنظیم شد
+          removed: حذف شد
+          updated: از %{old_value} به %{value} تغییر کرد
+          updated_html: از <i>%{old_value}</i> به <i>%{value}</i> تغییر کرد
         position:
-          updated: reordered
+          updated: مرتب‌سازی مجدد شد
         work_package:
-          updated: changed from %{old_value} to %{value}
-          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  description_attended: attended
-  error_notification: Failed to send notification.
-  error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
+          updated: از %{old_value} به %{value} تغییر کرد
+          updated_html: از <i>%{old_value}</i> به <i>%{value}</i> تغییر کرد
+  caption_meeting_template_select: برای کپی خودکار موارد دستور جلسه، یک الگو انتخاب کنید
+  caption_template_project_select: لطفاً پروژه‌ای را که الگوی جلسه در آن ایجاد می‌شود انتخاب کنید
+  description_attended: حضور داشت
+  error_notification: ارسال اعلان ناموفق بود.
+  error_notification_with_errors: 'ارسال اعلان ناموفق بود. به گیرندگان زیر اطلاع داده نشد: %{recipients}'
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  label_add_work_package_to_meeting_dialog_button: Add to meeting
-  label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
-  label_added_as_outcome: Added as outcome
-  label_agenda_backlog: Agenda backlog
-  label_agenda_backlog_clear_title: Clear agenda backlog?
-  label_agenda_item_actions: Agenda items actions
-  label_agenda_item_add: Add agenda item
-  label_agenda_item_add_notes: Add notes
-  label_agenda_item_add_outcome: Add outcome
-  label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_deleted_wp: Deleted work package reference
-  label_agenda_item_duplicate: Duplicate
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+    meeting: جلسه ویرایش شد
+    meeting_agenda: دستور جلسه ویرایش شد
+    meeting_agenda_closed: دستور جلسه بسته شد
+    meeting_agenda_opened: دستور جلسه باز شد
+    meeting_minutes: صورت‌جلسه ویرایش شد
+    meeting_minutes_created: صورت‌جلسه ایجاد شد
+  label_add_work_package_to_meeting_dialog_button: افزودن به جلسه
+  label_add_work_package_to_meeting_dialog_title: انتخاب جلسه
+  label_add_work_package_to_meeting_section_label: بخش
+  label_added_as_outcome: به‌عنوان نتیجه افزوده شد
+  label_agenda_backlog: بک‌لاگ دستور جلسه
+  label_agenda_backlog_clear_title: بک‌لاگ دستور جلسه پاک شود؟
+  label_agenda_item_actions: اقدامات موارد دستور جلسه
+  label_agenda_item_add: افزودن مورد دستور جلسه
+  label_agenda_item_add_notes: افزودن یادداشت
+  label_agenda_item_add_outcome: افزودن نتیجه
+  label_agenda_item_convert_to_work_package: تبدیل به بسته کاری
+  label_agenda_item_deleted_wp: ارجاع به بسته کاری حذف‌شده
+  label_agenda_item_duplicate: تکثیر
+  label_agenda_item_duplicate_in_next: تکثیر در جلسه بعدی
+  label_agenda_item_duplicate_in_next_title: در جلسه بعدی تکثیر شود؟
   label_agenda_item_move: انتقال
-  label_agenda_item_move_down: Move down
-  label_agenda_item_move_to_backlog: Move to backlog
-  label_agenda_item_move_to_bottom: Move to bottom
-  label_agenda_item_move_to_current_meeting: Move to current meeting
-  label_agenda_item_move_to_next: Move to next meeting
-  label_agenda_item_move_to_next_title: Move to next meeting?
-  label_agenda_item_move_to_section: Move to section
+  label_agenda_item_move_down: انتقال به پایین
+  label_agenda_item_move_to_backlog: انتقال به بک‌لاگ
+  label_agenda_item_move_to_bottom: انتقال به انتها
+  label_agenda_item_move_to_current_meeting: انتقال به جلسه جاری
+  label_agenda_item_move_to_next: انتقال به جلسه بعدی
+  label_agenda_item_move_to_next_title: به جلسه بعدی منتقل شود؟
+  label_agenda_item_move_to_section: انتقال به بخش
   label_agenda_item_move_to_top: انتقال به بالا
-  label_agenda_item_move_up: Move up
-  label_agenda_item_remove_from_agenda: Remove from agenda
-  label_agenda_item_remove_from_backlog: Remove from backlog
-  label_agenda_item_undisclosed_wp: 'Work package #%{id} not visible'
-  label_agenda_item_work_package: Agenda item work package
-  label_agenda_item_work_package_add: Add work package
-  label_agenda_items: ''
-  label_agenda_items_reordered: reordered
-  label_agenda_new_outcome: New outcome
-  label_agenda_outcome: Outcome
-  label_agenda_outcome_actions: Agenda outcome actions
-  label_agenda_outcome_delete: Remove outcome
-  label_agenda_outcome_edit: Edit outcome
-  label_all_meetings: All meetings
-  label_attended: Attended
-  label_attended_user: Attended user
-  label_backlog_clear: Clear backlog
-  label_backlog_clear_button: Clear all
-  label_created_by_me: Created by me
-  label_existing_work_package: Existing work package
-  label_icalendar: Send iCalendar
-  label_icalendar_download: Download iCalendar event
+  label_agenda_item_move_up: انتقال به بالا
+  label_agenda_item_remove_from_agenda: حذف از دستور جلسه
+  label_agenda_item_remove_from_backlog: حذف از بک‌لاگ
+  label_agenda_item_undisclosed_wp: 'بسته کاری #%{id} قابل مشاهده نیست'
+  label_agenda_item_work_package: بسته کاریِ مورد دستور جلسه
+  label_agenda_item_work_package_add: افزودن بسته کاری
+  label_agenda_items: موارد دستور جلسه
+  label_agenda_items_reordered: مرتب‌سازی مجدد شد
+  label_agenda_new_outcome: نتیجه جدید
+  label_agenda_outcome: نتیجه
+  label_agenda_outcome_actions: اقدامات نتیجه دستور جلسه
+  label_agenda_outcome_delete: حذف نتیجه
+  label_agenda_outcome_edit: ویرایش نتیجه
+  label_all_meetings: همه جلسات
+  label_attended: حضور داشته
+  label_attended_user: کاربر حاضر
+  label_backlog_clear: پاک‌کردن بک‌لاگ
+  label_backlog_clear_button: پاک‌کردن همه
+  label_created_by_me: ایجادشده توسط من
+  label_existing_work_package: بسته کاری موجود
+  label_icalendar: ارسال iCalendar
+  label_icalendar_download: دریافت رویداد iCalendar
   label_initial_meeting_details: جلسه
-  label_invitations: Invitations
-  label_invited_user: Invited user
-  label_involvement: Involvement
+  label_invitations: دعوت‌نامه‌ها
+  label_invited_user: کاربر دعوت‌شده
+  label_involvement: مشارکت
   label_meeting: جلسه
-  label_meeting_actions: Meeting actions
-  label_meeting_agenda: دستور کار
-  label_meeting_agenda_close: Close the agenda to begin the Minutes
-  label_meeting_close: Close
-  label_meeting_close_action: Close meeting
-  label_meeting_create: Create meeting
-  label_meeting_create_from_template: Create meeting from template
-  label_meeting_created_by: ایجاد شده توسط
-  label_meeting_date_and_time: Date and time
+  label_meeting_actions: اقدامات جلسه
+  label_meeting_agenda: دستور جلسه
+  label_meeting_agenda_close: برای شروع صورت‌جلسه، دستور جلسه را ببندید
+  label_meeting_close: بستن
+  label_meeting_close_action: بستن جلسه
+  label_meeting_create: ایجاد جلسه
+  label_meeting_create_from_template: ایجاد جلسه از الگو
+  label_meeting_created_by: ایجادشده توسط
+  label_meeting_date_and_time: تاریخ و زمان
   label_meeting_date_time: تاریخ/زمان
-  label_meeting_delete: Delete meeting
-  label_meeting_details: Meeting details
-  label_meeting_details_edit: Edit meeting details
+  label_meeting_delete: حذف جلسه
+  label_meeting_details: جزئیات جلسه
+  label_meeting_details_edit: ویرایش جزئیات جلسه
   label_meeting_diff: اختلاف
-  label_meeting_duplicate: Duplicate meeting
+  label_meeting_duplicate: تکثیر جلسه
   label_meeting_edit: ویرایش جلسه
-  label_meeting_edit_title: Edit meeting title
-  label_meeting_empty_action: Add agenda item
-  label_meeting_in_progress_action: Start meeting
+  label_meeting_edit_title: ویرایش عنوان جلسه
+  label_meeting_empty_action: افزودن مورد دستور جلسه
+  label_meeting_in_progress_action: شروع جلسه
   label_meeting_index_delete: حذف
-  label_meeting_index_later: Next week and later
-  label_meeting_index_this_week: Later this week
+  label_meeting_index_later: هفته بعد و پس از آن
+  label_meeting_index_this_week: بعدتر در این هفته
   label_meeting_index_today: امروز
-  label_meeting_index_tomorrow: Tomorrow
-  label_meeting_last_updated: Last updated
-  label_meeting_minutes: دقیقه ها
+  label_meeting_index_tomorrow: فردا
+  label_meeting_last_updated: آخرین به‌روزرسانی
+  label_meeting_minutes: صورت‌جلسه
   label_meeting_more:
-    one: There is one more meeting.
-    other: There are %{count} more meetings.
+    one: یک جلسه دیگر وجود دارد.
+    other: "%{count} جلسه دیگر وجود دارد."
   label_meeting_new: ایجاد جلسه
-  label_meeting_new_dynamic: New one-time meeting
-  label_meeting_new_recurring: New recurring meeting
+  label_meeting_new_dynamic: جلسه یک‌باره جدید
+  label_meeting_new_recurring: جلسه تکرارشونده جدید
   label_meeting_open: باز
-  label_meeting_open_action: Open meeting
-  label_meeting_open_this_meeting: Open this meeting
+  label_meeting_open_action: بازکردن جلسه
+  label_meeting_open_this_meeting: بازکردن این جلسه
   label_meeting_plural: جلسات
-  label_meeting_reload: Reload
-  label_meeting_reopen_action: Reopen meeting
-  label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
-  label_meeting_send_updates: Send email calendar invite and updates
-  label_meeting_send_updates_caption: Send out email invites to all participants of this meeting
-  label_meeting_series: Meeting series
-  label_meeting_series_details: Meeting series details
-  label_meeting_state: Meeting status
-  label_meeting_state_agenda_created: Agenda created
-  label_meeting_state_cancelled: Cancelled
+  label_meeting_reload: بارگذاری مجدد
+  label_meeting_reopen_action: بازگشایی جلسه
+  label_meeting_selection_caption: این بسته کاری فقط به جلسه‌ای آتی یا در حال برگزاری قابل افزودن است.
+  label_meeting_send_updates: ارسال دعوت‌نامه تقویمی و به‌روزرسانی‌ها با ایمیل
+  label_meeting_send_updates_caption: ارسال دعوت‌نامه ایمیلی به همه شرکت‌کنندگان این جلسه
+  label_meeting_series: مجموعه جلسات
+  label_meeting_series_details: جزئیات مجموعه جلسات
+  label_meeting_state: وضعیت جلسه
+  label_meeting_state_agenda_created: دستور جلسه ایجاد شد
+  label_meeting_state_cancelled: لغوشده
   label_meeting_state_closed: بسته
-  label_meeting_state_draft: Draft
+  label_meeting_state_draft: پیش‌نویس
   label_meeting_state_in_progress: در حال انجام
   label_meeting_state_open: باز
-  label_meeting_state_planned: برنامه‌ریزی شده
-  label_meeting_state_skipped: Skipped
-  label_meeting_template: Template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
-  label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
-  label_my_meetings: My meetings
+  label_meeting_state_planned: برنامه‌ریزی‌شده
+  label_meeting_state_skipped: ردشده
+  label_meeting_template: الگو
+  label_meeting_template_create: ایجاد الگو
+  label_meeting_template_delete: حذف الگو
+  label_meeting_template_edit: ویرایش الگو
+  label_meeting_template_new: الگوی جدید
+  label_meeting_template_sharing: اشتراک‌گذاری
+  label_meeting_template_sharing_descendants: همراه با زیرپروژه‌ها
+  label_meeting_template_sharing_none: فقط با این پروژه
+  label_meeting_template_sharing_system: با همه پروژه‌ها
+  label_meeting_templates: الگوها
+  label_my_meetings: جلسات من
   label_notify: ارسال برای بازبینی
-  label_past_invitations: Past invitations
-  label_past_meetings: Past meetings
-  label_past_meetings_short: Past
-  label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
-  label_recurring_meeting_cancel: Cancel this occurrence
+  label_past_invitations: دعوت‌نامه‌های گذشته
+  label_past_meetings: جلسات گذشته
+  label_past_meetings_short: گذشته
+  label_recurring_filter: فیلتر تکرار
+  label_recurring_meeting_cancel: لغو این نوبت
   label_recurring_meeting_create: باز
-  label_recurring_meeting_delete: Delete occurrence
-  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
+  label_recurring_meeting_delete: حذف نوبت
+  label_recurring_meeting_duplicate: تکثیر به‌عنوان جلسه یک‌باره
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: یک جلسه زمان‌بندی‌شده دیگر وجود دارد (%{schedule}).
+    other: "%{count} جلسه زمان‌بندی‌شده دیگر وجود دارد (%{schedule})."
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
-    other: There are %{count} more past meetings.
-  label_recurring_meeting_new: New recurring meeting
-  label_recurring_meeting_next_occurrence: Next occurrence
-  label_recurring_meeting_no_end_date: There are more scheduled meetings (%{schedule}).
-  label_recurring_meeting_part_of: Part of a meeting series
-  label_recurring_meeting_plural: Recurring meetings
-  label_recurring_meeting_restore: Restore this occurrence
-  label_recurring_meeting_schedule: Schedule
-  label_recurring_meeting_series_create: Create meeting series
-  label_recurring_meeting_series_delete: Delete meeting series
-  label_recurring_meeting_series_edit: Edit meeting series
-  label_recurring_meeting_series_end: End meeting series
-  label_recurring_meeting_series_end_now: End series now
-  label_recurring_meeting_show_more: Show more
-  label_recurring_meeting_view: View meeting series
-  label_section_rename: Rename section
-  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
-  label_series_backlog: Series backlog
-  label_series_backlog_clear_title: Clear series backlog?
+    one: یک جلسه گذشته دیگر وجود دارد.
+    other: "%{count} جلسه گذشته دیگر وجود دارد."
+  label_recurring_meeting_new: جلسه تکرارشونده جدید
+  label_recurring_meeting_next_occurrence: نوبت بعدی
+  label_recurring_meeting_no_end_date: جلسات زمان‌بندی‌شده بیشتری وجود دارند (%{schedule}).
+  label_recurring_meeting_part_of: بخشی از یک مجموعه جلسات
+  label_recurring_meeting_plural: جلسات تکرارشونده
+  label_recurring_meeting_restore: بازیابی این نوبت
+  label_recurring_meeting_schedule: برنامه
+  label_recurring_meeting_series_create: ایجاد مجموعه جلسات
+  label_recurring_meeting_series_delete: حذف مجموعه جلسات
+  label_recurring_meeting_series_edit: ویرایش مجموعه جلسات
+  label_recurring_meeting_series_end: پایان مجموعه جلسات
+  label_recurring_meeting_series_end_now: پایان مجموعه در همین حالا
+  label_recurring_meeting_show_more: نمایش بیشتر
+  label_recurring_meeting_view: مشاهده مجموعه جلسات
+  label_section_rename: تغییر نام بخش
+  label_section_selection_caption: یک بخش مشخص از دستور جلسه را انتخاب کنید یا آن را به بک‌لاگ اضافه کنید.
+  label_series_backlog: بک‌لاگ مجموعه
+  label_series_backlog_clear_title: بک‌لاگ مجموعه پاک شود؟
   label_start_date: تاریخ شروع
-  label_subscribe_icalendar: Subscribe to calendar
-  label_template: Template
+  label_subscribe_icalendar: اشتراک در تقویم
+  label_template: الگو
   label_time_zone: منطقه زمانی
-  label_upcoming_meetings: Upcoming meetings
-  label_upcoming_meetings_short: Upcoming
+  label_upcoming_meetings: جلسات پیشِ رو
+  label_upcoming_meetings_short: پیشِ رو
   label_version: نسخه
-  label_view_meeting: View meeting
-  label_view_meeting_series: View meeting series
-  label_write_outcome: Write outcome
+  label_view_meeting: مشاهده جلسه
+  label_view_meeting_series: مشاهده مجموعه جلسات
+  label_write_outcome: ثبت نتیجه
   meeting:
     attachments:
-      onetime_template: These attached files will be included in all future meetings using this template.
-      series_template: These attached files will be included in all future meetings in the series.
-      text: Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes.
+      onetime_template: این فایل‌های پیوست در همه جلسات آینده‌ای که از این الگو استفاده می‌کنند قرار خواهند گرفت.
+      series_template: این فایل‌های پیوست در همه جلسات آینده این مجموعه قرار خواهند گرفت.
+      text: فایل‌های پیوست برای همه شرکت‌کنندگان جلسه در دسترس هستند. همچنین می‌توانید آن‌ها را بکشید و در یادداشت‌های مورد دستور جلسه رها کنید.
     blankslate:
-      desc: You can create a new meeting or change filter criteria
-      title: There are no meetings to display
-    copied: 'Copied from Meeting #%{id}'
+      desc: می‌توانید یک جلسه جدید ایجاد کنید یا معیارهای فیلتر را تغییر دهید
+      title: جلسه‌ای برای نمایش وجود ندارد
+    copied: 'کپی‌شده از جلسه #%{id}'
     copy:
-      agenda: Copy agenda
-      agenda_items: Copy agenda items
-      agenda_text: Copy the agenda of the old meeting
-      attachments: Copy attachments
-      attachments_text: Copy over all attached files to the new meeting
-      participants: Copy list of participants
-      title: 'Copy meeting: %{title}'
-      to_clipboard: Copy link to clipboard
+      agenda: کپی دستور جلسه
+      agenda_items: کپی موارد دستور جلسه
+      agenda_text: کپی دستور جلسه جلسه قبلی
+      attachments: کپی فایل‌های پیوست
+      attachments_text: کپی همه فایل‌های پیوست به جلسه جدید
+      participants: کپی فهرست شرکت‌کنندگان
+      title: 'کپی جلسه: %{title}'
+      to_clipboard: کپی پیوند در کلیپ‌بورد
     delete_dialog:
       occurrence:
-        confirm_button: Cancel occurrence
-        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+        confirm_button: لغو نوبت
+        confirmation_message_html: 'هر اطلاعاتی از جلسه که در الگو نباشد از دست خواهد رفت. می‌خواهید ادامه دهید؟
 
           '
-        heading: Cancel this meeting occurrence?
-        title: Cancel meeting occurrence
+        heading: این نوبت جلسه لغو شود؟
+        title: لغو نوبت جلسه
       occurrence_past:
-        confirm_button: Delete occurrence
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirm_button: حذف نوبت
+        confirmation_message_html: 'این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
 
           '
-        heading: Delete this occurrence?
-        title: Delete occurrence
+        heading: این نوبت حذف شود؟
+        title: حذف نوبت
       one_time:
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirmation_message_html: 'این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
 
           '
-        heading: Delete this meeting?
+        heading: این جلسه حذف شود؟
         template:
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+          confirmation_message_html: 'این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید. جلسات موجودی که با این الگو ایجاد شده‌اند تحت تأثیر قرار نمی‌گیرند.
 
             '
-          heading: Delete this template?
-          title: Delete template
-        title: Delete meeting
+          heading: این الگو حذف شود؟
+          title: حذف الگو
+        title: حذف جلسه
     email:
       cancelled:
-        date_time: Scheduled date/time
-        header: 'Cancelled: Meeting ''%{title}'''
-        header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
-        header_series: 'Cancelled: Meeting series ''%{title}'''
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        date_time: تاریخ/زمان زمان‌بندی‌شده
+        header: 'لغوشده: جلسه «%{title}»'
+        header_occurrence: 'لغوشده: نوبت جلسه «%{title}»'
+        header_series: 'لغوشده: مجموعه جلسات «%{title}»'
+        summary: "«%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید"
+        summary_occurrence: یک نوبت از «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید
+        summary_series: مجموعه جلسات «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید
       ended:
-        header_series: 'Ended: Meeting series ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
+        header_series: 'پایان‌یافته: مجموعه جلسات «%{title}»'
+        summary_series: مجموعه جلسات «%{title}» توسط %{actor} پایان یافته است
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting '%{title}'"
-      open_meeting_link: Open meeting
-      open_my_meetings_link: Go to My meetings
-      send_emails: Email participants
-      send_invitation_emails: 'Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        summary: "%{actor} برای جلسه «%{title}» برای شما دعوت‌نامه فرستاده است"
+      open_meeting_link: بازکردن جلسه
+      open_my_meetings_link: رفتن به جلسات من
+      send_emails: ارسال ایمیل به شرکت‌کنندگان
+      send_invitation_emails: 'یک دعوت‌نامه ایمیلی را بلافاصله برای شرکت‌کنندگان انتخاب‌شده بالا ارسال کنید. بعداً نیز در هر زمان می‌توانید این کار را به‌صورت دستی انجام دهید.
 
         '
-      send_invitation_emails_structured: Send an email invitation immediately to all participants. You can also do this manually at any time later.
+      send_invitation_emails_structured: یک دعوت‌نامه ایمیلی را بلافاصله برای همه شرکت‌کنندگان ارسال کنید. بعداً نیز در هر زمان می‌توانید این کار را به‌صورت دستی انجام دهید.
       series:
-        summary: "%{actor} has invited you to a new meeting series '%{title}'"
-        title: "[%{project_name}] Meeting series '%{title}'"
+        summary: "%{actor} شما را به مجموعه جلسات جدید «%{title}» دعوت کرده است"
+        title: "[%{project_name}] مجموعه جلسات «%{title}»"
       series_updated:
-        new_schedule: New schedule
-        old_schedule: Old schedule
-        summary: Meeting series '%{title}' has been updated by %{actor}
-        title: "[%{project_name}] Meeting series '%{title}' has been updated"
+        new_schedule: برنامه جدید
+        old_schedule: برنامه قبلی
+        summary: مجموعه جلسات «%{title}» توسط %{actor} به‌روزرسانی شده است
+        title: "[%{project_name}] مجموعه جلسات «%{title}» به‌روزرسانی شد"
       updated:
-        added_participants: Added
-        body: The meeting '%{title}' has been updated by %{actor}.
-        header: Meeting '%{title}' has been updated
-        new_date_time: New date/time
-        new_location: New location
-        new_title: New title
-        old_date_time: Old date/time
-        old_location: Old location
-        old_title: Old title
-        removed_participants: Removed
-        summary: Meeting '%{title}' has been updated by %{actor}
+        added_participants: افزوده‌شده
+        body: جلسه «%{title}» توسط %{actor} به‌روزرسانی شده است.
+        header: جلسه «%{title}» به‌روزرسانی شد
+        new_date_time: تاریخ/زمان جدید
+        new_location: مکان جدید
+        new_title: عنوان جدید
+        old_date_time: تاریخ/زمان قبلی
+        old_location: مکان قبلی
+        old_title: عنوان قبلی
+        removed_participants: حذف‌شده
+        summary: جلسه «%{title}» توسط %{actor} به‌روزرسانی شده است
     export:
       minutes:
         author: نویسنده
         date: تاریخ
-        footer_page_numbers: P. %{current_page} of %{total_pages}
-        location: موقعیت مکانی
+        footer_page_numbers: ص. %{current_page} از %{total_pages}
+        location: مکان
         time: زمان
-        title: دقیقه ها
-      your_meeting_export: Meeting is being exported
+        title: صورت‌جلسه
+      your_meeting_export: جلسه در حال خروجی‌گرفتن است
     export_pdf_dialog:
       author:
-        caption: The author of the minutes will be displayed in the subtitle.
+        caption: نویسنده صورت‌جلسه در زیرعنوان نمایش داده خواهد شد.
         label: نویسنده
-      description: Generate a printable PDF file of this meeting at the current state.
+      description: یک فایل PDF قابل چاپ از وضعیت فعلی این جلسه ایجاد کنید.
       first_page_header_left:
-        caption: This text will appear on the first page at the left of the header.
-        label: First page header left
+        caption: این متن در صفحه اول، سمت چپ سربرگ نمایش داده می‌شود.
+        label: سمت چپ سربرگ صفحه اول
       footer_text:
-        caption: This text will appear on every page at the center of the footer.
-        label: Footer text
+        caption: این متن در همه صفحات، وسط پابرگ نمایش داده می‌شود.
+        label: متن پابرگ
       include_attachments:
-        caption: A list containing the filenames of attachments will be appended at the end.
-        label: Include list of attachments
+        caption: در پایان، فهرستی شامل نام فایل‌های پیوست افزوده خواهد شد.
+        label: افزودن فهرست پیوست‌ها
       include_backlog:
-        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
-        label: Include backlog
+        caption: موارد بک‌لاگ معمولاً بخشی از یک نوبت جلسه محسوب نمی‌شوند، اما می‌توانید آن‌ها را در خروجی لحاظ کنید.
+        label: افزودن بک‌لاگ
       include_outcomes:
-        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
-        label: Include agenda outcomes
+        caption: اگر نتایج دستور جلسه شامل اطلاعات محرمانه هستند، می‌توانید آن‌ها را در خروجی قرار ندهید.
+        label: افزودن نتایج دستور جلسه
       include_participants:
-        caption: A list of participants will be preset above the meeting agenda.
-        label: Include list of participants
-      submit_button: Download
+        caption: فهرست شرکت‌کنندگان بالای دستور جلسه قرار خواهد گرفت.
+        label: افزودن فهرست شرکت‌کنندگان
+      submit_button: دریافت
       templates:
         default:
-          caption: The default template is suitable for most meetings and represent the current state.
+          caption: الگوی پیش‌فرض برای بیشتر جلسات مناسب است و وضعیت فعلی را نمایش می‌دهد.
           label: پیش‌فرض
         minutes:
-          caption: The minutes template is suitable for closed and archived meetings.
-          label: دقیقه ها
-      title: Export PDF
+          caption: الگوی صورت‌جلسه برای جلسات بسته و بایگانی‌شده مناسب است.
+          label: صورت‌جلسه
+      title: خروجی PDF
     ical_response:
-      meeting_not_found: Meeting not found for the given UID.
-      update_failed: Could not update participation status.
-    label_export_pdf: Export PDF
-    label_mail_all_participants: Send email invite to participants
+      meeting_not_found: جلسه‌ای برای UID داده‌شده پیدا نشد.
+      update_failed: به‌روزرسانی وضعیت مشارکت انجام نشد.
+    label_export_pdf: خروجی PDF
+    label_mail_all_participants: ارسال دعوت‌نامه ایمیلی به شرکت‌کنندگان
     notifications:
       dialog:
         confirm_label:
-          disable: Disable email updates
-          enable: Enable email updates
+          disable: غیرفعال‌کردن به‌روزرسانی‌های ایمیلی
+          enable: فعال‌کردن به‌روزرسانی‌های ایمیلی
         message:
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
-          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: اگر قبلاً برای این جلسه دعوت‌نامه داشته‌اند، ممکن است دیگر دقیق نباشد.
+          enable: پس از فعال‌سازی، یک ایمیل بلافاصله برای همه شرکت‌کنندگان ارسال خواهد شد.
         title:
-          disable: Disable email calendar updates?
-          enable: Enable email calendar updates?
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+          disable: به‌روزرسانی‌های تقویمی ایمیلی غیرفعال شوند؟
+          enable: به‌روزرسانی‌های تقویمی ایمیلی فعال شوند؟
+      disabled: شرکت‌کنندگان به‌روزرسانی‌های ایمیلی درباره تغییر تاریخ، زمان یا فهرست شرکت‌کنندگان دریافت نخواهند کرد.
+      enabled: همه شرکت‌کنندگان دعوت‌نامه‌های تقویمی به‌روزشده درباره تغییر تاریخ، زمان یا فهرست شرکت‌کنندگان دریافت خواهند کرد.
       sidepanel:
         description:
-          change_via_template: To change this, edit the series template.
-        title: Email calendar updates
+          change_via_template: برای تغییر این مورد، الگوی مجموعه را ویرایش کنید.
+        title: به‌روزرسانی‌های تقویمی ایمیلی
     participants:
       blankslate:
-        description: There are no participants yet.
-        heading: No participants
+        description: هنوز شرکت‌کننده‌ای وجود ندارد.
+        heading: بدون شرکت‌کننده
       label:
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
-        attended: Attended
-        manage_participants: Manage participants
-        mark_all_as_attended: Mark all as attended
-        mark_as_attended: Mark as attended
-        no_participants: No participants
-        participants: شركت كنندگان
-        remove_participant: Remove participant
-        show_all: Show all
+        apply_to_upcoming_meetings: اعمال این تغییرات روی همه جلسات آینده این مجموعه
+        attended: حضور داشته
+        manage_participants: مدیریت شرکت‌کنندگان
+        mark_all_as_attended: علامت‌گذاری همه به‌عنوان حاضر
+        mark_as_attended: علامت‌گذاری به‌عنوان حاضر
+        no_participants: بدون شرکت‌کننده
+        participants: شرکت‌کنندگان
+        remove_participant: حذف شرکت‌کننده
+        show_all: نمایش همه
       text:
-        manage_participants: Search for and add project members as participants to this meeting.
-        search_for_members: Search for project members
-        template: These participants will be invited automatically to all future meetings as they are created.
+        manage_participants: اعضای پروژه را جست‌وجو و به‌عنوان شرکت‌کننده به این جلسه اضافه کنید.
+        search_for_members: جست‌وجوی اعضای پروژه
+        template: این شرکت‌کنندگان هنگام ایجاد همه جلسات آینده به‌طور خودکار دعوت خواهند شد.
     presentation_mode:
-      button_present: Present
-      current_item: Current item
-      exit: Exit presentation
-      next: Next
-      no_items: No agenda items
-      no_items_flash: There are no agenda items to present.
-      previous: Previous
-      title: Presentation Mode
-      total_items: "%{current} of %{total}"
+      button_present: حاضر
+      current_item: مورد جاری
+      exit: خروج از حالت ارائه
+      next: بعدی
+      no_items: بدون مورد دستور جلسه
+      no_items_flash: هیچ مورد دستور جلسه‌ای برای ارائه وجود ندارد.
+      previous: قبلی
+      title: حالت ارائه
+      total_items: "%{current} از %{total}"
     types:
-      one_time: One-time
-      recurring: Recurring
-      recurring_text: Create meeting series with dynamic template for each occurrence.
-      structured_text: Organize your meeting as a dynamic list of agenda items, optionally linking them to a work package.
-      structured_text_copy: Copying a meeting will currently not copy the associated meeting agenda items, just the details
+      one_time: یک‌باره
+      recurring: تکرارشونده
+      recurring_text: ایجاد مجموعه جلسات با الگوی پویا برای هر نوبت.
+      structured_text: جلسه خود را به‌صورت فهرستی پویا از موارد دستور جلسه سازمان‌دهی کنید و در صورت نیاز آن‌ها را به بسته کاری پیوند دهید.
+      structured_text_copy: در حال حاضر کپی یک جلسه، موارد دستور جلسه مرتبط را کپی نمی‌کند و فقط جزئیات کپی می‌شوند
     widgets:
       blankslate:
-        description: Upcoming meetings you are participating in will appear here.
-        heading: No upcoming meetings
-      view_details: View all meetings
+        description: جلسات پیشِ رویی که در آن‌ها شرکت دارید اینجا نمایش داده می‌شوند.
+        heading: جلسه پیشِ رویی وجود ندارد
+      view_details: مشاهده همه جلسات
   meeting_participant:
     participation_status:
-      accepted: Accepted
-      declined: Declined
-      needs_action: No response
-      tentative: Maybe
-      unknown: Unknown
+      accepted: پذیرفته‌شده
+      declined: ردشده
+      needs_action: بدون پاسخ
+      tentative: شاید
+      unknown: نامشخص
   meeting_section:
-    delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
-    empty_text: Drag items here or create a new one
-    placeholder_title: New section
-    untitled_title: Untitled section
+    delete_confirmation: حذف بخش، همه موارد دستور جلسه آن را نیز حذف می‌کند. آیا مطمئن هستید؟
+    empty_text: موارد را اینجا بکشید یا مورد جدیدی ایجاد کنید
+    placeholder_title: بخش جدید
+    untitled_title: بخش بدون عنوان
   my:
     access_token:
       created_dialog:
         token/ical_meeting:
-          body: Treat the following URL as you would a password. Anyone who has access to it can view all your meetings.
-          title: An iCal meeting subscription token has been generated
+          body: با URL زیر مانند گذرواژه رفتار کنید. هرکس به آن دسترسی داشته باشد می‌تواند همه جلسات شما را ببیند.
+          title: یک توکن اشتراک iCal جلسات ایجاد شد
       dialog:
         token/ical_meeting:
-          create_button: Create subscription
-          dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
-          dialog_title: New iCal subscription token for meetings
-          name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
-          name_label: Token name
+          create_button: ایجاد اشتراک
+          dialog_body: این توکن یک URL اشتراک iCal ایجاد می‌کند که به شما اجازه می‌دهد همه جلسات خود را در یک برنامه تقویم خارجی مشاهده کنید.
+          dialog_title: توکن جدید اشتراک iCal برای جلسات
+          name_caption: می‌توانید آن را بر اساس محل استفاده نام‌گذاری کنید، مانند «تلفن من» یا «رایانه کاری».
+          name_label: نام توکن
       revocation:
         token/ical_meeting:
-          notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'
-          notice_success: The iCalendar meeting subscription has been revoked successfully.
+          notice_failure: 'لغو اشتراک iCalendar جلسات ناموفق بود: %{error}'
+          notice_success: اشتراک iCalendar جلسات با موفقیت لغو شد.
   my_account:
     access_tokens:
       token/ical_meeting:
-        add_button: Subscribe to calendar
-        blank_description: You can create one using the button below.
-        blank_title: No iCalendar meeting token
-        disabled_text: iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.
-        table_title: iCalendar meeting tokens
-        text_hint: iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
-        title: iCalendar for meetings
-  notice_meeting_template_created: Template successfully created
-  notice_meeting_updated: This page has been updated by someone else. Reload to view changes.
-  notice_successful_notification: Email calendar update sent to all participants
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+        add_button: اشتراک در تقویم
+        blank_description: می‌توانید با دکمه زیر یکی ایجاد کنید.
+        blank_title: توکن iCalendar جلسات وجود ندارد
+        disabled_text: اشتراک‌های iCalendar جلسات توسط مدیر فعال نشده‌اند. برای استفاده از این قابلیت با مدیر سیستم تماس بگیرید.
+        table_title: توکن‌های iCalendar جلسات
+        text_hint: توکن‌های iCalendar جلسات به کاربران اجازه می‌دهند در همه جلسات خود مشترک شوند و اطلاعات به‌روز جلسات را در کلاینت‌های خارجی مشاهده کنند.
+        title: iCalendar برای جلسات
+  notice_meeting_template_created: الگو با موفقیت ایجاد شد
+  notice_meeting_updated: این صفحه توسط شخص دیگری به‌روزرسانی شده است. برای مشاهده تغییرات دوباره بارگذاری کنید.
+  notice_successful_notification: به‌روزرسانی تقویمی ایمیلی برای همه شرکت‌کنندگان ارسال شد
+  notice_timezone_missing: منطقه زمانی تنظیم نشده و %{zone} فرض می‌شود. برای انتخاب منطقه زمانی خود اینجا کلیک کنید.
   permission_create_meetings: ایجاد جلسات
   permission_delete_meetings: حذف جلسات
   permission_edit_meetings: ویرایش جلسات
-  permission_manage_agendas: مدیریت برنامه ها
-  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
-  permission_manage_outcomes: Manage outcomes
-  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
+  permission_manage_agendas: مدیریت دستور جلسات
+  permission_manage_agendas_explanation: امکان ایجاد، ویرایش و حذف موارد دستور جلسه را فراهم می‌کند
+  permission_manage_outcomes: مدیریت نتایج
+  permission_send_meeting_invites_and_outcomes: ارسال دعوت‌نامه‌ها و نتایج جلسه برای شرکت‌کنندگان
   permission_view_meetings: مشاهده جلسات
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_section_select_meeting_first: Meeting selection is required first
+  placeholder_meeting_template_no_templates_for_project: الگویی برای این پروژه در دسترس نیست
+  placeholder_meeting_template_select_project_first: ابتدا یک پروژه انتخاب کنید
+  placeholder_section_select_meeting_first: ابتدا باید یک جلسه انتخاب شود
   plugin_openproject_meeting:
-    description: This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
-    name: OpenProject Meeting
+    description: این ماژول قابلیت‌های پشتیبانی از جلسات پروژه را به OpenProject اضافه می‌کند. جلسات را می‌توان با انتخاب دعوت‌شوندگان از همان پروژه برنامه‌ریزی کرد. می‌توان دستور جلسه ایجاد و برای دعوت‌شوندگان ارسال کرد. پس از جلسه، حاضران انتخاب می‌شوند و صورت‌جلسه بر اساس دستور جلسه تهیه می‌شود. در پایان، صورت‌جلسه می‌تواند برای همه حاضران و دعوت‌شوندگان ارسال شود.
+    name: جلسات OpenProject
   project_module_meetings: جلسات
   recurring_meeting:
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    actual_first_occurrence_mismatch_html: اولین نوبت این مجموعه در %{first_occurrence} خواهد بود
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: این تنظیم باعث می‌شود مجموعه در %{date} پایان یابد
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+        one: 'نتیجه: ۱ نوبت پیشِ رو'
+        other: 'نتیجه: %{count} نوبت پیشِ رو'
+      occurrences_capped: 'نتیجه: بیش از %{count} نوبت پیشِ رو'
+    day_of_month_skipping_info: ماه‌هایی که کمتر از %{monthly_day} روز دارند نادیده گرفته می‌شوند
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+        one: 'حذف <strong>%{title}</strong> یک نوبت از این مجموعه را نیز حذف خواهد کرد. این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
 
           '
-        other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
+        other: 'حذف <strong>%{title}</strong> همه %{count} نوبت این مجموعه را حذف خواهد کرد. این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
 
           '
-        zero: 'The meeting series <strong>%{title}</strong> does not have any meeting occurrences. The series will be deleted for everyone. Please proceed with caution.
+        zero: 'مجموعه جلسات <strong>%{title}</strong> هیچ نوبت جلسه‌ای ندارد. این مجموعه برای همه حذف خواهد شد. لطفاً با احتیاط ادامه دهید.
 
           '
-      heading: Permanently delete this meeting series?
-      title: Delete meeting series
+      heading: این مجموعه جلسات برای همیشه حذف شود؟
+      title: حذف مجموعه جلسات
     end_after:
-      iterations: After a number of occurrences
-      never: Never
-      specific_date: After a specific date
+      iterations: پس از تعداد مشخصی نوبت
+      never: هرگز
+      specific_date: پس از یک تاریخ مشخص
     end_series_dialog:
-      title: End meeting series
+      title: پایان مجموعه جلسات
     ended_blankslate:
-      action: You can still view past occurrences or edit the meeting series to extend it.
-      message: 'This meeting series has come to an end. There are no upcoming meetings. '
-      title: Meeting series ended
+      action: همچنان می‌توانید نوبت‌های گذشته را ببینید یا مجموعه جلسات را برای تمدید آن ویرایش کنید.
+      message: 'این مجموعه جلسات به پایان رسیده است. جلسه‌ای در آینده وجود ندارد. '
+      title: مجموعه جلسات پایان یافت
     frequency:
-      every_weekday: Every %{day_of_the_week}
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
-      working_days: Every working day
+      every_weekday: هر %{day_of_the_week}
+      monthly_day_of_month: روز ماه
+      monthly_nth_weekday: ماهانه در یک روز هفته
+      working_days: هر روز کاری
       x_daily:
-        one: Every day
-        other: Every %{count} days
+        one: هر روز
+        other: هر %{count} روز
       x_monthly:
-        one: Every month
-        other: Every %{count} months
+        one: هر ماه
+        other: هر %{count} ماه
       x_weekly:
         one: هر هفته
-        other: Every %{count} weeks
+        other: هر %{count} هفته
     in_words:
-      daily_interval: Every %{interval} days
-      frequency: "%{base} at %{time}"
-      full: "%{base} at %{time}, ends on %{end_date}"
-      full_past: "%{base} at %{time}, ended on %{end_date}"
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
-      never_ending: "%{base} at %{time}"
-      weekly: Every week on %{weekday}
-      weekly_interval: Every %{interval} weeks on %{weekday}
-      working_days: Every working day
+      daily_interval: هر %{interval} روز
+      frequency: "%{base} ساعت %{time}"
+      full: "%{base} ساعت %{time}، پایان در %{end_date}"
+      full_past: "%{base} ساعت %{time}، پایان‌یافته در %{end_date}"
+      monthly_day: هر ماه در روز %{day}
+      monthly_day_interval: هر %{interval} ماه در روز %{day}
+      monthly_nth_weekday: هر ماه در %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: هر %{interval} ماه در %{ordinal} %{weekday}
+      never_ending: "%{base} ساعت %{time}"
+      weekly: هر هفته در %{weekday}
+      weekly_interval: هر %{interval} هفته در %{weekday}
+      working_days: هر روز کاری
     monthly:
       inflected_ordinal:
-        first: first
-        fourth: fourth
-        last: last
-        second: second
-        third: third
+        first: اول
+        fourth: چهارم
+        last: آخر
+        second: دوم
+        third: سوم
       ordinal_options:
-        first: First
-        fourth: Fourth
-        last: Last
-        second: Second
-        third: Third
+        first: اول
+        fourth: چهارم
+        last: آخر
+        second: دوم
+        third: سوم
     occurrence:
-      error_no_next: There is no next occurrence for this meeting.
-      error_template_draft: The meeting series template is still in draft mode.
-      first_already_exists: The first occurrence of this meeting series is already instantiated.
-      first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
+      error_no_next: نوبت بعدی برای این جلسه وجود ندارد.
+      error_template_draft: الگوی مجموعه جلسات هنوز در حالت پیش‌نویس است.
+      first_already_exists: اولین نوبت این مجموعه جلسات قبلاً ایجاد شده است.
+      first_created: 'اولین جلسه با موفقیت از روی الگو ایجاد شد. همه جلسات آینده در زمان نوبت قبلی به‌طور خودکار ایجاد خواهند شد.
 
         '
-      infoline: This meeting is part of a recurring meeting series.
+      infoline: این جلسه بخشی از یک مجموعه جلسات تکرارشونده است.
     open:
       blankslate:
-        desc: You can manually open a planned meeting by clicking on the 'Open' button below
-        title: No open meetings at the moment
-      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
+        desc: می‌توانید با کلیک روی دکمه «بازکردن» در پایین، یک جلسه برنامه‌ریزی‌شده را به‌صورت دستی باز کنید
+        title: در حال حاضر جلسه بازی وجود ندارد
+      subtitle: 'جلسات باز دارای دستور جلسه قابل ویرایش هستند و در بخش «جلسات من» کاربران نمایش داده می‌شوند. تغییرات الگوی مجموعه جلسات روی نوبت‌هایی که قبلاً باز شده‌اند اثر ندارد.
 
         '
-      title: Agenda opened
+      title: دستور جلسه باز شد
     planned:
       blankslate:
-        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
+        desc: 'جلسه دیگری در این مجموعه برنامه‌ریزی نشده است. برای زمان‌بندی جلسات بیشتر یا تمدید مجموعه، به الگو بروید و جزئیات جلسه را ویرایش کنید تا تاریخ پایان، تناوب یا فاصله تغییر کند.
 
           '
-        title: No more planned meetings
-      subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
+        title: جلسه برنامه‌ریزی‌شده دیگری وجود ندارد
+      subtitle: 'جلسات زیر در برنامه تکرارشونده برنامه‌ریزی شده‌اند اما هنوز باز نیستند. هر بار که یک جلسه برنامه‌ریزی‌شده شروع می‌شود، جلسه بعدی به‌طور خودکار برای شما باز خواهد شد. همچنین می‌توانید جلسات برنامه‌ریزی‌شده را به‌صورت دستی باز کنید تا الگو وارد شود و ویرایش دستور جلسه را آغاز کنید.
 
         '
-      title: برنامه‌ریزی شده
+      title: برنامه‌ریزی‌شده
     scheduled_delete_dialog:
-      confirm_button: Cancel occurrence
-      confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+      confirm_button: لغو نوبت
+      confirmation_message_html: 'هر اطلاعاتی از جلسه که در الگو نباشد از دست خواهد رفت. می‌خواهید ادامه دهید؟
 
         '
-      heading: Cancel this meeting occurrence?
-      title: Cancel meeting occurrence
-    starts: Starts
+      heading: این نوبت جلسه لغو شود؟
+      title: لغو نوبت جلسه
+    starts: شروع
     template:
-      banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
+      banner_html: 'در حال ویرایش الگوی مجموعه جلسات %{link} هستید. هر نوبت جدید از جلسات این مجموعه از این الگو استفاده خواهد کرد. تغییرات روی جلسات گذشته یا جلساتی که قبلاً ایجاد شده‌اند اثر ندارد.
 
         '
-      blank_title: Your meeting series template is empty
-      button_finalize: Open first meeting
-      description: 'This template will be used whenever new meetings in the series get created. You can add agenda items, participants, and attachments to this template.
+      blank_title: الگوی مجموعه جلسات شما خالی است
+      button_finalize: بازکردن اولین جلسه
+      description: 'هر زمان جلسه جدیدی در این مجموعه ایجاد شود از این الگو استفاده خواهد شد. می‌توانید موارد دستور جلسه، شرکت‌کنندگان و پیوست‌ها را به این الگو اضافه کنید.
 
         '
-      draft_banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings. No email invites will be sent in this current draft mode until you open the first meeting.
+      draft_banner_html: 'در حال ویرایش الگوی مجموعه جلسات %{link} هستید. هر نوبت جدید از جلسات این مجموعه از این الگو استفاده خواهد کرد. تغییرات روی جلسات گذشته یا جلساتی که قبلاً ایجاد شده‌اند اثر ندارد. تا زمانی که اولین جلسه را باز نکنید، در حالت پیش‌نویس فعلی هیچ دعوت‌نامه ایمیلی ارسال نمی‌شود.
 
         '
-      label_edit_template: Edit template
-      label_view_template: View template
+      label_edit_template: ویرایش الگو
+      label_view_template: مشاهده الگو
     time_zone_difference_banner:
-      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
+      description: 'تاریخ‌های زیر بر اساس منطقه زمانی مجموعه جلسات (%{actual_zone}) هستند، نه منطقه زمانی محلی شما (%{user_zone}).
 
         '
-      title: Time zone difference
-  text_add_work_package_to_meeting_description: A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here.
-  text_add_work_package_to_meeting_form: The work package will be added to the selected meeting or backlog as an agenda item.
-  text_agenda_backlog: 'This backlog is unique to this one-time meeting. You can drag items in and out to add or remove them from the meeting agenda.
+      title: اختلاف منطقه زمانی
+  text_add_work_package_to_meeting_description: یک بسته کاری را می‌توان برای بحث به یک یا چند جلسه افزود. یادداشت‌های مربوط به آن نیز اینجا قابل مشاهده‌اند.
+  text_add_work_package_to_meeting_form: بسته کاری به‌عنوان مورد دستور جلسه به جلسه یا بک‌لاگ انتخاب‌شده اضافه خواهد شد.
+  text_agenda_backlog: 'این بک‌لاگ مختص همین جلسه یک‌باره است. می‌توانید موارد را با کشیدن به داخل یا خارج، به دستور جلسه اضافه یا از آن حذف کنید.
 
     '
-  text_agenda_backlog_clear_description: 'Are you sure you want to remove all items currently in the agenda backlog? This action is not reversible.
+  text_agenda_backlog_clear_description: 'آیا مطمئن هستید که می‌خواهید همه موارد موجود در بک‌لاگ دستور جلسه را حذف کنید؟ این اقدام قابل بازگشت نیست.
 
     '
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
-  text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
-  text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_no_notes: No notes provided
-  text_agenda_item_not_editable_anymore: This agenda item is not editable anymore.
-  text_agenda_item_title: Agenda item "%{title}"
-  text_agenda_work_package_deleted: Agenda item for deleted work package
-  text_backlog_clear_error: One or more errors occurred while trying to clear the backlog.
-  text_deleted_agenda_item: Deleted agenda item
-  text_duration_in_hours: Duration in hours
-  text_email_updates_enabled: Email calendar updates are enabled. All participants will receive updated invites via email when you make changes.
-  text_email_updates_muted: Email calendar updates are muted. Participants will not receive updated invites via email when you make changes.
-  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
-  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
-  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
-  text_exit_draft_mode_dialog_title: Open this meeting and send invites?
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} جلسه لغوشده"
+  text_agenda_item_dialog_skipping_cancelled_one: جلسه لغوشده در %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} جلسه بسته"
+  text_agenda_item_dialog_skipping_closed_one: جلسه بسته در %{date}
+  text_agenda_item_dialog_skipping_note: 'توجه: %{details} نادیده گرفته می‌شود.'
+  text_agenda_item_duplicate_in_next_meeting: آیا مطمئن هستید که می‌خواهید یک کپی از این مورد دستور جلسه را به جلسه بعدی در %{date} ساعت %{time} اضافه کنید؟ نتایج تکثیر نخواهند شد.
+  text_agenda_item_duplicated_in_next_meeting: مورد دستور جلسه در جلسه بعدی، در %{date} تکثیر شد
+  text_agenda_item_move_next_meeting: این مورد به جلسه بعدی در %{date} ساعت %{time} منتقل خواهد شد.
+  text_agenda_item_moved_to_next_meeting: مورد دستور جلسه به جلسه بعدی، در %{date} منتقل شد
+  text_agenda_item_no_available_occurrence: نوبت پیشِ رویی در دسترس نیست.
+  text_agenda_item_no_notes: یادداشتی ارائه نشده است
+  text_agenda_item_not_editable_anymore: این مورد دستور جلسه دیگر قابل ویرایش نیست.
+  text_agenda_item_title: مورد دستور جلسه «%{title}»
+  text_agenda_work_package_deleted: مورد دستور جلسه برای بسته کاری حذف‌شده
+  text_backlog_clear_error: هنگام تلاش برای پاک‌کردن بک‌لاگ یک یا چند خطا رخ داد.
+  text_deleted_agenda_item: مورد دستور جلسه حذف‌شده
+  text_duration_in_hours: مدت به ساعت
+  text_email_updates_enabled: به‌روزرسانی‌های تقویمی ایمیلی فعال هستند. با ایجاد تغییر، همه شرکت‌کنندگان دعوت‌نامه‌های به‌روزشده را از طریق ایمیل دریافت خواهند کرد.
+  text_email_updates_muted: به‌روزرسانی‌های تقویمی ایمیلی بی‌صدا هستند. با ایجاد تغییر، شرکت‌کنندگان دعوت‌نامه به‌روزشده از طریق ایمیل دریافت نخواهند کرد.
+  text_exit_draft_mode_dialog_subtitle: پس از زمان‌بندی جلسه نمی‌توانید به حالت پیش‌نویس برگردید.
+  text_exit_draft_mode_dialog_template_subtitle: پس از این مرحله نمی‌توانید به حالت پیش‌نویس برگردید.
+  text_exit_draft_mode_dialog_template_title: اولین نوبت این مجموعه جلسات باز شود؟
+  text_exit_draft_mode_dialog_title: این جلسه باز و دعوت‌نامه‌ها ارسال شوند؟
   text_in_hours: در ساعات
-  text_meeting_agenda_for_meeting: agenda for the meeting "%{meeting}"
-  text_meeting_agenda_open_are_you_sure: This will overwrite all changes in the minutes! Do you want to continue?
-  text_meeting_closed_description: This meeting is closed. You cannot add/remove agenda items anymore.
-  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
-  text_meeting_closing_are_you_sure: Are you sure you want to close the meeting agenda?
-  text_meeting_draft_banner: You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_meeting_draft_description: Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_meeting_empty_description1: Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes.
-  text_meeting_empty_description2: You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's "Meetings" tab.
-  text_meeting_empty_heading: Your meeting is empty
-  text_meeting_ics_description: 'Link to meeting: %{url}'
-  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
-  text_meeting_in_progress_description: You can modify the agenda, document outcomes for each item and track attendance for participants. Once the meeting is complete, you can mark it as closed to lock it.
-  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
-  text_meeting_minutes_for_meeting: minutes for the meeting "%{meeting}"
-  text_meeting_not_editable_anymore: This meeting is not editable anymore.
-  text_meeting_not_present_anymore: This meeting was deleted. Please select another meeting.
-  text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
-  text_meeting_open_description: You can add/remove agenda items and participants. Once the agenda is ready, mark it as in progress to document outcomes.
-  text_meeting_open_dropdown_description: Any existing outcomes will remain but users will not be able to add new outcomes.
-  text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
-  text_meeting_series_end_early_heading: Delete future occurrences?
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_meeting_agenda_for_meeting: دستور جلسه برای جلسه «%{meeting}»
+  text_meeting_agenda_open_are_you_sure: این کار همه تغییرات صورت‌جلسه را بازنویسی می‌کند! می‌خواهید ادامه دهید؟
+  text_meeting_closed_description: این جلسه بسته است. دیگر نمی‌توانید موارد دستور جلسه را اضافه یا حذف کنید.
+  text_meeting_closed_dropdown_description: این جلسه بسته است. دیگر نمی‌توانید موارد دستور جلسه یا نتایج را تغییر دهید.
+  text_meeting_closing_are_you_sure: آیا مطمئن هستید که می‌خواهید دستور جلسه را ببندید؟
+  text_meeting_draft_banner: در حال حاضر در حالت پیش‌نویس هستید. حتی اگر جزئیات جلسه را تغییر دهید یا شرکت‌کننده‌ای اضافه/حذف کنید، این جلسه هیچ به‌روزرسانی تقویمی یا دعوت‌نامه‌ای ارسال نخواهد کرد.
+  text_meeting_draft_description: دستور جلسه را در حالت پیش‌نویس آماده کنید. حتی اگر جزئیات جلسه را تغییر دهید یا شرکت‌کننده‌ای اضافه/حذف کنید، این جلسه هیچ به‌روزرسانی تقویمی یا دعوت‌نامه‌ای ارسال نخواهد کرد.
+  text_meeting_empty_description1: با افزودن موارد دستور جلسه در پایین شروع کنید. هر مورد می‌تواند فقط یک عنوان ساده باشد، یا جزئیات بیشتری مانند مدت و یادداشت نیز داشته باشد.
+  text_meeting_empty_description2: همچنین می‌توانید به بسته‌های کاری موجود ارجاع دهید. در این صورت، یادداشت‌های مرتبط به‌طور خودکار در زبانه «جلسات» بسته کاری دیده می‌شوند.
+  text_meeting_empty_heading: جلسه شما خالی است
+  text_meeting_ics_description: 'پیوند جلسه: %{url}'
+  text_meeting_ics_meeting_series_description: 'پیوند مجموعه جلسات: %{url}'
+  text_meeting_in_progress_description: می‌توانید دستور جلسه را تغییر دهید، نتیجه هر مورد را ثبت کنید و حضور شرکت‌کنندگان را پیگیری کنید. پس از پایان جلسه، می‌توانید آن را بسته علامت‌گذاری کنید تا قفل شود.
+  text_meeting_in_progress_dropdown_description: نتایجی مانند نیازهای اطلاعاتی یا تصمیم‌های گرفته‌شده در جلسه را ثبت کنید.
+  text_meeting_minutes_for_meeting: صورت‌جلسه جلسه «%{meeting}»
+  text_meeting_not_editable_anymore: این جلسه دیگر قابل ویرایش نیست.
+  text_meeting_not_present_anymore: این جلسه حذف شده است. لطفاً جلسه دیگری انتخاب کنید.
+  text_meeting_occurrence_ics_description: 'پیوند نوبت جلسه: %{url} پیوند مجموعه جلسات: %{series_url}'
+  text_meeting_open_description: می‌توانید موارد دستور جلسه و شرکت‌کنندگان را اضافه/حذف کنید. پس از آماده‌شدن دستور جلسه، آن را «در حال انجام» علامت‌گذاری کنید تا بتوانید نتایج را ثبت کنید.
+  text_meeting_open_dropdown_description: نتایج موجود باقی خواهند ماند، اما کاربران نمی‌توانند نتیجه جدیدی اضافه کنند.
+  text_meeting_series_end_early: پایان‌دادن به مجموعه، همه نوبت‌های باز یا زمان‌بندی‌شده آینده را حذف می‌کند
+  text_meeting_series_end_early_heading: نوبت‌های آینده حذف شوند؟
+  text_meeting_template_blank_slate: می‌توانید برای جلسات یک‌باره یک الگوی جدید ایجاد کنید
+  text_meeting_template_blank_slate_heading: الگویی برای نمایش وجود ندارد
+  text_meeting_template_sharing_description: این الگو را می‌توان با زیرپروژه‌ها یا سایر پروژه‌های این نمونه به اشتراک گذاشت. فقط موارد دستور جلسه و پیوست‌ها کپی خواهند شد.
   text_notificiation_invited: 'این ایمیل حاوی ورودی ics برای جلسه زیر است:'
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_outcome_cannot_be_added: An outcome can no longer be added.
-  text_outcome_not_editable_anymore: This outcome is not editable anymore.
-  text_series_backlog: 'The backlog is shared with all occurrences of this series. You can drag items in and out to add or remove them from a particular meeting.
+  text_onetime_meeting_template_banner: در حال حاضر یک الگوی جلسه را ویرایش می‌کنید. می‌توانید از این الگو برای ایجاد جلسات یک‌باره با دستور جلسه از پیش تعریف‌شده استفاده کنید. تغییرات روی جلساتی که قبلاً ایجاد شده‌اند اثر ندارد.
+  text_onetime_meeting_template_empty_description: موارد دستور جلسه، بخش‌ها و پیوست‌ها را اینجا اضافه کنید. آن‌ها در هر جلسه‌ای که با این الگو ایجاد شود قرار خواهند گرفت.
+  text_onetime_meeting_template_empty_heading: این الگوی جلسه خالی است
+  text_outcome_cannot_be_added: دیگر نمی‌توان نتیجه‌ای اضافه کرد.
+  text_outcome_not_editable_anymore: این نتیجه دیگر قابل ویرایش نیست.
+  text_series_backlog: 'بک‌لاگ با همه نوبت‌های این مجموعه مشترک است. می‌توانید موارد را با کشیدن به داخل یا خارج، به یک جلسه مشخص اضافه یا از آن حذف کنید.
 
     '
-  text_series_backlog_clear_description: 'This will remove all items in the series backlog, which is shared with all meetings in the series. Are you sure you want to continue? This action is not reversible.
+  text_series_backlog_clear_description: 'این کار همه موارد بک‌لاگ مجموعه را که بین همه جلسات مجموعه مشترک است حذف می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟ این اقدام قابل بازگشت نیست.
 
     '
-  text_work_package_add_to_meeting_hint: Use the "Add to meeting" button to add this work package to an upcoming meeting.
-  text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
-  text_work_package_has_no_upcoming_meeting_agenda_items: This work package is not scheduled in an upcoming meeting agenda yet.
+  text_work_package_add_to_meeting_hint: برای افزودن این بسته کاری به یک جلسه پیشِ رو از دکمه «افزودن به جلسه» استفاده کنید.
+  text_work_package_has_no_past_meeting_agenda_items: این بسته کاری در هیچ جلسه گذشته‌ای به‌عنوان مورد دستور جلسه اضافه نشده است.
+  text_work_package_has_no_upcoming_meeting_agenda_items: این بسته کاری هنوز در دستور جلسه آینده‌ای زمان‌بندی نشده است.

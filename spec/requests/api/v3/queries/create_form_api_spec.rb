@@ -59,7 +59,7 @@ RSpec.describe "POST /api/v3/queries/form",
     ]
   end
   let(:relation_to_type_columns_json) do
-    project.types.map do |type|
+    project.enabled_types.map do |type|
       {
         _type: "QueryColumn::RelationToType",
         id: "relationsToType#{type.id}"
@@ -153,13 +153,11 @@ RSpec.describe "POST /api/v3/queries/form",
       end
     end
 
-    describe "columns" do
-      let(:relation_columns_allowed) { true }
-
+    describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
-        cf.types << project.types.first
+        cf.type_variants << project.enabled_variants.first
 
         cf
       end
@@ -176,60 +174,28 @@ RSpec.describe "POST /api/v3/queries/form",
         # There does not seem to appear a way to generate a valid token
         # for testing purposes
         allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-        allow(EnterpriseToken)
-          .to receive(:allows_to?)
-                .with(:work_package_query_relation_columns)
-                .and_return(relation_columns_allowed)
       end
 
-      context "with relation columns allowed by the enterprise token" do
-        it "has the static, custom field and relation columns" do
-          expected_columns = static_columns_json +
-                             custom_field_columns_json +
-                             relation_to_type_columns_json +
-                             relation_of_type_columns_json +
-                             non_project_type_relation_column_json
+      it "has the static, custom field and relation columns" do
+        expected_columns = static_columns_json +
+                           custom_field_columns_json +
+                           relation_to_type_columns_json +
+                           relation_of_type_columns_json +
+                           non_project_type_relation_column_json
 
-          actual_columns = form.dig("_embedded",
-                                    "schema",
-                                    "columns",
-                                    "_embedded",
-                                    "allowedValues")
-            .map do |column|
-            {
-              _type: column["_type"],
-              id: column["id"]
-            }
-          end
-
-          expect(actual_columns).to include *expected_columns
+        actual_columns = form.dig("_embedded",
+                                  "schema",
+                                  "columns",
+                                  "_embedded",
+                                  "allowedValues")
+          .map do |column|
+          {
+            _type: column["_type"],
+            id: column["id"]
+          }
         end
-      end
 
-      context "with relation columns disallowed by the enterprise token" do
-        let(:relation_columns_allowed) { false }
-
-        it "has the static and custom field" do
-          expected_columns = static_columns_json +
-                             custom_field_columns_json
-
-          actual_columns = form.dig("_embedded",
-                                    "schema",
-                                    "columns",
-                                    "_embedded",
-                                    "allowedValues")
-            .map do |column|
-            {
-              _type: column["_type"],
-              id: column["id"]
-            }
-          end
-
-          expect(actual_columns).to include *expected_columns
-          expect(actual_columns).not_to include(relation_to_type_columns_json)
-          expect(actual_columns).not_to include(relation_of_type_columns_json)
-          expect(actual_columns).not_to include(non_project_type_relation_column_json)
-        end
+        expect(actual_columns).to include(*expected_columns)
       end
     end
   end
@@ -246,13 +212,11 @@ RSpec.describe "POST /api/v3/queries/form",
       }
     end
 
-    describe "columns" do
-      let(:relation_columns_allowed) { true }
-
+    describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
-        cf.types << project.types.first
+        cf.type_variants << project.enabled_variants.first
 
         cf
       end
@@ -269,60 +233,28 @@ RSpec.describe "POST /api/v3/queries/form",
         # There does not seem to appear a way to generate a valid token
         # for testing purposes
         allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-        allow(EnterpriseToken)
-          .to receive(:allows_to?)
-                .with(:work_package_query_relation_columns)
-                .and_return(relation_columns_allowed)
       end
 
-      context "with relation columns allowed by the enterprise token" do
-        it "has the static, custom field and relation columns" do
-          expected_columns = static_columns_json +
-                             custom_field_columns_json +
-                             relation_to_type_columns_json +
-                             relation_of_type_columns_json
+      it "has the static, custom field and relation columns" do
+        expected_columns = static_columns_json +
+                           custom_field_columns_json +
+                           relation_to_type_columns_json +
+                           relation_of_type_columns_json
 
-          actual_columns = form.dig("_embedded",
-                                    "schema",
-                                    "columns",
-                                    "_embedded",
-                                    "allowedValues")
-            .map do |column|
-            {
-              _type: column["_type"],
-              id: column["id"]
-            }
-          end
-
-          expect(actual_columns).to include *expected_columns
-          expect(actual_columns).not_to include(non_project_type_relation_column_json)
+        actual_columns = form.dig("_embedded",
+                                  "schema",
+                                  "columns",
+                                  "_embedded",
+                                  "allowedValues")
+          .map do |column|
+          {
+            _type: column["_type"],
+            id: column["id"]
+          }
         end
-      end
 
-      context "with relation columns disallowed by the enterprise token" do
-        let(:relation_columns_allowed) { false }
-
-        it "has the static and custom field" do
-          expected_columns = static_columns_json +
-                             custom_field_columns_json
-
-          actual_columns = form.dig("_embedded",
-                                    "schema",
-                                    "columns",
-                                    "_embedded",
-                                    "allowedValues")
-            .map do |column|
-            {
-              _type: column["_type"],
-              id: column["id"]
-            }
-          end
-
-          expect(actual_columns).to include *expected_columns
-          expect(actual_columns).not_to include(relation_to_type_columns_json)
-          expect(actual_columns).not_to include(relation_of_type_columns_json)
-          expect(actual_columns).not_to include(non_project_type_relation_column_json)
-        end
+        expect(actual_columns).to include *expected_columns
+        expect(actual_columns).not_to include(non_project_type_relation_column_json)
       end
     end
   end
@@ -660,6 +592,32 @@ RSpec.describe "POST /api/v3/queries/form",
           end
         end
       end
+    end
+  end
+
+  describe "with both interchangeable version filters",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: %w[version targetVersion].map do |filter_id|
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/#{filter_id}" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version.id) }]
+            }
+          }
+        end
+      }
+    end
+
+    it "renders the available version filter only once" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/targetVersion"
     end
   end
 

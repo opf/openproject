@@ -46,9 +46,21 @@ uk:
             principal:
               not_a_member_of_budget_project: не є учасником проєкту бюджету
     models:
-      budget: Бюджет
-      labor_budget_item: Планова вартість праці
-      material_budget_item: Одиниця
+      budget:
+        one: Бюджет
+        few: Бюджети
+        many: Бюджети
+        other: Бюджети
+      labor_budget_item:
+        one: Планові витрати на працю
+        few: Планові витрати на працю
+        many: Планові витрати на працю
+        other: Планові витрати на працю
+      material_budget_item:
+        one: Одиниця
+        few: Одиниці
+        many: Одиниці
+        other: Одиниці
   activity:
     filter:
       budget: Бюджети
@@ -102,7 +114,6 @@ uk:
   help_click_to_edit: Натисніть тут, щоб редагувати.
   help_currency_format: Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею.
   help_override_rate: Введіть тут значення, щоб змінити стандартну швидкість.
-  label_budget: Бюджет
   label_budget_available: Доступний бюджет
   label_budget_details: Деталі бюджету
   label_budget_id: 'Бюджет #%{id}'

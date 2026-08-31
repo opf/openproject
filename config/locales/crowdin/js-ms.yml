@@ -120,6 +120,7 @@ ms:
     button_cancel: Batalkan
     button_change_project: Beralih ke projek lain
     button_check_all: Semak semua
+    button_clear: Clear
     button_close: Tutup
     button_close_details: Tutup paparan butiran
     button_collapse_all: Sembunyikan semua
@@ -204,8 +205,11 @@ ms:
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Atribut yang dipilih '%{name}' tidak wujud.
-          macro_help_tooltip: Bahagian teks ini sedang dihasilkan secara dinamik oleh makro.
           nested_macro: Makro ini merujuk secara rekursif %{model} %{id}.
           not_found: Sumber yang diminta tidak dapat ditemui
         child_pages:
@@ -799,6 +803,14 @@ ms:
       sorted_dsc: 'Susunan menurun digunakan, '
       sorted_no: 'Tiada susunan digunakan, '
       sorting_disabled: penyusunan dinyahaktifkan
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Tutup modal

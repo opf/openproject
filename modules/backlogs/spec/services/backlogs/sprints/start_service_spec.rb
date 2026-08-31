@@ -34,7 +34,7 @@ RSpec.describe Backlogs::Sprints::StartService do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status1) { create(:status) }
   shared_let(:status2) { create(:status) }
-  shared_let(:project) { create(:project, types: [type_task]) }
+  let(:project) { create(:project, types: [type_task]) }
   let(:status) { "in_planning" }
   let(:sprint) { create(:sprint, project:, status:) }
   let(:user) { create(:admin) }
@@ -47,20 +47,34 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when no task board exists yet" do
-    it "creates the board and starts the sprint", :aggregate_failures do
+    it "creates the board and starts the sprint", :aggregate_failures, :freeze_time do
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to be_present
+    end
+  end
+
+  context "when persisting" do
+    it "locks the project for the whole operation" do
+      allow(OpenProject::Mutex)
+        .to receive(:with_advisory_lock_transaction)
+        .with(project)
+        .and_call_original
+
+      expect(result).to be_success
+      expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(project)
     end
   end
 
   context "when a task board already exists" do
     let!(:existing_board) { create(:board_grid_with_query, project:, linked: sprint) }
 
-    it "starts the sprint without creating another board", :aggregate_failures do
+    it "starts the sprint without creating another board", :aggregate_failures, :freeze_time do
       expect { result }.not_to change(Boards::Grid, :count)
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to eq(existing_board)
     end
   end
@@ -69,10 +83,11 @@ RSpec.describe Backlogs::Sprints::StartService do
     let!(:other_project) { create(:project) }
     let!(:other_board) { create(:board_grid_with_query, project: other_project, linked: sprint) }
 
-    it "creates a board for the sprint project", :aggregate_failures do
+    it "creates a board for the sprint project", :aggregate_failures, :freeze_time do
       expect { result }.to change(Boards::Grid, :count).by(1)
       expect(result).to be_success
       expect(sprint.reload).to be_active
+      expect(sprint.started_at).to equal_time_without_usec(Time.zone.now)
       expect(sprint.task_board_for(project)).to be_present
       expect(sprint.task_board_for(project)).not_to eq(other_board)
       expect(sprint.task_board_for(other_project)).to eq(other_board)
@@ -93,6 +108,7 @@ RSpec.describe Backlogs::Sprints::StartService do
     it "returns failure and leaves the sprint in planning", :aggregate_failures do
       expect(result).not_to be_success
       expect(sprint.reload).to be_in_planning
+      expect(sprint.started_at).to be_nil
       expect(sprint.task_board_for(project)).to be_nil
     end
   end
@@ -126,21 +142,41 @@ RSpec.describe Backlogs::Sprints::StartService do
       expect(sprint.reload).to be_in_planning
       expect(sprint.task_board_for(project)).to be_nil
     end
+
+    context "and the project allows multiple active sprints" do
+      let(:project) do
+        create(:project, types: [type_task],
+                         sprint_sharing: "no_sharing",
+                         allow_multiple_active_sprints: true)
+      end
+
+      it "creates a board for the sprint project", :aggregate_failures do
+        expect { result }.to change(Boards::Grid, :count).by(1)
+        expect(result).to be_success
+        expect(sprint.reload).to be_active
+        expect(sprint.task_board_for(project)).to be_present
+      end
+    end
   end
 
-  context "when the database unique constraint rejects sprint activation" do
+  context "when the model's uniqueness check catching an update race condition" do
     before do
-      allow(sprint)
-        .to receive(:active!)
-        .and_raise(ActiveRecord::RecordNotUnique)
+      # With the project locked for the whole service call (see service_context),
+      # StartContract#validate_only_one_active_sprint can no longer be raced in
+      # practice. This simulates the model-level backstop still catching a conflict
+      # that appears right before persist, e.g. if this service were ever bypassed.
+      allow(instance).to receive(:persist).and_wrap_original do |original, *args|
+        create(:sprint, project:, status: "active")
+        original.call(*args)
+      end
     end
 
-    it "returns failure with the active sprint error", :aggregate_failures do
+    it "fails gracefully instead of raising", :aggregate_failures do
+      expect { result }.not_to raise_error
+
       expect(result).not_to be_success
-      expect(result.errors[:status]).to include("only one active sprint is allowed per project.")
-      expect(result.message).to be_present
+      expect(result.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
       expect(sprint.reload).to be_in_planning
-      expect(sprint.task_board_for(project)).to be_nil
     end
   end
 

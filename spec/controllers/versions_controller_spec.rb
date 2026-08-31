@@ -78,7 +78,7 @@ RSpec.describe VersionsController do
       let(:wp_b) { create(:work_package, type: type_b, project:, version: version1) }
 
       before do
-        project.types = [type_a, type_b]
+        project.project_types = [type_a, type_b].map { |type| ProjectType.new(type:) }
         project.save!
 
         [wp_a, wp_b] # create work packages
@@ -274,8 +274,8 @@ RSpec.describe VersionsController do
         expect(assigns(:issues)).to include work_package
       end
 
-      it "does not render the work packages graph, which still queries by the single-version filter" do
-        expect(response.body).not_to include("opce-wp-overview-graph")
+      it "renders the work packages graph" do
+        expect(response.body).to include("opce-wp-overview-graph")
       end
     end
 

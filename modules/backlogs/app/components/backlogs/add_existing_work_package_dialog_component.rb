@@ -45,12 +45,12 @@ module Backlogs
       @container = container
     end
 
-    def target_id = Target.for(container)
+    def target = Target.for(container)
 
     private
 
     def form_url
-      add_existing_project_backlogs_work_packages_path(project, target_id:)
+      add_existing_project_backlogs_work_packages_path(project, target.to_list_params)
     end
   end
 end

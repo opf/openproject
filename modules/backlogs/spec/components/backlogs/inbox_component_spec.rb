@@ -57,23 +57,30 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     render_inline component
   end
 
-  before { render_component }
+  subject(:rendered_component) do
+    render_component
+  end
+
 
   describe "container" do
     it "renders a Primer::Beta::BorderBox with the inbox DOM id" do
-      expect(page).to have_css(".Box#inbox_project_#{project.id}")
+      expect(rendered_component).to have_css(".Box#inbox_project_#{project.id}")
     end
 
-    it "wires drop-target data attributes for the inbox" do
-      expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
-        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-        expect(box["data-target-id"]).to eq("inbox")
-        expect(box["data-target-allowed-drag-type"]).to eq("story")
+    it "wires the list controller for the inbox" do
+      list_type = Backlogs::Target::InboxId.list_type
+
+      expect(rendered_component).to have_css(".Box#inbox_project_#{project.id}") do |box|
+        expect(box["data-controller"]).to include("sortable-lists--list")
+        expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
+        expect(box["data-sortable-lists--list-id-value"]).to be_nil
+        expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
+        expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
       end
     end
 
     it "announces dynamic empty-state updates" do
-      expect(page).to have_role(:status, aria: { live: "polite" })
+      expect(rendered_component).to have_role(:status, aria: { live: "polite" })
     end
   end
 
@@ -86,12 +93,12 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "renders the inbox title" do
-      expect(page).to have_heading "Inbox", level: 4
-      expect(page).to have_css("h4.f4", text: "Inbox")
+      expect(rendered_component).to have_heading "Inbox", level: 4
+      expect(rendered_component).to have_css("h4.f4", text: "Inbox")
     end
 
     it "renders the work-package count" do
-      expect(page).to have_css(
+      expect(rendered_component).to have_css(
         ".Counter",
         text: "2",
         aria: { label: I18n.t(:label_x_items, count: 2) }
@@ -99,11 +106,11 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "renders the add work package menu actions" do
-      expect(page).to have_selector(:menuitem, "Add new work package") do |link|
+      expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
         expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
       end
-      expect(page).to have_selector(:menuitem, "Add existing work package") do |link|
-        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, target_id: "inbox")
+      expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "inbox")
       end
     end
 
@@ -116,8 +123,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       end
 
       it "does not render the add work package menu actions" do
-        expect(page).to have_no_selector(:menuitem, "Add new work package")
-        expect(page).to have_no_selector(:menuitem, "Add existing work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
       end
     end
   end
@@ -126,8 +133,9 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     let(:work_packages) { [] }
 
     it "shows the blankslate heading and description" do
-      expect(page).to have_css("h4", text: "Backlog inbox is empty")
-      expect(page).to have_text("All open work packages in this project will automatically appear here.")
+      expect(rendered_component).to have_css("h4", text: "Backlog inbox is empty")
+      expect(rendered_component)
+        .to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
     end
   end
 
@@ -139,22 +147,28 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       ]
     end
 
+    it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
+
+    it "does not render the blankslate" do
+      expect(rendered_component).to have_no_css(".blankslate")
+    end
+
+    it "parks the empty-state prototype in a template for the dynamic controller" do
+      expect(rendered_component)
+        .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+    end
+
     it "renders a row for each work package", :aggregate_failures do
-      expect(page).to have_css(".Box-row", count: 2)
-
       # renders the subject of each work package
-      expect(page).to have_text("First item")
-      expect(page).to have_text("Second item")
-
-      # does not show the blankslate
-      expect(page).to have_no_css("h4", text: "Backlog inbox is empty")
+      expect(rendered_component).to have_text("First item")
+      expect(rendered_component).to have_text("Second item")
     end
 
     it "renders story points on each work package card" do
-      expect(page).to have_css("span", text: "2", aria: { hidden: true })
-      expect(page).to have_css(".sr-only", text: "2 story points")
-      expect(page).to have_css("span", text: "4", aria: { hidden: true })
-      expect(page).to have_css(".sr-only", text: "4 story points")
+      expect(rendered_component).to have_css("span", text: "2", aria: { hidden: true })
+      expect(rendered_component).to have_css(".sr-only", text: "2 story points")
+      expect(rendered_component).to have_css("span", text: "4", aria: { hidden: true })
+      expect(rendered_component).to have_css(".sr-only", text: "4 story points")
     end
   end
 
@@ -170,8 +184,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       let(:work_packages) { create_list(:work_package, threshold, project:) }
 
       it "renders all items without pagination" do
-        expect(page).to have_css(".Box-row", count: threshold)
-        expect(page).to have_no_css("##{show_more_id}")
+        expect(rendered_component).to have_css(".Box-row:not([data-empty-list-item])", count: threshold)
+        expect(rendered_component).to have_no_css("##{show_more_id}")
       end
     end
 
@@ -180,14 +194,17 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       let(:middle_count) { total - truncate_middle - tail_size }
       let(:work_packages) { create_list(:work_package, total, project:) }
 
-      it "renders only the first page and last page items (not all)" do
-        expect(page).to have_css(".Box-row", count: truncate_middle + tail_size + 1) # +1 for "show more" row
-        expect(page).to have_css("##{show_more_id}")
-        expect(page).to have_text("Show #{middle_count} more items")
+      it "renders only the first rendered_component and last rendered_component items (not all)" do
+        expect(rendered_component).to have_css(
+          ".Box-row:not([data-empty-list-item])",
+          count: truncate_middle + tail_size + 1 # +1 is for "show more" row
+        )
+        expect(rendered_component).to have_css("##{show_more_id}")
+        expect(rendered_component).to have_text("Show #{middle_count} more items")
       end
 
       it "renders the full work-package count in the header" do
-        expect(page).to have_css(
+        expect(rendered_component).to have_css(
           ".Counter",
           text: total.to_s,
           aria: { label: I18n.t(:label_x_items, count: total) }
@@ -195,9 +212,10 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       end
 
       it "renders show-more targeting the full backlog turbo frame with all=true" do
-        show_link = page.find("##{show_more_id}")
-        expect(show_link[:href]).to include("all=true")
-        expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
+        expect(rendered_component).to have_css("##{show_more_id}") do |show_link|
+          expect(show_link[:href]).to include("all=true")
+          expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
+        end
       end
 
       context "when filter params are active" do
@@ -205,16 +223,17 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         let(:filter_params) { { sprint_ids: [sprint.id.to_s] } }
 
         it "carries filter params in the show-more href alongside all=true" do
-          show_link = page.find("##{show_more_id}")
-          expect(show_link[:href]).to include("all=")
-          expect(show_link[:href]).to include("sprint_ids")
+          expect(rendered_component).to have_css("##{show_more_id}") do |show_link|
+            expect(show_link[:href]).to include("all=")
+            expect(show_link[:href]).to include("sprint_ids")
+          end
         end
       end
 
       it "renders the show-more row with the last omitted work package id" do
         last_omitted = work_packages.sort_by(&:position)[-(tail_size + 1)]
 
-        expect(page).to have_css("[data-draggable-id='#{last_omitted.id}']")
+        expect(rendered_component).to have_css("[data-sortable-lists-prev-item-id='#{last_omitted.id}']")
       end
     end
 
@@ -224,8 +243,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       let(:work_packages) { create_list(:work_package, total, project:) }
 
       it "renders all items without pagination" do
-        expect(page).to have_css(".Box-row", count: total)
-        expect(page).to have_no_css("##{show_more_id}")
+        expect(rendered_component).to have_css(".Box-row:not([data-empty-list-item])", count: total)
+        expect(rendered_component).to have_no_css("##{show_more_id}")
       end
     end
   end

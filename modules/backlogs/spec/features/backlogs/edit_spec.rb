@@ -181,8 +181,8 @@ RSpec.describe "Edit", :js do
   end
 
   context "with a shared sprint" do
-    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
-    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
+    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS) }
     let!(:first_sprint) do
       create(:sprint,
              name: "Shared Sprint",
@@ -272,13 +272,13 @@ RSpec.describe "Edit", :js do
       it "moves a work package to a different sprint" do
         planning_page.expect_work_package_in_sprint(work_package, first_sprint)
 
-        planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
+        planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
-        within("#move-to-sprint-dialog") do
-          expect(page).to have_no_select("target_id", with_options: [first_sprint.name])
-          expect(page).to have_select("target_id", with_options: [second_sprint.name])
+        within_modal "Move to sprint" do
+          expect(page).to have_no_select("list_id", with_options: [first_sprint.name])
+          expect(page).to have_select("list_id", with_options: [second_sprint.name])
 
-          select second_sprint.name, from: "target_id"
+          select second_sprint.name, from: "list_id"
           click_on "Move"
         end
 

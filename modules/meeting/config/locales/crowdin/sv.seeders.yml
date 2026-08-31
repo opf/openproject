@@ -13,17 +13,18 @@ sv:
           meeting_agenda_items:
             item_0:
               title: Goda nyheter
+              notes: What went well this week?
             item_1:
-              title: Uppdateringar från utvecklingsteamet
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Uppdateringar från produktteamet
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Uppdateringar från marknadsföringsteamet
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Uppdateringar från säljteamet
-            item_6:
-              title: Granskning av kvartalsmålen
-            item_7:
-              title: Återkoppling av kärnvärden
-            item_8:
-              title: Allmänna ämnen
+              title: General topics
+              notes: Solving or discussing topics together.

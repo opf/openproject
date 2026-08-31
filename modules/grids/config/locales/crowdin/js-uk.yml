@@ -32,6 +32,20 @@ uk:
           off_track: Не за графіком
           on_track: За графіком
           title: Статус
+        project_timeline:
+          accessible_date_range: "%{start} — %{end}"
+          accessible_gate: 'Контрольна точка етапу «%{name}»: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Етап «%{name}»: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Контрольна точка етапу
+          tooltip_type_milestone: Віха
+          tooltip_type_phase: Етап
+          tooltip_type_sprint: Спринт
         subprojects:
           title: Піделементи
         time_entries_current_user:

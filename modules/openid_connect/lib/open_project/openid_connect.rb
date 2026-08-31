@@ -34,9 +34,6 @@ require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    ACCESS_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token"
-    TOKEN_EXCHANGE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange"
-
     def self.configuration
       providers = ::OpenIDConnect::Provider.where(available: true)
 

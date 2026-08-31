@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe WorkPackages::CopyService, "integration", type: :model do
   shared_let(:custom_field) { create(:work_package_custom_field) }
   shared_let(:type) do
-    create(:type_standard,
+    create(:type_task,
            custom_fields: [custom_field])
   end
   shared_let(:project) { create(:project, types: [type]) }
@@ -111,6 +111,45 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
         it "is the one of the copied work package" do
           expect(copy.project_phase_definition)
             .to eql project_phase_definition
+        end
+      end
+
+      describe "copied version references",
+               with_settings: { work_package_multiple_versions: true } do
+        shared_let(:assign_versions_user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i[view_work_packages add_work_packages assign_versions]
+                 })
+        end
+
+        let(:instance) { described_class.new(work_package:, user: assign_versions_user) }
+        let(:version_one) { create(:version, project:, name: "Target 1") }
+        let(:version_two) { create(:version, project:, name: "Target 2") }
+        let(:observed_version) { create(:version, project:, name: "Observed") }
+
+        current_user { assign_versions_user }
+
+        before do
+          work_package.target_versions = [version_one, version_two]
+          work_package.observed_in_versions = [observed_version]
+        end
+
+        it "copies all target and observed_in versions" do
+          expect(copy.target_versions).to contain_exactly(version_one, version_two)
+          expect(copy.observed_in_versions).to contain_exactly(observed_version)
+        end
+
+        context "when the copying user lacks the assign_versions permission" do
+          let(:instance) { described_class.new(work_package:, user:) }
+
+          current_user { user }
+
+          it "copies the work package without any versions instead of failing" do
+            expect(service_result).to be_success
+            expect(copy.target_versions).to be_empty
+            expect(copy.observed_in_versions).to be_empty
+          end
         end
       end
     end
@@ -206,7 +245,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
 
       describe "#attributes" do
         before do
-          target_project.types << work_package.type
+          target_project.project_types.create!(type: work_package.type)
         end
 
         context "assigned_to" do
@@ -391,7 +430,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
     context "with a type auto-generating subjects" do
       let(:type_with_pattern) do
         create(:type, patterns: { subject: { blueprint: "{{type}} {{id}} {{project_name}}", enabled: true } }) do |type|
-          project.types << type
+          project.project_types.create!(type:)
         end
       end
 

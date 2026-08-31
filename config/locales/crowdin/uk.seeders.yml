@@ -71,6 +71,15 @@ uk:
           name: Персонал і менеджер проєктів
         item_1:
           name: Стандартна глобальна роль
+      ai_text_transform_actions:
+        item_0:
+          label: Виправити граматику
+        item_1:
+          label: Скоротити
+        item_2:
+          label: Перекласти англійською
+        item_3:
+          label: Упорядкувати за шаблоном
     standard:
       project_phases:
         item_0:
@@ -458,6 +467,20 @@ uk:
           name: Історія користувача
         item_6:
           name: Помилка
+      global_queries:
+        item_0:
+          name: 'Дочірні об’єкти епіків: історії користувачів і помилки'
+        item_1:
+          name: 'Дочірні об’єкти історій користувачів: завдання'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Історії користувачів і помилки
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Завдання
       welcome:
         title: Вітаємо в OpenProject!
         text: |

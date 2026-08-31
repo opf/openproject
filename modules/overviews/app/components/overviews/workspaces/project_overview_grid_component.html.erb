@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   render(Grids::WidgetGridComponent.new) do |grid|
     grid.with_widget(Grids::Widgets::Description, @project)
     grid.with_widget(Grids::Widgets::ProjectStatus, @project)
+    grid.with_widget(Grids::Widgets::ProjectTimeline, @project)
     grid.with_widget(Grids::Widgets::Subitems, @project)
     grid.with_widget(Meetings::Widgets::Meetings, @project)
     grid.with_widget(Grids::Widgets::Members, @project)

@@ -14,6 +14,11 @@ zh-CN:
           end_before_start: 结束值需要大于起始值。
           outside: 不在网格内。
           overlaps: 重叠.
+    models:
+      grids/grid:
+        other: 网格
+      grids/widget:
+        other: 微件
   grids:
     label_widget_in_grid: 网格 %{grid_name} 中包含的微件
     widgets:
@@ -30,6 +35,14 @@ zh-CN:
       news:
         no_results: 没有新消息报告。
       not_available: 此微件不可用。
+      project_timeline:
+        footer_actions_label: 查看更多详情
+        gantt_link: 里程碑甘特图
+        no_results_title: 未配置项目时间线内容
+        sprints_link: 冲刺概览
+        title: 项目时间线
+        title_portfolio: 项目组合时间线
+        title_program: 项目群时间线
       subitems:
         button_text: 子条目
         no_results: 没有可见的子级。

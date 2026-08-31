@@ -27,7 +27,7 @@ To edit a work package, double-click a work package row in [table view](../../wo
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment.
 
 > [!TIP]
-> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#pdf-report) and want to the description to be displayed on separate pages of a PDF report.
+> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#page-breaks) and want to the description to be displayed on separate pages of a PDF report.
 
 To save changes in the description, click the **checkmark** icon.
 
@@ -51,9 +51,16 @@ All changes of a work package are documented in the work package [Activity](../.
 
 ### Link to or create a wiki page
 
-You can link an existing wiki page to a work package or create a new one directly from the work package description.
+You can link an existing wiki page to a work package or create a new one in two ways:
 
-In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**. 
+- From the work package description using the rich text editor.
+- From the [**Wikis** tab of the work package](#manage-linked-wiki-pages).
+
+#### Link to or create a wiki page from the description
+
+In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**.
+
+These options are also available in other supported rich text editors, including meeting descriptions and outcomes, comments, wiki page content and custom fields of type **Text**.
 
 ![Insert menu with wiki page options opened in a CKEditor in an OpenProject work package](openproject_user_guide_wp_insert_wiki_menu.png)
 
@@ -67,8 +74,8 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 
 Depending on your system configuration, you can choose between:
 
-- **Internal wiki**, if the OpenProject wiki module is enabled by an administrator.
-- **External wiki**, if an administrator has configured an external wiki integration, such as **XWiki** (Enterprise add-on).
+- **OpenProject **, if the OpenProject project wiki is enabled by an administrator.
+- an external wiki, if an administrator has configured it, such as **XWiki** (Enterprise add-on).
 
 > [!NOTE]
 > If only one wiki provider is configured, OpenProject automatically uses it and skips the **Wiki provider** selection step.
@@ -89,6 +96,8 @@ Depending on your system configuration, you can choose between:
 
 The wiki page is inserted into the description as a link.
 
+When added from the work package description, the wiki page is inserted into the description as a link.
+
 All linked wiki pages are also listed in the **Wikis** tab of the work package.
 
 ![Wiki link inserted into the work package description](openproject_user_guide_wp_wiki_link_description.png)
@@ -99,7 +108,7 @@ The **Wikis** tab displays all wiki pages related to the work package.
 
 Depending on your configuration and existing links, it can contain the following sections:
 
-- One section for each configured wiki provider (for example, **Internal wiki** or **XWiki Knowledge Hub**)
+- One section for each configured wiki provider (for example, **OpenProject** or **XWiki Knowledge Hub**) listing related wiki pages
 - **Mentioned in description**
 - **Referenced in**
 
@@ -107,11 +116,15 @@ Each wiki provider section allows you to create additional links by clicking **W
 
 To remove a linked wiki page, click the **three-dot** menu at the end of the row and select **Remove page link**.
 
-The **Mentioned in description** and **Referenced in** sections are informational. They display wiki pages that already reference or are referenced by the work package. These sections can be expanded or collapsed and are only displayed when matching references exist. Their section headers indicate the number of related wiki pages.
+![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab.png)
+
+The **Mentioned in description** and **Referenced in** sections are informational. They display wiki pages that already reference or are referenced by the work package. These sections can be expanded or collapsed and are only displayed when matching references exist. Their section headers indicate the number of related wiki pages. 
+
+You can convert a wiki page listed in the **Mentioned in description** or **Referenced in** sections into a related wiki page. To do so, click the **three-dot** menu next to the page and select **+ Add to related pages**.
+
+![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab_add_to_related.png)
 
 All wiki page entries are clickable and open the corresponding wiki page.
-
-![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab.png)
 
 ### Assign a team member to a work package
 
@@ -243,7 +256,7 @@ At the configured date and time, you will receive the reminder in [Notification 
 > In case a work package has both a reminder and date alert  notification set up, then the date alert is combined with the reminder note, so that both are visible.
 
 > [!TIP]
-> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/#email-reminders) accordingly.
+> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/notification-and-email/#email-reminders) accordingly.
 
 ## Watchers
 
@@ -264,9 +277,22 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 ### Remove watchers from a work package
 
 To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the _Watchers_ tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
-The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notification-settings) for more information.
+The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/notification-and-email/#notification-settings) for more information.
 
 ![Remove watchers from OpenProject work packages](openproject_user_guide_wp_watchers_remove.png)
+
+### Project attributes in work packages
+
+If your OpenProject administrator has enabled **project attributes** for the selected work package type, they are also visible and editable  in the **Project attributes** tab of the work package.
+
+Project attributes allow you to view and edit project-level information directly from within a work package (if you have the necessary permissions). Any changes you make are applied to the project itself and are immediately reflected everywhere the same project attributes are displayed, including the project overview page.
+
+> [!NOTE]
+> Project attributes are shared across the entire project. Editing a project attribute in a work package updates its value for the project, not just for the individual work package.
+
+The availability of the **Project attributes** tab and the attributes displayed in it depend on the work package type and are configured by your OpenProject administrator.
+
+Project attributes displayed in a work package are also included when exporting the work package to **PDF**.
 
 ## Export work packages
 
@@ -281,6 +307,7 @@ Highlight all work packages which you want to edit.
 Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
 
 To open the quick context menu, **press the RIGHT mouse button**.
+![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
 
 Then you have the possibility to:
 
@@ -291,7 +318,10 @@ Then you have the possibility to:
 - Bulk duplicate all selected work packages, incl. the hierarchy relations (parent-child relations).
 - Bulk delete all selected work packages.
 
-![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
+If the Backlogs module is active, you can also change the **Sprint** and **Backlog** assignments of the selected work packages when bulk editing.
+
+> [!NOTE]
+> The **Manage sprint items** permission is required to change Sprint and Backlog assignments.
 
 At the bottom of the page you can decide whether notifications about these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 

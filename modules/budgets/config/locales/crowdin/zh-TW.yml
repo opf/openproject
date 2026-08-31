@@ -46,9 +46,12 @@ zh-TW:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: 預算
-      labor_budget_item: Planned labor cost
-      material_budget_item: 單位
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
       budget: 預算
@@ -102,7 +105,6 @@ zh-TW:
   help_click_to_edit: 點擊這裡編輯
   help_currency_format: 已顯示的貨幣值的格式。%n 替換為貨幣值，%u 替換為貨幣單位。
   help_override_rate: 在此輸入一個值以覆蓋預設費率。
-  label_budget: 預算
   label_budget_available: 可用預算
   label_budget_details: 預算細節
   label_budget_id: '預算 #%{id}'

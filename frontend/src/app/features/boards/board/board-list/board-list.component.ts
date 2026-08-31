@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { pickBy } from 'lodash-es';
 import {
   ChangeDetectionStrategy,
@@ -24,7 +52,10 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { Board } from 'core-app/features/boards/board/board';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import {
+  WorkPackageCardViewComponent,
+  type WorkPackageAddedResult,
+} from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
@@ -168,7 +199,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public initiallyFocused = false;
 
   /** Editing handler to be passed into card component */
-  public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
+  public workPackageAddedHandler = async (workPackage:WorkPackageResource):Promise<WorkPackageAddedResult> => {
+    await this.addWorkPackage(workPackage);
+
+    return { membershipPersisted: this.board.isAction };
+  };
 
   /** Move check to be passed into card component */
   public canDragOutOf = false;
@@ -405,6 +440,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private get queryId():string {
     return (this.resource.options.queryId as number|string).toString();
+  }
+
+  /** Stable id for this list's wp-card-view under the shared board sortable root */
+  public get listId():string {
+    return `board-${this.queryId}`;
   }
 
   private loadQuery(visibly = true) {

@@ -128,7 +128,7 @@ module OpenProject::Bim
 
     assets %w(bim/logo_openproject_bim_big.png bim/logo_openproject_bim_big_coloured.png)
 
-    patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
+    patches %i[Attachment WorkPackage TypeVariant Journal RootSeeder Project FogFileUploader]
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
@@ -163,7 +163,7 @@ module OpenProject::Bim
         {
           href: bcf_v2_1_paths.topics(represented.project.identifier),
           title: "Convert to BCF",
-          payload: { reference_links: [api_v3_paths.work_package(represented.id)] },
+          payload: { reference_links: [api_v3_paths.work_package(represented.display_id)] },
           method: :post
         }
       end

@@ -14,6 +14,17 @@ pl:
           end_before_start: wartość końcowa musi być większa niż wartość początkowa.
           outside: jest poza siatką.
           overlaps: nałożenie.
+    models:
+      grids/grid:
+        one: Siatka
+        few: Siatki
+        many: Siatki
+        other: Siatki
+      grids/widget:
+        one: Widżet
+        few: Widżety
+        many: Widżety
+        other: Widżety
   grids:
     label_widget_in_grid: Widżet zawarty w siatce %{grid_name}
     widgets:
@@ -31,6 +42,14 @@ pl:
       news:
         no_results: Utwórz nowy raport.
       not_available: Ten widżet jest niedostępny.
+      project_timeline:
+        footer_actions_label: Zobacz więcej szczegółów
+        gantt_link: Kamienie milowe — wykres Gantta
+        no_results_title: Nie skonfigurowano zawartości osi czasu projektu
+        sprints_link: Przegląd sprintów
+        title: Oś czasu projektu
+        title_portfolio: Oś czasu portfolio
+        title_program: Oś czasu programu
       subitems:
         button_text: Podelement
         no_results: Nie ma żadnych widocznych elementów podrzędnych.

@@ -46,9 +46,12 @@ ja:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: 予算
-      labor_budget_item: Planned labor cost
-      material_budget_item: ユニット
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
       budget: 予算
@@ -102,7 +105,6 @@ ja:
   help_click_to_edit: 編集するにはここをクリックしてください。
   help_currency_format: 表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。
   help_override_rate: デフォルトレートを上書きするにはここに値を入力します。
-  label_budget: 予算
   label_budget_available: 利用可能な予算
   label_budget_details: 予算の詳細
   label_budget_id: '予算 #%{id}'

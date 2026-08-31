@@ -62,7 +62,7 @@ module Storages
               end
 
               it "returns a failure if the remote call failed" do
-                error = Results::Error.new(code: :unauthorized, source: self)
+                error = SimpleError.new(code: :unauthorized, source: self)
                 Registry.stub("nextcloud.queries.user", ->(_) { Failure(error) })
 
                 result = validator.call
@@ -205,7 +205,7 @@ module Storages
                     it "favors token exchange when refreshing" do
                       exchange_request = stub_request(:post, oidc_provider.token_endpoint)
                                            .with(body: hash_including(
-                                             grant_type: OpenProject::OpenIDConnect::TOKEN_EXCHANGE_GRANT_TYPE
+                                             grant_type: OpenProject::OAuth2::TOKEN_EXCHANGE_GRANT_TYPE
                                            ))
                                            .and_return_json(status: 200, body: { access_token: "NEW_TOKEN" })
 
@@ -216,7 +216,7 @@ module Storages
                     it "fails if the exchange is met with an unexpected body" do
                       exchange_request = stub_request(:post, oidc_provider.token_endpoint)
                                            .with(body: hash_including(
-                                             grant_type: OpenProject::OpenIDConnect::TOKEN_EXCHANGE_GRANT_TYPE
+                                             grant_type: OpenProject::OAuth2::TOKEN_EXCHANGE_GRANT_TYPE
                                            ))
                                            .and_return_json(status: 200, body: { error: "failed " })
 
@@ -230,7 +230,7 @@ module Storages
                     it "fails if the exchange fails" do
                       exchange_request = stub_request(:post, oidc_provider.token_endpoint)
                                            .with(body: hash_including(
-                                             grant_type: OpenProject::OpenIDConnect::TOKEN_EXCHANGE_GRANT_TYPE
+                                             grant_type: OpenProject::OAuth2::TOKEN_EXCHANGE_GRANT_TYPE
                                            ))
                                            .and_return(status: 401)
 

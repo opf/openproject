@@ -24,714 +24,725 @@ hy:
   activerecord:
     attributes:
       meeting:
-        duration: Duration
-        end_time: End time
-        location: Location
-        notes: Notes
-        notify: Send notifications
+        duration: Տևողություն
+        end_time: Ավարտի ժամ
+        location: Վայր
+        notes: Նշումներ
+        notify: Ուղարկել ծանուցումներ
         participant:
-          one: 1 Participant
-          other: "%{count} Participants"
-        participants: Participants
-        participants_added: 'Participants added:'
-        participants_attended: Attendees
-        participants_invited: Invitees
-        participants_removed: 'Participants removed:'
-        project: Project
-        recurrence_start_time: Scheduled start time
-        sharing: Sharing
-        start_date: Date
-        start_time: Start time
-        start_time_hour: Start time
-        template: Template
-        type: Meeting type
+          one: 1 մասնակից
+          other: "%{count} մասնակից"
+        participants: Մասնակիցներ
+        participants_added: Ավելացված մասնակիցներ՝
+        participants_attended: Ներկաներ
+        participants_invited: Հրավիրվածներ
+        participants_removed: Հեռացված մասնակիցներ՝
+        project: Նախագիծ
+        recurrence_start_time: Պլանավորված սկզբի ժամ
+        sharing: Համօգտագործում
+        start_date: Ամսաթիվ
+        start_time: Սկզբի ժամ
+        start_time_hour: Սկզբի ժամ
+        template: Ձևանմուշ
+        type: Հանդիպման տեսակ
       meeting_agenda_item:
-        author: Author
-        description: Notes
-        duration_in_minutes: Duration
-        item_type: Type
-        lock_version: Lock version
-        notes: Notes
-        position: Position
-        presenter: Presenter
-        title: Title
+        author: Հեղինակ
+        description: Նշումներ
+        duration_in_minutes: Տևողություն
+        item_type: Տեսակ
+        lock_version: Կողպել տարբերակը
+        notes: Նշումներ
+        position: Դիրք
+        presenter: Զեկուցող
+        title: Վերնագիր
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
-        attended: Attended
-        invited: Invited
-        participation_status: Participation status
+        attended: Ներկա
+        invited: Հրավիրված
+        participation_status: Մասնակցության կարգավիճակ
       meeting_section:
-        position: Position
-        title: Title
+        position: Դիրք
+        title: Վերնագիր
       recurring_meeting:
-        duration: Duration
-        end_after: Meeting series ends
-        end_date: End date
-        frequency: Frequency
-        interval: Interval
-        iterations: Occurrences
-        location: Location
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
-        notify: Send notifications
-        start_date: Starts on
-        start_time: Start time
-        start_time_hour: Start time
-        time_zone: Time zone
-        title: Title
+        duration: Տևողություն
+        end_after: Հանդիպումների շարքն ավարտվում է
+        end_date: Ավարտի ամսաթիվ
+        frequency: Պարբերականություն
+        interval: Միջակայք
+        iterations: Կրկնություններ
+        location: Վայր
+        monthly_day: Ամսվա օր
+        monthly_ordinal: Դիրք
+        monthly_weekday: Շաբաթվա օր
+        notify: Ուղարկել ծանուցումներ
+        start_date: Սկզբի ամսաթիվ
+        start_time: Սկզբի ժամ
+        start_time_hour: Սկզբի ժամ
+        time_zone: Ժամային գոտի
+        title: Վերնագիր
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: Սկզբի ժամ
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: վավեր ժամ չէ։ Պահանջվող ձևաչափը՝ HH:MM
       models:
         meeting_agenda_item:
-          section_not_belong_to_meeting: Section does not belong to the same meeting.
-          user_invalid: is not a valid participant.
+          section_not_belong_to_meeting: Բաժինը չի պատկանում նույն հանդիպմանը։
+          user_invalid: վավեր մասնակից չէ։
         meeting_participant:
-          user_invalid: is not a valid participant.
+          user_invalid: վավեր մասնակից չէ։
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
-            other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: Շարքում կա մեկ բաց հանդիպում, որը ներառված չէ նոր ժամանակացույցում։ Ճշգրտեք ժամանակացույցը՝ բոլոր առկա հանդիպումները ներառելու համար։
+            other: Շարքում կա %{count} բաց հանդիպում, որոնք ներառված չեն նոր ժամանակացույցում։ Ճշգրտեք ժամանակացույցը՝ բոլոր առկա հանդիպումները ներառելու համար։
         recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+          not_an_occurrence: վավեր կրկնության ժամանակ չէ այս կրկնվող հանդիպման համար
     models:
-      meeting: One-time meeting
-      meeting_agenda: Agenda
-      meeting_agenda_item: Agenda item
-      meeting_section: Section
-      recurring_meeting: Recurring meeting
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
-        one: iCal Meeting subscription
-        other: iCal Meeting subscription
+        one: iCal հանդիպումների բաժանորդագրություն
+        other: iCal հանդիպումների բաժանորդագրություն
   activity:
     filter:
-      meeting: Meetings
+      meeting: Հանդիպումներ
     item:
       meeting_agenda_item:
         duration:
-          added: set to %{value}
-          added_html: set to <i>%{value}</i>
-          removed: removed
-          updated: changed from %{old_value} to %{value}
-          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
+          added: սահմանվել է %{value}
+          added_html: սահմանվել է <i>%{value}</i>
+          removed: հեռացվել է
+          updated: փոփոխվել է %{old_value}-ից %{value}-ի
+          updated_html: փոփոխվել է <i>%{old_value}</i>-ից <i>%{value}</i>-ի
         position:
-          updated: reordered
+          updated: վերադասավորվել է
         work_package:
-          updated: changed from %{old_value} to %{value}
-          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  description_attended: attended
-  error_notification: Failed to send notification.
-  error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
+          updated: փոփոխվել է %{old_value}-ից %{value}-ի
+          updated_html: փոփոխվել է <i>%{old_value}</i>-ից <i>%{value}</i>-ի
+  caption_meeting_template_select: Ընտրեք ձևանմուշ՝ դրա օրակարգի կետերն ավտոմատ պատճենելու համար
+  caption_template_project_select: Խնդրում ենք ընտրել նախագիծը, որտեղ ստեղծվելու է հանդիպման այս ձևանմուշը
+  description_attended: ներկա
+  error_notification: Ծանուցում ուղարկելը ձախողվեց։
+  error_notification_with_errors: Չհաջողվեց ուղարկել ծանուցումը։ Հետևյալ ստացողները չհաջողվեց ծանուցել՝ %{recipients}
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  label_add_work_package_to_meeting_dialog_button: Add to meeting
-  label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
-  label_added_as_outcome: Added as outcome
-  label_agenda_backlog: Agenda backlog
-  label_agenda_backlog_clear_title: Clear agenda backlog?
-  label_agenda_item_actions: Agenda items actions
-  label_agenda_item_add: Add agenda item
-  label_agenda_item_add_notes: Add notes
-  label_agenda_item_add_outcome: Add outcome
-  label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_deleted_wp: Deleted work package reference
-  label_agenda_item_duplicate: Duplicate
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_move: Move
-  label_agenda_item_move_down: Move down
-  label_agenda_item_move_to_backlog: Move to backlog
-  label_agenda_item_move_to_bottom: Move to bottom
-  label_agenda_item_move_to_current_meeting: Move to current meeting
-  label_agenda_item_move_to_next: Move to next meeting
-  label_agenda_item_move_to_next_title: Move to next meeting?
-  label_agenda_item_move_to_section: Move to section
-  label_agenda_item_move_to_top: Move to top
-  label_agenda_item_move_up: Move up
-  label_agenda_item_remove_from_agenda: Remove from agenda
-  label_agenda_item_remove_from_backlog: Remove from backlog
-  label_agenda_item_undisclosed_wp: 'Work package #%{id} not visible'
-  label_agenda_item_work_package: Agenda item work package
-  label_agenda_item_work_package_add: Add work package
-  label_agenda_items: Agenda items
-  label_agenda_items_reordered: reordered
-  label_agenda_new_outcome: New outcome
-  label_agenda_outcome: Outcome
-  label_agenda_outcome_actions: Agenda outcome actions
-  label_agenda_outcome_delete: Remove outcome
-  label_agenda_outcome_edit: Edit outcome
-  label_all_meetings: All meetings
-  label_attended: Attended
-  label_attended_user: Attended user
-  label_backlog_clear: Clear backlog
-  label_backlog_clear_button: Clear all
-  label_created_by_me: Created by me
-  label_existing_work_package: Existing work package
-  label_icalendar: Send iCalendar
-  label_icalendar_download: Download iCalendar event
-  label_initial_meeting_details: Meeting
-  label_invitations: Invitations
-  label_invited_user: Invited user
-  label_involvement: Involvement
-  label_meeting: Meeting
-  label_meeting_actions: Meeting actions
-  label_meeting_agenda: Agenda
-  label_meeting_agenda_close: Close the agenda to begin the Minutes
-  label_meeting_close: Close
-  label_meeting_close_action: Close meeting
-  label_meeting_create: Create meeting
-  label_meeting_create_from_template: Create meeting from template
-  label_meeting_created_by: Created by
-  label_meeting_date_and_time: Date and time
-  label_meeting_date_time: Date/Time
-  label_meeting_delete: Delete meeting
-  label_meeting_details: Meeting details
-  label_meeting_details_edit: Edit meeting details
-  label_meeting_diff: Diff
-  label_meeting_duplicate: Duplicate meeting
-  label_meeting_edit: Edit Meeting
-  label_meeting_edit_title: Edit meeting title
-  label_meeting_empty_action: Add agenda item
-  label_meeting_in_progress_action: Start meeting
-  label_meeting_index_delete: Delete
-  label_meeting_index_later: Next week and later
-  label_meeting_index_this_week: Later this week
-  label_meeting_index_today: Today
-  label_meeting_index_tomorrow: Tomorrow
-  label_meeting_last_updated: Last updated
-  label_meeting_minutes: Minutes
+    meeting: Հանդիպումը խմբագրվել է
+    meeting_agenda: Հանդիպման օրակարգը խմբագրվել է
+    meeting_agenda_closed: Հանդիպման օրակարգը փակվել է
+    meeting_agenda_opened: Հանդիպման օրակարգը բացվել է
+    meeting_minutes: Հանդիպման արձանագրությունը խմբագրվել է
+    meeting_minutes_created: Հանդիպման արձանագրությունը ստեղծվել է
+  label_add_work_package_to_meeting_dialog_button: Ավելացնել հանդիպմանը
+  label_add_work_package_to_meeting_dialog_title: Ընտրեք հանդիպումը
+  label_add_work_package_to_meeting_section_label: Բաժին
+  label_added_as_outcome: Ավելացվել է որպես արդյունք
+  label_agenda_backlog: Օրակարգի բեքլոգ
+  label_agenda_backlog_clear_title: Մաքրե՞լ օրակարգի բեքլոգը։
+  label_agenda_item_actions: Օրակարգի կետերի գործողություններ
+  label_agenda_item_add: Ավելացնել օրակարգի կետ
+  label_agenda_item_add_notes: Ավելացնել նշումներ
+  label_agenda_item_add_outcome: Ավելացնել արդյունք
+  label_agenda_item_convert_to_work_package: Փոխարկել աշխատանքային փաթեթի
+  label_agenda_item_deleted_wp: Ջնջված աշխատանքային փաթեթի հղում
+  label_agenda_item_duplicate: Կրկնօրինակել
+  label_agenda_item_duplicate_in_next: Կրկնօրինակել հաջորդ հանդիպումում
+  label_agenda_item_duplicate_in_next_title: Կրկնօրինակե՞լ հաջորդ հանդիպումում։
+  label_agenda_item_move: Տեղափոխել
+  label_agenda_item_move_down: Տեղափոխել ներքև
+  label_agenda_item_move_to_backlog: Տեղափոխել բեքլոգ
+  label_agenda_item_move_to_bottom: Տեղափոխել վերջ
+  label_agenda_item_move_to_current_meeting: Տեղափոխել ընթացիկ հանդիպում
+  label_agenda_item_move_to_next: Տեղափոխել հաջորդ հանդիպում
+  label_agenda_item_move_to_next_title: Տեղափոխե՞լ հաջորդ հանդիպում։
+  label_agenda_item_move_to_section: Տեղափոխել բաժին
+  label_agenda_item_move_to_top: Տեղափոխել սկիզբ
+  label_agenda_item_move_up: Տեղափոխել վերև
+  label_agenda_item_remove_from_agenda: Հեռացնել օրակարգից
+  label_agenda_item_remove_from_backlog: Հեռացնել բեքլոգից
+  label_agenda_item_undisclosed_wp: "#%{id} աշխատանքային փաթեթը տեսանելի չէ"
+  label_agenda_item_work_package: Օրակարգի կետի աշխատանքային փաթեթ
+  label_agenda_item_work_package_add: Ավելացնել աշխատանքային փաթեթ
+  label_agenda_items: Օրակարգի կետեր
+  label_agenda_items_reordered: վերադասավորվել է
+  label_agenda_new_outcome: Նոր արդյունք
+  label_agenda_outcome: Արդյունք
+  label_agenda_outcome_actions: Օրակարգի արդյունքի գործողություններ
+  label_agenda_outcome_delete: Հեռացնել արդյունքը
+  label_agenda_outcome_edit: Խմբագրել արդյունքը
+  label_all_meetings: Բոլոր հանդիպումները
+  label_attended: Ներկա
+  label_attended_user: Ներկա գտնված օգտատեր
+  label_backlog_clear: Մաքրել բեքլոգը
+  label_backlog_clear_button: Մաքրել բոլորը
+  label_created_by_me: Իմ ստեղծած
+  label_existing_work_package: Առկա աշխատանքային փաթեթ
+  label_icalendar: Ուղարկել iCalendar
+  label_icalendar_download: Ներբեռնել iCalendar իրադարձությունը
+  label_initial_meeting_details: Հանդիպում
+  label_invitations: Հրավերներ
+  label_invited_user: Հրավիրված օգտատեր
+  label_involvement: Ներգրավվածություն
+  label_meeting: Հանդիպում
+  label_meeting_actions: Հանդիպման գործողություններ
+  label_meeting_agenda: Օրակարգ
+  label_meeting_agenda_close: Փակեք օրակարգը՝ արձանագրությունը սկսելու համար
+  label_meeting_close: Փակել
+  label_meeting_close_action: Փակել հանդիպումը
+  label_meeting_create: Ստեղծել հանդիպում
+  label_meeting_create_from_template: Ստեղծել հանդիպում ձևանմուշից
+  label_meeting_created_by: Ստեղծել է՝
+  label_meeting_date_and_time: Ամսաթիվ և ժամ
+  label_meeting_date_time: Ամսաթիվ/Ժամ
+  label_meeting_delete: Ջնջել հանդիպումը
+  label_meeting_details: Հանդիպման մանրամասներ
+  label_meeting_details_edit: Խմբագրել հանդիպման մանրամասները
+  label_meeting_diff: Տարբերություն
+  label_meeting_duplicate: Կրկնօրինակել հանդիպումը
+  label_meeting_edit: Խմբագրել հանդիպումը
+  label_meeting_edit_title: Խմբագրել հանդիպման վերնագիրը
+  label_meeting_empty_action: Ավելացնել օրակարգի կետ
+  label_meeting_in_progress_action: Սկսել հանդիպումը
+  label_meeting_index_delete: Ջնջել
+  label_meeting_index_later: Հաջորդ շաբաթ և ավելի ուշ
+  label_meeting_index_this_week: Ավելի ուշ այս շաբաթ
+  label_meeting_index_today: Այսօր
+  label_meeting_index_tomorrow: Վաղը
+  label_meeting_last_updated: Վերջին թարմացումը
+  label_meeting_minutes: Արձանագրություն
   label_meeting_more:
-    one: There is one more meeting.
-    other: There are %{count} more meetings.
-  label_meeting_new: New Meeting
-  label_meeting_new_dynamic: New one-time meeting
-  label_meeting_new_recurring: New recurring meeting
-  label_meeting_open: Open
-  label_meeting_open_action: Open meeting
-  label_meeting_open_this_meeting: Open this meeting
-  label_meeting_plural: Meetings
-  label_meeting_reload: Reload
-  label_meeting_reopen_action: Reopen meeting
-  label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
-  label_meeting_send_updates: Send email calendar invite and updates
-  label_meeting_send_updates_caption: Send out email invites to all participants of this meeting
-  label_meeting_series: Meeting series
-  label_meeting_series_details: Meeting series details
-  label_meeting_state: Meeting status
-  label_meeting_state_agenda_created: Agenda created
-  label_meeting_state_cancelled: Cancelled
-  label_meeting_state_closed: Closed
-  label_meeting_state_draft: Draft
-  label_meeting_state_in_progress: In progress
-  label_meeting_state_open: Open
-  label_meeting_state_planned: Planned
-  label_meeting_state_skipped: Skipped
-  label_meeting_template: Template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
-  label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
-  label_my_meetings: My meetings
-  label_notify: Send for review
-  label_past_invitations: Past invitations
-  label_past_meetings: Past meetings
-  label_past_meetings_short: Past
-  label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
-  label_recurring_meeting_cancel: Cancel this occurrence
-  label_recurring_meeting_create: Open
-  label_recurring_meeting_delete: Delete occurrence
-  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
+    one: Կա ևս մեկ հանդիպում։
+    other: Կա ևս %{count} հանդիպում։
+  label_meeting_new: Նոր հանդիպում
+  label_meeting_new_dynamic: Նոր մեկանգամյա հանդիպում
+  label_meeting_new_recurring: Նոր կրկնվող հանդիպում
+  label_meeting_open: Բաց
+  label_meeting_open_action: Բացել հանդիպումը
+  label_meeting_open_this_meeting: Բացել այս հանդիպումը
+  label_meeting_plural: Հանդիպումներ
+  label_meeting_reload: Վերաբեռնել
+  label_meeting_reopen_action: Վերաբացել հանդիպումը
+  label_meeting_selection_caption: Այս աշխատանքային փաթեթը հնարավոր է ավելացնել միայն առաջիկա կամ ընթացող հանդիպմանը։
+  label_meeting_send_updates: Ուղարկել էլ. փոստի օրացուցային հրավեր և թարմացումներ
+  label_meeting_send_updates_caption: Ուղարկել էլ. փոստի հրավերներ այս հանդիպման բոլոր մասնակիցներին
+  label_meeting_series: Հանդիպումների շարք
+  label_meeting_series_details: Հանդիպումների շարքի մանրամասներ
+  label_meeting_state: Հանդիպման կարգավիճակ
+  label_meeting_state_agenda_created: Օրակարգը ստեղծված է
+  label_meeting_state_cancelled: Չեղարկված
+  label_meeting_state_closed: Փակված
+  label_meeting_state_draft: Սևագիր
+  label_meeting_state_in_progress: Ընթացքի մեջ
+  label_meeting_state_open: Բաց
+  label_meeting_state_planned: Պլանավորված
+  label_meeting_state_skipped: Բաց թողնված
+  label_meeting_template: Ձևանմուշ
+  label_meeting_template_create: Ստեղծել ձևանմուշ
+  label_meeting_template_delete: Ջնջել ձևանմուշը
+  label_meeting_template_edit: Խմբագրել ձևանմուշը
+  label_meeting_template_new: Նոր ձևանմուշ
+  label_meeting_template_sharing: Համօգտագործում
+  label_meeting_template_sharing_descendants: Ենթանախագծերով
+  label_meeting_template_sharing_none: Միայն այս նախագծի հետ
+  label_meeting_template_sharing_system: Բոլոր նախագծերով
+  label_meeting_templates: Ձևանմուշներ
+  label_my_meetings: Իմ հանդիպումները
+  label_notify: Ուղարկել վերանայման
+  label_past_invitations: Անցյալ հրավերներ
+  label_past_meetings: Անցյալ հանդիպումներ
+  label_past_meetings_short: Անցյալ
+  label_recurring_filter: Կրկնվող հանդիպումների զտիչ
+  label_recurring_meeting_cancel: Չեղարկել այս կրկնությունը
+  label_recurring_meeting_create: Բաց
+  label_recurring_meeting_delete: Ջնջել կրկնությունը
+  label_recurring_meeting_duplicate: Կրկնօրինակել որպես մեկանգամյա հանդիպում
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: Կա ևս մեկ պլանավորված հանդիպում (%{schedule})։
+    other: Կա ևս %{count} պլանավորված հանդիպում (%{schedule})։
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
-    other: There are %{count} more past meetings.
-  label_recurring_meeting_new: New recurring meeting
-  label_recurring_meeting_next_occurrence: Next occurrence
-  label_recurring_meeting_no_end_date: There are more scheduled meetings (%{schedule}).
-  label_recurring_meeting_part_of: Part of a meeting series
-  label_recurring_meeting_plural: Recurring meetings
-  label_recurring_meeting_restore: Restore this occurrence
-  label_recurring_meeting_schedule: Schedule
-  label_recurring_meeting_series_create: Create meeting series
-  label_recurring_meeting_series_delete: Delete meeting series
-  label_recurring_meeting_series_edit: Edit meeting series
-  label_recurring_meeting_series_end: End meeting series
-  label_recurring_meeting_series_end_now: End series now
-  label_recurring_meeting_show_more: Show more
-  label_recurring_meeting_view: View meeting series
-  label_section_rename: Rename section
-  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
-  label_series_backlog: Series backlog
-  label_series_backlog_clear_title: Clear series backlog?
-  label_start_date: Start date
-  label_subscribe_icalendar: Subscribe to calendar
-  label_template: Template
-  label_time_zone: Time zone
-  label_upcoming_meetings: Upcoming meetings
-  label_upcoming_meetings_short: Upcoming
-  label_version: Version
-  label_view_meeting: View meeting
-  label_view_meeting_series: View meeting series
-  label_write_outcome: Write outcome
+    one: Կա ևս մեկ անցած հանդիպում։
+    other: Կա ևս %{count} անցած հանդիպում։
+  label_recurring_meeting_new: Նոր կրկնվող հանդիպում
+  label_recurring_meeting_next_occurrence: Հաջորդ կրկնություն
+  label_recurring_meeting_no_end_date: Կան ևս պլանավորված հանդիպումներ (%{schedule})։
+  label_recurring_meeting_part_of: Հանդիպումների շարքի մաս
+  label_recurring_meeting_plural: Կրկնվող հանդիպումներ
+  label_recurring_meeting_restore: Վերականգնել այս կրկնությունը
+  label_recurring_meeting_schedule: Ժամանակացույց
+  label_recurring_meeting_series_create: Ստեղծել հանդիպումների շարք
+  label_recurring_meeting_series_delete: Ջնջել հանդիպումների շարքը
+  label_recurring_meeting_series_edit: Խմբագրել հանդիպումների շարքը
+  label_recurring_meeting_series_end: Ավարտել հանդիպումների շարքը
+  label_recurring_meeting_series_end_now: Ավարտել շարքն այժմ
+  label_recurring_meeting_show_more: Ցուցադրել ավելին
+  label_recurring_meeting_view: Դիտել հանդիպումների շարքը
+  label_section_rename: Վերանվանել բաժինը
+  label_section_selection_caption: Ընտրեք օրակարգի որոշակի բաժինը կամ ավելացրեք այն բեքլոգում։
+  label_series_backlog: Շարքի բեքլոգ
+  label_series_backlog_clear_title: Մաքրե՞լ շարքի բեքլոգը։
+  label_start_date: Սկզբի ամսաթիվ
+  label_subscribe_icalendar: Բաժանորդագրվել օրացույցին
+  label_template: Ձևանմուշ
+  label_time_zone: Ժամային գոտի
+  label_upcoming_meetings: Առաջիկա հանդիպումներ
+  label_upcoming_meetings_short: Առաջիկա
+  label_version: Տարբերակ
+  label_view_meeting: Դիտել հանդիպումը
+  label_view_meeting_series: Դիտել հանդիպումների շարքը
+  label_write_outcome: Գրել արդյունքը
   meeting:
     attachments:
-      onetime_template: These attached files will be included in all future meetings using this template.
-      series_template: These attached files will be included in all future meetings in the series.
-      text: Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes.
+      onetime_template: Այս կցված նիշքերը կներառվեն այս ձևանմուշն օգտագործող բոլոր ապագա հանդիպումներում։
+      series_template: Այս կցված նիշքերը կներառվեն շարքի բոլոր ապագա հանդիպումներում։
+      text: Կցված նիշքերը հասանելի են հանդիպման բոլոր մասնակիցներին։ Դուք կարող եք նաև քաշել և թողնել դրանք օրակարգի կետի նշումներում։
     blankslate:
-      desc: You can create a new meeting or change filter criteria
-      title: There are no meetings to display
-    copied: 'Copied from Meeting #%{id}'
+      desc: Դուք կարող եք ստեղծել նոր հանդիպում կամ փոփոխել զտիչի չափանիշները
+      title: Ցուցադրելու հանդիպումներ չկան
+    copied: 'Պատճենվել է #%{id} հանդիպումից'
     copy:
-      agenda: Copy agenda
-      agenda_items: Copy agenda items
-      agenda_text: Copy the agenda of the old meeting
-      attachments: Copy attachments
-      attachments_text: Copy over all attached files to the new meeting
-      participants: Copy list of participants
-      title: 'Copy meeting: %{title}'
-      to_clipboard: Copy link to clipboard
+      agenda: Պատճենել օրակարգը
+      agenda_items: Պատճենել օրակարգի կետերը
+      agenda_text: Պատճենել հին հանդիպման օրակարգը
+      attachments: Պատճենել կցորդները
+      attachments_text: Պատճենել բոլոր կցված նիշքերը նոր հանդիպում
+      participants: Պատճենել մասնակիցների ցուցակը
+      title: Պատճենել հանդիպումը՝ %{title}
+      to_clipboard: Պատճենել հղումը փոխանակման բուֆերում
     delete_dialog:
       occurrence:
-        confirm_button: Cancel occurrence
-        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+        confirm_button: Չեղարկել կրկնությունը
+        confirmation_message_html: 'Ձևանմուշում բացակայող հանդիպման ցանկացած տեղեկություն կկորչի։ Ցանկանո՞ւմ եք շարունակել։
 
           '
-        heading: Cancel this meeting occurrence?
-        title: Cancel meeting occurrence
+        heading: Չեղարկե՞լ հանդիպման այս կրկնությունը։
+        title: Չեղարկել հանդիպման կրկնությունը
       occurrence_past:
-        confirm_button: Delete occurrence
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirm_button: Ջնջել կրկնությունը
+        confirmation_message_html: 'Այս գործողությունն անշրջելի է։ Խնդրում ենք զգույշ լինել։
 
           '
-        heading: Delete this occurrence?
-        title: Delete occurrence
+        heading: Ջնջե՞լ այս կրկնությունը։
+        title: Ջնջել կրկնությունը
       one_time:
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirmation_message_html: 'Այս գործողությունն անշրջելի է։ Խնդրում ենք զգույշ լինել։
 
           '
-        heading: Delete this meeting?
+        heading: Ջնջե՞լ այս հանդիպումը։
         template:
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+          confirmation_message_html: 'Այս գործողությունն անշրջելի է։ Խնդրում ենք զգույշ լինել։ Այս ձևանմուշով ստեղծված առկա հանդիպումները չեն ազդվի։
 
             '
-          heading: Delete this template?
-          title: Delete template
-        title: Delete meeting
+          heading: Ջնջե՞լ այս ձևանմուշը։
+          title: Ջնջել ձևանմուշը
+        title: Ջնջել հանդիպումը
     email:
       cancelled:
-        date_time: Scheduled date/time
-        header: 'Cancelled: Meeting ''%{title}'''
-        header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
-        header_series: 'Cancelled: Meeting series ''%{title}'''
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        date_time: Պլանավորված ամսաթիվ/ժամ
+        header: Չեղարկված՝ '%{title}' հանդիպումը
+        header_occurrence: Չեղարկված՝ '%{title}' հանդիպման կրկնությունը
+        header_series: Չեղարկված՝ '%{title}' հանդիպումների շարքը
+        summary: "'%{title}'-ը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
+        summary_occurrence: "'%{title}'-ի կրկնությունը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
+        summary_series: "'%{title}' հանդիպումների շարքը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
       ended:
-        header_series: 'Ended: Meeting series ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
+        header_series: Ավարտված՝ '%{title}' հանդիպումների շարքը
+        summary_series: "'%{title}' հանդիպումների շարքն ավարտվել է %{actor}-ի կողմից"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting '%{title}'"
-      open_meeting_link: Open meeting
-      open_my_meetings_link: Go to My meetings
-      send_emails: Email participants
-      send_invitation_emails: 'Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        summary: "%{actor}-ը Ձեզ հրավեր է ուղարկել '%{title}' հանդիպման համար"
+      open_meeting_link: Բացել հանդիպումը
+      open_my_meetings_link: Անցնել Իմ հանդիպումներ
+      send_emails: Ուղարկել էլ. նամակ մասնակիցներին
+      send_invitation_emails: 'Անմիջապես ուղարկել էլ. փոստի հրավեր վերևում ընտրված մասնակիցներին։ Դուք կարող եք դա անել նաև ձեռքով՝ ցանկացած պահի ավելի ուշ։
 
         '
-      send_invitation_emails_structured: Send an email invitation immediately to all participants. You can also do this manually at any time later.
+      send_invitation_emails_structured: Անմիջապես ուղարկել էլ. փոստի հրավեր բոլոր մասնակիցներին։ Դուք կարող եք դա անել նաև ձեռքով՝ ցանկացած պահի ավելի ուշ։
       series:
-        summary: "%{actor} has invited you to a new meeting series '%{title}'"
-        title: "[%{project_name}] Meeting series '%{title}'"
+        summary: "%{actor}-ը Ձեզ հրավիրել է '%{title}' նոր հանդիպումների շարքին"
+        title: "[%{project_name}] '%{title}' հանդիպումների շարքը"
       series_updated:
-        new_schedule: New schedule
-        old_schedule: Old schedule
-        summary: Meeting series '%{title}' has been updated by %{actor}
-        title: "[%{project_name}] Meeting series '%{title}' has been updated"
+        new_schedule: Նոր ժամանակացույց
+        old_schedule: Հին ժամանակացույց
+        summary: "'%{title}' հանդիպումների շարքը թարմացվել է %{actor}-ի կողմից"
+        title: "[%{project_name}] '%{title}' հանդիպումների շարքը թարմացվել է"
       updated:
-        added_participants: Added
-        body: The meeting '%{title}' has been updated by %{actor}.
-        header: Meeting '%{title}' has been updated
-        new_date_time: New date/time
-        new_location: New location
-        new_title: New title
-        old_date_time: Old date/time
-        old_location: Old location
-        old_title: Old title
-        removed_participants: Removed
-        summary: Meeting '%{title}' has been updated by %{actor}
+        added_participants: Ավելացված
+        body: "'%{title}' հանդիպումը թարմացվել է %{actor}-ի կողմից։"
+        header: "'%{title}' հանդիպումը թարմացվել է"
+        new_date_time: Նոր ամսաթիվ/ժամ
+        new_location: Նոր վայր
+        new_title: Նոր վերնագիր
+        old_date_time: Հին ամսաթիվ/ժամ
+        old_location: Հին վայր
+        old_title: Հին վերնագիր
+        removed_participants: Հեռացված
+        summary: "'%{title}' հանդիպումը թարմացվել է %{actor}-ի կողմից"
     export:
       minutes:
-        author: Author
-        date: Date
-        footer_page_numbers: P. %{current_page} of %{total_pages}
-        location: Location
-        time: Time
-        title: Minutes
-      your_meeting_export: Meeting is being exported
+        author: Հեղինակ
+        date: Ամսաթիվ
+        footer_page_numbers: Էջ %{current_page} %{total_pages}-ից
+        location: Վայր
+        time: Ժամ
+        title: Արձանագրություն
+      your_meeting_export: Հանդիպումն արտահանվում է
     export_pdf_dialog:
       author:
-        caption: The author of the minutes will be displayed in the subtitle.
-        label: Author
-      description: Generate a printable PDF file of this meeting at the current state.
+        caption: Արձանագրության հեղինակը կցուցադրվի ենթավերնագրում։
+        label: Հեղինակ
+      description: Ստեղծել այս հանդիպման տպագրվող PDF նիշք՝ ընթացիկ վիճակով։
       first_page_header_left:
-        caption: This text will appear on the first page at the left of the header.
-        label: First page header left
+        caption: Այս տեքստը կհայտնվի առաջին էջի վերնագոտու ձախ մասում։
+        label: Առաջին էջի ձախ վերնագոտի
       footer_text:
-        caption: This text will appear on every page at the center of the footer.
-        label: Footer text
+        caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        label: Էջատակի տեքստ
       include_attachments:
-        caption: A list containing the filenames of attachments will be appended at the end.
-        label: Include list of attachments
+        caption: Վերջում կավելացվի կցորդների նիշքերի անվանումները պարունակող ցուցակ։
+        label: Ներառել կցորդների ցուցակը
       include_backlog:
-        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
-        label: Include backlog
+        caption: Բեքլոգի տարրերը սովորաբար չեն համարվում հանդիպման կրկնության մաս, սակայն Դուք կարող եք ընտրել դրանք ներառելը։
+        label: Ներառել բեքլոգը
       include_outcomes:
-        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
-        label: Include agenda outcomes
+        caption: Եթե Ձեր օրակարգի արդյունքները պարունակում են գաղտնի տեղեկություններ, կարող եք ընտրել դրանք արտահանման մեջ չներառելը։
+        label: Ներառել օրակարգի արդյունքները
       include_participants:
-        caption: A list of participants will be preset above the meeting agenda.
-        label: Include list of participants
-      submit_button: Download
+        caption: Մասնակիցների ցուցակը կտեղադրվի հանդիպման օրակարգից վերև։
+        label: Ներառել մասնակիցների ցուցակը
+      submit_button: Ներբեռնել
       templates:
         default:
-          caption: The default template is suitable for most meetings and represent the current state.
-          label: Default
+          caption: Կանխադրված ձևանմուշը հարմար է հանդիպումների մեծ մասի համար և արտացոլում է ընթացիկ վիճակը։
+          label: Կանխադրված
         minutes:
-          caption: The minutes template is suitable for closed and archived meetings.
-          label: Minutes
-      title: Export PDF
+          caption: Արձանագրության ձևանմուշը հարմար է փակված և արխիվացված հանդիպումների համար։
+          label: Արձանագրություն
+      title: Արտահանել PDF
     ical_response:
-      meeting_not_found: Meeting not found for the given UID.
-      update_failed: Could not update participation status.
-    label_export_pdf: Export PDF
-    label_mail_all_participants: Send email invite to participants
+      meeting_not_found: Տվյալ UID-ի համար հանդիպում չի գտնվել։
+      update_failed: Չհաջողվեց թարմացնել մասնակցության կարգավիճակը։
+    label_export_pdf: Արտահանել PDF
+    label_mail_all_participants: Ուղարկել էլ. փոստի հրավեր մասնակիցներին
     notifications:
       dialog:
         confirm_label:
-          disable: Disable email updates
-          enable: Enable email updates
+          disable: Անջատել էլ. փոստի թարմացումները
+          enable: Միացնել էլ. փոստի թարմացումները
         message:
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
-          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: Եթե նրանք արդեն ունեին այս հանդիպման հրավեր, այն կարող է այլևս ճշգրիտ չլինել։
+          enable: Միացնելուց հետո անմիջապես էլ. նամակ կուղարկվի բոլոր մասնակիցներին։
         title:
-          disable: Disable email calendar updates?
-          enable: Enable email calendar updates?
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+          disable: Անջատե՞լ էլ. փոստի օրացուցային թարմացումները։
+          enable: Միացնե՞լ էլ. փոստի օրացուցային թարմացումները։
+      disabled: Մասնակիցները չեն ստանա էլ. փոստի թարմացումներ՝ ամսաթվի, ժամի կամ մասնակիցների ցուցակի փոփոխությունների մասին։
+      enabled: Բոլոր մասնակիցները կստանան թարմացված օրացուցային հրավերներ՝ ամսաթվի, ժամի կամ մասնակիցների ցուցակի փոփոխությունների մասին։
       sidepanel:
         description:
-          change_via_template: To change this, edit the series template.
-        title: Email calendar updates
+          change_via_template: Սա փոխելու համար խմբագրեք շարքի ձևանմուշը։
+        title: Էլ. փոստի օրացուցային թարմացումներ
     participants:
       blankslate:
-        description: There are no participants yet.
-        heading: No participants
+        description: Դեռ մասնակիցներ չկան։
+        heading: Մասնակիցներ չկան
       label:
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
-        attended: Attended
-        manage_participants: Manage participants
-        mark_all_as_attended: Mark all as attended
-        mark_as_attended: Mark as attended
-        no_participants: No participants
-        participants: Participants
-        remove_participant: Remove participant
-        show_all: Show all
+        apply_to_upcoming_meetings: Կիրառել այս փոփոխությունները այս շարքի բոլոր առաջիկա հանդիպումների նկատմամբ
+        attended: Ներկա
+        manage_participants: Կառավարել մասնակիցներին
+        mark_all_as_attended: Նշել բոլորին որպես ներկա
+        mark_as_attended: Նշել որպես ներկա
+        no_participants: Մասնակիցներ չկան
+        participants: Մասնակիցներ
+        remove_participant: Հեռացնել մասնակցին
+        show_all: Ցուցադրել բոլորը
       text:
-        manage_participants: Search for and add project members as participants to this meeting.
-        search_for_members: Search for project members
-        template: These participants will be invited automatically to all future meetings as they are created.
+        manage_participants: Որոնեք և ավելացրեք նախագծի անդամներին որպես այս հանդիպման մասնակիցներ։
+        search_for_members: Որոնել նախագծի անդամներին
+        template: Այս մասնակիցներն ավտոմատ կերպով կհրավիրվեն բոլոր ապագա հանդիպումներին՝ դրանց ստեղծմանը զուգընթաց։
     presentation_mode:
-      button_present: Present
-      current_item: Current item
-      exit: Exit presentation
-      next: Next
-      no_items: No agenda items
-      no_items_flash: There are no agenda items to present.
-      previous: Previous
-      title: Presentation Mode
-      total_items: "%{current} of %{total}"
+      button_present: Ներկայացնել
+      current_item: Ընթացիկ կետ
+      exit: Դուրս գալ ներկայացումից
+      next: Հաջորդ
+      no_items: Օրակարգի կետեր չկան
+      no_items_flash: Ներկայացնելու օրակարգի կետեր չկան։
+      previous: Նախորդ
+      title: Ներկայացման ռեժիմ
+      total_items: "%{current}-ը %{total}-ից"
     types:
-      one_time: One-time
-      recurring: Recurring
-      recurring_text: Create meeting series with dynamic template for each occurrence.
-      structured_text: Organize your meeting as a dynamic list of agenda items, optionally linking them to a work package.
-      structured_text_copy: Copying a meeting will currently not copy the associated meeting agenda items, just the details
+      one_time: Մեկանգամյա
+      recurring: Կրկնվող
+      recurring_text: Ստեղծեք հանդիպումների շարք՝ յուրաքանչյուր կրկնության համար դինամիկ ձևանմուշով։
+      structured_text: Կազմակերպեք Ձեր հանդիպումը որպես օրակարգի կետերի դինամիկ ցուցակ՝ ըստ ցանկության դրանք կապելով աշխատանքային փաթեթի հետ։
+      structured_text_copy: Հանդիպումը պատճենելիս ներկայումս չեն պատճենվում հանդիպման հետ կապված օրակարգի կետերը, այլ միայն մանրամասները
     widgets:
       blankslate:
-        description: Upcoming meetings you are participating in will appear here.
-        heading: No upcoming meetings
-      view_details: View all meetings
+        description: Առաջիկա հանդիպումները, որոնց Դուք մասնակցում եք, կհայտնվեն այստեղ։
+        heading: Առաջիկա հանդիպումներ չկան
+      view_details: Դիտել բոլոր հանդիպումները
   meeting_participant:
     participation_status:
-      accepted: Accepted
-      declined: Declined
-      needs_action: No response
-      tentative: Maybe
-      unknown: Unknown
+      accepted: Ընդունված
+      declined: Մերժված
+      needs_action: Պատասխան չկա
+      tentative: Միգուցե
+      unknown: Անհայտ
   meeting_section:
-    delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
-    empty_text: Drag items here or create a new one
-    placeholder_title: New section
-    untitled_title: Untitled section
+    delete_confirmation: Բաժնի ջնջումը կջնջի նաև դրա օրակարգի բոլոր կետերը։ Համոզվա՞ծ եք, որ ցանկանում եք դա անել։
+    empty_text: Քաշեք օրակարգի կետերն այստեղ կամ ստեղծեք նորը
+    placeholder_title: Նոր բաժին
+    untitled_title: Անվերնագիր բաժին
   my:
     access_token:
       created_dialog:
         token/ical_meeting:
-          body: Treat the following URL as you would a password. Anyone who has access to it can view all your meetings.
-          title: An iCal meeting subscription token has been generated
+          body: Հետևյալ URL-ին վերաբերվեք գաղտնաբառի պես։ Ցանկացած ոք, ով մուտք ունի դրան, կարող է դիտել Ձեր բոլոր հանդիպումները։
+          title: Ստեղծվել է iCal հանդիպումների բաժանորդագրության թոքեն
       dialog:
         token/ical_meeting:
-          create_button: Create subscription
-          dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
-          dialog_title: New iCal subscription token for meetings
-          name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
-          name_label: Token name
+          create_button: Ստեղծել բաժանորդագրություն
+          dialog_body: Այս թոքենը կստեղծի iCal բաժանորդագրության URL, որը թույլ կտա Ձեզ դիտել Ձեր բոլոր հանդիպումները արտաքին օրացուցային հավելվածում։
+          dialog_title: Նոր iCal բաժանորդագրության թոքեն հանդիպումների համար
+          name_caption: Դուք կարող եք անվանել այն ըստ օգտագործման վայրի, օրինակ՝ "Իմ հեռախոսը" կամ "Աշխատանքային համակարգիչը"։
+          name_label: Թոքենի անվանում
       revocation:
         token/ical_meeting:
-          notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'
-          notice_success: The iCalendar meeting subscription has been revoked successfully.
+          notice_failure: Չհաջողվեց հետ կանչել iCalendar հանդիպումների բաժանորդագրությունը՝ %{error}
+          notice_success: iCalendar հանդիպումների բաժանորդագրությունը հաջողությամբ հետ է կանչվել։
   my_account:
     access_tokens:
       token/ical_meeting:
-        add_button: Subscribe to calendar
-        blank_description: You can create one using the button below.
-        blank_title: No iCalendar meeting token
-        disabled_text: iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.
-        table_title: iCalendar meeting tokens
-        text_hint: iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
-        title: iCalendar for meetings
-  notice_meeting_template_created: Template successfully created
-  notice_meeting_updated: This page has been updated by someone else. Reload to view changes.
-  notice_successful_notification: Email calendar update sent to all participants
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
-  permission_create_meetings: Create meetings
-  permission_delete_meetings: Delete meetings
-  permission_edit_meetings: Edit meetings
-  permission_manage_agendas: Manage agendas
-  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
-  permission_manage_outcomes: Manage outcomes
-  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
-  permission_view_meetings: View meetings
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_section_select_meeting_first: Meeting selection is required first
+        add_button: Բաժանորդագրվել օրացույցին
+        blank_description: Դուք կարող եք ստեղծել այն ստորև բերված կոճակի միջոցով։
+        blank_title: iCalendar հանդիպումների թոքեն չկա
+        disabled_text: iCalendar հանդիպումների բաժանորդագրությունները միացված չեն ադմինիստրատորի կողմից։ Այս գործառույթը օգտագործելու համար խնդրում ենք դիմել Ձեր ադմինիստրատորին։
+        table_title: iCalendar հանդիպումների թոքեններ
+        text_hint: iCalendar հանդիպումների թոքենները թույլ են տալիս օգտատերերին բաժանորդագրվել իրենց բոլոր հանդիպումներին և արտաքին հաճախորդներում դիտել հանդիպումների արդիական տեղեկությունները։
+        title: iCalendar հանդիպումների համար
+  notice_meeting_template_created: Ձևանմուշը հաջողությամբ ստեղծվել է
+  notice_meeting_updated: Այս էջը թարմացվել է մեկ ուրիշի կողմից։ Վերաբեռնեք՝ փոփոխությունները դիտելու համար։
+  notice_successful_notification: Օրացույցի թարմացման էլ. նամակն ուղարկվել է բոլոր մասնակիցներին
+  notice_timezone_missing: Ժամային գոտի սահմանված չէ, և ենթադրվում է %{zone}։ Ձեր ժամային գոտին ընտրելու համար խնդրում ենք սեղմել այստեղ։
+  permission_create_meetings: Ստեղծել հանդիպումներ
+  permission_delete_meetings: Ջնջել հանդիպումները
+  permission_edit_meetings: Խմբագրել հանդիպումները
+  permission_manage_agendas: Կառավարել օրակարգերը
+  permission_manage_agendas_explanation: Թույլ է տալիս ստեղծել, խմբագրել և հեռացնել օրակարգի կետեր
+  permission_manage_outcomes: Կառավարել արդյունքները
+  permission_send_meeting_invites_and_outcomes: Ուղարկել հանդիպման հրավերներ և արդյունքներ մասնակիցներին
+  permission_view_meetings: Դիտել հանդիպումները
+  placeholder_meeting_template_no_templates_for_project: Այս նախագծի համար ձևանմուշներ հասանելի չեն
+  placeholder_meeting_template_select_project_first: Նախ ընտրեք նախագիծ
+  placeholder_section_select_meeting_first: Նախ անհրաժեշտ է ընտրել հանդիպումը
   plugin_openproject_meeting:
-    description: This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
-    name: OpenProject Meeting
-  project_module_meetings: Meetings
+    description: Այս մոդուլն ավելացնում է OpenProject-ում նախագծի հանդիպումներին աջակցող գործառույթներ։ Հանդիպումները կարելի է պլանավորել՝ ընտրելով նույն նախագծից հրավիրվածներին հանդիպմանը մասնակցելու համար։ Կարելի է ստեղծել օրակարգ և ուղարկել այն հրավիրվածներին։ Հանդիպումից հետո կարելի է ընտրել ներկաներին և օրակարգի հիման վրա ստեղծել արձանագրություն։ Վերջում արձանագրությունը կարելի է ուղարկել բոլոր ներկաներին և հրավիրվածներին։
+    name: OpenProject-ի հանդիպում
+  project_module_meetings: Հանդիպումներ
   recurring_meeting:
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    actual_first_occurrence_mismatch_html: Այս շարքի առաջին կրկնությունը կլինի %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Արդյունքում շարքն ավարտվում է %{date}-ին
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+        one: Արդյունքում ստացվում է 1 առաջիկա կրկնություն
+        other: Արդյունքում ստացվում է %{count} առաջիկա կրկնություն
+      occurrences_capped: Արդյունքում ստացվում է ավելի քան %{count} առաջիկա կրկնություն
+    day_of_month_skipping_info: "%{monthly_day} օրից քիչ օր ունեցող ամիսները բաց կթողնվեն"
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
-
-          '
-        other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
-
-          '
-        zero: 'The meeting series <strong>%{title}</strong> does not have any meeting occurrences. The series will be deleted for everyone. Please proceed with caution.
-
-          '
-      heading: Permanently delete this meeting series?
-      title: Delete meeting series
+        one: "<strong>%{title}</strong>-ի ջնջումը կջնջի նաև այս շարքի մեկ կրկնությունը։ Այս գործողությունն անշրջելի է։ Խնդրում ենք զգույշ լինել։\n"
+        other: "<strong>%{title}</strong>-ի ջնջումը կջնջի այս շարքի բոլոր %{count} կրկնությունները։ Այս գործողությունն անշրջելի է։ Խնդրում ենք զգույշ լինել։\n"
+        zero: "<strong>%{title}</strong> հանդիպումների շարքը չունի հանդիպումների կրկնություններ։ Շարքը կջնջվի բոլորի համար։ Խնդրում ենք զգույշ լինել։\n"
+      heading: Ընդմիշտ ջնջե՞լ այս հանդիպումների շարքը։
+      title: Ջնջել հանդիպումների շարքը
     end_after:
-      iterations: After a number of occurrences
-      never: Never
-      specific_date: After a specific date
+      iterations: Որոշակի թվով կրկնություններից հետո
+      never: Երբեք
+      specific_date: Որոշակի ամսաթվից հետո
     end_series_dialog:
-      title: End meeting series
+      title: Ավարտել հանդիպումների շարքը
     ended_blankslate:
-      action: You can still view past occurrences or edit the meeting series to extend it.
-      message: 'This meeting series has come to an end. There are no upcoming meetings. '
-      title: Meeting series ended
+      action: Դուք դեռ կարող եք դիտել անցյալ կրկնությունները կամ խմբագրել հանդիպումների շարքը՝ այն երկարաձգելու համար։
+      message: 'Այս հանդիպումների շարքն ավարտվել է։ Առաջիկա հանդիպումներ չկան։ '
+      title: Հանդիպումների շարքն ավարտվել է
     frequency:
-      every_weekday: Every %{day_of_the_week}
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
-      working_days: Every working day
+      every_weekday: Ամեն %{day_of_the_week}
+      monthly_day_of_month: Ամսվա օր
+      monthly_nth_weekday: Ամեն ամիս՝ շաբաթվա օրով
+      working_days: Ամեն աշխատանքային օր
       x_daily:
-        one: Every day
-        other: Every %{count} days
+        one: Ամեն օր
+        other: Ամեն %{count} օրը մեկ
       x_monthly:
-        one: Every month
-        other: Every %{count} months
+        one: Ամեն ամիս
+        other: Ամեն %{count} ամիսը մեկ
       x_weekly:
-        one: Every week
-        other: Every %{count} weeks
+        one: Ամեն շաբաթ
+        other: Ամեն %{count} շաբաթը մեկ
     in_words:
-      daily_interval: Every %{interval} days
-      frequency: "%{base} at %{time}"
-      full: "%{base} at %{time}, ends on %{end_date}"
-      full_past: "%{base} at %{time}, ended on %{end_date}"
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
-      never_ending: "%{base} at %{time}"
-      weekly: Every week on %{weekday}
-      weekly_interval: Every %{interval} weeks on %{weekday}
-      working_days: Every working day
+      daily_interval: Ամեն %{interval} օրը մեկ
+      frequency: "%{base} ժամը %{time}-ին"
+      full: "%{base} ժամը %{time}-ին, ավարտվում է %{end_date}-ին"
+      full_past: "%{base} ժամը %{time}-ին, ավարտվել է %{end_date}-ին"
+      monthly_day: Ամեն ամսվա %{day}-ին
+      monthly_day_interval: Ամեն %{interval} ամիսը մեկ՝ ամսվա %{day}-ին
+      monthly_nth_weekday: Ամեն ամսվա %{ordinal} %{weekday} օրը
+      monthly_nth_weekday_interval: Ամեն %{interval} ամիսը մեկ՝ %{ordinal} %{weekday} օրը
+      never_ending: "%{base} ժամը %{time}-ին"
+      weekly: Ամեն շաբաթ %{weekday} օրը
+      weekly_interval: Ամեն %{interval} շաբաթը մեկ՝ %{weekday} օրը
+      working_days: Ամեն աշխատանքային օր
     monthly:
       inflected_ordinal:
-        first: first
-        fourth: fourth
-        last: last
-        second: second
-        third: third
+        first: առաջին
+        fourth: չորրորդ
+        last: վերջին
+        second: երկրորդ
+        third: երրորդ
       ordinal_options:
-        first: First
-        fourth: Fourth
-        last: Last
-        second: Second
-        third: Third
+        first: Առաջին
+        fourth: Չորրորդ
+        last: Վերջին
+        second: Երկրորդ
+        third: Երրորդ
     occurrence:
-      error_no_next: There is no next occurrence for this meeting.
-      error_template_draft: The meeting series template is still in draft mode.
-      first_already_exists: The first occurrence of this meeting series is already instantiated.
-      first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
+      error_no_next: Այս հանդիպման համար հաջորդ կրկնություն չկա։
+      error_template_draft: Հանդիպումների շարքի ձևանմուշը դեռևս սևագիր ռեժիմում է։
+      first_already_exists: Այս հանդիպումների շարքի առաջին կրկնությունն արդեն ստեղծված է։
+      first_created: 'Առաջին հանդիպումը հաջողությամբ ստեղծվել է ձևանմուշից։ Բոլոր ապագա հանդիպումներն ավտոմատ կերպով կստեղծվեն նախորդ կրկնության պահին։
 
         '
-      infoline: This meeting is part of a recurring meeting series.
+      infoline: Այս հանդիպումը կրկնվող հանդիպումների շարքի մաս է։
     open:
       blankslate:
-        desc: You can manually open a planned meeting by clicking on the 'Open' button below
-        title: No open meetings at the moment
-      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
+        desc: Դուք կարող եք ձեռքով բացել պլանավորված հանդիպումը՝ սեղմելով ստորև բերված 'Բացել' կոճակին
+        title: Այս պահին բաց հանդիպումներ չկան
+      subtitle: 'Բաց հանդիպումներն ունեն օրակարգեր, որոնք կարելի է խմբագրել և որոնք հայտնվում են առանձին օգտատերերի ‘Իմ հանդիպումները’ բաժնում։ Հանդիպումների շարքի ձևանմուշի փոփոխությունները չեն ազդում արդեն բաց հանդիպումների կրկնությունների վրա։
 
         '
-      title: Agenda opened
+      title: Օրակարգը բացված է
     planned:
       blankslate:
-        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
+        desc: 'Այս շարքում լրացուցիչ հանդիպումներ պլանավորված չեն։ Լրացուցիչ հանդիպումներ պլանավորելու կամ շարքը երկարաձգելու համար անցեք ձևանմուշին և խմբագրեք հանդիպման մանրամասները՝ ավարտի ամսաթիվը, պարբերականությունը կամ միջակայքը փոխելու համար։
 
           '
-        title: No more planned meetings
-      subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
+        title: Այլևս պլանավորված հանդիպումներ չկան
+      subtitle: 'Հետևյալ հանդիպումները պլանավորված են կրկնվող հանդիպումների ժամանակացույցում, սակայն դեռ բաց չեն։ Ամեն անգամ, երբ պլանավորված հանդիպումը սկսվում է, հաջորդն ավտոմատ կերպով կբացվի Ձեզ համար։ Դուք կարող եք նաև ձեռքով բացել պլանավորված հանդիպումները՝ ձևանմուշը ներմուծելու և օրակարգի խմբագրումը սկսելու համար։
 
         '
-      title: Planned
+      title: Պլանավորված
     scheduled_delete_dialog:
-      confirm_button: Cancel occurrence
-      confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+      confirm_button: Չեղարկել կրկնությունը
+      confirmation_message_html: 'Ձևանմուշում բացակայող հանդիպման ցանկացած տեղեկություն կկորչի։ Ցանկանո՞ւմ եք շարունակել։
 
         '
-      heading: Cancel this meeting occurrence?
-      title: Cancel meeting occurrence
-    starts: Starts
+      heading: Չեղարկե՞լ հանդիպման այս կրկնությունը։
+      title: Չեղարկել հանդիպման կրկնությունը
+    starts: Սկսվում է
     template:
-      banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
+      banner_html: 'Դուք ներկայումս խմբագրում եք հանդիպումների շարքի ձևանմուշը՝ %{link}։ Շարքի յուրաքանչյուր նոր հանդիպման կրկնություն կօգտագործի այս ձևանմուշը։ Փոփոխությունները չեն ազդի անցյալ կամ արդեն ստեղծված հանդիպումների վրա։
 
         '
-      blank_title: Your meeting series template is empty
-      button_finalize: Open first meeting
-      description: 'This template will be used whenever new meetings in the series get created. You can add agenda items, participants, and attachments to this template.
+      blank_title: Ձեր հանդիպումների շարքի ձևանմուշը դատարկ է
+      button_finalize: Բացել առաջին հանդիպումը
+      description: 'Այս ձևանմուշը կօգտագործվի ամեն անգամ, երբ շարքում ստեղծվեն նոր հանդիպումներ։ Դուք կարող եք այս ձևանմուշին ավելացնել օրակարգի կետեր, մասնակիցներ և կցորդներ։
 
         '
-      draft_banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings. No email invites will be sent in this current draft mode until you open the first meeting.
+      draft_banner_html: 'Դուք ներկայումս խմբագրում եք հանդիպումների շարքի ձևանմուշը՝ %{link}։ Շարքի յուրաքանչյուր նոր հանդիպման կրկնություն կօգտագործի այս ձևանմուշը։ Փոփոխությունները չեն ազդի անցյալ կամ արդեն ստեղծված հանդիպումների վրա։ Ընթացիկ սևագիր ռեժիմում էլ. փոստի հրավերներ չեն ուղարկվի, մինչև չբացեք առաջին հանդիպումը։
 
         '
-      label_edit_template: Edit template
-      label_view_template: View template
+      label_edit_template: Խմբագրել ձևանմուշը
+      label_view_template: Դիտել ձևանմուշը
     time_zone_difference_banner:
-      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
+      description: 'Ստորև ամսաթվերը հղում են կատարում հանդիպումների շարքի ժամային գոտուն (%{actual_zone}), այլ ոչ թե Ձեր տեղական ժամային գոտուն (%{user_zone})։
 
         '
-      title: Time zone difference
-  text_add_work_package_to_meeting_description: A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here.
-  text_add_work_package_to_meeting_form: The work package will be added to the selected meeting or backlog as an agenda item.
-  text_agenda_backlog: 'This backlog is unique to this one-time meeting. You can drag items in and out to add or remove them from the meeting agenda.
+      title: Ժամային գոտու տարբերություն
+  text_add_work_package_to_meeting_description: Աշխատանքային փաթեթը կարող է ավելացվել մեկ կամ մի քանի հանդիպումների՝ քննարկման համար։ Դրան վերաբերող բոլոր նշումները նույնպես տեսանելի են այստեղ։
+  text_add_work_package_to_meeting_form: Աշխատանքային փաթեթը կավելացվի ընտրված հանդիպմանը կամ բեքլոգին որպես օրակարգի կետ։
+  text_agenda_backlog: 'Այս բեքլոգը եզակի է այս մեկանգամյա հանդիպման համար։ Դուք կարող եք քաշել կետերը ներս և դուրս՝ դրանք հանդիպման օրակարգում ավելացնելու կամ դրանից հեռացնելու համար։
 
     '
-  text_agenda_backlog_clear_description: 'Are you sure you want to remove all items currently in the agenda backlog? This action is not reversible.
+  text_agenda_backlog_clear_description: 'Համոզվա՞ծ եք, որ ցանկանում եք հեռացնել օրակարգի բեքլոգում ներկայումս առկա բոլոր տարրերը։ Այս գործողությունն անշրջելի է։
 
     '
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
-  text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
-  text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_no_notes: No notes provided
-  text_agenda_item_not_editable_anymore: This agenda item is not editable anymore.
-  text_agenda_item_title: Agenda item "%{title}"
-  text_agenda_work_package_deleted: Agenda item for deleted work package
-  text_backlog_clear_error: One or more errors occurred while trying to clear the backlog.
-  text_deleted_agenda_item: Deleted agenda item
-  text_duration_in_hours: Duration in hours
-  text_email_updates_enabled: Email calendar updates are enabled. All participants will receive updated invites via email when you make changes.
-  text_email_updates_muted: Email calendar updates are muted. Participants will not receive updated invites via email when you make changes.
-  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
-  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
-  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
-  text_exit_draft_mode_dialog_title: Open this meeting and send invites?
-  text_in_hours: in hours
-  text_meeting_agenda_for_meeting: agenda for the meeting "%{meeting}"
-  text_meeting_agenda_open_are_you_sure: This will overwrite all changes in the minutes! Do you want to continue?
-  text_meeting_closed_description: This meeting is closed. You cannot add/remove agenda items anymore.
-  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
-  text_meeting_closing_are_you_sure: Are you sure you want to close the meeting agenda?
-  text_meeting_draft_banner: You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_meeting_draft_description: Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_meeting_empty_description1: Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes.
-  text_meeting_empty_description2: You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's "Meetings" tab.
-  text_meeting_empty_heading: Your meeting is empty
-  text_meeting_ics_description: 'Link to meeting: %{url}'
-  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
-  text_meeting_in_progress_description: You can modify the agenda, document outcomes for each item and track attendance for participants. Once the meeting is complete, you can mark it as closed to lock it.
-  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
-  text_meeting_minutes_for_meeting: minutes for the meeting "%{meeting}"
-  text_meeting_not_editable_anymore: This meeting is not editable anymore.
-  text_meeting_not_present_anymore: This meeting was deleted. Please select another meeting.
-  text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
-  text_meeting_open_description: You can add/remove agenda items and participants. Once the agenda is ready, mark it as in progress to document outcomes.
-  text_meeting_open_dropdown_description: Any existing outcomes will remain but users will not be able to add new outcomes.
-  text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
-  text_meeting_series_end_early_heading: Delete future occurrences?
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
-  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_outcome_cannot_be_added: An outcome can no longer be added.
-  text_outcome_not_editable_anymore: This outcome is not editable anymore.
-  text_series_backlog: 'The backlog is shared with all occurrences of this series. You can drag items in and out to add or remove them from a particular meeting.
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} չեղարկված հանդիպում"
+  text_agenda_item_dialog_skipping_cancelled_one: "%{date}-ի չեղարկված հանդիպումը"
+  text_agenda_item_dialog_skipping_closed_many: "%{count} փակված հանդիպում"
+  text_agenda_item_dialog_skipping_closed_one: "%{date}-ի փակված հանդիպումը"
+  text_agenda_item_dialog_skipping_note: Նշում՝ բաց է թողնվում %{details}։
+  text_agenda_item_duplicate_in_next_meeting: Համոզվա՞ծ եք, որ ցանկանում եք այս օրակարգի կետի պատճենն ավելացնել հաջորդ հանդիպմանը՝ %{date}, ժամը %{time}։ Արդյունքները չեն կրկնօրինակվի։
+  text_agenda_item_duplicated_in_next_meeting: Օրակարգի կետը կրկնօրինակվել է հաջորդ հանդիպումում՝ %{date}
+  text_agenda_item_move_next_meeting: Այս տարրը կտեղափոխվի հաջորդ հանդիպում՝ %{date}, ժամը %{time}։
+  text_agenda_item_moved_to_next_meeting: Օրակարգի կետը տեղափոխվել է հաջորդ հանդիպում՝ %{date}
+  text_agenda_item_no_available_occurrence: Առաջիկա կրկնություններ հասանելի չեն։
+  text_agenda_item_no_notes: Նշումներ տրամադրված չեն
+  text_agenda_item_not_editable_anymore: Այս օրակարգի կետն այլևս խմբագրելի չէ։
+  text_agenda_item_title: Օրակարգի կետ "%{title}"
+  text_agenda_work_package_deleted: Ջնջված աշխատանքային փաթեթի օրակարգի կետ
+  text_backlog_clear_error: Բեքլոգը մաքրելու փորձի ժամանակ տեղի է ունեցել մեկ կամ մի քանի սխալ։
+  text_deleted_agenda_item: Ջնջված օրակարգի կետ
+  text_duration_in_hours: Տևողությունը ժամերով
+  text_email_updates_enabled: Էլ. փոստի օրացուցային թարմացումները միացված են։ Փոփոխություններ կատարելիս բոլոր մասնակիցները կստանան թարմացված հրավերներ էլ. փոստով։
+  text_email_updates_muted: Էլ. փոստի օրացուցային թարմացումներն անջատված են։ Փոփոխություններ կատարելիս մասնակիցները չեն ստանա թարմացված հրավերներ էլ. փոստով։
+  text_exit_draft_mode_dialog_subtitle: Հանդիպումը պլանավորելուց հետո Դուք չեք կարող վերադառնալ սևագրի ռեժիմ։
+  text_exit_draft_mode_dialog_template_subtitle: Դրանից հետո Դուք չեք կարող վերադառնալ սևագրի ռեժիմ։
+  text_exit_draft_mode_dialog_template_title: Բացե՞լ այս հանդիպումների շարքի առաջին կրկնությունը։
+  text_exit_draft_mode_dialog_title: Բացե՞լ այս հանդիպումը և ուղարկել հրավերները։
+  text_in_hours: ժամերով
+  text_meeting_agenda_for_meeting: '"%{meeting}" հանդիպման օրակարգ'
+  text_meeting_agenda_open_are_you_sure: Սա կվերագրի արձանագրության բոլոր փոփոխությունները։ Ցանկանո՞ւմ եք շարունակել։
+  text_meeting_closed_description: Այս հանդիպումը փակված է։ Դուք այլևս չեք կարող ավելացնել/հեռացնել օրակարգի կետեր։
+  text_meeting_closed_dropdown_description: Այս հանդիպումը փակված է։ Դուք այլևս չեք կարող փոփոխել օրակարգի կետերը կամ արդյունքները։
+  text_meeting_closing_are_you_sure: Համոզվա՞ծ եք, որ ցանկանում եք փակել հանդիպման օրակարգը։
+  text_meeting_draft_banner: Դուք ներկայումս սևագրի ռեժիմում եք։ Այս հանդիպումը չի ուղարկի որևէ օրացուցային թարմացում կամ հրավեր, նույնիսկ եթե փոփոխեք հանդիպման մանրամասները կամ ավելացնեք/հեռացնեք մասնակիցներ։
+  text_meeting_draft_description: Պատրաստեք Ձեր օրակարգը սևագրի ռեժիմում։ Այս հանդիպումը չի ուղարկի որևէ օրացուցային թարմացում կամ հրավեր, նույնիսկ եթե փոփոխեք հանդիպման մանրամասները կամ ավելացնեք/հեռացնեք մասնակիցներ։
+  text_meeting_empty_description1: Սկսեք՝ ստորև ավելացնելով օրակարգի կետեր։ Յուրաքանչյուր կետ կարող է լինել պարզապես վերնագիր, սակայն Դուք կարող եք ավելացնել նաև լրացուցիչ մանրամասներ, ինչպիսիք են տևողությունը և նշումները։
+  text_meeting_empty_description2: Դուք կարող եք նաև ավելացնել հղումներ առկա աշխատանքային փաթեթներին։ Այդ դեպքում կապակցված նշումներն ավտոմատ կերպով տեսանելի կլինեն աշխատանքային փաթեթի "Հանդիպումներ" ներդիրում։
+  text_meeting_empty_heading: Ձեր հանդիպումը դատարկ է
+  text_meeting_ics_description: Հանդիպման հղում՝ %{url}
+  text_meeting_ics_meeting_series_description: Հանդիպումների շարքի հղում՝ %{url}
+  text_meeting_in_progress_description: Դուք կարող եք փոփոխել օրակարգը, փաստագրել յուրաքանչյուր կետի արդյունքները և հետևել մասնակիցների ներկայությանը։ Հանդիպումն ավարտվելուց հետո կարող եք այն նշել որպես փակված՝ կողպելու համար։
+  text_meeting_in_progress_dropdown_description: Փաստագրեք արդյունքները, օրինակ՝ տեղեկատվական կարիքները կամ հանդիպման ընթացքում կայացված որոշումները։
+  text_meeting_minutes_for_meeting: '"%{meeting}" հանդիպման արձանագրություն'
+  text_meeting_not_editable_anymore: Այս հանդիպումն այլևս խմբագրելի չէ։
+  text_meeting_not_present_anymore: Այս հանդիպումը ջնջվել է։ Խնդրում ենք ընտրել մեկ այլ հանդիպում։
+  text_meeting_occurrence_ics_description: Հանդիպման կրկնության հղում՝ %{url} Հանդիպումների շարքի հղում՝ %{series_url}
+  text_meeting_open_description: Դուք կարող եք ավելացնել/հեռացնել օրակարգի կետեր և մասնակիցներ։ Երբ օրակարգը պատրաստ լինի, նշեք այն որպես ընթացքի մեջ՝ արդյունքները փաստագրելու համար։
+  text_meeting_open_dropdown_description: Առկա արդյունքները կմնան, սակայն օգտատերերը չեն կարողանա նոր արդյունքներ ավելացնել։
+  text_meeting_series_end_early: Շարքի ավարտը կջնջի ապագա բոլոր բաց կամ պլանավորված հանդիպումների կրկնությունները
+  text_meeting_series_end_early_heading: Ջնջե՞լ ապագա կրկնությունները։
+  text_meeting_template_blank_slate: Դուք կարող եք ստեղծել նոր ձևանմուշ մեկանգամյա հանդիպումների համար
+  text_meeting_template_blank_slate_heading: Ցուցադրելու ձևանմուշներ չկան
+  text_meeting_template_sharing_description: Այս ձևանմուշը կարող է համօգտագործվել ենթանախագծերի կամ այս համակարգի այլ նախագծերի հետ։ Կպատճենվեն միայն օրակարգի կետերը և կցորդները։
+  text_notificiation_invited: Այս նամակը պարունակում է ստորև նշված հանդիպման ics գրառումը՝
+  text_onetime_meeting_template_banner: Դուք ներկայումս խմբագրում եք հանդիպման ձևանմուշը։ Դուք կարող եք օգտագործել այս ձևանմուշը՝ նախապես սահմանված օրակարգով մեկանգամյա հանդիպումներ ստեղծելու համար։ Փոփոխությունները չեն ազդի արդեն ստեղծված հանդիպումների վրա։
+  text_onetime_meeting_template_empty_description: Այստեղ ավելացրեք օրակարգի կետեր, բաժիններ և կցորդներ։ Դրանք կներառվեն այս ձևանմուշով ստեղծված յուրաքանչյուր հանդիպումում։
+  text_onetime_meeting_template_empty_heading: Հանդիպման այս ձևանմուշը դատարկ է
+  text_outcome_cannot_be_added: Արդյունք այլևս հնարավոր չէ ավելացնել։
+  text_outcome_not_editable_anymore: Այս արդյունքն այլևս խմբագրելի չէ։
+  text_series_backlog: 'Բեքլոգը համօգտագործվում է այս շարքի բոլոր կրկնությունների հետ։ Դուք կարող եք քաշել տարրերը ներս և դուրս՝ դրանք որոշակի հանդիպմանն ավելացնելու կամ դրանից հեռացնելու համար։
 
     '
-  text_series_backlog_clear_description: 'This will remove all items in the series backlog, which is shared with all meetings in the series. Are you sure you want to continue? This action is not reversible.
+  text_series_backlog_clear_description: 'Սա կհեռացնի շարքի բեքլոգի բոլոր տարրերը, որը համօգտագործվում է շարքի բոլոր հանդիպումների հետ։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։ Այս գործողությունն անշրջելի է։
 
     '
-  text_work_package_add_to_meeting_hint: Use the "Add to meeting" button to add this work package to an upcoming meeting.
-  text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
-  text_work_package_has_no_upcoming_meeting_agenda_items: This work package is not scheduled in an upcoming meeting agenda yet.
+  text_work_package_add_to_meeting_hint: Օգտագործեք "Ավելացնել հանդիպմանը" կոճակը՝ այս աշխատանքային փաթեթն առաջիկա հանդիպմանն ավելացնելու համար։
+  text_work_package_has_no_past_meeting_agenda_items: Այս աշխատանքային փաթեթը որևէ անցյալ հանդիպումում որպես օրակարգի կետ չի ավելացվել։
+  text_work_package_has_no_upcoming_meeting_agenda_items: Այս աշխատանքային փաթեթը դեռ պլանավորված չէ որևէ առաջիկա հանդիպման օրակարգում։

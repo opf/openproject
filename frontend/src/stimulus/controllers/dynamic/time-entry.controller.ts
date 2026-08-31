@@ -1,42 +1,55 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller } from '@hotwired/stimulus';
 import { useMeta } from 'stimulus-use';
-import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import {
+  DAYS_PER_MONTH_DEFAULT,
+  type DurationLengthOptions,
+  durationStringToSeconds,
+  formattedHour,
+  HOURS_PER_DAY_DEFAULT,
+} from 'core-stimulus/helpers/chronic-duration-helper';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TimeEntryController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
   static targets = ['startTimeInput', 'endTimeInput', 'hoursInput', 'hoursHiddenInput', 'form'];
+
+  static values = {
+    hoursPerDay: { type: Number, default: HOURS_PER_DAY_DEFAULT },
+    daysPerMonth: { type: Number, default: DAYS_PER_MONTH_DEFAULT },
+  };
+
+  declare hoursPerDayValue:number;
+
+  declare daysPerMonthValue:number;
 
   declare readonly formTarget:HTMLFormElement;
   declare readonly startTimeInputTarget:HTMLInputElement;
@@ -124,7 +137,7 @@ export default class TimeEntryController extends Controller {
 
     const startTimeInMinutes = parseInt(startTimeParts[0], 10) * 60 + parseInt(startTimeParts[1], 10);
     const endTimeInMinutes = parseInt(endTimeParts[0], 10) * 60 + parseInt(endTimeParts[1], 10);
-    let hoursInMinutes = Math.round(durationStringToSeconds(this.hoursInputTarget.value) / 60);
+    let hoursInMinutes = Math.round(durationStringToSeconds(this.hoursInputTarget.value, this.durationLengthOptions) / 60);
 
     // We calculate the hours field if:
     //  - We have start & end time and no hours
@@ -168,7 +181,7 @@ export default class TimeEntryController extends Controller {
   hoursChanged() {
     // Parse input through our chronic duration parser and then reformat as hours that can be nicely parsed on the
     // backend
-    const duration = durationStringToSeconds(this.hoursInputTarget.value);
+    const duration = durationStringToSeconds(this.hoursInputTarget.value, this.durationLengthOptions);
     this.hoursInputTarget.value = formattedHour(duration);
     this.setHoursPrecise(duration / 3600);
 
@@ -179,6 +192,10 @@ export default class TimeEntryController extends Controller {
 
   private setHoursPrecise(hours:number) {
     this.hoursHiddenInputTarget.value = String(hours);
+  }
+
+  private get durationLengthOptions():DurationLengthOptions {
+    return { hoursPerDay: this.hoursPerDayValue, daysPerMonth: this.daysPerMonthValue };
   }
 
   hoursKeyEnterPress(event:KeyboardEvent) {

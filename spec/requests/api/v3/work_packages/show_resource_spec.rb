@@ -187,7 +187,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when requesting nonexistent work package" do
-        let(:get_path) { api_v3_paths.work_package 909090 }
+        let(:get_path) { api_v3_paths.work_package(not_existing_id(WorkPackage)) }
 
         it_behaves_like "not found",
                         I18n.t("api_v3.errors.not_found.work_package")
@@ -326,6 +326,34 @@ RSpec.describe "API v3 Work package resource",
                     .at_path("_embedded/attributesByTimestamp/1/_meta/timestamp")
                 end
               end
+            end
+          end
+
+          describe "when requesting only a historic timestamp with since-changed target versions" do
+            let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+
+            let(:version_a) { create(:version, project:, name: "Version A") }
+            let(:version_b) { create(:version, project:, name: "Version B") }
+
+            let(:work_package) do
+              create(:work_package,
+                     subject: "The current work package",
+                     project:,
+                     version: version_a,
+                     journals: {
+                       created_at => { subject: "The original work package" },
+                       1.day.ago + 1 => {}
+                     }).tap do |wp|
+                wp.target_version_ids_replacements = [version_a.id, version_b.id]
+                wp.save!
+              end
+            end
+
+            it "renders the target versions of the requested time, not the current ones" do
+              expect(subject)
+                .to be_json_eql(
+                  [{ href: api_v3_paths.version(version_a.id), title: version_a.name }].to_json
+                ).at_path("_links/targetVersions")
             end
           end
 

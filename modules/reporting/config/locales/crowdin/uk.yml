@@ -21,6 +21,13 @@
 #++
 ---
 uk:
+  activerecord:
+    models:
+      cost_query:
+        one: Звіт про витрати
+        few: Звіти про витрати
+        many: Звіти про витрати
+        other: Звіти про витрати
   button_save_report_as: Зберегти звіт як…
   comments: Коментар
   cost_reports_title: Час і витрати
@@ -46,7 +53,6 @@ uk:
   label_closed: зачинено
   label_columns: Стовпці
   label_cost_entry_attributes: Атрибути введення витрат
-  label_cost_report: Звіт про витрати
   label_cost_report_plural: Звіти про витрати
   label_count: Кількість
   label_days_ago: протягом останніх днів

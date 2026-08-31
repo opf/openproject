@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,13 +36,13 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 import { IHalErrorBase, IHalMultipleError, isHalError } from 'core-app/features/hal/resources/error-resource';
+import { OPToastEvent } from './toast-event';
 
 export function removeSuccessFlashMessages():void {
   document.querySelectorAll('.op-toast.-success').forEach((flashMessage) => flashMessage.remove());
 }
 
 export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
-export const OPToastEvent = 'op:toasters:add';
 
 export interface IToast {
   message:string;
@@ -79,7 +79,7 @@ export class ToastService {
 
     this.stack.doModify((current) => {
       const nextValue = [toast].concat(current);
-      return [nextValue[0]].concat(nextValue.slice(1).filter((n, i) => !this.removeOnAdd(n)));
+      return [nextValue[0]].concat(nextValue.slice(1).filter((n) => !this.removeOnAdd(n)));
     });
 
     // auto-hide if success

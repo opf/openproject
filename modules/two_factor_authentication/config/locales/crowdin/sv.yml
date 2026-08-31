@@ -20,10 +20,21 @@ sv:
             phone_number:
               error_phone_number_format: måste vara av formatet + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA enhet
-      two_factor_authentication/device/sms: Mobiltelefon
-      two_factor_authentication/device/totp: Autentiseringsprogram
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Fortsätt
   button_make_active: Activate
   button_make_default: Markera som standard
@@ -126,7 +137,7 @@ sv:
     error_no_device: Ingen registrerad 2FA enhet hittades för den här användaren, trots att det krävs för den här instansen.
     error_no_matching_strategy: Ingen matchande 2FA strategi tillgänglig för den här användaren. Vänligen kontakta din administratör.
     forced_registration:
-      required_to_add_device: En aktiv säkerhetsprincip kräver att du aktiverar tvåfaktorsautentisering. Använd formuläret nedan för att registrera en enhet.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Tvåfaktorsautentisering är inaktiverad
     label_2fa_enabled: Tvåfaktorsautentisering är aktiv
     label_default_device: 2FA standardenhet

@@ -149,7 +149,7 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 
 - Understand and use the [Rails framework's mechanisms](https://guides.rubyonrails.org/security.html#injection) to prevent injection and CSRF attacks
 - Understand and use the Rails framework to use its built-in security measures such as proper encoding of HTML output, CSRF tokens in all state-changing requests, and automatic escaping of user input in ActiveRecord SQL queries.
-- Implement a strict [content security policy](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html) to mitigate common XSS, CSRF and similar cross-site attack vectors. OpenProject uses the [secure_headers gem](https://github.com/github/secure_headers) to define its CSP.
+- Implement a strict [content security policy](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html) to mitigate common XSS, CSRF and similar cross-site attack vectors. OpenProject uses the Rails framework defaults to define the CSP.
 - Learn about the [different types of XSS](https://owasp.org/www-community/Types_of_Cross-Site_Scripting#stored-xss-aka-persistent-or-type-i) and their impacts: Reflected XSS, Stored XSS, Dom-based XSS and server vs client side XSS
 - Implement file upload filters based on file type, and ensure user-provided files cannot be executed as code.
 - Ensure transmission of confidential data does not happen through GET requests, but use POST/PUT/PATCH requests instead.
@@ -273,3 +273,22 @@ OpenProject provides several installation mechanisms:
 - _Monitor and Logging_: Implement robust monitoring and logging to track the health and performance of containers. [OpenProject provides individually pluggable health checks for various services as well as flexible logging](../../../installation-and-operations/operation/monitoring/).
 - _Continuous Integration/Continuous Deployment (CI/CD)_: Automate the building, testing, and deployment of containers using CI/CD pipelines. OpenProject builds `dev` containers and packages for every change to the core application.
 - _Documentation_: Maintain comprehensive documentation for installation and configuration processes across different mechanisms. OpenProject documents all changes as part of the standard development workflow. Documentation is released together with OpenProject to ensure consistency. [The documentation workflow is part of the product development handbook.](../../product-development-handbook/)
+
+**Artifact integrity and attestations**
+
+OpenProject publishes signed and attested container images so that consumers and operators can verify the origin and integrity of the delivery artifacts before deployment:
+
+- All public images are signed using [Sigstore cosign](https://github.com/sigstore/cosign) with keyless (OIDC) signing, allowing consumers to cryptographically verify that an image was built and published by OpenProject.
+- Each image carries signed attestations:
+  - a **Release attestation** documenting build provenance, including the source package, build workflow, git ref, commit SHA, actor and timestamp
+  - a **Software Bill of Materials (SBOM)** in CycloneDX 1.6 format listing all components contained in the image
+  - a **Vulnerability Exploitability eXchange (VEX)** document in CycloneDX 1.6 format describing the exploitability status of known vulnerabilities in the image
+  - the same VEX in **OpenVEX 0.2.0** format, which is the format Docker Scout expects
+- The VEX triage is written primarily as CycloneDX, the other format is a conversion of that original. When in doubt, use the CycloneDX attestation.
+- The OpenVEX document is also embedded in the image filesystem and published as an OCI referrer, so a scanner can apply the triage directly from the image.
+- Vulnerability scanning is VEX-aware: the automated Docker Scout scan (see [Security tests](../../testing/#security-tests)) applies the VEX so it reports the vulnerabilities that actually affect OpenProject rather than raw CVE counts. Findings never fail the build; unresolved critical and high findings are reported to the security team.
+- The images are immutable delivery artifacts and are subject to static analysis and vulnerability scanning before and during the build (see above). Operators can verify the signatures and attestations before deployment, see [Verifying image integrity and provenance](../../../installation-and-operations/installation/docker/#verifying-image-integrity-and-provenance).
+
+**Protecting source files at runtime**
+
+The OpenProject source code is included inside the application container image as part of the runtime artifact, but is not intended to be retrievable through the web application. Requests are served through the application server and any ingress or reverse proxy in front of it, which only expose the application's HTTP endpoints. Preventing direct retrieval of source files, configuration files, secrets and runtime directories - for example through correct web server configuration, file permissions and volume mounts - is the responsibility of the operator deploying and running OpenProject.

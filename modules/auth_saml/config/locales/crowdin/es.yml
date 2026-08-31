@@ -3,6 +3,7 @@ es:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Desviación permitida del reloj
         assertion_consumer_service_url: URL de ACS (Assertion consumer service)
         authn_requests_signed: Firmar solicitudes de autenticación SAML
         certificate: Certificado utilizado por OpenProject para las solicitudes SAML
@@ -32,6 +33,10 @@ es:
           invalid_certificate: 'no es un certificado válido con formato PEM: %{additional_message}'
           invalid_private_key: 'no es una clave privada válida con formato PEM: %{additional_message}'
           unmatched_private_key: no pertenece al certificado dado
+    models:
+      saml/provider:
+        one: Proveedor SAML
+        other: Proveedores SAML
   saml:
     delete_heading: "¿Eliminar este proveedor SAML?"
     delete_title: Eliminar proveedor SAML
@@ -41,6 +46,9 @@ es:
         '
       title: Parámetros de configuración del protocolo SAML
     instructions:
+      allowed_clock_drift: 'Tolerancia en segundos que se aplica al validar las marcas de tiempo de la respuesta del proveedor de identidad. Se aceptan fracciones de segundo. Utilice esta opción únicamente si sabe que el reloj de OpenProject y el del proveedor de identidad no están sincronizados, y mantenga el valor lo más bajo posible (por defecto: 0).
+
+        '
       authn_requests_signed: 'Si está marcada, OpenProject firmará la solicitud de autenticación SAML. Tendrá que proporcionar un certificado de firma y una clave privada utilizando los campos siguientes.
 
         '
@@ -62,7 +70,7 @@ es:
       idp_cert: 'Introduzca el certificado público con formato X509 PEM del proveedor de identidad. Puede introducir varios certificados separándolos con una nueva línea.
 
         '
-      idp_entity_id: 'Opcional: resulta útil cuando la URL de metadatos apunta a un conjunto federado con muchas entradas. Introduce el ID de entidad del proveedor de identidad de tu institución. Déjalo en blanco para las URL de metadatos de una sola entidad.
+      idp_entity_id: 'Opcional: resulta de utilidad cuando la URL de metadatos apunta a un conjunto federado con muchas entradas. Introduce el ID de entidad del proveedor de identidad de tu institución. Déjalo en blanco para las URL de metadatos de una sola entidad.
 
         '
       idp_slo_service_url: 'La URL del terminal de cierre de sesión del proveedor de identidad.

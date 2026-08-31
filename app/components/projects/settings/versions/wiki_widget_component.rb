@@ -35,7 +35,7 @@ module Projects
         option :version
 
         def title
-          version.wiki_page_title.presence || I18n.t(:label_wiki_page)
+          version.wiki_page_title.presence || WikiPage.model_name.human
         end
 
         def call
@@ -43,7 +43,7 @@ module Projects
 
           widget_wrapper do |widget|
             widget.with_body(padding: :default) do
-              render partial: "wiki/text", locals: { page: version.wiki_page }
+              render partial: "wiki/text", locals: { page: version.wiki_page }, formats: [:html]
             end
           end
         end

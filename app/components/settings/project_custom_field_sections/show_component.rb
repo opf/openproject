@@ -54,20 +54,26 @@ module Settings
         @project_custom_field_section.id
       end
 
-      def drag_and_drop_target_config
+      def field_list_data
         {
-          generic_drag_and_drop_target: "container",
-          "target-container-accessor": ".Box > ul",
-          "target-id": @project_custom_field_section.id,
-          "target-allowed-drag-type": "custom-field"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: "custom_field",
+          sortable_lists__list_accepted_type_value: "custom_field",
+          sortable_lists__list_id_value: @project_custom_field_section.id,
+          sortable_lists__list_name_value: @project_custom_field_section.name,
+          # The section's drag preview snapshots the box itself rather than
+          # the browser's native capture of the row wrapper, which paints the
+          # box's top margin and squares off the rounded corners.
+          sortable_lists__item_target: "preview"
         }
       end
 
-      def draggable_item_config(project_custom_field)
+      def field_item_data(project_custom_field)
         {
-          "draggable-id": project_custom_field.id,
-          "draggable-type": "custom-field",
-          "drop-url": drop_admin_settings_project_custom_field_path(project_custom_field)
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: project_custom_field.id,
+          sortable_lists__item_type_value: "custom_field",
+          sortable_lists__item_label_value: project_custom_field.name
         }
       end
 

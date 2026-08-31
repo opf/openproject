@@ -1,5 +1,10 @@
 ---
 hu:
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Megbízott
@@ -41,6 +46,6 @@ hu:
   permission_manage_board_views: Táblák kezelése
   permission_show_board_views: Táblák megtekintése
   plugin_openproject_boards:
-    description: Provides board views.
-    name: OpenProject Boards
+    description: Tábla nézeteket biztosít.
+    name: OpenProject táblák
   project_module_board_view: Táblák

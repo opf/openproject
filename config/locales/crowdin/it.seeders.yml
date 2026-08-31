@@ -71,6 +71,15 @@ it:
           name: Staff e gestore dei progetti
         item_1:
           name: Ruolo globale standard
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -504,6 +513,20 @@ it:
           name: User story
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Elementi subordinati dell''epic: storie utente e bug'
+        item_1:
+          name: 'Elementi subordinati della storia utente: attività'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: Storie utente e bug
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Attività
       welcome:
         title: Benvenuto su OpenProject!
         text: |

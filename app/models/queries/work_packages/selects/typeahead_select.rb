@@ -35,6 +35,6 @@ class Queries::WorkPackages::Selects::TypeaheadSelect < Queries::WorkPackages::S
         # This is an ugly hack. When using the typeahead order, the work packages should always be ordered
         # by their updated_at. But when asc is specified for typeahead, the updated_at property is to be used
         # in desc order.
-        sortable: ->(table_name = WorkPackage.table_name) { "#{table_name}.updated_at DESC, #{table_name}.updated_at" }
+        sortable: ->(_query = nil) { "#{WorkPackage.table_name}.updated_at DESC, #{WorkPackage.table_name}.updated_at" }
   end
 end

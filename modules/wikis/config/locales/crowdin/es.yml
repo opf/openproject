@@ -27,7 +27,12 @@ es:
       wikis/inline_page_link:
         one: Enlace a la página integrada
         other: Enlaces a la página integrada
-      wikis/internal_provider: Wiki interna
+      wikis/internal_provider:
+        one: Proveedor interno
+        other: Proveedores internos
+      wikis/page_link:
+        one: Enlace de página
+        other: Enlaces de páginas
       wikis/provider:
         one: Proveedor de Wiki
         other: Proveedores de Wiki
@@ -39,11 +44,12 @@ es:
         other: Proveedores de XWiki
   menus:
     admin:
-      external_wiki_providers: Proveedores de Wiki
-      internal_wiki_provider: Wiki interna
+      external_wiki_providers: Proveedores de wikis externas
+      internal_wiki_provider: Wikis de proyecto
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_platforms: Proveedores de Wiki
+    project_settings:
+      wiki: Wiki de proyecto
+  permission_manage_wiki_page_links: Gestionar los enlaces de las páginas wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -72,11 +78,11 @@ es:
           no_health_report_description: Ejecuta ahora las comprobaciones para obtener un informe completo del estado de este proveedor de wiki.
           title: Informe de salud
       internal_provider_form:
-        checkbox_caption: Permitir a los proyectos usar la wiki interna de OpenProject en conjunto con los proveedores externos de Wiki
-        checkbox_label: Habilitar la wiki interna de OpenProject
+        checkbox_caption: Permitir que los proyectos utilicen wikis de proyecto junto con proveedores de wikis externas
+        checkbox_label: Habilitar las wikis de proyecto de OpenProject
       internal_wiki_provider:
         show:
-          description: Elija habilitar o deshabilitar la wiki interna de OpenProject
+          description: Elija si desea habilitar o deshabilitar wikis de proyecto
       oauth_application_info_component:
         confirm_replace_oauth_application: Esta acción restablecerá las credenciales de OAuth actuales. Una vez confirmada, deberá volver a introducir las credenciales en su instancia de XWiki y todos los usuarios deberán volver a autorizarse. ¿Seguro que desea continuar?
         label_oauth_client_id: ID de cliente OAuth
@@ -149,15 +155,35 @@ es:
       base_configuration:
         header: Configuración
         provider_configured: Configuración completada
+        universal_id_known: Proveedor reconocido
       errors:
+        connection_error: OpenProject no ha podido conectarse al proveedor de la wiki.
         not_configured: No se ha podido validar la conexión. Finalice primero la configuración.
+        uid_mismatch: El identificador universal facilitado por el proveedor de la wiki no coincide con el identificador que OpenProject registró durante la configuración.
         xwiki_oauth_connection_error: OpenProject no ha podido conectarse a la instancia de XWiki configurada.
         xwiki_oauth_request_error: Se ha producido un error inesperado al intentar conectarse con la instancia de XWiki.
         xwiki_oauth_token_missing: OpenProject no puede comprobar la comunicación a nivel de usuario con XWiki, ya que aún no has vinculado tu cuenta de XWiki.
         xwiki_oauth_unauthorized: XWiki no ha reconocido el token de usuario.
+    index:
+      column_last_edited: Último cambio
+      column_name: Página wiki
+      column_parent: Principal
+      column_project: Proyecto
+      column_sub_pages: Subpáginas
+      filter_by_name: Filtrar por nombre de página
+      filter_placeholder: Buscar por nombre
+      menu_title: Wiki
+      no_results_description: No hay páginas wiki disponibles.
+      no_results_title: Aún no hay páginas wiki
+      queries:
+        all: Todas las páginas wiki
+        main: Páginas wiki principales
+      sub_pages_count:
+        one: 1 subpágina
+        other: "%{count} subpáginas"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Añadir página wiki existente
+      title_create: Crear nueva página de wiki
     instructions:
       xwiki:
         integration: Administración de XWiki
@@ -169,23 +195,33 @@ es:
       description: Inicie sesión en %{provider} para ver y gestionar las páginas wiki relacionadas desde esta instancia de OpenProject.
       heading: No conectado a %{provider}
     page_link_component:
+      add_to_related_pages: Añadir a las páginas relacionadas
       remove: Eliminar enlace de página
     page_link_forms:
       labels:
         page_title: Título
-        parent: Página wiki principal
+        parent: Principal
         wiki_page: Página wiki
       search:
         no_results: No se han encontrado páginas wiki
         placeholder: Busque una página wiki (o introduzca su URL)
     page_links:
+      aria_label: Un enlace dinámico a una página wiki insertado mediante una macro.
       errors:
         page_access_forbidden: No tienes permiso para acceder a esta página wiki
         page_not_found: La página wiki enlazada ya no está disponible
         unexpected: Se ha producido un error desconocido
       source:
-        parent: As parent
+        parent: Como principal
+    project_settings:
+      project_internal_wiki_component:
+        blankslate_description: En este caso, las wikis de proyecto están deshabilitadas a nivel global y, por lo tanto, no se pueden habilitar de forma individual para cada proyecto. Le rogamos que solicite a su administrador que habilite las wikis globales en los ajustes de administración.
+        blankslate_title: Las wikis de proyecto están deshabilitadas a nivel global
+        caption: Esto permite disponer de la funcionalidad wiki nativa para este proyecto. Los miembros podrán crear y consultar páginas wiki almacenadas en OpenProject.
+        enable: Habilitar la wiki de OpenProject para este proyecto
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

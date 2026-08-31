@@ -14,6 +14,13 @@ it:
           end_before_start: il valore finale deve essere più grande del valore iniziale.
           outside: è fuori dalla griglia.
           overlaps: sovrapposizione.
+    models:
+      grids/grid:
+        one: Griglia
+        other: Griglie
+      grids/widget:
+        one: Widget
+        other: Widget
   grids:
     label_widget_in_grid: Widget contenuto nella griglia %{grid_name}
     widgets:
@@ -29,6 +36,14 @@ it:
       news:
         no_results: Niente di nuovo da segnalare.
       not_available: Questo widget non è disponibile.
+      project_timeline:
+        footer_actions_label: Vedi altri dettagli
+        gantt_link: Gantt delle milestone
+        no_results_title: Non è stata configurata alcuna timeline per il progetto
+        sprints_link: Panoramica sugli sprint
+        title: Timeline del progetto
+        title_portfolio: Timeline del portafoglio
+        title_program: Timeline del programma
       subitems:
         button_text: Sottoelemento
         no_results: Non ci sono elementi figli visibili.

@@ -54,7 +54,7 @@ RSpec.describe "Types", :js do
 
     click_on "Save"
 
-    expect(page).to have_css(".FormControl-inlineValidation", text: "Name has already been taken.", wait: 12)
+    expect(page).to have_css(".FormControl-inlineValidation", text: "has already been taken.", wait: 12)
 
     # Values are retained
     expect(page).to have_field("Name", with: existing_type.name)
@@ -67,19 +67,13 @@ RSpec.describe "Types", :js do
 
     expect(page).to have_content I18n.t(:notice_successful_create)
 
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :index, only_path: true))
-    within "li", text: "A new type" do
-      click_link "A new type"
-    end
-
-    from_id = existing_workflow.old_status_id
-    to_id = existing_workflow.new_status_id
-
-    checkbox = page.find("input[data-old-status=\"#{from_id}\"][data-new-status=\"#{to_id}\"][value=always]")
-
-    expect(checkbox).to be_checked
+    # Workflow should be copied over from the source type.
+    new_type = Type.find_by!(name: "A new type")
+    expect(
+      Workflow.exists?(type_variant_id: new_type.default_variant.id,
+                       old_status_id: existing_workflow.old_status_id,
+                       new_status_id: existing_workflow.new_status_id)
+    ).to be true
 
     index_page.visit!
 
@@ -105,62 +99,45 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
-  it "creates a sub-type through the parent select", with_flag: { subtypes: true } do
-    index_page.visit!
-
-    index_page.click_new
-
-    fill_in "Name", with: "Phase"
-    select existing_type.name, from: "Parent type"
-
-    click_on "Save"
-
-    expect(page).to have_text I18n.t(:notice_successful_create)
-    expect(Type.find_by!(name: "Phase").parent).to eq(existing_type)
+  it "lists types when the feature flag is disabled", with_flag: { type_variants: false } do
+    create(:type, name: "Phase")
 
     index_page.visit!
 
-    expect(page).to have_link("Phase", visible: :all)
+    expect(page).to have_text("Phase")
   end
 
-  it "lists a sub-type in the flat table when the feature flag is disabled", with_flag: { subtypes: false } do
-    create(:type, name: "Phase", parent: existing_type)
-
+  it "creates a type with editable core settings", with_flag: { type_variants: true } do
     index_page.visit!
+    index_page.click_new
 
-    within "table" do
-      expect(page).to have_link("Phase")
+    expect(page).to have_no_select("Parent type")
+    expect(page).to have_field("Is milestone", disabled: false)
+    expect(page).to have_field("Displayed in roadmap by default", disabled: false)
+  end
+
+  describe "the Details tab", with_flag: { type_variants: true } do
+    it "keeps the core settings editable" do
+      visit edit_type_details_path(type_id: existing_type.id)
+
+      expect(page).to have_field("Is milestone", disabled: false)
+      expect(page).to have_field("Displayed in roadmap by default", disabled: false)
     end
-  end
 
-  it "hides the inherited core settings while a parent is selected", with_flag: { subtypes: true } do
-    index_page.visit!
-    index_page.click_new
+    it "renames a type" do
+      visit edit_type_details_path(type_id: existing_type.id)
+      fill_in "Name", with: "Renamed existing type"
+      click_on "Save"
 
-    # For a root type the inherited core settings are editable.
-    expect(page).to have_field("Is milestone")
-    expect(page).to have_field("Displayed in roadmap by default")
-    expect(page).to have_field("Activated for new projects by default")
-
-    # Selecting a parent turns this into a sub-type, so they are hidden.
-    select existing_type.name, from: "Parent type"
-
-    expect(page).to have_no_field("Is milestone")
-    expect(page).to have_no_field("Displayed in roadmap by default")
-    expect(page).to have_no_field("Activated for new projects by default")
-
-    # Clearing the parent reveals them again.
-    select "", from: "Parent type"
-
-    expect(page).to have_field("Is milestone")
-    expect(page).to have_field("Displayed in roadmap by default")
-    expect(page).to have_field("Activated for new projects by default")
+      expect(page).to have_text I18n.t(:notice_successful_update)
+      expect(existing_type.reload.name).to eq("Renamed existing type")
+    end
   end
 
   context "when a work package of a given type is part of an archived project" do
     shared_let(:project) do
       create(:project, :archived).tap do |p|
-        p.types << existing_type
+        p.project_types.create!(type: existing_type)
         p.save!
       end
     end

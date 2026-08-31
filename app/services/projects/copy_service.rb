@@ -77,7 +77,6 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        types: source_types,
         work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
@@ -88,6 +87,7 @@ module Projects
 
       only_allowed_parent_id(attributes)
         .merge(source_custom_field_attributes)
+        .merge(source_project_types_attribute)
         .merge(target_project_params)
     end
 
@@ -105,6 +105,7 @@ module Projects
     def after_perform(call)
       super.tap do |super_call|
         copy_activated_custom_fields(super_call)
+        copy_creation_wizard_flags(super_call.result)
         update_calculated_value_custom_fields(super_call.result)
       end
     end
@@ -116,6 +117,20 @@ module Projects
 
     def copy_activated_custom_fields(call)
       call.result.project_custom_field_ids = source.project_custom_field_ids
+    end
+
+    # Activating a custom field on the copy must not silently enable it for
+    # the creation wizard (PIR) - unless the source project already had it
+    # enabled, in which case we want to preserve that setting on the copy.
+    # This has to run after copy_activated_custom_fields, since that is what
+    # actually creates most of the mappings being adjusted here.
+    def copy_creation_wizard_flags(project)
+      source_flags = source.project_custom_field_project_mappings.pluck(:custom_field_id, :creation_wizard).to_h
+
+      project.project_custom_field_project_mappings.find_each do |mapping|
+        creation_wizard = source_flags[mapping.custom_field_id]
+        mapping.update_column(:creation_wizard, creation_wizard) unless creation_wizard.nil?
+      end
     end
 
     def retain_attributes(source, target)
@@ -141,8 +156,8 @@ module Projects
       source.status&.attributes
     end
 
-    def source_types
-      source.types
+    def source_project_types_attribute
+      { project_types: source.project_types.map(&:dup) }
     end
 
     def source_custom_fields
@@ -166,22 +181,6 @@ module Projects
         attributes.except(:parent_id)
       else
         attributes
-      end
-    end
-
-    private
-
-    def build_missing_project_custom_field_project_mappings(project)
-      # Build mappings using the concern's logic
-      super
-
-      # Copy creation_wizard flag from source project's mappings to the newly built mappings
-      source_mappings_by_custom_field_id = source.project_custom_field_project_mappings
-        .index_by(&:custom_field_id)
-
-      project.project_custom_field_project_mappings.each do |mapping|
-        source_mapping = source_mappings_by_custom_field_id[mapping.custom_field_id]
-        mapping.creation_wizard = source_mapping.creation_wizard if source_mapping
       end
     end
   end

@@ -37,7 +37,7 @@ RSpec.describe "custom fields", :js do
   let(:project_specific_cf) { create(:integer_wp_custom_field) }
   let(:work_package) do
     build(:work_package) do |wp|
-      wp.type.custom_fields = [for_all_cf, project_specific_cf]
+      wp.type.default_variant.custom_fields = [for_all_cf, project_specific_cf]
       wp.save!
     end
   end

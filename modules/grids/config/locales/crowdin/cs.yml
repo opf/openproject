@@ -14,6 +14,17 @@ cs:
           end_before_start: konečná hodnota musí být větší než počáteční hodnota.
           outside: je mimo mřížku.
           overlaps: se překrývá.
+    models:
+      grids/grid:
+        one: Grid
+        few: Grids
+        many: Grids
+        other: Grids
+      grids/widget:
+        one: Widget
+        few: Widgets
+        many: Widgets
+        other: Widgets
   grids:
     label_widget_in_grid: Widget obsažený v mřížce %{grid_name}
     widgets:
@@ -31,6 +42,14 @@ cs:
       news:
         no_results: Žádné novinky.
       not_available: Tento widget není k dispozici.
+      project_timeline:
+        footer_actions_label: See more details
+        gantt_link: Milestones Gantt
+        no_results_title: No project timeline content configured
+        sprints_link: Sprints overview
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: Dílčí položka
         no_results: There are no visible children.

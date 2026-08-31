@@ -38,6 +38,6 @@ RSpec.describe Type do
   end
 
   it "bcf_thumbnail is not within the attributes of the default form configuration" do
-    expect(type.attribute_groups.map(&:attributes).flatten).not_to include("bcf_thumbnail")
+    expect(type.default_variant.attribute_groups.map(&:attributes).flatten).not_to include("bcf_thumbnail")
   end
 end

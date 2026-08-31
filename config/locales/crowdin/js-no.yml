@@ -120,6 +120,7 @@
     button_cancel: Avbryt
     button_change_project: Move to another project
     button_check_all: Velg alle
+    button_clear: Clear
     button_close: Lukk
     button_close_details: Lukk detaljvisning
     button_collapse_all: Skjul alle
@@ -204,8 +205,11 @@
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Den valgte egenskapen '%{name}' eksisterer ikke.
-          macro_help_tooltip: Dette tekstsegmentet er dynamisk gjengitt av en makro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Finner ikke forespurt ressurs
         child_pages:
@@ -800,6 +804,14 @@
       sorted_dsc: Synkende sortering er valgt,
       sorted_no: Ingen sortering er valgt,
       sorting_disabled: Sortering er deaktivert
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Lukk modal

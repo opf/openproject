@@ -21,14 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import {
   Observable,
   timer,
@@ -39,7 +39,7 @@ import {
 } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   templateUrl: './stop-existing-timer-modal.component.html',
@@ -48,7 +48,7 @@ import { StateService } from '@uirouter/core';
   standalone: false,
 })
 export class StopExistingTimerModalComponent extends OpModalComponent implements OnInit {
-  readonly state = inject(StateService);
+  readonly PathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
 
   @HostBinding('class.op-timer-stop-modal') className = true;
@@ -71,6 +71,10 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     timer_already_running: this.I18n.t('js.timer.timer_already_running'),
     tracking_time: this.I18n.t('js.timer.tracking_time'),
   };
+
+  get entityName():string {
+    return formatTimeEntryEntityName(this.active.entity);
+  }
 
   ngOnInit() {
     super.ngOnInit();

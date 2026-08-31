@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
@@ -36,7 +64,7 @@ export class GroupByDragActionService extends TableDragActionService {
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
     const changeset = this.halEditing.changeFor(workPackage);
-    const groupedValue = this.getValueForGroup(el);
+    const groupedValue = this.getValueForGroup(workPackage, el);
 
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
@@ -45,7 +73,7 @@ export class GroupByDragActionService extends TableDragActionService {
       .catch((e) => this.halNotification.handleRawError(e, workPackage));
   }
 
-  private getValueForGroup(el:HTMLElement):unknown|null {
+  private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown {
     const groupHeader = locatePredecessorBySelector(el, `.${rowGroupClassName}`)!;
     const match = this.groups.find((group) => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
 
@@ -53,8 +81,14 @@ export class GroupByDragActionService extends TableDragActionService {
       return null;
     }
 
-    if (match._links && match._links.valueLink) {
+    if (match._links?.valueLink) {
       const links = match._links.valueLink;
+      const schema = this.schemaCache.state(workPackage).value;
+      const fieldSchema = schema && this.schemaCache.proxied(workPackage, schema).ofProperty(this.groupedAttribute!);
+
+      if (fieldSchema?.type?.startsWith('[]')) {
+        return links;
+      }
 
       // Unwrap single links to properly use them
       return links.length === 1 ? links[0] : links;

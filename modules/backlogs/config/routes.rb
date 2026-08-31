@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :backlog_sharing, only: %i[show update]
+      resource :backlog_multiple_active_sprints, only: %i[show] do
+        post :toggle_multiple_active_sprints
+      end
     end
   end
 
@@ -108,6 +111,10 @@ Rails.application.routes.draw do
       scope "sprints/:sprint_id" do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
+
+        constraints(Constraints::FeatureDecision.new(:sprint_reports)) do
+          get "report", to: "sprint_reports#show", as: :sprint_report
+        end
       end
     end
   end

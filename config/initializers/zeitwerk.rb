@@ -68,6 +68,8 @@ OpenProject::Inflector.rule do |basename, abspath|
     "OpenIDConnect"
   when "oauth"
     "OAuth"
+  when "oauth2"
+    "OAuth2"
   when /\Aclamav_(.*)\z/
     "ClamAV#{default_inflect($1, abspath)}"
   when /\A(.*)_sso\z/
@@ -85,6 +87,7 @@ OpenProject::Inflector.rule do |_basename, abspath|
 end
 
 OpenProject::Inflector.inflection(
+  "ai" => "AI",
   "rss" => "RSS",
   "sha1" => "SHA1",
   "sso" => "SSO",

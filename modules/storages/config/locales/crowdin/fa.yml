@@ -3,566 +3,577 @@ fa:
   activerecord:
     attributes:
       oauth_client:
-        client_id: Client ID
-        client_secret: Client secret
+        client_id: شناسه کلاینت
+        client_secret: رمز کلاینت
       project:
-        project_folder_type: Project folder type
+        project_folder_type: نوع پوشه پروژه
       storages/file_link:
-        origin: Origin
-        storage: ذخیره‌سازی
+        origin: مبدأ
+        storage: فضای ذخیره‌سازی
       storages/nextcloud_storage:
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          oauth2_sso_with_two_way_oauth2_fallback: Single-Sign-On with Two-Way OAuth 2.0 as fallback
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        storage_audience: Storage Audience
-        token_exchange_scope: Storage Scope
+          oauth2_sso: ورود یکپارچه از طریق ارائه‌دهنده هویت OpenID Connect
+          oauth2_sso_with_two_way_oauth2_fallback: ورود یکپارچه با OAuth 2.0 دوطرفه به‌عنوان روش جایگزین
+          two_way_oauth2: جریان Authorization Code در OAuth 2.0 دوطرفه
+        storage_audience: Audience فضای ذخیره‌سازی
+        token_exchange_scope: Scope فضای ذخیره‌سازی
       storages/project_storage:
-        project_folder: Project folder
-        project_folder_mode: Project folder mode
-        storage: ذخیره‌سازی
-        storage_url: Storage URL
+        project_folder: پوشه پروژه
+        project_folder_mode: حالت پوشه پروژه
+        storage: فضای ذخیره‌سازی
+        storage_url: URL فضای ذخیره‌سازی
       storages/sharepoint_storage:
-        host: Sharepoint Site URL
-        library: Library ID
+        host: URL سایت SharePoint
+        library: شناسه Library
         name: نام
-        site: Site ID
+        site: شناسه Site
       storages/storage:
-        authentication_method: Authentication Method
-        creator: Creator
-        drive: Drive ID
-        file_link_origin: File link origin ID
+        authentication_method: روش احراز هویت
+        creator: ایجادکننده
+        drive: شناسه Drive
+        file_link_origin: شناسه مبدأ پیوند فایل
         host: میزبان
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
+        linkable_to_storage: قابل پیوند به فضای ذخیره‌سازی
+        linkable_to_storage_url: قابل پیوند به URL فضای ذخیره‌سازی
         name: نام
-        password: Application password
-        provider_type: Provider type
-        storage: Storage
-        storage_url: Storage URL
-        tenant: Directory (tenant) ID
+        password: گذرواژه برنامه
+        provider_type: نوع ارائه‌دهنده
+        storage: فضای ذخیره‌سازی
+        storage_url: URL فضای ذخیره‌سازی
+        tenant: شناسه Directory (Tenant)
       work_package:
         file_links: پیوند به فایل
     errors:
       messages:
-        invalid_host_url: ساختار آدرس صحیح نیست.
-        invalid_sharepoint_url: is not a valid SharePoint site, library, or document URL.
-        not_linked_to_project: is not linked to project.
+        invalid_host_url: URL معتبری نیست.
+        invalid_sharepoint_url: URL معتبر SharePoint برای Site، Library یا Document نیست.
+        not_linked_to_project: به پروژه پیوند نشده است.
       models:
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: can only be numeric or uuid.
+              only_numeric_or_uuid: فقط می‌تواند عددی یا UUID باشد.
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: لطفاً یک پوشه انتخاب کنید.
             project_folder_mode:
-              mode_unavailable: is not available for this storage.
+              mode_unavailable: برای این فضای ذخیره‌سازی در دسترس نیست.
             project_ids:
-              blank: Please select a project.
+              blank: لطفاً یک پروژه انتخاب کنید.
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
-              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
-              minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
-              not_nextcloud_server: is not a Nextcloud server
-              op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: به‌طور کامل راه‌اندازی نشده است. نمونه Nextcloud هدر «Authorization» را دریافت نمی‌کند که برای مجوزدهی مبتنی بر Bearer Token در درخواست‌های API لازم است. پیکربندی HTTP Server را دوباره بررسی کنید.
+              cannot_be_connected_to: قابل دسترسی نبود. مطمئن شوید Host در دسترس است و برنامه OpenProject Integration نصب شده باشد.
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
+              not_nextcloud_server: سرور Nextcloud نیست
+              op_application_not_installed: به نظر می‌رسد برنامه «OpenProject integration» نصب نشده است. ابتدا آن را نصب و دوباره تلاش کنید.
             password:
-              invalid_password: is not valid.
-              unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
+              invalid_password: معتبر نیست.
+              unknown_error: با ارائه‌دهنده فضای ذخیره‌سازی فایل اعتبارسنجی نشد. بررسی کنید اتصال درست کار می‌کند.
     models:
-      file_link: فایل
-      storages/storage: ذخیره‌سازی
+      storages/file_link:
+        one: پیوند فایل
+        other: پیوندهای فایل
+      storages/nextcloud_storage:
+        one: فضای ذخیره‌سازی Nextcloud
+        other: فضاهای ذخیره‌سازی Nextcloud
+      storages/one_drive_storage:
+        one: فضای ذخیره‌سازی OneDrive
+        other: فضاهای ذخیره‌سازی OneDrive
+      storages/project_storage:
+        one: فضای ذخیره‌سازی پروژه
+        other: فضاهای ذخیره‌سازی پروژه
+      storages/sharepoint_storage:
+        one: فضای ذخیره‌سازی SharePoint
+        other: فضاهای ذخیره‌سازی SharePoint
+      storages/storage:
+        one: فضای ذخیره‌سازی
+        other: فضاهای ذخیره‌سازی
   api_v3:
     errors:
-      too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  external_file_storages: External file storages
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
-  permission_header_for_project_module_storages: Automatically managed project folders
-  permission_manage_file_links: Manage file links
-  permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
-  permission_view_file_links: View file links
-  permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+      too_many_elements_created_at_once: تعداد زیادی عنصر هم‌زمان ایجاد شد. حداکثر %{max} مورد انتظار بود، اما %{actual} دریافت شد.
+  external_file_storages: فضاهای ذخیره‌سازی فایل خارجی
+  permission_create_files: 'پوشه‌های پروژه مدیریت‌شده خودکار: ایجاد فایل'
+  permission_create_files_explanation: این مجوز فقط برای فضاهای ذخیره‌سازی Nextcloud در دسترس است
+  permission_delete_files: 'پوشه‌های پروژه مدیریت‌شده خودکار: حذف فایل'
+  permission_delete_files_explanation: این مجوز فقط برای فضاهای ذخیره‌سازی Nextcloud در دسترس است
+  permission_header_for_project_module_storages: پوشه‌های پروژه مدیریت‌شده خودکار
+  permission_manage_file_links: مدیریت پیوندهای فایل
+  permission_manage_files_in_project: مدیریت فایل‌ها در پروژه
+  permission_read_files: 'پوشه‌های پروژه مدیریت‌شده خودکار: خواندن فایل'
+  permission_share_files: 'پوشه‌های پروژه مدیریت‌شده خودکار: اشتراک‌گذاری فایل'
+  permission_share_files_explanation: این مجوز فقط برای فضاهای ذخیره‌سازی Nextcloud در دسترس است
+  permission_view_file_links: مشاهده پیوندهای فایل
+  permission_write_files: 'پوشه‌های پروژه مدیریت‌شده خودکار: نوشتن فایل'
+  project_module_storages: فایل‌ها
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: ویرایش پوشه پروژه
     open:
-      contact_admin: Please contact your administrator to resolve this error.
-      remote_identity_error: An unexpected error occurred while connecting to the storage.
+      contact_admin: برای رفع این خطا با مدیر تماس بگیرید.
+      remote_identity_error: هنگام اتصال به فضای ذخیره‌سازی خطای غیرمنتظره‌ای رخ داد.
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: مدیریت‌شده خودکار
+      inactive: بدون پوشه مشخص
+      manual: پوشه موجود با مدیریت دستی
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
-      label: Remove project
+      deletion_failure_flash: حذف پروژه از فضای ذخیره‌سازی ناموفق بود. %{error}
+      label: حذف پروژه
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the team folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        add_user_to_group: 'افزودن کاربر به گروه:'
+        create_folder: 'ایجاد پوشه پروژه مدیریت‌شده:'
+        ensure_root_folder_permissions: 'تنظیم مجوزهای پوشه پایه:'
+        hide_inactive_folders: 'مرحله پنهان‌سازی پوشه‌های غیرفعال:'
+        remote_folders: 'خواندن محتوای پوشه تیمی:'
+        remove_user_from_group: 'حذف کاربر از گروه:'
+        rename_project_folder: 'تغییر نام پوشه پروژه مدیریت‌شده:'
+        set_folder_permission: 'تنظیم مجوزهای پوشه پروژه مدیریت‌شده:'
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        create_folder: 'ایجاد پوشه پروژه مدیریت‌شده:'
+        ensure_root_folder_permissions: 'تنظیم مجوزهای پوشه پایه:'
+        hide_inactive_folders: 'مرحله پنهان‌سازی پوشه‌های غیرفعال:'
+        remote_folders: 'خواندن محتوای پوشه ریشه Drive:'
+        rename_project_folder: 'تغییر نام پوشه پروژه مدیریت‌شده:'
+        set_folder_permission: 'تنظیم مجوزهای پوشه پروژه مدیریت‌شده:'
       sharepoint_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        create_folder: 'ایجاد پوشه پروژه مدیریت‌شده:'
+        ensure_root_folder_permissions: 'تنظیم مجوزهای پوشه پایه:'
+        hide_inactive_folders: 'مرحله پنهان‌سازی پوشه‌های غیرفعال:'
+        remote_folders: 'خواندن محتوای پوشه ریشه Drive:'
+        rename_project_folder: 'تغییر نام پوشه پروژه مدیریت‌شده:'
+        set_folder_permission: 'تنظیم مجوزهای پوشه پروژه مدیریت‌شده:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
-        forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: خطای غیرمنتظره‌ای رخ داد. برای اطلاعات بیشتر لاگ‌های OpenProject را بررسی کنید یا با مدیر تماس بگیرید
+        folder_id_collision: چند فضای ذخیره‌سازی پروژه تلاش می‌کنند پوشه پروژه %{folder} را مدیریت کنند. همگام‌سازی آن رد شد.
+        forbidden: OpenProject نتوانست به منبع درخواستی دسترسی پیدا کند. پیکربندی مجوزها در ارائه‌دهنده فضای ذخیره‌سازی را بررسی کنید.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
+        unauthorized: OpenProject نتوانست با ارائه‌دهنده فضای ذخیره‌سازی احراز هویت کند. مطمئن شوید به آن دسترسی دارید.
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: پوشه %{destination_path} از قبل وجود دارد. برای جلوگیری از بازنویسی، فرایند متوقف شد.
+          error: خطای غیرمنتظره‌ای رخ داد. برای اطلاعات بیشتر لاگ‌های OpenProject را بررسی کنید یا با مدیر تماس بگیرید
+          forbidden: OpenProject نتوانست به پوشه منبع دسترسی پیدا کند. پیکربندی مجوزها در ارائه‌دهنده فضای ذخیره‌سازی را بررسی کنید
+          not_found: محل Template منبع %{source_path} یافت نشد.
+          unauthorized: OpenProject نتوانست با ارائه‌دهنده فضای ذخیره‌سازی احراز هویت کند. پیکربندی فضای ذخیره‌سازی را بررسی کنید
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: 'کاربر %{user} به‌دلیل زیر نتوانست به گروه %{group} اضافه شود: %{reason}'
+              failed_to_add: 'کاربر %{user} به‌دلیل زیر نتوانست به گروه %{group} اضافه شود: %{reason}'
             create_folder:
-              conflict: The folder %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: پوشه %{folder_name} از قبل در %{parent_location} وجود دارد.
+              not_found: "%{parent_location} یافت نشد."
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Team Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "%{group_folder} یافت نشد. تنظیم Team Folder در Nextcloud را بررسی کنید."
+              permission_not_set: تنظیم مجوزها روی %{group_folder} ممکن نبود.
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
+              not_allowed: "%{username} به پوشه %{group_folder} دسترسی ندارد. مجوزهای پوشه در Nextcloud را بررسی کنید."
+              not_found: پوشه %{group_folder} یافت نشد. تنظیم Nextcloud را بررسی کنید.
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: 'کاربر %{user} به‌دلیل زیر نتوانست از گروه %{group} حذف شود: %{reason}'
+              failed_to_remove: 'کاربر %{user} به‌دلیل زیر نتوانست از گروه %{group} حذف شود: %{reason}'
             rename_project_folder:
-              conflict: OpenProject could not rename the project folder to %{current_path} as a folder with the same name already exists
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject نتوانست نام پوشه پروژه را به %{current_path} تغییر دهد زیرا پوشه‌ای با همین نام از قبل وجود دارد
+              forbidden: کاربر OpenProject به پوشه %{current_path} دسترسی ندارد.
+              not_found: "%{current_path} یافت نشد."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
-          not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
-          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
+          error: خطای غیرمنتظره‌ای رخ داد. مطمئن شوید نمونه Nextcloud قابل دسترسی است و برای اطلاعات بیشتر لاگ‌های Worker در OpenProject را بررسی کنید
+          group_does_not_exist: "%{group} وجود ندارد. پیکربندی نمونه Nextcloud را بررسی کنید."
+          insufficient_privileges: OpenProject مجوز کافی برای افزودن %{user} به %{group} ندارد. تنظیمات گروه در Nextcloud را بررسی کنید.
+          not_allowed: Nextcloud درخواست را مسدود کرد.
+          not_found: OpenProject فایل را در ارائه‌دهنده فضای ذخیره‌سازی Nextcloud پیدا نکرد. بررسی کنید حذف نشده باشد.
+          unauthorized: OpenProject نتوانست با Nextcloud همگام شود. پیکربندی فضای ذخیره‌سازی و Nextcloud را بررسی کنید.
+          user_does_not_exist: "%{user} در Nextcloud وجود ندارد."
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: پوشه %{folder_name} از قبل در %{parent_location} وجود دارد.
+              not_found: "%{parent_location} یافت نشد."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject نتوانست به Drive شما با شناسه %{drive_id} دسترسی پیدا کند. صحت پیکربندی فضای ذخیره‌سازی را بررسی کنید.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists.
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject نتوانست نام پوشه %{current_path} را به %{project_folder_name} تغییر دهد زیرا پوشه‌ای با همین نام از قبل وجود دارد.
+              forbidden: OpenProject برای تغییر نام، به %{current_path} دسترسی ندارد.
+              not_found: "%{current_path} یافت نشد."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
+          error: خطای غیرمنتظره‌ای رخ داد. مطمئن شوید OneDrive قابل دسترسی است و برای اطلاعات بیشتر لاگ‌های Worker در OpenProject را بررسی کنید.
+          not_allowed: OpenProject اجازه دسترسی به Drive شما در OneDrive را نداشت. مجوزهای تنظیم‌شده روی Azure Application را بررسی کنید.
+          unauthorized: OpenProject نتوانست با OneDrive همگام شود. پیکربندی فضای ذخیره‌سازی و Azure Application را بررسی کنید.
+          user_does_not_exist: "%{user} در Nextcloud وجود ندارد."
         sharepoint_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: پوشه %{folder_name} از قبل در %{parent_location} وجود دارد.
+              not_found: "%{parent_location} یافت نشد."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject نتوانست نام پوشه %{current_path} را به %{project_folder_name} تغییر دهد زیرا پوشه‌ای با همین نام از قبل وجود دارد
+              forbidden: OpenProject برای تغییر نام، به %{current_path} دسترسی ندارد.
+              not_found: "%{current_path} یافت نشد."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          not_found: OpenProject could not access your library %{drive_name}. Please check you Sharepoint site document libraries.
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: تنظیم مجوزها روی %{path} ممکن نبود.
+          error: خطای غیرمنتظره‌ای رخ داد. مطمئن شوید OneDrive قابل دسترسی است و برای اطلاعات بیشتر لاگ‌های Worker در OpenProject را بررسی کنید
+          not_allowed: OpenProject اجازه دسترسی به Drive شما در OneDrive را نداشت. مجوزهای تنظیم‌شده روی Azure Application را بررسی کنید.
+          not_found: OpenProject نتوانست به Library شما %{drive_name} دسترسی پیدا کند. Document Libraryهای سایت SharePoint را بررسی کنید.
+          unauthorized: OpenProject نتوانست با OneDrive همگام شود. پیکربندی فضای ذخیره‌سازی و Azure Application را بررسی کنید.
+          user_does_not_exist: "%{user} در Nextcloud وجود ندارد."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: پوشه مقصد %{folder} در %{storage_name} یافت نشد.
   storages:
     admin:
       side_panel:
         health_notifications_component:
-          sync_now: Sync now
-          sync_queued: Synchronization queued.
+          sync_now: همگام‌سازی اکنون
+          sync_queued: همگام‌سازی در صف قرار گرفت.
     buttons:
-      done_continue: Done, continue
-      open_storage: Open file storage
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Save and continue
-      select_folder: Select folder
+      done_continue: انجام شد، ادامه
+      open_storage: بازکردن فضای ذخیره‌سازی فایل
+      replace_oauth_application: جایگزینی OAuth مربوط به OpenProject
+      replace_oauth_client: جایگزینی OAuth مربوط به %{provider_type}
+      save_and_continue: ذخیره و ادامه
+      select_folder: انتخاب پوشه
     configuration_checks:
       oauth_client_incomplete:
-        nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
-        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive.
-        sharepoint: Allow OpenProject to access SharePoint data using OAuth.
+        nextcloud: اجازه دسترسی OpenProject به داده‌های Nextcloud با استفاده از OAuth.
+        one_drive: اجازه دسترسی OpenProject به داده‌های Azure با استفاده از OAuth برای اتصال OneDrive.
+        sharepoint: اجازه دسترسی OpenProject به داده‌های SharePoint با استفاده از OAuth.
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
-        sharepoint: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+        one_drive: راه‌اندازی را با URI هدایت صحیح تکمیل کنید.
+        sharepoint: راه‌اندازی را با URI هدایت صحیح تکمیل کنید.
+    confirm_replace_oauth_application: این اقدام اعتبارنامه‌های OAuth فعلی را بازنشانی می‌کند. پس از تأیید باید اعتبارنامه‌ها را دوباره در ارائه‌دهنده فضای ذخیره‌سازی وارد کنید و همه کاربران راه‌دور باید دوباره OpenProject را مجاز کنند. مطمئنید می‌خواهید ادامه دهید؟
+    confirm_replace_oauth_client: این اقدام اعتبارنامه‌های OAuth فعلی را بازنشانی می‌کند. پس از تأیید باید اعتبارنامه‌های جدید ارائه‌دهنده فضای ذخیره‌سازی را وارد کنید و همه کاربران باید دوباره دسترسی به %{provider_type} را مجاز کنند. مطمئنید می‌خواهید ادامه دهید؟
     delete_warning:
-      project_storage_delete_result_1: All links to corresponding files and folders will be removed
-      project_storage_delete_result_2: The automatically-managed project folder and all files in it will be deleted
-      project_storage_html: Are you sure you want to remove %{file_storage} from this project?
-      storage_delete_result_1: The storage will be removed from all projects currently using it
-      storage_delete_result_2: All links to corresponding files and folders will be removed
-      storage_delete_result_3: The automatically-managed project folder and all files in it will be deleted
-      storage_html: Are you sure you want to delete %{file_storage} as an external file storage?
+      project_storage_delete_result_1: همه پیوندها به فایل‌ها و پوشه‌های متناظر حذف خواهند شد
+      project_storage_delete_result_2: پوشه پروژه مدیریت‌شده خودکار و همه فایل‌های داخل آن حذف خواهند شد
+      project_storage_html: مطمئنید می‌خواهید %{file_storage} را از این پروژه حذف کنید؟
+      storage_delete_result_1: فضای ذخیره‌سازی از همه پروژه‌هایی که اکنون از آن استفاده می‌کنند حذف خواهد شد
+      storage_delete_result_2: همه پیوندها به فایل‌ها و پوشه‌های متناظر حذف خواهند شد
+      storage_delete_result_3: پوشه پروژه مدیریت‌شده خودکار و همه فایل‌های داخل آن حذف خواهند شد
+      storage_html: مطمئنید می‌خواهید %{file_storage} را به‌عنوان فضای ذخیره‌سازی فایل خارجی حذف کنید؟
     dependencies:
       nextcloud:
-        group_folders_app: Team Folders
-        integration_app: Integration OpenProject
+        group_folders_app: پوشه‌های تیمی
+        integration_app: یکپارچه‌سازی OpenProject
     enabled_in_projects:
-      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
-      setup_incomplete_header: Storage setup incomplete
-    error_invalid_provider_type: Please select a valid storage provider.
+      setup_incomplete_description: راه‌اندازی این فضای ذخیره‌سازی ناقص است. پیش از فعال‌کردن آن در چند پروژه، راه‌اندازی را کامل کنید.
+      setup_incomplete_header: راه‌اندازی فضای ذخیره‌سازی ناقص است
+    error_invalid_provider_type: لطفاً یک ارائه‌دهنده فضای ذخیره‌سازی معتبر انتخاب کنید.
     file_storage_view:
       access_management:
-        automatic_management: Enable automatically-managed access and folders
-        automatic_management_description: Each project will be able to decide, when a storage is added to it, whether they want the automatically-managed or the manual approach to folder and access management.
-        description: OpenProject can automatically create and manage project folders when a file storage is added to a project. This can result in a more organized folder structure and straightforward access management that guarantees access to all relevant users.
-        manual_management: Only allow manually-managed access and folders
-        manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Folder and access management
-      access_management_section: Access and project folders
-      automatically_managed_folders: Automatically managed folders
-      general_information: General information
-      oauth_configuration: OAuth configuration
+        automatic_management: فعال‌کردن دسترسی و پوشه‌های مدیریت‌شده خودکار
+        automatic_management_description: هر پروژه هنگام افزودن فضای ذخیره‌سازی می‌تواند انتخاب کند مدیریت پوشه و دسترسی به‌صورت خودکار یا دستی انجام شود.
+        description: OpenProject می‌تواند هنگام افزودن فضای ذخیره‌سازی فایل به پروژه، پوشه‌های پروژه را به‌طور خودکار ایجاد و مدیریت کند. این کار می‌تواند ساختار پوشه منظم‌تر و مدیریت دسترسی ساده‌تری ایجاد کند که دسترسی همه کاربران مرتبط را تضمین می‌کند.
+        manual_management: فقط دسترسی و پوشه‌های مدیریت‌شده دستی مجاز باشد
+        manual_management_description: پروژه‌هایی که از این فضای ذخیره‌سازی استفاده می‌کنند گزینه مدیریت خودکار را نخواهند داشت. پوشه‌ها و دسترسی باید دستی مدیریت شوند.
+        setup_incomplete: نوع مدیریت دسترسی کاربران و ایجاد پوشه را انتخاب کنید.
+        subtitle: مدیریت پوشه و دسترسی
+      access_management_section: دسترسی و پوشه‌های پروژه
+      automatically_managed_folders: پوشه‌های مدیریت‌شدهٔ خودکار
+      general_information: اطلاعات عمومی
+      oauth_configuration: پیکربندی OAuth
       one_drive:
         access_management:
-          automatic_management: Enable automatically-managed access and folders
-          automatic_management_description: Each project using this file storage will necessarily have to use the automatically-managed approach to folder and access management. They cannot do it manually.
-          manual_management: Only allow manually-managed access and folders
-          manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
-      one_drive_oauth: Azure OAuth
-      openproject_oauth: احراز هویت(OAuth) OpenProject
-      project_folders: Project folders
-      redirect_uri: Redirect URI
-      sharepoint_oauth: Azure OAuth
-      storage_audience_blank: No audience has been configured.
-      storage_audience_description: Exchanging tokens for audience "%{audience}".
-      storage_audience_idp: Using access token obtained by identity provider during login, regardless of audience.
-      storage_oauth: Storage OAuth
-      storage_provider: Storage provider
-      token_exchange: Token Exchange
+          automatic_management: فعال‌کردن دسترسی و پوشه‌های مدیریت‌شده خودکار
+          automatic_management_description: هر پروژه‌ای که از این فضای ذخیره‌سازی فایل استفاده کند، الزاماً باید از روش مدیریت خودکار پوشه و دسترسی استفاده کند و امکان مدیریت دستی آن را نخواهد داشت.
+          manual_management: فقط دسترسی و پوشه‌های مدیریت‌شده دستی مجاز باشد
+          manual_management_description: پروژه‌هایی که از این فضای ذخیره‌سازی استفاده می‌کنند گزینه مدیریت خودکار را نخواهند داشت. پوشه‌ها و دسترسی باید دستی مدیریت شوند.
+      one_drive_oauth: OAuth آژور
+      openproject_oauth: OAuth اوپن‌پروجکت
+      project_folders: پوشه‌های پروژه
+      redirect_uri: URI بازگشت
+      sharepoint_oauth: OAuth آژور
+      storage_audience_blank: هیچ مخاطبی (audience) پیکربندی نشده است.
+      storage_audience_description: توکن‌ها برای مخاطب «%{audience}» مبادله می‌شوند.
+      storage_audience_idp: از توکن دسترسی دریافت‌شده از ارائه‌دهندهٔ هویت هنگام ورود استفاده می‌شود، صرف‌نظر از مقدار audience.
+      storage_oauth: OAuth فضای ذخیره‌سازی
+      storage_provider: ارائه‌دهندهٔ فضای ذخیره‌سازی
+      token_exchange: مبادلهٔ توکن
     health:
       actions:
-        download_report: Download
-        rerun_checks: Re-run all checks
-        run_checks: Run checks now
-      checked: 'Last check: %{datetime}'
+        download_report: دریافت
+        rerun_checks: اجرای دوبارهٔ همهٔ بررسی‌ها
+        run_checks: اجرای بررسی‌ها اکنون
+      checked: 'آخرین بررسی: %{datetime}'
       checks:
         ampf_configuration:
-          client_folder_creation: Automatic folder creation
-          client_folder_removal: Automatic folder deletion
-          drive_contents: Drive content
-          files_request: Fetching team folder files
-          header: Automatically managed project folders
-          project_folders_exist: Project folders exist
-          project_folders_linked: Project folders linked
-          team_folder_app: 'Dependency: Team Folders'
-          team_folder_contents: Team folder content
-          team_folder_presence: Team folder exists
-          userless_access: Server-side request authentication
+          client_folder_creation: ایجاد خودکار پوشه
+          client_folder_removal: حذف خودکار پوشه
+          drive_contents: محتوای درایو
+          files_request: دریافت فایل‌های پوشهٔ تیمی
+          header: پوشه‌های پروژه مدیریت‌شده خودکار
+          project_folders_exist: وجود پوشه‌های پروژه
+          project_folders_linked: اتصال پوشه‌های پروژه
+          team_folder_app: 'وابستگی: Team Folders'
+          team_folder_contents: محتوای پوشهٔ تیمی
+          team_folder_presence: وجود پوشهٔ تیمی
+          userless_access: احراز هویت درخواست‌های سمت سرور
         authentication:
-          existing_token: User token
-          header: Authentication
-          non_provisioned_user: User provisioned by IDP
-          offline_access: Configured OIDC offline_access scope
-          provider_capabilities: Provider capabilities
-          provisioned_user_provider: User provisioned by OIDC
-          token_negotiable: User token capabilities
-          user_bound_request: User-based request authentication
+          existing_token: توکن کاربر
+          header: احراز هویت
+          non_provisioned_user: کاربر provisionشده توسط IdP
+          offline_access: scope پیکربندی‌شدهٔ OIDC به نام offline_access
+          provider_capabilities: قابلیت‌های ارائه‌دهنده
+          provisioned_user_provider: کاربر provisionشده توسط OIDC
+          token_negotiable: قابلیت‌های توکن کاربر
+          user_bound_request: احراز هویت درخواست مبتنی بر کاربر
         base_configuration:
-          capabilities_request: Remote file storage capabilities
-          client_id: Client ID
-          client_secret: Client secret
-          dependencies_check: Dependencies
-          dependencies_versions: Dependencies (version)
-          diagnostic_request: Diagnostic request
-          drive_id_exists: Drive exists
-          drive_id_format: Drive ID format
-          header: Configuration
-          host: Host URL
-          host_url_accessible: Host URL accessible
-          storage_configured: Configuration complete
-          tenant_id: Tenant ID
+          capabilities_request: قابلیت‌های فضای ذخیره‌سازی فایل راه‌دور
+          client_id: شناسه کلاینت
+          client_secret: رمز کلاینت
+          dependencies_check: وابستگی‌ها
+          dependencies_versions: وابستگی‌ها (نسخه)
+          diagnostic_request: درخواست عیب‌یابی
+          drive_id_exists: وجود درایو
+          drive_id_format: قالب شناسهٔ درایو
+          header: پیکربندی
+          host: نشانی میزبان
+          host_url_accessible: دسترسی‌پذیری نشانی میزبان
+          storage_configured: تکمیل پیکربندی
+          tenant_id: شناسهٔ Tenant
         errors:
-          client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
-          client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
-          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
-          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
-          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
-          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
-          nc_team_folder_not_found: The team folder could not be found.
-          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
-          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
-          nc_userless_access_denied: The configured app password is invalid.
-          not_configured: The connection could not be validated. Please finish configuration first.
-          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
-          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
-          od_drive_id_invalid: The configured drive id seems invalid. Please check the configuration.
-          od_drive_id_not_found: The configured drive id could not be found. Please check the configuration.
-          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
-          od_tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
-          od_unexpected_content: Unexpected content found in the drive.
-          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
-          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
-          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
-          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
-          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
-          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
-          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
-          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the configuration.
-          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the configuration.
-          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
-          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
-          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
-          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
-          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
-          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
-          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
-      label_error: Error
-      label_healthy: Healthy
-      label_pending: Pending
-      no_report: No report available
-      no_report_description: Run the checks now for a full health status report for this file storage.
-      open_report: Open full health report
+          client_id_invalid: شناسهٔ کلاینت OAuth 2 پیکربندی‌شده نامعتبر است. لطفاً پیکربندی را بررسی کنید.
+          client_secret_invalid: رمز کلاینت OAuth 2 پیکربندی‌شده نامعتبر است. لطفاً پیکربندی را بررسی کنید.
+          nc_dependency_missing: 'یکی از وابستگی‌های الزامی در فضای ذخیره‌سازی فایل وجود ندارد. لطفاً وابستگی زیر را اضافه کنید: %{dependency}.'
+          nc_dependency_version_mismatch: نسخهٔ برنامهٔ %{dependency} پشتیبانی نمی‌شود. لطفاً سرور Nextcloud خود را به‌روزرسانی کنید.
+          nc_host_not_found: در نشانی میزبان پیکربندی‌شده هیچ سرور Nextcloudی پیدا نشد. لطفاً پیکربندی را بررسی کنید.
+          nc_oauth_request_not_found: نقطهٔ پایانی دریافت کاربر متصل فعلی پیدا نشد. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          nc_oauth_request_unauthorized: کاربر فعلی مجاز به دسترسی به فضای ذخیره‌سازی فایل راه‌دور نیست. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          nc_oauth_token_missing: اوپن‌پروجکت نمی‌تواند ارتباط در سطح کاربر با Nextcloud را آزمایش کند، زیرا کاربر هنوز حساب Nextcloud خود را متصل نکرده است.
+          nc_project_folder_missing: پوشهٔ پروژه‌ای که پیش‌تر برای پروژهٔ «%{project}» ایجاد شده بود پیدا نشد.
+          nc_team_folder_not_found: پوشهٔ تیمی پیدا نشد.
+          nc_unexpected_files: 'فایل‌های غیرمنتظره‌ای در پوشهٔ تیمی مدیریت‌شده پیدا شدند. برای نمونه: %{sample}'
+          nc_unlinked_project_folders: هنوز همهٔ پوشه‌های پروژه ایجاد نشده‌اند (%{actual} / %{expected}). این وضعیت می‌تواند نشان‌دهندهٔ خطا در همگام‌سازی پس‌زمینهٔ AMPF باشد.
+          nc_userless_access_denied: گذرواژهٔ برنامهٔ پیکربندی‌شده نامعتبر است.
+          not_configured: اتصال قابل اعتبارسنجی نیست. لطفاً ابتدا پیکربندی را تکمیل کنید.
+          od_client_cant_delete_folder: کلاینت در حذف پوشه‌ها مشکل دارد. لطفاً مستندات راه‌اندازی فضای ذخیره‌سازی را بررسی کنید.
+          od_client_write_permission_missing: به نظر می‌رسد کلاینت مجوز نوشتن لازم را ندارد. لطفاً مستندات راه‌اندازی فضای ذخیره‌سازی را بررسی کنید.
+          od_drive_id_invalid: شناسهٔ درایو پیکربندی‌شده نامعتبر به نظر می‌رسد. لطفاً پیکربندی را بررسی کنید.
+          od_drive_id_not_found: شناسهٔ درایو پیکربندی‌شده پیدا نشد. لطفاً پیکربندی را بررسی کنید.
+          od_oauth_request_not_found: نقطهٔ پایانی دریافت کاربر متصل فعلی پیدا نشد. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          od_oauth_request_unauthorized: کاربر فعلی مجاز به دسترسی به فضای ذخیره‌سازی فایل راه‌دور نیست. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          od_oauth_token_missing: اوپن‌پروجکت نمی‌تواند ارتباط در سطح کاربر با OneDrive را آزمایش کند، زیرا کاربر هنوز حساب Microsoft خود را متصل نکرده است.
+          od_tenant_id_wrong: شناسهٔ Directory (tenant) پیکربندی‌شده نامعتبر است. لطفاً پیکربندی را بررسی کنید.
+          od_test_folder_exists: پوشهٔ %{folder_name} که برای آزمایش لازم است از قبل وجود دارد. لطفاً آن را حذف کرده و دوباره تلاش کنید.
+          od_unexpected_content: محتوای غیرمنتظره‌ای در درایو پیدا شد.
+          offline_access_scope_missing: توصیه می‌شود ارائه‌دهندهٔ OpenID Connect را طوری پیکربندی کنید که scope مربوط به offline_access را درخواست کند. این یکپارچه‌سازی ممکن است همچنان کار کند، اما مطمئن شوید refresh tokenها منقضی نمی‌شوند.
+          oidc_cant_refresh_token: هنگام بررسی دسترسی شما به فضای ذخیره‌سازی خطایی رخ داد. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          oidc_non_oidc_user: کاربر فعلی با وجود provisionشدن، توسط یک ارائه‌دهندهٔ هویت OpenID Connect (OIDC) provision نشده است. بررسی را با یک کاربر provisionشده از طریق OIDC دوباره اجرا کنید.
+          oidc_non_provisioned_user: کاربر فعلی توسط یک ارائه‌دهندهٔ هویت OpenID Connect ارائه نشده است. بررسی را با کاربری که از این طریق provision شده دوباره اجرا کنید.
+          oidc_provider_cant_exchange: به نظر می‌رسد ارائه‌دهندهٔ OpenID Connect از مبادلهٔ توکن پشتیبانی نمی‌کند، اما برای فضای ذخیره‌سازی Token Exchange پیکربندی شده است.
+          oidc_token_acquisition_failed: پیکربندی OpenID Connect شما audience لازم را ارائه نمی‌کند و قابلیت Token Exchange نیز ندارد. برای اطلاعات بیشتر، مستندات ما را بررسی کنید.
+          oidc_token_exchange_failed: به نظر می‌رسد پیکربندی Token Exchange در ارائه‌دهندهٔ OpenID Connect مشکل دارد. لطفاً پیکربندی آن را بررسی کرده و دوباره تلاش کنید.
+          oidc_token_refresh_failed: هنگام بررسی دسترسی شما به فضای ذخیره‌سازی خطایی رخ داد. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          sp_client_cant_delete_folder: کلاینت در حذف پوشه‌ها در SharePoint مشکل دارد. لطفاً مستندات راه‌اندازی فضای ذخیره‌سازی را بررسی کنید.
+          sp_client_id_missing: شناسهٔ کلاینت OAuth 2 برای SharePoint پیکربندی نشده است. لطفاً پیکربندی را بررسی کنید.
+          sp_client_secret_missing: رمز کلاینت OAuth 2 برای SharePoint پیکربندی نشده است. لطفاً پیکربندی را بررسی کنید.
+          sp_client_write_permission_missing: به نظر می‌رسد کلاینت مجوز نوشتن لازم را در SharePoint ندارد. لطفاً مستندات راه‌اندازی فضای ذخیره‌سازی را بررسی کنید.
+          sp_existing_test_folder: پوشهٔ %{folder_name} که برای آزمایش لازم است از قبل در SharePoint وجود دارد. لطفاً آن را حذف کرده و دوباره تلاش کنید.
+          sp_oauth_request_error: درخواست وابسته به کاربر به SharePoint ناموفق بود. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          sp_oauth_request_unauthorized: کاربر فعلی مجاز به دسترسی به فضای ذخیره‌سازی فایل راه‌دور نیست. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+          sp_oauth_token_missing: اوپن‌پروجکت نمی‌تواند ارتباط در سطح کاربر با SharePoint را آزمایش کند، زیرا کاربر هنوز حساب SharePoint خود را متصل نکرده است.
+          sp_tenant_id_missing: شناسهٔ Directory (tenant) برای SharePoint پیکربندی نشده است. لطفاً پیکربندی را بررسی کنید.
+          sp_unexpected_content: محتوای غیرمنتظره‌ای در Document Library مربوط به SharePoint پیدا شد.
+          unknown_error: اتصال قابل اعتبارسنجی نیست. خطای ناشناخته‌ای رخ داده است. برای اطلاعات بیشتر، گزارش‌های سرور را بررسی کنید.
+      label_error: خطا
+      label_healthy: سالم
+      label_pending: در انتظار
+      no_report: گزارشی در دسترس نیست
+      no_report_description: برای دریافت گزارش کامل وضعیت سلامت این فضای ذخیره‌سازی فایل، بررسی‌ها را اکنون اجرا کنید.
+      open_report: بازکردن گزارش کامل سلامت
       project_folders:
-        subtitle: Automatically managed project folders
-      since: since %{datetime}
-      synced: 'Last sync: %{datetime}'
-      title: Health status report
+        subtitle: پوشه‌های پروژه مدیریت‌شده خودکار
+      since: از %{datetime}
+      synced: 'آخرین همگام‌سازی: %{datetime}'
+      title: گزارش وضعیت سلامت
     health_email_notifications:
-      description_disabled: Admins will not receive updates by email when there are important updates.
-      description_enabled: Admins will receive updates by email when there are important updates.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      title: Email updates to admins
+      description_disabled: مدیران هنگام به‌روزرسانی‌های مهم، اطلاع‌رسانی ایمیلی دریافت نخواهند کرد.
+      description_enabled: مدیران هنگام به‌روزرسانی‌های مهم، اطلاع‌رسانی ایمیلی دریافت خواهند کرد.
+      error_could_not_be_saved: تنظیمات اعلان ایمیلی ذخیره نشد. لطفاً دوباره تلاش کنید.
+      title: به‌روزرسانی‌های ایمیلی برای مدیران
     help_texts:
-      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder: پوشهٔ پروژه، پوشهٔ پیش‌فرض برای بارگذاری فایل در این پروژه است. با این حال کاربران همچنان می‌توانند فایل‌ها را در محل‌های دیگری بارگذاری کنند.
+      project_folder_bulk: پوشهٔ پروژه، پوشهٔ پیش‌فرض برای بارگذاری فایل در همهٔ پروژه‌های انتخاب‌شده است. می‌توانید این مورد را در تنظیمات هر پروژه به‌صورت جداگانه تغییر دهید. با این حال کاربران همچنان می‌توانند فایل‌ها را در محل‌های دیگری بارگذاری کنند.
     instructions:
-      all_available_storages_already_added: All available storages are already added to the project.
-      authentication_method: The way that requests between OpenProject and the Storage are authenticated.
-      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
-      empty_project_folder_validation: Selecting a folder is mandatory to proceed.
-      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
-      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
-      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
-      name: Give your storage a name so that users can differentiate between multiple storages.
-      new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
+      all_available_storages_already_added: همهٔ فضاهای ذخیره‌سازی موجود از قبل به پروژه اضافه شده‌اند.
+      authentication_method: روش احراز هویت درخواست‌ها میان اوپن‌پروجکت و فضای ذخیره‌سازی.
+      automatic_folder: این گزینه به‌صورت خودکار یک پوشهٔ ریشه برای این پروژه ایجاد می‌کند و مجوزهای دسترسی هر عضو پروژه را مدیریت خواهد کرد.
+      empty_project_folder_validation: برای ادامه، انتخاب یک پوشه الزامی است.
+      existing_manual_folder: می‌توانید یک پوشهٔ موجود را به‌عنوان پوشهٔ ریشهٔ این پروژه تعیین کنید. با این حال مجوزها به‌صورت خودکار مدیریت نمی‌شوند و مدیر باید به‌صورت دستی اطمینان دهد کاربران مرتبط دسترسی دارند. پوشهٔ انتخاب‌شده می‌تواند توسط چند پروژه استفاده شود.
+      host: نشانی میزبان فضای ذخیره‌سازی را همراه با https:// وارد کنید. طول آن نباید بیشتر از ۲۵۵ نویسه باشد.
+      managed_project_folders_application_password_caption: برای فعال‌کردن پوشه‌های مدیریت‌شدهٔ خودکار، این مقدار را از %{provider_type_link} کپی کنید.
+      name: برای فضای ذخیره‌سازی یک نام تعیین کنید تا کاربران بتوانند چند فضای ذخیره‌سازی را از یکدیگر تشخیص دهند.
+      new_storage_html: برای اطلاعات بیشتر، مستندات ما دربارهٔ [راه‌اندازی فضای ذخیره‌سازی فایل %{provider_name}](docs_url) را مطالعه کنید.
       nextcloud:
-        application_link_text: application “Integration OpenProject”
-        integration: Nextcloud Administration / OpenProject
-        oauth_configuration: Copy these values from %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
-        storage_audience: The client ID that the Nextcloud instance uses to communicate with the identity provider.
-        storage_audience_placeholder: e.g. nextcloud
-        token_exchange_scope: The scopes that should be requested during token exchange, each one separated by a space.
-      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
-      no_storage_set_up: There are no file storages set up yet.
-      not_logged_into_storage: To select a project folder, please first login
-      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
+        application_link_text: برنامهٔ «Integration OpenProject»
+        integration: مدیریت Nextcloud / OpenProject
+        oauth_configuration: این مقادیر را از %{application_link_text} کپی کنید.
+        provider_configuration: پیش از راه‌اندازی مطمئن شوید در نمونهٔ Nextcloud خود دسترسی مدیریتی دارید و %{application_link_text} نصب شده است.
+        storage_audience: شناسهٔ کلاینتی که نمونهٔ Nextcloud برای ارتباط با ارائه‌دهندهٔ هویت استفاده می‌کند.
+        storage_audience_placeholder: مثلاً nextcloud
+        token_exchange_scope: scopeهایی که هنگام Token Exchange باید درخواست شوند؛ هر مورد را با یک فاصله از دیگری جدا کنید.
+      no_specific_folder: به‌طور پیش‌فرض، هنگام بارگذاری فایل هر کاربر از پوشهٔ خانگی خودش شروع می‌کند.
+      no_storage_set_up: هنوز هیچ فضای ذخیره‌سازی فایلی راه‌اندازی نشده است.
+      not_logged_into_storage: برای انتخاب پوشهٔ پروژه، ابتدا وارد شوید.
+      oauth_application_details_html: پس از بستن این پنجره، مقدار رمز کلاینت دیگر قابل مشاهده نخواهد بود. این مقادیر را در [تنظیمات یکپارچه‌سازی OpenProject در Nextcloud](oauth_application_details_link) کپی کنید.
       one_drive:
-        application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
-        documentation_link_text: OneDrive file storages documentation
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        application_link_text: پرتال Azure
+        copy_redirect_uri: کپی URI بازگشت
+        documentation_link_text: مستندات فضای ذخیره‌سازی فایل OneDrive
+        drive_id: شناسه را طبق مراحل توضیح‌داده‌شده در %{drive_id_link_text} از درایو موردنظر کپی کنید.
         integration: OneDrive
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
-        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
-      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File storages.
-      setting_up_storages: For setting up file storages, please visit
-      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File storages.
+        missing_client_id_for_redirect_uri: برای ایجاد URI، مقادیر OAuth را وارد کنید.
+        oauth_client_redirect_uri: این مقدار را به‌عنوان یک Web redirect URI جدید در بخش Redirect URIs کپی کنید.
+        oauth_client_secret: اگر در Client credentials هیچ Application client secretی وجود ندارد، یک مورد جدید ایجاد کنید.
+        oauth_configuration: این مقادیر را از برنامهٔ موردنظر در %{application_link_text} کپی کنید.
+        provider_configuration: پیش از راه‌اندازی مطمئن شوید در %{application_link_text} دسترسی مدیریتی دارید؛ در غیر این صورت با مدیر Microsoft تماس بگیرید. در پرتال همچنین باید یک برنامهٔ Azure ثبت کنید یا برای احراز هویت از برنامهٔ موجود استفاده کنید.
+        tenant_id: شناسهٔ Directory (tenant) را از برنامهٔ موردنظر و بخش App registrations در %{application_link_text} کپی کنید.
+        tenant_id_placeholder: نام یا UUID
+      setting_up_additional_storages: برای راه‌اندازی فضاهای ذخیره‌سازی فایل بیشتر، مراجعه کنید به
+      setting_up_additional_storages_non_admin: مدیران می‌توانند از مسیر مدیریت / فضاهای ذخیره‌سازی فایل، فضاهای ذخیره‌سازی بیشتری راه‌اندازی کنند.
+      setting_up_storages: برای راه‌اندازی فضای ذخیره‌سازی فایل، مراجعه کنید به
+      setting_up_storages_non_admin: مدیران می‌توانند از مسیر مدیریت / فضاهای ذخیره‌سازی فایل، فضای ذخیره‌سازی راه‌اندازی کنند.
       sharepoint:
-        application_link_text: SharePoint site
-        integration: SharePoint Administration / OpenProject
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
-      type_link_text: "“Integration OpenProject”"
-    label_active: Active
-    label_add_new_storage: Add new storage
-    label_automatic_folder: New folder with automatically managed permissions
-    label_creation_time: Creation time
-    label_creator: Creator
-    label_delete_storage: Delete storage
-    label_edit_storage_access_management: Edit storage access management
-    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
-    label_edit_storage_host: Edit storage host
-    label_edit_token_exchange: Edit token exchange configuration
-    label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
-    label_host: Host URL
-    label_inactive: Inactive
+        application_link_text: سایت SharePoint
+        integration: مدیریت SharePoint / OpenProject
+        oauth_configuration: این مقادیر را از برنامهٔ موردنظر در %{application_link_text} کپی کنید.
+        provider_configuration: پیش از راه‌اندازی مطمئن شوید در %{application_link_text} دسترسی مدیریتی دارید؛ در غیر این صورت با مدیر Microsoft تماس بگیرید. در پرتال همچنین باید یک برنامهٔ Azure ثبت کنید یا برای احراز هویت از برنامهٔ موجود استفاده کنید.
+      type: 'پیش از راه‌اندازی مطمئن شوید در نمونهٔ Nextcloud خود دسترسی مدیریتی دارید و برنامهٔ زیر نصب شده است:'
+      type_link_text: "«Integration OpenProject»"
+    label_active: فعال
+    label_add_new_storage: افزودن فضای ذخیره‌سازی جدید
+    label_automatic_folder: پوشهٔ جدید با مجوزهای مدیریت‌شدهٔ خودکار
+    label_creation_time: زمان ایجاد
+    label_creator: ایجادکننده
+    label_delete_storage: حذف فضای ذخیره‌سازی
+    label_edit_storage_access_management: ویرایش مدیریت دسترسی فضای ذخیره‌سازی
+    label_edit_storage_automatically_managed_folders: ویرایش پوشه‌های مدیریت‌شدهٔ خودکار فضای ذخیره‌سازی
+    label_edit_storage_host: ویرایش میزبان فضای ذخیره‌سازی
+    label_edit_token_exchange: ویرایش پیکربندی Token Exchange
+    label_existing_manual_folder: پوشهٔ موجود با مجوزهای مدیریت‌شدهٔ دستی
+    label_file_storage: فضای ذخیره‌سازی فایل
+    label_host: نشانی میزبان
+    label_inactive: غیرفعال
     label_managed_project_folders:
-      application_password: Application password
-      automatically_managed_folders: Automatically managed folders
+      application_password: گذرواژه برنامه
+      automatically_managed_folders: پوشه‌های مدیریت‌شدهٔ خودکار
     label_name: نام
-    label_new_file_storage: New %{provider} storage
-    label_new_storage: New storage
-    label_no_selected_folder: No selected folder
-    label_no_specific_folder: No specific folder
-    label_oauth_client_id: OAuth Client ID
-    label_openproject_oauth_application_id: OpenProject OAuth Client ID
-    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
-    label_provider: Provider
-    label_redirect_uri: Redirect URI
-    label_show_storage_redirect_uri: Show redirect URI
+    label_new_file_storage: فضای ذخیره‌سازی جدید %{provider}
+    label_new_storage: فضای ذخیره‌سازی جدید
+    label_no_selected_folder: پوشه‌ای انتخاب نشده است
+    label_no_specific_folder: بدون پوشه مشخص
+    label_oauth_client_id: شناسهٔ کلاینت OAuth
+    label_openproject_oauth_application_id: شناسهٔ کلاینت OAuth اوپن‌پروجکت
+    label_openproject_oauth_application_secret: رمز کلاینت OAuth اوپن‌پروجکت
+    label_project_folder: پوشه پروژه
+    label_provider: ارائه‌دهنده
+    label_redirect_uri: URI بازگشت
+    label_show_storage_redirect_uri: نمایش URI بازگشت فضای ذخیره‌سازی
     label_status: وضعیت
-    label_storage: ذخیره‌سازی
+    label_storage: فضای ذخیره‌سازی
     label_uri: URI
     member_connection_status:
-      connected: Connected
-      connected_no_permissions: User role has no storages permissions
-      not_connectable: Not connectable. The storage requires login through an SSO provider, but the user is not logging in through SSO.
-      not_connected: Not connected. The user should login to the storage via the following %{link}.
-      not_connected_sso: Not yet connected, SSO should automatically connect them, once looking at files.
+      connected: متصل
+      connected_no_permissions: نقش کاربر هیچ مجوزی برای فضای ذخیره‌سازی ندارد
+      not_connectable: قابل اتصال نیست. فضای ذخیره‌سازی به ورود از طریق یک ارائه‌دهندهٔ SSO نیاز دارد، اما کاربر از طریق SSO وارد نشده است.
+      not_connected: متصل نیست. کاربر باید از طریق %{link} وارد فضای ذخیره‌سازی شود.
+      not_connected_sso: هنوز متصل نشده است؛ پس از مشاهدهٔ فایل‌ها، SSO باید به‌طور خودکار اتصال را برقرار کند.
     members_no_results: هیچ عضوی برای نمایش نیست.
-    no_results: No storages set up yet.
+    no_results: هنوز هیچ فضای ذخیره‌سازی راه‌اندازی نشده است.
     oauth_access_granted_modal:
-      access_granted: Access granted
+      access_granted: دسترسی اعطا شد
       project_settings:
-        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
-        storage_ready: You are now ready to use %{storage}
+        access_granted_screen_reader: دسترسی اعطا شد. اکنون آمادهٔ استفاده از %{storage} هستید.
+        storage_ready: اکنون آمادهٔ استفاده از %{storage} هستید.
       storage_admin:
-        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
-        storage_ready: You are now ready to add projects to %{storage}
+        access_granted_screen_reader: دسترسی اعطا شد. اکنون آماده‌اید پروژه‌ها را به %{storage} اضافه کنید.
+        storage_ready: اکنون آماده‌اید پروژه‌ها را به %{storage} اضافه کنید.
     oauth_grant_nudge_modal:
-      cancel_button_label: I will do it later
-      heading: Login to %{provider_type} required
-      login_button_aria_label: Login to %{storage}
-      login_button_label: "%{provider_type} log in"
+      cancel_button_label: بعداً انجام می‌دهم
+      heading: ورود به %{provider_type} الزامی است
+      login_button_aria_label: ورود به %{storage}
+      login_button_label: ورود به %{provider_type}
       project_settings:
-        description: To get access to the project folder you need to login to %{storage}.
-      requesting_access_to: Requesting access to %{storage}
+        description: برای دسترسی به پوشهٔ پروژه باید وارد %{storage} شوید.
+      requesting_access_to: درخواست دسترسی به %{storage}
       storage_admin:
-        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
+        description: برای افزودن پروژه‌ها به این فضای ذخیره‌سازی باید وارد %{provider_type} شوید. لطفاً وارد شوید و دوباره تلاش کنید.
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: در حال انتقال هستید
+        title: راه‌اندازی یکپارچه‌سازی تکمیل شد
       timeout:
-        link_text: health status of the file storage setup
-        subtitle: OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check %{storages_health_link}.
+        link_text: وضعیت سلامت راه‌اندازی فضای ذخیره‌سازی فایل
+        subtitle: اوپن‌پروجکت نتوانست در بازهٔ زمانی مورد انتظار دسترسی شما به پوشهٔ پروژه را فراهم کند. لطفاً دوباره تلاش کنید.<br><br> اگر مشکل ادامه داشت، با مدیر اوپن‌پروجکت تماس بگیرید تا %{storages_health_link} را بررسی کند.
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: لطفاً کمی صبر کنید؛ ممکن است این فرایند اندکی زمان ببرد...
+        title: در حال تنظیم مجوزهای شما روی پوشهٔ پروژه هستیم.
     page_titles:
       file_storages:
-        delete: Delete file storage?
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        delete: فضای ذخیره‌سازی فایل حذف شود؟
+        subtitle: برای بارگذاری، پیونددهی و مدیریت فایل‌ها در بسته‌های کاری، یک فضای ذخیره‌سازی فایل خارجی اضافه کنید.
       managed_project_folders:
-        subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
-        title: Automatically managed project folders
+        subtitle: اجازه دهید اوپن‌پروجکت برای هر پروژه به‌صورت خودکار پوشه ایجاد کند. این روش توصیه می‌شود، زیرا تضمین می‌کند هر عضو تیم همیشه مجوزهای دسترسی صحیح را داشته باشد.
+        subtitle_short: اجازه دهید اوپن‌پروجکت برای هر پروژه به‌صورت خودکار پوشه ایجاد کند.
+        title: پوشه‌های پروژه مدیریت‌شده خودکار
       project_settings:
-        edit: Edit the file storage to this project
-        members_connection_status: Members connection status
-        new: Add a file storage to this project
+        edit: ویرایش فضای ذخیره‌سازی فایل این پروژه
+        members_connection_status: وضعیت اتصال اعضا
+        new: افزودن فضای ذخیره‌سازی فایل به این پروژه
       project_storage_members:
-        subtitle_html: Check the connection status for the storage %{storage_name_link} of all project members.
-        title: Members connection status
+        subtitle_html: وضعیت اتصال همهٔ اعضای پروژه به فضای ذخیره‌سازی %{storage_name_link} را بررسی کنید.
+        title: وضعیت اتصال اعضا
       project_storages:
-        delete: Remove file storage from project?
-    permission_header_explanation: File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>file storage permissions</a> for more information.
+        delete: فضای ذخیره‌سازی فایل از پروژه حذف شود؟
+    permission_header_explanation: مجوزهای فایل در فضاهای ذخیره‌سازی خارجی فقط روی پوشه‌ها و فایل‌های داخل پوشه‌های پروژهٔ مدیریت‌شدهٔ خودکار اعمال می‌شوند. توجه داشته باشید همهٔ مجوزهای فایل توسط همهٔ ارائه‌دهندگان فضای ذخیره‌سازی پشتیبانی نمی‌شوند. برای اطلاعات بیشتر، مستندات <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>مجوزهای فضای ذخیره‌سازی فایل</a> را بررسی کنید.
     provider_types:
-      label: Provider type
+      label: نوع ارائه‌دهنده
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
-        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        label_oauth_client_id: شناسهٔ کلاینت OAuth در Nextcloud
+        label_oauth_client_secret: رمز کلاینت OAuth در Nextcloud
         name: Nextcloud
-        name_placeholder: e.g. Nextcloud
+        name_placeholder: مثلاً Nextcloud
       one_drive:
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        label_oauth_client_id: شناسهٔ برنامهٔ OAuth آژور (کلاینت)
+        label_oauth_client_secret: مقدار رمز کلاینت OAuth آژور
         name: OneDrive
-        name_placeholder: e.g. OneDrive
+        name_placeholder: مثلاً OneDrive
       sharepoint:
-        drive_description: OpenProject access-managed document library
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        drive_description: Document Library با مدیریت دسترسی توسط اوپن‌پروجکت
+        label_oauth_client_id: شناسهٔ برنامهٔ OAuth آژور (کلاینت)
+        label_oauth_client_secret: مقدار رمز کلاینت OAuth آژور
         name: SharePoint
-        name_placeholder: e.g. SharePoint
+        name_placeholder: مثلاً SharePoint
     show_attachments_toggle:
-      description: Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
-      label: Show attachments in the work packages files tab
+      description: غیرفعال‌کردن این گزینه، فهرست پیوست‌ها را در زبانهٔ فایل‌های بستهٔ کاری پنهان می‌کند. فایل‌هایی که داخل توضیحات بستهٔ کاری پیوست شده‌اند همچنان در فضای ذخیره‌سازی داخلی پیوست‌ها بارگذاری خواهند شد.
+      label: نمایش پیوست‌ها در زبانهٔ فایل‌های بستهٔ کاری
     storage_audience:
-      documentation_intro: Please read our documentation for details on the following options and configuration of the identity provider.
+      documentation_intro: برای جزئیات گزینه‌های زیر و پیکربندی ارائه‌دهندهٔ هویت، مستندات ما را مطالعه کنید.
       idp:
-        helptext: OpenProject will use the access token received by the identity provider during log in to authenticate requests to the storage. It will not try to obtain another token.
-        label: Use access token obtained during user log in
+        helptext: اوپن‌پروجکت برای احراز هویت درخواست‌ها به فضای ذخیره‌سازی از توکن دسترسی دریافت‌شده از ارائه‌دهندهٔ هویت هنگام ورود استفاده می‌کند و برای دریافت توکن دیگری تلاش نخواهد کرد.
+        label: استفاده از توکن دسترسی دریافت‌شده هنگام ورود کاربر
       manual:
-        helptext: OpenProject will exchange a token with the identity provider for the given audience.
-        label: Manually specify audience for which to exchange access token (Recommended)
+        helptext: اوپن‌پروجکت برای audience مشخص‌شده، یک توکن را با ارائه‌دهندهٔ هویت مبادله می‌کند.
+        label: تعیین دستی audience برای مبادلهٔ توکن دسترسی (توصیه‌شده)
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
-    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
+      description: یک فضای ذخیره‌سازی اضافه کنید تا در اینجا نمایش داده شود.
+      heading: هنوز هیچ فضای ذخیره‌سازی ندارید.
+    successful_storage_connection: فضای ذخیره‌سازی با موفقیت متصل شد! برای استفاده از آن، فراموش نکنید در زبانهٔ «پروژه‌ها»، فضای ذخیره‌سازی را برای هر پروژهٔ موردنظر فعال کنید.
     upsell:
       one_drive:
-        description: |-
-          Integrate your OneDrive drive as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: OneDrive integration
+        description: درایو OneDrive خود را به‌عنوان فضای ذخیره‌سازی فایل با اوپن‌پروجکت یکپارچه کنید. فایل‌ها را بارگذاری کرده و مستقیماً به بسته‌های کاری پروژه پیوند دهید.
+        title: یکپارچه‌سازی OneDrive
       sharepoint:
-        description: |-
-          Integrate your SharePoint site as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: SharePoint integration
+        description: سایت SharePoint خود را به‌عنوان فضای ذخیره‌سازی فایل با اوپن‌پروجکت یکپارچه کنید. فایل‌ها را بارگذاری کرده و مستقیماً به بسته‌های کاری پروژه پیوند دهید.
+        title: یکپارچه‌سازی SharePoint

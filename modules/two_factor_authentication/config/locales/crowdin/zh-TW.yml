@@ -20,10 +20,16 @@ zh-TW:
             phone_number:
               error_phone_number_format: 格式必須是 + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA 設備
-      two_factor_authentication/device/sms: 手機
-      two_factor_authentication/device/totp: 驗證程式應用程式
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: 繼續
   button_make_active: Activate
   button_make_default: 標記為預設值
@@ -126,7 +132,7 @@ zh-TW:
     error_no_device: 未為該使用者找到已註冊的2FA 設備, 儘管此實例是必需的。
     error_no_matching_strategy: 沒有匹配的2FA 策略可供此使用者使用。請聯繫您的系統管理員。
     forced_registration:
-      required_to_add_device: 活動安全性原則要求您啟用雙重身份驗證。請使用以下表格註冊設備。
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: 兩階段驗證已關閉
     label_2fa_enabled: 雙重驗證已啟用
     label_default_device: 預設2FA 設備

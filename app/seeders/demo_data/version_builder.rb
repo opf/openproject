@@ -72,6 +72,10 @@ module DemoData
     def set_wiki!(version, config)
       return unless config
 
+      unless Wiki.exists?(project: version.project)
+        version.project.create_wiki(start_page: "Wiki")
+      end
+
       version.wiki_page_title = config["title"]
 
       Journal::NotificationConfiguration.with false do

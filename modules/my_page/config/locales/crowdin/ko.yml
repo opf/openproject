@@ -1,4 +1,8 @@
 ---
 ko:
+  activerecord:
+    models:
+      grids/my_page:
+        other: 내 페이지
   my_page:
     label: 내 페이지

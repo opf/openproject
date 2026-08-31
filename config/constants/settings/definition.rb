@@ -219,6 +219,12 @@ module Settings
       bcc_recipients: {
         default: true
       },
+      blocked_email_domains: {
+        format: :array,
+        description: "Email domains that may not be used for user accounts. Subdomains are blocked as well. " \
+                     "Recipients on these domains are also skipped when sending emails.",
+        default: []
+      },
       boards_demo_data_available: {
         description: "Internal setting determining availability of demo seed data",
         default: false
@@ -366,7 +372,7 @@ module Settings
       },
       default_projects_modules: {
         default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
           if Setting.real_time_text_collaboration_enabled?
             base_modules + %w[documents]
           else
@@ -377,6 +383,9 @@ module Settings
       },
       default_projects_public: {
         default: false
+      },
+      default_projects_wiki: {
+        default: true
       },
       demo_projects_available: {
         default: false
@@ -472,8 +481,18 @@ module Settings
         default: nil,
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
+      email_limit_per_day: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Number of emails which are allowed to be sent per day on average (may be up to 2x as much on " \
+                     "a single day). This can be used to address spam and abuse, but is just designed as a last " \
+                     "resort as it simply drops mails that are over the limit instead of sending them at a later " \
+                     "point in time or notifying the user."
+      },
       emails_salutation: {
-        allowed: %w[firstname name],
+        allowed: %i[firstname name],
         default: :firstname
       },
       emails_footer: {
@@ -957,6 +976,14 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
+      mail_recipient_limits: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum distinct recipients an instance may send emails to per day. " \
+                     "Mails to addresses over that limit will be dropped. 0 equals unlimited recipients."
+      },
       rate_limiting: {
         default: {},
         description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."
@@ -965,6 +992,21 @@ module Settings
         default: {
           "en" => ""
         }
+      },
+      registration_rate_limit: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum unauthenticated POST /account/register requests per hour. " \
+                     "Counted per client IP by default, or per instance (host_name) when " \
+                     "registration_rate_limit_per_ip is false. 0 disables the limit."
+      },
+      registration_rate_limit_per_ip: {
+        format: :boolean,
+        default: true,
+        writable: false,
+        description: "Count registration rate limits per client IP. Set to false to count based on hostname itself."
       },
       remote_storage_upload_host: {
         format: :string,
@@ -1014,6 +1056,12 @@ module Settings
       },
       repository_truncate_at: {
         default: 500
+      },
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
       },
       scm: {
         format: :hash,
@@ -1307,6 +1355,11 @@ module Settings
       users_deletable_by_admins: {
         default: false
       },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
+      },
       user_default_theme: {
         default: "light",
         format: :string,
@@ -1351,7 +1404,13 @@ module Settings
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,
-        default: false
+        default: true
+      },
+      work_packages_activities_tab_polling_interval_in_ms: {
+        description: "Interval in milliseconds at which the work package activities tab polls for updates.",
+        format: :integer,
+        default: 10_000,
+        allowed: 1000..10_000
       },
       work_packages_projects_export_limit: {
         default: 500

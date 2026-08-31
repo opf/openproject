@@ -20,10 +20,31 @@ sk:
             phone_number:
               error_phone_number_format: musí mať formát + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA zariadenie
-      two_factor_authentication/device/sms: Mobilný telefón
-      two_factor_authentication/device/totp: Aplikácia Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        many: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        many: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Pokračovať
   button_make_active: Activate
   button_make_default: Označiť ako predvolené
@@ -126,7 +147,7 @@ sk:
     error_no_device: Pre tohto používateľa nebolo nájdené žiadne zaregistrované zariadenie 2FA, napriek tomu, že je to potrebné pre túto inštanciu.
     error_no_matching_strategy: Pre daného používateľa nie je k dispozícii žiadna zodpovedajúca stratégia 2FA. Kontaktujte svojho správcu.
     forced_registration:
-      required_to_add_device: Aktívna bezpečnostná politika vyžaduje, aby ste zapli dvojfaktorové overovanie. Prosím, použite nasledujúci formulár pre registráciu zariadenia.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dvojfaktorová autentifikácia nie je aktívna
     label_2fa_enabled: Dvojfaktorová autentifikácia je aktívna
     label_default_device: Predvolené 2FA zariadenie

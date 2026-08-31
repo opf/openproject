@@ -1,5 +1,10 @@
 ---
 sv:
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Tilldelad till

@@ -40,7 +40,7 @@ RSpec.describe "Version action board",
   let(:second_user) do
     create(:user, member_with_roles: { project => role_board_manager, second_project => role_board_manager })
   end
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
   let(:role) { create(:project_role, permissions:) }
@@ -64,7 +64,9 @@ RSpec.describe "Version action board",
   let!(:shared_version) { create(:version, project: second_project, name: "Shared version", sharing: "system") }
   let!(:closed_version) { create(:version, project:, status: "closed", name: "Closed version") }
 
-  let!(:work_package) { create(:work_package, project:, subject: "Foo", version: open_version) }
+  let!(:work_package) do
+    create(:work_package, project:, subject: "Foo", version: open_version)
+  end
   let!(:closed_version_wp) { create(:work_package, project:, subject: "Closed", version: closed_version) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
@@ -97,7 +99,7 @@ RSpec.describe "Version action board",
       login_as(user)
     end
 
-    it "allows management of boards" do
+    it "allows management of boards", with_settings: { work_package_multiple_versions: false } do
       board_page = create_new_version_board
 
       board_page.expect_card "Open version", work_package.subject, present: true
@@ -138,9 +140,10 @@ RSpec.describe "Version action board",
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
+      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id))
+                            .map { [it.subject, it.target_versions.map(&:id)] }
       # Only the explicitly added item is now contained in sort order
-      expect(subjects).to contain_exactly(["Task 1", open_version.id])
+      expect(subjects).to contain_exactly(["Task 1", [open_version.id]])
 
       # Move item to Closed
       board_page.move_card(0, from: "Open version", to: "A second version")
@@ -156,8 +159,9 @@ RSpec.describe "Version action board",
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
-      expect(subjects).to contain_exactly(["Task 1", other_version.id])
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
+                            .map { [it.subject, it.target_versions.map(&:id)] }
+      expect(subjects).to contain_exactly(["Task 1", [other_version.id]])
 
       # Add filter
       # Filter for Task
@@ -207,8 +211,9 @@ RSpec.describe "Version action board",
       board_page.expect_card("Open version", "Foo", present: false)
       board_page.expect_card("A second version", "Task 1", present: true)
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
-      expect(subjects).to contain_exactly(["Task 1", other_version.id])
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
+                            .map { [it.subject, it.target_versions.map(&:id)] }
+      expect(subjects).to contain_exactly(["Task 1", [other_version.id]])
 
       # Open remaining in split view
       work_package = second.ordered_work_packages.first.work_package
@@ -219,7 +224,7 @@ RSpec.describe "Version action board",
       split_view.expect_and_dismiss_toaster message: "Successful update."
 
       work_package.reload
-      expect(work_package.version).to eq(open_version)
+      expect(work_package.target_versions).to contain_exactly(open_version)
 
       # TODO: Temporary deactivation till PR#24158 lands
       # board_page.expect_card("Open version", "Task 1", present: true)
@@ -291,7 +296,7 @@ RSpec.describe "Version action board",
       expect(ids).to contain_exactly(work_package.id, closed_version_wp.id)
 
       closed_version_wp.reload
-      expect(closed_version_wp.version_id).to eq(open_version.id)
+      expect(closed_version_wp.target_versions).to contain_exactly(open_version)
 
       # But we can not move back to closed
       board_page.move_card(0, from: "Open version", to: "Closed version")

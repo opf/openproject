@@ -91,10 +91,15 @@ module Meeting::VirtualStartTime
   end
 
   def set_initial_values
-    # set defaults
-    # Start date is set to tomorrow at 10 AM (Current users local time)
-    self[:start_time] = time_zone.now.at_midnight + 34.hours if start_time.nil?
+    self[:start_time] = default_start_time if start_time.nil?
     update_derived_fields
+  end
+
+  ##
+  # Defaults to now, rounded up to the next half hour
+  def default_start_time
+    now = time_zone.now.change(sec: 0)
+    now + ((30 - (now.min % 30)) % 30).minutes
   end
 
   ##

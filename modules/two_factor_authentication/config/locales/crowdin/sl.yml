@@ -20,10 +20,31 @@ sl:
             phone_number:
               error_phone_number_format: mora biti formata +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA naprava
-      two_factor_authentication/device/sms: Mobilni telefon
-      two_factor_authentication/device/totp: 'Aplikacija za preverjanje avtenčnosti '
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Backup code
+        two: Backup codes
+        few: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        two: 2FA devices
+        few: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        two: Mobile phones
+        few: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        two: Authenticator applications
+        few: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        two: WebAuthn
+        few: WebAuthn
+        other: WebAuthn
   button_continue: Nadaljuj
   button_make_active: Activate
   button_make_default: Označite kot privzeto
@@ -126,7 +147,7 @@ sl:
     error_no_device: Za tega uporabnika ni bila najdena nobena registrirana 2FA naprava, čeprav je za ta primer potrebna.
     error_no_matching_strategy: Za tega uporabnika ni na voljo ustrezne strategije 2FA. Prosimo obrnite se na svojega upravnika.
     forced_registration:
-      required_to_add_device: Aktivni varnostni pravilnik zahteva, da omogočite dvofaktorsko preverjanje pristnosti. Za registracijo naprave uporabite sledeči obrazec.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dvofaktorska avtentikacija ni aktivna
     label_2fa_enabled: Dvofaktorska avtentikacija je aktivna
     label_default_device: Privzeta naprava 2FA

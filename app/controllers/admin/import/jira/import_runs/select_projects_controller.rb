@@ -32,22 +32,13 @@ module Admin::Import::Jira::ImportRuns
   class SelectProjectsController < ApplicationController
     include OpTurbo::ComponentStream
     include ComponentStreams
+    include SelectProjectsDialog
 
     before_action :require_admin
     before_action :find_jira_and_jira_import
 
-    PER_PAGE = 20
-
     def show
-      respond_with_dialog(
-        Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent.new(
-          jira_import: @jira_import,
-          list_header_component: project_list_header_component,
-          list_component: project_list_component,
-          list_footer_component: project_list_footer_component,
-          selected_count: selected_ids.size
-        )
-      )
+      respond_with_dialog(select_projects_modal_component)
     end
 
     def update
@@ -61,7 +52,7 @@ module Admin::Import::Jira::ImportRuns
 
       @jira_import.update!(projects:)
       stream_wizard do
-        close_dialog_via_turbo_stream("##{Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID}")
+        close_dialog_via_turbo_stream(Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID)
       end
     end
 
@@ -108,12 +99,6 @@ module Admin::Import::Jira::ImportRuns
       init_session if action_name == "show"
     end
 
-    def init_session
-      session[:selected_ids] = @jira_import.project_ids
-      session[:project_page] = 1
-      session[:project_filter] = nil
-    end
-
     def respond_with_modal_components(with_footer: false)
       respond_to do |format|
         format.turbo_stream do
@@ -131,7 +116,7 @@ module Admin::Import::Jira::ImportRuns
               method: "morph"
             )
           end
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
       end
     end
@@ -143,87 +128,9 @@ module Admin::Import::Jira::ImportRuns
             component: project_list_counter_component,
             method: "morph"
           )
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
       end
-    end
-
-    def set_page(page)
-      session[:project_page] = page
-    end
-
-    def set_filter(filter)
-      session[:project_filter] = filter.blank? ? nil : filter.to_s.strip
-    end
-
-    def set_selection_ids(new_selections)
-      session[:selected_ids] = new_selections.map(&:to_s).compact_blank.uniq
-    end
-
-    def selected_ids
-      session[:selected_ids] || []
-    end
-
-    def project_filter
-      session[:project_filter]
-    end
-
-    def page
-      [[(session[:project_page] || 1).to_i, 1].compact.max, total_pages].min
-    end
-
-    def total_pages
-      (filtered_projects.size.to_f / PER_PAGE).ceil
-    end
-
-    def available_projects
-      @jira_import.available&.dig("projects") || []
-    end
-
-    def filtered_projects
-      return available_projects if project_filter.blank?
-
-      query = project_filter.downcase
-      available_projects.select do |project|
-        project["name"].to_s.downcase.include?(query) ||
-          project["key"].to_s.downcase.include?(query)
-      end
-    end
-
-    def paginated_projects
-      start_index = (page - 1) * PER_PAGE
-      filtered_projects.slice(start_index, PER_PAGE) || []
-    end
-
-    def project_list_header_component
-      Admin::Import::Jira::ImportRuns::SelectProjects::ListHeaderComponent.new(
-        jira_import: @jira_import,
-        filter: project_filter
-      )
-    end
-
-    def project_list_component
-      Admin::Import::Jira::ImportRuns::SelectProjects::ListComponent.new(
-        jira_import: @jira_import,
-        selected_ids: selected_ids,
-        projects: paginated_projects
-      )
-    end
-
-    def project_list_footer_component
-      Admin::Import::Jira::ImportRuns::SelectProjects::ListFooterComponent.new(
-        jira_import: @jira_import,
-        page: page,
-        total_pages: total_pages
-      )
-    end
-
-    def project_list_counter_component
-      count = selected_ids.count
-      Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
-        jira_import: @jira_import,
-        count:
-      )
     end
   end
 end

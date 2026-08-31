@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
     match "/account/lost_password", action: "lost_password", via: %i[get post]
+    get "/account/password_recovery", action: "password_recovery"
+    post "/account/set_recovered_password", action: "set_recovered_password"
     match "/account/register", action: "register", via: %i[get post patch]
     get "/account/activate", action: "activate"
 
@@ -152,7 +154,26 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  resources :types, module: "work_package_types", except: [:update] do
+  # Configuring one variant of a type, from administration or from the settings of a project
+  # that owns one.
+  concern :type_variant_configuration do
+    # ProjectsTabController turns a project away: which projects use a type is instance-wide.
+    resource :projects, controller: "projects_tab", only: %i[edit update] do
+      collection do
+        post :enable_all, to: "projects_tab#enable_all_projects"
+
+        get :new_link
+        get :tree
+        post :link
+        delete :unlink
+
+        get :new_switch
+        post :switch
+      end
+    end
+
+    resource :details, controller: "details_tab", only: %i[update edit]
+
     resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
       get :reset_dialog
       resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
@@ -174,41 +195,108 @@ Rails.application.routes.draw do
         end
       end
     end
-    resource :projects, controller: "projects_tab", only: %i[update edit] do
-      collection do
-        post :enable_all, to: "projects_tab#enable_all_projects"
-      end
-    end
+
     resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
       post :toggle
       put :enable_all_of_section
       put :disable_all_of_section
     end
-    resource :settings, controller: "settings_tab", only: %i[update edit]
-    resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
 
-    resources :configuration_links, only: %i[update], param: :aspect
+    resource :defaults, controller: "defaults_tab", only: %i[update edit]
+
+    scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+      get :dialog
+      post :confirm
+      post :switch
+    end
+
+    scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+      get :dialog
+      post :confirm
+      post :switch
+    end
+
+    scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+      get :dialog
+      post :confirm
+      post :copy
+    end
+
+    scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
+      post :toggle
+    end
+
+    resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
+        get :status_dialog
+        post :confirm_statuses
+      end
+
+      resource :copy, only: %i[new], controller: "/workflows/copies" do
+        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
+        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+      end
+    end
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
-                                    path: "pdf_export_template" do
+                                    path: "pdf_export" do
       member do
         post :toggle
         put :drop
+        get :edit_settings
+        patch :update_settings
       end
       collection do
         get :edit
         put :enable_all
         put :disable_all
+        put :update_artefact_export
+      end
+    end
+
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+  end
+
+  resources :types, module: "work_package_types", except: [:update] do
+    collection do
+      post "move/:id", action: "move", as: :move
+      get :workflow_summary, to: "/workflows/summaries#show"
+    end
+
+    member do
+      get :menu
+      put :drop
+      post :duplicate
+    end
+  end
+
+  # `only: []` so this resource does not shadow the project's own types page, which has its own
+  # controller.
+  resources :types, only: [], module: "work_package_types" do
+    # The project has to stay behind the type. Ahead of it, an optional segment takes any
+    # positional argument for itself, silently naming a type's id as a project.
+    nested do
+      scope "(in-project/:in_project_id)" do
+        resources :variants, controller: "variants", only: %i[index destroy] do
+          member do
+            get :menu
+            post :make_default
+            post :remove_default
+          end
+        end
+
+        scope "(variants/:variant_id)" do
+          concerns :type_variant_configuration
+        end
       end
     end
 
     collection do
-      post "move/:id", action: "move"
-    end
-
-    member do
-      put :drop
+      scope "(in-project/:in_project_id)" do
+        get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+        post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      end
     end
   end
 
@@ -386,7 +474,13 @@ Rails.application.routes.draw do
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
-          resource :types, only: %i[show update]
+          resources :types, only: %i[index new create destroy] do
+            patch :bulk_update, on: :collection
+
+            resource :switch, only: %i[new create], controller: "types/switches" do
+              resource :impact, only: :create, controller: "types/switches/impacts"
+            end
+          end
           resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
@@ -450,6 +544,7 @@ Rails.application.routes.draw do
         get :export
         get "/index" => "wiki#index"
         get :menu
+        get :menu_tree
       end
 
       member do
@@ -465,7 +560,6 @@ Rails.application.routes.draw do
         post :protect
         get :select_main_menu_item, to: "wiki_menu_items#select_main_menu_item"
         post :replace_main_menu_item, to: "wiki_menu_items#replace_main_menu_item"
-        get :menu
       end
     end
 
@@ -713,6 +807,10 @@ Rails.application.routes.draw do
         get :status, on: :member
         get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
       end
+      resource :versions_and_categories, controller: "/admin/settings/versions_and_categories", only: %i[show] do
+        post :enable_multiple_versions, on: :member
+        get :confirm_dialog, on: :member, defaults: { format: :turbo_stream }
+      end
       resources :work_package_priorities, except: [:show] do
         member do
           put :move
@@ -860,7 +958,7 @@ Rails.application.routes.draw do
         member do
           delete :delete_token
         end
-        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: [:new] do
+        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
             get :continue
             post :continue
@@ -903,8 +1001,9 @@ Rails.application.routes.draw do
 
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
-        get :reset_token
-        post :reset_token, action: :perform_token_reset
+        get :reset_token_dialog
+        post :perform_token_reset
+        post :request_backup
 
         post :delete_token
       end
@@ -934,26 +1033,6 @@ Rails.application.routes.draw do
         patch :update_organization_name
       end
     end
-  end
-
-  resources :workflows, only: %i[index edit], param: :type_id do
-    scope module: :workflows do
-      resources :tabs, only: %i[edit update], param: :tab do # params[:tab] used in TabsHelper
-        member do
-          get :status_dialog
-          post :confirm_statuses
-        end
-      end
-      resource :copy, only: %i[new] do
-        scope module: :copies do
-          resource :from_type, only: %i[create]
-          resource :from_role, only: %i[create]
-        end
-      end
-    end
-  end
-  namespace :workflows do
-    resource :summary, only: %i[show]
   end
 
   namespace :work_packages do
@@ -1224,9 +1303,8 @@ Rails.application.routes.draw do
     get "onboarding_video_dialog", action: "onboarding_video_dialog"
   end
 
-  resources :colors do
+  resources :colors, except: [:index] do
     member do
-      get :confirm_destroy
       get :move
       post :move
     end

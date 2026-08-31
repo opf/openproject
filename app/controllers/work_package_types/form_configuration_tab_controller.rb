@@ -34,8 +34,6 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::FormConfigurationComponentStreams
 
-    layout "admin"
-
     current_menu_item [:edit, :update, :reset_dialog, :move, :drop, :destroy] do
       :types
     end
@@ -44,13 +42,13 @@ module WorkPackageTypes
 
     def reset_dialog
       respond_with_dialog(
-        WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(type: @type)
+        WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(variant: @variant)
       )
     end
 
     def update
       result = WorkPackageTypes::UpdateService
-        .new(user: current_user, model: @type, contract_class: UpdateFormConfigurationContract)
+        .new(user: current_user, model: @variant, contract_class: UpdateFormConfigurationContract)
         .call(permitted_type_params)
 
       if result.success?
@@ -62,7 +60,7 @@ module WorkPackageTypes
 
     def move
       call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, type: @type, row_key: row_key_param)
+        .new(user: current_user, variant: @variant, row_key: row_key_param)
         .call(move_to: params[:move_to])
 
       handle_row_update_response(call)
@@ -70,7 +68,7 @@ module WorkPackageTypes
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
-        .new(user: current_user, type: @type, row_key: row_key_param)
+        .new(user: current_user, variant: @variant, row_key: row_key_param)
         .call(target_id: params[:target_id], position: params[:position])
 
       handle_row_update_response(call)
@@ -78,7 +76,7 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
-        .new(user: current_user, type: @type, row_key: row_key_param)
+        .new(user: current_user, variant: @variant, row_key: row_key_param)
         .call
 
       handle_row_update_response(call)
@@ -88,7 +86,7 @@ module WorkPackageTypes
 
     def respond_to_update_success
       respond_to do |format|
-        format.html { redirect_to edit_type_form_configuration_path(@type), notice: t(:notice_successful_update) }
+        format.html { redirect_to edit_type_form_configuration_path(**@variant.path_args), notice: t(:notice_successful_update) }
         format.turbo_stream do
           update_form_configuration_via_turbo_stream
           respond_with_turbo_streams
@@ -117,7 +115,7 @@ module WorkPackageTypes
     end
 
     def find_type
-      @type = ::Type.includes(:projects, :custom_fields).find(params[:type_id])
+      @type = ::Type.includes(:projects).find(params.expect(:type_id))
       show_error_not_found unless @type
     end
 

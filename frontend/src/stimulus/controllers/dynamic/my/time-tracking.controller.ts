@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { ActionEvent, Controller } from '@hotwired/stimulus';
 import { Calendar, EventApi, EventContentArg } from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -15,6 +43,11 @@ import { useMeta } from 'stimulus-use';
 import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+
+interface AdditionalDialogCloseData {
+  spent_on?:string;
+}
 
 export default class MyTimeTrackingController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
@@ -492,14 +525,8 @@ export default class MyTimeTrackingController extends Controller {
     );
   }
 
-  dialogCloseListener(event:CustomEvent):void {
-    interface AdditionalDialogCloseData {
-      spent_on?:string;
-    }
-
-    const { detail: { dialog, additional, submitted } } = event as {
-      detail:{ dialog:HTMLDialogElement; additional:AdditionalDialogCloseData|undefined; submitted:boolean }
-    };
+  dialogCloseListener(event:CustomEvent<DialogCloseDetail<AdditionalDialogCloseData>>):void {
+    const { detail: { dialog, additional, submitted } } = event;
     if (dialog.id !== 'time-entry-dialog' || !submitted) { return; }
 
     // we simply refresh the calendar page

@@ -84,7 +84,7 @@ class MeetingsController < ApplicationController
         )
         turbo_streams << turbo_stream.push_state(current_url)
 
-        render turbo_stream: turbo_streams
+        render turbo_stream: resolve_turbo_streams
       end
     end
   end
@@ -118,7 +118,7 @@ class MeetingsController < ApplicationController
       format.turbo_stream do
         update_header_component_via_turbo_stream(state: :edit)
 
-        render turbo_stream: @turbo_streams
+        render turbo_stream: resolve_turbo_streams
       end
       format.html do
         render :edit
@@ -439,7 +439,6 @@ class MeetingsController < ApplicationController
       .call({ state: "open", notify: meeting_params[:notify] == "1" })
 
     if call.success?
-      deliver_invitation_mails
       update_all_via_turbo_stream
       update_backlog_via_turbo_stream(collapsed: nil)
 
@@ -465,21 +464,6 @@ class MeetingsController < ApplicationController
         request.format = "html"
         render_403
       end
-    end
-  end
-
-  def deliver_invitation_mails
-    return false unless @meeting.notify?
-
-    @meeting
-      .participants
-      .invited
-      .find_each do |participant|
-      MeetingMailer.invited(
-        @meeting,
-        participant.user,
-        User.current
-      ).deliver_later
     end
   end
 

@@ -51,7 +51,7 @@ enterprise_features:
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
   custom_field_projects:
-    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects
   customize_life_cycle:
     href: https://www.openproject.org/docs/system-admin-guide/projects/project-life-cycle/
   default:
@@ -104,6 +104,8 @@ ldap_encryption_documentation:
 manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
+multiple_versions_documentation:
+  href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:
   href: https://www.openproject.org/newsletter
   label: homescreen.links.newsletter
@@ -154,8 +156,10 @@ shortcuts:
   href: https://www.openproject.org/docs/user-guide/keyboard-shortcuts-access-keys/
   label: homescreen.links.shortcuts
 wiki_docs:
+  health_status:
+    href: https://www.openproject.org/docs/system-admin-guide/wikis/wiki-providers/health-status/
   xwiki_setup:
-    href: https://www.openproject.org/docs/system-admin-guide/integrations/
+    href: https://www.openproject.org/docs/system-admin-guide/integrations/xwiki/
 storage_docs:
   health_status:
     href: https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/health-status/
@@ -198,6 +202,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-8-claims
   oidc_groups:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-group-mapping
+  project_identifier_visibility:
+    href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#project-identifier-visibility
   saml:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
   scim:

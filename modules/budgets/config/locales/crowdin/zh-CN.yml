@@ -46,9 +46,12 @@ zh-CN:
             principal:
               not_a_member_of_budget_project: 不属于预算的项目
     models:
-      budget: 预算
-      labor_budget_item: 计划劳动力成本
-      material_budget_item: 单位
+      budget:
+        other: 预算
+      labor_budget_item:
+        other: 计划劳动力成本
+      material_budget_item:
+        other: 单位
   activity:
     filter:
       budget: 预算
@@ -102,7 +105,6 @@ zh-CN:
   help_click_to_edit: 单击此处进行编辑。
   help_currency_format: 已显示的货币值的格式。%n 替换为货币值，%u 替换为货币单位。
   help_override_rate: 在此处输入值覆盖基本费率。
-  label_budget: 预算
   label_budget_available: 可用预算
   label_budget_details: 预算详细信息
   label_budget_id: '预算 #%{id}'

@@ -1,4 +1,11 @@
 ---
 uk:
+  activerecord:
+    models:
+      grids/my_page:
+        one: Моя сторінка
+        few: Мої сторінки
+        many: Мої сторінки
+        other: Мої сторінки
   my_page:
     label: Моя сторінка

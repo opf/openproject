@@ -34,7 +34,7 @@ module Storages
       module Nextcloud
         class Base
           include TaggedLogging
-          include Dry::Monads::Result(Results::Error)
+          include Dry::Monads::Result(SimpleError)
 
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
@@ -50,7 +50,7 @@ module Storages
           def depth_header(depth) = { headers: { "Depth" => depth.to_s } }
 
           def origin_user_id(auth_strategy:)
-            error = Results::Error.new(source: self.class, code: :error)
+            error = SimpleError.new(source: self.class, code: :error)
 
             auth_strategy.bind do |strategy|
               case strategy.key
@@ -77,6 +77,16 @@ module Storages
             else
               Failure(error.with(payload: "No origin user ID or user token found. Cannot execute query without user context."))
             end
+          end
+
+          # Parses a response body as JSON. Nextcloud does not always answer in the requested format: OCS responses
+          # rendered outside of the integration app (e.g. when it is disabled) fall back to XML, and reverse proxies
+          # may answer with an HTML page. Those bodies make HTTPX raise, which would escape the adapter contract.
+          # @return [Dry::Result]
+          def parse_json(response, error)
+            Success(response.json(symbolize_keys: true))
+          rescue HTTPX::Error, MultiJSON::ParseError
+            Failure(error.with(code: :invalid_response, payload: response))
           end
 
           # Validates the OCS Meta Statuscode for fatal errors (i.e. unexpected server-side errors). Client-side errors,

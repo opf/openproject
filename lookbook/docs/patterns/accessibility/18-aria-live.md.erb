@@ -62,15 +62,15 @@ Here is the internal implementation of `render_live_region_update_message`:
 If you're using a Turbo Frame and want to announce dynamic content changes to assistive technologies, you can embed a Turbo Stream using the `liveRegion` action directly inside the frame.
 
 ```erb
-<%= content_tag("turbo-frame", id: "frame-id") do %>
+<%%= content_tag("turbo-frame", id: "frame-id") do %>
 ....
-  <%= render OpTurbo::StreamComponent.new(
+  <%%= render OpTurbo::StreamComponent.new(
     action: :liveRegion,
     message: "Update!!",
     politeness: "polite",
     target: nil
   ) %>
-<% end %>
+<%% end %>
 
 ```
 
@@ -78,7 +78,7 @@ If you're using a Turbo Frame and want to announce dynamic content changes to as
 The `registerLiveRegionStreamAction` method defines a custom Turbo Stream action called `liveRegion`. When triggered, it announces a message (using ARIA live regions) to assistive technologies, with a tone of either `"polite"` or `"assertive"`, depending on the `politeness` attribute in the stream element.
 
 ```ts
-<%= render file: "frontend/src/turbo/live-region-stream-action.ts" %>
+<%%= render file: "frontend/src/turbo/live-region-stream-action.ts" %>
 ```
 
 ## Live Regions in Dialogs and Modals
@@ -91,5 +91,5 @@ To ensure that announcements are still read aloud in this situation, we should i
 ```erb
   <live-region>
   </live-region>
-  <%= render OpTurbo::StreamComponent.new(action: :liveRegion, message: "Date picker is updated.", politeness: "polite", target: nil) %>
+  <%%= render OpTurbo::StreamComponent.new(action: :liveRegion, message: "Date picker is updated.", politeness: "polite", target: nil) %>
 ```

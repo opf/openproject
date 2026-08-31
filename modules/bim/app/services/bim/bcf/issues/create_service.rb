@@ -29,6 +29,14 @@
 module Bim::Bcf
   module Issues
     class CreateService < ::BaseServices::Create
+      # Whether these reference links point the topic at a work package that already exists,
+      # rather than at one the topic is about to create.
+      def self.adopts_work_package?(reference_links)
+        path = ::API::V3::Utilities::PathHelper::ApiV3Path.work_package("")
+
+        Array(reference_links).any? { |link| link.include?(path) }
+      end
+
       private
 
       def before_perform(service_result)
@@ -57,7 +65,7 @@ module Bim::Bcf
       end
 
       def use_work_package(links:, params:)
-        work_package = WorkPackage.visible(user).find_by(id: work_package_id_from_links(links))
+        work_package = WorkPackage.visible(user).find_by_display_id(work_package_identifier_from_links(links))
         return work_package_not_found_result if work_package.nil?
 
         ::WorkPackages::UpdateService
@@ -71,18 +79,18 @@ module Bim::Bcf
           .call(**params)
       end
 
-      def work_package_id_from_links(links)
+      def work_package_identifier_from_links(links)
         links
           .take(1)
-          .map { |link| link.split("/").last.to_i }
+          .map { |link| link.split("/").last }
           .first
       end
 
       def remove_work_package_links!(links)
         path = api_path_helper.work_package("")
-        wp_links = links.select { |link| link.include? path }
+        wp_links = links.select { |link| link.include?(path) }
 
-        links.delete_if { |link| wp_links.include? link }
+        links.delete_if { |link| wp_links.include?(link) }
 
         wp_links
       end

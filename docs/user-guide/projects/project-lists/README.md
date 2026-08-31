@@ -48,7 +48,7 @@ Each workspace (project, program or portfolio) is displayed in a single line, st
 ![Open a project description in the project lists view in OpenProject](expand-link-project-description.png)
 
 With the horizontal **three dots** icon on the right side of the list you can open **further features**, 
-such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [project activity](../../activity/#project-activity), [add a project to favorites](../project-home/#mark-a-project-as-favorite), [archiving a project](../project-settings/project-information/#archive-a-project), [copying](../project-settings/project-information/#copy-a-project) and [deleting a project](../project-settings/project-information/#delete-a-project). 
+such as [creating a new subproject](../#create-a-subproject), [duplicating](../project-settings/project-information/#duplicate-a-project), [change identifier](../project-settings/project-information/#change-project-identifier), [project settings](../project-settings), [project activity](../../activity/#project-activity), [add a project to favorites](../project-home/#mark-a-project-as-favorite), [set as template](../project-templates), [archiving a project](../project-settings/project-information/#archive-a-project),  and [deleting a project](../project-settings/project-information/#delete-a-project). 
 Please note that you have to be a System Administrator in OpenProject to access these features. 
 Find out how to un-archive projects [here](../project-settings/project-information/#archive-a-project).
 
@@ -317,3 +317,15 @@ You can also filter project lists by project phases and phase gates. Simply sele
 You will then see all projects that have the selected phase, which is active during the specified timeframe. For example _Executing_ project phase that is scheduled for the current week. 
 
 ![Project lists filter by project phases and phase gates with a specified timeframe in OpenProject](openproject_user_guide_project_lists_filter_by_phase_and_gate_timeframe.png)
+
+To filter project lists by program or portfolio, select **Part of Portfolio** or **Part of Program**. 
+
+![Project lists filter by portfolio and program in OpenProject](openproject_user_guide_project_lists_filter_by_portfolio_and_program.png)
+
+This filtering option allows you to see or exclude all projects belonging to a selected portfolio and all projects belonging to a selected program.
+
+![Filter for all projects that are part of a selected portfolio](openproject_user_guide_project_lists_filter_by_part_of_portfolio.png)
+
+> [!NOTE]
+>
+> The part of portfolio/part of program filter option is only visible to users with the right permissions to access the selected portfolio/program.

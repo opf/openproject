@@ -29,23 +29,17 @@
 #++
 
 require "spec_helper"
-require "contracts/shared/model_contract_shared_context"
+require_relative "shared_contract_examples"
 
 RSpec.describe Saml::Providers::UpdateContract do
   let(:provider) { build_stubbed(:saml_provider) }
-  let(:contract) { described_class.new provider, current_user }
 
-  include_context "ModelContract shared context"
+  include_context "as saml provider contract"
 
-  context "when admin" do
+  describe "allowed_clock_drift persisted out of bounds" do
     let(:current_user) { build_stubbed(:admin) }
+    let(:provider) { build_stubbed(:saml_provider, allowed_clock_drift: -0.5) }
 
     it_behaves_like "contract is valid"
-  end
-
-  context "when non-admin" do
-    let(:current_user) { build_stubbed(:user) }
-
-    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 end

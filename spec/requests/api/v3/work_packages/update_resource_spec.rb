@@ -353,7 +353,7 @@ RSpec.describe "API v3 Work package resource",
 
         context "valid type" do
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
           end
 
           include_context "patch request"
@@ -374,9 +374,9 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
             project.work_package_custom_fields << custom_field
-            target_type.custom_fields << custom_field
+            target_type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -457,7 +457,7 @@ RSpec.describe "API v3 Work package resource",
 
           before do
             target_project.work_package_custom_fields << custom_field
-            work_package.type.custom_fields << custom_field
+            work_package.type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -564,7 +564,7 @@ RSpec.describe "API v3 Work package resource",
             include_context "patch request"
 
             context "user doesn't exist" do
-              let(:user_href) { api_v3_paths.user 909090 }
+              let(:user_href) { api_v3_paths.user(not_existing_id(User)) }
 
               it_behaves_like "constraint violation" do
                 let(:message) do
@@ -613,7 +613,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
@@ -666,10 +666,6 @@ RSpec.describe "API v3 Work package resource",
             expect(work_package.reload.target_versions).to contain_exactly(target_version)
           end
 
-          it "mirrors the version into the legacy version_id" do
-            expect(work_package.reload.version_id).to eq(target_version.id)
-          end
-
           it "responds with the target version link" do
             expect(response.body)
               .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
@@ -692,13 +688,10 @@ RSpec.describe "API v3 Work package resource",
           it "clears the target versions" do
             expect(work_package.reload.target_versions).to be_empty
           end
-
-          it "sets the legacy version_id to nil" do
-            expect(work_package.reload.version).to be_nil
-          end
         end
 
-        context "with more than one version" do
+        context "with more than one version while multiple versions is disabled",
+                with_settings: { work_package_multiple_versions: false } do
           let(:other_version) { create(:version, project:) }
           let(:target_versions_links) do
             [{ href: api_v3_paths.version(target_version.id) },
@@ -715,6 +708,32 @@ RSpec.describe "API v3 Work package resource",
 
           it "does not assign any target version" do
             expect(work_package.reload.target_versions).to be_empty
+          end
+        end
+
+        context "with more than one version while multiple versions is enabled",
+                with_settings: { work_package_multiple_versions: true } do
+          let(:other_version) { create(:version, project:) }
+          let(:target_versions_links) do
+            [{ href: api_v3_paths.version(target_version.id) },
+             { href: api_v3_paths.version(other_version.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns all target versions" do
+            expect(work_package.reload.target_versions)
+              .to contain_exactly(target_version, other_version)
+          end
+
+          it "responds with a link per target version" do
+            hrefs = parse_json(response.body, "_links/targetVersions").pluck("href")
+
+            expect(hrefs)
+              .to contain_exactly(api_v3_paths.version(target_version.id),
+                                  api_v3_paths.version(other_version.id))
           end
         end
 
@@ -829,7 +848,7 @@ RSpec.describe "API v3 Work package resource",
         before do
           allow(User).to receive(:current).and_return current_user
           work_package.project.work_package_custom_fields << custom_field
-          work_package.type.custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
         end
 
         context "valid" do

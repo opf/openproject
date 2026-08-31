@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourceAllocations requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user,
@@ -125,8 +124,7 @@ RSpec.describe "ResourceAllocations requests",
                principal_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
-               start_date: "2026-03-02",
-               end_date: "2026-03-03",
+               date_range: "2026-03-02 - 2026-03-03",
                allocated_hours: "40h"
              }
            },
@@ -153,8 +151,7 @@ RSpec.describe "ResourceAllocations requests",
                principal_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id:,
-               start_date:,
-               end_date:,
+               date_range: "#{start_date} - #{end_date}",
                allocated_hours: "40h"
              }
            },
@@ -202,8 +199,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -242,8 +238,7 @@ RSpec.describe "ResourceAllocations requests",
                  filter_name: "Full stack Developer (DE-EN)",
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -272,8 +267,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-03",
-                 end_date: "2026-03-02", # before start_date
+                 date_range: "2026-03-03 - 2026-03-02", # finish date before the start date
                  allocated_hours: "40h"
                }
              },
@@ -297,8 +291,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: other_work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -322,8 +315,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: non_member.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -345,8 +337,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "Project",
                  entity_id: project.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -371,8 +362,7 @@ RSpec.describe "ResourceAllocations requests",
             principal_id: assignee.id,
             entity_type: "WorkPackage",
             entity_id: dated_work_package.id,
-            start_date: "2026-02-24", # after the work package's finish date
-            end_date: "2026-02-25",
+            date_range: "2026-02-24 - 2026-02-25", # after the work package's finish date
             allocated_hours: "40h"
           }
         }
@@ -403,8 +393,7 @@ RSpec.describe "ResourceAllocations requests",
                    principal_id: assignee.id,
                    entity_type: "WorkPackage",
                    entity_id: dated_work_package.id,
-                   start_date: "2026-01-20",
-                   end_date: "2026-01-21",
+                   date_range: "2026-01-20 - 2026-01-21",
                    allocated_hours: "40h"
                  }
                },
@@ -429,8 +418,7 @@ RSpec.describe "ResourceAllocations requests",
             principal_id: working_assignee.id,
             entity_type: "WorkPackage",
             entity_id: work_package.id,
-            start_date: "2026-03-02",
-            end_date: "2026-03-03",
+            date_range: "2026-03-02 - 2026-03-03",
             allocated_hours: "40h"
           }
         }
@@ -509,8 +497,7 @@ RSpec.describe "ResourceAllocations requests",
                    principal_id: assignee.id,
                    entity_type: "WorkPackage",
                    entity_id: work_package.id,
-                   start_date: "2026-03-02",
-                   end_date: "2026-03-03",
+                   date_range: "2026-03-02 - 2026-03-03",
                    allocated_hours: "40h"
                  }
                },
@@ -564,8 +551,7 @@ RSpec.describe "ResourceAllocations requests",
                 principal_id: assignee.id,
                 entity_type: "WorkPackage",
                 entity_id: work_package.id,
-                start_date: "2026-03-02",
-                end_date: "2026-03-06",
+                date_range: "2026-03-02 - 2026-03-06",
                 allocated_hours:
               }
             },
@@ -632,8 +618,7 @@ RSpec.describe "ResourceAllocations requests",
                   principal_id: working_assignee.id,
                   entity_type: "WorkPackage",
                   entity_id: work_package.id,
-                  start_date: "2026-03-02",
-                  end_date: "2026-03-03",
+                  date_range: "2026-03-02 - 2026-03-03",
                   allocated_hours: "40h"
                 }
               }.deep_merge(extra),
@@ -699,7 +684,7 @@ RSpec.describe "ResourceAllocations requests",
 
       expect(response.body).to have_turbo_stream(
         action: "closeDialog",
-        target: "##{ResourceAllocations::EditDialogComponent::DIALOG_ID}"
+        target: ResourceAllocations::EditDialogComponent::DIALOG_ID
       )
     end
   end
@@ -747,8 +732,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -775,7 +759,7 @@ RSpec.describe "ResourceAllocations requests",
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: user_dialog_id)
       expect(response.body).not_to include('value="filter"')
     end
 
@@ -785,7 +769,7 @@ RSpec.describe "ResourceAllocations requests",
              allocation_kind: "principal",
              resource_allocation: {
                principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
-               start_date: "2026-03-02", end_date: "2026-03-03", allocated_hours: "40h"
+               date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
              }
            },
            as: :turbo_stream

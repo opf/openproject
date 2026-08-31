@@ -58,6 +58,7 @@ module OpenProject::Backlogs
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
+                     "backlogs/sprint_reports": :show,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
@@ -90,7 +91,8 @@ module OpenProject::Backlogs
                    dependencies: %i[view_sprints edit_work_packages]
 
         permission :share_sprint,
-                   { "projects/settings/backlog_sharings": %i[show update] },
+                   { "projects/settings/backlog_sharings": %i[show update],
+                     "projects/settings/backlog_multiple_active_sprints": %i[show toggle_multiple_active_sprints] },
                    permissible_on: :project,
                    require: :member,
                    dependencies: :create_sprints
@@ -136,6 +138,8 @@ module OpenProject::Backlogs
            before: :settings_storage
     end
 
+    assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
+
     patches %i[PermittedParams
                WorkPackage
                Project]
@@ -146,7 +150,8 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :WorkPackages, :UpdateContract
-    patch_with_namespace :Projects, :CopyService
+    patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
+    patch_with_namespace :Queries, :Copy, :FiltersMapper
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
@@ -237,14 +242,16 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
+      require "open_project/backlogs/hooks/work_package_hook"
+
       %i[position story_points sprint backlog_bucket].each do |attribute|
-        ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
+        ::TypeVariant.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end
 
-      ::Type.add_default_mapping(:estimates_and_progress, :story_points)
-      ::Type.add_default_mapping(:other, :position)
-      ::Type.add_default_mapping(:details, :sprint)
-      ::Type.add_default_mapping(:details, :backlog_bucket)
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :story_points)
+      ::TypeVariant.add_default_mapping(:other, :position)
+      ::TypeVariant.add_default_mapping(:details, :sprint)
+      ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter

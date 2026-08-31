@@ -1,5 +1,10 @@
 ---
 el:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Πίνακας Ελέγχου
     label_home: "%{workspace_type} home"
