@@ -64,7 +64,7 @@ module WorkPackageTypes
         attribute(:parent_subject, -> { WorkPackage.human_attribute_name(:subject) }, ->(parent) { parent.subject }),
         attribute(:parent_status, -> { WorkPackage.human_attribute_name(:status) }, ->(parent) { parent.status }),
         attribute(:parent_type, -> { WorkPackage.human_attribute_name(:type) }, ->(parent) { parent.type }),
-        attribute(:parent_version, -> { WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.version }),
+        attribute(:parent_version, -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.target_versions }, ARRAY),
         attribute(:priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(wp) { wp.priority }),
         attribute(:project_id, -> { Project.human_attribute_name(:id) }, ->(project) { project.id }),
         attribute(:project_active, -> { Project.human_attribute_name(:active) }, ->(project) { project.active? }),
@@ -75,14 +75,14 @@ module WorkPackageTypes
         attribute(:start_date, -> { WorkPackage.human_attribute_name(:start_date) }, ->(wp) { wp.start_date }, DATE),
         attribute(:status, -> { WorkPackage.human_attribute_name(:status) }, ->(wp) { wp.status }),
         attribute(:type, -> { WorkPackage.human_attribute_name(:type) }, ->(wp) { wp.type }),
-        attribute(:version, -> { WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.version })
+        attribute(:version, -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.target_versions }, ARRAY)
       ].freeze
       # rubocop:enable Layout/LineLength
 
-      def partitioned_tokens_for_type(type)
+      def partitioned_tokens_for_type(variant)
         enabled_tokens = [
           *BASE_ATTRIBUTE_TOKENS,
-          *tokenize(work_package_cfs_for(type)),
+          *tokenize(work_package_cfs_for(variant)),
           *tokenize(project_cfs, "project_"),
           *tokenize(all_work_package_cfs, "parent_")
         ].to_set
@@ -115,8 +115,8 @@ module WorkPackageTypes
       end
 
       def prefixed_label(context, attribute_label)
-        attribute_context = I18n.t("types.edit.subject_configuration.token.context.#{context}")
-        I18n.t("types.edit.subject_configuration.token.label_with_context", attribute_context:, attribute_label:)
+        attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
+        I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label:)
       end
 
       def tokenize(custom_field_scope, prefix = nil)
@@ -142,8 +142,8 @@ module WorkPackageTypes
         end
       end
 
-      def work_package_cfs_for(type)
-        all_work_package_cfs.merge(type.custom_fields)
+      def work_package_cfs_for(variant)
+        all_work_package_cfs.merge(variant.custom_fields)
       end
 
       def all_work_package_cfs

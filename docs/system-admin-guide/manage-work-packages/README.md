@@ -17,6 +17,7 @@ Manage work packages in OpenProject.
 | [Types](work-package-types)                                 | Create and manage work package types.                        |
 | [Automatic subjects](work-package-types/automatic-subjects) | Define automatic work package subjects (Enterprise add-on).  |
 | [Status](work-package-status)                               | Create and manage work package status.                       |
+| [Versions and categories](versions-and-categories)          | Enable multiple values for work package versions.            |
 | [Priorities](work-package-priorities)                       | Create and manage work package priorities.                   |
 | [Progress tracking](work-package-progress-tracking)         | Manage work package progress reporting settings.             |
 | [Workflows](work-package-workflows)                         | Create and manage workflows for work packages in OpenProject. |

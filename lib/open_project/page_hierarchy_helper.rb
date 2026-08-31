@@ -39,7 +39,7 @@ module OpenProject
             concat render_page_hierarchy(pages, page.id, options) if is_parent
           end
         end
-        chunks.join.html_safe
+        safe_join(chunks)
       end
     end
 

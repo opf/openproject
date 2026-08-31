@@ -1,7 +1,35 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { ElementRef, Injectable, Injector } from '@angular/core';
+import { ElementRef, Injectable, Injector, inject } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -13,22 +41,20 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected injector = inject(Injector);
+  protected halResource = inject(HalResourceService);
+  protected schemaCache = inject(SchemaCacheService);
+
   public fieldName = 'text';
 
   public valueChanged$:BehaviorSubject<string>;
 
+  public readonly stateChanged$ = new Subject<void>();
+
   public changeset:ResourceChangeset;
 
   public active:boolean;
-
-  constructor(
-    protected elementRef:ElementRef,
-    protected injector:Injector,
-    protected halResource:HalResourceService,
-    protected schemaCache:SchemaCacheService,
-  ) {
-    super();
-  }
 
   public initialize(value:GridWidgetResource) {
     this.initializeChangeset(value);
@@ -75,11 +101,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public get rawText() {
-    return _.get(this.textValue, 'raw', '');
+    return (this.textValue as { raw?:string } | null)?.raw ?? '';
   }
 
   public get htmlText() {
-    return _.get(this.textValue, 'html', '');
+    return (this.textValue as { html?:string } | null)?.html ?? '';
   }
 
   public get textValue() {
@@ -93,10 +119,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   deactivate():void {
     this.changeset.clear();
     this.active = false;
+    this.stateChanged$.next();
   }
 
   activate() {
     this.active = true;
+    this.stateChanged$.next();
   }
 
   get inEditMode():boolean {
@@ -108,7 +136,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
+    const trigger = this.elementRef.nativeElement.querySelector<HTMLElement>('.inplace-editing--trigger-container');
     if (trigger) {
       trigger.focus();
     }

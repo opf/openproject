@@ -57,7 +57,7 @@ RSpec.describe Projects::Settings::RelationsForm, type: :forms do
 
   context "without parent" do
     it "renders field with model" do
-      expect(page).to have_element "opce-project-autocompleter", "data-qa-field-name": "parent" do |element|
+      expect(page).to have_element "opce-project-autocompleter", "data-test-selector": "parent" do |element|
         expect(element["data-model"]).to be_json_eql(nil.to_json)
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe Projects::Settings::RelationsForm, type: :forms do
 
     context "when the parent is not visible to the user" do
       it "renders field with model" do
-        expect(page).to have_element "opce-project-autocompleter", "data-qa-field-name": "parent" do |element|
+        expect(page).to have_element "opce-project-autocompleter", "data-test-selector": "parent" do |element|
           expect(element["data-model"]).to be_json_eql(
             %{{"name": "Undisclosed - The parent is invisible because of lacking permissions."}}
           )
@@ -81,7 +81,7 @@ RSpec.describe Projects::Settings::RelationsForm, type: :forms do
       let(:public) { true }
 
       it "renders field with model" do
-        expect(page).to have_element "opce-project-autocompleter", "data-qa-field-name": "parent" do |element|
+        expect(page).to have_element "opce-project-autocompleter", "data-test-selector": "parent" do |element|
           expect(element["data-model"]).to be_json_eql(%{{"name": "New Project"}})
         end
       end
@@ -94,7 +94,7 @@ RSpec.describe Projects::Settings::RelationsForm, type: :forms do
       end
 
       it "renders field with model" do
-        expect(page).to have_element "opce-project-autocompleter", "data-qa-field-name": "parent" do |element|
+        expect(page).to have_element "opce-project-autocompleter", "data-test-selector": "parent" do |element|
           expect(element["data-model"]).to be_json_eql(%{{"name": "New Project"}})
         end
       end

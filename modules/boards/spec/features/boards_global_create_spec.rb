@@ -5,8 +5,7 @@ require_relative "support/board_new_page"
 
 RSpec.describe "Boards",
                "Creating a view from a Global Context",
-               :js,
-               with_ee: %i[board_view] do
+               :js do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   shared_let(:admin) { create(:admin) }
@@ -48,157 +47,158 @@ RSpec.describe "Boards",
       new_board_page.visit!
     end
 
-    context "with a Community Edition", with_ee: %i[] do
-      it "renders an enterprise banner and disables all restricted board types", :aggregate_failures do
-        expect(page).to have_enterprise_banner
-        expect(page).to have_selector(:radio_button, "Basic")
+    it "enables all board types" do
+      %w[Basic Kanban Assignee Version Subproject Parent-child].each do |board_type|
+        expect(page).to have_css("[data-test-selector='op-tile-block-title']", text: board_type)
+      end
 
-        %w[Kanban Assignee Version Subproject Parent-child].each do |restricted_board_type|
-          expect(page).to have_selector(:radio_button, restricted_board_type, disabled: true)
+      expect(page).to have_css("[data-test-selector='op-tile-block']", count: 6)
+      expect(page).to have_no_css("[data-test-selector='op-tile-block'].-disabled")
+      expect(page).to have_no_css("input.radio-button[disabled]")
+    end
+
+    it "does not render an enterprise banner" do
+      expect(page).not_to have_enterprise_banner
+    end
+
+    context "with all fields set" do
+      before do
+        wait_for_reload # Halt until the project autocompleter is ready
+
+        new_board_page.set_title "Gotham Renewal Board"
+        new_board_page.set_project project
+      end
+
+      context 'when creating a "Basic" board' do
+        before do
+          new_board_page.set_board_type "Basic"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it" do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+        end
+      end
+
+      context 'when creating a "Status" board' do
+        before do
+          new_board_page.set_board_type "Kanban"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it" do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+          expect(page).to have_css("[data-query-name='#{status.name}']")
+        end
+      end
+
+      context 'when creating an "Assignee" board' do
+        before do
+          new_board_page.set_board_type "Assignee"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it" do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+        end
+      end
+
+      context 'when creating a "Version" board' do
+        before do
+          new_board_page.set_board_type "Version"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it", :aggregate_failures do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+          versions.each do |version|
+            expect(page).to have_css("[data-query-name='#{version.name}']")
+          end
+          excluded_versions.each do |version|
+            expect(page).to have_no_css("[data-query-name='#{version.name}']")
+          end
+        end
+      end
+
+      context 'when creating a "Subproject" board' do
+        before do
+          new_board_page.set_board_type "Subproject"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it" do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
+        end
+      end
+
+      context 'when creating a "Parent-child" board' do
+        before do
+          new_board_page.set_board_type "Parent-child"
+          new_board_page.click_on_submit
+
+          wait_for_reload
+        end
+
+        it "creates the board and redirects me to it" do
+          expect(page).to have_text(I18n.t(:notice_successful_create))
+          expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
+          expect(page).to have_text "Gotham Renewal Board"
         end
       end
     end
 
-    context "with an Enterprise Edition" do
-      context "with all fields set" do
+    context "when missing a required field" do
+      describe "title" do
         before do
           wait_for_reload # Halt until the project autocompleter is ready
 
-          new_board_page.set_title "Gotham Renewal Board"
-          new_board_page.set_project project
+          new_board_page.set_project(project)
+          new_board_page.click_on_submit
         end
 
-        context 'when creating a "Basic" board' do
-          before do
-            new_board_page.set_board_type "Basic"
-            new_board_page.click_on_submit
+        it "renders a required attribute validation error" do
+          expect(Boards::Grid.all).to be_empty
 
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it" do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-          end
-        end
-
-        context 'when creating a "Status" board' do
-          before do
-            new_board_page.set_board_type "Kanban"
-            new_board_page.click_on_submit
-
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it" do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-            expect(page).to have_css("[data-query-name='#{status.name}']")
-          end
-        end
-
-        context 'when creating an "Assignee" board' do
-          before do
-            new_board_page.set_board_type "Assignee"
-            new_board_page.click_on_submit
-
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it" do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-          end
-        end
-
-        context 'when creating a "Version" board' do
-          before do
-            new_board_page.set_board_type "Version"
-            new_board_page.click_on_submit
-
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it", :aggregate_failures do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-            versions.each do |version|
-              expect(page).to have_css("[data-query-name='#{version.name}'")
-            end
-            excluded_versions.each do |version|
-              expect(page).to have_no_css("[data-query-name='#{version.name}'")
-            end
-          end
-        end
-
-        context 'when creating a "Subproject" board' do
-          before do
-            new_board_page.set_board_type "Subproject"
-            new_board_page.click_on_submit
-
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it" do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-          end
-        end
-
-        context 'when creating a "Parent-child" board' do
-          before do
-            new_board_page.set_board_type "Parent-child"
-            new_board_page.click_on_submit
-
-            wait_for_reload
-          end
-
-          it "creates the board and redirects me to it" do
-            expect(page).to have_text(I18n.t(:notice_successful_create))
-            expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
-            expect(page).to have_text "Gotham Renewal Board"
-          end
+          # Required HTML attribute just warns
+          expect(page).to have_current_path(new_work_package_board_path)
         end
       end
 
-      context "when missing a required field" do
-        describe "title" do
-          before do
-            wait_for_reload # Halt until the project autocompleter is ready
+      describe "project_id" do
+        before do
+          new_board_page.set_title("Batman's Itinerary")
+          new_board_page.click_on_submit
 
-            new_board_page.set_project(project)
-            new_board_page.click_on_submit
-          end
-
-          it "renders a required attribute validation error" do
-            expect(Boards::Grid.all).to be_empty
-
-            # Required HTML attribute just warns
-            expect(page).to have_current_path(new_work_package_board_path)
-          end
+          wait_for_reload
         end
 
-        describe "project_id" do
-          before do
-            new_board_page.set_title("Batman's Itinerary")
-            new_board_page.click_on_submit
+        it "renders a required attribute validation error" do
+          expect(Boards::Grid.all).to be_empty
 
-            wait_for_reload
-          end
+          expect_flash message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
+                       type: :error
 
-          it "renders a required attribute validation error" do
-            expect(Boards::Grid.all).to be_empty
-
-            expect_flash message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
-                         type: :error
-
-            new_board_page.expect_project_dropdown
-          end
+          new_board_page.expect_project_dropdown
         end
       end
     end

@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { inject, Injectable } from '@angular/core';
 import { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -26,8 +54,8 @@ import {
 } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import {
-  WidgetProjectFavoritesComponent,
-} from 'core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component';
+  WidgetFavoriteProjectsComponent,
+} from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Injectable()
@@ -44,7 +72,7 @@ export class GridWidgetsService {
   private buildWidgets() {
     let registeredWidgets:WidgetRegistration[] = this.buildDefaultWidgets();
 
-    _.each(this.Hook.call('gridWidgets'), (registration:WidgetRegistration[]) => {
+    this.Hook.call('gridWidgets').forEach((registration:WidgetRegistration[]) => {
       registeredWidgets = registeredWidgets.concat(registration);
     });
 
@@ -237,7 +265,7 @@ export class GridWidgetsService {
       },
       {
         identifier: 'project_favorites',
-        component: WidgetProjectFavoritesComponent,
+        component: WidgetFavoriteProjectsComponent,
         title: this.I18n.t('js.grid.widgets.project_favorites.title'),
         properties: {
           name: this.I18n.t('js.grid.widgets.project_favorites.title'),

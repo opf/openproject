@@ -40,24 +40,27 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::RichTextAr
       described_class.new(
         model: project,
         attribute: :description,
-        writable: true
+        writable: true,
+        truncated: false
       )
     )
 
     expect(rendered_content).to have_css("h2", text: "Hello")
+    expect(rendered_content).to include("click-&gt;inplace-edit#request")
   end
 
-  it "adds inplace-edit stimulus data when writable" do
+  it "renders a truncated attribute component when truncated is true" do
     render_inline(
       described_class.new(
         model: project,
         attribute: :description,
-        writable: true
+        writable: false,
+        truncated: true
       )
     )
 
-    expect(rendered_content)
-      .to include("data-action=\"click-&gt;inplace-edit#request\"")
+    expect(rendered_content).to have_css("[data-controller='expandable-text']", text: "Hello")
+    expect(rendered_content).to have_css(".ellipsis-expander", visible: :all)
   end
 
   it "adds no inplace-edit stimulus data when not writable" do
@@ -65,11 +68,11 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::RichTextAr
       described_class.new(
         model: project,
         attribute: :description,
-        writable: false
+        writable: false,
+        truncated: false
       )
     )
 
-    expect(rendered_content)
-      .not_to include("data-action=\"click-&gt;inplace-edit#request\"")
+    expect(rendered_content).not_to include("click-&gt;inplace-edit#request")
   end
 end

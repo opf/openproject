@@ -29,7 +29,7 @@
 #++
 
 RSpec.shared_context "with a project with an arrangement of custom fields" do
-  shared_let(:version_cf) { create(:version_project_custom_field, position: 1) }
+  shared_let(:version_cf) { create(:version_project_custom_field, :has_comment, position: 1) }
   shared_let(:bool_cf) { create(:boolean_project_custom_field, position: 2) }
   shared_let(:user_cf) { create(:user_project_custom_field, position: 3) }
   shared_let(:int_cf) { create(:integer_project_custom_field, position: 4) }
@@ -37,12 +37,18 @@ RSpec.shared_context "with a project with an arrangement of custom fields" do
   shared_let(:text_cf) { create(:text_project_custom_field, position: 6) }
   shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }
   shared_let(:date_cf) { create(:date_project_custom_field, position: 8) }
-  shared_let(:hidden_cf) { create(:string_project_custom_field, position: 9, admin_only: true) }
+  shared_let(:hidden_cf) { create(:string_project_custom_field, :admin_only, :has_comment, position: 9) }
   shared_let(:link_cf) { create(:link_project_custom_field, position: 10) }
 
-  let!(:not_used_string_cf) { create(:string_project_custom_field, position: 11) }
+  shared_let(:not_used_string_cf) { create(:string_project_custom_field, position: 11) }
 
-  shared_let(:system_version) { create(:version, sharing: "system") }
+  shared_let(:system_version) do
+    create(
+      :version,
+      sharing: "system",
+      project: build(:project, active: false) # marking inactive is the simplest way to remove it from query (for non-admin users)
+    )
+  end
 
   shared_let(:role) do
     create(:project_role)
@@ -56,27 +62,30 @@ RSpec.shared_context "with a project with an arrangement of custom fields" do
 
   # project needs to be reevaluted before every example as the creation behaves differently from different user contexts
   # shared_let cannot be used here as it would create the project only once
-  let(:project) do
-    project = build(:project,
-                    status_code: "off_track",
-                    status_explanation: "some explanation",
-                    members: { other_user => role },
-                    description: "The description of the project",
-                    custom_field_values: {
-                      int_cf.id => 5,
-                      bool_cf.id => true,
-                      version_cf.id => system_version,
-                      float_cf.id => 4.5,
-                      text_cf.id => "Some **long** text",
-                      string_cf.id => "Some small text",
-                      date_cf.id => Time.zone.today,
-                      user_cf.id => other_user.id,
-                      hidden_cf.id => "hidden",
-                      link_cf.id => "https://www.example.com"
-                    })
-    project.save!(validate: false)
-
-    project
+  let!(:project) do
+    build(
+      :project,
+      status_code: "off_track",
+      status_explanation: "some explanation",
+      members: { other_user => role },
+      description: "The description of the project",
+      custom_field_values: {
+        int_cf.id => 5,
+        bool_cf.id => true,
+        version_cf.id => system_version,
+        float_cf.id => 4.5,
+        text_cf.id => "Some **long** text",
+        string_cf.id => "Some small text",
+        date_cf.id => Time.zone.today,
+        user_cf.id => other_user.id,
+        hidden_cf.id => "hidden",
+        link_cf.id => "https://www.example.com"
+      },
+      custom_comments: {
+        version_cf.id => "Comment visible to members",
+        hidden_cf.id => "Comment visible to admins"
+      }
+    ).tap { it.save!(validate: false) }
   end
 end
 
@@ -99,7 +108,7 @@ RSpec.shared_context "with an instance of the described exporter" do
     described_class.new(query)
   end
 
-  let(:global_project_custom_fields) { ProjectCustomField.visible }
+  let(:global_project_custom_fields) { ProjectCustomField.visible.order(:position) }
   let(:custom_fields_of_project) { project.available_custom_fields }
 
   let(:output) do

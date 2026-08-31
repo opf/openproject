@@ -180,10 +180,10 @@ module Redmine::MenuManager::MenuHelper
     caption, url, selected = extract_node_details(item, project)
     shown_in_main_menu = menu_class == "op-menu"
 
-    link_text = "".html_safe
+    link_text = ActiveSupport::SafeBuffer.new
 
     if item.icon(project).present?
-      link_text += render(Primer::Beta::Octicon.new(
+      link_text << render(Primer::Beta::Octicon.new(
                             icon: item.icon,
                             mr: shown_in_main_menu ? 3 : 0,
                             size: shown_in_main_menu ? :small : :medium
@@ -192,7 +192,7 @@ module Redmine::MenuManager::MenuHelper
 
     badge_class = item.badge(project:).present? ? " #{menu_class}--item-title_has-badge" : ""
 
-    link_text += content_tag(:span,
+    link_text << content_tag(:span,
                              class: "#{menu_class}--item-title#{badge_class}",
                              lang: menu_item_locale(item)) do
       title_text = content_tag(:span, caption, class: "ellipsis") + badge_for(item)
@@ -205,7 +205,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if item.icon_after.present?
-      link_text += render(Primer::Beta::Octicon.new(icon: item.icon_after, classes: "trailing-icon"))
+      link_text << render(Primer::Beta::Octicon.new(icon: item.icon_after, classes: "trailing-icon"))
     end
 
     html_options = item.html_options(selected:)
@@ -424,8 +424,6 @@ module Redmine::MenuManager::MenuHelper
     key = item.badge(project: @project)
     if key.present?
       content_tag("span", I18n.t(key), class: "main-item--badge")
-    else
-      "".html_safe
     end
   end
 

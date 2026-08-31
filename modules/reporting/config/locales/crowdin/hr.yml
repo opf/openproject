@@ -19,88 +19,94 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 hr:
-  plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "Spremi izvješće kao..."
-  comments: "Komentar"
-  cost_reports_title: "Time and costs"
-  label_cost_report: "Izvješće troška"
-  label_cost_report_plural: "Izvješća troškova"
-  description_drill_down: "Prikaži detalje"
-  description_filter_selection: "Izbor"
-  description_multi_select: "Prikaži višeodabir"
-  description_remove_filter: "Ukloni filter"
-  information_restricted_depending_on_permission: "Ovisno o vašim pravima, ova stranica će prikazati ogranićene informacije."
-  label_click_to_edit: "Kliknite za uređivanje."
-  label_closed: "zaključeno"
-  label_columns: "Stupci"
-  label_cost_entry_attributes: "Atributi ulaznog troška"
-  label_days_ago: "tijekom posljednjih dana"
-  label_entry: "Ulazni trošak"
-  label_filter_text: "Filtriraj tekst"
-  label_filter_value: "Vrijednost"
-  label_filters: "Filter"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "nije (uključujući i podprojekte)"
-  label_is_project_with_subprojects: "je (uključujući podprojekte)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Atributi radnih paketa"
-  label_less: "<"
-  label_logged_by_reporting: "Logged by"
-  label_money: "Vrijednost gotovine"
-  label_month_reporting: "Mjeseci (utrošeno)"
-  label_new_report: "Izvješće novog troška"
-  label_open: "otvori"
-  label_operator: "Operator"
-  label_private_report_plural: "Izvješća privatnog troška"
-  label_progress_bar_explanation: "Generiranje izvješća..."
-  label_public_report_plural: "Izvješća javnog troška"
-  label_really_delete_question: "Da li ste sigurni da želite izbrisati ovo izvješće?"
-  label_rows: "Redci"
-  label_saving: "Spremanje ..."
-  label_spent_on_reporting: "Datum (utrošeno)"
-  label_sum: "Zbroj"
-  label_units: "Jedinice"
-  label_week_reporting: "Tjedan (utrošeno)"
-  label_year_reporting: "Godine (utrošeno)"
-  label_count: "Zbroji"
-  label_filter: "Filter"
-  label_filter_add: "Dodaj filter"
-  label_filter_plural: "Filteri"
-  label_group_by: "Grupiraj po"
-  label_group_by_add: "Dodaj grupu - po Atributu"
-  label_inactive: "«neaktivan»"
-  label_no: "Ne"
-  label_none: "(nema podataka)"
-  label_no_reports: "There are no cost reports yet."
-  label_report: "Izvješće"
-  label_yes: "Da"
-  load_query_question: "Izvješće će imati %{size} veličinu tablice te će biti potrebno određeno vrijeme za prikaz. Da li želite prikazati ga i dalje?"
-  permission_save_cost_reports: "Spremi izvješća javnog troška"
-  permission_save_private_cost_reports: "Spremi izvješća privatnog troška"
-  project_module_reporting_module: "Izvješća troškova"
-  text_costs_are_rounded_note: "Sve prikazane vrijednosti su zaokružene. Svi izračuni temelje se na decimalnim vrijednostima."
-  toggle_multiselect: "aktiviraj/deaktiviraj višeodabir"
-  units: "Jedinice"
-  validation_failure_date: "nije valjan datum"
-  validation_failure_integer: "nije valjan cijeli broj"
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
+  button_save_report_as: Spremi izvješće kao...
+  comments: Komentar
+  cost_reports_title: Time and costs
+  description_drill_down: Prikaži detalje
+  description_filter_selection: Izbor
+  description_multi_select: Prikaži višeodabir
+  description_remove_filter: Ukloni filter
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "Vrijeme"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Your Cost Reports XLS export"
-      start_time: "Start time"
-      end_time: "End time"
+      end_time: End time
+      start_time: Start time
+      title: Your Cost Reports XLS export
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: Vrijeme
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: Ovisno o vašim pravima, ova stranica će prikazati ogranićene informacije.
+  label_click_to_edit: Kliknite za uređivanje.
+  label_closed: zaključeno
+  label_columns: Stupci
+  label_cost_entry_attributes: Atributi ulaznog troška
+  label_cost_report_plural: Izvješća troškova
+  label_count: Zbroji
+  label_days_ago: tijekom posljednjih dana
+  label_entry: Ulazni trošak
+  label_filter: Filter
+  label_filter_add: Dodaj filter
+  label_filter_plural: Filteri
+  label_filter_text: Filtriraj tekst
+  label_filter_value: Vrijednost
+  label_filters: Filter
+  label_greater: ">"
+  label_group_by: Grupiraj po
+  label_group_by_add: Dodaj grupu - po Atributu
+  label_inactive: "«neaktivan»"
+  label_is_not_project_with_subprojects: nije (uključujući i podprojekte)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: je (uključujući podprojekte)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: Logged by
+  label_money: Vrijednost gotovine
+  label_month_reporting: Mjeseci (utrošeno)
+  label_new_report: Izvješće novog troška
+  label_no: Ne
+  label_no_reports: There are no cost reports yet.
+  label_none: "(nema podataka)"
+  label_open: otvori
+  label_operator: Operator
+  label_private_report_plural: Izvješća privatnog troška
+  label_progress_bar_explanation: Generiranje izvješća...
+  label_public_report_plural: Izvješća javnog troška
+  label_really_delete_question: Da li ste sigurni da želite izbrisati ovo izvješće?
+  label_report: Izvješće
+  label_rows: Redci
+  label_saving: Spremanje ...
+  label_spent_on_reporting: Datum (utrošeno)
+  label_sum: Zbroj
+  label_units: Jedinice
+  label_week_reporting: Tjedan (utrošeno)
+  label_work_package_attributes: Atributi radnih paketa
+  label_year_reporting: Godine (utrošeno)
+  label_yes: Da
+  load_query_question: Izvješće će imati %{size} veličinu tablice te će biti potrebno određeno vrijeme za prikaz. Da li želite prikazati ga i dalje?
+  permission_save_cost_reports: Spremi izvješća javnog troška
+  permission_save_private_cost_reports: Spremi izvješća privatnog troška
+  plugin_openproject_reporting:
+    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    name: OpenProject Reporting
+  project_module_reporting_module: Izvješća troškova
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: Selected columns
+      selected_rows: Selected rows
+  text_costs_are_rounded_note: Sve prikazane vrijednosti su zaokružene. Svi izračuni temelje se na decimalnim vrijednostima.
+  toggle_multiselect: aktiviraj/deaktiviraj višeodabir
+  units: Jedinice
+  validation_failure_date: nije valjan datum
+  validation_failure_integer: nije valjan cijeli broj

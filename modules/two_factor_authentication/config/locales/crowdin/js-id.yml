@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 id:
   js:
     two_factor_authentication:
       errors:
-        aborted: "Autentikasi telah dibatalkan. Silakan coba lagi."
+        aborted: Autentikasi telah dibatalkan. Silakan coba lagi.

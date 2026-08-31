@@ -27,17 +27,18 @@
 #++
 
 class Rate < ApplicationRecord
-  validates_numericality_of :rate, allow_nil: false
+  validates :rate, numericality: { allow_nil: false }
   validate :validate_date_is_a_date
 
   before_save :convert_valid_from_to_date
 
-  after_destroy :update_costs
-  after_update :rate_updated
   after_create :rate_created
+  after_update :rate_updated
+  after_destroy :update_costs
 
   belongs_to :user
   include ::Costs::DeletedUserFallback
+
   belongs_to :project
 
   include ActiveModel::ForbiddenAttributesProtection

@@ -48,8 +48,3 @@ if env == "production" && ENV["OPENPROJECT_PROD_DEPRECATIONS"] != "true"
   StructuredWarnings::BuiltInWarning.disable
   StructuredWarnings::DeprecationWarning.disable
 end
-
-if env == "development"
-  warn "Starting with bootsnap."
-  require "bootsnap/setup" # Speed up boot time by caching expensive operations.
-end

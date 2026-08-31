@@ -31,7 +31,7 @@
 module Projects::CreationWizard
   class CreateArtifactWorkPackageService < ::BaseServices::BaseContracted
     include Contracted
-    include ProjectHelper
+    include ProjectsHelper
     include ArtifactExporter
     include Rails.application.routes.url_helpers
     prepend Projects::Concerns::UpdateDemoData
@@ -39,7 +39,6 @@ module Projects::CreationWizard
     def initialize(user:, model:, contract_class: Projects::CreateArtifactWorkPackageContract)
       super(user:, contract_class:)
       self.model = model
-      @skip_creation = false
     end
 
     def project = model
@@ -48,26 +47,7 @@ module Projects::CreationWizard
 
     attr_accessor :artifact_work_package
 
-    def skip_creation? = @skip_creation
-    def skip_creation! = @skip_creation = true
-
-    def before_perform(service_call)
-      if WorkPackage.exists?(project.project_creation_wizard_artifact_work_package_id)
-        skip_creation!
-      end
-
-      service_call
-    end
-
-    def validate_contract(service_call)
-      return service_call if skip_creation?
-
-      super
-    end
-
     def persist(service_call)
-      return service_call if skip_creation?
-
       creation_call = create_artifact_work_package
 
       creation_call.on_success do
@@ -86,7 +66,7 @@ module Projects::CreationWizard
     def after_perform(service_call)
       send_notification_email
 
-      return service_call if store_attachment_locally? || skip_creation?
+      return service_call if store_attachment_locally?
 
       if project_storage.nil?
         service_call.errors.add(:base, I18n.t("projects.wizard.create_artifact_storage_error"))

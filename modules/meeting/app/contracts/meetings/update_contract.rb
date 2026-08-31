@@ -31,8 +31,11 @@
 module Meetings
   class UpdateContract < BaseContract
     include Redmine::I18n
+    include UnchangedProject
 
-    validate :user_allowed_to_edit
+    validate :user_allowed_to_edit_in_source_project
+    validate :user_allowed_to_edit_in_destination_project
+    validate :meeting_is_editable
     validate :valid_rescheduling_date, if: -> { check_reschedule? }
 
     attribute :lock_version do
@@ -41,10 +44,33 @@ module Meetings
       end
     end
 
-    def user_allowed_to_edit
+    def user_allowed_to_edit_in_source_project
+      with_unchanged_project_id do
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(:edit_meetings, model.project)
+      end
+    end
+
+    def user_allowed_to_edit_in_destination_project
+      return unless model.project_id_changed?
+
       unless user.allowed_in_project?(:edit_meetings, model.project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def meeting_is_editable
+      return unless user.allowed_in_project?(:edit_meetings, model.project)
+
+      # A closed meeting may still be reopened or otherwise have its state changed
+      #  but no other attribute of it may be edited
+      return unless model.state_was == "closed"
+      return if only_state_changed?
+
+      errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+    end
+
+    def only_state_changed?
+      model.changed == %w[state]
     end
 
     def valid_rescheduling_date # rubocop:disable Metrics/AbcSize
@@ -53,8 +79,8 @@ module Meetings
         return
       end
 
-      check_before(model.scheduled_meeting.next_occurrence)
-      check_after(model.scheduled_meeting.previous_occurrence)
+      check_before(model.recurring_meeting.next_occurrence(from_time: model.recurrence_start_time))
+      check_after(model.recurring_meeting.previous_occurrence(from_time: model.recurrence_start_time))
       check_after(model.recurring_meeting.first_occurrence)
     end
 
@@ -78,7 +104,7 @@ module Meetings
 
     def check_reschedule?
       model.recurring_meeting_id &&
-        model.scheduled_meeting &&
+        model.recurrence_start_time.present? &&
         model.changed.intersect?(%w[start_time start_date start_time_hour])
     end
   end

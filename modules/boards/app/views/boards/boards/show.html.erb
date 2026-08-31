@@ -27,4 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t("boards.label_boards")) -%>
+<% html_title(@board_grid.name) -%>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-board-view", inputs: { boardId: @board_grid.id.to_s } %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+<% end %>

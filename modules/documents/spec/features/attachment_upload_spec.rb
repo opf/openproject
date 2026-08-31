@@ -55,11 +55,6 @@ RSpec.describe "Upload attachment to documents",
 
   before do
     login_as(user)
-
-    # This is here while we don't have a setting defined for enabling/disabling collaboration
-    # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(Primer::OpenProject::Forms::BlockNoteEditor).to receive(:collaboration_enabled).and_return(false)
-    # rubocop:enable RSpec/AnyInstance
   end
 
   shared_examples "can upload an image in CKEditor" do
@@ -209,7 +204,9 @@ RSpec.describe "Upload attachment to documents",
   end
 
   context "for collaborative documents", with_settings: { real_time_text_collaboration_enabled: true } do
-    let(:document) { create(:document, project:) }
+    include_context "with hocuspocus"
+
+    let(:document) { create(:document, :collaborative, project:) }
     let(:editor) { FormFields::Primerized::BlockNoteEditorInput.new }
     let(:attachments_list) { Components::AttachmentsList.new }
 

@@ -34,21 +34,27 @@ module SearchHelper
 
     return nil unless split_text.length > 1 || text_on_not_found
 
-    result = +""
+    parts = []
+    total_length = 0
+
     split_text.each_with_index do |words, i|
-      if result.length > 1200
+      if total_length > 1200
         # maximum length of the preview reached
-        result << "..."
+        parts << "..."
         break
       end
 
-      result << if i.even?
-                  abbreviated_text(words)
-                else
-                  token_span(tokens, words)
-                end
+      part = if i.even?
+               abbreviated_text(words)
+             else
+               token_span(tokens, words)
+             end
+
+      parts << part
+      total_length += part.length
     end
-    result.html_safe
+
+    safe_join(parts)
   end
 
   def highlight_tokens_in_event(event, tokens)
@@ -66,12 +72,11 @@ module SearchHelper
   def highlight_and_abbreviate_html(event_description, tokens)
     html = OpenProject::TextFormatting::Renderer.format_text(event_description)
     highlighted_html = highlight_tokens_in_html(html, tokens)
-    # rubocop:disable Rails/OutputSafety
-    abbreviated_html(highlighted_html).html_safe
-    # rubocop:enable Rails/OutputSafety
+    # This html_safe call is fine, as coming from our html pipeline
+    abbreviated_html(highlighted_html).html_safe # rubocop:disable Rails/OutputSafety
   end
 
-  def highlight_tokens_in_html(html, tokens)
+  def highlight_tokens_in_html(html, tokens) # rubocop:disable Metrics/AbcSize
     doc = Nokogiri::HTML::DocumentFragment.parse(html)
 
     tokens.each do |token|
@@ -84,7 +89,7 @@ module SearchHelper
 
         t = (tokens.index(node.content.downcase) || 0) % 4
         highlighted_text = escaped_text.gsub(/(#{escaped_token})/i) do
-          %{<span class="search-highlight token-#{t}">#{$1}</span>}
+          content_tag(:span, $1, class: "search-highlight token-#{t}")
         end
 
         node.replace(Nokogiri::HTML::DocumentFragment.parse(highlighted_text))

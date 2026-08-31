@@ -70,7 +70,8 @@ info:
     This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
     This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
 
-    In this case, you always need to pass the HTTP header `X-Requested-With "XMLHttpRequest"` for authentication.
+    Keep in mind that session-based authentication is only possible when accessing the API from the same origin. This
+    is assured by checking the `Sec-Fetch-Site` HTTP header.
 
     ### API token as bearer token
 
@@ -266,10 +267,42 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/meetings":
+    "$ref": "./paths/meetings.yml"
   "/api/v3/meetings/{id}":
     "$ref": "./paths/meeting.yml"
+  "/api/v3/meetings/{id}/agenda_items":
+    "$ref": "./paths/meeting_agenda_items_by_meeting.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{id}":
+    "$ref": "./paths/meeting_agenda_item_by_meeting.yml"
+  "/api/v3/meeting_agenda_items":
+    "$ref": "./paths/meeting_agenda_items.yml"
+  "/api/v3/meeting_agenda_items/{id}":
+    "$ref": "./paths/meeting_agenda_item.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes":
+    "$ref": "./paths/meeting_agenda_item_outcomes.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}":
+    "$ref": "./paths/meeting_agenda_item_outcome.yml"
+  "/api/v3/meeting_outcomes":
+    "$ref": "./paths/meeting_outcomes.yml"
+  "/api/v3/meeting_outcomes/{id}":
+    "$ref": "./paths/meeting_outcome.yml"
   "/api/v3/meetings/{id}/attachments":
     "$ref": "./paths/meeting_attachments.yml"
+  "/api/v3/meetings/{id}/form":
+    "$ref": "./paths/meeting_form.yml"
+  "/api/v3/meetings/{id}/sections":
+    "$ref": "./paths/meeting_sections_by_meeting.yml"
+  "/api/v3/meetings/{meeting_id}/sections/{id}":
+    "$ref": "./paths/meeting_section_by_meeting.yml"
+  "/api/v3/meeting_sections":
+    "$ref": "./paths/meeting_sections.yml"
+  "/api/v3/meeting_sections/{id}":
+    "$ref": "./paths/meeting_section.yml"
+  "/api/v3/meetings/form":
+    "$ref": "./paths/meetings_form.yml"
+  "/api/v3/meetings/schema":
+    "$ref": "./paths/meeting_schema.yml"
   "/api/v3/memberships":
     "$ref": "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
@@ -378,6 +411,8 @@ paths:
     "$ref": "./paths/project_available_assignees.yml"
   "/api/v3/projects/{id}/categories":
     "$ref": "./paths/project_categories.yml"
+  "/api/v3/projects/{id}/sprints":
+    "$ref": "./paths/project_sprints.yml"
   "/api/v3/projects/{id}/types":
     "$ref": "./paths/project_types.yml"
   "/api/v3/projects/{id}/versions":
@@ -416,6 +451,26 @@ paths:
     "$ref": "./paths/query_star.yml"
   "/api/v3/queries/{id}/unstar":
     "$ref": "./paths/query_unstar.yml"
+  "/api/v3/recurring_meetings":
+    "$ref": "./paths/recurring_meetings.yml"
+  "/api/v3/recurring_meetings/{id}":
+    "$ref": "./paths/recurring_meeting.yml"
+  "/api/v3/recurring_meetings/{id}/end":
+    "$ref": "./paths/recurring_meeting_end.yml"
+  "/api/v3/recurring_meetings/{id}/template_completed":
+    "$ref": "./paths/recurring_meeting_template_completed.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/upcoming":
+    "$ref": "./paths/recurring_meeting_occurrences_upcoming.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/past":
+    "$ref": "./paths/recurring_meeting_occurrences_past.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/cancelled":
+    "$ref": "./paths/recurring_meeting_occurrences_cancelled.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/open":
+    "$ref": "./paths/recurring_meeting_occurrences_open.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/{start_time}":
+    "$ref": "./paths/recurring_meeting_occurrence.yml"
+  "/api/v3/recurring_meetings/{id}/occurrences/{start_time}/init":
+    "$ref": "./paths/recurring_meeting_occurrence_init.yml"
   "/api/v3/relations":
     "$ref": "./paths/relations.yml"
   "/api/v3/relations/{id}":
@@ -434,6 +489,10 @@ paths:
     "$ref": "./paths/roles.yml"
   "/api/v3/roles/{id}":
     "$ref": "./paths/role.yml"
+  "/api/v3/sprints":
+    "$ref": "./paths/sprints.yml"
+  "/api/v3/sprints/{id}":
+    "$ref": "./paths/sprint.yml"
   "/api/v3/statuses":
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
@@ -480,6 +539,14 @@ paths:
     "$ref": "./paths/user_form.yml"
   "/api/v3/users/{id}/lock":
     "$ref": "./paths/user_lock.yml"
+  "/api/v3/users/{id}/non_working_times":
+    "$ref": "./paths/user_non_working_times.yml"
+  "/api/v3/users/{id}/non_working_times/{non_working_time_id}":
+    "$ref": "./paths/user_non_working_times_date.yml"
+  "/api/v3/users/{id}/working_hours":
+    "$ref": "./paths/user_working_hours.yml"
+  "/api/v3/users/{id}/working_hours/{working_hours_id}":
+    "$ref": "./paths/user_working_hours_record.yml"
   "/api/v3/values/schema/{id}":
     "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
@@ -589,6 +656,14 @@ components:
       $ref: "./components/examples/hierarchy_item_collection_response.yml"
     HierarchyItemResponse:
       $ref: "./components/examples/hierarchy_item_response.yml"
+    MeetingCollectionSimpleResponse:
+      $ref: "./components/examples/meeting_collection_simple_response.yml"
+    MeetingSimpleResponse:
+      $ref: "./components/examples/meeting_simple_response.yml"
+    MeetingCreateRequest:
+      $ref: "./components/examples/meeting_create_request.yml"
+    MeetingUpdateRequest:
+      $ref: "./components/examples/meeting_update_request.yml"
     MembershipCreateRequestCustomMessage:
       $ref: "./components/examples/membership-create-request-custom-message.yml"
     MembershipCreateRequestGlobalRole:
@@ -602,9 +677,9 @@ components:
     MembershipSimpleCollectionResponse:
       $ref: "./components/examples/membership-simple-collection-response.yml"
     MembershipSimpleResponse:
-      $ref: "./components/examples/membership-simple-response.yml"
+      $ref: "./components/examples/membership_simple_response.yml"
     MembershipUpdateAdditionalRoles:
-      $ref: "./components/examples/membership-update-additional-roles.yml"
+      $ref: "./components/examples/membership_update_additional_roles.yml"
     MentionedNotification:
       $ref: "./components/examples/mentioned_notification.yml"
     NotificationCollection:
@@ -639,6 +714,10 @@ components:
       $ref: "./components/examples/relation_response.yml"
     RelationUpdateRequest:
       $ref: "./components/examples/relation_update_request.yml"
+    SprintResponse:
+      $ref: "./components/examples/sprint.yml"
+    SprintCollectionResponse:
+      $ref: "./components/examples/sprint_collection.yml"
     StatusCollection:
       $ref: "./components/examples/status_collection.yml"
     StatusResponse:
@@ -749,6 +828,8 @@ components:
       "$ref": "./components/schemas/project_configuration_model.yml"
     CustomActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
+    CustomCommentProperties:
+      "$ref": "./components/schemas/custom_comment_properties.yml"
     CustomFieldLinkedProperties:
       "$ref": "./components/schemas/custom_field_linked_properties.yml"
     CustomFieldProperties:
@@ -825,8 +906,30 @@ components:
       "$ref": "./components/schemas/list_of_news_model.yml"
     List_workspaces_by_versionModel:
       "$ref": "./components/schemas/list_workspaces_by_version_model.yml"
+    MeetingAgendaItemModel:
+      "$ref": "./components/schemas/meeting_agenda_item_model.yml"
+    MeetingAgendaItemWriteModel:
+      "$ref": "./components/schemas/meeting_agenda_item_write_model.yml"
+    MeetingAgendaItemCollectionModel:
+      "$ref": "./components/schemas/meeting_agenda_item_collection_model.yml"
+    MeetingOutcomeCollectionModel:
+      "$ref": "./components/schemas/meeting_outcome_collection_model.yml"
+    MeetingOutcomeModel:
+      "$ref": "./components/schemas/meeting_outcome_model.yml"
+    MeetingOutcomeWriteModel:
+      "$ref": "./components/schemas/meeting_outcome_write_model.yml"
+    MeetingCollectionModel:
+      "$ref": "./components/schemas/meeting_collection_model.yml"
     MeetingModel:
       "$ref": "./components/schemas/meeting_model.yml"
+    MeetingSectionModel:
+      "$ref": "./components/schemas/meeting_section_model.yml"
+    MeetingSectionWriteModel:
+      "$ref": "./components/schemas/meeting_section_write_model.yml"
+    MeetingSectionCollectionModel:
+      "$ref": "./components/schemas/meeting_section_collection_model.yml"
+    MeetingWriteModel:
+      "$ref": "./components/schemas/meeting_write_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
@@ -927,6 +1030,16 @@ components:
       "$ref": "./components/schemas/query_sort_by_model.yml"
     Query_Update_Form:
       "$ref": "./components/schemas/query_update_form.yml"
+    RecurringMeetingCollectionModel:
+      "$ref": "./components/schemas/recurring_meeting_collection_model.yml"
+    RecurringMeetingModel:
+      "$ref": "./components/schemas/recurring_meeting_model.yml"
+    RecurringMeetingWriteModel:
+      "$ref": "./components/schemas/recurring_meeting_write_model.yml"
+    RecurringMeetingOccurrenceCollectionModel:
+      "$ref": "./components/schemas/recurring_meeting_occurrence_collection_model.yml"
+    RecurringMeetingOccurrenceModel:
+      "$ref": "./components/schemas/recurring_meeting_occurrence_model.yml"
     RelationCollectionModel:
       "$ref": "./components/schemas/relation_collection_model.yml"
     RelationReadModel:
@@ -953,6 +1066,10 @@ components:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Workspace_QueriesModel:
       "$ref": "./components/schemas/schema_for_workspace_queries_model.yml"
+    SprintCollectionModel:
+      "$ref": "./components/schemas/sprint_collection_model.yml"
+    SprintModel:
+      "$ref": "./components/schemas/sprint_model.yml"
     Star_QueryModel:
       "$ref": "./components/schemas/star_query_model.yml"
     StatusCollectionModel:
@@ -995,8 +1112,16 @@ components:
       "$ref": "./components/schemas/user_create_model.yml"
     UserModel:
       "$ref": "./components/schemas/user_model.yml"
+    UserNonWorkingTimeCollectionModel:
+      "$ref": "./components/schemas/user_non_working_time_collection_model.yml"
+    UserNonWorkingTimeModel:
+      "$ref": "./components/schemas/user_non_working_time_model.yml"
     UserPreferencesModel:
       "$ref": "./components/schemas/user_preferences_model.yml"
+    UserWorkingHoursCollectionModel:
+      "$ref": "./components/schemas/user_working_hours_collection_model.yml"
+    UserWorkingHoursModel:
+      "$ref": "./components/schemas/user_working_hours_model.yml"
     ValuesPropertyModel:
       "$ref": "./components/schemas/values_property_model.yml"
     VersionCollectionModel:
@@ -1101,12 +1226,14 @@ tags:
   - "$ref": "./tags/roles.yml"
   - "$ref": "./tags/root.yml"
   - "$ref": "./tags/schemas.yml"
+  - "$ref": "./tags/sprints.yml"
   - "$ref": "./tags/statuses.yml"
   - "$ref": "./tags/time_entries.yml"
   - "$ref": "./tags/time_entry_activities.yml"
   - "$ref": "./tags/types.yml"
   - "$ref": "./tags/userpreferences.yml"
   - "$ref": "./tags/users.yml"
+  - "$ref": "./tags/user_working_times.yml"
   - "$ref": "./tags/values_property.yml"
   - "$ref": "./tags/versions.yml"
   - "$ref": "./tags/views.yml"

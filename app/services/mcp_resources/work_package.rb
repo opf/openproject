@@ -37,7 +37,7 @@ module McpResources
     default_description "Access work packages of this OpenProject instance."
 
     def read(id:)
-      work_package = ::WorkPackage.visible.find_by(id:)
+      work_package = ::WorkPackage.visible.find_by_display_id(id)
       return nil if work_package.nil?
 
       API::V3::WorkPackages::WorkPackageRepresenter.create(work_package, current_user:, embed_links: true)

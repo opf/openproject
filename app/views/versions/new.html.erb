@@ -40,10 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for [@project, @version] do |f| %>
-
-  <%= render partial: "versions/form", locals: { f: f,
-                                                 project: @project } %>
-
-  <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
+<%= settings_primer_form_with(model: [@project, @version]) do |f| %>
+  <%= back_url_hidden_field_tag %>
+  <%= render Versions::Form.new(f, project: @project, submit_label: I18n.t(:button_create)) %>
 <% end %>

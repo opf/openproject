@@ -45,17 +45,17 @@ module WorkPackageTypes
       end
 
       def name
-        link_to model.name, edit_type_settings_path(type_id: model.id)
+        link_to(model.name, edit_type_details_path(type_id: model.id))
       end
 
       def workflow_warning
-        return unless model.workflows.empty?
+        return unless model.default_variant&.workflows&.empty?
 
         safe_join([
                     op_icon("icon3 icon-warning"),
                     t(:text_type_no_workflow),
                     " (",
-                    link_to(t(:button_edit), edit_workflows_path(type: model)),
+                    link_to(t(:button_edit), edit_type_workflow_path(model)),
                     ")"
                   ])
       end
@@ -65,7 +65,7 @@ module WorkPackageTypes
       end
 
       def default
-        checked_image model.is_default
+        checked_image model.default_variant.enabled_in_new_projects?
       end
 
       def milestone
@@ -81,8 +81,6 @@ module WorkPackageTypes
       end
 
       def delete_link
-        return if model.is_standard?
-
         link_to(
           "",
           model,

@@ -34,6 +34,8 @@ require_module_spec_helper
 RSpec.describe "Show/Edit Document View",
                :js,
                :selenium do
+  include_context "with hocuspocus"
+
   shared_let(:project) { create(:project) }
   shared_let(:member_role) { create(:existing_project_role, permissions: %i[view_documents manage_documents]) }
   shared_let(:member) { create(:user, member_with_roles: { project => member_role }) }
@@ -41,16 +43,11 @@ RSpec.describe "Show/Edit Document View",
   let(:document_types) do
     %w[Specification Report].map { create(:document_type, name: it) }
   end
-  let(:document) { create(:document, project:, title: "Collaborative document", type: document_types.first) }
+  let(:document) do
+    create(:document, :collaborative, project:, title: "Collaborative document", type: document_types.first)
+  end
 
   current_user { member }
-
-  before do
-    # This is here while we don't have a setting defined for enabling/disabling collaboration
-    # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(Primer::OpenProject::Forms::BlockNoteEditor).to receive(:collaboration_enabled).and_return(false)
-    # rubocop:enable RSpec/AnyInstance
-  end
 
   it "renders a collaborative document",
      with_settings: { real_time_text_collaboration_enabled: true } do

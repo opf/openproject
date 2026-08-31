@@ -1,26 +1,55 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import * as Turbo from '@hotwired/turbo';
 
 export namespace TurboHelpers {
+  let progressBarTimeout:number | undefined;
+
+  function getProgressBar():Turbo.ProgressBar {
+    return (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
+  }
+
   export function showProgressBar() {
-    Turbo.session.adapter.formSubmissionStarted();
+    const progressBar = getProgressBar();
+    progressBar.setValue(0);
+    progressBarTimeout ??= window.setTimeout(() => {
+      progressBar.show();
+    }, Turbo.config.drive.progressBarDelay);
   }
 
   export function hideProgressBar() {
-    Turbo.session.adapter.formSubmissionFinished();
-  }
-
-  export function scrubScriptElements(element:HTMLElement|DocumentFragment) {
-    const cspNonce = document.getElementsByName('csp-nonce')[0]?.getAttribute('content') || '';
-
-    element
-      .querySelectorAll('script')
-      .forEach((script) => {
-        const nonce = script.getAttribute('nonce');
-
-        if (!(nonce && nonce === cspNonce)) {
-          console.warn('Removing script element %O because it does not match our nonce', script);
-          script.remove();
-        }
-      });
+    const progressBar = getProgressBar();
+    progressBar.setValue(1);
+    progressBar.hide();
+    if (progressBarTimeout != null) {
+      window.clearTimeout(progressBarTimeout);
+      progressBarTimeout = undefined;
+    }
   }
 }

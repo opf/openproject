@@ -30,13 +30,18 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
+  include WorkPackages::TargetVersionNormalization
+  include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
-  before_action :authorize
+  before_action :authorize_move_or_copy
+  authorization_checked! :new, :create, :refresh_form
 
   def new
     prepare_for_work_package_move
+
+    @move_form_component = move_form_component
   end
 
   def create
@@ -45,7 +50,20 @@ class WorkPackages::MovesController < ApplicationController
     perform_operation
   end
 
+  def refresh_form
+    prepare_for_work_package_move
+
+    update_via_turbo_stream(component: move_form_component)
+
+    respond_with_turbo_streams
+  end
+
   private
+
+  def authorize_move_or_copy
+    permission = params.has_key?(:copy) ? :copy_work_packages : :move_work_packages
+    do_authorize(permission)
+  end
 
   def perform_operation
     if within_frontend_treshold?
@@ -108,42 +126,39 @@ class WorkPackages::MovesController < ApplicationController
     end
   end
 
+  def move_form_component
+    WorkPackages::Moves::FormComponent.new(
+      work_packages: @work_packages,
+      project: @project,
+      target_project: @target_project,
+      notes: @notes,
+      copy: @copy,
+      selected_values: permitted_params.move_work_package_form_values,
+      current_user:
+    )
+  end
+
   def prepare_for_work_package_move
     @copy = params.has_key? :copy
-    @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
-    @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
+    if params[:new_project_id]
+      @target_project = WorkPackage.allowed_target_projects_on_move(current_user).find_by(id: params[:new_project_id])
+    end
     @target_project ||= @project
-    @types = @target_project.types.order(:position)
-    @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
-    @unavailable_type_in_target_project = set_unavailable_type_in_target_project
-    @available_versions = @target_project.assignable_versions
-    @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes] || ""
   end
 
-  def set_unavailable_type_in_target_project
-    if @target_project == @project
-      false
-    elsif @target_type.nil?
-      hierarchies = WorkPackageHierarchy
-                      .includes(:ancestor)
-                      .where(ancestor_id: @work_packages.select(:id))
-      Type.where(id: hierarchies.map { it.ancestor.type_id })
-          .select("distinct id")
-          .pluck(:id)
-          .difference(@types.pluck(:id))
-          .any?
-    else
-      @types.exclude?(@target_type)
-    end
-  end
-
   def attributes_for_create
-    permitted_params
-      .move_work_package
+    attributes = permitted_params.move_work_package
+    # target_version_ids is an array param and must not be run through the scalar
+    # "none"/blank magic value transforms below.
+    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
+
+    attributes = attributes
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
       .transform_values { |v| v == "none" ? nil : v }
       .to_h
+    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
+    attributes
   end
 end

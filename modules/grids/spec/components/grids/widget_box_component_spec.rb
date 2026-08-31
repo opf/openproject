@@ -45,4 +45,16 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
   it "renders turbo-frame around content" do
     expect(rendered_component).to have_element :"turbo-frame", id: "cool_widget", target: "_top"
   end
+
+  context "with footer content" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(key: "cool_widget", title: "Cool Widget")) do |component|
+        component.with_footer { "Footer link" }
+      end
+    end
+
+    it "renders a widget footer" do
+      expect(rendered_component).to have_css ".op-widget-box--footer", text: "Footer link"
+    end
+  end
 end

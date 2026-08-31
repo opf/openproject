@@ -28,7 +28,7 @@ module OpenProject::Boards
              settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { "boards/boards": %i[index show],
+                   { "boards/boards": %i[index show split_view],
                      "boards/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: :view_work_packages,

@@ -1,21 +1,21 @@
-#English strings go here
+---
 ja:
-  plugin_openproject_team_planner:
-    name: "OpenProjectチームプランナー"
-    description: "チームプランナーのビューを提供します。"
-  permission_view_team_planner: "チームプランナーを表示"
-  permission_manage_team_planner: "チームプランナーの管理"
-  project_module_team_planner_view: "チーム プランナー"
   ee:
     feature_names:
-      team_planner_view: "チーム プランナー"
+      team_planner_view: チーム プランナー
     upsell:
       team_planner_view:
-        title: "チーム プランナー"
-        description: "Team Plannerでチームの計画の概要を把握しましょう。クリックやドラッグでワークパッケージを編集したり、日付を変更したり、担当者を変更したりできます。"
+        description: Team Plannerでチームの計画の概要を把握しましょう。クリックやドラッグでワークパッケージを編集したり、日付を変更したり、担当者を変更したりできます。
+        title: チーム プランナー
+  permission_manage_team_planner: チームプランナーの管理
+  permission_view_team_planner: チームプランナーを表示
+  plugin_openproject_team_planner:
+    description: チームプランナーのビューを提供します。
+    name: OpenProjectチームプランナー
+  project_module_team_planner_view: チーム プランナー
   team_planner:
-    label_team_planner: "チーム プランナー"
-    label_new_team_planner: "新しいチームプランナー"
-    label_create_new_team_planner: "新しいチームプランナーを作成"
-    label_team_planner_plural: "チーム プランナー"
-    label_assignees: "担当者"
+    label_assignees: 担当者
+    label_create_new_team_planner: 新しいチームプランナーを作成
+    label_new_team_planner: 新しいチームプランナー
+    label_team_planner: チーム プランナー
+    label_team_planner_plural: チーム プランナー

@@ -59,7 +59,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job: S
   let(:source_file_links) { source_work_packages.map { |wp| create(:file_link, container: wp, storage:) } }
   let(:source_file_infos) do
     source_file_links.map do |fl|
-      Storages::StorageFileInfo.new(
+      Storages::Adapters::Results::StorageFileInfo.new(
         status: "OK",
         status_code: 200,
         id: fl.origin_id,
@@ -238,7 +238,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job: S
         Storages::Adapters::Registry
           .stub("#{storage}.commands.copy_template_folder",
                 lambda { |auth_strategy:, storage:, input_data:|
-                  Failure(Storages::Adapters::Results::Error.new(code: :error, source: self.class))
+                  Failure(SimpleError.new(code: :error, source: self.class))
                 })
       end
 

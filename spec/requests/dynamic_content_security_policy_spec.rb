@@ -67,5 +67,26 @@ RSpec.describe "" do
       expect(last_response).to have_http_status(200)
       expect(last_response.headers["X-Content-Type-Options"]).to eq "nosniff"
     end
+
+    it "does not duplicate 'self' in font-src CSP directive" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["font-src"].count("'self'")).to eq(1)
+    end
+
+    it "includes 'self' in img-src CSP directive" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["img-src"]).to include("'self'")
+    end
+
+    it "does not duplicate 'self' in img-src CSP directive" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["img-src"].count("'self'")).to eq(1)
+    end
   end
 end

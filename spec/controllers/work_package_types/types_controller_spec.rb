@@ -130,7 +130,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
       end
 
@@ -149,8 +149,8 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it { expect(response).to have_http_status(:unprocessable_entity) }
 
-        it "shows an error message" do
-          expect(response.body).to have_content("Name can't be blank")
+        it "shows an error message on the name field" do
+          expect(response.body).to have_text("can't be blank")
         end
       end
 
@@ -182,12 +182,12 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
 
         it "has the copied workflows" do
           expect(Type.find_by(name: "New type")
-                        .workflows.count).to eq(existing_type.workflows.count)
+                        .default_variant.workflows.count).to eq(existing_type.default_variant.workflows.count)
         end
       end
     end
@@ -237,7 +237,7 @@ RSpec.describe WorkPackageTypes::TypesController do
     describe "DELETE destroy" do
       let(:type) { create(:type, name: "My type") }
       let(:type2) { create(:type, name: "My type 2", projects: [project]) }
-      let(:type3) { create(:type, name: "My type 3", is_standard: true) }
+      let(:type3) { create(:type, name: "My type 3") }
 
       describe "successful destroy" do
         let(:params) { { "id" => type.id } }
@@ -306,6 +306,57 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
+      end
+    end
+
+    describe "GET index with variants", with_flag: { type_variants: true } do
+      let!(:bug) { create(:type, name: "Bug") }
+      let!(:named_variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+      let!(:other_type) { create(:type, name: "Other") }
+
+      before { get :index }
+
+      it "assigns types to @types" do
+        expect(assigns(:types)).to include(bug, other_type)
+      end
+
+      it "exposes each type's named variants" do
+        assigned_bug = assigns(:types).detect { |type| type == bug }
+        expect(assigned_bug.variants.non_default_variants).to contain_exactly(named_variant)
+      end
+    end
+
+    describe "PUT drop", with_flag: { type_variants: true } do
+      let!(:first_type) { create(:type, name: "First") }
+      let!(:second_type) { create(:type, name: "Second") }
+
+      it "reorders the dropped type to the given position" do
+        expect(first_type.position).to be < second_type.position
+
+        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(second_type.reload.position).to eq(1)
+        expect(second_type.position).to be < first_type.reload.position
+      end
+
+      context "when the variants feature is disabled", with_flag: { type_variants: false } do
+        it "is not available" do
+          put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "GET index without the variants feature", with_flag: { type_variants: false } do
+      let!(:bug) { create(:type, name: "Bug") }
+      let!(:other_type) { create(:type, name: "Other") }
+
+      before { get :index }
+
+      it "lists types" do
+        expect(assigns(:types)).to include(bug, other_type)
       end
     end
   end

@@ -33,11 +33,12 @@ module Meetings
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
 
-    def initialize(project: nil, current_user: User.current)
+    def initialize(project: nil, current_user: User.current, template: false)
       super
 
       @project = project
       @current_user = current_user
+      @template = template
     end
 
     def can_create_meetings?
@@ -54,6 +55,14 @@ module Meetings
 
     def new_recurring_meeting_path
       polymorphic_path([:new_dialog, @project, :meetings], type: :recurring)
+    end
+
+    def heading_text
+      @template ? I18n.t("text_meeting_template_blank_slate_heading") : I18n.t("meeting.blankslate.title")
+    end
+
+    def description_text
+      @template ? I18n.t("text_meeting_template_blank_slate") : I18n.t("meeting.blankslate.desc")
     end
   end
 end

@@ -104,8 +104,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
         expect(response).to redirect_to(edit_type_form_configuration_path(type))
 
         type.reload
-        expect(type.attribute_groups.count).to eq(1)
-        expect(type.attribute_groups.first.key).to eql("People")
+        expect(type.default_variant.attribute_groups.count).to eq(1)
+        expect(type.default_variant.attribute_groups.first.key).to eql("People")
       end
 
       context "with invalid parameters" do
@@ -130,6 +130,24 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
         it "renders the edit tab" do
           put :update, params: params
 
+          expect(response).to render_template(:edit)
+        end
+      end
+
+      context "with malformed attribute group JSON" do
+        let(:params) do
+          {
+            type_id: type.id,
+            type: {
+              attribute_groups: "{"
+            }
+          }
+        end
+
+        it "renders the edit tab instead of raising" do
+          put :update, params: params
+
+          expect(response).to have_http_status(:unprocessable_entity)
           expect(response).to render_template(:edit)
         end
       end

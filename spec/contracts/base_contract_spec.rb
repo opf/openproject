@@ -257,6 +257,42 @@ RSpec.describe BaseContract do
 
       it_behaves_like "the parent writable parameter is overridden by the child writable parameter"
     end
+
+    describe "adding available_custom_fields" do
+      let(:contract_class) do
+        Class.new(BaseContract) do
+          attribute :name, writable: true
+        end
+      end
+      let(:contract) { contract_class.new(model, user) }
+      let(:custom_field_a) { build_stubbed(:custom_field) }
+      let(:custom_field_b) { build_stubbed(:custom_field) }
+
+      before do
+        allow(model).to receive(:available_custom_fields).and_return([custom_field_a, custom_field_b])
+      end
+
+      it "includes custom field attribute names" do
+        expect(contract.writable_attributes).to contain_exactly(
+          "name",
+          "name_id",
+          custom_field_a.attribute_name,
+          custom_field_b.attribute_name
+        )
+      end
+
+      it "includes comment attribute names when custom field has comments" do
+        custom_field_a.has_comment = true
+
+        expect(contract.writable_attributes).to contain_exactly(
+          "name",
+          "name_id",
+          custom_field_a.attribute_name,
+          custom_field_b.attribute_name,
+          custom_field_a.comment_attribute_name
+        )
+      end
+    end
   end
 
   describe "#validate_and_merge_errors" do

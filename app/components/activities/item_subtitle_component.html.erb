@@ -29,10 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="op-activity-list--item-subtitle">
   <%=
+    # OG: html_safe usage has been double-checked and would otherwise require a lot of i18n key change
     I18n.t(
       i18n_key,
-      user: user_html,
-      datetime: datetime_html
-    ).html_safe
+      user: h(user_html),
+      datetime: h(datetime_html)
+    ).html_safe # rubocop:disable Rails/OutputSafety
   %>
 </div>

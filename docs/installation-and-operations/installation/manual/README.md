@@ -10,16 +10,16 @@ sidebar_navigation: false
 
 Please be aware that:
 
-* This guide **requires** that you have a clean **Ubuntu 18.04** **x64** installation
-with administrative rights (i.e. you must be able to `sudo`). We have tested
-the installation guide on an Ubuntu Server image, but it should work on any
-derivative. You may need to alter some of the commands to match your
-derivative.
+- This guide **requires** that you have a clean **Ubuntu 18.04** **x64** installation
+  with administrative rights (i.e. you must be able to `sudo`). We have tested
+  the installation guide on an Ubuntu Server image, but it should work on any
+  derivative. You may need to alter some of the commands to match your
+  derivative.
 
-* OpenProject will be installed with a **PostgreSQL** database.
+- OpenProject will be installed with a **PostgreSQL** database.
 
-* OpenProject will be served in a production environment with the **Apache** server
-(this guide should work similarly with other servers, like nginx and others)
+- OpenProject will be served in a production environment with the **Apache** server
+  (this guide should work similarly with other servers, like nginx and others)
 
 > **NOTE:** We have highlighted commands to execute like this
 
@@ -106,19 +106,19 @@ Please be aware that the actual installation of a specific Ruby version takes so
 ```
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `3.4.7` and install that version.
+Read the first line e.g. `4.0.6` and install that version.
 
 ```shell
-[openproject@host] rbenv install 3.4.7
+[openproject@host] rbenv install 4.0.6
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.4.7
+[openproject@host] rbenv global 4.0.6
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```text
-ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin25]
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
 ```
 
 ## Installation of Node
@@ -137,15 +137,15 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 14.16.0
+[openproject@host] nodenv install 24.18.0
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 14.16.0
+[openproject@host] nodenv global 24.18.0
 ```
 
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```text
-v22.21.0
+v24.18.0
 ```
 
 ## Installation of OpenProject
@@ -216,7 +216,6 @@ rails_cache_store: :memcache
 ```
 
 > **NOTE:** You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
->
 
 To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
@@ -428,7 +427,7 @@ If you need to restart the server (for example after a configuration change), do
 
 ## Frequently asked questions (FAQ)
 
-* **I followed the installation guide faithfully and OpenProject is running. Now, how do I log in?**
+- **I followed the installation guide faithfully and OpenProject is running. Now, how do I log in?**
 
   The `db:seed` command listed above creates a default admin-user. The username is `admin` and the default password is `admin`. You are forced to change the admin password on the first login.
   If you cannot login as the admin user, make sure that you have executed the `db:seed` command.
@@ -437,18 +436,18 @@ If you need to restart the server (for example after a configuration change), do
   [openproject@all] RAILS_ENV="production" ./bin/rake db:seed
   ```
 
-* **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
+- **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
   Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
 
   The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
-* **I cannot solve an error, not even with the log files. How do I get help?**
+- **I cannot solve an error, not even with the log files. How do I get help?**
 
   You can find help in [the OpenProject forums](https://community.openproject.org/projects/openproject/boards). Please tell us, if possible, what you have done (e.g. which guide you have used to install OpenProject), how to reproduce the error, and provide the appropriate error logs.
   It often helps to have a look at the already answered questions, or to search the Internet for the error. Most likely someone else has already solved the same problem.
 
-* **I get errors, since I have installed an OpenProject plug-in**
+- **I get errors, since I have installed an OpenProject plug-in**
 
   With each new OpenProject core version, the plug-ins might need to be updated. Please make sure that the plug-in versions of all you plug-ins works with the OpenProject version you use.
   Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.1.0, the plug-in should also have the version 4.1.0).

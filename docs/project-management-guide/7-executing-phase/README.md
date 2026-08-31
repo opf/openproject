@@ -11,7 +11,6 @@ keywords: executing kick-off meeting, project coordination, quality assurance, p
 The third phase of a PM² project is the Executing Phase. During this phase, the project deliverables are produced and the requestor organisation prepares for their introduction. The Executing Phase begins with a Kick-off Meeting and ends with the acceptance (final or provisional-as per the Deliverables Acceptance Plan) by the requestor side.
 ![Fig 7.1 Executing Phase activities and main outputs](07.01.png)
 
-
 ![Fig 7.2 Executing Phase artefacts](07.02.png)
 
 ## 7.1 Executing Kick-off Meeting 
@@ -62,13 +61,10 @@ After the Executing Kick-off Meeting:
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Executing Kick-off Meeting | I | A | C | S/C | C | C | R | C |
 
-
-
  ![Fig 7.3 Executing Kick-off Meeting inputs/outputs and main roles](07.03.png)
 **Outputs**
 
 - Minutes of Meeting (MoM)
-
 
 ## 7.2 Project Coordination 
 
@@ -109,7 +105,6 @@ Note: Project coordination begins officially with the initiation of the project 
 
 - Signed off work assignments
 
-
 ## 7.3 Quality Assurance 
 
 Quality Assurance is the activity of gathering evidence that proves the project work is following high-quality standards, methodologies and best practices. It seeks to allow us to be confident that the project will satisfy the desired scope and quality requirements within the project constraints.
@@ -139,8 +134,6 @@ Quality Assurance activities are documented in the Quality Management Plan. Thes
 | Quality Assurance | I | I | I | S | C | I | A | R |
 
 ![Fig 7.5 Quality Assurance inputs/outputs and main roles](07.05.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -188,10 +181,7 @@ Project Reports may also contain agreed project indicators and metrics for evalu
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Project Reporting | I | I | A | S/C | I/C | I/C | R | C |
 
-
-
 ![Fig 7.6 Project Reporting inputs and main roles](07.06.png)
-
 
 The following are examples of PM² reports:
 
@@ -269,8 +259,6 @@ Information distribution refers to the methods used to keep project stakeholders
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Information Distribution | I | I | A | C | I | I | R | C |
-
-
 
 ![Fig 7.7 Information Distribution inputs and main roles](07.07.png)
 

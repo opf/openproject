@@ -1,0 +1,158 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout do |box|
+      box.with_row do
+        flex_layout do |row|
+          row.with_column(flex: 1) do
+            concat(
+              content_tag(:div, class: "d-flex flex-items-center") do
+                concat(
+                  render(Primer::Beta::Text.new(font_weight: :bold)) do
+                    I18n.t(:"admin.jira.run.wizard.sections.fetch_data.title")
+                  end
+                )
+                if model.state_equal_or_after?(:configuring)
+                  concat(
+                    render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
+                      I18n.t(:"admin.jira.run.wizard.sections.fetch_data.caption_done")
+                    end
+                  )
+                end
+              end
+            )
+            if model.state_equal_or_after?(:configuring)
+              concat(
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                  I18n.t(:"admin.jira.run.wizard.sections.fetch_data.caption_done_description", server_info: model.jira.url)
+                end
+              )
+            end
+          end
+        end
+      end
+      if model.state_before?(:configuring)
+        box.with_row(mb: 3) do
+          render(Primer::Beta::Text.new) do
+            I18n.t(:"admin.jira.run.wizard.sections.fetch_data.description")
+          end
+        end
+      end
+      if model.in_state?(:initial)
+        box.with_row(display: :flex, align_items: :center) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                tag: :a,
+                size: :medium,
+                mr: 2,
+                href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_instance_meta"),
+                data: { turbo_stream: true }
+              )
+            ) do
+              I18n.t(:"admin.jira.run.wizard.sections.fetch_data.button_fetch")
+            end
+          )
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium,
+                href: admin_import_jira_path(model.jira)
+              )
+            ) do
+              I18n.t(:button_close)
+            end
+          )
+        end
+      elsif model.in_state?(:instance_meta_error)
+        box.with_row(mt: 3) do
+          render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "fetch_instance_meta"))
+        end
+      elsif model.in_state?(:instance_meta_fetching)
+        box.with_row(display: :flex, align_items: :center) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium
+              )
+            ) do |button|
+              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status))
+              I18n.t(:"admin.jira.run.wizard.sections.fetch_data.label_progress")
+            end
+          )
+        end
+      elsif model.in_state?(:instance_meta_done)
+        box.with_row(mb: 3) do
+          flex_layout do |flex|
+            flex.with_column(flex: 1, mr: 1) do
+              render(
+                Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+                  title: I18n.t(:"admin.jira.run.wizard.sections.fetch_data.label_available_server_data", server_info: model.jira.name),
+                  list: import_stats_available,
+                  show_icon: true,
+                  icon: :"check-circle",
+                  icon_color: :success,
+                  h: :full
+                )
+              )
+            end
+          end
+        end
+        box.with_row(display: :flex, align_items: :center) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                size: :medium,
+                tag: :a,
+                mr: 2,
+                href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "configure"),
+                data: { turbo_stream: true }
+              )
+            ) do
+              I18n.t(:"admin.jira.run.wizard.sections.fetch_data.button_continue")
+            end
+          )
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium,
+                href: admin_import_jira_path(model.jira)
+              )
+            ) do
+              I18n.t(:button_close)
+            end
+          )
+        end
+      end
+    end %>

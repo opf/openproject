@@ -49,6 +49,10 @@ class Queries::WorkPackages::Filter::AuthorFilter <
 
   private
 
+  def autocomplete_principal_types
+    %w[User]
+  end
+
   def expand_group_values(values)
     return values if values.empty?
 

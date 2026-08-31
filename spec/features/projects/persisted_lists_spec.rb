@@ -37,7 +37,9 @@ RSpec.describe "Persisted lists on projects index page",
   shared_let(:user) { create(:user) }
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
-  shared_let(:developer) { create(:project_role, name: "Developer") }
+  # The permission is not necessary for any of the tests. But it enables one more code path
+  # where a regression occured before (#72362).
+  shared_let(:developer) { create(:project_role, name: "Developer", permissions: %i(export_projects)) }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
@@ -160,6 +162,16 @@ RSpec.describe "Persisted lists on projects index page",
         projects_page.expect_filters_container_hidden
         projects_page.open_filters
         projects_page.expect_filter_set "active"
+      end
+
+      it "keeps the archived filter when searching by name (regression #SPPM-292)" do
+        click_button accessible_name: "Project name filter"
+        projects_page.filter_by_name_and_identifier("project")
+
+        projects_page.expect_projects_listed(archived_project, archived: true)
+        projects_page.expect_projects_not_listed(public_project, project, development_project)
+
+        projects_page.expect_no_sidebar_filter_selected
       end
     end
 

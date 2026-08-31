@@ -1,0 +1,95 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+---
+hy:
+  activerecord:
+    attributes:
+      gitlab_merge_request:
+        labels: Պիտակներ
+      gitlab_pipeline:
+        ci_details: CI-ի մանրամասներ
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: պետք է լինի հեշերի զանգված հետևյալ բանալիներով՝ color, title
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        other: GitLab users
+  attributes:
+    commit: Կոմիտ
+    gitlab: GitLab-ի նույնացուցիչ
+    gitlab_avatar_url: Ավատարի URL
+    gitlab_email: GitLab-ի էլ. փոստ
+    gitlab_html_url: GitLab-ի HTML URL
+    gitlab_merge_request: Միաձուլման հարցում
+    gitlab_name: GitLab-ի անուն
+    gitlab_updated_at: Թարմացվել է
+    gitlab_user_avatar_url: GitLab-ի ավատարի URL
+    gitlab_username: GitLab-ի օգտանուն
+  gitlab_integration:
+    issue_closed_referenced_comment: "**Խնդիրը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    issue_opened_referenced_comment: "**Խնդիրը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    issue_reopened_referenced_comment: "**Խնդիրը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{issue_number} խնդիրը [%{issue_title}](%{issue_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_closed_comment: "**MR-ը փակված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) փակվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_merged_comment: "**MR-ը միաձուլված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) միաձուլվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_opened_comment: "**MR-ը բացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) բացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    merge_request_reopened_comment: "**MR-ը վերաբացված է՝** [%{repository}](%{repository_url}) պահոցի %{mr_number} միաձուլման հարցումը [%{mr_title}](%{mr_url}) վերաբացվել է [%{gitlab_user}](%{gitlab_user_url})-ի կողմից։\n"
+    note_commit_referenced_comment: "**Հղված է կոմիտում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի [%{commit_id}](%{commit_url}) կոմիտի նշման մեջ՝ %{commit_note}\n"
+    note_issue_commented_comment: "**Մեկնաբանված է խնդրում՝** [%{gitlab_user}](%{gitlab_user_url})-ն մեկնաբանել է այս աշխատանքային փաթեթը [%{repository}](%{repository_url})-ի %{issue_number} խնդրում [%{issue_title}](%{issue_url})՝ %{issue_note}\n"
+    note_issue_referenced_comment: "**Հղված է խնդրում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{issue_number} խնդրում [%{issue_title}](%{issue_url})՝ %{issue_note}\n"
+    note_mr_commented_comment: "**Մեկնաբանված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն մեկնաբանել է այս աշխատանքային փաթեթը [%{repository}](%{repository_url})-ի %{mr_number} միաձուլման հարցումում [%{mr_title}](%{mr_url})՝ %{mr_note}\n"
+    note_mr_referenced_comment: "**Հղված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{mr_number} միաձուլման հարցումում [%{mr_title}](%{mr_url})՝ %{mr_note}\n"
+    note_snippet_referenced_comment: "**Հղված է հատվածում՝** [%{gitlab_user}](%{gitlab_user_url})-ն հղում է կատարել այս աշխատանքային փաթեթին [%{repository}](%{repository_url})-ի %{snippet_number} հատվածում [%{snippet_title}](%{snippet_url})՝ %{snippet_note}\n"
+    push_multiple_commits_comment: "**Ուղարկված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին մի քանի կոմիտ [%{commit_number}](%{commit_url}) ուղարկեց դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+    push_single_commit_comment: "**Ուղարկված է MR-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին ուղարկեց [%{commit_number}](%{commit_url}) կոմիտը դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Ուղարկված է %{reference}-ում՝** [%{gitlab_user}](%{gitlab_user_url})-ն %{commit_timestamp}-ին ուղարկեց [%{commit_number}](%{commit_url}) կոմիտը դեպի [%{repository}](%{repository_url})՝ %{commit_note}\n"
+  label_gitlab_actor: GitLab-ի կատարող
+  label_gitlab_integration: GitLab-ի ինտեգրացիա
+  label_gitlab_webhook_secret: Վեբհուկի գաղտնիք
+  permission_show_gitlab_content: Ցուցադրել GitLab-ի բովանդակությունը
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'OpenProject-ի օգտատերը, որի API բանալին պետք է օգտագործվի մուտքային վեբհուկի հարցումները նույնականացնելու համար։ Երբ սահմանված է, ցանկացած այլ օգտատիրոջ հավատարմագրերով նույնականացված հարցումները մերժվում են։ Այս օգտատերը նաև ավտոմատ մեկնաբանություններ է հրապարակում աշխատանքային փաթեթներում։ Երբ սահմանված չէ, կանխադրված կիրառվում է համակարգային օգտատերը։
+
+    '
+  text_gitlab_webhook_secret_info: 'Գաղտնի թոքեն, որը համօգտագործվում է GitLab-ի հետ վեբհուկը կազմաձևելիս։ Երբ սահմանված է, OpenProject-ը ստուգում է X-Gitlab-Token վերնագիրը յուրաքանչյուր մուտքային հարցումում՝ մերժելով չհամապատասխանող տվյալները։ Թողեք դատարկ՝ ստուգումը բաց թողնելու համար (խորհուրդ չի տրվում)։
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Վեբհուկի գաղտնիք կազմաձևված չէ։ GitLab-ի վեբհուկի վերջնակետին ուղղված ցանկացած հարցում կընդունվի առանց ստուգման, ինչը կարող է թույլ տալ չլիազորված անձանց կեղծել իրադարձությունները։ Խստորեն խորհուրդ է տրվում սահմանել գաղտնիք։
+
+    '

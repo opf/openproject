@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Logging time within the work package view", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
-  shared_let(:admin) { create(:admin) }
+  shared_let(:admin) { create(:admin, member_with_permissions: { project => %i[log_time view_time_entries view_work_packages] }) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:activity) { create(:time_entry_activity, project:) }
 
@@ -55,7 +55,7 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
     # Update the fields
     time_logging_modal.update_field "activity_id", activity.name
     time_logging_modal.update_field "spent_on", date.strftime("%Y-%m-%d")
-    time_logging_modal.update_field "hours", hours.to_s
+    time_logging_modal.update_field "hours_display", hours.to_s
 
     if log_for_user
       time_logging_modal.update_field "user_id", log_for_user.name
@@ -132,7 +132,11 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
     end
 
     context "with a user with non-one unit numbers", with_settings: { available_languages: %w[en ja] } do
-      let(:user) { create(:admin, language: "ja") }
+      let(:user) do
+        create(:admin,
+               language: "ja",
+               member_with_permissions: { project => %i[log_time view_time_entries view_work_packages] })
+      end
 
       before do
         I18n.locale = "ja"

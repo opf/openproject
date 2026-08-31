@@ -1,21 +1,37 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  Output,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 import { filter, take } from 'rxjs/operators';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
 
 @Component({
@@ -25,6 +41,11 @@ import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from 
   standalone: false,
 })
 export class SpotDropModalComponent implements OnDestroy {
+  readonly i18n = inject(I18nService);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+  private teleportationService = inject(SpotDropModalTeleportationService);
+
   @HostBinding('class.spot-drop-modal') public className = true;
 
   /**
@@ -93,18 +114,11 @@ export class SpotDropModalComponent implements OnDestroy {
 
   private cleanupFloatingUI:() => void|undefined;
 
-  @ViewChild('anchor') anchor:ElementRef;
+  @ViewChild('anchor') anchor:ElementRef<HTMLElement>;
 
   @ViewChild('body') body:TemplateRef<unknown>;
 
-  @ViewChild('focusGrabber') focusGrabber:ElementRef;
-
-  constructor(
-    readonly i18n:I18nService,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-    private teleportationService:SpotDropModalTeleportationService,
-  ) {}
+  @ViewChild('focusGrabber') focusGrabber:ElementRef<HTMLElement>;
 
   open() {
     this._opened = true;
@@ -118,8 +132,8 @@ export class SpotDropModalComponent implements OnDestroy {
       )
       .subscribe(() => {
         this.cdRef.detectChanges();
-        const referenceEl = this.elementRef.nativeElement as HTMLElement;
-        const floatingEl = this.anchor.nativeElement as HTMLElement;
+        const referenceEl = this.elementRef.nativeElement;
+        const floatingEl = this.anchor.nativeElement;
         this.cleanupFloatingUI = autoUpdate(
           referenceEl,
           floatingEl,
@@ -194,10 +208,10 @@ export class SpotDropModalComponent implements OnDestroy {
 
     this.teleportationService.clear();
     this.cdRef.detectChanges();
-    (this.focusGrabber.nativeElement as HTMLElement).focus();
+    this.focusGrabber.nativeElement.focus();
   }
 
-  private onGlobalClick = this.close.bind(this) as () => void;
+  private onGlobalClick = this.close.bind(this);
 
   ngOnDestroy():void {
     if (this.opened) {

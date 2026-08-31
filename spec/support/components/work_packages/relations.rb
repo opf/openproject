@@ -62,13 +62,13 @@ module Components
         # Search the current window in order to avoid within scope restrictions
         within_window(page.current_window) do
           within("wp-relations-tab") do
-            expect(page).to have_no_css("op-content-loader")
+            expect(page).to have_no_css("op-content-loader", wait: 10)
           end
         end
       end
 
       def expect_add_relation_button
-        expect(page).to have_test_selector("add-relation-action-menu")
+        expect(page).to have_test_selector("add-relation-action-menu", wait: 10)
       end
 
       def expect_no_add_relation_button
@@ -145,7 +145,7 @@ module Components
       end
 
       def new_relation_button
-        page.find(id: "add-relation-action-menu-button")
+        page.find(id: "add-relation-action-menu-button", wait: 10)
       end
 
       def new_relation_sub_menu_button

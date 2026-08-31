@@ -42,8 +42,19 @@ See COPYRIGHT and LICENSE files for more details.
           subhead.with_description { I18n.t(:description_costs_settings) }
         end
       end
-      form.text_field(name: :costs_currency, input_width: :small)
-      form.text_field(name: :costs_currency_format, input_width: :small)
+      form.text_field(
+        name: :costs_currency,
+        input_width: :xsmall,
+        caption: I18n.t(:setting_costs_currency_caption)
+      )
+      form.select_list(
+        name: :costs_currency_format,
+        values: [
+          [I18n.t(:setting_costs_currency_format_prefix), "%u %n"],
+          [I18n.t(:setting_costs_currency_format_suffix), "%n %u"]
+        ],
+        input_width: :small
+      )
 
       form.submit
     end

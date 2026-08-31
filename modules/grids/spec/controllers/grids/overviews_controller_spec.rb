@@ -67,7 +67,7 @@ RSpec.describe Overviews::OverviewsController do
     end
   end
 
-  describe "#dashboard", with_flag: { new_project_overview: true } do
+  describe "#dashboard" do
     it "renders 'dashboard'" do
       get :dashboard, params: { project_id: project.id }
 

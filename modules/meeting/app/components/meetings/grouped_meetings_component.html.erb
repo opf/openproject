@@ -1,0 +1,7 @@
+<% if blank_slate? %>
+  <%= render Meetings::BlankSlateComponent.new(project: @project) %>
+<% end %>
+<% each_present_group do |key, meetings, mt| %>
+  <%= render(Primer::OpenProject::Heading.new(tag: :h3, mb: 3, mt:)) { I18n.t("label_meeting_index_#{key}") } %>
+  <%= render Meetings::TableComponent.new(rows: meetings, current_project: @project, test_selector: "meetings-table-#{key}") %>
+<% end %>

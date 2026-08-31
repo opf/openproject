@@ -38,6 +38,7 @@ RSpec.describe "layouts/base" do
   include Capybara::RSpecMatchers
 
   include Redmine::MenuManager::MenuHelper
+
   helper Redmine::MenuManager::MenuHelper
   let(:user) { build_stubbed(:user) }
   let(:anonymous) { build_stubbed(:anonymous) }
@@ -104,7 +105,7 @@ RSpec.describe "layouts/base" do
   describe "icons" do
     let(:current_user) { anonymous }
 
-    context "not in development environment" do
+    context "when not in development environment" do
       before do
         render
       end
@@ -189,12 +190,11 @@ RSpec.describe "layouts/base" do
     let(:a_token) { EnterpriseToken.new }
     let(:current_user) { anonymous }
 
-    context "EE is active and styles are present" do
+    context "when EE is active and styles are present", with_ee: %i[define_custom_style capture_external_links] do
       let(:custom_style) { create(:custom_style) }
       let(:primary_color) { create(:"design_color_primary-button-color") }
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(CustomStyle).to receive(:current).and_return(custom_style)
       end
 

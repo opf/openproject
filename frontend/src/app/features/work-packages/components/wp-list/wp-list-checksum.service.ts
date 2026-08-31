@@ -21,28 +21,32 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class WorkPackagesListChecksumService {
-  constructor(protected UrlParamsHelper:UrlParamsHelperService,
-    protected $state:StateService) {
-  }
+  protected UrlParamsHelper = inject(UrlParamsHelperService);
+  protected $state = inject(StateService);
+
 
   public id:string|null;
 
   public checksum:string|null;
 
   public visibleChecksum:string|null;
+
+  /** Emits whenever visibleChecksum changes (useful for non-uiRouter pages to react to URL param changes) */
+  public readonly visibleChecksum$ = new Subject<string|null>();
 
   public updateIfDifferent(query:QueryResource,
     pagination:WorkPackageViewPagination):Promise<unknown> {
@@ -151,8 +155,38 @@ export class WorkPackagesListChecksumService {
     );
   }
 
+  private isOnNonRouterPage():boolean {
+    if (!this.$state.current.name) return true;
+    const { pathname } = window.location;
+    return pathname.includes('/team_planners')
+      || pathname.includes('/calendars')
+      || pathname.includes('/ifc_models');
+  }
+
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
     this.visibleChecksum = checksum;
+    this.visibleChecksum$.next(checksum);
+
+    // When uiRouter is not managing the current page (e.g. calendar, team planner, BIM after Turbo migration),
+    // $state.current.name may be stale from a previous router page. Detect by URL to avoid incorrect $state.go() navigation.
+    if (this.isOnNonRouterPage()) {
+      const url = new URL(window.location.href);
+
+      if (checksum) {
+        url.searchParams.set('query_props', checksum);
+      } else {
+        url.searchParams.delete('query_props');
+      }
+
+      if (id) {
+        url.searchParams.set('query_id', id);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+
+      window.history.pushState({}, '', url.toString());
+      return Promise.resolve() as unknown as TransitionPromise;
+    }
 
     return this.$state.go(
       '.',

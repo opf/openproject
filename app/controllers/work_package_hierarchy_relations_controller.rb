@@ -121,8 +121,7 @@ class WorkPackageHierarchyRelationsController < ApplicationController
   end
 
   def allowed_to_set_parent?(child)
-    contract = WorkPackages::UpdateContract.new(child, current_user)
-    contract.can_set_parent?
+    WorkPackages::UpdateContract.update_parent_allowed?(work_package: child, user: current_user)
   end
 
   def respond_with_relations_tab_update(service_result, **)

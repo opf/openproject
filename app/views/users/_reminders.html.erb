@@ -26,4 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= angular_component_tag "opce-reminder-settings", inputs: { userId: @user.id } %>
+<%= render(
+      My::Reminders::ShowPageComponent.new(
+        user: @user,
+        global_notification_setting: @user.notification_settings.find_or_initialize_by(project: nil),
+        update_url: update_reminders_user_path(@user),
+        update_workdays_url: update_workdays_user_path(@user),
+        update_email_alerts_url: update_email_alerts_user_path(@user)
+      )
+    ) %>

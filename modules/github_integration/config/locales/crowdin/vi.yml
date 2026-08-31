@@ -19,37 +19,63 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 vi:
+  activerecord:
+    models:
+      deploy_status_check:
+        other: Deployment status checks
+      deploy_target:
+        other: Deployment targets
+      github_check_run:
+        other: GitHub check runs
+      github_pull_request:
+        other: GitHub pull requests
+      github_user:
+        other: GitHub users
   attributes:
-    additions_count: "Số lần bổ sung"
-    deletions_count: "Số lần xóa"
-    comments_count: "Số lượng bình luận"
-    github_html_url: "Kéo URL yêu cầu"
-    github_app_owner_avatar_url: "URL hình đại diện của chủ sở hữu"
-    review_comments_count: "Xem lại số lượng bình luận"
-    github: "Mã định danh GitHub"
-    github_avatar_url: "URL hình đại diện"
-    github_updated_at: "Cập nhật lúc"
-    github_login: "đăng nhập GitHub"
-    host: "chủ nhà"
-    labels: "Nhãn"
-    repository: "kho lưu trữ"
-    changed_files_count: "Tập tin đã thay đổi"
+    additions_count: Số lần bổ sung
+    changed_files_count: Tập tin đã thay đổi
+    comments_count: Số lượng bình luận
+    deletions_count: Số lần xóa
+    github: Mã định danh GitHub
+    github_app_owner_avatar_url: URL hình đại diện của chủ sở hữu
+    github_avatar_url: URL hình đại diện
+    github_html_url: Kéo URL yêu cầu
+    github_login: đăng nhập GitHub
+    github_updated_at: Cập nhật lúc
+    host: chủ nhà
+    labels: Nhãn
+    repository: kho lưu trữ
+    review_comments_count: Xem lại số lượng bình luận
   button_add_deploy_target: Thêm mục tiêu triển khai
   label_deploy_target: Triển khai mục tiêu
   label_deploy_target_new: Mục tiêu triển khai mới
   label_deploy_target_plural: Triển khai mục tiêu
+  label_github_comment_user: GitHub actor
   label_github_integration: Tích hợp GitHub
+  label_github_webhook_secret: Webhook secret
   notice_deploy_target_created: Đã tạo mục tiêu triển khai
   notice_deploy_target_destroyed: Đã xóa mục tiêu triển khai
-  plugin_openproject_github_integration:
-    name: "Tích hợp GitHub của OpenProject"
-    description: "Tích hợp OpenProject và GitHub để có quy trình làm việc tốt hơn"
-  project_module_github: "GitHub"
-  permission_show_github_content: "Hiển thị nội dung GitHub"
   permission_introspection: Đọc phiên bản lõi OpenProject đang chạy và xây dựng SHA
-  text_deploy_target_type_info: >
-    Cho đến nay chúng tôi chỉ hỗ trợ OpenProject.
-  text_deploy_target_api_key_info: >
-    OpenProject [API key](docs_url) thuộc về người dùng có quyền xem xét nội tâm toàn cầu.
+  permission_show_github_content: Hiển thị nội dung GitHub
+  plugin_openproject_github_integration:
+    description: Tích hợp OpenProject và GitHub để có quy trình làm việc tốt hơn
+    name: Tích hợp GitHub của OpenProject
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'OpenProject [API key](docs_url) thuộc về người dùng có quyền xem xét nội tâm toàn cầu.
+
+    '
+  text_deploy_target_type_info: 'Cho đến nay chúng tôi chỉ hỗ trợ OpenProject.
+
+    '
+  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on gói công việc (work package)s. Defaults to the system user when not set.
+
+    '
+  text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '
   text_pull_request_deployed_to: "%{pr_link} được triển khai tới %{deploy_target_link}"

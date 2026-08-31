@@ -2,7 +2,7 @@
   [name]="widgetName"
   [editable]="isEditable">
 
-  <attribute-help-text slot="prepend"
+  <attribute-help-text slot="append"
                        attribute="status"
                        [attributeScope]="'Project'" />
 
@@ -10,4 +10,4 @@
     [resource]="resource" />
 </widget-header>
 
-<turbo-frame [id]="frameId" [src]="src" loading="lazy" />
+<turbo-frame class="grid--widget-content" [id]="frameId" [src]="src" loading="lazy" />

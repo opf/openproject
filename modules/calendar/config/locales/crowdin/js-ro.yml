@@ -1,9 +1,9 @@
-#English strings go here
+---
 ro:
   js:
     calendar:
-      create_new: 'Creează un calendar nou'
-      title: 'Calendar'
-      too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} pot fi afișate.'
-      unsaved_title: 'Calendar fără nume'
-      label_calendar_plural: 'Calendare'
+      create_new: Creează un calendar nou
+      label_calendar_plural: Calendare
+      title: Calendar
+      too_many: Există %{count} pachete de lucru în total, dar numai %{max} pot fi afișate.
+      unsaved_title: Calendar fără nume

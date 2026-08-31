@@ -1,59 +1,74 @@
+---
 pt-PT:
   js:
     grid:
-      add_widget: 'Adicionar widget'
-      remove: 'Remover o widget'
-      configure: 'Configurar widget'
+      add_widget: Adicionar widget
+      configure: Configurar widget
+      remove: Remover o widget
+      widget_menu_label: Mostrar opções de menu para o widget %{widgetName}
       widgets:
-        missing_permission: "Não tem as permissões necessárias para visualizar este widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Texto personalizado'
+          title: Texto personalizado
         documents:
-          title: 'Documentos'
-          no_results: 'Ainda não há documentos.'
+          no_results: Ainda não há documentos.
+          title: Documentos
         members:
-          title: 'Membros'
+          title: Membros
+        missing_permission: Não tem as permissões necessárias para visualizar este widget.
         news:
-          title: 'Noticias'
+          title: Notícias
+        not_available: Este widget não está disponível de momento.
         project_description:
-          title: 'Descrição'
-          no_results: "Ainda não foi escrita nenhuma descrição. Uma pode ser fornecida nas 'Definições de Projeto'."
-        project_status:
-          title: 'Estado'
-          not_started: 'Não iniciado'
-          on_track: 'Sob controlo'
-          off_track: 'Fora de controlo'
-          at_risk: 'Em risco'
-          not_set: 'Não definido'
-          finished: 'Terminado'
-          discontinued: 'Descontinuado'
-        subprojects:
-          title: 'Sub-elementos'
+          title: Descrição
         project_favorites:
-          title: 'Projetos favoritos'
-          no_results: 'Atualmente, não tem projetos favoritos. Clique no ícone da estrela no painel do projeto para adicionar um projeto aos seus favoritos.'
+          no_results: Não tem nenhum projeto favorito. Adicione um ou vários projetos aos favoritos a partir da respetiva página de síntese ou numa lista de projetos.
+          title: Projetos favoritos
+        project_status:
+          at_risk: Em risco
+          discontinued: Descontinuado
+          finished: Terminado
+          not_set: Não definido
+          not_started: Não iniciado
+          off_track: Fora do previsto
+          on_track: Conforme previsto
+          title: Estado
+        project_timeline:
+          accessible_date_range: "%{start} a %{end}"
+          accessible_gate: 'Porta de fase %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Fase %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Porta de fase
+          tooltip_type_milestone: Marco
+          tooltip_type_phase: Fase
+          tooltip_type_sprint: Sprint
+        subprojects:
+          title: Sub-elementos
         time_entries_current_user:
-          title: 'O meu tempo gasto'
           displayed_days: 'Dias exibidos no widget:'
+          title: O meu tempo gasto
         time_entries_list:
-          title: 'Tempo gasto (últimos 7 dias)'
-          no_results: 'Não há entradas de tempo nos últimos 7 dias.'
+          no_results: Não há entradas de tempo nos últimos 7 dias.
+          title: Tempo gasto (últimos 7 dias)
         work_packages_accountable:
-          title: "Pacotes de trabalho pelos quais sou responsável"
+          title: Pacotes de trabalho pelos quais sou responsável
         work_packages_assigned:
-          title: 'Pacotes de trabalho atribuídos a mim'
-        work_packages_created:
-          title: 'Pacotes de trabalho criados por mim'
-        work_packages_watched:
-          title: 'Pacotes de trabalho observados por mim'
-        work_packages_table:
-          title: 'Tabela de pacotes de trabalho'
-        work_packages_graph:
-          title: 'Gráfico de pacotes de trabalho'
-          summary: "%{chartType} gráfico que mostra os pacotes de trabalho que são %{description}."
+          title: Pacotes de trabalho atribuídos a mim
         work_packages_calendar:
-          title: 'Calendário'
+          title: Calendário
+        work_packages_created:
+          title: Pacotes de trabalho criados por mim
+        work_packages_graph:
+          summary: "%{chartType} gráfico que mostra os pacotes de trabalho que são %{description}."
+          title: Gráfico de pacotes de trabalho
         work_packages_overview:
-          title: 'Visão geral dos pacotes de trabalho'
-          placeholder: 'Clique para editar...'
+          placeholder: Clique para editar...
+          title: Visão geral dos pacotes de trabalho
+        work_packages_table:
+          title: Tabela de pacotes de trabalho
+        work_packages_watched:
+          title: Pacotes de trabalho observados por mim

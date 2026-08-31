@@ -60,15 +60,14 @@ module ::Overviews
                       .new(user: current_user, model: @project_phase)
                       .call(permitted_params.project_phase)
 
-      component, status =
-        if service_call.success?
-          [Overviews::ProjectPhases::SidePanelComponent.new(project: @project), :ok]
-        else
-          [Overviews::ProjectPhases::EditComponent.new(service_call.result), :unprocessable_entity]
-        end
+      component = if service_call.success?
+                    Overviews::ProjectPhases::SidePanelComponent.new(project: @project)
+                  else
+                    Overviews::ProjectPhases::EditComponent.new(service_call.result)
+                  end
 
       update_via_turbo_stream(component:)
-      respond_to_with_turbo_streams(status:)
+      respond_to_with_turbo_streams(status: service_call)
     end
 
     private

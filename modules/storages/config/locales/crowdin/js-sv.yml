@@ -1,92 +1,107 @@
-#English strings go here
+---
 sv:
   js:
     storages:
-      authentication_error: "Autentisering med %{storageType} misslyckades"
-      link_files_in_storage: "Länka filer i %{storageType}"
-      link_existing_files: "Länka befintliga filer"
-      upload_files: "Ladda upp filer"
-      drop_files: "Släpp filer här för att ladda upp dem till %{name}."
-      drop_or_click_files: "Släpp filer här eller klicka för att ladda upp dem till %{name}."
-      login: "%{storageType} inloggning"
-      login_to: "Logga in till %{storageType}"
-      no_connection: "Ingen %{storageType} anslutning"
-      open_storage: "Öppna %{storageType}"
-      select_location: "Välj plats"
-      choose_location: "Välj plats"
-      new_folder: "Ny mapp"
-      types:
-        nextcloud: "Nextcloud"
-        one_drive: "OneDrive"
-        sharepoint: "SharePoint"
-        default: "Lagring"
+      authentication_error: Autentisering med %{storageType} misslyckades
+      choose_location: Välj plats
+      drop_files: Släpp filer här för att ladda upp dem till %{name}.
+      drop_or_click_files: Släpp filer här eller klicka för att ladda upp dem till %{name}.
+      file_links:
+        already_linked_directory: Denna katalog är redan länkad till detta arbetspaket.
+        already_linked_file: Denna fil är redan länkad till detta arbetspaket.
+        download: Ladda ner %{fileName}
+        empty: 'För närvarande finns inga länkade filer till detta arbetspaket. Börja länka filer med åtgärden nedan eller inifrån %{storageType}.
+
+          '
+        link_uploaded_file_error: 'Ett fel inträffade när filen ''%{fileName}'' skulle länkas till arbetspaketet %{workPackageId}.
+
+          '
+        open: Öppna fil på lagringsplats
+        open_location: Öppna fil på plats
+        remove: Ta bort fillänk
+        remove_confirmation: 'Är du säker på att du vill avlänka filen från detta arbetspaket? Avlänkning påverkar inte den ursprungliga filen och tar bara bort anslutningen till detta arbetspaket.
+
+          '
+        remove_short: Ta bort länk
+        select: Välj filer
+        select_all: Markera alla
+        selection:
+          zero: Välj filer att länka
+          one: Länka 1 fil
+          other: Länka %{count} filer
+        success_create:
+          one: Skapade 1 fillänk.
+          other: Skapades framgångsrikt %{count} fillänkar.
+        tooltip:
+          not_found: Den här filen kunde inte hittas.
+          not_logged_in: Logga in på lagringsutrymmet för att komma åt filen.
+          view_not_allowed: Du har inte behörighet att se denna fil.
+        upload_error:
+          403: 'Din fil (%{fileName}) kunde inte laddas upp på grund av systembegränsningar. Kontakta administratören för mer information.
+
+            '
+          413: 'Din fil (%{fileName}) är större än vad OpenProject kan ladda upp till %{storageType}. Du kan ladda upp den direkt till %{storageType} först och sedan länka filen.
+
+            '
+          507: 'Din fil (%{fileName}) är större än vad lagringskvoten tillåter. Kontakta administratören för att ändra denna kvot.
+
+            '
+          default: 'Din fil (%{fileName}) kunde inte laddas upp.
+
+            '
+          detail:
+            nextcloud: 'Kontrollera att den senaste versionen av Nextcloud-appen "OpenProject Integration" är installerad och kontakta administratören för mer information.
+
+              '
+      files:
+        already_existing_body: 'En fil med namnet "%{fileName}" finns redan på den plats där du försöker ladda upp den här filen. Vad skulle du vilja göra?
+
+          '
+        already_existing_header: Den här filen finns redan
+        cannot_create_folder: Det gick inte att skapa mapp. Undvik att använda specialtecken och symboler och se till att mappen inte finns redan.
+        directory_not_writeable: Du har inte behörighet att lägga till filer i den här mappen.
+        dragging_folder: Uppladdningen till %{storageType} stöder inte mappar.
+        dragging_many_files: Uppladdningen till %{storageType} stöder endast en fil åt gången.
+        empty_folder: Denna mapp är tom.
+        empty_folder_location_hint: Klicka på knappen nedan för att ladda upp filen till denna plats.
+        file_not_selectable_location: Det är inte möjligt att välja en fil i samband med att du väljer en plats.
+        managed_project_folder_no_access: 'Du har ännu ingen åtkomst till den hanterade projektmappen. Vänta lite och försök igen.
+
+          '
+        managed_project_folder_not_available: 'Den automatiskt hanterade projektmappen hittades ännu inte. Vänta lite, ladda om sidan för att hämta de senaste uppgifterna och försök igen.
+
+          '
+        project_folder_no_access: 'Du har inte tillgång till projektmappen. Kontakta din administratör för att få åtkomst eller ladda upp filen på en annan plats.
+
+          '
+        upload_keep_both: Behåll båda
+        upload_replace: Ersätt
       information:
-        authentication_error: "Begäran till %{storageType} kunde inte autentiseras, det är ett fel."
-        connection_error: >
-          Vissa %{storageType} inställningar fungerar inte. Kontakta din %{storageType} administratör.
-        live_data_error: "Fel vid hämtning av fildetaljer"
-        live_data_error_description: >
-          En del %{storageType} data kunde inte hämtas. Försök att ladda om sidan eller kontakta din %{storageType} administratör.
-        no_file_links: "För att länka filer till detta arbetspaket gör du det via %{storageType}."
-        not_logged_in: >
-          För att lägga till en länk, se eller ladda upp filer relaterade till detta arbetspaket, vänligen logga in på %{storageType}.
+        authentication_error: Begäran till %{storageType} kunde inte autentiseras, det är ett fel.
+        connection_error: 'Vissa %{storageType} inställningar fungerar inte. Kontakta din %{storageType} administratör.
+
+          '
+        live_data_error: Fel vid hämtning av fildetaljer
+        live_data_error_description: 'En del %{storageType} data kunde inte hämtas. Försök att ladda om sidan eller kontakta din %{storageType} administratör.
+
+          '
+        no_file_links: För att länka filer till detta arbetspaket gör du det via %{storageType}.
+        not_logged_in: 'För att lägga till en länk, se eller ladda upp filer relaterade till detta arbetspaket, vänligen logga in på %{storageType}.
+
+          '
         suggest_logout: Du kan prova om problemet löses genom att logga ut och in igen.
         suggest_relink: Du kan prova om problemet kan lösas genom att länka om ditt konto via inloggningsknappen nedan.
-      files:
-        already_existing_header: "Den här filen finns redan"
-        already_existing_body: >
-          En fil med namnet "%{fileName}" finns redan på den plats där du försöker ladda upp den här filen. Vad skulle du vilja göra?
-        directory_not_writeable: "Du har inte behörighet att lägga till filer i den här mappen."
-        dragging_many_files: "Uppladdningen till %{storageType} stöder endast en fil åt gången."
-        dragging_folder: "Uppladdningen till %{storageType} stöder inte mappar."
-        empty_folder: "Denna mapp är tom."
-        empty_folder_location_hint: "Klicka på knappen nedan för att ladda upp filen till denna plats."
-        file_not_selectable_location: "Det är inte möjligt att välja en fil i samband med att du väljer en plats."
-        project_folder_no_access: >
-          Du har inte tillgång till projektmappen. Kontakta din administratör för att få åtkomst eller ladda upp filen på en annan plats.
-        managed_project_folder_not_available: >
-          Den automatiskt hanterade projektmappen hittades ännu inte. Vänta lite, ladda om sidan för att hämta de senaste uppgifterna och försök igen.
-        managed_project_folder_no_access: >
-          Du har ännu ingen åtkomst till den hanterade projektmappen. Vänta lite och försök igen.
-        cannot_create_folder: Det gick inte att skapa mapp. Undvik att använda specialtecken och symboler och se till att mappen inte finns redan.
-        upload_keep_both: "Behåll båda"
-        upload_replace: "Ersätt"
-      file_links:
-        empty: >
-          För närvarande finns inga länkade filer till detta arbetspaket. Börja länka filer med åtgärden nedan eller inifrån %{storageType}.
-        download: "Ladda ner %{fileName}"
-        open: "Öppna fil på lagringsplats"
-        open_location: "Öppna fil på plats"
-        remove: "Ta bort fillänk"
-        remove_confirmation: >
-          Är du säker på att du vill avlänka filen från detta arbetspaket? Avlänkning påverkar inte den ursprungliga filen och tar bara bort anslutningen till detta arbetspaket.
-        remove_short: "Ta bort länk"
-        select: "Välj filer"
-        select_all: "Markera alla"
-        selection:
-          zero: "Välj filer att länka"
-          one: "Länka 1 fil"
-          other: "Länka %{count} filer"
-        success_create:
-          one: "Skapade 1 fillänk."
-          other: "Skapades framgångsrikt %{count} fillänkar."
-        upload_error:
-          default: >
-            Din fil (%{fileName}) kunde inte laddas upp.
-          403: >
-            Din fil (%{fileName}) kunde inte laddas upp på grund av systembegränsningar. Kontakta administratören för mer information.
-          413: >
-            Din fil (%{fileName}) är större än vad OpenProject kan ladda upp till %{storageType}. Du kan ladda upp den direkt till %{storageType} först och sedan länka filen.
-          507: >
-            Din fil (%{fileName}) är större än vad lagringskvoten tillåter. Kontakta administratören för att ändra denna kvot.
-          detail:
-            nextcloud: >
-              Kontrollera att den senaste versionen av Nextcloud-appen "OpenProject Integration" är installerad och kontakta administratören för mer information.
-        link_uploaded_file_error: >
-          Ett fel inträffade när filen '%{fileName}' skulle länkas till arbetspaketet %{workPackageId}.
-        tooltip:
-          not_logged_in: "Logga in på lagringsutrymmet för att komma åt filen."
-          view_not_allowed: "Du har inte behörighet att se denna fil."
-          not_found: "Den här filen kunde inte hittas."
-        already_linked_file: "Denna fil är redan länkad till detta arbetspaket."
-        already_linked_directory: "Denna katalog är redan länkad till detta arbetspaket."
+      link_existing_files: Länka befintliga filer
+      link_files_in_storage: Länka filer i %{storageType}
+      login: "%{storageType} inloggning"
+      login_to: Logga in till %{storageType}
+      new_folder: Ny mapp
+      no_connection: Ingen %{storageType} anslutning
+      open_storage: Öppna %{storageType}
+      select_location: Välj plats
+      types:
+        default: Lagring
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Ladda upp filer

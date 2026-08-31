@@ -2,16 +2,12 @@
 
 OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, RSpec system tests) require to have Chrome installed. To ensure we deliver high quality code to our customers, it's essential to conduct various types of tests.
 
-
-
 | Topic                                                       | Content                                                      |
 | ----------------------------------------------------------- | :----------------------------------------------------------- |
 | [Testing architecture](#testing-architecture) (this page)   | Overview of the architecture and involved parties regarding testing |
 | [Continuous testing workflow](continuous-testing-workflow/) | Overview of our CI and Continuous testing pipelines and how to debug them |
 | [Running tests locally](running-tests-locally/)             | Guides on how to run tests on your machine or on Docker      |
 | [Handling flaky tests](handling-flaky-tests/)               | Guides to identify, debug, and fix tests that intermittently pass or fail |
-
-
 
 ## Testing Architecture
 
@@ -59,7 +55,7 @@ Unit testing concerns testing of isolating individual components of the applicat
   - **Assert**: Check that the method or process behaved as expected.
 - Keep examples of unit specs simples and descriptive
 - Write tests during or before development, not as an afterthought
-- Test the entire range of potential inputs, including *negative* tests and validation of potentially malicious user input.
+- Test the entire range of potential inputs, including _negative_ tests and validation of potentially malicious user input.
 
   Negative testing consists of test cases which define how software reacts to user’s invalid input or unexpected behavior. The aim is not only to prevent the application from crashing but to improve quality by specifying clear and understandable error messages so that users know what kind of input is expected and correct.
 - Avoid calling the database if not necessary
@@ -76,7 +72,7 @@ Unit testing concerns testing of isolating individual components of the applicat
 
 Integration tests focus on the interactions between different components of OpenProject to ensure they work together to deliver a specific functionality. OpenProject uses RSpec to perform integration tests to simulate real-world user behavior. In contrast to system tests, integration tests still leave out some assumptions or characteristics of the application (e.g., not running tests in an instrumented browser instance).
 
-In Rails, the difference between integration tests and feature tests can be blurry. At OpenProject, we assume every test that involves an instrumented browser instance is a *feature spec*. Integration tests can be request or controller specs, or specs in other folders explicitly marked as integration, meaning it will not use mocking to separate the involved components.
+In Rails, the difference between integration tests and feature tests can be blurry. At OpenProject, we assume every test that involves an instrumented browser instance is a _feature spec_. Integration tests can be request or controller specs, or specs in other folders explicitly marked as integration, meaning it will not use mocking to separate the involved components.
 
 **Key objectives and effects**
 
@@ -186,7 +182,7 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 1. Ensure customer provided user stories and acceptance criteria is well defined before development phase is entered, or be clear and open about the scope of what is to be built.
 2. Perform acceptance test in an environment that mimics the production environment as closely as possible. This could be an isolated edge environment, or a separately deployed instance at the customer's request.
-3. Maintain clear and detailed documentation of test cases, outcomes, and any *discrepancies* between expected and actual implementation and results.
+3. Maintain clear and detailed documentation of test cases, outcomes, and any _discrepancies_ between expected and actual implementation and results.
 
 ### Non-functional testing
 
@@ -233,7 +229,7 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 **Best practices**
 
 - Use statical and dynamical code analysis for automated vulnerability testing. OpenProject uses CodeQL and Brakeman as part of the CI pipeline to give early feedback to common vulnerabilities.
-- OpenProject uses [Docker Scout](https://www.docker.com/products/docker-scout/) for the Docker images hosted on Docker Hub for automated vulnerability scanning and analysis of the built container, including all dependencies.
+- OpenProject uses [Docker Scout](https://www.docker.com/products/docker-scout/) for the Docker images hosted on Docker Hub for automated vulnerability scanning and analysis of the built container, including all dependencies. The scan is using Vulnerability Exploitability eXchange (VEX). Every image [is being published with vulnerability attestations](../concepts/secure-coding/#packaging-and-containerization) so that information about vulnerabilities that actually affect OpenProject is included.
 - Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modifying or adding features to authentication, authorization, 2FA, or sensitive data operations.
 - If possible, automate security tests for common vulnerabilities for input in your development.
 - Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org) to stay up-to-date on security testing and extend our security test suite with new information.
@@ -285,7 +281,7 @@ When new features or changes to the application are available on our [Edge or Co
 
 #### Accessibility tests
 
-OpenProject strives to be accessible for all users while also retaining a high usability. In web applications, these two requirements can sometimes be a seemingly contradictory requirement, especially when animations or *modern* functionalities of browsers are used.
+OpenProject strives to be accessible for all users while also retaining a high usability. In web applications, these two requirements can sometimes be a seemingly contradictory requirement, especially when animations or _modern_ functionalities of browsers are used.
 
 **Key objectives and effects**
 

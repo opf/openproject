@@ -36,20 +36,24 @@ module OpenProject
                   :name,
                   :description,
                   :lines,
-                  :background_reference_id,
                   :format
 
       PARAGRAPH_CSS_CLASS = "op-uc-p"
 
-      def initialize(id, name, description, lines: 1, background_reference_id: "content", format: true, **args)
+      def initialize(id, name, description, lines: 1, format: true, **args)
         super()
         @id = id
         @name = name
         @description = description
         @system_arguments = args
         @lines = lines
-        @background_reference_id = background_reference_id
         @format = format
+      end
+
+      # `lines` only constrains height in multi-line mode; a single line is best
+      # served by single-line ellipsis truncation.
+      def truncation_style
+        lines > 1 ? :multi_line : :single_line
       end
 
       def short_text
@@ -64,38 +68,30 @@ module OpenProject
         @full_text ||= format ? helpers.format_text(description) : description
       end
 
-      def display_expand_button_value
-        multi_type? || body_children.length > 1 ? :block : :none
+      def show_expander?
+        multi_type? || body_children.length > 1
       end
 
       def text_color
         :muted if multi_type?
       end
 
-      def max_height
-        "#{lines * 1.6}em"
-      end
-
       private
 
-      def first_paragraph_content
-        return unless first_paragraph_ast
-
-        first_paragraph_ast
-          .inner_html
-          .html_safe # rubocop:disable Rails/OutputSafety
-      end
-
+      # rubocop:disable Rails/OutputSafety
+      # OG: html_safe double-checked and expected here,
+      # output is coming from format_text which we output elsewhere, too.
       def first_paragraph
         @first_paragraph ||= if body_children.any?
                                body_children
                                  .first
                                  .inner_html
-                                 .html_safe # rubocop:disable Rails/OutputSafety
+                                 .html_safe
                              else
                                ""
                              end
       end
+      # rubocop:enable Rails/OutputSafety
 
       def first_paragraph_ast
         @first_paragraph_ast ||= text_ast

@@ -1,0 +1,29 @@
+<%= flex_layout do |list| %>
+  <% steps.each do |step| %>
+    <% list.with_row(mb: 2, test_selector: "wizard-step-#{step}") do %>
+      <%= flex_layout(align_items: :center) do |row| %>
+        <% row.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Octicon.new(icon: leading_icon(step), color: current?(step) ? :accent : :muted)) %>
+        <% end %>
+
+        <% row.with_column(flex: 1) do %>
+          <% if (href = href_for(step)) %>
+            <%= render(Primer::Beta::Link.new(href:, color: current?(step) ? :accent : :default, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
+          <% else %>
+            <%= render(Primer::Beta::Text.new(color: current?(step) ? :accent : :muted, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
+          <% end %>
+        <% end %>
+
+        <% row.with_column(ml: 2) do %>
+          <% if completed?(step) %>
+            <%= render(Primer::Beta::Octicon.new(icon: linked?(step) ? :link : :pencil, color: :accent)) %>
+          <% elsif current?(step) %>
+            <%= render(Primer::Beta::Octicon.new(icon: :"dot-fill", color: :accent)) %>
+          <% else %>
+            <%= render(Primer::Beta::Octicon.new(icon: :circle, color: :muted)) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

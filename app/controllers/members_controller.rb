@@ -110,7 +110,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: build_members
+        render json: build_members, escape: true
       end
     end
   end
@@ -118,7 +118,7 @@ class MembersController < ApplicationController
   private
 
   def find_member
-    @member = @project.members.visible.find(params[:id])
+    @member = @project.memberships.visible.find(params[:id])
   end
 
   def authorize_for?(controller, action)
@@ -166,7 +166,7 @@ class MembersController < ApplicationController
   end
 
   def members_filter_options(roles)
-    groups = Group.all.sort
+    groups = Group.visible.sort
     shares = WorkPackageRole.all
     status = Members::UserFilterComponent.status_param(params)
 

@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackage do
   describe "#custom_fields" do
-    let(:type) { create(:type_standard) }
+    let(:type) { create(:type_task) }
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       build(:work_package,
@@ -52,7 +52,7 @@ RSpec.describe WorkPackage do
     shared_context "project with custom field" do |save = true|
       before do
         project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
 
         work_package.save if save
       end
@@ -257,7 +257,7 @@ RSpec.describe WorkPackage do
 
       before do
         project.work_package_custom_fields << custom_field_2
-        project.types << type_feature
+        project.project_types.create!(type: type_feature)
       end
 
       context "with initial type" do

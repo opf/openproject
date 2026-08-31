@@ -200,6 +200,99 @@ RSpec.describe Exports::PDF::Common::Macro do
         expect(formatted).to eq("<table><tr><td><p><s>#{expected_tag}</s></p></td></tr></table>")
       end
     end
+
+    describe "with semantic identifier" do
+      describe "in semantic mode",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_project) { create(:project, identifier: "PROJ") }
+        let(:semantic_work_package) do
+          wp = create(:work_package, project: semantic_project, type: type_task, subject: "Semantic")
+          wp.allocate_and_register_semantic_id
+          wp.reload
+        end
+        let(:user) do
+          create(
+            :user,
+            member_with_permissions: {
+              project => %i[view_work_packages view_project_attributes view_project] + additional_permissions,
+              other_project => %i[view_work_packages view_project_attributes view_project] + additional_permissions,
+              semantic_project => %i[view_work_packages view_project_attributes view_project]
+            }
+          )
+        end
+
+        describe "alone" do
+          let(:markdown) { "see ##{semantic_work_package.identifier} here" }
+
+          it "renders the mention with the semantic identifier in data-id" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-text="##{semantic_work_package.identifier}"))
+          end
+        end
+
+        describe "mixed with a numeric reference" do
+          let(:markdown) { "see ##{semantic_work_package.identifier} and ##{work_package.id}" }
+
+          it "renders both as mentions with their respective data-ids" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-id="#{work_package.id}"))
+            expect(formatted).not_to include('data-id="0"')
+          end
+        end
+
+        describe "with an alias from a previous identifier" do
+          before do
+            create(:work_package_semantic_alias,
+                   work_package: semantic_work_package,
+                   identifier: "OLD-1")
+          end
+
+          let(:markdown) { "see #OLD-1 here" }
+
+          it "resolves the alias and renders the current identifier" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-text="##{semantic_work_package.identifier}"))
+            expect(formatted).not_to include(">#OLD-1<")
+          end
+        end
+
+        describe "for a missing work package" do
+          let(:markdown) { "see #GHOST-99 here" }
+
+          it "falls through to literal text without crashing" do
+            expect(formatted).to include("#GHOST-99")
+            expect(formatted).not_to include("<mention")
+            expect(formatted).not_to include('data-id="0"')
+          end
+        end
+
+        describe "for a work package the user cannot see" do
+          let(:hidden_project) { create(:project, identifier: "HIDDEN") }
+          let(:hidden_work_package) do
+            wp = create(:work_package, project: hidden_project, type: type_task, subject: "Hidden")
+            wp.allocate_and_register_semantic_id
+            wp.reload
+          end
+          let(:markdown) { "see ##{hidden_work_package.identifier} here" }
+
+          it "falls through to literal text and does not disclose the work package" do
+            expect(formatted).to include("##{hidden_work_package.identifier}")
+            expect(formatted).not_to include("<mention")
+          end
+        end
+      end
+
+      describe "in classic mode",
+               with_settings: { work_packages_identifier: "classic" } do
+        let(:markdown) { "see #PROJ-1 here" }
+
+        it "falls through to literal text without emitting a mention" do
+          expect(formatted).to include("#PROJ-1")
+          expect(formatted).not_to include("<mention")
+          expect(formatted).not_to include('data-id="0"')
+        end
+      end
+    end
   end
 
   describe "workPackageValue macro" do
@@ -208,6 +301,146 @@ RSpec.describe Exports::PDF::Common::Macro do
 
       it "outputs the attribute value" do
         expect(formatted).to eq("Work package 1")
+      end
+    end
+
+    describe "with multi select custom field and layout argument" do
+      shared_let(:multi_list_custom_field) do
+        create(
+          :list_wp_custom_field,
+          name: "My List Field",
+          multi_value: true,
+          possible_values: %w[Sprint1 Sprint2 Sprint3],
+          is_for_all: true,
+          types: [type_task]
+        )
+      end
+
+      let(:work_package) do
+        create(
+          :work_package,
+          subject: "Work package 1",
+          type: type_task,
+          project: project,
+          custom_field_values: {
+            multi_list_custom_field.id => multi_list_custom_field.custom_options.first(2).map(&:id)
+          }
+        )
+      end
+
+      describe "without layout argument" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\"" }
+
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
+        end
+      end
+
+      describe "with multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":multiline" }
+
+        it "outputs one value per line" do
+          expect(formatted).to eq("Sprint1  \nSprint2")
+        end
+      end
+
+      describe "with singleline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":singleline" }
+
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
+        end
+      end
+
+      describe "with singleline layout and relative work package reference" do
+        let(:markdown) { "workPackageValue:\"My List Field\":singleline" }
+
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
+        end
+      end
+
+      describe "with a prefixed layout keyword" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":multilinefoo" }
+
+        it "does not treat the prefix as a layout and keeps it as trailing text" do
+          expect(formatted).to eq("Sprint1, Sprint2:multilinefoo")
+        end
+      end
+    end
+
+    describe "with singleline layout on a single value attribute" do
+      let(:markdown) { "workPackageValue:subject:singleline" }
+
+      it "outputs the attribute value" do
+        expect(formatted).to eq("Work package 1")
+      end
+    end
+
+    describe "with target versions" do
+      shared_let(:version_one) { create(:version, project:, name: "1.0") }
+      shared_let(:version_two) { create(:version, project:, name: "2.0") }
+
+      before do
+        create(:work_package_version, work_package:, version: version_one)
+        create(:work_package_version, work_package:, version: version_two)
+      end
+
+      describe "with targetVersions attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:targetVersions" }
+
+        it "outputs all versions on a single line" do
+          # the association carries no order, so compare the values as a set
+          expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with targetVersions attribute and multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:targetVersions:multiline" }
+
+        it "outputs one version per line" do
+          expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with legacy version attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:version" }
+
+        it "outputs all target versions on a single line" do
+          expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with legacy version attribute and multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:version:multiline" }
+
+        it "outputs one version per line" do
+          expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "in semantic identifier mode",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_identifier) do
+          work_package.allocate_and_register_semantic_id
+          work_package.reload.identifier
+        end
+
+        describe "with targetVersions attribute and singleline layout" do
+          let(:markdown) { "workPackageValue:#{semantic_identifier}:targetVersions:singleline" }
+
+          it "resolves the semantic reference and outputs the versions on a single line" do
+            expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+          end
+        end
+
+        describe "with legacy version attribute" do
+          let(:markdown) { "workPackageValue:#{semantic_identifier}:version" }
+
+          it "outputs all target versions on a single line" do
+            expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+          end
+        end
       end
     end
 
@@ -224,6 +457,30 @@ RSpec.describe Exports::PDF::Common::Macro do
 
       it "outputs the attribute value for the specified work package" do
         expect(formatted).to eq("Work package 2")
+      end
+    end
+
+    describe "with a semantic work package identifier",
+             with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, identifier: "PROJ") }
+      let(:semantic_work_package) do
+        wp = create(:work_package, project: semantic_project, type: type_task, subject: "Semantic subject")
+        wp.allocate_and_register_semantic_id
+        wp.reload
+      end
+      let(:user) do
+        create(
+          :user,
+          member_with_permissions: {
+            project => %i[view_work_packages view_project_attributes view_project],
+            semantic_project => %i[view_work_packages view_project_attributes view_project]
+          }
+        )
+      end
+      let(:markdown) { "workPackageValue:#{semantic_work_package.identifier}:subject" }
+
+      it "outputs the attribute value for the work package addressed by its semantic identifier" do
+        expect(formatted).to eq("Semantic subject")
       end
     end
 

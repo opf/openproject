@@ -19,132 +19,145 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 es:
-  plugin_openproject_documents:
-    name: "Documentos de OpenProject"
-    description: "Un plug-in OpenProject para permitir la creación de documentos en proyectos."
   activerecord:
+    attributes:
+      document:
+        content_binary: Contenido binario
+        title: Título
     errors:
       models:
         document_type:
-          one_or_more_required: "No se puede eliminar el último tipo de archivo"
+          one_or_more_required: No se puede eliminar el último tipo de archivo
     models:
-      document: "Document"
-      documents: "Documentos"
-    attributes:
       document:
-        content_binary: "Contenido binario"
-        title: "Título"
+        one: Documento
+        other: Documentos
+      document_type:
+        one: Tipo de documento
+        other: Tipos de documentos
   activity:
     filter:
-      document: "Documentos"
-  default_doc_category_tech: "Documentación técnica"
-  default_doc_category_user: "Documentación para el usuario"
-  enumeration_doc_categories: "Categorías de documentos"
+      document: Documentos
+  attributes:
+    collaborative_editing_hocuspocus_url: URL del servidor Hocuspocus
+    documents: Documentos
+  default_doc_category_tech: Documentación técnica
+  default_doc_category_user: Documentación para el usuario
   documents:
-    page_header:
-      heading: "Todos los documentos"
-      action_menu:
-        document_actions: "Acciones para el documento"
-        edit_title: "Editar título"
-    subheader:
-      filter:
-        label: "Filtro de nombre de documento"
-        placeholder: "Escriba aquí para buscar nombres de documentos"
-    documents_list_blank_slate:
-      heading: "Aún no hay documentos"
-      description: "No hay documentos en esta vista. Puede hacer clic en el botón de abajo para añadir uno."
-    document_categories_deprecation_notice:
-      heading: La categoría del archivo no está en tipo de documentos
-      description: |-
-        Con la introducción del nuevo módulo «Documentos», tus categorías de archivos existentes se han convertido en tipos de documentos.
-        Todos los documentos existentes también se han migrado a estos nuevos tipos.
-      primary_action: Configurar los tipos de documento
-      secondary_action: Conocer más sobre el módulo de los documentos
-    document_type_actions: "Acciones al tipo de archivo"
-    text_collaboration_disabled_notice:
-      description: |-
-        .
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          Activa para abrir el documento porque el servidor rechaza la colaboración en tiempo real,  si el problema continúa contacta al Admin.
-        action: Intentar otra vez
-      connection_recovery_notice:
-        description: "La conexión en tiempo real ha sido restaurada."
-      tabs: "Pestañas del documento"
-    index_page:
-      name: "Nombre"
-      type: "Tipo"
-      updated_at: "Último cambio"
-      label_legacy: "Legado"
-    menu:
-      all: "Todos los documentos"
-      types: "Tipos"
-      collaboration_settings: "Colaboración en tiempo real"
-    last_updated_at: "Última vez guardado a las %{time}."
-    active_editors: "Activar editores"
+    active_editors: Editores activos
     active_editors_count:
-      one: "1 editor activo"
+      one: 1 editor activo
       other: "%{count} editores activos"
-    label_attachment_author: "Autor del archivo adjunto"
-    label_categories: "Categorías"
-    new_category: "Nueva categoría"
-    new_type: "Nuevo tipo"
-    delete_dialog:
-      title: "Eliminar documento"
-      heading: "¿Eliminar este documento?"
-      confirmation_message_html: "El documento será eliminado permanente junto a los archivos relacionados. ¿Estás seguro?"
-    delete_document_type_dialog:
-      title: Eliminar el tipo de documento
-      heading: '¿Eliminar este tipo de documento?'
-      confirmation_message: |-
-        El tipo %{type_name} no está siendo usado, eliminarlo no traerá problemas
-      select_reassign_to_label: Reasignando el documento a
-      reassign_message:
-        one: El tipo «%{type_name}» se está utilizando actualmente en %{document_count} documento. Selecciona el tipo al que deseas reasignarlo.
-        other: El tipo «%{type_name}» se está utilizando actualmente en %{document_count} documentos. Selecciona el tipo al que deseas reasignarlo.
-      at_least_one_type_required:
-        title: No se puede eliminar el tipo de archivo
-        heading: No se puede eliminar el último tipo de archivo
-        message:
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Estos valores están configurados en las variables de entorno y no se pueden editar aquí.
+          some_unwritable: Algunos valores están configurados en las variables de entorno y no se pueden editar aquí.
+        hocuspocus_server: Servidor Hocuspocus
+        hocuspocus_server_secret:
+          caption: Pega el secreto proporcionado por el servidor Hocuspocus.
+          label: Secreto del cliente
+        hocuspocus_server_url:
+          caption: La dirección WebSocket de un servidor Hocuspocus operativo.
+          invalid_scheme: Debe utilizar un protocolo WebSocket (ws:// o wss://).
+          label: URL del servidor Hocuspocus
         page_header:
           description: |-
             Cuando está activada, la colaboración en tiempo real permite a varios usuarios editar un documento al mismo tiempo.
             Requiere un %{hocuspocus_server_link} operativo para funcionar.
-        banner:
-          none_writable: Estos valores están configurados en las variables de entorno y no se pueden editar aquí.
-          some_unwritable: Algunos valores están configurados en las variables de entorno y no pueden ser configurados aquí.
-        hocuspocus_server_url:
-          label: "URL del servidor Hocuspocus"
-          caption: "La dirección de un servidor Hocuspocus operativo."
-        hocuspocus_server_secret:
-          label: "Cliente Secreto"
-          caption: "Pega el secreto proporcionado por el servidor Hocuspocus."
-        hocuspocus_server: Servidor Hocuspocus
-      enable_text_collaboration:
-        heading: La colaboración en tiempo real está desactivada
-        description: |-
-          Una vez activa, múltiples usuarios podrán trabajar juntos en el documento simultáneamente. Todos los nuevos documentos estarán basados en el nuevo editor (BlockNote) y requieren conexión a Hocuspocus server.
-        primary_action: Activar colaboración en tiempo real
-        success: La colaboración en tiempo real ha sido activada.
       disable_text_collaboration_dialog:
-        title: Desactivar colaboración en tiempo real
-        heading: '¿Desactivar colaboración en tiempo real?'
-        confirmation_message: |-
-          Todo el documento será inaccesible, por favor solo has esto si quieres desactivar la configuración en tiempo real y el editor BlockNote en esta instancia.
         confirmation_checkbox_message: Entiendo que podría perder los datos definitivamente
-        success: La colaboración en tiempo real ha sido desactivada.
-  label_document_added: "Documento agregado"
-  label_document_new: "Nuevo documento"
-  label_document_plural: "Documentos"
-  label_documents: "Documentos"
-  label_document_title: "Título"
-  label_document_description: "Descripción"
-  label_document_category: "Categoría"
-  label_document_type: "Tipo"
-  permission_manage_documents: "Administrar documentos"
-  permission_view_documents: "Ver documentos"
-  project_module_documents: "Documentos"
+        confirmation_message: Es posible que ya no puedas acceder a ningún documento. Hazlo solo si quieres desactivar la colaboración en tiempo real y el editor BlockNote en esta instancia.
+        heading: "¿Desactivar colaboración en tiempo real?"
+        success: Se ha desactivado la colaboración en tiempo real.
+        title: Desactivar colaboración en tiempo real
+      enable_text_collaboration:
+        description: |-
+          Una vez activada esta función, varios usuarios podrán trabajar juntos en un documento al mismo tiempo.
+          Todos los documentos nuevos se crearán con un nuevo editor (BlockNote) y necesitarán una conexión activa a un
+          servidor de Hocuspocus.
+        heading: La colaboración en tiempo real no está activada
+        primary_action: Activar colaboración en tiempo real
+        success: Se ha activado la colaboración en tiempo real.
+    button_add_type: Tipo
+    delete_dialog:
+      confirmation_message_html: Este documento y todos los archivos adjuntos se eliminarán de forma definitiva. ¿Seguro que quieres hacerlo?
+      heading: "¿Eliminar este documento?"
+      title: Eliminar documento
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: No se puede eliminar el último tipo de archivo
+        message: Siempre tiene que haber al menos un tipo de documento configurado. Si quieres borrar este, primero crea otro.
+        title: No se puede eliminar el tipo de documento
+      confirmation_message: El tipo «%{type_name}» no se utiliza actualmente. Eliminar este tipo no afectará a los documentos existentes.
+      heading: "¿Eliminar este tipo de documento?"
+      reassign_message:
+        one: El tipo «%{type_name}» se está utilizando actualmente en %{document_count} documento. Selecciona el tipo al que deseas reasignarlo.
+        other: El tipo «%{type_name}» se está utilizando actualmente en %{document_count} documentos. Selecciona el tipo al que deseas reasignarlo.
+      select_reassign_to_label: Reasignar documentos a
+      title: Eliminar el tipo de documento
+    document_categories_deprecation_notice:
+      description: |-
+        Con la introducción del nuevo módulo «Documentos», tus categorías de archivos existentes se han convertido en tipos de documentos.
+        Todos los documentos existentes también se han migrado a estos nuevos tipos.
+      heading: La categoría del archivo no está en tipo de documentos
+      primary_action: Configurar los tipos de documento
+      secondary_action: Conocer más sobre el módulo de los documentos
+    document_type_actions: Acciones relacionadas con el tipo de documento
+    documents_list_blank_slate:
+      description: No hay documentos en esta vista. Puede hacer clic en el botón de abajo para añadir uno.
+      heading: Aún no hay documentos
+    index_page:
+      label_legacy: Legado
+      name: Nombre
+      type: Tipo
+      updated_at: Último cambio
+    info_line:
+      connection_restored: Ya estás de nuevo en línea.
+      currently_offline: Estás desconectado.
+    label_attachment_author: Autor del archivo adjunto
+    label_categories: Categorías
+    last_updated_at: Última vez guardado a las %{time}.
+    menu:
+      all: Todos los documentos
+      collaboration_settings: Colaboración en tiempo real
+      types: Tipos
+    new_category: Nueva categoría
+    new_type: Nuevo tipo
+    page_header:
+      action_menu:
+        document_actions: Acciones para el documento
+        edit_title: Editar título
+      heading: Todos los documentos
+    show_edit_view:
+      connection_error_notice:
+        action: Intentar otra vez
+        description_server_unavailable: |-
+          No se puede abrir el documento porque no se puede acceder al servidor de colaboración de texto en tiempo real.
+          Ponte en contacto con el administrador si el problema persiste.
+      tabs: Pestañas del documento
+    subheader:
+      filter:
+        label: Filtro de nombre de documento
+        placeholder: Escriba aquí para buscar nombres de documentos
+    text_collaboration_disabled_notice:
+      description: |-
+        No se puede abrir el documento porque la colaboración en tiempo real está desactivada.
+        Si quieres acceder a este documento, ponte en contacto con tu administrador para que active la colaboración en tiempo real.
+  enumeration_doc_categories: Categorías de documentos
+  label_document_added: Documento agregado
+  label_document_category: Categoría
+  label_document_description: Descripción
+  label_document_new: Nuevo documento
+  label_document_plural: Documentos
+  label_document_title: Título
+  label_document_type: Tipo
+  label_documents: Documentos
+  permission_manage_documents: Administrar documentos
+  permission_view_documents: Ver documentos
+  plugin_openproject_documents:
+    description: Un plug-in OpenProject para permitir la creación de documentos en proyectos.
+    name: Documentos de OpenProject
+  project_module_documents: Documentos

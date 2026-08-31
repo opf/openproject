@@ -52,6 +52,24 @@ RSpec.describe BudgetsHelper do
         expect(budgets_to_csv([budget]).include?(expected)).to be_truthy
       end
 
+      context "with a formula-injection payload in user-controlled fields",
+              with_settings: { csv_escape_formulas: true } do
+        let(:budget) do
+          build(:budget,
+                project:,
+                subject: "=1+1",
+                description: '=HYPERLINK("https://example.com","x")')
+        end
+
+        it "escapes the formula value by prepending a single quote" do
+          csv = budgets_to_csv([budget])
+
+          expect(csv).to include("'=1+1")
+          expect(csv).to include(%('=HYPERLINK))
+          expect(csv).not_to match(/(?<!')=1\+1/)
+        end
+      end
+
       it "starts with a header explaining the fields" do
         expected = [
           "#",
@@ -69,6 +87,31 @@ RSpec.describe BudgetsHelper do
 
         expect(budgets_to_csv([budget]).start_with?(expected)).to be_truthy
       end
+    end
+  end
+
+  describe "#labor_budget_item_user_filters" do
+    let(:project) { build_stubbed(:project) }
+
+    subject(:filters) { helper.labor_budget_item_user_filters(project) }
+
+    # Groups and placeholder users are budgeted with 0.0 costs as they cannot
+    # hold an hourly rate, but they remain valid assignees (wp/74197).
+    it "offers every principal type that can be assigned" do
+      expect(filters)
+        .to include(a_hash_including(name: "type", values: %w[User Group PlaceholderUser]))
+    end
+
+    it "excludes locked principals" do
+      expect(filters)
+        .to include(a_hash_including(name: "status",
+                                     operator: "!",
+                                     values: [Principal.statuses["locked"].to_s]))
+    end
+
+    it "restricts the candidates to members of the project" do
+      expect(filters)
+        .to include(a_hash_including(name: "member", operator: "=", values: [project.id.to_s]))
     end
   end
 end

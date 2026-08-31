@@ -84,10 +84,8 @@ module Projects
 
     def allowed_new_workspace_types
       @allowed_new_workspace_types ||= [].tap do |types|
-        if OpenProject::FeatureDecisions.portfolio_models_active?
-          types << "portfolio" if @current_user.allowed_globally?(:add_portfolios)
-          types << "program" if @current_user.allowed_globally?(:add_programs)
-        end
+        types << "portfolio" if @current_user.allowed_globally?(:add_portfolios)
+        types << "program" if @current_user.allowed_globally?(:add_programs)
         types << "project" if @current_user.allowed_globally?(:add_project)
       end
     end

@@ -56,9 +56,9 @@ RSpec.shared_examples_for "resolving macros" do
 
       let(:expected) do
         <<~EXPECTED
-          <h1 class="op-uc-h1" id="my-headline">
+          <h1 class="op-uc-h1" id="op-frag-my-headline">
             My headline
-            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline" rel="noopener noreferrer"></a>
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-label>
@@ -80,6 +80,64 @@ RSpec.shared_examples_for "resolving macros" do
           </p>
           <p class="op-uc-p">
             Inline reference to project with name: <opce-macro-attribute-label data-model="project" data-id="some name" data-attribute="status"></opce-macro-attribute-label>
+          </p>
+        EXPECTED
+      end
+    end
+  end
+
+  describe "attribute value macros with layout argument" do
+    it_behaves_like "format_text produces" do
+      let(:raw) do
+        <<~RAW
+          Explicit multi-line: workPackageValue:1234:targetVersions:multiline
+
+          Explicit single-line: workPackageValue:1234:targetVersions:singleline
+
+          Quoted custom field with layout: workPackageValue:1234:"My list field":singleline
+
+          Relative reference with layout: workPackageValue:targetVersions:singleline
+
+          Relative quoted custom field with layout: workPackageValue:"My list field":singleline
+
+          Unknown keyword is not a layout: workPackageValue:1234:targetVersions:block
+
+          Prefixed keyword is not a layout: workPackageValue:1234:targetVersions:multilinefoo
+
+          Bare layout keyword after an id reads as relative reference plus layout: workPackageValue:1234:singleline
+
+          Quoted layout keyword stays an attribute name: workPackageValue:1234:"singleline"
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            Explicit multi-line: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="targetVersions" data-layout="multiline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Explicit single-line: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="targetVersions" data-layout="singleline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Quoted custom field with layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="My list field" data-layout="singleline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Relative reference with layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="targetVersions" data-layout="singleline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Relative quoted custom field with layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="My list field" data-layout="singleline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Unknown keyword is not a layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="targetVersions"></opce-macro-attribute-value>:block
+          </p>
+          <p class="op-uc-p">
+            Prefixed keyword is not a layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="targetVersions"></opce-macro-attribute-value>:multilinefoo
+          </p>
+          <p class="op-uc-p">
+            Bare layout keyword after an id reads as relative reference plus layout: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="1234" data-layout="singleline"></opce-macro-attribute-value>
+          </p>
+          <p class="op-uc-p">
+            Quoted layout keyword stays an attribute name: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="singleline"></opce-macro-attribute-value>
           </p>
         EXPECTED
       end
@@ -108,9 +166,9 @@ RSpec.shared_examples_for "resolving macros" do
 
       let(:expected) do
         <<~EXPECTED
-          <h1 class="op-uc-h1" id="my-headline">
+          <h1 class="op-uc-h1" id="op-frag-my-headline">
             My headline
-            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline" rel="noopener noreferrer"></a>
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-value>

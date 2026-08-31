@@ -1,0 +1,147 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { waitFor } from '@testing-library/dom';
+
+import DisableWhenClickedController from './disable-when-clicked.controller';
+import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+
+describe('DisableWhenClickedController', () => {
+  let ctx:StimulusTestContext;
+
+  beforeEach(async () => {
+    ctx = await setupStimulusTest({
+      controllers: { 'disable-when-clicked': DisableWhenClickedController },
+    });
+  });
+
+  afterEach(() => ctx.dispose());
+
+  it('disables button after click', async () => {
+    await ctx.mount(`
+      <button data-controller="disable-when-clicked">
+        Submit
+      </button>
+    `);
+
+    const button = ctx.screen.getByRole('button', { name: 'Submit' });
+
+    button.click();
+
+    await waitFor(() => {
+      expect(button).toBeDisabled();
+    });
+  });
+
+  it('replaces button text when text value is set', async () => {
+    await ctx.mount(`
+      <button data-controller="disable-when-clicked"
+              data-disable-when-clicked-text-value="Processing...">
+        Submit
+      </button>
+    `);
+
+    const button = ctx.screen.getByRole('button', { name: 'Submit' });
+
+    button.click();
+
+    await waitFor(() => {
+      expect(button).toHaveTextContent('Processing...');
+    });
+    expect(button).toBeDisabled();
+  });
+
+  it('prevents default on a second click for anchor elements', async () => {
+    // data-turbo="false" keeps Turbo (started by the global test setup) from
+    // intercepting the click and visiting the tester iframe's URL; href="#"
+    // makes the unprevented default action a harmless same-document hash jump.
+    await ctx.mount(`
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+
+    const firstEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(firstEvent);
+    expect(firstEvent.defaultPrevented).toBe(false);
+
+    const secondEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(secondEvent);
+    expect(secondEvent.defaultPrevented).toBe(true);
+  });
+
+  it('marks anchor elements as aria-disabled instead of using the disabled attribute', async () => {
+    // data-turbo="false" + href="#": see first anchor test
+    await ctx.mount(`
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+
+    await waitFor(() => {
+      expect(link).toHaveAttribute('aria-disabled', 'true');
+    });
+  });
+
+  it('resets its state when the element is disconnected and reconnected', async () => {
+    // data-turbo="false" + href="#": see first anchor test
+    await ctx.mount(`
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+    const parent = link.parentElement!;
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    await waitFor(() => {
+      expect(link).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    // Detach and reattach to trigger disconnect() then connect() again, as
+    // would happen during a Turbo cache/restore.
+    link.remove();
+    await ctx.nextFrame();
+    expect(link).not.toHaveAttribute('aria-disabled');
+
+    parent.appendChild(link);
+    await ctx.nextFrame();
+
+    // The first click after reconnect should go through, not be cancelled.
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  });
+});

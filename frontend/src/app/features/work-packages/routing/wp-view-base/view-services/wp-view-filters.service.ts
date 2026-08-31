@@ -21,13 +21,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { isEqual } from 'lodash-es';
+import { Injectable, inject } from '@angular/core';
 import { combine, input, InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -43,6 +43,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
+  protected readonly states = inject(States);
+
   public hidden:string[] = [
     'datesInterval',
     'precedes',
@@ -67,13 +69,6 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
 
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
-
-  constructor(
-    protected readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-  ) {
-    super(querySpace);
-  }
 
   /**
    * Load all schemas for the current filters and fill respective states
@@ -159,10 +154,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public instantiate(filterOrId:QueryFilterResource|string):QueryFilterInstanceResource {
     const id = (filterOrId instanceof QueryFilterResource) ? filterOrId.id : filterOrId;
 
-    const schema = _.find(
-      this.availableSchemas,
-      (schema) => (schema.filter.allowedValues as HalResource)[0].id === id,
-    )!;
+    const schema = this.availableSchemas.find((schema) => (schema.filter.allowedValues as HalResource[])[0].id === id)!;
 
     return schema.getFilter();
   }
@@ -207,7 +199,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param filters
    */
   public isComplete(filters:QueryFilterInstanceResource[]):boolean {
-    return _.every(filters, (filter) => filter.isCompletelyDefined());
+    return filters.every((filter) => filter.isCompletelyDefined());
   }
 
   /**
@@ -217,7 +209,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public hasChanged(query:QueryResource) {
     const comparer = (filter:HalResource[]) => filter.map((el) => el.$source);
 
-    return !_.isEqual(
+    return !isEqual(
       comparer(query.filters),
       comparer(this.rawFilters),
     );
@@ -253,7 +245,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param id Identifier of the filter
    */
   public findIndex(id:string):number {
-    return _.findIndex(this.current, (f) => f.id === id);
+    return this.current.findIndex((f) => f.id === id);
   }
 
   public applyToQuery(query:QueryResource):boolean {
@@ -289,7 +281,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     const invisibleFilters = new Set(this.hidden);
     invisibleFilters.delete('search');
 
-    return _.reject(this.current, (filter) => invisibleFilters.has(filter.id));
+    return this.current.filter((filter) => !invisibleFilters.has(filter.id));
   }
 
   /**
@@ -319,7 +311,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * Get all filters that are not in the current active set
    */
   private remainingFilters(filters = this.rawFilters) {
-    return _.differenceBy(this.availableFilters, filters, (filter) => filter.id);
+    return this.availableFilters.filter((available) => !filters.some((filter) => filter.id === available.id));
   }
 
   isAvailable(el:QueryFilterInstanceResource):boolean {

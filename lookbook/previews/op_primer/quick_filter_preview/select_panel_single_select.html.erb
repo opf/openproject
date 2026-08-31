@@ -1,0 +1,12 @@
+<%= render(
+      OpPrimer::QuickFilter::SelectPanelComponent.new(
+        name: "Time",
+        query: query,
+        filter_key: :time,
+        path_args: [:meetings],
+        select_variant: :single
+      )
+    ) do |component|
+      component.with_item(label: "Upcoming", value: "future")
+      component.with_item(label: "Past", value: "past")
+    end %>

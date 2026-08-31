@@ -53,7 +53,7 @@ module Pages
       end
 
       def set_all_projects(value)
-        find_by_id("custom_field_is_for_all").set value
+        find_by_id("is_for_all").set value
       end
 
       def has_form_element?(name)

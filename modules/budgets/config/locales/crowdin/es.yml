@@ -19,100 +19,115 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 es:
-  plugin_budgets_engine:
-    name: "Presupuestos"
   activerecord:
     attributes:
       budget:
-        author: "Autor"
-        available: "Disponible"
-        budget: "Planeado"
-        budget_ratio: "Gastado (proporción)"
-        description: "Descripción"
-        spent: "Gastado"
-        status: "Estado"
-        subject: "Asunto"
-        type: "Tipo de costo"
-        labor_budget: "Costos laborales planeados"
-        material_budget: "Costos unitarios planeados"
-        base_amount: "Importe base"
+        author: Autor
+        available: Disponible
+        base_amount: Importe base
+        budget: Planeado
+        budget_ratio: Gastado (proporción)
+        description: Descripción
+        labor_budget: Costos laborales planeados
+        labor_budget_items: Costos laborales previstos
+        material_budget: Costos unitarios planeados
+        spent: Gastado
+        status: Estado
+        subject: Asunto
+        type: Tipo de costo
       work_package:
-        budget_subject: "Título de presupuesto"
+        budget_subject: Título de presupuesto
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: no es miembro del proyecto presupuestario
     models:
-      budget: "Presupuesto"
-      material_budget_item: "Unidad"
+      budget:
+        one: Presupuesto
+        other: Presupuestos
+      labor_budget_item:
+        one: Coste laboral previsto
+        other: Costes laborales previstos
+      material_budget_item:
+        one: Unidad
+        other: Unidades
   activity:
     filter:
-      budget: "Presupuestos"
+      budget: Presupuestos
   attributes:
-    budget: "Presupuesto"
-  button_add_budget_item: "Añadir los costos previstos"
-  button_add_budget: "Añadir presupuesto"
-  button_add_cost_type: "Agregar tipo de costo"
-  button_cancel_edit_budget: "Cancelar edicion de presupuesto"
-  button_cancel_edit_costs: "Cancelar edición de los costos"
-  caption_labor: "Mano de obra"
-  caption_labor_costs: "Costos laborales actuales"
-  caption_material_costs: "Costos unitarios actuales"
-  budgets_title: "Presupuestos"
+    budget: Presupuesto
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Obtenga una visión general de los presupuestos y costes para realizar un seguimiento eficaz del estado de su proyecto
+          heading: Comience a controlar su proyecto
+        blankslate_zero:
+          description: Añada detalles sobre su presupuesto previsto para ver los datos aquí
+          heading: Faltan detalles del presupuesto
+        count_caption:
+          one: Datos recopilados de %{count} presupuesto
+          other: Datos recopilados de %{count} presupuestos
+          zero: No hay datos presupuestarios.
+        count_caption_with_subitems:
+          portfolio:
+            one: Datos recopilados de %{count} presupuesto incluido en esta cartera y sus subelementos.
+            other: Datos recopilados de %{count} presupuestos incluidos en esta cartera y sus subelementos.
+            zero: No hay datos presupuestarios.
+          program:
+            one: Datos recopilados de %{count} presupuesto incluido en este programa y sus subelementos.
+            other: Datos recopilados de %{count} presupuestos incluidos en este programa y sus subelementos.
+            zero: No hay datos presupuestarios.
+          project:
+            one: Datos recopilados de %{count} presupuesto incluido en este proyecto y sus subelementos.
+            other: Datos recopilados de %{count} presupuestos incluidos en este proyecto y sus subelementos.
+            zero: No hay datos presupuestarios.
+        title: Presupuesto por tipo de coste
+        view_details: Ver los detalles del presupuesto
+      budget_totals:
+        remaining_budget: Presupuesto restante
+        spent_budget: Presupuesto gastado
+        title: Total del presupuesto
+        total_actual_costs: Costes reales totales
+        total_planned_budget: Presupuesto total previsto
+  budgets_title: Presupuestos
+  button_add_budget: Añadir presupuesto
+  button_add_budget_item: Añadir los costos previstos
+  button_add_cost_type: Agregar tipo de costo
+  button_cancel_edit_budget: Cancelar edicion de presupuesto
+  button_cancel_edit_costs: Cancelar edición de los costos
+  caption_labor: Mano de obra
+  caption_labor_costs: Costos laborales actuales
+  caption_material_costs: Costos unitarios actuales
   events:
-    budget: "Presupuesto editado"
-  help_click_to_edit: "Haga clic aquí para editar."
-  help_currency_format: "Formato de muestra de valores de divisas. %n se sustituye por el valor de la moneda, %u es reemplazada por la unidad monetaria."
-  help_override_rate: "Introduzca un valor para anular la morisidad."
-  label_budget: "Presupuesto"
-  label_budget_available: "Presupuesto disponible"
-  label_budget_id: "Presupuesto #%{id}"
-  label_budget_new: "Nuevo presupuesto"
-  label_budget_planned: "Presupuesto previsto"
-  label_budget_plural: "Presupuestos"
-  label_budget_spent: "Presupuesto gastado"
-  label_budget_spent_ratio: "Ratio de presupuesto gastado"
-  label_deliverable: "Presupuesto"
-  label_example_placeholder: "Por ejemplo, %{decimal}"
-  label_view_all_budgets: "Ver todos los presupuestos"
-  label_yes: "Sí"
-  label_budget_totals: "Totales"
-  label_budget_details: "Detalles de presupuesto"
-  notice_budget_conflict: "Los paquetes de trabajo deben ser del mismo proyecto."
-  notice_no_budgets_available: "No hay presupuestos disponibles."
-  permission_edit_budgets: "Editar presupuestos"
-  permission_view_budgets: "Ver los presupuestos"
-  project_module_budgets: "Presupuestos"
-  text_budget_reassign_to: "Reasígnelos al siguiente presupuesto:"
-  text_budget_delete: "Eliminar el presupuesto de todos los paquetes de trabajo."
-  text_budget_destroy_assigned_wp: "Hay %{count} paquetes de trabajo asignados a este presupuesto. ¿Qué desea hacer?"
+    budget: Presupuesto editado
+  help_click_to_edit: Haga clic aquí para editar.
+  help_currency_format: Formato de muestra de valores de divisas. %n se sustituye por el valor de la moneda, %u es reemplazada por la unidad monetaria.
+  help_override_rate: Introduzca un valor para anular la morisidad.
+  label_budget_available: Presupuesto disponible
+  label_budget_details: Detalles de presupuesto
+  label_budget_id: 'Presupuesto #%{id}'
+  label_budget_new: Nuevo presupuesto
+  label_budget_planned: Presupuesto previsto
+  label_budget_plural: Presupuestos
+  label_budget_spent: Presupuesto gastado
+  label_budget_spent_ratio: Ratio de presupuesto gastado
+  label_budget_totals: Totales
+  label_deliverable: Presupuesto
+  label_example_placeholder: Por ejemplo, %{decimal}
+  label_view_all_budgets: Ver todos los presupuestos
+  label_yes: Sí
+  notice_budget_conflict: Los paquetes de trabajo deben ser del mismo proyecto.
+  notice_no_budgets_available: No hay presupuestos disponibles.
+  permission_edit_budgets: Editar presupuestos
+  permission_view_budgets: Ver los presupuestos
+  plugin_budgets_engine:
+    name: Presupuestos
+  project_module_budgets: Presupuestos
+  text_budget_delete: Eliminar el presupuesto de todos los paquetes de trabajo.
+  text_budget_destroy_assigned_wp: Hay %{count} paquetes de trabajo asignados a este presupuesto. ¿Qué desea hacer?
+  text_budget_reassign_to: 'Reasígnelos al siguiente presupuesto:'

@@ -1,0 +1,26 @@
+<% if wiki_provider.configured_from_env? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :info)) { t("admin.banners.environment_configured_readonly") } %>
+<% end %>
+
+<%=
+  render(border_box_container) do |component|
+    last_section = nil
+    wizard.steps.each do |step_name|
+      if wizard.section_name(step_name) != last_section
+        section_name = wizard.section_name(step_name)
+        component.with_row(scheme: :neutral, color: :muted) do
+          render(Primer::Beta::Text.new(font_weight: :semibold)) { t("wikis.admin.wiki_providers.sections.#{section_name}") }
+        end
+        last_section = section_name
+      end
+
+      component.with_row(scheme: :default) do
+        if wizard_step == step_name
+          render(Wikis::Adapters::Registry.resolve("#{wiki_provider}.components.forms.#{step_name}").new(wiki_provider, in_wizard: true))
+        else
+          render(Wikis::Adapters::Registry.resolve("#{wiki_provider}.components.#{step_name}").new(wiki_provider))
+        end
+      end
+    end
+  end
+%>

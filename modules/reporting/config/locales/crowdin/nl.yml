@@ -19,88 +19,93 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 nl:
-  plugin_openproject_reporting:
-    name: "OpenProject Rapportage"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "Rapport opslaan als..."
-  comments: "Commentaar"
-  cost_reports_title: "Tijd en kosten"
-  label_cost_report: "Kostenrapport"
-  label_cost_report_plural: "Kostenrapporten"
-  description_drill_down: "Details weergeven"
-  description_filter_selection: "Selectie"
-  description_multi_select: "Bekijk de meervoudige selectie"
-  description_remove_filter: "Filter verwijderen"
-  information_restricted_depending_on_permission: "Afhankelijk van uw rechten, kan de informatie op deze pagina beperkt zijn."
-  label_click_to_edit: "Klik om te bewerken."
-  label_closed: "gesloten"
-  label_columns: "Kolommen"
-  label_cost_entry_attributes: "Attributen van de kosteninvoer"
-  label_days_ago: "gedurende de laatste dagen"
-  label_entry: "Kosteninvoer"
-  label_filter_text: "Tekst filteren"
-  label_filter_value: "Waarde"
-  label_filters: "Filter"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "is niet (inclusief subprojecten)"
-  label_is_project_with_subprojects: "is (inclusief subprojecten)"
-  label_is_work_package_with_descendants: "is (inclusief nakomelingen)"
-  label_is_not_work_package_with_descendants: "is niet (inclusief afstammelingen)"
-  label_work_package_attributes: "Attributen van het werkpakket"
-  label_less: "<"
-  label_logged_by_reporting: "Gelogd door"
-  label_money: "Cash waarde"
-  label_month_reporting: "Maand (kosten)"
-  label_new_report: "Nieuwe kostenrapport"
-  label_open: "open"
-  label_operator: "Operator"
-  label_private_report_plural: "Privé kostenrapporten"
-  label_progress_bar_explanation: "Rapport aan het genereren..."
-  label_public_report_plural: "Publiek kostenrapporten"
-  label_really_delete_question: "Weet u zeker dat u dit rapport wilt verwijderen?"
-  label_rows: "Rijen"
-  label_saving: "Opslaan..."
-  label_spent_on_reporting: "Datum (kosten)"
-  label_sum: "Som"
-  label_units: "Eenheden"
-  label_week_reporting: "Week (kosten)"
-  label_year_reporting: "Jaar (kosten)"
-  label_count: "Aantal"
-  label_filter: "Filter"
-  label_filter_add: "Filter Toevoegen"
-  label_filter_plural: "Filters"
-  label_group_by: "Groeperen op"
-  label_group_by_add: "Groep, toevoegen aan Attribuut"
-  label_inactive: "«inactief»"
-  label_no: "Nee"
-  label_none: "(geen gegevens)"
-  label_no_reports: "Er zijn nog geen kostenrapporten."
-  label_report: "Rapport"
-  label_yes: "Ja"
-  load_query_question: "Het rapport bevat %{size} tabelcellen en kan enige tijd kosten om te renderen. Wilt u proberen het rapport toch uit te voeren?"
-  permission_save_cost_reports: "Bewaar publiek kostenrapporten"
-  permission_save_private_cost_reports: "Bewaar privé kostenrapporten"
-  project_module_reporting_module: "Kostenrapporten"
-  text_costs_are_rounded_note: "De getoonde waarden zijn afgerond. Alle berekeningen zijn op niet-afgeronde waarden gebaseerd."
-  toggle_multiselect: "activeer / deactiveer meervoudige selectie"
-  units: "Eenheden"
-  validation_failure_date: "is geen geldige datum"
-  validation_failure_integer: "is geen geldig geheel getal"
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
+  button_save_report_as: Rapport opslaan als...
+  comments: Commentaar
+  cost_reports_title: Tijd en kosten
+  description_drill_down: Details weergeven
+  description_filter_selection: Selectie
+  description_multi_select: Bekijk de meervoudige selectie
+  description_remove_filter: Filter verwijderen
   export:
-    timesheet:
-      title: "Uw PDF-tijdregistratie export"
-      button: "Exporteer PDF-tijdregistratie"
-      timesheet: "Tijdregistratie"
-      time: "Tijd"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Jouw kostenrapporten XLS export"
-      start_time: "Starttijd"
-      end_time: "Eindtijd"
+      end_time: Eindtijd
+      start_time: Starttijd
+      title: Jouw kostenrapporten XLS export
+    timesheet:
+      button: Exporteer PDF-tijdregistratie
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: Tijd
+      timesheet: Tijdregistratie
+      title: Uw PDF-tijdregistratie export
+  information_restricted_depending_on_permission: Afhankelijk van uw rechten, kan de informatie op deze pagina beperkt zijn.
+  label_click_to_edit: Klik om te bewerken.
+  label_closed: gesloten
+  label_columns: Kolommen
+  label_cost_entry_attributes: Attributen van de kosteninvoer
+  label_cost_report_plural: Kostenrapporten
+  label_count: Aantal
+  label_days_ago: gedurende de laatste dagen
+  label_entry: Kosteninvoer
+  label_filter: Filter
+  label_filter_add: Filter Toevoegen
+  label_filter_plural: Filters
+  label_filter_text: Tekst filteren
+  label_filter_value: Waarde
+  label_filters: Filter
+  label_greater: ">"
+  label_group_by: Groeperen op
+  label_group_by_add: Groep, toevoegen aan Attribuut
+  label_inactive: "«inactief»"
+  label_is_not_project_with_subprojects: is niet (inclusief subprojecten)
+  label_is_not_work_package_with_descendants: is niet (inclusief afstammelingen)
+  label_is_project_with_subprojects: is (inclusief subprojecten)
+  label_is_work_package_with_descendants: is (inclusief nakomelingen)
+  label_less: "<"
+  label_logged_by_reporting: Gelogd door
+  label_money: Cash waarde
+  label_month_reporting: Maand (kosten)
+  label_new_report: Nieuwe kostenrapport
+  label_no: Nee
+  label_no_reports: Er zijn nog geen kostenrapporten.
+  label_none: "(geen gegevens)"
+  label_open: open
+  label_operator: Operator
+  label_private_report_plural: Privé kostenrapporten
+  label_progress_bar_explanation: Rapport aan het genereren...
+  label_public_report_plural: Publiek kostenrapporten
+  label_really_delete_question: Weet u zeker dat u dit rapport wilt verwijderen?
+  label_report: Rapport
+  label_rows: Rijen
+  label_saving: Opslaan...
+  label_spent_on_reporting: Datum (kosten)
+  label_sum: Som
+  label_units: Eenheden
+  label_week_reporting: Week (kosten)
+  label_work_package_attributes: Attributen van het werkpakket
+  label_year_reporting: Jaar (kosten)
+  label_yes: Ja
+  load_query_question: Het rapport bevat %{size} tabelcellen en kan enige tijd kosten om te renderen. Wilt u proberen het rapport toch uit te voeren?
+  permission_save_cost_reports: Bewaar publiek kostenrapporten
+  permission_save_private_cost_reports: Bewaar privé kostenrapporten
+  plugin_openproject_reporting:
+    description: Deze plugin maakt het mogelijk om aangepaste kostenrapporten te maken met filtering en groepering gemaakt door de OpenProject Tijd en Kosten plugin.
+    name: OpenProject Rapportage
+  project_module_reporting_module: Kostenrapporten
   reporting:
     group_by:
-      selected_columns: "Geselecteerde kolommen"
-      selected_rows: "Geselecteerde rijen"
+      selected_columns: Geselecteerde kolommen
+      selected_rows: Geselecteerde rijen
+  text_costs_are_rounded_note: De getoonde waarden zijn afgerond. Alle berekeningen zijn op niet-afgeronde waarden gebaseerd.
+  toggle_multiselect: activeer / deactiveer meervoudige selectie
+  units: Eenheden
+  validation_failure_date: is geen geldige datum
+  validation_failure_integer: is geen geldig geheel getal

@@ -35,12 +35,11 @@ module OpenProject::TextFormatting::Matchers
         %w(version message project user group document meeting view)
       end
 
-      ##
-      # Hash-separated object links
-      # Condition: Separator is '#'
-      # Condition: Prefix is present, checked to be one of the allowed values
+      # Digit-only ids parse via `to_i` into primary keys. Semantic-shaped
+      # inputs (`version#PROJ-1`) short-circuit here so they don't issue
+      # `find_by(id: 0)`.
       def applicable?
-        matcher.sep == "#" && valid_prefix? && oid.present?
+        matcher.sep == "#" && valid_prefix? && matcher.identifier&.match?(/\A\d+\z/)
       end
 
       # Examples:
@@ -110,7 +109,8 @@ module OpenProject::TextFormatting::Matchers
         if user
           link_to_user(user,
                        only_path: context[:only_path],
-                       class: "user-mention")
+                       class: "user-mention",
+                       title: nil)
         end
       end
 
@@ -120,7 +120,8 @@ module OpenProject::TextFormatting::Matchers
         if group
           link_to_group(group,
                         only_path: context[:only_path],
-                        class: "user-mention")
+                        class: "user-mention",
+                        title: nil)
         end
       end
 

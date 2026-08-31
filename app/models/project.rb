@@ -29,25 +29,19 @@
 #++
 
 class Project < ApplicationRecord
-  extend FriendlyId
-
   include Projects::Activity
   include Projects::AncestorsFromRoot
   include Projects::CustomFields
   include Projects::Hierarchy
   include Projects::Storage
-  include Projects::Types
+  include Projects::EnabledTypes
   include Projects::Versions
   include Projects::WorkPackageCustomFields
   include Projects::CreationWizard
+  include Projects::Identifier
+  include Projects::SemanticIdentifier
 
   include ::Scopes::Scoped
-
-  # Maximum length for project identifiers
-  IDENTIFIER_MAX_LENGTH = 100
-
-  # reserved identifiers
-  RESERVED_IDENTIFIERS = %w[new menu queries filters].freeze
 
   enum :workspace_type, {
     project: "project",
@@ -61,26 +55,26 @@ class Project < ApplicationRecord
     portfolio: %i[]
   }.with_indifferent_access
 
-  has_many :members, -> {
-    # TODO: check whether this should
-    # remain to be limited to User only
+  # rubocop:disable Rails/HasManyOrHasOneDependent, Rails/InverseOf
+  has_many :members, -> { not_locked }
+
+  has_many :member_users, -> {
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
-  }
+  }, class_name: "Member"
+  # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
-  has_many :member_principals,
-           -> { not_locked },
-           class_name: "Member"
-  has_many :users, through: :members, source: :principal
-  has_many :principals, through: :member_principals, source: :principal
+  has_many :users, through: :member_users, source: :principal
+  has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
-  has_many :enabled_modules, dependent: :delete_all
-  has_and_belongs_to_many :types, -> {
-    order("#{::Type.table_name}.position")
-  }
+  has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
+  has_many :project_types, dependent: :delete_all
+  # The variants this project authored. Removal is left to the FK's cascade.
+  has_many :owned_type_variants, class_name: "TypeVariant", dependent: nil
+
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
       .includes(:status, :type)
@@ -91,7 +85,10 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
+  has_many :cost_types_projects, dependent: :delete_all
+  has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
+  has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order("position ASC") }, dependent: :destroy
@@ -130,28 +127,9 @@ class Project < ApplicationRecord
 
   acts_as_favoritable
 
-  acts_as_customizable validate_on: :saving_custom_fields
+  acts_as_customizable validate_on: :saving_custom_fields, comments: true, admin_only_allowed: true
   # extended in Projects::CustomFields in order to support sections
   # and project-level activation of custom fields
-
-  # Override the `validation_context` getter to include the `default_validation_context` when the
-  # context is `:saving_custom_fields`. This is required, because the `acts_as_url` plugin from
-  # `stringex` defines a callback on the `:create` context for initialising the `identifier` field.
-  # Providing a custom context while creating the project, will not execute the callbacks on the
-  # `:create` or `:update` contexts, meaning the identifier will not get initialised.
-  # In order to initialise the identifier, the `default_validation_context` (`:create`, or `:update`)
-  # should be included when validating via the `:saving_custom_fields`. This way every create
-  # or update callback will also be executed alongside the `:saving_custom_fields` callbacks.
-  # This problem does not affect the contextless callbacks, they are always executed.
-
-  def validation_context
-    case Array(super)
-    in [*, :saving_custom_fields, *] => context
-      context | [default_validation_context]
-    else
-      super
-    end
-  end
 
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
@@ -174,7 +152,24 @@ class Project < ApplicationRecord
   register_journal_formatted_fields "status_code", formatter_key: :project_status_code
   register_journal_formatted_fields "public", formatter_key: :visibility
   register_journal_formatted_fields "parent_id", formatter_key: :subproject_named_association
-  register_journal_formatted_fields /\Acustom_fields_\d+\z/, formatter_key: :custom_field
+
+  # In addition to :view_project_attributes, admin_only custom fields/comments
+  # are only visible to admins, regardless of :view_project_attributes.
+  custom_field_view_permission = lambda { |custom_field|
+    User.current.admin? ||
+    (
+      custom_field &&
+      !custom_field.admin_only? &&
+      User.current.allowed_in_project?(:view_project_attributes, project)
+    )
+  }
+
+  register_journal_formatted_fields /\Acustom_fields_\d+\z/,
+                                    formatter_key: :custom_field,
+                                    view_permission: custom_field_view_permission
+  register_journal_formatted_fields /\Acustom_comment_\d+\z/,
+                                    formatter_key: :custom_comment,
+                                    view_permission: custom_field_view_permission
   register_journal_formatted_fields /\Aproject_phase_\d+_active\z/, formatter_key: :project_phase_active
   register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/, formatter_key: :project_phase_dates
 
@@ -191,36 +186,15 @@ class Project < ApplicationRecord
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
 
-  acts_as_url :name,
-              url_attribute: :identifier,
-              sync_url: false, # Don't update identifier when name changes
-              only_when_blank: true, # Only generate when identifier not set
-              limit: IDENTIFIER_MAX_LENGTH,
-              blacklist: RESERVED_IDENTIFIERS,
-              adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
-
-  validates :identifier,
-            presence: true,
-            uniqueness: { case_sensitive: true },
-            length: { maximum: IDENTIFIER_MAX_LENGTH },
-            exclusion: RESERVED_IDENTIFIERS,
-            if: ->(p) { p.persisted? || p.identifier.present? }
-
-  # Contains only a-z, 0-9, dashes and underscores but cannot consist of numbers only as it would clash with the id.
-  validates :identifier,
-            format: { with: /\A(?!^\d+\z)[a-z0-9\-_]+\z/ },
-            if: ->(p) { p.identifier_changed? && p.identifier.present? }
-
-  validates_associated :repository, :wiki
-
-  friendly_id :identifier, use: :finders
+  validates_associated :repository
 
   scopes :activated_in_storage,
          :allowed_to,
          :assignable_parents,
          :available_custom_fields,
          :available_templates,
-         :visible
+         :visible,
+         :with_settings
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
@@ -238,7 +212,8 @@ class Project < ApplicationRecord
   scope :templated, -> { where(templated: true) }
 
   scopes :activated_time_activity,
-         :visible_with_activated_time_activity
+         :visible_with_activated_time_activity,
+         :available_cost_types
 
   enum :status_code, {
     on_track: 0,
@@ -347,5 +322,11 @@ class Project < ApplicationRecord
     @allowed_actions ||= allowed_permissions.flat_map do |permission|
       OpenProject::AccessControl.allowed_actions(permission)
     end
+  end
+
+  def module_disabled(disabled_module)
+    OpenProject::Notifications.send(
+      OpenProject::Events::MODULE_DISABLED, disabled_module:
+    )
   end
 end

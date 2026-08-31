@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,8 +63,8 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, fromEvent, merge } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { BaselineMode, getBaselineState } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
@@ -46,6 +74,10 @@ import {
 import {
   KeepTabService
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
+import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+
+const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
 @Component({
   selector: 'wp-single-card',
@@ -131,21 +163,38 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   ngOnInit():void {
     // Update selection state
-    combineLatest([
+    // Use merge instead of combineLatest: params$ only emits on uiRouter transitions and
+    // may never emit on pages that don't use uiRouter (e.g. boards). With merge, any
+    // emission from either source triggers re-evaluation of the selection state.
+    // turbo:frame-load is included so that URL-based detection updates when the split
+    // view opens or closes via Turbo frame navigation.
+    merge(
       this.wpTableSelection.live$(),
-      this.uiRouterGlobals.params$,
-    ])
+      this.uiRouterGlobals.params$ ?? EMPTY,
+      fromEvent(document, 'turbo:frame-load'),
+    )
       .pipe(
         this.untilDestroyed(),
         map(() => {
           if (this.selectedWhenOpen) {
-            return this.uiRouterGlobals.params.workPackageId === this.workPackage.id;
+            // In uiRouter views, use the route param directly.
+            const wpIdFromRoute = this.uiRouterGlobals.params.workPackageId as string|undefined;
+            if (wpIdFromRoute) {
+              return matchesRoutingId(this.workPackage, wpIdFromRoute);
+            }
+
+            // In non-router views (e.g. Team Planner, Calendar):
+            // Use URL-based detection so that closing the split view (which changes the URL
+            // but does not clear the selection service) correctly deselects the card.
+            const urlMatch = DETAILS_URL_PATTERN.exec(window.location.pathname);
+            return matchesRoutingId(this.workPackage, urlMatch?.[1]);
           }
 
           return this.wpTableSelection.isSelected(this.workPackage.id!);
         }),
+        distinctUntilChanged(),
       )
-      .subscribe((selected) => {
+      .subscribe((selected:boolean) => {
         this.selected = selected;
         this.cdRef.detectChanges();
       });
@@ -207,7 +256,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource):string {
-    return this.keepTabService.currentShowHref(wp.id!);
+    return this.keepTabService.currentShowHref(wp.displayId);
   }
 
   public cardHighlightingClass(wp:WorkPackageResource):string {

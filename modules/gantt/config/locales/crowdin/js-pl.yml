@@ -1,6 +1,7 @@
+---
 pl:
   js:
     work_packages:
-      label_gantt_chart_plural: "Wykresy Gantta"
       default_queries:
-        milestones: 'Kamienie milowe'
+        milestones: Kamienie milowe
+      label_gantt_chart_plural: Wykresy Gantta

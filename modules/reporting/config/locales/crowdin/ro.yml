@@ -19,88 +19,94 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ro:
-  plugin_openproject_reporting:
-    name: "Raport OpenProject"
-    description: "Acest plugin permite crearea de rapoarte de costuri personalizate cu filtrare şi grupare create de OpenProject Time şi de plugin-ul costuri."
-  button_save_report_as: "Salvează raportul ca..."
-  comments: "Comentariu"
-  cost_reports_title: "Timp și costuri"
-  label_cost_report: "Raport de cost"
-  label_cost_report_plural: "Rapoarte cost"
-  description_drill_down: "Afișare detalii"
-  description_filter_selection: "Selecție"
-  description_multi_select: "Afișare selecție multiplă"
-  description_remove_filter: "Eliminare filtre"
-  information_restricted_depending_on_permission: "În funcție de permisiunile dumneavoastră, această pagină poate conține informații restricționate."
-  label_click_to_edit: "Click pentru editare."
-  label_closed: "închis"
-  label_columns: "Coloane"
-  label_cost_entry_attributes: "Atribute poziție cost"
-  label_days_ago: "în ultimele zile"
-  label_entry: "Poziție cost"
-  label_filter_text: "Text filtrare"
-  label_filter_value: "Valoare"
-  label_filters: "Filtru"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "nu este (incluzând subproiecte)"
-  label_is_project_with_subprojects: "este (incluzând subproiecte)"
-  label_is_work_package_with_descendants: "este (include descendenții)"
-  label_is_not_work_package_with_descendants: "nu este (include descendenții)"
-  label_work_package_attributes: "Atribute pachet de lucru"
-  label_less: "<"
-  label_logged_by_reporting: "Logat ca"
-  label_money: "Valoare monetară"
-  label_month_reporting: "Lună (consumată)"
-  label_new_report: "Raport de cost nou"
-  label_open: "deschis"
-  label_operator: "Operator"
-  label_private_report_plural: "Rapoarte de cost private"
-  label_progress_bar_explanation: "Raport în curs de generare..."
-  label_public_report_plural: "Rapoarte de cost publice"
-  label_really_delete_question: "Sunteți sigur că doriți să ștergeți acest raport?"
-  label_rows: "Rânduri"
-  label_saving: "Salvează în curs..."
-  label_spent_on_reporting: "Data (consumată)"
-  label_sum: "Sumă"
-  label_units: "Unități"
-  label_week_reporting: "Săptămână (consumată)"
-  label_year_reporting: "An (consumat)"
-  label_count: "Număr"
-  label_filter: "Filtrează"
-  label_filter_add: "Adaugă filtru"
-  label_filter_plural: "Filtre"
-  label_group_by: "Grupare după"
-  label_group_by_add: "Adaugă atributul Grupează-după"
-  label_inactive: "Inactiv"
-  label_no: "Nu"
-  label_none: "(fără date)"
-  label_no_reports: "Nu există încă rapoarte de costuri."
-  label_report: "Raportare"
-  label_yes: "Da"
-  load_query_question: "Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?"
-  permission_save_cost_reports: "Salvează rapoarte de cost publice"
-  permission_save_private_cost_reports: "Salvează rapoarte de cost private"
-  project_module_reporting_module: "Rapoarte de cost"
-  text_costs_are_rounded_note: "Valorile afișate sunt rotunjite. Toate calculele sunt bazate pe valorile nerotunjite."
-  toggle_multiselect: "activare/dezactivare selecție multiplă"
-  units: "Unități"
-  validation_failure_date: "nu e o dată validă"
-  validation_failure_integer: "nu e un întreg valid"
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        other: Cost reports
+  button_save_report_as: Salvează raportul ca...
+  comments: Comentariu
+  cost_reports_title: Timp și costuri
+  description_drill_down: Afișare detalii
+  description_filter_selection: Selecție
+  description_multi_select: Afișare selecție multiplă
+  description_remove_filter: Eliminare filtre
   export:
-    timesheet:
-      title: "Export foi de timp PDF"
-      button: "Exportă fișier PDF de timp"
-      timesheet: "Foi de pontaj"
-      time: "Timp"
-      sums_hours: Sume
-      overview_per_user_total: "Prezentare: Total ore per utilizator"
-      overview_per_user_day: "Prezentare: Ore pe utilizator pe zi"
     cost_reports:
-      title: "Exportul tău de rapoarte de costuri XLS"
-      start_time: "Dată început"
-      end_time: "Ora de încheiere"
+      end_time: Ora de încheiere
+      start_time: Dată început
+      title: Exportul tău de rapoarte de costuri XLS
+    timesheet:
+      button: Exportă fișier PDF de timp
+      overview_per_user_day: 'Prezentare: Ore pe utilizator pe zi'
+      overview_per_user_total: 'Prezentare: Total ore per utilizator'
+      sums_hours: Sume
+      time: Timp
+      timesheet: Foi de pontaj
+      title: Export foi de timp PDF
+  information_restricted_depending_on_permission: În funcție de permisiunile dumneavoastră, această pagină poate conține informații restricționate.
+  label_click_to_edit: Click pentru editare.
+  label_closed: închis
+  label_columns: Coloane
+  label_cost_entry_attributes: Atribute poziție cost
+  label_cost_report_plural: Rapoarte cost
+  label_count: Număr
+  label_days_ago: în ultimele zile
+  label_entry: Poziție cost
+  label_filter: Filtrează
+  label_filter_add: Adaugă filtru
+  label_filter_plural: Filtre
+  label_filter_text: Text filtrare
+  label_filter_value: Valoare
+  label_filters: Filtru
+  label_greater: ">"
+  label_group_by: Grupare după
+  label_group_by_add: Adaugă atributul Grupează-după
+  label_inactive: Inactiv
+  label_is_not_project_with_subprojects: nu este (incluzând subproiecte)
+  label_is_not_work_package_with_descendants: nu este (include descendenții)
+  label_is_project_with_subprojects: este (incluzând subproiecte)
+  label_is_work_package_with_descendants: este (include descendenții)
+  label_less: "<"
+  label_logged_by_reporting: Logat ca
+  label_money: Valoare monetară
+  label_month_reporting: Lună (consumată)
+  label_new_report: Raport de cost nou
+  label_no: Nu
+  label_no_reports: Nu există încă rapoarte de costuri.
+  label_none: "(fără date)"
+  label_open: deschis
+  label_operator: Operator
+  label_private_report_plural: Rapoarte de cost private
+  label_progress_bar_explanation: Raport în curs de generare...
+  label_public_report_plural: Rapoarte de cost publice
+  label_really_delete_question: Sunteți sigur că doriți să ștergeți acest raport?
+  label_report: Raportare
+  label_rows: Rânduri
+  label_saving: Salvează în curs...
+  label_spent_on_reporting: Data (consumată)
+  label_sum: Sumă
+  label_units: Unități
+  label_week_reporting: Săptămână (consumată)
+  label_work_package_attributes: Atribute pachet de lucru
+  label_year_reporting: An (consumat)
+  label_yes: Da
+  load_query_question: Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?
+  permission_save_cost_reports: Salvează rapoarte de cost publice
+  permission_save_private_cost_reports: Salvează rapoarte de cost private
+  plugin_openproject_reporting:
+    description: Acest plugin permite crearea de rapoarte de costuri personalizate cu filtrare şi grupare create de OpenProject Time şi de plugin-ul costuri.
+    name: Raport OpenProject
+  project_module_reporting_module: Rapoarte de cost
   reporting:
     group_by:
-      selected_columns: "Coloane selectate"
-      selected_rows: "Șterge rândurile selectate"
+      selected_columns: Coloane selectate
+      selected_rows: Șterge rândurile selectate
+  text_costs_are_rounded_note: Valorile afișate sunt rotunjite. Toate calculele sunt bazate pe valorile nerotunjite.
+  toggle_multiselect: activare/dezactivare selecție multiplă
+  units: Unități
+  validation_failure_date: nu e o dată validă
+  validation_failure_integer: nu e un întreg valid

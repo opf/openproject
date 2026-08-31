@@ -80,7 +80,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
   let(:other_type) do
     type = create(:type)
 
-    other_project.types << type
+    other_project.project_types.create!(type:)
 
     type
   end
@@ -111,7 +111,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     cf = create(:list_wp_custom_field, multi_value: true)
 
     project.work_package_custom_fields = [cf]
-    work_package.type.custom_fields = [cf]
+    work_package.type.default_variant.custom_fields = [cf]
 
     cf
   end
@@ -125,14 +125,14 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     cf = create(:date_wp_custom_field)
 
     other_project.work_package_custom_fields = [cf]
-    other_type.custom_fields = [cf]
+    other_type.default_variant.custom_fields = [cf]
 
     cf
   end
   let!(:multi_user_custom_field) do
     create(:multi_user_wp_custom_field).tap do |cf|
       project.work_package_custom_fields << cf
-      work_package.type.custom_fields << cf
+      work_package.type.default_variant.custom_fields << cf
     end
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
@@ -570,6 +570,46 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
 
       edit_ca_page = index_ca_page.edit("MultiUser")
       edit_ca_page.expect_action(multi_user_custom_field.name, [other_member_user.name])
+    end
+  end
+
+  context "when staying on the page for multiple changes (Bug#OP-19472)",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let!(:unassign_ca) do
+      create(:custom_action,
+             actions: [CustomActions::Actions::AssignedTo.new(nil)],
+             name: "Unassign")
+    end
+
+    let!(:responsible_ca) do
+      create(:member,
+             principal: admin,
+             project: project,
+             roles: [role])
+      create(:custom_action,
+             actions: [CustomActions::Actions::Responsible.new("current_user")],
+             name: "Be responsible")
+    end
+
+    before do
+      # This is done to fix the id that breaks because the wp is created outside of the
+      # semantic identifier scope.
+      previous_identifier = project.identifier
+      project.update!(identifier: "RENAMED")
+      project.handle_semantic_rename(previous_identifier)
+    end
+
+    it "works when clicking two buttons" do
+      wp_page.visit!
+
+      wp_page.click_custom_action(unassign_ca.name, expect_success: true)
+
+      wp_page.click_custom_action(responsible_ca.name, expect_success: true)
+
+      wp_page.expect_attributes(
+        assignee: "-",
+        responsible: admin.name
+      )
     end
   end
 end

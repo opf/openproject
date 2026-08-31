@@ -19,88 +19,93 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pt-BR:
-  plugin_openproject_reporting:
-    name: "Relatórios do OpenProject"
-    description: "Este plugin permite a criação de relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos."
-  button_save_report_as: "Salvar relatório como..."
-  comments: "Comentário"
-  cost_reports_title: "Tempo e custos"
-  label_cost_report: "Relatório de custos"
-  label_cost_report_plural: "Relatórios de custos"
-  description_drill_down: "Exibir detalhes"
-  description_filter_selection: "Seleção"
-  description_multi_select: "Mostrar multiseleção"
-  description_remove_filter: "Remover filtro"
-  information_restricted_depending_on_permission: "Dependendo de suas permissões esta página pode conter informações restritas."
-  label_click_to_edit: "Clique para editar."
-  label_closed: "fechado"
-  label_columns: "Colunas"
-  label_cost_entry_attributes: "Atributos do custo de entrada"
-  label_days_ago: "durante os últimos dias"
-  label_entry: "Custo de entrada"
-  label_filter_text: "Filtro de texto"
-  label_filter_value: "Valor"
-  label_filters: "Filtro"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "não é (inclui subprojetos)"
-  label_is_project_with_subprojects: "é (inclui subprojetos)"
-  label_is_work_package_with_descendants: "é (inclui descendentes)"
-  label_is_not_work_package_with_descendants: "não é (inclui descendentes)"
-  label_work_package_attributes: "Atributos do pacote de trabalho"
-  label_less: "<"
-  label_logged_by_reporting: "Registrado por"
-  label_money: "Valor em dinheiro"
-  label_month_reporting: "Mês (gasto)"
-  label_new_report: "Novo relatório de custos"
-  label_open: "aberto"
-  label_operator: "Operador"
-  label_private_report_plural: "Relatórios privados de custos"
-  label_progress_bar_explanation: "Gerando relatório..."
-  label_public_report_plural: "Relatórios público de custos"
-  label_really_delete_question: "Tem certeza que deseja excluir este relatório?"
-  label_rows: "Linhas"
-  label_saving: "Salvando ..."
-  label_spent_on_reporting: "Data (gasto)"
-  label_sum: "Soma"
-  label_units: "Unidades"
-  label_week_reporting: "Semana (gasto)"
-  label_year_reporting: "Ano (gasto)"
-  label_count: "Contar"
-  label_filter: "Filtro"
-  label_filter_add: "Adicionar filtro"
-  label_filter_plural: "Filtros"
-  label_group_by: "Agrupar por"
-  label_group_by_add: "Adicionar atributo Agrupar por"
-  label_inactive: "«inativo»"
-  label_no: "Não"
-  label_none: "(sem dados)"
-  label_no_reports: "Ainda não há relatórios de custos"
-  label_report: "Relatório"
-  label_yes: "Sim"
-  load_query_question: "Relatório terá %{size} células da tabela e pode levar algum tempo para processar. Você ainda quer tentar processá-lo?"
-  permission_save_cost_reports: "Salvar relatórios públicos de custos"
-  permission_save_private_cost_reports: "Salvar relatórios privados de custos"
-  project_module_reporting_module: "Relatórios de custos"
-  text_costs_are_rounded_note: "Valores exibidos são arredondados. Todos os cálculos baseiam-se em valores não-arredondados."
-  toggle_multiselect: "ativar/desativar multiseleção"
-  units: "Unidades"
-  validation_failure_date: "não é uma data válida"
-  validation_failure_integer: "não é um valor inteiro válido"
+  activerecord:
+    models:
+      cost_query:
+        one: Relatório de custos
+        other: Relatórios de custos
+  button_save_report_as: Salvar relatório como...
+  comments: Comentário
+  cost_reports_title: Tempo e custos
+  description_drill_down: Exibir detalhes
+  description_filter_selection: Seleção
+  description_multi_select: Mostrar multiseleção
+  description_remove_filter: Remover filtro
   export:
-    timesheet:
-      title: "Sua exportação de planilha de horas em PDF"
-      button: "Exportar planilha de horas em PDF"
-      timesheet: "Planilha de horas"
-      time: "Hora"
-      sums_hours: Totais
-      overview_per_user_total: "Visão geral: Total de horas por usuário"
-      overview_per_user_day: "Visão geral: Horas por usuário por dia"
     cost_reports:
-      title: "Exportação XLS dos seus relatórios de custos"
-      start_time: "Hora de início"
-      end_time: "Hora de término"
+      end_time: Hora de término
+      start_time: Hora de início
+      title: Exportação XLS dos seus relatórios de custos
+    timesheet:
+      button: Exportar planilha de horas em PDF
+      overview_per_user_day: 'Visão geral: Horas por usuário por dia'
+      overview_per_user_total: 'Visão geral: Total de horas por usuário'
+      sums_hours: Totais
+      time: Hora
+      timesheet: Planilha de horas
+      title: Sua exportação de planilha de horas em PDF
+  information_restricted_depending_on_permission: Dependendo de suas permissões esta página pode conter informações restritas.
+  label_click_to_edit: Clique para editar.
+  label_closed: fechado
+  label_columns: Colunas
+  label_cost_entry_attributes: Atributos do custo de entrada
+  label_cost_report_plural: Relatórios de custos
+  label_count: Contar
+  label_days_ago: durante os últimos dias
+  label_entry: Custo de entrada
+  label_filter: Filtro
+  label_filter_add: Adicionar filtro
+  label_filter_plural: Filtros
+  label_filter_text: Filtro de texto
+  label_filter_value: Valor
+  label_filters: Filtro
+  label_greater: ">"
+  label_group_by: Agrupar por
+  label_group_by_add: Adicionar atributo Agrupar por
+  label_inactive: "«inativo»"
+  label_is_not_project_with_subprojects: não é (inclui subprojetos)
+  label_is_not_work_package_with_descendants: não é (inclui descendentes)
+  label_is_project_with_subprojects: é (inclui subprojetos)
+  label_is_work_package_with_descendants: é (inclui descendentes)
+  label_less: "<"
+  label_logged_by_reporting: Registrado por
+  label_money: Valor em dinheiro
+  label_month_reporting: Mês (gasto)
+  label_new_report: Novo relatório de custos
+  label_no: Não
+  label_no_reports: Ainda não há relatórios de custos
+  label_none: "(sem dados)"
+  label_open: aberto
+  label_operator: Operador
+  label_private_report_plural: Relatórios privados de custos
+  label_progress_bar_explanation: Gerando relatório...
+  label_public_report_plural: Relatórios público de custos
+  label_really_delete_question: Tem certeza que deseja excluir este relatório?
+  label_report: Relatório
+  label_rows: Linhas
+  label_saving: Salvando ...
+  label_spent_on_reporting: Data (gasto)
+  label_sum: Soma
+  label_units: Unidades
+  label_week_reporting: Semana (gasto)
+  label_work_package_attributes: Atributos do pacote de trabalho
+  label_year_reporting: Ano (gasto)
+  label_yes: Sim
+  load_query_question: Relatório terá %{size} células da tabela e pode levar algum tempo para processar. Você ainda quer tentar processá-lo?
+  permission_save_cost_reports: Salvar relatórios públicos de custos
+  permission_save_private_cost_reports: Salvar relatórios privados de custos
+  plugin_openproject_reporting:
+    description: Este plugin permite a criação de relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos.
+    name: Relatórios do OpenProject
+  project_module_reporting_module: Relatórios de custos
   reporting:
     group_by:
-      selected_columns: "Colunas selecionadas"
-      selected_rows: "Linhas Selecionadas"
+      selected_columns: Colunas selecionadas
+      selected_rows: Linhas Selecionadas
+  text_costs_are_rounded_note: Valores exibidos são arredondados. Todos os cálculos baseiam-se em valores não-arredondados.
+  toggle_multiselect: ativar/desativar multiseleção
+  units: Unidades
+  validation_failure_date: não é uma data válida
+  validation_failure_integer: não é um valor inteiro válido

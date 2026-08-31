@@ -33,15 +33,35 @@ module OpenProject
     module InplaceEditFields
       module DisplayFields
         class RichTextAreaComponent < DisplayFieldComponent
+          include OpenProject::TextFormatting
+
           attr_reader :model, :attribute, :writable
 
-          def call
+          def input_specific_call
             render(Primer::BaseComponent.new(tag: :div, **display_field_arguments)) do
               render(Primer::BaseComponent.new(tag: :div,
                                                classes: "op-uc-container op-uc-container_reduced-headings -multiline")) do
-                render_display_value
+                if field_value.present?
+                  if truncated
+                    name = custom_field? ? custom_field.name : attribute.to_s.humanize
+                    render OpenProject::Common::AttributeComponent.new("#{attribute}-truncated-display-field",
+                                                                       name,
+                                                                       field_value,
+                                                                       lines: 3)
+                  else
+                    format_text(field_value, object: model)
+                  end
+                else
+                  t("placeholders.default")
+                end
               end
             end
+          end
+
+          private
+
+          def field_value
+            model.public_send(attribute)
           end
         end
       end

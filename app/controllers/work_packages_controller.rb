@@ -105,7 +105,9 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_dialog
-    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
+                                                                        project: @query.project,
+                                                                        title: params[:title])
   end
 
   def generate_pdf_dialog
@@ -124,6 +126,8 @@ class WorkPackagesController < ApplicationController
     case params[:template]
     when "contract"
       WorkPackage::PDFExport::DocumentGenerator.new(work_package, params)
+    when "artefact"
+      WorkPackage::PDFExport::Artefact.new(work_package, params)
     else
       # when "attributes"
       WorkPackage::PDFExport::WorkPackageToPdf.new(work_package, params)
@@ -151,6 +155,12 @@ class WorkPackagesController < ApplicationController
   protected
 
   def load_and_validate_query_for_export
+    if params[:query_id].present?
+      # A saved query may be opened from a project other than the one it belongs to
+      saved_query = Query.visible(current_user).find(params.expect(:query_id))
+      @query = retrieve_query(saved_query.project)
+    end
+
     load_and_validate_query
   end
 
@@ -243,7 +253,7 @@ class WorkPackagesController < ApplicationController
   def work_package
     return @work_package if defined?(@work_package)
 
-    @work_package = WorkPackage.visible(current_user).find_by(id: params[:id])
+    @work_package = WorkPackage.visible(current_user).find_by_display_id(params[:id])
   end
 
   def journals
@@ -258,6 +268,7 @@ class WorkPackagesController < ApplicationController
       work_package
         .journals
         .internal_visible
+        .without_meeting_causes
         .changing
         .includes(:user)
         .order(order).to_a
@@ -286,18 +297,23 @@ class WorkPackagesController < ApplicationController
   end
 
   def login_back_url_params
-    params.permit(:query_id, :state, :query_props)
+    params.permit(:query_id, :state, :query_props, :type, :parent_id)
   end
 
   def redirect_to_complete_route
-    # redirect /work_packages/:id to a full route with project and tab
+    # Redirect to the canonical show route: the work package's *current* display
+    # identifier and its project's current slug. Upgrades historical semantic
+    # aliases (and numeric ids in semantic mode) to the present identifier, and
+    # fills in a missing project or tab.
     redirect_to action: "show",
-                id: params[:id],
-                project_id: params[:project_id] || work_package.project.identifier,
+                id: work_package.display_id,
+                project_id: work_package.project.identifier,
                 tab: params[:tab] || "activity"
   end
 
   def show_route_incomplete?
-    params[:project_id].blank? || params[:tab].blank?
+    params[:project_id].blank? ||
+      params[:tab].blank? ||
+      params[:id].to_s != work_package.display_id.to_s
   end
 end

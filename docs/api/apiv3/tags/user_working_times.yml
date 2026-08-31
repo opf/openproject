@@ -1,0 +1,81 @@
+---
+name: User Working Times
+description: |-
+  User working times allow configuring per-user working hours and personal non-working days,
+  in addition to the system-wide work schedule.
+
+  A `UserWorkingHours` record defines how many hours a user works on each day of the week,
+  along with an availability factor, effective from a given date (`validFrom`). Multiple records
+  can exist for a user, each representing a period of their working time configuration. Only the
+  most recently effective record (i.e., the one with the latest `validFrom` that is not in the
+  future) is used for capacity calculations.
+
+  A `UserNonWorkingTime` marks a date range as non-working for a user
+  (e.g., a personal day off or a local holiday not covered by the system-wide non-working days).
+  If a personal non-working time overlaps with system-wide non-working days, those days
+  are not counted twice.
+
+  ## UserWorkingHours Actions
+
+  | Link   | Description                         | Condition                                                                                     |
+  | :----: | ----------------------------------- | --------------------------------------------------------------------------------------------- |
+  | update | Update this working hours record    | Record has not yet taken effect (`validFrom` is in the future); **Permission**: see below     |
+  | delete | Delete this working hours record    | **Permission**: see below                                                                     |
+
+  ## UserWorkingHours Linked Properties
+
+  | Link | Description                                              | Type              | Constraints | Supported operations |
+  | :--: | -------------------------------------------------------- | ----------------- | ----------- | -------------------- |
+  | self | This working hours record                                | UserWorkingHours  | not null    | READ                 |
+  | user | The user this working hours record belongs to            | User              | not null    | READ                 |
+
+  ## UserWorkingHours Local Properties
+
+  | Property          | Description                                                                               | Type    | Constraints          | Supported operations |
+  | :---------------: | ----------------------------------------------------------------------------------------- | ------- | -------------------- | -------------------- |
+  | id                | The unique identifier of the record                                                       | Integer | x > 0                | READ                 |
+  | validFrom         | The date from which this working hours configuration takes effect (ISO 8601 format)       | Date    | not null             | READ / WRITE         |
+  | mondayHours       | Hours worked on Monday                                                                    | Float   | x >= 0               | READ / WRITE         |
+  | tuesdayHours      | Hours worked on Tuesday                                                                   | Float   | x >= 0               | READ / WRITE         |
+  | wednesdayHours    | Hours worked on Wednesday                                                                 | Float   | x >= 0               | READ / WRITE         |
+  | thursdayHours     | Hours worked on Thursday                                                                  | Float   | x >= 0               | READ / WRITE         |
+  | fridayHours       | Hours worked on Friday                                                                    | Float   | x >= 0               | READ / WRITE         |
+  | saturdayHours     | Hours worked on Saturday                                                                  | Float   | x >= 0               | READ / WRITE         |
+  | sundayHours       | Hours worked on Sunday                                                                    | Float   | x >= 0               | READ / WRITE         |
+  | availabilityFactor| Percentage of working hours the user is available (0–100)                                 | Integer | 0 <= x <= 100        | READ / WRITE         |
+
+  ## UserWorkingHours Permissions
+
+  - **Administrators** can read and manage working hours for any user.
+  - Users with the global **`manage_own_working_times`** permission can read and manage their own working hours.
+  - Users with the global **`manage_working_times`** permission can read and manage working hours for any user.
+  - All users can read their own working hours records even without a special permission.
+  - Records that have already taken effect (i.e., `validFrom` is today or in the past) cannot be updated.
+
+  ## UserNonWorkingTime Actions
+
+  | Link   | Description                      | Condition                |
+  | :----: | -------------------------------- | ------------------------ |
+  | delete | Delete this non-working day      | **Permission**: see below |
+
+  ## UserNonWorkingTime Linked Properties
+
+  | Link | Description                                          | Type               | Constraints | Supported operations |
+  | :--: | ---------------------------------------------------- | ------------------ | ----------- | -------------------- |
+  | self | This non-working day                                 | UserNonWorkingTime  | not null    | READ                 |
+  | user | The user this non-working day belongs to             | User               | not null    | READ                 |
+
+  ## UserNonWorkingTime Local Properties
+
+  | Property  | Description                                                                     | Type    | Constraints          | Supported operations |
+  | :-------: | ------------------------------------------------------------------------------- | ------- | -------------------- | -------------------- |
+  | id        | The unique identifier of the record                                             | Integer | x > 0                | READ                 |
+  | startDate | The first date of the non-working time range (ISO 8601 format)                  | Date    | not null             | READ / WRITE         |
+  | endDate   | The last date of the non-working time range (ISO 8601 format)                   | Date    | not null, >= startDate | READ / WRITE       |
+
+  ## UserNonWorkingTime Permissions
+
+  - **Administrators** can read and manage personal non-working days for any user.
+  - Users with the global **`manage_own_working_times`** permission can read and manage their own non-working days.
+  - Users with the global **`manage_working_times`** permission can read and manage non-working days for any user.
+  - A personal non-working time must not overlap with another non-working time record for the same user.

@@ -1,155 +1,172 @@
+---
 nl:
-  plugin_openproject_openid_connect:
-    name: "OpenProject OpenID Connect"
-    description: "Voegt OmniAuth OpenID Connect strategieproviders toe aan OpenProject."
-  logout_warning: >
-    U bent uitgelogd. De inhoud van uw formulier kan verloren gaan. Alstublieft [log in].
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: OpenID group identifier
       openid_connect/provider:
-        name: Naam
-        slug: Unique identifier
-        display_name: Weergavenaam
+        acr_values: ACR waarden
+        authorization_endpoint: Autorisatie eindpunt
+        claims: Claims
         client_id: Client ID
         client_secret: Client secret
-        groups_claim: Groups claim
-        group_regexes: Patterns (regular expressions)
-        secret: Geheim
-        scope: Scope
-        sync_groups: Synchronize groups
-        grant_types_supported: Ondersteunde subsidietypen
-        limit_self_registration: Zelfregistratie beperken
-        authorization_endpoint: Autorisatie eindpunt
-        userinfo_endpoint: Eindpunt gebruikersinformatie
-        token_endpoint: Eindpunt token
+        display_name: Weergavenaam
         end_session_endpoint: End sessie endpoint
-        post_logout_redirect_uri: URI voor doorsturen na uitloggen
-        jwks_uri: JWKS URI
-        issuer: Uitgever
-        tenant: Huurder
-        metadata_url: Metagegevens URL
+        grant_types_supported: Ondersteunde subsidietypen
+        group_regexes: Patterns (regular expressions)
+        groups_claim: Groups claim
         icon: Aangepast icoon
-        claims: Claims
-        acr_values: ACR waarden
+        issuer: Uitgever
+        jwks_uri: JWKS URI
+        limit_self_registration: Zelfregistratie beperken
+        metadata_url: Metagegevens URL
+        name: Naam
+        post_logout_redirect_uri: URI voor doorsturen na uitloggen
         redirect_url: Redirect URL
+        scope: Scope
+        secret: Geheim
+        slug: Unique identifier
+        sync_groups: Synchronize groups
+        tenant: Huurder
+        token_endpoint: Eindpunt token
+        userinfo_endpoint: Eindpunt gebruikersinformatie
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: "Discovery endpoint URL %{message}"
-              response_is_not_successful: " reageert met %{status}."
+              format: Discovery endpoint URL %{message}
               response_is_not_json: " retourneert geen JSON body."
+              response_is_not_successful: " reageert met %{status}."
               response_misses_required_attributes: " geeft niet de vereiste attributen terug. Ontbrekende attributen zijn: %{missing_attributes}."
-          invalid_claims_essential: "does not define a boolean at %{attribute}."
-          invalid_claims_location: "contain unsupported locations: %{invalid}. Supported locations are: %{supported}."
-          invalid_claims_values: "does not define an array at %{attribute}."
-          non_object_attribute: "does not define a JSON object at %{attribute}."
-  provider:
-    delete_warning:
-      input_delete_confirmation: Voer de providernaam %{name} in om de verwijdering te bevestigen.
-      irreversible_notice: Het verwijderen van een SSO provider is een onomkeerbare actie.
-      provider: 'Weet u zeker dat u de SSO provider %{name} wilt verwijderen? Voer de naam van de provider in het onderstaande veld in om deze actie te bevestigen, dit wil:'
-      delete_result_1: Verwijder de provider uit de lijst met beschikbare providers.
-      delete_result_user_count:
-        zero: Er zijn momenteel geen gebruikers die deze provider gebruiken. Er is geen verdere actie vereist.
-        one: "Eén gebruiker gebruikt momenteel nog deze provider. Zij moeten opnieuw worden uitgenodigd of zich aanmelden bij een andere provider."
-        other: "%{count} gebruikers maken momenteel nog gebruik van deze provider. Zij moeten opnieuw worden uitgenodigd of inloggen bij een andere provider."
-      delete_result_direct: Deze provider is gemarkeerd als een directe aanmeldprovider. De instelling wordt verwijderd en gebruikers worden niet langer omgeleid naar deze provider om in te loggen.
+          invalid_claims_essential: does not define a boolean at %{attribute}.
+          invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
+          invalid_claims_values: does not define an array at %{attribute}.
+          non_object_attribute: does not define a JSON object at %{attribute}.
+    models:
+      openid_connect/provider:
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        one: OpenID Connect token
+        other: OpenID Connect tokens
+  logout_warning: 'U bent uitgelogd. De inhoud van uw formulier kan verloren gaan. Alstublieft [log in].
+
+    '
   openid_connect:
-    menu_title: OpenID aanbieders
-    delete_title: "OpenID Connect provider verwijderen"
+    delete_heading: Delete this OpenID Connect provider?
+    delete_title: OpenID Connect provider verwijderen
     group_links_heading: OpenID Connect group links
     groups:
       match_preview_component:
-        title: Extracted group names
         placeholder_none: No groups currently match the pattern.
+        title: Extracted group names
       match_preview_dialog_component:
         description: This allows you to test your regular expression pattern against sample data to verify that the group names you want extracted are indeed extracted properly. You can modify your pattern here but the test string and matches themselves will not be saved with the configuration.
-        group_names_label: Test group names
         group_names_description: Enter one group name per line as it would appear in the OIDC claim, to see how your regular expression patterns affect them.
+        group_names_label: Test group names
         show_button: Test pattern
         title: Test regular expressions
     instructions:
+      acr_values: 'Vraag niet-essentiële claims aan in een eenvoudiger formaat. Zie [onze documentatie over acr_values](docs_url) voor meer informatie.
+
+        '
+      claims: 'U kunt extra claims aanvragen voor de eindpunten userinfo en id token. Zie [onze OpenID connect documentatie](docs_url) voor meer informatie.
+
+        '
+      client_id: Dit is de client-ID die u van uw OpenID Connect provider hebt gekregen
+      client_secret: Dit is de client-ID die u van uw OpenID Connect provider hebt gekregen
+      display_name: The name of the provider. This will be displayed as the login button and in the list of providers.
       endpoint_url: De endpoint URL die u van de OpenID Connect provider heeft gekregen
       group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
       group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
-      group_regexes_testing: "Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo."
+      group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
       group_sync: Automatically extract and synchronise group membership information from the identity provider.
       groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
+      limit_self_registration: If enabled, users can only register using this provider if configuration on the provider's end allows it.
+      mapping_admin: 'Geef een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de beheerdersstatus. Er wordt een booleaans attribuut verwacht dat wordt geretourneerd.
+
+        '
+      mapping_email: 'Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor het aanmeldingskenmerk.
+
+        '
+      mapping_first_name: 'Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de voornaam.
+
+        '
+      mapping_last_name: 'Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de achternaam.
+
+        '
+      mapping_login: 'Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor het aanmeldingskenmerk.
+
+        '
       metadata_none: Ik heb deze informatie niet
       metadata_url: Ik heb een URL voor een zoekeindpunt
       oidc_information: These values are needed to configure the OpenID Connect provider.
-      client_id: Dit is de client-ID die u van uw OpenID Connect provider hebt gekregen
-      client_secret: Dit is de client-ID die u van uw OpenID Connect provider hebt gekregen
-      limit_self_registration: If enabled, users can only register using this provider if configuration on the provider's end allows it.
-      display_name: The name of the provider. This will be displayed as the login button and in the list of providers.
-      tenant: 'Vervang de standaard tenant door uw eigen tenant, indien van toepassing. Bekijk <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">dit</a>.'
-      scope: If you want to request custom scopes, you can add one or multiple scope values separated by spaces here. For more information, see the [OpenID Connect documentation](docs_url).
       post_logout_redirect_uri: De URL waarnaar de OpenID Connect provider moet doorsturen na een uitlogverzoek.
-      claims: >
-        U kunt extra claims aanvragen voor de eindpunten userinfo en id token. Zie [onze OpenID connect documentatie](docs_url) voor meer informatie.
-      acr_values: >
-        Vraag niet-essentiële claims aan in een eenvoudiger formaat. Zie [onze documentatie over acr_values](docs_url) voor meer informatie.
-      mapping_login: >
-        Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor het aanmeldingskenmerk.
-      mapping_email: >
-        Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor het aanmeldingskenmerk.
-      mapping_first_name: >
-        Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de voornaam.
-      mapping_last_name: >
-        Zorg voor een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de achternaam.
-      mapping_admin: >
-        Geef een aangepaste toewijzing in het userinfo antwoord om te gebruiken voor de beheerdersstatus. Er wordt een booleaans attribuut verwacht dat wordt geretourneerd.
-    settings:
-      metadata_none: Ik heb deze informatie niet
-      metadata_url: Ik heb een URL voor een zoekeindpunt
-      endpoint_url: Eindpunt URL
+      scope: If you want to request custom scopes, you can add one or multiple scope values separated by spaces here. For more information, see the [OpenID Connect documentation](docs_url).
+      tenant: Vervang de standaard tenant door uw eigen tenant, indien van toepassing. Bekijk <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">dit</a>.
+    menu_title: OpenID aanbieders
     providers:
-      label_providers: "Aanbieders"
-      seeded_from_env: "Deze provider is geplaatst vanuit de omgevingsconfiguratie. Deze kan niet worden bewerkt."
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Configuratie details van OpenProject als een OIDC client
       custom:
         name: Aangepast
-      upsell:
-        title: "Single Sign-On (SSO) with OpenID connect"
-        description: OpenProject verbinden met een OpenID connect identity provider
+      google:
+        name: Google
       label_add_new: Voeg een nieuwe OpenID provider toe
+      label_advanced_configuration: Geavanceerde configuratie
+      label_attribute_mapping: Attribuut toewijzen
+      label_automatic_configuration: Automatische configuratie
+      label_client_details: Client gegevens
+      label_configuration_details: Metadata
       label_edit: OpenID provider %{name} bewerken
-      label_empty_title: Er zijn nog geen OpenID providers geconfigureerd.
       label_empty_description: Voeg een provider toe om ze hier te zien.
+      label_empty_title: Er zijn nog geen OpenID providers geconfigureerd.
       label_group_mapping: Group mapping
       label_metadata: OpenID Connect Discovery Eindpunt
-      label_automatic_configuration: Automatische configuratie
       label_optional_configuration: Optionele configuratie
-      label_advanced_configuration: Geavanceerde configuratie
-      label_configuration_details: Metadata
-      label_client_details: Client gegevens
-      label_attribute_mapping: Attribuut toewijzen
-      notice_created: A new OpenID provider was successfully created.
-      client_details_description: Configuratie details van OpenProject als een OIDC client
+      label_providers: Aanbieders
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Er zijn nog geen aanbieders gedefinieerd.
+      notice_created: A new OpenID provider was successfully created.
       plural: OpenID aanbieders
-      singular: OpenID aanbieders
       section_texts:
+        attribute_mapping: Configureer de koppeling van attributen tussen OpenProject en de OpenID Connect-provider.
+        claims: Vraag extra claims aan voor de ID-token of gebruikersinfo reactie.
+        configuration: Configuratiegegevens van de OpenID Connect provider
+        configuration_metadata: De informatie is vooraf ingevuld met behulp van het meegeleverde discovery eindpunt. In de meeste gevallen hoeft deze niet bewerkt te worden.
+        display_name: De weergavenaam die zichtbaar is voor gebruikers.
         group_mapping: Map group names provided by the identity provider to groups in OpenProject.
         metadata: Configuratie vooraf invullen met behulp van een OpenID Connect discovery eindpunt URL
         metadata_form_banner: Het bewerken van het zoekeindpunt kan bestaande, vooraf ingevulde metadatawaarden overschrijven.
-        metadata_form_title: OpenID Connect Discovery eindpunt
         metadata_form_description: Als uw identity provider een discovery eindpunt URL heeft. Gebruik deze hieronder om de configuratie te vooraf in te vullen.
-        configuration_metadata: De informatie is vooraf ingevuld met behulp van het meegeleverde discovery eindpunt. In de meeste gevallen hoeft deze niet bewerkt te worden.
-        configuration: Configuratiegegevens van de OpenID Connect provider
-        display_name: De weergavenaam die zichtbaar is voor gebruikers.
-        attribute_mapping: Configureer de koppeling van attributen tussen OpenProject en de OpenID Connect-provider.
-        claims: Vraag extra claims aan voor de ID-token of gebruikersinfo reactie.
+        metadata_form_title: OpenID Connect Discovery eindpunt
       side_panel:
         information_component:
           backchannel_logout_url: Backchannel logout URL
+      singular: OpenID aanbieders
+      upsell:
+        description: OpenProject verbinden met een OpenID connect identity provider
+        title: Single Sign-On (SSO) with OpenID connect
     setting_instructions:
-      limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+      limit_self_registration: 'If enabled users can only register using this provider if the self registration setting allows for it.
+
+        '
+    settings:
+      endpoint_url: Eindpunt URL
+      metadata_none: Ik heb deze informatie niet
+      metadata_url: Ik heb een URL voor een zoekeindpunt
+  plugin_openproject_openid_connect:
+    description: Voegt OmniAuth OpenID Connect strategieproviders toe aan OpenProject.
+    name: OpenProject OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: Verwijder de provider uit de lijst met beschikbare providers.
+      delete_result_direct: Deze provider is gemarkeerd als een directe aanmeldprovider. De instelling wordt verwijderd en gebruikers worden niet langer omgeleid naar deze provider om in te loggen.
+      delete_result_user_count:
+        one: Eén gebruiker gebruikt momenteel nog deze provider. Zij moeten opnieuw worden uitgenodigd of zich aanmelden bij een andere provider.
+        other: "%{count} gebruikers maken momenteel nog gebruik van deze provider. Zij moeten opnieuw worden uitgenodigd of inloggen bij een andere provider."
+        zero: Er zijn momenteel geen gebruikers die deze provider gebruiken. Er is geen verdere actie vereist.
+      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: Het verwijderen van een SSO provider is een onomkeerbare actie.
+      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'

@@ -74,10 +74,9 @@ module Components
 
       def choose_delete_and_confirm_deletion
         choose "Delete"
-        # only handle the case where the modal does _not_ ask for descendants deletion confirmation
-        within_modal(I18n.t("js.modals.destroy_work_package.title", label: "work package")) do
-          click_button "Delete"
-        end
+
+        dialog = ::Components::WorkPackages::DestroyModal.new
+        dialog.confirm_deletion
       end
 
       def expect_no_options(*options)

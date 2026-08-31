@@ -54,6 +54,13 @@ properties:
       Whether the storage has the application password to use for the Nextcloud storage.
 
       Ignored if the provider type is not Nextcloud.
+  forbiddenFileNameCharacters:
+    type: string
+    description: |-
+      A string with all the characters forbidden to be used for file and folder names in the storage. Used by OpenProject to avoid
+      creating files with unsupported names (e.g. when creating project folders).
+
+      Only supported for provider type Nextcloud so far.
   createdAt:
     type: string
     format: date-time

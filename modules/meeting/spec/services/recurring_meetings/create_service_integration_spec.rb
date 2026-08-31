@@ -35,12 +35,21 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i(view_meetings create_meetings) })
   end
+  let(:business_day_at_noon) { Time.zone.parse("2025-01-08T12:00:00Z") }
   let(:instance) { described_class.new(user:) }
   let(:service_result) { subject }
   let(:series) { service_result.result }
   let(:params) { {} }
 
   subject { instance.call(**params) }
+
+  before do
+    travel_to(business_day_at_noon)
+  end
+
+  after do
+    travel_back
+  end
 
   shared_examples "creates the series" do
     it "creates the series and template" do

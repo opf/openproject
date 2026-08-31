@@ -31,13 +31,14 @@ module OpenProject::GitlabIntegration
   module NotificationHandler
     module Helper
       ##
-      # Parses the given source string and returns a list of work_package ids
-      # which it finds and should be considered public or private.
-      # WorkPackages are identified by their URL.
+      # Parses the given source string and returns a list of work package display identifiers
+      # (numeric strings or semantic IDs like "PROJ-42") found in that text.
+      # WorkPackages are identified by their URL or by an OP#/PP# prefix.
       # Params:
       #  source: string
+      #  kind: "" (default) | "note" | "private"
       # Returns:
-      #   Array<int>
+      #   Array<String>
       def extract_work_package_ids(text, kind = "")
         # matches the following things (given that `Setting.host_name` equals 'www.openproject.org')
         #  - http://www.openproject.org/wp/1234
@@ -45,35 +46,39 @@ module OpenProject::GitlabIntegration
         #  - http://www.openproject.org/work_packages/1234
         #  - https://www.openproject.org/subdirectory/work_packages/1234
         # Or with the following prefix: OP# PP#
-        # e.g.,: This is a reference to OP#1234
+        # e.g.,: This is a reference to OP#1234 or OP#PROJ-42
         # For private comments you can use the prefix: PP#
         host_name = Regexp.escape(Setting.host_name)
-        wp_regex = if kind == "private"
-                     /PP#(\d+)/
-                   elsif kind != "note"
-                     /OP#(\d+)|PP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+        wp_id     = WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT
+        url_part  = /http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/(#{wp_id})/
+
+        wp_regex = case kind
+                   when "private"
+                     /PP#(#{wp_id})/
+                   when "note"
+                     /OP#(#{wp_id})|#{url_part}/
                    else
-                     /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+                     /OP#(#{wp_id})|PP#(#{wp_id})|#{url_part}/
                    end
+
         String(text)
           .scan(wp_regex)
-          .map { |first, second| (first || second).to_i }
-          .select(&:positive?)
+          .filter_map { |groups| groups.compact.first }
           .uniq
       end
 
       ##
-      # Given a list of work package ids this methods returns all work packages that match those ids
-      # and are visible by the given user.
+      # Given a list of work package display identifiers this methods returns all work packages
+      # that match those identifiers and are visible by the given user.
       # Params:
-      #  - Array<int>: An list of WorkPackage ids
+      #  - Array<String>: A list of WorkPackage display identifiers
       #  - User: The user who may (or may not) see those WorkPackages
       # Returns:
       #  - Array<WorkPackage>
       def find_visible_work_packages(ids, user)
         WorkPackage
           .includes(:project)
-          .where(id: ids)
+          .where_display_id_in(ids)
           .select { |wp| user.allowed_in_work_package?(:add_work_package_comments, wp) }
       end
 

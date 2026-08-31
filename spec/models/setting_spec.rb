@@ -40,6 +40,18 @@ RSpec.describe Setting do
     described_class.destroy_all
   end
 
+  describe "validations" do
+    describe "password_min_length" do
+      subject { described_class.new(name: "password_min_length", value:) }
+
+      context "with a value above the maximum of 128" do
+        let(:value) { "129" }
+
+        it { is_expected.not_to be_valid }
+      end
+    end
+  end
+
   describe "OpenProject's default settings" do
     it "has OpenProject as application title" do
       expect(described_class.app_title).to eq "OpenProject"
@@ -552,7 +564,7 @@ RSpec.describe Setting do
   describe "default_projects_modules conditional default" do
     shared_examples "base modules unchanged" do
       it "includes the base modules" do
-        base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+        base_modules = %w[calendar board_view work_package_tracking gantt news costs]
         expect(Settings::Definition[:default_projects_modules].default).to include(*base_modules)
       end
     end

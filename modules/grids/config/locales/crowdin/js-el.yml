@@ -1,59 +1,74 @@
+---
 el:
   js:
     grid:
-      add_widget: 'Προσθήκη widget'
-      remove: 'Αφαίρεση widget'
-      configure: 'Ρύθμιση widget'
+      add_widget: Προσθήκη widget
+      configure: Ρύθμιση widget
+      remove: Αφαίρεση widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Προσαρμοσμένο κείμενο'
+          title: Προσαρμοσμένο κείμενο
         documents:
-          title: 'Έγγραφα'
-          no_results: 'Δεν υπάρχουν έγγραφα.'
+          no_results: Δεν υπάρχουν έγγραφα.
+          title: Έγγραφα
         members:
-          title: 'Μέλη'
+          title: Μέλη
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
-          title: 'Νέα'
+          title: Νέα
+        not_available: This widget is currently unavailable.
         project_description:
-          title: 'Description'
-          no_results: "Δεν έχει γραφτεί ακόμα περιγραφή. Μπορεί να παρασχεθεί μια στις 'Ρυθμίσεις έργου'."
-        project_status:
-          title: 'Status'
-          not_started: 'Not started'
-          on_track: 'Eντός πορείας'
-          off_track: 'Eκτός πορείας'
-          at_risk: 'Σε κίνδυνο'
-          not_set: 'Μη ορισμένο'
-          finished: 'Ολοκληρωμένο'
-          discontinued: 'Discontinued'
-        subprojects:
-          title: 'Subitems'
+          title: Description
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favorite projects
+        project_status:
+          at_risk: Σε κίνδυνο
+          discontinued: Discontinued
+          finished: Ολοκληρωμένο
+          not_set: Μη ορισμένο
+          not_started: Not started
+          off_track: Eκτός πορείας
+          on_track: Eντός πορείας
+          title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
+        subprojects:
+          title: Subitems
         time_entries_current_user:
-          title: 'Ο δικός μου χρόνος που δαπανήθηκε'
           displayed_days: 'Ημέρες που εμφανίζονται στο widget:'
+          title: Ο δικός μου χρόνος που δαπανήθηκε
         time_entries_list:
-          title: 'Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)'
-          no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
+          no_results: Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.
+          title: Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)
         work_packages_accountable:
-          title: "Πακέτα εργασίας για τα οποία είμαι υπεύθυνος"
+          title: Πακέτα εργασίας για τα οποία είμαι υπεύθυνος
         work_packages_assigned:
-          title: 'Πακέτα εργασίας που έχουν ανατεθεί σε μένα'
-        work_packages_created:
-          title: 'Εργασίες που δημιούργησα'
-        work_packages_watched:
-          title: 'Εργασίες που παρακολουθώ'
-        work_packages_table:
-          title: 'Πίνακας πακέτων εργασίας'
-        work_packages_graph:
-          title: 'Γράφημα πακέτων εργασίας'
-          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Πακέτα εργασίας που έχουν ανατεθεί σε μένα
         work_packages_calendar:
-          title: 'Ημερολόγιο'
+          title: Ημερολόγιο
+        work_packages_created:
+          title: Εργασίες που δημιούργησα
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Γράφημα πακέτων εργασίας
         work_packages_overview:
-          title: 'Επισκόπηση των πακέτων εργασίας'
-          placeholder: 'Κάντε κλικ για επεξεργασία ...'
+          placeholder: Κάντε κλικ για επεξεργασία ...
+          title: Επισκόπηση των πακέτων εργασίας
+        work_packages_table:
+          title: Πίνακας πακέτων εργασίας
+        work_packages_watched:
+          title: Εργασίες που παρακολουθώ

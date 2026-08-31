@@ -1,72 +1,88 @@
+---
 cs:
-  plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
-    description: ""
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: "Payload URL\n"
-        secret: 'Tajný podpis'
-        events: 'Události'
-        enabled: 'Zapnuto'
-        projects: 'Povolené projekty'
       webhooks/log:
-        event_name: 'Název události'
-        url: "Payload URL\n"
-        response_code: 'Kód odpovědi'
-        response_body: 'Odpověď'
+        event_name: Název události
+        response_body: Odpověď
+        response_code: Kód odpovědi
+        url: 'Payload URL
+
+          '
+      webhooks/webhook:
+        enabled: Zapnuto
+        events: Události
+        projects: Povolené projekty
+        secret: Tajný podpis
+        url: 'Payload URL
+
+          '
     models:
-      webhooks/outgoing_webhook: "Odchozí webhook"
+      webhooks/log:
+        one: Webhook log
+        few: Webhook logs
+        many: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        few: Webhooks
+        many: Webhooks
+        other: Webhooks
+  plugin_openproject_webhooks:
+    description: ''
+    name: OpenProject Webhooks
   webhooks:
-    singular: Webhook
-    plural: Webhooky
-    resources:
-      time_entry:
-        name: "Vstup času"
     outgoing:
-      no_results_table: Zatím nebyly definovány žádné webhooky
+      deliveries:
+        no_results_table: Pro tento webhook nebyly provedeny žádné dodávky.
+        time: Dodací lhůta
+        title: Nedávné dodávky
+      events:
+        comment: Komentář
+        created: Vytvořeno
+        internal_comment: Interní komentář
+        updated: Aktualizováno
+      explanation_html: 'Při výskytu události, jako je vytvoření pracovního balíčku nebo úprava projektu, OpenProject odešle POST request na nakonfigurované webové endpointy. Často je událost odeslána poté, co uplynul [nastavená agregační interval](aggregation_path).
+
+        '
+      form:
+        apiv3_doc_url: Pro více informací navštivte dokumentaci API
+        description:
+          placeholder: Volitelný popis webhooku.
+        enabled:
+          description: 'Je-li zaškrtnuto, webhook se spustí na vybraných událostech. Zrušte zaškrtnutí políčka pro vypnutí webhooku.
+
+            '
+        events:
+          title: Povolené události
+        introduction: 'Pošlete POST požadavek na URL adresu payload pro jakoukoliv událost v projektu, ke kterému jste přihlášeni. Užitečné zatížení bude odpovídat reprezentaci modifikovaného objektu APIv3.
+
+          '
+        project_ids:
+          all: Všechny projekty
+          description: Vyberte, pro které projekty by měl být tento webhook spuštěn.
+          selected: Pouze vybrané projekty
+          title: Povolené projekty
+        secret:
+          description: 'Je-li nastaveno, OpenProject používá tuto tajnou hodnotu k podpisu payloadu webhooku.
+
+            '
+        selected_project_ids:
+          title: Vybrané projekty
       label_add_new: Přidat nový webhook
       label_edit: Upravit webhook
       label_x_events:
-        one: "1 event"
-        other: "%{count} events"
-        zero: "No events"
-      events:
-        created: "Vytvořeno"
-        updated: "Aktualizováno"
-        comment: "Komentář"
-        internal_comment: "Interní komentář"
-      explanation:
-        text: >
-          Při výskytu události, jako je vytvoření pracovního balíčku nebo aktualizace projektu, OpenProject odešle POST požadavek na nakonfigurované webové koncové body. Často je událost odeslána poté, co %{link} prošel.
-        link: konfigurovaná doba agregace
+        one: 1 událost
+        other: "%{count} událostí"
+        zero: Žádné události
+      no_results_table: Zatím nebyly definovány žádné webhooky
       status:
-        enabled: 'webhook je povolen'
-        disabled: 'webhook je zakázán'
-        enabled_text: 'Webhook vypouští payloads pro níže uvedené události.'
-        disabled_text: 'Klikněte na tlačítko upravit pro aktivaci webhooku.'
-      deliveries:
-        no_results_table: Pro tento webhook nebyly provedeny žádné dodávky.
-        title: 'Nedávné dodávky'
-        time: 'Dodací lhůta'
-      form:
-        introduction: >
-          Pošlete POST požadavek na URL adresu payload pro jakoukoliv událost v projektu, ke kterému jste přihlášeni. Užitečné zatížení bude odpovídat reprezentaci modifikovaného objektu APIv3.
-        apiv3_doc_url: Pro více informací navštivte dokumentaci API
-        description:
-          placeholder: 'Volitelný popis webhooku.'
-        enabled:
-          description: >
-            Je-li zaškrtnuto, webhook se spustí na vybraných událostech. Zrušte zaškrtnutí políčka pro vypnutí webhooku.
-        events:
-          title: 'Povolené události'
-        project_ids:
-          title: 'Povolené projekty'
-          description: 'Vyberte, pro které projekty by měl být tento webhook spuštěn.'
-          all: 'Všechny projekty'
-          selected: 'Pouze vybrané projekty'
-        selected_project_ids:
-          title: 'Vybrané projekty'
-        secret:
-          description: >
-            Je-li nastaveno, OpenProject používá tuto tajnou hodnotu k podpisu payloadu webhooku.
+        disabled: webhook je zakázán
+        disabled_text: Klikněte na tlačítko upravit pro aktivaci webhooku.
+        enabled: webhook je povolen
+        enabled_text: Webhook vypouští payloads pro níže uvedené události.
+    plural: Webhooky
+    resources:
+      time_entry:
+        name: Vstup času
+    singular: Webhook

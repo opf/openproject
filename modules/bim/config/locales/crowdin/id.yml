@@ -1,143 +1,160 @@
-#English strings go here for Rails i18n
+---
 id:
-  plugin_openproject_bim:
-    name: "Fungsi OpenProject BIM dan BCF"
-    description: "Plugin OpenProject ini memperkenalkan fungsi BIM dan BCF."
-  bim:
-    label_bim: 'BIM'
-  bcf:
-    label_bcf: 'BCF'
-    label_imported_failed: 'Gagal mengimport topik BCF'
-    label_imported_successfully: 'Berhasil mengimport topik BCF'
-    label_bcf_issue_associated: "Masalah BCF yang berkaitan"
-    issues: "Masalah"
-    recommended: 'Disarankan'
-    not_recommended: 'Tidak disarankan'
-    no_viewpoints: 'Tidak ada sudut pandang'
-    new_badge: "Baru"
-    exceptions:
-      file_invalid: "File BCF tidak valid"
-    x_bcf_issues:
-      zero: 'Tidak ada masalah BCF'
-      one: 'Satu masalah BCF'
-      other: 'Terdapat %{count} masalah BCF'
-    bcf_xml:
-      xml_file: 'File BCF XML'
-      import_title: 'Impor'
-      export: 'Ekspor'
-      import_update_comment: '(import BCF diperbarui)'
-      import_failed: 'Tidak bisa mengimport file BCF: %{error}'
-      import_failed_unsupported_bcf_version: 'Gagal membaca file BCF: Versi BCF tidak didukung. Pastikan versinya minimal %{minimal_version} atau lebih tinggi.'
-      import_successful: '%{count} masalah BCF di import'
-      import_canceled: 'import BCF-XML dibatalkan.'
-      type_not_active: "Jenis masalah tidak di aktifkan dalam proyek ini."
-      import:
-        num_issues_found: '%{x_bcf_issues} terdapat pada file BCF-XML, lebih jelasnya tercantum dibawah ini.'
-        button_prepare: 'Persiapan import'
-        button_perform_import: 'Konfirmasi import'
-        button_proceed: 'Lanjutkan dengan impor'
-        button_back_to_list: 'Kembali ke daftar'
-        no_permission_to_add_members: 'Anda tidak memiliki izin untuk menambah mereka sebagai anggota kedalam proyek.'
-        contact_project_admin: 'Hubungi admin proyek anda untuk menambah mereka sebagai anggota dan mulai lagi.'
-        continue_anyways: 'Apakah anda ingin melanjutkan dan menyelesaikan import?'
-        description: "Sediakan file BCF-XML v.2.1 untuk di import kedalam proyek. Anda bisa meneliti kontennya sebelum mengimport."
-        invalid_types_found: 'Jenis nama topik tidak valid ditemukan'
-        invalid_statuses_found: 'Nama status tidak valid ditemukan'
-        invalid_priorities_found: 'Nama prioritas tidak valid ditemukan'
-        invalid_emails_found: 'Alamat email tidak valid ditemukan'
-        unknown_emails_found: 'Alamat email tidak dikenal ditemukan'
-        unknown_property: 'Properti tidak dikenal'
-        non_members_found: 'Tidak ada anggota proyek ditemukan'
-        import_types_as: 'Atur semua jenis ke'
-        import_statuses_as: 'Atur semua status ke'
-        import_priorities_as: 'Atur semua prioritas ke'
-        invite_as_members_with_role: 'Undang mereka sebagai anggota kedalam proyek "%{project}" dengan tugas'
-        add_as_members_with_role: 'Tambah mereka sebagai anggota kedalam proyek "%{project}" dengan tugas'
-        no_type_provided: 'Jenis tidak tersedia'
-        no_status_provided: 'Status tidak tersedia'
-        no_priority_provided: 'Prioritas tidak tersedia'
-        perform_description: "Apakah anda ingin import atau perbarui masalah diatas?"
-        replace_with_system_user: 'Ubah mereka dengan pengguna "System"'
-        import_as_system_user: 'Import mereka sebaga pengguna "System".'
-        what_to_do: "Apa yang ingin Anda lakukan?"
-        work_package_has_newer_changes: "Kadaluarsa! Topik ini tidak diperbarui sebagai perubahan terakhir dalam server lebih baru dari \"ModifiedDate\" pada topik yang di import. Namun, komentar dan topik tersebut telah di import."
-        bcf_file_not_found: "Gagal menemukan berkas BCF. Silakan mulai proses pengunggahan lagi."
-  export:
-    format:
-      bcf: "BCF-XML"
-  attributes:
-    bcf_thumbnail: "Snapshot BCF"
-  project_module_bcf: "BCF"
-  project_module_bim: "BCF"
-  permission_view_linked_issues: "Lihat masalah BCF"
-  permission_manage_bcf: "Import dan atur masalah BCF"
-  permission_delete_bcf: "Hapus masalah BCF"
-  oauth:
-    scopes:
-      bcf_v2_1: "Akses penuh kepada API BCF v2.1"
-      bcf_v2_1_text: "Aplikasi akan menerima akses penuh membaca & menulis kepada API OpenProject BCF v2.1 untuk melakukan tindakan atas nama anda."
   activerecord:
-    models:
-      bim/ifc_models/ifc_model: "Model IFC"
     attributes:
-      bim/ifc_models/ifc_model:
-        ifc_attachment: "berkas IFC"
-        is_default: "Model bawaan"
-        attachments: "berkas IFC"
       bim/bcf/issue:
-        bcf_comment: "Komentar BCF"
-        bim_snippet: "Cuplikan BIM"
-        reference_links: "Tautan rujukan"
-        stage: "Tahapan"
-        viewpoint: "Sudut pandang"
+        bcf_comment: Komentar BCF
+        bim_snippet: Cuplikan BIM
+        reference_links: Tautan rujukan
+        stage: Tahapan
+        status_id: Status
+        viewpoint: Sudut pandang
+      bim/bcf/viewpoint:
+        status_id: Status
+      bim/ifc_models/ifc_model:
+        attachments: berkas IFC
+        ifc_attachment: berkas IFC
+        is_default: Model bawaan
     errors:
       models:
+        bim/bcf/issue:
+          uuid_already_taken: Tidak dapat mengimpor masalah BCF ini karena sudah ada masalah lain dengan GUID yang sama. Mungkinkah masalah BCF ini sudah diimpor ke proyek lain?
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: bitmap tidak bisa ditulis karena belum dilakukan.
+          index_not_integer: index bukan sebuah integer.
+          invalid_clipping_planes: clipping_planes tidak valid.
+          invalid_components: Komponen tidak valid.
+          invalid_lines: Garis tidak valid.
+          invalid_orthogonal_camera: orthogonal_camera tidak valid.
+          invalid_perspective_camera: perspective_camera tidak valid.
+          mismatching_guid: Guid pada json_viewpoint tidak sesuai dengan model guid.
+          no_json: Json tidak terstruktur dengan baik.
+          snapshot_data_blank: snapshot_data harus disediakan.
+          snapshot_type_unsupported: snapshot_type lebih baik 'png' atau 'jpg'.
+          unsupported_key: Properti json yang tidak support dimasukan.
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "Tidak ada file ifc yang dilampirkan."
-              invalid_ifc_file: "File yang disediakan bukan file IFC yang valid."
-        bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmap tidak bisa ditulis karena belum dilakukan."
-          index_not_integer: "index bukan sebuah integer."
-          invalid_clipping_planes: "clipping_planes tidak valid."
-          invalid_components: "Komponen tidak valid."
-          invalid_lines: "Garis tidak valid."
-          invalid_orthogonal_camera: "orthogonal_camera tidak valid."
-          invalid_perspective_camera: "perspective_camera tidak valid."
-          mismatching_guid: "Guid pada json_viewpoint tidak sesuai dengan model guid."
-          no_json: "Json tidak terstruktur dengan baik."
-          snapshot_type_unsupported: "snapshot_type lebih baik 'png' atau 'jpg'."
-          snapshot_data_blank: "snapshot_data harus disediakan."
-          unsupported_key: "Properti json yang tidak support dimasukan."
-        bim/bcf/issue:
-          uuid_already_taken: "Tidak dapat mengimpor masalah BCF ini karena sudah ada masalah lain dengan GUID yang sama. Mungkinkah masalah BCF ini sudah diimpor ke proyek lain?"
-  ifc_models:
-    label_ifc_models: 'Model IFC'
-    label_new_ifc_model: 'Model IFC baru'
-    label_show_defaults: 'Tampilkan bawaan'
-    label_default_ifc_models: 'Model bawaan IFC'
-    label_edit_defaults: 'Edit pengaturan bawaan'
-    no_defaults_warning:
-      title: 'Tidak ada model IFC yang ditetapkan sebagai bawaan dalam projek ini.'
-      check_1: 'Pastikan anda telah mengunggah setidaknya satu model IFC.'
-      check_2: 'Pastikan setidaknya satu model IFC disetel ke “Default”.'
-    no_results: "Tidak ada model IFC yang diunggah dalam proyek ini."
-    conversion_status:
-      label: 'Memproses?'
-      pending: 'Menunggu'
-      processing: 'Memproses'
-      completed: 'Selesai'
-      error: 'Eror'
-    processing_notice:
-      processing_default: 'Model IFC bawaan berikut ini masih diproses dan belum tersedia sekarang:'
-    flash_messages:
-      upload_successful: 'Pengunggahan sukses. File akan diproses dan akan siap digunakan dalam beberapa menit.'
-    conversion:
-      missing_commands: "Perintah IFC converter berikut ini tidak ditemukan dalam perangkat ini: %{names}\n"
-  project_module_ifc_models: "Model IFC"
-  permission_view_ifc_models: "Lihat model IFC"
-  permission_manage_ifc_models: "Import dan sesuaikan model IFC"
+              ifc_attachment_missing: Tidak ada file ifc yang dilampirkan.
+              invalid_ifc_file: File yang disediakan bukan file IFC yang valid.
+    models:
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
+  attributes:
+    bcf_thumbnail: Snapshot BCF
+  bcf:
+    bcf_xml:
+      export: Ekspor
+      import:
+        add_as_members_with_role: Tambah mereka sebagai anggota kedalam proyek "%{project}" dengan tugas
+        bcf_file_not_found: Gagal menemukan berkas BCF. Silakan mulai proses pengunggahan lagi.
+        button_back_to_list: Kembali ke daftar
+        button_perform_import: Konfirmasi import
+        button_prepare: Persiapan import
+        button_proceed: Lanjutkan dengan impor
+        contact_project_admin: Hubungi admin proyek anda untuk menambah mereka sebagai anggota dan mulai lagi.
+        continue_anyways: Apakah anda ingin melanjutkan dan menyelesaikan import?
+        description: Sediakan file BCF-XML v.2.1 untuk di import kedalam proyek. Anda bisa meneliti kontennya sebelum mengimport.
+        import_as_system_user: Import mereka sebaga pengguna "System".
+        import_priorities_as: Atur semua prioritas ke
+        import_statuses_as: Atur semua status ke
+        import_types_as: Atur semua jenis ke
+        invalid_emails_found: Alamat email tidak valid ditemukan
+        invalid_priorities_found: Nama prioritas tidak valid ditemukan
+        invalid_statuses_found: Nama status tidak valid ditemukan
+        invalid_types_found: Jenis nama topik tidak valid ditemukan
+        invite_as_members_with_role: Undang mereka sebagai anggota kedalam proyek "%{project}" dengan tugas
+        no_permission_to_add_members: Anda tidak memiliki izin untuk menambah mereka sebagai anggota kedalam proyek.
+        no_priority_provided: Prioritas tidak tersedia
+        no_status_provided: Status tidak tersedia
+        no_type_provided: Jenis tidak tersedia
+        non_members_found: Tidak ada anggota proyek ditemukan
+        num_issues_found: "%{x_bcf_issues} terdapat pada file BCF-XML, lebih jelasnya tercantum dibawah ini."
+        perform_description: Apakah anda ingin import atau perbarui masalah diatas?
+        replace_with_system_user: Ubah mereka dengan pengguna "System"
+        unknown_emails_found: Alamat email tidak dikenal ditemukan
+        unknown_property: Properti tidak dikenal
+        what_to_do: Apa yang ingin Anda lakukan?
+        work_package_has_newer_changes: Kadaluarsa! Topik ini tidak diperbarui sebagai perubahan terakhir dalam server lebih baru dari "ModifiedDate" pada topik yang di import. Namun, komentar dan topik tersebut telah di import.
+      import_canceled: import BCF-XML dibatalkan.
+      import_failed: 'Tidak bisa mengimport file BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Gagal membaca file BCF: Versi BCF tidak didukung. Pastikan versinya minimal %{minimal_version} atau lebih tinggi.'
+      import_successful: "%{count} masalah BCF di import"
+      import_title: Impor
+      import_update_comment: "(import BCF diperbarui)"
+      type_not_active: Jenis masalah tidak di aktifkan dalam proyek ini.
+      xml_file: File BCF XML
+    exceptions:
+      file_invalid: File BCF tidak valid
+    issues: Masalah
+    label_bcf: BCF
+    label_bcf_issue_associated: Masalah BCF yang berkaitan
+    label_imported_failed: Gagal mengimport topik BCF
+    label_imported_successfully: Berhasil mengimport topik BCF
+    new_badge: Baru
+    no_viewpoints: Tidak ada sudut pandang
+    not_recommended: Tidak disarankan
+    recommended: Disarankan
+    x_bcf_issues:
+      one: Satu masalah BCF
+      other: Terdapat %{count} masalah BCF
+      zero: Tidak ada masalah BCF
+  bim:
+    error_direct_upload_failed: Direct upload failed.
+    label_bim: BIM
+  export:
+    format:
+      bcf: BCF-XML
   extraction:
     available:
-      ifc_convert: "Pipa konversi IFC tersedia"
+      ifc_convert: Pipa konversi IFC tersedia
+  ifc_models:
+    conversion:
+      missing_commands: 'Perintah IFC converter berikut ini tidak ditemukan dalam perangkat ini: %{names}
+
+        '
+    conversion_status:
+      completed: Selesai
+      error: Eror
+      label: Memproses?
+      pending: Menunggu
+      processing: Memproses
+    flash_messages:
+      upload_successful: Pengunggahan sukses. File akan diproses dan akan siap digunakan dalam beberapa menit.
+    label_default_ifc_models: Model bawaan IFC
+    label_edit_defaults: Edit pengaturan bawaan
+    label_ifc_models: Model IFC
+    label_new_ifc_model: Model IFC baru
+    label_show_defaults: Tampilkan bawaan
+    no_defaults_warning:
+      check_1: Pastikan anda telah mengunggah setidaknya satu model IFC.
+      check_2: Pastikan setidaknya satu model IFC disetel ke “Default”.
+      title: Tidak ada model IFC yang ditetapkan sebagai bawaan dalam projek ini.
+    no_results: Tidak ada model IFC yang diunggah dalam proyek ini.
+    processing_notice:
+      processing_default: 'Model IFC bawaan berikut ini masih diproses dan belum tersedia sekarang:'
+  oauth:
+    scopes:
+      bcf_v2_1: Akses penuh kepada API BCF v2.1
+      bcf_v2_1_text: Aplikasi akan menerima akses penuh membaca & menulis kepada API OpenProject BCF v2.1 untuk melakukan tindakan atas nama anda.
+  permission_delete_bcf: Hapus masalah BCF
+  permission_manage_bcf: Import dan atur masalah BCF
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+  permission_manage_ifc_models: Import dan sesuaikan model IFC
+  permission_view_ifc_models: Lihat model IFC
+  permission_view_linked_issues: Lihat masalah BCF
+  plugin_openproject_bim:
+    description: Plugin OpenProject ini memperkenalkan fungsi BIM dan BCF.
+    name: Fungsi OpenProject BIM dan BCF
+  project_module_bcf: BCF
+  project_module_bim: BCF
+  project_module_ifc_models: Model IFC

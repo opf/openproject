@@ -42,19 +42,23 @@ module MeetingAgendaItems
       @meeting = meeting
     end
 
-    delegate :template?, to: :meeting
+    delegate :template?, :series_template?, :onetime_template?, to: :meeting
 
     def title
-      if template?
+      if series_template?
         t(:"recurring_meeting.template.blank_title")
+      elsif onetime_template?
+        t(:text_onetime_meeting_template_empty_heading)
       else
         t(:text_meeting_empty_heading)
       end
     end
 
     def description
-      if template?
+      if series_template?
         t(:"recurring_meeting.template.description")
+      elsif onetime_template?
+        t(:text_onetime_meeting_template_empty_description)
       else
         t(%i[text_meeting_empty_description1 text_meeting_empty_description2]).join(" ")
       end

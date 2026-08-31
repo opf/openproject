@@ -20,67 +20,76 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 hu:
-  attributes:
-    commit: "Commit"
-    gitlab: "Gitlab azonosító"
-    gitlab_avatar_url: "Avatar URL"
-    gitlab_email: "GitLab Email"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "Merge Request"
-    gitlab_name: "GitLab név"
-    gitlab_updated_at: "Frissítve ekkor"
-    gitlab_user_avatar_url: "GitLab avatar URL"
-    gitlab_username: "GitLab felhasználónév"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI Részletek"
       gitlab_merge_request:
-        labels: "Címkék"
+        labels: Címkék
+      gitlab_pipeline:
+        ci_details: CI Részletek
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
+              invalid_schema: 'egy hash tömbnek kell lennie a következő kulcsokkal: color, title'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "GitLab tartalom megjelenítése"
+              invalid_schema: 'egy hash tömbnek kell lennie a következő kulcsokkal: color, title'
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        other: GitLab users
+  attributes:
+    commit: Commit
+    gitlab: Gitlab azonosító
+    gitlab_avatar_url: Avatar URL
+    gitlab_email: GitLab Email
+    gitlab_html_url: GitLab HTML URL
+    gitlab_merge_request: Merge Request
+    gitlab_name: GitLab név
+    gitlab_updated_at: Frissítve ekkor
+    gitlab_user_avatar_url: GitLab avatar URL
+    gitlab_username: GitLab felhasználónév
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR megnyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
-    merge_request_closed_comment: >
-      **MR lezárva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
-    merge_request_merged_comment: >
-      **MR egyesítve:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) egyesítve [%{gitlab_user}](%{gitlab_user_url}) által.
-    merge_request_reopened_comment: >
-      **MR újranyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
-    note_commit_referenced_comment: >
-      **Hivatkozva a következő commitban:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) [%{commit_id}](%{commit_url}) commitban a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: 
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **Hivatkozva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{mr_number}%{mr_title}%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
-    note_mr_commented_comment: >
-      **Hozzászólva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{mr_number}[%{mr_title}]%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
-    note_issue_referenced_comment: >
-      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
-    note_issue_commented_comment: >
-      **Hozzászólva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
-    note_snippet_referenced_comment: >
-      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{snippet_number}[%{snippet_title}]%{snippet_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Kérdés megnyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
-    issue_closed_referenced_comment: >
-      **Kérdés lezárva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
-    issue_reopened_referenced_comment: >
-      **Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
-    push_single_commit_comment: >
-      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **Frissítés itt: %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}), itt [%{repository}](%{repository_url}), ekkor: %{commit_timestamp}, üzenet: %{commit_note}
-    push_multiple_commits_comment: >
-      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
+    issue_closed_referenced_comment: "**Kérdés lezárva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    issue_opened_referenced_comment: "**Kérdés megnyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    issue_reopened_referenced_comment: "**Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    merge_request_closed_comment: "**MR lezárva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    merge_request_merged_comment: "**MR egyesítve:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) egyesítve [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    merge_request_opened_comment: "**MR megnyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    merge_request_reopened_comment: "**MR újranyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.\n"
+    note_commit_referenced_comment: "**Hivatkozva a következő commitban:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) [%{commit_id}](%{commit_url}) commitban a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet:  %{commit_note}\n"
+    note_issue_commented_comment: "**Hozzászólva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}\n"
+    note_issue_referenced_comment: "**Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}\n"
+    note_mr_commented_comment: "**Hozzászólva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{mr_number}[%{mr_title}]%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}\n"
+    note_mr_referenced_comment: "**Hivatkozva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{mr_number}%{mr_title}%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}\n"
+    note_snippet_referenced_comment: "**Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{snippet_number}[%{snippet_title}]%{snippet_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{snippet_note}\n"
+    push_multiple_commits_comment: "**Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}\n"
+    push_single_commit_comment: "**Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Frissítés itt: %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}), itt [%{repository}](%{repository_url}), ekkor: %{commit_timestamp}, üzenet: %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: GitLab tartalom megjelenítése
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

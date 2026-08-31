@@ -47,8 +47,8 @@ RSpec.describe Activities::WorkPackageActivityProvider do
 
   describe ".find_events" do
     context "when a work package has been created" do
-      let(:subject) do
-        Activities::WorkPackageActivityProvider
+      subject do
+        described_class
           .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, {})
       end
 
@@ -63,11 +63,11 @@ RSpec.describe Activities::WorkPackageActivityProvider do
       end
     end
 
-    context "should be selected and ordered correctly" do
+    context "when selecting and ordering events" do
       let!(:work_packages) { (1..5).map { create(:work_package, author: user).id.to_s } }
 
-      let(:subject) do
-        Activities::WorkPackageActivityProvider
+      subject do
+        described_class
           .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, limit: 3)
           .map { |a| a.journable_id.to_s }
       end
@@ -76,8 +76,8 @@ RSpec.describe Activities::WorkPackageActivityProvider do
     end
 
     context "when a work package has been created and then closed" do
-      let(:subject) do
-        Activities::WorkPackageActivityProvider
+      subject do
+        described_class
           .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, limit: 10)
       end
 
@@ -96,6 +96,39 @@ RSpec.describe Activities::WorkPackageActivityProvider do
       it "has the closed event type" do
         expect(subject[0].event_type)
           .to eql(work_package_closed_event)
+      end
+    end
+
+    context "when semantic IDs are enabled", with_settings: { work_packages_identifier: "semantic" } do
+      # Override outer let!(:work_packages) so it doesn't force WP creation before the stub is active
+      let!(:work_packages) { [] }
+
+      let(:project) { create(:project, :semantic) }
+      let(:work_package) do
+        User.execute_as(user) do
+          create(:work_package, project:)
+        end
+      end
+
+      let(:events) do
+        described_class
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, {})
+      end
+
+      before do
+        work_package
+      end
+
+      it "uses the semantic identifier in the event title" do
+        semantic_id = work_package.reload.identifier
+        expect(events[0].event_title).to include(semantic_id)
+        expect(events[0].event_title).not_to include("##{work_package.id}")
+      end
+
+      it "uses the semantic identifier in the event path" do
+        semantic_id = work_package.reload.identifier
+        expect(events[0].event_path).to eq("/work_packages/#{semantic_id}")
+        expect(events[0].event_path).not_to eq("/work_packages/#{work_package.id}")
       end
     end
 
@@ -135,11 +168,11 @@ RSpec.describe Activities::WorkPackageActivityProvider do
         end
       end
 
-      let(:subject) do
+      subject do
         # lft and rgt need to be updated
         project.reload
 
-        Activities::WorkPackageActivityProvider
+        described_class
           .find_events(
             event_scope,
             user,
@@ -153,6 +186,28 @@ RSpec.describe Activities::WorkPackageActivityProvider do
       it "returns only visible work packages" do
         expect(subject.map(&:journable_id))
           .to match_array([parent_work_package, child1_work_package, child4_work_package].map(&:id))
+      end
+    end
+
+    context "when the work package's project applies a named variant" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:variant) { create(:type_variant, type: root_type, variant_name: "Bug") }
+      let(:project) { create(:project, types: [variant]) }
+      let(:work_package) do
+        User.execute_as(user) do
+          create(:work_package, subject: "Neutral subject", type: root_type, project:)
+        end
+      end
+      let!(:work_packages) { [work_package] }
+
+      subject do
+        described_class
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, {})
+      end
+
+      it "shows the type's name in the event title, not the variant's" do
+        expect(subject[0].event_title).to include("Task")
+        expect(subject[0].event_title).not_to include("Bug")
       end
     end
   end

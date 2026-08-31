@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { from } from 'rxjs';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -59,18 +59,19 @@ import {
 import {
   workPackageFilesCount,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkPackageTabsService {
+  private $state = inject(StateService);
+  private I18n = inject(I18nService);
+  private injector = inject(Injector);
+
   private registeredTabs:WpTabDefinition[];
 
-  constructor(
-    private $state:StateService,
-    private I18n:I18nService,
-    private injector:Injector,
-  ) {
+  constructor() {
     this.registeredTabs = this.buildDefaultTabs();
   }
 
@@ -145,6 +146,12 @@ export class WorkPackageTabsService {
         name: I18n.t('js.work_packages.tabs.activity'),
         count: workPackageNotificationsCount,
         showCountAsBubble: true,
+      },
+      {
+        id: 'project_attributes',
+        component: WorkPackageProjectAttributesTabComponent,
+        name: I18n.t('js.work_packages.tabs.project_attributes'),
+        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'files',

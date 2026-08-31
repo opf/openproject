@@ -1,13 +1,70 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import eslint from '@eslint/js';
+import { readFileSync } from 'node:fs';
 import globals from 'globals';
+import { fileURLToPath } from 'node:url';
 import tseslint from 'typescript-eslint';
-import jasmine from 'eslint-plugin-jasmine';
+import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import headers from 'eslint-plugin-headers';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
 
+const copyrightPath = fileURLToPath(new URL('../COPYRIGHT_short', import.meta.url));
+const copyrightHeader = [
+  '-- copyright',
+  ...readFileSync(copyrightPath, 'utf8')
+    .trimEnd()
+    .split(/\r?\n/)
+    .map((line) => line ? ` ${line}` : ''),
+  '++',
+].join('\n');
+
 export default defineConfig([
+  {
+    files: ['**/*.{js,mjs,cjs,ts,tsx,mts,cts}'],
+    plugins: { headers },
+    rules: {
+      'headers/header-format': [
+        'error',
+        {
+          source: 'string',
+          content: copyrightHeader,
+          style: 'line',
+          linePrefix: '',
+          trailingNewlines: 2,
+        },
+      ],
+    },
+  },
   {
     files: ['**/*.{js,mjs,cjs}'],
     extends: [
@@ -64,8 +121,6 @@ export default defineConfig([
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
-      // Disable webpack loader definitions
-      'import/no-webpack-loader-syntax': 'off',
       // Disable order style as it's not compatible with intellij import organization
       'import/order': 'off',
 
@@ -159,17 +214,11 @@ export default defineConfig([
   },
   {
     files: ['**/*.spec.ts'],
-    plugins: { jasmine },
-    extends: [
-      jasmine.configs.recommended,
-    ],
+    ...vitest.configs.recommended,
     rules: {
-      /**
-       * Any template/HTML related rules you wish to use/reconfigure over and above the
-       * recommended set provided by the @angular-eslint project would go here.
-       */
+      ...vitest.configs.recommended.rules,
 
-      // jasmine is unusable with unsafe member access, as expect(...) is always any
+      // vitest expect(...) is always any
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
 
@@ -200,16 +249,19 @@ export default defineConfig([
       // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
       '@stylistic/indent': 'off',
 
-      // Whitespace configuration
+      // Whitespace configuration: spaces around the function-type `=>`
+      // (defaults), but tight colons. Colon spacing lives in
+      // `overrides.colon` because the rule's `overrides.arrow` option is
+      // deprecated; keeping the base spaced preserves `() => void` style.
       '@stylistic/type-annotation-spacing': [
         'error',
         {
-          before: false,
-          after: false,
+          before: true,
+          after: true,
           overrides: {
-            arrow: {
-              before: true,
-              after: true,
+            colon: {
+              before: false,
+              after: false,
             },
           },
         },
@@ -222,5 +274,7 @@ export default defineConfig([
     '**/.eslintrc.js',
     'coverage/',
     '**/vendor',
+    // Carries a third-party copyright notice; excluded from `rake copyright:update_*` too.
+    'src/app/features/plugins/linked/openproject-gitlab_integration/**',
   ]),
 ]);

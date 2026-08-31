@@ -37,12 +37,16 @@ module Redmine
         # for error messages following the format of '%{attribute} %{message}' where `attribute` is resolved
         # by calling IncludingClass.human_attribute_name
         def human_attribute_name(attribute, options = {})
-          match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
+          return super unless (match = /\Acustom_(?<type>field|comment)_(?<id>\d+)\z/.match(attribute))
 
-          if match
-            CustomField.find_by(id: match[:id]).name
-          else
-            super
+          custom_field = CustomField.find_by(id: match[:id])
+          name = custom_field ? custom_field.name : ::I18n.t(:label_deleted_custom_field)
+
+          case match[:type]
+          when "field"
+            name
+          when "comment"
+            ::I18n.t(:label_custom_comment, name:)
           end
         end
       end

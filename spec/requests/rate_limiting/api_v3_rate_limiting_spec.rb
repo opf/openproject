@@ -49,14 +49,20 @@ RSpec.describe "Rate limiting APIv3",
       6.times do
         post "/api/v3/work_packages/form",
              nil,
-             "CONTENT_TYPE" => "application/json"
+             "CONTENT_TYPE" => "application/json",
+             # we need to emulate a valid session authentication,
+             # as the anonymous fallback does not work with rate limiting in the test setup
+             "HTTP_SEC_FETCH_SITE" => "same-origin"
 
         expect(last_response).to have_http_status :ok
       end
 
       post "/api/v3/work_packages/form",
            nil,
-           "CONTENT_TYPE" => "application/json"
+           "CONTENT_TYPE" => "application/json",
+           # we need to emulate a valid session authentication,
+           # as the anonymous fallback does not work with rate limiting in the test setup
+           "HTTP_SEC_FETCH_SITE" => "same-origin"
       expect(last_response).to have_http_status :too_many_requests
     end
   end

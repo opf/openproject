@@ -45,15 +45,13 @@ module DevelopmentData
     def create_types!(cfs)
       # Create ALL CFs types
       non_req_cfs = cfs.reject(&:is_required).map(&:attribute_name)
-      type = FactoryBot.build :type, name: "All CFS"
+      type = FactoryBot.create :type, name: "All CFS"
       extend_group(type, ["Custom fields", non_req_cfs])
-      type.save!
 
       # Create type
       req_cfs = cfs.select(&:is_required).map(&:attribute_name)
-      type_req = FactoryBot.build :type, name: "Required CF"
+      type_req = FactoryBot.create :type, name: "Required CF"
       extend_group(type_req, ["Custom fields", req_cfs])
-      type_req.save!
     end
 
     def create_cfs!
@@ -95,9 +93,11 @@ module DevelopmentData
     end
 
     def extend_group(type, group)
-      groups = type.send(:custom_attribute_groups) || type.default_attribute_groups
+      variant = type.default_variant
+      groups = variant.send(:custom_attribute_groups) || variant.default_attribute_groups
       groups << group
-      type.attribute_groups = groups
+      variant.attribute_groups = groups
+      variant.save!
     end
 
     def applicable?

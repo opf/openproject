@@ -1,0 +1,74 @@
+---
+hy:
+  js:
+    grid:
+      add_widget: Ավելացնել վիջեթ
+      configure: Կազմաձևել վիջեթը
+      remove: Հեռացնել վիջեթը
+      widget_menu_label: Ցուցադրել %{widgetName} վիջեթի ցանկի ընտրանքները
+      widgets:
+        custom_text:
+          title: Հատուկ տեքստ
+        documents:
+          no_results: Դեռ փաստաթղթեր չկան։
+          title: Փաստաթղթեր
+        members:
+          title: Անդամներ
+        missing_permission: Դուք չունեք այս վիջեթը դիտելու անհրաժեշտ թույլտվություններ։
+        news:
+          title: Նորություններ
+        not_available: Այս վիջեթը ներկայումս անհասանելի է։
+        project_description:
+          title: Նկարագրություն
+        project_favorites:
+          no_results: Դուք ներկայումս ընտրանի նախագծեր չունեք։ Ավելացրեք մեկ կամ մի քանի նախագիծ Ձեր ընտրանում՝ դրանց ընդհանուր տեսքի էջից կամ նախագծերի ցուցակից։
+          title: Ընտրյալ նախագծեր
+        project_status:
+          at_risk: Ռիսկի տակ
+          discontinued: Դադարեցված
+          finished: Ավարտված
+          not_set: Սահմանված չէ
+          not_started: Չսկսված
+          off_track: Պլանից շեղված
+          on_track: Ըստ պլանի
+          title: Կարգավիճակ
+        project_timeline:
+          accessible_date_range: "%{start}-ից մինչև %{end}"
+          accessible_gate: Փուլի դարպաս %{name}՝ %{date}
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: Փուլ %{name}՝ %{date}
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Փուլի դարպաս
+          tooltip_type_milestone: Հանգրվան
+          tooltip_type_phase: Փուլ
+          tooltip_type_sprint: Սպրինտ
+        subprojects:
+          title: Ենթատարրեր
+        time_entries_current_user:
+          displayed_days: Վիջեթում ցուցադրվող օրերը՝
+          title: Իմ ծախսված ժամանակը
+        time_entries_list:
+          no_results: Վերջին 7 օրվա ժամանակի գրառումներ չկան։
+          title: Ծախսված ժամանակ (վերջին 7 օր)
+        work_packages_accountable:
+          title: Աշխատանքային փաթեթներ, որոնց համար ես հաշվետու եմ
+        work_packages_assigned:
+          title: Ինձ նշանակված աշխատանքային փաթեթներ
+        work_packages_calendar:
+          title: Օրացույց
+        work_packages_created:
+          title: Իմ ստեղծած աշխատանքային փաթեթներ
+        work_packages_graph:
+          summary: "%{chartType} գծապատկեր, որը ցուցադրում է %{description} աշխատանքային փաթեթները։"
+          title: Աշխատանքային փաթեթների գծապատկեր
+        work_packages_overview:
+          placeholder: Սեղմեք խմբագրելու համար ...
+          title: Աշխատանքային փաթեթների ընդհանուր տեսք
+        work_packages_table:
+          title: Աշխատանքային փաթեթների աղյուսակ
+        work_packages_watched:
+          title: Իմ հետևած աշխատանքային փաթեթներ

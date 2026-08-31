@@ -2,6 +2,7 @@
 ---
 allOf:
   - $ref: './principal_model.yml'
+  - $ref: "./custom_field_properties.yml"
   - type: object
     required:
       - _type

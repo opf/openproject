@@ -1,0 +1,80 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module ResourcePlannerViews
+  module WorkPackageTimeline
+    class ContentComponent < ApplicationComponent
+      include ResourcePlannerViews::Timeline::Content
+
+      def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
+        super
+        @view = view
+        @project = project
+        @resource_planner = resource_planner
+        @work_packages = work_packages
+        @allocations = allocations
+        @visible_principal_ids = visible_principal_ids
+      end
+
+      private
+
+      def timeline_test_selector
+        "resource-work-package-timeline"
+      end
+
+      def timeline_empty?
+        @work_packages.empty?
+      end
+
+      def timeline_feed_values
+        {
+          "resources-url" => helpers.project_resource_planner_view_work_package_timeline_resources_path(
+            @project, @resource_planner, @view, format: :json
+          ),
+          "events-url" => helpers.project_resource_planner_view_work_package_timeline_events_path(
+            @project, @resource_planner, @view, format: :json
+          ),
+          # A date-range selection on a work-package row pre-fills that work
+          # package on the new-allocation dialog.
+          "selection-param" => "work_package_id"
+        }
+      end
+
+      def blank_description
+        key = @view.manually_picked? ? "manual_description" : "description"
+        t("resource_management.work_package_timeline.blank.#{key}")
+      end
+
+      def add_work_package_path
+        helpers.new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view)
+      end
+    end
+  end
+end

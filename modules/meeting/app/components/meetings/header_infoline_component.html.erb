@@ -1,10 +1,17 @@
 <%= render(Primer::BaseComponent.new(tag: :div, classes: "meeting-infoline")) do %>
-  <% if @series && @meeting.template? %>
+  <% if @meeting.series_template? %>
     <% if @meeting.draft? %>
       <%= render(Primer::BaseComponent.new(tag: :div, classes: "hidden-for-mobile", mr: 2)) do %>
         <%= render(Meetings::SidePanel::StatusButtonComponent.new(meeting: @meeting, size: :small)) %>
       <% end %>
     <% end %>
+    <%=
+      render(Primer::Beta::Text.new(mr: 1)) do
+        t(:label_meeting_created_by)
+      end
+    %>
+    <%= helpers.primer_link_to_user(@meeting.author, underline: true) %>.
+  <% elsif @meeting.onetime_template? %>
     <%=
       render(Primer::Beta::Text.new(mr: 1)) do
         t(:label_meeting_created_by)

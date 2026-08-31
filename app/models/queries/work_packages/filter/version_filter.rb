@@ -30,73 +30,21 @@
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-  def allowed_values
-    # as we no longer display the allowed values, the first value is irrelevant
-    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
-  end
-
-  def available_operators
-    [
-      Queries::Operators::EqualsOr,
-      Queries::Operators::NotEquals,
-      Queries::Operators::All,
-      Queries::Operators::None,
-      Queries::Operators::Versions::OpenStatus,
-      Queries::Operators::Versions::LockedStatus,
-      Queries::Operators::Versions::ClosedStatus
-    ]
-  end
-
-  def type
-    :list_optional
-  end
+  # Filters on `target_versions` as it is replacing
+  # the legacy `work_packages.version_id` column.
+  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
 
   def human_name
     WorkPackage.human_attribute_name("version")
-  end
-
-  def joins
-    case operator
-    when "o", "c", "l"
-      :version
-    end
   end
 
   def self.key
     :version_id
   end
 
-  def ar_object_filter?
-    true
-  end
-
-  def value_objects
-    available_versions = versions.index_by(&:id)
-
-    values
-      .filter_map { |version_id| available_versions[version_id.to_i] }
-  end
-
-  def operator_strategy
-    case operator
-    when "o"
-      Queries::Operators::Versions::OpenStatus
-    when "c"
-      Queries::Operators::Versions::ClosedStatus
-    when "l"
-      Queries::Operators::Versions::LockedStatus
-    else
-      super
-    end
-  end
-
-  private
-
-  def versions
-    if project
-      project.shared_versions
-    else
-      Version.visible
-    end
+  # `version_id` and `target_version_id` replace one another; stored keys are
+  # translated on read, see Query::DeprecatedVersionFilter.
+  def available?
+    !Setting::WorkPackageMultipleVersions.active?
   end
 end

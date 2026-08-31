@@ -40,7 +40,9 @@ module Costs
       def initialize(...)
         super
 
-        @aggregated_costs = Costs::AggregatedCosts.new(project:, current_user:, date_range: Date.current.all_year)
+        start_date = Date.current.beginning_of_month - 11.months
+        end_date   = Date.current.end_of_month
+        @aggregated_costs = Costs::AggregatedCosts.new(project:, current_user:, date_range: start_date..end_date)
       end
 
       def render?
@@ -59,6 +61,10 @@ module Costs
         return [] unless months.any?
 
         [labor_dataset, *material_datasets].compact
+      end
+
+      def has_spending_data?
+        has_spending? && chart_datasets.any?
       end
 
       private

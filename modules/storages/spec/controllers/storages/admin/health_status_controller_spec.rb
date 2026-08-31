@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Storages::Admin::HealthStatusController do
   let(:user) { build_stubbed(:admin) }
-  let(:storage) { build_stubbed(:nextcloud_storage_configured) }
+  let(:storage) { create(:nextcloud_storage_configured) }
   let(:params) { { storage_id: storage.id } }
 
   before do
@@ -72,8 +72,8 @@ RSpec.describe Storages::Admin::HealthStatusController do
     it "sends the text version of the report when requested" do
       # Creating an actual report result and caching it so we can test the rendering of the response
       validator = Storages::Adapters::Registry["nextcloud.validators.connection"].new(storage)
-      result = validator.call
-      Rails.cache.write validator.report_cache_key, result
+      report = validator.call
+      report.save!
 
       get :show, params: params.merge(format: :txt)
 
@@ -84,36 +84,32 @@ RSpec.describe Storages::Admin::HealthStatusController do
       yaml = YAML.load(response.body)
       expect(yaml["storage"]).to eq storage.name
       expect(yaml["storage_type"]).to eq storage.to_s
-      expect(yaml.dig("base_configuration", "storage_configured", "state")).to eq("failure")
+      expect(yaml.dig("results", 0, "results", 0, "state")).to eq(:success)
       expect(yaml.dig("configuration", "host")).to eq(storage.host)
     end
   end
 
   describe "#create" do
-    let(:cache_key) { "my_cache_key" }
-
     before do
       validator = instance_double(Storages::Adapters::Providers::Nextcloud::Validators::ConnectionValidator)
-      report = Storages::Adapters::ConnectionValidators::ValidatorResult.new
+      report = storage.health_reports.build
       allow(Storages::Adapters::Providers::Nextcloud::Validators::ConnectionValidator).to receive(:new).and_return(validator)
-      allow(validator).to receive_messages(call: report, report_cache_key: cache_key)
+      allow(validator).to receive_messages(call: report)
     end
 
-    it "creates and caches a health status report and redirects to show" do
+    it "creates a health report and redirects to show" do
       post :create, params: params
       expect(response.status).to redirect_to admin_settings_storage_health_status_report_path(storage)
-      expect(Rails.cache.read(cache_key)).to be_a(Storages::Adapters::ConnectionValidators::ValidatorResult)
+      expect(storage.reload.health_reports.count).to eq(1)
     end
   end
 
   describe "#create_health_status_report" do
-    let(:cache_key) { "my_cache_key" }
-
     before do
       validator = instance_double(Storages::Adapters::Providers::Nextcloud::Validators::ConnectionValidator)
-      report = Storages::Adapters::ConnectionValidators::ValidatorResult.new
+      report = storage.health_reports.build
       allow(Storages::Adapters::Providers::Nextcloud::Validators::ConnectionValidator).to receive(:new).and_return(validator)
-      allow(validator).to receive_messages(call: report, report_cache_key: cache_key)
+      allow(validator).to receive_messages(call: report)
     end
 
     it "creates and caches a health status report and updates page via turbo stream" do

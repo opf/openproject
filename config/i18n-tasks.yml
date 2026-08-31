@@ -58,22 +58,19 @@ search:
   ## Paths or `Find.find` patterns to search in:
   paths:
   #  - app/
-   - modules/storages/app/
+    - modules/storages/app/
 
   ## Root directories for relative keys resolution.
-  # relative_roots:
-  #   - app/controllers
-  #   - app/helpers
-  #   - app/mailers
-  #   - app/presenters
-  #   - app/views
+  relative_roots:
+    - modules/storages/app/components
+    - modules/storages/app/views
 
   ## Directories where method names which should not be part of a relative key resolution.
   # By default, if a relative translation is used inside a method, the name of the method will be considered part of the resolved key.
   # Directories listed here will not consider the name of the method part of the resolved key
   #
-  # relative_exclude_method_name_paths:
-  #  -
+  relative_exclude_method_name_paths:
+    - modules/storages/app/components
 
   ## Files or `File.fnmatch` patterns to exclude from search. Some files are always excluded regardless of this setting:
   ##   *.jpg *.jpeg *.png *.gif *.svg *.ico *.eot *.otf *.ttf *.woff *.woff2 *.pdf *.css *.sass *.scss *.less
@@ -154,7 +151,7 @@ ignore_unused:
   - '*.permission_header_explanation'
   - 'storages.upsell.*'
   - 'services.*'
-  - 'storages.health.connection_validation.{one_drive,nextcloud}.*'
+  - 'storages.health.checks.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:
@@ -183,3 +180,8 @@ ignore_unused:
 #
 # <%# I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
 #       patterns: [['\bSpree\.t[( ]\s*%{key}', 'spree.%{key}']] %>
+
+## Detect link_translate("some.key", ...) calls, which are not picked up by the default scanner
+## because they use a custom helper rather than t() / I18n.t().
+<% I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
+     patterns: [['\blink_translate\s*\(\s*%{key}', '%{key}']] %>

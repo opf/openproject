@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 
 import { resizeFile } from 'core-app/shared/helpers/images/resizer';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,15 +44,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: false,
 })
 export class AvatarUploadFormComponent implements OnInit {
-  public form:any;
+  protected I18n = inject(I18nService);
+  protected elementRef = inject(ElementRef);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected toastService = inject(ToastService);
+  protected uploadService = inject(OpUploadService);
 
   public target:string;
 
   public method:string;
 
   public avatarFile:File;
-
-  public avatarPreviewUrl:string;
 
   public busy = false;
 
@@ -63,21 +65,10 @@ export class AvatarUploadFormComponent implements OnInit {
   // Text
   public text = {
     label_choose_avatar: this.I18n.t('js.avatars.label_choose_avatar'),
-    upload_instructions: this.I18n.t('js.avatars.text_upload_instructions'),
     error_too_large: this.I18n.t('js.avatars.error_image_too_large'),
     wrong_file_format: this.I18n.t('js.avatars.wrong_file_format'),
-    button_update: this.I18n.t('js.button_update'),
     uploading: this.I18n.t('js.avatars.uploading_avatar'),
-    preview: this.I18n.t('js.label_preview'),
   };
-
-  public constructor(
-    protected I18n:I18nService,
-    protected elementRef:ElementRef,
-    protected cdRef:ChangeDetectorRef,
-    protected toastService:ToastService,
-    protected uploadService:OpUploadService,
-  ) { }
 
   public ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;
@@ -98,17 +89,15 @@ export class AvatarUploadFormComponent implements OnInit {
       return;
     }
 
-    void resizeFile(128, file).then(([dataURL, blob]) => {
-      // Create resized file
+    void resizeFile(128, file).then(([, blob]) => {
       this.avatarFile = new File([blob], file.name);
-      this.avatarPreviewUrl = dataURL;
       this.fileInvalid = false;
       this.cdRef.detectChanges();
+      this.uploadAvatar();
     });
   }
 
-  public uploadAvatar(event:Event) {
-    event.preventDefault();
+  public uploadAvatar() {
     this.busy = true;
     const uploadFile:AvatarUploadFile = { file: this.avatarFile, method: this.method };
     const observable = this.uploadService.upload<string>(this.target, [uploadFile])[0];

@@ -52,6 +52,12 @@ module Admin
             path: custom_field_items_path(@custom_field),
             label: t(:label_item_plural)
           }
+        elsif @custom_field.list?
+          tabs << {
+            name: "items",
+            path: list_items_custom_field_path(@custom_field),
+            label: t(:label_item_plural)
+          }
         end
 
         if @custom_field.is_a?(WorkPackageCustomField) ||

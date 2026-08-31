@@ -19,1199 +19,1101 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ja:
   js:
+    admin:
+      type_form:
+        edit_query: クエリの編集
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: 進捗の計算モードを作業ベースからステータスベースに変更すると、既存の<i>完了率の</i>値はすべて失われ、各ステータスに関連する値に置き換えられます。この変更を反映するために、「<i>残作業</i>」の既存の値も再計算される場合があります。この操作は元に戻すことはできません。
+        warning_progress_calculation_mode_change_from_status_to_field_html: 進捗計算モードをステータスベースからワークベースに変更すると、「<i>完了率」</i>フィールドが自由に編集できるようになります。オプションで「<i>作業</i>」または「<i>残作業</i>」の値を入力した場合、それらは「<i>完了率」にも</i>リンクされます。<i>残りの作業</i>量を変更すると、<i>完了率が</i>更新されます。
+      working_days:
+        add_non_working_day: 休業日を追加
+        already_added_error: この日付の非営業日はすでに存在します。一意の日付に対して作成できる非営業日は1つだけです。
+        calendar:
+          empty_state_description: 休業日が定義されていません。「休業日を追加」ボタンをクリックして日付を追加してください。
+          empty_state_header: 休業日
+          new_date: "(新)"
     ajax:
-      hide: "非表示"
-      loading: "読み込み中…"
-      updating: "更新中..."
+      hide: 非表示
+      loading: 読み込み中…
+      updating: 更新中...
     attachments:
-      delete: "添付ファイルを削除"
-      delete_confirmation: |
-        本当に、このファイルを削除してもよろしいですか? この操作は元に戻すことができません。
+      delete: 添付ファイルを削除
+      delete_confirmation: '本当に、このファイルを削除してもよろしいですか? この操作は元に戻すことができません。
+
+        '
       draggable_hint: |
         埋め込み画像または添付ファイルをエディタにドラッグします。
         ドラッグしつづけると閉じているエディタ領域が開きます。
-      quarantined_hint: "ウイルスが発見されたため，ファイルは隔離されています。ダウンロードできません。"
+      quarantined_hint: ウイルスが発見されたため，ファイルは隔離されています。ダウンロードできません。
     autocomplete_ng_select:
-      add_tag: "項目を追加"
-      clear_all: "すべてクリア"
-      loading: "読み込み中..."
-      not_found: "見つかりませんでした"
-      type_to_search: "検索キーワードを入力"
+      add_tag: 項目を追加
+      clear_all: すべてクリア
+      loading: 読み込み中...
+      not_found: 見つかりませんでした
+      type_to_search: 検索キーワードを入力
     autocomplete_select:
+      active: アクティブ %{label} %{name}
       placeholder:
         multi: '"%{name}" を追加'
         single: '"%{name}" を選択'
       remove: "%{name} を削除"
-      active: "アクティブ %{label} %{name}"
+    autocompleter:
+      notFoundText: 見つかりませんでした
+      placeholder: 検索キーワードを入力
+      project:
+        placeholder: プロジェクトを選択
+      search: 検索
     backup:
       attachments_disabled: 添付ファイルは、許容されている最大サイズを超えているため、添付されないかもしれません。許容サイズは設定で変更できます（サーバーの再起動が必要です）。
-      info: >
-        ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
-      note: >
-        新しいバックアップは以前のバックアップを上書きします。1日に作成できるバックアップの数には限りがあります。
+      download_backup: バックアップのダウンロード
+      include_attachments: 添付ファイルを含める
+      info: 'ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
+
+        '
       last_backup: 前回のバックアップ
       last_backup_from: 前回のバックアップ日
-      title: OpenProject のバックアップ
+      note: '新しいバックアップは以前のバックアップを上書きします。1日に作成できるバックアップの数には限りがあります。
+
+        '
       options: オプション
-      include_attachments: 添付ファイルを含める
-      download_backup: バックアップのダウンロード
       request_backup: バックアップをリクエスト
-    close_popup_title: "ポップアップを閉じる"
-    close_filter_title: "フィルタを閉じる"
-    close_form_title: "フォームを閉じる"
-    button_add_watcher: "ウォッチャーを追加"
-    button_add: "追加"
-    button_back: "戻る"
-    button_back_to_list_view: "リスト表示に戻る"
-    button_cancel: "キャンセル"
-    button_close: "閉じる"
-    button_change_project: "他のプロジェクトに移る"
-    button_check_all: "全てを選択"
-    button_configure-form: "フォームを設定"
-    button_confirm: "確認"
-    button_continue: "続行"
-    button_copy: "コピー"
-    button_copy_to_clipboard: "クリップボードにコピー"
-    button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
-    button_copy_to_other_project: "別のプロジェクトで複製する"
-    button_custom-fields: "カスタムフィールド"
-    button_delete: "削除"
-    button_delete_watcher: "ウォッチャーを削除"
-    button_details_view: "詳細表示"
-    button_duplicate: "複製"
-    button_edit: "編集"
-    button_filter: "フィルタ"
-    button_collapse_all: "全てを折りたたむ"
-    button_expand_all: "全てを展開"
-    button_advanced_filter: "詳細フィルター"
-    button_list_view: "一覧表示"
-    button_show_view: "全画面表示"
-    button_log_time: "時間を記録"
-    button_start_timer: "Start timer"
-    button_stop_timer: "タイマー停止"
-    button_more: "続き"
-    button_open_details: "詳細表示を開く"
-    button_close_details: "詳細表示を閉じる"
-    button_open_fullscreen: "全画面表示を開く"
-    button_show_cards: "カードビュー表示"
-    button_show_list: "リストビュー表示"
-    button_show_table: "テーブル表示"
-    button_show_gantt: "ガントビューを表示"
-    button_show_fullscreen: "全画面表示"
-    button_more_actions: "その他の操作"
-    button_quote: "引用"
-    button_save: "保存"
-    button_settings: "設定"
-    button_uncheck_all: "全てを選択解除"
-    button_update: "更新"
-    button_export-atom: "Atomをダウンロード"
-    button_generate_pdf: "PDF作成"
-    button_create: "作成"
+      title: OpenProject のバックアップ
+    baseline:
+      apply: 適用
+      clear: クリア
+      drop_down:
+        a_specific_date: 特定の日付
+        between_two_specific_dates: 特定の2つの日付の間
+        last_month: 先月
+        last_week: 先週
+        last_working_day: 最終営業日
+        none: "-"
+        yesterday: 昨日
+      from: From
+      header_description: 過去の選択した時点からこのリストに加えられた変更をハイライト
+      help_description: ベースラインの基準タイムゾーン。
+      icon_tooltip:
+        added: 比較対象期間内の表示に追加
+        changed: 修正を加えながら維持
+        removed: 比較期間内に表示から削除された
+      legends:
+        changes_between: との間の変化
+        changes_since: 変更点
+        in_your_timezone: お住まいの地域のタイムゾーンで：
+        maintained_with_changes: 変更に伴うメンテナンス
+        no_longer_meets_filter_criteria: フィルター基準を満たさなくなった
+        now_meets_filter_criteria: フィルター基準を満たすようになった
+      show_changes_since: 以降の変更を表示する
+      time: 時間
+      time_description: '現地時間: %{datetime}'
+      to: To
+      toggle_title: ベースライン
+    breadcrumb: パンくず
+    button_add: 追加
+    button_add_watcher: ウォッチャーを追加
+    button_advanced_filter: 詳細フィルター
+    button_back: 戻る
+    button_back_to_list_view: リスト表示に戻る
+    button_cancel: キャンセル
+    button_change_project: 他のプロジェクトに移る
+    button_check_all: 全てを選択
+    button_clear: Clear
+    button_close: 閉じる
+    button_close_details: 詳細表示を閉じる
+    button_collapse_all: 全てを折りたたむ
+    button_configure-form: フォームを設定
+    button_confirm: 確認
+    button_continue: 続行
+    button_copy: コピー
+    button_copy_link_to_clipboard: クリップボードにリンクをコピー
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_to_clipboard: クリップボードにコピー
+    button_copy_to_other_project: 別のプロジェクトで複製する
+    button_create: 作成
+    button_custom-fields: カスタムフィールド
+    button_delete: 削除
+    button_delete_watcher: ウォッチャーを削除
+    button_details_view: 詳細表示
+    button_duplicate: 複製
+    button_edit: 編集
+    button_expand_all: 全てを展開
+    button_export-atom: Atomをダウンロード
+    button_filter: フィルタ
+    button_generate_pdf: PDF作成
+    button_list_view: 一覧表示
+    button_log_time: 時間を記録
+    button_more: 続き
+    button_more_actions: その他の操作
+    button_open_details: 詳細表示を開く
+    button_open_fullscreen: 全画面表示を開く
+    button_quote: 引用
+    button_save: 保存
+    button_settings: 設定
+    button_show_cards: カードビュー表示
+    button_show_fullscreen: 全画面表示
+    button_show_gantt: ガントビューを表示
+    button_show_list: リストビュー表示
+    button_show_table: テーブル表示
+    button_show_view: 全画面表示
+    button_start_timer: Start timer
+    button_stop_timer: タイマー停止
+    button_uncheck_all: 全てを選択解除
+    button_update: 更新
+    caption_rate_history: 単価設定(予算とコスト)
     card:
-      add_new: "新規カード追加"
+      add_new: 新規カード追加
       highlighting:
-        inline: "インラインを強調表示："
-        entire_card_by: "カード全体で"
-      remove_from_list: "リストからカードを削除"
-    caption_rate_history: "単価設定(予算とコスト)"
-    clipboard:
-      browser_error: "お使いのブラウザーはクリップボードへのコピーをサポートしていません。手動でコピーしてください: %{content}"
-      copied_successful: "クリップボードにコピーしました！"
+        entire_card_by: カード全体で
+        inline: インラインを強調表示：
+      remove_from_list: リストからカードを削除
     chart:
-      type: "グラフの種類"
-      axis_criteria: "座標条件"
-      modal_title: "ワークパッケージグラフの設定"
-      types:
-        line: "線"
-        horizontal_bar: "横棒"
-        bar: "棒"
-        pie: "円"
-        doughnut: "ドーナツ"
-        radar: "レーダー"
-        polar_area: "鶏頭図"
-      tabs:
-        graph_settings: "概要"
-        dataset: "データセット %{number}"
+      axis_criteria: 座標条件
       errors:
-        could_not_load: "グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。"
-    description_available_columns: "利用できる項目"
-    description_current_position: "現在の位置: "
-    description_select_work_package: "ワークパッケージを選択 #%{id}"
-    description_subwork_package: "ワークパッケージの子 #%{id}"
+        could_not_load: グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。
+      modal_title: ワークパッケージグラフの設定
+      tabs:
+        dataset: データセット %{number}
+        graph_settings: 概要
+      type: グラフの種類
+      types:
+        bar: 棒
+        doughnut: ドーナツ
+        horizontal_bar: 横棒
+        line: 線
+        pie: 円
+        polar_area: 鶏頭図
+        radar: レーダー
+    clipboard:
+      browser_error: 'お使いのブラウザーはクリップボードへのコピーをサポートしていません。手動でコピーしてください: %{content}'
+      copied_successful: クリップボードにコピーしました！
+    close_filter_title: フィルタを閉じる
+    close_form_title: フォームを閉じる
+    close_popup_title: ポップアップを閉じる
+    custom_actions:
+      date:
+        current_date: 現在の日付
+        specific: オン
+    description_available_columns: 利用できる項目
+    description_current_position: '現在の位置: '
+    description_select_work_package: 'ワークパッケージを選択 #%{id}'
+    description_subwork_package: 'ワークパッケージの子 #%{id}'
     editor:
-      revisions: "ローカルの修正を表示"
-      no_revisions: "ローカルでの修正は見つからず"
-      preview: "プレビューモードの切り替え"
-      source_code: "Markdown ソースモードの切り替え"
-      error_saving_failed: "次のエラーで文書を保存するのに失敗しました: %{error}"
-      ckeditor_error: "CKEditor内でエラーが発生しました"
-      mode:
-        manual: "Markdownソースに切り替える"
-        wysiwyg: "WYSIWYGエディタに切り替えます"
+      ckeditor_error: CKEditor内でエラーが発生しました
+      error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
       macro:
-        error: "マクロを展開できません: %{message}"
         attribute_reference:
-          macro_help_tooltip: "このテキストセグメントはマクロによって動的にレンダリングされています。"
-          not_found: "要求されたリソースが見つかりませんでした"
-          nested_macro: "このマクロは %{model} %{id}を再帰的に参照している。"
-          invalid_attribute: "選択した属性 '%{name}' は存在しません。"
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          invalid_attribute: 選択した属性 '%{name}' は存在しません。
+          nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
+          not_found: 要求されたリソースが見つかりませんでした
         child_pages:
-          button: "子ページへのリンク"
-          include_parent: "親を含める"
-          text: "[Placeholder] の子ページへのリンク"
-          page: "Wiki ページ"
-          this_page: "このページ"
-          hint: |
-            現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
+          button: List of sub-pages
+          hint: '現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
+
+            '
+          include_parent: 親を含める
+          page: Wiki ページ
+          text: "[Placeholder] List of sub-pages of"
+          this_page: このページ
         code_block:
-          button: "コードスニペットを挿入する"
-          title: "コードスニペットの挿入/編集"
-          language: "言語の書式設定"
-          language_hint: "強調表示に使用する言語の書式を入力します（サポートされている場合）。"
-        dropdown:
-          macros: "マクロ"
-          chose_macro: "マクロを選択"
-        toc: "目次"
-        toolbar_help: "クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集"
+          button: コードスニペットを挿入する
+          language: 言語の書式設定
+          language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
+          title: コードスニペットの挿入/編集
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
+        embedded_table:
+          button: ワークパッケージ表を埋め込む
+          text: "[Placeholder] 埋め込まれたワークパッケージ表"
+        error: 'マクロを展開できません: %{message}'
+        macro_dropdown:
+          caption: Insert
+        toc: 目次
+        toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
-          button: "別のwikiページの内容を含める"
-          text: "[Placeholder] のwikiページが含まれています"
-          page: "Wiki ページ"
-          not_set: "(まだ設定されていないページ)"
+          button: 別のwikiページの内容を含める
           hint: |
             タイトルやスラッグを指定して別のwikiページの内容を含める。
             次の例のように、別のプロジェクトのwikiページをコロンで区切って含めることができます。
+          not_set: "(まだ設定されていないページ)"
+          page: Wiki ページ
+          text: "[Placeholder] のwikiページが含まれています"
         work_package_button:
-          button: "ワークパッケージ作成ボタンを挿入"
-          type: "ワークパッケージの種類"
-          button_style: "ボタンスタイルを使用する"
-          button_style_hint: "オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。"
-          without_type: "ワークパッケージを作成"
-          with_type: "ワークパッケージを作成 (種類: %{typename})"
-        embedded_table:
-          button: "ワークパッケージ表を埋め込む"
-          text: "[Placeholder] 埋め込まれたワークパッケージ表"
-        embedded_calendar:
-          text: "[Placeholder] 埋め込みカレンダー"
-    admin:
-      type_form:
-        custom_field: "カスタムフィールド"
-        inactive: "非アクティブ"
-        drag_to_activate: "ここからフィールドをドラッグして、有効にします"
-        add_group: "属性グループを追加する"
-        add_table: "関係するワークパッケージのテーブルを追加する"
-        edit_query: "クエリの編集"
-        new_group: "新規グループ"
-        delete_group: "Delete group"
-        remove_attribute: "Remove from group"
-        reset_to_defaults: "デフォルトに戻す"
-      working_days:
-        calendar:
-          empty_state_header: "休業日"
-          empty_state_description: '休業日が定義されていません。「休業日を追加」ボタンをクリックして日付を追加してください。'
-          new_date: "(新)"
-        add_non_working_day: "休業日を追加"
-        already_added_error: "この日付の非営業日はすでに存在します。一意の日付に対して作成できる非営業日は1つだけです。"
-        change_button: "保存して再スケジュール"
-        change_title: "営業日を変更する"
-        removed_title: "以下の日を非稼働日リストから削除します："
-        change_description: "営業日とみなす曜日を変更すると、このサイト内のすべてのプロジェクトのすべてのワークパッケージの開始日と終了日に影響を与える可能性があります。"
-        warning: >
-          変更の反映には時間がかかる場合があります。関連するすべてのワークパッケージとプロジェクトライフサイクルが更新されたら、通知されます。
-          本当に続けますか？
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          進捗計算モードをステータスベースからワークベースに変更すると、「<i>完了率」</i>フィールドが自由に編集できるようになります。オプションで「<i>作業</i>」または「<i>残作業</i>」の値を入力した場合、それらは「<i>完了率」にも</i>リンクされます。<i>残りの作業</i>量を変更すると、<i>完了率が</i>更新されます。
-        warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          進捗の計算モードを作業ベースからステータスベースに変更すると、既存の<i>完了率の</i>値はすべて失われ、各ステータスに関連する値に置き換えられます。この変更を反映するために、「<i>残作業</i>」の既存の値も再計算される場合があります。この操作は元に戻すことはできません。
-    custom_actions:
-      date:
-        specific: "オン"
-        current_date: "現在の日付"
+          button: ワークパッケージ作成ボタンを挿入
+          button_style: ボタンスタイルを使用する
+          button_style_hint: 'オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。'
+          type: ワークパッケージの種類
+          with_type: 'ワークパッケージを作成 (種類: %{typename})'
+          without_type: ワークパッケージを作成
+      mode:
+        manual: Markdownソースに切り替える
+        wysiwyg: WYSIWYGエディタに切り替えます
+      no_revisions: ローカルでの修正は見つからず
+      preview: プレビューモードの切り替え
+      revisions: ローカルの修正を表示
+      source_code: Markdown ソースモードの切り替え
+    enumeration_activities: 作業分類 (時間の追跡)
+    enumeration_doc_categories: ドキュメントのカテゴリ
+    enumeration_work_package_priorities: ワークパッケージの優先度
     error:
-      internal: "内部エラーが発生しました。"
-      cannot_save_changes_with_message: "次のエラーのために変更を保存できません: %{error}"
-      query_saving: "ビューを保存できませんでした。"
-      embedded_table_loading: "埋め込みビューを読み込めませんでした: %{message}"
-    enumeration_activities: "作業分類 (時間の追跡)"
-    enumeration_doc_categories: "ドキュメントのカテゴリ"
-    enumeration_work_package_priorities: "ワークパッケージの優先度"
+      cannot_save_changes_with_message: '次のエラーのために変更を保存できません: %{error}'
+      embedded_table_loading: '埋め込みビューを読み込めませんでした: %{message}'
+      internal: 内部エラーが発生しました。
+      query_saving: ビューを保存できませんでした。
+    error_attachment_upload: 'ファイルのアップロードに失敗しました: %{error}'
+    error_attachment_upload_permission: このリソースでファイルをアップロードする権限がありません。
+    error_could_not_resolve_user_name: ユーザ名を特定できません
+    error_could_not_resolve_version_name: バージョン名を解決できませんでした。
+    exclusion_info:
+      modal:
+        content: ステータス「%{status_name}」が、作業、残作業、および完了率の階層合計から除外されるように構成されています。合計にはこの値は考慮されません。
+        title: 階層合計から除外される状態
+    favorite_projects:
+      no_results: 好きなプロジェクトはない
+      no_results_subtext: 1つまたは複数のプロジェクトを、プロジェクトの概要またはプロジェクトリストにお気に入りとして追加できます。
+    field_value_enter_prompt: "'%{field}'の値を入力"
     filter:
-      more_values_not_shown: "%{total} 検索結果を絞り込むには検索してください。"
       description:
+        text_close_filter: エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の (空の) のエントリを選択します。
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
-        text_close_filter: "エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の (空の) のエントリを選択します。"
+      more_values_not_shown: "%{total} 検索結果を絞り込むには検索してください。"
       noneElement: "(なし)"
-      time_zone_converted:
-        two_values: "ローカル時間で %{from} - %{to} "
-        only_start: "ローカル時間で %{from} から"
-        only_end: "ローカル時間で %{to} まで"
-      value_spacer: "-"
       sorting:
         criteria:
-          one: "最初の並べ替え条件"
-          two: "2 番目の並べ替え基準"
-          three: "3 番目の並べ替え条件"
+          one: 最初の並べ替え条件
+          three: 3 番目の並べ替え条件
+          two: 2 番目の並べ替え基準
+      time_zone_converted:
+        only_end: ローカル時間で %{to} まで
+        only_start: ローカル時間で %{from} から
+        two_values: 'ローカル時間で %{from} - %{to} '
+      value_spacer: "-"
+    forms:
+      advanced_settings: 詳細設定
+      load_error_message: フォームの読み込み中にエラーが発生しました
+      submit_success_message: フォームは正常に送信されました
+      validation_error_message: フォームに存在するエラーを修正してください
     gantt_chart:
-      label: "ガントチャート"
-      quarter_label: "第%{quarter_number}四半期"
-      labels:
-        title: "ラベル設定"
-        bar: "バーのラベル"
-        left: "左"
-        right: "右"
-        farRight: "右端"
-        description: >
-          ガント・チャートのそれぞれの位置に常に表示させたい属性を選択します。要素にカーソルを合わせると、これらの属性の代わりにその日付ラベルが表示されることに注意してください。
-      button_activate: "ガントチャートを表示"
-      button_deactivate: "ガントチャートを隠す"
+      button_activate: ガントチャートを表示
+      button_deactivate: ガントチャートを隠す
       filter:
         noneSelection: "(なし)"
+      label: ガントチャート
+      labels:
+        bar: バーのラベル
+        description: 'ガント・チャートのそれぞれの位置に常に表示させたい属性を選択します。要素にカーソルを合わせると、これらの属性の代わりにその日付ラベルが表示されることに注意してください。
+
+          '
+        farRight: 右端
+        left: 左
+        right: 右
+        title: ラベル設定
+      quarter_label: 第%{quarter_number}四半期
       selection_mode:
-        notification: "関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。"
+        notification: 関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。
       zoom:
-        in: "拡大"
-        out: "縮小"
-        auto: "自動ズーム"
-        days: "日"
-        weeks: "週"
-        months: "ヶ月"
-        quarters: "四半期ごと"
+        auto: 自動ズーム
+        days: 日
+        description: 'オートズームが使用できない場合に表示される初期ズームレベルを選択します。
+
+          '
+        in: 拡大
+        months: ヶ月
+        out: 縮小
+        quarters: 四半期ごと
+        weeks: 週
         years: " 年"
-        description: >
-          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
-    general_text_no: "いいえ"
-    general_text_yes: "はい"
-    general_text_No: "いいえ"
-    general_text_Yes: "はい"
+    general_text_No: いいえ
+    general_text_Yes: はい
+    general_text_no: いいえ
+    general_text_yes: はい
+    global_search:
+      all_projects: すべてのプロジェクトで
+      close_search: 検索を閉じる
+      current_project: このプロジェクトでは
+      current_project_and_all_descendants: このプロジェクトと子プロジェクトでは
+      direct_hit_available: Work package with exact ID found. Press Enter to open it.
+      items_available: "%{count} items available"
+      recently_viewed: 最近閲覧した記事
+      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      title:
+        all_projects: すべてのプロジェクト
+        project_and_subprojects: すべてのプロジェクトで
+        search_for: 検索対象
     hal:
       error:
-        update_conflict_refresh: "リソースを更新して最新のバージョンに更新するには、ここをクリックしてください。"
-        edit_prohibited: "このリソースの %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、親子関係) か、あるいは構成できないため。"
+        edit_prohibited: このリソースの %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、親子関係) か、あるいは構成できないため。
         format:
           date: "%{attribute} は有効な日付ではありません - YYYY-MM-DDの形式で入力してください。"
-        general: "エラーが発生しました。"
-    ical_sharing_modal:
-      title: "カレンダーを購読する"
-      inital_setup_error_message: "データ取得中にエラーが発生しました。"
-      description: "URL(iCalendar)を使用して、外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を表示することができます。"
-      warning: "このURLを他のユーザーと共有しないでください。このリンクを持つ誰でもアカウントやパスワードなしでワークパッケージの詳細を表示することができます。"
-      token_name_label: "どこで使うのですか？？"
-      token_name_placeholder: '名前を入力してください。例："電話"'
-      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.'
-      copy_url_label: "URLをコピー"
-      ical_generation_error_text: "カレンダーのURL生成時にエラーが発生しました。"
-      success_message: 'URL "%{name}" がクリップボードにコピーされました。カレンダークライアントに貼り付けて購読を完了してください。'
-    label_activate: "有効にする"
-    label_assignee: "担当者"
-    label_assignee_alt_text: "This work package is assigned to %{name}"
-    label_add_column_after: "後に列を追加"
-    label_add_column_before: "前に列を追加"
-    label_add_columns: "列を追加"
-    label_add_comment: "コメントを追加"
-    label_add_comment_title: "コメントで@ を入力して人に通知する"
-    label_add_row_after: "後に行を追加"
-    label_add_row_before: "前に行を追加"
-    label_add_selected_columns: "選択した列を追加"
-    label_added_by: "追加した人"
-    label_added_time_by: '追加 <a href="%{authorLink}">%{author}</a> %{age}'
-    label_ago: "○日前"
-    label_all: "全て"
-    label_all_projects: "すべてのプロジェクト"
-    label_all_uppercase: "全て"
-    label_all_work_packages: "全てのワークパッケージ"
-    label_and: "及び"
-    label_ascending: "昇順"
-    label_author: "作者: %{user}"
-    label_avatar: "アバター"
-    label_between: "次の範囲内"
-    label_board: "ボード"
-    label_board_locked: "ロックされている"
-    label_board_plural: "ボード"
-    label_board_sticky: "固定する"
-    label_change: "変更"
-    label_create: "作成"
-    label_create_work_package: "新しいワークパッケージを作成"
-    label_created_by: "作成者："
-    label_current: "現在"
-    label_date: "日付"
-    label_date_with_format: "次の形式を使用して %{date_attribute} を入力してください: %{format}"
-    label_deactivate: "無効"
-    label_descending: "降順"
-    label_description: "説明"
-    label_details: "詳細"
-    label_display: "表示"
-    label_cancel_comment: "コメントをキャンセル"
-    label_closed_work_packages: "完了"
-    label_collapse: "折りたたむ"
-    label_collapsed: "折りたたまれている。"
-    label_collapse_all: "全てを折りたたむ"
-    label_collapse_text: "Collapse text"
-    label_comment: "コメント"
-    label_committed_at: "%{date}で%{committed_revision_link}"
-    label_committed_link: "コミットされたバージョン%{revision_identifier}"
-    label_contains: "含む"
-    label_created_on: "作成日時"
-    label_edit_comment: "このコメントを編集"
-    label_edit_status: "ワークパッケージのステータスを編集"
-    label_email: "電子メールアドレス"
-    label_equals: "等しい"
-    label_expand: "展開"
-    label_expanded: "展開"
-    label_expand_all: "全てを展開"
-    label_expand_text: "Show full text"
-    label_expand_project_menu: "プロジェクトメニューを展開"
-    label_export: "エクスポート"
-    label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
-    label_favorites: "お気に入り"
-    label_filename: "ファイル"
-    label_filesize: "サイズ"
-    label_general: "概要"
-    label_greater_or_equal: ">="
-    label_group: "グループ"
-    label_group_by: "グループ化"
-    label_group_plural: "グループ"
-    label_hide_attributes: "非表示にする"
-    label_hide_column: "列を非表示"
-    label_hide_project_menu: "プロジェクトメニューを折りたたむ"
-    label_in: "今日から○日後"
-    label_in_less_than: "今日から○日後以前"
-    label_in_more_than: "今日から○日後以降"
-    label_incoming_emails: "受信メール"
-    label_information_plural: "情報"
-    label_invalid: "無効"
-    label_import: "インポート"
-    label_latest_activity: "最新の活動"
-    label_last_updated_on: "最終更新日："
-    label_learn_more_link: "もっと詳しく"
-    label_less_or_equal: "以下"
-    label_less_than_ago: "今日より○日前以降"
-    label_loading: "読み込み中..."
-    label_mail_notification: "電子メールの通知"
-    label_manage_columns: "列の管理と並び替え"
-    label_me: "自分"
-    label_meeting_agenda: "アジェンダ"
-    label_meeting_minutes: "議事録"
-    label_more_than_ago: "今日より○日前以前"
-    label_moderate_comment: "コメントをモデレートする"
-    label_next: "次へ"
-    label_no_color: "色なし"
-    label_no_data: "表示できるデータがありません。"
-    label_no_due_date: "終了日が未設定"
-    label_no_start_date: "開始日なし"
-    label_no_date: "日付なし"
-    label_no_value: "値なし"
-    label_none: "なし"
-    label_not_contains: "含まない"
-    label_not_equals: "等しくない"
-    label_on: "オン"
-    label_open_menu: "メニューを開く"
-    label_open_context_menu: "コンテキストメニューを開く"
-    label_open_work_packages: "未完了"
-    label_password: "パスワード"
-    label_previous: "前へ"
-    label_per_page: "1 ページあたり"
-    label_please_wait: "しばらくお待ちください"
-    label_project: "プロジェクト"
-    label_project_list: "プロジェクト一覧"
-    label_project_plural: "プロジェクト"
-    label_visibility_settings: "表示の設定"
-    label_quote_comment: "このコメントを引用"
-    label_recent: "最新"
-    label_reset: "リセット"
-    label_remove: "削除"
-    label_remove_column: "列を削除"
-    label_remove_columns: "選択した列を削除"
-    label_remove_row: "行を削除"
-    label_report: "レポート"
-    label_repository_plural: "リポジトリ"
-    label_resize_project_menu: "Resize project menu"
-    label_save_as: "名前をつけて保存"
-    label_search_columns: "列を検索する"
-    label_select_watcher: "ウォッチャーを選択..."
-    label_selected_filter_list: "選択されたフィルタ"
-    label_show_attributes: "すべての属性を表示"
-    label_show_in_menu: "メニューを表示する"
-    label_sort_by: "並べ替え"
-    label_sorted_by: "並べ替えされた"
-    label_sort_higher: "上へ"
-    label_sort_lower: "下へ移動"
-    label_sorting: "ソート中"
-    label_spent_time: "作業時間の記録"
-    label_star_query: "Favorited"
-    label_press_enter_to_save: "Enterを押して保存します。"
-    label_public_query: "公開"
-    label_sum: "合計"
-    label_sum_for: "合計"
-    label_total_sum: "総額"
-    label_subject: "タイトル"
-    label_this_week: "今週"
-    label_today: "今日"
-    label_time_entry_plural: "作業時間の記録"
-    label_up: "アップ"
-    label_user_plural: "ユーザ"
-    label_activity_show_only_comments: "コメントのみのアクティビティを表示"
-    label_activity_show_all: "すべてのアクティビティを表示"
-    label_total_progress: "%{percent}% 進行状況"
-    label_total_amount: "合計: %{amount}"
-    label_updated_on: "更新日時"
-    label_value_derived_from_children: "(子から派生した値)"
-    label_children_derived_duration: "子ワークパッケージのの派生期間"
-    label_warning: "注意"
-    label_work_package: "ワーク パッケージ"
-    label_work_package_parent: "親のワークパッケージ"
-    label_work_package_plural: "ワークパッケージ"
-    label_watch: "ウォッチする"
-    label_watch_work_package: "ワークパッケージをウォッチ"
-    label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
-    label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
-    label_work_package_details_you_are_here: "あなたは %{type} %{subject}の %{tab} タブを表示しています。"
-    label_work_package_context_menu: "ワークパッケージのコンテキストメニュー"
-    label_unwatch: "ウォッチしない"
-    label_unwatch_work_package: "ワークパッケージのウォッチを削除"
-    label_uploaded_by: "アップロードした人"
-    label_default_queries: "既定の項目"
-    label_starred_queries: "お気に入り"
-    label_global_queries: "公開"
-    label_custom_queries: "非公開"
-    label_columns: "列"
-    label_attachments: 添付ファイル
-    label_drop_files: "ここにファイルをドロップして添付。"
-    label_drop_or_click_files: "ここにファイルをドロップするかクリックしてファイルを添付。"
-    label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
-    label_add_attachments: "ファイルを添付"
-    label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
-    label_remove_file: "%{fileName} を削除"
-    label_remove_watcher: "ウォッチャー %{name} を削除"
-    label_remove_all_files: 全てのファイルを削除
-    label_add_description: "%{file} の説明を追加"
-    label_upload_notification: "ファイルをアップロード中..."
-    label_work_package_upload_notification: "ワークパッケージ#%{id}: %{subject} 用ファイルをアップロード中"
-    label_wp_id_added_by: "#%{id} が %{author} によって追加されました"
-    label_files_to_upload: "これらのファイルをアップロードします:"
-    label_rejected_files: "これらのファイルをアップロードできません："
-    label_rejected_files_reason: "ファイルサイズが %{maximumFilesize} を越えたために、これらのファイルをアップロードできません"
-    label_wait: "構成をお待ちください..."
-    label_upload_counter: "%{done} / %{count} 個のファイルが完了"
-    label_validation_error: "次のエラーのためにワークパッケージを保存できませんでした:"
-    label_version_plural: "バージョン"
-    label_view_has_changed: "このビューには未保存の変更があります。 クリックすると保存します。"
+        general: エラーが発生しました。
+        update_conflict_refresh: リソースを更新して最新のバージョンに更新するには、ここをクリックしてください。
     help_texts:
-      show_modal: "ヘルプテキストを表示する"
-    onboarding:
-      buttons:
-        skip: "スキップ"
-        next: "次へ"
-        got_it: "了承"
-      steps:
-        help_menu: "ヘルプ(?)メニューは、<b>その他のヘルプリソースを</b>提供します。ここでは、ユーザーガイド、役立つハウツービデオなどを見つけることができます。 <br> OpenProjectでの作業をお楽しみください！"
-        members: "新しい<b>メンバーを</b>プロジェクトに招待する。"
-        quick_add_button: "ヘッダーナビゲーションにあるプラス（＋）アイコンをクリックして、<b>新規プロジェクトを作成</b>したり、<b>同僚を招待</b>したりできます。"
-        sidebar_arrow: "プロジェクトの<b>メインメニューに</b>戻るには、左上の矢印を使います。"
-        welcome: "3分間のイントロダクションツアーで、最も<b>重要な</b>機能を学びましょう。 <br> 最後までステップを完了することをお勧めします。ツアーはいつでも再開できます。"
-        wiki: "<b>Wiki</b>内では、チームと一緒に知識を文書化し、共有することができます。"
-        backlogs:
-          overview: "<b>バックログビューで</b>仕事を管理する。"
-          sprints: "右側にはプロダクトバックログとバグバックログがあり、左側にはそれぞれのスプリントがあります。ここで<b>エピック、ユーザーストーリー、バグを</b>作成し、ドラッグ＆ドロップで優先順位をつけ、スプリントに追加することができます。"
-          task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントドロップダウンを開きます…"
-          task_board_select: "...そして、 <b>タスク ボード</b> エントリを選択します。"
-          task_board: "タスクボードは、<b>このスプリントの進捗を</b>視覚化します。ユーザーストーリーの横にあるプラス（+）アイコンをクリックすると、新しいタスクや障害を追加できます。 <br> ステータスはドラッグ＆ドロップで更新できます。"
-        boards:
-          overview: "<b>ボードを</b>選択してビューをシフトし、アジャイルボードビューを使ってプロジェクトを管理する。"
-          lists_kanban: "ここでは、ボード内に複数のリスト（列）を作成することができます。この機能により、例えば、<b>カンバンボードを</b>作成することができます。"
-          lists_basic: "ここでは、アジャイルボード内に複数のリスト（列）を作成できる。"
-          add: "プラス（＋）アイコンをクリックして<b>新しいカードを作成</b>するか、<b>既存のカードを</b>ボード上のリストに追加する。"
-          drag: "リスト内のカードをドラッグ・アンド・ドロップして並び替えたり、別のリストに移動することができます。 <br> 右上の情報（i）アイコンをクリックするか、カードをダブルクリックして詳細を開くことができます。"
-        wp:
-          toggler: "次に、<b>ワークパッケージ</b> セクションを見てみましょう。このセクションでは、あなたの作業についてより詳細な情報を確認できます。"
-          list: "この<b>ワーク</b>パッケージの概要では、タスク、マイルストーン、フェーズなど、プロジェ クト内のすべての作業を一覧表示します。 <br> ワークパッケージは、このビューから直接作成・編集することができます。特定のワークパッケージの詳細を見るには、その行をダブルクリックします。"
-          full_view: "<b>ワークパッケージ詳細</b>ビューは、ワークパッケージの説明、ステータス、優先度、アクティビティ、依存関係、コメントなど、ワークパッケージに関連するすべての情報を提供する。"
-          back_button: "終了してワークパッケージリストに戻るには、左上隅のリターン矢印を使用します。"
-          create_button: "<b>Create</b>ボタンを押すと、プロジェクトに新しいワークパッケージが追加されます。"
-          gantt_menu: "ガントチャートモジュールを使って、プロジェクトのスケジュールやタイムラインを簡単に作成できます。"
-          timeline: "ここでは、<b>プロジェクト計画を編集</b>したり、タスク、マイルストーン、フェーズなどの新しいワークパッケージを作成したり、<b>依存関係を追加</b>したりすることができます。チームメンバー全員がいつでも最新の計画を確認し、更新することができます。"
-        team_planner:
-          overview: "チームプランナーを使えば、チームメンバーにタスクを視覚的に割り当て、誰が何に取り組んでいるかの概要を把握することができます。"
-          calendar: "週または隔週の計画ボードには、チームメンバーに割り当てられたすべてのワークパッケージが表示されます。"
-          add_assignee: "開始するには、チームプランナーに担当者を追加します。"
-          add_existing: "既存のワークパッケージを検索し、チームプランナーにドラッグすると、即座にチームメンバーに割り当て、開始日と終了日を定義できます。"
-          card: "ワークパッケージを水平方向にドラッグして時間を前後させたり、端をドラッグして開始日と終了日を変更したり、垂直方向にドラッグして別の行に移動して別のメンバーに割り当てることもできます。"
+      show_modal: ヘルプテキストを表示する
+    ical_sharing_modal:
+      copy_url_label: URLをコピー
+      description: URL(iCalendar)を使用して、外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を表示することができます。
+      ical_generation_error_text: カレンダーのURL生成時にエラーが発生しました。
+      inital_setup_error_message: データ取得中にエラーが発生しました。
+      success_message: URL "%{name}" がクリップボードにコピーされました。カレンダークライアントに貼り付けて購読を完了してください。
+      title: カレンダーを購読する
+      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
+      token_name_label: どこで使うのですか？？
+      token_name_placeholder: 名前を入力してください。例："電話"
+      warning: このURLを他のユーザーと共有しないでください。このリンクを持つ誰でもアカウントやパスワードなしでワークパッケージの詳細を表示することができます。
+    include_projects:
+      apply: 適用
+      clear_selection: 選択をクリア
+      include_subprojects: すべての子プロジェクトを含む
+      no_results: 検索条件に一致するプロジェクトはありません。
+      search_placeholder: プロジェクトを検索…
+      selected_filter:
+        all: すべてのプロジェクト
+        selected: 選択したもののみ
+      title: プロジェクト
+      toggle_title: 対象プロジェクト
+      tooltip:
+        current_project: これが現在あなたが参加しているプロジェクトです。
+        does_not_match_search: プロジェクトが検索条件に一致しません。
+        include_all_selected: すべての子プロジェクトを含める」が有効になっているため、プロジェクトはすでに含まれている。
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Program
+    inplace:
+      btn_preview_disable: プレビューを無効にする
+      btn_preview_enable: プレビュー
+      button_cancel: "%{attribute}: キャンセル"
+      button_cancel_all: キャンセル
+      button_edit: "%{attribute}: 編集"
+      button_save: "%{attribute}: 保存"
+      button_save_all: 保存
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} は %{maxLength} 以上の桁の数字を入れることはできません"
+        messages_on_field: 'このフィールドは無効です: %{messages}'
+        minlength: "%{field} は %{minLength} 未満の桁の数字を入れることはできません"
+        number: "%{field} は有効な数値ではありません"
+        required: "%{field} を空にできません"
+      link_formatting_help: テキストの書式設定のヘルプ
+      null_value_label: 値なし
+    invalid_job_response: サーバーからの応答が無効です。
+    invite_user_modal:
+      invite: 招待
+      placeholder_add_tag: Create placeholder user
+    label_activate: 有効にする
+    label_activity_show_all: すべてのアクティビティを表示
+    label_activity_show_only_comments: コメントのみのアクティビティを表示
+    label_add_attachments: ファイルを添付
+    label_add_column_after: 後に列を追加
+    label_add_column_before: 前に列を追加
+    label_add_columns: 列を追加
+    label_add_comment: コメントを追加
+    label_add_comment_title: コメントで@ を入力して人に通知する
+    label_add_description: "%{file} の説明を追加"
+    label_add_row_after: 後に行を追加
+    label_add_row_before: 前に行を追加
+    label_add_selected_columns: 選択した列を追加
+    label_added_by: 追加した人
+    label_added_time_by: 追加 <a href="%{authorLink}">%{author}</a> %{age}
+    label_ago: "○日前"
+    label_all: 全て
+    label_all_projects: すべてのプロジェクト
+    label_all_uppercase: 全て
+    label_all_work_packages: 全てのワークパッケージ
+    label_and: 及び
+    label_ascending: 昇順
+    label_assignee: 担当者
+    label_assignee_alt_text: This work package is assigned to %{name}
+    label_attachments: 添付ファイル
+    label_author: '作者: %{user}'
+    label_avatar: アバター
+    label_between: 次の範囲内
+    label_board: ボード
+    label_board_locked: ロックされている
+    label_board_plural: ボード
+    label_board_sticky: 固定する
+    label_cancel_comment: コメントをキャンセル
+    label_change: 変更
+    label_children_derived_duration: 子ワークパッケージのの派生期間
+    label_closed_work_packages: 完了
+    label_collapse: 折りたたむ
+    label_collapse_all: 全てを折りたたむ
+    label_collapse_text: Collapse text
+    label_collapsed: 折りたたまれている。
+    label_columns: 列
+    label_comment: コメント
+    label_contains: 含む
+    label_create: 作成
+    label_create_work_package: 新しいワークパッケージを作成
+    label_created_by: 作成者：
+    label_created_on: 作成日時
+    label_current: 現在
+    label_custom_queries: 非公開
+    label_date: 日付
+    label_date_with_format: '次の形式を使用して %{date_attribute} を入力してください: %{format}'
+    label_deactivate: 無効
+    label_default_queries: 既定の項目
+    label_descending: 降順
+    label_description: 説明
+    label_details: 詳細
+    label_display: 表示
+    label_drop_files: ここにファイルをドロップして添付。
+    label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
+    label_drop_or_click_files: ここにファイルをドロップするかクリックしてファイルを添付。
+    label_edit_comment: このコメントを編集
+    label_edit_status: ワークパッケージのステータスを編集
+    label_email: 電子メールアドレス
+    label_equals: 等しい
+    label_expand: 展開
+    label_expand_all: 全てを展開
+    label_expand_project_menu: プロジェクトメニューを展開
+    label_expand_text: Show full text
+    label_expanded: 展開
+    label_export: エクスポート
+    label_export_preparing: エクスポートは準備中です。まもなくダウンロードされます。
+    label_favorites: お気に入り
+    label_filename: ファイル
+    label_files_to_upload: 'これらのファイルをアップロードします:'
+    label_filesize: サイズ
+    label_formattable_attachment_hint: このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。
+    label_general: 概要
+    label_global_queries: 公開
+    label_greater_or_equal: ">="
+    label_group: グループ
+    label_group_by: グループ化
+    label_group_plural: グループ
+    label_hide_attributes: 非表示にする
+    label_hide_column: 列を非表示
+    label_hide_project_menu: プロジェクトメニューを折りたたむ
+    label_import: インポート
+    label_in: 今日から○日後
+    label_in_less_than: 今日から○日後以前
+    label_in_more_than: 今日から○日後以降
+    label_incoming_emails: 受信メール
+    label_infinity: Infinity
+    label_information_plural: 情報
+    label_invalid: 無効
+    label_last_updated_on: 最終更新日：
+    label_latest_activity: 最新の活動
+    label_learn_more_link: もっと詳しく
+    label_less_or_equal: 以下
+    label_less_than_ago: 今日より○日前以降
+    label_loading: 読み込み中...
+    label_mail_notification: 電子メールの通知
+    label_manage_columns: 列の管理と並び替え
+    label_me: 自分
+    label_meeting_agenda: アジェンダ
+    label_meeting_minutes: 議事録
+    label_moderate_comment: コメントをモデレートする
+    label_more_than_ago: 今日より○日前以前
+    label_next: 次へ
+    label_no_color: 色なし
+    label_no_data: 表示できるデータがありません。
+    label_no_date: 日付なし
+    label_no_due_date: 終了日が未設定
+    label_no_start_date: 開始日なし
+    label_no_value: 値なし
+    label_none: なし
+    label_not_available: Not available
+    label_not_contains: 含まない
+    label_not_equals: 等しくない
+    label_on: オン
+    label_open_context_menu: コンテキストメニューを開く
+    label_open_menu: メニューを開く
+    label_open_work_packages: 未完了
+    label_password: パスワード
+    label_per_page: 1 ページあたり
+    label_please_wait: しばらくお待ちください
+    label_press_enter_to_save: Enterを押して保存します。
+    label_previous: 前へ
+    label_project: プロジェクト
+    label_project_plural: プロジェクト
+    label_public_query: 公開
+    label_quote_comment: このコメントを引用
+    label_recent: 最新
+    label_rejected_files: これらのファイルをアップロードできません：
+    label_rejected_files_reason: ファイルサイズが %{maximumFilesize} を越えたために、これらのファイルをアップロードできません
+    label_remove: 削除
+    label_remove_all_files: 全てのファイルを削除
+    label_remove_column: 列を削除
+    label_remove_columns: 選択した列を削除
+    label_remove_file: "%{fileName} を削除"
+    label_remove_row: 行を削除
+    label_remove_watcher: ウォッチャー %{name} を削除
+    label_report: レポート
+    label_repository_plural: リポジトリ
+    label_reset: リセット
+    label_resize_project_menu: Resize project menu
+    label_save_as: 名前をつけて保存
+    label_search_columns: 列を検索する
+    label_select_watcher: ウォッチャーを選択...
+    label_selected_filter_list: 選択されたフィルタ
+    label_show_attributes: すべての属性を表示
+    label_show_in_menu: メニューを表示する
+    label_sort_by: 並べ替え
+    label_sort_higher: 上へ
+    label_sort_lower: 下へ移動
+    label_sorted_by: 並べ替えされた
+    label_sorting: ソート中
+    label_spent_time: 作業時間の記録
+    label_star_query: Favorited
+    label_starred_queries: お気に入り
+    label_subject: タイトル
+    label_sum: 合計
+    label_sum_for: 合計
+    label_this_week: 今週
+    label_time_entry_plural: 作業時間の記録
+    label_today: 今日
+    label_total_amount: '合計: %{amount}'
+    label_total_progress: "%{percent}% 進行状況"
+    label_total_sum: 総額
+    label_unwatch: ウォッチしない
+    label_unwatch_work_package: ワークパッケージのウォッチを削除
+    label_up: アップ
+    label_updated_on: 更新日時
+    label_upload_counter: "%{done} / %{count} 個のファイルが完了"
+    label_upload_notification: ファイルをアップロード中...
+    label_uploaded_by: アップロードした人
+    label_user_plural: ユーザ
+    label_validation_error: '次のエラーのためにワークパッケージを保存できませんでした:'
+    label_value_derived_from_children: "(子から派生した値)"
+    label_version_plural: バージョン
+    label_view_has_changed: このビューには未保存の変更があります。 クリックすると保存します。
+    label_visibility_settings: 表示の設定
+    label_wait: 構成をお待ちください...
+    label_warning: 注意
+    label_watch: ウォッチする
+    label_watch_work_package: ワークパッケージをウォッチ
+    label_watcher_added_successfully: ウォッチャーが正常に追加されました ！
+    label_watcher_deleted_successfully: ウォッチャーが正常に削除されました ！
+    label_work_package: ワーク パッケージ
+    label_work_package_context_menu: ワークパッケージのコンテキストメニュー
+    label_work_package_details_you_are_here: あなたは %{type} %{subject}の %{tab} タブを表示しています。
+    label_work_package_parent: 親のワークパッケージ
+    label_work_package_plural: ワークパッケージ
+    label_work_package_upload_notification: 'ワークパッケージ#%{id}: %{subject} 用ファイルをアップロード中'
+    label_wp_id_added_by: "#%{id} が %{author} によって追加されました"
+    modals:
+      button_apply: 適用
+      button_cancel: キャンセル
+      button_delete: 削除
+      button_save: 保存
+      button_submit: 適用
+      destroy_time_entry:
+        text: 次のタイムエントリを削除してもよろしいですか？
+        title: タイムエントリの削除を確認
+      form_submit:
+        text: この操作を実行してもよろしいですか？
+        title: 続行の確認
+      label_delete_page: 現在のページを削除
+      label_name: 名称
+    no_job_id: サーバーからジョブIDが返されません。
+    notice_bad_request: 不正な要求です。
+    notice_job_started: ジョブか開始されました。
+    notice_no_results_to_display: 表示結果はありません。
+    notice_successful_create: 正常に作成しました。
+    notice_successful_delete: 正常に削除しました。
+    notice_successful_update: 正常に更新しました。
     notifications:
-      title: "通知"
-      no_unread: "未読通知がない"
-      reasons:
-        mentioned: "メンションされた"
-        watched: "ウォッチャー"
-        assigned: "担当者"
-        #The enum value is named 'responsible' in the database and that is what is transported through the API
-        #up to the frontend.
-        responsible: "責任者"
-        created: "作成日時"
-        scheduled: "スケジュール済"
-        commented: "コメントしました。"
-        processed: "処理済み"
-        prioritized: "優先順位"
-        dateAlert: "日付アラート"
-        shared: "共有"
-        reminder: "通知"
-      date_alerts:
-        milestone_date: "マイルストーン"
-        overdue: "期限切れ"
-        overdue_since: "for %{difference_in_days}."
-        property_today: "は今日です。"
-        property_is: "は%{difference_in_days}後。"
-        property_was: "は、 %{difference_in_days} 前です。"
-        property_is_deleted: "は削除されました。"
       center:
-        label_actor_and: "及び"
         and_more_users:
-          other: "と %{count} その他"
+          other: と %{count} その他
+        empty_state:
+          no_notification: もう追いついたようだね。
+          no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
+          no_notification_with_current_filter: "%{filter} 、フィルターが完成したようだ。"
+          no_notification_with_current_project_filter: どうやら、選ばれたプロジェクトにすべて追いついたようだね。
+          no_selection: 通知をクリックすると、すべてのアクティビティの詳細が表示されます。
+        label_actor_and: 及び
+        mark_all_read: すべて既読にする
+        mark_all_read_confirmation: これにより、このビューのすべての通知が既読になります。本当にそうしますか？
+        mark_as_read: 既読にする
+        new_notifications:
+          link_text: ここをクリックしてロードしてください。
+          message: 新しい通知がある。
         no_results:
-          at_all: "あなたに関係する活動があると、新しい通知がここに表示されます。"
-          with_current_filter: "現在、このビューには通知はありません"
-        mark_all_read: "すべて既読にする"
-        mark_as_read: "既読にする"
-        mark_all_read_confirmation: "これにより、このビューのすべての通知が既読になります。本当にそうしますか？"
+          at_all: あなたに関係する活動があると、新しい通知がここに表示されます。
+          with_current_filter: 現在、このビューには通知はありません
         text_update_date_by: "%{date} によって"
         total_count_warning: "%{newest_count} 最新の通知を表示。 %{more_count} それ以上は表示されない。"
-        empty_state:
-          no_notification: "もう追いついたようだね。"
-          no_notification_with_current_project_filter: "どうやら、選ばれたプロジェクトにすべて追いついたようだね。"
-          no_notification_with_current_filter: "%{filter} 、フィルターが完成したようだ。"
-          no_notification_for_filter: "どうやら、このフィルターにすべて引っかかったようだ。"
-          no_selection: "通知をクリックすると、すべてのアクティビティの詳細が表示されます。"
-        new_notifications:
-          message: "新しい通知がある。"
-          link_text: "ここをクリックしてロードしてください。"
+      date_alerts:
+        milestone_date: マイルストーン
+        overdue: 期限切れ
+        overdue_since: for %{difference_in_days}.
+        property_is: は%{difference_in_days}後。
+        property_is_deleted: は削除されました。
+        property_today: は今日です。
+        property_was: は、 %{difference_in_days} 前です。
+      no_unread: 未読通知がない
+      reasons:
+        assigned: 担当者
+        commented: コメントしました。
+        created: 作成日時
+        dateAlert: 日付アラート
+        mentioned: メンションされた
+        prioritized: 優先順位
+        processed: 処理済み
+        reminder: 通知
+        responsible: 責任者
+        scheduled: スケジュール済
+        shared: 共有
+        watched: ウォッチャー
       reminders:
-        note: "注： \"%{note}\""
+        note: 注： "%{note}"
       settings:
-        change_notification_settings: '<a target="_blank" href="%{url}">通知設定を</a>変更することで、重要なアップデートを見逃すことはありません。'
-        title: "通知設定"
-        notify_me: "通知する"
-        reminders:
-          no_notification: 通知なし
-          timeframes:
-            normal:
-              PT0S: 同じ日
-              P1D: 1 日前
-              P3D: 3 日前
-              P7D: 週間前
-            overdue:
-              P1D: 毎日
-              P3D: 3日ごと
-              P7D: 毎週
-        reasons:
-          mentioned:
-            title: "メンションされた"
-            description: "メンションされたときに通知を受け取る"
-          assignee: "担当者"
-          responsible: "責任者"
-          shared: "共有"
-          watched: "ウォッチャー"
-          work_package_commented: "すべての新着コメント"
-          work_package_created: "新しいワークパッケージ"
-          work_package_processed: "すべてのステータス変更"
-          work_package_prioritized: "すべての優先順位の変更"
-          work_package_scheduled: "すべての日付変更"
-        global:
-          immediately:
-            title: "参加"
-            description: "自分が関与しているワークパッケージのすべてのアクティビティに関する通知（担当、責任、ウォッチャー）。"
-          delayed:
-            title: "不参加"
-            description: "全プロジェクトにおける活動の追加通知。"
-          date_alerts:
-            title: "日付アラート"
-            description: "あなたが関与している（担当、責任、ウォッチャー）オープンワークパッケージの重要な日付が近づくと自動通知。"
-          overdue: 期限を過ぎた場合
-        project_specific:
-          title: "プロジェクト固有の通知設定"
-          description: "これらのプロジェクト固有の設定は、上記のデフォルト設定を上書きします。"
-          add: "プロジェクトの設定を追加する"
-          already_selected: "このプロジェクトはすでに選ばれている"
-          remove: "プロジェクトの設定を削除する"
+        change_notification_settings: <a target="_blank" href="%{url}">通知設定を</a>変更することで、重要なアップデートを見逃すことはありません。
+        title: 通知設定
+      title: 通知
+    onboarding:
+      buttons:
+        got_it: 了承
+        next: 次へ
+        skip: スキップ
+      steps:
+        boards:
+          add: プラス（＋）アイコンをクリックして<b>新しいカードを作成</b>するか、<b>既存のカードを</b>ボード上のリストに追加する。
+          drag: リスト内のカードをドラッグ・アンド・ドロップして並び替えたり、別のリストに移動することができます。 <br> 右上の情報（i）アイコンをクリックするか、カードをダブルクリックして詳細を開くことができます。
+          lists_basic: ここでは、アジャイルボード内に複数のリスト（列）を作成できる。
+          lists_kanban: ここでは、ボード内に複数のリスト（列）を作成することができます。この機能により、例えば、<b>カンバンボードを</b>作成することができます。
+          overview: "<b>ボードを</b>選択してビューをシフトし、アジャイルボードビューを使ってプロジェクトを管理する。"
+        help_menu: ヘルプ(?)メニューは、<b>その他のヘルプリソースを</b>提供します。ここでは、ユーザーガイド、役立つハウツービデオなどを見つけることができます。 <br> OpenProjectでの作業をお楽しみください！
+        members: 新しい<b>メンバーを</b>プロジェクトに招待する。
+        quick_add_button: ヘッダーナビゲーションにあるプラス（＋）アイコンをクリックして、<b>新規プロジェクトを作成</b>したり、<b>同僚を招待</b>したりできます。
+        sidebar_arrow: プロジェクトの<b>メインメニューに</b>戻るには、左上の矢印を使います。
+        team_planner:
+          add_assignee: 開始するには、チームプランナーに担当者を追加します。
+          add_existing: 既存のワークパッケージを検索し、チームプランナーにドラッグすると、即座にチームメンバーに割り当て、開始日と終了日を定義できます。
+          calendar: 週または隔週の計画ボードには、チームメンバーに割り当てられたすべてのワークパッケージが表示されます。
+          card: ワークパッケージを水平方向にドラッグして時間を前後させたり、端をドラッグして開始日と終了日を変更したり、垂直方向にドラッグして別の行に移動して別のメンバーに割り当てることもできます。
+          overview: チームプランナーを使えば、チームメンバーにタスクを視覚的に割り当て、誰が何に取り組んでいるかの概要を把握することができます。
+        welcome: 3分間のイントロダクションツアーで、最も<b>重要な</b>機能を学びましょう。 <br> 最後までステップを完了することをお勧めします。ツアーはいつでも再開できます。
+        wiki: "<b>Wiki</b>内では、チームと一緒に知識を文書化し、共有することができます。"
+        wp:
+          back_button: 終了してワークパッケージリストに戻るには、左上隅のリターン矢印を使用します。
+          create_button: "<b>Create</b>ボタンを押すと、プロジェクトに新しいワークパッケージが追加されます。"
+          full_view: "<b>ワークパッケージ詳細</b>ビューは、ワークパッケージの説明、ステータス、優先度、アクティビティ、依存関係、コメントなど、ワークパッケージに関連するすべての情報を提供する。"
+          gantt_menu: ガントチャートモジュールを使って、プロジェクトのスケジュールやタイムラインを簡単に作成できます。
+          list: この<b>ワーク</b>パッケージの概要では、タスク、マイルストーン、フェーズなど、プロジェ クト内のすべての作業を一覧表示します。 <br> ワークパッケージは、このビューから直接作成・編集することができます。特定のワークパッケージの詳細を見るには、その行をダブルクリックします。
+          timeline: ここでは、<b>プロジェクト計画を編集</b>したり、タスク、マイルストーン、フェーズなどの新しいワークパッケージを作成したり、<b>依存関係を追加</b>したりすることができます。チームメンバー全員がいつでも最新の計画を確認し、更新することができます。
+          toggler: 次に、<b>ワークパッケージ</b> セクションを見てみましょう。このセクションでは、あなたの作業についてより詳細な情報を確認できます。
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: ネットワークに問題があります。
+        network_on: ネットワークが戻った。我々は努力している。
+      waiting_title:
+        timeout: タイムアウト
     pagination:
-      no_other_page: "このページだけです。"
-      pages_skipped: "ページスキップ。"
-      page_navigation: "ページネーション・ナビゲーション"
-      per_page_navigation: 'ページ毎のアイテム選択'
+      no_other_page: このページだけです。
+      page_navigation: ページネーション・ナビゲーション
       pages:
         page_number: ページ %{number}
         show_per_page: ページごとに %{number}
+      pages_skipped: ページスキップ。
+      per_page_navigation: ページ毎のアイテム選択
     placeholders:
       default: "-"
-      subject: "ここにタイトルを入力します"
-      selection: "選択してください"
-      description: "説明クリックして編集..."
-      relation_description: "クリックしてこの関係に説明を追加"
+      description: 説明クリックして編集...
+      relation_description: クリックしてこの関係に説明を追加
+      selection: 選択してください
+      subject: ここにタイトルを入力します
     project:
       autocompleter:
-        label: "プロジェクト名の入力補完"
-      click_to_switch_to_project: "プロジェクト： %{projectname}"
-      context: "プロジェクトのコンテキスト"
-      not_available: "プロジェクトなし"
-      required_outside_context: >
-        ワークパッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
-    reminders:
-      settings:
-        daily:
-          add_time: "時間を追加する"
-          enable: "毎日のEメールリマインダーを有効にする"
-          explanation: "このリマインダーは、未読の通知に対してのみ、指定した時間帯にのみ届きます。 %{no_time_zone}"
-          no_time_zone: "アカウントにタイムゾーンを設定するまでは、時間はUTCで解釈されます。"
-          time_label: "時間 %{counter}："
-          title: "未読通知メールのリマインダーを毎日送信する"
-        workdays:
-          title: "これらの日にリマインダーメールを受け取る"
-        immediate:
-          title: "電子メールのリマインダーを送信"
-          mentioned: "@mentionするとすぐに"
-          personal_reminder: "個人的なリマインダーを受け取ったとき"
-        alerts:
-          title: "その他の項目（ワークパッケージではないもの）に対する電子メールアラート"
-          explanation: >
-            本日の通知はワークパッケージに限定されています。これらのイベントが通知に含まれるようになるまで、Eメールアラートを受信し続けることを選択できます：
-          news_added: "ニュースが追加されました。"
-          news_commented: "ニュースへのコメント"
-          document_added: "ドキュメントの追加"
-          forum_messages: "新しいフォーラムメッセージ"
-          wiki_page_added: "Wikiページが追加されました。"
-          wiki_page_updated: "Wikiページが更新されました。"
-          membership_added: "メンバーシップの追加"
-          membership_updated: "メンバーシップの更新"
-        title: "電子メールによるリマインダー"
-        pause:
-          label: "毎日のEメールリマインダーを一時停止する"
-          first_day: "初日"
-          last_day: "最終日"
-    text_are_you_sure: "よろしいですか？"
-    text_are_you_sure_to_cancel: "このページには未保存の変更があります。本当に破棄しますか？"
-    breadcrumb: "パンくず"
-    text_data_lost: "入力されたデータはすべて失われる。"
-    text_user_wrote: "%{value} が書き込みました："
-    types:
-      attribute_groups:
-        error_duplicate_group_name: "名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。"
-        error_no_table_configured: "%{group} のテーブルを設定してください。"
-        reset_title: "フォーム設定をリセット"
-        confirm_reset: >
-          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性がデフォルトのグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "エンタープライズ・オンプレミス版へのアップグレード"
-        upgrade_to_ee_text: "すごい！このアドオンが必要なら、あなたはスーパープロです！エンタープライズ版のクライアントになって、私たちオープンソース開発者をサポートしていただけませんか？"
-        more_information: "詳細情報"
-        nevermind: "無視"
-    time_entry:
-      work_package_required: "最初にワークパッケージを選択する必要があります。"
-      title: "時間を記録"
-      tracking: "作業時間の記録"
-      stop: "ストップ"
-    timer:
-      start_new_timer: "新しいタイマーを開始する"
-      timer_already_running: "新しいタイマーを開始するには、まず現在のタイマーを停止する必要があります："
-      timer_already_stopped: "このワークパッケージのアクティブなタイマーがありません。別のウィンドウで停止しましたか？"
-      tracking_time: "トラッキング・タイム"
-      button_stop: "現在のタイマーを停止する"
-    two_factor_authentication:
-      label_two_factor_authentication: "2要素認証"
-    watchers:
-      label_loading: ウォッチャーを読み込み中...
-      label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
-      label_search_watchers: ウォッチャーを検索
-      label_add: ウォッチャーの追加
-      label_discard: 選択範囲を破棄する
-      typeahead_placeholder: ウォッチャーの選択肢を検索
-    relation_labels:
-      parent: "親項目"
-      child: "子要素"
-      children: "子"
-      relates: "関連先"
-      duplicates: "複製"
-      duplicated: "複製元"
-      blocks: "ブロック"
-      blocked: "ブロック元"
-      precedes: "次の項目に先行"
-      follows: "次の項目に後続"
-      includes: "インクルード"
-      partof: "以下の一部："
-      requires: "必要"
-      required: "以下が必要："
-      relation_type: "関係タイプ"
-    relations_hierarchy:
-      parent_headline: "親項目"
-      hierarchy_headline: "階層"
-      children_headline: "子"
+        label: プロジェクト名の入力補完
+      click_to_switch_to_project: プロジェクト： %{projectname}
+      context: プロジェクトのコンテキスト
+      not_available: プロジェクトなし
+      required_outside_context: 'ワークパッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
+
+        '
+    project_menu_details: 詳細
+    projects:
+      identifier_suggestion:
+        loading: Loading suggestion...
+        set_name_first: Please set the name first.
     relation_buttons:
-      set_parent: "親を設定"
-      change_parent: "親タスクの変更"
-      remove_parent: "親関係を削除"
-      hierarchy_indent: "階層のインデント"
-      hierarchy_outdent: "階層のアウトデント"
-      group_by_wp_type: "ワークパッケージタイプのグループ"
-      group_by_relation_type: "関係タイプのグループ"
-      add_parent: "既存の親関係を追加する"
-      add_new_child: "子関係を作成"
-      create_new: "新規作成"
-      add_existing: "既存を追加"
-      add_existing_child: "子タスクを追加"
-      remove_child: "子関係を削除"
-      add_new_relation: "新しい関係を作成"
-      add_existing_relation: "既存の関係を追加"
-      update_description: "この関係の説明を設定または更新する"
-      toggle_description: "関係の説明を切り替え"
-      update_relation: "クリックして関係のタイプを変更"
-      show_relations: "関連するタスクを表示"
-      add_predecessor: "先行を追加"
-      add_successor: "後継の要素を加える"
-      remove: "関係を削除"
-      save: "関係を保存"
-      abort: "中止"
-    relations_autocomplete:
-      placeholder: "検索キーワードを入力"
-      parent_placeholder: "新しい親を選択するか、ESCを押してキャンセルしてください。"
-    autocompleter:
-      placeholder: "検索キーワードを入力"
-      notFoundText: "見つかりませんでした"
-      search: "検索"
-      project:
-        placeholder: "プロジェクトを選択"
-    repositories:
-      select_tag: "タグを選択する"
-      select_branch: "分岐を選択する"
-    field_value_enter_prompt: "'%{field}'の値を入力"
-    project_menu_details: "詳細"
-    sort:
-      sorted_asc: "昇順の並べ替えを適用しました。 "
-      sorted_dsc: "降順の並べ替えを適用しました。 "
-      sorted_no: "並べ替えは適用されていません。 "
-      sorting_disabled: "並べ替えは無効です"
-      activate_asc: "昇順の並べ替えを適用"
-      activate_dsc: "降順の並べ替えを適用"
-      activate_no: "並べ替えを削除"
-    text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
-    text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
-    tl_toolbar:
-      zooms: "ズームレベル"
-      outlines: "階層レベル"
-    upsell:
-      ee_only: "エンタープライズ版アドオン"
-    wiki_formatting:
-      strong: "強調"
-      italic: "斜体字"
-      underline: "下線"
-      deleted: "削除"
-      code: "インライン コード"
-      heading1: "見出し 1"
-      heading2: "見出し 2"
-      heading3: "見出し 3"
-      unordered_list: "順不同リスト"
-      ordered_list: "順序付きリスト"
-      quote: "引用"
-      unquote: "引用終了"
-      preformatted_text: "整形済みテキスト"
-      wiki_link: "Wikiページにリンクする"
-      image: "画像"
-    sharing:
-      share: "共有"
-      selected_count: "%{count} 選ばれた"
-      selection:
-        mixed: "混在しました"
-    work_packages:
-      bulk_actions:
-        edit: "一括編集"
-        delete: "一括削除"
-        duplicate: "一括複製"
-        move: "プロジェクトの一括変更"
-      button_clear: "クリア"
-      comment_added: "正常にコメントを追加しました。"
-      comment_send_failed: "エラーが発生しました。コメントを投稿できませんでした。"
-      comment_updated: "正常にコメントを更新しました。"
-      confirm_edit_cancel: "ワークパッケージの編集をキャンセルしてもよろしいですか？"
-      description_filter: "フィルタ"
-      description_enter_text: "テキスト"
-      description_options_hide: "オプションを非表示"
-      description_options_show: "オプションを表示"
-      edit_attribute: "%{attribute} - 編集"
-      key_value: "%{key}: %{value}"
-      label_enable_multi_select: "複数の選択を許可"
-      label_disable_multi_select: "複数の選択を禁止"
-      label_filter_add: "フィルタを追加"
-      label_filter_by_text: "テキストで絞り込む"
-      label_options: "オプション"
-      label_column_multiselect: "結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する"
-      message_error_during_bulk_delete: ワークパッケージを削除する際にエラーが発生しました。
-      message_successful_bulk_delete: ワークパッケージが正常に削除されました。
-      message_successful_show_in_fullscreen: "クリックすると全画面表示でこのワークパッケージを開きます。"
-      message_view_spent_time: "このワークパッケージに費やした時間を表示する"
-      message_work_package_read_only: "ワークパッケージはこの状態でロックされています。 ステータス以外の属性は変更できません。"
-      message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。"
-      placeholder_filter_by_text: "タイトル、説明、コメント、..."
-      progress:
-        title: "作業見積もりと進捗"
-      baseline:
-        addition_label: "比較期間内に表示するように追加しました"
-        removal_label: "比較期間内にビューから削除されました"
-        modification_label: "比較期間内に変更されました"
-        column_incompatible: "この列はベースラインモードの変更を表示しません。"
-      filters:
-        title: "ワークパッケージのフィルタ"
-        baseline_incompatible: "このフィルター属性はベースラインモードでは考慮されません。"
-        baseline_warning: "ベースラインモードはオンですが、アクティブなフィルターの一部は比較に含まれません。"
-      inline_create:
-        title: "クリックしてこのリストに新しいワークパッケージを追加します"
-      create:
-        title: "新しいワークパッケージ"
-        header: "新しい %{type}"
-        header_no_type: "新しいワークパッケージ（タイプ未設定）"
-        header_with_parent: "新しい %{type}（%{parent_type} #%{id} の子要素）"
-        button: "作成"
-      duplicate:
-        title: "ワークパッケージの重複"
-      hierarchy:
-        show: "階層モードを表示"
-        hide: "階層モードを非表示"
-        toggle_button: "クリックして階層モードを切り替えます。"
-        leaf: "ワークパッケージリーフ、レベル %{level}。"
-        children_collapsed: "階層レベル %{level} を折りたたみました。クリックすると、フィルターされた子を表示します"
-        children_expanded: "階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます"
-      faulty_query:
-        title: ワークパッケージが読み込めませんでした。
-        description: あなたの ビューは間違っており、処理できませんでした。
-      no_results:
-        title: 表示できるワークパッケージがありません。
-        description: ワークパッケージが作成されていないかすべてのワークパッケージが除外されています。
-      limited_results: 手動ソートモードで表示できるのは、 %{count} ワークパッケージだけです。フィルタリングするか、自動ソートに切り替えてください。
-      property_groups:
-        details: "詳細"
-        people: "割り当て"
-        estimatesAndTime: "見積もりと 時間"
-        other: "その他"
-      properties:
-        assignee: "担当者"
-        author: "作成者"
-        createdAt: "作成日時"
-        description: "説明"
-        date: "日付"
-        percentComplete: "進捗度(%)"
-        percentCompleteAlternative: "進捗状況"
-        dueDate: "終了日"
-        duration: "期間"
-        spentTime: "作業時間の記録"
-        category: "カテゴリ"
-        percentageDone: "完了比率"
-        priority: "優先度"
-        projectName: "プロジェクト"
-        remainingWork: "残時間"
-        remainingWorkAlternative: "残り時間"
-        responsible: "責任者"
-        startDate: "開始日"
-        status: "ステータス"
-        subject: "タイトル"
-        subproject: "子プロジェクト"
-        title: "タイトル"
-        type: "タイプ"
-        updatedAt: "更新日時"
-        versionName: "バージョン"
-        version: "バージョン"
-        work: "仕事"
-        workAlternative: "予定工数"
-        remainingTime: "残時間"
-      default_queries:
-        manually_sorted: "新しい手動ソートされたクエリ"
-        latest_activity: "最新の活動"
-        created_by_me: "自分が作成したもの"
-        assigned_to_me: "自分が担当しているもの"
-        recently_created: "最近作成されたもの"
-        all_open: "未完了"
-        overdue: "期限の過ぎたもの"
-        summary: "サマリー(概要)"
-        shared_with_users: "ユーザーと共有"
-        shared_with_me: "共有された項目"
-      jump_marks:
-        pagination: "表のページ設定に移動する"
-        label_pagination: "ここをクリックすると、ワークパッケージ表をスキップしてページ設定に移動します"
-        content: "コンテンツにジャンプ"
-        label_content: "ここをクリックすると、メニューをスキップして、コンテンツへ移動します"
-      placeholders:
-        default: "-"
-        date: "日付を選択"
-      query:
-        column_names: "列"
-        group_by: "グループ化"
-        group: "グループ化"
-        group_by_disabled_by_hierarchy: "階層モードが有効なため、グループ化は無効です。"
-        hierarchy_disabled_by_group_by: "結果が %{column} でグループ化されているため、階層モードは無効です。"
-        sort_ascending: "昇順にソート"
-        sort_descending: "降順にソート"
-        move_column_left: "列を左に移動"
-        move_column_right: "列を右に移動"
-        hide_column: "列を非表示"
-        insert_columns: "列の挿入"
-        filters: "フィルタ"
-        display_sums: "合計を表示"
-        confirm_edit_cancel: "このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。"
-        click_to_edit_query_name: "クリックすると、このビューのタイトルを編集できます。"
-        rename_query_placeholder: "このビューの名前"
-        star_text: "このビューをお気に入りとしてマークし、左側の保存済みビューサイドバーに追加します。"
-        public_text: >
-          このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでのワークパッケージの結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
-        errors:
-          unretrievable_query: "URLからビューを取得できません"
-          not_found: "そのようなビューはありません"
-          duplicate_query_title: "このビューの名前は既に存在します。 とにかく変更しますか？"
-        text_no_results: "一致するビューは見つかりませんでした。"
-      reminders:
-        button_label: "リマインダーの設定"
-        title:
-          new: "リマインダーの設定"
-          edit: "リマインダーを編集する"
-        subtitle: "選択した時間に、このワークパッケージの通知が届きます。"
-        presets:
-          tomorrow: "明日"
-          three_days: "3日後"
-          week: "週間後"
-          month: "1ヶ月以内"
-          custom: "特定の日時"
-      scheduling:
-        is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
-        is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
-      sharing:
-        title: "ワークパッケージを共有する"
-        show_all_users: "ワークパッケージが共有されたすべてのユーザーを表示"
-      table:
-        configure_button: "ワークパッケージテーブルを設定する"
-        summary: "ワークパッケージの行と、ワークパッケージの属性の列から成る表。"
-        text_inline_edit: "この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。"
-        text_sort_hint: "テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。"
-        text_select_hint: "選択ボックスは 'ALT'と矢印キーで開きます。"
-      table_configuration:
-        button: "このワークパッケージテーブルを設定する"
-        choose_display_mode: "ワークパッケージを次のように表示する"
-        modal_title: "ワークパッケージ一覧の設定"
-        embedded_tab_disabled: "この設定タブは、編集中の埋め込みビューでは使用できません。"
-        default: "デフォルト"
-        display_settings: "表示設定"
-        default_mode: "フラットリスト"
-        hierarchy_mode: "階層"
-        hierarchy_hint: "フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。"
-        display_sums_hint: "表の下にすべての集計可能な属性の合計を表示します。"
-        show_timeline_hint: "テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。"
-        highlighting: "ハイライト"
-        highlighting_mode:
-          description: "色付きでハイライト"
-          none: "ハイライトなし"
-          inline: "強調表示された属性"
-          inline_all: "全ての属性"
-          entire_row_by: "全体の行"
-          status: "ステータス"
-          priority: "優先度"
-          type: "タイプ"
-        sorting_mode:
-          description: "並び替えモードを選択："
-          automatic: "自動"
-          manually: "手動"
-          warning: "自動並び替えモードをアクティブにすると、以前のソートが失われます。"
-        columns_help_text: "テーブルビューに列を追加するには、上の入力フィールドを使用します。列をドラッグアンドドロップして並べ替えることができます。"
-        relation_filters:
-          filter_work_packages_by_relation_type: "関係タイプでワークパッケージをフィルタ"
-      tabs:
-        overview: 概要
-        activity: 活動
-        relations: 関係
-        watchers: ウォッチャー
-        files: ファイルを添付する
-      time_relative:
-        days: "日"
-        weeks: "週"
-        months: "月"
-    toolbar:
-      settings:
-        configure_view: "ビューの設定"
-        columns: "列"
-        sort_by: "並べ替え"
-        group_by: "グループ化"
-        display_sums: "合計を表示"
-        display_hierarchy: "階層を表示"
-        hide_hierarchy: "階層を非表示"
-        hide_sums: "合計の非表示"
-        save: "保存"
-        save_as: "名前をつけて保存"
-        export: "エクスポート"
-        visibility_settings: "表示の設定"
-        share_calendar: "カレンダーを購読する"
-        page_settings: "ビューの名前を変更..."
-        delete: "削除"
-      filter: "フィルタ"
-      unselected_title: "ワーク パッケージ"
-      search_query_label: "保存したビューを検索"
-    modals:
-      label_name: "名称"
-      label_delete_page: "現在のページを削除"
-      button_apply: "適用"
-      button_save: "保存"
-      button_submit: "適用"
-      button_cancel: "キャンセル"
-      button_delete: "削除"
-      form_submit:
-        title: "続行の確認"
-        text: "この操作を実行してもよろしいですか？"
-      destroy_work_package:
-        title: "%{label} の削除を確認"
-        single_text: "ワークパッケージを削除してもよろしいですか？"
-        bulk_text: "%{label}を削除してもよろしいですか？"
-        has_children: "ワークパッケージは %{childUnits} あります。"
-        confirm_deletion_children: "列挙されたワークパッケージのすべての子孫が再帰的に削除されることを承認します。"
-        deletes_children: "すべての子ワークパッケージとその子孫も再帰的に削除されます。"
-      destroy_time_entry:
-        title: "タイムエントリの削除を確認"
-        text: "次のタイムエントリを削除してもよろしいですか？"
-    notice_no_results_to_display: "表示結果はありません。"
-    notice_successful_create: "正常に作成しました。"
-    notice_successful_delete: "正常に削除しました。"
-    notice_successful_update: "正常に更新しました。"
-    notice_job_started: "ジョブか開始されました。"
-    no_job_id: "サーバーからジョブIDが返されません。"
-    invalid_job_response: "サーバーからの応答が無効です。"
-    notice_bad_request: "不正な要求です。"
+      abort: 中止
+      add_existing: 既存を追加
+      add_existing_child: 子タスクを追加
+      add_existing_relation: 既存の関係を追加
+      add_new_child: 子関係を作成
+      add_new_relation: 新しい関係を作成
+      add_parent: 既存の親関係を追加する
+      add_predecessor: 先行を追加
+      add_successor: 後継の要素を加える
+      change_parent: 親タスクの変更
+      create_new: 新規作成
+      group_by_relation_type: 関係タイプのグループ
+      group_by_wp_type: ワークパッケージタイプのグループ
+      hierarchy_indent: 階層のインデント
+      hierarchy_outdent: 階層のアウトデント
+      remove: 関係を削除
+      remove_child: 子関係を削除
+      remove_parent: 親関係を削除
+      save: 関係を保存
+      set_parent: 親を設定
+      show_relations: 関連するタスクを表示
+      toggle_description: 関係の説明を切り替え
+      update_description: この関係の説明を設定または更新する
+      update_relation: クリックして関係のタイプを変更
+    relation_labels:
+      blocked: ブロック元
+      blocks: ブロック
+      child: 子要素
+      children: 子
+      duplicated: 複製元
+      duplicates: 複製
+      follows: 次の項目に後続
+      includes: インクルード
+      parent: 親項目
+      partof: 以下の一部：
+      precedes: 次の項目に先行
+      relates: 関連先
+      relation_type: 関係タイプ
+      required: 以下が必要：
+      requires: 必要
     relations:
       empty: 関連は存在しません
       remove: 関係を削除
-    inplace:
-      button_edit: "%{attribute}: 編集"
-      button_save: "%{attribute}: 保存"
-      button_cancel: "%{attribute}: キャンセル"
-      button_save_all: "保存"
-      button_cancel_all: "キャンセル"
-      link_formatting_help: "テキストの書式設定のヘルプ"
-      btn_preview_enable: "プレビュー"
-      btn_preview_disable: "プレビューを無効にする"
-      null_value_label: "値なし"
-      clear_value_label: "-"
-      errors:
-        required: "%{field} を空にできません"
-        number: "%{field} は有効な数値ではありません"
-        maxlength: "%{field} は %{maxLength} 以上の桁の数字を入れることはできません"
-        minlength: "%{field} は %{minLength} 未満の桁の数字を入れることはできません"
-        messages_on_field: "このフィールドは無効です: %{messages}"
-    error_could_not_resolve_version_name: "バージョン名を解決できませんでした。"
-    error_could_not_resolve_user_name: "ユーザ名を特定できません"
-    error_attachment_upload: "ファイルのアップロードに失敗しました: %{error}"
-    error_attachment_upload_permission: "このリソースでファイルをアップロードする権限がありません。"
+    relations_autocomplete:
+      parent_placeholder: 新しい親を選択するか、ESCを押してキャンセルしてください。
+      placeholder: 検索キーワードを入力
+    relations_hierarchy:
+      children_headline: 子
+      hierarchy_headline: 階層
+      parent_headline: 親項目
+    repositories:
+      select_branch: 分岐を選択する
+      select_tag: タグを選択する
+    sharing:
+      selected_count: "%{count} 選ばれた"
+      selection:
+        mixed: 混在しました
+      share: 共有
+    sort:
+      activate_asc: 昇順の並べ替えを適用
+      activate_dsc: 降順の並べ替えを適用
+      activate_no: 並べ替えを削除
+      sorted_asc: '昇順の並べ替えを適用しました。 '
+      sorted_dsc: '降順の並べ替えを適用しました。 '
+      sorted_no: '並べ替えは適用されていません。 '
+      sorting_disabled: 並べ替えは無効です
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+    spot:
+      drop_modal:
+        close: モーダルを閉じる
+        focus_grab: これはモーダル用のフォーカスアンカーです。shift+tab を押すと、モーダルのトリガー要素に戻ります。
+      filter_chip:
+        remove: 削除
+    text_are_you_sure: よろしいですか？
+    text_are_you_sure_to_cancel: このページには未保存の変更があります。本当に破棄しますか？
+    text_data_lost: 入力されたデータはすべて失われる。
+    text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
+    text_user_wrote: "%{value} が書き込みました："
+    text_work_packages_destroy_confirmation: 選択したワークパッケージを削除してもよろしいですか？
+    time_entry:
+      stop: ストップ
+      title: 時間を記録
+      tracking: 作業時間の記録
+      work_package_required: 最初にワークパッケージを選択する必要があります。
+    timer:
+      button_stop: 現在のタイマーを停止する
+      start_new_timer: 新しいタイマーを開始する
+      timer_already_running: 新しいタイマーを開始するには、まず現在のタイマーを停止する必要があります：
+      timer_already_stopped: このワークパッケージのアクティブなタイマーがありません。別のウィンドウで停止しましたか？
+      tracking_time: トラッキング・タイム
+    tl_toolbar:
+      outlines: 階層レベル
+      zooms: ズームレベル
+    toolbar:
+      filter: フィルタ
+      search_query_label: 保存したビューを検索
+      settings:
+        columns: 列
+        configure_view: ビューの設定
+        delete: 削除
+        display_hierarchy: 階層を表示
+        display_sums: 合計を表示
+        export: エクスポート
+        group_by: グループ化
+        hide_hierarchy: 階層を非表示
+        hide_sums: 合計の非表示
+        page_settings: ビューの名前を変更...
+        save: 保存
+        save_as: 名前をつけて保存
+        share_calendar: カレンダーを購読する
+        sort_by: 並べ替え
+        visibility_settings: 表示の設定
+      unselected_title: ワーク パッケージ
+    two_factor_authentication:
+      label_two_factor_authentication: 2要素認証
     units:
-      workPackage:
-        other: "ワークパッケージ"
       child_work_packages:
         other: "%{count} の子ワークパッケージ"
-      hour_string: "%{hours} h"
-      hour:
-        one: "1 h"
-        other: "%{count} h"
-        zero: "0 h"
       day:
-        one: "1日"
+        one: 1日
         other: "%{count} 日間"
-        zero: "0日"
+        zero: 0日
+      hour:
+        one: 1 h
+        other: "%{count} h"
+        zero: 0 h
+      hour_string: "%{hours} h"
       word:
         other: "%{count} words"
-    zen_mode:
-      button_activate: "マナーモードをアクティブにする"
-      button_deactivate: "マナーモードを非アクティブにする"
-    global_search:
-      all_projects: "すべてのプロジェクトで"
-      close_search: "検索を閉じる"
-      items_available: "%{count} items available"
-      direct_hit_available: "Work package with exact ID found. Press Enter to open it."
-      current_project_and_all_descendants: "このプロジェクトと子プロジェクトでは"
-      current_project: "このプロジェクトでは"
-      recently_viewed: "最近閲覧した記事"
-      search_placeholder_expanded: "Search work packages by subject, project, type, status or ID"
-      title:
-        all_projects: "すべてのプロジェクト"
-        project_and_subprojects: "すべてのプロジェクトで"
-        search_for: "検索対象"
+      workPackage:
+        other: ワークパッケージ
+    upsell:
+      ee_only: エンタープライズ版アドオン
     views:
-      card: "カード"
-      list: "表"
-      timeline: "ガント"
-    invite_user_modal:
-      invite: "招待"
-      placeholder_add_tag: "Create placeholder user"
-    exclusion_info:
-      modal:
-        title: "階層合計から除外される状態"
-        content: >-
-          ステータス「%{status_name}」が、作業、残作業、および完了率の階層合計から除外されるように構成されています。合計にはこの値は考慮されません。
-    favorite_projects:
-      no_results: "好きなプロジェクトはない"
-      no_results_subtext: "1つまたは複数のプロジェクトを、プロジェクトの概要またはプロジェクトリストにお気に入りとして追加できます。"
-    include_projects:
-      toggle_title: "対象プロジェクト"
-      title: "プロジェクト"
-      clear_selection: "選択をクリア"
-      apply: "適用"
-      selected_filter:
-        all: "すべてのプロジェクト"
-        selected: "選択したもののみ"
-      search_placeholder: "プロジェクトを検索…"
-      search_placeholder_favorites: "Search favorites..."
-      include_subprojects: "すべての子プロジェクトを含む"
-      tooltip:
-        include_all_selected: "すべての子プロジェクトを含める」が有効になっているため、プロジェクトはすでに含まれている。"
-        current_project: "これが現在あなたが参加しているプロジェクトです。"
-        does_not_match_search: "プロジェクトが検索条件に一致しません。"
-      no_results: "検索条件に一致するプロジェクトはありません。"
-      no_favorite_results: "No favorite project matches your search criteria."
-    include_workspaces:
-      search_placeholder: "Search..."
-      types:
-        program: "Program"
-        portfolio: "Portfolio"
-    baseline:
-      toggle_title: "ベースライン"
-      clear: "クリア"
-      apply: "適用"
-      header_description: "過去の選択した時点からこのリストに加えられた変更をハイライト"
-      show_changes_since: "以降の変更を表示する"
-      help_description: "ベースラインの基準タイムゾーン。"
-      time_description: "現地時間: %{datetime}"
-      time: "時間"
-      from: "From"
-      to: "To"
-      drop_down:
-        none: "-"
-        yesterday: "昨日"
-        last_working_day: "最終営業日"
-        last_week: "先週"
-        last_month: "先月"
-        a_specific_date: "特定の日付"
-        between_two_specific_dates: "特定の2つの日付の間"
-      legends:
-        changes_since: "変更点"
-        changes_between: "との間の変化"
-        now_meets_filter_criteria: "フィルター基準を満たすようになった"
-        no_longer_meets_filter_criteria: "フィルター基準を満たさなくなった"
-        maintained_with_changes: "変更に伴うメンテナンス"
-        in_your_timezone: "お住まいの地域のタイムゾーンで："
-      icon_tooltip:
-        added: "比較対象期間内の表示に追加"
-        removed: "比較期間内に表示から削除された"
-        changed: "修正を加えながら維持"
-    forms:
-      submit_success_message: "フォームは正常に送信されました"
-      load_error_message: "フォームの読み込み中にエラーが発生しました"
-      validation_error_message: "フォームに存在するエラーを修正してください"
-      advanced_settings: "詳細設定"
-    spot:
-      filter_chip:
-        remove: "削除"
-      drop_modal:
-        focus_grab: "これはモーダル用のフォーカスアンカーです。shift+tab を押すと、モーダルのトリガー要素に戻ります。"
-        close: "モーダルを閉じる"
-    open_project_storage_modal:
-      waiting_title:
-        timeout: "タイムアウト"
-      waiting_subtitle:
-        network_off: "ネットワークに問題があります。"
-        network_on: "ネットワークが戻った。我々は努力している。"
+      card: カード
+      list: 表
+      timeline: ガント
+    watchers:
+      label_add: ウォッチャーの追加
+      label_discard: 選択範囲を破棄する
+      label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
+      label_loading: ウォッチャーを読み込み中...
+      label_search_watchers: ウォッチャーを検索
+      typeahead_placeholder: ウォッチャーの選択肢を検索
+    wiki_formatting:
+      code: インライン コード
+      deleted: 削除
+      heading1: 見出し 1
+      heading2: 見出し 2
+      heading3: 見出し 3
+      image: 画像
+      italic: 斜体字
+      ordered_list: 順序付きリスト
+      preformatted_text: 整形済みテキスト
+      quote: 引用
+      strong: 強調
+      underline: 下線
+      unordered_list: 順不同リスト
+      unquote: 引用終了
+      wiki_link: Wikiページにリンクする
+    work_packages:
+      baseline:
+        addition_label: 比較期間内に表示するように追加しました
+        column_incompatible: この列はベースラインモードの変更を表示しません。
+        modification_label: 比較期間内に変更されました
+        removal_label: 比較期間内にビューから削除されました
+      bulk_actions:
+        delete: 一括削除
+        duplicate: 一括複製
+        edit: 一括編集
+        move: プロジェクトの一括変更
+      button_clear: クリア
+      comment_added: 正常にコメントを追加しました。
+      comment_send_failed: エラーが発生しました。コメントを投稿できませんでした。
+      comment_updated: 正常にコメントを更新しました。
+      confirm_edit_cancel: ワークパッケージの編集をキャンセルしてもよろしいですか？
+      create:
+        button: 作成
+        header: 新しい %{type}
+        header_no_type: 新しいワークパッケージ（タイプ未設定）
+        header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
+        title: 新しいワークパッケージ
+      default_queries:
+        all_open: 未完了
+        assigned_to_me: 自分が担当しているもの
+        created_by_me: 自分が作成したもの
+        latest_activity: 最新の活動
+        manually_sorted: 新しい手動ソートされたクエリ
+        overdue: 期限の過ぎたもの
+        recently_created: 最近作成されたもの
+        shared_with_me: 共有された項目
+        shared_with_users: ユーザーと共有
+        summary: サマリー(概要)
+      description_enter_text: テキスト
+      description_filter: フィルタ
+      description_options_hide: オプションを非表示
+      description_options_show: オプションを表示
+      duplicate:
+        title: ワークパッケージの重複
+      edit_attribute: "%{attribute} - 編集"
+      faulty_query:
+        description: あなたの ビューは間違っており、処理できませんでした。
+        title: ワークパッケージが読み込めませんでした。
+      filters:
+        baseline_incompatible: このフィルター属性はベースラインモードでは考慮されません。
+        baseline_warning: ベースラインモードはオンですが、アクティブなフィルターの一部は比較に含まれません。
+        title: ワークパッケージのフィルタ
+      hierarchy:
+        children_collapsed: 階層レベル %{level} を折りたたみました。クリックすると、フィルターされた子を表示します
+        children_expanded: 階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます
+        hide: 階層モードを非表示
+        leaf: ワークパッケージリーフ、レベル %{level}。
+        show: 階層モードを表示
+        toggle_button: クリックして階層モードを切り替えます。
+      inline_create:
+        title: クリックしてこのリストに新しいワークパッケージを追加します
+      jump_marks:
+        content: コンテンツにジャンプ
+        label_content: ここをクリックすると、メニューをスキップして、コンテンツへ移動します
+        label_pagination: ここをクリックすると、ワークパッケージ表をスキップしてページ設定に移動します
+        pagination: 表のページ設定に移動する
+      key_value: "%{key}: %{value}"
+      label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
+      label_disable_multi_select: 複数の選択を禁止
+      label_enable_multi_select: 複数の選択を許可
+      label_filter_add: フィルタを追加
+      label_filter_by_text: テキストで絞り込む
+      label_options: オプション
+      limited_results: 手動ソートモードで表示できるのは、 %{count} ワークパッケージだけです。フィルタリングするか、自動ソートに切り替えてください。
+      message_error_during_bulk_delete: ワークパッケージを削除する際にエラーが発生しました。
+      message_successful_bulk_delete: ワークパッケージが正常に削除されました。
+      message_successful_show_in_fullscreen: クリックすると全画面表示でこのワークパッケージを開きます。
+      message_view_spent_time: このワークパッケージに費やした時間を表示する
+      message_work_package_read_only: ワークパッケージはこの状態でロックされています。 ステータス以外の属性は変更できません。
+      message_work_package_status_blocked: ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。
+      no_results:
+        description: ワークパッケージが作成されていないかすべてのワークパッケージが除外されています。
+        title: 表示できるワークパッケージがありません。
+      placeholder_filter_by_text: タイトル、説明、コメント、...
+      placeholders:
+        date: 日付を選択
+        default: "-"
+      progress:
+        title: 作業見積もりと進捗
+      properties:
+        assignee: 担当者
+        author: 作成者
+        category: カテゴリ
+        createdAt: 作成日時
+        date: 日付
+        description: 説明
+        dueDate: 終了日
+        duration: 期間
+        percentComplete: 進捗度(%)
+        percentCompleteAlternative: 進捗状況
+        percentageDone: 完了比率
+        priority: 優先度
+        projectName: プロジェクト
+        remainingTime: 残時間
+        remainingWork: 残時間
+        remainingWorkAlternative: 残り時間
+        responsible: 責任者
+        spentTime: 作業時間の記録
+        startDate: 開始日
+        status: ステータス
+        subject: タイトル
+        subproject: 子プロジェクト
+        title: タイトル
+        type: タイプ
+        updatedAt: 更新日時
+        version: バージョン
+        versionName: バージョン
+        work: 仕事
+        workAlternative: 予定工数
+      property_groups:
+        details: 詳細
+        estimatesAndTime: 見積もりと 時間
+        other: その他
+        people: 割り当て
+      query:
+        click_to_edit_query_name: クリックすると、このビューのタイトルを編集できます。
+        column_names: 列
+        confirm_edit_cancel: このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。
+        display_sums: 合計を表示
+        errors:
+          duplicate_query_title: このビューの名前は既に存在します。 とにかく変更しますか？
+          not_found: そのようなビューはありません
+          unretrievable_query: URLからビューを取得できません
+        filters: フィルタ
+        group: グループ化
+        group_by: グループ化
+        group_by_disabled_by_hierarchy: 階層モードが有効なため、グループ化は無効です。
+        hide_column: 列を非表示
+        hierarchy_disabled_by_group_by: 結果が %{column} でグループ化されているため、階層モードは無効です。
+        insert_columns: 列の挿入
+        move_column_left: 列を左に移動
+        move_column_right: 列を右に移動
+        public_text: 'このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでのワークパッケージの結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
+
+          '
+        rename_query_placeholder: このビューの名前
+        sort_ascending: 昇順にソート
+        sort_descending: 降順にソート
+        star_text: このビューをお気に入りとしてマークし、左側の保存済みビューサイドバーに追加します。
+        text_no_results: 一致するビューは見つかりませんでした。
+      reminders:
+        button_label: リマインダーの設定
+        presets:
+          custom: 特定の日時
+          month: 1ヶ月以内
+          three_days: 3日後
+          tomorrow: 明日
+          week: 週間後
+        subtitle: 選択した時間に、このワークパッケージの通知が届きます。
+        title:
+          edit: リマインダーを編集する
+          new: リマインダーの設定
+      scheduling:
+        is_parent: このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。
+        is_switched_from_manual_to_automatic: 他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。
+      sharing:
+        show_all_users: ワークパッケージが共有されたすべてのユーザーを表示
+        title: ワークパッケージを共有する
+      table:
+        configure_button: ワークパッケージテーブルを設定する
+        summary: ワークパッケージの行と、ワークパッケージの属性の列から成る表。
+        text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
+        text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
+        text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
+      table_configuration:
+        button: このワークパッケージテーブルを設定する
+        choose_display_mode: ワークパッケージを次のように表示する
+        columns_help_text: テーブルビューに列を追加するには、上の入力フィールドを使用します。列をドラッグアンドドロップして並べ替えることができます。
+        default: デフォルト
+        default_mode: フラットリスト
+        display_settings: 表示設定
+        display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
+        embedded_tab_disabled: この設定タブは、編集中の埋め込みビューでは使用できません。
+        hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
+        hierarchy_mode: 階層
+        highlighting: ハイライト
+        highlighting_mode:
+          description: 色付きでハイライト
+          entire_row_by: 全体の行
+          inline: 強調表示された属性
+          inline_all: 全ての属性
+          none: ハイライトなし
+          priority: 優先度
+          status: ステータス
+          type: タイプ
+        modal_title: ワークパッケージ一覧の設定
+        relation_filters:
+          filter_work_packages_by_relation_type: 関係タイプでワークパッケージをフィルタ
+        show_timeline_hint: テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。
+        sorting_mode:
+          automatic: 自動
+          description: 並び替えモードを選択：
+          manually: 手動
+          warning: 自動並び替えモードをアクティブにすると、以前のソートが失われます。
+      tabs:
+        activity: 活動
+        files: ファイルを添付する
+        overview: 概要
+        project_attributes: Project attributes
+        relations: 関係
+        watchers: ウォッチャー
+      time_relative:
+        days: 日
+        months: 月
+        weeks: 週
+    zen_mode:
+      button_activate: マナーモードをアクティブにする
+      button_deactivate: マナーモードを非アクティブにする

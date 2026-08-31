@@ -1,5 +1,11 @@
+---
 nl:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "Overzicht"
+    label_overview: Overzicht

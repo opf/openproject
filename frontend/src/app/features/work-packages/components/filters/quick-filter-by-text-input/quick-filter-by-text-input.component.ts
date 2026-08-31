@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { Subject } from 'rxjs';
@@ -42,8 +42,16 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
+  readonly I18n = inject(I18nService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public text = {
@@ -59,9 +67,7 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
   /** Input for search requests */
   public searchTermChanged:Subject<string> = new Subject<string>();
 
-  constructor(readonly I18n:I18nService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly wpTableFilters:WorkPackageViewFiltersService) {
+  constructor() {
     super();
 
     this.wpTableFilters

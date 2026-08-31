@@ -32,6 +32,8 @@ module Documents
   module ShowEditView
     class ConnectionErrorNoticeComponent < ApplicationComponent
       include OpTurbo::Streamable
+
+      alias_method :document, :model
     end
   end
 end

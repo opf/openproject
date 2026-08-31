@@ -27,5 +27,11 @@
 #++
 
 Rails.application.routes.draw do
+  namespace "github_integration" do
+    namespace "admin" do
+      resource :settings, only: %i[show update]
+    end
+  end
+
   resources :deploy_targets, only: %i[index new create destroy]
 end

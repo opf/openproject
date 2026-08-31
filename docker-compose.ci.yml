@@ -8,6 +8,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
+      platforms:
+        - linux/amd64
       args:
         - APP_USER_UID
         - APP_USER_GID

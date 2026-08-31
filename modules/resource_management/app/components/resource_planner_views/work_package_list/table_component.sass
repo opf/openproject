@@ -1,0 +1,27 @@
+@import "helpers"
+
+// The shared border-box grid top-aligns row content and distributes columns
+// evenly. The resource planner work package list has a fixed, known set of
+// columns, so we center the content and hardcode the column widths from the
+// design. Scoped via the table's container_class so no other table is affected.
+@media screen and (min-width: $breakpoint-md)
+  .op-resource-work-package-list
+    .op-border-box-grid
+      align-items: center
+      // Column widths as fractions of the 1200px design (376/80/200/200/200),
+      // so they scale with the available width. Only the action button is fixed.
+      // The header and body are independent grids; sharing one template keeps
+      // their tracks aligned. minmax(0, …) lets a track shrink below its content.
+      grid-template-columns: minmax(0, 376fr) minmax(0, 80fr) minmax(0, 200fr) minmax(0, 200fr) minmax(0, 200fr) 40px
+
+    // Subject keeps its main-column semantics (row header role, no truncation)
+    // but must occupy a single track in the explicit template above rather than
+    // spanning two as the shared grid would have it.
+    .op-border-box-grid__header--main-column,
+    .op-border-box-grid__row-item--main-column
+      grid-column: auto
+
+    // Content is centered here, so the top-alignment nudge the shared component
+    // applies to the action button is not wanted.
+    .op-border-box-grid__row-action
+      margin-top: 0

@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import type { Doc } from 'yjs';
@@ -36,21 +34,47 @@ type Listener = (provider:HocuspocusProvider) => void;
 class LiveCollaborationManagerClass {
   yjsProviderInstance:HocuspocusProvider|null = null;
   yjsDocInstance:Doc|null = null;
+  private currentDocumentName:string|null = null;
 
   private listeners:Listener[] = [];
 
   /**
-   * Initializes the YJS Provider
+   * Returns the active session for the given document, or null if none.
+   *
+   * Used by the init-yjs-provider Stimulus controller to detect that a
+   * provider for the same document is already live — letting it adopt the
+   * existing session instead of building a duplicate Y.Doc + provider pair.
+   * Stimulus can fire `connect()` a second time (HMR replay, Turbo morph)
+   * without firing `disconnect()`; without this check, the spurious re-init
+   * would tear down the live Y.Doc and wipe the editor's Y.UndoManager
+   * history mid-session.
+   */
+  getCurrentSessionFor(documentName:string):{provider:HocuspocusProvider; doc:Doc} | null {
+    if (this.yjsProviderInstance && this.yjsDocInstance && this.currentDocumentName === documentName) {
+      return { provider: this.yjsProviderInstance, doc: this.yjsDocInstance };
+    }
+    return null;
+  }
+
+  /**
+   * Initializes the YJS Provider for the given document.
+   *
+   * Callers SHOULD first check {@link getCurrentSessionFor} and adopt any
+   * existing session rather than calling this with a fresh provider, since
+   * this method unconditionally tears down the previous provider/doc.
+   *
    * @param provider The provider to use
    * @param doc The Y.Doc instance to use
+   * @param documentName Logical identifier of the document being edited
    * @returns void
    */
-  initializeYjsProvider(provider:HocuspocusProvider, doc:Doc) {
+  initializeYjsProvider(provider:HocuspocusProvider, doc:Doc, documentName:string) {
     this.destroyYjsProvider();
     this.destroyYjsDoc();
 
     this.yjsProviderInstance = provider;
     this.yjsDocInstance = doc;
+    this.currentDocumentName = documentName;
     this.listeners.forEach((listener) => listener(this.yjsProviderInstance!));
   }
 
@@ -82,6 +106,7 @@ class LiveCollaborationManagerClass {
   private destroy():void {
     this.destroyYjsProvider();
     this.destroyYjsDoc();
+    this.currentDocumentName = null;
 
     this.listeners = [];
   }

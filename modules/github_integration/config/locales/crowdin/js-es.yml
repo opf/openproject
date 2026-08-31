@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 es:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Solicitudes de incorporación de cambios"
-        copy_menu:
-          label: Fragmentos de código de Git
-          description: Copiar fragmentos de código de Git en el Portapapeles
-        git_actions:
-          branch_name: Nombre de rama
-          commit_message: Mensaje de confirmación
-          cmd: Crear rama con confirmación vacía
-          title: Fragmentos de código rápido para Git
-          copy_success: '✅ Copiado'
-          copy_error: '❌ Error al copiar'
-      tab_prs:
-        empty: 'Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.'
       github_actions: Acciones
       pull_requests:
-        message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} ha sido %{pr_state}."
-        merged_message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}."
-        referenced_message: "La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} hace referencia a este paquete de trabajo."
+        merged_message: 'La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}.'
+        message: 'La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} ha sido %{pr_state}.'
+        referenced_message: 'La solicitud de incorporación de cambios #%{pr_number} %{pr_link} para %{repository_link} cuyo autor es %{github_user_link} hace referencia a este paquete de trabajo.'
         states:
-          opened: 'abierto'
-          closed: 'cerrado'
-          draft: 'redactado'
-          merged: 'combinado'
-          ready_for_review: 'marcado listo para revisión'
+          closed: cerrado
+          draft: redactado
+          merged: combinado
+          opened: abierto
+          ready_for_review: marcado listo para revisión
+      tab_header:
+        copy_menu:
+          description: Copiar fragmentos de código de Git en el Portapapeles
+          label: Fragmentos de código de Git
+        git_actions:
+          branch_name: Nombre de rama
+          cmd: Crear rama con confirmación vacía
+          commit_message: Mensaje de confirmación
+          copy_error: "❌ Error al copiar"
+          copy_success: "✅ Copiado"
+          title: Fragmentos de código rápido para Git
+        title: Solicitudes de incorporación de cambios
+      tab_prs:
+        empty: Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

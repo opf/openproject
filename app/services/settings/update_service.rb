@@ -34,6 +34,13 @@ class Settings::UpdateService < BaseServices::BaseContracted
           contract_class: Settings::UpdateContract)
   end
 
+  def validate_params
+    contract = Settings::UpdateParamsContract.new(model, user, params:)
+    ServiceResult.new success: contract.valid?,
+                      errors: contract.errors,
+                      result: model
+  end
+
   def persist(call)
     params.each do |name, value|
       set_setting_value(name, value)

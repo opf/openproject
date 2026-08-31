@@ -54,7 +54,7 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
 
     it "displays budget total" do
       expect(rendered_component).to have_heading("Total planned budget")
-      expect(rendered_component).to have_primer_text("10,000 EUR")
+      expect(rendered_component).to have_primer_text("10,000 €")
     end
 
     it "displays spent ratio as percentage" do
@@ -64,12 +64,12 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
 
     it "displays remaining budget equal to planned budget" do
       expect(rendered_component).to have_heading("Remaining budget")
-      expect(rendered_component).to have_primer_text("10,000 EUR", color: "default")
+      expect(rendered_component).to have_primer_text("10,000 €", color: "default")
     end
 
     it "displays zero actual costs" do
       expect(rendered_component).to have_heading("Total actual costs")
-      expect(rendered_component).to have_primer_text("0 EUR")
+      expect(rendered_component).to have_primer_text("0 €")
     end
   end
 
@@ -85,12 +85,12 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
 
     it "displays actual costs based on time entries" do
       expect(rendered_component).to have_heading("Total actual costs")
-      expect(rendered_component).to have_primer_text("2,000 EUR")
+      expect(rendered_component).to have_primer_text("2,000 €")
     end
 
     it "displays remaining budget reduced by spending" do
       expect(rendered_component).to have_heading("Remaining budget")
-      expect(rendered_component).to have_primer_text("8,000 EUR", color: "default")
+      expect(rendered_component).to have_primer_text("8,000 €", color: "default")
     end
 
     it "displays spent ratio as percentage" do
@@ -111,7 +111,7 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
 
     it "displays negative remaining budget in red" do
       expect(rendered_component).to have_heading("Remaining budget")
-      expect(rendered_component).to have_primer_text("-EUR5,000", color: "danger")
+      expect(rendered_component).to have_primer_text("-5,000 €", color: "danger")
     end
 
     it "displays over-100% spent ratio in red" do
@@ -121,7 +121,7 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
 
     it "displays actual costs exceeding budget" do
       expect(rendered_component).to have_heading("Total actual costs")
-      expect(rendered_component).to have_primer_text("10,000 EUR")
+      expect(rendered_component).to have_primer_text("10,000 €")
     end
   end
 

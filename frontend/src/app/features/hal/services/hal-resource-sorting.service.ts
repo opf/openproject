@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { Injectable } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
@@ -62,7 +63,7 @@ export class HalResourceSortingService {
 
     const property = this.sortingProperty(halType);
     if (property) {
-      return _.sortBy<T>(elements, (v) => v[property].toLowerCase());
+      return sortBy<T>(elements, (v) => (v[property] as string).toLowerCase());
     }
     return elements;
   }

@@ -21,13 +21,27 @@ Developers notice a failing spec in CI runs related to the PR they are working o
 
 The failing spec is suspicious as it seems unrelated to the changes introduced by the commits.
 
+Out-of-hours correlation is a lead, not proof of a datetime bug. Evening or weekend failures can still be caused by
+ordinary flakiness, branch-specific regressions, or infrastructure issues. Start by separating build/setup failures from
+actual `Unit tests` or `Feature tests`, then look for recurring spec names before concluding that time-sensitive logic is involved.
+
 To get the failing spec names, use `script/github_pr_errors` and give it the URL of the failing run as argument, for example:
 
-```bash
+```shell
 script/github_pr_errors https://github.com/opf/openproject/actions/runs/18215876372/job/51864889174
 ```
 
 There are options to display images or display advice to reproduce the failures. Use `--help` to know more.
+
+To aggregate recent `Test suite` failures and highlight specs that skew outside 09:00-18:00 Europe/Berlin Monday to Friday,
+use:
+
+```shell
+export GITHUB_TOKEN=...
+script/report_out_of_hours_ci_failures --days 30
+```
+
+The report focuses on `dev` and `release/*` runs by default and excludes failures that never reached the unit or feature test steps.
 
 ## Confirming the spec is flaky
 
@@ -66,6 +80,7 @@ To be closer to production, CI eager loads the application. As it takes 3 to 5 s
 Some behavior may change because a class or a monkey-patch is loaded / not loaded.
 
 Use
+
 ```shell
 export CI=true
 ```
@@ -105,6 +120,7 @@ Use a stress tool utility. `s-tui` works reasonably well with macOS ([`s-tui` ho
 ## Use same set of test files and same test seed
 
 Some tests may leak state after being run, leading to subsequent tests behaving differently and failing:
+
 - OpenProject code uses memoization and caching for performance, and cache is not cleared after test, making next test start with polluted cache.
 - Some tests monkey-patch OpenProject code, but don't restore behavior correctly.
 
@@ -116,12 +132,12 @@ This information can be found in the log output. It is also given by `script/git
 
 If it fails when run with its group, but not when run alone, then the test failure is order-dependent.
 
-
 ### Use fresh database structure
 
 If switching a lot between branches during development and migrating databases each time, the test database may be a bit ahead of time compared to the one used on CI (for example, because you used `dev` previously and now run a test on a 2-month old branch).
 
 Reset the test database to its pristine state:
+
 ```shell
 bin/rails db:drop db:create db:migrate RAILS_ENV=test
 ```
@@ -189,8 +205,9 @@ export OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
 ### Install third-party binaries: svnadmin, git, java
 
 Some tests have external dependencies:
-  - Source control management tests need `svnadmin` and `git` binaries.
-  - LDAP tests need `java` to spin up an LDAP server.
+
+- Source control management tests need `svnadmin` and `git` binaries.
+- LDAP tests need `java` to spin up an LDAP server.
 
 ### Use correct Chrome and Webdriver versions
 
@@ -203,7 +220,6 @@ $(bundle show selenium-webdriver)/bin/macos/selenium-manager --browser chrome
 ```
 
 Use options `--driver-version`, `--browser-version`, and `--skip-browser-in-path`.
-
 
 ## Analyzing
 
@@ -227,7 +243,7 @@ Try deleting some parts of the first test (setup or test body) and rerun until y
 
 Get flaky fixes with:
 
-```bash
+```shell
 git log --grep=flaky --no-merges
 ```
 
@@ -255,7 +271,6 @@ Browser screenshots are automatically taken on feature test failure when possibl
 
 If the interactions are too fast to understand why the test is failing, use `OPENPROJECT_TESTING_SLOWDOWN_FACTOR`, providing the number of seconds to slow down every browser command with. For example, to slow down every interaction by 200 milliseconds, run with `OPENPROJECT_TESTING_SLOWDOWN_FACTOR=0.2`.
 
-
 ### Examples of past flaky feature tests
 
 - race condition when loading preview in data picker: https://github.com/opf/openproject/commit/d646353c338
@@ -269,9 +284,43 @@ If the interactions are too fast to understand why the test is failing, use `OPE
 
 Get flaky fixes with:
 
-```bash
+```shell
 git log --grep=flaky --no-merges
 ```
+
+### Common feature-spec flake patterns and their fixes
+
+The most frequent root cause is **Turbo's asynchronous rendering**. `wait_for_network_idle` only waits for the HTTP response to arrive, but Turbo updates the DOM _after_ that:
+
+1. HTTP response received → network idle
+2. Turbo dispatches `turbo:before-stream-render` (or `turbo:before-render` for Drive)
+3. Turbo awaits the next repaint
+4. DOM is updated
+
+An assertion running between steps 1 and 4 sees stale content and fails intermittently. The helpers below (in `spec/support/capybara/wait_helpers.rb` and `spec/support/toasts/expectations.rb`) register their JS event listeners *before* yielding the block, so they are race-condition-safe. Wrap only the triggering action — never the assertion.
+
+The `wait_for_turbo*` helpers return the block's value, so when the assertion needs the object the action produces, capture it and assert afterwards:
+
+```ruby
+split_view = wait_for_turbo_frame { team_planner.open_split_view_by_info_icon(wp) }
+split_view.expect_subject
+```
+
+| Helper | Use when the action triggers… | Example |
+|--------|-------------------------------|---------|
+| `wait_for_turbo_stream { action }` | a **Turbo Stream** response (partial DOM replacement: dialog updates, list item changes). Waits for `op:turbo-stream-rendered`. | `wait_for_turbo_stream { share_dialog.toggle_public }` |
+| `wait_for_turbo { action }` | a **Turbo Drive** navigation (form submit, POST → redirect). Waits for `turbo:load`. | `wait_for_turbo { click_on "Complete" }` |
+| `wait_for_turbo_frame { action }` | a **Turbo Frame** load/update. Waits for `turbo:frame-load`. | `wait_for_turbo_frame { projects_page.remove_column("Status") }` |
+| `wait_for_network_idle` | a plain AJAX/Angular request with **no** Turbo rendering to wait for. | `columns.remove("Priority"); wait_for_network_idle` |
+| `dismiss_specific_toaster!(message:)` | **multiple** toasts may appear in sequence and `dismiss_toaster!` could close the wrong one. | `dismiss_specific_toaster!(message: "Saved successfully")` |
+| `have_test_selector(sel, text:)` | the container itself may be **replaced** by a Turbo Stream (stale node). Re-queries the DOM on each retry, unlike `within_test_selector`. | `expect(page).to have_test_selector("agenda-items-list", text: "No notes")` |
+| `retry_block { action }` | page state is **non-deterministic** after navigation (e.g. `go_back` re-initializes asynchronously). | `retry_block { click_on "Calendar event" }` |
+| `have_button("Label", wait: 20)` | an Angular custom element sets its label asynchronously in `ngOnInit` and the default wait is too short on slow CI. | `expect(page).to have_button("Nextcloud login", wait: 20)` |
+| `expect_active!` (not `activate!`) | a field is **already** in edit mode (e.g. auto-opened after a failed save). | `subject_field.expect_active!` |
+
+A frequent trap: a helper method call (`field.open_field`) followed by a bare `wait_for_network_idle` on the next line. The HTTP request finishes but Turbo hasn't applied the stream yet — replace it with `wait_for_turbo_stream { field.open_field }`. Wrapping a helper that internally calls `wait_for_network_idle` is safe, because the outer listener is registered before the block runs.
+
+To pick the right wait when unsure, check the controller action: `render turbo_stream:` / `format.turbo_stream` → `wait_for_turbo_stream`; `redirect_to` → `wait_for_turbo`; a `<turbo-frame>` update → `wait_for_turbo_frame`.
 
 ### Is the failure authentic?
 

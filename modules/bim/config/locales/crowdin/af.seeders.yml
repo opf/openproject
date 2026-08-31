@@ -404,7 +404,9 @@ af:
                     *   Bring some drinks, snacks and your smile
         demo-bim-project:
           name: "(Demo) BIM-projek"
-          status_explanation: "Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.\n"
+          status_explanation: 'Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.
+
+            '
           description: Dit is 'n kort opsomming van die doelwitte van hierdie demo-Gebou inligtingsmodellering konstruksieprojek.
           news:
             item_0:

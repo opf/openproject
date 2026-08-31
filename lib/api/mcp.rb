@@ -44,7 +44,7 @@ module API
     end
 
     post "/" do
-      if !OpenProject::FeatureDecisions.mcp_server_active? || !EnterpriseToken.allows_to?(:mcp_server) || !server_config.enabled?
+      if !EnterpriseToken.allows_to?(:mcp_server) || !server_config.enabled?
         status 404
         return "MCP server is not available."
       end
@@ -54,9 +54,9 @@ module API
         title: server_config.title,
         # description: server_config.description, # not yet supported by mcp gem
         version: "1.0.0",
-        tools: McpTools.enabled.map(&:tool),
-        resources: McpResources.enabled_resources.map(&:resource),
-        resource_templates: McpResources.enabled_resource_templates.map(&:resource_template),
+        tools: McpTools.enabled_mcp_tools,
+        resources: McpResources.enabled_mcp_resources,
+        resource_templates: McpResources.enabled_mcp_resource_templates,
         server_context: { current_user: User.current }
       )
 

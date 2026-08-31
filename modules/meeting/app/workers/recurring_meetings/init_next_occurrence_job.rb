@@ -57,6 +57,8 @@ module RecurringMeetings
 
     def perform(recurring_meeting, scheduled_time)
       self.recurring_meeting = recurring_meeting
+      return if recurring_meeting.template.draft?
+
       self.scheduled_time = scheduled_time.in_time_zone(recurring_meeting.time_zone)
 
       # Schedule the next job
@@ -128,22 +130,24 @@ module RecurringMeetings
     end
 
     ##
-    # Return if there is already an instantiated upcoming meeting
+    # Return if there is already an instantiated (non-cancelled) meeting
     # for the current scheduled_time
     def occurrence_instantiated?
       recurring_meeting
-        .scheduled_instances
-        .where.not(meeting_id: nil)
-        .exists?(start_time: scheduled_time)
+        .meetings
+        .not_templated
+        .not_cancelled
+        .exists?(recurrence_start_time: scheduled_time)
     end
 
     ##
     # Return if the current scheduled time is cancelled
     def occurrence_cancelled?
       recurring_meeting
-        .scheduled_instances
-        .where(cancelled: true)
-        .exists?(start_time: scheduled_time)
+        .meetings
+        .not_templated
+        .cancelled
+        .exists?(recurrence_start_time: scheduled_time)
     end
 
     def next_scheduled_time

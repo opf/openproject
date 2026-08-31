@@ -224,7 +224,7 @@ class CostQuery::PDF::TimesheetGenerator
 
     href = url_helpers.work_package_url(entry.entity)
     {
-      content: "#{make_link_href(href, "##{entry.entity.id}")} #{entry.entity.subject || ''}",
+      content: "#{make_link_href(href, entry.entity.formatted_id)} #{entry.entity.subject || ''}",
       inline_format: true
     }
   end
@@ -259,7 +259,7 @@ class CostQuery::PDF::TimesheetGenerator
   def table_header_columns
     [
       { content: TimeEntry.human_attribute_name(:spent_on), rowspan: 1 },
-      I18n.t(:"activerecord.models.work_package"),
+      WorkPackage.model_name.human,
       with_times_column? ? I18n.t(:"export.timesheet.time") : nil,
       { content: TimeEntry.human_attribute_name(:hours), align: :right },
       TimeEntry.human_attribute_name(:activity)

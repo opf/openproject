@@ -40,13 +40,13 @@ module Storages
 
           return build_failure(storage) if username.blank? || password.blank?
 
-          yield OpenProject.httpx.basic_auth(username, password).with(http_options)
+          yield OpenProject.httpx.plugin(:basic_auth).basic_auth(username, password).with(http_options)
         end
 
         private
 
         def build_failure(storage)
-          Failure(Results::Error.new(source: self.class, payload: storage, code: :missing_credentials))
+          Failure(SimpleError.new(source: self.class, payload: storage, code: :missing_credentials))
         end
       end
     end

@@ -99,4 +99,11 @@ RSpec.describe ProjectsHelper do
                 ])
     end
   end
+
+  describe "#supported_export_formats" do
+    it "returns the supported export formats" do
+      expect(helper.supported_export_formats)
+        .to match_array(%w[xls csv pdf])
+    end
+  end
 end

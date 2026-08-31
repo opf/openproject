@@ -77,4 +77,80 @@ RSpec.describe Meetings::HeaderComponent, type: :component do
       end
     end
   end
+
+  describe "duplicate meeting" do
+    context "when user has create_meetings permission" do
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project(:create_meetings, project:)
+        end
+      end
+
+      it "renders the duplicate menu item" do
+        expect(subject).to have_text I18n.t("button_duplicate")
+      end
+    end
+
+    context "when user does not have create_meetings permission" do
+      it "does not render the duplicate menu item" do
+        expect(subject).to have_no_text I18n.t("button_duplicate")
+      end
+    end
+
+    context "when meeting is a template" do
+      let(:meeting) { build_stubbed(:meeting, project:, template: true) }
+
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project(:create_meetings, project:)
+        end
+      end
+
+      it "does not render the duplicate menu item" do
+        expect(subject).to have_no_text I18n.t("button_duplicate")
+      end
+    end
+
+    context "when meeting is a series occurrence" do
+      let(:recurring_meeting) { build_stubbed(:recurring_meeting, project:) }
+      let(:meeting) { build_stubbed(:meeting, project:, recurring_meeting:) }
+
+      before do
+        allow(meeting).to receive(:notify?).and_return(false)
+      end
+
+      context "when user has create_meetings permission" do
+        before do
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project(:create_meetings, project:)
+          end
+        end
+
+        it "renders the duplicate as one-time meeting menu item" do
+          expect(subject).to have_text I18n.t("label_recurring_meeting_duplicate")
+        end
+      end
+
+      context "when user does not have create_meetings permission" do
+        it "does not render the duplicate as one-time meeting menu item" do
+          expect(subject).to have_no_text I18n.t("label_recurring_meeting_duplicate")
+        end
+      end
+    end
+
+    context "when meeting is a series template" do
+      let(:recurring_meeting) { build_stubbed(:recurring_meeting, project:) }
+      let(:meeting) { build_stubbed(:meeting, project:, template: true, recurring_meeting:) }
+
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project(:create_meetings, project:)
+        end
+      end
+
+      it "does not render the duplicate menu item" do
+        expect(subject).to have_no_text I18n.t("label_recurring_meeting_duplicate")
+      end
+    end
+  end
 end

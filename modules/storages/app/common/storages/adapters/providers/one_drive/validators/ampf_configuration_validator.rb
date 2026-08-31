@@ -33,7 +33,9 @@ module Storages
     module Providers
       module OneDrive
         module Validators
-          class AmpfConfigurationValidator < ConnectionValidators::BaseValidatorGroup
+          class AmpfConfigurationValidator < HealthReports::ValidatorGroup
+            include TaggedLogging
+
             TEST_FOLDER_NAME = "OpenProjectConnectionValidationFolder"
 
             def self.key = :ampf_configuration
@@ -69,7 +71,7 @@ module Storages
 
             def delete_folder(folder)
               Input::DeleteFolder.build(location: folder.id).bind do |input_data|
-                Registry["one_drive.commands.delete_folder"].call(storage: @storage, auth_strategy:, input_data:)
+                Registry["one_drive.commands.delete_folder"].call(storage: subject, auth_strategy:, input_data:)
                   .either(->(_) { pass_check(:client_folder_removal) },
                           ->(_) { fail_check(:client_folder_removal, :od_client_cant_delete_folder) })
               end
@@ -77,7 +79,7 @@ module Storages
 
             def create_folder
               Input::CreateFolder.build(folder_name: TEST_FOLDER_NAME, parent_location: "/").bind do |input_data|
-                folder_result = Registry["one_drive.commands.create_folder"].call(storage: @storage, auth_strategy:, input_data:)
+                folder_result = Registry["one_drive.commands.create_folder"].call(storage: subject, auth_strategy:, input_data:)
 
                 folder_result.either(
                   ->(_) { pass_check(:client_folder_creation) },
@@ -100,14 +102,14 @@ module Storages
             end
 
             def managed_project_folder_ids
-              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: @storage)
+              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: subject)
                                                             .pluck(:project_folder_id).to_set
             end
 
             def files_query
               Input::Files
                 .build(folder: "/")
-                .bind { Registry["one_drive.queries.files"].call(storage: @storage, auth_strategy:, input_data: it) }
+                .bind { Registry["one_drive.queries.files"].call(storage: subject, auth_strategy:, input_data: it) }
             end
 
             def auth_strategy = Registry["one_drive.authentication.userless"].call

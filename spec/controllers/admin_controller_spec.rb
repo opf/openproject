@@ -130,4 +130,45 @@ RSpec.describe AdminController do
       expect(response).to render_template "info"
     end
   end
+
+  describe "#test_email" do
+    before do
+      allow(ActionMailer::Base).to receive_messages(delivery_method: :smtp, smtp_settings: { address: "localhost" })
+    end
+
+    context "with an unsafe SMTP address" do
+      before do
+        get :test_email
+      end
+
+      it "redirects back, showing an error" do
+        expect(response).to redirect_to admin_settings_mail_notifications_path
+        expect(flash[:error]).to match /OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST/
+      end
+    end
+
+    context "with an unsafe SMTP adress on the allowlist", with_ssrf_ip_allowlist: %w(127.0.0.1) do
+      let(:mail_double) { instance_double(ActionMailer::MessageDelivery) }
+
+      before do
+        allow(UserMailer).to receive(:test_mail).and_return(mail_double)
+        allow(mail_double).to receive(:deliver_now)
+
+        get :test_email
+      end
+
+      it "overrides address and tls_hostname to pin the resolved IP" do
+        expect(UserMailer).to have_received(:test_mail).with(
+          user,
+          delivery_method_options: { address: "127.0.0.1", tls_hostname: "localhost" }
+        )
+      end
+
+      it "redirects back, showing an email has been sent" do
+        expect(response).to redirect_to admin_settings_mail_notifications_path
+
+        expect(flash[:notice]).to match /An email was sent/
+      end
+    end
+  end
 end

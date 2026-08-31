@@ -54,18 +54,13 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
       expect(rendered_component).to have_css ".PageHeader-contextBar"
     end
 
-    it "renders current page without breadcrumbs", with_flag: { new_project_overview: true } do
+    it "renders current page without breadcrumbs" do
       expect(rendered_component).to have_text project.name
-      expect(rendered_component).to have_css ".PageHeader--noBreadcrumb"
-    end
-
-    it "renders current page without breadcrumbs", with_flag: { new_project_overview: false } do
-      expect(rendered_component).to have_text "Overview"
       expect(rendered_component).to have_css ".PageHeader--noBreadcrumb"
     end
   end
 
-  context "with the feature flag enabled", with_flag: { new_project_overview: true } do
+  context "with the feature flag enabled" do
     it "renders a Page Header (with tab nav)" do
       expect(rendered_component).to have_element "page-header", class: "PageHeader--withTabNav"
     end
@@ -74,7 +69,6 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
       it "renders title" do
         expect(rendered_component).to have_heading project.name, class: "PageHeader-title"
       end
-
     end
 
     context "with Portfolio" do
@@ -83,7 +77,6 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
       it "renders title" do
         expect(rendered_component).to have_heading project.name, class: "PageHeader-title"
       end
-
     end
 
     context "with Program" do
@@ -92,16 +85,6 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
       it "renders title" do
         expect(rendered_component).to have_heading project.name, class: "PageHeader-title"
       end
-    end
-  end
-
-  context "with the feature flag disabled", with_flag: { new_project_overview: false } do
-    it "renders a Page Header" do
-      expect(rendered_component).to have_element "page-header"
-    end
-
-    it "renders title" do
-      expect(rendered_component).to have_heading "Overview", class: "PageHeader-title"
     end
   end
 
@@ -130,7 +113,7 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
         expect(rendered_component).to have_menu do |menu|
           expect(menu).to have_selector :menuitem, count: 2
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Export PDF"
+          expect(menu).to have_selector :menuitem, text: "Export Project creation wizard as PDF"
         end
       end
     end
@@ -166,30 +149,75 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
 
       it "renders action menu items", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 3
+          expect(menu).to have_selector :menuitem, count: 9
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
-          expect(menu).to have_selector :menuitem, text: "Archive project"
+          expect(menu).to have_selector :menuitem, text: "Change identifier"
+          expect(menu).to have_selector :menuitem, text: "Make public"
+          expect(menu).to have_selector :menuitem, text: "Set as template"
+          expect(menu).to have_no_selector :menuitem, text: "Export Project creation wizard as PDF"
+          expect(menu).to have_selector :menuitem, text: "Archive"
+          expect(menu).to have_selector :menuitem, text: "Delete"
         end
       end
     end
 
-    context "with manage permissions" do
+    context "with project action permissions" do
+      let(:user) do
+        create(
+          :user,
+          member_with_permissions: {
+            project => %i[
+              add_subprojects
+              archive_project
+              copy_projects
+              edit_project
+              export_projects
+              select_project_custom_fields
+            ]
+          }
+        )
+      end
+
+      it "renders permitted project actions but not global administrator actions", :aggregate_failures do
+        expect(rendered_component).to have_menu do |menu|
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
+          expect(menu).to have_selector :menuitem, text: "Manage project attributes"
+          expect(menu).to have_selector :menuitem, text: "Change identifier"
+          expect(menu).to have_selector :menuitem, text: "Make public"
+          expect(menu).to have_selector :menuitem, text: "Export Project creation wizard as PDF"
+          expect(menu).to have_selector :menuitem, text: "Archive"
+          expect(menu).to have_selector :menuitem, text: "Set as template"
+          expect(menu).to have_no_selector :menuitem, text: "Delete"
+        end
+      end
+    end
+
+    context "as a global administrator" do
       let(:user) { build_stubbed(:admin) }
 
-      it "renders action menu items", :aggregate_failures do
+      it "renders all actions", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 4
+          expect(menu).to have_selector :menuitem, count: 10
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
+          expect(menu).to have_selector :menuitem, text: "Add subproject"
+          expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
-          expect(menu).to have_selector :menuitem, text: "Export PDF for Project creation wizard"
-          expect(menu).to have_selector :menuitem, text: "Archive project"
+          expect(menu).to have_selector :menuitem, text: "Change identifier"
+          expect(menu).to have_selector :menuitem, text: "Make public"
+          expect(menu).to have_selector :menuitem, text: "Set as template"
+          expect(menu).to have_selector :menuitem, text: "Export Project creation wizard as PDF"
+          expect(menu).to have_selector :menuitem, text: "Archive"
+          expect(menu).to have_selector :menuitem, text: "Delete"
         end
       end
     end
   end
 
-  describe "tab bar", with_flag: { new_project_overview: true } do
+  describe "tab bar" do
     context "when user has permission to view project" do
       let(:user) { build_stubbed(:admin) }
 
@@ -231,7 +259,9 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
   describe "breadcrumbs" do
     context "when the project has no parent" do
       before do
-        allow(project).to receive(:ancestors).and_return([])
+        allow(project)
+          .to receive_message_chain(:ancestors, :visible) # rubocop:disable RSpec/MessageChain
+          .and_return([])
       end
 
       it "does not render breadcrumbs" do
@@ -244,7 +274,9 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
       let(:parent) { build_stubbed(:project) }
 
       before do
-        allow(project).to receive(:ancestors).and_return([grandparent, parent])
+        allow(project)
+          .to receive_message_chain(:ancestors, :visible) # rubocop:disable RSpec/MessageChain
+          .and_return([grandparent, parent])
       end
 
       it "renders the full hierarchy breadcrumb path and ends with the current project name", :aggregate_failures do

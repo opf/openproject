@@ -1,0 +1,319 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  activerecord:
+    attributes:
+      cost_entry:
+        entity: Գրանցման օբյեկտ
+        entity_gid: Գրանցման օբյեկտ
+        entity_id: Գրանցման օբյեկտ
+        logged_by: Գրանցել է
+        overridden_costs: Վերասահմանված ծախսեր
+        spent: Ծախսված
+        spent_on: Ամսաթիվ
+        work_package: Աշխատանքային փաթեթ
+      cost_type:
+        default: Կանխադրված ծախսի տեսակ
+        for_all_projects: Բոլոր նախագծերի համար
+        rates: Դրույքներ
+        unit: Միավորի անվանում
+        unit_plural: Միավորի հոգնակի անվանում
+      rate:
+        rate: Դրույք
+      time_entry:
+        activity: Գործունեություն
+        comments: Մեկնաբանություն
+        end_time: Ավարտի ժամ
+        entity: Գրանցման օբյեկտ
+        entity_gid: Գրանցման օբյեկտ
+        entity_id: Գրանցման օբյեկտ
+        hours: Ժամեր
+        project: Նախագիծ
+        spent_on: Ամսաթիվ
+        start_time: Սկզբի ժամ
+        subject: Վերնագիր
+        time: Ժամ
+        user: Օգտատեր
+        work_package: Աշխատանքային փաթեթ
+      user:
+        default_rates: Կանխադրված դրույքներ
+      work_package:
+        costs_by_type: Ծախսված միավորներ
+        labor_costs: Աշխատուժի ծախսեր
+        material_costs: Միավորի ծախսեր
+        overall_costs: Ընդհանուր ծախսեր
+        spent_costs: Կատարված ծախսեր
+        spent_units: Ծախսված միավորներ
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Խնդրում ենք ընտրել նախագիծ։
+        time_entry:
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "#%{id} աշխատանքային փաթեթը վավեր թիրախ չէ ծախսի գրառումները վերանշանակելու համար։"
+          nullify_is_not_valid_for_cost_entries: Ծախսի գրառումները չեն կարող նշանակվել նախագծին։
+    models:
+      cost_entry:
+        one: Ծախսի գրառում
+        other: Ծախսի գրառումներ
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
+      cost_type:
+        one: Ծախսի տեսակ
+        other: Ծախսի տեսակներ
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
+      time_entry:
+        one: Ժամանակի գրառում
+        other: Ժամանակի գրառումներ
+      time_entry_activity:
+        one: Ժամանակի հաշվառման գործունեություն
+        other: Ժամանակի հաշվառման գործունեություններ
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
+  api_v3:
+    errors:
+      validation:
+        start_time_different_date: startTime-ի (%{start_time}) ամսաթվի մասը պետք է համընկնի spentOn-ի (%{spent_on}) ամսաթվի հետ։
+  attributes:
+    comment: Մեկնաբանություն
+    cost_type: Ծախսի տեսակ
+    costs: Ծախսեր
+    current_rate: Ընթացիկ դրույք
+    fixed_date: Ֆիքսված ամսաթիվ
+    hours: Ժամեր
+    units: Միավորներ
+    valid_from: Վավեր է սկսած
+  button_add_activity: Գործունեություն
+  button_add_rate: Ավելացնել դրույք
+  button_add_time_entry: Գրանցել ժամանակ
+  button_log_costs: Գրանցել միավորի ծախսեր
+  button_log_time: Գրանցել
+  button_stop_timer: Դադարեցնել ժամաչափը
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
+  caption_booked_on_project: Հաշվառված է նախագծում
+  caption_default: Կանխադրված
+  caption_default_rate_history_for: "%{user}-ի կանխադրված դրույքի պատմություն"
+  caption_locked_on: Արգելափակման ամսաթիվ
+  caption_log_time_dialog: Գրանցել ժամանակ
+  caption_materials: Միավորներ
+  caption_rate_history: Դրույքի պատմություն
+  caption_rate_history_for: "%{user}-ի դրույքի պատմություն"
+  caption_rate_history_for_project: "%{user}-ի դրույքի պատմությունը %{project} նախագծում"
+  caption_save_rate: Պահպանել դրույքը
+  caption_set_rate: Սահմանել ընթացիկ դրույքը
+  caption_show_locked: Ցուցադրել արգելափակված տեսակները
+  cost_types:
+    admin:
+      columns:
+        active_projects: Ակտիվ նախագծեր
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Մանրամասների ներդիրում հանեք "Բոլոր նախագծերի համար" նշումը՝ այս ծախսի տեսակը որոշակի նախագծերով սահմանափակելու համար։
+          heading: Այս ծախսի տեսակը միացված է բոլոր նախագծերում
+        no_projects:
+          description: Ավելացրեք նախագծեր, որպեսզի այս ծախսի տեսակը կարողանա օգտագործվել դրանցում։
+          heading: Նշանակված նախագծեր չկան
+      rates:
+        title: Դրույքի պատմություն
+    errors:
+      no_cost_types_available: Այս նախագծում ծախսի տեսակներ հասանելի չեն։ Խնդրում ենք դիմել ադմինիստրատորին։
+    settings:
+      cost_types:
+        for_all_projects_hint: Այս ծախսի տեսակը միացված է բոլոր նախագծերում։
+        heading: Ծախսի տեսակներ
+        in_use_hint: Այս ծախսի տեսակը հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
+        none_active: Այս նախագծում ներկայումս ակտիվ ծախսի տեսակներ չկան։
+      time_and_costs: Ժամանակ և ծախսեր
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Գրանցել ժամանակ
+          description: Ստացեք Ձեր ծախսերի և գրանցված ժամանակի ընդհանուր պատկերը՝ Ձեր նախագծի առաջընթացը վերահսկելու համար։ Համոզվեք, որ աշխատանքային փաթեթները կապված են ճիշտ բյուջեի հետ։
+          heading: Սկսեք հաշվառել Ձեր ժամանակը և ծախսերը
+        title: Փաստացի ծախսերն ըստ ամիսների
+        view_details: Դիտել փաստացի ծախսերի մանրամասները
+  description_costs_settings: Սահմանեք ծախսերի ցանկալի ձևաչափը բոլոր նախագծերում։
+  description_date_for_new_rate: Նոր դրույքի ամսաթիվ
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  ee:
+    features:
+      time_entry_time_restrictions: Time entry restrictions
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+  group_by_others: առանց խմբի
+  label_available_cost_types_projects: Ծախսի տեսակների հասանելի նախագծեր
+  label_between: միջև
+  label_cost: Ծախս
+  label_cost_filter_add: Ավելացնել ծախսի գրառման զտիչ
+  label_cost_plural: Ծախսեր
+  label_cost_type_plural: Ծախսի տեսակներ
+  label_cost_type_specific: 'Ծախսի տեսակ #%{id}՝ %{name}'
+  label_costlog: Գրանցված միավորի ծախսեր
+  label_costs: Ծախսեր
+  label_costs_per_page: Ծախսեր մեկ էջում
+  label_current_default_rate: Ընթացիկ կանխադրված դրույք
+  label_date_on: նշված օրը
+  label_day: Օր
+  label_defaults_and_limits: Defaults and limits
+  label_deleted_cost_types: Ջնջված ծախսի տեսակներ
+  label_display_cost_entries: Ցուցադրել միավորի ծախսերը
+  label_display_time_entries: Ցուցադրել գրանցված ժամերը
+  label_display_types: Ցուցադրման տեսակներ
+  label_edit: Խմբագրել
+  label_generic_user: Ընդհանուր օգտատեր
+  label_greater_or_equal: ">="
+  label_group_by: Խմբավորել ըստ
+  label_group_by_add: Ավելացնել խմբավորման դաշտ
+  label_include_deleted: Ներառել ջնջվածները
+  label_kind: Տեսակ
+  label_less_or_equal: "<="
+  label_list: Ցուցակ
+  label_log_costs: Գրանցել միավորի ծախսեր
+  label_month: Ամիս
+  label_my_time_tracking: Իմ ժամանակի հաշվառում
+  label_new_time_entry_activity: Ժամանակի հաշվառման նոր գործունեություն
+  label_next_day: Հաջորդ օր
+  label_next_month: Հաջորդ ամիս
+  label_next_week: Հաջորդ շաբաթ
+  label_next_workweek: Հաջորդ աշխատանքային շաբաթ
+  label_no: Ոչ
+  label_no_time: Ժամանակ չի հաշվառվել
+  label_option_plural: Ընտրանքներ
+  label_overall_costs: Ընդհանուր ծախսեր
+  label_previous_day: Նախորդ օր
+  label_previous_month: Նախորդ ամիս
+  label_previous_week: Նախորդ շաբաթ
+  label_previous_workweek: Նախորդ աշխատանքային շաբաթ
+  label_rate_plural: Դրույքներ
+  label_show: Ցուցադրել
+  label_specific_day: Օր %{day}
+  label_specific_month: Ամիս %{month}
+  label_start_and_finished: Start and finish times
+  label_status_finished: Ավարտված
+  label_time: Ժամ
+  label_time_entry_activity_form_description: Ժամանակի հաշվառման այս գործունեության փոփոխությունները կարտացոլվեն բոլոր նախագծերում, որտեղ այն միացված է։
+  label_time_entry_restrictions: Limits
+  label_timer_since: Սկսվել է %{time}-ին
+  label_today_capitalized: Այսօր
+  label_units: Ծախսի միավորներ
+  label_until: մինչև
+  label_valid_from: Վավեր է սկսած
+  label_view_mode_switcher: Փոխել տեսքը
+  label_work_package_filter_add: Ավելացնել աշխատանքային փաթեթի զտիչ
+  label_workweek: Աշխատանքային շաբաթ
+  label_yes: Այո
+  notice_cost_logged_successfully: Միավորի ծախսը հաջողությամբ գրանցվել է։
+  notice_different_time_zones: Այս օգտատերն ունի այլ ժամային գոտի (%{tz})։ Ժամանակը կգրանցվի իր ժամային գոտով։
+  notice_something_wrong: Ինչ-որ բան սխալ ընթացավ։ Խնդրում ենք կրկին փորձել։
+  notice_successful_lock: Հաջողությամբ արգելափակվել է։
+  notice_successful_restore: Հաջողությամբ վերականգնվել է։
+  notice_time_entry_delete_failed: Չհաջողվեց ջնջել ժամանակի գրառումը։ Սխալներ՝ %{errors}
+  notice_time_entry_update_failed: Չհաջողվեց թարմացնել ժամանակի գրառումը։ Սխալներ՝ %{errors}
+  permission_edit_cost_entries: Խմբագրել հաշվառված միավորի ծախսերը
+  permission_edit_hourly_rates: Խմբագրել ժամային դրույքները
+  permission_edit_own_cost_entries: Խմբագրել սեփական հաշվառված միավորի ծախսերը
+  permission_edit_own_hourly_rate: Խմբագրել սեփական ժամային դրույքները
+  permission_edit_rates: Խմբագրել դրույքները
+  permission_log_costs: Հաշվառել միավորի ծախսեր
+  permission_log_own_costs: Հաշվառել միավորի ծախսեր սեփական անձի համար
+  permission_view_cost_entries: Դիտել հաշվառված ծախսերը
+  permission_view_cost_rates: Դիտել ծախսի դրույքները
+  permission_view_hourly_rates: Դիտել բոլոր ժամային դրույքները
+  permission_view_own_cost_entries: Դիտել սեփական հաշվառված ծախսերը
+  permission_view_own_hourly_rate: Դիտել սեփական ժամային դրույքը
+  permission_view_own_time_entries: Դիտել սեփական ծախսված ժամանակը
+  placeholder_activity_select_work_package_first: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ
+  plugin_costs:
+    description: Այս մոդուլն ավելացնում է նախագծերի ծախսերի պլանավորման և հետագծման հնարավորություններ։
+    name: Ժամանակ և ծախսեր
+  project_module_costs: Ժամանակ և ծախսեր
+  setting_allow_tracking_start_and_end_times: Թույլատրել սկզբի և ավարտի ժամեր
+  setting_allow_tracking_start_and_end_times_caption: Թույլ է տալիս ժամանակ գրանցելիս մուտքագրել սկզբի և ավարտի ժամերը։
+  setting_costs_currency: Արժույթ
+  setting_costs_currency_caption: Սա արժույթի միավորն է։ Այն կարող է լինել եռատառ ISO կոդ, ինչպիսին են EUR, USD կամ JPY, կամ նշան, ինչպիսին են €, $ կամ ¥։
+  setting_costs_currency_format: Արժույթի ձևաչափ
+  setting_costs_currency_format_prefix: Թվից առաջ (օրինակ՝ EUR 100)
+  setting_costs_currency_format_suffix: Թվից հետո (օրինակ՝ 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Պահանջել սկզբի և ավարտի ժամեր
+  setting_enforce_tracking_start_and_end_times_caption: Ժամանակ գրանցելիս սկզբի և ավարտի ժամերի մուտքագրումը դարձնում է պարտադիր։
+  setting_enforce_without_allow: Սկզբի և ավարտի ժամեր պահանջելը հնարավոր չէ առանց դրանք թույլատրելու
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  text_assign_time_and_cost_entries_to_project: Նշանակել գրանցված ժամերը և ծախսերը նախագծին
+  text_destroy_cost_entries_question: "%{cost_entries} գրանցվել են այն աշխատանքային փաթեթների համար, որոնք պատրաստվում եք ջնջել։ Ի՞նչ եք ցանկանում անել։"
+  text_destroy_time_and_cost_entries: Ջնջել գրանցված ժամերը և ծախսերը
+  text_destroy_time_and_cost_entries_question: "%{hours} ժամ, %{cost_entries} գրանցվել են այն աշխատանքային փաթեթների համար, որոնք պատրաստվում եք ջնջել։ Ի՞նչ եք ցանկանում անել։"
+  text_reassign_time_and_cost_entries: Վերանշանակել գրանցված ժամերը և ծախսերն այս աշխատանքային փաթեթին՝
+  text_warning_hidden_elements: Որոշ գրառումներ կարող են բացառված լինել ամփոփ հաշվարկից։
+  total_times:
+    day: Օրվա ընդհանուրը՝ %{hours}
+    month: Ամսվա ընդհանուրը՝ %{hours}
+    week: Շաբաթվա ընդհանուրը՝ %{hours}
+    workweek: Աշխատանքային շաբաթվա ընդհանուրը՝ %{hours}
+  week: շաբաթ

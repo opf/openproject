@@ -29,7 +29,7 @@
 #++
 
 class ProjectArtifactsMailer < ApplicationMailer
-  include ProjectHelper
+  include ProjectsHelper
   include Exports::PDF::Common::Macro
 
   def creation_wizard_submitted(user, project, artifact_work_package)

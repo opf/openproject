@@ -45,7 +45,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            this is a <a href="http://malicious" target="_top" rel="noopener noreferrer" class="op-uc-link">
+            this is a <a href="http://malicious" target="_top" rel="noopener noreferrer nofollow" class="op-uc-link">
           </p>
         EXPECTED
       end
@@ -63,7 +63,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            this is a <a href="http://external.com" rel="noopener noreferrer" target="_top" class="op-uc-link">external link</a>
+            this is a <a href="http://external.com" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">external link</a>
           </p>
         EXPECTED
       end
@@ -82,7 +82,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Autolink to <a href="http://www.google.com" rel="noopener noreferrer" target="_top" class="op-uc-link">http://www.google.com</a>
+              Autolink to <a href="http://www.google.com" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">http://www.google.com</a>
             </p>
           EXPECTED
         end
@@ -100,7 +100,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Mailto link to <a href="mailto:foo@bar.com" rel="noopener noreferrer" target="_top" class="op-uc-link">foo@bar.com</a>
+              Mailto link to <a href="mailto:foo@bar.com" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">foo@bar.com</a>
             </p>
           EXPECTED
         end
@@ -120,7 +120,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Link to <a href="/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer">relative path</a>
+              Link to <a href="/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer nofollow">relative path</a>
             </p>
           EXPECTED
         end
@@ -140,7 +140,7 @@ RSpec.describe OpenProject::TextFormatting, "user provided links" do # rubocop:d
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Link to <a href="http://openproject.org/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer">relative path</a>
+              Link to <a href="http://openproject.org/foo/bar" target="_top" class="op-uc-link" rel="noopener noreferrer nofollow">relative path</a>
             </p>
           EXPECTED
         end

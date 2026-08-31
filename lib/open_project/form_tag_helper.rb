@@ -83,7 +83,7 @@ module OpenProject
 
         if options[:with_text_formatting]
           # use either the provided id or fetch the one created by rails
-          id = options[:id] || output.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+          id = options[:id] || output.match(/<textarea[^>]* id="(\w+)"[^>]*>/)[1]
           output << text_formatting_wrapper(id, options)
         end
 

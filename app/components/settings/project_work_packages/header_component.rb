@@ -96,15 +96,31 @@ module Settings
         tabs << {
           name: "internal_comments",
           path: project_settings_work_packages_internal_comments_path,
-          label: internal_comments_title
+          label: internal_comments_title,
+          # The nav label may carry an upsell icon; the browser title needs plain text.
+          title_label: internal_comments_translation
         }
 
         tabs
       end
 
+      # Read outwards from the active tab, so the browser title reverses the
+      # breadcrumb: "Types | Work packages | Project settings | <project> | <app>".
+      # html_title_parts prepends the project and page_title reverses the list.
+      def title_parts
+        [t(:label_project_settings), t(:label_work_package_plural), current_tab_label].compact
+      end
+
       private
 
-      def internal_comments_translation = t("ee.features.internal_comments").html_safe
+      def current_tab_label
+        tab = helpers.selected_tab(tabs)
+        return if tab.nil?
+
+        tab[:title_label] || helpers.tab_label(tab)
+      end
+
+      def internal_comments_translation = t("ee.features.internal_comments")
     end
   end
 end

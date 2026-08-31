@@ -28,39 +28,52 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%=
-  widget_wrapper do
-    if has_budgets?
-      flex_layout do |flex|
-        flex.with_row do
-          render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-            if project.portfolio?
-              t(
-                ".caption",
-                count: budget_count,
-                portfolios: t(".portfolio", count: workspace_counts[:portfolio] || 0),
-                subprograms: t(".subprogram", count: workspace_counts[:program] || 0),
-                subprojects: t(".subproject", count: workspace_counts[:project] || 0)
-              )
-            else
-              t(".caption_simple", count: budget_count)
+  widget_wrapper do |container|
+    if has_budgets_data?
+      container.with_body do
+        flex_layout do |flex|
+          flex.with_row do
+            render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
+              if project.children.any?
+                t(
+                  ".count_caption_with_subitems.#{project.workspace_type.presence_in(%w[project program portfolio]) || 'project'}",
+                  count: budget_count
+                )
+              else
+                t(".count_caption", count: budget_count)
+              end
             end
           end
+          flex.with_row(mt: 3, align: :center) do
+            helpers.angular_component_tag(
+              "opce-budget-by-cost-type",
+              currency: Setting.costs_currency,
+              "chart-data": {
+                labels: chart_labels,
+                datasets: [{
+                  label: Budget.model_name.human,
+                  data: chart_data
+                }]
+              }.to_json
+            )
+          end
         end
-        flex.with_row(mt: 3, align: :center) do
-          helpers.angular_component_tag(
-            "opce-budget-by-cost-type",
-            currency: Setting.costs_currency,
-            "chart-data": {
-              labels: chart_labels,
-              datasets: [{
-                label: t(:label_budget),
-                data: chart_data
-              }]
-            }.to_json
-          )
-        end
-        flex.with_row(mt: 3) do
-          render(Primer::Beta::Link.new(href: projects_budgets_path(project))) { t(".view_details") }
+      end
+
+      container.with_footer(test_selector: "budget-by-cost-type-widget-footer") do
+        render(Primer::Beta::Link.new(href: projects_budgets_path(project))) { t(".view_details") }
+      end
+    elsif has_budgets?
+      render(Primer::Beta::Blankslate.new) do |blankslate|
+        blankslate.with_visual_icon(icon: :"op-budget")
+        blankslate.with_heading(tag: :h3).with_content(t(".blankslate_zero.heading"))
+        blankslate.with_description_content(t(".blankslate_zero.description"))
+        blankslate.with_primary_action(
+          href: helpers.projects_budgets_path(project),
+          scheme: :secondary
+        ) do |button|
+          button.with_leading_visual_icon(icon: :pencil)
+          Budget.human_model_name.pluralize
         end
       end
     else

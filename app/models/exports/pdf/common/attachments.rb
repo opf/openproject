@@ -60,21 +60,20 @@ module Exports::PDF::Common::Attachments
   def attachment_image_filepath(src)
     # images are embedded into markup with the api-path as img.src
     attachment = attachment_by_api_content_src(src)
-    return nil if attachment.nil? || !pdf_embeddable?(attachment.content_type)
+    return if attachment.nil? || !pdf_embeddable?(attachment.content_type)
 
     local_file = attachment_image_local_file(attachment)
-    return nil if local_file.nil?
+    return if local_file.nil?
 
     filename = local_file.path
     filename = convert_gif_to_png(filename) if attachment.content_type == "image/gif"
     filename = convert_webp_to_png(filename) if attachment.content_type == "image/webp"
-
-    resize_image(filename)
+    filename ? resize_image(filename) : nil
   end
 
   def temp_image_file(extension)
     tmp_file = Tempfile.new(["temp_image", extension])
-    @resized_images = [] if @resized_images.nil?
+    @resized_images ||= []
     @resized_images << tmp_file
     tmp_file.path
   end
@@ -90,14 +89,60 @@ module Exports::PDF::Common::Attachments
   def convert_webp_to_png(filename)
     tmp_file = temp_image_file(".png")
 
-    image = MiniMagick::Image.open(filename)
-    image.format("png")
-    image.write(tmp_file)
+    # ImageMagick loads ALL frames of an animated WebP into its pixel cache even
+    # when only frame 0 is needed, which can exhaust memory or even cache for large animations.
+    # Instead, parse the RIFF/WEBP binary to extract the first ANMF frame as a
+    # standalone single-frame WebP, then convert only that.
+    source = extract_first_webp_frame(filename) || filename
+
+    image = MiniMagick::Image.open(source)
+    image.frames.first.write(tmp_file)
     tmp_file
   end
 
+  # Parses the RIFF/WEBP container and extracts the first animation frame
+  # (ANMF chunk) as a standalone single-frame WebP written to a temp file.
+  # Returns nil if the file is not an animated WebP.
+  #
+  # Each ANMF frame in animated WebP is independently encoded (no inter-frame
+  # references), so the raw frame chunk is a valid standalone WebP image.
+  def extract_first_webp_frame(filename) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    data = File.binread(filename)
+    return unless data.bytesize > 12 && data[0, 4] == "RIFF".b && data[8, 4] == "WEBP".b
+
+    webp_type = %W[VP8\x20 VP8L VP8X]
+    pos = 12
+    while pos + 8 <= data.bytesize
+      chunk_id = data[pos, 4]
+      chunk_size = data[pos + 4, 4].unpack1("V")
+      break if pos + 8 + chunk_size > data.bytesize
+
+      if chunk_id == "ANMF".b && chunk_size > 16
+        # ANMF payload: 16 bytes of frame metadata (position, size, duration, flags)
+        # followed by the frame image data as a VP8 / VP8L / VP8X chunk.
+        # Wrap it in a minimal RIFF/WEBP container to create a single-frame WebP.
+        frame_chunk = data[pos + 8 + 16, chunk_size - 16]
+        # Reject frames whose payload isn't a recognised WebP bitstream type
+        next unless webp_type.map(&:b).include?(frame_chunk[0, 4])
+
+        riff_size = 4 + frame_chunk.bytesize # "WEBP" + frame data
+        tmp_frame = temp_image_file(".webp")
+        File.binwrite(tmp_frame, "RIFF".b + [riff_size].pack("V") + "WEBP".b + frame_chunk)
+        return tmp_frame
+      end
+
+      # RIFF chunks are padded to even byte offsets; use & 1 to get the padding.
+      pos += 8 + chunk_size + (chunk_size & 1)
+    end
+
+    nil
+  rescue StandardError => e
+    Rails.logger.error "Failed to extract first webp frame: #{e}"
+    nil
+  end
+
   def attachment_by_api_content_src(src)
-    return nil if src.empty?
+    return if src.empty?
 
     # we accept absolut linked images
     # (but not hot-linked from elsewhere: https://example.com/another_api/attachments/1/somefile.png)
@@ -106,12 +151,12 @@ module Exports::PDF::Common::Attachments
     # #{api_url_helpers.root_path}attachments/:id/filename.ext (e.g. inserted by drag and drop from the files tab)
 
     attachment_regex = %r{/attachments/(\d+)/}
-    return nil unless src.start_with?(api_url_helpers.root_path) && src.match?(attachment_regex)
+    return unless src.start_with?(api_url_helpers.root_path) && src.match?(attachment_regex)
 
     attachments_id = src.scan(attachment_regex).first.first
     attachment = Attachment.find_by(id: attachments_id.to_i)
-    return nil if attachment.nil?
-    return nil unless attachment.visible?
+    return if attachment.nil?
+    return unless attachment.visible?
 
     attachment
   rescue StandardError

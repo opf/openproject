@@ -21,23 +21,19 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component, ElementRef, Injector, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { State } from '@openproject/reactivestates';
 import { combineLatest } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import {
   WorkPackageViewTimelineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
@@ -81,26 +77,27 @@ function newSegment(vp:TimelineViewParameters,
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly injector = inject(Injector);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  states = inject(States);
+  workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
+  wpTableTimeline = inject(WorkPackageViewTimelineService);
+  wpRelations = inject(WorkPackageRelationsService);
+
+  readonly querySpace = inject(IsolatedQuerySpace);
 
   private container:HTMLElement;
 
   private workPackagesWithRelations:Record<string, RelationsStateValue> = {};
 
-  constructor(public readonly injector:Injector,
-              public elementRef:ElementRef,
-              public states:States,
-              public workPackageTimelineTableController:WorkPackageTimelineTableController,
-              public wpTableTimeline:WorkPackageViewTimelineService,
-              public wpRelations:WorkPackageRelationsService) {
-    super();
-  }
-
   ngOnInit() {
-    const element = this.elementRef.nativeElement;
-    this.container = element.querySelector('.wp-table-timeline--relations');
+    this.container = this.elementRef.nativeElement.querySelector('.wp-table-timeline--relations')!;
     this.workPackageTimelineTableController
       .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 
@@ -131,7 +128,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
       )
       .subscribe((list) => {
         // ... make sure that the corresponding relations are loaded ...
-        const wps = _.compact(list.map((row) => row.workPackageId) as string[]);
+        const wps = list.map((row) => row.workPackageId).filter((x):x is NonNullable<typeof x> => Boolean(x));
         void this.wpRelations.requireAll(wps);
       });
 
@@ -162,14 +159,13 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   private renderWorkPackagesRelations(workPackageIds:string[]) {
     workPackageIds.forEach((workPackageId) => {
       const workPackageWithRelation = this.workPackagesWithRelations[workPackageId];
-      if (_.isNil(workPackageWithRelation)) {
+      if (workPackageWithRelation == null) {
         return;
       }
 
       this.removeRelationElementsForWorkPackage(workPackageId);
-      const relations = _.values(workPackageWithRelation);
-      const relationsList = _.values(relations);
-      relationsList.forEach((relation) => {
+      const relations = Object.values(workPackageWithRelation);
+      relations.forEach((relation) => {
         if (!(relation.type === 'precedes'
           || relation.type === 'follows')) {
           return;
@@ -197,7 +193,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   }
 
   private renderElements() {
-    const wpIdsWithRelations:string[] = _.keys(this.workPackagesWithRelations);
+    const wpIdsWithRelations:string[] = Object.keys(this.workPackagesWithRelations);
     this.renderWorkPackagesRelations(wpIdsWithRelations);
   }
 

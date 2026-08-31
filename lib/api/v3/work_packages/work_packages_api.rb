@@ -63,7 +63,7 @@ module API
                                                             })
                                                        .mount)
 
-          route_param :id, type: Integer, desc: "Work package ID" do
+          route_param :id, type: String, desc: "Work package ID or semantic identifier (e.g. PROJ-42)" do
             helpers WorkPackagesSharedHelpers
 
             helpers do

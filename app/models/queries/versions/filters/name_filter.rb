@@ -40,9 +40,9 @@ class Queries::Versions::Filters::NameFilter < Queries::Versions::Filters::Versi
     when "!"
       ["LOWER(versions.name) NOT IN (?)", sql_value]
     when "~", "**"
-      ["LOWER(versions.name) LIKE ?", "%#{sql_value}%"]
+      ["LOWER(versions.name) LIKE ?", sql_value]
     when "!~"
-      ["LOWER(versions.name) NOT LIKE ?", "%#{sql_value}%"]
+      ["LOWER(versions.name) NOT LIKE ?", sql_value]
     end
   end
 
@@ -59,9 +59,9 @@ class Queries::Versions::Filters::NameFilter < Queries::Versions::Filters::Versi
   def sql_value
     case operator
     when "=", "!"
-      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(",")
+      values.map(&:downcase)
     when "**", "~", "!~"
-      values.first.downcase
+      "%#{values.first.downcase}%"
     end
   end
 end

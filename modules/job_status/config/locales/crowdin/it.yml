@@ -1,21 +1,26 @@
+---
 it:
-  label_job_status_plural: "Stato dei lavori"
-  plugin_openproject_job_status:
-    name: "Stato del job OpenProject"
-    description: "Elenco e stato dei job in background."
+  activerecord:
+    models:
+      job_status/status:
+        one: Stato del processo in background
+        other: Stati dei processi in background
   job_status_dialog:
-    download_starts: 'Il download dovrebbe iniziare automaticamente.'
-    link_to_download: 'Oppure, %{link} per scaricare.'
-    click_here: 'clicca qui'
-    title: 'Stato del lavoro in background'
-    redirect: 'È in corso il reindirizzamento.'
-    redirect_link: 'Clicca qui per continuare.'
-    redirect_errors: 'A causa di questi errori, non verrai reindirizzato automaticamente.'
-    errors: 'Qualcosa è andato storto'
+    click_to_download: Oppure [clicca qui](download_url) per scaricare.
+    download_starts: Il download dovrebbe iniziare automaticamente.
+    errors: Qualcosa è andato storto
     generic_messages:
-      not_found: 'Impossibile trovare il lavoro.'
-      in_queue: 'Il lavoro è stato messo in coda e sarà elaborato a breve.'
-      in_process: 'Il lavoro è attualmente in fase di elaborazione.'
-      error: 'Impossibile completare il lavoro.'
-      cancelled: 'Il lavoro è stato annullato a causa di un errore.'
-      success: 'Lavoro completato con successo.'
+      cancelled: Il lavoro è stato annullato a causa di un errore.
+      error: Impossibile completare il lavoro.
+      in_process: Il lavoro è attualmente in fase di elaborazione.
+      in_queue: Il lavoro è stato messo in coda e sarà elaborato a breve.
+      not_found: Impossibile trovare il lavoro.
+      success: Lavoro completato con successo.
+    redirect: È in corso il reindirizzamento.
+    redirect_errors: A causa di questi errori, non verrai reindirizzato automaticamente.
+    redirect_link: Clicca qui per continuare.
+    title: Stato del lavoro in background
+  label_job_status_plural: Stato dei lavori
+  plugin_openproject_job_status:
+    description: Elenco e stato dei job in background.
+    name: Stato del job OpenProject

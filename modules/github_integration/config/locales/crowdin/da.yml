@@ -19,37 +19,68 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 da:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Deployment status check
+        other: Deployment status checks
+      deploy_target:
+        one: Deployment target
+        other: Deployment targets
+      github_check_run:
+        one: GitHub check run
+        other: GitHub check runs
+      github_pull_request:
+        one: GitHub pull request
+        other: GitHub pull requests
+      github_user:
+        one: GitHub user
+        other: GitHub users
   attributes:
-    additions_count: "Number of additions"
-    deletions_count: "Number of deletions"
-    comments_count: "Comments count"
-    github_html_url: "Pull Request URL"
-    github_app_owner_avatar_url: "Owner avatar URL"
-    review_comments_count: "Review comments count"
-    github: "GitHub identifer"
-    github_avatar_url: "Avatar URL"
-    github_updated_at: "Updated at"
-    github_login: "GitHub login"
-    host: "Vært"
-    labels: "Labels"
-    repository: "Projektarkiv"
-    changed_files_count: "Changed files"
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
+    additions_count: Antal tilføjelser
+    changed_files_count: Ændrede filer
+    comments_count: Antal kommentarer
+    deletions_count: Antal sletninger
+    github: GitHub-identifikator
+    github_app_owner_avatar_url: URL til Ejeravatar
+    github_avatar_url: Avatar-URL
+    github_html_url: URL til pull-anmodning
+    github_login: GitHub-login
+    github_updated_at: Opdateret
+    host: Vært
+    labels: Etiketter
+    repository: Repo
+    review_comments_count: Antal anmeldelseskommentarer
+  button_add_deploy_target: Tilføj udrulningsmål
+  label_deploy_target: Udrulningsmål
+  label_deploy_target_new: Nyt udrulningsmål
+  label_deploy_target_plural: Udrulningsmål
+  label_github_comment_user: GitHub-initiator (actor)
+  label_github_integration: GitHub-integration
+  label_github_webhook_secret: Webhook-hemmelighed
+  notice_deploy_target_created: Udrulningsmål oprettet
+  notice_deploy_target_destroyed: Udrulningsmål slettet
+  permission_introspection: Læs kørende OpenProject-kerneversion og build SHA
+  permission_show_github_content: Vis GitHub indhold
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
-  project_module_github: "GitHub"
-  permission_show_github_content: "Vis GitHub indhold"
-  permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
-  text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
+    description: Integrates OpenProject and GitHub for a better workflow
+    name: OpenProject GitHub Integration
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
+
+    '
+  text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
+
+    '
+  text_github_comment_user_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når indstillet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om udrulningsstatus på arbejdspakker. Standard er systembrugeren, når ikke indstillet.
+
+    '
+  text_github_webhook_secret_info: 'Et hemmeligt token delt med GitHub, når webhook''en opsættes. Når indstillet, bekræfter OpenProject X-Hub-Signature-256-headeren på hver indgående anmodning og afviser payloads, som ikke matcher. Lad stå tom for at overspringe bekræftelsen (anbefales ikke!).
+
+    '
+  text_github_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
+
+    '
   text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

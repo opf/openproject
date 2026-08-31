@@ -36,12 +36,13 @@ RSpec.describe "work package reports", :js do
 
   let(:type_a) do
     create(:type_with_workflow, name: "Type A").tap do |t|
-      t.statuses.last.update_attribute(:is_closed, true)
+      t.default_variant.statuses.last.update_attribute(:is_closed, true)
     end
   end
+  let(:type_a_statuses) { type_a.default_variant.statuses }
 
-  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
-  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
+  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a_statuses.first) }
+  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a_statuses.last) }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 
@@ -66,9 +67,9 @@ RSpec.describe "work package reports", :js do
       .to have_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase
     expect(page)
-      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a_statuses.last.name.upcase
 
     expect(page)
       .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
@@ -96,9 +97,9 @@ RSpec.describe "work package reports", :js do
       .to have_no_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase
     expect(page)
-      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a_statuses.last.name.upcase
 
     expect(page)
       .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
@@ -120,5 +121,34 @@ RSpec.describe "work package reports", :js do
 
     wp_table_page.expect_work_package_listed(wp1)
     wp_table_page.ensure_work_package_not_listed!(wp2)
+  end
+
+  context "with the multiple versions feature enabled",
+          with_settings: { work_package_multiple_versions: true } do
+    let!(:version_a) { create(:version, project:, name: "Alpha 1.0") }
+    let!(:version_b) { create(:version, project:, name: "Beta 2.0") }
+    let!(:wp_multi) do
+      create(:work_package, project:, type: type_a, status: type_a_statuses.first, version: version_a)
+        .tap { |wp| wp.work_package_versions.create!(version: version_b, kind: "target") }
+    end
+
+    it "counts a work package with several target versions under each of them" do
+      wp_table_page.visit!
+
+      within ".main-menu--children" do
+        click_on "Summary"
+      end
+
+      expect(page).to have_text "TARGET VERSION"
+
+      click_link "Further analyze: Target version"
+
+      aggregate_failures do
+        [version_a, version_b].each do |version|
+          row = page.find(:xpath, "//tbody/tr[td[normalize-space()='#{version.name}']]")
+          expect(row).to have_css("td:last-child", text: "1")
+        end
+      end
+    end
   end
 end

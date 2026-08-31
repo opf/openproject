@@ -19,88 +19,92 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 id:
-  plugin_openproject_reporting:
-    name: "Laporan OpenProject"
-    description: "Plugin ini memungkinkan pembuatan laporan biaya kustom dengan fitur penyaringan dan pengelompokan yang dibuat oleh plugin Waktu dan Biaya OpenProject."
-  button_save_report_as: "Simpan sebagai..."
-  comments: "Komentar"
-  cost_reports_title: "Waktu dan biaya"
-  label_cost_report: "Laporan biaya"
-  label_cost_report_plural: "Pelaporan biaya"
-  description_drill_down: "Lihat detail"
-  description_filter_selection: "Seleksi"
-  description_multi_select: "Tampilkan multiselect"
-  description_remove_filter: "Hapus Filter"
-  information_restricted_depending_on_permission: "Informasi yang tersedia pada laman ini disesuaikan dengan hak akses anda."
-  label_click_to_edit: "Klik untuk mengubah."
-  label_closed: "berakhir"
-  label_columns: "Kolom"
-  label_cost_entry_attributes: "Atrribut masukan biaya"
-  label_days_ago: "beberapa hari terakhir"
-  label_entry: "Masukan biaya"
-  label_filter_text: "Filter teks"
-  label_filter_value: "Nilai"
-  label_filters: "Filter"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "yang bukan (termasuk dalam subproyek)"
-  label_is_project_with_subprojects: "adalah (termasuk dalam subproyek)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Attribut work package"
-  label_less: "<"
-  label_logged_by_reporting: "Dicatat oleh"
-  label_money: "Nilai uang"
-  label_month_reporting: "#Bulan (Spent)"
-  label_new_report: "Buat laporan biaya"
-  label_open: "terbuka"
-  label_operator: "Operator"
-  label_private_report_plural: "Laporan biaya terbatas"
-  label_progress_bar_explanation: "Membuat laporan..."
-  label_public_report_plural: "Laporan biaya umum"
-  label_really_delete_question: "Laporan akan dihapus, anda yakin?"
-  label_rows: "Baris"
-  label_saving: "Menyimpan ..."
-  label_spent_on_reporting: "Tanggal (spent)"
-  label_sum: "Total"
-  label_units: "Units"
-  label_week_reporting: "Minggu (spent)"
-  label_year_reporting: "Tahun (Spent)"
-  label_count: "Hitung"
-  label_filter: "Filter"
-  label_filter_add: "Tambahkan Penyaring"
-  label_filter_plural: "Filter"
-  label_group_by: "Pengelompokan"
-  label_group_by_add: "Tambahkan grup-oleh Atribut"
-  label_inactive: "«tidak aktif»"
-  label_no: "No"
-  label_none: "(tidak ada data)"
-  label_no_reports: "Tidak ada laporan biaya."
-  label_report: "Laporan"
-  label_yes: "Yes"
-  load_query_question: "Proses laporan memiliki %{size} cell dan akan memakan waktu yang relatif lama. Apakah anda ingin melanjutkan?"
-  permission_save_cost_reports: "Simpan laporan biaya untuk umum"
-  permission_save_private_cost_reports: "Simpan laporan biaya untuk diri sendiri"
-  project_module_reporting_module: "Pelaporan biaya"
-  text_costs_are_rounded_note: "Tampilkan nilai pembulatan walaupun kalkulasi menggunakan nilai desimal."
-  toggle_multiselect: "aktif/non-aktif multiselect"
-  units: "Unit"
-  validation_failure_date: "validasi tanggal gagal"
-  validation_failure_integer: "validasi bilangan bulat gagal"
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
+  button_save_report_as: Simpan sebagai...
+  comments: Komentar
+  cost_reports_title: Waktu dan biaya
+  description_drill_down: Lihat detail
+  description_filter_selection: Seleksi
+  description_multi_select: Tampilkan multiselect
+  description_remove_filter: Hapus Filter
   export:
-    timesheet:
-      title: "Ekspor lembar waktu PDF Anda"
-      button: "Ekspor absensi PDF"
-      timesheet: "Absensi"
-      time: "Waktu"
-      sums_hours: Jumlah
-      overview_per_user_total: "Ringkasan: Jumlah jam per pengguna"
-      overview_per_user_day: "Gambaran umum: Jam per pengguna per hari"
     cost_reports:
-      title: "Ekspor XLS Laporan Biaya Anda"
-      start_time: "Waktu mulai"
-      end_time: "Waktu selesai"
+      end_time: Waktu selesai
+      start_time: Waktu mulai
+      title: Ekspor XLS Laporan Biaya Anda
+    timesheet:
+      button: Ekspor absensi PDF
+      overview_per_user_day: 'Gambaran umum: Jam per pengguna per hari'
+      overview_per_user_total: 'Ringkasan: Jumlah jam per pengguna'
+      sums_hours: Jumlah
+      time: Waktu
+      timesheet: Absensi
+      title: Ekspor lembar waktu PDF Anda
+  information_restricted_depending_on_permission: Informasi yang tersedia pada laman ini disesuaikan dengan hak akses anda.
+  label_click_to_edit: Klik untuk mengubah.
+  label_closed: berakhir
+  label_columns: Kolom
+  label_cost_entry_attributes: Atrribut masukan biaya
+  label_cost_report_plural: Pelaporan biaya
+  label_count: Hitung
+  label_days_ago: beberapa hari terakhir
+  label_entry: Masukan biaya
+  label_filter: Filter
+  label_filter_add: Tambahkan Penyaring
+  label_filter_plural: Filter
+  label_filter_text: Filter teks
+  label_filter_value: Nilai
+  label_filters: Filter
+  label_greater: ">"
+  label_group_by: Pengelompokan
+  label_group_by_add: Tambahkan grup-oleh Atribut
+  label_inactive: "«tidak aktif»"
+  label_is_not_project_with_subprojects: yang bukan (termasuk dalam subproyek)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: adalah (termasuk dalam subproyek)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: Dicatat oleh
+  label_money: Nilai uang
+  label_month_reporting: "#Bulan (Spent)"
+  label_new_report: Buat laporan biaya
+  label_no: 'No'
+  label_no_reports: Tidak ada laporan biaya.
+  label_none: "(tidak ada data)"
+  label_open: terbuka
+  label_operator: Operator
+  label_private_report_plural: Laporan biaya terbatas
+  label_progress_bar_explanation: Membuat laporan...
+  label_public_report_plural: Laporan biaya umum
+  label_really_delete_question: Laporan akan dihapus, anda yakin?
+  label_report: Laporan
+  label_rows: Baris
+  label_saving: Menyimpan ...
+  label_spent_on_reporting: Tanggal (spent)
+  label_sum: Total
+  label_units: Units
+  label_week_reporting: Minggu (spent)
+  label_work_package_attributes: Attribut work package
+  label_year_reporting: Tahun (Spent)
+  label_yes: 'Yes'
+  load_query_question: Proses laporan memiliki %{size} cell dan akan memakan waktu yang relatif lama. Apakah anda ingin melanjutkan?
+  permission_save_cost_reports: Simpan laporan biaya untuk umum
+  permission_save_private_cost_reports: Simpan laporan biaya untuk diri sendiri
+  plugin_openproject_reporting:
+    description: Plugin ini memungkinkan pembuatan laporan biaya kustom dengan fitur penyaringan dan pengelompokan yang dibuat oleh plugin Waktu dan Biaya OpenProject.
+    name: Laporan OpenProject
+  project_module_reporting_module: Pelaporan biaya
   reporting:
     group_by:
-      selected_columns: "Kolom terpilih"
-      selected_rows: "Baris terpilih"
+      selected_columns: Kolom terpilih
+      selected_rows: Baris terpilih
+  text_costs_are_rounded_note: Tampilkan nilai pembulatan walaupun kalkulasi menggunakan nilai desimal.
+  toggle_multiselect: aktif/non-aktif multiselect
+  units: Unit
+  validation_failure_date: validasi tanggal gagal
+  validation_failure_integer: validasi bilangan bulat gagal

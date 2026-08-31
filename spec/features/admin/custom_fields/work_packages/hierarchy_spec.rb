@@ -120,7 +120,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     hierarchy_page.open_action_menu_for("Phoenix Squad")
     click_on "Delete"
     expect(page).to have_test_selector("op-custom-fields--delete-item-dialog")
-    check "I understand that this deletion cannot be reversed", allow_label_click: true
+    check "I understand that this deletion cannot be reversed.", allow_label_click: true
     click_on "Delete permanently"
     expect(page).not_to have_test_selector("op-custom-fields--delete-item-dialog")
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 1)
@@ -144,7 +144,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
     # Finally, we delete the custom field ... I'm done with this ...
     custom_field_index_page.visit!
-    expect(page).to have_list_item(hierarchy_name)
+    expect(page).to have_row(hierarchy_name)
     within("tr", text: hierarchy_name) { accept_prompt { click_on "Delete" } }
     expect(page).to have_no_text(hierarchy_name)
 

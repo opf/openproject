@@ -1,11 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IInAppNotificationDetailsAttribute, INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -20,6 +41,9 @@ import moment, { Moment } from 'moment';
   standalone: false,
 })
 export class InAppNotificationDateAlertComponent implements OnInit {
+  private I18n = inject(I18nService);
+  private timezoneService = inject(TimezoneService);
+
   @Input() aggregatedNotifications:INotification[];
 
   @HostBinding('class.op-ian-date-alert') className = true;
@@ -48,11 +72,6 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     due_today: this.I18n.t('js.notifications.date_alerts.property_today'),
     note: '', // date alerts do not have notes
   };
-
-  constructor(
-    private I18n:I18nService,
-    private timezoneService:TimezoneService,
-  ) { }
 
   ngOnInit():void {
     // Find the most important date alert

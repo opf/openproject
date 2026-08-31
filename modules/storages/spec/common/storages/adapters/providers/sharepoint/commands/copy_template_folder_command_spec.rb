@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe CopyTemplateFolderCommand, :webmock do
+          RSpec.describe CopyTemplateFolderCommand, :disable_ssrf_filter, :webmock do
             shared_let(:storage) { create(:sharepoint_storage, :sandbox) }
             shared_let(:base_drive) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW" }
 

@@ -35,6 +35,37 @@ class WorkPackages::StatusBadgeComponent < ApplicationComponent
     super
 
     @status = status
-    @system_arguments = system_arguments.merge({ classes: "__hl_background_status_#{@status.id}" })
+    @system_arguments = system_arguments
+    if @system_arguments[:scheme].nil? || @system_arguments[:scheme] == :default
+      @system_arguments.delete(:scheme)
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "__hl_background_status_#{@status.id}"
+      )
+    end
+
+    # Applied for every scheme: the `:secondary` badge skips the block above and
+    # still needs the hook the read-only layout is scoped to.
+    @system_arguments[:classes] = class_names(
+      @system_arguments[:classes],
+      "op-status-badge",
+      "op-status-badge_readonly" => readonly?
+    )
+  end
+
+  private
+
+  # A read-only status forbids every attribute write except the status itself
+  # ({WorkPackages::BaseContract#readonly_attributes_unchanged}), which is not
+  # something the badge's colour and name convey on their own. The lock says so,
+  # matching the leading visual {WorkPackages::StatusButtonComponent} already
+  # gives read-only options in the status dropdown.
+  #
+  # Read-only statuses are an Enterprise feature, and {Status#is_readonly}
+  # answers `false` without the token, so no further gate is needed here.
+  #
+  # @return [Boolean] whether the status locks the work package.
+  def readonly?
+    @status.is_readonly?
   end
 end

@@ -19,122 +19,314 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ja:
-  plugin_openproject_backlogs:
-    name: "OpenProjectのバックログ"
-    description: "このモジュールには、アジャイルチームがスクラムプロジェクトでOpenProjectを使用できるようにする機能が追加されています。"
   activerecord:
     attributes:
+      project:
+        allow_multiple_active_sprints: 複数のスプリントを同時に実行できるようにする
+        backlog_excluded_types: 除外されるワークパッケージの種類
+        sprint_sharing: スプリントの共有
+        statuses_considered_closed: "「完了」とみなされるステータス"
       sprint:
-        duration: "Sprint duration"
+        duration: 期間
+        finish_date: 終了日
+        goal: スプリントゴール
+        name: スプリント名
+        sharing: 共有
+        statuses:
+          active: アクティブ
+          completed: 完了しました
+          in_planning: 計画中
+        work_packages: ワークパッケージ
+      sprint_goal:
+        text: スプリントゴール
       work_package:
-        position: "位置"
-        story_points: "ストーリーポイント"
-        backlogs_work_package_type: "バックログの種類"
+        backlog_bucket: バックログ・バケット
+        backlog_inbox: 未処理の受信トレイ
+        backlogs_work_package_type: バックログの種類
+        position: 位置
+        sprint: スプリント
+        story_points: ストーリーポイント
     errors:
+      messages:
+        cannot_start_while_receiving_shared_sprints: プロジェクトが共有スプリントを受信している間は、開始できません。
+        dates_required: スプリントを開始するには、開始日と終了日の指定が必要です。
+        must_be_in_planning: 開始に向けた計画が立てられているに違いない。
+        only_one_active_sprint_allowed: 1つのプロジェクトにつき、アクティブなスプリントは1つまでです。
       models:
+        project:
+          attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: 複数のスプリントがアクティブな状態では、変更することはできません。
+              requires_no_sharing: スプリントの共有設定が「共有しない」に設定されている場合にのみ有効にできます。
+            sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: プロジェクトにアクティブなスプリントまたは借用中のスプリントがあるため、受信設定にすることはできません。まず、ワークパッケージを終了するか、割り当てを解除してください。
+              locked_by_multiple_active_sprints: 複数のアクティブなスプリントが有効になっている間は、変更できません。
+              share_all_projects_already_taken: プロジェクト「%{name}」はすでにすべてのプロジェクトと共有されているため、設定できません。
+              share_all_projects_already_taken_anonymous: 別のプロジェクトがすでに「すべてのプロジェクト」と共有しているため、設定できません。
+              work_packages_still_linked_to_shared_sprints: ワークパッケージは依然として共有スプリントにリンクされているため、変更できません。まず、それらの割り当てを解除してください。
+          receiving_sprints: 共有スプリントを受信しています。独自のスプリントを作成することはできません。
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                other: 今回のスプリントで完了しなかったワークパッケージが %{count} 個あります。
+            status:
+              not_active: アクティブではないため、閉じることができません。
+        sprint_goal:
+          project_already_has_goal: このスプリントの目標はすでに決まっています。
         work_package:
           attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: ワークパッケージと同じプロジェクトに属している必要があります。
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "現在のスプリント内のワークパッケージIDのみを含めることができます。"
-              must_block_at_least_one_work_package: "は少なくとも 1つのチケットIDを含める必要があります。"
+              can_only_contain_work_packages_of_current_sprint: 現在のスプリント内のワークパッケージIDのみを含めることができます。
+              must_block_at_least_one_work_package: は少なくとも 1つのチケットIDを含める必要があります。
+            sprint:
+              not_assignable: プロジェクトと共有されていないか、すでに完了しているため、割り当てることができません。
+              not_eligible_for_moving: そのワークパッケージが移動元のプロジェクトにおいて、現在アクティブなスプリントではない。
             version_id:
-              task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
-        sprint:
-          cannot_end_before_it_starts: "スプリントは開始する前に終了できません。"
-  attributes:
-    task_type: "タスクのタイプ"
+              task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
+          backlog_bucket_xor_sprint: スプリントとバックログ・バケットの両方に割り当てることはできません。
+    models:
+      backlog_bucket:
+        other: Backlog buckets
+      sprint:
+        other: スプリント
+      sprint_goal:
+        other: Sprint goals
   backlogs:
-    any: "全て"
-    column_width: "Column width"
-    definition_of_done: "「終了」の定義"
-    impediment: "障害事項"
-    label_versions_default_fold_state: "バージョンを折り畳んで表示"
-    caption_versions_default_fold_state: "バックログを表示する場合、デフォルトではバージョンは展開されません。各バージョンは手動で展開する必要があります。"
-    work_package_is_closed: "ワークパッケージが終了するには"
-    label_is_done_status: "ステータス%{status_name}は完了として扱う"
+    add_existing_work_package_dialog_component:
+      title_without_container: 既存のワークパッケージを追加する
+    administration_blankslate:
+      text: 現在、「バックログ」モジュールの再設計を進めています。スプリントおよびバックログに関する管理設定は、近いうちにこちらで表示されるようになります。プロジェクトレベルの設定については、引き続きご利用いただけます。
+      title: バックログの管理設定は進化を続けています
+    backlog_component:
+      button_new_backlog_bucket: 新しいバックログ・バケット
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: バックログ・バケット
+        other: バックログ・バケット
+        zero: すべてのバックログ・バケット
+      label_sprint_filter:
+        one: スプリント
+        other: スプリント
+        zero: すべてのスプリント
+      select_panel_title: アイテムの選択
+    bucket_component:
+      action_menu:
+        add_existing_work_package: 既存のワークパッケージを追加する
+        add_new_work_package: 新しいワークパッケージを追加する
+        delete_backlog_bucket: バックログ・バケットを削除する
+        edit_backlog_bucket: バックログ・バケットを編集する
+      blankslate_description: アイテムをここにドラッグして追加してください
+      blankslate_title: バックログ・バケットは空です
+      drop_zone_label: このアイテムを追加するには、ここにドラッグしてください
+      label_actions: バックログ・バケットのアクション
+    bucket_destroy_modal_component:
+      details: バックログ・バケット「%{name}」が削除され、すべてのワークパッケージがバックログ・インボックスに移動されます。ワークパッケージが削除されることはありません。
+      title: バックログ・バケットを削除しますか？
+    burndown_chart:
+      show:
+        blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
+        blankslate_title: バーンダウンデータはありません
+    excluded_work_package_types_caption: 'バックログから非表示にするワークパッケージの種類を選択してください。選択した種類のアイテムはバックログに自動的に表示されなくなるため、チームにとって重要な作業に焦点を絞ることができます。たとえば、より上位のレベルで管理される「エピック」や「マイルストーン」といった種類を非表示にすることで、バックログを実行可能なアイテムに集中させることができます。
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: それらをバックログの一番下に移動する
+        move_to_sprint: それらを別のスプリントに移動する
+        move_to_top_of_backlog: それらをバックログの一番上に移動する
+      body: "%{message} これらをどうしますか？"
+      button_complete_sprint: スプリントを完了する
+      legend: 未完了の作業パッケージに対する対応
+      select_sprint_label: スプリントを選択してください
+      title: 現在進行中の項目があります
+    inbox_component:
+      action_menu:
+        add_existing_work_package: 既存のワークパッケージを追加する
+        add_new_work_package: 新しいワークパッケージを追加する
+      blankslate_description: スプリントやバックログ・バケットに含まれていない未処理のワークパッケージは、自動的にここに表示されます
+      blankslate_title: 未処理の受信トレイは空です
+      drop_zone_label: このアイテムを追加するには、ここにドラッグしてください
+      label_actions: 受信トレイでの操作
+      show_more:
+        other: "「 %{count} 」のその他の商品を表示"
+      title: 受信箱
+    label_burndown_chart: バーンダウンチャート
+    label_is_done_status: ステータス%{status_name}は完了として扱う
+    label_sprint_board: スプリントの取締役会
+    label_sprint_report: スプリントレポート
+    move_to_bucket_dialog_component:
+      title: バックログ・バケットに移動
+    move_to_sprint_dialog_component:
+      label_sprint: スプリント
+      title: スプリントへ移行する
+    multiple_active_sprints: 複数のアクティブなスプリント
     points_label:
-      other: "points"
-    positions_could_not_be_rebuilt: "位置は再構築されませんでした。"
-    positions_rebuilt_successfully: "位置情報は再構築しました。"
-    rebuild: "再構築"
-    rebuild_positions: "位置情報を再構築"
-    remaining_hours: "残時間"
-    show_burndown_chart: "バーンダウングラフ"
-    story: "ストーリー"
+      other: ポイント
+    positions_could_not_be_rebuilt: 位置は再構築されませんでした。
+    positions_rebuilt_successfully: 位置情報は再構築しました。
+    rebuild: 再構築
+    rebuild_positions: 位置情報を再構築
+    remaining_hours: 残時間
+    sharing: スプリントの共有
+    show_burndown_chart: バーンダウンチャート
+    sprint_component:
+      action_menu:
+        add_existing_work_package: 既存のワークパッケージを追加する
+        add_new_work_package: ワークパッケージの追加
+        edit_sprint: スプリントを編集
+      blankslate_description: まだ予定されている項目はありません。項目をここにドラッグして追加してください。
+      blankslate_title: "%{name} 空です"
+      drop_zone_label: このアイテムを追加するには、ここにドラッグしてください
+      label_actions: スプリントのアクション
+      label_complete_sprint: スプリントを完了する
+      label_start_sprint: スプリントの開始
+      start_sprint_disabled_reason_active_sprint: すでに別のスプリントが進行中です。
+      start_sprint_disabled_reason_missing_dates: スプリントを開始するには、開始日と終了日の指定が必要です。
+      start_sprint_disabled_reason_receiving_shared_sprints: このプロジェクトは、共有スプリントを受信している間は、独自のスプリントを開始することはできません。
+      start_sprint_disabled_reason_shared_sprint: このスプリントは、複数のアクティブなスプリントに対応していない別のプロジェクトからのものです。
+    sprint_form:
+      goal_caption: このスプリントの目標は、このプロジェクトに固有のものであり、同じスプリントを利用している他のプロジェクトとは共有されていません。
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
+        create_description_text: To start planning your sprint, create one here.
+        manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
+        no_actions_description_text: No sprints are available for this project yet.
+        receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
+        receive_description_text: This project receives shared sprints from a different project, but none are available right now.
+        settings_link_text: project settings
+        title: No sprints present yet
+      button_new_sprint: New sprint
+    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+
+      '
     story_points:
       other: "%{count} story points"
-    task: "タスク"
-    task_color: "タスクの色"
-    unassigned: "未割り当て"
+    types_and_statuses: Types and statuses
+    unassigned: 未割り当て
     user_preference:
-      header_backlogs: "バックログモジュール"
-      button_update_backlogs: "バックログモジュールを更新"
-    backlog_component:
-      blankslate_title: "%{name} is empty"
-      blankslate_description: "No items planned yet. Drag items here to add them."
-    backlog_header_component:
-      label_toggle_backlog: "Collapse/Expand %{name}"
-      label_story_count:
-        zero: "No stories in backlog"
-        one: "%{count} story in backlog"
-        other: "%{count} stories in backlog"
-    backlog_menu_component:
-      label_actions: "Backlog actions"
+      button_update_backlogs: バックログモジュールを更新
+      header_backlogs: バックログモジュール
+    work_package_card_menu_component:
       action_menu:
-        edit_sprint: "Edit sprint"
-        new_story: "New story"
-        stories_tasks: "Stories/Tasks"
-        task_board: "Task board"
-        burndown_chart: "Burndown chart"
-        wiki: "Wiki"
-        properties: "Properties"
-    story_component:
-      label_drag_story: "Move %{name}"
-    story_menu_component:
-      label_actions: "Story actions"
-  backlogs_points_burn_direction: "ポイントのバーンアップ/バーンダウン"
-  backlogs_product_backlog: "プロダクトバックログ"
-  backlogs_story: "ストーリー"
-  backlogs_story_type: "ストーリーの種類"
-  backlogs_task: "タスク"
-  backlogs_task_type: "タスクの種類"
-  backlogs_wiki_template: "スプリントのWikiページのテンプレート"
-  backlogs_empty_title: "No versions are defined yet"
-  backlogs_empty_action_text: "To start using backlogs, please create a version first"
-  backlogs_not_configured_title: "Backlogs not configured"
-  backlogs_not_configured_description: "Story and task types need to be set before using this module."
-  backlogs_not_configured_action_text: "Configure Backlogs"
+        copy_url_to_clipboard: Copy URL to clipboard
+        copy_work_package_id: Copy work package ID
+        move_menu: Move to position
+        move_to_backlog_bucket: Move to backlog bucket
+        move_to_inbox: Move to backlog inbox
+        move_to_sprint: Move to sprint
+    work_package_is_closed: ワークパッケージが終了するには
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
-    story_points: "Story points"
-    story_points_ideal: "Story points (ideal)"
-  errors:
-    attributes:
-      task_type:
-        cannot_be_story_type: "can not also be a story type"
-  label_backlogs: "バックログ"
-  label_backlogs_unconfigured: "バックログは未設定です。%{administration} > %{plugins}をアクセスして、このプラグインの%{configure}リンクをクリックしてください。フィールドを設定した後、このページに戻ってツールを使用開始してください。"
-  label_blocks_ids: "ブロックされているワークパッケージのID"
-  label_column_in_backlog: "バックログの列"
-  label_points_burn_down: "ダウン"
-  label_points_burn_up: "アップ"
-  label_sprint_impediments: "スプリント障害事項"
-  label_task_board: "かんばん"
-  permission_view_master_backlog: "マスター バックログの表示"
-  permission_view_taskboards: "かんばんの表示"
-  permission_select_done_statuses: "完了ステータスを選択"
-  permission_update_sprints: "スプリントの更新"
-  project_module_backlogs: "バックログ"
-  rb_burndown_charts:
-    show:
-      blankslate_title: "No burndown data available"
-      blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-  remaining_hours: "残時間"
-  version_settings_display_label: "バックログの列"
-  version_settings_display_option_left: "左へ"
-  version_settings_display_option_none: "なし"
-  version_settings_display_option_right: "右へ"
-  setting_plugin_openproject_backlogs_story_types_caption: |
-    Types treated as backlog stories (e.g., Feature, User story). Must differ from task type.
-  setting_plugin_openproject_backlogs_task_type_caption: |
-    ストーリータスクに使用されるタイプ。ストーリータイプと異なる必要があります。
+    story_points: ストーリーポイント
+    story_points_ideal: Story points (ideal)
+  ee:
+    features:
+      multiple_active_sprints: 複数のアクティブなスプリント
+      sprint_sharing: Sprint sharing
+    upsell:
+      multiple_active_sprints:
+        description: プロジェクト内の異なるチームで複数のスプリントを並行して実行することで、管理性と柔軟性を高めることができます。
+      sprint_sharing:
+        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: All sprints
+  label_backlog: Backlog
+  label_backlog_and_sprints: バックログとスプリント
+  label_backlog_bucket_edit: Edit backlog bucket
+  label_backlog_bucket_new: New backlog bucket
+  label_backlogs: バックログ
+  label_burndown_chart: Burndown chart
+  label_inbox: Inbox
+  label_points_burn_down: ダウン
+  label_points_burn_up: アップ
+  label_sprint_board: Sprint board
+  label_sprint_edit: Edit sprint
+  label_sprint_new: 新しいスプリント
+  label_task_board: かんばん
+  notice_successful_finish: The sprint was completed.
+  notice_successful_start: The sprint was started.
+  notice_unsuccessful_finish: The sprint could not be completed.
+  notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
+  notice_unsuccessful_start: The sprint could not be started.
+  notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
+  permission_create_sprints: Create sprints
+  permission_manage_sprint_items: Manage sprint items
+  permission_select_backlog_types_and_statuses: バックログの種類とステータスを選択する
+  permission_select_backlog_types_and_statuses_explanation: 'バックログから非表示にするワークパッケージの種類を選択できます。また、プロジェクトのワークフローにおいて、どのステータスが「完了」または「終了」の状態を表すかを定義することもできます。
+
+    '
+  permission_share_sprint: スプリントを共有する
+  permission_start_complete_sprint: スプリントを開始／完了する
+  permission_view_sprints: スプリントを表示する
+  plugin_openproject_backlogs:
+    description: このモジュールには、アジャイルチームがスクラムプロジェクトでOpenProjectを使用できるようにする機能が追加されています。
+    name: OpenProjectのバックログ
+  project_module_backlogs: バックログ
+  projects:
+    copy:
+      backlog_buckets: バックログ・バケット
+      sprints: スプリント
+    settings:
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: このプロジェクトで作成されたスプリントは、このプロジェクト内でのみ利用可能かつ表示されます。また、サブプロジェクトからは表示されません。
+            label: 共有しない
+          receive_shared:
+            caption: このプロジェクトでは、他のプロジェクトと共有されているスプリントのみを使用できます。
+            label: 共有スプリントを受信する
+            warning: このプロジェクトでは、他のプロジェクトと共有されているスプリントのみを使用できます。過去にこのプロジェクトで作成されたものの、未使用のスプリントは、今後表示されなくなります。
+          share_all_projects:
+            caption: このプロジェクトで作成されたスプリントは、このインスタンス内のすべてのプロジェクトで利用可能になります。このオプションを選択すると、他のプロジェクトでは利用できなくなります。
+            disabled_caption: プロジェクト "%{name}" は現在すべてのプロジェクトと共有されており、これを行うことができるのは1つのプロジェクトだけです。
+            disabled_caption_anonymous: Option not available since another project is currently sharing with all projects and only one project can do this.
+            label: 全てのプロジェクト
+          share_subprojects:
+            caption: このプロジェクトで作成されたスプリントは、現在のプロジェクトのすべてのサブプロジェクトで利用可能になります。
+            info: スプリントを共有すると、すべてのプロジェクトでそのスプリントの名前、ステータス、開始日および終了日が共有されます。これらの情報は、スプリントを受け取り、使用するプロジェクトでは変更できません。
+            label: サブプロジェクト
+        sprint_sharing: スプリントを共有する
+      backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: 進行中のスプリントの数
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: "<a href=%{sprint_sharing_url}>スプリントの共有</a> または受信が有効になっている場合、複数のアクティブなスプリントを設定することはできません。"
+        sharing_form_component:
+          disabled_due_to_multiple_active_sprints: 複数のアクティブなスプリントが有効になっている場合、スプリントの共有は利用できません。
+          sharing_description: このプロジェクトでは、独自のスプリントを共有したり、共有されたスプリントを受け取ったり、あるいはスプリントを独立して管理したり（共有なし）することができます。
+          sharing_fallback_description: 企業向けの事業計画がないため、共有オプションはプロジェクト独自のスプリントに限定されます。現在有効になっている設定は引き続き有効のままとなります。
+  query_fields:
+    backlog_inbox: 未処理の受信トレイ
+  remaining_hours: 残時間

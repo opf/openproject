@@ -1,21 +1,25 @@
+---
 id:
-  label_job_status_plural: "Status pekerjaan"
-  plugin_openproject_job_status:
-    name: "Status Pekerjaan OpenProject"
-    description: "Daftar dan status pekerjaan latar belakang."
+  activerecord:
+    models:
+      job_status/status:
+        other: Background job statuses
   job_status_dialog:
-    download_starts: 'Unduhan dimulai secara otomatis.'
-    link_to_download: 'Atau %{link} untuk mengunduh.'
-    click_here: 'klik di sini'
-    title: 'Latar belakang status pekerjaan'
-    redirect: 'Anda akan diarahkan.'
-    redirect_link: 'Silakan klik disini untuk melanjutkan.'
-    redirect_errors: 'Karena galat berikut, anda tidak dapat diarahkan secara otomatis.'
-    errors: 'Terjadi kesalahan'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Unduhan dimulai secara otomatis.
+    errors: Terjadi kesalahan
     generic_messages:
-      not_found: 'Pekerjaan ini tidak dapat ditemukan.'
-      in_queue: 'Pekerjaan ini telah masuk antrian dan akan segera diproses.'
-      in_process: 'Pekerjaan ini sedang diproses.'
-      error: 'Pekerjaan ini gagal diselesaikan.'
-      cancelled: 'Pekerjaan ini telah dibatalkan karena terjadi kesalahan.'
-      success: 'Pekerjaan ini telah selesai dengan sukses.'
+      cancelled: Pekerjaan ini telah dibatalkan karena terjadi kesalahan.
+      error: Pekerjaan ini gagal diselesaikan.
+      in_process: Pekerjaan ini sedang diproses.
+      in_queue: Pekerjaan ini telah masuk antrian dan akan segera diproses.
+      not_found: Pekerjaan ini tidak dapat ditemukan.
+      success: Pekerjaan ini telah selesai dengan sukses.
+    redirect: Anda akan diarahkan.
+    redirect_errors: Karena galat berikut, anda tidak dapat diarahkan secara otomatis.
+    redirect_link: Silakan klik disini untuk melanjutkan.
+    title: Latar belakang status pekerjaan
+  label_job_status_plural: Status pekerjaan
+  plugin_openproject_job_status:
+    description: Daftar dan status pekerjaan latar belakang.
+    name: Status Pekerjaan OpenProject

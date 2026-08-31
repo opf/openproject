@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Custom fields
   priority: 960
 description: Manage custom fields in OpenProject.
-keywords: manage custom fields
+keywords: manage custom fields, custom field, custom fields
 ---
 # Manage custom fields
 
@@ -15,7 +15,7 @@ Custom fields enable to configure your OpenProject exactly to your needs, i.e. t
 
 ## Add a new custom field
 
-To **create a new custom field** navigate to *Administration* -> *Custom fields* and select the section for which you will create a new custom field, e.g. for work packages.
+To **create a new custom field** navigate to _Administration_ -> _Custom fields_ and select the section for which you will create a new custom field, e.g. for work packages, spent time, versions or groups.
 
 You will see the list of all the custom fields that have been created so far, divided by the section on the different tabs for which they were created.
 
@@ -47,15 +47,15 @@ There are multiple format options for custom fields in OpenProject. You can sele
 - **Boolean** - creates a custom field for an attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
 - **Date** - creates a custom field, which allows selecting dates from a date picker.
 - **Float** - creates a custom field for rational numbers.
-- **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the *Items* tab of the custom field. See more in the section below.
+- **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the custom field. See more in the section below.
 - **Integer** - creates a custom field for integers.
 - **Link (URL)** - creates a custom field for URLs.
 - **List** - creates a custom field with flat list options. 
 - **Text** - creates a custom field in text format with the specified length restrictions.
 - **Long text** - creates a custom field for cases where longer text needs to entered.
 - **User** - creates a custom field, which allows selecting users that are allowed to access the entity containing the custom field.
-- **Version** - creates a custom field, which allows selecting one or multiple versions. Versions are created on the project level in *Backlogs* module.
-- **Weighted item list (Enterprise add-on)** - creates a custom field similar to the *Hierarchy* type, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)). Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
+- **Version** - creates a custom field, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
+- **Weighted item list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)). Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
 
 ### Hierarchy custom field (Enterprise add-on)
 
@@ -65,11 +65,11 @@ Hierarchy custom fields allow organizing hierarchical structures in work package
 
 ![Create a new custom field of type hierarchy](openproject_system_guide_new_custom_field_new_hierarchy.png)
 
-You can edit the name and initial settings under the *Details* tab. 
+You can edit the name and initial settings under the _Details_ tab at any time. 
 
 ![Detailed view of a custom field in OpenProject administration](openproject_system_guide_new_custom_hierarchy_details_tab.png)
 
-Under the *Items* tab you can specify which hierarchy items should be selectable for this specific custom field. Initially the list of items will be empty. To add items, click the **+Item** button. 
+Under the _Items_ tab you can specify which hierarchy items should be selectable for this specific custom field. Initially the list of items will be empty. To add items, click the **+Item** button. 
 
 ![Items tab for a hierarchy custom field in OpenProject administration](openproject_system_guide_hierarchy_field_add_item_button.png)
 
@@ -101,7 +101,7 @@ You can add as many sub-times and hierarchy levels as you need. You can always n
 
 Once you have specified all items for the hierarchy custom field, you need to: 
 
-1. [Activate this custom field for projects under the *Projects* tab](#add-a-custom-field-to-one-or-multiple-projects)
+1. [Activate this custom field for projects under the _Projects_ tab](#add-a-custom-field-to-one-or-multiple-projects)
 2. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) 
 
 ### Weighted item list custom field (Enterprise add-on)
@@ -124,13 +124,13 @@ Custom fields can be configured as **required**. As the name suggests, **require
 >
 >Custom field of type **Boolean** can **NOT** be set to be required. 
 
-The *required* flag can also be set on existing custom fields. This might lead to a problem for resources that existed before the flag was later set to required. For example, a work package might have already been created and worked with for some time. But because the field was not required before, it might not have been filled in.
+The _required_ flag can also be set on existing custom fields. This might lead to a problem for resources that existed before the flag was later set to required. For example, a work package might have already been created and worked with for some time. But because the field was not required before, it might not have been filled in.
 
-Once the custom field becomes 'required', the next user wanting to modify the work package *needs* to fill in the field. There are other scenarios where this might occur, for example, when the activation of a required custom field for a project or a work package type. 
+Once the custom field becomes 'required', the next user wanting to modify the work package _needs_ to fill in the field. There are other scenarios where this might occur, for example, when the activation of a required custom field for a project or a work package type. 
 
-In the above scenario of a required custom field being absent on existing resources, OpenProject will try to minimize the times in which users are blocked from performing their intended action. A user might want to change the name of the project with no value filled in for a required custom field. Since the interface for changing the name does not display the custom fields, the user cannot provide a value at this point and OpenProject will not enforce the *required* setting then.
+In the above scenario of a required custom field being absent on existing resources, OpenProject will try to minimize the times in which users are blocked from performing their intended action. A user might want to change the name of the project with no value filled in for a required custom field. Since the interface for changing the name does not display the custom fields, the user cannot provide a value at this point and OpenProject will not enforce the _required_ setting then.
 
-Generally speaking, OpenProject will enforce the *required* characteristic whenever the UI displays the field but allows modifications when it does not. When creating a new resource, it will be enforced.
+Generally speaking, OpenProject will enforce the _required_ characteristic whenever the UI displays the field but allows modifications when it does not. When creating a new resource, it will be enforced.
 
 > [!NOTE]
 > Prior to version 16.6, required custom fields were always enforced, even on existing resources. This led to some actions becoming impossible or unnecessarily hard to perform, which is why the behavior was adjusted.
@@ -139,7 +139,7 @@ Generally speaking, OpenProject will enforce the *required* characteristic whene
 
 For work package custom fields of type **List**, **User**, **Version** and **Hierarchy** you may also select **multi-select custom fields** to select more than one value at once.
 
-To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version** or **Hierarchy** and check the option *Allow multi-select*.
+To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version** or **Hierarchy** and check the option _Allow multi-select_.
 
 ![Allow multi-select values for a custom field in OpenProject](system-admin-allow-multi-select.png)
 
@@ -171,7 +171,7 @@ You can activate the custom field for specific projects under the respective [pr
 > [!TIP]
 > This is not relevant if the setting **For all projects** has been configured for the custom field.
 
-You can active a custom field for multiple projects at once by opening the custom field in question and selecting the *Projects* tab. Click the **Add projects** button.
+You can active a custom field for multiple projects at once by opening the custom field in question and selecting the _Projects_ tab. Click the **Add projects** button.
 ![Add a custom field to multiple projects at once in OpenProject administration](openproject_system_guide_new_custom_field_add_to_projects.png)
 
 Use the search field to identify the projects and select multiple projects at once. You can also include the sub-projects by checking the respective option. Click the **Add** button to active the custom fields in all of the selected projects.
@@ -188,16 +188,13 @@ To **delete** a custom field, click on the delete icon next to the respective cu
 
 ## Define custom field help text
 
-To define field caption and help text click on an existing custom field and navigate to **Attribute help texts** tab. Here you can define the following:
+To define field caption and help text click on an existing custom field and navigate to **Help text** tab. Here you can define the following:
 
 - **Caption** - a short text that will be displayed as a custom field caption to provide context. Please note, that the caption text is currently only displayed for project attributes. 
 - **Help text** - a longer text that will be shown when a user hovers over a question mark next to the custom field name. Here you can provide more detailed explanation. This is a required field.
 - **Attachments** - attach files or images to illustrate a custom field. 
 
 > [!IMPORTANT]
->
 > Any text and images you add here will be publicly visible to all logged in users. 
 
-
-
-![Work package custom field detailed view, showing *Attribute help texts* tab in OpenProject administration](open_project_system_admin_guide_custom_field_attribute_text.png)
+![Work package custom field detailed view, showing _Help text_ tab in OpenProject administration](open_project_system_admin_guide_custom_field_attribute_text.png)

@@ -55,6 +55,10 @@ RSpec.describe Document do
     it { is_expected.to belong_to(:type).class_name("DocumentType").optional }
   end
 
+  describe "title normalization" do
+    it_behaves_like "strips invisible characters", :title
+  end
+
   describe "Validations" do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_length_of(:title).is_at_most(255) }

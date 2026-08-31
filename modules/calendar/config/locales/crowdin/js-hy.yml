@@ -1,0 +1,9 @@
+---
+hy:
+  js:
+    calendar:
+      create_new: Ստեղծել նոր օրացույց
+      label_calendar_plural: Օրացույցներ
+      title: Օրացույց
+      too_many: Ընդհանուր առմամբ կա %{count} աշխատանքային փաթեթ, սակայն կարող է ցուցադրվել միայն %{max}-ը։
+      unsaved_title: Անանուն օրացույց

@@ -1,0 +1,93 @@
+---
+hy:
+  activerecord:
+    attributes:
+      ldap_departments/synchronized_department:
+        dn: DN
+        group: Ստորաբաժանում
+        ldap_auth_source: LDAP կապ
+        users_count: Անդամներ
+      ldap_departments/synchronized_tree:
+        base_dn: Base DN
+        guid_attribute: Եզակի նույնացուցիչի հատկանիշ
+        ldap_auth_source: LDAP կապ
+        name: Անվանում
+        ou_name_attribute: OU-ի անվան հատկանիշ
+        structure_filter_string: Կազմակերպական միավորի զտիչ
+        sync_users: Համաժամացնել օգտատերերին
+        user_filter_string: Օգտատերերի զտիչ
+    errors:
+      models:
+        ldap_departments/synchronized_tree:
+          must_contain_base_dn: Base DN-ը պետք է ներառված լինի LDAP կապի base DN-ի մեջ։
+          overlaps_other_tree: Համընկնում է նույն LDAP կապի մեկ այլ համաժամացման base DN-ի հետ։
+    models:
+      ldap_departments/synchronized_department:
+        one: Synchronized department
+        other: Synchronized departments
+      ldap_departments/synchronized_tree:
+        one: LDAP department synchronization
+        other: LDAP department synchronizations
+  ee:
+    upsell:
+      ldap_departments:
+        description: Արտացոլեք Ձեր LDAP-ի կազմակերպական միավորների կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում և ավտոմատ կերպով պահպանեք ստորաբաժանումների անդամների համաժամացումը։
+        title: LDAP ստորաբաժանումների համաժամացում
+  ldap_departments:
+    label_menu_item: LDAP ստորաբաժանումների համաժամացում
+    label_synchronize: Համաժամացնել կազմակերպական միավորները
+    synchronized_departments:
+      blankslate:
+        description: Գործարկեք համաժամացումը՝ այս base DN-ի կազմակերպական միավորները որպես ստորաբաժանումներ ներմուծելու համար։
+        heading: Դեռ համաժամացված ստորաբաժանումներ չկան
+      destroy:
+        confirmation: Եթե շարունակեք, %{name}-ն այլևս չի կառավարվի LDAP համաժամացման միջոցով։
+        heading: Դադարեցնե՞լ %{name}-ի կառավարումը։
+        info: Ստորաբաժանումը և դրա անդամները պահպանվում են։ Այն դառնում է սովորական ստորաբաժանում, որը կարող եք ձեռքով խմբագրել կամ ջնջել։
+        title: Դադարեցնել %{name}-ի կառավարումը
+      managed_notice: Կառավարվում է LDAP համաժամացման միջոցով
+      no_results: Դեռ ոչ մի ստորաբաժանում համաժամացված չէ։
+      plural: Համաժամացված ստորաբաժանումներ
+      singular: Համաժամացված ստորաբաժանում
+    synchronized_trees:
+      add_new: Ավելացնել LDAP ստորաբաժանումների համաժամացում
+      blankslate:
+        description: Կարգավորեք համաժամացում՝ Ձեր LDAP-ի կազմակերպական միավորների կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում արտացոլելու համար։
+        heading: LDAP ստորաբաժանումների համաժամացումներ չկան
+      destroy:
+        confirmation_message:
+          one: Եթե շարունակեք, %{name} համաժամացումը կհեռացվի, և դրա %{count} ստորաբաժանումն այլևս չի կառավարվի LDAP-ի կողմից։
+          other: Եթե շարունակեք, %{name} համաժամացումը կհեռացվի, և դրա %{count} ստորաբաժանումն այլևս չի կառավարվի LDAP-ի կողմից։
+        heading: Հեռացնե՞լ %{name} համաժամացումը։
+        info: Ստորաբաժանումները և դրանց անդամները պահպանվում են և դառնում սովորական ստորաբաժանումներ։ Այնուհետև կարող եք դրանք ձեռքով խմբագրել կամ ջնջել Ադմինիստրավորում → Օգտատերեր և թույլտվություններ → Կազմակերպություն բաժնում։
+        title: Հեռացնել %{name} համաժամացումը
+      form:
+        auth_source_text: Ընտրեք, թե որ LDAP կապը պետք է օգտագործվի։
+        base_dn_text: 'Մուտքագրեք այն base DN-ը, որի կազմակերպական միավորները պետք է համաժամացվեն։ Դրա անմիջական դուստր OU-ները դառնում են վերին մակարդակի ստորաբաժանումներ։ Այն պետք է լինի ընտրված LDAP կապի base DN-ից ներքև։
+
+          '
+        guid_attribute_text: 'Ոչ պարտադիր։ LDAP-ի հատկանիշ, որը պարունակում է կայուն եզակի նույնացուցիչ (օրինակ՝ "objectGUID" կամ "entryUUID")։ Երբ սահմանված է, ստորաբաժանումները պահպանվում են OU-ների վերանվանման և տեղափոխման դեպքում։ Թողեք դատարկ՝ ըստ DN-ի համապատասխանեցնելու համար։
+
+          '
+        ou_name_attribute_text: LDAP-ի հատկանիշը, որն օգտագործվում է ստորաբաժանումն անվանելու համար (օրինակ՝ "ou")։
+        sections:
+          connection: LDAP կապ
+          structure: Կազմակերպական միավորներ
+          users: Օգտատերեր
+        structure_filter_string_text: RFC4515 LDAP զտիչ, որը նույնականացնում է կազմակերպական միավորների գրառումները։
+        sync_users_text: 'Եթե միացված է, base DN-ից ներքև գտնված օգտատերերը նույնպես ստեղծվում են OpenProject-ում։ Առանց դրա ստորաբաժանումներին նշանակվում են միայն առկա հաշիվները։
+
+          '
+        user_filter_string_text: 'Ոչ պարտադիր RFC4515 LDAP զտիչ, որը նույնականացնում է օգտատերերի գրառումները։ Թողեք դատարկ՝ կապի զտիչն օգտագործելու համար, իսկ եթե այն սահմանված չէ՝ անձի ընդհանուր զտիչը։
+
+          '
+      help_text: 'Այս մոդուլն արտացոլում է Ձեր LDAP-ի կազմակերպական միավորների (OU) կառուցվածքը OpenProject-ի ստորաբաժանումների հիերարխիայում։ Կազմաձևված base DN-ից ներքև գտնվող յուրաքանչյուր OU դառնում է ստորաբաժանում, իսկ օգտատերերը նշանակվում են այն OU-ի ստորաբաժանմանը, որտեղ գտնվում են։ Ստորաբաժանումները պարբերաբար համաժամացվում են cron աշխատանքի միջոցով։
+
+        '
+      no_results: Դեռ ոչ մի LDAP ստորաբաժանումների համաժամացում կազմաձևված չէ։
+      plural: LDAP ստորաբաժանումների համաժամացումներ
+      singular: LDAP ստորաբաժանումների համաժամացում
+      synchronization_started: Համաժամացումը սկսվել է ֆոնային ռեժիմում։ Ստորաբաժանումները կհայտնվեն այն ավարտվելուց հետո։
+  plugin_openproject_ldap_departments:
+    description: LDAP-ի կազմակերպական միավորների համաժամացում OpenProject-ի ստորաբաժանումների հետ։
+    name: OpenProject LDAP ստորաբաժանումներ

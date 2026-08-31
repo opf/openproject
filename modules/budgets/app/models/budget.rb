@@ -53,17 +53,21 @@ class Budget < ApplicationRecord
   acts_as_journalized
 
   acts_as_event type: "cost-objects",
-                title: Proc.new { |o| "#{I18n.t(:label_budget)} ##{o.id}: #{o.subject}" },
+                title: Proc.new { |o| "#{Budget.model_name.human} ##{o.id}: #{o.subject}" },
                 url: Proc.new { |o| { controller: "budgets", action: "show", id: o.id } }
 
   validates :subject, :project, :author, :fixed_date, presence: true
   validates :subject, length: { minimum: 1, maximum: 255 }
 
   class << self
-    def visible(user)
-      includes(:project)
-        .references(:projects)
-        .merge(Project.allowed_to(user, :view_budgets))
+    def visible(user = User.current)
+      if user.active_admin?
+        all
+      else
+        includes(:project)
+          .references(:projects)
+          .merge(Project.allowed_to(user, :view_budgets))
+      end
     end
 
     # TODO: Extract into copy service
@@ -105,7 +109,7 @@ class Budget < ApplicationRecord
   end
 
   def type_label
-    I18n.t(:label_budget)
+    self.class.model_name.human
   end
 
   def edit_allowed?
@@ -221,7 +225,7 @@ class Budget < ApplicationRecord
   def correct_labor_attributes!(attributes)
     return unless attributes
 
-    attributes[:hours] = Rate.parse_number_string_to_number(attributes[:hours])
+    attributes[:hours] = Rate.parse_hours_string_to_number(attributes[:hours])
     attributes[:amount] = Rate.parse_number_string(attributes[:amount])
   end
 
@@ -254,8 +258,7 @@ class Budget < ApplicationRecord
   def valid_labor_budget_attributes?(attributes)
     attributes &&
       attributes[:hours].to_f.positive? &&
-      attributes[:user_id].to_i.positive? &&
-      Principal.possible_assignee(project).where(id: attributes[:user_id].to_i).exists?
+      attributes[:user_id].to_i.positive?
   end
 
   def valid_material_budget_attributes?(attributes)

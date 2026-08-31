@@ -353,7 +353,7 @@ RSpec.describe "API v3 Work package resource",
 
         context "valid type" do
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
           end
 
           include_context "patch request"
@@ -374,9 +374,9 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
-            project.types << target_type
+            project.project_types.create!(type: target_type)
             project.work_package_custom_fields << custom_field
-            target_type.custom_fields << custom_field
+            target_type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -416,6 +416,7 @@ RSpec.describe "API v3 Work package resource",
         let(:target_project) do
           create(:project, public: false)
         end
+        let(:permissions) { super() + [:move_work_packages] }
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }
         let(:params) { valid_params.merge(project_parameter) }
@@ -456,7 +457,7 @@ RSpec.describe "API v3 Work package resource",
 
           before do
             target_project.work_package_custom_fields << custom_field
-            work_package.type.custom_fields << custom_field
+            work_package.type.default_variant.custom_fields << custom_field
           end
 
           include_context "patch request"
@@ -563,7 +564,7 @@ RSpec.describe "API v3 Work package resource",
             include_context "patch request"
 
             context "user doesn't exist" do
-              let(:user_href) { api_v3_paths.user 909090 }
+              let(:user_href) { api_v3_paths.user(not_existing_id(User)) }
 
               it_behaves_like "constraint violation" do
                 let(:message) do
@@ -612,7 +613,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "version" do
+      describe "version", with_settings: { work_package_multiple_versions: false } do
         let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
@@ -620,7 +621,7 @@ RSpec.describe "API v3 Work package resource",
 
         before { allow(User).to receive(:current).and_return current_user }
 
-        context "valid" do
+        context "when valid" do
           include_context "patch request"
 
           it { expect(response).to have_http_status(:ok) }
@@ -632,6 +633,108 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it_behaves_like "lock version updated"
+        end
+
+        context "for a user lacking the assign_versions permission" do
+          let(:permissions) { %i[view_work_packages edit_work_packages] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "has a readonly error" do
+            expect(response.body)
+              .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                    .at_path("errorIdentifier")
+          end
+        end
+      end
+
+      describe "targetVersions" do
+        let(:target_version) { create(:version, project:) }
+        let(:target_versions_links) { [{ href: api_v3_paths.version(target_version.id) }] }
+        let(:params) { valid_params.merge(_links: { targetVersions: target_versions_links }) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context "with a single version" do
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns the target version" do
+            expect(work_package.reload.target_versions).to contain_exactly(target_version)
+          end
+
+          it "responds with the target version link" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
+                    .at_path("_links/targetVersions/0/href")
+          end
+
+          it_behaves_like "lock version updated"
+        end
+
+        context "with an empty collection" do
+          let!(:existing) do
+            create(:work_package_version, work_package:, version: target_version, kind: "target")
+          end
+          let(:target_versions_links) { [] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "clears the target versions" do
+            expect(work_package.reload.target_versions).to be_empty
+          end
+        end
+
+        context "with more than one version while multiple versions is disabled",
+                with_settings: { work_package_multiple_versions: false } do
+          let(:other_version) { create(:version, project:) }
+          let(:target_versions_links) do
+            [{ href: api_v3_paths.version(target_version.id) },
+             { href: api_v3_paths.version(other_version.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "rejects the update with a single-value error" do
+            expect(response.body).to include("Target Versions can only hold a single value")
+          end
+
+          it "does not assign any target version" do
+            expect(work_package.reload.target_versions).to be_empty
+          end
+        end
+
+        context "with more than one version while multiple versions is enabled",
+                with_settings: { work_package_multiple_versions: true } do
+          let(:other_version) { create(:version, project:) }
+          let(:target_versions_links) do
+            [{ href: api_v3_paths.version(target_version.id) },
+             { href: api_v3_paths.version(other_version.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns all target versions" do
+            expect(work_package.reload.target_versions)
+              .to contain_exactly(target_version, other_version)
+          end
+
+          it "responds with a link per target version" do
+            hrefs = parse_json(response.body, "_links/targetVersions").pluck("href")
+
+            expect(hrefs)
+              .to contain_exactly(api_v3_paths.version(target_version.id),
+                                  api_v3_paths.version(other_version.id))
+          end
         end
 
         context "for a user lacking the assign_versions permission" do
@@ -745,7 +848,7 @@ RSpec.describe "API v3 Work package resource",
         before do
           allow(User).to receive(:current).and_return current_user
           work_package.project.work_package_custom_fields << custom_field
-          work_package.type.custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
         end
 
         context "valid" do

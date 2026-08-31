@@ -36,6 +36,7 @@ module Queries::Members
     filter Filters::StatusFilter
     filter Filters::BlockedFilter
     filter Filters::GroupFilter
+    filter Filters::GroupHierarchyFilter
     filter Filters::RoleFilter
     filter Filters::PrincipalFilter
     filter Filters::PrincipalTypeFilter

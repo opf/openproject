@@ -77,16 +77,16 @@ RSpec.describe "Work Package cost fields", :js do
     fill_in "cost_entry_units", with: "1"
 
     expect(page).to have_css("#cost_entry_unit_name", text: "A single")
-    expect(page).to have_css("#cost_entry_costs", text: "1.00 EUR")
+    expect(page).to have_css("#cost_entry_costs", text: "1.00 €")
 
     fill_in "cost_entry_units", with: "2"
     expect(page).to have_css("#cost_entry_unit_name", text: "A plural")
-    expect(page).to have_css("#cost_entry_costs", text: "2.00 EUR")
+    expect(page).to have_css("#cost_entry_costs", text: "2.00 €")
 
     # Switch cost type
     select "B", from: "cost_entry_cost_type_id"
     expect(page).to have_css("#cost_entry_unit_name", text: "B plural")
-    expect(page).to have_css("#cost_entry_costs", text: "4.00 EUR")
+    expect(page).to have_css("#cost_entry_costs", text: "4.00 €")
 
     # Override costs
     find_by_id("cost_entry_costs").click
@@ -104,7 +104,7 @@ RSpec.describe "Work Package cost fields", :js do
     expect(entry.real_costs).to eq(15.52)
 
     visit edit_cost_entry_path(entry)
-    expect(page).to have_css("#cost_entry_costs", text: "15.52 EUR")
+    expect(page).to have_css("#cost_entry_costs", text: "15.52 €")
   end
 
   context "with german locale" do
@@ -116,11 +116,11 @@ RSpec.describe "Work Package cost fields", :js do
       full_view.select_log_unit_costs_action
 
       fill_in CostEntry.human_attribute_name(:units), with: "1,42"
-      expect(page).to have_css("#cost_entry_costs", text: "1,42 EUR")
+      expect(page).to have_css("#cost_entry_costs", text: "1,42 €")
 
       select "B", from: CostEntry.human_attribute_name(:cost_type)
       expect(page).to have_css("#cost_entry_unit_name", text: "B plural")
-      expect(page).to have_css("#cost_entry_costs", text: "2,84 EUR")
+      expect(page).to have_css("#cost_entry_costs", text: "2,84 €")
 
       # Override costs
       find_by_id("cost_entry_costs").click
@@ -139,7 +139,7 @@ RSpec.describe "Work Package cost fields", :js do
 
       # Can edit the costs again
       visit edit_cost_entry_path(entry)
-      expect(page).to have_css("#cost_entry_costs", text: "1.350,25 EUR")
+      expect(page).to have_css("#cost_entry_costs", text: "1.350,25 €")
 
       # Toggle the cost button
       SeleniumHubWaiter.wait
@@ -151,7 +151,7 @@ RSpec.describe "Work Package cost fields", :js do
       click_on I18n.t(:button_save)
 
       # Add explicit wait for the updated cost value
-      wait_for { page }.to have_css("#cost_entry_costs", text: "55.000,55 EUR")
+      wait_for { page }.to have_css("#cost_entry_costs", text: "55.000,55 €")
 
       entry.reload
       expect(entry.units).to eq(1.42)

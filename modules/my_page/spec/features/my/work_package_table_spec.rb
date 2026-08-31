@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -51,7 +53,7 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
            project:,
            type: other_type,
            author: user,
-           responsible: user)
+           assigned_to: user)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
@@ -72,6 +74,7 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
     login_as user
 
     my_page.visit!
+    wait_for_network_idle
   end
 
   context "with the permission to save queries" do
@@ -81,18 +84,21 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
       created_by_me_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
       expect(created_by_me_area.area)
         .to have_css(".subject", text: type_work_package.subject)
+      assigned_to_me_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+      expect(assigned_to_me_area.area)
+        .to have_css(".subject", text: other_type_work_package.subject)
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
-      my_page.add_widget(1, 2, :column, "Work packages table")
+      my_page.add_widget(1, 3, :column, "Work packages table")
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
-      # Actually there are two success messages displayed currently. One for the grid getting updated and one
-      # for the query assigned to the new widget being created. A user will not notice it but the automated
-      # browser can get confused. Therefore we wait.
-      sleep(2)
+      created_by_me_area.remove
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
+      assigned_to_me_area.remove
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
-
-      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
-      filter_area.expect_to_span(1, 2, 2, 3)
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+      filter_area.expect_to_span(1, 1, 2, 2)
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
@@ -109,21 +115,40 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
       filters.add_filter_by("Type", "is (OR)", type.name)
       modal.save
 
+      # Wait for the filter save to complete before opening the column configuration,
+      # otherwise the two saves can race and only one change gets persisted.
+      # The first wait_for_network_idle catches the query-form GET; the sleep gives
+      # JavaScript time to process the form response and start the filter PATCH,
+      # and the second wait_for_network_idle catches that PATCH completing.
+      wait_for_network_idle
+      sleep(0.2)
+      wait_for_network_idle
+
       filter_area.configure_wp_table
       modal.switch_to("Columns")
       columns.assume_opened
       columns.remove "Subject"
 
-      expect(filter_area.area)
-        .to have_css(".id", text: type_work_package.id)
+      retry_block do
+        expect(filter_area.area)
+          .to have_css(".id", text: type_work_package.id)
 
-      # as the Subject column is disabled
-      expect(filter_area.area)
-        .to have_no_css(".subject", text: type_work_package.subject)
+        # as the Subject column is disabled
+        expect(filter_area.area)
+          .to have_no_css(".subject", text: type_work_package.subject)
 
-      # As other_type is filtered out
-      expect(filter_area.area)
-        .to have_no_css(".id", text: other_type_work_package.id)
+        # As other_type is filtered out
+        expect(filter_area.area)
+          .to have_no_css(".id", text: other_type_work_package.id)
+      end
+
+      # Wait for the column save PATCH to complete after the DOM has confirmed the
+      # Angular state update. The sleep allows Angular's debounced save to queue the
+      # PATCH before wait_for_network_idle checks for network activity; without it,
+      # wait_for_network_idle can fire in the gap before the PATCH is initiated, causing
+      # the column change to race with the subsequent title-rename PATCH.
+      sleep(0.5)
+      wait_for_network_idle
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
@@ -132,30 +157,44 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
         input.native.send_keys(:return)
       end
 
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      retry_block do
+        my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      end
 
-      sleep(1)
+      wait_for_network_idle
 
       # The whole of the configuration survives a reload
       # as it is persisted in the grid
 
       visit root_path
       my_page.visit!
+      wait_for_network_idle
 
-      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
-      expect(filter_area.area)
-        .to have_css(".id", text: type_work_package.id)
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
-      # as the Subject column is disabled
-      expect(filter_area.area)
-        .to have_no_css(".subject", text: type_work_package.subject)
+      retry_block do
+        # Wait for the widget to load from its persisted state before asserting.
+        # The title comes from the grid API; once visible, the widget is initialized.
+        # A second wait_for_network_idle then catches the subsequent query + results fetches.
+        within filter_area.area do
+          expect(page).to have_field("editable-toolbar-title", with: "My WP Filter", wait: 10)
+        end
 
-      # As other_type is filtered out
-      expect(filter_area.area)
-        .to have_no_css(".id", text: other_type_work_package.id)
+        wait_for_network_idle
 
-      within filter_area.area do
-        expect(page).to have_field("editable-toolbar-title", with: "My WP Filter", wait: 10)
+        expect(filter_area.area)
+          .to have_css(".id", text: type_work_package.id)
+
+        # As other_type is filtered out — check this before the subject column check
+        # so that Capybara waits here until the saved type filter is actually applied.
+        # Without this ordering, have_no_css(".subject") can run while the widget is
+        # still in its initial unfiltered state and fail.
+        expect(filter_area.area)
+          .to have_no_css(".id", text: other_type_work_package.id)
+
+        # as the Subject column is disabled
+        expect(filter_area.area)
+          .to have_no_css(".subject", text: type_work_package.subject)
       end
     end
   end

@@ -13,8 +13,6 @@ volumes:
 x-defaults: &defaults
   build:
     context: .
-    args:
-      DEBIAN_BASE: bookworm
   restart: unless-stopped
   env_file:
     - .env.pullpreview

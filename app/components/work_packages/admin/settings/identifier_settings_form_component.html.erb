@@ -1,0 +1,111 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%= component_wrapper(**wrapper_data_attrs) do %>
+  <%=
+    settings_primer_form_with(
+      scope: :settings, action: :update, method: :patch,
+      html: change_in_progress? ? {} : { id: form_id }
+    ) do |f|
+      render_inline_settings_form(f) do |form|
+        form.radio_button_group(
+          name: :work_packages_identifier,
+          label: I18n.t("settings.work_packages.work_package_identifier"),
+          required: true,
+          **radio_button_options
+        )
+
+        form.html_content do
+          if change_in_progress?
+            render(Primer::Box.new(my: 2)) {
+              render(Primer::Box.new(classes: "d-flex flex-justify-between flex-items-center f6", mb: 1)) {
+                render(Primer::Beta::Text.new(font_weight: :bold)) {
+                  in_progress_header
+                } +
+                render(Primer::Beta::Text.new) { "#{processed_projects_count} / #{total_projects_count}" }
+              } +
+              render(
+                Primer::Beta::ProgressBar.new(test_selector: "conversion-progress-bar").tap { |bar|
+                  bar.with_item(percentage: progress_percentage)
+                }
+              ) +
+              render(Primer::Box.new(mt: 1, color: :muted, classes: "f6")) {
+                I18n.t("admin.settings.work_packages_identifier.in_progress.footer_message")
+              }
+            }
+          elsif completed?
+            render(Primer::Alpha::Banner.new(scheme: :success, dismiss_scheme: :remove, mb: 3)) do
+              I18n.t("admin.settings.work_packages_identifier.success_banner")
+            end
+          end
+        end
+      end
+    end
+  %>
+
+  <% unless change_in_progress? %>
+    <%= tag.div(
+          hidden: !show_autofix_section?,
+          data: { admin__work_packages_identifier_target: "autofixSection" }
+        ) do %>
+      <%= render(
+            WorkPackages::Admin::Settings::IdentifierAutofixSectionComponent.new(
+              projects_data:,
+              total_count:
+            )
+          ) %>
+    <% end %>
+    <div class="op-admin-settings-form-wrapper">
+      <%= render(
+            Primer::Beta::Button.new(
+              scheme: :primary,
+              type: :submit,
+              form: form_id,
+              hidden: true,
+              data: { admin__work_packages_identifier_target: "saveButton" }
+            )
+          ) { t("admin.settings.work_packages_identifier.button_save") } %>
+
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: confirm_dialog_admin_settings_work_packages_identifier_path,
+              scheme: :primary,
+              hidden: !show_autofix_section?,
+              data: {
+                turbo_stream: true,
+                admin__work_packages_identifier_target: "autofixButton"
+              }
+            )
+          ) { t("admin.settings.work_packages_identifier.button_autofix") } %>
+    </div>
+  <% end %>
+<% end %>

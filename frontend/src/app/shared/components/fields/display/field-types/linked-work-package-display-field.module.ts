@@ -21,16 +21,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { truncate } from 'lodash-es';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -40,13 +41,13 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement'),
   };
 
-  @InjectField() $state!:StateService;
+  @LazyInject() $state!:StateService;
 
-  @InjectField() keepTab!:KeepTabService;
+  @LazyInject() keepTab!:KeepTabService;
 
-  @InjectField() currentProject!:CurrentProjectService;
+  @LazyInject() currentProject!:CurrentProjectService;
 
-  @InjectField() pathHelper!:PathHelperService;
+  @LazyInject() pathHelper!:PathHelperService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab, this.currentProject, this.pathHelper);
 
@@ -56,14 +57,17 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
       return;
     }
 
+    const routingId = this.wpRoutingId;
     const link = this.uiStateBuilder.linkToShow(
       this.wpId,
       this.text.linkTitle,
       this.valueString,
+      routingId,
     );
 
     const title = document.createElement('span');
-    title.textContent = ` ${_.truncate(this.title, { length: 40 })}`;
+    const titleText = typeof this.title === 'string' ? this.title : '';
+    title.textContent = ` ${truncate(titleText, { length: 40 })}`;
 
     element.innerHTML = '';
     element.appendChild(link);
@@ -75,6 +79,6 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
   }
 
   public get valueString() {
-    return `#${this.wpId}`;
+    return this.wpFormattedId;
   }
 }

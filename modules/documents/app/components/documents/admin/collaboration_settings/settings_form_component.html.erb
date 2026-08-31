@@ -46,7 +46,8 @@
           label: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_url.label"),
           required: true,
           input_width: :large,
-          caption: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_url.caption")
+          caption: I18n.t("documents.admin.collaboration_settings.hocuspocus_server_url.caption"),
+          validation_message: validation_message_for(:collaborative_editing_hocuspocus_url)
         )
 
         form.text_field(
@@ -60,7 +61,7 @@
           placeholder: Setting.collaborative_editing_hocuspocus_secret.present? ? "••••••••••••••••" : nil
         )
 
-        form.submit
+        form.submit unless none_writable_settings?
       end
     end
   else

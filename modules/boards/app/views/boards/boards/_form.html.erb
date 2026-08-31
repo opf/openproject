@@ -59,14 +59,10 @@ See COPYRIGHT and LICENSE files for more details.
 
   <div class="form--field -required -align-start">
     <label class="form--label" for="board_type"><%= t("boards.label_board_type") %></label>
-    <div class="form--field-container -enterprise-restricted">
-      <%=
-        render(EnterpriseEdition::BannerComponent.new(:board_view))
-      %>
-
+    <div class="form--field-container">
       <div class="op-tile-block">
         <% board_types.each_with_index do |board_type, tile_number| %>
-          <label class="op-tile-block--tile form--radio-button-container -wide <%= "-disabled" if board_type.disabled? %>"
+          <label class="op-tile-block--tile form--radio-button-container -wide"
                  for="boards_grid_attribute_<%= board_type.radio_button_value %>"
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
@@ -74,7 +70,6 @@ See COPYRIGHT and LICENSE files for more details.
                                           board_type.radio_button_value,
                                           tile_number == 0,
                                           no_label: true,
-                                          disabled: board_type.disabled?,
                                           class: "radio-button" %>
               <div>
                 <span data-test-selector="op-tile-block-title" class="op-tile-block--title">
@@ -84,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
 
-            <img src="<%= frontend_asset_path board_type.image_path%>"
+            <img src="<%= frontend_asset_path board_type.image_path %>"
                  alt=""
                  class="op-tile-block--image">
           </label>

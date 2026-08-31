@@ -1,43 +1,46 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import type { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import FormPreviewController from '../../form-preview.controller';
 import {
   debounce,
   DebouncedFunc,
-} from 'lodash';
+} from 'lodash-es';
+import { type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class ProjectLifeCycleFormController extends FormPreviewController {
-  private timezoneService:TimezoneService;
+  static services:ServiceKey[] = ['timezone'];
+
+  declare timezone:TimezoneService;
+
   private deviceService:DeviceService;
   private handleFlatpickrDatesChangedBound = this.handleFlatpickrDatesChanged.bind(this);
   private updateFlatpickrCalendarBound = this.updateFlatpickrCalendar.bind(this);
@@ -52,7 +55,12 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
 
   private readonly CURRENT_FIELD_CLASS_NAME = 'op-datepicker-modal--date-field_current';
 
-  async connect() {
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
+
+  connect() {
     super.connect();
 
     this.previewForm = debounce(() => {
@@ -61,10 +69,12 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
       }
     }, 300);
 
-    const context = await window.OpenProject.getPluginContext();
-    this.timezoneService = context.services.timezone;
     this.deviceService = new DeviceService();
+  }
 
+  // The flatpickr listener reads the timezone service synchronously, so it may
+  // only start listening once the service is bound.
+  servicesConnected() {
     document.addEventListener('date-picker:flatpickr-dates-changed', this.handleFlatpickrDatesChangedBound);
     document.addEventListener('turbo:before-stream-render', this.updateFlatpickrCalendarBound);
     document.addEventListener('turbo:before-morph-attribute', this.preventValueMorphingActiveElementBound);
@@ -90,7 +100,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
   }
 
   private updateFlatpickrCalendar() {
-    const dates:Date[] = _.compact(this.dateInputFields.map((field) => this.toDate(field.value)));
+    const dates:Date[] = this.dateInputFields.map((field) => this.toDate(field.value)).filter((x):x is NonNullable<typeof x> => Boolean(x));
     const ignoreNonWorkingDays = false;
     const mode = 'range';
 
@@ -128,7 +138,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
     this.previewForm();
   }
 
-  preventValueMorphingActiveElement(event:CustomEvent<{ attributeName:string }>) {
+  preventValueMorphingActiveElement(event:TurboBeforeMorphAttributeEvent) {
     const target = event.target as HTMLInputElement;
     const { attributeName } = event.detail;
     const isActiveElement = this.highlightedField?.id === target?.id;
@@ -194,7 +204,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
 
   private dateToIso(date:Date|null):string {
     if (date) {
-      return this.timezoneService.utcDateToISODateString(date);
+      return this.timezone.utcDateToISODateString(date);
     }
     return '';
   }

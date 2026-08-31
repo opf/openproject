@@ -19,233 +19,319 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ru:
-  plugin_costs:
-    name: "Время и затраты"
-    description: "Этот модуль добавляет возможности для планирования и отслеживания затрат на проекты."
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Пакет работ"
-        overridden_costs: "Переопределенные расходы"
-        spent: "Потрачено"
-        spent_on: "Дата"
-        logged_by: "Учтено"
         entity: Учтено
-        entity_id: Учтено
         entity_gid: Учтено
-      cost_type:
-        unit: "Наименование количественного показателя"
-        unit_plural: "Множественное наименование количественного показателя"
-        default: "Тип затрат по умолчанию"
-      work_package:
-        costs_by_type: "Затраченное количество"
-        labor_costs: "Трудовые расходы"
-        material_costs: "Расходы на единицу"
-        overall_costs: "Общие расходы"
-        spent_costs: "Понесенные расходы"
-        spent_units: "Затраченное количество"
-      rate:
-        rate: "Тариф"
-      user:
-        default_rates: "Тариф по умолчанию"
-      time_entry:
-        project: Проект
-        user: Пользователь
+        entity_id: Учтено
+        logged_by: Учтено
+        overridden_costs: Переопределенные расходы
+        spent: Потрачено
+        spent_on: Дата
         work_package: Пакет работ
-        subject: Тема
-        hours: Часы
-        comments: Комментарий
+      cost_type:
+        default: Тип затрат по умолчанию
+        for_all_projects: Для всех проектов
+        rates: Ставки
+        unit: Наименование количественного показателя
+        unit_plural: Множественное наименование количественного показателя
+      rate:
+        rate: Тариф
+      time_entry:
         activity: Деятельность
+        comments: Комментарий
+        end_time: Время окончания
+        entity: Учтено
+        entity_gid: Учтено
+        entity_id: Учтено
+        hours: Часы
+        project: Проект
         spent_on: Дата
         start_time: Время начала
-        end_time: Время окончания
+        subject: Тема
         time: Время
-        entity: Учтено
-        entity_id: Учтено
-        entity_gid: Учтено
-    models:
-      time_entry:
-        one: "Запись о трудозатратах"
-        few: "Записи о трудозатратах"
-        many: "Записей о трудозатратах"
-        other: "Записи о трудозатратах"
-      cost_entry:
-        one: "Запись трудозатрат"
-        few: "Записи трудозатрат"
-        many: "Записи трудозатрат"
-        other: "Записи трудозатрат"
-      cost_type:
-        one: "Тип затрат"
-        few: "Типы затрат"
-        many: "Типы затрат"
-        other: "Типы затрат"
-      time_entry_activity:
-        one: "Отслеживание времени"
-        few: "Отслеживание времени"
-        many: "Отслеживание времени"
-        other: "Отслеживание времени"
-      rate: "Ставка"
+        user: Пользователь
+        work_package: Пакет работ
+      user:
+        default_rates: Тариф по умолчанию
+      work_package:
+        costs_by_type: Затраченное количество
+        labor_costs: Трудовые расходы
+        material_costs: Расходы на единицу
+        overall_costs: Общие расходы
+        spent_costs: Понесенные расходы
+        spent_units: Затраченное количество
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: невозможно отключить, потому что расходы уже были зарегистрированы в этом проекте.
       models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Пожалуйста, выберите проект.
         time_entry:
-          invalid_time: "должно быть между 00:00 и 23:59."
-          cannot_log_for_this_work_package: "Невозможно зарегистрировать время для этого пакета работ."
-          duplicate_ongoing: "Текущая запись времени уже существует для этого пользователя."
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Пакет работ #%{id} не является допустимым объектом для назначения стимостей."
-          nullify_is_not_valid_for_cost_entries: "Записи о стоимостях не могут быть присвоены проекту."
-  attributes:
-    comment: "Комментарий"
-    cost_type: "Тип затрат"
-    costs: "Расходы"
-    current_rate: "Текущий тариф"
-    hours: "Часы"
-    units: "Количество"
-    valid_from: "Действует с"
-    fixed_date: "Дата исправления"
-  button_add_rate: "Добавить тариф"
-  button_log_costs: "Журналировать расходы на единицу"
-  button_log_time: "Журнал"
-  button_add_activity: "Деятельность"
-  button_add_time_entry: "Добавить трудозатраты"
-  button_stop_timer: "Остановить таймер"
-  caption_booked_on_project: "Заказано на проект"
-  caption_default: "По умолчанию"
-  caption_default_rate_history_for: "История тарифов по умолчанию для %{user}"
-  caption_locked_on: "Закрывается на"
-  caption_materials: "Ресурсы"
-  caption_rate_history: "История тарифов"
-  caption_rate_history_for: "История тарифов для %{user}"
-  caption_rate_history_for_project: "История тарифов для %{user} в проекте %{project}"
-  caption_save_rate: "Сохранить тариф"
-  caption_set_rate: "Установить текущий тариф"
-  caption_show_locked: "Показывать Заблокированные типы"
-  caption_log_time_dialog: "Добавить трудозатраты"
-  description_date_for_new_rate: "Дата для нового тарифа"
-  description_costs_settings: "Определите желаемый формат для затрат во всех проектах."
-  description_time_settings: "Определите, какие поля являются обязательными для заполнения при регистрации времени во всех проектах."
-  group_by_others: "не в какой-либо группе"
-  label_between: "между"
-  label_cost_filter_add: "Добавить фильтр расходов"
-  label_costlog: "Журналированные затраты на единицу"
-  label_cost_plural: "Расходы"
-  label_cost_type_plural: "Типы затрат"
-  label_cost_type_specific: "Затраты типа #%{id}: %{name}"
-  label_costs_per_page: "Расходов на странице"
-  label_current_default_rate: "Текущий тариф по умолчанию"
-  label_date_on: "на"
-  label_deleted_cost_types: "Типы удаленных расходов"
-  label_locked_cost_types: "Заблокированные типы стоимостей"
-  label_display_cost_entries: "Отображать расходы на единицу"
-  label_display_time_entries: "Отображать часы по отчету"
-  label_display_types: "Отображение типов"
-  label_edit: "Правка"
-  label_generic_user: "Универсальный пользователь"
-  label_greater_or_equal: ">="
-  label_group_by: "Группировать по"
-  label_group_by_add: "Добавьте поле группировки"
-  label_hourly_rate: "Почасовой тариф"
-  label_include_deleted: "Включая удаленные"
-  label_work_package_filter_add: "Добавить фильтр пакетов работы"
-  label_kind: "Тип"
-  label_less_or_equal: "<="
-  label_log_costs: "Внести расходы на единицу"
-  label_new_time_entry_activity: "Новая деятельность по учету рабочего времени"
-  label_time_entry_activity_form_description: "Изменения в записи этого времени будут отражаться во всех проектах, где он включен."
-  label_no: "Нет"
-  label_option_plural: "Параметры"
-  label_overall_costs: "Общие расходы"
-  label_rate: "Ставка"
-  label_rate_plural: "Тарифы"
-  label_status_finished: "Завершенные"
-  label_show: "Показать"
-  label_units: "Стоимость единицы"
-  label_user: "Пользователь"
-  label_until: "До"
-  label_valid_from: "Действует с"
-  label_yes: "Да"
-  label_time: "Время"
-  label_cost: "Затраты"
-  label_costs: "Затраты"
-  label_mandatory_fields: "Обязательные поля"
-  label_my_time_tracking: "Мои трудозатраты"
-  label_no_time: "Нет учтённого времени"
-  label_next_day: "След. день"
-  label_next_week: "На следующей неделе"
-  label_next_workweek: "Следующая рабочая неделя"
-  label_next_month: "Следующий месяц"
-  label_previous_day: "Предыдущий день"
-  label_previous_workweek: "Предыдущая рабочая неделя"
-  label_previous_week: "Предыдущая неделя"
-  label_previous_month: "Предыдущий месяц"
-  label_specific_day: "День %{day}"
-  label_specific_week: "Календарная неделя %{week}"
-  label_specific_month: "Месяц %{month}"
-  label_list: "Список"
-  label_month: "Месяц"
-  label_workweek: "Рабочая неделя"
-  label_day: "День"
-  label_today_capitalized: "Сегодня"
-  label_view_mode_switcher: "Изменить вид"
-  label_timer_since: "Начато в %{time}"
-  placeholder_activity_select_work_package_first: Сначала необходимо выбрать пакет работ
-  notice_something_wrong: "Произошла ошибка. Пожалуйста, попробуйте снова."
-  notice_successful_restore: "Успешное восстановление."
-  notice_successful_lock: "Успешно заблокировано."
-  notice_cost_logged_successfully: "Стоимость единицы успешно зажурналировано "
-  notice_different_time_zones: "У этого пользователя другой часовой пояс (%{tz}). Время будет журналироваться с учетом его часового пояса."
-  notice_time_entry_update_failed: "Не удалось обновить запись учёта времени. Ошибки: %{errors}"
-  notice_time_entry_delete_failed: "Не удалось удалить запись учёта времени. Ошибки: %{errors}"
-  permission_edit_cost_entries: "Править зарегестрированные количественные затраты"
-  permission_edit_own_cost_entries: "Править собственные зарегистрированные количественные затраты"
-  permission_edit_hourly_rates: "Править почасовые тарифы"
-  permission_edit_own_hourly_rate: "Править собственные почасовые тарифы"
-  permission_edit_rates: "Править тарифы"
-  permission_log_costs: "Регистрировать затраты по количеству"
-  permission_log_own_costs: "Регистрировать затраты по количеству для себя"
-  permission_view_cost_entries: "Просмотр зарегистрированных затрат"
-  permission_view_cost_rates: "Просмотр тарифов по стоимости"
-  permission_view_hourly_rates: "Просмотр всех почасовых тарифов"
-  permission_view_own_cost_entries: "Просмотр своих зарегистрированных расходов"
-  permission_view_own_hourly_rate: "Просмотр своей почасовой ставки"
-  permission_view_own_time_entries: "Просмотр своего отработанного времени"
-  project_module_costs: "Время и затраты"
-  setting_allow_tracking_start_and_end_times: "Разрешить время начала и окончания"
-  setting_costs_currency: "Валюта"
-  setting_costs_currency_format: "Формат валюты"
-  setting_enforce_tracking_start_and_end_times: "Требуется время начала и окончания"
-  setting_enforce_without_allow: "Требование точного времени невозможно без соответствующего разрешения"
-  setting_allow_tracking_start_and_end_times_caption: "Включает время начала и окончания учета."
-  setting_enforce_tracking_start_and_end_times_caption: "Делает ввод времени начала и окончания обязательным при регистрации времени."
-  text_assign_time_and_cost_entries_to_project: "Связать сообщенные часы и расходы с проектом"
-  text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
-  text_destroy_time_and_cost_entries: "Удалить отчеты о часах и расходах"
-  text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
-  text_reassign_time_and_cost_entries: "Переназначьте сообщенные часы и расходы на этот пакет работ:"
-  text_warning_hidden_elements: "Некоторые записи были исключены из агрегирования."
-  week: "неделя"
-  total_times:
-    workweek: "Итог рабочей недели: %{hours}"
-    week: "Итог недели: %{hours}"
-    month: "Итог месяца: %{hours}"
-    day: "Итог дня: %{hours}"
+          is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
+          nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
+    models:
+      cost_entry:
+        one: Запись трудозатрат
+        few: Записи трудозатрат
+        many: Записи трудозатрат
+        other: Записи трудозатрат
+      cost_rate:
+        one: Ставка затрат
+        few: Cost rates
+        many: Cost rates
+        other: Ставки затрат
+      cost_type:
+        one: Тип затрат
+        few: Типы затрат
+        many: Типы затрат
+        other: Типы затрат
+      default_hourly_rate:
+        one: Почасовая ставка по умолчанию
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Почасовые ставки по умолчанию
+      hourly_rate:
+        one: Часовая ставка
+        few: Hourly rates
+        many: Hourly rates
+        other: Часовые ставки
+      rate:
+        one: Ставка
+        few: Rates
+        many: Rates
+        other: Ставки
+      time_entry:
+        one: Запись о трудозатратах
+        few: Записи о трудозатратах
+        many: Записей о трудозатратах
+        other: Записи о трудозатратах
+      time_entry_activity:
+        one: Отслеживание времени
+        few: Отслеживание времени
+        many: Отслеживание времени
+        other: Отслеживание времени
+      time_entry_custom_field:
+        one: Пользовательское поле для учета рабочего времени
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Пользовательские поля для учета рабочего времени
   api_v3:
     errors:
       validation:
-        start_time_different_date: "Дата startTime (%{start_time}) должна быть такой же, как дата spentOn (%{spent_on})."
+        start_time_different_date: Дата startTime (%{start_time}) должна быть такой же, как дата spentOn (%{spent_on}).
+  attributes:
+    comment: Комментарий
+    cost_type: Тип затрат
+    costs: Расходы
+    current_rate: Текущий тариф
+    fixed_date: Дата исправления
+    hours: Часы
+    units: Количество
+    valid_from: Действует с
+  button_add_activity: Деятельность
+  button_add_rate: Добавить тариф
+  button_add_time_entry: Добавить трудозатраты
+  button_log_costs: Журналировать расходы на единицу
+  button_log_time: Журнал
+  button_stop_timer: Остановить таймер
+  button_update_limits: Обновить ограничения
+  button_update_start_finish_times: Обновить время начала и окончания
+  caption_booked_on_project: Заказано на проект
+  caption_default: По умолчанию
+  caption_default_rate_history_for: История тарифов по умолчанию для %{user}
+  caption_locked_on: Закрывается на
+  caption_log_time_dialog: Добавить трудозатраты
+  caption_materials: Ресурсы
+  caption_rate_history: История тарифов
+  caption_rate_history_for: История тарифов для %{user}
+  caption_rate_history_for_project: История тарифов для %{user} в проекте %{project}
+  caption_save_rate: Сохранить тариф
+  caption_set_rate: Установить текущий тариф
+  caption_show_locked: Показывать Заблокированные типы
+  cost_types:
+    admin:
+      columns:
+        active_projects: Активные проекты
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Снимите флажок "Для всех проектов" на вкладке "Детали", чтобы ограничить этот тип затрат конкретными проектами.
+          heading: Этот тип затрат включен во всех проектах
+        no_projects:
+          description: Добавьте проекты, чтобы в них можно было использовать этот тип расходов.
+          heading: Проекты не назначены
+      rates:
+        title: История ставок
+    errors:
+      no_cost_types_available: В этом проекте нет доступных типов затрат. Обратитесь к администратору.
+    settings:
+      cost_types:
+        for_all_projects_hint: Этот тип затрат включен во всех проектах.
+        heading: Типы затрат
+        in_use_hint: Этот тип затрат не может быть отключен, так как затраты уже были зарегистрированы в этом проекте.
+        none_active: В настоящее время в этом проекте нет активных типов затрат.
+      time_and_costs: Время и затраты
   costs:
     widgets:
       actual_costs:
-        title: "Actual costs by month"
         blankslate:
-          heading: "Start tracking your time and costs"
-          description: "Get an overview of your costs and logged time to monitor progress of your project"
-          action: "Log time"
-        view_details: "View actual costs details"
+          action: Добавить трудозатраты
+          description: Получите обзор Ваших затрат и затраченного времени, чтобы контролировать ход выполнения проекта. Убедитесь, что пакеты работ связаны с правильным бюджетом.
+          heading: Начните отслеживать свое время и расходы
+        title: Фактические затраты по месяцам
+        view_details: Подробнее о фактических затратах
+  description_costs_settings: Определите желаемый формат для затрат во всех проектах.
+  description_date_for_new_rate: Дата для нового тарифа
+  description_time_entry_restrictions: Определите ограничения на время регистрации рабочего времени пользователем. Это правило распространяется на все проекты.
+  description_time_settings: Записи о времени могут содержать конкретные время начала и окончания, которые можно сделать необязательными или обязательными.
   ee:
     features:
-      time_entry_time_restrictions: Требует точного отслеживания времени
+      time_entry_time_restrictions: Ограничения на ввод данных об отработанном времени
     upsell:
       time_entry_time_restrictions:
-        description: "Улучшите отслеживание времени, требуя точного времени начала и окончания при записи трудозатрат."
+        description: Усовершенствуйте систему учёта рабочего времени, разрешив или обязав сотрудников точно фиксировать время начала и окончания работы, а также установив ограничения на то, когда и сколько времени может регистрироваться участником проекта.
+  group_by_others: не в какой-либо группе
+  label_available_cost_types_projects: Доступные виды затрат по проектам
+  label_between: между
+  label_cost: Затраты
+  label_cost_filter_add: Добавить фильтр расходов
+  label_cost_plural: Расходы
+  label_cost_type_plural: Типы затрат
+  label_cost_type_specific: 'Затраты типа #%{id}: %{name}'
+  label_costlog: Журналированные затраты на единицу
+  label_costs: Затраты
+  label_costs_per_page: Расходов на странице
+  label_current_default_rate: Текущий тариф по умолчанию
+  label_date_on: на
+  label_day: День
+  label_defaults_and_limits: Значения по умолчанию и ограничения
+  label_deleted_cost_types: Типы удаленных расходов
+  label_display_cost_entries: Отображать расходы на единицу
+  label_display_time_entries: Отображать часы по отчету
+  label_display_types: Отображение типов
+  label_edit: Правка
+  label_generic_user: Универсальный пользователь
+  label_greater_or_equal: ">="
+  label_group_by: Группировать по
+  label_group_by_add: Добавьте поле группировки
+  label_include_deleted: Включая удаленные
+  label_kind: Тип
+  label_less_or_equal: "<="
+  label_list: Список
+  label_log_costs: Внести расходы на единицу
+  label_month: Месяц
+  label_my_time_tracking: Мои трудозатраты
+  label_new_time_entry_activity: Новая деятельность по учету рабочего времени
+  label_next_day: След. день
+  label_next_month: Следующий месяц
+  label_next_week: На следующей неделе
+  label_next_workweek: Следующая рабочая неделя
+  label_no: Нет
+  label_no_time: Нет учтённого времени
+  label_option_plural: Параметры
+  label_overall_costs: Общие расходы
+  label_previous_day: Предыдущий день
+  label_previous_month: Предыдущий месяц
+  label_previous_week: Предыдущая неделя
+  label_previous_workweek: Предыдущая рабочая неделя
+  label_rate_plural: Тарифы
+  label_show: Показать
+  label_specific_day: День %{day}
+  label_specific_month: Месяц %{month}
+  label_start_and_finished: Время начала и окончания
+  label_status_finished: Завершенные
+  label_time: Время
+  label_time_entry_activity_form_description: Изменения в записи этого времени будут отражаться во всех проектах, где он включен.
+  label_time_entry_restrictions: Ограничения
+  label_timer_since: Начато в %{time}
+  label_today_capitalized: Сегодня
+  label_units: Стоимость единицы
+  label_until: До
+  label_valid_from: Действует с
+  label_view_mode_switcher: Изменить вид
+  label_work_package_filter_add: Добавить фильтр пакетов работы
+  label_workweek: Рабочая неделя
+  label_yes: Да
+  notice_cost_logged_successfully: 'Стоимость единицы успешно зажурналировано '
+  notice_different_time_zones: У этого пользователя другой часовой пояс (%{tz}). Время будет журналироваться с учетом его часового пояса.
+  notice_something_wrong: Произошла ошибка. Пожалуйста, попробуйте снова.
+  notice_successful_lock: Успешно заблокировано.
+  notice_successful_restore: Успешное восстановление.
+  notice_time_entry_delete_failed: 'Не удалось удалить запись учёта времени. Ошибки: %{errors}'
+  notice_time_entry_update_failed: 'Не удалось обновить запись учёта времени. Ошибки: %{errors}'
+  permission_edit_cost_entries: Править зарегестрированные количественные затраты
+  permission_edit_hourly_rates: Править почасовые тарифы
+  permission_edit_own_cost_entries: Править собственные зарегистрированные количественные затраты
+  permission_edit_own_hourly_rate: Править собственные почасовые тарифы
+  permission_edit_rates: Править тарифы
+  permission_log_costs: Регистрировать затраты по количеству
+  permission_log_own_costs: Регистрировать затраты по количеству для себя
+  permission_view_cost_entries: Просмотр зарегистрированных затрат
+  permission_view_cost_rates: Просмотр тарифов по стоимости
+  permission_view_hourly_rates: Просмотр всех почасовых тарифов
+  permission_view_own_cost_entries: Просмотр своих зарегистрированных расходов
+  permission_view_own_hourly_rate: Просмотр своей почасовой ставки
+  permission_view_own_time_entries: Просмотр своего отработанного времени
+  placeholder_activity_select_work_package_first: Сначала необходимо выбрать пакет работ
+  plugin_costs:
+    description: Этот модуль добавляет возможности для планирования и отслеживания затрат на проекты.
+    name: Время и затраты
+  project_module_costs: Время и затраты
+  setting_allow_tracking_start_and_end_times: Разрешить время начала и окончания
+  setting_allow_tracking_start_and_end_times_caption: Включает время начала и окончания учета.
+  setting_costs_currency: Валюта
+  setting_costs_currency_caption: Это единица валюты. Это может быть трехбуквенный код ISO, например, EUR, USD или JPY, или символ, например, €, $ или ¥.
+  setting_costs_currency_format: Формат валюты
+  setting_costs_currency_format_prefix: Перед числом (например, EUR 100)
+  setting_costs_currency_format_suffix: После числа (например, 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Требуется время начала и окончания
+  setting_enforce_tracking_start_and_end_times_caption: Делает ввод времени начала и окончания обязательным при регистрации времени.
+  setting_enforce_without_allow: Требование точного времени невозможно без соответствующего разрешения
+  setting_time_entries_limit_to_user_working_hours: Ограничение рабочего времени пользователя
+  setting_time_entries_limit_to_user_working_hours_caption: Ограничивает общее количество часов, которые можно регистрировать в день, фактическим рабочим временем данного пользователя. На пользователей, для которых не установлено рабочее время, ограничения не распространяются.
+  setting_time_entries_max_hours_per_day: Максимальное количество часов в день
+  setting_time_entries_max_hours_per_day_caption: Ограничивает общее количество часов, которое пользователь может зарегистрировать в системе в течение одного дня. Значение 0 означает отсутствие ограничений.
+  setting_time_entries_max_hours_per_entry: Максимальное количество часов за запись
+  setting_time_entries_max_hours_per_entry_caption: Определяет максимальную продолжительность одной записи о рабочем времени в часах. Значение 0 означает отсутствие ограничений.
+  setting_time_entries_past_month_grace_days: Льготный период за предыдущие месяцы
+  setting_time_entries_past_month_grace_days_caption: Укажите количество дней, в течение которых пользователь может вводить записи о затраченном времени за предыдущий месяц после начала нового месяца. Значение «5» означает, что пользователи могут вводить записи о затраченном времени за предыдущий месяц до 5-го числа текущего месяца. Значение «0» означает полное отсутствие льготного периода.
+  setting_time_entries_prohibit_logging_for_past_months: Запретить ведение журнала за последние месяцы
+  setting_time_entries_prohibit_logging_for_past_months_caption: Ограничивает добавление, изменение и удаление записей о рабочем времени текущим месяцем. Время, зарегистрированное в предыдущих месяцах, больше не подлежит изменению.
+  setting_time_entries_prohibit_logging_on_non_working_days: Запретить учет рабочего времени в нерабочие дни
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Пользователи не смогут регистрировать рабочее время в те дни, которые определены как нерабочие либо администратором, либо самими пользователями в настройках своих учетных записей.
+  text_assign_time_and_cost_entries_to_project: Связать сообщенные часы и расходы с проектом
+  text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
+  text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах
+  text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
+  text_reassign_time_and_cost_entries: 'Переназначьте сообщенные часы и расходы на этот пакет работ:'
+  text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
+  total_times:
+    day: 'Итог дня: %{hours}'
+    month: 'Итог месяца: %{hours}'
+    week: 'Итог недели: %{hours}'
+    workweek: 'Итог рабочей недели: %{hours}'
+  week: неделя

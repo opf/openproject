@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpTools::SearchVersions do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "X-Authentication-Scheme", "Bearer"
     header "Content-Type", "application/json"
@@ -71,12 +71,12 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
     it_behaves_like "MCP text tool"
 
     it "finds all versions without filters" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
     end
 
     it "responds with properly formatted versions" do
-      subject
+      mcp_request
       parsed_results.dig("structuredContent", "items").each do |version|
         expect(version.to_json).to match_json_schema.from_docs("version_read_model")
       end
@@ -86,7 +86,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
       let(:call_args) { { name: "v1.0.1-alpha" } }
 
       it "finds the version" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
       let(:call_args) { { name: "alpha" } }
 
       it "finds the version" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
       let(:call_args) { { sharing: "system" } }
 
       it "finds the version" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
       end
 
@@ -112,7 +112,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
         let(:call_args) { { sharing: "system", name: "v1" } }
 
         it "finds the version" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
         end
       end
@@ -121,7 +121,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
         let(:call_args) { { sharing: "system", name: "alpha" } }
 
         it "does not find the version" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items")).to be_empty
         end
       end
@@ -142,15 +142,20 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
       end
 
       it "returns only results up to the page size" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+      end
+
+      it "indicates the total number of results" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "total")).to eq(version_count)
       end
 
       context "if another page is requested" do
         let(:call_args) { { name: "beta", page: 2 } }
 
         it "returns the requested page" do
-          subject
+          mcp_request
           expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_versions)
         end
       end
@@ -159,7 +164,7 @@ RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,9 +31,10 @@
 module Boards
   class Grid < ::Grids::Grid
     belongs_to :project
-    validates_presence_of :name
+    belongs_to :linked, polymorphic: true, optional: true, inverse_of: :task_boards
+    validates :name, presence: true
 
-    before_destroy :delete_queries
+    before_destroy :delete_queries, prepend: true
 
     set_acts_as_attachable_options view_permission: :show_board_views,
                                    delete_permission: :manage_board_views,
@@ -62,7 +65,11 @@ module Boards
     private
 
     def delete_queries
-      contained_queries.delete_all
+      policy = QueryPolicy.new(User.current)
+
+      contained_queries
+        .select { |q| policy.allowed?(q, :destroy) }
+        .each(&:delete)
     end
 
     def contained_query_ids

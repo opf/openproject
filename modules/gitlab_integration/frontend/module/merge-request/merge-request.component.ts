@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {IGitlabMergeRequestResource} from 'core-app/features/plugins/linked/openproject-gitlab_integration/typings';
@@ -40,10 +40,14 @@ import {IGitlabMergeRequestResource} from 'core-app/features/plugins/linked/open
     './mr-pipeline.component.sass',
   ],
   host: { class: 'op-merge-request' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 
 export class MergeRequestComponent {
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input() public mergeRequest:IGitlabMergeRequestResource;
 
   public text = {
@@ -52,10 +56,6 @@ export class MergeRequestComponent {
     label_details: this.I18n.t('js.label_details'),
     label_pipelines: this.I18n.t('js.gitlab_integration.gitlab_pipelines'),
   };
-
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
-  }
 
   get state() {
 

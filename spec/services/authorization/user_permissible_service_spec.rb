@@ -107,15 +107,34 @@ RSpec.describe Authorization::UserPermissibleService do
       end
 
       context "and the user is an admin" do
-        let(:user) { create(:admin) }
+        let(:queried_user) { admin }
 
         it { is_expected.to be_allowed_globally(permission) }
 
         context "and the account is locked" do
-          before { user.locked! }
+          before { admin.locked! }
 
           it { is_expected.not_to be_allowed_globally(permission) }
         end
+      end
+
+      context "and the user is an admin but the permission is not granted to admins" do
+        include_context "with blank access control state"
+
+        before do
+          OpenProject::AccessControl.map do |map|
+            map.permission :not_granted_to_admin_global,
+                           {},
+                           permissible_on: :global,
+                           require: :loggedin,
+                           grant_to_admin: false
+          end
+        end
+
+        let(:queried_user) { admin }
+        let(:permission) { :not_granted_to_admin_global }
+
+        it { is_expected.not_to be_allowed_globally(permission) }
       end
 
       it_behaves_like "the Authorization.roles scope used" do
@@ -186,6 +205,17 @@ RSpec.describe Authorization::UserPermissibleService do
             it { is_expected.not_to be_allowed_in_project(permission, project) }
           end
         end
+      end
+
+      context "and the user is an admin but the permission is not granted to admins" do
+        # :work_package_assigned has grant_to_admin: false, so the admin short-circuit
+        # does not apply. Additionally, all_permissions_for for admins only returns
+        # grant_to_admin? permissions (ignoring memberships), so the admin cannot
+        # gain this permission at all.
+        let(:queried_user) { admin }
+        let(:permission) { :work_package_assigned }
+
+        it { is_expected.not_to be_allowed_in_project(permission, project) }
       end
 
       context "and the user is a member of a project" do
@@ -272,6 +302,17 @@ RSpec.describe Authorization::UserPermissibleService do
             it { is_expected.not_to be_allowed_in_any_project(permission) }
           end
         end
+      end
+
+      context "and the user is an admin but the permission is not granted to admins" do
+        # :work_package_assigned has grant_to_admin: false, so the admin short-circuit
+        # does not apply. Additionally, all_permissions_for for admins only returns
+        # grant_to_admin? permissions (ignoring memberships), so the admin cannot
+        # gain this permission at all.
+        let(:queried_user) { admin }
+        let(:permission) { :work_package_assigned }
+
+        it { is_expected.not_to be_allowed_in_any_project(permission) }
       end
 
       context "and the user is a member of a project" do
@@ -376,6 +417,16 @@ RSpec.describe Authorization::UserPermissibleService do
               project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
               project.reload
             end
+
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          end
+
+          context "when the permission is not granted to admins" do
+            # :work_package_assigned has grant_to_admin: false, so the admin short-circuit
+            # does not apply. Additionally, all_permissions_for for admins only returns
+            # grant_to_admin? permissions (ignoring memberships), so the admin cannot
+            # gain this permission at all.
+            let(:permission) { :work_package_assigned }
 
             it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
           end
@@ -484,6 +535,16 @@ RSpec.describe Authorization::UserPermissibleService do
 
           it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
           it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage, in_project: project) }
+        end
+
+        context "when the permission is not granted to admins" do
+          # :work_package_assigned has grant_to_admin: false, so the admin short-circuit
+          # does not apply. Additionally, all_permissions_for for admins only returns
+          # grant_to_admin? permissions (ignoring memberships), so the admin cannot
+          # gain this permission at all.
+          let(:permission) { :work_package_assigned }
+
+          it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
         end
       end
 

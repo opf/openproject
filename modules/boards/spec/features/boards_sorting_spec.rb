@@ -32,8 +32,7 @@ require_relative "support/board_page"
 
 RSpec.describe "Work Package boards sorting spec",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:admin) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:board_index) { Pages::BoardIndex.new(project) }

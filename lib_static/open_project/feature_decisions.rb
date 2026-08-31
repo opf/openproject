@@ -74,7 +74,8 @@ module OpenProject
     # Adding a new feature flag:
     #   OpenProject::FeatureDecisions.add :new_ui,
     #                                     description: "Enables the new user interface",
-    #                                     force_active: true
+    #                                     force_active: true,
+    #                                     allow_enabling: true
     #
     # Querying the state of the feature flag:
     #   OpenProject::FeatureDecisions.new_ui_active? # => true or false based on configuration
@@ -82,13 +83,15 @@ module OpenProject
     # @param [Symbol] flag_name The name of the feature flag to add.
     # @param [String, nil] description A description of the feature flag for documentation purposes.
     # @param [Boolean] force_active Whether to force the feature flag to be active in production or development environments.
+    # @param [Boolean] allow_enabling Whether to allow enabling the feature flag via ENV variable or administration.
     # @return [void]
     ##
-    def add(flag_name, description: nil, force_active: false)
+    def add(flag_name, description: nil, force_active: false, allow_enabling: true)
       all << flag_name
       define_flag_methods(flag_name)
       define_setting_definition(flag_name, description:,
-                                           force_active: force_active && (Rails.env.production? || Rails.env.development?))
+                                           force_active: force_active && (Rails.env.production? || Rails.env.development?),
+                                           allow_enabling: allow_enabling)
     end
 
     def active
@@ -105,12 +108,18 @@ module OpenProject
       end
     end
 
-    def define_setting_definition(flag_name, description: nil, force_active: false)
+    def define_setting_definition(flag_name, description: nil, force_active: false, allow_enabling: true)
+      writable = if force_active
+                   false
+                 else
+                   allow_enabling
+                 end
+
       Settings::Definition.add :"feature_#{flag_name}_active",
                                description:,
                                default: force_active || Rails.env.development?,
-                               writable: !force_active,
-                               disallow_override: force_active
+                               writable: writable,
+                               disallow_override: force_active || !allow_enabling
     end
   end
 end

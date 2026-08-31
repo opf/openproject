@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe McpResources::Type, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpResources::Type do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -67,7 +67,7 @@ RSpec.describe McpResources::Type, with_flag: { mcp_server: true } do
     it_behaves_like "MCP text resource response"
 
     it "responds with a properly formatted type" do
-      subject
+      mcp_request
       text_content = parsed_results.fetch("contents").first
       type = text_content.fetch("text")
       expect(type).to match_json_schema.from_docs("type_model")
@@ -94,7 +94,7 @@ RSpec.describe McpResources::Type, with_flag: { mcp_server: true } do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

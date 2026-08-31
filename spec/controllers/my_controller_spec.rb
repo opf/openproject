@@ -37,7 +37,32 @@ RSpec.describe MyController do
     login_as(user)
   end
 
+  describe "DELETE destroy_project_settings" do
+    let(:project) { create(:project) }
+    let!(:notification_setting) { create(:notification_setting, user:, project:) }
+
+    it "deletes the setting and redirects with see other" do
+      delete :destroy_project_settings, params: { project_id: project.id }
+
+      expect(response).to redirect_to(my_notifications_path)
+      expect(response).to have_http_status(:see_other)
+      expect { notification_setting.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "password change" do
+    describe "security" do
+      render_views
+
+      before do
+        get :security
+      end
+
+      it "does render 'Change password' section" do
+        expect(response.body).to have_css(".Subhead-heading", text: "Change password")
+      end
+    end
+
     describe "#password" do
       before do
         get :password
@@ -45,7 +70,7 @@ RSpec.describe MyController do
 
       it "renders the password template" do
         assert_template "password"
-        assert_response :success
+        expect(response).to have_http_status(:success)
       end
     end
 
@@ -71,8 +96,7 @@ RSpec.describe MyController do
       end
 
       it "shows an error message" do
-        expect(response).to have_http_status :unprocessable_entity
-        assert_template "password"
+        expect(response).to redirect_to action: "security"
         expect(user.errors.attribute_names).to eq([:password_confirmation])
         expect(user.errors.map(&:message).flatten)
           .to contain_exactly("Password confirmation does not match password.")
@@ -80,7 +104,6 @@ RSpec.describe MyController do
     end
 
     describe "with wrong password" do
-      render_views
       before do
         @current_password = user.current_password.id
         post :change_password,
@@ -92,8 +115,7 @@ RSpec.describe MyController do
       end
 
       it "shows an error message" do
-        expect(response).to have_http_status :unprocessable_entity
-        assert_template "password"
+        expect(response).to redirect_to action: "security"
         expect(flash[:error]).to eq("Wrong password")
       end
 
@@ -112,8 +134,8 @@ RSpec.describe MyController do
              }
       end
 
-      it "redirects to the my password page" do
-        expect(response).to redirect_to("/my/password")
+      it "redirects to the security page" do
+        expect(response).to redirect_to(my_security_path)
       end
 
       it "allows the user to login with the new password" do
@@ -139,7 +161,7 @@ RSpec.describe MyController do
         end
 
         it "blocks the attempt even with correct password" do
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to redirect_to action: "security"
         end
 
         it "does not change the password" do
@@ -230,10 +252,6 @@ RSpec.describe MyController do
       it "renders editable custom fields" do
         expect(response.body).to have_content(custom_field.name)
       end
-
-      it "renders the 'Change password' menu entry" do
-        expect(response.body).to have_css("#menu-sidebar li a", text: "Change password")
-      end
     end
   end
 
@@ -300,6 +318,23 @@ RSpec.describe MyController do
     end
   end
 
+  describe "updating custom field values" do
+    let!(:editable_cf) { create(:user_custom_field, :string, editable: true) }
+    let!(:readonly_cf) { create(:user_custom_field, :string, editable: false) }
+
+    it "persists editable custom fields but ignores non-editable ones" do
+      as_logged_in_user user do
+        patch :update_settings, params: {
+          user: { custom_field_values: { editable_cf.id.to_s => "ok",
+                                         readonly_cf.id.to_s => "tampered" } }
+        }
+      end
+
+      expect(user.reload.custom_value_for(editable_cf)&.value).to eq "ok"
+      expect(user.custom_value_for(readonly_cf)&.value).to be_blank
+    end
+  end
+
   describe "changing changing mail" do
     let!(:recovery_token) { create(:recovery_token, user:) }
     let!(:plain_session) { create(:user_session, user:, session_id: "internal_foobar") }
@@ -351,14 +386,36 @@ RSpec.describe MyController do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
-        get :account
+        get :security
       end
     end
 
     render_views
 
-    it "does not render 'Change password' menu entry" do
-      expect(response.body).to have_no_css("#menu-sidebar li a", text: "Change password")
+    it "does not render 'Change password' section" do
+      expect(response.body).to have_no_css(".Subhead-heading", text: "Change password")
+    end
+  end
+
+  describe "#working_times" do
+    let!(:user_working_hours) { create(:user_working_hours, valid_from: 1.week.ago, user:) }
+
+    subject { get :working_hours }
+
+    it "responds with success" do
+      subject
+      expect(response).to be_successful
+    end
+
+    it "renders the working_hours template" do
+      subject
+      expect(response).to render_template "working_hours"
+    end
+
+    it "assigns @current_working_hours and @past_working_hours" do
+      subject
+      expect(assigns(:current_working_hours)).to eq(user_working_hours)
+      expect(assigns(:past_working_hours)).to eq([user_working_hours])
     end
   end
 end

@@ -133,4 +133,60 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.assignable_custom_field_values(version_cf)).to be_nil
     end
   end
+
+  describe "#available_custom_fields with a linked form configuration", with_flag: { type_variants: true } do
+    let(:source_type) { create(:type) }
+    let(:linked_type) { create(:type) }
+    let(:project) { create(:project, types: [linked_type]) }
+    let!(:source_cf) do
+      create(:integer_wp_custom_field).tap do |cf|
+        project.work_package_custom_fields << cf
+        source_type.default_variant.custom_fields << cf
+      end
+    end
+
+    subject { described_class.new(project:, type: linked_type) }
+
+    before do
+      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
+    end
+
+    it "intersects the project's fields with the effective source type's fields" do
+      expect(subject.available_custom_fields).to include(source_cf)
+    end
+  end
+
+  describe "#available_custom_fields when the project resolves a variant",
+           with_flag: { type_variants: true } do
+    let(:root_type) { create(:type) }
+    let(:variant) do
+      create(:type_variant, type: root_type).tap do |named|
+        link_configuration(named, source: root_type, aspect: TypeVariant::FORM_CONFIGURATION)
+      end
+    end
+    let(:project) { create(:project, types: [variant]) }
+
+    let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
+    let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
+
+    subject { described_class.new(project:, type: root_type) }
+
+    context "when the variant inherits its form configuration" do
+      it "answers with the root's fields" do
+        expect(subject.available_custom_fields).to include(root_cf)
+        expect(subject.available_custom_fields).not_to include(variant_cf)
+      end
+    end
+
+    context "when the variant owns its form configuration" do
+      before do
+        unlink_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
+      end
+
+      it "answers with the variant's own fields" do
+        expect(subject.available_custom_fields).to include(variant_cf)
+        expect(subject.available_custom_fields).not_to include(root_cf)
+      end
+    end
+  end
 end

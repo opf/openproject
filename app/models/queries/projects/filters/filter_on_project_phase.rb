@@ -74,23 +74,23 @@ module Queries::Projects::Filters::FilterOnProjectPhase
   private
 
   def on_date
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def on_today
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def between_date
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def this_week
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def none
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def project_phase_scope_limit(scope)

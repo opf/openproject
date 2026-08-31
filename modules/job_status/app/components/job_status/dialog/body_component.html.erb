@@ -32,23 +32,19 @@
               flex.with_row { render(Primer::Beta::Text.new) { I18n.t("job_status_dialog.download_starts") } }
               flex.with_row do
                 render(Primer::Beta::Text.new) do
-                  I18n.t(
-                    "job_status_dialog.link_to_download",
-                    link: (render(
-                      Primer::Beta::Link.new(
-                        href: download_url,
-                        underline: true,
-                        target: "_blank",
-                        type: mime_type,
-                        # omit download attribute for PDF,
-                        # so they open in a tab - if supported and activated in the browser
-                        download: mime_type_pdf? ? nil : "download",
-                        data: {
-                          "job-status-polling-target": "download"
-                        }
-                      )
-                    ) { I18n.t("job_status_dialog.click_here") })
-                  ).html_safe
+                  helpers.link_translate(
+                    "job_status_dialog.click_to_download",
+                    links: { download_url: },
+                    underline: true,
+                    external: true,
+                    type: mime_type,
+                    # omit download attribute for PDF,
+                    # so they open in a tab - if supported and activated in the browser
+                    download: mime_type_pdf? ? nil : "download",
+                    data: {
+                      "job-status-polling-target": "download"
+                    }
+                  )
                 end
               end
             end

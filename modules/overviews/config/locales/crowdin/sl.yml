@@ -1,5 +1,13 @@
+---
 sl:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        two: Overviews
+        few: Overviews
+        other: Overviews
   overviews:
+    label_dashboard: Nadzorna plošča
     label_home: "%{workspace_type} home"
-    label_dashboard: "Nadzorna plošča"
-    label_overview: "Pregled"
+    label_overview: Pregled

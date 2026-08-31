@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Inject, Injectable, Injector, DOCUMENT } from '@angular/core';
+import { Injectable, Injector, DOCUMENT, inject } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 
@@ -36,11 +36,14 @@ import { DynamicContentModalComponent } from 'core-app/shared/components/modals/
  */
 @Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
-  constructor(
-    @Inject(DOCUMENT) protected documentElement:Document,
-    protected injector:Injector,
-    protected opModalService:OpModalService,
-  ) {
+  protected documentElement = inject<Document>(DOCUMENT);
+  protected injector = inject(Injector);
+  protected opModalService = inject(OpModalService);
+
+  constructor() {
+    const documentElement = this.documentElement;
+    const opModalService = this.opModalService;
+
     documentElement.addEventListener('turbo:before-render', () => opModalService.close());
   }
 

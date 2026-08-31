@@ -100,6 +100,6 @@ module WikiHelper
   def wiki_page_option(page, level, ids)
     indent = level.positive? ? "#{"\u00A0" * level * 2}» " : ""
     id = ids ? page.id : page.title
-    [indent + h(page.title), id]
+    [indent + page.title, id]
   end
 end

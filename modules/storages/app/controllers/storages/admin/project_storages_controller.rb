@@ -32,11 +32,12 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   include Storages::OAuthAccessGrantable
   include OpTurbo::ComponentStream
 
+  before_action :find_project_by_project_id
   before_action :find_project_storage, only: %i[oauth_access_grant edit update destroy destroy_info]
   menu_item :settings_project_storages
 
   def external_file_storages
-    @project_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
+    @project_storages = @project.project_storages.includes(:storage)
     render "/storages/project_settings/external_file_storages"
   end
 
@@ -132,7 +133,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   private
 
   def find_project_storage
-    @project_storage = Storages::ProjectStorage.find(params[:id])
+    @project_storage = @project.project_storages.find(params[:id])
   end
 
   def permitted_storage_settings_params
@@ -140,7 +141,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       .require(:storages_project_storage)
       .permit("storage_id", "project_folder_mode", "project_folder_id")
       .to_h
-      .reverse_merge(project_id: @project.id)
+      .merge(project_id: @project.id)
   end
 
   def project_folder_mode_from_params

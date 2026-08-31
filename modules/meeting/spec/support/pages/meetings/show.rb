@@ -478,7 +478,7 @@ module Pages::Meetings
     end
 
     def edit_agenda_item(item, save: true, wait_for_reference_update: false, &)
-      select_action item, "Edit"
+      wait_for_turbo_stream { select_action item, "Edit" }
       expect_item_edit_form(item)
       reference_value = meeting_reference_value
       page.within("#meeting-agenda-items-form-component-#{item.id}") do
@@ -573,6 +573,18 @@ module Pages::Meetings
                           results_selector: "body"
 
       click_on "Add"
+    end
+
+    def uncheck_apply_to_upcoming
+      page.find('input[type="checkbox"][name="meeting_participant[apply_to_upcoming]"]').set(false)
+    end
+
+    def expect_apply_to_upcoming_checked
+      expect(page).to have_checked_field("meeting_participant[apply_to_upcoming]")
+    end
+
+    def expect_apply_to_upcoming_unchecked
+      expect(page).to have_unchecked_field("meeting_participant[apply_to_upcoming]")
     end
 
     def expect_no_participant(participant)

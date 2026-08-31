@@ -63,7 +63,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     ->(input, options) {
       if options[:with_text_formatting]
         # use either the provided id or fetch the one created by rails
-        id = options[:id] || input.match(/<[^>]* id="(\w+)"[^>]*>/)[1]
+        id = options[:id] || input.match(/<textarea[^>]* id="(\w+)"[^>]*>/)[1]
         options[:preview_context] ||= preview_context(object)
         input.concat text_formatting_wrapper id, options
       end
@@ -207,7 +207,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     if prefix
       ret.prepend content_tag(:span,
-                              prefix.html_safe,
+                              prefix,
                               class: "form--field-affix",
                               id: options[:prefix_id],
                               "aria-hidden": true)
@@ -215,7 +215,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     if suffix
       ret.concat content_tag(:span,
-                             suffix.html_safe,
+                             suffix,
                              class: "form--field-affix",
                              id: options[:suffix_id],
                              "aria-hidden": true)

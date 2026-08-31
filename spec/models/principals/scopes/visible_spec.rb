@@ -110,11 +110,21 @@ RSpec.describe Principals::Scopes::Visible do
       include_examples "sees all principals"
     end
 
+    context "when user is an admin" do
+      current_user { create(:admin, firstname: "current user") }
+
+      include_examples "sees all principals"
+    end
+
     context "when user has no permission" do
       current_user { create(:user, firstname: "current user") }
 
-      it "sees only themself" do
-        expect(subject).to contain_exactly(current_user)
+      let!(:current_user_group) do
+        create(:group, firstname: "current user group", members: [current_user])
+      end
+
+      it "sees only themself and groups they belong to" do
+        expect(subject).to contain_exactly(current_user, current_user_group)
       end
     end
   end

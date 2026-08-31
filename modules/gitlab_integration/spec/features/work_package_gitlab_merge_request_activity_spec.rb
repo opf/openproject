@@ -13,9 +13,9 @@ RSpec.describe "Work Package Activity Tab",
 
   shared_let(:merge_request_author) { create(:gitlab_user, gitlab_username: "i_am_the_author") }
   shared_let(:merge_request_merging_user) { create(:gitlab_user, gitlab_username: "i_merged") }
+  shared_let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/merge_requests/4" }
   shared_let(:merge_request) do
-    create(:gitlab_merge_request,
-           gitlab_user: merge_request_author)
+    create(:gitlab_merge_request, gitlab_html_url:, gitlab_user: merge_request_author)
   end
 
   def trigger_merge_request_action
@@ -55,7 +55,7 @@ RSpec.describe "Work Package Activity Tab",
         "head_pipeline_id" => nil,
         "id" => merge_request.gitlab_id,
         "iid" => merge_request.gitlab_id,
-        "url" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4",
+        "url" => gitlab_html_url,
         "updated_at" => Time.current.iso8601
       },
       "labels" => [],
@@ -63,7 +63,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => "Hot Do",
         "url" => "git@79dfcd98b723:root/hot_do.git",
         "description" => nil,
-        "homepage" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4"
+        "homepage" => gitlab_html_url
       }
     }
   end

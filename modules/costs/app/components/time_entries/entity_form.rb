@@ -54,7 +54,7 @@ module TimeEntries
                                        focusDirectly: false,
                                        append_to: "#time-entry-dialog",
                                        url: work_package_completer_url,
-                                       searchKey: "subjectOrId",
+                                       searchKey: "typeahead",
                                        filters: work_package_completer_filters
                                      }
       else

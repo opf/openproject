@@ -19,128 +19,335 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ru:
-  plugin_openproject_backlogs:
-    name: "OpenProject бэклоги"
-    description: "Этот модуль добавляет функции, позволяющие agile-командам работать с OpenProject в Scrum проектах."
   activerecord:
     attributes:
+      project:
+        allow_multiple_active_sprints: Разрешить несколько активных спринтов
+        backlog_excluded_types: Исключенные типы пакетов работ
+        sprint_sharing: Совместное использование спринта
+        statuses_considered_closed: Статусы, считающиеся закрытыми
       sprint:
-        duration: "Продолжительность спринта"
+        duration: Длительность
+        finish_date: Дата окончания
+        goal: Цель спринта
+        name: Имя спринта
+        sharing: Общий доступ
+        statuses:
+          active: Активен
+          completed: Завершён
+          in_planning: В планировании
+        work_packages: Пакеты работ
+      sprint_goal:
+        text: Цель спринта
       work_package:
-        position: "Позиция"
-        story_points: "Стори поинты"
-        backlogs_work_package_type: "Тип невыполненной работы"
+        backlog_bucket: Раздел бэклога
+        backlog_inbox: Входящие бэклога
+        backlogs_work_package_type: Тип невыполненной работы
+        position: Позиция
+        sprint: Спринт
+        story_points: Стори поинты
     errors:
+      messages:
+        cannot_start_while_receiving_shared_sprints: не может быть запущен, пока проект получает общие спринты.
+        dates_required: Для начала спринта необходимы даты начала и окончания.
+        must_be_in_planning: для начала работы необходимо выполнить планирование.
+        only_one_active_sprint_allowed: для каждого проекта допускается только один активный спринт.
       models:
+        project:
+          attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: невозможно изменить во время работы нескольких активных спринтов.
+              requires_no_sharing: может быть включен только в том случае, если для параметра «Общий доступ к спринтам» выбран вариант «Не предоставлять общий доступ».
+            sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: не может быть установлено для получения, так как в проекте есть активный или заимствованный спринт. Сначала закройте или отмените назначение пакетов работ.
+              locked_by_multiple_active_sprints: не может быть изменено, пока включена функция «Несколько активных спринтов».
+              share_all_projects_already_taken: не может быть установлен, потому что проект "%{name}" уже совместно используется со всеми проектами.
+              share_all_projects_already_taken_anonymous: не может быть установлен, потому что другой проект уже совместно используется со всеми проектами.
+              work_packages_still_linked_to_shared_sprints: невозможно изменить, потому что пакеты работ все еще связаны с общими спринтами. Сначала отмените их.
+          receiving_sprints: получает общие спринты. Собственные спринты создавать нельзя.
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                one: Есть один пакет работ, который не был завершен в этом спринте.
+                few: Есть %{count} пакета работ, которые не были завершены в этом спринте.
+                many: Есть %{count} пакетов работ, которые не были завершены в этом спринте.
+                other: Есть %{count} пакетов работ, которые не были завершены в этом спринте.
+            status:
+              not_active: не активен, поэтому не может быть закрыт.
+        sprint_goal:
+          project_already_has_goal: уже имеет цель для этого спринта.
         work_package:
           attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: должен принадлежать тому же проекту, что и пакет работ.
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "может содержать только идентификаторы рабочих пакетов в текущем спринте."
-              must_block_at_least_one_work_package: "должен содержаться идентификатор по крайней мере одного билета."
+              can_only_contain_work_packages_of_current_sprint: может содержать только идентификаторы рабочих пакетов в текущем спринте.
+              must_block_at_least_one_work_package: должен содержаться идентификатор по крайней мере одного билета.
+            sprint:
+              not_assignable: не может быть назначен, поскольку он либо не используется в проекте, либо уже завершен.
+              not_eligible_for_moving: не является активным спринтом в проекте, в котором проводится спринт, из которого перемещается пакет работ.
             version_id:
-              task_version_must_be_the_same_as_story_version: "должен совпадать с версией родительской истории."
-        sprint:
-          cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
-  attributes:
-    task_type: "Тип задачи"
+              task_version_must_be_the_same_as_story_version: должен совпадать с версией родительской истории.
+          backlog_bucket_xor_sprint: не может быть назначен для спринта и для раздела бэклога одновременно.
+    models:
+      backlog_bucket:
+        one: Раздел бэклога
+        few: Backlog buckets
+        many: Backlog buckets
+        other: Разделы бэклога
+      sprint:
+        one: Спринт
+        few: Спринта
+        many: Спринтов
+        other: Спринтов
+      sprint_goal:
+        one: Цель спринта
+        few: Sprint goals
+        many: Sprint goals
+        other: Цели спринта
   backlogs:
-    any: "любой"
-    column_width: "Ширина столбца"
-    definition_of_done: "Определение термина \"Завершено\""
-    impediment: "Препятствие"
-    label_versions_default_fold_state: "Показать свернутые версии"
-    caption_versions_default_fold_state: "Версии не будут разворачиваться по умолчанию при просмотре бэклогов. Каждая версия должна быть развернута вручную."
-    work_package_is_closed: "Пакет работ завершен, когда"
-    label_is_done_status: "Статус %{status_name} означает завершение,"
+    add_existing_work_package_dialog_component:
+      title_without_container: Добавить существующий пакет работ
+    administration_blankslate:
+      text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
+      title: Настройки администрирования бэклога будут в будущем
+    backlog_component:
+      button_new_backlog_bucket: Новый раздел бэклога
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Раздел бэклога
+        other: Разделы бэклога
+        zero: Все разделы бэклога
+      label_sprint_filter:
+        one: Спринт
+        other: Спринтов
+        zero: Все спринты
+      select_panel_title: Выберите элементы
+    bucket_component:
+      action_menu:
+        add_existing_work_package: Добавить существующий пакет работ
+        add_new_work_package: Добавить новый пакет работ
+        delete_backlog_bucket: Удалить раздел бэклога
+        edit_backlog_bucket: Редактировать раздел бэклога
+      blankslate_description: Перетащите элементы сюда, чтобы добавить их
+      blankslate_title: Раздел бэклога пуст
+      drop_zone_label: Перетащите сюда, чтобы добавить этот элемент
+      label_actions: Действия с разделом бэклога
+    bucket_destroy_modal_component:
+      details: Раздел бэклога '%{name}' будет удален и все пакеты работ будут перемещены во входящие бэклога. Пакеты работ не будут удалены.
+      title: Удалить раздел бэклога?
+    burndown_chart:
+      show:
+        blankslate_description: Установите дату начала и окончания спринта для создания диаграммы выгорания.
+        blankslate_title: Нет данных о выгорании
+    excluded_work_package_types_caption: 'Выберите типы пакетов работ для скрытия из бэклога. Пакеты работ выбранных типов не будут отображаться в бэклоге автоматически, оставляя при этом основное внимание на работе, имеющей отношение к вашей команде. Например, такие типы, как "Эпик" или "Веха", которым управляется на более высоком уровне, могут быть скрыты, чтобы оставить бэклог сфокусирован на актуальных задачах.
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: Переместите их в нижнюю часть бэклога
+        move_to_sprint: Переместите их в другой спринт
+        move_to_top_of_backlog: Переместите их в верхнюю часть бэклога
+      body: "%{message} Что вы хотели бы сделать с этим?"
+      button_complete_sprint: Завершить спринт
+      legend: Действие для незавершенных пакетов работ
+      select_sprint_label: Выберите спринт
+      title: Есть элементы, находящиеся в процессе работы
+    inbox_component:
+      action_menu:
+        add_existing_work_package: Добавить существующий пакет работ
+        add_new_work_package: Добавить новый пакет работ
+      blankslate_description: Открытые пакеты работ, не входящие ни в один спринт или раздел бэклога, автоматически отображаются здесь
+      blankslate_title: Папка "Входящие" пуста
+      drop_zone_label: Перетащите сюда, чтобы добавить этот элемент
+      label_actions: Действия со входящими
+      show_more:
+        one: Показать еще 1 элемент
+        few: Показать еще %{count} элементов
+        many: Показать еще %{count} элементов
+        other: Показать еще %{count} элементов
+      title: Входящие
+    label_burndown_chart: Диаграмма выгорания
+    label_is_done_status: Статус %{status_name} означает завершение,
+    label_sprint_board: Доска для спринта
+    label_sprint_report: Отчет о спринте
+    move_to_bucket_dialog_component:
+      title: Перенос в раздел бэклога
+    move_to_sprint_dialog_component:
+      label_sprint: Спринт
+      title: Переместить в спринт
+    multiple_active_sprints: Несколько активных спринтов
     points_label:
-      one: "point"
-      few: "points"
-      many: "points"
-      other: "точки"
-    positions_could_not_be_rebuilt: "Не удалось восстановить позиции."
-    positions_rebuilt_successfully: "Позиции успешно восстановлены."
-    rebuild: "Восстановить"
-    rebuild_positions: "Восстановить позиции"
-    remaining_hours: "Оставшиеся часы"
-    show_burndown_chart: "Диаграмма выгорания задач"
-    story: "История"
+      one: стори-поинт
+      few: стори-поинта
+      many: стори-поинтов
+      other: стори-поинтов
+    positions_could_not_be_rebuilt: Не удалось восстановить позиции.
+    positions_rebuilt_successfully: Позиции успешно восстановлены.
+    rebuild: Восстановить
+    rebuild_positions: Восстановить позиции
+    remaining_hours: Оставшиеся часы
+    sharing: Совместное использование спринта
+    show_burndown_chart: Диаграмма выгорания
+    sprint_component:
+      action_menu:
+        add_existing_work_package: Добавить существующий пакет работ
+        add_new_work_package: Добавить новый пакет работ
+        edit_sprint: Редактировать спринт
+      blankslate_description: Пока ничего не запланировано. Перетащите элементы сюда, чтобы добавить их.
+      blankslate_title: "%{name} пустой"
+      drop_zone_label: Перетащите сюда, чтобы добавить этот элемент
+      label_actions: Действия в спринте
+      label_complete_sprint: Завершить спринт
+      label_start_sprint: Начать спринт
+      start_sprint_disabled_reason_active_sprint: Другой спринт уже активен.
+      start_sprint_disabled_reason_missing_dates: Для начала спринта необходимы даты начала и окончания.
+      start_sprint_disabled_reason_receiving_shared_sprints: Спринты данного проекта не могут быть запущены, пока он принимает общие спринты.
+      start_sprint_disabled_reason_shared_sprint: Это спринт из другого проекта, который не поддерживает несколько активных спринтов.
+    sprint_form:
+      goal_caption: Цель спринта является уникальной для данного проекта и не совпадает с целями других проектов, которые также используют данный спринт.
+      goal_for_this_project_label: "%{attribute} (для данного проекта)"
+    sprint_form_component:
+      shared_sprint_info_banner: Это общий спринт. Изменения будут отражены во всех проектах, использующих его.
+      shared_sprint_warning_banner: Это общий спринт. У вас нет необходимых прав для его редактирования.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Отчет
+        title: Отчёт %{sprint}
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Редактировать спринт
+          sprint_report: Отчет о спринте
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: Чтобы начать планировать свой спринт, создайте его здесь или перейдите на %{settings_link}, чтобы получить спринты из другого проекта.
+        create_description_text: Чтобы начать планировать свой спринт, создайте его здесь.
+        manage_description_html: Чтобы начать планировать свой спринт, перейдите на %{settings_link}, чтобы получать спринты из другого проекта.
+        no_actions_description_text: Для этого проекта пока нет доступных спринтов.
+        receive_and_manage_description_html: Этот проект получает спринты из другого проекта. Управляйте этим на %{settings_link}.
+        receive_description_text: Этот проект получает общие спринты из другого проекта, но пока ни один из них не доступен.
+        settings_link_text: настройки проекта
+        title: Пока нет спринтов
+      button_new_sprint: Новый спринт
+    statuses_considered_closed_caption: 'Выберите статусы, которые представляют закрытое или законченное состояние в вашем рабочем процессе. Они будут рассматриваться как состояние "Закрыто" через отчетность (выгорание) и планирование спринта. Например, статусы, такие как "Готово", "Решено", или "Не планируется" могут представлять закрытый элемент в вашем процессе.
+
+      '
     story_points:
-      one: "%{count} story point"
-      few: "%{count} story points"
+      one: "%{count} сюжетная точка"
+      few: "%{count} сюжетные точки"
       many: "%{count} сюжетные точки"
       other: "%{count} сюжетные точки"
-    task: "Задача"
-    task_color: "Цвет задачи"
-    unassigned: "Нераспределенные"
+    types_and_statuses: Типы и статусы
+    unassigned: Нераспределенные
     user_preference:
-      header_backlogs: "Модуль бэклогов"
-      button_update_backlogs: "Обновить модуль бэклогов"
-    backlog_component:
-      blankslate_title: "%{name} пустой"
-      blankslate_description: "Пока ничего не запланировано. Перетащите элементы сюда, чтобы добавить их."
-    backlog_header_component:
-      label_toggle_backlog: "Свернуть/Развернуть %{name}"
-      label_story_count:
-        zero: "Нет историй в бэклоге"
-        one: "%{count} история в бэклоге"
-        other: "%{count} историй в бэклоге"
-    backlog_menu_component:
-      label_actions: "Действия в рамках бэклога"
+      button_update_backlogs: Обновить модуль бэклогов
+      header_backlogs: Модуль бэклогов
+    work_package_card_menu_component:
       action_menu:
-        edit_sprint: "Редактировать спринт"
-        new_story: "Новая история"
-        stories_tasks: "Истории/Задачи"
-        task_board: "Панель задач"
-        burndown_chart: "Сводная таблица"
-        wiki: "Wiki"
-        properties: "Свойства"
-    story_component:
-      label_drag_story: "Переместить %{name}"
-    story_menu_component:
-      label_actions: "Действия истории"
-  backlogs_points_burn_direction: "Точки выгорания вверх/вниз"
-  backlogs_product_backlog: "Требования к продукту, с приоритетами"
-  backlogs_story: "История"
-  backlogs_story_type: "Типы историй"
-  backlogs_task: "Задача"
-  backlogs_task_type: "Тип задачи"
-  backlogs_wiki_template: "Шаблон для wiki-страницы по спринту"
-  backlogs_empty_title: "Версии пока не определены"
-  backlogs_empty_action_text: "Чтобы начать использовать бэклоги, сначала создайте версию"
-  backlogs_not_configured_title: "Бэклоги не настроены"
-  backlogs_not_configured_description: "Перед использованием этого модуля необходимо задать типы историй и задач."
-  backlogs_not_configured_action_text: "Настройка бэклогов"
+        copy_url_to_clipboard: Скопировать URL в буфер обмена
+        copy_work_package_id: Скопировать ID пакета работ
+        move_menu: Переместить на позицию
+        move_to_backlog_bucket: Перенести в раздел бэклога
+        move_to_inbox: Перенести во входящие бэклога
+        move_to_sprint: Переместить в спринт
+    work_package_is_closed: Пакет работ завершен, когда
+    work_packages:
+      add_existing_dialog:
+        invalid_target: Цель которую вы пытаетесь добавить является недействительной.
+        target_not_found: Спринт или бэклог, в который вы пытаетесь внести запись, не найден.
+      move:
+        moved_announcement: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
+      update_service:
+        invalid_target_type: 'list_type должен быть одним из следующих: backlog_bucket с list_id, sprint с list_id, inbox без list_id.'
+        missing_target: list_type или list_id должны присутствовать.
   burndown:
-    story_points: "Точки истории"
-    story_points_ideal: "Точки истории (идеально)"
-  errors:
-    attributes:
-      task_type:
-        cannot_be_story_type: "не может также быть типом истории"
-  label_backlogs: "Бэклоги"
-  label_backlogs_unconfigured: "Вы еще не настроили Невыполненные работы. Перейдите на страницу %{administration} > %{plugins}, а затем нажмите на ссылку %{configure} для получения этого дополнения. После того как вы настроите поля, возвратитесь на эту страницу, чтобы начать пользоваться инструментом."
-  label_blocks_ids: "Идентификаторы заблокированных рабочих пакетов"
-  label_column_in_backlog: "Колонка в бэклоге"
-  label_points_burn_down: "Вниз"
-  label_points_burn_up: "Вверх"
-  label_sprint_impediments: "Препятствия спринта"
-  label_task_board: "Панель задач"
-  permission_view_master_backlog: "Просмотреть главную невыполненную работу"
-  permission_view_taskboards: "Просмотреть панели задач"
-  permission_select_done_statuses: "Выберите завершенные статусы"
-  permission_update_sprints: "Обновить спринты"
-  project_module_backlogs: "Бэклоги"
-  rb_burndown_charts:
-    show:
-      blankslate_title: "Нет сводных данных"
-      blankslate_description: "Установите дату начала и окончания спринта, чтобы сгенерировать сводную таблицу."
-  remaining_hours: "оставшиеся часы"
-  version_settings_display_label: "Колонка в бэклоге"
-  version_settings_display_option_left: "влево"
-  version_settings_display_option_none: "нет"
-  version_settings_display_option_right: "вправо"
-  setting_plugin_openproject_backlogs_story_types_caption: |
-    Типы рассматриваются как истории бэклога (например, Feature, User story). Должен отличаться от типа задачи.
-  setting_plugin_openproject_backlogs_task_type_caption: |
-    Тип, используемый для задач историй. Должен отличаться от типов историй.
+    story_points: Стори-поинты
+    story_points_ideal: Стори-поинты (идеально)
+  ee:
+    features:
+      multiple_active_sprints: Несколько активных спринтов
+      sprint_sharing: Совместное использование спринта
+    upsell:
+      multiple_active_sprints:
+        description: Запустите несколько спринтов параллельно для разных команд в вашем проекте для большей управляемости и гибкости.
+      sprint_sharing:
+        description: Используйте общие спринты для всех проектов, чтобы обеспечить согласованность действий команд и скоординировать работу в рамках масштабированных гибких моделей (SAFe).
+  label_all_sprints: Все спринты
+  label_backlog: Бэклог
+  label_backlog_and_sprints: Бэклог и спринты
+  label_backlog_bucket_edit: Редактировать раздел бэклога
+  label_backlog_bucket_new: Новый раздел бэклога
+  label_backlogs: Бэклоги
+  label_burndown_chart: Диаграмма выгорания
+  label_inbox: Входящие
+  label_points_burn_down: Вниз
+  label_points_burn_up: Вверх
+  label_sprint_board: Доска для спринта
+  label_sprint_edit: Редактировать спринт
+  label_sprint_new: Новый спринт
+  label_task_board: Панель задач
+  notice_successful_finish: Спринт завершен.
+  notice_successful_start: Спринт запущен.
+  notice_unsuccessful_finish: Спринт не может быть завершен.
+  notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
+  notice_unsuccessful_start: Спринт не может быть запущен.
+  notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
+  notice_work_package_invisible_after_move: 'Данный пакет работ был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
+
+    '
+  permission_create_sprints: Создание спринтов
+  permission_manage_sprint_items: Управление пунктами спринта
+  permission_select_backlog_types_and_statuses: Выберите типы и статусы бэклога
+  permission_select_backlog_types_and_statuses_explanation: 'Позволяет выбрать, какие типы работ будут скрываться из бэклога. Также позволяет определить, какие статусы представляют закрытое или готовое состояние в рабочем процессе проекта.
+
+    '
+  permission_share_sprint: Поделиться спринтом
+  permission_start_complete_sprint: Начать/завершить спринт
+  permission_view_sprints: Просмотр спринтов
+  plugin_openproject_backlogs:
+    description: Этот модуль добавляет функции, позволяющие agile-командам работать с OpenProject в Scrum проектах.
+    name: OpenProject бэклоги
+  project_module_backlogs: Бэклоги
+  projects:
+    copy:
+      backlog_buckets: Разделы бэклога
+      sprints: Спринты
+    settings:
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: Спринты, созданные в этом проекте, будут доступны и видны только в этом проекте. Они также не будут видны подпроектам.
+            label: Не предоставлять общий доступ
+          receive_shared:
+            caption: Этот проект может использовать только спринты, совместно используемые другими проектами.
+            label: Получить общие спринты
+            warning: Этот проект может использовать только общие спринты других проектов. Неиспользуемые спринты, созданные в этом проекте в прошлом, больше не будут видны.
+          share_all_projects:
+            caption: Спринты, созданные в этом проекте, будут доступны для всех проектов в этом экземпляре. Если вы выберете эту опцию, она больше не будет доступна для других проектов.
+            disabled_caption: Опция недоступна, поскольку проект "%{name}" в настоящее время совместно используется со всеми проектами, и только один проект может сделать это.
+            disabled_caption_anonymous: Опция недоступна, поскольку в настоящее время другой проект совместно используется со всеми проектами, и только один проект может это сделать.
+            label: Все проекты
+          share_subprojects:
+            caption: Спринты, созданные в этом проекте, будут доступны всем подпроектам текущего проекта.
+            info: При совместном использовании спринта его название, статус и даты начала и окончания будут доступны всем проектам. Они не могут быть изменены в проектах, которые получают и используют эти спринты.
+            label: Подпроекты
+        sprint_sharing: Поделиться спринтами
+      backlogs:
+        multiple_active_sprints:
+          description: По умолчанию в рамках одного проекта одновременно может быть активен только один спринт. Вы можете изменить это, чтобы в данном проекте одновременно могли быть активны несколько спринтов.
+          heading: Количество активных спринтов
+        multiple_active_sprints_component:
+          cannot_turn_off: В настоящее время активны несколько спринтов. Чтобы вернуться к режиму, при котором одновременно может быть активен только один спринт, пожалуйста, сначала убедитесь, что активным является не более одного спринта.
+          not_available_html: Несколько активных спринтов недоступны, если включена <a href=%{sprint_sharing_url}>функция совместного использования</a>.
+        sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Функция совместного использования спринтов недоступна, если включено использование нескольких активных спринтов.
+          sharing_description: Этот проект может либо делиться своими спринтами, либо получать общие спринты, либо работать со спринтами самостоятельно (без обмена).
+          sharing_fallback_description: В случае отсутствия корпоративного плана варианты совместного использования ограничены собственными спринтами проекта, текущая активная настройка остается активной.
+  query_fields:
+    backlog_inbox: Входящие бэклога
+  remaining_hours: оставшиеся часы

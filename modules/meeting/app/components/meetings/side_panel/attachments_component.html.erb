@@ -3,8 +3,10 @@
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
       section.with_title { t(:label_attachment_plural) }
       section.with_description do
-        if @meeting.templated?
-          I18n.t("meeting.attachments.template")
+        if @meeting.onetime_template?
+          I18n.t("meeting.attachments.onetime_template")
+        elsif @meeting.series_template?
+          I18n.t("meeting.attachments.series_template")
         else
           I18n.t("meeting.attachments.text")
         end

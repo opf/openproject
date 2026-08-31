@@ -20,75 +20,72 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 ko:
-  attributes:
-    commit: "커밋"
-    gitlab: "GitLab 식별자"
-    gitlab_avatar_url: "아바타 URL"
-    gitlab_email: "GitLab 이메일"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "병합 요청"
-    gitlab_name: "GitLab 이름"
-    gitlab_updated_at: "업데이트:"
-    gitlab_user_avatar_url: "GitLab 아바타 URL"
-    gitlab_username: "GitLab 사용자 이름"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI 세부 정보"
       gitlab_merge_request:
-        labels: "레이블"
+        labels: 레이블
+      gitlab_pipeline:
+        ci_details: CI 세부 정보
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "키가 있는 해시 배열이어야 합니다: color, title"
+              invalid_schema: '키가 있는 해시 배열이어야 합니다: color, title'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "키가 있는 해시 배열이어야 합니다: color, title"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "GitLab 콘텐츠 표시"
+              invalid_schema: '키가 있는 해시 배열이어야 합니다: color, title'
+    models:
+      gitlab_issue:
+        other: GitLab 이슈
+      gitlab_merge_request:
+        other: GitLab 병합 요청
+      gitlab_pipeline:
+        other: GitLab 파이프라인
+      gitlab_user:
+        other: GitLab 사용자
+  attributes:
+    commit: 커밋
+    gitlab: GitLab 식별자
+    gitlab_avatar_url: 아바타 URL
+    gitlab_email: GitLab 이메일
+    gitlab_html_url: GitLab HTML URL
+    gitlab_merge_request: 병합 요청
+    gitlab_name: GitLab 이름
+    gitlab_updated_at: '업데이트:'
+    gitlab_user_avatar_url: GitLab 아바타 URL
+    gitlab_username: GitLab 사용자 이름
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.
-    merge_request_closed_comment: >
-      **MR 닫힘:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.
-    merge_request_merged_comment: >
-      **MR 병합됨:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 병합되었습니다.
-    merge_request_reopened_comment: >
-      **MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
-    note_commit_referenced_comment: >
-      **커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다:
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다:
-      %{mr_note}
-    note_mr_commented_comment: >
-      **MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다:
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다:
-      %{issue_note}
-    note_issue_commented_comment: >
-      **이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다:
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **코드 조각에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 코드 조각 %{snippet_number} [%{snippet_title}](%{snippet_url})에서 이 WP를 참조했습니다:
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.
-    issue_closed_referenced_comment: >
-      **이슈 닫힘:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.
-    issue_reopened_referenced_comment: >
-      **이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
-    push_single_commit_comment: >
-      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
-      %{commit_note}
+    issue_closed_referenced_comment: "**이슈 닫힘:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+    issue_opened_referenced_comment: "**이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+    issue_reopened_referenced_comment: "**이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+    merge_request_closed_comment: "**MR 닫힘:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+    merge_request_merged_comment: "**MR 병합됨:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 병합되었습니다.\n"
+    merge_request_opened_comment: "**MR 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+    merge_request_reopened_comment: "**MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+    note_commit_referenced_comment: "**커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다: %{commit_note}\n"
+    note_issue_commented_comment: "**이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{issue_note}\n"
+    note_issue_referenced_comment: "**이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}\n"
+    note_mr_commented_comment: "**MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}\n"
+    note_mr_referenced_comment: "**MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}\n"
+    note_snippet_referenced_comment: "**코드 조각에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 코드 조각 %{snippet_number} [%{snippet_title}](%{snippet_url})에서 이 WP를 참조했습니다: %{snippet_note}\n"
+    push_multiple_commits_comment: "**MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
+    push_single_commit_comment: "**MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
+  label_gitlab_actor: GitLab 수행자
+  label_gitlab_integration: GitLab 통합
+  label_gitlab_webhook_secret: Webhook 비밀번호
+  permission_show_gitlab_content: GitLab 콘텐츠 표시
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: '들어오는 webhook 요청을 인증하는 데 API 키를 사용해야 하는 OpenProject 사용자입니다. 설정하면, 다른 사용자의 자격 증명으로 인증된 요청은 거부됩니다. 이 사용자는 작업 패키지에 자동화된 코멘트를 게시하기도 합니다. 설정하지 않으면, 시스템 사용자로 기본 설정됩니다.
+
+    '
+  text_gitlab_webhook_secret_info: 'Webhook을 구성할 때 GitLab과 공유되는 비밀 토큰입니다. 설정하면, OpenProject는 들어오는 모든 요청에서 X-Gitlab-Token 헤더를 확인하여 일치하지 않는 페이로드를 거부합니다. 확인을 건너뛰려면 비워 두세요(권장하지 않음).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Webhook 비밀번호가 구성되지 않았습니다. GitLab webhook 엔드포인트에 대한 모든 요청이 확인 없이 수락되므로 권한이 없는 수행자가 이벤트를 위조할 수 있습니다. 비밀번호를 설정하는 것이 좋습니다.
+
+    '

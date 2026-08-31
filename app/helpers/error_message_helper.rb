@@ -63,7 +63,7 @@ module ErrorMessageHelper
       list_of_messages(base_error_messages),
       text_header_invalid_fields(base_error_messages, fields_error_messages),
       list_of_messages(fields_error_messages)
-    ].compact, "<br/>".html_safe)
+    ].compact, tag(:br))
   end
 
   def text_header_invalid_fields(base_error_messages, fields_error_messages)
@@ -77,6 +77,6 @@ module ErrorMessageHelper
   def list_of_messages(messages)
     return if messages.blank?
 
-    safe_join(messages, "<br/>".html_safe)
+    safe_join(messages, tag(:br))
   end
 end

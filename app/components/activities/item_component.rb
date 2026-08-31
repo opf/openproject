@@ -45,8 +45,7 @@ class Activities::ItemComponent < ViewComponent::Base
     return if activity_is_from_current_project?
 
     kind = activity_is_from_subproject? ? "subproject" : "project"
-    suffix = I18n.t("events.title.#{kind}", name: link_to(@event.project.name, @event.project))
-    "(#{suffix})".html_safe # rubocop:disable Rails/OutputSafety
+    helpers.t("events.title.#{kind}_html", name: link_to(@event.project.name, @event.project))
   end
 
   def display_user?

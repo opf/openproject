@@ -10,11 +10,6 @@ keywords: agile boards, Kanban, Scrum, agile project management, action boards
 
 Boards support Agile project management methodologies, such as Scrum or Kanban. OpenProject Agile boards enable you to keep track tasks, bugs, features, risks and any other work package types. Boards consist of lists (columns) and cards (work packages). You can choose between a Basic board and various advanced Action boards.
 
-> [!NOTE]
-> The Basic board is included in the OpenProject Community edition. OpenProject Action boards are not.
-
-[feature: board_view ]
-
 | Topic                                                     | Content                                                      |
 | --------------------------------------------------------- | ------------------------------------------------------------ |
 | [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                             |
@@ -29,7 +24,6 @@ Boards support Agile project management methodologies, such as Scrum or Kanban. 
 | [Examples for Agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-Boards.mp4"></video>
-
 
 ## Agile boards in OpenProject
 
@@ -56,28 +50,28 @@ Choose the board type and title.
 
 ![Create a new board in OpenProject](choose-board-type.png)
 
-## Basic board (Community edition)
+## Basic boards
 
-The Basic board is included in the OpenProject Community edition. You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas.
+The Basic boards allow you to freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas.
 
 ![Board types basic board](Board-types-basic-board.png)
 
-## Action boards (Enterprise add-on)
+## Action boards
 
 In an Action board each list represents a value of an attribute of the contained work packages (cards). For example the Status board includes a list for the status "New" and a list for the status "In Progress". Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.
 After [adding lists to your board](#add-lists-to-your-board) they will automatically be filled with the respective work packages.
 
 There are several **types of Action boards** available in OpenProject:
 
-### Status board
+### Kanban board
 
 Each list represents a status. That means that all work packages with the status "New" will be automatically displayed in the column "New".
-When creating a new Status board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
+When creating a new Kanban board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually. 
 
 > [!TIP]
 > You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
-![create status board](create-status-board.png)
+![Example of a Kanban board in OpenProject boards module](openproject_userguide_boards_kanban.png)
 
 ### Assignee board
 
@@ -147,7 +141,7 @@ Click **+** under the lists' title to add a card: create a new card or choose an
 ![OpenProject-Boards_add-cards](OpenProject-Boards_add-cards.png)
 
 **Add new card**: enter a title and press Enter.
-**Add existing**: enter an existing title or an ID and press Enter.
+**Add existing**: enter a title or an ID of an existing work package and press Enter. You can also use work package type and status to find the correct work package quicker.
 
 ![OpenProject-Boards_create-cards](OpenProject-Boards_create-cards-1568640108117.png)
 

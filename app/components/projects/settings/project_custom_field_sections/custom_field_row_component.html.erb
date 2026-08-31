@@ -56,9 +56,8 @@
         # As a courtesy to users, we show a hover card explaining why the toggle is disabled.
         if toggle_disabled?
           concat(
-            content_tag(:div, class: "op-hover-card--hidden-container") do
+            content_tag(:template, id: unique_hovercard_id) do
               flex_layout(
-                id: unique_hovercard_id,
                 classes: "op-project-custom-field--popover",
                 data: {
                   test_selector: "op-project-custom-field--hover-card-#{@project_custom_field.id}"

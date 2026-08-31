@@ -19,99 +19,112 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 zh-CN:
-  plugin_budgets_engine:
-    name: "预算"
   activerecord:
     attributes:
       budget:
-        author: "作者"
-        available: "可用"
-        budget: "已计划"
-        budget_ratio: "已支出（比例）"
-        description: "描述"
-        spent: "已支出"
-        status: "状态"
-        subject: "主题"
-        type: "成本类型"
-        labor_budget: "计划人工成本"
-        material_budget: "计划单位成本"
-        base_amount: "基础金额"
+        author: 作者
+        available: 可用
+        base_amount: 基础金额
+        budget: 已计划
+        budget_ratio: 已支出（比例）
+        description: 描述
+        labor_budget: 计划人工成本
+        labor_budget_items: 计划劳动力成本
+        material_budget: 计划单位成本
+        spent: 已支出
+        status: 状态
+        subject: 主题
+        type: 成本类型
       work_package:
-        budget_subject: "预算标题"
+        budget_subject: 预算标题
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: 不属于预算的项目
     models:
-      budget: "预算"
-      material_budget_item: "单位"
+      budget:
+        other: 预算
+      labor_budget_item:
+        other: 计划劳动力成本
+      material_budget_item:
+        other: 单位
   activity:
     filter:
-      budget: "预算"
+      budget: 预算
   attributes:
-    budget: "预算"
-  button_add_budget_item: "添加计划成本"
-  button_add_budget: "添加预算"
-  button_add_cost_type: "添加成本类型"
-  button_cancel_edit_budget: "取消编辑预算"
-  button_cancel_edit_costs: "取消编辑成本"
-  caption_labor: "人工"
-  caption_labor_costs: "实际人工成本"
-  caption_material_costs: "实际单位成本"
-  budgets_title: "预算"
+    budget: 预算
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: 概括了解预算和成本，有效跟踪项目的健康状况
+          heading: 开始项目控制
+        blankslate_zero:
+          description: 添加计划预算的详细信息，以便在此处查看数据
+          heading: 预算详细信息缺失
+        count_caption:
+          one: 从 %{count} 个预算中汇总的数据
+          other: 从 %{count} 个预算中汇总的数据
+          zero: 无预算数据。
+        count_caption_with_subitems:
+          portfolio:
+            one: 从包含在此项目组合及其子条目中的 %{count} 个预算中汇总的数据。
+            other: 从包含在此项目组合及其子条目中的 %{count} 个预算中汇总的数据。
+            zero: 无预算数据。
+          program:
+            one: 从包含在此计划及其子条目中的 %{count} 个预算中汇总的数据。
+            other: 从包含在此计划及其子条目中的 %{count} 个预算中汇总的数据。
+            zero: 无预算数据。
+          project:
+            one: 从包含在此项目及其子条目中的 %{count} 个预算中汇总的数据。
+            other: 从包含在此项目及其子条目中的 %{count} 个预算中汇总的数据。
+            zero: 无预算数据。
+        title: 按成本类型分列的预算
+        view_details: 查看预算详细信息
+      budget_totals:
+        remaining_budget: 剩余预算
+        spent_budget: 已用预算
+        title: 预算总额
+        total_actual_costs: 实际成本总额
+        total_planned_budget: 计划预算总额
+  budgets_title: 预算
+  button_add_budget: 添加预算
+  button_add_budget_item: 添加计划成本
+  button_add_cost_type: 添加成本类型
+  button_cancel_edit_budget: 取消编辑预算
+  button_cancel_edit_costs: 取消编辑成本
+  caption_labor: 人工
+  caption_labor_costs: 实际人工成本
+  caption_material_costs: 实际单位成本
   events:
-    budget: "预算已编辑"
-  help_click_to_edit: "单击此处进行编辑。"
-  help_currency_format: "已显示的货币值的格式。%n 替换为货币值，%u 替换为货币单位。"
-  help_override_rate: "在此处输入值覆盖基本费率。"
-  label_budget: "预算"
-  label_budget_available: "可用预算"
-  label_budget_id: "预算 #%{id}"
-  label_budget_new: "新增预算"
-  label_budget_planned: "计划预算"
-  label_budget_plural: "预算"
-  label_budget_spent: "已支出预算"
-  label_budget_spent_ratio: "预算支出比率"
-  label_deliverable: "预算"
-  label_example_placeholder: "例如，%{decimal}"
-  label_view_all_budgets: "查看所有预算"
-  label_yes: "是"
-  label_budget_totals: "总计"
-  label_budget_details: "预算详细信息"
-  notice_budget_conflict: "工作包必须属于同一个项目。"
-  notice_no_budgets_available: "无可用预算。"
-  permission_edit_budgets: "编辑预算"
-  permission_view_budgets: "查看预算"
-  project_module_budgets: "预算"
-  text_budget_reassign_to: "将它们重新分配给此预算："
-  text_budget_delete: "从所有工作包中删除预算"
-  text_budget_destroy_assigned_wp: "有 %{count} 个工作包被分配到此预算。您想做什么？"
+    budget: 预算已编辑
+  help_click_to_edit: 单击此处进行编辑。
+  help_currency_format: 已显示的货币值的格式。%n 替换为货币值，%u 替换为货币单位。
+  help_override_rate: 在此处输入值覆盖基本费率。
+  label_budget_available: 可用预算
+  label_budget_details: 预算详细信息
+  label_budget_id: '预算 #%{id}'
+  label_budget_new: 新增预算
+  label_budget_planned: 计划预算
+  label_budget_plural: 预算
+  label_budget_spent: 已支出预算
+  label_budget_spent_ratio: 预算支出比率
+  label_budget_totals: 总计
+  label_deliverable: 预算
+  label_example_placeholder: 例如，%{decimal}
+  label_view_all_budgets: 查看所有预算
+  label_yes: 是
+  notice_budget_conflict: 工作包必须属于同一个项目。
+  notice_no_budgets_available: 无可用预算。
+  permission_edit_budgets: 编辑预算
+  permission_view_budgets: 查看预算
+  plugin_budgets_engine:
+    name: 预算
+  project_module_budgets: 预算
+  text_budget_delete: 从所有工作包中删除预算
+  text_budget_destroy_assigned_wp: 有 %{count} 个工作包被分配到此预算。您想做什么？
+  text_budget_reassign_to: 将它们重新分配给此预算：

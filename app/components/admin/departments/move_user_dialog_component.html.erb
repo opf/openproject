@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if from_department.ldap_managed? %>
+  <%=
+    render(
+      Primer::OpenProject::FeedbackDialog.new(
+        id: DIALOG_ID,
+        title: t("departments.move_user_dialog.managed_title")
+      )
+    ) do |dialog|
+      dialog.with_feedback_message(icon_arguments: { icon: :lock, color: :muted }) do |message|
+        message.with_heading(tag: :h2) { t("departments.move_user_dialog.managed_heading") }
+        message.with_description do
+          t(
+            "departments.move_user_dialog.managed_description",
+            user: moved_user.name,
+            from_department: from_department.name
+          )
+        end
+      end
+    end
+  %>
+<% else %>
+  <%=
+    render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        title: t("departments.move_user_dialog.title"),
+        confirm_button_text: t("departments.move_user_dialog.confirm"),
+        size: :medium_portrait,
+        form_arguments: {
+          action: add_user_admin_department_path(to_department),
+          method: :post
+        }
+      )
+    ) do |dialog|
+      dialog.with_confirmation_message do |message|
+        message.with_heading(tag: :h2) { t("departments.move_user_dialog.heading") }
+        message.with_description do
+          t(
+            "departments.move_user_dialog.description",
+            user: moved_user.name,
+            from_department: from_department.name
+          )
+        end
+      end
+
+      dialog.with_additional_details do
+        concat(hidden_field_tag(:user_id, moved_user.id))
+        concat(hidden_field_tag(:remove_from_previous_department, "true"))
+      end
+    end
+  %>
+<% end %>

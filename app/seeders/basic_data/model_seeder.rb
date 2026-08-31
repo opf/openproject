@@ -68,7 +68,7 @@ module BasicData
     end
 
     def model_attributes(model_data)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def applicable?

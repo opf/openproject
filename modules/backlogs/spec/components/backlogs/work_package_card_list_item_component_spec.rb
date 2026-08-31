@@ -1,0 +1,302 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "rails_helper"
+
+RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
+  shared_let(:type_feature) { create(:type_feature) }
+  shared_let(:default_status) { create(:default_status) }
+  shared_let(:readonly_status) { create(:status, :readonly) }
+  shared_let(:default_priority) { create(:default_priority) }
+  shared_let(:user) { create(:admin) }
+  current_user { user }
+
+  shared_let(:project) { create(:project, types: [type_feature]) }
+  shared_let(:sprint) do
+    create(:sprint, project:, name: "Sprint 1",
+                    start_date: Date.yesterday, finish_date: Date.tomorrow)
+  end
+  shared_let(:backlog_bucket) { create(:backlog_bucket, project:, name: "Bucket A") }
+
+  let(:container) { sprint }
+  let(:params) { {} }
+  let(:work_package) do
+    create(:work_package,
+           project:,
+           type: type_feature,
+           status: default_status,
+           priority: default_priority,
+           subject: "Card subject",
+           story_points: 5,
+           position: 1,
+           sprint:)
+  end
+  let(:readonly_work_package) do
+    create(:work_package,
+           project:,
+           type: type_feature,
+           status: readonly_status,
+           priority: default_priority,
+           subject: "Rejected card",
+           position: 1,
+           sprint:)
+  end
+  let(:item) do
+    described_class.new(work_package:, project:, container:, params:, current_user: user)
+  end
+
+  describe "#row_args" do
+    it "wires the row as the Backlogs draggable item" do
+      expect(item.row_args[:test_selector]).to eq("work-package-#{work_package.id}")
+      expect(item.row_args[:data]).to include(
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_confined_value: false,
+        sortable_lists__item_label_value: work_package.to_fs(:caption)
+      )
+      expect(item.row_args[:draggable]).to be(true)
+      expect(item.row_args).not_to include(:tabindex)
+    end
+
+    context "with classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      it "exposes the absolute ID-based work package URL for external drag consumers" do
+        external_url = item.row_args[:data][:sortable_lists__item_external_url_value]
+
+        expect(external_url).to match(%r{\Ahttps?://})
+        expect(external_url).to end_with("/work_packages/#{work_package.id}")
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, types: [type_feature], identifier: "STORY") }
+      let(:sprint) do
+        create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow)
+      end
+
+      it "exposes the absolute semantic work package URL for external drag consumers" do
+        external_url = item.row_args[:data][:sortable_lists__item_external_url_value]
+        semantic_id = work_package.reload.identifier
+
+        expect(semantic_id).to start_with("STORY-")
+        expect(external_url).to match(%r{\Ahttps?://})
+        expect(external_url).to end_with("/work_packages/#{semantic_id}")
+      end
+    end
+
+    context "when the user cannot manage sprint items" do
+      let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
+      let(:limited_user) { create(:user, member_with_roles: { project => role }) }
+      let(:item) do
+        described_class.new(work_package:, project:, container:, params:, current_user: limited_user)
+      end
+
+      it "does not mark the row as draggable" do
+        expect(item.row_args[:data]).not_to include(:sortable_lists_prev_item_id)
+        expect(item.row_args).not_to include(:draggable)
+        expect(item.row_args).not_to include(:tabindex)
+        expect(item.row_args[:data]).not_to include(:sortable_lists__item_external_url_value)
+      end
+
+      it "keeps the card focusable so keyboard users can interact with it" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card[tabindex='0']")
+      end
+
+      it "does not mark the card as draggable" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
+        expect(page).to have_no_css(".Box-card--draggable")
+      end
+
+      it "still wires the contextual-action-menu controller" do
+        expect(render_inline(item.card)).to have_css(
+          ".op-work-package-card[data-controller~='contextual-action-menu']"
+        )
+      end
+    end
+
+    # A read-only status blocks every attribute write, so the server refuses
+    # the sprint_id/backlog_bucket_id change a cross-container move performs —
+    # but a reorder within the card's own list writes no attribute and stays
+    # allowed. The row keeps its drag, confined to that list.
+    context "when the work package is in a read-only status", with_ee: %i[readonly_work_packages] do
+      let(:work_package) { readonly_work_package }
+
+      it "still marks the row as draggable" do
+        expect(item.row_args[:draggable]).to be(true)
+      end
+
+      it "registers the row as a sortable item confined to its list" do
+        expect(item.row_args[:data]).to include(
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: work_package.id,
+          sortable_lists__item_confined_value: true
+        )
+      end
+
+      it "keeps the card focusable so keyboard users can still open it" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card[tabindex='0']")
+      end
+
+      it "still offers the card as a drag handle", :aggregate_failures do
+        render_inline(item.card)
+
+        expect(page).to have_css(".op-work-package-card[data-sortable-lists--item-target='preview handle']")
+        expect(page).to have_css(".Box-card--draggable")
+      end
+    end
+
+    # Status#is_readonly always returns false without the token, so the same
+    # work package is movable in Community and the bug cannot occur there.
+    context "when the work package is in a read-only status without an Enterprise token" do
+      let(:work_package) { readonly_work_package }
+
+      it "does not confine the row" do
+        expect(item.row_args[:draggable]).to be(true)
+        expect(item.row_args[:data]).to include(sortable_lists__item_confined_value: false)
+      end
+    end
+  end
+
+  describe "URL derivation" do
+    it "uses the shared split-view route" do
+      render_inline(item.card)
+      card = page.find(".op-work-package-card")
+
+      expect(card["data-backlogs--work-package-split-url-value"])
+        .to end_with(project_backlogs_backlog_details_path(project, work_package))
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, types: [type_feature], identifier: "STORY") }
+      let(:sprint) do
+        create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow)
+      end
+
+      it "uses the semantic identifier in the split-view route and display id" do
+        render_inline(item.card)
+        card = page.find(".op-work-package-card")
+        semantic_id = work_package.reload.identifier
+
+        expect(semantic_id).to start_with("STORY-")
+        expect(card["data-backlogs--work-package-split-url-value"]).to end_with("/details/#{semantic_id}")
+        expect(card["data-backlogs--work-package-display-id-value"]).to eq(semantic_id)
+      end
+    end
+  end
+
+  describe "#card" do
+    subject(:rendered_card) { render_inline(item.card) }
+
+    it "builds a Backlogs card with story points" do
+      expect(rendered_card).to have_css("span", text: "5", aria: { hidden: true })
+      expect(rendered_card).to have_css(".sr-only", text: "5 story points")
+    end
+
+    it "applies the Box-card class and cursor modifiers to the card" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card.Box-card.Box-card--clickable.Box-card--draggable"
+      )
+    end
+
+    it "wires the card as a Backlogs work package" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card[data-controller~='backlogs--work-package']" \
+        "[data-controller~='contextual-action-menu']" \
+        "[data-backlogs--work-package-id-value='#{work_package.id}']" \
+        "[data-backlogs--work-package-display-id-value='#{work_package.display_id}']" \
+        "[data-backlogs--work-package-full-url-value='#{work_package_path(work_package)}']" \
+        "[data-sortable-lists--item-target='preview handle']" \
+        "[tabindex='0']"
+      )
+    end
+
+    it "announces Enter and Shift+F10 to assistive tech without a button or drag role" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card",
+        role: "article",
+        aria: {
+          keyshortcuts: "Enter Shift+F10",
+          label: work_package.to_fs(:caption),
+          roledescription: nil
+        }
+      )
+    end
+
+    it "does not wire the card as the draggable item" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card[data-controller~='backlogs--work-package']"
+      )
+      expect(rendered_card).to have_no_css(".op-work-package-card[data-controller~='sortable-lists--item']")
+      expect(rendered_card).to have_no_css(".op-work-package-card[draggable='true']")
+    end
+
+    it "supports caller-provided metric content through the item" do
+      item.with_metric { "Custom metric" }
+
+      expect(rendered_card).to have_text("Custom metric")
+      expect(rendered_card).to have_no_css(".sr-only", text: "5 story points")
+    end
+
+    context "with a sprint container" do
+      it "uses the work package menu source" do
+        expect(rendered_card).to have_element(
+          "include-fragment",
+          src: menu_project_backlogs_work_package_path(project, work_package)
+        )
+      end
+    end
+
+    context "with an inbox container id" do
+      let(:container) { "inbox_project_#{project.id}" }
+
+      it "uses the work package menu source" do
+        expect(rendered_card).to have_element(
+          "include-fragment",
+          src: menu_project_backlogs_work_package_path(project, work_package)
+        )
+      end
+    end
+
+    context "with a backlog bucket container" do
+      let(:container) { backlog_bucket }
+
+      it "uses the work package menu source" do
+        expect(rendered_card).to have_element(
+          "include-fragment",
+          src: menu_project_backlogs_work_package_path(project, work_package)
+        )
+      end
+    end
+  end
+end

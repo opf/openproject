@@ -31,31 +31,93 @@
 module RecurringMeetings
   class InitOccurrenceService < ::BaseServices::BaseCallable
     include ::Shared::ServiceContext
+    include ::Contracted
 
     attr_reader :user, :recurring_meeting
 
-    def initialize(user:, recurring_meeting:)
+    def initialize(user:, recurring_meeting:, contract_class: RecurringMeetings::InitOccurrenceContract)
       super()
       @user = user
       @recurring_meeting = recurring_meeting
+      self.contract_class = contract_class
     end
 
     protected
 
     def perform
-      start_time = params.fetch(:start_time)
-      in_context(recurring_meeting, send_notifications: false) do
-        call = instantiate(start_time)
-        if call.success?
-          create_schedule(call)
-          move_interim_responses_to_participants(call.result)
-        end
+      contract_result = validate_contract
+      return contract_result unless contract_result.success?
 
-        call
+      start_time = params.fetch(:start_time)
+      return draft_template_failure if recurring_meeting.template.draft?
+
+      restoring = restoring?(start_time)
+      call = instantiate_in_context(start_time)
+
+      send_restoration_invitations(call.result) if call.success? && restoring
+
+      call
+    end
+
+    def instantiate_in_context(start_time)
+      in_context(recurring_meeting, send_notifications: false) do
+        result = instantiate(start_time)
+        move_interim_responses_to_participants(result.result) if result.success?
+
+        result
       end
     end
 
+    def restoring?(start_time)
+      recurring_meeting
+        .meetings
+        .not_templated
+        .find_by(recurrence_start_time: start_time)
+        &.cancelled?
+    end
+
+    def send_restoration_invitations(meeting)
+      return unless meeting.notify?
+
+      meeting.participants.invited.find_each do |participant|
+        MeetingMailer.invited(meeting, participant.user, user).deliver_later
+      end
+    end
+
+    def draft_template_failure
+      recurring_meeting.errors.add(:base, I18n.t("recurring_meeting.occurrence.error_template_draft"))
+      ServiceResult.failure(errors: recurring_meeting.errors)
+    end
+
+    def validate_contract
+      success, errors = validate(recurring_meeting, user)
+      return ServiceResult.failure(errors:) unless success
+
+      ServiceResult.success
+    end
+
     def instantiate(start_time)
+      existing = recurring_meeting.meetings.not_templated.find_by(recurrence_start_time: start_time)
+
+      if existing.nil?
+        copy_from_template(start_time)
+      elsif existing.cancelled?
+        # Restore a cancelled occurrence for this recurrence_start_time.
+        restore_cancelled(existing)
+      else
+        # An occurrence already exists for this slot (e.g. a double submit): return
+        # it instead of creating a duplicate the unique index would reject anyway.
+        ServiceResult.success(result: existing)
+      end
+    end
+
+    def restore_cancelled(meeting)
+      ::RecurringMeetings::ResetToTemplateService
+        .new(user:, meeting:, params: { state: :open })
+        .call
+    end
+
+    def copy_from_template(start_time)
       ::Meetings::CopyService
         .new(user:, model: recurring_meeting.template)
         .call(attributes: instantiate_params(start_time),
@@ -67,22 +129,10 @@ module RecurringMeetings
     def instantiate_params(start_time)
       {
         start_time:,
+        recurrence_start_time: start_time,
         recurring_meeting:,
         template: false
       }
-    end
-
-    def create_schedule(call)
-      meeting = call.result
-
-      schedule = ScheduledMeeting.find_or_initialize_by(
-        recurring_meeting: recurring_meeting,
-        start_time: meeting.start_time
-      )
-
-      unless schedule.update(meeting:, cancelled: false)
-        call.merge!(ServiceResult.failure(errors: schedule.errors))
-      end
     end
 
     def move_interim_responses_to_participants(meeting)

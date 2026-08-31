@@ -232,12 +232,6 @@ end
 RSpec.shared_examples "editing the field" do
   current_user { admin }
 
-  let(:using_primer) do
-    super()
-  rescue NoMethodError
-    false
-  end
-
   before do
     visit edit_admin_settings_project_custom_field_path(custom_field)
   end
@@ -272,11 +266,7 @@ RSpec.shared_examples "editing the field" do
     fill_in("Name", with: "")
     click_on("Save")
 
-    if using_primer
-      expect(page).to have_css(".FormControl-inlineValidation", text: "Name can't be blank")
-    else
-      expect(page).to have_field "Name", validation_message: /Please fill (in|out) this field./
-    end
+    expect(page).to have_field("custom_field_name", with: "", validation_error: "Name can't be blank")
 
     expect(page).to have_no_text("Successful update")
 

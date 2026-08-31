@@ -41,7 +41,7 @@ module Projects::LifeCycle
 
     private
 
-    def qa_field_name
+    def test_selector
       "life-cycle-step-#{model.id}"
     end
 
@@ -62,7 +62,7 @@ module Projects::LifeCycle
           "overview--project-life-cycle-form-target": field_name.to_s.camelize(:lower)
         },
         wrapper_data_attributes: {
-          "qa-field-name": qa_field_name
+          "test-selector": test_selector
         }
       }
     end

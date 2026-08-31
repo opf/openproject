@@ -32,13 +32,12 @@ require_relative "../support/board_page"
 
 RSpec.describe "Subproject action board",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
   end
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let(:project) do
     create(:project, name: "Parent", types: [type], enabled_module_names: %i[work_package_tracking board_view])
   end

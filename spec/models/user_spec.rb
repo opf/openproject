@@ -43,7 +43,7 @@ RSpec.describe User do
   let(:status) { create(:status) }
   let(:issue) do
     build(:work_package,
-          type: project.types.first,
+          type: project.enabled_types.first,
           author: user,
           project:,
           status:)
@@ -492,6 +492,33 @@ RSpec.describe User do
       end
 
       it { expect(user.watches).to eq([]) }
+    end
+  end
+
+  describe "#department" do
+    subject(:member) { create(:user) }
+
+    it "returns nil when the user belongs to no department" do
+      expect(member.department).to be_nil
+    end
+
+    it "returns the organizational unit the user belongs to" do
+      department = create(:department, members: [member])
+      expect(member.department).to eq(department)
+    end
+
+    it "ignores regular (non-organizational-unit) group memberships" do
+      create(:group, members: [member])
+      expect(member.department).to be_nil
+    end
+
+    it "can be eager-loaded to avoid N+1 queries" do
+      department = create(:department, members: [member])
+
+      preloaded = described_class.where(id: member.id).includes(:departments).first
+
+      expect(preloaded.departments).to be_loaded
+      expect(preloaded.department).to eq(department)
     end
   end
 
@@ -1079,7 +1106,7 @@ RSpec.describe User do
     subject { create(:attachment) }
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: true, comments: false do
     let!(:model_instance) { create(:user) }
     let!(:new_model_instance) { user }
     let!(:custom_field) { create(:user_custom_field, :string) }
@@ -1107,6 +1134,79 @@ RSpec.describe User do
       it "does not return admin-only field" do
         expect(user.available_custom_fields)
           .to contain_exactly(user_cf)
+      end
+    end
+  end
+
+  describe "#non_working_time_entities_for_year and #non_working_days_for_year" do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:year) { 2025 }
+
+    let!(:system_nwd) { create(:non_working_day, date: Date.new(year, 12, 25)) }
+    let!(:user_nwd) { create(:user_non_working_time, user:, start_date: Date.new(year, 6, 16)) }
+    let!(:other_user_nwd) { create(:user_non_working_time, user: other_user, start_date: Date.new(year, 7, 4)) }
+    let!(:other_year_system_nwd) { create(:non_working_day, date: Date.new(year - 1, 12, 25)) }
+    let!(:other_year_user_nwd) { create(:user_non_working_time, user:, start_date: Date.new(year - 1, 6, 16)) }
+
+    describe "#non_working_days_for_year" do
+      subject { user.non_working_days_for_year(year) }
+
+      it "includes system-wide non-working days" do
+        expect(subject).to include(system_nwd.date)
+      end
+
+      it "includes the user's own non-working days" do
+        expect(subject).to include(user_nwd.start_date)
+      end
+
+      it "does not include other users' non-working days" do
+        expect(subject).not_to include(other_user_nwd.start_date)
+      end
+
+      it "does not include dates from other years" do
+        expect(subject).not_to include(other_year_system_nwd.date, other_year_user_nwd.start_date)
+      end
+
+      context "when the user non-working time spans multiple days" do
+        # July 7–13, 2025 is a Monday–Sunday; does not overlap with outer user_nwd (June 16)
+        let!(:week_nwd) do
+          create(:user_non_working_time, user:, start_date: Date.new(year, 7, 7), end_date: Date.new(year, 7, 13))
+        end
+
+        it "expands the range into individual working days" do
+          expect(subject).to include(Date.new(year, 7, 7), Date.new(year, 7, 8), Date.new(year, 7, 9),
+                                     Date.new(year, 7, 10), Date.new(year, 7, 11))
+        end
+
+        it "does not include weekend days within the range" do
+          week_with_saturday_and_sunday_as_weekend
+          expect(subject).not_to include(Date.new(year, 7, 12), Date.new(year, 7, 13))
+        end
+      end
+
+      context "when a user non-working day coincides with a system non-working day" do
+        let!(:duplicate_user_nwd) { create(:user_non_working_time, user:, start_date: system_nwd.date) }
+
+        it "returns the date only once" do
+          expect(subject.count { |d| d == system_nwd.date }).to eq(1)
+        end
+      end
+    end
+
+    describe "#non_working_time_entities_for_year" do
+      subject { user.non_working_time_entities_for_year(year) }
+
+      it "returns NonWorkingDay and UserNonWorkingTime records" do
+        expect(subject).to include(system_nwd, user_nwd)
+      end
+
+      it "does not include other users' non-working days" do
+        expect(subject).not_to include(other_user_nwd)
+      end
+
+      it "does not include records from other years" do
+        expect(subject).not_to include(other_year_system_nwd, other_year_user_nwd)
       end
     end
   end

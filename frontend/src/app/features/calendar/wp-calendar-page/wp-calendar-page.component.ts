@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,6 +29,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { WorkPackagesCalendarComponent } from 'core-app/features/calendar/wp-calendar/wp-calendar.component';
@@ -46,11 +48,10 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
-import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
-  templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  selector: 'op-wp-calendar-page',
+  templateUrl: '../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
@@ -60,8 +61,8 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
   ],
   standalone: false,
 })
-export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePageComponent {
-  @InjectField(ActionsService) actions$:ActionsService;
+export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
+  @Input() queryId:string;
 
   @ViewChild(WorkPackagesCalendarComponent, { static: true }) calendarElement:WorkPackagesCalendarComponent;
 
@@ -120,6 +121,20 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
       },
     },
   ];
+
+  override ngOnInit():void {
+    super.ngOnInit();
+    // Fix showToolbarSaveButton from actual URL params (not uiRouter state)
+    this.showToolbarSaveButton = !!new URLSearchParams(window.location.search).get('query_props');
+
+    // Update save button reactively when query_props changes via pushState (non-uiRouter pages)
+    this.wpListChecksumService.visibleChecksum$
+      .pipe(this.untilDestroyed())
+      .subscribe((checksum) => {
+        this.showToolbarSaveButton = !!checksum;
+        this.cdRef.detectChanges();
+      });
+  }
 
   /**
    * We need to set the current partition to the grid to ensure

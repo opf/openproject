@@ -31,4 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <p><%= t(:text_user_wrote, value: @comment.author) %></p>
 
-<%= format_text @comment.text, only_path: false %>
+<%= format_mail_html @comment.text %>

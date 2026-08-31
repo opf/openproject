@@ -52,6 +52,7 @@ module Storages
     has_one :oauth_client, as: :integration, dependent: :destroy
     has_one :oauth_application, class_name: "::Doorkeeper::Application", as: :integration, dependent: :destroy
     has_many :remote_identities, as: :integration, dependent: :destroy
+    has_many :health_reports, as: :subject, dependent: :delete_all
 
     validates :host, uniqueness: { allow_nil: true }
     validates :name, uniqueness: { case_sensitive: false }
@@ -87,7 +88,7 @@ module Storages
                   .to_h.with_indifferent_access
       end
 
-      def short_provider_name = raise Errors::SubclassResponsibility
+      def short_provider_name = raise SubclassResponsibilityError
 
       def allowed_by_enterprise_token? = true
 
@@ -116,7 +117,7 @@ module Storages
 
     def oauth_access_granted?(user)
       (user.authentication_provider.is_a?(OpenIDConnect::Provider) && authenticate_via_idp?) ||
-        OAuthClientToken.exists?(user:, oauth_client:)
+        OAuthClients::TokenFetcher.new(user:).connected?(oauth_client:)
     end
 
     # For the time being, all Storages support OAuth redirect.
@@ -144,20 +145,22 @@ module Storages
 
     alias automatic_management_enabled automatically_managed
 
-    def available_project_folder_modes = raise Errors::SubclassResponsibility
+    def available_project_folder_modes = raise SubclassResponsibilityError
 
     # Returns a value of an audience, if configured for this storage.
     # The presence of an audience signals that this storage prioritizes
     # remote authentication via Single-Sign-On if possible.
-    def audience = raise Errors::SubclassResponsibility
+    def audience = raise SubclassResponsibilityError
 
-    def authenticate_via_idp? = raise Errors::SubclassResponsibility
+    def authenticate_via_idp? = raise SubclassResponsibilityError
 
-    def authenticate_via_storage? = raise Errors::SubclassResponsibility
+    def authenticate_via_storage? = raise SubclassResponsibilityError
 
     def configured? = configuration_checks.values.all?
 
-    def configuration_checks = raise Errors::SubclassResponsibility
+    def configuration_checks = raise SubclassResponsibilityError
+
+    def skip_client_secret_validation? = false
 
     def uri
       return unless host
@@ -174,11 +177,11 @@ module Storages
       ["#{uri.scheme}://#{uri.host}#{port_part}"]
     end
 
-    def oauth_configuration = raise Errors::SubclassResponsibility
+    def oauth_configuration = raise SubclassResponsibilityError
 
-    def automatic_management_new_record? = raise Errors::SubclassResponsibility
+    def automatic_management_new_record? = raise SubclassResponsibilityError
 
-    def provider_fields_defaults = raise Errors::SubclassResponsibility
+    def provider_fields_defaults = raise SubclassResponsibilityError
 
     def non_confidential_configuration
       provider_fields.symbolize_keys

@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   OpTableActionsService,
@@ -196,10 +196,11 @@ import {
   ],
 })
 export class WorkPackageIsolatedQuerySpaceDirective {
-  constructor(
-    public querySpace:IsolatedQuerySpace,
-    elementRef:ElementRef,
-  ) {
+  querySpace = inject(IsolatedQuerySpace);
+
+  constructor() {
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     debugLog('Opening isolated query space in %O', elementRef.nativeElement);
   }
 }

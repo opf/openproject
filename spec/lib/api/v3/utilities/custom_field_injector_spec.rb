@@ -363,6 +363,40 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         end
       end
     end
+
+    describe "custom comment schema" do
+      let(:path) { custom_field.comment_attribute_name(:camel_case) }
+
+      context "when not allowed to have comment" do
+        let(:custom_field) { build_stubbed(:custom_field) }
+
+        it { is_expected.not_to have_json_path(path) }
+      end
+
+      context "when allowed to have comment" do
+        let(:custom_field) { build_stubbed(:custom_field, :has_comment) }
+
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "String" }
+          let(:name) { I18n.t(:label_custom_comment, name: custom_field.name) }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { false }
+        end
+
+        context "with schema not writable" do
+          let(:schema_writable) { false }
+
+          it_behaves_like "has basic schema properties" do
+            let(:type) { "String" }
+            let(:name) { I18n.t(:label_custom_comment, name: custom_field.name) }
+            let(:required) { false }
+            let(:writable) { false }
+            let(:has_default) { false }
+          end
+        end
+      end
+    end
   end
 
   describe "#inject_value" do
@@ -614,6 +648,52 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
           }
         end
         let(:expected_setter) { value }
+      end
+    end
+
+    describe "custom comment" do
+      let(:path) { custom_field.comment_attribute_name(:camel_case) }
+
+      before do
+        allow(represented).to receive(:custom_comment_for).with(custom_field) { text && build(:custom_comment, text:) }
+      end
+
+      context "when not allowed to have comment" do
+        let(:custom_field) { build_stubbed(:custom_field) }
+
+        it { is_expected.not_to have_json_path(path) }
+      end
+
+      context "when allowed to have comment" do
+        let(:custom_field) { build_stubbed(:custom_field, :has_comment) }
+
+        context "when comment is not set" do
+          let(:text) { nil }
+
+          it "is read as nil" do
+            expect(subject).to be_json_eql(nil.to_json).at_path(path)
+          end
+        end
+
+        context "when comment is set" do
+          let(:text) { "hello, world!" }
+
+          it "is read as string" do
+            expect(subject).to be_json_eql("hello, world!".to_json).at_path(path)
+          end
+        end
+
+        it "can be assigned" do
+          allow(represented).to receive(:custom_comments=)
+
+          modified_class
+            .new(represented, current_user: nil)
+            .from_json({ path => "foo bar" }.to_json)
+
+          expect(represented)
+            .to have_received(:custom_comments=)
+            .with({ custom_field.id => "foo bar" })
+        end
       end
     end
   end

@@ -56,6 +56,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current || CustomStyle.new
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
+    @colors = Color.all.sort_by(&:name)
 
     if params[:tab].blank?
       redirect_to tab: "interface"
@@ -249,7 +250,7 @@ class CustomStylesController < ApplicationController
 
   def file_download(path_method)
     @custom_style = CustomStyle.current
-    if @custom_style && @custom_style.send(path_method)
+    if @custom_style&.send(path_method)
       expires_in 1.year, public: true, must_revalidate: false
       send_file(@custom_style.send(path_method))
     else
@@ -263,7 +264,7 @@ class CustomStylesController < ApplicationController
       return render_404
     end
 
-    @custom_style.send(remove_method)
+    @custom_style.send("#{remove_method}!")
     redirect_to custom_style_path, status: :see_other
   end
 end

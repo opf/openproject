@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 fr:
   js:
     reporting_engine:
-      label_remove: "Supprimer"
-      label_response_error: "Une erreur s'est produite lors du traitement de la requête."
+      label_remove: Supprimer
+      label_response_error: Une erreur s'est produite lors du traitement de la requête.

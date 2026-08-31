@@ -19,23 +19,18 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pl:
   js:
-    costs:
-      widgets:
-        actual_costs:
-          blankslate:
-            title: "No data for current year"
-            description: "Log spent time and costs for work packages to start tracking actual costs"
-    text_are_you_sure: "Jesteś pewny?"
+    button_log_costs: Rejestruj koszty jednostkowe
+    label_hour: godzina
+    label_hours: godziny
     myTimeTracking:
-      noSpecificTime: "Brak określonego czasu"
+      noSpecificTime: Brak określonego czasu
+    text_are_you_sure: Jesteś pewny?
     work_packages:
-      property_groups:
-        costs: "Koszty"
       properties:
-        overallCosts: "Koszt całkowity"
-        spentUnits: "Zużyte jednostki"
-    button_log_costs: "Rejestruj koszty jednostkowe"
-    label_hour: "godzina"
-    label_hours: "godziny"
+        overallCosts: Koszt całkowity
+        spentUnits: Zużyte jednostki
+      property_groups:
+        costs: Koszty

@@ -1,35 +1,51 @@
+---
 pt-BR:
-  grids:
-    label_widget_in_grid: "Widget contido na Grade %{grid_name}"
-    widgets:
-      empty: "Este widget está vazio no momento."
-      not_available: "Este widget não está disponível."
-      subitems:
-        title: "Subitens"
-        no_results: "Não há filhos visíveis."
-        view_all_subitems: "Visualizar todos os subitens"
-        button_text: "Subitem"
-      members:
-        title: "Membros"
-        no_results: "Nenhum membro visível."
-        view_all_members: "Visualizar todos os membros"
-        show_members_count: "Mostrar todos os %{count} membros"
-        x_more:
-          one: "e mais um membro."
-          other: "e mais %{count} membros."
-      news:
-        no_results: "Nada de novo para relatar."
   activerecord:
     attributes:
       grids/grid:
-        page: "Página"
-        row_count: "Número de linhas"
-        column_count: "Número de colunas"
-        widgets: "Widgets"
-        scope: "Escopo"
+        column_count: Número de colunas
+        page: Página
+        row_count: Número de linhas
+        scope: Escopo
+        widgets: Widgets
     errors:
       models:
         grids/grid:
-          overlaps: 'sobreposição.'
-          outside: 'está fora da grade.'
-          end_before_start: 'o valor final precisa ser maior que o valor inicial.'
+          end_before_start: o valor final precisa ser maior que o valor inicial.
+          outside: está fora da grade.
+          overlaps: sobreposição.
+    models:
+      grids/grid:
+        one: Grade
+        other: Grades
+      grids/widget:
+        one: Widget
+        other: Widgets
+  grids:
+    label_widget_in_grid: Widget contido na Grade %{grid_name}
+    widgets:
+      empty: Este widget está vazio no momento.
+      members:
+        no_results: Nenhum membro visível.
+        show_members_count: Mostrar todos os %{count} membros
+        title: Membros
+        view_all_members: Visualizar todos os membros
+        x_more:
+          one: e mais um membro.
+          other: e mais %{count} membros.
+      news:
+        no_results: Nada de novo para relatar.
+      not_available: Este widget não está disponível.
+      project_timeline:
+        footer_actions_label: Ver mais detalhes
+        gantt_link: Marcos do gráfico de Gantt
+        no_results_title: Nenhum conteúdo da linha do tempo do projeto foi configurado
+        sprints_link: Visão geral dos sprints
+        title: Cronograma do projeto
+        title_portfolio: Linha do tempo do portfólio
+        title_program: Linha do tempo do programa
+      subitems:
+        button_text: Subitem
+        no_results: Não há filhos visíveis.
+        title: Subitens
+        view_all_subitems: Visualizar todos os subitens

@@ -33,6 +33,7 @@ module Projects
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include Projects::Concerns::IdentifierSuggestion
 
     options :project, :template, :step
 

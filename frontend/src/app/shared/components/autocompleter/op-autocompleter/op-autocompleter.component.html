@@ -152,6 +152,16 @@
             [principal]="item.author"
             [hideName]="true"
            />
+        } @else {
+          <span
+            class="op-autocompleter--option-principal op-autocompleter--option-principal-fallback op-avatar op-avatar--fallback"
+            role="img"
+            [attr.title]="item.author?.name || null"
+            [attr.aria-label]="item.author?.name || null"
+            [attr.aria-hidden]="item.author?.name ? null : 'true'"
+          >
+            <op-icon icon-classes="icon-user" aria-hidden="true" />
+          </span>
         }
         <span
           class="op-autocompleter--wp-subject"
@@ -171,16 +181,16 @@
         <div class="op-autocompleter--wp-content">
           <span
             [ngOptionHighlight]="search"
-            [textContent]="item.project?.name"
+            [textContent]="$safeNavigationMigration(item.project?.name)"
             class="op-autocompleter--wp-project"
           ></span>
           <span
             class="op-autocompleter--wp-id"
             [ngOptionHighlight]="search"
-          >#{{ item.id }}</span>
+          >{{ item.formattedId }}</span>
           <span
-            [textContent]="item.status?.name"
-            [ngClass]="highlighting('status',item.status?.id)"
+            [textContent]="$safeNavigationMigration(item.status?.name)"
+            [ngClass]="highlighting('status',$safeNavigationMigration(item.status?.id))"
             class="op-autocompleter--wp-status"
           ></span>
         </div>
@@ -232,17 +242,19 @@
         class="ng-value-label"
         [ngOptionHighlight]="search"
         >
-        {{ item.type?.name }} #{{ item.id }} {{ item.subject || item.name }}
+        {{ item.type?.name }} {{ item.formattedId }} {{ item.subject || item.name }}
       </span>
     }
   }
 
   @if (resource !== 'work_packages') {
-    <span class="ng-value-icon left"
-          tabindex="0"
-          (click)="clear(item)"
-          (keydown.enter)="$event.preventDefault(); clear(item)"
-          (keydown.space)="$event.preventDefault(); clear(item)">×</span>
+    @if (!item.disabled) {
+      <span class="ng-value-icon left"
+            tabindex="0"
+            (click)="clear(item)"
+            (keydown.enter)="$event.preventDefault(); clear(item)"
+            (keydown.space)="$event.preventDefault(); clear(item)">×</span>
+    }
     <span
       [ngOptionHighlight]="search"
       [ngClass]=" additionalClassProperty ? item[additionalClassProperty] : ''"

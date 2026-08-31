@@ -6,8 +6,8 @@ on:
       - dev
       - release/*
     paths:
-      - 'docs/**'
-      - 'config/static_links.yml'
+      - "docs/**"
+      - "config/static_links.yml"
 
 permissions:
   contents: read
@@ -17,8 +17,10 @@ jobs:
     name: Check internal links in documentation
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           bundler-cache: true
       - run: bundle exec ./script/docs/check_links
@@ -26,14 +28,18 @@ jobs:
     name: Check README.md case in documentation
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - run: script/docs/check_readme_case
   docs-readme-yaml-header-syntax-check:
     name: Check README.md YAML header syntax in documentation
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           bundler-cache: true
       - run: script/docs/check_readme_yaml_header_syntax

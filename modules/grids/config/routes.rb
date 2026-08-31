@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     # global widget routes
     namespace :widgets do
       resource :news, only: %i[show]
+      resource :project_favorites, controller: :favorite_projects, only: %i[show]
     end
   end
 end

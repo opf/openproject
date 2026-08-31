@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -59,16 +59,13 @@ interface ErrorWithType {
 
 @Injectable({ providedIn: 'root' })
 export class HalResourceService {
+  readonly injector = inject(Injector);
+  readonly http = inject(HttpClient);
+
   /**
    * List of all known hal resources, extendable.
    */
   private config:Record<string, HalResourceFactoryConfigInterface> = {};
-
-  constructor(
-    readonly injector:Injector,
-    readonly http:HttpClient,
-  ) {
-  }
 
   /**
    * Perform a HTTP request and return a HalResource promise.
@@ -219,9 +216,7 @@ export class HalResourceService {
    * @returns {HalResource}
    */
   public createHalResource<T extends HalResource = HalResource>(source:any, loaded = true):T {
-    if (_.isNil(source)) {
-      source = HalResource.getEmptyResource();
-    }
+    source ??= HalResource.getEmptyResource();
 
     const type = source._type || 'HalResource';
     return this.createHalResourceOfType<T>(type, source, loaded);

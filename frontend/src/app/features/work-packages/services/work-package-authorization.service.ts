@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -50,6 +50,9 @@ export class WorkPackageAuthorization {
         break;
       case 'copy_link_to_clipboard':
         link = this.shortLink();
+        break;
+      case 'copy_numeric_id_to_clipboard':
+        link = this.workPackage.id!.toString();
         break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
@@ -80,13 +83,13 @@ export class WorkPackageAuthorization {
   private copyLink() {
     const stateName = this.$state.current.name!;
     if (stateName.startsWith('work-packages.partitioned.list.details')) {
-      return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id!);
+      return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.displayId);
     }
-    return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.id!);
+    return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.displayId);
   }
 
   private shortLink() {
-    return this.PathHelper.workPackageShortPath(this.workPackage.id!);
+    return this.PathHelper.workPackageShortPath(this.workPackage.displayId);
   }
 
   private bulkCopyLink():string {

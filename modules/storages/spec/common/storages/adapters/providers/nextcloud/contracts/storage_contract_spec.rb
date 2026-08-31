@@ -48,6 +48,17 @@ module Storages
             # the BaseContract needs to be instantiated here.
             subject { Storages::BaseContract.new(storage, current_user) }
 
+            before do
+              allow(OpenProject::SsrfProtection).to receive(:safe_ip?) do |host|
+                case host
+                when "172.16.193.146", "localhost"
+                  nil
+                else
+                  IPAddr.new("93.184.216.34")
+                end
+              end
+            end
+
             it "checks the storage url only when changed" do
               subject.validate
               expect(capabilities_request).to have_been_made.once
@@ -95,8 +106,7 @@ module Storages
                               "Please verify that the connection is functioning properly."
                     expect(subject.errors.to_hash).to eq({ password: [message] })
 
-                    # twice due to HTTPX retry plugin being enabled.
-                    expect(credentials_request).to have_been_made.twice
+                    expect(credentials_request).to have_been_made
                   end
                 end
 

@@ -19,233 +19,319 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 he:
-  plugin_costs:
-    name: "עלויות"
-    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
-        work_package: "חבילת עבודה"
-        overridden_costs: "Overridden costs"
-        spent: "Spent"
-        spent_on: "תאריך"
-        logged_by: "Logged by"
         entity: Logged for
-        entity_id: Logged for
         entity_gid: Logged for
-      cost_type:
-        unit: "Unit name"
-        unit_plural: "Pluralized unit name"
-        default: "Cost type by default"
-      work_package:
-        costs_by_type: "Spent units"
-        labor_costs: "Labor costs"
-        material_costs: "Unit costs"
-        overall_costs: "Overall costs"
-        spent_costs: "Spent costs"
-        spent_units: "Spent units"
-      rate:
-        rate: "Rate"
-      user:
-        default_rates: "Default rates"
-      time_entry:
-        project: פרוייקט
-        user: משתמש
+        entity_id: Logged for
+        logged_by: Logged by
+        overridden_costs: Overridden costs
+        spent: Spent
+        spent_on: תאריך
         work_package: חבילת עבודה
-        subject: נושא
-        hours: שעות
-        comments: תגובה
+      cost_type:
+        default: Cost type by default
+        for_all_projects: For all projects
+        rates: Rates
+        unit: Unit name
+        unit_plural: Pluralized unit name
+      rate:
+        rate: Rate
+      time_entry:
         activity: פעילות
+        comments: תגובה
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: שעות
+        project: פרוייקט
         spent_on: תאריך
         start_time: Start time
-        end_time: Finish time
+        subject: נושא
         time: זמן
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
-    models:
-      time_entry:
-        one: "Time entry"
-        two: "Time entries"
-        many: "Time entries"
-        other: "Time entries"
-      cost_entry:
-        one: "עלות כניסה"
-        two: "Cost entries"
-        many: "Cost entries"
-        other: "Cost entries"
-      cost_type:
-        one: "Cost type"
-        two: "Cost types"
-        many: "Cost types"
-        other: "Cost types"
-      time_entry_activity:
-        one: "Time tracking activity"
-        two: "Time tracking activities"
-        many: "Time tracking activities"
-        other: "Time tracking activities"
-      rate: "Rate"
+        user: משתמש
+        work_package: חבילת עבודה
+      user:
+        default_rates: Default rates
+      work_package:
+        costs_by_type: Spent units
+        labor_costs: Labor costs
+        material_costs: Unit costs
+        overall_costs: Overall costs
+        spent_costs: Spent costs
+        spent_units: Spent units
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
         time_entry:
-          invalid_time: "must be between 00:00 and 23:59."
-          cannot_log_for_this_work_package: "Cannot log time for this work package."
-          duplicate_ongoing: "An ongoing time entry already exists for this user."
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
-          nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
-  attributes:
-    comment: "תגובה"
-    cost_type: "Cost type"
-    costs: "Costs"
-    current_rate: "Current rate"
-    hours: "שעות"
-    units: "יחידות"
-    valid_from: "Valid from"
-    fixed_date: "Fixed date"
-  button_add_rate: "Add rate"
-  button_log_costs: "Log unit costs"
-  button_log_time: "Log"
-  button_add_activity: "פעילות"
-  button_add_time_entry: "נרשם ביומן"
-  button_stop_timer: "Stop timer"
-  caption_booked_on_project: "Booked on project"
-  caption_default: "ברירת מחדל"
-  caption_default_rate_history_for: "Default rate history for %{user}"
-  caption_locked_on: "Locked on"
-  caption_materials: "יחידות"
-  caption_rate_history: "Rate history"
-  caption_rate_history_for: "Rate history for %{user}"
-  caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
-  caption_save_rate: "Save rate"
-  caption_set_rate: "Set current rate"
-  caption_show_locked: "Show locked types"
-  caption_log_time_dialog: "נרשם ביומן"
-  description_date_for_new_rate: "Date for new rate"
-  description_costs_settings: "Define the desired format for the costs in all projects."
-  description_time_settings: "Define which fields are mandatory to fill when logging time in all projects."
-  group_by_others: "not in any group"
-  label_between: "between"
-  label_cost_filter_add: "Add cost entry filter"
-  label_costlog: "Logged unit costs"
-  label_cost_plural: "Costs"
-  label_cost_type_plural: "Cost types"
-  label_cost_type_specific: "מס' עלות %{id}: %{name}"
-  label_costs_per_page: "Costs per page"
-  label_current_default_rate: "Current default rate"
-  label_date_on: "פועל"
-  label_deleted_cost_types: "Deleted cost types"
-  label_locked_cost_types: "Locked cost types"
-  label_display_cost_entries: "Display unit costs"
-  label_display_time_entries: "Display reported hours"
-  label_display_types: "Display types"
-  label_edit: "עריכה"
-  label_generic_user: "Generic user"
-  label_greater_or_equal: ">="
-  label_group_by: "קבץ לפי"
-  label_group_by_add: "Add grouping field"
-  label_hourly_rate: "Hourly rate"
-  label_include_deleted: "Include deleted"
-  label_work_package_filter_add: "Add work package filter"
-  label_kind: "סוג"
-  label_less_or_equal: "<="
-  label_log_costs: "Log unit costs"
-  label_new_time_entry_activity: "New time entry activity"
-  label_time_entry_activity_form_description: "Changes to this time entry activity will be reflected in all projects where it is enabled."
-  label_no: "לא"
-  label_option_plural: "אפשריות"
-  label_overall_costs: "Overall costs"
-  label_rate: "Rate"
-  label_rate_plural: "Rates"
-  label_status_finished: "הסתיים"
-  label_show: "הצג"
-  label_units: "Cost units"
-  label_user: "משתמש"
-  label_until: "until"
-  label_valid_from: "Valid from"
-  label_yes: "כן"
-  label_time: "זמן"
-  label_cost: "Cost"
-  label_costs: "Costs"
-  label_mandatory_fields: "Mandatory fields"
-  label_my_time_tracking: "My time tracking"
-  label_no_time: "No time tracked"
-  label_next_day: "Next day"
-  label_next_week: "שבוע הבא"
-  label_next_workweek: "Next work week"
-  label_next_month: "Next month"
-  label_previous_day: "Previous day"
-  label_previous_workweek: "Previous work week"
-  label_previous_week: "Previous week"
-  label_previous_month: "Previous month"
-  label_specific_day: "Day %{day}"
-  label_specific_week: "Calendar week %{week}"
-  label_specific_month: "Month %{month}"
-  label_list: "רשימה"
-  label_month: "חודש"
-  label_workweek: "Work week"
-  label_day: "ימים"
-  label_today_capitalized: "Today"
-  label_view_mode_switcher: "Change view"
-  label_timer_since: "Started at %{time}"
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: "Something went wrong. Please try again."
-  notice_successful_restore: "Successful restore."
-  notice_successful_lock: "Locked successfully."
-  notice_cost_logged_successfully: "Unit cost logged successfully."
-  notice_different_time_zones: "This user has a different time zone (%{tz}). Time will be logged using their time zone."
-  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
-  notice_time_entry_delete_failed: "Failed to delete time entry. Errors: %{errors}"
-  permission_edit_cost_entries: "Edit booked unit costs"
-  permission_edit_own_cost_entries: "Edit own booked unit costs"
-  permission_edit_hourly_rates: "Edit hourly rates"
-  permission_edit_own_hourly_rate: "Edit own hourly rates"
-  permission_edit_rates: "Edit rates"
-  permission_log_costs: "Book unit costs"
-  permission_log_own_costs: "Book unit costs for oneself"
-  permission_view_cost_entries: "View booked costs"
-  permission_view_cost_rates: "View cost rates"
-  permission_view_hourly_rates: "View all hourly rates"
-  permission_view_own_cost_entries: "View own booked costs"
-  permission_view_own_hourly_rate: "View own hourly rate"
-  permission_view_own_time_entries: "View own spent time"
-  project_module_costs: "עלויות"
-  setting_allow_tracking_start_and_end_times: "Allow start and finish times"
-  setting_costs_currency: "Currency"
-  setting_costs_currency_format: "Format of currency"
-  setting_enforce_tracking_start_and_end_times: "Require start and finish times"
-  setting_enforce_without_allow: "Requiring start and finish times is not possible without allowing them"
-  setting_allow_tracking_start_and_end_times_caption: "Enables entering start and finish times when logging time."
-  setting_enforce_tracking_start_and_end_times_caption: "Makes entering start and finish times mandatory when logging time."
-  text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
-  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
-  text_destroy_time_and_cost_entries: "Delete reported hours and costs"
-  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
-  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
-  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
-  week: "week"
-  total_times:
-    workweek: "Workweek Total: %{hours}"
-    week: "Week Total: %{hours}"
-    month: "Month Total: %{hours}"
-    day: "Day Total: %{hours}"
+          is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
+          nullify_is_not_valid_for_cost_entries: Cost entries can not be assigned to a project.
+    models:
+      cost_entry:
+        one: עלות כניסה
+        two: Cost entries
+        many: Cost entries
+        other: Cost entries
+      cost_rate:
+        one: Cost rate
+        two: Cost rates
+        many: Cost rates
+        other: Cost rates
+      cost_type:
+        one: Cost type
+        two: Cost types
+        many: Cost types
+        other: Cost types
+      default_hourly_rate:
+        one: Default hourly rate
+        two: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        two: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        two: Rates
+        many: Rates
+        other: Rates
+      time_entry:
+        one: Time entry
+        two: Time entries
+        many: Time entries
+        other: Time entries
+      time_entry_activity:
+        one: Time tracking activity
+        two: Time tracking activities
+        many: Time tracking activities
+        other: Time tracking activities
+      time_entry_custom_field:
+        one: Time entry custom field
+        two: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
-        start_time_different_date: "Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date."
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
+  attributes:
+    comment: תגובה
+    cost_type: Cost type
+    costs: Costs
+    current_rate: Current rate
+    fixed_date: Fixed date
+    hours: שעות
+    units: יחידות
+    valid_from: Valid from
+  button_add_activity: פעילות
+  button_add_rate: Add rate
+  button_add_time_entry: נרשם ביומן
+  button_log_costs: Log unit costs
+  button_log_time: Log
+  button_stop_timer: Stop timer
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
+  caption_booked_on_project: Booked on project
+  caption_default: ברירת מחדל
+  caption_default_rate_history_for: Default rate history for %{user}
+  caption_locked_on: Locked on
+  caption_log_time_dialog: נרשם ביומן
+  caption_materials: יחידות
+  caption_rate_history: Rate history
+  caption_rate_history_for: Rate history for %{user}
+  caption_rate_history_for_project: Rate history for %{user} in project %{project}
+  caption_save_rate: Save rate
+  caption_set_rate: Set current rate
+  caption_show_locked: Show locked types
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
   costs:
     widgets:
       actual_costs:
-        title: "Actual costs by month"
         blankslate:
-          heading: "Start tracking your time and costs"
-          description: "Get an overview of your costs and logged time to monitor progress of your project"
-          action: "Log time"
-        view_details: "View actual costs details"
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
+  description_costs_settings: Define the desired format for the costs in all projects.
+  description_date_for_new_rate: Date for new rate
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
   ee:
     features:
-      time_entry_time_restrictions: Require exact time tracking
+      time_entry_time_restrictions: Time entry restrictions
     upsell:
       time_entry_time_restrictions:
-        description: "Improve your time tracking by requiring exact start and finish times when logging time."
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+  group_by_others: not in any group
+  label_available_cost_types_projects: Available cost types projects
+  label_between: between
+  label_cost: Cost
+  label_cost_filter_add: Add cost entry filter
+  label_cost_plural: Costs
+  label_cost_type_plural: Cost types
+  label_cost_type_specific: 'מס'' עלות %{id}: %{name}'
+  label_costlog: Logged unit costs
+  label_costs: Costs
+  label_costs_per_page: Costs per page
+  label_current_default_rate: Current default rate
+  label_date_on: פועל
+  label_day: ימים
+  label_defaults_and_limits: Defaults and limits
+  label_deleted_cost_types: Deleted cost types
+  label_display_cost_entries: Display unit costs
+  label_display_time_entries: Display reported hours
+  label_display_types: Display types
+  label_edit: עריכה
+  label_generic_user: Generic user
+  label_greater_or_equal: ">="
+  label_group_by: קבץ לפי
+  label_group_by_add: Add grouping field
+  label_include_deleted: Include deleted
+  label_kind: סוג
+  label_less_or_equal: "<="
+  label_list: רשימה
+  label_log_costs: Log unit costs
+  label_month: חודש
+  label_my_time_tracking: My time tracking
+  label_new_time_entry_activity: New time entry activity
+  label_next_day: Next day
+  label_next_month: Next month
+  label_next_week: שבוע הבא
+  label_next_workweek: Next work week
+  label_no: לא
+  label_no_time: No time tracked
+  label_option_plural: אפשריות
+  label_overall_costs: Overall costs
+  label_previous_day: Previous day
+  label_previous_month: Previous month
+  label_previous_week: Previous week
+  label_previous_workweek: Previous work week
+  label_rate_plural: Rates
+  label_show: הצג
+  label_specific_day: Day %{day}
+  label_specific_month: Month %{month}
+  label_start_and_finished: Start and finish times
+  label_status_finished: הסתיים
+  label_time: זמן
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_restrictions: Limits
+  label_timer_since: Started at %{time}
+  label_today_capitalized: Today
+  label_units: Cost units
+  label_until: until
+  label_valid_from: Valid from
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Add work package filter
+  label_workweek: Work week
+  label_yes: כן
+  notice_cost_logged_successfully: Unit cost logged successfully.
+  notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
+  notice_something_wrong: Something went wrong. Please try again.
+  notice_successful_lock: Locked successfully.
+  notice_successful_restore: Successful restore.
+  notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  permission_edit_cost_entries: Edit booked unit costs
+  permission_edit_hourly_rates: Edit hourly rates
+  permission_edit_own_cost_entries: Edit own booked unit costs
+  permission_edit_own_hourly_rate: Edit own hourly rates
+  permission_edit_rates: Edit rates
+  permission_log_costs: Book unit costs
+  permission_log_own_costs: Book unit costs for oneself
+  permission_view_cost_entries: View booked costs
+  permission_view_cost_rates: View cost rates
+  permission_view_hourly_rates: View all hourly rates
+  permission_view_own_cost_entries: View own booked costs
+  permission_view_own_hourly_rate: View own hourly rate
+  permission_view_own_time_entries: View own spent time
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: עלויות
+  project_module_costs: עלויות
+  setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
+  setting_costs_currency: Currency
+  setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
+  setting_costs_currency_format: Currency format
+  setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
+  setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Require start and finish times
+  setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
+  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_destroy_time_and_cost_entries: Delete reported hours and costs
+  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
+  text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
+  total_times:
+    day: 'Day Total: %{hours}'
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: week

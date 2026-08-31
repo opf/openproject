@@ -34,7 +34,7 @@ module Storages
       module Nextcloud
         class Base
           include TaggedLogging
-          include Dry::Monads::Result(Results::Error)
+          include Dry::Monads::Result(SimpleError)
 
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
@@ -50,7 +50,7 @@ module Storages
           def depth_header(depth) = { headers: { "Depth" => depth.to_s } }
 
           def origin_user_id(auth_strategy:)
-            error = Results::Error.new(source: self.class, code: :error)
+            error = SimpleError.new(source: self.class, code: :error)
 
             auth_strategy.bind do |strategy|
               case strategy.key
@@ -79,14 +79,37 @@ module Storages
             end
           end
 
+          # Parses a response body as JSON. Nextcloud does not always answer in the requested format: OCS responses
+          # rendered outside of the integration app (e.g. when it is disabled) fall back to XML, and reverse proxies
+          # may answer with an HTML page. Those bodies make HTTPX raise, which would escape the adapter contract.
+          # @return [Dry::Result]
+          def parse_json(response, error)
+            Success(response.json(symbolize_keys: true))
+          rescue HTTPX::Error, MultiJSON::ParseError
+            Failure(error.with(code: :invalid_response, payload: response))
+          end
+
           # Validates the OCS Meta Statuscode for fatal errors (i.e. unexpected server-side errors). Client-side errors,
           # such as a 404 File Not Found do not cause an error.
           # @return [Dry::Result]
           def fail_on_ocs_error(json, error)
-            if json.dig(:ocs, :meta, :statuscode) < 500
+            if json_fetch(json, :ocs, :meta, :statuscode) < 500
               Success(json)
             else
               Failure(error.with(code: :error))
+            end
+          end
+
+          def json_fetch(json, *path)
+            current_path = []
+            path.inject(json) do |j, key|
+              if j.is_a?(Hash)
+                current_path << key
+                j.fetch(key) { raise "Could not find JSON path #{current_path.join('.')} in response (wanted #{path.join('.')})" }
+              else
+                raise "Object at JSON path #{current_path.join('.')} was expected to be a hash, " \
+                      "but got #{j.class} (wanted #{path.join('.')})"
+              end
             end
           end
         end

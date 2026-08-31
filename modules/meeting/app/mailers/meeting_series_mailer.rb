@@ -46,47 +46,19 @@ class MeetingSeriesMailer < UserMailer
     end
   end
 
-  def updated(series, user, actor, changes:)
+  def updated(series, user, actor, changes:, added_participants: [], removed_participants: [])
     @actor = actor
     @series = series
     @user = user
     @changes = changes
+    @added_participants = Array(added_participants)
+    @removed_participants = Array(removed_participants)
 
     set_headers(series)
 
     with_attached_ics(series, user) do
       subject = I18n.t("meeting.email.series_updated.title", title: series.title, project_name: series.project.name)
       mail(to: user, subject:)
-    end
-  end
-
-  def participant_added(series, user, actor, added_participant:)
-    @actor = actor
-    @series = series
-    @template = series.template
-    @user = user
-    @added_participant = added_participant
-
-    set_headers(series)
-
-    with_attached_ics(series, user) do
-      subject = I18n.t("meeting.email.participant_added.header_series", title: series.title)
-      mail(to: user, subject: "[#{@series.project.name}] #{subject}")
-    end
-  end
-
-  def participant_removed(series, user, actor, removed_participant:)
-    @actor = actor
-    @series = series
-    @template = series.template
-    @user = user
-    @removed_participant = removed_participant
-
-    set_headers(series)
-
-    with_attached_ics(series, user) do
-      subject = I18n.t("meeting.email.participant_removed.header_series", title: series.title)
-      mail(to: user, subject: "[#{@series.project.name}] #{subject}")
     end
   end
 

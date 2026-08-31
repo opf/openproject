@@ -2,7 +2,8 @@
     [name]="widgetName"
     (onRenamed)="renameWidget($event)">
 
-  <widget-wp-graph-menu slot="menu"
+  <widget-wp-graph-menu
+      slot="menu"
       [resource]="resource"
       (onConfigured)="updateGraph($event)" />
 </widget-header>

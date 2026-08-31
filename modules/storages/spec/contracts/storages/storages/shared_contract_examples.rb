@@ -100,6 +100,15 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
   let(:storage_creator) { current_user }
 
   before do
+    allow(OpenProject::SsrfProtection).to receive(:safe_ip?) do |host|
+      case host
+      when "172.16.193.146", "localhost"
+        nil
+      else
+        IPAddr.new("93.184.216.34")
+      end
+    end
+
     if storage_host.present?
       mock_server_capabilities_response(storage_host)
       mock_server_config_check_response(storage_host)
@@ -153,7 +162,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
         let(:capabilities_response_body) { nil } # use default
         let(:capabilities_response_code) { nil } # use default
         let(:capabilities_response_headers) { nil } # use default
-        let(:capabilities_response_major_version) { 22 }
+        let(:capabilities_response_major_version) { NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION }
         let(:check_config_response_body) { nil } # use default
         let(:check_config_response_code) { nil } # use default
         let(:check_config_response_headers) { nil } # use default
@@ -192,8 +201,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-              # twice due to HTTPX retry plugin being enabled.
-              expect(stub_server_capabilities).to have_been_made.twice
+              expect(stub_server_capabilities).to have_been_made
             end
           end
 
@@ -204,8 +212,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-              # twice due to HTTPX retry plugin being enabled.
-              expect(stub_config_check).to have_been_made.twice
+              expect(stub_config_check).to have_been_made
             end
           end
         end
@@ -244,10 +251,18 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
           include_examples "contract is invalid", host: :not_nextcloud_server
         end
 
-        context "when Nextcloud version is below the required minimal version which is 22" do
-          let(:capabilities_response_major_version) { 21 }
+        context "when Nextcloud version is below the required minimal version" do
+          let(:capabilities_response_major_version) { NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION - 1 }
 
-          include_examples "contract is invalid", host: :minimal_nextcloud_version_unmet
+          include_examples "contract is invalid", host: :minimal_nextcloud_version_not_met
+
+          it "reports the required and the detected version" do
+            contract.validate
+
+            expect(contract.errors.full_messages_for(:host).first)
+              .to include(NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION.to_s,
+                          capabilities_response_major_version.to_s)
+          end
         end
 
         context 'when Nextcloud instance is missing the "OpenProject integration" app' do
@@ -268,13 +283,20 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "when host is localhost" do
         let(:storage_host) { "http://localhost:1234" }
 
-        include_examples "contract is valid"
+        include_examples "contract is invalid", host: :ssrf_filtered
+
+        it "does not perform metadata discovery requests" do
+          contract.validate
+
+          expect(WebMock).not_to have_requested(:get, "http://localhost:1234/ocs/v2.php/cloud/capabilities")
+          expect(WebMock).not_to have_requested(:get, "http://localhost:1234/index.php/apps/integration_openproject/check-config")
+        end
       end
 
       context "when host uses https protocol" do
         let(:storage_host) { "https://172.16.193.146" }
 
-        include_examples "contract is valid"
+        include_examples "contract is invalid", host: :ssrf_filtered
       end
     end
 

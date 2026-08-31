@@ -106,12 +106,34 @@ properties:
 
               **Resource**: User
       version:
+        deprecated: true
         allOf:
           - $ref: './link.yml'
           - description: |-
               The version associated to the work package
 
               **Resource**: Version
+      targetVersions:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of versions associated to the work package
+
+          **Resource**: Collection of Version
+
+          # Conditions
+
+          - Transitioning from single to multiple version support
+          - (Temporary) Only allows a single value for compatibility with the version field
+      observedInVersions:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of versions in which the behaviour described by the work package was observed
+
+          **Resource**: Collection of Version
       parent:
         allOf:
           - $ref: './link.yml'

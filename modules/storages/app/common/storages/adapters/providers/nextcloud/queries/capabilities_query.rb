@@ -50,21 +50,21 @@ module Storages
             def url = UrlBuilder.url(@storage.uri, "/ocs/v2.php/cloud/capabilities")
 
             def handle_response(response)
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
-                json = response.json(symbolize_keys: true)
-                parse_capabilities(json)
+                parse_json(response, error).bind { parse_capabilities(it) }
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
             def parse_capabilities(json)
-              app_json = json.dig(:ocs, :data, :capabilities, :integration_openproject)
+              capabilities_json = json_fetch(json, :ocs, :data, :capabilities)
+              app_json = capabilities_json[:integration_openproject]
 
               ProviderResults::Capabilities.build(
                 app_enabled: app_json.present?,

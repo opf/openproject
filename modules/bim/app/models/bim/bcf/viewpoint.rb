@@ -58,7 +58,7 @@ module Bim::Bcf
       if attachments.loaded?
         attachments.detect { |a| a.description == "snapshot" }
       else
-        attachments.find_by_description("snapshot")
+        attachments.find_by(description: "snapshot")
       end
     end
 

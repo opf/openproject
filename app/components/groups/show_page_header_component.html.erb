@@ -35,15 +35,15 @@ See COPYRIGHT and LICENSE files for more details.
       header.with_action_button(
         tag: :a,
         mobile_icon: :pencil,
-        mobile_label: t(:button_edit),
+        mobile_label: edit_label,
         size: :medium,
-        href: edit_group_path(@group),
-        aria: { label: I18n.t(:button_edit) },
+        href: edit_path,
+        aria: { label: edit_label },
         data: { "test-selector": "groups--edit-group-button" },
-        title: I18n.t(:button_edit)
+        title: edit_label
       ) do |button|
         button.with_leading_visual_icon(icon: :pencil)
-        t(:button_edit)
+        edit_label
       end
 
       header.with_action_button(

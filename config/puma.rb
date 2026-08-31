@@ -129,8 +129,7 @@ if Rails.env.development?
   end
 
   if siginfo_supported
-    # Using on_booted is needed to override puma adding handler to show thread statuses
-    on_booted do
+    after_booted do
       Signal.trap("INFO") do
         system "open", Rails.application.root_url
       end

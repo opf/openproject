@@ -63,11 +63,11 @@ module OpenProject::TextFormatting
       ##
       # Extensions to the default CommonMarker operation
       def commonmark_extensions
-        # Disable all the extension enabled by default by commonmarker.
+        enabled = %i[table strikethrough]
+
         %i[strikethrough tagfilter table autolink tasklist shortcodes]
           .index_with(false)
-          # But enable those that the context has enabled explicitly
-          .merge(context.fetch(:commonmarker_extensions, %i[table strikethrough tagfilter]).index_with(true))
+          .merge(enabled.index_with(true))
       end
     end
   end

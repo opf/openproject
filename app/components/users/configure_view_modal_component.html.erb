@@ -1,0 +1,27 @@
+<%= render(Primer::Alpha::Dialog.new(title: t(:"queries.configure_view.heading"), size: :large, id: MODAL_ID, style: "min-height: 360px")) do |d| %>
+  <% d.with_header(variant: :large) %>
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= primer_form_with(url: users_path, id: QUERY_FORM_ID, data: { "turbo-stream" => false }, method: :get) do %>
+      <% { filters: params[:filters], sortBy: params[:sortBy] }.each do |name, value| %>
+        <%= hidden_field_tag name, value if value.present? %>
+      <% end %>
+      <%= helpers.angular_component_tag "opce-draggable-autocompleter",
+                                        inputs: {
+                                          options: selectable_columns,
+                                          selected: selected_columns,
+                                          name: COLUMN_HTML_NAME,
+                                          id: COLUMN_HTML_ID,
+                                          dragAreaName: "#{COLUMN_HTML_ID}_dragarea",
+                                          formControlId: "#{COLUMN_HTML_ID}_autocompleter",
+                                          inputLabel: t(:"queries.configure_view.columns.input_label"),
+                                          inputPlaceholder: t(:"queries.configure_view.columns.input_placeholder"),
+                                          dragAreaLabel: t(:"queries.configure_view.columns.drag_area_label"),
+                                          appendToComponent: true
+                                        } %>
+    <% end %>
+  <% end %>
+  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": MODAL_ID })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, data: { "test-selector": "#{MODAL_ID}-submit" }, form: QUERY_FORM_ID)) { t(:button_apply) } %>
+  <% end %>
+<% end %>

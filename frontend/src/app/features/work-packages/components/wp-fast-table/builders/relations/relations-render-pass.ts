@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -12,7 +40,7 @@ import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
@@ -28,15 +56,15 @@ export interface RelationRenderInfo extends RowRenderInfo {
 }
 
 export class RelationsRenderPass {
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  @LazyInject() wpRelations:WorkPackageRelationsService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n:I18nService;
+  @LazyInject() I18n:I18nService;
 
   public relationRowBuilder:RelationRowBuilder;
 
@@ -57,7 +85,7 @@ export class RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = _.clone(this.tablePass.renderedOrder);
+    const rendered = [...this.tablePass.renderedOrder];
     rendered.forEach((row:RowRenderInfo) => {
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
@@ -67,7 +95,7 @@ export class RelationsRenderPass {
       // If the work package has no relations, ignore
       const { workPackage } = row;
       const state = this.wpRelations.state(workPackage.id!);
-      if (!state.hasValue() || _.size(state.value) === 0) {
+      if (!state.hasValue() || Object.keys(state.value ?? {}).length === 0) {
         return;
       }
 

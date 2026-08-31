@@ -45,7 +45,6 @@ module CarrierWave
       end
 
       CarrierWave.configure do |config|
-        config.fog_provider    = "fog/aws"
         config.fog_credentials = credentials
         config.fog_directory   = directory
         config.fog_public      = public
@@ -54,6 +53,12 @@ module CarrierWave
       end
     end
   end
+end
+
+# CW 2.0 changed the default cache_storage from :file to nil.
+# Restore :file to keep Attachment.clean_cached_files! working.
+CarrierWave.configure do |config|
+  config.cache_storage = :file
 end
 
 unless OpenProject::Configuration.fog_credentials.empty?

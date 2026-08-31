@@ -106,4 +106,19 @@ RSpec.describe Projects::ArchiveContract do
       include_examples "with archive_project permission on all/some/none of subprojects"
     end
   end
+
+  context "when a work package of another project targets a version of the project" do
+    shared_let(:project) { create(:project) }
+    shared_let(:current_user) { create(:user, member_with_roles: { project => archivist_role }) }
+    shared_let(:version) { create(:version, project:) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:other_version) { create(:version, project: other_project) }
+
+    before do
+      work_package = create(:work_package, project: other_project)
+      work_package.target_versions = [other_version, version]
+    end
+
+    include_examples "contract is invalid", base: :foreign_wps_reference_version
+  end
 end

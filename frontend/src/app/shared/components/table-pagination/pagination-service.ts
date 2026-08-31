@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const DEFAULT_PAGINATION_OPTIONS = {
@@ -48,9 +48,11 @@ export interface PaginationObject {
 
 @Injectable()
 export class PaginationService {
+  private configuration = inject(ConfigurationService);
+
   private paginationOptions:IPaginationOptions;
 
-  constructor(private configuration:ConfigurationService) {
+  constructor() {
     this.loadPaginationOptions();
   }
 
@@ -87,11 +89,11 @@ export class PaginationService {
   }
 
   public getMaxVisiblePageOptions() {
-    return _.get(this.paginationOptions, 'maxVisiblePageOptions', DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions);
+    return this.paginationOptions.maxVisiblePageOptions;
   }
 
   public getOptionsTruncationSize() {
-    return _.get(this.paginationOptions, 'optionsTruncationSize', DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize);
+    return this.paginationOptions.optionsTruncationSize;
   }
 
   public setPerPage(perPage:number) {

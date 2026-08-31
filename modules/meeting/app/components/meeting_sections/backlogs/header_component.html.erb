@@ -4,7 +4,8 @@
       flex.with_column(flex: 1, pt: 1) do
         render(
           Primer::OpenProject::BorderBox::CollapsibleHeader.new(
-            box: @box, collapsed: @collapsed
+            collapsible_id: "#{dom_id(@backlog)}-list",
+            collapsed: @collapsed
           )
         ) do |header|
           header.with_title(font_weight: :bold) { @backlog.title }

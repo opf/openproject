@@ -1,4 +1,33 @@
-import { Injectable } from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { take } from 'lodash-es';
+import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { colorModes, ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -28,12 +57,10 @@ export interface NameOptions {
 
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
-  constructor(
-    private pathHelper:PathHelperService,
-    private apiV3Service:ApiV3Service,
-    private colors:ColorsService,
-  ) {
-  }
+  private pathHelper = inject(PathHelperService);
+  private apiV3Service = inject(ApiV3Service);
+  private colors = inject(ColorsService);
+
 
   renderAbbreviated(
     container:HTMLElement,
@@ -50,7 +77,7 @@ export class PrincipalRendererService {
     wrapper.appendChild(principals);
     container.appendChild(wrapper);
 
-    const valueForDisplay = _.take(users, maxCount);
+    const valueForDisplay = take(users, maxCount);
     this.renderMultiple(
       principals,
       valueForDisplay,
@@ -104,19 +131,17 @@ export class PrincipalRendererService {
     hoverCard:HoverCardOptions = { isActivated: true },
     title:string|null = null,
   ):void {
-    if (!container.dataset.testSelector) {
-      container.dataset.testSelector = 'op-principal';
-    }
+    container.dataset.testSelector ??= 'op-principal';
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal))!;
 
     if (!avatar.hide) {
-      const el = this.renderAvatar(principal, avatar, hoverCard, type);
+      const el = this.renderAvatar(principal, avatar, hoverCard, type, !name.hide);
       container.appendChild(el);
     }
 
     if (!name.hide) {
-      const el = this.renderName(principal, type, name.link, title || principal.name, name.classes);
+      const el = this.renderName(principal, type, name.link, avatar.hide, title ?? principal.name, name.classes);
       this.setHoverCardAttributes(el, hoverCard, principal, type);
       container.appendChild(el);
     }
@@ -127,6 +152,7 @@ export class PrincipalRendererService {
     options:AvatarOptions,
     hoverCard:HoverCardOptions,
     type:PrincipalType,
+    ariaHidden:boolean,
   ) {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
@@ -143,6 +169,13 @@ export class PrincipalRendererService {
     fallback.textContent = userInitials;
 
     this.setHoverCardAttributes(fallback, hoverCard, principal, type);
+
+    if (ariaHidden) {
+      fallback.setAttribute('aria-hidden', 'true');
+    } else {
+      fallback.setAttribute('role', 'img');
+      fallback.setAttribute('aria-label', options.imageAltText ?? principal.name);
+    }
 
     if (type === 'placeholder_user' && colorMode !== colorModes.lightHighContrast) {
       fallback.style.color = colorCode;
@@ -181,6 +214,9 @@ export class PrincipalRendererService {
     image.src = url;
     image.title = principal.name;
     image.alt = options.imageAltText ?? principal.name;
+    // Avatars are never meaningfully draggable; suppressing the browser's native
+    // image drag stops it from pre-empting Pragmatic DnD card reordering.
+    image.draggable = false;
     image.onload = () => {
       fallback.replaceWith(image);
       (fallback as unknown) = undefined;
@@ -188,12 +224,12 @@ export class PrincipalRendererService {
   }
 
   private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
-    const id = principal.id || idFromLink(hrefFromPrincipal(principal));
+    const id = principal.id ?? idFromLink(hrefFromPrincipal(principal));
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
   private userHoverCardUrl(principal:PrincipalLike|IPrincipal):string|null {
-    const id = principal.id || idFromLink(hrefFromPrincipal(principal));
+    const id = principal.id ?? idFromLink(hrefFromPrincipal(principal));
     return id ? this.pathHelper.userHoverCardPath(id) : null;
   }
 
@@ -201,6 +237,7 @@ export class PrincipalRendererService {
     principal:PrincipalLike|IPrincipal,
     type:PrincipalType,
     asLink = true,
+    standalone = false,
     title = '',
     classes = '',
   ) {
@@ -209,6 +246,9 @@ export class PrincipalRendererService {
       link.textContent = principal.name;
       link.href = this.principalURL(principal, type);
       link.classList.add('op-principal--name');
+      if (standalone) {
+        link.classList.add('op-principal--name_standalone');
+      }
       link.title = title;
 
       return link;
@@ -217,6 +257,9 @@ export class PrincipalRendererService {
     const span = document.createElement('span');
     span.textContent = principal.name;
     span.classList.add('op-principal--name');
+    if (standalone) {
+      span.classList.add('op-principal--name_standalone');
+    }
     span.title = title;
     classes !== '' && classes.split(' ').forEach((cls) => {
       span.classList.add(cls);
@@ -226,7 +269,7 @@ export class PrincipalRendererService {
 
   private principalURL(principal:PrincipalLike|IPrincipal, type:PrincipalType):string {
     const href = hrefFromPrincipal(principal);
-    const id = principal.id || (href ? idFromLink(href) : '');
+    const id = principal.id ?? (href ? idFromLink(href) : '');
 
     switch (type) {
       case 'group':
@@ -241,15 +284,16 @@ export class PrincipalRendererService {
   }
 
   private getInitials(name:string):string {
+    // Spread to iterate by code points to not split multibyte characters such as emojis
     const characters = [...name];
-    const lastSpace = name.lastIndexOf(' ');
+    const lastSpace = characters.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
 
     if (lastSpace === -1) {
       return first;
     }
 
-    const last = name[lastSpace + 1]?.toUpperCase();
+    const last = characters[lastSpace + 1]?.toUpperCase();
     return [first, last].join('');
   }
 

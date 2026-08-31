@@ -20,62 +20,102 @@ To manage users click on your avatar (top right corner) and select **Administrat
 
 In the Community edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading.
 
-| Topic                                           | Content                                                  |
-| ----------------------------------------------- | -------------------------------------------------------- |
-| [User list](#user-list)                         | Manage all users in OpenProject.                         |
-| [Filter users](#filter-users)                   | Filter users in the list.                                |
-| [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user. |
-| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations                              |
-| [Manage user settings](#manage-user-settings)   | Manage user details.                                     |
-| [Authentication](#authentication)               | Set and use authentication methods.                      |
-| [Delete users](#delete-users)                   | Delete a user from the system.                           |
+| Topic                                           | Content                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| [User list](#user-list)                         | Manage all users in OpenProject.                             |
+| [Filter users](#filter-users)                   | Filter users in the list.                                    |
+| [Configure view](#configure-view)               | Configure how user information is displayed.                 |
+| [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
+| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations |
+| [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
+| [Authentication](#authentication)               | Set and use authentication methods.                          |
+| [Delete users](#delete-users)                   | Delete a user from the system.                               |
 
 ## User list
 
-The User list is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
+The user list is where users are managed. Users can be added, edited, or deleted from this list. You can search, sort, and filter the list to quickly find specific users.
 
-![openproject_system_admin_guide_users_list](openproject_system_admin_guide_users_list.png)
+![User list in OpenProject administration](openproject_system_admin_guide_users_list.png)
 
-Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
+Column headers can be clicked to toggle the sort direction. An upward arrow indicates ascending order (A–Z/0–9), and a downward arrow indicates descending order (Z–A/9–0). Paging controls are shown at the bottom of the list. The list also indicates whether a user is a system administrator.
 
 ## Filter users
 
-At the top of the user list is a filter box. Filter by status. group or name, then click the green **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
+Above the user list, you can:
 
-* **Status** - select from Active, All or Locked Temporarily. Each selection shows the number of users.
-* **Group** - select from the list of existing groups.
-* **Name** - enter any text; this can contain a "%" wild card for 0 or more characters. The filter applies to user name, first name, last name and email address.
+- Use the **Search** field to search users by free text.
 
-![Filter users in OpenProject](openproject_systemguide_filter_users.png)
+- Use the **Status** filter to filter by user status (**Active**, **Registered**, **Locked**, or **Invited**). Select one or more statuses using the checkboxes and click **Apply**.
+
+- Use the **Group** filter to filter by existing groups or departments. Select one or more entries using the checkboxes and click **Apply**.
+
+  ![Status filter opened for filtering users list in OpenProject administration](openproject_system_guide_users_filter_status.png)
+
+- Click **All filters** to access additional filtering options.
+
+![Filters available for the user list in OpenProject administration](openproject_systemguide_filters_button.png)
+
+Clicking **All filters** opens the **+ Add filter** form. Here, you can filter by group, status, name, username, and all configured [user attributes](../user-attributes). Each filter provides additional options to help you narrow down the results. The user list is updated automatically based on the selected criteria.
+
+Click the **×** icon next to a filter to remove it, or click the **×** in the top-right corner to close the filter panel.
+
+Available filters include:
+
+- **Username** – Enter any text or character sequence (such as `@` or `.com`) that is unique to the username or email address.
+- **Name** – Enter any text. You can use the `%` wildcard to match zero or more characters. For example, searching for `Ni%las` matches names such as *Niklas*, *Niclas*, *Nikolas*, or *Nicholas*. The filter searches first name, last name, and email address.
+- **Group** – Select one or more existing groups or departments.
+- **Status** – Select one or more statuses: **Active**, **Registered**, **Locked**, **Invited**, or **Deleted**. Each status displays the number of matching users.
+- **User attributes** – Filter by any configured user attribute, such as **Job start date**, **Job title**, **Key skills**, or **Spoken languages**.
+
+![User list filters in OpenProject administration](openproject_systemguide_filter_users.png)
+
+## Configure view
+
+To configure how the table of users is displayed, click on the More menu **(...)**. 
+
+![Menu for configure view for the user list in OpenProject administration](openproject_systemguide_configure_view.png)
+
+This opens up a form where you can add columns, or manage and reorder columns via drag and drop. Click **Apply** to save your changes.
+
+![Open form to configure view for the user list in OpenProject administration](openproject_systemguide_configure_view_form.png)
 
 ## Lock and unlock users
 
-Handling locking and unlocking of users is also done from the user list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
+Handling locking and unlocking of users is also done from the user list. To disable a user's access click, the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
 If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will free up a user license and so you could add another user to the system within your booked plan.
 
-> **Note**: The previous activities from a locked user will still be displayed in the system.
+> [!NOTE]
+> The previous activities of a locked user will still be displayed in the system.
 
 ![Lock users in OpenProject](open_project_system_admin_lock_user_permanently.png)
 
-If a user has repeated failed logins the user will be locked temporarily and a **Reset failed logins** link will be shown in the user list. Click the link to unlock it right away, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/login-registration-settings/) for failed attempts and time blocked.
+If a user has repeated failed logins, the user will be locked temporarily and a **Reset failed logins** link will be shown in the user list. Click the link to unlock it right away, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/login-registration-settings/) for failed attempts and time blocked.
 
 ## Create users
 
-New users can be created and configured by an administrator or by the users themselves (if activated).
+New users can be created and configured by an administrator or by the users themselves (if this option is activated).
 
-### Invite user (as administrator)
+### Invite a user
 
-In the user list, click the **+User** button to open the **New user** form.
+In the user list, click the **+ User** button to open the **New user** form.
 
-![Create a new user in OpenProject](openproject_system_guide_create_user.png)
+The form consists of the following sections:
 
-Enter the email address, first name, and last name of the new user. Tick the box to make them a system administrator user.
+- **Account**
+  - Select the **Administrator** checkbox to grant the user administrator privileges.
+- **User attributes**
+  - This section contains both built-in and custom [user attributes](../user-attributes).
+  - Fill in the required attributes: **First name**, **Last name**, and **Email**.
+    > [!NOTE]
+    > The email address must be in a valid format and be unique. Otherwise, the user cannot be created.
+  - Optionally, fill in any additional user attributes, such as **Language** (English is the default), **Department**, **Job title**, **Key skills**, or **Job start date**.
+- **Authentication**
+  - Select an **Authentication source**. Choose **Internal** or an LDAP source (if configured). If you select an LDAP source, enter the user's **Username**.
 
-Note: the email field must be a valid format and be unique or it will be rejected on clicking the button.
+![New user form in OpenProject administration](openproject_system_guide_create_user.png)
 
-Click the **Create** button to add the user and show that user's details page. Click the **Create and continue** button to add the user and stay on the new user form to add another user. Either way, the new user will be invited via email.
-When adding the last of multiple users you can click on **Create** or click the **Users** link in the menu on the left. The **Users list** will be shown. Click on the name of  each user to [edit their details](#set-initial-details).
+Click **Create** to add the user. After the user has been created, their user details page opens automatically.
 
 ### Create user (via self-registration)
 
@@ -110,36 +150,107 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ### Delete user invitations
 
-To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
-Please note: this only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be revoked.
+To invalidate or revoke a user's invitation, click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
+
+> [!NOTE]
+> This only works for users who haven't logged in yet. If the user is already active, this will delete his/her whole profile and account. Deleting users can't be revoked.
 
 ## Manage user settings
 
-You can manage individual user details if you click on the user name in the list. These settings will overwrite the individual user's settings set in their **Account settings**.
+To manage an individual user's settings, select the user from the **Users** list. The settings configured here override the user's own settings from their **Account settings**, where applicable.
 
-### General settings
+![Settings to manage a user under OpenProject administration](openproject_system_guide_tabs.png)
 
-![administration-user-settings-manage-user](openproject_system_guide_general_tab.png)
+User settings are organized into the following tabs:
 
-On the **General** tab the following fields are shown:
+- [General](#general-settings)
+- [Work schedule](#work-schedule)
+- [Availability calendar](#availability-calendar)
+- [Projects](#add-users-to-a-project)
+- [Groups](#add-users-to-groups)
+- [Global roles](#global-roles)
+- [Notification settings](#notification-settings)
+- [Email reminders](#email-reminders)
+- [Rate history](#rate-history)
+- [Two-factor authentication](#two-factor-authentication-2fa)
 
-1. User's master date
-   - **Status** - this is set by the system.
-   - **Username** - this defaults to the email address for a new user (unless the user used the self registration). It can be changed on this page. Users cannot change their own user name.
-   - **First name**, **Last name**, **Email** - these fields are filled from the **New user** page. Users can change them under their **Profile** page; they are mandatory.
-   - **Language** - this defaults from the [user settings](../settings/#default-preferences). Users can change this on their **Profile** page.
-   - **Administrator** - activate or deactivate this global role. Users cannot change this.
-   - **Custom Fields** - if these have been created they are shown here. Use it for e.g. department or phone number. If not, this is how [custom fields](../../custom-fields/) can be created.
-   - **User consent** - if this has been [configured](../settings/#user-consent) (i.e. if the box next to "Consent required" is ticked) the consent status is shown here.
-3. **Authentication** - the content of this section depends on the type of [authentication method](#authentication) being used (e.g. password, OpenID, Kerberos, etc.)
-4. **Preferences** - users can change these on their **Profile** page. Time zone defaults from chosen language. **Auto-hide success notifications** means that notifications will automatically be removed after some seconds, not that there are no success notifications at all.
-5. Do not forget to **Save** your changes.
+## General settings
+
+The **General** tab is divided into several sections.
+
+![Settings to manage a user under OpenProject administration](openproject_system_guide_general_tab.png)
+
+### Avatar
+
+The **Avatar** section displays the user's current avatar. By default, a generic icon is shown. You can upload a custom avatar image for the user.
+
+If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
+
+> [!TIP]
+> Hover over a user's avatar or name (for example, on the **Members** or **Activity** page) to view additional user information.
+
+### Account
+
+- **Administrator** – Grants or revokes the global administrator role. This setting can only be changed by an administrator.
+
+### User details
+
+- **Username** – For newly created users, the username defaults to the email address unless the account was created through self-registration. Administrators can change the username; users cannot.
+- **First name**, **Last name**, **Email** – These fields are initially set when the user account is created. Users can update them in their **Account settings**. All three fields are required.
+- **Language** – Defaults to the value configured in the [default user settings](../settings/#default-preferences). Users can change their preferred language in their **Account settings**.
+
+### User attributes
+
+Any configured user attributes are displayed in this section. User attributes can be used to store additional information, such as a department, phone number, or qualifications. If no user attributes have been configured yet, see [User attributes](../user-attributes) to learn how to create them. In this example, user attributes are grouped into two sections: Organizational details and Qualifications.
+
+![Example of user attributes under user settings in OpenProject administration](openproject_system_guide_general_tab_user_attributes.png)
+
+### Authentication
+
+The **Authentication** section varies depending on the [authentication method](../../authentication) configured for your OpenProject instance (for example, password authentication, OpenID Connect, LDAP, Kerberos, or SAML).
+
+Available fields depend on the configured authentication provider and may include:
+
+- **Authentication source** – Select the authentication source for the user from the drop-down list.
 
 #### Reset a user's password
 
-To create a new password for a user (e.g. if he/she lost it) navigate to the **Authentication** section of the **General** tab. You can either **Assign a random password** (check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to **Enforce password change on next login**.
+To reset a user's password, navigate to the **Authentication** section on the **General** tab.
 
-![reset-user-password](Authentication.png)
+You can either:
+
+- Select **Assign a random password** to generate a secure password automatically, or
+- Enter a new password manually.
+
+If you set a password manually, share it with the user using a secure communication channel. You can also enable **Enforce password change on next login** to require the user to create a new password when they next sign in.
+
+![Authentication settings under user settings in OpenProject administrations](openproject_system_guide_general_tab_authentication.png)
+
+### Preferences
+
+The **Preferences** section lets administrators configure user preferences. Users can also manage these settings in their **Account settings**, unless they are overridden here.
+
+![Time zone, color mode and keyboard shortcut preferences settings under user settings in OpenProject administrations](openproject_system_guide_general_tab_preferences.png) 
+
+Available settings include:
+
+- **Time zone** – By default, the time zone is determined from the selected language but can be changed.
+- **Color mode** – Choose the preferred appearance. Some color modes override custom theme colors to improve accessibility and readability. Select **Light mode** for full compatibility with custom themes.
+- **Disable keyboard shortcuts** – Disable the default [keyboard shortcuts](../../../user-guide/keyboard-shortcuts-access-keys/?go_to_locale=en). This can be helpful when using a screen reader or to avoid triggering actions accidentally.
+
+Remember to **Save** your changes before leaving the page.
+
+### Work schedule
+
+The **Work schedule** tab allows administrators to view and manage a user's working schedule. You can edit the user's current schedule, plan future schedule changes, and review their schedule history.
+
+The functionality is the same as described in the user documentation for [Schedule and availability](../../../user-guide/account-settings/schedule-and-availability/#work-schedule), except that administrators manage these settings on behalf of the selected user.
+
+### Availability calendar
+
+The **Availability calendar** tab provides a yearly overview of the selected user's availability, including personal time off and company-wide non-working days such as public holidays.
+
+Administrators can view and manage the user's time off directly from this page. The functionality is the same as described in the user documentation for [Schedule and availability](../../../user-guide/account-settings/schedule-and-availability/#availability-calendar).
 
 ### Add users to a project
 
@@ -147,19 +258,20 @@ In order to see and work in a project, a user has to be a member of a project an
 
 On the **Projects** tab, select the new project from the drop-down list, choose the [roles](../roles-permissions) for this project and click the green **Add** button.
 
-![Sysadmin add project](Sys-admin-add-project1.gif)
+![Add users to a project under OpenProject system administration](openproject_system_guide_projects.png)
 
 ### Add users to groups
 
 On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link.
 
-![User groups](system_guide_user_groups.png)
+![User groups in OpenProject administration](system_guide_user_groups.png)
 
 If no groups are shown (i.e. the user does not belong to any group, yet), click the **Manage groups** link to [edit groups](../groups).
 
-![Manage Groups](system_guide_manage_groups.png)
+![Manage groups in OpenProject administration](system_guide_manage_groups.png)
 
-**Please note**: The **Groups** tab is only shown if at least one user group exists in OpenProject.
+> [!NOTE]
+> The **Groups** tab is only shown if at least one user group exists in OpenProject.
 
 ### Global roles
 
@@ -167,7 +279,7 @@ In order to add a global role to a user, at least one global role needs to be [c
 
 On the **Global roles** tab, select or de-select the global role(s) for this user. Click the **Add** button.
 
-![Add global roles](openproject_system_guide_add_global_roles.png)
+![Add global user roles in OpenProject administration](openproject_system_guide_add_global_roles.png)
 
 ### Notification settings
 
@@ -175,19 +287,19 @@ Under **Notification settings** tab you can edit the [notification settings](../
 
 ### Email reminders
 
-Under **Email reminders** tab you can edit the [email reminders settings](../../../user-guide/account-settings/#email-reminders). Each user can adjust these settings under [Account settings](../../../user-guide/account-settings) on their own.
+Under **Email reminders** tab you can edit the [email reminders settings](../../../user-guide/notifications/notification-settings/#email-reminders). Each user can adjust these settings under [Account settings](../../../user-guide/account-settings) on their own.
 
 ### Rate history
 
 The rate history tab shows the hourly rates that have been defined for the user. The **Default rate** is applied to projects with no rate defined. All projects that the user is a member of are listed with the user's rates.
 
-The **Valid from** date will effect the rate used when creating a [budget](../../../user-guide/budgets/) and when [logging time](../../../user-guide/time-and-costs/time-tracking/).
+The **Valid from** date will affect the rate used when creating a [budget](../../../user-guide/budgets/) and when [logging time](../../../user-guide/time-and-costs/time-tracking/).
 
 If you want to set a different hourly rate for the user on different projects, you can overwrite the default rate with a different rate below in the respective projects.
 
 To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
 
-![set-hourly-rate-administration](system_guide_rate_history.png)
+![Set hourly rates for users in OpenProject administration OpenProject administration](system_guide_rate_history.png)
 
 1. Enter a date from which the rate is **Valid from**.
 2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).
@@ -197,42 +309,17 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 
 ![Rate-history-change](system_guide_adjust_rate_history.png)
 
-### Avatar
-
-The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). User can manage this under their [profile settings](../../../user-guide/account-settings/#set-an-avatar). These features can be disabled in the [avatar settings](../avatars).
-
-> [!TIP]
->
-> Hovering over a user's avatar or name, for example on the Members page or the Activity page, will display their information. 
-
 ### Two-factor authentication (2FA)
 
 This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary.
 
-## Authentication
-
-The available authentication methods affect the content of the **Authentication** section in the **General** tab of the user details.
-
-Use the **self-registration** field to give the following controls over a new user's access.
-
-### Manual account activation
-
-The user details Authentication section has fields **Assign random password**, **Password**, **Confirmation** and **Enforce password change**.
-
-* If you are near the new user, you can enter a password and confirmation then tell the user what it is. They can then sign in. It is recommended that you also tick the enforce password change checkbox, so that the user is prompted to change their password after they sign in.
-* You can phone the new user or send them an email, not using OpenProject, to give them the password. In this case it is more important to tick the enforce password change checkbox.
-* Tick the Assign random password, and probably the enforce password change checkbox. When the details are saved OpenProject will send an email to the new user with their password.
-
-### Account activation by email
-
-Leave all fields blank. When the details are saved OpenProject will send an email to the new user with a link inviting the user to OpenProject. They click the link to get the registration page to complete creating their account.
 
 ## Delete users
 
 Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
 
-* **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
-* **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.
+- **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
+- **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.
 
 To delete another user's account open the [user list](#user-list). Click on the **user name** of the user which you want to delete. Click the **Delete** button at the top right.
 
@@ -240,7 +327,7 @@ To delete another user's account open the [user list](#user-list). Click on the 
 
 You will then be asked to confirm the deletion of the user permanently from the system. Checking the consent box will activate the **Delete permanently** button.
 
-![delete user](delete-user-confirmation.png)
+![Delete user in OpenProject administration](delete-user-confirmation.png)
 
 > [!CAUTION]
 > Deleting a user account is a permanent action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**. This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for **Deleted user** inside a Work package. Time and cost reports will contain the entries with reference to **Deleted user**. Labor budgets that have been setup for the user are displayed under **Deleted user**, too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).

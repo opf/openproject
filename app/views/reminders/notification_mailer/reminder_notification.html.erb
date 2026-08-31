@@ -38,7 +38,7 @@
 
       <%= render layout: "mailer/notification_settings_table",
                  locals: {
-                   button_url: my_reminders_url,
+                   button_url: my_notifications_url(tab: "reminders"),
                    button_text: I18n.t(:"mail.notification.settings")
                  } do %>
       <% end %>

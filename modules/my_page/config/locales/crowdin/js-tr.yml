@@ -1,4 +1,5 @@
+---
 tr:
   js:
     my_page:
-      label: "Benim sayfam"
+      label: Benim sayfam

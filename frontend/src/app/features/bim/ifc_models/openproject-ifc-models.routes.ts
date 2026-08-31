@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +34,7 @@ import { WorkPackageNewFullViewComponent } from 'core-app/features/work-packages
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 import { BcfSplitLeftComponent } from 'core-app/features/bim/ifc_models/bcf/split/left/bcf-split-left.component';
 import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-split-right.component';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export const sidemenuId = 'bim_sidemenu';
 
@@ -99,7 +100,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.show',
-    url: '/show/{workPackageId:[0-9]+}',
+    url: `/show/{workPackageId:${WP_ID_URL_PATTERN}}`,
     data: {
       baseRoute: 'bim.partitioned.list',
       partition: '-left-only',

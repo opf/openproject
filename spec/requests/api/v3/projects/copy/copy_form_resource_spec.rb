@@ -244,6 +244,34 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
+  context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+    context "when name is provided but identifier is not" do
+      let(:params) do
+        { name: "My copied project" }
+      end
+
+      it "auto-generates a semantic identifier in the payload" do
+        expect(response.body)
+          .to be_json_eql("MCP".to_json)
+          .at_path("_embedded/payload/identifier")
+      end
+    end
+
+    context "when an invalid identifier is provided" do
+      let(:params) do
+        {
+          name: "My copied project",
+          identifier: "invalid-lowercase"
+        }
+      end
+
+      it "shows an identifier validation error" do
+        expect(response.body)
+          .to have_json_path("_embedded/validationErrors/identifier")
+      end
+    end
+  end
+
   context "without the necessary permission" do
     let(:current_user) do
       create(:user,

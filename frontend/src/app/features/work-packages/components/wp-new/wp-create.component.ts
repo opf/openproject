@@ -21,19 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  Injector,
-  Input,
-  OnInit,
-  ViewChild, OnDestroy,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, Injector, Input, OnInit, ViewChild, OnDestroy, inject } from '@angular/core';
 import {
   StateService,
   Transition,
@@ -53,16 +46,28 @@ import URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalSource } from 'core-app/features/hal/interfaces';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  readonly injector = inject(Injector);
+  protected readonly $state = inject(StateService);
+  protected readonly I18n = inject(I18nService);
+  protected readonly titleService = inject(OpTitleService);
+  protected readonly notificationService = inject(WorkPackageNotificationService);
+  protected readonly states = inject(States);
+  protected readonly wpCreate = inject(WorkPackageCreateService);
+  protected readonly wpViewFocus = inject(WorkPackageViewFocusService);
+  protected readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  protected readonly pathHelper = inject(PathHelperService);
+  protected readonly apiV3Service = inject(ApiV3Service);
+  protected readonly currentProjectService = inject(CurrentProjectService);
+  protected readonly cdRef = inject(ChangeDetectorRef);
+
   public successState:string = splitViewRoute(this.$state);
 
   public cancelState:string = this.$state?.current?.data?.baseRoute;
@@ -89,24 +94,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   /** Explicitly remember destroy state in this abstract base */
   protected destroyed = false;
 
-  constructor(
-    public readonly injector:Injector,
-    protected readonly $state:StateService,
-    protected readonly I18n:I18nService,
-    protected readonly titleService:OpTitleService,
-    protected readonly notificationService:WorkPackageNotificationService,
-    protected readonly states:States,
-    protected readonly wpCreate:WorkPackageCreateService,
-    protected readonly wpViewFocus:WorkPackageViewFocusService,
-    protected readonly wpTableFilters:WorkPackageViewFiltersService,
-    protected readonly pathHelper:PathHelperService,
-    protected readonly apiV3Service:ApiV3Service,
-    protected readonly currentProjectService:CurrentProjectService,
-    protected readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
-
   public ngOnInit() {
     // In case the create form is still routed via Angular, the stateParams are empty. We then read the params from the Transition
     if (this.routedFromAngular) {
@@ -131,14 +118,14 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     this.editForm?.cancel(false);
 
     if(this.routedFromAngular && this.successState) {
-      this.$state.go(this.successState, { workPackageId: savedResource.id })
+      this.$state.go(this.successState, { workPackageId: savedResource.displayId })
         .then(() => {
           this.wpViewFocus.updateFocus(savedResource.id!);
           this.notificationService.showSave(savedResource, isInitial);
         });
     } else {
       window.OpenProject.pageState = 'submitted';
-      Turbo.visit(this.pathHelper.projectWorkPackagePath(savedResource.project.identifier, savedResource.id!) + window.location.search);
+      Turbo.visit(this.pathHelper.projectWorkPackagePath(savedResource.project.identifier, savedResource.displayId) + window.location.search);
     }
 
   }

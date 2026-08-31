@@ -39,7 +39,7 @@ RSpec.describe Group do
   let(:project) { create(:project_with_types) }
   let(:status) { create(:status) }
   let(:package) do
-    build(:work_package, type: project.types.first,
+    build(:work_package, type: project.enabled_types.first,
                          author: user,
                          project:,
                          status:)
@@ -78,16 +78,17 @@ RSpec.describe Group do
       context "if it does not exist" do
         it "does not create a group user" do
           count = group.group_users.count
-          gu = group.group_users.create user_id: User.maximum(:id).to_i + 1
+          gu = group.group_users.create(user_id: User.maximum(:id).to_i + 1)
 
           expect(gu).not_to be_valid
+          expect(gu).not_to be_persisted
           expect(group.group_users.count).to eq count
         end
       end
 
       it "updates the timestamp" do
         updated_at = group.updated_at
-        group.group_users.create(user:)
+        group.group_users.create!(user:)
 
         expect(updated_at < group.reload.updated_at)
           .to be_truthy
@@ -96,7 +97,7 @@ RSpec.describe Group do
 
     context "when removing a user" do
       it "updates the timestamp" do
-        group.group_users.create(user:)
+        group.group_users.create!(user:)
         updated_at = group.reload.updated_at
 
         group.group_users.destroy_all
@@ -149,12 +150,12 @@ RSpec.describe Group do
 
     before do
       # Add user1 to group1 and group2
-      group1.group_users.create(user: user1)
-      group2.group_users.create(user: user1)
+      group1.group_users.create!(user: user1)
+      group2.group_users.create!(user: user1)
 
       # Add user2 to group2 and group3
-      group2.group_users.create(user: user2)
-      group3.group_users.create(user: user2)
+      group2.group_users.create!(user: user2)
+      group3.group_users.create!(user: user2)
     end
 
     it "returns groups that contain the given user" do
@@ -185,11 +186,11 @@ RSpec.describe Group do
 
       before do
         # target_user is in both groups
-        shared_group.group_users.create(user: target_user)
-        other_group.group_users.create(user: target_user)
+        shared_group.group_users.create!(user: target_user)
+        other_group.group_users.create!(user: target_user)
 
         # viewer is only in shared_group
-        shared_group.group_users.create(user: viewer)
+        shared_group.group_users.create!(user: viewer)
       end
 
       it "returns only the groups the viewer can see from the user's groups" do
@@ -203,11 +204,210 @@ RSpec.describe Group do
     end
   end
 
+  describe "hierarchy" do
+    # Build a tree: grandparent -> parent -> child -> grandchild
+    let!(:grandparent) { create(:group) }
+    let!(:parent_group) { create(:group, parent_id: grandparent.id) }
+    let!(:child) { create(:group, parent_id: parent_group.id) }
+    let!(:grandchild) { create(:group, parent_id: child.id) }
+    let!(:unrelated) { create(:group) }
+
+    describe "#destroy" do
+      it "nullifies the parent of its children instead of failing on the foreign key" do
+        expect { parent_group.destroy }.not_to raise_error
+
+        expect(described_class.exists?(parent_group.id)).to be(false)
+        expect(child.reload.parent_id).to be_nil
+      end
+    end
+
+    describe "#children" do
+      it "returns direct children only" do
+        expect(grandparent.children).to contain_exactly(parent_group)
+        expect(parent_group.children).to contain_exactly(child)
+      end
+
+      it "returns empty for a leaf group" do
+        expect(grandchild.children).to be_empty
+      end
+    end
+
+    describe "#descendants" do
+      it "returns all groups below in the tree" do
+        expect(grandparent.descendants).to contain_exactly(parent_group, child, grandchild)
+      end
+
+      it "returns direct child and its subtree" do
+        expect(parent_group.descendants).to contain_exactly(child, grandchild)
+      end
+
+      it "returns empty for a leaf group" do
+        expect(grandchild.descendants).to be_empty
+      end
+
+      it "does not include unrelated groups" do
+        expect(grandparent.descendants).not_to include(unrelated)
+      end
+    end
+
+    describe "#self_and_descendants" do
+      it "includes self and all descendants" do
+        expect(grandparent.self_and_descendants).to contain_exactly(grandparent, parent_group, child, grandchild)
+      end
+    end
+
+    describe "#ancestors" do
+      it "returns all groups above in the tree" do
+        expect(grandchild.ancestors).to contain_exactly(child, parent_group, grandparent)
+      end
+
+      it "returns empty for a root group" do
+        expect(grandparent.ancestors).to be_empty
+      end
+
+      it "returns ancestors in root-first order with order: :asc" do
+        expect(grandchild.ancestors(order: :asc).to_a).to eq([grandparent, parent_group, child])
+      end
+
+      it "returns ancestors in closest-first order with order: :desc" do
+        expect(grandchild.ancestors(order: :desc).to_a).to eq([child, parent_group, grandparent])
+      end
+    end
+
+    describe "#self_and_ancestors" do
+      it "includes self and all ancestors" do
+        expect(grandchild.self_and_ancestors).to contain_exactly(grandchild, child, parent_group, grandparent)
+      end
+    end
+
+    describe "#root" do
+      it "returns the topmost ancestor" do
+        expect(grandchild.root).to eq(grandparent)
+        expect(child.root).to eq(grandparent)
+      end
+
+      it "returns self when already the root" do
+        expect(grandparent.root).to eq(grandparent)
+      end
+    end
+
+    describe "#root?" do
+      it "is true when there is no parent" do
+        expect(grandparent).to be_root
+      end
+
+      it "is false when there is a parent" do
+        expect(child).not_to be_root
+      end
+    end
+
+    describe ".in_tree_order" do
+      it "returns groups in depth-first order, alphabetical within each level" do
+        result = described_class.in_tree_order
+
+        grandparent_idx = result.index(grandparent)
+        parent_idx = result.index(parent_group)
+        child_idx = result.index(child)
+        grandchild_idx = result.index(grandchild)
+
+        expect(grandparent_idx).to be < parent_idx
+        expect(parent_idx).to be < child_idx
+        expect(child_idx).to be < grandchild_idx
+      end
+
+      it "sets hierarchy_depth on each group" do
+        result = described_class.in_tree_order
+        depths = result.to_h { |g| [g.id, g.hierarchy_depth] }
+
+        expect(depths[grandparent.id]).to eq(0)
+        expect(depths[parent_group.id]).to eq(1)
+        expect(depths[child.id]).to eq(2)
+        expect(depths[grandchild.id]).to eq(3)
+        expect(depths[unrelated.id]).to eq(0)
+      end
+
+      it "includes all groups" do
+        result = described_class.in_tree_order
+        expect(result).to contain_exactly(grandparent, parent_group, child, grandchild, unrelated)
+      end
+
+      it "sorts siblings alphabetically" do
+        sibling_a = create(:group, lastname: "AAA Sibling", parent_id: grandparent.id)
+        sibling_z = create(:group, lastname: "ZZZ Sibling", parent_id: grandparent.id)
+
+        result = described_class.in_tree_order
+        sibling_a_idx = result.index(sibling_a)
+        sibling_z_idx = result.index(sibling_z)
+
+        expect(sibling_a_idx).to be < sibling_z_idx
+      end
+    end
+
+    describe "circular dependency prevention" do
+      it "is invalid when assigning self as parent" do
+        grandparent.parent_id = grandparent.id
+        expect(grandparent).not_to be_valid
+        expect(grandparent.errors[:parent_id]).to be_present
+      end
+
+      it "is invalid when assigning a direct child as parent" do
+        grandparent.parent_id = parent_group.id
+        expect(grandparent).not_to be_valid
+        expect(grandparent.errors[:parent_id]).to be_present
+      end
+
+      it "is invalid when assigning a distant descendant as parent" do
+        grandparent.parent_id = grandchild.id
+        expect(grandparent).not_to be_valid
+        expect(grandparent.errors[:parent_id]).to be_present
+      end
+
+      it "is valid when assigning an unrelated group as parent" do
+        grandchild.parent_id = unrelated.id
+        expect(grandchild).to be_valid
+      end
+
+      it "is valid when clearing the parent" do
+        child.parent_id = nil
+        expect(child).to be_valid
+      end
+    end
+
+    describe "organizational unit mismatch prevention" do
+      let(:department) { create(:department) }
+      let(:regular_group) { create(:group) }
+
+      it "is invalid when assigning organizational unit as parent to regular group" do
+        regular_group.parent_id = department.id
+        expect(regular_group).not_to be_valid
+        expect(regular_group.errors[:parent_id]).to be_present
+      end
+
+      it "is invalid when assigning regular group as parent to organizational unit" do
+        department.parent_id = regular_group.id
+        expect(department).not_to be_valid
+        expect(department.errors[:parent_id]).to be_present
+      end
+
+      it "is valid when both are organizational units" do
+        child_department = create(:department)
+        child_department.parent_id = department.id
+        expect(child_department).to be_valid
+      end
+
+      it "is valid when both are regular groups" do
+        child_group = create(:group)
+        child_group.parent_id = regular_group.id
+        expect(child_group).to be_valid
+      end
+    end
+  end
+
   it_behaves_like "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: false, comments: false do
     let!(:model_instance) { group }
     let!(:new_model_instance) { new_group }
     let!(:custom_field) { create(:group_custom_field, :string, is_required: false) }

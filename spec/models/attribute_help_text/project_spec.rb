@@ -94,6 +94,24 @@ RSpec.describe AttributeHelpText::Project do
     end
   end
 
+  describe ".cached" do
+    let(:user) { create(:user) }
+    let!(:project_help_text) { create(:project_help_text, attribute_name: "status") }
+    let!(:wp_help_text) { create(:work_package_help_text, attribute_name: "status") }
+
+    subject { described_class.cached(user) }
+
+    it "returns only Project help texts, not WorkPackage help texts with the same attribute name" do
+      expect(subject["status"]).to eq(project_help_text)
+      expect(subject["status"]).not_to eq(wp_help_text)
+      expect(subject["status"]).to be_a(described_class)
+    end
+
+    it "does not include help texts of other types" do
+      expect(subject.values).to all(be_a(described_class))
+    end
+  end
+
   describe "validations" do
     subject { build(:project_help_text) }
 

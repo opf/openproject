@@ -1,17 +1,20 @@
+# frozen_string_literal: true
+
 module ::Boards
   class BoardsController < BaseController
     include Layout
+    include WorkPackages::WithSplitView
 
     before_action :load_and_authorize_in_optional_project
     before_action :find_board_for_deletion, only: %i[destroy]
+    before_action :find_board, only: %i[show split_view]
 
     # The boards permission alone does not suffice
     # to view work packages
-    before_action :authorize_work_package_permission, only: %i[show]
+    before_action :authorize_work_package_permission, only: %i[show split_view]
 
     before_action :build_board_grid, only: %i[new]
     before_action :load_query, only: %i[index]
-    before_action :ensure_board_type_not_restricted, only: %i[create]
 
     menu_item :boards
 
@@ -20,7 +23,19 @@ module ::Boards
     end
 
     def show
-      render layout: "angular/angular"
+      render
+    end
+
+    def split_view
+      respond_to do |format|
+        format.html do
+          if turbo_frame_request?
+            render "work_packages/split_view", layout: false
+          else
+            render :show
+          end
+        end
+      end
     end
 
     def new; end
@@ -48,12 +63,16 @@ module ::Boards
           render json: { redirect_url: project_work_package_boards_path(@project) }
         end
         format.html do
-          redirect_to action: "index", project_id: @project
+          redirect_to action: "index", project_id: @project, status: :see_other
         end
       end
     end
 
     private
+
+    def split_view_base_route
+      project_work_package_board_path(@project, params[:id], request.query_parameters)
+    end
 
     def load_query
       projects = @project || Project.allowed_to(User.current, :show_board_views)
@@ -61,6 +80,10 @@ module ::Boards
       @board_grids = Boards::Grid.includes(:project)
                                  .references(:project)
                                  .where(project: projects)
+    end
+
+    def find_board
+      @board_grid = Boards::Grid.find_by!(id: params[:id], project: @project)
     end
 
     def find_board_for_deletion
@@ -85,14 +108,6 @@ module ::Boards
       @board_grid = Boards::Grid.new
     end
 
-    def ensure_board_type_not_restricted
-      render_403 if restricted_board_type?
-    end
-
-    def restricted_board_type?
-      !EnterpriseToken.allows_to?(:board_view) && board_grid_params[:attribute] != "basic"
-    end
-
     def service_call
       service_class.new(user: User.current)
                    .call(
@@ -114,7 +129,7 @@ module ::Boards
     end
 
     def board_grid_params
-      params.require(:boards_grid).permit(%i[name attribute])
+      params.expect(boards_grid: %i[name attribute])
     end
   end
 end

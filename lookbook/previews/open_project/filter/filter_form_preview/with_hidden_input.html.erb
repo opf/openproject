@@ -1,0 +1,48 @@
+<%# `hidden_input_name:` emits a hidden field that the Stimulus controller %>
+<%# keeps in sync with the serialized filter selections. A normal form %>
+<%# submit then carries the canonical filter string in `params[:filters]` %>
+<%# — no `sendForm` redirect needed. %>
+<%# `output_format:` toggles between JSON (one entry per filter, easier to %>
+<%# parse server-side) and the URL-style `params` string. Flip the param %>
+<%# in the Lookbook sidebar and see the hidden value re-serialise live. %>
+<div id="filter-form-preview-hidden">
+  <%= primer_form_with(url: "/foo", method: :post) do |f| %>
+    <%=
+      render(
+        Filters::FilterFormComponent.new(
+          builder: f,
+          query: query,
+          wrap_with_controller: true,
+          hidden_input_name: "filters",
+          output_format: output_format
+        )
+      )
+    %>
+  <% end %>
+
+  <%# Lookbook-only: show what the Stimulus controller is writing into the %>
+  <%# hidden field. In a real form there's nothing to display — the value %>
+  <%# rides along with the form submit. %>
+  <div class="mt-3">
+    <div class="f6 color-fg-muted mb-1">Hidden field value (live):</div>
+    <pre class="p-2 color-bg-subtle border rounded-2 f6"
+         style="white-space: pre-wrap; word-break: break-all;"
+         id="filter-form-preview-hidden-display">(empty)</pre>
+  </div>
+  <script>
+    (function() {
+      var root = document.getElementById("filter-form-preview-hidden");
+      var input = root.querySelector('input[type="hidden"][name="filters"]');
+      var display = document.getElementById("filter-form-preview-hidden-display");
+      var last;
+      // The controller writes to .value directly, which does not fire input
+      // or change events — poll instead. Cheap and local to this preview.
+      setInterval(function() {
+        var v = input.value;
+        if (v === last) return;
+        last = v;
+        display.textContent = v === "" ? "(empty)" : v;
+      }, 150);
+    })();
+  </script>
+</div>

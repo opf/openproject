@@ -164,6 +164,10 @@ RSpec.describe DocumentsController do
       expect(response).to be_successful
       expect(response).to render_template("show")
     end
+
+    it "does not opt out of Turbo snapshot caching" do
+      expect(response.body).not_to include('name="turbo-cache-control"')
+    end
   end
 
   describe "destroy" do
@@ -183,8 +187,9 @@ RSpec.describe DocumentsController do
   end
 
   describe "setup_collaboration_context",
-           with_config: {
-             collaborative_editing_hocuspocus_url: "wss://hocuspocus.local",
+           with_settings: {
+             real_time_text_collaboration_enabled: true,
+             collaborative_editing_hocuspocus_url: "wss://hocuspocus.example.com",
              collaborative_editing_hocuspocus_secret: "secret1234"
            } do
     let(:user_with_manage) { create(:user, member_with_permissions: { project => %i[view_documents manage_documents] }) }
@@ -201,6 +206,11 @@ RSpec.describe DocumentsController do
         get :show, params: { id: document.id }
         expect(assigns(:token_payload)).to be_present
       end
+
+      it "opts the collaborative editor page out of Turbo snapshot caching" do
+        get :show, params: { id: document.id }
+        expect(response.body).to include('<meta name="turbo-cache-control" content="no-cache">')
+      end
     end
 
     context "when user does not have manage_documents permission" do
@@ -210,6 +220,22 @@ RSpec.describe DocumentsController do
         get :show, params: { id: document.id }
         expect(assigns(:token_payload)).to be_present
       end
+    end
+  end
+
+  describe "#search", with_settings: { per_page_options: "1 5 10" } do
+    let!(:document2) { create(:document, title: "Second Document", project:, type: document_type) }
+
+    it "returns a turbo_stream response" do
+      get :search, params: { project_id: project.identifier, per_page: 1 }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "renders pagination links that target the index action, not the search action" do
+      get :search, params: { project_id: project.identifier, per_page: 1 }, format: :turbo_stream
+
+      expect(response.body).not_to include("#{search_project_documents_path(project)}?")
     end
   end
 

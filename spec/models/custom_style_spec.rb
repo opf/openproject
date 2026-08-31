@@ -35,16 +35,23 @@ RSpec.describe CustomStyle do
 
       let!(:file_path) { custom_style.send(image).file.path }
 
-      before do
-        custom_style.send :"remove_#{image}"
-      end
+      subject { custom_style.send :"remove_#{image}!" }
 
       it "deletes the file" do
+        subject
+
         expect(File.exist?(file_path)).to be false
       end
 
       it "clears the file mount column" do
+        subject
+
         expect(custom_style.reload.send(image).file).to be_nil
+      end
+
+      it "updates the model" do
+        expect { subject }
+          .to change(custom_style, :updated_at)
       end
     end
 

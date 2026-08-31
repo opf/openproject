@@ -1,4 +1,5 @@
+---
 vi:
   js:
     my_page:
-      label: "Trang của tôi"
+      label: Trang của tôi

@@ -212,6 +212,17 @@ module OpenProject
         self["lookbook_enabled"]
       end
 
+      def ssrf_protection_ip_allowlist
+        @ssrf_protection_ip_allowlist ||= self["ssrf_protection_ip_allowlist"]
+          .split(/[\s,]+/)
+          .map(&:strip)
+          .map do |addr|
+            IPAddr.new(addr)
+          rescue IPAddr::InvalidAddressError => e
+            raise IPAddr::InvalidAddressError, "#{e.message} #{addr.inspect}"
+          end
+      end
+
       private
 
       ##

@@ -167,7 +167,7 @@ RSpec.describe "Admin lists project mappings for a storage",
 
       aggregate_failures "pagination links maintain the correct url" do
         within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
+          pagination_links = page.all("a.Page")
           expect(pagination_links.size).to be_positive
 
           pagination_links.each do |pagination_link|
@@ -183,7 +183,7 @@ RSpec.describe "Admin lists project mappings for a storage",
 
       within_test_selector("op-storages--destroy-confirm-dialog") do
         expect(page).to have_text("Delete file storage")
-        expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed")
+        expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed.")
         expect(page).to have_button("Delete permanently", disabled: true)
       end
     end
@@ -323,7 +323,9 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           within("dialog") do
             choose "Existing folder with manually managed permissions"
-            wait_for { page }.to have_button("Nextcloud login")
+            # The login button is an Angular custom element whose label is set asynchronously
+            # in ngOnInit(). On slow CI, bootstrapping can take longer than the default wait.
+            expect(page).to have_button("Nextcloud login", wait: 20)
             click_on("Nextcloud login")
             wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
@@ -397,7 +399,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         page.within("dialog") do
           expect(page).to have_button("Remove", disabled: true)
           Retryable.repeat_until_success do
-            check "I understand that this removal cannot be reversed", allow_label_click: true
+            check "I understand that this removal cannot be reversed.", allow_label_click: true
             expect(page).to have_button("Remove", disabled: false) # ensure button is clickable
             click_on "Remove permanently"
           end

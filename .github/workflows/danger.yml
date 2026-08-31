@@ -4,21 +4,25 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore:
-      - 'docs/**'
-      - 'help/**'
-      - 'packaging/**'
-      - '.pkgr.yml'
+      - "docs/**"
+      - "help/**"
+      - "packaging/**"
+      - ".pkgr.yml"
 
 jobs:
   danger:
     if: github.repository_owner == 'opf'
     runs-on: [ubuntu-latest]
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: ruby/setup-ruby@v1
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true

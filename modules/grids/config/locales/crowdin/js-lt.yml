@@ -1,59 +1,74 @@
+---
 lt:
   js:
     grid:
-      add_widget: 'Pridėti valdiklį'
-      remove: 'Išimti valdiklį'
-      configure: 'Valdiklio nustatymai'
+      add_widget: Pridėti valdiklį
+      configure: Valdiklio nustatymai
+      remove: Išimti valdiklį
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: "Jūs neturite teisų šio valdiklio peržiūrai."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Pritaikytas tekstas'
+          title: Pritaikytas tekstas
         documents:
-          title: 'Dokumentai'
-          no_results: 'Dar nėra dokumentų.'
+          no_results: Dar nėra dokumentų.
+          title: Dokumentai
         members:
-          title: 'Nariai'
+          title: Nariai
+        missing_permission: Jūs neturite teisų šio valdiklio peržiūrai.
         news:
-          title: 'Naujienos'
+          title: Naujienos
+        not_available: This widget is currently unavailable.
         project_description:
-          title: 'Description'
-          no_results: "Dar neįrašytas aprašymas. Jį galima nurodyti „Projekto nustatymuose“."
-        project_status:
-          title: 'Status'
-          not_started: 'Nepradėta'
-          on_track: 'Teisingame kelyje'
-          off_track: 'Pasiklydęs'
-          at_risk: 'Rizikingas'
-          not_set: 'Nenustatyta'
-          finished: 'Baigta'
-          discontinued: 'Nutrauktas'
-        subprojects:
-          title: 'Subitems'
+          title: Description
         project_favorites:
-          title: 'Mėgstami projektai'
-          no_results: 'Jūs šiuo metu neturite mėgiamų projektų. Spauskite žvaigždutės piktogramą projekto skydelyje, kad pridėtumėte prie jūsų mėgstamų.'
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Mėgstami projektai
+        project_status:
+          at_risk: Rizikingas
+          discontinued: Nutrauktas
+          finished: Baigta
+          not_set: Nenustatyta
+          not_started: Nepradėta
+          off_track: Pasiklydęs
+          on_track: Teisingame kelyje
+          title: Status
+        project_timeline:
+          accessible_date_range: "%{start} to %{end}"
+          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Phase %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Phase gate
+          tooltip_type_milestone: Milestone
+          tooltip_type_phase: Phase
+          tooltip_type_sprint: Sprint
+        subprojects:
+          title: Subitems
         time_entries_current_user:
-          title: 'Mano sugaištas laikas'
           displayed_days: 'Valdiklyje rodomos dienos:'
+          title: Mano sugaištas laikas
         time_entries_list:
-          title: 'Sugaišta laiko (per paskutines 7 dienas)'
-          no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
+          no_results: Nėra laiko įrašų per paskutines 7 dienas.
+          title: Sugaišta laiko (per paskutines 7 dienas)
         work_packages_accountable:
-          title: "Darbo paketai, už kuriuos aš atsakingas"
+          title: Darbo paketai, už kuriuos aš atsakingas
         work_packages_assigned:
-          title: 'Man priskirti darbų paketai'
-        work_packages_created:
-          title: 'Mano sukurti darbo paketai'
-        work_packages_watched:
-          title: 'Mano stebimi darbo paketai'
-        work_packages_table:
-          title: 'Darbo paketų lentelė'
-        work_packages_graph:
-          title: 'Darbo paketų grafas'
-          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Man priskirti darbų paketai
         work_packages_calendar:
-          title: 'Kalendorius'
+          title: Kalendorius
+        work_packages_created:
+          title: Mano sukurti darbo paketai
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Darbo paketų grafas
         work_packages_overview:
-          title: 'Darbo paketų apžvalga'
-          placeholder: 'Spauskite keitimui...'
+          placeholder: Spauskite keitimui...
+          title: Darbo paketų apžvalga
+        work_packages_table:
+          title: Darbo paketų lentelė
+        work_packages_watched:
+          title: Mano stebimi darbo paketai

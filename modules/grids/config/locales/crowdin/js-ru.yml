@@ -1,59 +1,74 @@
+---
 ru:
   js:
     grid:
-      add_widget: 'Добавить виджет'
-      remove: 'Удалить виджет'
-      configure: 'Настроить виджет'
+      add_widget: Добавить виджет
+      configure: Настроить виджет
+      remove: Удалить виджет
+      widget_menu_label: Показать настройки меню для виджета %{widgetName}
       widgets:
-        missing_permission: "У вас нет необходимых прав для просмотра этого виджета."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Пользовательский текст'
+          title: Пользовательский текст
         documents:
-          title: 'Документы'
-          no_results: 'Документов пока нет.'
+          no_results: Документов пока нет.
+          title: Документы
         members:
-          title: 'Участники'
+          title: Участники
+        missing_permission: У вас нет необходимых прав для просмотра этого виджета.
         news:
-          title: 'Новости'
+          title: Новости
+        not_available: В настоящее время этот виджет недоступен.
         project_description:
-          title: 'Описание'
-          no_results: "Описания еще нет. Его можно добавить в настройках проекта."
-        project_status:
-          title: 'Статус'
-          not_started: 'Не начат'
-          on_track: 'По плану'
-          off_track: 'Приостановлен'
-          at_risk: 'Под угрозой'
-          not_set: 'Не задано'
-          finished: 'Завершен'
-          discontinued: 'Прекращен'
-        subprojects:
-          title: 'Подпроекты'
+          title: Описание
         project_favorites:
-          title: 'Избранные проекты'
-          no_results: 'В настоящее время у вас нет избранных проектов. Нажмите на значок звезды в панели управления проекта, чтобы добавить его в избранное.'
+          no_results: В настоящее время у вас нет избранных проектов. Добавьте один или несколько проектов в избранное через страницу обзора проекта или в списке проектов.
+          title: Избранные проекты
+        project_status:
+          at_risk: Под угрозой
+          discontinued: Прекращен
+          finished: Завершен
+          not_set: Не задано
+          not_started: Не начат
+          off_track: Приостановлен
+          on_track: По плану
+          title: Статус
+        project_timeline:
+          accessible_date_range: "%{start} до %{end}"
+          accessible_gate: 'Контрольная точка фазы %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Фаза %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Контрольная точка фазы
+          tooltip_type_milestone: Веха
+          tooltip_type_phase: Фаза
+          tooltip_type_sprint: Спринт
+        subprojects:
+          title: Подпроекты
         time_entries_current_user:
-          title: 'Затраченное мной время'
           displayed_days: 'Дни, отображаемые в виджете:'
+          title: Затраченное мной время
         time_entries_list:
-          title: 'Затраченное время (за последние 7 дней)'
-          no_results: 'Нет записей о входах за последние 7 дней.'
+          no_results: Нет записей о входах за последние 7 дней.
+          title: Затраченное время (за последние 7 дней)
         work_packages_accountable:
-          title: "Пакеты работ, в которых я подотчетен"
+          title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
-          title: 'Пакеты работ, назначенные мне'
-        work_packages_created:
-          title: 'Пакеты работ, созданные мной'
-        work_packages_watched:
-          title: 'Пакеты работ, за которыми я наблюдаю'
-        work_packages_table:
-          title: 'Таблица пакетов работ'
-        work_packages_graph:
-          title: 'Диаграмма по пакетам работ'
-          summary: "%{chartType} диаграмма показывает пакеты работ, которые %{description}."
+          title: Пакеты работ, назначенные мне
         work_packages_calendar:
-          title: 'Календарь'
+          title: Календарь
+        work_packages_created:
+          title: Пакеты работ, созданные мной
+        work_packages_graph:
+          summary: "%{chartType} диаграмма показывает пакеты работ, которые %{description}."
+          title: Диаграмма по пакетам работ
         work_packages_overview:
-          title: 'Обзор пакетов работ'
-          placeholder: 'Щелкнуть для изменения ...'
+          placeholder: Щелкнуть для изменения ...
+          title: Обзор пакетов работ
+        work_packages_table:
+          title: Таблица пакетов работ
+        work_packages_watched:
+          title: Пакеты работ, за которыми я наблюдаю

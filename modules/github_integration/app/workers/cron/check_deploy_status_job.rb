@@ -157,7 +157,7 @@ module Cron
     end
 
     def introspection_request(host, api_token)
-      OpenProject.httpx.basic_auth("apikey", api_token).get("https://#{host}/api/v3")
+      OpenProject.httpx.plugin(:basic_auth).basic_auth("apikey", api_token).get("https://#{host}/api/v3")
     end
 
     ##
@@ -188,7 +188,7 @@ module Cron
       ahead_by = data["ahead_by"].presence
       behind_by = data["behind_by"].presence
 
-      status == "behind" && ahead_by == 0 && (behind_by.present? && behind_by > 0)
+      status == "behind" && ahead_by == 0 && behind_by.present? && behind_by > 0
     end
 
     def compare_commits(sha_a, sha_b)

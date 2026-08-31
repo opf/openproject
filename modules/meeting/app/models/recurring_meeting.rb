@@ -33,6 +33,15 @@ class RecurringMeeting < ApplicationRecord
   MAX_ITERATIONS = 1000
   # Magical maximum of interval, derived from other calendars
   MAX_INTERVAL = 100
+  MONTHLY_ORDINALS = [1, 2, 3, 4, -1].freeze
+  MONTHLY_WEEKDAYS = %w[sunday monday tuesday wednesday thursday friday saturday].freeze
+  MONTHLY_ORDINAL_LABELS = {
+    1 => "first",
+    2 => "second",
+    3 => "third",
+    4 => "fourth",
+    -1 => "last"
+  }.freeze
   include ::Meeting::VirtualStartTime
   include ::Meeting::MeetingUid
   include Redmine::I18n
@@ -52,6 +61,18 @@ class RecurringMeeting < ApplicationRecord
                             greater_than_or_equal_to: 1,
                             less_than_or_equal_to: MAX_INTERVAL,
                             if: -> { !frequency_working_days? } }
+  validates :monthly_day,
+            presence: true,
+            numericality: { only_integer: true,
+                            greater_than_or_equal_to: 1,
+                            less_than_or_equal_to: 31 },
+            if: -> { frequency_monthly_day_of_month? }
+  validates :monthly_ordinal,
+            inclusion: { in: MONTHLY_ORDINALS },
+            if: -> { frequency_monthly_nth_weekday? }
+  validates :monthly_weekday,
+            inclusion: { in: MONTHLY_WEEKDAYS },
+            if: -> { frequency_monthly_nth_weekday? }
 
   validate :end_date_constraints,
            if: -> { end_after_specific_date? }
@@ -68,7 +89,9 @@ class RecurringMeeting < ApplicationRecord
        {
          daily: 0,
          working_days: 1,
-         weekly: 2
+         weekly: 2,
+         monthly_day_of_month: 3,
+         monthly_nth_weekday: 4
        },
        prefix: true,
        default: "weekly"
@@ -85,10 +108,6 @@ class RecurringMeeting < ApplicationRecord
   has_many :meetings,
            inverse_of: :recurring_meeting,
            dependent: :destroy
-
-  has_many :scheduled_meetings,
-           inverse_of: :recurring_meeting,
-           dependent: :delete_all
 
   has_one :template, -> { where(template: true) },
           class_name: "Meeting"
@@ -134,9 +153,22 @@ class RecurringMeeting < ApplicationRecord
     case frequency
     when "working_days"
       I18n.t("recurring_meeting.frequency.working_days")
+    when "monthly_day_of_month", "monthly_nth_weekday"
+      I18n.t("recurring_meeting.frequency.x_monthly", count: interval)
     else
       I18n.t("recurring_meeting.frequency.x_#{frequency}", count: interval)
     end
+  end
+
+  def monthly_ordinal_label
+    key = MONTHLY_ORDINAL_LABELS[monthly_ordinal]
+    return I18n.t(:label_empty_element) unless key
+
+    I18n.t("recurring_meeting.monthly.inflected_ordinal.#{key}")
+  end
+
+  def monthly_weekday_label
+    I18n.t("date.day_names")[Date::DAYNAMES.index(monthly_weekday.to_s.capitalize)]
   end
 
   def human_day_of_week
@@ -150,7 +182,7 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def date
-    start_time.day.ordinalize
+    ordinalize(start_time.day)
   end
 
   def start_time
@@ -158,7 +190,7 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def current_schedule_end
-    start_time + template.duration.hours
+    current_schedule_start + template.duration.hours
   end
 
   def time_zone_differs?
@@ -186,7 +218,7 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
-  def base_schedule
+  def base_schedule # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     case frequency
     when "daily"
       if interval == 1
@@ -201,6 +233,23 @@ class RecurringMeeting < ApplicationRecord
         I18n.t("recurring_meeting.in_words.weekly", weekday:)
       else
         I18n.t("recurring_meeting.in_words.weekly_interval", interval:, weekday:)
+      end
+    when "monthly_day_of_month"
+      if interval == 1
+        I18n.t("recurring_meeting.in_words.monthly_day", day: ordinalize(monthly_day))
+      else
+        I18n.t("recurring_meeting.in_words.monthly_day_interval", interval:, day: ordinalize(monthly_day))
+      end
+    when "monthly_nth_weekday"
+      if interval == 1
+        I18n.t("recurring_meeting.in_words.monthly_nth_weekday",
+               ordinal: monthly_ordinal_label,
+               weekday: monthly_weekday_label)
+      else
+        I18n.t("recurring_meeting.in_words.monthly_nth_weekday_interval",
+               interval:,
+               ordinal: monthly_ordinal_label,
+               weekday: monthly_weekday_label)
       end
     end
   end
@@ -232,10 +281,20 @@ class RecurringMeeting < ApplicationRecord
            time:)
   end
 
+  # Attributes that affect the recurrence schedule itself (not template-only fields like location).
+  SCHEDULE_ATTRIBUTES = %w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time
+                           start_time_hour iterations interval end_after end_date].freeze
+
   def reschedule_required?(previous: false)
     (previous ? previous_changes : changes)
       .keys
-      .intersect?(%w[frequency start_date start_time start_time_hour iterations interval end_after end_date location])
+      .intersect?(SCHEDULE_ATTRIBUTES + %w[location])
+  end
+
+  def schedule_changed?(previous: false)
+    (previous ? previous_changes : changes)
+      .keys
+      .intersect?(SCHEDULE_ATTRIBUTES)
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)
@@ -256,16 +315,20 @@ class RecurringMeeting < ApplicationRecord
     schedule.next_occurrence(from_time)&.to_time
   end
 
-  def first_non_cancelled_occurrence(from_time: Time.current)
-    skipped = []
+  def first_available_occurrence(from_time: Time.current)
+    skipped_cancelled = []
+    skipped_closed = []
     time = from_time
 
     while (occurrence = next_occurrence(from_time: time))
-      if scheduled_meetings.cancelled.exists?(start_time: occurrence)
-        skipped << occurrence
+      if meetings.not_templated.cancelled.exists?(recurrence_start_time: occurrence)
+        skipped_cancelled << occurrence
+        time = occurrence
+      elsif meetings.not_templated.find_by(recurrence_start_time: occurrence)&.closed?
+        skipped_closed << occurrence
         time = occurrence
       else
-        return { occurrence:, skipped: }
+        return { occurrence:, skipped_cancelled:, skipped_closed: }
       end
     end
 
@@ -288,42 +351,71 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def scheduled_instances(upcoming: true)
-    filter_scope = upcoming ? :upcoming : :past
     direction = upcoming ? :asc : :desc
 
-    scheduled_meetings
-      .includes(:meeting)
-      .public_send(filter_scope)
-      .then { |o| filter_scope == :past ? o.not_cancelled : o }
-      .order(start_time: direction)
+    scope = meetings
+      .not_templated
+      .where.not(recurrence_start_time: nil)
+      .order(recurrence_start_time: direction)
+
+    if upcoming
+      scope.where(recurrence_start_time: Time.current..)
+    else
+      scope.not_cancelled.where(recurrence_start_time: ...Time.current)
+    end
   end
 
   def upcoming_instantiated_meetings
-    @upcoming_instantiated_meetings ||= scheduled_meetings
-      .includes(:meeting)
+    @upcoming_instantiated_meetings ||= meetings
+      .not_templated
       .not_cancelled
-      .joins(:meeting)
+      .where.not(recurrence_start_time: nil)
       .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.current)
-      .order(start_time: :asc)
+      .order(recurrence_start_time: :asc)
   end
 
   def ongoing_meetings
     upcoming_instantiated_meetings
-      .includes(:meeting)
-      .where(meetings: { start_time: ..Time.current })
-      .order(start_time: :asc)
+      .where(start_time: ..Time.current)
   end
 
   def upcoming_cancelled_meetings
-    # Include ongoing cancelled meetings by setting a start time in the past
-    scheduled_meetings
+    # Include ongoing cancelled meetings by going back one duration-length in time
+    meetings
+      .not_templated
       .cancelled
-      .where(start_time: (Time.current - template.duration.hours)..)
-      .order(start_time: :asc)
+      .where.not(recurrence_start_time: nil)
+      .where(recurrence_start_time: (Time.current - template.duration.hours)..)
+      .order(recurrence_start_time: :asc)
   end
 
   def instantiated_meetings
-    meetings.not_templated
+    meetings
+      .not_templated
+      .not_cancelled
+  end
+
+  def actual_start_differs?
+    return false if start_time.blank?
+    return false if first_occurrence.blank?
+
+    first_occurrence != start_time
+  end
+
+  def occurrence_count_until_end_date
+    return unless end_after_specific_date?
+    return if end_date.blank? || start_time.blank?
+    return if parsed_start_date.present? && end_date < parsed_start_date
+
+    schedule.next_occurrences(MAX_ITERATIONS + 1, Time.current).size
+  end
+
+  def end_date_for_iterations
+    return unless end_after_iterations?
+    return if iterations.blank? || start_time.blank?
+    return unless iterations.between?(1, MAX_ITERATIONS)
+
+    last_occurrence
   end
 
   private
@@ -351,7 +443,11 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
-  def frequency_rule
+  def monthly_weekday_rule
+    { monthly_weekday.to_sym => [monthly_ordinal] }
+  end
+
+  def frequency_rule # rubocop:disable Metrics/AbcSize
     case frequency
     when "daily"
       IceCube::Rule.daily(interval)
@@ -361,8 +457,12 @@ class RecurringMeeting < ApplicationRecord
         .day(*Setting.working_day_names)
     when "weekly"
       IceCube::Rule.weekly(interval)
+    when "monthly_day_of_month"
+      IceCube::Rule.monthly(interval).day_of_month(monthly_day)
+    when "monthly_nth_weekday"
+      IceCube::Rule.monthly(interval).day_of_week(monthly_weekday_rule)
     else
-      raise NotImplementedError
+      raise ArgumentError, "Invalid frequency: #{frequency}"
     end
   end
 
@@ -385,8 +485,14 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
-  def set_defaults
+  def set_defaults # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     self.end_date ||= 1.year.from_now if end_after_specific_date?
+    self.monthly_day ||= start_time&.day || 1 if frequency_monthly_day_of_month?
+
+    if frequency_monthly_nth_weekday?
+      self.monthly_ordinal ||= 1
+      self.monthly_weekday ||= Date::DAYNAMES[start_time&.wday || 1].downcase
+    end
   end
 
   def remove_jobs

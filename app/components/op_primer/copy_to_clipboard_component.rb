@@ -32,14 +32,25 @@ module OpPrimer
   class CopyToClipboardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
+    SCHEME_OPTIONS = %i[value link].freeze
+
     alias_method :value, :model
 
     def initialize(value = nil, scheme: :value, **system_arguments)
       super(value)
 
-      @scheme = scheme
+      @scheme = validate_scheme!(scheme)
       @system_arguments = system_arguments
       @id = SecureRandom.hex(8)
+    end
+
+    private
+
+    def validate_scheme!(scheme)
+      scheme = scheme.to_sym
+      raise ArgumentError, "scheme must be one of #{SCHEME_OPTIONS}" unless SCHEME_OPTIONS.include?(scheme)
+
+      scheme
     end
   end
 end

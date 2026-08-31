@@ -85,6 +85,7 @@ module Groups
           FROM #{MemberRole.table_name} member_roles
           JOIN #{Member.table_name} members
           ON members.id = member_roles.member_id AND members.user_id = :group_id
+          WHERE member_roles.inherited_from IS NULL
         ),
         -- find members that already exist
         existing_members AS (

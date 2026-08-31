@@ -32,7 +32,7 @@ module CustomFields::Inputs::Base::Utils
   delegate :attribute_name, to: :@custom_field
 
   def base_input_attributes
-    {
+    attributes = {
       name:,
       label:,
       value:,
@@ -41,6 +41,8 @@ module CustomFields::Inputs::Base::Utils
       validation_message:,
       help_text_options: { attribute_name: }
     }
+    attributes[:disabled] = true if options[:disabled]
+    attributes
   end
 
   def name
@@ -59,7 +61,7 @@ module CustomFields::Inputs::Base::Utils
     @custom_field.is_required?
   end
 
-  def qa_field_name
+  def test_selector
     attribute_name(:kebab_case)
   end
 

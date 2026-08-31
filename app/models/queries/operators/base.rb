@@ -53,7 +53,7 @@ module Queries::Operators
     end
 
     def self.sql_for_field(_values, _db_table, _db_field)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def self.connection

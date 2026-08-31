@@ -35,6 +35,7 @@ RSpec.describe "Projects copy", :js,
   describe "with a full copy example" do
     let!(:project) do
       create(:project,
+             :with_internal_wiki,
              parent: parent_project,
              types: active_types,
              members: { user => role },
@@ -45,10 +46,7 @@ RSpec.describe "Projects copy", :js,
                optional_project_custom_field_with_default.id => "foo"
              }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
-        p.types.first.custom_fields << wp_custom_field
-
-        # Enable wiki
-        p.enabled_module_names += ["wiki"]
+        p.enabled_variants.first.custom_fields << wp_custom_field
 
         # Enable the project custom field mappings
         p.project_custom_field_project_mappings
@@ -135,7 +133,7 @@ RSpec.describe "Projects copy", :js,
     let!(:work_package) do
       create(:work_package,
              project:,
-             type: project.types.first,
+             type: project.enabled_types.first,
              author: wp_user,
              assigned_to: wp_user,
              responsible: wp_user,
@@ -156,6 +154,7 @@ RSpec.describe "Projects copy", :js,
     end
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
+    let(:general_settings_page) { Pages::Projects::Settings::General.new(project) }
 
     let(:storage) { create(:nextcloud_storage) }
     let(:project_storage) do
@@ -185,7 +184,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -193,15 +191,14 @@ RSpec.describe "Projects copy", :js,
       it "renders only required project attribute" do
         expect(page).to have_heading "Copy project \"#{project.name}\""
 
-        expect(page).to have_content "Required Foo"
-        expect(page).to have_content "Required User"
+        expect(page).to have_text "Required Foo"
+        expect(page).to have_text "Required User"
         expect(page).to have_no_text "Optional Foo"
       end
     end
 
     context "with correct project custom field activations" do
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -219,7 +216,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
 
@@ -243,7 +240,6 @@ RSpec.describe "Projects copy", :js,
           optional_project_custom_field_with_default.id
         )
 
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
@@ -253,7 +249,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
 
@@ -293,7 +289,7 @@ RSpec.describe "Projects copy", :js,
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -320,7 +316,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -331,7 +326,7 @@ RSpec.describe "Projects copy", :js,
         it "shows invisible fields in the form and allows their activation" do
           expect(page).to have_heading "Copy project \"#{project.name}\""
 
-          expect(page).to have_content "Text for Admins only"
+          expect(page).to have_text "Text for Admins only"
 
           fill_in "Name", with: "Copied project"
 
@@ -339,7 +334,7 @@ RSpec.describe "Projects copy", :js,
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -358,13 +353,13 @@ RSpec.describe "Projects copy", :js,
         it "does not show invisible fields in the form but still activates them" do
           expect(page).to have_heading "Copy project \"#{project.name}\""
 
-          expect(page).to have_no_content "Text for Admins only"
+          expect(page).to have_no_text "Text for Admins only"
 
           fill_in "Name", with: "Copied project"
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -404,12 +399,11 @@ RSpec.describe "Projects copy", :js,
       let(:version_field) do
         FormFields::SelectFormField.new(
           version_custom_field,
-          selector: "[data-qa-field-name='#{version_custom_field.attribute_name(:kebab_case)}'"
+          selector: "[data-test-selector='#{version_custom_field.attribute_name(:kebab_case)}'"
         )
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -427,7 +421,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
         typed_values =
@@ -451,7 +445,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "copies the project attributes" do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
@@ -460,7 +453,7 @@ RSpec.describe "Projects copy", :js,
         fill_in "Name", with: "Copied project"
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
         expect(copied_project).to be_present
@@ -470,20 +463,19 @@ RSpec.describe "Projects copy", :js,
 
         overview_page.within_project_attributes_sidebar do
           # User has no permission to edit project attributes.
-          expect(page).to have_no_css("[data-test-selector*='project-custom-field-modal-button-']")
+          expect(page).to have_no_css("[data-test-selector*='inplace-edit-dialog-button-']")
           # The custom fields are still copied from the parent project.
-          expect(page).to have_content(project_custom_field.name)
-          expect(page).to have_content("some text cf")
-          expect(page).to have_content(optional_project_custom_field.name)
-          expect(page).to have_content("some optional text cf")
-          expect(page).to have_content(optional_project_custom_field_with_default.name)
-          expect(page).to have_content("foo")
+          expect(page).to have_text(project_custom_field.name)
+          expect(page).to have_text("some text cf")
+          expect(page).to have_text(optional_project_custom_field.name)
+          expect(page).to have_text("some optional text cf")
+          expect(page).to have_text(optional_project_custom_field_with_default.name)
+          expect(page).to have_text("foo")
         end
       end
     end
 
     it "copies projects and the associated objects" do
-      general_settings_page = Pages::Projects::Settings::General.new(project)
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
@@ -496,7 +488,7 @@ RSpec.describe "Projects copy", :js,
 
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       copied_project = Project.find_by(name: "Copied project")
 
@@ -554,7 +546,8 @@ RSpec.describe "Projects copy", :js,
       expect(copied_work_package.done_ratio).to eql work_package.done_ratio
       expect(copied_work_package.description).to eql work_package.description
       expect(copied_work_package.category).to eql copied_project.categories.find_by(name: category.name)
-      expect(copied_work_package.version).to eql copied_project.versions.find_by(name: version.name)
+      expect(copied_work_package.target_versions)
+        .to contain_exactly(copied_project.versions.find_by(name: version.name))
       expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => "Some wp cf text")
       expect(copied_work_package.attachments.map(&:filename)).to eq ["work_package_attachment.pdf"]
 
@@ -617,7 +610,7 @@ RSpec.describe "Projects copy", :js,
       fill_in "Name", with: "Copied project"
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       expect(copied_project)
         .to be_present
@@ -656,6 +649,7 @@ RSpec.describe "Projects copy", :js,
     TABLE
 
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:general_settings_page) { Pages::Projects::Settings::General.new(project) }
 
     before do
       # Clear all jobs that would later on to having emails send.
@@ -667,7 +661,6 @@ RSpec.describe "Projects copy", :js,
     end
 
     it "copies work packages preserving original dates and scheduling modes" do
-      general_settings_page = Pages::Projects::Settings::General.new(project)
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
@@ -676,7 +669,7 @@ RSpec.describe "Projects copy", :js,
       fill_in "Name", with: "Copied project"
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       copied_project = Project.find_by(name: "Copied project")
       expect(copied_project).to be_present
@@ -698,15 +691,4 @@ RSpec.describe "Projects copy", :js,
     end
   end
 
-  def wait_for_copy_to_finish
-    expect(page).to have_dialog "Background job status"
-
-    within_dialog "Background job status" do
-      expect(page).to have_heading "Copy project"
-      expect(page).to have_text "The job has been queued and will be processed shortly."
-    end
-
-    # ensure all jobs are run especially emails which might be sent later on
-    GoodJob.perform_inline
-  end
 end

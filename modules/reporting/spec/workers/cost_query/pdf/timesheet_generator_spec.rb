@@ -108,7 +108,7 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
   def expected_table_header(with_times_column)
     [
       I18n.t(:"activerecord.attributes.time_entry.spent_on"),
-      I18n.t(:"activerecord.models.work_package"),
+      WorkPackage.model_name.human,
       with_times_column ? I18n.t(:"export.timesheet.time") : nil,
       I18n.t(:"activerecord.attributes.time_entry.hours"),
       I18n.t(:"activerecord.attributes.time_entry.activity")
@@ -225,6 +225,18 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
   context "without allow_tracking_start_and_end_times", with_settings: { allow_tracking_start_and_end_times: false } do
     it "renders the expected document" do
       expect(subject).to eq expected_document(false)
+    end
+  end
+
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic", allow_tracking_start_and_end_times: false } do
+    before do
+      user_time_entry.entity.update_columns(identifier: "PROD-42", sequence_number: 42)
+    end
+
+    it "renders the semantic identifier in the work package column" do
+      expect(subject).to include("PROD-42")
+      expect(subject).not_to include("##{user_time_entry.entity.id}")
     end
   end
 end

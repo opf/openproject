@@ -237,18 +237,17 @@ RSpec.describe Meetings::IcalendarBuilder,
 
     let!(:second_occurrence) do
       # Cancel second occurrence
-      create(:scheduled_meeting,
-             :cancelled,
+      t = recurring_meeting.start_time + 1.week
+      create(:meeting,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time + 1.week)
+             start_time: t,
+             recurrence_start_time: t,
+             state: :cancelled)
     end
 
     let!(:third_occurence) do
       # Third occurrence instantiated and moved by +10 minutes
       base_start = recurring_meeting.start_time + 2.weeks
-      create(:scheduled_meeting,
-             recurring_meeting:,
-             start_time: base_start)
 
       result = RecurringMeetings::InitOccurrenceService
           .new(user: User.system, recurring_meeting:)
@@ -256,10 +255,29 @@ RSpec.describe Meetings::IcalendarBuilder,
 
       meeting = result.result
 
-      # Reschedule meeting to be 10 minutes later. It should still have the correct recurrence
+      # Reschedule meeting to be 10 minutes later. It should still have the correct recurrence_start_time
       meeting.update(start_time: base_start + 10.minutes)
 
-      meeting.scheduled_meeting
+      meeting
+    end
+
+    context "when emitting an instantiated occurrence within the current schedule" do
+      subject(:builder) { described_class.new(timezone:) }
+
+      it "emits it as a RECURRENCE-ID override keyed to its original slot" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        # third_occurence is a past occurrence that still belongs to the current
+        # schedule, so it must be emitted (unlike previous-schedule occurrences).
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
+      end
     end
 
     context "when using the cache" do
@@ -269,11 +287,24 @@ RSpec.describe Meetings::IcalendarBuilder,
         builder.preload_for_recurring_meetings(recurring_meetings: [recurring_meeting])
       end
 
+      it "emits the instantiated occurrence within the current schedule as an override" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
+      end
+
       it "preloads the correct caches" do
         builder.add_series_event(recurring_meeting:)
 
         expect(builder.instance_variable_get(:@excluded_dates_cache)).to eq(
-          recurring_meeting.id => [second_occurrence.start_time]
+          recurring_meeting.id => [second_occurrence.recurrence_start_time]
         )
 
         expect(builder.instance_variable_get(:@instantiated_occurrences_cache)).to eq(
@@ -291,7 +322,7 @@ RSpec.describe Meetings::IcalendarBuilder,
 
         expect(event.exdate).not_to be_empty
         exdate_values = event.exdate.map(&:value)
-        expect(exdate_values).to contain_exactly(second_occurrence.start_time)
+        expect(exdate_values).to contain_exactly(second_occurrence.recurrence_start_time)
       end
     end
 
@@ -301,7 +332,7 @@ RSpec.describe Meetings::IcalendarBuilder,
       before do
         recurring_meeting.template.participants.find_by(user: user1).update!(participation_status: :needs_action)
         recurring_meeting.meetings.each do |meeting|
-          meeting.participants.find_by(user: user1).update(participation_status: :needs_action)
+          meeting.participants.find_by(user: user1)&.update(participation_status: :needs_action)
         end
         recurring_meeting.template.participants.find_by(user: user2).update!(participation_status: :declined)
       end
@@ -356,14 +387,14 @@ RSpec.describe Meetings::IcalendarBuilder,
 
         # Check override event timestamps
         overrides.each do |override_event|
-          # Find the corresponding scheduled meeting for this override
-          scheduled_meeting = [second_occurrence, third_occurence].find do |sm|
-            sm.meeting && override_event.recurrence_id.to_time.utc.to_i == sm.start_time.utc.to_i
+          # Find the corresponding meeting occurrence for this override
+          meeting_occurrence = [second_occurrence, third_occurence].find do |m|
+            override_event.recurrence_id.to_time.utc.to_i == m.recurrence_start_time.utc.to_i
           end
 
-          if scheduled_meeting&.meeting
-            expect(override_event.created.to_time).to be_within(1.second).of(scheduled_meeting.meeting.created_at.utc)
-            expect(override_event.last_modified.to_time).to be_within(1.second).of(scheduled_meeting.meeting.updated_at.utc)
+          if meeting_occurrence
+            expect(override_event.created.to_time).to be_within(1.second).of(meeting_occurrence.created_at.utc)
+            expect(override_event.last_modified.to_time).to be_within(1.second).of(meeting_occurrence.updated_at.utc)
           end
         end
       end
@@ -403,6 +434,18 @@ RSpec.describe Meetings::IcalendarBuilder,
         end
       end
 
+      it "sets occurrence override SEQUENCE >= series SEQUENCE" do
+        builder.add_series_event(recurring_meeting:)
+
+        master = parsed_calendar.events.find { |e| e.rrule.present? && e.recurrence_id.blank? }
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        expect(master.sequence).to be >= 0
+        overrides.each do |override_event|
+          expect(override_event.sequence).to be >= master.sequence
+        end
+      end
+
       it "sets created and last_modified timestamps correctly for recurring series when accepted" do
         builder.add_series_event(recurring_meeting:)
 
@@ -415,14 +458,14 @@ RSpec.describe Meetings::IcalendarBuilder,
 
         # Check override event timestamps
         overrides.each do |override_event|
-          # Find the corresponding scheduled meeting for this override
-          scheduled_meeting = [second_occurrence, third_occurence].find do |sm|
-            sm.meeting && override_event.recurrence_id.to_time.utc.to_i == sm.start_time.utc.to_i
+          # Find the corresponding meeting occurrence for this override
+          meeting_occurrence = [second_occurrence, third_occurence].find do |m|
+            override_event.recurrence_id.to_time.utc.to_i == m.recurrence_start_time.utc.to_i
           end
 
-          if scheduled_meeting&.meeting
-            expect(override_event.created.to_time).to be_within(1.second).of(scheduled_meeting.meeting.created_at.utc)
-            expect(override_event.last_modified.to_time).to be_within(1.second).of(scheduled_meeting.meeting.updated_at.utc)
+          if meeting_occurrence
+            expect(override_event.created.to_time).to be_within(1.second).of(meeting_occurrence.created_at.utc)
+            expect(override_event.last_modified.to_time).to be_within(1.second).of(meeting_occurrence.updated_at.utc)
           end
         end
       end
@@ -602,7 +645,7 @@ RSpec.describe Meetings::IcalendarBuilder,
       expect(vtimezone_block).to be_present
       standard_count = vtimezone_block.scan("BEGIN:STANDARD").size
       daylight_count = vtimezone_block.scan("BEGIN:DAYLIGHT").size
-      expect(standard_count).to eq(4)
+      expect(standard_count).to eq(3)
       expect(daylight_count).to eq(4)
     end
 
@@ -614,7 +657,30 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
   end
 
-  context "with mutlipple recurring meetings in different timezones" do
+  context "for a meeting shortly before a DST change (Bug OP-19787)" do
+    subject(:builder) { described_class.new(timezone:) }
+
+    let(:parsed_calendar) { Icalendar::Calendar.parse(builder.to_ical).first }
+    # Europe/Berlin switches from CEST (+02:00) to CET (+01:00) on 2026-10-25
+    let(:meeting) { create(:meeting, :author_participates, start_time: Time.zone.parse("2026-09-30 09:00"), duration: 1.0) }
+
+    it "emits a VTIMEZONE observance in effect at the meeting start, resolving to summer time (+0200)" do
+      builder.add_single_meeting_event(meeting:)
+
+      tz = parsed_calendar.timezones.first
+      event_start = ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-09-30 09:00")
+
+      observances = (tz.standards + tz.daylights)
+      preceding = observances
+                    .select { |o| o.dtstart.to_time <= event_start }
+                    .max_by { |o| o.dtstart.to_time }
+
+      expect(preceding).to be_present
+      expect(preceding.tzoffsetto.value_ical).to eq("+0200")
+    end
+  end
+
+  context "with multiple recurring meetings in different timezones" do
     let(:project) { create(:project) }
     let(:user) do
       create(:user, firstname: "John", lastname: "Doe", member_with_permissions: { project => [:view_meetings] })

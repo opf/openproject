@@ -34,7 +34,7 @@
 # Loads spec_helper from OpenProject core
 # This will include any support file from OpenProject core
 require "spec_helper"
-require "dry/container/stub"
+require "dry/core/container/stub"
 
 STORAGES_CASSETTE_LIBRARY_DIR = "modules/storages/spec/support/fixtures/vcr_cassettes"
 

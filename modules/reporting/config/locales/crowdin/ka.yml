@@ -19,88 +19,93 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ka:
-  plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "Save report as..."
-  comments: "კომენტარი"
-  cost_reports_title: "დრო და ღირებულებები"
-  label_cost_report: "ფასის ანგარიში"
-  label_cost_report_plural: "ფასის ანგარიშები"
-  description_drill_down: "დეტალების ჩვენება"
-  description_filter_selection: "მონიშნული"
-  description_multi_select: "Show multiselect"
-  description_remove_filter: "ფილტრის წაშლა"
-  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
-  label_click_to_edit: "დააწკაპუნეთ ჩასასწორებლად."
-  label_closed: "დახურულია"
-  label_columns: "სვეტები"
-  label_cost_entry_attributes: "Cost entry attributes"
-  label_days_ago: "during the last days"
-  label_entry: "ფასის ჩანაწერი"
-  label_filter_text: "ტექსტის ფილტრი"
-  label_filter_value: "მნიშვნელობა"
-  label_filters: "ფილტრი"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "is not (includes subprojects)"
-  label_is_project_with_subprojects: "is (includes subprojects)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Work package attributes"
-  label_less: "<"
-  label_logged_by_reporting: "ჩანაწერის ავტორი"
-  label_money: "თანხის მნიშვნელობა"
-  label_month_reporting: "თვე (დახარჯული)"
-  label_new_report: "New cost report"
-  label_open: "გახსნა"
-  label_operator: "ოპერატორი"
-  label_private_report_plural: "Private cost reports"
-  label_progress_bar_explanation: "Generating report..."
-  label_public_report_plural: "Public cost reports"
-  label_really_delete_question: "Are you sure you want to delete this report?"
-  label_rows: "მწკრივები"
-  label_saving: "შენახვა ..."
-  label_spent_on_reporting: "თარიღი (დახარჯული)"
-  label_sum: "ჯამი"
-  label_units: "ერთეულები"
-  label_week_reporting: "კვირა (დახარჯული)"
-  label_year_reporting: "წელი (დახარჯული)"
-  label_count: "რაოდენობა"
-  label_filter: "ფილტრი"
-  label_filter_add: "ფილტრის დამატება"
-  label_filter_plural: "ფილტრები"
-  label_group_by: "დაჯგუფება"
-  label_group_by_add: "Add Group-by Attribute"
-  label_inactive: "<არააქტიური>"
-  label_no: "არა"
-  label_none: "(თარიღის გარეშე)"
-  label_no_reports: "There are no cost reports yet."
-  label_report: "ანგარიშები"
-  label_yes: "დიახ"
-  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
-  permission_save_cost_reports: "Save public cost reports"
-  permission_save_private_cost_reports: "Save private cost reports"
-  project_module_reporting_module: "ფასის ანგარიშები"
-  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
-  toggle_multiselect: "activate/deactivate multiselect"
-  units: "ერთეულები"
-  validation_failure_date: "is not a valid date"
-  validation_failure_integer: "is not a valid integer"
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
+  button_save_report_as: Save report as...
+  comments: კომენტარი
+  cost_reports_title: დრო და ღირებულებები
+  description_drill_down: დეტალების ჩვენება
+  description_filter_selection: მონიშნული
+  description_multi_select: Show multiselect
+  description_remove_filter: ფილტრის წაშლა
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "დრო"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Your Cost Reports XLS export"
-      start_time: "Start time"
-      end_time: "End time"
+      end_time: End time
+      start_time: Start time
+      title: Your Cost Reports XLS export
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: დრო
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
+  label_click_to_edit: დააწკაპუნეთ ჩასასწორებლად.
+  label_closed: დახურულია
+  label_columns: სვეტები
+  label_cost_entry_attributes: Cost entry attributes
+  label_cost_report_plural: ფასის ანგარიშები
+  label_count: რაოდენობა
+  label_days_ago: during the last days
+  label_entry: ფასის ჩანაწერი
+  label_filter: ფილტრი
+  label_filter_add: ფილტრის დამატება
+  label_filter_plural: ფილტრები
+  label_filter_text: ტექსტის ფილტრი
+  label_filter_value: მნიშვნელობა
+  label_filters: ფილტრი
+  label_greater: ">"
+  label_group_by: დაჯგუფება
+  label_group_by_add: Add Group-by Attribute
+  label_inactive: "<არააქტიური>"
+  label_is_not_project_with_subprojects: is not (includes subprojects)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: is (includes subprojects)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: ჩანაწერის ავტორი
+  label_money: თანხის მნიშვნელობა
+  label_month_reporting: თვე (დახარჯული)
+  label_new_report: New cost report
+  label_no: არა
+  label_no_reports: There are no cost reports yet.
+  label_none: "(თარიღის გარეშე)"
+  label_open: გახსნა
+  label_operator: ოპერატორი
+  label_private_report_plural: Private cost reports
+  label_progress_bar_explanation: Generating report...
+  label_public_report_plural: Public cost reports
+  label_really_delete_question: Are you sure you want to delete this report?
+  label_report: ანგარიშები
+  label_rows: მწკრივები
+  label_saving: შენახვა ...
+  label_spent_on_reporting: თარიღი (დახარჯული)
+  label_sum: ჯამი
+  label_units: ერთეულები
+  label_week_reporting: კვირა (დახარჯული)
+  label_work_package_attributes: Work package attributes
+  label_year_reporting: წელი (დახარჯული)
+  label_yes: დიახ
+  load_query_question: Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?
+  permission_save_cost_reports: Save public cost reports
+  permission_save_private_cost_reports: Save private cost reports
+  plugin_openproject_reporting:
+    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    name: OpenProject Reporting
+  project_module_reporting_module: ფასის ანგარიშები
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "მონიშნული მწკრივები"
+      selected_columns: Selected columns
+      selected_rows: მონიშნული მწკრივები
+  text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
+  toggle_multiselect: activate/deactivate multiselect
+  units: ერთეულები
+  validation_failure_date: is not a valid date
+  validation_failure_integer: is not a valid integer

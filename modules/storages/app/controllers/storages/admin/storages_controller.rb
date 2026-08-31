@@ -46,7 +46,7 @@ module Storages
       before_action :require_admin
       before_action :find_storage,
                     only: %i[show_oauth_application destroy edit edit_host edit_storage_audience confirm_destroy update
-                             change_health_notifications_enabled replace_oauth_application]
+                             change_health_notifications_enabled replace_oauth_application ampf_sync_now]
       before_action :ensure_valid_wizard_parameters, only: [:new]
       before_action :require_ee_token, only: [:new]
 
@@ -190,7 +190,7 @@ module Storages
         service_result.on_success do
           flash[:notice] = I18n.t(:notice_successful_delete)
         end
-        redirect_to admin_settings_storages_path
+        redirect_to admin_settings_storages_path, status: :see_other
       end
 
       def replace_oauth_application
@@ -209,6 +209,15 @@ module Storages
           # FIXME: This should be a partial stream update
           render :edit
         end
+      end
+
+      def ampf_sync_now
+        ::Storages::AutomaticallyManagedStorageSyncJob.perform_later(@storage)
+
+        update_via_turbo_stream(
+          component: ::Storages::Admin::SidePanel::HealthNotificationsComponent.new(storage: @storage, sync_pending: true)
+        )
+        respond_with_turbo_streams
       end
 
       private

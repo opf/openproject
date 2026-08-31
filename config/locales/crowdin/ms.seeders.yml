@@ -71,6 +71,15 @@ ms:
           name: Kakitangan dan pengurus projek
         item_1:
           name: Peranan global standard
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -93,6 +102,21 @@ ms:
           name: Tinggi
         item_3:
           name: Segera
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Projek demo
@@ -140,22 +164,7 @@ ms:
               item_1:
                 options:
                   name: Permulaan
-                  text: |
-                    Kami gembira anda menyertai kami! Kami cadangkan beberapa perkara sebagai permulaan di OpenProject.
-
-                    Temui fitur paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami. 
-
-                    _Cuba ikuti langkah-langkah berikut:_
-
-                    1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-project/members) dalam navigasi projek.
-                    2. *Lihat kerja dalam projek anda*: &rightarrow; Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-project/work_packages) dalam navigasi projek.
-                    3. *Cipta satu pakej kerja baharu*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Cipta dan kemas kini pelan projek*: &rightarrow; Pergi ke [Pelan projek]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dalam navigasi projek.
-                    5. *Aktifkan modul selanjutanya*: &rightarrow; Pergi ke [Tetapan projek &rightarrow; Modul]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Lengkapkan tugasan anda dalam projek*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Tugasan]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
-
-                    Di sini anda akan menemui [Panduan Pengguna] (https://www.openproject.org/docs/user-guide/) kami.
-                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mel ke:support@openproject.com).
+                  text: "Kami gembira anda menyertai kami! Kami cadangkan beberapa perkara sebagai permulaan di OpenProject.\n\nTemui fitur paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami. \n\n_Cuba ikuti langkah-langkah berikut:_\n\n1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-project/members) dalam navigasi projek.\n2. *Lihat kerja dalam projek anda*: &rightarrow; Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-project/work_packages) dalam navigasi projek.\n3. *Cipta satu pakej kerja baharu*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/demo-project/work_packages/new).\n4. *Cipta dan kemas kini pelan projek*: &rightarrow; Pergi ke [Pelan projek]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dalam navigasi projek.\n5. *Aktifkan modul selanjutanya*: &rightarrow; Pergi ke [Tetapan projek &rightarrow; Modul]({{opSetting:base_url}}/projects/demo-project/settings/modules).\n6. *Lengkapkan tugasan anda dalam projek*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Tugasan]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).\n\nDi sini anda akan menemui [Panduan Pengguna] (https://www.openproject.org/docs/user-guide/) kami.\nSila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mel ke:support@openproject.com).\n"
               item_5:
                 options:
                   name: Pakej pekerjaan
@@ -166,7 +175,7 @@ ms:
             item_0:
               subject: Permulaan projek
             item_1:
-              subject: Anjurkan persidangan sumber terbuka 
+              subject: Anjurkan persidangan sumber terbuka
               children:
                 item_0:
                   subject: Tetapkan tarikh dan lokasi persidangan
@@ -182,21 +191,23 @@ ms:
                 item_2:
                   subject: Sediakan laman web persidangan
             item_2:
-              subject: Persidangan
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Tugasan susulan
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Muat naik pembentangan ke laman web
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Parti untuk penyokong persidangan :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] Bir
-                    *   [ ] Snek
-                    *   [ ] Lagu
-                    *   [ ] Lagi banyak bir
-            item_4:
-              subject: Akhir projek
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _Dalam wiki ini, anda boleh bekerjasama untuk mencipta dan edit halaman dan sub-halaman untuk mencipta wiki projek._
 
@@ -212,7 +223,6 @@ ms:
             *Lihat sebagai Markdown
 
             Maklumat lanjut: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
-
         scrum-project:
           name: Projek Scrum
           status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
@@ -232,52 +242,7 @@ ms:
               name: Pecutan 1
               wiki:
                 title: Pecutan 1
-                content: |
-                  ### Pecutan pelan mesyuarat
-
-                  _Sila dokumen di sini topik untuk Pecutan perancangan mesyuarat_
-
-                  * Kotak masa (8 j)
-                  * Input: Tunggakan Produk
-                  * Output: Tunggakan Pecutan
-
-                  * Dibahagi kepada dua kotak masa tambahan selama 4 j:
-
-                      * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, di mana pasukan harus mempersetujuinya. Bersama-sama mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
-                      * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugasan-tugasan dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Mesyuarat Harian Scrum
-
-                  _Sila dokumen di sini topik untuk mesyuarat Harian Scrum_
-
-                  * Pendek, status harian mesyuarat pasukan.
-                  * Kotak masa (maks. 15 minit).
-                  * Mesyuarat stand-up untuk membincangkan topik-topik berikut dari [Board tugasan](##sprint:scrum_project__version__sprint_1).
-                      * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?
-                      * Apa yang telah menghalang kerja saya (Halangan)? 
-                  * Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).
-                  * Pemilik produk boleh mengambil bahagian untuk kekal maklum.
-
-                  ### Mesyuarat Semakan Pecutan
-
-                  _Sila dokumen di sini topik untuk mesyuarat Semakan Pecutan_
-
-                  * Kotak masa (4 j).
-                  * Maksimum 1 jam masa persediaan bagi setiap orang.
-                  * Pasukan menunjukkan kepada pemilik produk dan orang lain yang berminat tentang apa yang telah dicapai dalam pecutan ini.
-                  * Penting: tiada model dan tiada PowerPoint! Hanya fungsi (Peningkatan) perlu dipamerkan.
-                  * Maklum balas Pemilik Produk, pihak berkepentingan, dan orang lain dikehendaki dan akan dimasukkan dalam kerja seterusnya.
-                  * Berdasarkan kefungsian yang ditunjukkan, Pemilik Produk memutuskan untuk mengimplementasikan peningkatan ini atau untuk membangunkannya lebih lanjut. Kemungkinan ini membolehkan Pulangan Pelaburan (ROI) lebih awal.
-
-
-                  ### Retrospektif Pecutan
-
-                  _Sila dokumen di sini topik untuk mesyuarat Retrospektif Pecutan_
-
-                  * Kotak masa (3 j).
-                  * Setelah Semakan Pecutan, ia akan dikendalikan oleh Ketua Scrum.
-                  * Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.
+                content: "### Pecutan pelan mesyuarat\n\n_Sila dokumen di sini topik untuk Pecutan perancangan mesyuarat_\n\n* Kotak masa (8 j)\n* Input: Tunggakan Produk\n* Output: Tunggakan Pecutan\n\n* Dibahagi kepada dua kotak masa tambahan selama 4 j:\n\n    * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, di mana pasukan harus mempersetujuinya. Bersama-sama mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.\n    * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugasan-tugasan dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).\n\n\n### Mesyuarat Harian Scrum\n\n_Sila dokumen di sini topik untuk mesyuarat Harian Scrum_\n\n* Pendek, status harian mesyuarat pasukan.\n* Kotak masa (maks. 15 minit).\n* Mesyuarat stand-up untuk membincangkan topik-topik berikut dari [Board tugasan](##sprint:scrum_project__version__sprint_1).\n    * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?\n    * Apa yang telah menghalang kerja saya (Halangan)? \n* Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).\n* Pemilik produk boleh mengambil bahagian untuk kekal maklum.\n\n### Mesyuarat Semakan Pecutan\n\n_Sila dokumen di sini topik untuk mesyuarat Semakan Pecutan_\n\n* Kotak masa (4 j).\n* Maksimum 1 jam masa persediaan bagi setiap orang.\n* Pasukan menunjukkan kepada pemilik produk dan orang lain yang berminat tentang apa yang telah dicapai dalam pecutan ini.\n* Penting: tiada model dan tiada PowerPoint! Hanya fungsi (Peningkatan) perlu dipamerkan.\n* Maklum balas Pemilik Produk, pihak berkepentingan, dan orang lain dikehendaki dan akan dimasukkan dalam kerja seterusnya.\n* Berdasarkan kefungsian yang ditunjukkan, Pemilik Produk memutuskan untuk mengimplementasikan peningkatan ini atau untuk membangunkannya lebih lanjut. Kemungkinan ini membolehkan Pulangan Pelaburan (ROI) lebih awal.\n\n\n### Retrospektif Pecutan\n\n_Sila dokumen di sini topik untuk mesyuarat Retrospektif Pecutan_\n\n* Kotak masa (3 j).\n* Setelah Semakan Pecutan, ia akan dikendalikan oleh Ketua Scrum.\n* Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.\n"
             item_3:
               name: Pecutan 2
           categories:
@@ -488,6 +453,20 @@ ms:
           name: Cerita pengguna
         item_6:
           name: Bug
+      global_queries:
+        item_0:
+          name: 'Epic children: User stories and bugs'
+        item_1:
+          name: 'User story children: Tasks'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: User stories and bugs
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tasks
       welcome:
         title: Selamat datang ke OpenProject!
         text: |

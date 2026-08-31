@@ -65,7 +65,7 @@ module Groups::Concerns
     end
 
     def modify_members_and_roles(_params)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def execute_query(query)

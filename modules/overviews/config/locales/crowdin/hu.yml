@@ -1,5 +1,11 @@
+---
 hu:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
+    label_dashboard: Vezérlőpult
     label_home: "%{workspace_type} főoldal"
-    label_dashboard: "Vezérlőpult"
-    label_overview: "Áttekintés"
+    label_overview: Áttekintés

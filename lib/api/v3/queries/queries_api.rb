@@ -113,7 +113,10 @@ module API
             mount API::V3::Queries::UpdateFormAPI
 
             patch &::API::V3::Utilities::Endpoints::Update
-                     .new(model: Query)
+                     .new(model: Query,
+                          before_hook: ->(request:) {
+                            request.authorize_by_policy(:update)
+                          })
                      .mount
 
             params do

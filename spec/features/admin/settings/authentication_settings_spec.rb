@@ -135,6 +135,30 @@ RSpec.describe "Authentication Settings", :js do
     end
   end
 
+  describe "passwords settings" do
+    let(:passwords_page) { Pages::Admin::Authentication::Passwords.new }
+
+    before do
+      Setting.password_active_rules = %w[lowercase uppercase numeric special]
+      passwords_page.visit!
+    end
+
+    it "allows unchecking all password requirements" do
+      OpenProject::Passwords::Evaluator.known_rules.each do |rule|
+        passwords_page.expect_rule_checked(rule)
+        uncheck I18n.t("label_password_rule_#{rule}")
+      end
+
+      passwords_page.save
+      Setting.clear_cache
+      passwords_page.reload!
+
+      OpenProject::Passwords::Evaluator.known_rules.each do |rule|
+        passwords_page.expect_rule_unchecked(rule)
+      end
+    end
+  end
+
   describe "self registration settings" do
     let(:registration_page) { Pages::Admin::Authentication::Registration.new }
 

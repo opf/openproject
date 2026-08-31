@@ -40,12 +40,17 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <%= render Primer::ConditionalWrapper.new(condition: @input.auto_check_src, tag: "auto-check", csrf: auto_check_authenticity_token, src: @input.auto_check_src) do %>
       <%= angular_component_tag @datepicker_options.fetch(:component),
+                                data: {
+                                  targets: @input.input_arguments.dig(:data, :targets),
+                                  "multi-input-name": @input.input_arguments.dig(:data, :name)
+                                }.compact,
                                 inputs: @datepicker_options.merge(
                                   id: @datepicker_options.fetch(:id) { builder.field_id(@input.name) },
                                   name: @datepicker_options.fetch(:name) { builder.field_name(@input.name) },
                                   value: @datepicker_options.fetch(:value) { @input.input_arguments[:value] || builder.object&.send(@input.name) },
                                   inputClassNames: @datepicker_options.fetch(:class) { @input.input_arguments[:class] },
                                   dataAction: @datepicker_options.fetch(:data, {}).fetch(:action, nil),
+                                  inputAttrs: @datepicker_options.fetch(:input_attributes, nil),
                                   placeholder: @input.input_arguments.fetch(:placeholder, "")
                                 ) %>
     <% end %>

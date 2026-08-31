@@ -86,7 +86,7 @@ module Projects
       #
       # relevant especially for the project API
 
-      model.all_available_custom_fields.map(&:attribute_name)
+      model.all_available_custom_fields.flat_map(&:all_attribute_names)
     end
 
     private
@@ -122,7 +122,7 @@ module Projects
     end
 
     def manage_permission
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def with_unchanged_id

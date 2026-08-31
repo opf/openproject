@@ -45,7 +45,7 @@ module Queries
       end
 
       def self.key
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def association_class

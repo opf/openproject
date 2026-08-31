@@ -1,0 +1,44 @@
+.users-non-working-times-year-overview
+  // 100% - page header height - subheader height
+  height: calc(100% - 180px)
+  @media (max-width: $breakpoint-sm)
+    height: 100%
+
+// Set the display of calendar container
+#tab-content-non_working_times
+  display: inline
+
+.users-non-working-times-calendar-view
+  height: 100%
+
+  .op-fc-wrapper
+    flex-grow: 1
+
+.users-non-working-times-calendar-view
+  .op-fc-wrapper
+    // Rounded corners for the entire calendar
+    .fc-multiMonthYear-view
+      border-radius: var(--borderRadius-medium) !important
+
+    // Global non-working days rendered as FullCalendar background events
+    .fc-bg-event.non-working-day--global
+      background-color: var(--data-pink-color-muted) !important
+      color: var(--display-pink-scale-9) !important
+      opacity: 0.8 !important
+      border: 1px solid var(--data-pink-color-emphasis) !important
+
+    // User non-working day ranges rendered as foreground all-day bars
+    .fc-event.non-working-day--user
+      background-color: var(--bgColor-accent-emphasis) !important
+      border-color: var(--bgColor-accent-emphasis) !important
+      color: var(--fgColor-onEmphasis) !important
+      border-radius: var(--borderRadius-medium) !important
+      cursor: pointer !important
+
+    .fc-multimonth-daygrid-table
+      .fc-day
+        background-color: var(--body-background) !important
+
+        &.fc-day-today
+          background-color: var(--bgColor-accent-muted) !important
+          color: var(--fgColor-accent) !important

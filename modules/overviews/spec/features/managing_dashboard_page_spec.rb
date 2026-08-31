@@ -30,7 +30,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview: true } do
+RSpec.describe "Dashboard page managing", :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type], description: "My **custom** description") }
   let!(:open_status) { create(:default_status) }
@@ -97,8 +97,8 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
       members_area.expect_to_exist
       description_area.expect_to_span(1, 1, 3, 2)
       status_area.expect_to_span(1, 2, 2, 3)
-      overview_area.expect_to_span(3, 1, 4, 3)
-      members_area.expect_to_span(2, 2, 3, 3)
+      overview_area.expect_to_span(2, 2, 3, 3)
+      members_area.expect_to_span(3, 1, 4, 3)
 
       # The widgets load their respective contents
       within description_area.area do
@@ -111,7 +111,10 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
       # Actually there are two success messages displayed currently. One for the grid getting updated and one
       # for the query assigned to the new widget being created. A user will not notice it but the automated
       # browser can get confused. Therefore we dismiss it twice.
-      dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      # We cannot use expect_and_dismiss_toaster for the first toast because its internal
+      # expect_no_toaster check races with the second toast appearing immediately after dismiss.
+      dashboard_page.expect_toast message: I18n.t("js.notice_successful_update")
+      dashboard_page.dismiss_specific_toaster!(message: I18n.t("js.notice_successful_update"))
 
       # Fixing flaky spec: for some reason, the second request to load the table is not executed until
       # some activity happens on the page. Sending an enter key to trigger the second request.
@@ -120,28 +123,26 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
       dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       table_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(5)")
-      table_area.expect_to_span(1, 1, 2, 2)
+      table_area.expect_to_span(4, 1, 5, 3)
 
       # A useless resizing shows no message and does not alter the size
       table_area.resize_to(1, 1)
 
       dashboard_page.expect_no_toaster message: I18n.t("js.notice_successful_update")
 
-      table_area.expect_to_span(1, 1, 2, 2)
+      table_area.expect_to_span(4, 1, 5, 2)
 
       table_area.resize_to(1, 2)
 
       dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       # Resizing leads to the table area now spanning a larger area
-      table_area.expect_to_span(1, 1, 2, 3)
+      table_area.expect_to_span(4, 1, 5, 3)
 
-      within table_area.area do
-        expect(page)
-          .to have_content(created_work_package.subject)
-        expect(page)
-          .to have_content(assigned_work_package.subject)
-      end
+      expect(page)
+        .to have_content(created_work_package.subject)
+      expect(page)
+        .to have_content(assigned_work_package.subject)
 
       sleep(0.1)
 
@@ -152,11 +153,11 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
       ## Because of the added column and the resizing the other widgets have moved down
       # For unknown, undesired reasons, the project description no longer spans two rows.
       # This happens when resizing the table area.
-      description_area.expect_to_span(2, 1, 3, 2)
-      status_area.expect_to_span(2, 2, 3, 3)
-      overview_area.expect_to_span(4, 1, 5, 3)
+      description_area.expect_to_span(1, 1, 2, 2)
+      status_area.expect_to_span(1, 2, 3, 3)
+      overview_area.expect_to_span(2, 1, 4, 2)
       members_area.expect_to_span(3, 2, 4, 3)
-      table_area.expect_to_span(1, 1, 2, 3)
+      table_area.expect_to_span(4, 1, 5, 3)
     end
 
     it "can add a new widget via a primary button" do
@@ -172,8 +173,8 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
 
       description_area.expect_to_span(1, 1, 3, 2)
       status_area.expect_to_span(1, 2, 2, 3)
-      overview_area.expect_to_span(3, 1, 4, 3)
-      members_area.expect_to_span(2, 2, 3, 3)
+      overview_area.expect_to_span(2, 2, 3, 3)
+      members_area.expect_to_span(3, 1, 4, 3)
 
       page.find_test_selector("overview--add-widgets-button").click
 
@@ -186,11 +187,11 @@ RSpec.describe "Dashboard page managing", :js, with_flag: { new_project_overview
       end
 
       second_members_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(5)")
-      second_members_area.expect_to_span(1, 1, 2, 2)
+      second_members_area.expect_to_span(4, 1, 5, 3)
 
-      description_area.expect_to_span(2, 1, 4, 2)
+      description_area.expect_to_span(1, 1, 2, 2)
       status_area.expect_to_span(1, 2, 3, 3)
-      overview_area.expect_to_span(4, 1, 5, 3)
+      overview_area.expect_to_span(2, 1, 4, 2)
       members_area.expect_to_span(3, 2, 4, 3)
     end
   end

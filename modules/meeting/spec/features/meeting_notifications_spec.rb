@@ -46,6 +46,11 @@ RSpec.describe "Meeting notifications", :js do
     login_as(user)
   end
 
+  def perform_debounced_meeting_notification_jobs
+    perform_enqueued_jobs(only: Meetings::NotificationDebounceJob, at: 2.minutes.from_now)
+    perform_enqueued_jobs
+  end
+
   shared_examples "notification checkbox behaviour" do
     it "shows checkbox checked initially" do
       page.find_by_id("open-meeting-button").click
@@ -78,8 +83,8 @@ RSpec.describe "Meeting notifications", :js do
     let(:show_page) { Pages::Meetings::Show.new(meeting) }
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    let(:enabled_text) { I18n.t("meeting.notifications.banner.onetime.enabled") }
-    let(:disabled_text) { I18n.t("meeting.notifications.banner.onetime.disabled") }
+    let(:enabled_text) { I18n.t("meeting.notifications.enabled") }
+    let(:disabled_text) { I18n.t("meeting.notifications.disabled") }
 
     before do
       meetings_page.visit!
@@ -92,6 +97,9 @@ RSpec.describe "Meeting notifications", :js do
     include_examples "notification checkbox behaviour"
 
     it "sets and toggles the calendar updates state" do
+      # a time comfortably away from the now-based default start time, so editing is a real change
+      edit_start_time = 4.hours.from_now.strftime("%H:00")
+
       # check if the default is set correctly
       expect(meeting.notify).to be false
 
@@ -104,7 +112,7 @@ RSpec.describe "Meeting notifications", :js do
       wait_for_network_idle
 
       # check if mail is sent on opening meeting (Bug #70109)
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -112,7 +120,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_selector(:link_or_button, "Disable")
       end
 
@@ -124,13 +132,13 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        show_page.set_start_time "12:00"
+        show_page.set_start_time edit_start_time
         click_on "Save"
       end
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -152,7 +160,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Disabled.")
-        expect(page).to have_text("Participants will not receive an email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.disabled"))
         expect(page).to have_selector(:link_or_button, "Enable")
       end
 
@@ -163,7 +171,7 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        show_page.set_start_time "12:00"
+        show_page.set_start_time edit_start_time
         click_on "Save"
       end
 
@@ -183,7 +191,7 @@ RSpec.describe "Meeting notifications", :js do
 
       expect_flash(message: "Email calendar update sent to all participants")
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -199,7 +207,7 @@ RSpec.describe "Meeting notifications", :js do
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 0
 
       show_page.trigger_dropdown_menu_item "Delete meeting"
@@ -211,7 +219,7 @@ RSpec.describe "Meeting notifications", :js do
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 0
     end
   end
@@ -220,8 +228,8 @@ RSpec.describe "Meeting notifications", :js do
     let(:current_user) { user }
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    let(:enabled_text) { I18n.t("meeting.notifications.banner.template.enabled") }
-    let(:disabled_text) { I18n.t("meeting.notifications.banner.template.disabled") }
+    let(:enabled_text) { I18n.t("meeting.notifications.enabled") }
+    let(:disabled_text) { I18n.t("meeting.notifications.disabled") }
 
     before do
       meetings_page.visit!
@@ -255,6 +263,10 @@ RSpec.describe "Meeting notifications", :js do
     end
 
     it "can set and toggle the calendar updates state for the template and occurrences" do
+      # times comfortably away from the now-based default start time, so each edit is a real change
+      template_start_time = 4.hours.from_now.strftime("%H:00")
+      occurrence_start_time = 5.hours.from_now.strftime("%H:00")
+
       template_page.visit!
 
       expect(meeting.template.notify).to be false
@@ -263,7 +275,7 @@ RSpec.describe "Meeting notifications", :js do
       wait_for_network_idle
 
       # check if mail is sent on opening first meeting
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -273,7 +285,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_selector(:link_or_button, "Disable")
       end
 
@@ -285,15 +297,15 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        expect(page).to have_text(I18n.t("meeting.notifications.banner.template.enabled"))
-        template_page.set_start_time "12:00"
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
+        template_page.set_start_time template_start_time
         wait_for_network_idle
         click_on "Save"
       end
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -303,7 +315,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_no_selector(:link_or_button, "Disable")
         expect(page).to have_text("To change this, edit the series template.")
       end
@@ -316,15 +328,15 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        expect(page).to have_text(I18n.t("meeting.notifications.banner.occurrence.enabled"))
-        occurrence_page.set_start_time "13:00"
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
+        occurrence_page.set_start_time occurrence_start_time
         wait_for_network_idle
         click_on "Save"
       end
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -350,7 +362,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Disabled.")
-        expect(page).to have_text("Participants will not receive an email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.disabled"))
         expect(page).to have_no_selector(:link_or_button, "Enable")
         expect(page).to have_text("To change this, edit the series template.")
       end
@@ -361,7 +373,7 @@ RSpec.describe "Meeting notifications", :js do
       show_page.delete_meeting_series
       retry_block do
         show_page.within_modal "Delete meeting series" do
-          check "I understand that this deletion cannot be reversed", allow_label_click: true
+          check "I understand that this deletion cannot be reversed.", allow_label_click: true
           click_on "Delete permanently"
         end
       end
@@ -369,7 +381,7 @@ RSpec.describe "Meeting notifications", :js do
       wait_for_network_idle
       expect_flash(type: :success, message: "Successful deletion.")
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 0
     end
 
@@ -380,7 +392,7 @@ RSpec.describe "Meeting notifications", :js do
       wait_for_network_idle
 
       # check for initial invitation mail
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
       ActionMailer::Base.deliveries.clear
 
@@ -414,7 +426,7 @@ RSpec.describe "Meeting notifications", :js do
       expect(meeting.template.reload.notify).to be true
 
       # check for invitation mail on re-enabling notifications
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
       expect(ActionMailer::Base.deliveries.size).to eq 1
     end
   end
@@ -498,7 +510,7 @@ RSpec.describe "Meeting notifications", :js do
         show_page.expect_participant(third_user)
       end
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
 
       # 1 to the invited user + 2 to the existing participants
       expect(ActionMailer::Base.deliveries.size).to eq 3
@@ -520,7 +532,7 @@ RSpec.describe "Meeting notifications", :js do
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
 
       # 1 to the removed user + 2 to the existing participants
       expect(ActionMailer::Base.deliveries.size).to eq 3
@@ -547,8 +559,14 @@ RSpec.describe "Meeting notifications", :js do
     let(:show_page) { Pages::Meetings::Show.new(template_meeting) }
 
     before do
-      create(:scheduled_meeting, recurring_meeting:)
       template_meeting.update!(notify: true)
+      # After the scheduled_meetings refactor, InitNextOccurrenceJob creates a real Meeting
+      # occurrence record. Both tests require this occurrence to exist:
+      # send_emails? returns false for a series template that has no
+      # non-cancelled occurrence Meeting records. The "add participant" test additionally relies
+      # on it so that add_to_upcoming_occurrences can propagate the new participant to the occurrence,
+      # which is why that test now expects 5 emails instead of the previous 3.
+      RecurringMeetings::InitNextOccurrenceJob.perform_now(recurring_meeting, recurring_meeting.first_occurrence.to_time)
       create(:meeting_participant, meeting: template_meeting, user: other_user, invited: true)
       third_user
     end
@@ -564,13 +582,20 @@ RSpec.describe "Meeting notifications", :js do
         show_page.expect_participant(third_user, editable: false)
       end
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
 
-      # 1 to the new user + 2 to the existing participants
+      # apply_to_upcoming is enabled by default on templates, but occurrence propagation
+      # runs with notify: false. Only the template sends mails:
+      # 1 invite to the new participant + 2 updates to existing participants.
       expect(ActionMailer::Base.deliveries.size).to eq 3
 
-      expect(ActionMailer::Base.deliveries.map(&:to).flatten)
-        .to contain_exactly user.mail, other_user.mail, third_user.mail
+      recipients = ActionMailer::Base.deliveries.map(&:to).flatten
+      expect(recipients.tally)
+        .to eq({
+                 user.mail => 1,
+                 other_user.mail => 1,
+                 third_user.mail => 1
+               })
     end
 
     it "notifies all remaining participants when a participant is removed" do
@@ -586,7 +611,7 @@ RSpec.describe "Meeting notifications", :js do
 
       wait_for_network_idle
 
-      perform_enqueued_jobs
+      perform_debounced_meeting_notification_jobs
 
       # 1 to the removed user + 2 to the existing participants
       expect(ActionMailer::Base.deliveries.size).to eq 3

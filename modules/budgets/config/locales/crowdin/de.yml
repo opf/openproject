@@ -19,100 +19,115 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 de:
-  plugin_budgets_engine:
-    name: "Budgets"
   activerecord:
     attributes:
       budget:
-        author: "Autor"
-        available: "Verfügbar"
-        budget: "Geplant"
-        budget_ratio: "Verbraucht (Prozent)"
-        description: "Beschreibung"
-        spent: "Verbraucht"
-        status: "Status"
-        subject: "Thema"
-        type: "Kostentyp"
-        labor_budget: "Geplante Personaleinzelkosten"
-        material_budget: "Geplante Stückkosten"
-        base_amount: "Grundbetrag"
+        author: Autor
+        available: Verfügbar
+        base_amount: Grundbetrag
+        budget: Geplant
+        budget_ratio: Verbraucht (Prozent)
+        description: Beschreibung
+        labor_budget: Geplante Personaleinzelkosten
+        labor_budget_items: Geplante Personaleinzelkosten
+        material_budget: Geplante Stückkosten
+        spent: Verbraucht
+        status: Status
+        subject: Thema
+        type: Kostentyp
       work_package:
-        budget_subject: "Budgettitel"
+        budget_subject: Budgettitel
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: ist kein Mitglied des Budgetprojekts
     models:
-      budget: "Budget"
-      material_budget_item: "Stück"
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Geplante Personaleinzelkosten
+        other: Geplante Personaleinzelkosten
+      material_budget_item:
+        one: Stück
+        other: Stücke
   activity:
     filter:
-      budget: "Budgets"
+      budget: Budgets
   attributes:
-    budget: "Budget"
-  button_add_budget_item: "Budgetposition hinzufügen"
-  button_add_budget: "Neues Budget anlegen"
-  button_add_cost_type: "Kostentyp anlegen"
-  button_cancel_edit_budget: "Budget bearbeiten abbrechen"
-  button_cancel_edit_costs: "Kosten bearbeiten abbrechen"
-  caption_labor: "Personal"
-  caption_labor_costs: "Ist-Personaleinzelkosten"
-  caption_material_costs: "Ist-Stückkosten"
-  budgets_title: "Budgets"
+    budget: Budget
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "keine Portfolios"
-          one: "1 Portfolio"
-          other: "%{count} Portfolios"
-        subprogram:
-          zero: "keine Unterprogramme"
-          one: "1 Unterprogramm"
-          other: "%{count} Unterprogramme"
-        subproject:
-          zero: "keine Unterprojekte"
-          one: "1 Unterprojekt"
-          other: "%{count} Unterprojekte"
-        view_details: "View budget details"
+          description: Erhalten Sie einen Überblick über Ihre Budgets und Kosten, um den Status Ihres Projekts effizient zu verfolgen
+          heading: Projektcontrolling starten
+        blankslate_zero:
+          description: Fügen Sie Details zu Ihrem geplanten Budget hinzu, um die Daten hier zu sehen
+          heading: Budgetdetails fehlen
+        count_caption:
+          one: Daten aggregiert aus %{count} Budget
+          other: Daten aggregiert aus %{count} Budgets
+          zero: Keine Budgetdaten.
+        count_caption_with_subitems:
+          portfolio:
+            one: Daten aggregiert aus %{count} Budget in diesem Portfolio und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Portfolio und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+          program:
+            one: Daten aggregiert aus %{count} Budget in diesem Programm und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Programm und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+          project:
+            one: Daten aggregiert aus %{count} Budget in diesem Projekt und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Projekt und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+        title: Budget nach Kostenart
+        view_details: Budgetdetails anzeigen
+      budget_totals:
+        remaining_budget: Verbleibendes Budget
+        spent_budget: Verwendetes Budget
+        title: Budgetsumme
+        total_actual_costs: Gesamte tatsächlichen Kosten
+        total_planned_budget: Gesamtes geplantes Budget
+  budgets_title: Budgets
+  button_add_budget: Neues Budget anlegen
+  button_add_budget_item: Budgetposition hinzufügen
+  button_add_cost_type: Kostentyp anlegen
+  button_cancel_edit_budget: Budget bearbeiten abbrechen
+  button_cancel_edit_costs: Kosten bearbeiten abbrechen
+  caption_labor: Personal
+  caption_labor_costs: Ist-Personaleinzelkosten
+  caption_material_costs: Ist-Stückkosten
   events:
-    budget: "Budget bearbeitet"
-  help_click_to_edit: "Hier Klicken zum bearbeiten."
-  help_currency_format: "Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung."
-  help_override_rate: "Hier einen Wert eingeben um den Standardwert zu Überschreiben."
-  label_budget: "Budget"
-  label_budget_available: "Verfügbares Budget"
-  label_budget_id: "Budget #%{id}"
-  label_budget_new: "Neues Budget"
-  label_budget_planned: "Geplantes Budget"
-  label_budget_plural: "Budgets"
-  label_budget_spent: "Ausgegebenes Budget"
-  label_budget_spent_ratio: "Anteil verbrauchtes Budget"
-  label_deliverable: "Budget"
-  label_example_placeholder: "z. B. %{decimal}"
-  label_view_all_budgets: "Alle Budgets anzeigen"
-  label_yes: "Ja"
-  label_budget_totals: "Summe"
-  label_budget_details: "Budgetdetails"
-  notice_budget_conflict: "Arbeitspakete müssen dem gleichen Projekt angehören."
-  notice_no_budgets_available: "Kein Budget verfügbar."
-  permission_edit_budgets: "Budgets bearbeiten"
-  permission_view_budgets: "Budgets ansehen"
-  project_module_budgets: "Budgets"
-  text_budget_reassign_to: "Auf dieses Budget umbuchen:"
-  text_budget_delete: "Budget aus allen Arbeitspaketen löschen"
-  text_budget_destroy_assigned_wp: "Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?"
+    budget: Budget bearbeitet
+  help_click_to_edit: Hier Klicken zum bearbeiten.
+  help_currency_format: Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung.
+  help_override_rate: Hier einen Wert eingeben um den Standardwert zu Überschreiben.
+  label_budget_available: Verfügbares Budget
+  label_budget_details: Budgetdetails
+  label_budget_id: 'Budget #%{id}'
+  label_budget_new: Neues Budget
+  label_budget_planned: Geplantes Budget
+  label_budget_plural: Budgets
+  label_budget_spent: Ausgegebenes Budget
+  label_budget_spent_ratio: Anteil verbrauchtes Budget
+  label_budget_totals: Summe
+  label_deliverable: Budget
+  label_example_placeholder: z. B. %{decimal}
+  label_view_all_budgets: Alle Budgets anzeigen
+  label_yes: Ja
+  notice_budget_conflict: Arbeitspakete müssen dem gleichen Projekt angehören.
+  notice_no_budgets_available: Kein Budget verfügbar.
+  permission_edit_budgets: Budgets bearbeiten
+  permission_view_budgets: Budgets ansehen
+  plugin_budgets_engine:
+    name: Budgets
+  project_module_budgets: Budgets
+  text_budget_delete: Budget aus allen Arbeitspaketen löschen
+  text_budget_destroy_assigned_wp: Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?
+  text_budget_reassign_to: 'Auf dieses Budget umbuchen:'

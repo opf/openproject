@@ -1,72 +1,80 @@
-"no":
-  plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
-    description: "Gir en plug-in API for å støtte OpenProject webhooks for bedre 3dje parts integrasjon."
+---
+'no':
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'Nyttelast-URL'
-        secret: 'Hemmelig signaturnøkkel'
-        events: 'Hendelser'
-        enabled: 'Aktivert'
-        projects: 'Aktiverte prosjekter'
       webhooks/log:
-        event_name: 'Navn på hendelse'
-        url: 'Nyttelast-URL'
-        response_code: 'Svarkode'
-        response_body: 'Svar'
+        event_name: Navn på hendelse
+        response_body: Svar
+        response_code: Svarkode
+        url: Nyttelast-URL
+      webhooks/webhook:
+        enabled: Aktivert
+        events: Hendelser
+        projects: Aktiverte prosjekter
+        secret: Hemmelig signaturnøkkel
+        url: Nyttelast-URL
     models:
-      webhooks/outgoing_webhook: "Utgående webhook"
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
+  plugin_openproject_webhooks:
+    description: Gir en plug-in API for å støtte OpenProject webhooks for bedre 3dje parts integrasjon.
+    name: OpenProject Webhooks
   webhooks:
-    singular: Webhook
-    plural: Webhooks
-    resources:
-      time_entry:
-        name: "Timeføring"
     outgoing:
-      no_results_table: Ingen webhooks har blitt definert ennå.
+      deliveries:
+        no_results_table: Ingen leveranser er gjennomført for denne webhooken de siste dagene.
+        time: Tid for levering
+        title: Nylige leveranser
+      events:
+        comment: Kommentar
+        created: Opprettet
+        internal_comment: Internal comment
+        updated: Oppdatert
+      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+
+        '
+      form:
+        apiv3_doc_url: For mer informasjon, besøk API-dokumentasjonen
+        description:
+          placeholder: Valgfri beskrivelse for webhook.
+        enabled:
+          description: 'Når merket av, vil webhooken utløses for de valgte hendelsene. Fjern merkingen for å deaktivere webhooken.
+
+            '
+        events:
+          title: Aktiverte hendelser
+        introduction: 'Send en POST-forespørsel til URL-adressen for nyttelast nedenfor for enhver hendelse i prosjektet du abonnerer på. Lasten vil tilsvare APIv3-representasjonen av objektet som endres.
+
+          '
+        project_ids:
+          all: Alle prosjekter
+          description: Velg hvilke prosjekter denne webhooken skal kjøres for.
+          selected: Bare valgte prosjekter
+          title: Aktiverte prosjekter
+        secret:
+          description: 'Hvis angitt, brukes denne hemmelige verdien av OpenProject for å signere webhook-nyttelasten.
+
+            '
+        selected_project_ids:
+          title: Valgte prosjekter
       label_add_new: Legg til ny webhook
       label_edit: Rediger webhook
       label_x_events:
-        one: "1 event"
+        one: 1 event
         other: "%{count} events"
-        zero: "No events"
-      events:
-        created: "Opprettet"
-        updated: "Oppdatert"
-        comment: "Kommentar"
-        internal_comment: "Internal comment"
-      explanation:
-        text: >
-          Ved forekomst av en hendelse som oppretting av en arbeidspakke eller en oppdatering fra et prosjekt, vil OpenProject sende en POST-forespørsel til de konfigurerte nettendepunktene. Ofte blir hendelsen sendt etter at %{link} er godkjent.
-        link: konfigurert summeringsperiode
+        zero: No events
+      no_results_table: Ingen webhooks har blitt definert ennå.
       status:
-        enabled: 'Webhook er aktivert'
-        disabled: 'Webhook er deaktivert'
-        enabled_text: 'Webhooken sender ut nyttelaster for de definerte hendelsene nedenfor.'
-        disabled_text: 'Klikk på rediger-knappen for å aktivere webhook.'
-      deliveries:
-        no_results_table: Ingen leveranser er gjennomført for denne webhooken de siste dagene.
-        title: 'Nylige leveranser'
-        time: 'Tid for levering'
-      form:
-        introduction: >
-          Send en POST-forespørsel til URL-adressen for nyttelast nedenfor for enhver hendelse i prosjektet du abonnerer på. Lasten vil tilsvare APIv3-representasjonen av objektet som endres.
-        apiv3_doc_url: For mer informasjon, besøk API-dokumentasjonen
-        description:
-          placeholder: 'Valgfri beskrivelse for webhook.'
-        enabled:
-          description: >
-            Når merket av, vil webhooken utløses for de valgte hendelsene. Fjern merkingen for å deaktivere webhooken.
-        events:
-          title: 'Aktiverte hendelser'
-        project_ids:
-          title: 'Aktiverte prosjekter'
-          description: 'Velg hvilke prosjekter denne webhooken skal kjøres for.'
-          all: 'Alle prosjekter'
-          selected: 'Bare valgte prosjekter'
-        selected_project_ids:
-          title: 'Valgte prosjekter'
-        secret:
-          description: >
-            Hvis angitt, brukes denne hemmelige verdien av OpenProject for å signere webhook-nyttelasten.
+        disabled: Webhook er deaktivert
+        disabled_text: Klikk på rediger-knappen for å aktivere webhook.
+        enabled: Webhook er aktivert
+        enabled_text: Webhooken sender ut nyttelaster for de definerte hendelsene nedenfor.
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: Timeføring
+    singular: Webhook

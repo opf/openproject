@@ -1,0 +1,158 @@
+## Forms for administration pages
+
+Administration pages forms are used to change the values of `Settings`. The name
+and labels being used are standardized making them very repetitive.
+
+Here is how the form of the General tab of the system administration page could
+look like:
+
+```ruby
+class Admin::Settings::GeneralSettingsForm < ApplicationForm
+  attr_reader :guessed_host
+
+  def initialize(guessed_host:)
+    super()
+    @guessed_host = guessed_host
+  end
+
+  form do |general_form|
+    general_form.text_field(
+      name: :app_title,
+      label: I18n.t("setting_app_title"),
+      value: Setting[:app_title],
+      disabled: !Setting.app_title_writable?
+    )
+    general_form.text_field(
+      name: :per_page_options,
+      label: I18n.t("setting_per_page_options"),
+      value: Setting[:per_page_options],
+      disabled: !Setting.per_page_options_writable?
+    )
+    general_form.text_field(
+      name: :activity_days_default,
+      label: I18n.t("setting_activity_days_default"),
+      value: Setting[:activity_days_default],
+      type: :number,
+      disabled: !Setting.activity_days_default_writable?
+    )
+    general_form.text_field(
+      name: :host_name,
+      label: I18n.t("setting_host_name"),
+      value: Setting[:host_name],
+      disabled: !Setting.host_name_writable?
+    )
+    #
+    # and so on...
+    #
+    general_form.submit(
+      name: 'submit',
+      label: I18n.t('button_save'),
+      scheme: :primary
+    )
+  end
+end
+```
+
+There is a lot of repetition in the form above: the field can be disabled for
+read-only settings (which happens for settings set through environment variables
+or configuration files), the field name has to be translated and the value must
+be read from `Settings`. Entering all this information manually is tedious and
+error prone.
+
+In this case, `settings_form` can be used instead of `form` to get a form
+instance with knowledge about how render fields for settings.
+
+The above example then becomes:
+
+```ruby
+class Admin::Settings::GeneralSettingsForm < ApplicationForm
+  attr_reader :guessed_host
+
+  def initialize(guessed_host:)
+    super()
+    @guessed_host = guessed_host
+  end
+
+  settings_form do |general_form|
+    general_form.text_field(name: :app_title)
+    general_form.text_field(name: :per_page_options)
+    general_form.text_field(name: :activity_days_default,
+                            type: :number)
+    general_form.text_field(name: :host_name)
+    #
+    # and so on...
+    #
+    general_form.submit
+  end
+end
+```
+
+It is easier to write and read.
+
+Under the hood, the form object is decorated with `Settings::FormObjectDecorator`.
+That's where all the helper methods are defined. There aren't many for now, but
+this is intended to grow to support more advanced form features for
+administration pages.
+
+So far, the following helpers are available:
+
+  * `text_field(name:, **options)`: renders a text field for the setting called
+    `name`, automatically setting the label, value, and disabled state from the
+    setting's attributes.
+
+  * `check_box(name:, **options)`: renders a checkbox for the setting called
+    `name`, automatically setting the label, checked state, and disabled state
+    from the setting's attributes.
+
+  * `radio_button_group(name:, values:, button_options: {}, **options)`: renders
+    a radio button group for the setting called `name` and radio button for each
+    element of `values`, automatically setting the label, checked state, html
+    caption, and disabled state from the setting's attributes.
+
+  * `fieldset_group(title:, **options) { |group| ... }`: groups multiple related
+    form inputs under a shared heading and semantic `<fieldset>`. The block yields
+    a group builder that supports the same input helpers (`text_field`,
+    `check_box`, `select_list`, etc.). Fieldset groups improve readability and
+    accessibility for longer or more complex forms. For an example implementation, see the [Fieldset Group preview](/lookbook/inspect/primer/forms/fieldset_group_form).
+
+  * `submit`: renders a submit button with the label "Save" and the primary
+    scheme.
+
+  * `form`: the form builder instance if you need to render some form elements
+    normally handled by the settings form decorator in another way than intended.
+    Any call to a method that is not defined on the settings form decorator will
+    be forwarded to this form builder instance so its usage is transparent.
+
+## `settings_primer_form_with` for administration pages
+
+Use `settings_primer_form_with` instead of `primer_form_with` on administration and project settings pages. It wraps the form in a width-limiting container (`op-admin-settings-form-wrapper`) for a consistent look and feel across all settings pages.
+
+All arguments and the block are passed through to `primer_form_with` unchanged:
+
+```erb
+<%%= settings_primer_form_with(
+  url: admin_settings_foo_path,
+  scope: :settings,
+  method: :patch
+) do |form| %>
+  <%%= render(Primer::Forms::FormList.new(FooSettingsForm.new(form))) %>
+<%% end %>
+```
+
+## `render_inline_settings_form` to avoid creating settings form classes
+
+Just as `render_inline_form` avoids creating a dedicated form class for regular forms,
+`render_inline_settings_form` does the same for settings forms. It combines the
+anonymous form pattern with the `settings_form` decorator.
+
+```erb
+<%%= settings_primer_form_with(url: admin_settings_foo_path, method: :patch) do |form| %>
+  <%%= render_inline_settings_form(form) do |f| %>
+    <%%= f.check_box(name: :ical_enabled) %>
+    <%%= f.text_field(name: :attachment_max_size) %>
+    <%%= f.submit %>
+  <%% end %>
+<%% end %>
+```
+
+Both helpers are available in views and ViewComponents that include `OpPrimer::FormHelpers`.

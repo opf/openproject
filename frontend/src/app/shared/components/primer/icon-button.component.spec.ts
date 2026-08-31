@@ -21,23 +21,23 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrimerIconButtonComponent } from './icon-button.component';
 
 describe('PrimerIconButtonComponent', () => {
   let component:PrimerIconButtonComponent;
   let fixture:ComponentFixture<PrimerIconButtonComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({imports: [PrimerIconButtonComponent]});
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({imports: [PrimerIconButtonComponent]}).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrimerIconButtonComponent);

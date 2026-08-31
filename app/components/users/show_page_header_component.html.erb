@@ -29,7 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title do
-      "#{avatar(@user, hover_card: { active: false })} #{h(@user.name)}".html_safe
+      concat avatar(@user, hover_card: { active: false })
+      concat @user.name
     end
     header.with_breadcrumbs(breadcrumb_items)
 

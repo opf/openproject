@@ -71,6 +71,15 @@ bg:
           name: Staff and projects manager
         item_1:
           name: Standard global role
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -93,6 +102,21 @@ bg:
           name: Висок
         item_3:
           name: Незабавно
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo project
@@ -182,8 +206,10 @@ bg:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Test and quality-check the conference website
             item_3:
+              subject: Conference
+            item_4:
               subject: Follow-up tasks
               children:
                 item_0:
@@ -195,7 +221,7 @@ bg:
                     *   [ ] Snacks
                     *   [ ] Music
                     *   [ ] Even more beer
-            item_4:
+            item_5:
               subject: End of project
           wiki: |
             _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
@@ -487,6 +513,20 @@ bg:
           name: Потребителска история
         item_6:
           name: Грешка
+      global_queries:
+        item_0:
+          name: 'Epic children: User stories and bugs'
+        item_1:
+          name: 'User story children: Tasks'
+      type_configuration:
+        item_0:
+          form_configuration:
+            item_0:
+              group_name: User stories and bugs
+        item_1:
+          form_configuration:
+            item_0:
+              group_name: Tasks
       welcome:
         title: Welcome to OpenProject!
         text: |

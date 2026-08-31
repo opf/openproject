@@ -19,124 +19,321 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 eo:
-  plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
+      project:
+        allow_multiple_active_sprints: Allow multiple active sprints
+        backlog_excluded_types: Excluded work package types
+        sprint_sharing: Sprint sharing
+        statuses_considered_closed: Statuses considered closed
       sprint:
-        duration: "Sprint duration"
+        duration: Daŭro
+        finish_date: Findato
+        goal: Sprinta celo
+        name: Nomo de sprinto
+        sharing: Sharing
+        statuses:
+          active: Aktiva
+          completed: Plenita
+          in_planning: En planado
+        work_packages: Laboraj eroj
+      sprint_goal:
+        text: Sprinta celo
       work_package:
-        position: "Posicio"
-        story_points: "Historiaj poentoj"
-        backlogs_work_package_type: "Backlog type"
+        backlog_bucket: Tasklista ujo
+        backlog_inbox: Backlog inbox
+        backlogs_work_package_type: Tasklista tipo
+        position: Posicio
+        sprint: Sprinto
+        story_points: Rakontaj poentoj
     errors:
+      messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        dates_required: Komencaj kaj finaj datoj estas bezonataj por komenci la sprinton.
+        must_be_in_planning: devas esti en la planado por komenci.
+        only_one_active_sprint_allowed: nur unu aktiva sprinto estas permesata por ĉiu projekto.
       models:
+        project:
+          attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+            sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              share_all_projects_already_taken: cannot be set because project "%{name}" is already sharing with all projects.
+              share_all_projects_already_taken_anonymous: cannot be set because another project is already sharing with all projects.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+          receiving_sprints: is receiving shared sprints. Own sprints cannot be created.
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                one: There is one work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
+            status:
+              not_active: ne estas aktiva, do ĝi ne povas esti fermita.
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         work_package:
           attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: devas aparteni al la sama projekto kiel la laborpakaĵo.
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
-              must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
+              can_only_contain_work_packages_of_current_sprint: can only contain IDs of work packages in the current sprint.
+              must_block_at_least_one_work_package: must contain the ID of at least one ticket.
+            sprint:
+              not_assignable: ne estas asignebla, ĉar ĝi aŭ ne estas kundividita kun la projekto, aŭ jam estas finita.
+              not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
             version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
-        sprint:
-          cannot_end_before_it_starts: "Sprint cannot end before it starts."
-  attributes:
-    task_type: "Task type"
+              task_version_must_be_the_same_as_story_version: must be the same as the parent story's version.
+          backlog_bucket_xor_sprint: ne eblas asigni ĝin al kaj sprinto kaj tasklista ujo.
+    models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
+      sprint:
+        one: Sprinto
+        other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
-    any: "ajna"
-    column_width: "Column width"
-    definition_of_done: "Definition of Done"
-    impediment: "Impediment"
-    label_versions_default_fold_state: "Show versions folded"
-    caption_versions_default_fold_state: "Versions will not be expanded by default when viewing backlogs. Each one has to be manually expanded."
-    work_package_is_closed: "Work package is done, when"
-    label_is_done_status: "Status %{status_name} means done"
+    add_existing_work_package_dialog_component:
+      title_without_container: Add existing work package
+    administration_blankslate:
+      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      title: La administraj agordoj de la tasklisto evoluas
+    backlog_component:
+      button_new_backlog_bucket: Nova tasklista ujo
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Tasklista ujo
+        other: Tasklistaj ujoj
+        zero: Ĉiuj tasklistaj ujoj
+      label_sprint_filter:
+        one: Sprinto
+        other: Sprintoj
+        zero: Ĉiuj sprintoj
+      select_panel_title: Elektu erojn
+    bucket_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        delete_backlog_bucket: Forigi tasklista ujo
+        edit_backlog_bucket: Redakti tasklista ujo
+      blankslate_description: Drag items here to add them
+      blankslate_title: La tasklista ujo estas malplena
+      drop_zone_label: Drop here to add this item
+      label_actions: Agoj de la tasklista ujo
+    bucket_destroy_modal_component:
+      details: La tasklista ujo '%{name}' estos forigita kaj ĉiuj laborpakaĵoj estos movitaj al la backlog-enirkesto. Neniu laborpakaĵo estos forigita.
+      title: Ĉu forigi tasklista ujo?
+    burndown_chart:
+      show:
+        blankslate_description: Agordu la komencan kaj finan daton de la sprinto por generi burndown-diagramon.
+        blankslate_title: Neniuj datumoj por la "burndown"-diagramo disponeblas
+    excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: Movu ilin al la malsupro de la tasklisto
+        move_to_sprint: Movu ilin al alia sprinto
+        move_to_top_of_backlog: Movu ilin al la supro de la tasklisto
+      body: "%{message} Kion vi ŝatus fari kun ĉi tiuj?"
+      button_complete_sprint: Kompletigu sprinton
+      legend: Agado por nefinitaj laborpakoj
+      select_sprint_label: Elektu sprinton
+      title: There are work in progress items
+    inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+      blankslate_title: La tasklista ujo estas malplena
+      drop_zone_label: Drop here to add this item
+      label_actions: Inbox actions
+      show_more:
+        one: Montru ankoraŭ 1 plian eron
+        other: Show %{count} more items
+      title: Enirkesto
+    label_burndown_chart: Burndown-diagramo
+    label_is_done_status: Stato %{status_name} signifas farita
+    label_sprint_board: Sprint-tabulo
+    label_sprint_report: Sprint report
+    move_to_bucket_dialog_component:
+      title: Movu al la tasklista ujo
+    move_to_sprint_dialog_component:
+      label_sprint: Sprinto
+      title: Movigu al sprinto
+    multiple_active_sprints: Multiple active sprints
     points_label:
-      one: "point"
-      other: "points"
-    positions_could_not_be_rebuilt: "Positions could not be rebuilt."
-    positions_rebuilt_successfully: "Positions rebuilt successfully."
-    rebuild: "Rebuild"
-    rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining work"
-    show_burndown_chart: "Burndown Chart"
-    story: "Historio"
+      one: point
+      other: poentoj
+    positions_could_not_be_rebuilt: Pozicioj ne povis esti rekonstruitaj.
+    positions_rebuilt_successfully: Pozicioj sukcese rekonstruitaj.
+    rebuild: Rekonstrui
+    rebuild_positions: Rekonstrui poziciojn
+    remaining_hours: Restanta laboro
+    sharing: Sprint sharing
+    show_burndown_chart: Burndown-diagramo
+    sprint_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        edit_sprint: Redaktu sprinton
+      blankslate_description: Ankoraŭ neniuj eroj planitaj. Tiri erojn ĉi tien por aldoni ilin.
+      blankslate_title: "%{name} estas malplena"
+      drop_zone_label: Drop here to add this item
+      label_actions: Sprintaj agoj
+      label_complete_sprint: Finigu sprinton
+      label_start_sprint: Komencu sprinton
+      start_sprint_disabled_reason_active_sprint: Alia sprinto jam estas aktiva.
+      start_sprint_disabled_reason_missing_dates: Komencaj kaj finaj datoj estas bezonataj por komenci la sprinton.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+    sprint_form:
+      goal_caption: La sprinta celo estas unika por ĉi tiu projekto kaj ne estas komuna kun aliaj projektoj, kiuj ankaŭ uzas ĉi tiun sprinton.
+      goal_for_this_project_label: "%{attribute} (por ĉi tiu projekto)"
+    sprint_form_component:
+      shared_sprint_info_banner: Ĉi tio estas komuna sprinto. Modifoj estos reflektitaj en ĉiuj projektoj, kiuj uzas ĝin.
+      shared_sprint_warning_banner: Ĉi tio estas komuna sprinto. Vi ne havas la necesajn permesojn por redakti ĝin.
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Edit sprint
+          sprint_report: Sprint report
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: Por komenci plani vian sprinton, kreu ĝin ĉi tie aŭ iru al la %{settings_link} por ricevi sprintojn el alia projekto.
+        create_description_text: Por komenci plani vian sprinton, kreu ĝin ĉi tie.
+        manage_description_html: Por komenci plani vian sprinton, iru al la %{settings_link} por ricevi sprintojn el alia projekto.
+        no_actions_description_text: Por ĉi tiu projekto ankoraŭ ne estas sprintoj disponeblaj.
+        receive_and_manage_description_html: Ĉi tiu projekto ricevas sprintojn el alia projekto. Administru tion en la %{settings_link}.
+        receive_description_text: Ĉi tiu projekto ricevas komunajn sprintojn el alia projekto, sed nuntempe neniu el ili estas disponebla.
+        settings_link_text: projektaj agordoj
+        title: Ankoraŭ neniuj sprintoj ekzistas
+      button_new_sprint: Nova sprinto
+    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+
+      '
     story_points:
       one: "%{count} story point"
-      other: "%{count} story points"
-    task: "Tasko"
-    task_color: "Task color"
-    unassigned: "Unassigned"
+      other: "%{count} rakontaj poentoj"
+    types_and_statuses: Tipoj kaj statusoj
+    unassigned: Ne asignita
     user_preference:
-      header_backlogs: "Backlogs module"
-      button_update_backlogs: "Update backlogs module"
-    backlog_component:
-      blankslate_title: "%{name} is empty"
-      blankslate_description: "No items planned yet. Drag items here to add them."
-    backlog_header_component:
-      label_toggle_backlog: "Collapse/Expand %{name}"
-      label_story_count:
-        zero: "No stories in backlog"
-        one: "%{count} story in backlog"
-        other: "%{count} stories in backlog"
-    backlog_menu_component:
-      label_actions: "Backlog actions"
+      button_update_backlogs: Ĝisdatigi la tasklistajn modulojn
+      header_backlogs: Tasklistaj moduloj
+    work_package_card_menu_component:
       action_menu:
-        edit_sprint: "Edit sprint"
-        new_story: "New story"
-        stories_tasks: "Stories/Tasks"
-        task_board: "Task board"
-        burndown_chart: "Burndown chart"
-        wiki: "Wiki"
-        properties: "Properties"
-    story_component:
-      label_drag_story: "Move %{name}"
-    story_menu_component:
-      label_actions: "Story actions"
-  backlogs_points_burn_direction: "Points burn up/down"
-  backlogs_product_backlog: "Product backlog"
-  backlogs_story: "Historio"
-  backlogs_story_type: "Story types"
-  backlogs_task: "Tasko"
-  backlogs_task_type: "Task type"
-  backlogs_wiki_template: "Template for sprint wiki page"
-  backlogs_empty_title: "No versions are defined yet"
-  backlogs_empty_action_text: "To start using backlogs, please create a version first"
-  backlogs_not_configured_title: "Backlogs not configured"
-  backlogs_not_configured_description: "Story and task types need to be set before using this module."
-  backlogs_not_configured_action_text: "Configure Backlogs"
+        copy_url_to_clipboard: Kopiu URL-on al la tondujo
+        copy_work_package_id: Kopiu la ID de laborpako
+        move_menu: Movu al pozicio
+        move_to_backlog_bucket: Movu al la tasklista ujo
+        move_to_inbox: Movu al la tasklista enirkesto
+        move_to_sprint: Movigu al sprinto
+    work_package_is_closed: Work package is done, when
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
-    story_points: "Story points"
-    story_points_ideal: "Story points (ideal)"
-  errors:
-    attributes:
-      task_type:
-        cannot_be_story_type: "can not also be a story type"
-  label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
-  label_blocks_ids: "ID de baritaj laborpakaĵoj"
-  label_column_in_backlog: "Column in backlog"
-  label_points_burn_down: "Malsupren"
-  label_points_burn_up: "Supren"
-  label_sprint_impediments: "Sprint Impediments"
-  label_task_board: "Task board"
-  permission_view_master_backlog: "View master backlog"
-  permission_view_taskboards: "View taskboards"
-  permission_select_done_statuses: "Select done statuses"
-  permission_update_sprints: "Update sprints"
-  project_module_backlogs: "Backlogs"
-  rb_burndown_charts:
-    show:
-      blankslate_title: "No burndown data available"
-      blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-  remaining_hours: "remaining work"
-  version_settings_display_label: "Column in backlog"
-  version_settings_display_option_left: "maldektre"
-  version_settings_display_option_none: "neniu"
-  version_settings_display_option_right: "dekstre"
-  setting_plugin_openproject_backlogs_story_types_caption: |
-    Types treated as backlog stories (e.g., Feature, User story). Must differ from task type.
-  setting_plugin_openproject_backlogs_task_type_caption: |
-    Type used for story tasks. Must differ from story types.
+    story_points: Rakontaj poentoj
+    story_points_ideal: Rakontaj poentoj (ideala)
+  ee:
+    features:
+      multiple_active_sprints: Multiple active sprints
+      sprint_sharing: Sprint sharing
+    upsell:
+      multiple_active_sprints:
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      sprint_sharing:
+        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: Ĉiuj sprintoj
+  label_backlog: Listo de farotaj taskoj
+  label_backlog_and_sprints: Backlog and sprints
+  label_backlog_bucket_edit: Redakti tasklista ujo
+  label_backlog_bucket_new: Nova tasklista ujo
+  label_backlogs: Listoj de farotaj taskoj
+  label_burndown_chart: Burndown chart
+  label_inbox: Enirkesto
+  label_points_burn_down: Malsupren
+  label_points_burn_up: Supren
+  label_sprint_board: Sprint-tabulo
+  label_sprint_edit: Redaktu sprinton
+  label_sprint_new: Nova sprinto
+  label_task_board: Tasktabulo
+  notice_successful_finish: La sprinto estis plenigita.
+  notice_successful_start: La sprinto estis komencita.
+  notice_unsuccessful_finish: La sprinto ne povis esti plenigita.
+  notice_unsuccessful_finish_with_reason: 'La sprinto ne povis esti plenigita: %{reason}'
+  notice_unsuccessful_start: La sprinto ne povis esti komencita.
+  notice_unsuccessful_start_with_reason: 'La sprinto ne povis esti komencita: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
+  permission_create_sprints: Kreu sprintojn
+  permission_manage_sprint_items: Administri sprintajn erojn
+  permission_select_backlog_types_and_statuses: Select backlog types and statuses
+  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
+
+    '
+  permission_share_sprint: Share sprint
+  permission_start_complete_sprint: Komencu/finu sprinton
+  permission_view_sprints: Vidi sprintojn
+  plugin_openproject_backlogs:
+    description: Ĉi tiu modulo aldonas funkciojn, kiuj ebligas al agilaj teamoj labori kun OpenProject en Scrum-projektoj.
+    name: Farontaj taskoj de OpenProject
+  project_module_backlogs: Listoj de farotaj taskoj
+  projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
+    settings:
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: Sprintoj kreitaj en ĉi tiu projekto estos disponeblaj kaj videblaj nur en ĉi tiu projekto. Ili ne estos videblaj en subprojektoj.
+            label: Ne dividu
+          receive_shared:
+            caption: This project can only use sprints shared by other projects.
+            label: Receive shared sprints
+            warning: This project can only use sprints shared by other projects. Unused sprints created in this project in the past, will no longer be visible.
+          share_all_projects:
+            caption: Sprints created in this project will be available to all projects in this instance. If you select this option, it will no longer be available to other projects.
+            disabled_caption: Option not available since project "%{name}" is currently sharing with all projects and only one project can do this.
+            disabled_caption_anonymous: Option not available since another project is currently sharing with all projects and only one project can do this.
+            label: Ĉiuj projektoj
+          share_subprojects:
+            caption: Sprintoj kreitaj en ĉi tiu projekto estos disponeblaj por ĉiuj subprojektoj de la nuna projekto.
+            info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.
+            label: Subprojektoj
+        sprint_sharing: Share sprints
+      backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+        sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
+          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
+          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
+  remaining_hours: restanta laboro

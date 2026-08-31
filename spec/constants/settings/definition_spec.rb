@@ -175,6 +175,12 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:rails_cache_store].value).to eq :memcache
       end
 
+      it "overriding emails_salutation from ENV will cast the value before validation check",
+         with_env: { "OPENPROJECT_EMAILS__SALUTATION" => "name" } do
+        reset(:emails_salutation)
+        expect(all[:emails_salutation].value).to eq :name
+      end
+
       it "overriding datetime configuration from ENV will cast the value",
          with_env: { "OPENPROJECT_CONSENT__TIME" => "2222-01-01" } do
         reset(:consent_time)
@@ -1050,6 +1056,151 @@ RSpec.describe Settings::Definition, :settings_reset do
                               writable: false,
                               persist_on_first_read: true
         end.to raise_error(ArgumentError, /persist_on_first_read need to be writable/)
+      end
+    end
+  end
+
+  describe ".add_value_override" do
+    before do
+      described_class.add "bogus_override_test",
+                          default: false,
+                          format: :boolean
+    end
+
+    after do
+      described_class.clear_value_overrides(:bogus_override_test)
+    end
+
+    context "when the override block returns a non-nil value" do
+      before do
+        described_class.add_value_override(:bogus_override_test) do
+          true
+        end
+      end
+
+      it "uses the returned value as the setting value" do
+        expect(described_class[:bogus_override_test].value).to be true
+      end
+
+      it "marks the setting as non-writable" do
+        expect(described_class[:bogus_override_test]).not_to be_writable
+      end
+    end
+
+    context "when the override block returns nil" do
+      before do
+        described_class.add_value_override(:bogus_override_test) do
+          nil
+        end
+      end
+
+      it "uses the original default value" do
+        expect(described_class[:bogus_override_test].value).to be false
+      end
+
+      it "keeps the setting writable" do
+        expect(described_class[:bogus_override_test]).to be_writable
+      end
+    end
+
+    context "when the override block returns a callable" do
+      before do
+        described_class.add_value_override(:bogus_override_test) do
+          -> {}
+        end
+      end
+
+      it "calls it to obtain the value, allowing override with nil" do
+        expect(described_class[:bogus_override_test].value).to be_nil
+      end
+
+      it "marks the setting as non-writable" do
+        expect(described_class[:bogus_override_test]).not_to be_writable
+      end
+    end
+
+    context "when the override is conditional" do
+      let(:condition) { true }
+
+      before do
+        cond = condition
+        described_class.add_value_override(:bogus_override_test) do
+          true if cond
+        end
+      end
+
+      context "when condition is met" do
+        let(:condition) { true }
+
+        it "overrides the value" do
+          expect(described_class[:bogus_override_test].value).to be true
+        end
+
+        it "is non-writable" do
+          expect(described_class[:bogus_override_test]).not_to be_writable
+        end
+      end
+
+      context "when condition is not met" do
+        let(:condition) { false }
+
+        it "uses the original value" do
+          expect(described_class[:bogus_override_test].value).to be false
+        end
+
+        it "remains writable" do
+          expect(described_class[:bogus_override_test]).to be_writable
+        end
+      end
+    end
+
+    context "with multiple override blocks" do
+      before do
+        described_class.add "bogus_multi_override_test",
+                            default: "original",
+                            format: :string
+
+        described_class.add_value_override(:bogus_multi_override_test) do
+          nil
+        end
+        described_class.add_value_override(:bogus_multi_override_test) do
+          "from_second"
+        end
+        described_class.add_value_override(:bogus_multi_override_test) do
+          "from_third"
+        end
+      end
+
+      after do
+        described_class.clear_value_overrides(:bogus_multi_override_test)
+      end
+
+      it "uses the first block that returns a non-nil value" do
+        expect(described_class[:bogus_multi_override_test].value).to eq "from_second"
+      end
+    end
+
+    context "when the setting is already non-writable" do
+      before do
+        described_class.add "bogus_non_writable_test",
+                            default: "original",
+                            format: :string,
+                            writable: false
+        described_class.add_value_override(:bogus_non_writable_test) do
+          "overridden"
+        end
+      end
+
+      after do
+        described_class.clear_value_overrides(:bogus_non_writable_test)
+      end
+
+      it "overrides the value" do
+        expect(described_class[:bogus_non_writable_test].value).to eq "overridden"
+      end
+
+      it "remains non-writable" do
+        expect(described_class[:bogus_non_writable_test]).not_to be_writable
       end
     end
   end

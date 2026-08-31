@@ -122,15 +122,54 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
         .not_to eql orig_checksum
     end
 
-    it "produces a different checksum on changes to the version id" do
-      WorkPackage.where(id: work_package.id).update_all(version_id: 0)
+    it "produces a different checksum on reassigning the target version" do
+      other_version = create(:version, project:)
+      work_package.work_package_versions.where(kind: "target").update_all(version_id: other_version.id)
 
       expect(new_checksum)
         .not_to eql orig_checksum
     end
 
-    it "produces a different checksum on changes to the version" do
-      work_package.version.update_attribute(:updated_at, 10.seconds.from_now)
+    it "produces a different checksum on changes to the target version" do
+      work_package.target_versions.first.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to an additional target version" do
+      other_version = create(:version, project:)
+      work_package.work_package_versions.create!(version: other_version, kind: "target")
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to an additional observed_in version" do
+      other_version = create(:version, project:)
+      work_package.work_package_versions.create!(version: other_version, kind: "observed_in")
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to an observed_in version" do
+      other_version = create(:version, project:)
+      work_package.work_package_versions.create!(version: other_version, kind: "observed_in")
+
+      previous_checksum = EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+
+      other_version.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(new_checksum)
+        .not_to eql previous_checksum
+    end
+
+    it "produces a different checksum on moving a version between kinds" do
+      work_package.work_package_versions.where(kind: "target").update_all(kind: "observed_in")
 
       expect(new_checksum)
         .not_to eql orig_checksum

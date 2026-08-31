@@ -38,6 +38,7 @@ RSpec.describe "Team planner",
   it "allows switching of view modes", with_settings: { working_days: [1, 2, 3, 4, 5] } do
     team_planner.visit!
 
+    team_planner.wait_for_loaded
     team_planner.expect_empty_state
     team_planner.add_assignee user.name
 

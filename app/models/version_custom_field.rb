@@ -29,6 +29,8 @@
 #++
 
 class VersionCustomField < CustomField
+  scopes :visible
+
   def type_name
     :label_version_plural
   end

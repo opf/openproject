@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pl:
   js:
     reporting_engine:
-      label_remove: "Usuń"
-      label_response_error: "Wystąpił błąd podczas próby połączenia z serwerem."
+      label_remove: Usuń
+      label_response_error: Wystąpił błąd podczas próby połączenia z serwerem.

@@ -35,8 +35,10 @@ module API
             after_validation do
               authorize_logged_in
 
-              @custom_field = CustomField.find(params[:id])
+              @custom_field = CustomField.visible.find(params[:id])
             end
+
+            get &API::V3::Utilities::Endpoints::Show.new(model: CustomField).mount
 
             mount Hierarchy::ItemsAPI
           end

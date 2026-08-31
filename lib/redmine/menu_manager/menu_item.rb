@@ -39,7 +39,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
               :partial,
               :scheme,
               :engine,
-              :enterprise_feature
+              :enterprise_feature,
+              :show_divider_before
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/PerceivedComplexity
@@ -60,6 +61,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @icon = options[:icon]
     @icon_after = options[:icon_after]
     @enterprise_feature = options[:enterprise_feature]
+    @show_divider_before = options[:show_divider_before]
     @caption = options[:caption]
     @context = options[:context]
     @html_options = options[:html].nil? ? {} : options[:html].dup
@@ -177,5 +179,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
 
   def enterprise_feature_missing?
     @enterprise_feature.present? && !EnterpriseToken.allows_to?(@enterprise_feature)
+  end
+
+  def show_divider_before?
+    @show_divider_before || false
   end
 end

@@ -1,190 +1,197 @@
-#English strings go here for Rails i18n
+---
 ro:
-  plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
-    description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: "Identificator"
-        default: "Utilizează ca implicit"
-        channel: "Canal"
+        channel: Canal
+        default: Utilizează ca implicit
+        identifier: Identificator
       two_factor_authentication/device/sms:
-        phone_number: "Număr de telefon"
+        phone_number: Număr de telefon
       two_factor_authentication/device/webauthn:
-        webauthn_external: "ID WebAuthn"
-        webauthn_public_key: "Cheie publică WebAuthn"
+        webauthn_external: ID WebAuthn
+        webauthn_public_key: Cheie publică WebAuthn
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: "este deja setat pentru un alt dispozitiv OTP."
+          default_already_exists: este deja setat pentru un alt dispozitiv OTP.
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "trebuie să aibă formatul +XX XXXXXXXXX"
+              error_phone_number_format: trebuie să aibă formatul +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: "Dispozitiv 2FA"
-      two_factor_authentication/device/sms: "Telefon mobil"
-      two_factor_authentication/device/totp: "Aplicația Authenticator"
-      two_factor_authentication/device/webauthn: "WebAuthn"
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        other: WebAuthn
+  button_continue: Continuaţi
+  button_make_active: Activate
+  button_make_default: Marcați ca implicit
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Apel vocal
+  button_resend_otp_form: Retrimite
+  field_otp: Parolă unică
+  label_confirmed: Confirmat
+  label_otp_channel: Canalul de livrare
+  notice_account_has_no_phone: Nici un număr de telefon mobil nu este asociat contului dvs.
+  notice_account_otp_expired: Parola unică pe care ați introdus-o a expirat.
+  notice_account_otp_invalid: Parolă unică invalidă.
+  notice_account_otp_send_failed: Parola dvs. unică nu a putut fi trimisă.
+  notice_developer_strategy_otp: 'Strategia dezvoltatorului a generat următoarea parolă unică: %{token} (Canal: %{channel})'
+  notice_phone_number_format: 'Te rog să introduci numărul în următorul format: +XX XXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+    name: OpenProject Two-factor authentication
+  text_otp_not_receive: Alte metode de verificare
+  text_send_otp_again: 'Retrimite parola unică prin:'
   two_factor_authentication:
-    error_2fa_disabled: "Autentificarea cu parolă a fost dezactivat."
-    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
-    error_no_device: "Nu s-a găsit niciun dispozitiv 2FA înregistrat pentru acest utilizator, deși este necesar pentru această instanță."
-    error_no_matching_strategy: "Nu este disponibilă nicio strategie 2FA corespunzătoare pentru acest utilizator. Vă rugăm să vă contactați administratorul."
-    error_is_enforced_not_active: "Eroare de configurare: Autentificarea doi factori a fost impusă, dar nu există strategii active."
-    error_invalid_backup_code: "Cod de rezervă 2FA invalid"
-    channel_unavailable: "Canalul de livrare %{channel} nu este disponibil."
-    no_valid_phone_number: "Nu există un număr de telefon valabil."
-    label_pwd_confirmation: "Parola"
-    notice_pwd_confirmation: "Trebuie să vă confirmați parola atunci când faceți modificări la aceste setări."
-    label_device_type: "Tipul de dispozitiv"
-    label_default_device: "Dispozitiv 2FA implicit"
-    label_device: "Dispozitiv 2FA"
-    label_devices: "Dispozitive 2FA"
-    label_one_time_password: "Parolă unică"
-    label_2fa_enabled: "Autentificarea doi factori este activă"
-    label_2fa_disabled: "Autentificare doi factori"
-    text_otp_delivery_message_sms: "Parola unică %{app_title} este %{token}"
-    text_otp_delivery_message_voice: "Parola unică %{app_title} este: %{pause} %{token}. %{pause} Repet: %{pause} %{token}"
-    text_enter_2fa: "Te rog să introduci parola unică de pe dispozitiv."
-    text_2fa_enabled: "La fiecare autentificare, ți se va cere să introduci un token OTP de pe dispozitivul 2FA implicit."
-    text_2fa_disabled: "Pentru a activa autentificarea doi factori, utilizează butonul de mai sus pentru a înregistra un nou dispozitiv 2FA. Dacă ai deja un dispozitiv, trebuie să îl faci implicit."
-    login:
-      enter_backup_code_title: Introdu codul de rezervă
-      enter_backup_code_text: Te rog să introduci un cod de rezervă valabil din lista ta de coduri în cazul în care nu mai poți accesa dispozitivele 2FA înregistrate.
-      other_device: "Utilizează un alt dispozitiv sau un cod de rezervă"
-    settings:
-      title: "Setări 2FA"
-      current_configuration: "Configurația curentă"
-      label_active_strategies: "Strategii 2FA active"
-      label_enforced: "Aplicați 2FA"
-      label_remember: "Rețineți autentificarea 2FA"
-      text_configuration: |
-        Notă: Aceste valori reprezintă configurația curentă la nivelul întregii aplicații. Nu poți dezactiva setările impuse de configurație sau modifica strategiile active curente, deoarece acestea necesită o repornire a serverului.
-      text_configuration_guide: Pentru mai multe informații, consultați ghidul de configurare.
-      text_enforced: "Activează această setare pentru a forța toți utilizatorii să înregistreze un dispozitiv 2FA la următoarea autentificare. Poate fi dezactivată numai atunci când nu este impusă prin configurare."
-      text_remember: |
-        Setează această valoare mai mare decât zero pentru a permite utilizatorilor să își amintească autentificarea 2FA pentru numărul de zile dat.
-        Nu li se va cere să o introducă din nou în această perioadă. Poate fi setat numai atunci când nu este impus prin configurare.
-      error_invalid_settings: "Strategiile 2FA pe care le-ați selectat nu sunt valide"
-      failed_to_save_settings: "Nu s-a reușit actualizarea setărilor 2FA: %{message}"
     admin:
-      self_edit_path: "Pentru a adăuga sau modifica propriile dispozitive 2FA, vă rugăm să accesați %{self_edit_link}"
-      self_edit_link_name: "Autentificare doi factori pe pagina contului dvs"
-      self_edit_forbidden: "Nu îți poți edita propriile dispozitive 2FA pe această cale. Mergi la Contul meu > Autentificare doi factori."
-      no_devices_for_user: "Nu a fost înregistrat niciun dispozitiv 2FA pentru acest utilizator."
-      all_devices_deleted: "Toate dispozitivele 2FA ale acestui utilizator au fost șterse"
-      delete_all_are_you_sure: "Sunteți sigur că doriți să ștergeți toate dispozitivele 2FA pentru acest utilizator?"
-      button_delete_all_devices: "Ștergeți dispozitivele 2FA înregistrate"
-      button_register_mobile_phone_for_user: "Înregistrarea telefonului mobil"
-      text_2fa_enabled: "La fiecare autentificare, acest utilizator va fi rugat să introducă un token OTP de pe dispozitivul său 2FA implicit."
-      text_2fa_disabled: "Utilizatorul nu a configurat un dispozitiv 2FA prin intermediul paginii \"Contul meu\""
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
-    upsell:
-      title: "Autentificare doi factori"
-      description: "Consolidarea securității instanței OpenProject prin oferirea (sau impunerea) autentificării doi factori pentru toți membrii proiectului."
+      all_devices_deleted: Toate dispozitivele 2FA ale acestui utilizator au fost șterse
+      button_delete_all_devices: Ștergeți dispozitivele 2FA înregistrate
+      button_register_mobile_phone_for_user: Înregistrarea telefonului mobil
+      delete_all_are_you_sure: Sunteți sigur că doriți să ștergeți toate dispozitivele 2FA pentru acest utilizator?
+      no_devices_for_user: Nu a fost înregistrat niciun dispozitiv 2FA pentru acest utilizator.
+      only_sms_allowed: Only SMS delivery can be set up for other users.
+      self_edit_forbidden: Nu îți poți edita propriile dispozitive 2FA pe această cale. Mergi la Contul meu > Autentificare doi factori.
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: Utilizatorul nu a configurat un dispozitiv 2FA prin intermediul paginii "Contul meu"
+      text_2fa_enabled: La fiecare autentificare, acest utilizator va fi rugat să introducă un token OTP de pe dispozitivul său 2FA implicit.
     backup_codes:
-      none_found: Nu există coduri de rezervă pentru acest cont.
-      singular: Cod de rezervă
-      plural: Coduri de rezervă
-      your_codes: pentru contul tău %{app_name} %{login}
+      generate:
+        keep_safe_as_password: Important! Tratează aceste coduri ca pe niște parole.
+        keep_safe_warning: Fie le salvezi în managerul de parole, fie imprimi această pagină și pune-o într-un loc sigur.
+        regenerate_warning: 'Avertisment: Dacă ai creat coduri de rezervă înainte, acestea vor fi invalidate și nu vor mai funcționa.'
+        title: Generarea codurilor de rezervă
       overview_description: |
         Dacă nu poți accesa dispozitivele doi factori, poți utiliza un cod de rezervă pentru a recăpăta accesul la cont.
         Utilizează următorul buton pentru a genera un nou set de coduri de rezervă.
-      generate:
-        title: Generarea codurilor de rezervă
-        keep_safe_as_password: "Important! Tratează aceste coduri ca pe niște parole."
-        keep_safe_warning: "Fie le salvezi în managerul de parole, fie imprimi această pagină și pune-o într-un loc sigur."
-        regenerate_warning: "Avertisment: Dacă ai creat coduri de rezervă înainte, acestea vor fi invalidate și nu vor mai funcționa."
+      plural: Coduri de rezervă
+      singular: Cod de rezervă
+    channel_unavailable: Canalul de livrare %{channel} nu este disponibil.
     devices:
-      add_new: "Adaugă un nou dispozitiv 2FA"
-      register: "Dispozitivul de înregistrare"
-      confirm_default: "Confirmați schimbarea dispozitivului implicit"
-      confirm_device: "Confirmați dispozitivul"
-      confirm_now: "Nu este confirmat, faceți clic aici pentru a activa"
-      cannot_delete_default: "Nu se poate șterge dispozitivul implicit"
-      make_default_are_you_sure: "Sunteți sigur că doriți să faceți din acest dispozitiv 2FA dispozitivul dvs. implicit?"
-      make_default_failed: "Nu s-a reușit actualizarea dispozitivului 2FA implicit."
-      deletion_are_you_sure: "Sunteți sigur că doriți să ștergeți acest dispozitiv 2FA?"
-      registration_complete: "Înregistrarea dispozitivului 2FA este completă!"
-      registration_failed_token_invalid: "Înregistrarea dispozitivului 2FA a eșuat, token-ul nu era valid."
-      registration_failed_update: "Înregistrarea dispozitivului 2FA a eșuat, token-ul era valid, dar dispozitivul nu a putut fi actualizat."
-      confirm_send_failed: "Confirmarea dispozitivului tău 2FA a eșuat."
-      button_complete_registration: "Completați înregistrarea 2FA"
-      text_confirm_to_complete_html: "Te rog să completezi înregistrarea dispozitivului <strong>%{identifier}</strong> prin introducerea unei parole unice de la dispozitivul tău implicit."
-      text_confirm_to_change_default_html: "Te rog să confirmi schimbarea dispozitivului implicit în <strong>%{new_identifier}</strong> introducând o parolă unică de pe dispozitivul implicit actual."
-      text_identifier: "Puteți atribui dispozitivului un identificator personalizat folosind acest câmp."
-      failed_to_delete: "Nu s-a reușit ștergerea dispozitivului 2FA."
-      is_default_cannot_delete: "Dispozitivul este marcat ca fiind implicit și nu poate fi șters din cauza unei politici de securitate active. Marcați un alt dispozitiv ca implicit înainte de a-l șterge."
-      not_existing: "Nu a fost înregistrat niciun dispozitiv 2FA pentru contul dvs."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      webauthn:
-        title: "WebAuthn"
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: După ce ai ales un nume, poți face clic pe butonul Continuare. Browserul tău îți va solicita să prezinți dispozitivul WebAuthn. Când ai făcut acest lucru, ai terminat de înregistrat dispozitivul.
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Adaugă un nou dispozitiv 2FA
+      button_complete_registration: Completați înregistrarea 2FA
+      cannot_delete_default: Nu se poate șterge dispozitivul implicit
+      confirm_default: Confirmați schimbarea dispozitivului implicit
+      confirm_device: Confirmați dispozitivul
+      confirm_now: Nu este confirmat, faceți clic aici pentru a activa
+      confirm_send_failed: Confirmarea dispozitivului tău 2FA a eșuat.
+      deletion_are_you_sure: Sunteți sigur că doriți să ștergeți acest dispozitiv 2FA?
+      failed_to_delete: Nu s-a reușit ștergerea dispozitivului 2FA.
+      is_default_cannot_delete: Dispozitivul este marcat ca fiind implicit și nu poate fi șters din cauza unei politici de securitate active. Marcați un alt dispozitiv ca implicit înainte de a-l șterge.
+      make_default_are_you_sure: Sunteți sigur că doriți să faceți din acest dispozitiv 2FA dispozitivul dvs. implicit?
+      make_default_failed: Nu s-a reușit actualizarea dispozitivului 2FA implicit.
+      not_existing: Nu a fost înregistrat niciun dispozitiv 2FA pentru contul dvs.
+      register: Dispozitivul de înregistrare
+      registration_complete: Înregistrarea dispozitivului 2FA este completă!
+      registration_failed_token_invalid: Înregistrarea dispozitivului 2FA a eșuat, token-ul nu era valid.
+      registration_failed_update: Înregistrarea dispozitivului 2FA a eșuat, token-ul era valid, dar dispozitivul nu a putut fi actualizat.
+      sms:
+        description: 'Receive 2FA code via a text message on your phone each time you log in.
+
+          '
+        redacted_identifier: Dispozitiv mobil (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, ți-am trimis un cod de autentificare prin %{delivery_channel}"
+        title: Mobile device
+      text_confirm_to_change_default_html: Te rog să confirmi schimbarea dispozitivului implicit în <strong>%{new_identifier}</strong> introducând o parolă unică de pe dispozitivul implicit actual.
+      text_confirm_to_complete_html: Te rog să completezi înregistrarea dispozitivului <strong>%{identifier}</strong> prin introducerea unei parole unice de la dispozitivul tău implicit.
+      text_identifier: Puteți atribui dispozitivului un identificator personalizat folosind acest câmp.
       totp:
-        title: "App-based authenticator"
-        provisioning_uri: "URI de provizionare"
-        secret_key: "Testați cheia secretă"
-        time_based: "Pe bază de timp"
-        account: "Denumirea contului / Emitent"
+        account: Denumirea contului / Emitent
+        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
+
+          '
+        provisioning_uri: URI de provizionare
+        question_cannot_scan: 'Nu puteți scana codul cu ajutorul aplicației dumneavoastră?
+
+          '
+        secret_key: Testați cheia secretă
         setup: |
           Pentru a configura autentificarea doi factori cu Google Authenticator, desczrcă aplicația din Apple App Store sau Google Play Store.
           După ce deschizi aplicația, poți scana următorul cod QR pentru a înregistra dispozitivul.
-        question_cannot_scan: |
-          Nu puteți scana codul cu ajutorul aplicației dumneavoastră?
-        text_cannot_scan: |
-          În cazul în care nu poți scana codul, poți să introduci intrarea manual folosind următoarele detalii:
-        description: |
-          Use a one-time code generated by an authenticator like Authy or Google Authenticator.
-      sms:
-        title: "Mobile device"
-        redacted_identifier: "Dispozitiv mobil (%{redacted_number})"
-        request_2fa_identifier: "%{redacted_identifier}, ți-am trimis un cod de autentificare prin %{delivery_channel}"
-        description: |
-          Receive 2FA code via a text message on your phone each time you log in.
-    sns:
-      delivery_failed: "Livrarea SNS a eșuat:"
-    message_bird:
-      sms_delivery_failed: "Livrarea SMS-urilor MessageBird a eșuat."
-      voice_delivery_failed: "Apelul vocal MessageBird a eșuat."
-    strategies:
-      totp: "Aplicația Authenticator"
-      sns: "Amazon SNS"
-      resdt: "SMS Rest API"
-      webauthn: "WebAuthn"
-    mobile_transmit_notification: "O parolă unică a fost trimisă pe telefonul dvs. mobil."
-    label_two_factor_authentication: "Autentificare doi factori"
+        text_cannot_scan: 'În cazul în care nu poți scana codul, poți să introduci intrarea manual folosind următoarele detalii:
+
+          '
+        time_based: Pe bază de timp
+        title: App-based authenticator
+      webauthn:
+        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
+        further_steps: După ce ai ales un nume, poți face clic pe butonul Continuare. Browserul tău îți va solicita să prezinți dispozitivul WebAuthn. Când ai făcut acest lucru, ai terminat de înregistrat dispozitivul.
+        title: WebAuthn
+    error_2fa_disabled: Autentificarea cu parolă a fost dezactivat.
+    error_invalid_backup_code: Cod de rezervă 2FA invalid
+    error_is_enforced_not_active: 'Eroare de configurare: Autentificarea doi factori a fost impusă, dar nu există strategii active.'
+    error_no_device: Nu s-a găsit niciun dispozitiv 2FA înregistrat pentru acest utilizator, deși este necesar pentru această instanță.
+    error_no_matching_strategy: Nu este disponibilă nicio strategie 2FA corespunzătoare pentru acest utilizator. Vă rugăm să vă contactați administratorul.
     forced_registration:
-      required_to_add_device: "O politică de securitate activă solicită să activezi autentificarea doi factori. Te rog să utilizezi următorul formular pentru a înregistra un dispozitiv."
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: Autentificare doi factori
+    label_2fa_enabled: Autentificarea doi factori este activă
+    label_default_device: Dispozitiv 2FA implicit
+    label_device: Dispozitiv 2FA
+    label_device_type: Tipul de dispozitiv
+    label_devices: Dispozitive 2FA
+    label_two_factor_authentication: Autentificare doi factori
+    login:
+      enter_backup_code_text: Te rog să introduci un cod de rezervă valabil din lista ta de coduri în cazul în care nu mai poți accesa dispozitivele 2FA înregistrate.
+      enter_backup_code_title: Introdu codul de rezervă
+      other_device: Utilizează un alt dispozitiv sau un cod de rezervă
+    message_bird:
+      sms_delivery_failed: Livrarea SMS-urilor MessageBird a eșuat.
+      voice_delivery_failed: Apelul vocal MessageBird a eșuat.
+    mobile_transmit_notification: O parolă unică a fost trimisă pe telefonul dvs. mobil.
+    no_valid_phone_number: Nu există un număr de telefon valabil.
+    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
     remember:
-      active_session_notice: >
-        Contul dvs. are un modul cookie de memorare activ, valabil până la %{expires_on}. Acest modul cookie vă permite să vă conectați fără un al doilea factor la contul dvs. până la acel moment.
+      active_session_notice: 'Contul dvs. are un modul cookie de memorare activ, valabil până la %{expires_on}. Acest modul cookie vă permite să vă conectați fără un al doilea factor la contul dvs. până la acel moment.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Toate sesiunile 2FA memorate au fost eliminate.
+      dont_ask_again: Creați un modul cookie pentru a reține autentificarea 2FA pe acest client timp de %{days} zile.
+      label: Reține autentificarea
       other_active_session_notice: Contul dvs. are un modul cookie de reamintire activ într-o altă sesiune.
-      label: "Reține autentificarea"
-      clear_cookie: "Clic aici pentru a elimina toate sesiunile 2FA reținute."
-      cookie_removed: "Toate sesiunile 2FA memorate au fost eliminate."
-      dont_ask_again: "Creați un modul cookie pentru a reține autentificarea 2FA pe acest client timp de %{days} zile."
-  field_phone: "Telefon mobil"
-  field_otp: "Parolă unică"
-  notice_account_otp_invalid: "Parolă unică invalidă."
-  notice_account_otp_expired: "Parola unică pe care ați introdus-o a expirat."
-  notice_developer_strategy_otp: "Strategia dezvoltatorului a generat următoarea parolă unică: %{token} (Canal: %{channel})"
-  notice_account_otp_send_failed: "Parola dvs. unică nu a putut fi trimisă."
-  notice_account_has_no_phone: "Nici un număr de telefon mobil nu este asociat contului dvs."
-  label_expiration_hint: "%{date} sau la deconectare"
-  label_actions: "Acțiuni"
-  label_confirmed: "Confirmat"
-  button_continue: "Continuaţi"
-  button_make_default: "Marcați ca implicit"
-  label_unverified_phone: "Telefonul mobil nu a fost încă verificat"
-  notice_phone_number_format: "Te rog să introduci numărul în următorul format: +XX XXXXXXXX."
-  text_otp_not_receive: "Alte metode de verificare"
-  text_send_otp_again: "Retrimite parola unică prin:"
-  button_resend_otp_form: "Retrimite"
-  button_otp_by_voice: "Apel vocal"
-  button_otp_by_sms: "SMS"
-  label_otp_channel: "Canalul de livrare"
+    settings:
+      current_configuration: Configurația curentă
+      failed_to_save_settings: 'Nu s-a reușit actualizarea setărilor 2FA: %{message}'
+      label_active_strategies: Strategii 2FA active
+      label_enforced: Aplicați 2FA
+      label_remember: Rețineți autentificarea 2FA
+      text_configuration: 'Notă: Aceste valori reprezintă configurația curentă la nivelul întregii aplicații. Nu poți dezactiva setările impuse de configurație sau modifica strategiile active curente, deoarece acestea necesită o repornire a serverului.
+
+        '
+      text_configuration_guide: Pentru mai multe informații, consultați ghidul de configurare.
+      text_enforced: Activează această setare pentru a forța toți utilizatorii să înregistreze un dispozitiv 2FA la următoarea autentificare. Poate fi dezactivată numai atunci când nu este impusă prin configurare.
+      text_remember: |
+        Setează această valoare mai mare decât zero pentru a permite utilizatorilor să își amintească autentificarea 2FA pentru numărul de zile dat.
+        Nu li se va cere să o introducă din nou în această perioadă. Poate fi setat numai atunci când nu este impus prin configurare.
+      title: Setări 2FA
+    sns:
+      delivery_failed: 'Livrarea SNS a eșuat:'
+    strategies:
+      resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Aplicația Authenticator
+      webauthn: WebAuthn
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: La fiecare autentificare, ți se va cere să introduci un token OTP de pe dispozitivul 2FA implicit.
+    text_otp_delivery_message_sms: Parola unică %{app_title} este %{token}
+    text_otp_delivery_message_voice: 'Parola unică %{app_title} este: %{pause} %{token}. %{pause} Repet: %{pause} %{token}'

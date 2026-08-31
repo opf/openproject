@@ -19,11 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 hu:
   js:
+    burndown:
+      day: Nap
+      points: Pontok
     work_packages:
       properties:
-        storyPoints: "Story pontok"
-    burndown:
-      day: "Day"
-      points: "Points"
+        storyPoints: Story pontok

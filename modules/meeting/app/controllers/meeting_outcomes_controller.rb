@@ -33,11 +33,13 @@ class MeetingOutcomesController < ApplicationController
   include Meetings::AgendaComponentStreams
 
   load_and_authorize_with_permission_in_project :manage_outcomes
-  authorize_with_permission :add_work_packages, only: %i[create_work_package_dialog create_work_package]
+  authorize_with_permission :add_work_packages,
+                            only: %i[create_work_package_dialog create_work_package refresh_work_package_dialog]
 
   before_action :set_meeting
   before_action :set_meeting_agenda_item
-  before_action :set_meeting_outcome, except: %i[new cancel_new create create_work_package_dialog create_work_package]
+  before_action :set_meeting_outcome,
+                except: %i[new cancel_new create create_work_package_dialog create_work_package refresh_work_package_dialog]
 
   def new
     update_meeting_metadata_via_turbo_stream
@@ -149,6 +151,20 @@ class MeetingOutcomesController < ApplicationController
       meeting: @meeting,
       meeting_agenda_item: @meeting_agenda_item
     )
+  end
+
+  def refresh_work_package_dialog
+    work_package = create_work_package_service.build_work_package(permitted_params.update_work_package)
+
+    form_component = MeetingAgendaItems::Outcomes::CreateWorkPackageFormComponent.new(
+      work_package:,
+      project: @project,
+      meeting: @meeting,
+      meeting_agenda_item: @meeting_agenda_item
+    )
+
+    update_via_turbo_stream(component: form_component)
+    respond_with_turbo_streams
   end
 
   def create_work_package # rubocop:disable Metrics/AbcSize

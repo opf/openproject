@@ -54,6 +54,15 @@ class Meeting::Participant < ApplicationForm
         }
       }
     )
+
+    if meeting.series_template?
+      participant_form.check_box(
+        name: :apply_to_upcoming,
+        label: I18n.t("meeting.participants.label.apply_to_upcoming_meetings"),
+        checked: true,
+        data: { "meetings--participants--update-occurrence-participants-target": "controlCheckbox" }
+      )
+    end
   end
 
   private
@@ -70,7 +79,7 @@ class Meeting::Participant < ApplicationForm
     list = [
       { name: "type", operator: "=", values: %w[User] },
       { name: "invitable_to_meeting_in_project", operator: "=", values: [meeting.project_id] },
-      { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }
+      { name: "status", operator: "=", values: [Principal.statuses[:active]] }
     ]
 
     list << { name: "id", operator: "!", values: excluded_ids } if excluded_ids.any?

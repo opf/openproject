@@ -19,225 +19,301 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pt-PT:
-  plugin_costs:
-    name: "Tempo e custos"
-    description: "Este módulo acrescenta funcionalidades para planear e acompanhar os custos dos projetos."
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Pacote de trabalho"
-        overridden_costs: "Custos substituídos"
-        spent: "Gasto"
-        spent_on: "Data"
-        logged_by: "Registado por"
         entity: Registado para
-        entity_id: Registado para
         entity_gid: Registado para
-      cost_type:
-        unit: "Nome da Unidade"
-        unit_plural: "Nome da unidade no plural"
-        default: "Tipo de custo por padrão"
-      work_package:
-        costs_by_type: "Unidades gastas"
-        labor_costs: "Custos de trabalho"
-        material_costs: "Custos unitários"
-        overall_costs: "Custos totais"
-        spent_costs: "Custos de gastos"
-        spent_units: "Unidades gastas"
-      rate:
-        rate: "Taxa"
-      user:
-        default_rates: "Taxas padrão"
-      time_entry:
-        project: Projeto
-        user: Utilizador
+        entity_id: Registado para
+        logged_by: Registado por
+        overridden_costs: Custos substituídos
+        spent: Gasto
+        spent_on: Data
         work_package: Pacote de trabalho
-        subject: Assunto
-        hours: Horas
-        comments: Comentário
+      cost_type:
+        default: Tipo de custo por padrão
+        for_all_projects: Para todos os projetos
+        rates: Tarifas
+        unit: Nome da Unidade
+        unit_plural: Nome da unidade no plural
+      rate:
+        rate: Taxa
+      time_entry:
         activity: Atividade
+        comments: Comentário
+        end_time: Hora de fim
+        entity: Registado para
+        entity_gid: Registado para
+        entity_id: Registado para
+        hours: Horas
+        project: Projeto
         spent_on: Data
         start_time: Hora de início
-        end_time: Hora de fim
+        subject: Assunto
         time: Hora
-        entity: Registado para
-        entity_id: Registado para
-        entity_gid: Registado para
-    models:
-      time_entry:
-        one: "Entrada de hora"
-        other: "Entradas de hora"
-      cost_entry:
-        one: "Entrada de custo"
-        other: "Entradas de custo"
-      cost_type:
-        one: "Tipo de custo"
-        other: "Tipos de custos"
-      time_entry_activity:
-        one: "Atividade de controlo de tempo"
-        other: "Atividades de controlo de tempo"
-      rate: "Taxa"
+        user: Utilizador
+        work_package: Pacote de trabalho
+      user:
+        default_rates: Taxas padrão
+      work_package:
+        costs_by_type: Unidades gastas
+        labor_costs: Custos de trabalho
+        material_costs: Custos unitários
+        overall_costs: Custos totais
+        spent_costs: Custos de gastos
+        spent_units: Unidades gastas
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: não pode ser desativado, uma vez que já foram registados custos relativos a ele no âmbito deste projeto.
       models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Selecione um projeto.
         time_entry:
-          invalid_time: "tem de ser entre as 00:00 e as 23:59."
-          cannot_log_for_this_work_package: "Não é possível registar o tempo para este pacote de trabalho."
-          duplicate_ongoing: "Já existe um registo de horas em curso para este utilizador."
+          attributes:
+            entity:
+              blank: O campo "Registado para" não pode ficar em branco.
+              cannot_log_for_this_work_package: Não tem autorizações para registar o tempo neste pacote de trabalho.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: As horas registadas não podem exceder o limite de %{limit} horas disponíveis no dia de trabalho do utilizador.
+              format: "%{message}"
+              max_hours_per_day_exceeded: As horas registadas não podem exceder o limite de %{limit} horas por dia, definido pelo administrador.
+              max_hours_per_entry_exceeded: As horas registadas não podem exceder o limite de %{limit} horas num único registo de tempo, definido pelo administrador.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Não é possível registar horas relativas a um mês já decorrido. Os registos de horas só podem ser adicionados, alterados ou eliminados de %{date} em diante.
+              not_a_working_day: O dia selecionado não é um dia útil para este utilizador.
+            start_time:
+              format: "%{message}"
+              invalid_time: Hora inválida. A hora deve estar compreendida entre as 00:00 e as 23:59.
+          duplicate_ongoing: Já existe outro temporizador em funcionamento. Apenas um temporizador pode estar ativo de cada vez.
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Pacote de trabalho #%{id} não é um destino válido para reatribuir os registos de custo."
-          nullify_is_not_valid_for_cost_entries: "Entradas de custo não podem ser atribuídas a um projeto."
-  attributes:
-    comment: "Comentário"
-    cost_type: "Tipo de custo"
-    costs: "Custos"
-    current_rate: "Taxa atual"
-    hours: "Horas"
-    units: "Unidades"
-    valid_from: "Válido desde"
-    fixed_date: "Data fixa"
-  button_add_rate: "Adicionar Taxa"
-  button_log_costs: "Registar custos unitários"
-  button_log_time: "Registo"
-  button_add_activity: "Atividade"
-  button_add_time_entry: "Tempo de registro"
-  button_stop_timer: "Parar temporizador"
-  caption_booked_on_project: "Marcado no projeto"
-  caption_default: "Predefinido"
-  caption_default_rate_history_for: "História de taxa padrão para %{user}"
-  caption_locked_on: "Bloqueado em"
-  caption_materials: "Unidades"
-  caption_rate_history: "Histórico de taxas"
-  caption_rate_history_for: "Histórico de taxas para %{user}"
-  caption_rate_history_for_project: "Histórico de taxas de %{user} no projeto %{project}"
-  caption_save_rate: "Salvar Taxa"
-  caption_set_rate: "Definir taxa atual"
-  caption_show_locked: "Mostrar tipos bloqueados"
-  caption_log_time_dialog: "Registo de tempo"
-  description_date_for_new_rate: "Data para nova taxa"
-  description_costs_settings: "Defina o formato desejado para os custos em todos os projetos."
-  description_time_settings: "Defina os campos que são obrigatórios preencher ao registar o tempo em todos os projetos."
-  group_by_others: "em nenhum grupo"
-  label_between: "entre"
-  label_cost_filter_add: "Adicionar filtro de entrada de custo"
-  label_costlog: "Custos unitários registados"
-  label_cost_plural: "Custos"
-  label_cost_type_plural: "Tipos de custos"
-  label_cost_type_specific: "Tipos de custo #%{id}: %{name}"
-  label_costs_per_page: "Custos por página"
-  label_current_default_rate: "Taxa atual por defeito"
-  label_date_on: "em"
-  label_deleted_cost_types: "Tipos de custos apagados"
-  label_locked_cost_types: "Tipos de custos bloqueados"
-  label_display_cost_entries: "Mostrar custos unitários"
-  label_display_time_entries: "Mostrar horas reportadas"
-  label_display_types: "Mostrar tipos"
-  label_edit: "Editar"
-  label_generic_user: "Utilizador genérico"
-  label_greater_or_equal: ">="
-  label_group_by: "Agrupar por"
-  label_group_by_add: "Adicionar campo de agrupamento"
-  label_hourly_rate: "Taxa horária"
-  label_include_deleted: "Incluir eliminados"
-  label_work_package_filter_add: "Adicionar filtro de pacote de trabalho"
-  label_kind: "Tipo"
-  label_less_or_equal: "<="
-  label_log_costs: "Registar custos unitários"
-  label_new_time_entry_activity: "Nova atividade de registo de tempo"
-  label_time_entry_activity_form_description: "As alterações a esta atividade de registo de tempo serão refletidas em todos os projetos em que estiver ativado."
-  label_no: "Não"
-  label_option_plural: "Opções"
-  label_overall_costs: "Custos totais"
-  label_rate: "Taxa"
-  label_rate_plural: "Taxas"
-  label_status_finished: "Terminado"
-  label_show: "Mostrar"
-  label_units: "Custos unitários"
-  label_user: "Utilizador"
-  label_until: "até"
-  label_valid_from: "Válido desde"
-  label_yes: "Sim"
-  label_time: "Hora"
-  label_cost: "Custo"
-  label_costs: "Custos"
-  label_mandatory_fields: "Campos obrigatórios"
-  label_my_time_tracking: "O meu controlo do tempo"
-  label_no_time: "Sem tempo controlado"
-  label_next_day: "Dia seguinte"
-  label_next_week: "Próxima semana"
-  label_next_workweek: "Semana de trabalho seguinte"
-  label_next_month: "Mês seguinte"
-  label_previous_day: "Dia anterior"
-  label_previous_workweek: "Semana de trabalho anterior"
-  label_previous_week: "Semana passada"
-  label_previous_month: "Mês anterior"
-  label_specific_day: "Dia %{day}"
-  label_specific_week: "Semana do calendário %{week}"
-  label_specific_month: "Mês %{month}"
-  label_list: "Lista"
-  label_month: "Mês"
-  label_workweek: "Semana de trabalho"
-  label_day: "Dia"
-  label_today_capitalized: "Hoje"
-  label_view_mode_switcher: "Mudar vista"
-  label_timer_since: "Iniciado em %{time}"
-  placeholder_activity_select_work_package_first: A seleção do pacote de trabalho é necessária em primeiro lugar
-  notice_something_wrong: "Ocorreu um erro. Por favor, tente novamente."
-  notice_successful_restore: "Restauração bem-sucedida."
-  notice_successful_lock: "Bloqueado com êxito."
-  notice_cost_logged_successfully: "Custo unitário registado com êxito."
-  notice_different_time_zones: "Este utilizador tem um fuso horário diferente (%{tz}). A hora será registada utilizando o fuso horário do mesmo."
-  notice_time_entry_update_failed: "Não foi possível atualizar o registo de tempo. Erros: %{errors}"
-  notice_time_entry_delete_failed: "Não foi possível eliminar o registo de tempo. Erros: %{errors}"
-  permission_edit_cost_entries: "Editar custos unitários marcados"
-  permission_edit_own_cost_entries: "Editar custos unitários próprios marcados"
-  permission_edit_hourly_rates: "Editar taxas horárias"
-  permission_edit_own_hourly_rate: "Editar taxas horárias próprias"
-  permission_edit_rates: "Editar taxas"
-  permission_log_costs: "Marcar custos unitários"
-  permission_log_own_costs: "Marcar custos unitários para si próprio"
-  permission_view_cost_entries: "Ver custos marcados"
-  permission_view_cost_rates: "Ver taxas de custo"
-  permission_view_hourly_rates: "Ver os todas as taxas horárias"
-  permission_view_own_cost_entries: "Ver custos próprios marcados"
-  permission_view_own_hourly_rate: "Ver taxa horária própria"
-  permission_view_own_time_entries: "Ver tempo próprio gasto"
-  project_module_costs: "Tempo e custos"
-  setting_allow_tracking_start_and_end_times: "Permitir horário de início e término"
-  setting_costs_currency: "Moeda"
-  setting_costs_currency_format: "Formato de moeda"
-  setting_enforce_tracking_start_and_end_times: "Exigir hora de início e término"
-  setting_enforce_without_allow: "Não é possível exigir horas de início e de fim sem as autorizar"
-  setting_allow_tracking_start_and_end_times_caption: "Permite introduzir as horas de início e de término ao registar o tempo."
-  setting_enforce_tracking_start_and_end_times_caption: "Torna obrigatória a introdução das horas de início e de término do registo de horas."
-  text_assign_time_and_cost_entries_to_project: "Atribuir horas e custos reportados ao projeto"
-  text_destroy_cost_entries_question: "%{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
-  text_destroy_time_and_cost_entries: "Apagar horas e custos reportados"
-  text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
-  text_reassign_time_and_cost_entries: "Reatribuir horas e custos reportados para este pacote de trabalho:"
-  text_warning_hidden_elements: "Algumas entradas podem ter sido excluídas da agregação."
-  week: "semana"
-  total_times:
-    workweek: "Total da semana de trabalho: %{hours}"
-    week: "Total da semana: %{hours}"
-    month: "Total do mês: %{hours}"
-    day: "Total do dia: %{hours}"
+          is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é um destino válido para reatribuir os registos de custo.'
+          nullify_is_not_valid_for_cost_entries: Entradas de custo não podem ser atribuídas a um projeto.
+    models:
+      cost_entry:
+        one: Entrada de custo
+        other: Entradas de custo
+      cost_rate:
+        one: Taxa de custo
+        other: Taxas de custo
+      cost_type:
+        one: Tipo de custo
+        other: Tipos de custos
+      default_hourly_rate:
+        one: Tarifa horária padrão
+        other: Tarifas horárias padrão
+      hourly_rate:
+        one: Tarifa horária
+        other: Tarifas horárias
+      rate:
+        one: Tarifa
+        other: Tarifas
+      time_entry:
+        one: Entrada de hora
+        other: Entradas de hora
+      time_entry_activity:
+        one: Atividade de controlo de tempo
+        other: Atividades de controlo de tempo
+      time_entry_custom_field:
+        one: Campo personalizado de registo de horas
+        other: Campos personalizados de registo de horas
   api_v3:
     errors:
       validation:
-        start_time_different_date: "A parte da data de startTime (%{start_time}) tem de ser a mesma que a data de spentOn (%{spent_on})."
+        start_time_different_date: A parte da data de startTime (%{start_time}) tem de ser a mesma que a data de spentOn (%{spent_on}).
+  attributes:
+    comment: Comentário
+    cost_type: Tipo de custo
+    costs: Custos
+    current_rate: Taxa atual
+    fixed_date: Data fixa
+    hours: Horas
+    units: Unidades
+    valid_from: Válido desde
+  button_add_activity: Atividade
+  button_add_rate: Adicionar Taxa
+  button_add_time_entry: Hora de registo
+  button_log_costs: Registar custos unitários
+  button_log_time: Registo
+  button_stop_timer: Parar temporizador
+  button_update_limits: Atualizar limites
+  button_update_start_finish_times: Atualizar as horas de início e fim
+  caption_booked_on_project: Marcado no projeto
+  caption_default: Predefinido
+  caption_default_rate_history_for: História de taxa padrão para %{user}
+  caption_locked_on: Bloqueado em
+  caption_log_time_dialog: Registo de tempo
+  caption_materials: Unidades
+  caption_rate_history: Histórico de taxas
+  caption_rate_history_for: Histórico de taxas para %{user}
+  caption_rate_history_for_project: Histórico de taxas de %{user} no projeto %{project}
+  caption_save_rate: Salvar Taxa
+  caption_set_rate: Definir taxa atual
+  caption_show_locked: Mostrar tipos bloqueados
+  cost_types:
+    admin:
+      columns:
+        active_projects: Projetos ativos
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Desmarcar a opção "Para todos os projetos" no separador de detalhes para limitar este tipo de custo a projetos específicos.
+          heading: Este tipo de custo é ativado em todos os projetos
+        no_projects:
+          description: Adicionar projetos para que este tipo de custo possa ser utilizado nos mesmos.
+          heading: Não há projetos atribuídos
+      rates:
+        title: Histórico de tarifas
+    errors:
+      no_cost_types_available: Não existem tipos de custos disponíveis neste projeto. Contacte um administrador.
+    settings:
+      cost_types:
+        for_all_projects_hint: Este tipo de custo está ativado em todos os projetos.
+        heading: Tipos de custos
+        in_use_hint: Este tipo de custo não pode ser desativado, uma vez que já foram registados custos relativos a ele neste projeto.
+        none_active: Nenhum tipo de custo está ativo neste projeto.
+      time_and_costs: Tempo e custos
   costs:
     widgets:
       actual_costs:
-        title: "Actual costs by month"
         blankslate:
-          heading: "Start tracking your time and costs"
-          description: "Get an overview of your costs and logged time to monitor progress of your project"
-          action: "Log time"
-        view_details: "View actual costs details"
+          action: Registo de tempo
+          description: Obtenha uma síntese dos custos e do tempo registado para monitorizar o progresso do seu projeto. Confirme se os pacotes de trabalho estão associados ao orçamento correto.
+          heading: Comece a controlar o seu tempo e os seus custos
+        title: Custos reais por mês
+        view_details: Ver detalhes dos custos reais
+  description_costs_settings: Defina o formato desejado para os custos em todos os projetos.
+  description_date_for_new_rate: Data para nova taxa
+  description_time_entry_restrictions: Defina limites para os casos em que um utilizador regista o tempo. Aplica-se a todos os projetos.
+  description_time_settings: Os registos de tempo podem ter horas específicas de início e de fim, que podem ser opcionais ou obrigatórias.
   ee:
     features:
-      time_entry_time_restrictions: Exigir controlo exato das horas
+      time_entry_time_restrictions: Restrições ao registo de horas
     upsell:
       time_entry_time_restrictions:
-        description: "Melhore o seu controlo do tempo ao exigir as horas exatas de início e de fim aquando do registo do tempo."
+        description: Melhore o seu registo de tempo ao permitir ou exigir horas de início e de fim precisas, e ao definir limites para quando e quanto tempo pode ser registado por um membro do projeto.
+  group_by_others: em nenhum grupo
+  label_available_cost_types_projects: Tipos de custos disponíveis para projetos
+  label_between: entre
+  label_cost: Custo
+  label_cost_filter_add: Adicionar filtro de entrada de custo
+  label_cost_plural: Custos
+  label_cost_type_plural: Tipos de custos
+  label_cost_type_specific: 'Tipos de custo #%{id}: %{name}'
+  label_costlog: Custos unitários registados
+  label_costs: Custos
+  label_costs_per_page: Custos por página
+  label_current_default_rate: Taxa atual por defeito
+  label_date_on: em
+  label_day: Dia
+  label_defaults_and_limits: Valores predefinidos e limites
+  label_deleted_cost_types: Tipos de custos apagados
+  label_display_cost_entries: Mostrar custos unitários
+  label_display_time_entries: Mostrar horas reportadas
+  label_display_types: Mostrar tipos
+  label_edit: Editar
+  label_generic_user: Utilizador genérico
+  label_greater_or_equal: ">="
+  label_group_by: Agrupar por
+  label_group_by_add: Adicionar campo de agrupamento
+  label_include_deleted: Incluir eliminados
+  label_kind: Tipo
+  label_less_or_equal: "<="
+  label_list: Lista
+  label_log_costs: Registar custos unitários
+  label_month: Mês
+  label_my_time_tracking: O meu controlo do tempo
+  label_new_time_entry_activity: Nova atividade de registo de tempo
+  label_next_day: Dia seguinte
+  label_next_month: Mês seguinte
+  label_next_week: Próxima semana
+  label_next_workweek: Semana de trabalho seguinte
+  label_no: Não
+  label_no_time: Sem tempo controlado
+  label_option_plural: Opções
+  label_overall_costs: Custos totais
+  label_previous_day: Dia anterior
+  label_previous_month: Mês anterior
+  label_previous_week: Semana passada
+  label_previous_workweek: Semana de trabalho anterior
+  label_rate_plural: Taxas
+  label_show: Mostrar
+  label_specific_day: Dia %{day}
+  label_specific_month: Mês %{month}
+  label_start_and_finished: Horários de início e de fim
+  label_status_finished: Terminado
+  label_time: Hora
+  label_time_entry_activity_form_description: As alterações a esta atividade de registo de tempo serão refletidas em todos os projetos em que estiver ativado.
+  label_time_entry_restrictions: Limites
+  label_timer_since: Iniciado em %{time}
+  label_today_capitalized: Hoje
+  label_units: Custos unitários
+  label_until: até
+  label_valid_from: Válido a partir de
+  label_view_mode_switcher: Mudar vista
+  label_work_package_filter_add: Adicionar filtro de pacote de trabalho
+  label_workweek: Semana de trabalho
+  label_yes: Sim
+  notice_cost_logged_successfully: Custo unitário registado com êxito.
+  notice_different_time_zones: Este utilizador tem um fuso horário diferente (%{tz}). A hora será registada utilizando o fuso horário do mesmo.
+  notice_something_wrong: Ocorreu um erro. Por favor, tente novamente.
+  notice_successful_lock: Bloqueado com êxito.
+  notice_successful_restore: Restauração bem-sucedida.
+  notice_time_entry_delete_failed: 'Não foi possível eliminar o registo de tempo. Erros: %{errors}'
+  notice_time_entry_update_failed: 'Não foi possível atualizar o registo de tempo. Erros: %{errors}'
+  permission_edit_cost_entries: Editar custos unitários marcados
+  permission_edit_hourly_rates: Editar taxas horárias
+  permission_edit_own_cost_entries: Editar custos unitários próprios marcados
+  permission_edit_own_hourly_rate: Editar taxas horárias próprias
+  permission_edit_rates: Editar taxas
+  permission_log_costs: Marcar custos unitários
+  permission_log_own_costs: Marcar custos unitários para si próprio
+  permission_view_cost_entries: Ver custos marcados
+  permission_view_cost_rates: Ver taxas de custo
+  permission_view_hourly_rates: Ver os todas as taxas horárias
+  permission_view_own_cost_entries: Ver custos próprios marcados
+  permission_view_own_hourly_rate: Ver taxa horária própria
+  permission_view_own_time_entries: Ver tempo próprio gasto
+  placeholder_activity_select_work_package_first: A seleção do pacote de trabalho é necessária em primeiro lugar
+  plugin_costs:
+    description: Este módulo acrescenta funcionalidades para planear e acompanhar os custos dos projetos.
+    name: Tempo e custos
+  project_module_costs: Hora e custos
+  setting_allow_tracking_start_and_end_times: Permitir horário de início e término
+  setting_allow_tracking_start_and_end_times_caption: Permite introduzir as horas de início e de término ao registar o tempo.
+  setting_costs_currency: Moeda
+  setting_costs_currency_caption: Esta é a unidade monetária. Pode ser um código ISO de três letras como EUR, USD ou JPY ou um símbolo como €, $ ou ¥.
+  setting_costs_currency_format: Formato da moeda
+  setting_costs_currency_format_prefix: Antes do número (por exemplo, 100 euros)
+  setting_costs_currency_format_suffix: Após o número (por exemplo, 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Exigir hora de início e término
+  setting_enforce_tracking_start_and_end_times_caption: Torna obrigatória a introdução das horas de início e de término do registo de horas.
+  setting_enforce_without_allow: Não é possível exigir horas de início e de fim sem as autorizar
+  setting_time_entries_limit_to_user_working_hours: Limitar ao horário de trabalho do utilizador
+  setting_time_entries_limit_to_user_working_hours_caption: Limita o número total de horas que podem ser registadas por dia no horário de trabalho efetivo desse utilizador. Os utilizadores sem horário de trabalho definido não estarão sujeitos a esta restrição.
+  setting_time_entries_max_hours_per_day: Número máximo de horas por dia
+  setting_time_entries_max_hours_per_day_caption: Limita o número total de horas que um utilizador pode permanecer ligado num único dia. Um valor igual a 0 significa que não existem restrições.
+  setting_time_entries_max_hours_per_entry: Número máximo de horas por registo de tempo
+  setting_time_entries_max_hours_per_entry_caption: Limita o número de horas que um único registo de tempo pode ter. Um valor de 0 significa que não existem restrições.
+  setting_time_entries_past_month_grace_days: Período de carência relativo aos meses anteriores
+  setting_time_entries_past_month_grace_days_caption: Defina o número de dias de que um utilizador dispõe, a partir do início de um novo mês, para registar entradas de tempo relativas ao mês anterior. Um valor de 5 permite que os utilizadores registem o tempo relativo ao mês anterior até ao dia 5 do mês em curso. Um valor de 0 significa que não existe qualquer período de tolerância.
+  setting_time_entries_prohibit_logging_for_past_months: Não permitir registo de dados relativos a meses anteriores
+  setting_time_entries_prohibit_logging_for_past_months_caption: Limita a adição, alteração e eliminação de registos de tempo ao mês atual. O tempo registado em meses anteriores já não pode ser alterado.
+  setting_time_entries_prohibit_logging_on_non_working_days: Não permitir registo de horas em dias não úteis
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Os utilizadores não poderão registar horas nos dias definidos como não úteis, quer por um administrador, quer pelos próprios utilizadores nas definições das suas contas.
+  text_assign_time_and_cost_entries_to_project: Atribuir horas e custos reportados ao projeto
+  text_destroy_cost_entries_question: "%{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
+  text_destroy_time_and_cost_entries: Apagar horas e custos reportados
+  text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
+  text_reassign_time_and_cost_entries: 'Reatribuir horas e custos reportados para este pacote de trabalho:'
+  text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
+  total_times:
+    day: 'Total do dia: %{hours}'
+    month: 'Total do mês: %{hours}'
+    week: 'Total da semana: %{hours}'
+    workweek: 'Total da semana de trabalho: %{hours}'
+  week: semana

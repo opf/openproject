@@ -58,6 +58,7 @@ if [ ! "$BIM_SUPPORT" = "false" ]; then
 
   # Install node + npm for BIM runtime tools.
   curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
+  npm install -g npm@${NPM_VERSION}
 
   tmpdir=$(mktemp -d)
   cd $tmpdir
@@ -89,14 +90,12 @@ id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER
 
 # Purge helper packages used only while building this stage.
 apt-get purge -yq --auto-remove \
-  file \
   gnupg2 \
   lsb-release
 
 # curl/wget are only needed during installation in this stage.
 apt-get purge -yq --auto-remove \
-  curl \
   wget
 
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.npm
 truncate -s 0 /var/log/*log

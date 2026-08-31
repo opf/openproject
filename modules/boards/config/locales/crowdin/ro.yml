@@ -1,40 +1,52 @@
-#English strings go here
+---
 ro:
-  plugin_openproject_boards:
-    name: "OpenProject Boards"
-    description: "Provides board views."
-  permission_show_board_views: "Vezi panouri"
-  permission_manage_board_views: "Gestionați plăcile"
-  project_module_board_view: "Panouri"
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        few: Boards
+        other: Boards
+  boards:
+    board_type_attributes:
+      assignee: Executant
+      basic: De bază
+      status: Kanban
+      subproject: Subproiect
+      subtasks: Părinte-copil
+      version: Versiune
+    board_type_descriptions:
+      assignee: 'Tablă cu coloane automate pe baza utilizatorilor atribuiți. Ideal pentru expedierea pachetelor de lucru.
+
+        '
+      basic: 'Începe de la zero cu o planșă albă. Adaugă manual cărți și coloane pe această planșă.
+
+        '
+      status: 'Tablă de bază în stil Kanban cu coloane pentru statusuri precum "De făcut", "În curs", "Realizat".
+
+        '
+      subproject: 'Tablă cu coloane automate pentru subproiecte. Glisarea pachetelor de lucru în alte liste actualizează (sub)proiectul în mod corespunzător.
+
+        '
+      subtasks: 'Tablă cu coloane automate pentru subelemente. Glisarea pachetelor de lucru în alte liste actualizează în mod corespunzător lista părinte.
+
+        '
+      version: 'Tablă cu coloane automate bazate pe atributul de versiune. Ideal pentru planificarea dezvoltării produselor.
+
+        '
+    board_types:
+      action: Panou acțiune (%{attribute})
+      free: De bază
+    label_board: Panou
+    label_board_type: Tip panou
+    label_boards: Panouri
+    label_create_new_board: Creează panou nou
   ee:
     upsell:
       board_view:
-        description: 'Vrei să automatizezi fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Te rog să treci la un plan plătit.'
-  boards:
-    label_board: "Panou"
-    label_boards: "Panouri"
-    label_create_new_board: "Creează panou nou"
-    label_board_type: "Tip panou"
-    board_types:
-      free: De bază
-      action: "Panou acțiune (%{attribute})"
-    board_type_attributes:
-      assignee: Executant
-      status: Kanban
-      version: Versiune
-      subproject: Subproiect
-      subtasks: Părinte-copil
-      basic: De bază
-    board_type_descriptions:
-      basic: >
-        Începe de la zero cu o planșă albă. Adaugă manual cărți și coloane pe această planșă.
-      status: >
-        Tablă de bază în stil Kanban cu coloane pentru statusuri precum "De făcut", "În curs", "Realizat".
-      assignee: >
-        Tablă cu coloane automate pe baza utilizatorilor atribuiți. Ideal pentru expedierea pachetelor de lucru.
-      version: >
-        Tablă cu coloane automate bazate pe atributul de versiune. Ideal pentru planificarea dezvoltării produselor.
-      subproject: >
-        Tablă cu coloane automate pentru subproiecte. Glisarea pachetelor de lucru în alte liste actualizează (sub)proiectul în mod corespunzător.
-      subtasks: >
-        Tablă cu coloane automate pentru subelemente. Glisarea pachetelor de lucru în alte liste actualizează în mod corespunzător lista părinte.
+        description: Vrei să automatizezi fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Te rog să treci la un plan plătit.
+  permission_manage_board_views: Gestionați plăcile
+  permission_show_board_views: Vezi panouri
+  plugin_openproject_boards:
+    description: Provides board views.
+    name: OpenProject Boards
+  project_module_board_view: Panouri

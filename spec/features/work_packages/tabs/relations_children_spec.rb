@@ -58,6 +58,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
       wait_for_network_idle
 
+      expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
+
       page.within("#work-package-relations-tab-content") do
         expect(page).to have_content("Hello there")
         expect(page).to have_content("RISK")
@@ -82,6 +84,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
         create_dialog.submit
 
         wait_for_network_idle
+
+        expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
         page.within("#work-package-relations-tab-content") do
           expect(page).to have_content("Hello there")
@@ -136,6 +140,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
         wait_for_network_idle
 
+        expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
+
         page.within("#work-package-relations-tab-content") do
           expect(page).to have_content("Hello there")
           expect(page).to have_content("TASK")
@@ -181,7 +187,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
     before do
       all_possible_custom_fields.each do |cf|
-        project.types.first.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end

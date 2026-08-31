@@ -29,84 +29,10 @@
 #++
 
 require "spec_helper"
+require_relative "path_helper_examples"
 
 RSpec.describe API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(API::V3::Utilities::PathHelper) }.api_v3_paths }
-
-  shared_examples_for "path" do |url|
-    it "provides the path" do
-      expect(subject).to match(url)
-    end
-
-    it "prepends the sub uri if configured" do
-      allow(OpenProject::Configuration).to receive(:rails_relative_url_root)
-        .and_return("/open_project")
-
-      expect(subject).to match("/open_project#{url}")
-    end
-  end
-
-  before do
-    RequestStore.store[:cached_root_path] = nil
-  end
-
-  after do
-    RequestStore.clear!
-  end
-
-  shared_examples_for "api v3 path" do |url|
-    it_behaves_like "path", "/api/v3#{url}"
-  end
-
-  shared_examples_for "index" do |name|
-    plural_name = name.to_s.pluralize
-
-    describe "##{plural_name}" do
-      subject { helper.send(plural_name) }
-
-      it_behaves_like "api v3 path", "/#{plural_name}"
-    end
-  end
-
-  shared_examples_for "show" do |name|
-    describe "##{name}" do
-      subject { helper.send(:"#{name}", 42) }
-
-      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/42"
-    end
-  end
-
-  shared_examples_for "create form" do |name|
-    describe "#create_#{name}_form" do
-      subject { helper.send(:"create_#{name}_form") }
-
-      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/form"
-    end
-  end
-
-  shared_examples_for "update form" do |name|
-    describe "##{name}_form" do
-      subject { helper.send(:"#{name}_form", 42) }
-
-      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/42/form"
-    end
-  end
-
-  shared_examples_for "schema" do |name|
-    describe "##{name}_schema" do
-      subject { helper.send(:"#{name}_schema") }
-
-      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/schema"
-    end
-  end
-
-  shared_examples_for "resource" do |name, except: []|
-    it_behaves_like("index", name) unless except.include?(:index)
-    it_behaves_like("show", name) unless except.include?(:show)
-    it_behaves_like("update form", name) unless except.include?(:update_form)
-    it_behaves_like("create form", name) unless except.include?(:create_form)
-    it_behaves_like("schema", name) unless except.include?(:schema)
-  end
+  include_context "on api v3 paths"
 
   describe "#root" do
     subject { helper.root }
@@ -803,6 +729,53 @@ RSpec.describe API::V3::Utilities::PathHelper do
           expect(subject)
             .to eql "2023-01-31T21:34:11Z,2022-04-30T21:34:11Z,#{Time.current.iso8601}"
         end
+      end
+    end
+  end
+
+  describe ".path_for_object" do
+    context "for a portfolio" do
+      let(:object) { build_stubbed(:portfolio) }
+
+      it "returns the path to the portfolio" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/portfolios/#{object.id}"
+      end
+    end
+
+    context "for a program" do
+      let(:object) { build_stubbed(:program) }
+
+      it "returns the path to the program" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/programs/#{object.id}"
+      end
+    end
+
+    context "for a project" do
+      let(:object) { build_stubbed(:project) }
+
+      it "returns the path to the project" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/projects/#{object.id}"
+      end
+    end
+
+    context "for a work_package" do
+      let(:object) { build_stubbed(:work_package) }
+
+      it "returns the path to the work_packages" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/work_packages/#{object.id}"
+      end
+    end
+
+    context "for a user" do
+      let(:object) { build_stubbed(:user) }
+
+      it "returns the path to the user" do
+        expect(helper.path_for_object(object))
+          .to eql "/api/v3/users/#{object.id}"
       end
     end
   end

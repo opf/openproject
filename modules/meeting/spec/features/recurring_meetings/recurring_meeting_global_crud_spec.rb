@@ -37,14 +37,6 @@ require_relative "../../support/pages/meetings/index"
 RSpec.describe "Recurring meetings global CRUD", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  before_all do
-    travel_to(Date.new(2024, 12, 1))
-  end
-
-  after(:all) do # rubocop:disable RSpec/BeforeAfterAll
-    travel_back
-  end
-
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:user) do
     create :user,
@@ -84,6 +76,10 @@ RSpec.describe "Recurring meetings global CRUD", :js do
     RecurringMeetings::InitNextOccurrenceJob.perform_now(meeting, meeting.first_occurrence.to_time)
   end
 
+  after do
+    travel_back
+  end
+
   it "can delete a recurring meeting from the show page and return to the index page" do
     show_page.visit!
 
@@ -91,7 +87,7 @@ RSpec.describe "Recurring meetings global CRUD", :js do
 
     retry_block do
       show_page.within_modal "Delete meeting series" do
-        check "I understand that this deletion cannot be reversed", allow_label_click: true
+        check "I understand that this deletion cannot be reversed.", allow_label_click: true
         click_on "Delete permanently"
       end
     end

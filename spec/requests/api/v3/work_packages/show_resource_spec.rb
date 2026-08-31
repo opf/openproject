@@ -187,7 +187,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when requesting nonexistent work package" do
-        let(:get_path) { api_v3_paths.work_package 909090 }
+        let(:get_path) { api_v3_paths.work_package(not_existing_id(WorkPackage)) }
 
         it_behaves_like "not found",
                         I18n.t("api_v3.errors.not_found.work_package")
@@ -216,6 +216,32 @@ RSpec.describe "API v3 Work package resource",
 
       it_behaves_like "not found response based on login_required",
                       I18n.t("api_v3.errors.not_found.work_package")
+    end
+
+    context "with a semantic identifier",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, :semantic) }
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      end
+      let(:work_package) do
+        create(:work_package, project:, description: "lorem ipsum")
+      end
+      let(:get_path) { api_v3_paths.work_package work_package.display_id }
+
+      before do
+        get get_path
+      end
+
+      it "resolves the semantic identifier and responds with 200" do
+        expect(last_response).to have_http_status(:ok)
+      end
+
+      it "returns the correct work package" do
+        expect(last_response.body)
+          .to be_json_eql(work_package.id.to_json)
+                .at_path("id")
+      end
     end
   end
 
@@ -300,6 +326,34 @@ RSpec.describe "API v3 Work package resource",
                     .at_path("_embedded/attributesByTimestamp/1/_meta/timestamp")
                 end
               end
+            end
+          end
+
+          describe "when requesting only a historic timestamp with since-changed target versions" do
+            let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+
+            let(:version_a) { create(:version, project:, name: "Version A") }
+            let(:version_b) { create(:version, project:, name: "Version B") }
+
+            let(:work_package) do
+              create(:work_package,
+                     subject: "The current work package",
+                     project:,
+                     version: version_a,
+                     journals: {
+                       created_at => { subject: "The original work package" },
+                       1.day.ago + 1 => {}
+                     }).tap do |wp|
+                wp.target_version_ids_replacements = [version_a.id, version_b.id]
+                wp.save!
+              end
+            end
+
+            it "renders the target versions of the requested time, not the current ones" do
+              expect(subject)
+                .to be_json_eql(
+                  [{ href: api_v3_paths.version(version_a.id), title: version_a.name }].to_json
+                ).at_path("_links/targetVersions")
             end
           end
 
@@ -412,7 +466,16 @@ RSpec.describe "API v3 Work package resource",
           end
 
           context "when the timestamps are relative date keywords" do
+            let(:business_day_at_noon) { Time.zone.parse("2025-01-08T12:00:00Z") }
             let(:timestamps) { [Timestamp.new("oneWeekAgo@12:00+00:00"), Timestamp.now] }
+
+            before do
+              travel_to(business_day_at_noon)
+            end
+
+            after do
+              travel_back
+            end
 
             it "has an embedded link to the baseline work package" do
               expect(subject)
@@ -421,11 +484,9 @@ RSpec.describe "API v3 Work package resource",
             end
 
             it "has the absolute timestamps within the self link" do
-              Timecop.freeze do
-                expect(subject)
-                  .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
-                  .at_path("_links/self/href")
-              end
+              expect(subject)
+                .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
+                .at_path("_links/self/href")
             end
 
             describe "attributesByTimestamp" do
@@ -456,7 +517,7 @@ RSpec.describe "API v3 Work package resource",
                       # Travel 1 day to test the href not being cached, because the
                       # relative date keyword has a fixed hour part, which means the timestamp
                       # will change its value only in 1 day units
-                      Timecop.travel 1.day do
+                      travel 1.day do
                         get get_path
                       end
                     end.to change {
@@ -468,7 +529,7 @@ RSpec.describe "API v3 Work package resource",
                   it "does not cache the attributes" do
                     get get_path
                     expect do
-                      Timecop.travel 2.days do
+                      travel 2.days do
                         get get_path
                       end
                     end.to change {
@@ -486,7 +547,7 @@ RSpec.describe "API v3 Work package resource",
                     it "is not cached" do
                       get get_path
                       expect do
-                        Timecop.travel 2.days do
+                        travel 2.days do
                           get get_path
                         end
                       end.to change {

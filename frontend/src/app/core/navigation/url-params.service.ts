@@ -21,20 +21,20 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { NavigationService } from 'core-app/core/navigation/navigation.service';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
-  constructor(private navigation:NavigationService) {
-  }
+  private navigation = inject(NavigationService);
+
 
   public get(key:string):string|null {
     return this.searchParams.get(key);

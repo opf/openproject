@@ -73,14 +73,51 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when "date"
       date_picker(field, input_options)
     when "text"
-      text_area(field, input_options.merge(with_text_formatting: true, macros: false, editor_type: "constrained"))
+      text_area(field, input_options.merge(with_text_formatting: true, macros: "wiki", editor_type: "constrained"))
     when "bool"
       check_box(field, input_options.merge(checked: custom_value.strategy.checked?))
     when "list"
       custom_field_input_list(field, input_options)
+    when "hierarchy"
+      custom_field_input_hierarchy(field, input_options)
     else
       text_field(field, input_options)
     end
+  end
+
+  def custom_field_input_hierarchy(field, input_options)
+    root = custom_field.hierarchy_root
+    all_items = CustomFields::Hierarchy::HierarchicalItemService.new
+      .get_descendants(item: root, include_self: false)
+      .either(->(result) { result }, ->(_) { [] })
+
+    by_parent  = all_items.group_by(&:parent_id)
+    top_level  = by_parent[root&.id] || []
+
+    grouped = top_level.map do |top_item|
+      [hierarchy_item_label(top_item), hierarchy_collect_options(by_parent, top_item, depth: 0)]
+    end
+
+    selected = Array(custom_value).map(&:value)
+    input_options[:multiple] = custom_field.multi_value?
+
+    select(field,
+           template.grouped_options_for_select(grouped, selected),
+           custom_field_select_options_for_object,
+           input_options)
+  end
+
+  def hierarchy_collect_options(by_parent, item, depth:)
+    indent = "  " * depth
+    children = by_parent[item.id] || []
+
+    [[hierarchy_item_label(item, indent:), item.id.to_s]] +
+      children.flat_map { |child| hierarchy_collect_options(by_parent, child, depth: depth + 1) }
+  end
+
+  def hierarchy_item_label(item, indent: "")
+    base = item.short.present? ? "#{item.label} (#{item.short})" : item.label
+    "#{indent}#{base}"
   end
 
   def custom_field_input_list(field, input_options)
@@ -142,15 +179,14 @@ class CustomFieldFormBuilder < TabularFormBuilder
                 for: custom_field_field_id,
                 class: classes,
                 title: custom_field.name do
-      output = "".html_safe
-      output += custom_field.name
+      capture do
+        concat custom_field.name
 
-      # Render a help text icon
-      if options[:help_text]
-        output += content_tag("attribute-help-text", "", data: options[:help_text])
+        # Render a help text icon
+        if options[:help_text]
+          concat content_tag("attribute-help-text", "", data: options[:help_text])
+        end
       end
-
-      output
     end
   end
 end

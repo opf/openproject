@@ -54,6 +54,6 @@ module Queries::Storages::Projects::Filter::StorageFilterMixin
   end
 
   def filter_column
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 end

@@ -19,11 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 it:
   js:
+    burndown:
+      day: Giorno
+      points: Punti
     work_packages:
       properties:
-        storyPoints: "Punti della storia"
-    burndown:
-      day: "Day"
-      points: "Points"
+        storyPoints: Punti della storia

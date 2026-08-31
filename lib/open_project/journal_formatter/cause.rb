@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,12 +33,18 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include OpenProject::JournalFormatter::CauseMeetingRendering
+  include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers::TranslationHelper
 
   attr_reader :cause
 
   def render(_key, values, options = { html: true })
     @cause = values.last
     @html = options[:html]
+
+    return "" if hidden_meeting_cause?
+    return combined_meeting_message if meeting_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -48,13 +56,21 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def caused_change
-    caused_change_text = I18n.t("journals.caused_changes.#{mapped_cause_type}",
+    caused_change_text = I18n.t("journals.caused_changes.#{caused_change_key}",
                                 default: mapped_cause_type,
                                 status_name: cause["status_name"])
     if html?
       content_tag(:strong, caused_change_text)
     else
       caused_change_text
+    end
+  end
+
+  def caused_change_key
+    if meeting_template_cause?
+      "#{cause['type']}_template"
+    else
+      mapped_cause_type
     end
   end
 
@@ -81,6 +97,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       total_percent_complete_mode_changed_to_work_weighted_average_message
     when "total_percent_complete_mode_changed_to_simple_average"
       total_percent_complete_mode_changed_to_simple_average_message
+    when "import"
+      import_message
+    when "work_package_parent_deleted"
+      I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     else
       related_work_package_changed_message
     end
@@ -93,10 +113,12 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     options =
       case feature
       when "progress_calculation_adjusted_from_disabled_mode",
-           "progress_calculation_adjusted"
+        "progress_calculation_adjusted"
         { href: OpenProject::Static::Links.url_for(:blog_article_progress_changes) }
       when "totals_removed_from_childless_work_packages"
         { href: OpenProject::Static::Links.url_for(:release_notes_14_0_1) }
+      when "sprint_migration"
+        { version_name: ERB::Util.html_escape(cause["version_name"]) }
       else
         {}
       end
@@ -155,13 +177,89 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     I18n.t("journals.cause_descriptions.total_percent_complete_mode_changed_to_simple_average")
   end
 
+  def import_message
+    entries = cause["import_history"]
+    return "" if entries.blank?
+
+    entry_messages = entries.map { |entry| import_entry_message(entry) }
+    entry_messages.compact.join(html? ? "<br/><br/>" : "\n\n")
+  end
+
+  def import_entry_message(entry)
+    author = h(entry["author_name"])
+    items = entry["items"]
+
+    item_messages = items&.map { |item| import_message_item(item) } || []
+    [
+      I18n.t("journals.cause_descriptions.import.header", author:),
+      *item_messages
+    ].compact.join(html? ? "<br/>" : "\n")
+  end
+
+  def import_message_item(item)
+    field_label = item["field"]
+    return import_message_diff_item(field_label, item) if field_label&.downcase == "description"
+
+    from_string = h(item["fromString"])
+    to_string   = h(item["toString"])
+    field = html? ? content_tag(:strong, field_label) : field_label
+
+    import_field_change_message(field, from_string, to_string)
+  end
+
+  def import_field_change_message(field, from_string, to_string)
+    if from_string.present? && to_string.present?
+      I18n.t("journals.cause_descriptions.import.field_changed",
+             field:, old_value: from_string, new_value: to_string)
+    elsif to_string.present?
+      I18n.t("journals.cause_descriptions.import.field_set", field:, value: to_string)
+    elsif from_string.present?
+      I18n.t("journals.cause_descriptions.import.field_removed", field:)
+    else
+      I18n.t("journals.cause_descriptions.import.field_updated", field:)
+    end
+  end
+
+  def import_message_diff_item(field_label, item)
+    from_string = item["fromString"]
+    to_string = item["toString"]
+
+    field = html? ? content_tag(:strong, field_label) : field_label
+    link = import_message_diff_link
+
+    if to_string.blank?
+      I18n.t("journals.cause_descriptions.import.deleted_with_diff", field:, link:)
+    elsif from_string.present?
+      I18n.t("journals.cause_descriptions.import.changed_with_diff", field:, link:)
+    else
+      I18n.t("journals.cause_descriptions.import.set_with_diff", field:, link:)
+    end
+  end
+
+  def import_message_diff_link
+    url_attr = {
+      only_path: true,
+      script_name: ::OpenProject::Configuration.rails_relative_url_root,
+      controller: "/journals",
+      action: "diff",
+      id: @journal.id,
+      field: "description"
+    }
+
+    if html?
+      link_to(I18n.t(:label_details), url_attr, target: "_top", class: "diff-details")
+    else
+      url_for(url_attr)
+    end
+  end
+
   def related_work_package_changed_message
     related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause["work_package_id"])
 
     if related_work_package
       I18n.t(
         "journals.cause_descriptions.#{cause['type']}",
-        link: html? ? link_to_work_package(related_work_package, link_subject: true) : "##{related_work_package.id}"
+        link: html? ? link_to_work_package(related_work_package, link_subject: true) : related_work_package.formatted_id
       )
 
     else

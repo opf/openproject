@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -43,8 +43,18 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   templateUrl: './wp-relations-hierarchy.template.html',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public relationType:string;
@@ -61,23 +71,13 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
 
   public childrenQueryProps:any;
 
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService,
-    readonly schemaCache:SchemaCacheService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
-
   public text = {
     parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
     childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline'),
   };
 
   ngOnInit() {
-    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id!);
+    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.displayId);
     this.canModifyHierarchy = !!this.workPackage.changeParent;
     this.canAddRelation = !!this.workPackage.addRelation;
 

@@ -34,7 +34,7 @@ RSpec.describe "Wysiwyg tables", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
@@ -67,7 +67,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -116,7 +116,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -172,7 +172,7 @@ RSpec.describe "Wysiwyg tables", :js do
           # Set vertical center / horizontal top
           editor.click_hover_toolbar_button "Align cell text to the center"
           editor.click_hover_toolbar_button "Align cell text to the top"
-          find(".ck-button-save").click
+          find(".ck-button", text: "Save").click
 
           # Table should now have header
           expect(editable).to have_css('td[style*="background-color:#123456"]')
@@ -181,7 +181,7 @@ RSpec.describe "Wysiwyg tables", :js do
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 
@@ -219,7 +219,7 @@ RSpec.describe "Wysiwyg tables", :js do
           # width, height
           page.find(".ck-table-form__dimensions-row__width .ck-input-text").set "500px"
           page.find(".ck-table-form__dimensions-row__height .ck-input-text").set "500px"
-          find(".ck-button-save").click
+          find(".ck-button", text: "Save").click
 
           # table height and width is set on figure
           expect(editable).to have_css('figure[style*="width:500px"]')
@@ -291,13 +291,13 @@ RSpec.describe "Wysiwyg tables", :js do
 
           # Enable header row
           find(".ck-table-form__dimensions-row__width input").set "250px"
-          find(".ck-button-save").click
+          find(".ck-button", text: "Save").click
 
           expect(editable).to have_css('td[style*="width:250px"]')
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_and_dismiss_flash(message: "Successful creation.")
 

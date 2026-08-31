@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
@@ -11,18 +39,18 @@ import {
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  @LazyInject() querySpace:IsolatedQuerySpace;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // Remember which rows were already rendered
   readonly rendered:Record<string, boolean> = {};
@@ -51,7 +79,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     this.hierarchies = this.wpTableHierarchies.current;
 
-    _.each(this.workPackageTable.originalRowIndex, (row) => {
+    Object.values(this.workPackageTable.originalRowIndex).forEach((row) => {
       row.object.getAncestors().forEach((ancestor:WorkPackageResource) => {
         this.parentsWithVisibleChildren[ancestor.id!] = true;
       });
@@ -132,7 +160,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         // Append all new elements
         elements = elements.concat(newElements);
         // Remove duplicates (Regression #29652)
-        this.deferred[parent.id!] = _.uniqBy(elements, (el) => el.id!);
+        const seen = new Set<string>();
+        this.deferred[parent.id!] = elements.filter((el) => {
+          if (seen.has(el.id!)) { return false; }
+          seen.add(el.id!);
+          return true;
+        });
         return true;
       }
       // Otherwise, continue the chain upwards
@@ -208,7 +241,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     });
 
     // Insert this row to parent
-    const parent = _.last(ancestors);
+    const parent = ancestors.at(-1);
     this.insertUnderParent(row, parent!);
   }
 

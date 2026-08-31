@@ -62,8 +62,7 @@ RSpec.describe "Work Packages", "index view", :js do
       visit project_path(project)
 
       within("#content") do
-        # TODO: change to `have_heading "Project home"` when `new_project_overview` feature flag is removed.
-        expect(page).to have_heading "Overview"
+        expect(page).to have_heading project.name
       end
 
       within("#main-menu") do

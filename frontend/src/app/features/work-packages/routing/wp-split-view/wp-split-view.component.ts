@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostListener, Injector, Input, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Type, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import {
   WorkPackageViewFocusService,
@@ -54,6 +54,7 @@ import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -66,29 +67,24 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs
   standalone: false,
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
+  states = inject(States);
+  firstRoute = inject(FirstRouteService);
+  keepTab = inject(KeepTabService);
+  wpTableSelection = inject(WorkPackageViewSelectionService);
+  wpTableFocus = inject(WorkPackageViewFocusService);
+  recentItemsService = inject(RecentItemsService);
+  readonly $state = inject(StateService);
+  readonly urlParams = inject(UrlParamsService);
+  readonly backRouting = inject(BackRoutingService);
+  readonly wpTabs = inject(WorkPackageTabsService);
+
   hasState = !!this.$state.current;
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
-  private baseRoute:string = this.$state.current?.data?.baseRoute as string;
+  private baseRoute = (this.$state.current?.data as { baseRoute?:string } | undefined)?.baseRoute ?? '';
 
   @Input() showTabs = true;
 
   @Input() resizerClass = 'work-packages-partitioned-page--content-right';
-
-  constructor(
-    public injector:Injector,
-    public states:States,
-    public firstRoute:FirstRouteService,
-    public keepTab:KeepTabService,
-    public wpTableSelection:WorkPackageViewSelectionService,
-    public wpTableFocus:WorkPackageViewFocusService,
-    public recentItemsService:RecentItemsService,
-    readonly $state:StateService,
-    readonly urlParams:UrlParamsService,
-    readonly backRouting:BackRoutingService,
-    readonly wpTabs:WorkPackageTabsService,
-  ) {
-    super(injector);
-  }
 
     // enable other parts of the application to trigger an immediate update
   // e.g. a stimulus controller
@@ -101,27 +97,40 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   ngOnInit():void {
     this.observeWorkPackage();
 
-    const wpId = (this.$state.params.workPackageId || this.workPackageId) as string;
-    this.wpTableFocus.updateFocus(wpId, false);
-
-    if (this.wpTableSelection.isEmpty) {
-      this.wpTableSelection.setRowState(wpId, true);
-    }
-
-    this.wpTableFocus.whenChanged()
+    this.wpTableFocus.whenNavigationRequested()
       .pipe(
         this.untilDestroyed(),
       )
       .subscribe((newId) => {
-        const idSame = wpId.toString() === newId.toString();
+        const currentId = this.workPackage?.id ?? this.workPackageId;
+        const idSame = currentId.toString() === newId.toString();
         if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
-          this.$state.go(
+          void this.$state.go(
             (this.$state.current.name!),
-            { workPackageId: newId, focus: false },
+            { workPackageId: resolveRoutingId(this.states, newId.toString()), focus: false },
           );
         }
       });
-    this.recentItemsService.add(wpId);
+  }
+
+  /**
+   * Set focus, selection, and recent-items after the WP has loaded.
+   *
+   * Intentionally deferred from ngOnInit because the route param
+   * (this.workPackageId) may be a semantic identifier like "PROJ-7",
+   * but focus/selection services are keyed by numeric PK. By the time
+   * init() runs, this.workPackage.id is guaranteed to be the numeric PK.
+   */
+  protected override init():void {
+    super.init();
+    const numericId = this.workPackage.id!;
+    this.wpTableFocus.updateFocus(numericId, false);
+
+    if (this.wpTableSelection.isEmpty) {
+      this.wpTableSelection.setRowState(numericId, true);
+    }
+
+    this.recentItemsService.add(numericId);
   }
 
   get activeTabComponent():Type<TabComponent>|undefined {

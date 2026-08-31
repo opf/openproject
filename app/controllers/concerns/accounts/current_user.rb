@@ -165,7 +165,7 @@ module Accounts::CurrentUser
           # but ONLY for html requests to avoid double-resetting sessions
           reset_session
 
-          redirect_to main_app.signin_path(back_url: login_back_url)
+          redirect_to main_app.signin_path(signin_params)
         end
 
         format.any(:xml, :js, :json, :turbo_stream) do
@@ -183,5 +183,17 @@ module Accounts::CurrentUser
     return unless require_login
 
     render_403 unless current_user.admin?
+  end
+
+  def signin_params
+    back_url = login_back_url
+
+    # Do not pass home path as a back_url
+    # as we want after_login_default_redirect_url to take effect
+    if back_url == home_url
+      {}
+    else
+      { back_url: }
+    end
   end
 end

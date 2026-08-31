@@ -72,4 +72,9 @@ RSpec.describe "wiki/new" do
     render
     assert_select "input", name: "page[parent_id]", value: "123", type: "hidden"
   end
+
+  it "renders a robots exclusion meta tag in the header tags" do
+    render
+    expect(view.content_for(:header_tags)).to include('name="ROBOTS"', 'content="NOINDEX,FOLLOW,NOARCHIVE"')
+  end
 end

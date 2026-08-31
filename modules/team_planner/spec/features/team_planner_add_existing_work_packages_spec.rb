@@ -130,8 +130,9 @@ RSpec.describe "Team planner add existing work packages",
       # Select work package in add existing
       add_existing_pane.card(second_wp).click
       split_screen = Pages::SplitWorkPackage.new second_wp
-      split_screen.expect_subject
+      # Wait for navigation to complete before checking the split panel DOM
       expect(page).to have_current_path /\/details\/#{second_wp.id}/
+      split_screen.expect_subject
     end
 
     it "allows to add work packages via drag&drop from the left hand shortlist" do
@@ -168,8 +169,11 @@ RSpec.describe "Team planner add existing work packages",
       )
 
       # New events are directly clickable
-      split_view = team_planner.open_split_view_by_info_icon(third_wp)
-      split_view.expect_open
+      split_view = wait_for_turbo_frame do
+        team_planner.open_split_view_by_info_icon(third_wp)
+      end
+      expect(page).to have_current_path /\/details\/#{third_wp.id}/
+      split_view.expect_subject
     end
 
     context "with non-working days" do

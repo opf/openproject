@@ -19,99 +19,112 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ja:
-  plugin_budgets_engine:
-    name: "予算"
   activerecord:
     attributes:
       budget:
-        author: "作成者"
-        available: "利用可能"
-        budget: "計画"
-        budget_ratio: "使用済 (比)"
-        description: "説明"
-        spent: "使用済"
-        status: "ステータス"
-        subject: "タイトル"
-        type: "コスト種類"
-        labor_budget: "計画作業員コスト"
-        material_budget: "計画単価"
-        base_amount: "基本額"
+        author: 作成者
+        available: 利用可能
+        base_amount: 基本額
+        budget: 計画
+        budget_ratio: 使用済 (比)
+        description: 説明
+        labor_budget: 計画作業員コスト
+        labor_budget_items: Planned labor costs
+        material_budget: 計画単価
+        spent: 使用済
+        status: ステータス
+        subject: タイトル
+        type: コスト種類
       work_package:
-        budget_subject: "予算のタイトル"
+        budget_subject: 予算のタイトル
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: "予算"
-      material_budget_item: "ユニット"
+      budget:
+        other: Budgets
+      labor_budget_item:
+        other: Planned labor costs
+      material_budget_item:
+        other: Units
   activity:
     filter:
-      budget: "予算"
+      budget: 予算
   attributes:
-    budget: "予算"
-  button_add_budget_item: "計画コストを追加"
-  button_add_budget: "予算を追加"
-  button_add_cost_type: "コストの種類を追加"
-  button_cancel_edit_budget: "予算の編集を取り消し"
-  button_cancel_edit_costs: "コストの編集を取り消し"
-  caption_labor: "労働"
-  caption_labor_costs: "実際の労働コスト"
-  caption_material_costs: "実際の労働コスト"
-  budgets_title: "予算"
+    budget: 予算
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: 予算
+  button_add_budget: 予算を追加
+  button_add_budget_item: 計画コストを追加
+  button_add_cost_type: コストの種類を追加
+  button_cancel_edit_budget: 予算の編集を取り消し
+  button_cancel_edit_costs: コストの編集を取り消し
+  caption_labor: 労働
+  caption_labor_costs: 実際の労働コスト
+  caption_material_costs: 実際の労働コスト
   events:
-    budget: "予算の編集"
-  help_click_to_edit: "編集するにはここをクリックしてください。"
-  help_currency_format: "表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。"
-  help_override_rate: "デフォルトレートを上書きするにはここに値を入力します。"
-  label_budget: "予算"
-  label_budget_available: "利用可能な予算"
-  label_budget_id: "予算 #%{id}"
-  label_budget_new: "新しい予算"
-  label_budget_planned: "計画予算"
-  label_budget_plural: "予算"
-  label_budget_spent: "消費した予算"
-  label_budget_spent_ratio: "予算の消費率"
-  label_deliverable: "予算"
-  label_example_placeholder: "例： %{decimal}"
-  label_view_all_budgets: "全ての予算を表示"
-  label_yes: "はい"
-  label_budget_totals: "合計"
-  label_budget_details: "予算の詳細"
-  notice_budget_conflict: "ワークパッケージは同一プロジェクトでなければなりません。"
-  notice_no_budgets_available: "予算がありません。"
-  permission_edit_budgets: "予算の編集"
-  permission_view_budgets: "予算の表示"
-  project_module_budgets: "予算"
-  text_budget_reassign_to: "この予算に再割り当てします:"
-  text_budget_delete: "すべてのワークパッケージから予算を削除する"
-  text_budget_destroy_assigned_wp: "この予算には %{count} 個のワークパッケージが割り当てられています。どうしたいですか？"
+    budget: 予算の編集
+  help_click_to_edit: 編集するにはここをクリックしてください。
+  help_currency_format: 表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。
+  help_override_rate: デフォルトレートを上書きするにはここに値を入力します。
+  label_budget_available: 利用可能な予算
+  label_budget_details: 予算の詳細
+  label_budget_id: '予算 #%{id}'
+  label_budget_new: 新しい予算
+  label_budget_planned: 計画予算
+  label_budget_plural: 予算
+  label_budget_spent: 消費した予算
+  label_budget_spent_ratio: 予算の消費率
+  label_budget_totals: 合計
+  label_deliverable: 予算
+  label_example_placeholder: 例： %{decimal}
+  label_view_all_budgets: 全ての予算を表示
+  label_yes: はい
+  notice_budget_conflict: ワークパッケージは同一プロジェクトでなければなりません。
+  notice_no_budgets_available: 予算がありません。
+  permission_edit_budgets: 予算の編集
+  permission_view_budgets: 予算の表示
+  plugin_budgets_engine:
+    name: 予算
+  project_module_budgets: 予算
+  text_budget_delete: すべてのワークパッケージから予算を削除する
+  text_budget_destroy_assigned_wp: この予算には %{count} 個のワークパッケージが割り当てられています。どうしたいですか？
+  text_budget_reassign_to: 'この予算に再割り当てします:'

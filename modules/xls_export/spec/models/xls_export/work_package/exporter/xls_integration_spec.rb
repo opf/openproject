@@ -174,8 +174,9 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              custom_field:)
     end
     let(:type) do
-      type = project.types.first
-      type.custom_fields << custom_field
+      type = project.enabled_types.first
+      type.default_variant.custom_fields << custom_field
+
       type
     end
     let(:project) do
@@ -233,7 +234,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       create(:work_package,
              description: "some arbitrary description \n <p>with some html</p>",
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id] }
@@ -246,12 +247,31 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
   end
 
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:project) { create(:project, identifier: "XLSPROJ") }
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type: project.enabled_types.first)
+    end
+    let(:work_packages) { [work_package] }
+    let(:column_names) { %w[id subject] }
+
+    it "exports the semantic identifier in the ID column" do
+      expect(sheet.rows.size).to eq(1 + 1)
+
+      expect(work_package.identifier).to match(/\AXLSPROJ-\d+\z/)
+      expect(sheet.rows[1][0]).to eq work_package.identifier
+    end
+  end
+
   context "with underscore in subject" do
     let(:work_package) do
       create(:work_package,
              subject: "underscore_is included",
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id subject] }
@@ -277,7 +297,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_package) do
       create(:work_package,
              project:,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -305,7 +325,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       create(:work_package,
              project:,
              derived_estimated_hours: 15.0,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -336,7 +356,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              derived_remaining_hours: 8.0,
              done_ratio: 50,
              derived_done_ratio: 75,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -367,7 +387,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              derived_remaining_hours: 8,
              done_ratio: 0,
              derived_done_ratio: 42,
-             type: project.types.first)
+             type: project.enabled_types.first)
     end
     let(:work_packages) { [work_package] }
 

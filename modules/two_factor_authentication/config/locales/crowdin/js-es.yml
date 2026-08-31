@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 es:
   js:
     two_factor_authentication:
       errors:
-        aborted: "Se ha cancelado la autenticación. Inténtelo de nuevo."
+        aborted: Se ha cancelado la autenticación. Inténtelo de nuevo.

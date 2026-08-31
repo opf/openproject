@@ -40,12 +40,12 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :name, filter_class: Queries::Projects::Filters::NameFilter, operator: "~"
+    filter :name, filter_class: "Queries::Projects::Filters::NameFilter", operator: "~"
     filter :identifier
     filter :status_code
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the project. Accepts partial project names, not case-sensitive." },
         identifier: { type: "string", description: "Project identifier. Case-sensitive, matching exactly." },
@@ -53,23 +53,13 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("project_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       filtered = apply_filters(Project.project.visible, filters)
-      projects = apply_pagination(filtered, page)
+      projects, total = apply_pagination(filtered, page)
 
       {
-        items: projects.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
+        items: projects.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
+        total:
       }
     end
   end

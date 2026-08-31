@@ -70,15 +70,25 @@ module TimeEntries
         end
       end
 
-      f.text_field name: :hours,
+      f.hidden name: :hours,
+               value: precise_hours_value,
+               data: { "time-entry-target" => "hoursHiddenInput" }
+
+      f.text_field name: :hours_display,
                    required: true,
                    label: TimeEntry.human_attribute_name(:hours),
                    value: hours_value,
+                   validation_message: hours_validation_message,
                    data: { "time-entry-target" => "hoursInput",
                            "action" => "blur->time-entry#hoursChanged keypress.enter->time-entry#hoursKeyEnterPress" }
     end
 
     private
+
+    # Validations record their errors on :hours, which is only rendered as a hidden input.
+    def hours_validation_message
+      model.errors.full_messages_for(:hours).to_sentence.presence
+    end
 
     def start_time_in_local_time
       return if model.start_timestamp.blank?
@@ -108,6 +118,10 @@ module TimeEntries
       else
         ""
       end
+    end
+
+    def precise_hours_value
+      model.ongoing? ? model.ongoing_hours : model.hours
     end
 
     def end_time_caption # rubocop:disable Metrics/AbcSize

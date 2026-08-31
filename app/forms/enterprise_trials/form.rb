@@ -67,13 +67,20 @@ module EnterpriseTrials
 
       f.check_box(
         required: true,
-        label: I18n.t("ee.trial.consent_html").html_safe,
+        label: helpers.link_translate("ee.trial.consent",
+                                      links: {
+                                        tos_url: %i[terms_of_service],
+                                        privacy_url: %i[data_privacy]
+                                      }),
         name: :general_consent
       )
 
       f.check_box(
         required: false,
-        label: I18n.t("ee.trial.receive_newsletter_html").html_safe,
+        label: helpers.link_translate("ee.trial.receive_newsletter",
+                                      links: {
+                                        newsletter_url: %i[newsletter]
+                                      }),
         name: :newsletter_consent
       )
     end

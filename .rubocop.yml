@@ -26,12 +26,6 @@ AllCops:
   Exclude:
     - "**/node_modules/**/*"
 
-# Disable it as it is deprecated
-# From https://docs.rubocop.org/rubocop-capybara/cops_capybara.html#capybaraclicklinkorbuttonstyle
-# "This cop is deprecated. We plan to remove this in the next major version update to 3.0."
-Capybara/ClickLinkOrButtonStyle:
-  Enabled: false
-
 FactoryBot/ConsistentParenthesesStyle:
   Enabled: false
 
@@ -60,7 +54,8 @@ Layout/MultilineOperationIndentation:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
-  AllowedMethods: [change]
+  AllowedMethods:
+    - change
 
 Lint/AmbiguousOperator:
   Enabled: false
@@ -141,15 +136,20 @@ Naming/ClassAndModuleCamelCase:
 Naming/FileName:
   Enabled: false
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - id
+    - cf # custom fields are commonly abbreviated like that
+
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
 
 Naming/VariableNumber:
   AllowedPatterns:
-    - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
-    - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
-    - 'custom_field_\d+' # allow custom field method names to be called with send :custom_field_1001
+    - "\\w_20\\d\\d" # allow dates like christmas_2022 or date_2034_04_12
+    - "\\w\\d++(_\\d++)+" # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
+    - "custom_field_\\d+" # allow custom field method names to be called with send :custom_field_1001
 
 OpenProject/AddPreviewForViewComponent:
   Include:
@@ -157,6 +157,11 @@ OpenProject/AddPreviewForViewComponent:
     - app/components/op_primer/**.rb
     - app/components/open_project/**.rb
     - app/components/concerns/**.rb
+
+# Specs overwhelmingly hold a type the example created itself and assert against that member's
+# own configuration, which is the shape the cop cannot tell apart from a work package's stored
+# root. Note the gap this leaves: a spec that builds a work package and reads configuration off
+# its `type` is the real bug and is no longer flagged here.
 
 Performance/Casecmp:
   Enabled: false
@@ -169,6 +174,10 @@ Rails/ContentTag:
 # dynamic finders cop clashes with capybara ID cop
 Rails/DynamicFindBy:
   Enabled: true
+  AllowedMethods:
+    - find_by_display_id
+    - find_by_display_id!
+    - find_by_semantic_identifier
   Exclude:
     - "spec/features/**/*.rb"
     - "spec/support/**/*.rb"
@@ -177,6 +186,10 @@ Rails/DynamicFindBy:
     - find_by_login
     - find_by_mail
     - find_by_plaintext_value
+    - find_by_rss_key
+    - find_by_unique
+    - find_by_unique!
+    - find_by_api_key
 
 # Allow reorder to prevent find each cop triggering
 Rails/FindEach:
@@ -186,6 +199,9 @@ Rails/FindEach:
     - limit
     - select
     - lock
+  Exclude:
+    - "spec/**/*"
+    - "modules/**/spec/**/*"
 
 # The http verbs in Rack::Test do not accept named parameters (params: params)
 Rails/HttpPositionalArguments:
@@ -197,11 +213,13 @@ Rails/I18nLocaleAssignment:
   Enabled: true
   Exclude:
     - "spec/**/*.rb"
+    - "modules/*/spec/**/*.rb"
 
 Rails/I18nLocaleTexts:
   Enabled: true
   Exclude:
     - "spec/**/*.rb"
+    - "modules/*/spec/**/*.rb"
 
 # We have config.active_record.belongs_to_required_by_default = false ,
 # which means, we do have to declare presence validators on belongs_to relations.
@@ -215,6 +233,9 @@ Rails/RequireDependency:
 # Require save! to prevent saving without validation when saving outside of a condition.
 Rails/SaveBang:
   Enabled: true
+  Exclude:
+    - "spec/**/*"
+    - "modules/**/spec/**/*"
 
 # There are valid cases in which to use methods like:
 # * update_all
@@ -224,6 +245,10 @@ Rails/SkipsModelValidations:
 
 # Allow number HTTP status codes in specs
 RSpecRails/HttpStatus:
+  Enabled: false
+
+# The block form of `travel_to` is often the tighter and safer option in our Rails specs.
+RSpecRails/TravelAround:
   Enabled: false
 
 # expect not_to change is not working as expected
@@ -317,6 +342,8 @@ RSpec/SpecFilePathFormat:
   CustomTransform:
     OpenIDConnect: openid_connect
     OAuthClients: oauth_clients
+    XWiki: xwiki
+    XWikiProviders: xwiki_providers
   EnforcedInflector: active_support
   IgnoreMethods: true
 
@@ -385,7 +412,8 @@ Style/FormatString:
   Enabled: false
 
 Style/FormatStringToken:
-  AllowedMethods: [redirect]
+  AllowedMethods:
+    - redirect
 
 Style/FrozenStringLiteralComment:
   Enabled: true
@@ -467,6 +495,11 @@ Style/Proc:
 Style/RaiseArgs:
   Enabled: false
 
+Style/RescueModifier:
+  Exclude:
+    - "spec/**/*"
+    - "modules/**/spec/**/*"
+
 Style/RegexpLiteral:
   Enabled: false
 
@@ -510,4 +543,8 @@ Style/WhileUntilModifier:
   Enabled: false
 
 Style/WordArray:
+  Enabled: false
+
+# Obsolete since type configuration moved to TypeVariant. We can remove this cop from rubocop-openproject again.
+OpenProject/UseEffectiveTypeForConfiguration:
   Enabled: false

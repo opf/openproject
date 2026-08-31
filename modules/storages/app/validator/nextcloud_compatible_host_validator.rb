@@ -28,19 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 22
+  MINIMAL_NEXTCLOUD_VERSION = 32
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"
 
   HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
 
   def validate_each(contract, attribute, value)
-    return if contract.model.changed_attributes.exclude?(attribute)
+    host_changed = contract.model.changed_attributes.include?(attribute)
+    return if !host_changed && !unsafe_literal_host?(value)
+    return unless host_allowed?(contract, attribute, value)
+    return unless host_changed
 
     validate_capabilities(contract, attribute, value)
     validate_setup_completeness(contract, attribute, value) if contract.errors.empty?
   end
 
   private
+
+  def host_allowed?(contract, attribute, value)
+    host = URI.parse(value).host
+    return false if host.blank?
+    return true if OpenProject::SsrfProtection.safe_ip?(host)
+
+    contract.errors.add(attribute, :ssrf_filtered)
+    false
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def unsafe_literal_host?(value)
+    host = URI.parse(value).host
+    return false if host.blank?
+
+    host == "localhost" || literal_ip_address?(host)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def literal_ip_address?(host)
+    [Resolv::IPv4::Regex, Resolv::IPv6::Regex].any? { |regex| host.match?(regex) }
+  end
 
   def validate_capabilities(contract, attribute, value)
     uri = URI.parse(File.join(value, "/ocs/v2.php/cloud/capabilities"))
@@ -51,16 +78,22 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     error_type = check_capabilities_response(response)
 
     if error_type
-      contract.errors.add(attribute, error_type)
+      contract.errors.add(attribute, error_type, **error_options(error_type, response))
       Rails.logger.info(message(value, response, error_type))
     end
+  end
+
+  def error_options(error_type, response)
+    return {} unless error_type == :minimal_nextcloud_version_not_met
+
+    { minimal_version: MINIMAL_NEXTCLOUD_VERSION, detected_version: read_version(response) }
   end
 
   def check_capabilities_response(response)
     return :cannot_be_connected_to if response.error.present?
     return :cannot_be_connected_to unless response.status.in? 200..299
     return :not_nextcloud_server unless read_version(response)
-    return :minimal_nextcloud_version_unmet unless major_version_sufficient?(response)
+    return :minimal_nextcloud_version_not_met unless major_version_sufficient?(response)
 
     nil
   end
@@ -101,8 +134,6 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
       message << ": #{response.class}: #{response}"
     when :not_nextcloud_server
       message << ": either was not valid json, or value at 'ocs/data/version/major' was not defined"
-    when :minimal_nextcloud_version_unmet
-      message << ": version detected is #{read_version(response).inspect}, minimum is #{MINIMAL_NEXTCLOUD_VERSION}"
     end
 
     message
@@ -120,13 +151,13 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
 
   def read_version(response)
     response.json.dig("ocs", "data", "version", "major")
-  rescue HTTPX::Error, MultiJson::ParseError
+  rescue HTTPX::Error, MultiJSON::ParseError
     false
   end
 
   def read_authorization_header(response)
     response.json["authorization_header"]
-  rescue HTTPX::Error, MultiJson::ParseError
+  rescue HTTPX::Error, MultiJSON::ParseError
     nil
   end
 end

@@ -1,0 +1,90 @@
+# Schema: SprintModel
+---
+type: object
+required:
+  - id
+  - _type
+  - name
+  - startDate
+  - finishDate
+  - createdAt
+  - updatedAt
+properties:
+  id:
+    type: integer
+    description: Sprint id
+    minimum: 1
+  _type:
+    type: string
+    enum:
+      - Sprint
+  name:
+    type: string
+    description: Sprint name
+  description:
+    $ref: "./formattable.yml"
+  startDate:
+    type:
+      - "string"
+      - "null"
+    format: date
+  finishDate:
+    type:
+      - "string"
+      - "null"
+    format: date
+  startedAt:
+    type:
+      - "string"
+      - "null"
+    format: date-time
+    description: |-
+      The time when the sprint was started. This is an explicit action performed by users, the date can thus divert
+      from the (planned) sprint start_date.
+  completedAt:
+    type:
+      - "string"
+      - "null"
+    format: date-time
+    description: |-
+      The time when the sprint was completed. This is an explicit action performed by users, the date can thus divert
+      from the (planned) sprint finish_date.
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the sprint
+  _links:
+    type: object
+    required:
+      - self
+      - definingWorkspace
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              This sprint
+
+              **Resource**: Sprint
+      definingWorkspace:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The workspace to which the sprint belongs.
+
+              **Resource**: Workspace
+      status:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The current status of the sprint which can be any of:
+
+                - *"urn:openproject-org:api:v3:sprints:status:in_planning"*: The sprint hasn't started yet, it is planned.
+                - *"urn:openproject-org:api:v3:sprints:status:active"*: The sprint is currently active.
+                - *"urn:openproject-org:api:v3:sprints:status:completed"*: The sprint has finished.
+
+              **Resource**: N/A

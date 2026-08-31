@@ -74,7 +74,7 @@ RSpec.describe "my time tracking", :js do
   end
 
   around do |example|
-    travel_to "2025-04-09T12:00:00Z" do # rubocop:disable RSpecRails/TravelAround
+    travel_to "2025-04-09T12:00:00Z" do
       example.run
     end
   end

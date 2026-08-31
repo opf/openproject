@@ -104,16 +104,16 @@ RSpec.describe "Projects autocomplete page", :js do
     # Filter for projects
     top_menu.search "<strong"
 
-    # Expect highlights
+    # Expect result is shown and HTML in the project name is escaped, not rendered
     within(top_menu.search_results) do
-      expect(page).to have_css(".op-search-highlight", text: "<strong")
       expect(page).to have_no_css("strong")
     end
 
-    # Expect fuzzy matches for plain
+    # Expect fuzzy matches for multiple substrings
     top_menu.search "Plain pr"
     top_menu.expect_result "Plain project"
-    top_menu.expect_no_result "Plain other project"
+    top_menu.expect_result "Plain other project"
+    top_menu.expect_no_result "Project with different name and identifier"
 
     # Expect search to match names only and not the identifier
     top_menu.clear_search
@@ -126,8 +126,17 @@ RSpec.describe "Projects autocomplete page", :js do
     # Expect hierarchy
     top_menu.clear_search
 
+    # The unfiltered tree collapses back to its initial state, so the child is
+    # hidden until its ancestor is expanded. Waiting for it to disappear also
+    # keeps the assertions below from reading the still-filtered tree, which
+    # lingers for the duration of the search debounce.
+    top_menu.expect_no_result "Plain other project"
+
     top_menu.expect_result "Plain project"
-    top_menu.expect_result "<strong>foobar</strong>", disabled: true
+    # Nothing is filtered out without a query, so the ancestor is selectable.
+    top_menu.expect_result "<strong>foobar</strong>"
+
+    top_menu.expand_node_for "<strong>foobar</strong>"
     top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
                                               item_name: "Plain other project"
 
@@ -177,16 +186,31 @@ RSpec.describe "Projects autocomplete page", :js do
     end
 
     # Filter for projects
-    top_menu.search "<strong"
-
-    # Visit a project
-    top_menu.autocompleter.send_keys :enter
+    top_menu.search_and_select "<strong"
 
     top_menu.expect_current_project project2.name
   end
 
-  it "displays workspace type badges for portfolios and programs",
-     with_flag: { portfolio_models: true } do
+  it "nests projects below their nearest visible ancestor" do
+    visible_grandparent = create(:project, name: "Visible Grandparent", members: { user => role })
+    invisible_parent = create(:private_project, name: "Invisible Parent", parent: visible_grandparent)
+    visible_grandchild = create(:project,
+                                name: "Visible Grandchild",
+                                parent: invisible_parent,
+                                members: { user => role })
+
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
+
+      top_menu.expect_result visible_grandparent.name
+      top_menu.expect_no_result invisible_parent.name
+      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                                item_name: visible_grandchild.name
+    end
+  end
+
+  it "displays workspace type badges for portfolios and programs" do
     retry_block do
       top_menu.toggle unless top_menu.open?
       top_menu.expect_open

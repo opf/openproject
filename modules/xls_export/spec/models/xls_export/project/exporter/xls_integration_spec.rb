@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "spreadsheet"
 require "models/projects/exporter/exportable_project_context"
@@ -64,10 +66,6 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   describe "custom field columns selected" do
     let(:query_columns) { %w[name description project_status public] + global_project_custom_fields.map(&:column_name) }
 
-    before do
-      project # re-evaluate project to ensure it is created within the desired user context
-    end
-
     context "with admin permission" do
       let(:current_user) { build_stubbed(:admin) }
 
@@ -127,13 +125,136 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
     end
 
     context "without view_project_attributes permission" do
-      let(:permissions) { %i(view_projects export_projects) }
+      let(:permissions) { super() - %i[view_project_attributes] }
 
       it "does not render project custom fields in the header" do
         expect(header).to eq %w[Name Description Status Public]
 
         expect(sheet.row(1))
           .to eq [project.name, project.description, "Off track", "false"]
+      end
+    end
+  end
+
+  describe "custom comment columns selected" do
+    let(:query_columns) { %w[name description project_status public] + global_project_custom_fields.map(&:comment_column_name) }
+
+    context "with admin permission" do
+      let(:current_user) { build_stubbed(:admin) }
+
+      it "renders all comment columns" do
+        expect(header).to eq %w[Name Description Status Public] + [version_cf, hidden_cf].map { "#{it.name} comment" }
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members",
+          "Comment visible to admins"
+        ]
+      end
+    end
+
+    context "with view_project_attributes permission" do
+      it "renders comment columns for available project custom fields" do
+        expect(header).to eq %w[Name Description Status Public] + ["#{version_cf.name} comment"]
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members"
+        ]
+      end
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { super() - %i[view_project_attributes] }
+
+      it "does not render custom comment columns" do
+        expect(header).to eq %w[Name Description Status Public]
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false"
+        ]
+      end
+    end
+  end
+
+  describe "project phase columns selected" do
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    shared_let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
+
+    let!(:project_phase) do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      context "and an active phase" do
+        it "renders the phase's date range in the row" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
+        end
+      end
+
+      context "and an inactive phase" do
+        before { project_phase.update!(active: false) }
+
+        it "renders an empty value while keeping the phase column" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
+        end
+      end
+
+      context "and multiple phase definitions" do
+        shared_let(:execution_definition) { create(:project_phase_definition, name: "Execution") }
+        shared_let(:closing_definition) { create(:project_phase_definition, name: "Closing") }
+
+        let(:query_columns) do
+          %w[name description project_status public] +
+            [execution_definition, phase_definition, closing_definition].map { |d| "project_phase_#{d.id}" }
+        end
+
+        before do
+          create(:project_phase, project:, definition: execution_definition,
+                                 start_date: Date.new(2026, 2, 1), finish_date: Date.new(2026, 2, 10))
+          create(:project_phase, project:, definition: closing_definition, active: false)
+        end
+
+        it "renders each definition's own date range and leaves the ones without an active phase empty" do
+          expect(header).to eq %w[Name Description Status Public Execution Initiation Closing]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false",
+                                      "02/01/2026 - 02/10/2026", "01/05/2026 - 01/20/2026", nil]
+        end
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      it "omits the phase column entirely" do
+        expect(header).to eq %w[Name Description Status Public]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false"]
+      end
+    end
+
+    context "with view_project_phases permission in another project only" do
+      let(:other_project) { create(:project) }
+
+      before do
+        create(:member, user: current_user, project: other_project,
+                        roles: [create(:project_role, permissions: %i[view_project_phases])])
+      end
+
+      it "renders an empty value for the project where the user lacks the permission" do
+        expect(header).to eq %w[Name Description Status Public Initiation]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
       end
     end
   end

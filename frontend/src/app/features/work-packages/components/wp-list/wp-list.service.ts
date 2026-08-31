@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,8 +31,7 @@ import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable, Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -63,7 +62,24 @@ export interface QueryDefinition {
 
 @Injectable()
 export class WorkPackagesListService {
-  @InjectField() protected readonly currentUser:CurrentUserService;
+  readonly injector = inject(Injector);
+  protected toastService = inject(ToastService);
+  readonly I18n = inject(I18nService);
+  protected UrlParamsHelper = inject(UrlParamsHelperService);
+  protected authorisationService = inject(AuthorisationService);
+  protected $state = inject(StateService);
+  protected apiV3Service = inject(ApiV3Service);
+  protected states = inject(States);
+  protected querySpace = inject(IsolatedQuerySpace);
+  protected pagination = inject(PaginationService);
+  protected configuration = inject(ConfigurationService);
+  protected wpTablePagination = inject(WorkPackageViewPaginationService);
+  protected wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+  protected wpListInvalidQueryService = inject(WorkPackagesListInvalidQueryService);
+  protected wpQueryView = inject(WorkPackagesQueryViewService);
+  protected submenuService = inject(SubmenuService);
+
+  protected readonly currentUser = inject(CurrentUserService);
 
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
@@ -87,25 +103,6 @@ export class WorkPackagesListService {
       // diverting observables to the LATEST emitted.
       share(),
     );
-
-  constructor(
-    readonly injector:Injector,
-    protected toastService:ToastService,
-    readonly I18n:I18nService,
-    protected UrlParamsHelper:UrlParamsHelperService,
-    protected authorisationService:AuthorisationService,
-    protected $state:StateService,
-    protected apiV3Service:ApiV3Service,
-    protected states:States,
-    protected querySpace:IsolatedQuerySpace,
-    protected pagination:PaginationService,
-    protected configuration:ConfigurationService,
-    protected wpTablePagination:WorkPackageViewPaginationService,
-    protected wpStatesInitialization:WorkPackageStatesInitializationService,
-    protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
-    protected wpQueryView:WorkPackagesQueryViewService,
-    protected submenuService:SubmenuService,
-  ) { }
 
   /**
    * Stream a query request as a HTTP observable. Each request to this method will
@@ -261,6 +258,7 @@ export class WorkPackagesListService {
 
         // Reload the query, and then reload the menu
         this.reloadQuery(createdQuery).subscribe(() => {
+          this.navigateToQueryOnNonRouterPage(createdQuery.id);
           this.states.changes.queries.next(createdQuery.id);
           this.reloadSidemenu(createdQuery.id);
         });
@@ -311,7 +309,11 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
+          if (this.isOnNonRouterPage()) {
+            this.navigateToQueryOnNonRouterPage(query.id);
+          } else {
+            void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
+          }
           this.states.changes.queries.next(query.id);
           this.reloadSidemenu(query.id);
         } else {
@@ -363,7 +365,7 @@ export class WorkPackagesListService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!currentForm || !query.$links.update || query.$links.update.href !== currentForm.href) {
+    if (!currentForm || query.$links.update?.href !== currentForm.href) {
       return this.loadForm(query);
     }
 
@@ -463,7 +465,31 @@ export class WorkPackagesListService {
     }
   }
 
+  private isOnNonRouterPage():boolean {
+    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+  }
+
+  private navigateToQueryOnNonRouterPage(queryId:string|null):void {
+    if (!this.isOnNonRouterPage()) { return; }
+
+    // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
+    const url = new URL(window.location.href);
+    url.pathname = url.pathname.replace(/\/[^/]+$/, `/${queryId}`);
+    url.searchParams.delete('query_id');
+    url.searchParams.delete('query_props');
+    window.history.pushState({}, '', url.toString());
+  }
+
   private reloadSidemenu(selectedQueryId:string|null):void {
-    this.submenuService.reloadSubmenu(selectedQueryId);
+    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
+    this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
+  }
+
+  private getNonRouterSidemenuId():string|undefined {
+    const { pathname } = window.location;
+    if (pathname.includes('/calendars')) return 'calendar_sidemenu';
+    if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
+    if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    return undefined;
   }
 }

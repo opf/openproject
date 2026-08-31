@@ -40,9 +40,9 @@ module Admin
 
     def index
       @server_config = McpConfiguration.server_config
-      @tool_configs = McpConfiguration.where(identifier: McpTools.tools_by_name.keys)
+      @tool_configs = McpConfiguration.where(identifier: McpTools.tools_by_name.keys).order(identifier: :asc)
 
-      @resource_configs = McpConfiguration.where(identifier: McpResources.resources_by_name.keys)
+      @resource_configs = McpConfiguration.where(identifier: McpResources.resources_by_name.keys).order(identifier: :asc)
     end
 
     def update

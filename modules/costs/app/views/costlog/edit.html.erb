@@ -33,8 +33,8 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { I18n.t(:label_log_costs) }
     header.with_breadcrumbs(
-      [({ href: project_overview_path(@project.id), text: @project.name }),
-       ({ href: project_work_packages_path(@project), text: t(:label_work_package_plural) }),
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
        I18n.t(:label_log_costs)]
     )
   end
@@ -92,7 +92,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <%# see above %>
     <%= f.select :cost_type_id,
-                 cost_types_collection_for_select_options,
+                 cost_types_collection_for_select_options(project: @project),
                  { prompt: true,
                    container_class: "-middle" },
                  {
@@ -104,6 +104,8 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <% if @cost_entry.cost_type.nil? %>
       <%= f.text_field :units,
+                       pattern: "^-?[0-9]+ *([.,][0-9]+)?$",
+                       inputmode: :decimal,
                        value: unitless_currency_number(@cost_entry.units),
                        size: 6,
                        required: true,
@@ -111,6 +113,8 @@ See COPYRIGHT and LICENSE files for more details.
     <% else %>
       <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
       <%= f.text_field :units,
+                       pattern: "^-?[0-9]+ *([.,][0-9]+)?$",
+                       inputmode: :decimal,
                        size: 6,
                        value: unitless_currency_number(@cost_entry.units),
                        required: true,
@@ -126,13 +130,12 @@ See COPYRIGHT and LICENSE files for more details.
     <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
     <% if User.current.allowed_in_project?(:view_cost_rates, @cost_entry.project) %>
     <span class="form--field-container">
-      <a href="#"
-         id="cost_entry_costs"
-         class="costs--edit-planned-costs-btn icon-context icon-edit"
-         role="button"
-         title="<%= t(:help_click_to_edit) %>">
-            <%= number_to_currency(@cost_entry.real_costs) %>
-        </a>
+      <button type="button"
+              id="cost_entry_costs"
+              class="costs--edit-planned-costs-btn icon-context icon-edit button--link no-decoration-on-hover"
+              aria-label="<%= t(:help_click_to_edit) %>">
+        <%= number_to_currency(@cost_entry.real_costs) %>
+      </button>
       <%= render partial: "/budgets/items/budget_override_cost_form",
                  locals: {
                    field_name: "cost_entry[overridden_costs]",

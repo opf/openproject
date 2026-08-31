@@ -53,9 +53,9 @@ RSpec.describe RootSeeder,
 
     it "creates the BIM demo data" do
       expect(Project.count).to eq 4
-      expect(EnabledModule.count).to eq 29
+      expect(EnabledModule.count).to eq 26
       expect(WorkPackage.count).to eq 76
-      expect(Wiki.count).to eq 3
+      expect(Wiki.count).to eq 0
       expect(Query.count).to eq 29
       expect(Group.count).to eq 8
       expect(Type.count).to eq 7
@@ -110,6 +110,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: Status, expected_count: 4
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 3
     include_examples "it creates records", model: Workflow, expected_count: 273
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
@@ -138,7 +139,7 @@ RSpec.describe RootSeeder,
       it "does not create additional data and does not raise any errors" do
         expect(Project.count).to eq 4
         expect(WorkPackage.count).to eq 76
-        expect(Wiki.count).to eq 3
+        expect(Wiki.count).to eq 0
         expect(Query.count).to eq 29
         expect(Group.count).to eq 8
         expect(Type.count).to eq 7
@@ -155,7 +156,7 @@ RSpec.describe RootSeeder,
       before_all do
         # Simulate a user having created new statuses, and deleted all default
         # statuses and workflows (making looking up statuses by name impossible)
-        new_status = create(:status, :default, name: "My own default status")
+        new_status = create(:default_status, name: "My own default status")
         Project.destroy_all
         # destroying all statuses will destroy all workflows by cascade
         Status.where.not(id: new_status.id).destroy_all
@@ -265,7 +266,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      expect(CustomField.count).to eq 12
+      # 12 development work package custom fields + 4 demo user custom fields
+      expect(CustomField.count).to eq 16
     end
 
     it "creates 2 additional types for development" do

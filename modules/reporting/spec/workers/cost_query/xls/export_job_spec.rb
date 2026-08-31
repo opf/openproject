@@ -67,8 +67,7 @@ RSpec.describe CostQuery::XLS::ExportJob do
       user:,
       mime_type: :xls,
       query:,
-      project:,
-      cost_types: [-1, 0]
+      options: { project:, cost_types: [-1, 0] }
     )
     job.perform_now
     job

@@ -20,75 +20,76 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 tr:
-  attributes:
-    commit: "İşlem"
-    gitlab: "GitLab tanımlayıcı"
-    gitlab_avatar_url: "Avatar adresi"
-    gitlab_email: "GitLab E-posta"
-    gitlab_html_url: "GitLab HTML adresi"
-    gitlab_merge_request: "Birleştirme İsteği"
-    gitlab_name: "GitLab adı"
-    gitlab_updated_at: "Güncellenme tarihi"
-    gitlab_user_avatar_url: "GitLab avatar adresi"
-    gitlab_username: "GitLab kullanıcı adı"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI Detayları"
       gitlab_merge_request:
-        labels: "Etiketler"
+        labels: Etiketler
+      gitlab_pipeline:
+        ci_details: CI Detayları
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "anahtarları olan bir özet dizisi olmalıdır: renk, başlık"
+              invalid_schema: 'anahtarları olan bir özet dizisi olmalıdır: renk, başlık'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "anahtarları olan bir özet dizisi olmalıdır: renk, başlık"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "GitLab içeriğini göster"
+              invalid_schema: 'anahtarları olan bir özet dizisi olmalıdır: renk, başlık'
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        other: GitLab users
+  attributes:
+    commit: İşlem
+    gitlab: GitLab tanımlayıcı
+    gitlab_avatar_url: Avatar adresi
+    gitlab_email: GitLab E-posta
+    gitlab_html_url: GitLab HTML adresi
+    gitlab_merge_request: Birleştirme İsteği
+    gitlab_name: GitLab adı
+    gitlab_updated_at: Güncellenme tarihi
+    gitlab_user_avatar_url: GitLab avatar adresi
+    gitlab_username: GitLab kullanıcı adı
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.
-    merge_request_closed_comment: >
-      **MR Kapatıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatıldı.
-    merge_request_merged_comment: >
-      **MR Birleştirildi:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından birleştirildi.
-    merge_request_reopened_comment: >
-      **MR Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açıldı.
-    note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}):
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **Sorunda Referans Verildi:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorununda [%{repository}](%{repository_url}) üzerinde referans verdi:
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Sorunla Yorumlandı:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorununda [%{repository}](%{repository_url}) üzerinde yorumladı:
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Kod Parçasında Referans Verildi:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{snippet_number} [%{snippet_title}](%{snippet_url}) kod parçası ile [%{repository}](%{repository_url}) üzerinde referans verdi:
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Sorun Açıldı:** %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorunu [%{repository}](%{repository_url}) için [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.
-    issue_closed_referenced_comment: >
-      **Sorun Kapatıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatılmıştır.
-    issue_reopened_referenced_comment: >
-      **Sorun Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açılmıştır.
-    push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      ** %{reference}'da itildi :** [%{gitlab_user}](%{gitlab_user_url}) %{commit_timestamp}'da [%{commit_number}](%{commit_url}) [%{repository}](%{repository_url}) itildi :
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}:
-      %{commit_note}
+    issue_closed_referenced_comment: "**Sorun Kapatıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatılmıştır.\n"
+    issue_opened_referenced_comment: "**Sorun Açıldı:** %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorunu [%{repository}](%{repository_url}) için [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.\n"
+    issue_reopened_referenced_comment: "**Sorun Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açılmıştır.\n"
+    merge_request_closed_comment: "**MR Kapatıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatıldı.\n"
+    merge_request_merged_comment: "**MR Birleştirildi:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından birleştirildi.\n"
+    merge_request_opened_comment: "**MR Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.\n"
+    merge_request_reopened_comment: "**MR Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açıldı.\n"
+    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Sorunla Yorumlandı:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorununda [%{repository}](%{repository_url}) üzerinde yorumladı: %{issue_note}\n"
+    note_issue_referenced_comment: "**Sorunda Referans Verildi:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorununda [%{repository}](%{repository_url}) üzerinde referans verdi: %{issue_note}\n"
+    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Kod Parçasında Referans Verildi:** [%{gitlab_user}](%{gitlab_user_url}) bu iş paketini %{snippet_number} [%{snippet_title}](%{snippet_url}) kod parçası ile [%{repository}](%{repository_url}) üzerinde referans verdi: %{snippet_note}\n"
+    push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "** %{reference}'da itildi :** [%{gitlab_user}](%{gitlab_user_url}) %{commit_timestamp}'da [%{commit_number}](%{commit_url}) [%{repository}](%{repository_url}) itildi : %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: GitLab içeriğini göster
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

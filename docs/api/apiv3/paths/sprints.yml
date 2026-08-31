@@ -1,0 +1,49 @@
+# /api/v3/sprints
+---
+get:
+  parameters:
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+        Currently supported filters are:
+
+        + definingWorkspace: filters sprints based on the project they are defined in. This is opposed to the projects they are shared with.
+
+      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] }" }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/sprint_collection_model.yml"
+          examples:
+            response:
+              $ref: "../components/examples/sprint_collection.yml"
+      description: OK
+      headers: {}
+  tags:
+    - Sprints
+  description: |-
+    List sprints visible to the user. This endpoint supports pagination and filtering.
+  operationId: List_sprints
+  summary: List sprints

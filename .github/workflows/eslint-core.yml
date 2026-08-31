@@ -1,4 +1,5 @@
-name: eslint
+name: ESLint
+
 on:
   pull_request:
     branches:
@@ -11,19 +12,28 @@ on:
 
 jobs:
   eslint:
-    name: eslint
+    name: ESLint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v6
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '22.15'
+          node-version: '24.18.0'
+          package-manager-cache: false
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - uses: reviewdog/action-eslint@v1
+      - name: Run ESLint
+        uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96 # v1
         with:
-          reporter: github-pr-check
+          reporter: github-pr-annotations
+          fail_level: any
           workdir: 'frontend/'
           eslint_flags: 'src/'

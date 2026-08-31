@@ -12,12 +12,12 @@ Basically, we follow Primer's specification of a TreeView:
 
 1. Parent node: Expands/collapses to show/hide child nodes
 2. End node: A node with no children (internally called "leaf")
-3. Chevron: Expands/collapses a parent node and indicates expanded/collapsed state
+3. Chevron: Expands/collapses a parent node and indicates an expanded / collapsed state
 4. Nesting level indicator lines: Each line represents a level of nesting depth
 5. Leading action (optional): An IconButton to allow interaction with the node besides activating or expanding
 6. Leading visual (optional): A visual cue for additional context
 7. Node label: The text label for the node
-8. Trailing visual (optional): Same as a leading visual, but placed to the right of all other element
+8. Trailing visual (optional): Same as a leading visual, but placed to the right of all other elements
 
 ### Multi-select
 
@@ -30,7 +30,7 @@ In addition to Primer's guidelines, we introduced an option called `select_varia
 Further, in multi-select mode, a `selection_strategy` can also be configured. This determines the influence checking a parent has on its children:
 
 * `descendants` (default): Checking a parent will automatically select all children. Subsequently deselecting any child will then leave the parent in a so called "mixed" state
-* `self`: Checking a parent does not affect the children (and vice-versa); every leaf or node behaves independently of others
+* `self`: Checking a parent does not affect the children (and vice versa); every leaf or node behaves independently of others
 
 <%= embed OpenProject::Common::TreeViewPreview, :multi_select, panels: %i[params] %>
 
@@ -39,9 +39,9 @@ Further, in multi-select mode, a `selection_strategy` can also be configured. Th
 We support two loading strategies:
 
 * static (default): All items are loaded when the component is rendered
-* dynamic: Sub-nodes are loaded from the server as soon as a node is expanded. Please note, that this option is currently not available in combination with the `select_variant: :multiple` or `select_variant: :single`.
+* dynamic: Sub-nodes are loaded from the server as soon as a node is expanded. Please note that this option is currently not available for the `select_variant: :multiple` in combination with `select_strategy: :descendants` or `select_strategy: :mixed_descendants`.
 
-For more examples have a look [here](../../../inspect/primer/alpha/tree_view/loading_skeleton).
+For more examples, have a look [here](../../../inspect/primer/alpha/tree_view/loading_skeleton).
 
 ### FileTreeView
 
@@ -52,7 +52,7 @@ There is a special component called `FileTreeView` which is a pre-configured `Tr
 ## Best practices
 
 **Do**
-- Use the simplest component as far possible ('self' selection strategy, static loading strategy)
+- Use the simplest component as far as possible ('self' selection strategy, static loading strategy)
 - Before using a basic TreeView with multi-select, check if related components like FilterableTreeView are more suited to your use case
 
 **Don't**

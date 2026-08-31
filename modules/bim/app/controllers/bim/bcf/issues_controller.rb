@@ -76,7 +76,7 @@ module Bim
       private
 
       def upload_error_redirect
-        redirect_to action: :upload, status: :unprocessable_entity
+        redirect_to action: :upload
       end
 
       def import_file

@@ -117,6 +117,7 @@ See COPYRIGHT and LICENSE files for more details.
           tag: :div,
           id: row_instance.row_css_id,
           classes: [grid_class, row_instance.row_css_class],
+          data: row_instance.row_data,
           role: :row
         ) do
           render(row_instance)
@@ -139,5 +140,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
 <% if paginated? %>
-  <%= helpers.pagination_links_full rows %>
+  <%= helpers.pagination_links_full rows, **pagination_params %>
 <% end %>

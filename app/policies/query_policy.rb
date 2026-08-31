@@ -36,7 +36,7 @@ class QueryPolicy < BasePolicy
       hash[cached_query] = {
         show: viewable?(cached_query),
         update: persisted_and_own_or_public?(cached_query),
-        destroy: persisted_and_own_or_public?(cached_query),
+        destroy: destroy_allowed?(cached_query),
         create: create_allowed?(cached_query),
         create_new: create_new_allowed?(cached_query),
         publicize: publicize_allowed?(cached_query),
@@ -125,5 +125,10 @@ class QueryPolicy < BasePolicy
     else
       user.allowed_in_any_project?(:share_calendars)
     end
+  end
+
+  def destroy_allowed?(query)
+    (query.persisted? && !query.project && query.user == user && user.logged?) ||
+       persisted_and_own_or_public?(query)
   end
 end

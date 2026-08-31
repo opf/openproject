@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
+  include_context "with ssrf stubs"
+
   shared_let(:user) { create(:admin) }
   shared_let(:title) { "Some workpackage subject" }
   shared_let(:request_url) { "http://example.net/test/42" }
@@ -39,12 +41,13 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
 
   shared_examples "a work package webhook call" do
     let(:event) { "work_package:created" }
-    let(:job) { described_class.perform_now webhook.id, work_package, event }
+    let(:actor) { nil }
+    let(:job) { described_class.perform_now webhook.id, work_package, event, actor: }
 
     let(:stubbed_url) { request_url }
 
     let(:request_headers) do
-      { content_type: "application/json", accept: "application/json" }
+      { "Content-Type": "application/json", Accept: "application/json" }
     end
 
     let(:response_code) { 200 }
@@ -54,7 +57,7 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
     end
 
     let(:stub) do
-      stub_request(:post, stubbed_url.sub("http://", ""))
+      stub_request(:post, stubbed_url)
         .with(
           body: hash_including(
             "action" => event,
@@ -63,7 +66,7 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
               "subject" => title
             )
           ),
-          headers: request_headers
+          headers: request_headers.merge(host: "example.net")
         )
         .to_return(
           status: response_code,
@@ -163,6 +166,76 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
         log = Webhooks::Log.last
         embedded_project = JSON.parse(log.request_body)["work_package"]["_embedded"]["project"]
         expect(embedded_project[custom_field.attribute_name(:camel_case)]).to eq "wat"
+      end
+    end
+  end
+
+  describe "actor field on updated event" do
+    let(:author) { create(:user, firstname: "Original", lastname: "Author") }
+    let(:updater) { create(:user, firstname: "Update", lastname: "User") }
+    let(:work_package) { create(:work_package, author:, subject: title) }
+
+    before do
+      work_package.add_journal(user: updater, notes: "Updated the work package")
+      work_package.save!
+    end
+
+    it_behaves_like "a work package webhook call" do
+      let(:event) { "work_package:updated" }
+      let(:actor) { updater }
+
+      it "includes actor matching the journal user, not the work package author" do
+        subject
+        expect(stub).to have_been_requested
+
+        log = Webhooks::Log.last
+        payload = JSON.parse(log.request_body)
+
+        expect(payload["actor"]["id"]).to eq updater.id
+        expect(payload["actor"]["name"]).to eq updater.name
+        expect(payload["actor"]["_type"]).to eq "User"
+        expect(payload["actor"]["_links"]["self"]["href"]).to eq "/api/v3/users/#{updater.id}"
+
+        # Author in the work package payload is still the original creator
+        author_href = payload["work_package"]["_links"]["author"]["href"]
+        expect(author_href).to include("/api/v3/users/#{author.id}")
+      end
+    end
+  end
+
+  describe "actor field on created event" do
+    let(:creator) { create(:user, firstname: "Creator", lastname: "Person") }
+    let(:work_package) { User.execute_as(creator) { create(:work_package, author: creator, subject: title) } }
+
+    it_behaves_like "a work package webhook call" do
+      let(:event) { "work_package:created" }
+      let(:actor) { creator }
+
+      it "includes actor matching the creator" do
+        subject
+        expect(stub).to have_been_requested
+
+        log = Webhooks::Log.last
+        payload = JSON.parse(log.request_body)
+
+        expect(payload["actor"]["id"]).to eq creator.id
+        expect(payload["actor"]["name"]).to eq creator.name
+      end
+    end
+  end
+
+  describe "actor absent when actor is nil" do
+    it_behaves_like "a work package webhook call" do
+      let(:event) { "work_package:updated" }
+      let(:actor) { nil }
+
+      it "fires the webhook without an actor key" do
+        expect { subject }.not_to raise_error
+        expect(stub).to have_been_requested
+
+        log = Webhooks::Log.last
+        payload = JSON.parse(log.request_body)
+        expect(payload).not_to have_key("actor")
       end
     end
   end

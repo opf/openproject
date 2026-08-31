@@ -53,8 +53,8 @@ class WorkPackages::RemindersController < ApplicationController
                                              .call(reminder_params)
 
     if service_result.success?
-      message = I18n.t("work_package.reminders.create_success_message",
-                       reminder_time: reminder_chosen_time(service_result.result)).html_safe
+      message = helpers.t("work_package.reminders.create_success_message_html",
+                          reminder_time: reminder_chosen_time(service_result.result))
       respond_with_success_flash_message(message:)
     else
       respond_with_error_modal_component(service_result)

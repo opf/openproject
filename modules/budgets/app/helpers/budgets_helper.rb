@@ -38,7 +38,34 @@ module BudgetsHelper
     User.current.allowed_in_project?(:edit_budgets, @project)
   end
 
-  def budgets_to_csv(budgets)
+  def labor_budget_item_user_autocompleter_inputs(labor_budget_item, project:, name:, id:)
+    {
+      id:,
+      inputName: name,
+      inputValue: labor_budget_item.user_id,
+      hiddenFieldAction: "change->costs--budget-subform#valueChanged",
+      url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+      resource: "principals",
+      searchKey: "any_name_attribute",
+      filters: labor_budget_item_user_filters(project),
+      ariaLabel: LaborBudgetItem.human_attribute_name(:user),
+      classes: "ng-select--primerized",
+      focusDirectly: false,
+      multiple: false
+    }
+  end
+
+  # Groups and placeholder users cannot hold an hourly rate and are therefore
+  # budgeted with 0.0 costs, but they are valid assignees (wp/74197).
+  def labor_budget_item_user_filters(project)
+    [
+      { name: "type", operator: "=", values: %w[User Group PlaceholderUser] },
+      { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] },
+      { name: "member", operator: "=", values: [project.id.to_s] }
+    ]
+  end
+
+  def budgets_to_csv(budgets) # rubocop:disable Metrics/AbcSize
     CSV.generate(col_sep: t(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [
@@ -54,7 +81,7 @@ module BudgetsHelper
         Budget.human_attribute_name(:updated_at),
         Budget.human_attribute_name(:description)
       ]
-      csv << headers.map { |c| begin; c.to_s.encode("UTF-8"); rescue StandardError; c.to_s; end }
+      csv << headers.map { |c| Exports::Concerns::CSVFormulaSanitization.sanitize(c) }
       # csv lines
       budgets.each do |budget|
         fields = [
@@ -70,7 +97,7 @@ module BudgetsHelper
           format_time(budget.updated_at),
           budget.description
         ]
-        csv << fields.map { |c| begin; c.to_s.encode("UTF-8"); rescue StandardError; c.to_s; end }
+        csv << fields.map { |c| Exports::Concerns::CSVFormulaSanitization.sanitize(c) }
       end
     end
   end

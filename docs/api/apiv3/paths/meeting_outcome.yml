@@ -1,0 +1,124 @@
+# /api/v3/meeting_outcomes/{id}
+---
+get:
+  summary: Get a meeting outcome
+  operationId: get_meeting_outcome
+  tags:
+    - Meetings
+  description: Retrieve an individual meeting outcome.
+  parameters:
+    - description: Outcome identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_outcome_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the outcome does not exist or the client does not have sufficient permissions.
+
+patch:
+  summary: Update a meeting outcome
+  operationId: update_meeting_outcome
+  tags:
+    - Meetings
+  description: Updates the given meeting outcome.
+  parameters:
+    - description: Outcome identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/meeting_outcome_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_outcome_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage outcomes
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the outcome does not exist or the client does not have sufficient permissions.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+delete:
+  summary: Delete a meeting outcome
+  operationId: delete_meeting_outcome
+  tags:
+    - Meetings
+  description: Deletes the outcome.
+  parameters:
+    - description: Outcome identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the outcome was successfully deleted
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage outcomes
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the outcome does not exist or the client does not have sufficient permissions.

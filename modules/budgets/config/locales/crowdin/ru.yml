@@ -19,102 +19,121 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ru:
-  plugin_budgets_engine:
-    name: "Бюджеты"
   activerecord:
     attributes:
       budget:
-        author: "Автор"
-        available: "Доступно"
-        budget: "Запланированно"
-        budget_ratio: "Потрачено (соотношение)"
-        description: "Описание"
-        spent: "Потрачено"
-        status: "Статус"
-        subject: "Тема"
-        type: "Тип затрат"
-        labor_budget: "Запланированные трудозатраты"
-        material_budget: "Запланированные расходы"
-        base_amount: "Базовая стоимость"
+        author: Автор
+        available: Доступно
+        base_amount: Базовая стоимость
+        budget: Запланированно
+        budget_ratio: Потрачено (соотношение)
+        description: Описание
+        labor_budget: Запланированные трудозатраты
+        labor_budget_items: Запланированные трудозатраты
+        material_budget: Запланированные расходы
+        spent: Потрачено
+        status: Статус
+        subject: Тема
+        type: Тип затрат
       work_package:
-        budget_subject: "Название бюджета"
+        budget_subject: Название бюджета
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: не является участником бюджета проекта
     models:
-      budget: "Бюджет"
-      material_budget_item: "Единица"
+      budget:
+        one: Бюджет
+        few: Budgets
+        many: Budgets
+        other: Бюджеты
+      labor_budget_item:
+        one: Запланированные трудозатраты
+        few: Planned labor costs
+        many: Planned labor costs
+        other: Запланированные трудозатраты
+      material_budget_item:
+        one: Единица
+        few: Units
+        many: Units
+        other: Единицы
   activity:
     filter:
-      budget: "Бюджеты"
+      budget: Бюджеты
   attributes:
-    budget: "Бюджет"
-  button_add_budget_item: "Добавить запланированные расходы"
-  button_add_budget: "Добавить бюджет"
-  button_add_cost_type: "Добавить тип расходов"
-  button_cancel_edit_budget: "Отменить правку бюджета"
-  button_cancel_edit_costs: "Отменить правку расходов"
-  caption_labor: "Трудовые"
-  caption_labor_costs: "Фактические трудозатраты"
-  caption_material_costs: "Фактические затраты на единицу"
-  budgets_title: "Бюджеты"
+    budget: Бюджет
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          few: "Data aggregated from %{count} budgets."
-          many: "Data aggregated from %{count} budgets."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Получите обзор Ваших бюджетов и затрат, чтобы эффективно отслеживать состояние здоровья Вашего проекта
+          heading: Начать контроль над проектом
+        blankslate_zero:
+          description: Добавьте подробную информацию о планируемом бюджете, чтобы увидеть данные здесь
+          heading: Отсутствуют детали бюджета
+        count_caption:
+          one: Данные собраны из %{count} бюджета
+          other: Данные собраны из %{count} бюджетов
+          zero: Нет данных о бюджете.
+        count_caption_with_subitems:
+          portfolio:
+            one: Данные, собранные из %{count} бюджета, включены в этот портфель и его подпункты.
+            other: Данные, собранные из %{count} бюджетов, включены в этот портфель и его подпункты.
+            zero: Нет данных о бюджете.
+          program:
+            one: Данные, собранные из %{count} бюджета, включены в эту программу и её подпрограммы.
+            other: Данные, собранные из %{count} бюджетов, включены в эту программу и её подпрограммы.
+            zero: Нет данных о бюджете.
+          project:
+            one: Данные, собранные из %{count} бюджета, включены в этот проект и его подпроекты.
+            other: Данные, собранные из %{count} бюджетов, включены в этот проект и его подпроекты.
+            zero: Нет данных о бюджете.
+        title: Бюджет по видам затрат
+        view_details: Посмотреть детали бюджета
+      budget_totals:
+        remaining_budget: Оставшийся бюджет
+        spent_budget: Израсходованный бюджет
+        title: Общая сумма бюджета
+        total_actual_costs: Общие фактические затраты
+        total_planned_budget: Общий запланированный бюджет
+  budgets_title: Бюджеты
+  button_add_budget: Добавить бюджет
+  button_add_budget_item: Добавить запланированные расходы
+  button_add_cost_type: Добавить тип расходов
+  button_cancel_edit_budget: Отменить правку бюджета
+  button_cancel_edit_costs: Отменить правку расходов
+  caption_labor: Трудовые
+  caption_labor_costs: Фактические трудозатраты
+  caption_material_costs: Фактические затраты на единицу
   events:
-    budget: "Бюджет изменен"
-  help_click_to_edit: "Нажмите здесь, чтобы править."
-  help_currency_format: "Формат отображения денежных значений. %n заменяется значением валюты, %u заменяется денежной единицой."
-  help_override_rate: "Введите значение здесь для переопределения тарифа по умолчанию."
-  label_budget: "Бюджет"
-  label_budget_available: "Доступный бюджет"
-  label_budget_id: "Бюджет #%{id}"
-  label_budget_new: "Новый бюджет"
-  label_budget_planned: "Планируемый бюджет"
-  label_budget_plural: "Бюджеты"
-  label_budget_spent: "Израсходованный бюджет"
-  label_budget_spent_ratio: "Коэффициент потраченных расходов"
-  label_deliverable: "Бюджет"
-  label_example_placeholder: "например, %{decimal}"
-  label_view_all_budgets: "Просмотр всех бюджетов"
-  label_yes: "Да"
-  label_budget_totals: "Итого"
-  label_budget_details: "Детали бюджета"
-  notice_budget_conflict: "Пакеты работ должны быть из того же проекта."
-  notice_no_budgets_available: "Нет доступных бюджетов."
-  permission_edit_budgets: "Редактировать бюджеты"
-  permission_view_budgets: "Просмотр бюджетов"
-  project_module_budgets: "Бюджеты"
-  text_budget_reassign_to: "Переназначить их для этого бюджета:"
-  text_budget_delete: "Удалить бюджет из всех пакетов работ"
-  text_budget_destroy_assigned_wp: "Есть %{count} пакетов работ, назначенных в этот бюджет. Что вы хотите сделать?"
+    budget: Бюджет изменен
+  help_click_to_edit: Нажмите здесь, чтобы править.
+  help_currency_format: Формат отображения денежных значений. %n заменяется значением валюты, %u заменяется денежной единицой.
+  help_override_rate: Введите значение здесь для переопределения тарифа по умолчанию.
+  label_budget_available: Доступный бюджет
+  label_budget_details: Детали бюджета
+  label_budget_id: 'Бюджет #%{id}'
+  label_budget_new: Новый бюджет
+  label_budget_planned: Планируемый бюджет
+  label_budget_plural: Бюджеты
+  label_budget_spent: Израсходованный бюджет
+  label_budget_spent_ratio: Коэффициент потраченных расходов
+  label_budget_totals: Итого
+  label_deliverable: Бюджет
+  label_example_placeholder: например, %{decimal}
+  label_view_all_budgets: Просмотр всех бюджетов
+  label_yes: Да
+  notice_budget_conflict: Пакеты работ должны быть из того же проекта.
+  notice_no_budgets_available: Нет доступных бюджетов.
+  permission_edit_budgets: Редактировать бюджеты
+  permission_view_budgets: Просмотр бюджетов
+  plugin_budgets_engine:
+    name: Бюджеты
+  project_module_budgets: Бюджеты
+  text_budget_delete: Удалить бюджет из всех пакетов работ
+  text_budget_destroy_assigned_wp: Есть %{count} пакетов работ, назначенных в этот бюджет. Что вы хотите сделать?
+  text_budget_reassign_to: 'Переназначить их для этого бюджета:'

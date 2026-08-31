@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 tr:
   js:
     two_factor_authentication:
       errors:
-        aborted: "Kimlik doğrulama iptal edildi. Lütfen tekrar deneyin."
+        aborted: Kimlik doğrulama iptal edildi. Lütfen tekrar deneyin.

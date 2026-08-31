@@ -50,9 +50,9 @@ module Queries::Filters::Shared::UserNameFilter
       when "!"
         ["#{sql_concat_name} NOT IN (:s) AND unaccent(#{sql_concat_name}) NOT IN (:s)", { s: sql_value }]
       when "~", "**"
-        ["unaccent(#{sql_concat_name}) LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
+        ["unaccent(#{sql_concat_name}) LIKE unaccent(:s)", { s: sql_value }]
       when "!~"
-        ["unaccent(#{sql_concat_name}) NOT LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
+        ["unaccent(#{sql_concat_name}) NOT LIKE unaccent(:s)", { s: sql_value }]
       end
     end
 
@@ -61,9 +61,9 @@ module Queries::Filters::Shared::UserNameFilter
     def sql_value
       case operator
       when "=", "!"
-        values.map { |val| self.class.connection.quote_string(val.downcase) }.join(",")
+        values.map(&:downcase)
       when "**", "~", "!~"
-        values.first.downcase
+        "%#{values.first.downcase}%"
       end
     end
 

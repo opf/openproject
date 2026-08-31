@@ -89,7 +89,7 @@ class TimeEntriesController < ApplicationController
     @time_entry = call.result
 
     if call.success?
-      close_dialog_via_turbo_stream("#time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+      close_dialog_via_turbo_stream("time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
     else
       form_component = TimeEntries::TimeEntryFormComponent.new(time_entry: @time_entry, **form_config_options)
       update_via_turbo_stream(component: form_component, status: :bad_request)
@@ -107,7 +107,7 @@ class TimeEntriesController < ApplicationController
 
     if call.success?
       if request_from_dialog?
-        close_dialog_via_turbo_stream("#time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+        close_dialog_via_turbo_stream("time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
       else
         reload_page_via_turbo_stream
       end
@@ -119,7 +119,7 @@ class TimeEntriesController < ApplicationController
                                                              errors: call.errors.full_messages.join(", ")))
     end
 
-    respond_with_turbo_streams(status: call.success? ? :ok : :bad_request)
+    respond_with_turbo_streams(status: call)
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
@@ -129,7 +129,7 @@ class TimeEntriesController < ApplicationController
 
     if request_from_dialog?
       if call.success?
-        close_dialog_via_turbo_stream("#time-entry-dialog")
+        close_dialog_via_turbo_stream("time-entry-dialog")
       else
         form_component = TimeEntries::TimeEntryFormComponent.new(time_entry: @time_entry, **form_config_options)
         update_via_turbo_stream(component: form_component, status: :bad_request)
@@ -141,7 +141,7 @@ class TimeEntriesController < ApplicationController
                                                              errors: call.errors.full_messages.join(", ")))
     end
 
-    respond_with_turbo_streams(status: call.success? ? :ok : :bad_request)
+    respond_with_turbo_streams(status: call)
   end
 
   private

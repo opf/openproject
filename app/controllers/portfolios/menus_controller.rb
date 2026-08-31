@@ -31,7 +31,6 @@ module Portfolios
   class MenusController < ApplicationController
     authorization_checked! :show
 
-    before_action :not_authorized_on_feature_flag_inactive
     before_action :authorize_portfolio_access, only: %i[show]
 
     def show
@@ -46,10 +45,6 @@ module Portfolios
     def authorize_portfolio_access
       render_403 unless User.current.allowed_globally?(:add_portfolios) ||
                         Project.portfolio.allowed_to(User.current, :view_project).any?
-    end
-
-    def not_authorized_on_feature_flag_inactive
-      render_403 unless OpenProject::FeatureDecisions.portfolio_models_active?
     end
   end
 end

@@ -20,9 +20,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-            jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
+          BRANCH=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" --jq '.[].name' | \
+            grep '^release/' | sort --version-sort | tail -1
           )
           if [ "$BRANCH" = "" ]; then
             echo "Invalid release branch found: $BRANCH"
@@ -44,7 +44,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.BASE_BRANCH }}
 
@@ -57,8 +57,14 @@ jobs:
       - name: Resolve bug in git https://stackoverflow.com/a/63879454/96823
         run: git repack -d
 
-      - name: Get one commit more to connect the history of dev and release branches
-        run: git fetch --deepen 1 origin "$BASE_BRANCH" "$RELEASE_BRANCH"
+      - name: Get more commits to connect the history of dev and release branches
+        run: |
+          for i in $(seq 1 10); do
+            git fetch --deepen 10 origin "$BASE_BRANCH" "$RELEASE_BRANCH"
+            git merge-base --all HEAD origin/"$RELEASE_BRANCH" && exit 0
+          done
+          echo "Failed to fetch merge base" >&2
+          exit 1
 
       - name: Create branch without checkout just to have shorter automatic commit message
         run: git branch "$RELEASE_BRANCH" origin/"$RELEASE_BRANCH"
@@ -76,7 +82,14 @@ jobs:
           if git diff --exit-code --quiet ..."$RELEASE_BRANCH"; then
             echo "Nothing to merge from $RELEASE_BRANCH into $BASE_BRANCH"
           else
-            if git merge --no-edit --no-ff "$RELEASE_BRANCH" && git push origin "$BASE_BRANCH"; then
+            git merge --no-commit --no-ff "$RELEASE_BRANCH" || true
+
+            # ignore crowdin translations
+            git restore --source=HEAD --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml"
+
+            if git diff --cached --quiet; then
+              echo "Nothing to merge from $RELEASE_BRANCH into $BASE_BRANCH, besides ignored crowdin translations"
+            elif git commit --no-edit && git push origin "$BASE_BRANCH"; then
               echo "Successfully merged $RELEASE_BRANCH into $BASE_BRANCH and pushed"
             else
               # Close all previous PRs with label
@@ -94,7 +107,17 @@ jobs:
 
               TEMP_BRANCH="merge-$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
 
-              git branch "$TEMP_BRANCH" "$RELEASE_BRANCH"
+              # If merge failed, abort it and add a commit that removes crowdin translation changes
+              if git merge --abort; then
+                git switch -c "$TEMP_BRANCH" "$RELEASE_BRANCH"
+                git restore --source="$BASE_BRANCH" --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml"
+                if ! git diff --cached --quiet; then
+                  git commit -m "use crowdin translations from $BASE_BRANCH"
+                fi
+              else
+                # Otherwise use successful merge commit for PR
+                git branch "$TEMP_BRANCH"
+              fi
 
               git push origin "$TEMP_BRANCH"
 

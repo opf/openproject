@@ -54,13 +54,15 @@ module OpenIDConnect
         model = call.result
         metadata_url = get_metadata_url(model)
         return call if metadata_url.blank? || !@fetch_metadata
+        return call unless metadata_url_host_allowed?(call, metadata_url)
 
         extract_metadata(call, metadata_url, model)
       end
 
-      def extract_metadata(call, metadata_url, model) # rubocop:disable Metrics/AbcSize
-        case (response = OpenProject.httpx.get(metadata_url))
-        in {status: 200..299}
+      def extract_metadata(call, metadata_url, model) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+        response = OpenProject.httpx.get(metadata_url)
+
+        if (200..299).cover?(response.status)
           json = begin
             response.json
           rescue HTTPX::Error
@@ -81,11 +83,11 @@ module OpenIDConnect
                             missing_attributes: result.errors.attribute_names.join(", "))
             call.success = false
           end
-        in {status: 300..}
+        elsif response.status >= 300
           call.errors.add(:metadata_url, :response_is_not_successful, status: response.status)
           call.success = false
-        in {error: error}
-          call.message = error.message
+        elsif response.error
+          call.message = response.error.message
           call.success = false
         else
           call.message = I18n.t(:notice_internal_server_error)
@@ -104,6 +106,22 @@ module OpenIDConnect
         else
           model.metadata_url
         end
+      end
+
+      def metadata_url_host_allowed?(call, metadata_url)
+        host = URI.parse(metadata_url).host
+
+        if host.present? && OpenProject::SsrfProtection.safe_ip?(host)
+          true
+        else
+          call.errors.add(:metadata_url, :ssrf_filtered)
+          call.success = false
+          false
+        end
+      rescue URI::InvalidURIError
+        call.errors.add(:metadata_url, :invalid_uri)
+        call.success = false
+        false
       end
     end
   end

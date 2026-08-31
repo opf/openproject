@@ -20,7 +20,7 @@ ro:
         item_1:
           name: În lucru
         item_2:
-          name: Resolved
+          name: Soluționat
         item_3:
           name: Închis
       time_entry_activities:
@@ -40,9 +40,9 @@ ro:
         item_3:
           name: Tichet
         item_4:
-          name: Remark
+          name: Observație
         item_5:
-          name: Request
+          name: Solicitare
         item_6:
           name: Clash
       global_queries:
@@ -55,23 +55,23 @@ ro:
               group_name: Copii
       groups:
         item_0:
-          name: Architects
+          name: Arhitecţi
         item_1:
-          name: BIM Coordinators
+          name: Coordonatori BIM
         item_2:
-          name: BIM Managers
+          name: Manageri BIM
         item_3:
-          name: BIM Modellers
+          name: Modelatori BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Coordonatori BIM principali
         item_5:
-          name: MEP Engineers
+          name: Ingineri MEP
         item_6:
-          name: Planners
+          name: Planificatori
         item_7:
-          name: Structural Engineers
+          name: Ingineri structurali
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Bine ați venit la ediția OpenProject BIM!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -87,30 +87,30 @@ ro:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Proiect de construcție"
+          status_explanation: Toate sarcinile și subproiectele sunt în grafic. Persoanele implicate își cunosc sarcinile. Sistemul este complet configurat.
+          description: Acesta este un rezumat al obiectivelor acestui proiect demonstrativ de construcție.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Bine ați venit la proiectul demo
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ne bucurăm că v-ați alăturat.
+                În acest modul puteți comunica noutăți despre proiect membrilor echipei.
+              description: Știri de actualitate
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categoria 1 (de modificat în setările proiectului)
           queries:
             item_0:
-              name: Project plan
+              name: Planul de proiect
             item_1:
               name: Etape
             item_2:
-              name: Tasks
+              name: Sarcini
             item_3:
               name: Planificator echipă
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Flux de lucru simplu cu drag and drop
           project-overview:
             widgets:
               item_0:
@@ -149,25 +149,25 @@ ro:
                 options:
                   name: Etape
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Planificare și construcție"
+          status_explanation: Toate sarcinile și subproiectele sunt în grafic. Persoanele implicate își cunosc sarcinile. Sistemul este complet configurat.
+          description: Acesta este un rezumat al obiectivelor acestui proiect demonstrativ de construcție.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Bine ați venit la proiectul demo
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ne bucurăm că v-ați alăturat.
+                În acest modul puteți comunica noutăți despre proiect membrilor echipei.
+              description: Știri de actualitate
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categoria 1 (de modificat în setările proiectului)
           queries:
             item_0:
-              name: Project plan
+              name: Plan de proiect
             item_1:
               name: Etape
             item_2:
-              name: Tasks
+              name: Sarcini
             item_3:
               name: Planificator echipă
           project-overview:
@@ -205,7 +205,7 @@ ro:
                   name: Etape
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Lansarea proiectului de construcție
               description: |-
                 The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
 
@@ -215,7 +215,7 @@ ro:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Colectarea primelor informații despre proiect
                   description: |-
                     ## Goal
 
@@ -243,10 +243,10 @@ ro:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: Sfârșitul evaluării de bază
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: Preliminary planning
+              subject: Planificare preliminară
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -488,7 +488,7 @@ ro:
                     * O strategie pentru faza de livrare
                     * ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Crearea planului de execuție BIM
                   description: |-
                     # Obiectivul
 
@@ -501,7 +501,7 @@ ro:
                     * Pentru a gestiona interfețele tehnologice, un software topologie va fi definit și analizat și verificat
                     * ...
                 item_2:
-                  subject: Completion of the BIM execution plan
+                  subject: Finalizarea planului de execuție BIM
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Sfârșit fază pregătire
@@ -511,31 +511,31 @@ ro:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Realizare modelului BIM inițial
                   description: |-
-                    # Goal
+                    # Obiectiv
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Realizarea modelului BIM inițial
+                    * Crearea unui model BIM pentru întreaga echipă de proiect
 
-                    # Description
+                    # Descriere
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    *  Modelul inițial va fi realizat conform datelor colectate de la client
+                    * Modelul va fi realizat în conformitate cu matricele LOD și va conține informațiile necesare
+                    * ...
                 item_1:
                   subject: Initial, internal model check and revising
                   description: |-
-                    # Goal
+                    # Obiectiv
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Trimiterea unui model BIM în conformitate cu standardele definite
 
-                    # Description
+                    # Descriere
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
-                    *   ...
+                    * Modelul va fi verificat, în conformitate cu standardele definite (convenții, LOD, ...) și revizuit
+                    * ...
                 item_2:
-                  subject: Submitting initial BIM model
+                  subject: Trimiterea modelului BIM inițial
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Modelling, first cycle
@@ -554,17 +554,17 @@ ro:
                     *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Realizare modelului BIM inițial
                   description: |-
-                    # Goal
+                    # Obiectiv
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    * Crearea unui model BIM pentru proiect
+                    * Crearea unui model BIM pentru întreaga echipă de proiect
 
-                    # Description
+                    # Descriere
 
-                    *   The model will be created according to the BIM execution plan
-                    *   ...
+                    * Modelul va fi creat în conformitate cu planul de execuție BIM
+                    * ...
                 item_2:
                   subject: First Cycle, internal model check and revising
                   description: |-

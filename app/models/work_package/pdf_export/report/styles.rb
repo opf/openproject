@@ -80,6 +80,14 @@ module WorkPackage::PDFExport::Report::Styles
     def wp_detail_subject_margins
       resolve_margin(@styles.dig(:work_package, :subject))
     end
+
+    def wp_attributes_group_label_margins
+      resolve_margin(@styles.dig(:work_package, :attributes_group))
+    end
+
+    def wp_attributes_group_label
+      resolve_font(@styles.dig(:work_package, :attributes_group))
+    end
   end
 
   def styles

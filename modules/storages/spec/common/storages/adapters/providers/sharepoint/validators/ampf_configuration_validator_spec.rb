@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) do
               create(:sharepoint_storage, :sandbox, :as_automatically_managed,
                      managed_drive_id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY-uqLcDyJy5Rp1j0luD0b1v",
@@ -47,10 +47,10 @@ module Storages
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a GroupValidationResult", vcr: "sharepoint/validator_ampf_clean_run" do
+            it "returns a ResultGroup", vcr: "sharepoint/validator_ampf_clean_run" do
               results = validator.call
 
-              expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+              expect(results).to be_a(HealthReport::ResultGroup)
               expect(results).to be_success
             end
 
@@ -65,7 +65,7 @@ module Storages
               it "fails when folders can't be created" do
                 create_cmd = class_double(Commands::CreateFolderCommand)
                 input_data = Input::CreateFolder.build(folder_name:, parent_location: storage.managed_drive_id).value!
-                error = Results::Error.new(source: self, code: :error)
+                error = SimpleError.new(source: self, code: :error)
                 allow(create_cmd).to receive(:call).with(storage:, auth_strategy:, input_data:).and_return(Failure(error))
 
                 Registry.stub("sharepoint.commands.create_folder", create_cmd)
@@ -83,7 +83,7 @@ module Storages
                 end
 
                 result = validator.call
-                expect(result[:client_folder_creation]).to be_a_failure
+                expect(result[:client_folder_creation]).to be_a_warning
                 expect(result[:client_folder_creation].code).to eq(:sp_existing_test_folder)
                 expect(result[:client_folder_creation].context[:folder_name]).to eq(folder_name)
               ensure

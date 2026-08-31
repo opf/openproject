@@ -1,21 +1,25 @@
+---
 ms:
-  label_job_status_plural: "Status pekerjaan"
-  plugin_openproject_job_status:
-    name: "Status Pekerjaan OpenProject"
-    description: "Senarai dan status latar belakang pekerjaan."
+  activerecord:
+    models:
+      job_status/status:
+        other: Background job statuses
   job_status_dialog:
-    download_starts: 'Proses muat turun akan bermula secara automatik.'
-    link_to_download: 'Atau, %{link} untuk memuat turun.'
-    click_here: 'klik sini'
-    title: 'Latar belakang status kerja'
-    redirect: 'Anda sedang diubah hala.'
-    redirect_link: 'Sila klik sini untuk teruskan.'
-    redirect_errors: 'Disebabkan ralat ini, anda tidak akan diubah hala secara automatik.'
-    errors: 'Sesuatu telah berlaku'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Proses muat turun akan bermula secara automatik.
+    errors: Sesuatu telah berlaku
     generic_messages:
-      not_found: 'Kerja ini tidak dapat ditemui.'
-      in_queue: 'Kerja ini sedang menunggu giliran dan akan diproses sebentar lagi.'
-      in_process: 'Kerja ini sedang diproses.'
-      error: 'Kerja ini gagal disiapkan.'
-      cancelled: 'Kerja ini telah dibatalkan disebabkan oleh sebuah ralat.'
-      success: 'Kerja ini berjaya diselesaikan.'
+      cancelled: Kerja ini telah dibatalkan disebabkan oleh sebuah ralat.
+      error: Kerja ini gagal disiapkan.
+      in_process: Kerja ini sedang diproses.
+      in_queue: Kerja ini sedang menunggu giliran dan akan diproses sebentar lagi.
+      not_found: Kerja ini tidak dapat ditemui.
+      success: Kerja ini berjaya diselesaikan.
+    redirect: Anda sedang diubah hala.
+    redirect_errors: Disebabkan ralat ini, anda tidak akan diubah hala secara automatik.
+    redirect_link: Sila klik sini untuk teruskan.
+    title: Latar belakang status kerja
+  label_job_status_plural: Status pekerjaan
+  plugin_openproject_job_status:
+    description: Senarai dan status latar belakang pekerjaan.
+    name: Status Pekerjaan OpenProject

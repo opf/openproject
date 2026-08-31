@@ -1,0 +1,111 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div data-controller="my--daily-reminders">
+  <div data-my--daily-reminders-target="list">
+    <% @times.each do |time| %>
+      <%=
+        flex_layout(mb: 2, data: { "my--daily-reminders-target": "row" }) do |flex|
+          flex.with_column do
+            render(
+              Primer::Alpha::Select.new(
+                name: field_name,
+                label: t("my_account.email_reminders.daily_reminders.time_slot_label"),
+                visually_hide_label: true,
+                data: { test_selector: "settings-daily-time" }
+              )
+            ) do |select|
+              time_options.each do |label, value|
+                select.option(label:, value:, selected: selected_value_for(time) == value)
+              end
+            end
+          end
+
+          flex.with_column do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :x,
+                scheme: :invisible,
+                type: :button,
+                hidden: @times.size <= 1,
+                aria: { label: t("my_account.email_reminders.daily_reminders.remove_time") },
+                data: { action: "my--daily-reminders#removeTime", test_selector: "settings-daily-time--remove" }
+              )
+            )
+          end
+        end
+      %>
+    <% end %>
+  </div>
+
+  <template data-my--daily-reminders-target="rowTemplate">
+    <%=
+      flex_layout(mb: 2, data: { "my--daily-reminders-target": "row" }) do |flex|
+        flex.with_column do
+          render(
+            Primer::Alpha::Select.new(
+              name: field_name,
+              label: t("my_account.email_reminders.daily_reminders.time_slot_label"),
+              visually_hide_label: true,
+              id: nil,
+              data: { test_selector: "settings-daily-time" }
+            )
+          ) do |select|
+            time_options.each do |label, value|
+              select.option(label:, value:)
+            end
+          end
+        end
+
+        flex.with_column do
+          render(
+            Primer::Beta::IconButton.new(
+              icon: :x,
+              scheme: :invisible,
+              type: :button,
+              aria: { label: t("my_account.email_reminders.daily_reminders.remove_time") },
+              data: { action: "my--daily-reminders#removeTime", test_selector: "settings-daily-time--remove" }
+            )
+          )
+        end
+      end
+    %>
+  </template>
+
+  <%= render(
+        Primer::Beta::Button.new(
+          scheme: :invisible,
+          type: :button,
+          data: { action: "my--daily-reminders#addTime" }
+        )
+      ) do |btn|
+        btn.with_leading_visual_icon(icon: :plus)
+        t("my_account.email_reminders.daily_reminders.add_time")
+      end %>
+</div>

@@ -21,21 +21,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
@@ -44,7 +41,10 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
 @Component({
   selector: 'wp-grid',
   template: `
-    <wp-card-view [dragOutOfHandler]="canDragOutOf"
+    <wp-card-view opSortableLists
+      [opSortableListsAxis]="'horizontal'"
+      [opSortableListsAutoScrollAxis]="'all'"
+      [dragOutOfHandler]="canDragOutOf"
       [dragInto]="dragInto"
       [cardsRemovable]="false"
       [highlightingMode]="highlightingMode"
@@ -68,12 +68,17 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
     `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    DragAndDropService,
     WorkPackageCardDragAndDropService,
   ],
   standalone: false,
 })
 export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit {
+  readonly wpTableHighlight = inject(WorkPackageViewHighlightingService);
+  readonly wpTableSortBy = inject(WorkPackageViewSortByService);
+  readonly wpList = inject(WorkPackagesListService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public configuration:WorkPackageTableConfiguration;
 
   @Input() public showResizer = false;
@@ -95,13 +100,6 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
   public gridOrientation:CardViewOrientation = 'horizontal';
 
   public highlightingMode:HighlightingMode = 'none';
-
-  constructor(readonly wpTableHighlight:WorkPackageViewHighlightingService,
-    readonly wpTableSortBy:WorkPackageViewSortByService,
-    readonly wpList:WorkPackagesListService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly cdRef:ChangeDetectorRef) {
-  }
 
   ngOnInit() {
     this.dragInto = this.configuration.dragAndDropEnabled;

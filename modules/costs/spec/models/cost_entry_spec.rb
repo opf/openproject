@@ -35,12 +35,12 @@ RSpec.describe CostEntry do
   let(:project2) { create(:project_with_types) }
   let(:work_package) do
     create(:work_package, project:,
-                          type: project.types.first,
+                          type: project.enabled_types.first,
                           author: user)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                          type: project2.types.first,
+                          type: project2.enabled_types.first,
                           author: user)
   end
   let(:user) { create(:user) }
@@ -382,11 +382,6 @@ RSpec.describe CostEntry do
         cost_entry.logged_by = nil
         expect(cost_entry).not_to be_valid
         expect(cost_entry.errors[:logged_by_id]).to be_present
-      end
-
-      it "sets logged_by from current user" do
-        entry = User.execute_as(user2) { described_class.new logged_by: user }
-        expect(entry.logged_by).to eq(user2)
       end
     end
 

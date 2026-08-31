@@ -29,46 +29,57 @@
 #++
 
 require "spec_helper"
-require_relative "../shared_context"
 
 RSpec.describe "Edit project custom fields on project overview page", :js do
-  include_context "with seeded projects, members and project custom fields"
+  let(:project) { create(:project) }
+  let(:admin) { create(:admin) }
+
+  let(:project_custom_field_section) { create(:project_custom_field_section, name: "Section A") }
+  let(:text_project_custom_field) do
+    create(:text_project_custom_field,
+           name: "Required Foo",
+           project_custom_field_section:)
+  end
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
   before do
-    login_as member_with_project_attributes_edit_permissions
+    create(:project_custom_field_project_mapping, project:, project_custom_field: text_project_custom_field)
+    login_as admin
     overview_page.visit_page
   end
 
   it "opens a dialog showing the input for project custom field" do
-    dialog = overview_page.open_edit_dialog_for_custom_field(boolean_project_custom_field)
+    field = overview_page.open_modal_for_custom_field(text_project_custom_field)
+    dialog = field.dialog
 
     dialog.expect_open
 
     dialog.within_async_content(close_after_yield: true) do
-      expect(page).to have_content(boolean_project_custom_field.name)
+      expect(page).to have_content(text_project_custom_field.name)
     end
   end
 
   it "renders the dialog body asynchronically" do
-    dialog = Components::Projects::ProjectCustomFields::EditDialog.new(project, boolean_project_custom_field)
-
+    dialog = Components::Common::InplaceEditFields::Dialog.new(project, text_project_custom_field.attribute_name.to_sym)
     expect(page).to have_no_css(dialog.async_content_container_css_selector, visible: :all)
 
-    overview_page.open_edit_dialog_for_custom_field(boolean_project_custom_field)
+    field = overview_page.open_modal_for_custom_field(text_project_custom_field)
+    dialog = field.dialog
 
     expect(page).to have_css(dialog.async_content_container_css_selector, visible: :visible)
   end
 
   it "can be closed via close icon or cancel button" do
-    dialog = overview_page.open_edit_dialog_for_custom_field(boolean_project_custom_field)
+    field = overview_page.open_modal_for_custom_field(text_project_custom_field)
+    dialog = field.dialog
 
     dialog.close_via_icon
 
     dialog.expect_closed
 
-    dialog = overview_page.open_edit_dialog_for_custom_field(string_project_custom_field)
+    field = overview_page.open_modal_for_custom_field(text_project_custom_field)
+    dialog = field.dialog
 
     dialog.close_via_button
 

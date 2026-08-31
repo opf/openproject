@@ -29,10 +29,11 @@
 #++
 
 class RepresentedWebhookJob < WebhookJob
-  attr_reader :resource
+  attr_reader :resource, :actor
 
-  def perform(webhook_id, resource, event_name)
+  def perform(webhook_id, resource, event_name, actor: nil)
     @resource = resource
+    @actor = actor
     super(webhook_id, event_name)
 
     return unless accepted_in_project?
@@ -61,8 +62,8 @@ class RepresentedWebhookJob < WebhookJob
 
   def request_headers
     {
-      content_type: "application/json",
-      accept: "application/json"
+      "Content-Type": "application/json",
+      Accept: "application/json"
     }
   end
 
@@ -72,11 +73,11 @@ class RepresentedWebhookJob < WebhookJob
   end
 
   def payload_key
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def payload_representer_class
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def project_id # rubocop:disable Rails/Delegate
@@ -87,10 +88,15 @@ class RepresentedWebhookJob < WebhookJob
     # to_json needs to be called within the system user block in order to
     # have all the custom field visibility permissions set up correctly.
     User.system.run_given do
-      {
-        action: event_name,
-        payload_key => represented_payload
-      }.to_json
+      payload = { action: event_name, payload_key => represented_payload }
+      payload[:actor] = actor_payload if actor
+      payload.to_json
     end
+  end
+
+  def actor_payload
+    return nil unless actor
+
+    ::API::V3::Users::UserRepresenter.create(actor, current_user: User.current)
   end
 end

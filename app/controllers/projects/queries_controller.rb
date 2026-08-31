@@ -59,7 +59,7 @@ class Projects::QueriesController < ApplicationController
           component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :edit, params:)
         )
 
-        render turbo_stream: turbo_streams
+        render turbo_stream: resolve_turbo_streams
       end
     end
   end
@@ -76,7 +76,7 @@ class Projects::QueriesController < ApplicationController
           component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :rename, params:)
         )
 
-        render turbo_stream: turbo_streams
+        render turbo_stream: resolve_turbo_streams
       end
     end
   end
@@ -110,7 +110,7 @@ class Projects::QueriesController < ApplicationController
         # Load shares and replace the modal
         strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user, query_params: {})
         replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, errors: []))
-        render turbo_stream: turbo_streams
+        render turbo_stream: resolve_turbo_streams
       end
 
       format.html do

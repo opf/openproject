@@ -42,13 +42,13 @@
                           target: "_blank"
                         )
                       ) do
-                        I18n.t("js.label_committed_link", revision_identifier: short_revision)
+                        I18n.t(:label_committed_link, revision_identifier: short_revision)
                       end
                       I18n.t(
-                        "js.label_committed_at",
-                        committed_revision_link: committed_text.html_safe,
+                        :label_committed_at_html,
+                        committed_revision_link: committed_text,
                         date: format_time(changeset.committed_on)
-                      ).html_safe
+                      )
                     end
                   end
                 end
@@ -69,13 +69,13 @@
                         target: "_blank"
                       )
                     ) do
-                      I18n.t("js.label_committed_link", revision_identifier: short_revision)
+                      I18n.t(:label_committed_link, revision_identifier: short_revision)
                     end
-                    I18n.t(
-                      "js.label_committed_at",
-                      committed_revision_link: committed_text.html_safe,
+                    t(
+                      :label_committed_at_html,
+                      committed_revision_link: committed_text,
                       date: format_time(changeset.committed_on)
-                    ).html_safe
+                    )
                   end
                 end
               end

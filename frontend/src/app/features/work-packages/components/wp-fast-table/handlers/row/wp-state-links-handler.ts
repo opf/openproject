@@ -1,10 +1,38 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
@@ -13,22 +41,20 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  @InjectField() public $state:StateService;
+  @LazyInject() public $state:StateService;
 
-  @InjectField() public keepTab:KeepTabService;
+  @LazyInject() public keepTab:KeepTabService;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() public wpTableFocus:WorkPackageViewFocusService;
+  @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector) {
   }
 
-  public get EVENT():EventType {
-    return 'click';
-  }
+  public readonly EVENT:EventType = 'click';
 
   public get SELECTOR() {
     return `.${uiStateLinkClass}`;
@@ -50,7 +76,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     // Locate the details link from event
     const target = evt.target as HTMLElement;
-    const element = target.closest(this.SELECTOR) as HTMLElement;
+    const element = target.closest<HTMLElement>(this.SELECTOR);
+    if (!element) { return true; }
+
     const state = element.dataset.wpState;
     const workPackageId = element.dataset.workPackageId;
 
@@ -66,9 +94,15 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     // Locate the row from event
-    const row = target.closest(`.${tableRowClassName}`) as HTMLElement;
+    const row = target.closest<HTMLElement>(`.${tableRowClassName}`);
+    if (!row) { return true; }
+
     const classIdentifier = row.dataset.classIdentifier!;
     const [index] = view.workPackageTable.findRenderedRow(classIdentifier);
+
+    // Keep the focused work package in sync when opening the details view
+    // from a row other than the currently selected one.
+    this.wpTableFocus.updateFocus(workPackageId, false, false);
 
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);

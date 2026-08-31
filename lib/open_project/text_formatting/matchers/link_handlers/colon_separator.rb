@@ -139,7 +139,7 @@ module OpenProject::TextFormatting::Matchers
 
       def render_user
         if (user = User.visible.find_by(login: oid))
-          link_to_user(user, only_path: context[:only_path], class: "user-mention")
+          link_to_user(user, only_path: context[:only_path], class: "user-mention", title: nil)
         end
       end
 

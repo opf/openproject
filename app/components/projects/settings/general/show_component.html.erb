@@ -49,6 +49,29 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::BaseComponent.new(tag: :section, mb: 4)) do %>
   <%=
     render(Primer::Beta::Subhead.new) do |component|
+      component.with_heading(tag: :h3, size: :medium) { I18n.t("projects.settings.header_identifier") }
+    end
+  %>
+  <%=
+    settings_primer_form_with(model: project, url: project_settings_general_path(project)) do |f|
+      render(Primer::Forms::FormList.new(Projects::Settings::IdentifierForm.new(f)))
+    end
+  %>
+  <%=
+    render(
+      Primer::Beta::Button.new(
+        tag: :a,
+        href: identifier_update_dialog_project_identifier_path(project_id: project),
+        data: { turbo_stream: true },
+        mt: 2
+      )
+    ) { t("projects.settings.change_identifier") }
+  %>
+<% end %>
+
+<%= render(Primer::BaseComponent.new(tag: :section, mb: 4)) do %>
+  <%=
+    render(Primer::Beta::Subhead.new) do |component|
       component.with_heading(tag: :h3, size: :medium) { I18n.t("projects.settings.header_status") }
     end
   %>

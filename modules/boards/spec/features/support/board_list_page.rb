@@ -98,7 +98,9 @@ module Pages
     end
 
     def expect_to_be_on_page(number)
-      expect(page).to have_css(".op-pagination--item_current", text: number)
+      within ".PaginationContainer" do
+        expect(page).to have_css("a.Page", text: number, aria: { current: "page" })
+      end
     end
 
     def to_page(number)

@@ -1,17 +1,32 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  Output,
-  SecurityContext,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, SecurityContext, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import moment, { Moment } from 'moment';
@@ -32,7 +47,7 @@ import {
   SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -43,7 +58,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -58,6 +72,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
 import { html, render } from 'lit-html';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -115,6 +130,25 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   standalone: false,
 })
 export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
+  readonly states = inject(States);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly $state = inject(StateService);
+  private element = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly i18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly notifications = inject(HalResourceNotificationService);
+  private sanitizer = inject(DomSanitizer);
+  private configuration = inject(ConfigurationService);
+  private timezone = inject(TimezoneService);
+  private schemaCache = inject(SchemaCacheService);
+  private colors = inject(ColorsService);
+  private browserDetector = inject(BrowserDetector);
+  private calendar = inject(OpCalendarService);
+  readonly weekdayService = inject(WeekdayService);
+  readonly dayService = inject(DayResourceService);
+  readonly turboRequests = inject(TurboRequestsService);
+  readonly pathHelper = inject(PathHelperService);
+
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @Input() projectIdentifier:string;
@@ -202,27 +236,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  constructor(
-    readonly states:States,
-    readonly apiV3Service:ApiV3Service,
-    readonly $state:StateService,
-    private element:ElementRef,
-    readonly i18n:I18nService,
-    readonly injector:Injector,
-    readonly notifications:HalResourceNotificationService,
-    private sanitizer:DomSanitizer,
-    private configuration:ConfigurationService,
-    private timezone:TimezoneService,
-    private schemaCache:SchemaCacheService,
-    private colors:ColorsService,
-    private browserDetector:BrowserDetector,
-    private calendar:OpCalendarService,
-    readonly weekdayService:WeekdayService,
-    readonly dayService:DayResourceService,
-    readonly turboRequests:TurboRequestsService,
-    readonly pathHelper:PathHelperService,
-  ) { }
-
   ngAfterViewInit():void {
     document.addEventListener('dialog:close', this.closeDialogHandler);
   }
@@ -254,6 +267,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   protected fetchTimeEntries(start:Moment, end:Moment):Promise<CollectionResource<TimeEntryResource>> {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.valueOf() !== start.valueOf()
       || this.memoizedTimeEntries.end.valueOf() !== end.valueOf()) {
@@ -633,8 +647,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   private entityName(entry:TimeEntryResource):string {
-    const entity = entry.entity;
-    return `#${idFromLink(entity.href)}: ${entity.name}`;
+    return formatTimeEntryEntityName(entry.entity);
   }
 
   private popoverHtml(
@@ -658,26 +671,26 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private popoverContentHtml(entry:TimeEntryResource, schema:TimeEntrySchema) {
     return html`
-        <div class="Popover">
+        <div class="Popover te-calendar--popover">
           <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
             <ul class="list-style-none ml-0">
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.project.name}:</span>
                 <span>${this.sanitizedValue(entry.project.name)}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.entity.name}:</span>
                 <span>${entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default')}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.activity.name}:</span>
                 <span>${this.sanitizedValue(entry.activity?.name ?? '')}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.hours.name}:</span>
                 <span>${this.timezone.formattedDuration(entry.hours as string)}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.comment.name}:</span>
                 <span>${this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default'))}</span>
               </li>
@@ -718,10 +731,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       .filter((value) => value !== null);
   }
 
-  private handleDialogClose(event:CustomEvent):void {
-    const {
-      detail: { dialog, submitted },
-    } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
     if (dialog.id === 'time-entry-dialog' && submitted) {
       void this.fetchTimeEntries(
         this.memoizedTimeEntries.start,

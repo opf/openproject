@@ -6,23 +6,28 @@ on:
       - dev
       - release/*
     paths:
-      - 'docs/api/apiv3/**'
+      - "docs/api/apiv3/**"
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
-      - 'docs/api/apiv3/**'
+      - "docs/api/apiv3/**"
 
 jobs:
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository_owner == 'opf'
     runs-on: [ubuntu-latest]
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v6
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - uses: actions/setup-node@v6
-      with:
-        node-version: '20'
-    - run: ./script/api/validate_spec
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          bundler-cache: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24.18.0"
+          package-manager-cache: false
+      - run: ./script/api/validate_spec

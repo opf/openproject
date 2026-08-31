@@ -44,16 +44,11 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
   end
 
   def where
-    if positive?
+    if filtering_for_true?
       "type_id IN (#{milestone_subselect})"
     else
       "type_id NOT IN (#{milestone_subselect})"
     end
-  end
-
-  def positive?
-    (operator == "=" && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
-      (operator == "!" && values == [OpenProject::Database::DB_VALUE_FALSE])
   end
 
   def human_name
@@ -67,7 +62,10 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
   end
 
   def milestone_subselect
+    # Order is irrelevant for an IN subselect; unscope so Type's default position
+    # ordering does not leak into the SQL (and its quoting does not break specs).
     Type
+      .unscoped
       .where(is_milestone: true)
       .select(:id)
       .to_sql

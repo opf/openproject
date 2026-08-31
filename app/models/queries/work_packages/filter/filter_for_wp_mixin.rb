@@ -37,6 +37,27 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
     raise NotImplementedError, "There would be too many candidates"
   end
 
+  # Tell `Filters::FilterFormComponent`'s dispatch to render these filters with a
+  # server-side autocompleter (the candidate set is too large for an inline
+  # `<select>`). Mirrors what the legacy Angular WP filter UI does — see
+  # `filter-searchable-multiselect-value.component.html`, which renders an
+  # `op-autocompleter` against the `work_packages` resource using the
+  # `typeahead` filter for search.
+  #
+  # Subclasses that override `type` to something other than `:list` (e.g.
+  # `SearchFilter` / `SubjectOrIdFilter` use `:search`, `RelatableFilter`
+  # uses `:relation`) get an empty hash so the dispatch falls back to the
+  # appropriate non-autocomplete input.
+  def autocomplete_options
+    return {} unless type == :list
+
+    {
+      component: "opce-autocompleter",
+      resource: "work_packages",
+      searchKey: "typeahead"
+    }
+  end
+
   def value_objects
     objects = visible_scope.find(no_templated_values)
 

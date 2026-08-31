@@ -1,143 +1,162 @@
-#English strings go here for Rails i18n
+---
 sv:
-  plugin_openproject_bim:
-    name: "OpenProject BIM- och BCF-funktionalitet"
-    description: "Denna OpenProject plugin introducerar BIM och BCF funktionalitet."
-  bim:
-    label_bim: 'BIM'
-  bcf:
-    label_bcf: 'BCF'
-    label_imported_failed: 'Misslyckad import av BCF-ämnen'
-    label_imported_successfully: 'BCF-ämnen har importerats'
-    label_bcf_issue_associated: "BCF-frågan associerad"
-    issues: "Problem"
-    recommended: 'rekommenderad'
-    not_recommended: 'rekommenderas inte'
-    no_viewpoints: 'Inga vyer'
-    new_badge: "Ny"
-    exceptions:
-      file_invalid: "BCF-fil ogiltig"
-    x_bcf_issues:
-      zero: 'Inga BCF-problem'
-      one: 'Ett BCF-problem'
-      other: '%{count} BCF-ärenden'
-    bcf_xml:
-      xml_file: 'BCF XML-fil'
-      import_title: 'Importera'
-      export: 'Exportera'
-      import_update_comment: '(Uppdaterad i BCF-import)'
-      import_failed: 'Kan inte importera BCF-fil: %{error}'
-      import_failed_unsupported_bcf_version: 'Det gick inte att läsa BCF-filen: BCF-versionen stöds inte. Se till att versionen är minst %{minimal_version} eller högre.'
-      import_successful: 'Importerade %{count} BCF-ärenden'
-      import_canceled: 'BCF-XML-import avbruten.'
-      type_not_active: "Ärendetypen är inte aktiverad för detta projekt."
-      import:
-        num_issues_found: '%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan.'
-        button_prepare: 'Förbered import'
-        button_perform_import: 'Bekräfta import'
-        button_proceed: 'Gå vidare med importen'
-        button_back_to_list: 'Tillbaka till listan'
-        no_permission_to_add_members: 'Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.'
-        contact_project_admin: 'Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.'
-        continue_anyways: 'Vill du fortsätta och avsluta importen ändå?'
-        description: "Ange en BCF-XML v2.1-fil att importera till detta projekt. Du kan undersöka dess innehåll innan du utför importen."
-        invalid_types_found: 'Ogiltiga namn på trådtyp hittades'
-        invalid_statuses_found: 'Ogiltiga statusnamn hittades'
-        invalid_priorities_found: 'Ogiltiga prioritetsnamn hittades'
-        invalid_emails_found: 'Ogiltiga e-postadresser hittade'
-        unknown_emails_found: 'Okända e-postadresser hittade'
-        unknown_property: 'Okänd egenskap'
-        non_members_found: 'Icke projektmedlemmar hittade'
-        import_types_as: 'Ställ in alla dessa typer till'
-        import_statuses_as: 'Ställ in alla dessa statusar till'
-        import_priorities_as: 'Sätt alla dessa prioriteringar till'
-        invite_as_members_with_role: 'Bjud in dem som medlemmar till projektet "%{project}" med roll'
-        add_as_members_with_role: 'Lägg till dem som medlemmar i projektet "%{project}" med roll'
-        no_type_provided: 'Ingen typ angiven'
-        no_status_provided: 'Ingen status angiven'
-        no_priority_provided: 'Ingen prioritet angiven'
-        perform_description: "Vill du importera eller uppdatera ärenden som listas ovan?"
-        replace_with_system_user: 'Ersätt dem med "System"-användare'
-        import_as_system_user: 'Importera dem som "System" användare.'
-        what_to_do: "Vad vill du göra?"
-        work_package_has_newer_changes: "Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än \"ModifiedDate\" i det importerade ämnet. Kommentar till ämnet importerades."
-        bcf_file_not_found: "Det gick inte att hitta BCF-filen. Starta uppladdningsprocessen igen."
-  export:
-    format:
-      bcf: "BCF-XML"
-  attributes:
-    bcf_thumbnail: "BCF snapshot"
-  project_module_bcf: "BCF"
-  project_module_bim: "BCF"
-  permission_view_linked_issues: "Visa BCF-problem"
-  permission_manage_bcf: "Importera och hantera BCF-problem"
-  permission_delete_bcf: "Ta bort BCF-ärenden"
-  oauth:
-    scopes:
-      bcf_v2_1: "Full tillgång till BCF v2.1 API"
-      bcf_v2_1_text: "Applikationen kommer att få fullständig läs- och skrivåtkomst till OpenProject BCF API v2.1 för att utföra åtgärder åt dig."
   activerecord:
-    models:
-      bim/ifc_models/ifc_model: "IFC-modell"
     attributes:
-      bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC-fil"
-        is_default: "Förvald modell"
-        attachments: "IFC-fil"
       bim/bcf/issue:
-        bcf_comment: "BCF kommentar"
-        bim_snippet: "BIM snippet"
-        reference_links: "Referenslänkar"
-        stage: "Skede"
-        viewpoint: "Utsiktspunkt"
+        bcf_comment: BCF kommentar
+        bim_snippet: BIM snippet
+        reference_links: Referenslänkar
+        stage: Skede
+        status_id: Status
+        viewpoint: Utsiktspunkt
+      bim/bcf/viewpoint:
+        status_id: Status
+      bim/ifc_models/ifc_model:
+        attachments: IFC-fil
+        ifc_attachment: IFC-fil
+        is_default: Förvald modell
     errors:
       models:
+        bim/bcf/issue:
+          uuid_already_taken: Kan inte importera detta BCF-problem eftersom det redan finns ett annat med samma GUID. Kan det vara så att denna BCF-fråga redan hade importerats till ett annat projekt?
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: bitmaps är inte skrivbara eftersom de ännu inte har implementerats.
+          index_not_integer: index är inte ett heltal.
+          invalid_clipping_planes: urklipp är ogiltigt.
+          invalid_components: komponenterna är ogiltiga.
+          invalid_lines: rader är ogiltiga.
+          invalid_orthogonal_camera: ortogonal_kamera är ogiltig.
+          invalid_perspective_camera: perspektivkamera är ogiltig.
+          mismatching_guid: Guidet i json_viewpoint matchar inte modellens guid.
+          no_json: Är inte en välstrukturerad json.
+          snapshot_data_blank: snapshot_data måste tillhandahållas.
+          snapshot_type_unsupported: snapshot_type måste vara antingen 'png' eller 'jpg'.
+          unsupported_key: En icke stödd json egendom ingår.
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "Ingen ifc-fil bifogad."
-              invalid_ifc_file: "Den angivna filen är inte en giltig IFC-fil."
-        bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps är inte skrivbara eftersom de ännu inte har implementerats."
-          index_not_integer: "index är inte ett heltal."
-          invalid_clipping_planes: "urklipp är ogiltigt."
-          invalid_components: "komponenterna är ogiltiga."
-          invalid_lines: "rader är ogiltiga."
-          invalid_orthogonal_camera: "ortogonal_kamera är ogiltig."
-          invalid_perspective_camera: "perspektivkamera är ogiltig."
-          mismatching_guid: "Guidet i json_viewpoint matchar inte modellens guid."
-          no_json: "Är inte en välstrukturerad json."
-          snapshot_type_unsupported: "snapshot_type måste vara antingen 'png' eller 'jpg'."
-          snapshot_data_blank: "snapshot_data måste tillhandahållas."
-          unsupported_key: "En icke stödd json egendom ingår."
-        bim/bcf/issue:
-          uuid_already_taken: "Kan inte importera detta BCF-problem eftersom det redan finns ett annat med samma GUID. Kan det vara så att denna BCF-fråga redan hade importerats till ett annat projekt?"
-  ifc_models:
-    label_ifc_models: 'IFC-modeller'
-    label_new_ifc_model: 'Ny IFC-modell'
-    label_show_defaults: 'Visa standardinställningar'
-    label_default_ifc_models: 'Standardmodeller för IFC'
-    label_edit_defaults: 'Redigera standardvärden'
-    no_defaults_warning:
-      title: 'Ingen IFC-modell har angetts som standard för detta projekt.'
-      check_1: 'Kontrollera att du har laddat upp minst en IFC-modell.'
-      check_2: 'Kontrollera att minst en IFC-modell är satt till "Standard".'
-    no_results: "Inga IFC-modeller har laddats upp i detta projekt."
-    conversion_status:
-      label: 'Bearbetar?'
-      pending: 'Väntande'
-      processing: 'Bearbetar'
-      completed: 'Slutförda'
-      error: 'Fel'
-    processing_notice:
-      processing_default: 'Följande IFC-modeller bearbetas fortfarande och är därför inte tillgängliga, ännu:'
-    flash_messages:
-      upload_successful: 'Uppladdningen lyckades. Den kommer nu att bearbetas och kommer att vara klar att användas om ett par minuter.'
-    conversion:
-      missing_commands: "Följande IFC-omvandlarkommandon saknas på detta system: %{names}"
-  project_module_ifc_models: "IFC-modeller"
-  permission_view_ifc_models: "Visa IFC-modeller"
-  permission_manage_ifc_models: "Importera och hantera IFC-modeller"
+              ifc_attachment_missing: Ingen ifc-fil bifogad.
+              invalid_ifc_file: Den angivna filen är inte en giltig IFC-fil.
+    models:
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
+  attributes:
+    bcf_thumbnail: BCF snapshot
+  bcf:
+    bcf_xml:
+      export: Exportera
+      import:
+        add_as_members_with_role: Lägg till dem som medlemmar i projektet "%{project}" med roll
+        bcf_file_not_found: Det gick inte att hitta BCF-filen. Starta uppladdningsprocessen igen.
+        button_back_to_list: Tillbaka till listan
+        button_perform_import: Bekräfta import
+        button_prepare: Förbered import
+        button_proceed: Gå vidare med importen
+        contact_project_admin: Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.
+        continue_anyways: Vill du fortsätta och avsluta importen ändå?
+        description: Ange en BCF-XML v2.1-fil att importera till detta projekt. Du kan undersöka dess innehåll innan du utför importen.
+        import_as_system_user: Importera dem som "System" användare.
+        import_priorities_as: Sätt alla dessa prioriteringar till
+        import_statuses_as: Ställ in alla dessa statusar till
+        import_types_as: Ställ in alla dessa typer till
+        invalid_emails_found: Ogiltiga e-postadresser hittade
+        invalid_priorities_found: Ogiltiga prioritetsnamn hittades
+        invalid_statuses_found: Ogiltiga statusnamn hittades
+        invalid_types_found: Ogiltiga namn på trådtyp hittades
+        invite_as_members_with_role: Bjud in dem som medlemmar till projektet "%{project}" med roll
+        no_permission_to_add_members: Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.
+        no_priority_provided: Ingen prioritet angiven
+        no_status_provided: Ingen status angiven
+        no_type_provided: Ingen typ angiven
+        non_members_found: Icke projektmedlemmar hittade
+        num_issues_found: "%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan."
+        perform_description: Vill du importera eller uppdatera ärenden som listas ovan?
+        replace_with_system_user: Ersätt dem med "System"-användare
+        unknown_emails_found: Okända e-postadresser hittade
+        unknown_property: Okänd egenskap
+        what_to_do: Vad vill du göra?
+        work_package_has_newer_changes: Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än "ModifiedDate" i det importerade ämnet. Kommentar till ämnet importerades.
+      import_canceled: BCF-XML-import avbruten.
+      import_failed: 'Kan inte importera BCF-fil: %{error}'
+      import_failed_unsupported_bcf_version: 'Det gick inte att läsa BCF-filen: BCF-versionen stöds inte. Se till att versionen är minst %{minimal_version} eller högre.'
+      import_successful: Importerade %{count} BCF-ärenden
+      import_title: Importera
+      import_update_comment: "(Uppdaterad i BCF-import)"
+      type_not_active: Ärendetypen är inte aktiverad för detta projekt.
+      xml_file: BCF XML-fil
+    exceptions:
+      file_invalid: BCF-fil ogiltig
+    issues: Problem
+    label_bcf: BCF
+    label_bcf_issue_associated: BCF-frågan associerad
+    label_imported_failed: Misslyckad import av BCF-ämnen
+    label_imported_successfully: BCF-ämnen har importerats
+    new_badge: Ny
+    no_viewpoints: Inga vyer
+    not_recommended: rekommenderas inte
+    recommended: rekommenderad
+    x_bcf_issues:
+      one: Ett BCF-problem
+      other: "%{count} BCF-ärenden"
+      zero: Inga BCF-problem
+  bim:
+    error_direct_upload_failed: Direct upload failed.
+    label_bim: BIM
+  export:
+    format:
+      bcf: BCF-XML
   extraction:
     available:
-      ifc_convert: "IFC-konvertering pipeline tillgänglig"
+      ifc_convert: IFC-konvertering pipeline tillgänglig
+  ifc_models:
+    conversion:
+      missing_commands: 'Följande IFC-omvandlarkommandon saknas på detta system: %{names}'
+    conversion_status:
+      completed: Slutförda
+      error: Fel
+      label: Bearbetar?
+      pending: Väntande
+      processing: Bearbetar
+    flash_messages:
+      upload_successful: Uppladdningen lyckades. Den kommer nu att bearbetas och kommer att vara klar att användas om ett par minuter.
+    label_default_ifc_models: Standardmodeller för IFC
+    label_edit_defaults: Redigera standardvärden
+    label_ifc_models: IFC-modeller
+    label_new_ifc_model: Ny IFC-modell
+    label_show_defaults: Visa standardinställningar
+    no_defaults_warning:
+      check_1: Kontrollera att du har laddat upp minst en IFC-modell.
+      check_2: Kontrollera att minst en IFC-modell är satt till "Standard".
+      title: Ingen IFC-modell har angetts som standard för detta projekt.
+    no_results: Inga IFC-modeller har laddats upp i detta projekt.
+    processing_notice:
+      processing_default: 'Följande IFC-modeller bearbetas fortfarande och är därför inte tillgängliga, ännu:'
+  oauth:
+    scopes:
+      bcf_v2_1: Full tillgång till BCF v2.1 API
+      bcf_v2_1_text: Applikationen kommer att få fullständig läs- och skrivåtkomst till OpenProject BCF API v2.1 för att utföra åtgärder åt dig.
+  permission_delete_bcf: Ta bort BCF-ärenden
+  permission_manage_bcf: Importera och hantera BCF-problem
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+  permission_manage_ifc_models: Importera och hantera IFC-modeller
+  permission_view_ifc_models: Visa IFC-modeller
+  permission_view_linked_issues: Visa BCF-problem
+  plugin_openproject_bim:
+    description: Denna OpenProject plugin introducerar BIM och BCF funktionalitet.
+    name: OpenProject BIM- och BCF-funktionalitet
+  project_module_bcf: BCF
+  project_module_bim: BCF
+  project_module_ifc_models: IFC-modeller

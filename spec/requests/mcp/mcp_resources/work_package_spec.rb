@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe McpResources::WorkPackage, with_flag: { mcp_server: true } do
-  subject do
+RSpec.describe McpResources::WorkPackage do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -65,7 +65,7 @@ RSpec.describe McpResources::WorkPackage, with_flag: { mcp_server: true } do
     it_behaves_like "MCP text resource response"
 
     it "responds with a properly formatted work package" do
-      subject
+      mcp_request
       text_content = parsed_results.fetch("contents").first
       wp = text_content.fetch("text")
       expect(wp).to match_json_schema.from_docs("work_package_model")
@@ -92,7 +92,7 @@ RSpec.describe McpResources::WorkPackage, with_flag: { mcp_server: true } do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

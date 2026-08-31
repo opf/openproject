@@ -39,6 +39,10 @@ module McpConfigurations
       )
 
       if server_enabled?
+        f.html_content do
+          render(McpConfigurations::ServerUrlComponent.new)
+        end
+
         f.text_field(
           name: :title,
           label: McpConfiguration.human_attribute_name(:title),

@@ -59,7 +59,7 @@ RSpec.describe Queries::WorkPackages::Filter::GroupFilter do
     describe "#allowed_values" do
       before do
         allow(Group)
-          .to receive(:all)
+          .to receive(:visible)
           .and_return [group]
       end
 
@@ -81,7 +81,7 @@ RSpec.describe Queries::WorkPackages::Filter::GroupFilter do
 
       before do
         allow(Group)
-          .to receive(:all)
+          .to receive(:visible)
           .and_return([group, group2])
 
         instance.values = [group2.id.to_s]

@@ -104,17 +104,13 @@ RSpec.describe "Role creation", :js do
     expect(page)
       .to have_unchecked_field("Delete watchers")
 
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :edit, only_path: true))
-
-    select "New role name", from: "Role"
-    select type.name, from: "Type"
-    click_button "Edit"
-
-    old_status = existing_workflow.old_status.name
-    new_status = existing_workflow.new_status.name
-
-    expect(page).to have_checked_field("Allow transition from #{old_status} to #{new_status}")
+    # Workflow should be copied over from the source role.
+    new_role = Role.find_by!(name: "New role name")
+    expect(
+      Workflow.exists?(role_id: new_role.id,
+                       type_variant_id: type.default_variant.id,
+                       old_status_id: existing_workflow.old_status_id,
+                       new_status_id: existing_workflow.new_status_id)
+    ).to be true
   end
 end

@@ -19,137 +19,147 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 sv:
-  plugin_openproject_documents:
-    name: "OpenProject-dokument"
-    description: "Ett OpenProject-plugin som gör det möjligt att skapa dokument i projekt."
   activerecord:
+    attributes:
+      document:
+        content_binary: Binärt innehåll
+        title: Titel
     errors:
       models:
         document_type:
-          one_or_more_required: "Kan inte ta bort den sista dokumenttypen"
+          one_or_more_required: Kan inte ta bort den sista dokumenttypen
     models:
-      document: "Dokument"
-      documents: "Dokument"
-    attributes:
       document:
-        content_binary: "Binärt innehåll"
-        title: "Titel"
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
-      document: "Dokument"
-  default_doc_category_tech: "Teknisk dokumentation"
-  default_doc_category_user: "Användardokumentation"
-  enumeration_doc_categories: "Dokumentkategorier"
+      document: Dokument
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
+  default_doc_category_tech: Teknisk dokumentation
+  default_doc_category_user: Användardokumentation
   documents:
-    page_header:
-      heading: "Alla dokument"
-      action_menu:
-        document_actions: "Dokumentåtgärder"
-        edit_title: "Redigera titel"
-    subheader:
-      filter:
-        label: "Filter för dokumentnamn"
-        placeholder: "Skriv här för att söka dokumentnamn"
-    documents_list_blank_slate:
-      heading: "Det finns inga dokument ännu"
-      description: "Det finns inga dokument i den här vyn. Du kan klicka på knappen nedan för att lägga till ett."
-    document_categories_deprecation_notice:
-      heading: Filkategorier kallas nu för 'Dokumenttyper'
-      description: |-
-        Dina befintliga filkategorier har konverterats till dokumenttyper med introduktionen av den nya dokumentmodulen.
-        Alla befintliga dokument har också flyttats till dessa nya typer.
-      primary_action: Konfigurera dokumenttyper
-      secondary_action: Läs mer om dokumentmodulen
-    document_type_actions: "Åtgärder för dokumenttyp"
-    text_collaboration_disabled_notice:
-      description: |-
-        Det går inte att öppna dokumentet eftersom textsamarbete i realtid är inaktiverat.
-        Kontakta din administratör för att aktivera textsamarbete i realtid om du vill komma åt detta dokument.
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          Det går inte att öppna dokumentet eftersom textsamarbetsservern i realtid inte kan nås.
-          Kontakta administratören om problemet kvarstår.
-        action: Försök igen
-      connection_recovery_notice:
-        description: "Anslutningen till servern för textsamarbete i realtid har återställts."
-      tabs: "Document tabs"
-    index_page:
-      name: "Namn"
-      type: "Typ"
-      updated_at: "Senast redigerad"
-      label_legacy: "Äldre"
-    menu:
-      all: "Alla dokument"
-      types: "Typer"
-      collaboration_settings: "Samarbete i realtid"
-    last_updated_at: "Senast sparad %{time}."
-    active_editors: "Aktiva redigerare"
+    active_editors: Aktiva redigerare
     active_editors_count:
-      one: "1 active editor"
+      one: 1 active editor
       other: "%{count} active editors"
-    label_attachment_author: "Författare för bilaga"
-    label_categories: "Kategorier"
-    new_category: "Ny kategori"
-    new_type: "Ny typ"
-    delete_dialog:
-      title: "Radera dokument"
-      heading: "Radera detta dokument?"
-      confirmation_message_html: "Detta kommer att ta bort detta dokument permanent och alla bifogade filer. Är du säker på att du vill göra detta?"
-    delete_document_type_dialog:
-      title: Ta bort dokumenttyp
-      heading: Ta bort den här dokumenttypen?
-      confirmation_message: |-
-        Typen "%{type_name}" är för närvarande oanvänd. Borttagning av denna typ kommer inte att ha någon effekt på befintliga dokument.
-      select_reassign_to_label: Omfördela dokument till
-      reassign_message:
-        one: Typen "%{type_name}" används för närvarande i %{document_count} dokument. Välj vilken typ du vill tilldela dem till.
-        other: Typen "%{type_name}" används för närvarande i %{document_count} dokument. Välj vilken typ du vill tilldela dem till.
-      at_least_one_type_required:
-        title: Kan inte ta bort dokumenttyp
-        heading: Kan inte ta bort den sista dokumenttypen
-        message: Det måste alltid finnas minst en dokumenttyp konfigurerad. Skapa en till först om du vill ta bort den här.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
+          some_unwritable: Vissa värden är konfigurerade via miljövariabler och kan inte redigeras här.
+        hocuspocus_server: Hokuspokus-server
+        hocuspocus_server_secret:
+          caption: Klistra in hemligheten som tillhandahålls av Hocuspocus server.
+          label: Klienthemlighet
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus server URL
         page_header:
           description: |-
             När detta är aktiverat kan flera användare redigera ett dokument samtidigt.
             Det kräver att en fungerande %{hocuspocus_server_link} fungerar.
-        banner:
-          none_writable: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
-          some_unwritable: Vissa värden är konfigurerade via miljövariabler och kan inte redigeras här.
-        hocuspocus_server_url:
-          label: "Hocuspocus server URL"
-          caption: "The address of a working Hocuspocus server."
-        hocuspocus_server_secret:
-          label: "Klienthemlighet"
-          caption: "Klistra in hemligheten som tillhandahålls av Hocuspocus server."
-        hocuspocus_server: Hokuspokus-server
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Jag förstår att jag kan permanent förlora data
+        confirmation_message: |-
+          Alla befintliga dokument kan bli otillgängliga. Gör bara detta om du är säker på att du vill inaktivera
+          realtidssamarbete och BlockNote-redigeraren i denna instans.
+        heading: Inaktivera samarbete i realtid?
+        success: Samarbetet i realtid har inaktiverats.
+        title: Inaktivera samarbete i realtid
       enable_text_collaboration:
-        heading: Realtidssamarbete är inte aktiverat
         description: |-
           När detta är aktiverat kommer flera användare att kunna arbeta tillsammans på ett dokument samtidigt.
           Alla nya dokument kommer att baseras på en ny redigerare (BlockNote) och kommer att kräva en fungerande anslutning till en
           Hocuspocus server.
+        heading: Realtidssamarbete är inte aktiverat
         primary_action: Aktivera samarbete i realtid
         success: Samarbetet i realtid har aktiverats.
-      disable_text_collaboration_dialog:
-        title: Inaktivera samarbete i realtid
-        heading: Inaktivera samarbete i realtid?
-        confirmation_message: |-
-          Alla befintliga dokument kan bli otillgängliga. Gör bara detta om du är säker på att du vill inaktivera
-          realtidssamarbete och BlockNote-redigeraren i denna instans.
-        confirmation_checkbox_message: Jag förstår att jag kan permanent förlora data
-        success: Samarbetet i realtid har inaktiverats.
-  label_document_added: "Dokumentet tillagt"
-  label_document_new: "Nytt dokument"
-  label_document_plural: "Dokument"
-  label_documents: "Dokument"
-  label_document_title: "Titel"
-  label_document_description: "Beskrivning"
-  label_document_category: "Kategori"
-  label_document_type: "Typ"
-  permission_manage_documents: "Hantera dokument"
-  permission_view_documents: "Visa dokument"
-  project_module_documents: "Dokument"
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: Detta kommer att ta bort detta dokument permanent och alla bifogade filer. Är du säker på att du vill göra detta?
+      heading: Radera detta dokument?
+      title: Radera dokument
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Kan inte ta bort den sista dokumenttypen
+        message: Det måste alltid finnas minst en dokumenttyp konfigurerad. Skapa en till först om du vill ta bort den här.
+        title: Kan inte ta bort dokumenttyp
+      confirmation_message: Typen "%{type_name}" är för närvarande oanvänd. Borttagning av denna typ kommer inte att ha någon effekt på befintliga dokument.
+      heading: Ta bort den här dokumenttypen?
+      reassign_message:
+        one: Typen "%{type_name}" används för närvarande i %{document_count} dokument. Välj vilken typ du vill tilldela dem till.
+        other: Typen "%{type_name}" används för närvarande i %{document_count} dokument. Välj vilken typ du vill tilldela dem till.
+      select_reassign_to_label: Omfördela dokument till
+      title: Ta bort dokumenttyp
+    document_categories_deprecation_notice:
+      description: |-
+        Dina befintliga filkategorier har konverterats till dokumenttyper med introduktionen av den nya dokumentmodulen.
+        Alla befintliga dokument har också flyttats till dessa nya typer.
+      heading: Filkategorier kallas nu för 'Dokumenttyper'
+      primary_action: Konfigurera dokumenttyper
+      secondary_action: Läs mer om dokumentmodulen
+    document_type_actions: Åtgärder för dokumenttyp
+    documents_list_blank_slate:
+      description: Det finns inga dokument i den här vyn. Du kan klicka på knappen nedan för att lägga till ett.
+      heading: Det finns inga dokument ännu
+    index_page:
+      label_legacy: Äldre
+      name: Namn
+      type: Typ
+      updated_at: Senast redigerad
+    info_line:
+      connection_restored: You are now back online.
+      currently_offline: You are currently offline.
+    label_attachment_author: Författare för bilaga
+    label_categories: Kategorier
+    last_updated_at: Senast sparad %{time}.
+    menu:
+      all: Alla dokument
+      collaboration_settings: Samarbete i realtid
+      types: Typer
+    new_category: Ny kategori
+    new_type: Ny typ
+    page_header:
+      action_menu:
+        document_actions: Dokumentåtgärder
+        edit_title: Redigera titel
+      heading: Alla dokument
+    show_edit_view:
+      connection_error_notice:
+        action: Försök igen
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Document tabs
+    subheader:
+      filter:
+        label: Filter för dokumentnamn
+        placeholder: Skriv här för att söka dokumentnamn
+    text_collaboration_disabled_notice:
+      description: |-
+        Det går inte att öppna dokumentet eftersom textsamarbete i realtid är inaktiverat.
+        Kontakta din administratör för att aktivera textsamarbete i realtid om du vill komma åt detta dokument.
+  enumeration_doc_categories: Dokumentkategorier
+  label_document_added: Dokumentet tillagt
+  label_document_category: Kategori
+  label_document_description: Beskrivning
+  label_document_new: Nytt dokument
+  label_document_plural: Dokument
+  label_document_title: Titel
+  label_document_type: Typ
+  label_documents: Dokument
+  permission_manage_documents: Hantera dokument
+  permission_view_documents: Visa dokument
+  plugin_openproject_documents:
+    description: Ett OpenProject-plugin som gör det möjligt att skapa dokument i projekt.
+    name: OpenProject-dokument
+  project_module_documents: Dokument

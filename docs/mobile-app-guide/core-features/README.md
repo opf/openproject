@@ -15,13 +15,13 @@ This section introduces the **core features** of the app and links to detailed g
 ## Overview
 
 With the mobile app, you can:
-*   **Stay informed** about project updates and notifications
-*   **Manage work packages** efficiently from anywhere
-*   **Track your time** and log progress
-*   **Access project dashboards and overviews** at a glance
-*   **Customize your settings** to tailor the app to your workflow
-    
 
+- **Stay informed** about project updates and notifications
+- **Manage work packages** efficiently from anywhere
+- **Track your time** and log progress
+- **Access project dashboards and overviews** at a glance
+- **Customize your settings** to tailor the app to your workflow
+    
 Each feature is designed to complement the OpenProject web and desktop experience, giving you the flexibility to react, update, and communicate on the go.
 
 ## Core Features
@@ -36,6 +36,7 @@ The following core features are available in the mobile app:
 | [Work Packages](work-packages)| Create, view, and edit work packages directly from the app. Work packages are organized for quick access and easy collaboration. |
 | [Notification Center](notification-center) | Receive updates about comments, mentions, and work package changes — ensuring you never miss an important activity. |
 | [User Settings](user-settings) | Configure your account, manage app preferences, and tailor notifications to suit your workflow. |
+| [Tablet support](tablet-support) | Use OpenProject mobile app on tablets. |
 
 > [!TIP]
 > For a seamless experience, use the mobile app alongside the web or desktop version of OpenProject. The app is designed as a companion, so you can stay informed, respond quickly, and keep your projects moving — even when you’re away from your desk.

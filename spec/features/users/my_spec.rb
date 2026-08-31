@@ -56,7 +56,9 @@ RSpec.describe "my", :js do
   end
 
   before do
-    login_as user
+    # Use a fresh AR instance to avoid leaking virtual attributes (e.g. password accessors)
+    # between examples into RequestStore.current_user.
+    login_as User.find(user.id)
 
     # Create dangling session
     session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: "other"
@@ -82,6 +84,7 @@ RSpec.describe "my", :js do
 
           expect_and_dismiss_flash type: :success, message: "Account was successfully updated."
 
+          user.reload
           expect(page).to have_select "Time zone", selected: "(UTC+01:00) Paris"
           expect(user.pref.time_zone).to eq "Europe/Paris"
         end
@@ -97,6 +100,7 @@ RSpec.describe "my", :js do
 
         expect_and_dismiss_flash type: :success, message: "Cuenta se actualizó correctamente."
 
+        user.reload
         expect(page).to have_select "Idioma", selected: "Español"
         expect(user.language).to eq "es"
       end
@@ -114,12 +118,24 @@ RSpec.describe "my", :js do
         expect(page).to have_select "Idioma", selected: "Português do brasil"
 
         within "#main-menu" do
-          click_on "Configurações de notificação"
+          click_on "Tokens de acesso"
         end
 
-        expect(page).to have_heading "Configurações de notificação"
-        expect(page).to have_heading "Alertas de data"
+        expect(page).to have_heading "Tokens de acesso"
+        expect(page).to have_heading "iCalendar para reuniões"
       end
+    end
+  end
+
+  describe "non-editable custom fields" do
+    let!(:readonly_cf) do
+      create(:user_custom_field, :string, name: "Employee ID", editable: false)
+    end
+
+    it "renders them read-only on the account page" do
+      visit my_account_path
+
+      expect(page).to have_field("Employee ID", disabled: true)
     end
   end
 
@@ -127,45 +143,110 @@ RSpec.describe "my", :js do
     describe "#account" do
       let(:dialog) { Components::PasswordConfirmationDialog.new }
 
-      before do
-        visit my_account_path
+      context "when updating profile fields" do
+        before do
+          visit my_account_path
 
-        fill_in "user[mail]", with: "foo@mail.com"
-        fill_in "user[firstname]", with: "Foo"
-        fill_in "user[lastname]", with: "Bar"
-        click_on "Update profile"
-      end
-
-      context "when confirmation disabled",
-              with_config: { internal_password_confirmation: false } do
-        it "does not request confirmation" do
-          expect_changed!
-        end
-      end
-
-      context "when confirmation required",
-              with_config: { internal_password_confirmation: true } do
-        it "requires the password for a regular user" do
-          dialog.confirm_flow_with(user_password)
-          expect_changed!
+          fill_in "user[mail]", with: "foo@mail.com"
+          fill_in "user[firstname]", with: "Foo"
+          fill_in "user[lastname]", with: "Bar"
+          click_on "Update profile"
         end
 
-        it "declines the change when invalid password is given" do
-          dialog.confirm_flow_with(user_password + "INVALID", should_fail: true)
-
-          user.reload
-          expect(user.mail).to eq("old@mail.com")
-        end
-
-        context "as admin" do
-          shared_let(:admin) { create(:admin) }
-          let(:user) { admin }
-
-          it "requires the password" do
-            dialog.confirm_flow_with("adminADMIN!")
+        context "when confirmation disabled",
+                with_config: { internal_password_confirmation: false } do
+          it "does not request confirmation" do
             expect_changed!
           end
         end
+
+        context "when confirmation required",
+                with_config: { internal_password_confirmation: true } do
+          it "requires the password for a regular user" do
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+
+          it "declines the change when invalid password is given" do
+            dialog.confirm_flow_with("#{user_password}INVALID", should_fail: true)
+
+            user.reload
+            expect(user.mail).to eq("old@mail.com")
+          end
+
+          it "allows submitting again after cancelling the confirmation dialog" do
+            dialog.cancel
+
+            click_on "Update profile"
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+
+          context "as admin" do
+            shared_let(:admin) { create(:admin) }
+            let(:user) { admin }
+
+            it "requires the password" do
+              dialog.confirm_flow_with("adminADMIN!")
+              expect_changed!
+            end
+          end
+        end
+      end
+
+      # CKEditor-augmented text custom fields also intercept submit (to flush
+      # editor → textarea). With turboMode they used to call Turbo's
+      # navigator.submitForm, which bypassed password confirmation and POSTed
+      # immediately — flashing notice_password_confirmation_failed.
+      context "with a long text custom field",
+              with_config: { internal_password_confirmation: true } do
+        let!(:text_cf) { create(:user_custom_field, :text, name: "Biography") }
+        let(:editor) { Components::WysiwygEditor.new("[data-test-selector='#{text_cf.attribute_name(:kebab_case)}']") }
+
+        it "still requires password confirmation and does not submit without it" do
+          visit my_account_path
+
+          editor.expect_value("")
+          editor.set_markdown("Loves hiking")
+
+          fill_in "user[mail]", with: "foo@mail.com"
+          fill_in "user[firstname]", with: "Foo"
+          fill_in "user[lastname]", with: "Bar"
+          click_on "Update profile"
+
+          dialog.expect_open
+          expect(page).to have_no_text(I18n.t(:notice_password_confirmation_failed))
+
+          dialog.confirm_flow_with(user_password)
+          expect_changed!
+
+          user.reload
+          expect(user.typed_custom_value_for(text_cf)).to include("Loves hiking")
+        end
+      end
+    end
+
+    describe "#account when users may not change their email",
+             with_config: { internal_password_confirmation: false },
+             with_settings: { user_can_change_email: false } do
+      before do
+        visit my_account_path
+      end
+
+      it "renders the email read-only but still allows changing the name" do
+        expect(page).to have_field("user[mail]", readonly: true)
+        expect(page).to have_text(I18n.t("user.text_change_mail_disabled_by_administrator"))
+        expect(page).to have_no_text(I18n.t("user.text_change_disabled_for_provider_login"))
+
+        fill_in "user[firstname]", with: "Foo"
+        fill_in "user[lastname]", with: "Bar"
+        click_on "Update profile"
+
+        expect(page).to have_text I18n.t(:notice_account_updated)
+
+        user.reload
+        expect(user.name).to eq "Foo Bar"
+        expect(user.mail).to eq "old@mail.com"
       end
     end
 

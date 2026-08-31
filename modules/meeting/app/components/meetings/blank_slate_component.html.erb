@@ -30,8 +30,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::Beta::Blankslate.new(border: true, test_selector: "meetings-blank-slate")) do |component|
     component.with_visual_icon(icon: :book, size: :medium)
-    component.with_heading(tag: :h2).with_content(I18n.t("meeting.blankslate.title"))
+    component.with_heading(tag: :h2).with_content(heading_text)
 
-    component.with_description_content(I18n.t("meeting.blankslate.desc"))
+    component.with_description_content(description_text)
   end
 %>

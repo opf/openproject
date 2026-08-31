@@ -1,0 +1,106 @@
+## Best practices
+
+As a general principle, follow the [Primer form guidelines](https://primer.style/product/ui-patterns/forms) as closely as possible. They define how form elements should be structured, labeled, validated, and composed. If a design deviates from these guidelines, question it before implementing — the deviation may be intentional, but it may also be an oversight worth raising with the designer.
+
+The practices below are OpenProject-specific additions and conventions on top of Primer.
+
+### Use `fieldset_group` to structure longer forms
+
+Use `fieldset_group` to group related fields under a shared heading. If the groups only serve visual structure, use a single Save button at the end of the form. Only give each group its own Save button when the groups are semantically independent — meaning saving one has no effect on another.
+
+```ruby
+# Single submit for the whole form
+settings_form do |f|
+  f.fieldset_group(title: "Notifications") do |group|
+    group.check_box(name: :notify_on_mention)
+    group.check_box(name: :notify_on_assignment)
+  end
+
+  f.fieldset_group(title: "Privacy", mt: 4) do |group|
+    group.check_box(name: :hide_email)
+  end
+
+  f.submit
+end
+
+# Each group saved independently
+settings_form do |f|
+  f.fieldset_group(title: "Notifications") do |group|
+    group.check_box(name: :notify_on_mention)
+    group.submit
+  end
+
+  f.fieldset_group(title: "Privacy", mt: 4) do |group|
+    group.check_box(name: :hide_email)
+    group.submit
+  end
+end
+```
+
+### Use `html_content` sparingly
+
+`html_content` allows mixing arbitrary HTML into a form, but it should be used as a last resort. If a piece of content does not relate directly to a form field (caption, validation message), consider placing it outside the form altogether. Overusing `html_content` makes forms harder to read and maintain.
+
+### Choose `input_width` based on expected input length
+
+Full-width inputs look appropriate in narrow containers but awkward in wide settings pages. Match the field width to the expected content: short for dates or numbers, wider for names or URLs.
+
+```ruby
+form.text_field(name: :port, type: :number, input_width: :xsmall)
+form.text_field(name: :host_name, input_width: :large)
+form.text_area(name: :description)  # full width is fine for free text
+```
+
+### Prefer `render_inline_form` over dedicated form classes for simple forms
+
+Only create a dedicated `ApplicationForm` subclass when the form is reused in multiple places or contains enough complexity to warrant its own file. For one-off forms, `render_inline_form` (or `render_inline_settings_form` for settings) keeps the code local and avoids polluting the form class namespace.
+
+```erb
+<%# Prefer this for simple, one-off forms %>
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render_inline_form(f) do |form| %>
+    <%%= form.text_field(name: :title, label: "Title") %>
+    <%%= form.submit(name: :submit, label: "Save") %>
+  <%% end %>
+<%% end %>
+```
+
+### For administration pages, always use `settings_primer_form_with`
+
+On admin and project settings pages, use `settings_primer_form_with` instead of plain `primer_form_with`. This ensures the form is wrapped in the standard width-limiting container (`op-admin-settings-form-wrapper`) for a consistent look across all settings pages.
+
+Pair it with `render_inline_settings_form` or a `settings_form`-based class to avoid repeating label lookups and writable checks for each field.
+
+```erb
+<%%= settings_primer_form_with(url: admin_settings_foo_path, method: :patch) do |form| %>
+  <%%= render_inline_settings_form(form) do |f| %>
+    <%%= f.check_box(name: :foo_enabled) %>
+    <%%= f.submit %>
+  <%% end %>
+<%% end %>
+```
+
+### Use `Primer::Forms::FormList` to combine multiple form instances
+
+When rendering multiple form instances inside a single `primer_form_with`, always wrap them in `Primer::Forms::FormList` rather than calling `render` on each one individually.
+
+```erb
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render(Primer::Forms::FormList.new(
+    GeneralSettingsForm.new(f),
+    AdvancedSettingsForm.new(f)
+  )) %>
+<%% end %>
+```
+
+### Hide fields that only make sense when a precondition is met
+
+If a field only becomes relevant when another field has a specific value — for example, configuration options that only apply when a feature is enabled — hide the dependent fields until the precondition is met. This reduces cognitive load and prevents users from filling in fields that will have no effect.
+
+Use the `show-when-value-selected` Stimulus controller for this. It covers the most common cases (show field when value X is selected, hide when value Y is selected) without custom JavaScript. See the [interactivity documentation](./interactivity) for usage details.
+
+Only write a custom Stimulus controller when the built-in mechanism is insufficient — for example, when the trigger is a date range picker or requires debouncing.
+
+### Use form preview for complex validation and dependent fields
+
+When multiple fields depend on each other or you need to show validation errors incrementally as the user fills in the form, use the [form preview pattern](./interactivity#advanced-interactivity-by-previewing-forms-before-submission) rather than managing each field's state individually on the frontend.

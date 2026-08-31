@@ -21,23 +21,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 
 @Injectable()
 export class StaticQueriesService {
-  constructor(
-    private readonly I18n:I18nService,
-    private readonly $state:StateService,
-  ) {
-  }
+  private readonly I18n = inject(I18nService);
+  private readonly $state = inject(StateService);
+
 
   public text = {
     work_packages: this.I18n.t('js.label_work_package_plural'),

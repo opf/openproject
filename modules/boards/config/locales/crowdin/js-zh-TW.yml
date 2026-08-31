@@ -1,86 +1,94 @@
-#English strings go here
+---
 zh-TW:
   ee:
     upsell:
       board_view:
-        description: '想使用看板來自動化您的工作流程嗎？進階看板是企業版附加功能，請升級至付費方案以啟用此功能。'
+        description: 想使用看板來自動化您的工作流程嗎？進階看板是企業版附加功能，請升級至付費方案以啟用此功能。
   js:
     boards:
-      create_new: '建立看板'
-      label_unnamed_board: '未命名看板'
-      label_unnamed_list: '未命名列表'
-      label_board_type: '看板類型'
-      lists:
-        delete: '刪除列表'
-      version:
-        is_locked: '版本已鎖定，無法新增該項目'
-        is_closed: '版本已關閉，無法新增該項目'
-        close_version: '關閉版本'
-        open_version: '開啟版本'
-        lock_version: '鎖定版本'
-        unlock_version: '解除鎖定'
-        edit_version: '編輯版本'
-        show_version: '顯示版本'
-        locked: '停用'
-        closed: '已關閉'
-      new_board: '新增看板'
-      add_list: '新增列表至看板'
-      add_card: '新增卡片'
-      error_attribute_not_writable: "無法移動該工作套件, %{attribute} 不可寫入。"
-      error_loading_the_list: "列表讀取錯誤: %{error_message}"
-      error_permission_missing: "缺少建立公開查詢的權限"
-      error_cannot_move_into_self: "不可將任務移入自己的欄位"
-      text_hidden_list_warning: "因權限限制，清單無法全部顯示，請聯絡管理員。"
-      click_to_remove_list: "點擊移除列表"
-      board_type:
-        text: '看板類型'
-        free: '基本'
-        select_board_type: '選擇您需要的看板類型'
-        free_text: >
-          啟用空白看板。手動增加新卡片和列表到這個看板。
-        action: '行動項看板'
-        action_by_attribute: '行動項看板 (%{attribute})'
-        action_text: >
-          一個依據 %{attribute} 屬性進行篩選的看板。將工作套件移動到其他列表時，會自動更新其該屬性值。
-        action_text_subprojects: >
-          具備子專案自動欄位的看板。將工作套件拖放到其他列表時，會相應地更新其（子）專案。
-        action_text_subtasks: >
-          具備子元件的看板。將工作套件拖動到其他列表時，會相應地更新其父工作套件。
-        action_text_status: >
-          基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
-        action_text_assignee: >
-          具備依指派使用者自動分類欄位的看板，非常適合用於派發工作套件。
-        action_text_version: >
-          基於版本屬性的自動列面板。理想用於產品開發規劃。
-        action_type:
-          assignee: 執行者
-          status: 狀態
-          version: 版本
-          subproject: 子專案
-          subtasks: 主任務-子任務
-        board_type_title:
-          assignee: 執行者
-          status: 狀態
-          version: 版本
-          subproject: 子專案
-          subtasks: 父-子
-          basic: 基本
-        select_attribute: "動作屬性"
+      add_card: 新增卡片
+      add_list: 新增列表至看板
       add_list_modal:
         labels:
           assignee: 選擇使用者至新的「執行者」列表
           status: 依選擇狀態新增清單
-          version: 依選擇版本新增清單
           subproject: 依選擇子專案新增清單
           subtasks: 依選擇任務新增清單
+          version: 依選擇版本新增清單
         warning:
-          status: |
-            目前無可用狀態
+          add_members: <a href="%{link}">新增成員至此專案</a> 再次選擇使用者。
           assignee: 沒有任何符合您設定篩選值的人員
           no_member: 此專案目前沒有任何可加入的人員
-          add_members: <a href="%{link}">新增成員至此專案</a> 再次選擇使用者。
+          status: '目前無可用狀態
+
+            '
+      board_type:
+        action: 行動項看板
+        action_by_attribute: 行動項看板 (%{attribute})
+        action_text: '一個依據 %{attribute} 屬性進行篩選的看板。將工作套件移動到其他列表時，會自動更新其該屬性值。
+
+          '
+        action_text_assignee: '具備依指派使用者自動分類欄位的看板，非常適合用於派發工作套件。
+
+          '
+        action_text_status: '基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
+
+          '
+        action_text_subprojects: '具備子專案自動欄位的看板。將工作套件拖放到其他列表時，會相應地更新其（子）專案。
+
+          '
+        action_text_subtasks: '具備子元件的看板。將工作套件拖動到其他列表時，會相應地更新其父工作套件。
+
+          '
+        action_text_version: '基於版本屬性的自動列面板。理想用於產品開發規劃。
+
+          '
+        action_type:
+          assignee: 執行者
+          status: 狀態
+          subproject: 子專案
+          subtasks: 主任務-子任務
+          version: 版本
+        board_type_title:
+          assignee: 執行者
+          basic: 基本
+          status: 狀態
+          subproject: 子專案
+          subtasks: 父-子
+          version: 版本
+        free: 基本
+        free_text: '啟用空白看板。手動增加新卡片和列表到這個看板。
+
+          '
+        select_attribute: 動作屬性
+        select_board_type: 選擇您需要的看板類型
+        text: 看板類型
+      click_to_remove_list: 點擊移除列表
       configuration_modal:
-        title: '設定此看板'
         display_settings:
-          card_mode: "顯示為卡片"
-          table_mode: "顯示為預覽圖"
+          card_mode: 顯示為卡片
+          table_mode: 顯示為預覽圖
+        title: 設定此看板
+      create_new: 建立看板
+      error_attribute_not_writable: 無法移動該工作套件, %{attribute} 不可寫入。
+      error_cannot_move_into_self: 不可將任務移入自己的欄位
+      error_loading_the_list: '列表讀取錯誤: %{error_message}'
+      error_permission_missing: 缺少建立公開查詢的權限
+      label_board_type: 看板類型
+      label_unnamed_board: 未命名看板
+      label_unnamed_list: 未命名列表
+      lists:
+        delete: 刪除列表
+      new_board: 新增看板
+      text_hidden_list_warning: 因權限限制，清單無法全部顯示，請聯絡管理員。
+      version:
+        close_version: 關閉版本
+        closed: 已關閉
+        edit_version: 編輯版本
+        is_closed: 版本已關閉，無法新增該項目
+        is_locked: 版本已鎖定，無法新增該項目
+        lock_version: 鎖定版本
+        locked: 停用
+        open_version: 開啟版本
+        show_version: 顯示版本
+        unlock_version: 解除鎖定

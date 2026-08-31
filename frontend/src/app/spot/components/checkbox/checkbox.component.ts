@@ -1,15 +1,32 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from '@angular/core';
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -29,9 +46,11 @@ export type SpotCheckboxState = true|false|null;
   standalone: false,
 })
 export class SpotCheckboxComponent implements ControlValueAccessor {
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.spot-checkbox') public className = true;
 
-  @ViewChild('input') public input:ElementRef;
+  @ViewChild('input') public input:ElementRef<HTMLInputElement>;
 
   /**
    * The tabindex for the underlying HTML input
@@ -61,12 +80,8 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
    */
   @Output() checkedChange = new EventEmitter<boolean>();
 
-  constructor(
-    readonly cdRef:ChangeDetectorRef,
-  ) {}
-
   onStateChange():void {
-    const value = (this.input.nativeElement as HTMLInputElement).checked;
+    const value = this.input.nativeElement.checked;
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);
@@ -76,7 +91,7 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
     // This is set in a timeout because the initial value is set before the template is ready,
     // which causes the input nativeElement to not be available yet.
     setTimeout(() => {
-      const input = this.input.nativeElement as HTMLInputElement;
+      const input = this.input.nativeElement;
       input.indeterminate = value === null;
 
       this.checked = !!value;

@@ -21,21 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Field, IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -53,27 +44,29 @@ export const editModeClassName = '-editing';
 
 @Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
+  readonly I18n = inject(I18nService);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected change = inject<ResourceChangeset<HalResource>>(OpEditingPortalChangesetToken);
+  schema = inject<IFieldSchema>(OpEditingPortalSchemaToken);
+  readonly handler = inject<EditFieldHandler>(OpEditingPortalHandlerToken);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly injector = inject(Injector);
+
   /** Self reference */
   public self = this;
 
   protected element:HTMLElement;
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-    @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-    @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-    @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-    readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector,
-  ) {
+  constructor() {
     super();
+    const change = this.change;
+
 
     this.updateFromChangeset(change);
   }
 
   ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
     this.initialize();
 
     if (this.change.state) {

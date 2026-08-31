@@ -7,6 +7,7 @@ value:
   description:
     raw: Lorem **ipsum** dolor sit amet
   customField123: 123
+  customComment123: Because it is 123!
   _links:
     parent:
       href: "/api/v3/programs/123"

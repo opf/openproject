@@ -33,8 +33,7 @@ require "support/pages/page"
 require_relative "../../../../grids/spec/support/pages/grid"
 
 module Pages
-  # TODO: inherit from `::Pages::Page` when `new_project_overview` feature flag is removed.
-  class Overview < ::Pages::Grid
+  class Overview < ::Pages::Page
     attr_accessor :project
 
     def initialize(project)

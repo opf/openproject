@@ -73,6 +73,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                            embed_links: true)
   end
 
+  # Create a cost type that enables the log unit cost paths
+  let!(:cost_type) do
+    create(:cost_type, for_all_projects: true)
+  end
+
   before do
     allow(User).to receive(:current).and_return user
   end
@@ -177,7 +182,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_hourly_rates view_time_entries] }
 
           it "is expected to have a laborCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("laborCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("laborCosts")
           end
         end
 
@@ -185,7 +190,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_own_hourly_rate view_own_time_entries] }
 
           it "is expected to have a laborCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("laborCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("laborCosts")
           end
         end
 
@@ -205,7 +210,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_own_cost_entries view_cost_rates] }
 
           it "is expected to have a materialCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("materialCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("materialCosts")
           end
         end
 
@@ -213,7 +218,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_cost_entries view_cost_rates] }
 
           it "is expected to have a materialCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("materialCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("materialCosts")
           end
         end
 
@@ -235,7 +240,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_hourly_rates view_time_entries] }
 
           it "is expected to have a overallCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("overallCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("overallCosts")
           end
         end
 
@@ -243,7 +248,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_own_time_entries view_own_hourly_rate] }
 
           it "is expected to have a overallCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("overallCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("overallCosts")
           end
         end
 
@@ -251,7 +256,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_own_cost_entries view_cost_rates] }
 
           it "is expected to have a overallCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("overallCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("overallCosts")
           end
         end
 
@@ -259,7 +264,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:additional_permissions) { %i[view_cost_entries view_cost_rates] }
 
           it "is expected to have a overallCosts attribute" do
-            expect(subject).to be_json_eql("6,000.00 EUR".to_json).at_path("overallCosts")
+            expect(subject).to be_json_eql("6,000.00 €".to_json).at_path("overallCosts")
           end
         end
 
@@ -298,6 +303,38 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
         it "has timeEnries link" do
           expect(subject).to have_json_path("_links/timeEntries/href")
+        end
+      end
+    end
+
+    describe "logCosts gating by available cost types" do
+      let(:additional_permissions) { %i[log_costs view_time_entries view_cost_entries view_cost_rates] }
+
+      before { CostType.destroy_all }
+
+      context "when at least one cost type is available in the project" do
+        before { create(:cost_type, for_all_projects: true) }
+
+        it "has the logCosts link" do
+          expect(subject).to have_json_path("_links/logCosts/href")
+        end
+      end
+
+      context "when no cost type is available in the project" do
+        before { create(:cost_type, for_all_projects: false) }
+
+        it "omits the logCosts link" do
+          expect(subject).not_to have_json_path("_links/logCosts/href")
+        end
+      end
+
+      context "when a non-global cost type is explicitly enabled in the project" do
+        let!(:scoped_cost_type) { create(:cost_type, for_all_projects: false) }
+
+        before { CostTypesProject.create!(project:, cost_type: scoped_cost_type) }
+
+        it "has the logCosts link" do
+          expect(subject).to have_json_path("_links/logCosts/href")
         end
       end
     end

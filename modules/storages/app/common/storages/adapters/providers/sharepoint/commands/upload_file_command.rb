@@ -83,11 +83,11 @@ module Storages
             def fetch_file_info(http, drive_id, upload_response)
               file_id = upload_response[:id]
 
-              return Failure(Results::Error.new(source: self.class, payload: upload_response, code: :error)) if file_id.blank?
+              return Failure(SimpleError.new(source: self.class, payload: upload_response, code: :error)) if file_id.blank?
 
               item_id = Peripherals::ParentFolder.new(file_id)
               drive_item_query.call(http:, drive_id:, item_id:, fields: Queries::FileInfoQuery::FIELDS)
-                .bind { |json| storage_file_transformer.transform(json) }
+                              .bind { |json| storage_file_transformer.transform(json) }
             end
 
             def composite_folder_id(drive_id, location)
@@ -96,7 +96,7 @@ module Storages
             end
 
             def handle_response(response)
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
@@ -110,7 +110,7 @@ module Storages
               in { status: 409 }
                 Failure(error.with(code: :conflict))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
@@ -123,7 +123,7 @@ module Storages
             end
 
             def storage_file_transformer
-              @storage_file_transformer ||= StorageFileTransformer.new(site_name)
+              @storage_file_transformer ||= StorageFileTransformer.new(host_uri)
             end
           end
         end

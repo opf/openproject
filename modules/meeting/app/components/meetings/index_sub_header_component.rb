@@ -32,13 +32,22 @@ module Meetings
   # rubocop:disable OpenProject/AddPreviewForViewComponent
   class IndexSubHeaderComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
     include ApplicationHelper
 
-    def initialize(query:, params:, project: nil)
+    def initialize(query:, params:, project: nil, lazy: true)
       super
       @query = query
       @project = project
       @params = params
+      @lazy = lazy
+    end
+
+    private
+
+    # Load inline for morph updates to prevent an additional flicker
+    def lazy_loaded_path
+      @lazy ? :meetings_filters_path : false
     end
 
     def render_create_button?
@@ -59,19 +68,6 @@ module Meetings
 
     def label_text
       I18n.t(:label_meeting)
-    end
-
-    def upcoming_query?
-      filter = @query.filters.find { |f| f.name == :time }
-      filter ? !filter.past? : true
-    end
-
-    def dynamic_path(upcoming: true)
-      polymorphic_path([@project, :meetings], current_params.merge(upcoming:))
-    end
-
-    def current_params
-      @current_params ||= params.slice(:filters, :page, :per_page).permit!
     end
 
     def filters_expanded?

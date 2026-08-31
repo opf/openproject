@@ -34,10 +34,9 @@ RSpec.describe Projects::Settings::ModulesController, "menu" do
   let(:current_user) { create(:admin) }
 
   let(:project) do
-    # project contains wiki by default
-    create(:project, enabled_module_names: enabled_modules).tap(&:reload)
+    create(:project, :with_internal_wiki, enabled_module_names: enabled_modules).tap(&:reload)
   end
-  let(:enabled_modules) { %w[wiki] }
+  let(:enabled_modules) { %w[] }
   let(:params) { { project_id: project.id } }
 
   before do
@@ -105,8 +104,6 @@ RSpec.describe Projects::Settings::ModulesController, "menu" do
         it_behaves_like "renders the modules show page"
 
         it_behaves_like "has selector", "#main-menu a.wiki-example-menu-item"
-
-        it_behaves_like "has selector", "#main-menu a.wiki-sub-menu-item"
       end
     end
 

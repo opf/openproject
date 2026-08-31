@@ -1,5 +1,11 @@
+---
 mn:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
+    label_dashboard: Хянах самбар
     label_home: "%{workspace_type} home"
-    label_dashboard: "Хянах самбар"
-    label_overview: "Overview"
+    label_overview: Overview

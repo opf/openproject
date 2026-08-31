@@ -19,37 +19,68 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 fr:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Vérification du statut de déploiement
+        other: Vérifications du statut de déploiement
+      deploy_target:
+        one: Cible de déploiement
+        other: Cibles de déploiement
+      github_check_run:
+        one: Exécution de vérification GitHub
+        other: Exécutions de vérification GitHub
+      github_pull_request:
+        one: Pull request GitHub
+        other: Pull requests GitHub
+      github_user:
+        one: Utilisateur GitHub
+        other: Utilisateurs GitHub
   attributes:
-    additions_count: "Nombre d'ajouts"
-    deletions_count: "Nombre de suppressions"
-    comments_count: "Nombre de commentaires"
-    github_html_url: "URL de requête pull"
-    github_app_owner_avatar_url: "URL de l'avatar du propriétaire"
-    review_comments_count: "Nombre de commentaires de révision"
-    github: "Identifiant GitHub"
-    github_avatar_url: "URL de l'avatar"
-    github_updated_at: "Mise à jour à"
-    github_login: "Connexion GitHub"
-    host: "Hôte"
-    labels: "Étiquettes"
-    repository: "Référentiel"
-    changed_files_count: "Fichiers modifiés"
+    additions_count: Nombre d'ajouts
+    changed_files_count: Fichiers modifiés
+    comments_count: Nombre de commentaires
+    deletions_count: Nombre de suppressions
+    github: Identifiant GitHub
+    github_app_owner_avatar_url: URL de l'avatar du propriétaire
+    github_avatar_url: URL de l'avatar
+    github_html_url: URL de requête pull
+    github_login: Connexion GitHub
+    github_updated_at: Mise à jour à
+    host: Hôte
+    labels: Étiquettes
+    repository: Dépôt
+    review_comments_count: Nombre de commentaires de révision
   button_add_deploy_target: Ajouter un objectif de déploiement
   label_deploy_target: Objectif de déploiement
   label_deploy_target_new: Nouvel objectif de déploiement
   label_deploy_target_plural: Objectifs de déploiement
+  label_github_comment_user: Acteur GitHub
   label_github_integration: Intégration GitHub
+  label_github_webhook_secret: Secret du webhook
   notice_deploy_target_created: Objectif de déploiement créé
   notice_deploy_target_destroyed: Objectif de déploiement supprimé
-  plugin_openproject_github_integration:
-    name: "Intégration de GitHub et OpenProject"
-    description: "Permet une intégration étroite entre OpenProject et GitHub pour un meilleur flux de travail"
-  project_module_github: "GitHub"
-  permission_show_github_content: "Afficher le contenu GitHub"
   permission_introspection: Consulter la version principale d'OpenProject et du build SHA en cours d'exécution
-  text_deploy_target_type_info: >
-    Pour l'instant, nous ne prenons en charge qu'OpenProject.
-  text_deploy_target_api_key_info: >
-    Une [clé API](docs_url) OpenProject appartenant à un utilisateur ayant la permission d'introspection globale.
+  permission_show_github_content: Afficher le contenu GitHub
+  plugin_openproject_github_integration:
+    description: Intègre OpenProject et GitHub pour améliorer le flux de travail
+    name: Intégration de GitHub et OpenProject
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Une [clé API](docs_url) OpenProject appartenant à un utilisateur ayant la permission d''introspection globale.
+
+    '
+  text_deploy_target_type_info: 'Pour l''instant, nous ne prenons en charge qu''OpenProject.
+
+    '
+  text_github_comment_user_info: 'L''utilisateur d''OpenProject dont la clé d''API doit être utilisée pour authentifier les demandes de webhook entrantes. Lorsqu''il est défini, les demandes authentifiées avec les informations d''identification de tout autre utilisateur sont rejetées. Cet utilisateur publie également des commentaires automatisés sur le statut du déploiement des lots de travaux. Par défaut, il s''agit de l''utilisateur du système s''il n''est pas défini.
+
+    '
+  text_github_webhook_secret_info: 'Un jeton secret partagé avec GitHub lors de la configuration du webhook. Lorsqu''il est défini, OpenProject vérifie l''en-tête X-Hub-Signature-256 sur chaque requête entrante et rejette les charges utiles qui ne correspondent pas. Laissez l''espace vide pour ignorer la vérification (non recommandé).
+
+    '
+  text_github_webhook_secret_missing_warning: 'Aucun secret de webhook n''est configuré. Toute demande adressée au point de terminaison du webhook de GitHub sera acceptée sans vérification, ce qui peut permettre à des personnes non autorisées de falsifier des événements. Il est fortement recommandé de définir un secret.
+
+    '
   text_pull_request_deployed_to: "%{pr_link} déployé sur %{deploy_target_link}"

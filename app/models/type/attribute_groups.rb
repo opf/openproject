@@ -49,7 +49,8 @@ module Type::AttributeGroups
         remaining_time: :estimates_and_progress,
         percentage_done: :estimates_and_progress,
         spent_time: :estimates_and_progress,
-        priority: :details
+        priority: :details,
+        observed_in_versions: :versions
       }
     end
 
@@ -153,7 +154,20 @@ module Type::AttributeGroups
   end
 
   def custom_attribute_groups
-    self[:attribute_groups].presence
+    groups = self[:attribute_groups].presence
+    return if groups.nil?
+
+    # Only one version attribute is offered at a time, so render whichever one a
+    # saved configuration holds as the one the current feature state exposes.
+    stored, offered = if Setting::WorkPackageMultipleVersions.active?
+                        %w[version target_versions]
+                      else
+                        %w[target_versions version]
+                      end
+
+    groups.map do |key, attributes, *rest|
+      [key, attributes.map { |attribute| attribute == stored ? offered : attribute }.uniq, *rest]
+    end
   end
 
   def default_group_key(key)
@@ -182,7 +196,7 @@ module Type::AttributeGroups
   # Custom fields should not get included into the default form configuration.
   # This method might get patched by modules.
   def default_attribute?(active_cfs, key)
-    !(CustomField.custom_field_attribute?(key) && !active_cfs.include?(key))
+    !(CustomField.custom_field_attribute?(key) && active_cfs.exclude?(key))
   end
 
   def to_attribute_group_class(groups)
@@ -190,14 +204,15 @@ module Type::AttributeGroups
       attributes = group[1]
       first_attribute = attributes[0]
       key = group[0]
+      display_name = group[2] if group.length > 2
 
       if first_attribute.is_a?(Query)
-        new_query_group(key, first_attribute)
+        new_query_group(key, first_attribute, display_name:)
       elsif first_attribute.is_a?(Symbol) && Type::QueryGroup.query_attribute?(first_attribute)
         query = Query.find_by(id: Type::QueryGroup.query_attribute_id(first_attribute))
-        new_query_group(key, query)
+        new_query_group(key, query, display_name:)
       else
-        new_attribute_group(key, attributes)
+        new_attribute_group(key, attributes, display_name:)
       end
     end
   end
@@ -213,16 +228,18 @@ module Type::AttributeGroups
                    else
                      group.attributes
                    end
-      [group.key, attributes]
+      result = [group.key, attributes]
+      result << group.display_name if group.display_name.present?
+      result
     end
   end
 
-  def new_attribute_group(key, attributes)
-    Type::AttributeGroup.new(self, key, attributes)
+  def new_attribute_group(key, attributes, display_name: nil)
+    Type::AttributeGroup.new(self, key, attributes, display_name:)
   end
 
-  def new_query_group(key, query)
-    Type::QueryGroup.new(self, key, query)
+  def new_query_group(key, query, display_name: nil)
+    Type::QueryGroup.new(self, key, query, display_name:)
   end
 
   def cleanup_query_groups_queries
@@ -231,7 +248,7 @@ module Type::AttributeGroups
     new_groups = self[:attribute_groups]
     old_groups = attribute_groups_was
 
-    ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
+    ids = (old_groups.map { |g| g[1] }.flatten - new_groups.map { |g| g[1] }.flatten)
           .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
 
     Query.where(id: ids).destroy_all

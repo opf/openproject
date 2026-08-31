@@ -1,0 +1,153 @@
+# /api/v3/users/{id}/working_hours
+---
+get:
+  summary: List working hours for a user
+  operationId: list_user_working_hours
+  tags:
+    - User Working Times
+  description: |-
+    Returns all working hours records for the given user, ordered by `validFrom` descending.
+
+    Multiple records may exist for a user; each represents a period of their working time
+    configuration. The most recently effective record (the one with the latest `validFrom`
+    that is not in the future) is used for capacity calculations.
+
+    **Required permissions:**
+    - Administrators can view working hours for any user.
+    - Users with the global `manage_working_times` permission can view working hours for any user.
+    - Any user can view their own working hours records.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_working_hours_collection_model.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
+      description: |-
+        Returned if the user does not exist or is not visible to the requesting user.
+
+post:
+  summary: Create a working hours record for a user
+  operationId: create_user_working_hours
+  tags:
+    - User Working Times
+  description: |-
+    Creates a new working hours record for the given user, effective from the given date.
+
+    **Required permissions:**
+    - Administrators can create working hours records for any user.
+    - Users with the global `manage_own_working_times` permission can create records for themselves.
+    - Users with the global `manage_working_times` permission can create working hours records for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/user_working_hours_model.yml"
+        example:
+          validFrom: "2025-01-01"
+          mondayHours: 8
+          tuesdayHours: 8
+          wednesdayHours: 8
+          thursdayHours: 8
+          fridayHours: 8
+          saturdayHours: 0
+          sundayHours: 0
+          availabilityFactor: 100
+  responses:
+    "201":
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_working_hours_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
+      description: Returned if the user does not exist or is not visible to the requesting user.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: Returned if the request body contains invalid parameters.

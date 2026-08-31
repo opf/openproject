@@ -37,14 +37,19 @@ See COPYRIGHT and LICENSE files for more details.
 <%= content_tag :body,
                 class: body_css_classes,
                 data: body_data_attributes(local_assigns) do %>
+  <%= render partial: "layouts/flashes" %>
   <div id="wrapper">
     <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
-      <div class="op-app-header--center op-logo">
-        <%= link_to(I18n.t("label_home"), home_url, class: "op-logo--link") %>
+      <div class="op-app-header--center">
+        <div class="op-logo">
+          <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--link") %>
+        </div>
+        <% if CustomStyle.current&.logo_mobile.present? || !custom_logo? %>
+          <%= link_to(I18n.t("label_home"), configurable_home_url, class: ["op-logo--icon", "op-logo--link"].compact) %>
+        <% end %>
       </div>
     </header>
     <main id="content-wrapper">
-      <%= render partial: "layouts/flashes" %>
       <%= yield %>
     </main>
   </div>

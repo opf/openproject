@@ -1,0 +1,314 @@
+---
+fr:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_hours: Heures
+        allocated_time: Temps affecté
+        date_range: Dates
+        end_date: Date de fin
+        entity: Entité
+        filter_name: Nom du filtre de ressources
+        principal: Personne assignée
+        start_date: Date de début
+        state: État
+        user_filter: Filtre utilisateur
+      resource_planner:
+        date_range: Dates
+        default_view_class_name: Vue par défaut
+        end_date: Date de fin
+        favorite: Favori
+        name: Nom
+        public: Public
+        start_date: Date de début
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: doit être postérieure à la date de début.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: doit être postérieure à la date de début.
+              required_with_start_date: doit être renseignée lorsqu'une date de début est définie.
+            start_date:
+              required_with_end_date: doit être renseignée lorsqu'une date de fin est définie.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: doit être une requête de lot de travaux.
+    models:
+      resource_allocation:
+        one: Affectation de ressources
+        other: Affectations de ressources
+      resource_planner:
+        one: Planificateur de ressources
+        other: Planificateurs de ressources
+      resource_user_card:
+        one: Fiche utilisateur
+        other: Fiches utilisateur
+      resource_user_timeline:
+        one: Chronologie utilisateur
+        other: Chronologies utilisateur
+      resource_work_package_list:
+        one: Liste de lots de travaux
+        other: Listes de lots de travaux
+      resource_work_package_timeline:
+        one: Chronologie des lots de travaux
+        other: Chronologies des lots de travaux
+  button_next: Suivant
+  ee:
+    features:
+      resource_management: Gestion des ressources
+    upsell:
+      resource_management:
+        description: Planifiez et équilibrez la charge de travail de votre équipe à l'aide de planificateurs de ressources. Affectez des personnes aux lots de travaux, suivez les capacités au fil du temps et repérez d'un coup d'œil les situations de suraffectation et de sous-affectation.
+        title: Gestion des ressources
+  label_resource_management: Gestion des ressources
+  permission_allocate_user_resources: Affecter des ressources utilisateur
+  permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer des affectations de ressources dans un planificateur de ressources. Cela inclut l'attribution d'utilisateurs (ou de filtres d'utilisateurs) à un planificateur ainsi que l'ajustement du temps affecté et de la période.
+  permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des affectations génériques
+  permission_assign_users_to_generic_allocations_explanation: Permet d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette autorisation ne permet pas de créer ni de modifier des affectations.
+  permission_manage_public_resource_planners: Gérer les planificateurs de ressources publiques
+  permission_manage_public_resource_planners_explanation: Permet aux utilisateurs de créer et de gérer des planificateurs de ressources publics. Cela leur permet de visualiser, de créer, de gérer et de publier leurs propres planificateurs de ressources. Cela ne leur permet pas de visualiser les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
+  permission_view_resource_planners: Voir les planificateurs de ressources
+  permission_view_resource_planners_explanation: Permet aux utilisateurs d'accéder aux planificateurs de ressources. Cela leur permet de créer et de gérer leurs propres planificateurs de ressources et de consulter les planificateurs de ressources publics. Cela ne leur permet pas de consulter les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
+  plugin_openproject_resource_management:
+    description: Assure la gestion des ressources et la planification des capacités.
+    name: Gestion des ressources d'OpenProject
+  project_module_resource_management: Gestion des ressources
+  resource_management:
+    action:
+      delete: Supprimer
+      edit: Modifier
+      favorite: Ajouter aux favoris
+      make_private: Rendre privé
+      make_public: Rendre public
+      unfavorite: Supprimer des favoris
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: 'Définissez des critères de filtrage en fonction des attributs utilisateur afin de créer une ressource fictive.
+
+            '
+          label: Critères de filtrage
+        label: Type d'allocation
+        principal:
+          caption: Attribuer des heures à un utilisateur spécifique.
+          label: Utilisateur
+      outside_dates:
+        description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travaux, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} disponible · %{scheduled} prévu"
+        description: L'utilisateur sélectionné, %{user}, serait affecté à des tâches en dehors de ses heures de travail pendant cette période.
+        hidden_work: Autres relations
+        schedule_availability: "%{schedule} (%{factor} % de disponibilité pour des projets)"
+        schedule_change: jusqu'au %{date}, puis %{schedule}
+        schedule_note: Cet utilisateur utilise l'adresse %{schedule}.
+        submit: Attribuer des heures supplémentaires
+        title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
+      submit: Attribuer
+      success_message: Ressource attribuée.
+      title: Attribuer une ressource
+    allocation:
+      hours: "%{value} h"
+      no_work: Aucun travail n'est prévu pour ce lot de travaux
+      summary: "%{allocated}/%{scheduled}"
+    assignment_dialog:
+      available: "%{hours} disponibles"
+      confirm_overtime: Affecter quand même
+      filter_criteria: Critères de filtrage
+      no_candidates:
+        description: Aucun membre du projet ne correspond aux critères de filtrage de cette affectation.
+        title: Aucun membre correspondant
+      no_schedule: Cet utilisateur n'a pas d'horaire de travail défini ; nous ne pouvons donc pas déterminer si cette affectation est appropriée.
+      overbooked_detail: Cet utilisateur dispose de %{available} pendant cette période ; le lot de travaux nécessite %{requested}.
+      requested_for: Demandé pour
+      select_user: Veuillez sélectionner un utilisateur à affecter.
+      submit: Affecter
+      title: Affecter %{filter_name}
+    blankslate:
+      desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
+      title: Aucun planificateur de ressources pour le moment
+    configure_view_dialog:
+      delete_confirmation: Voulez-vous vraiment supprimer cette vue ? Cette action est irréversible.
+      filter_mode:
+        automatic:
+          caption: Une liste générée automatiquement qui affiche les éléments correspondant aux critères que vous définissez.
+          label: Filtré automatiquement
+        label: Sélection d'éléments
+        manual:
+          caption: Une liste personnalisée d'éléments que vous ajoutez et supprimez manuellement. Le filtrage n'est pas possible.
+          label: Sélection manuelle
+      title: Configurer la vue
+    edit_allocation_dialog:
+      submit: Enregistrer
+      success_message: Attribution des ressources mise à jour.
+      title: Modifier l'attribution
+    favorite_caption: Faites de cette vue un favori pour l'ajouter à la section supérieure du menu de la barre latérale.
+    label_edit_resource_planner: Modifier le planificateur de ressources
+    label_new_resource_planner: Nouveau planificateur de ressources
+    label_resource_planner: Planificateur de ressources
+    label_resource_planner_plural: Planificateurs de ressources
+    new_view_dialog:
+      title: Ajouter une vue
+    public_caption: Rendez cette vue publique pour tous les membres du projet. Cela n'affecte pas la visibilité des lots de travaux, qui dépend toujours de l'autorisation de chaque utilisateur.
+    show:
+      placeholder: La vue détaillée de ce planificateur de ressources sera bientôt disponible.
+    sidebar:
+      private: Privé
+      public: Public
+    staffing:
+      assign: Affecter un utilisateur
+      blank:
+        description: Toutes les affectations génériques de ce projet sont déjà attribuées à un utilisateur.
+        title: Aucune affectation à pourvoir
+      columns:
+        dates: Dates
+        requested_time: Temps demandé
+        resource: Ressource
+        work_package: Lot de travaux
+      context_menu_label: Actions d'affectation
+      delete_confirmation: Voulez-vous vraiment supprimer cette affectation ?
+      menu_item: Affectations
+      starts_in_past: Cette affectation a déjà commencé et n'est toujours pas attribuée à un utilisateur.
+      success_message: Utilisateur affecté.
+      title: Affectations
+    sub_views: Vues de ce planificateur de ressources
+    timeframe:
+      full: De %{start} à %{end}
+    timeline:
+      granularity:
+        day: Jour
+        month: Mois
+        week: Semaine calendaire
+      navigation:
+        next: Période suivante
+        previous: Période précédente
+        today: Aujourd'hui
+      subheader:
+        add: Ajouter
+        allocate: Affecter
+        settings: Configurer la vue
+    user_allocations_dialog:
+      allocate_work_package: Attribuer un lot de travaux
+      blank: Cet utilisateur n'a aucun lot de travaux qui lui a été attribué.
+      other_work_packages:
+        one: 1 autre lot de travaux
+        other: "%{count} autres lots de travaux"
+      title: Utilisation
+    user_card_list:
+      add_user_dialog:
+        title: Ajouter un utilisateur
+      blank:
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
+        title: Aucun utilisateur à afficher
+      card:
+        multi_value_more: "+%{count} de plus"
+        remove: Supprimer l'utilisateur
+        remove_confirmation: Supprimer cet utilisateur de la vue ?
+      fields:
+        drag_area_label: Champs affichés
+        input_caption: Sélectionnez les champs qui s'afficheront dans la fiche utilisateur pour cette vue
+        input_label: Champs
+        input_placeholder: Ajouter un champ
+        working_times: Heures de travail
+      subheader:
+        resource: Ressource
+        settings: Configurer la vue
+      utilization:
+        label: Utilisation
+      working_hours:
+        blank: Aucun horaire de travail n'a été configuré
+        schedule_availability_compact: "%{schedule} (%{factor}% de capacité disponible)"
+        schedule_change_compact: jusqu'à %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Ajouter un utilisateur
+        configure_view: Configurer la vue
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Ajoutez des utilisateurs à cette vue pour visualiser leurs affectations au fil du temps.
+        title: Aucun utilisateur à afficher
+      no_work_schedule: Aucun horaire de travail n'est prévu pour cet utilisateur
+      overbooked: Cet utilisateur est en surcharge d'affectation pendant la période sélectionnée.
+      overbooked_tooltip:
+        range: "%{dates} : %{scheduled} planifiées, %{available} disponibles"
+      subheader:
+        add_user: Ajouter un utilisateur
+    view_types:
+      resource_user_card:
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
+      resource_user_timeline:
+        caption: Créez une vue basée sur les utilisateurs et visualisez leurs affectations au fil du temps dans une chronologie
+        label: Chronologie des utilisateurs
+      resource_work_package_list:
+        caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
+        label: Liste des lots de travaux
+      resource_work_package_timeline:
+        caption: Créez une vue basée sur les lots de travaux et visualisez leur répartition au fil du temps sur un graphique chronologique
+        label: Chronologie des lots de travaux
+      user_card:
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
+    work_package_allocations_dialog:
+      allocate_resource: Attribuer une ressource
+      context_menu_label: Actions d'allocation
+      delete_confirmation: Voulez-vous vraiment supprimer cette attribution ? Cette action est irréversible.
+      delete_success: Attribution de ressources supprimée.
+      hidden_user: Utilisateur masqué
+      overbooked: Pendant cette période, l'utilisateur est affecté à d'autres tâches en dehors de ses heures de travail.
+      title: Attribution
+    work_package_list:
+      add_work_package_dialog:
+        title: Ajouter un lot de travaux
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} utilisateur"
+          other: "%{count} utilisateurs"
+        unassigned: Non attribué
+      allocation_placeholder: "—"
+      blank:
+        description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.
+        title: Aucun lot de travaux à afficher
+      columns:
+        allocated_members: Membres attribués
+        allocation: Attribution
+        dates: Dates
+      context_menu:
+        add_filter_criteria: Ajouter des critères de filtre
+        add_user_group: Ajouter un groupe d'utilisateurs
+        edit_total_work: Modifier le travail total
+        label: Plus d'actions
+        move: Déplacer
+        move_down: Déplacer vers le bas
+        move_to_bottom: Déplacer en bas
+        move_to_top: Déplacer en haut
+        move_up: Déplacer vers le haut
+        remove: Retirer
+        remove_confirmation: Retirer ce lot de travaux de la vue ?
+        see_allocation: Voir l'attribution
+      mobile_title: Lots de travaux
+      query_name: 'Lots de travaux de gestion des ressources : %{name}'
+      subheader:
+        add: Ajouter
+        add_work_package: Ajouter un lot de travaux
+        allocate: Attribuer
+        settings: Configurer la vue
+    work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} membre de ce projet correspond aux critères de filtrage de l'affectation."
+          other: "%{count} membres de ce projet correspondent aux critères de filtrage de l'affectation."
+      blank:
+        add_work_package: Ajouter un lot de travaux
+        configure_view: Configurer la vue
+        description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.
+        manual_description: Ajoutez des lots de travaux à cette vue afin de planifier leur répartition dans le temps.
+        title: Aucun lot de travaux à afficher
+      query_name: 'Calendrier des lots de travaux de gestion des ressources : %{name}'
+      subheader:
+        add_work_package: Ajouter un lot de travaux

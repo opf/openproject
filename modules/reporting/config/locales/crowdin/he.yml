@@ -19,88 +19,95 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 he:
-  plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "שמור דוח כ..."
-  comments: "הערה"
-  cost_reports_title: "עלויות"
-  label_cost_report: "דוח עלות"
-  label_cost_report_plural: "דוחות עלות"
-  description_drill_down: "הצג פרטים"
-  description_filter_selection: "בחירה"
-  description_multi_select: "הצג בחירה מרובה"
-  description_remove_filter: "הסר מסנן"
-  information_restricted_depending_on_permission: "בהתאם להרשאות שלך, דף זה עשוי להכיל מידע מוגבל."
-  label_click_to_edit: "לחץ לעריכה."
-  label_closed: "סגור"
-  label_columns: "עמודות"
-  label_cost_entry_attributes: "תכונות עלות כניסה"
-  label_days_ago: "במהלך הימים האחרונים"
-  label_entry: "עלות כניסה"
-  label_filter_text: "תמליל של מסנן"
-  label_filter_value: "ערך"
-  label_filters: "מסנן"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "לא (כולל תת פרוייקטים)"
-  label_is_project_with_subprojects: "הוא (כולל תת פרוייקטים)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "תכונות חבילת עבודה"
-  label_less: "<"
-  label_logged_by_reporting: "Logged by"
-  label_money: "ערך כספי"
-  label_month_reporting: "חודש (הוצא)"
-  label_new_report: "דוח עלות חדש"
-  label_open: "פתוח"
-  label_operator: "מפעיל"
-  label_private_report_plural: "דוחות עלות פרטיים"
-  label_progress_bar_explanation: "מפיק דוח..."
-  label_public_report_plural: "דוחות עלות צבוריים"
-  label_really_delete_question: "האם אתה בטוח שברצונך לבטל דוח זה?"
-  label_rows: "שורות"
-  label_saving: "שומר ..."
-  label_spent_on_reporting: "תאריך (הוצא)"
-  label_sum: "סכום"
-  label_units: "יחידות"
-  label_week_reporting: "שבוע (הוצא)"
-  label_year_reporting: "שנה (הוצאה)"
-  label_count: "Count"
-  label_filter: "סינון"
-  label_filter_add: "Add Filter"
-  label_filter_plural: "מסננים"
-  label_group_by: "קבץ לפי"
-  label_group_by_add: "Add Group-by Attribute"
-  label_inactive: "«inactive»"
-  label_no: "לא"
-  label_none: "(no data)"
-  label_no_reports: "There are no cost reports yet."
-  label_report: "דו״ח"
-  label_yes: "כן"
-  load_query_question: "הדוח יכיל %{size} תאים בטבלה והפקתו עשויה לקחת זמן מה. האם עדיין ברצונך לנסות להפיקו?"
-  permission_save_cost_reports: "שמור דוחות עלות צבוריים"
-  permission_save_private_cost_reports: "שמור דוחות עלות פרטיים"
-  project_module_reporting_module: "דוחות עלות"
-  text_costs_are_rounded_note: "הערכים המוצגים מעוגלים. כל החישובים מבוססים על ערכים שאינם מעוגלים."
-  toggle_multiselect: "הפעל/בטל הפעלה של בחירה מרובה"
-  units: "יחידות"
-  validation_failure_date: "אינו תאריך בר תוקף"
-  validation_failure_integer: "אינו מספר שלם חוקי"
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        two: Cost reports
+        many: Cost reports
+        other: Cost reports
+  button_save_report_as: שמור דוח כ...
+  comments: הערה
+  cost_reports_title: עלויות
+  description_drill_down: הצג פרטים
+  description_filter_selection: בחירה
+  description_multi_select: הצג בחירה מרובה
+  description_remove_filter: הסר מסנן
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "זמן"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Your Cost Reports XLS export"
-      start_time: "Start time"
-      end_time: "End time"
+      end_time: End time
+      start_time: Start time
+      title: Your Cost Reports XLS export
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: זמן
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: בהתאם להרשאות שלך, דף זה עשוי להכיל מידע מוגבל.
+  label_click_to_edit: לחץ לעריכה.
+  label_closed: סגור
+  label_columns: עמודות
+  label_cost_entry_attributes: תכונות עלות כניסה
+  label_cost_report_plural: דוחות עלות
+  label_count: Count
+  label_days_ago: במהלך הימים האחרונים
+  label_entry: עלות כניסה
+  label_filter: סינון
+  label_filter_add: Add Filter
+  label_filter_plural: מסננים
+  label_filter_text: תמליל של מסנן
+  label_filter_value: ערך
+  label_filters: מסנן
+  label_greater: ">"
+  label_group_by: קבץ לפי
+  label_group_by_add: Add Group-by Attribute
+  label_inactive: "«inactive»"
+  label_is_not_project_with_subprojects: לא (כולל תת פרוייקטים)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: הוא (כולל תת פרוייקטים)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: Logged by
+  label_money: ערך כספי
+  label_month_reporting: חודש (הוצא)
+  label_new_report: דוח עלות חדש
+  label_no: לא
+  label_no_reports: There are no cost reports yet.
+  label_none: "(no data)"
+  label_open: פתוח
+  label_operator: מפעיל
+  label_private_report_plural: דוחות עלות פרטיים
+  label_progress_bar_explanation: מפיק דוח...
+  label_public_report_plural: דוחות עלות צבוריים
+  label_really_delete_question: האם אתה בטוח שברצונך לבטל דוח זה?
+  label_report: דו״ח
+  label_rows: שורות
+  label_saving: שומר ...
+  label_spent_on_reporting: תאריך (הוצא)
+  label_sum: סכום
+  label_units: יחידות
+  label_week_reporting: שבוע (הוצא)
+  label_work_package_attributes: תכונות חבילת עבודה
+  label_year_reporting: שנה (הוצאה)
+  label_yes: כן
+  load_query_question: הדוח יכיל %{size} תאים בטבלה והפקתו עשויה לקחת זמן מה. האם עדיין ברצונך לנסות להפיקו?
+  permission_save_cost_reports: שמור דוחות עלות צבוריים
+  permission_save_private_cost_reports: שמור דוחות עלות פרטיים
+  plugin_openproject_reporting:
+    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    name: OpenProject Reporting
+  project_module_reporting_module: דוחות עלות
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: Selected columns
+      selected_rows: Selected rows
+  text_costs_are_rounded_note: הערכים המוצגים מעוגלים. כל החישובים מבוססים על ערכים שאינם מעוגלים.
+  toggle_multiselect: הפעל/בטל הפעלה של בחירה מרובה
+  units: יחידות
+  validation_failure_date: אינו תאריך בר תוקף
+  validation_failure_integer: אינו מספר שלם חוקי

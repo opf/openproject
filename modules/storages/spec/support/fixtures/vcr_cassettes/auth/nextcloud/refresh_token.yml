@@ -1,0 +1,451 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.2.0 HTTPX Client
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Mon, 02 Mar 2026 16:08:46 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.66 (Debian)
+      Set-Cookie:
+      - ocijlj3fsmm9=5b65855c97c459db69c61861f926501f; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=eeaqxrN0jZy61LxpAwJ7W1RwdhNnTJ4eE53GnTsym79KnC%2Fd%2Bs7VxPDGJ8sdlqgXt84b5inOVqF2cOYkCPIXrzCHtSBkF852ekuoKW9e0oBoEgxmnsccJbD5uSRwv9h%2B;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=5b65855c97c459db69c61861f926501f;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocijlj3fsmm9=5b65855c97c459db69c61861f926501f;
+        path=/; secure; HttpOnly; SameSite=Lax, nc_username=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_token=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_session_id=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_username=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/; secure; HttpOnly,
+        nc_token=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/;
+        secure; HttpOnly, nc_session_id=deleted; expires=Thu, 01 Jan 1970 00:00:01
+        GMT; Max-Age=0; path=/; secure; HttpOnly
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.4.18
+      X-Request-Id:
+      - mpcjYVvLLOeYrNKfHGA4
+      X-Robots-Tag:
+      - noindex, nofollow
+      Content-Length:
+      - '230'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>failure</status>
+          <statuscode>997</statuscode>
+          <message>Current user is not logged in</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Mon, 02 Mar 2026 16:08:46 GMT
+- request:
+    method: post
+    uri: https://nextcloud.local/index.php/apps/oauth2/api/v1/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=refresh_token&scope=&refresh_token=<REFRESH_TOKEN>
+    headers:
+      User-Agent:
+      - OpenProject 17.2.0 HTTPX Client
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic <SECRET>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '174'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 02 Mar 2026 16:08:46 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.66 (Debian)
+      Set-Cookie:
+      - ocijlj3fsmm9=b3b43751df79bb2be113552e0da3c8ef; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=jjRcONBYop3Z1ttvqVG8PoNd928I2MOEQ5wvxPYxmsvSM07Ow5FKvhg1JnCFLwnYSlfMCU5FaEQ35ZGSwULlYqJ8Fndsqn5nk48zjTTdXiedpPMlZDU%2F%2FkWaYG%2BChSAK;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=b3b43751df79bb2be113552e0da3c8ef;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocijlj3fsmm9=b3b43751df79bb2be113552e0da3c8ef;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.4.18
+      X-Request-Id:
+      - JewgU7FS0QDRXDmGLnWf
+      X-Robots-Tag:
+      - noindex, nofollow
+      Content-Length:
+      - '270'
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"<ACCESS_TOKEN>","token_type":"Bearer","expires_in":3600,"refresh_token":"<REFRESH_TOKEN>","user_id":"admin"}'
+  recorded_at: Mon, 02 Mar 2026 16:08:46 GMT
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.2.0 HTTPX Client
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Mon, 02 Mar 2026 16:08:46 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.66 (Debian)
+      Set-Cookie:
+      - ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=BzSroJ7oX15ip9xi5Y8Na48QPwG3mu7fpYl%2B2wlSxOFqh%2BUEIwflqvkgtdvr7LpA5zGPXrat0VvAckP95BkTm7ZcK8JJZEwKYK7shleHPn1ZaIzThTiJWuLuuRjnmxp%2F;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, nc_username=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_token=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_session_id=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_username=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/; secure; HttpOnly,
+        nc_token=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/;
+        secure; HttpOnly, nc_session_id=deleted; expires=Thu, 01 Jan 1970 00:00:01
+        GMT; Max-Age=0; path=/; secure; HttpOnly, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.4.18
+      X-Request-Id:
+      - 9KY3Gces4KNzsrkeOsWU
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-User-Id:
+      - admin
+      Content-Length:
+      - '691'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data>
+          <enabled>1</enabled>
+          <storageLocation>/var/www/html/data/admin</storageLocation>
+          <id>admin</id>
+          <firstLoginTimestamp>1772444624</firstLoginTimestamp>
+          <lastLoginTimestamp>1772467726</lastLoginTimestamp>
+          <lastLogin>1772467726000</lastLogin>
+          <backend>Database</backend>
+          <subadmin/>
+          <quota>
+           <free>-3</free>
+           <used>60872728</used>
+           <total>-3</total>
+           <relative>0</relative>
+           <quota>-3</quota>
+          </quota>
+          <manager></manager>
+          <avatarScope>v2-federated</avatarScope>
+          <email/>
+          <emailScope>v2-federated</emailScope>
+          <additional_mail/>
+          <additional_mailScope/>
+          <displayname>admin</displayname>
+          <display-name>admin</display-name>
+          <displaynameScope>v2-federated</displaynameScope>
+          <phone></phone>
+          <phoneScope>v2-local</phoneScope>
+          <address></address>
+          <addressScope>v2-local</addressScope>
+          <website></website>
+          <websiteScope>v2-local</websiteScope>
+          <twitter></twitter>
+          <twitterScope>v2-local</twitterScope>
+          <bluesky></bluesky>
+          <blueskyScope>v2-local</blueskyScope>
+          <fediverse></fediverse>
+          <fediverseScope>v2-local</fediverseScope>
+          <organisation></organisation>
+          <organisationScope>v2-local</organisationScope>
+          <role></role>
+          <roleScope>v2-local</roleScope>
+          <headline></headline>
+          <headlineScope>v2-local</headlineScope>
+          <biography></biography>
+          <biographyScope>v2-local</biographyScope>
+          <profile_enabled>1</profile_enabled>
+          <profile_enabledScope>v2-local</profile_enabledScope>
+          <pronouns></pronouns>
+          <pronounsScope>v2-federated</pronounsScope>
+          <groups>
+           <element>admin</element>
+          </groups>
+          <language>en</language>
+          <locale></locale>
+          <timezone>Europe/Busingen</timezone>
+          <notify_email/>
+          <backendCapabilities>
+           <setDisplayName>1</setDisplayName>
+           <setPassword>1</setPassword>
+          </backendCapabilities>
+         </data>
+        </ocs>
+  recorded_at: Mon, 02 Mar 2026 16:08:46 GMT
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.2.0 HTTPX Client
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Mon, 02 Mar 2026 16:08:46 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.66 (Debian)
+      Set-Cookie:
+      - ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=BzSroJ7oX15ip9xi5Y8Na48QPwG3mu7fpYl%2B2wlSxOFqh%2BUEIwflqvkgtdvr7LpA5zGPXrat0VvAckP95BkTm7ZcK8JJZEwKYK7shleHPn1ZaIzThTiJWuLuuRjnmxp%2F;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, nc_username=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_token=deleted; expires=Thu,
+        01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_session_id=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; secure; HttpOnly, nc_username=deleted;
+        expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/; secure; HttpOnly,
+        nc_token=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/;
+        secure; HttpOnly, nc_session_id=deleted; expires=Thu, 01 Jan 1970 00:00:01
+        GMT; Max-Age=0; path=/; secure; HttpOnly, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax, ocijlj3fsmm9=8c15d45120403fd0c95c1c8d23c250b1;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.4.18
+      X-Request-Id:
+      - 9KY3Gces4KNzsrkeOsWU
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-User-Id:
+      - admin
+      Content-Length:
+      - '691'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data>
+          <enabled>1</enabled>
+          <storageLocation>/var/www/html/data/admin</storageLocation>
+          <id>admin</id>
+          <firstLoginTimestamp>1772444624</firstLoginTimestamp>
+          <lastLoginTimestamp>1772467726</lastLoginTimestamp>
+          <lastLogin>1772467726000</lastLogin>
+          <backend>Database</backend>
+          <subadmin/>
+          <quota>
+           <free>-3</free>
+           <used>60872728</used>
+           <total>-3</total>
+           <relative>0</relative>
+           <quota>-3</quota>
+          </quota>
+          <manager></manager>
+          <avatarScope>v2-federated</avatarScope>
+          <email/>
+          <emailScope>v2-federated</emailScope>
+          <additional_mail/>
+          <additional_mailScope/>
+          <displayname>admin</displayname>
+          <display-name>admin</display-name>
+          <displaynameScope>v2-federated</displaynameScope>
+          <phone></phone>
+          <phoneScope>v2-local</phoneScope>
+          <address></address>
+          <addressScope>v2-local</addressScope>
+          <website></website>
+          <websiteScope>v2-local</websiteScope>
+          <twitter></twitter>
+          <twitterScope>v2-local</twitterScope>
+          <bluesky></bluesky>
+          <blueskyScope>v2-local</blueskyScope>
+          <fediverse></fediverse>
+          <fediverseScope>v2-local</fediverseScope>
+          <organisation></organisation>
+          <organisationScope>v2-local</organisationScope>
+          <role></role>
+          <roleScope>v2-local</roleScope>
+          <headline></headline>
+          <headlineScope>v2-local</headlineScope>
+          <biography></biography>
+          <biographyScope>v2-local</biographyScope>
+          <profile_enabled>1</profile_enabled>
+          <profile_enabledScope>v2-local</profile_enabledScope>
+          <pronouns></pronouns>
+          <pronounsScope>v2-federated</pronounsScope>
+          <groups>
+           <element>admin</element>
+          </groups>
+          <language>en</language>
+          <locale></locale>
+          <timezone>Europe/Busingen</timezone>
+          <notify_email/>
+          <backendCapabilities>
+           <setDisplayName>1</setDisplayName>
+           <setPassword>1</setPassword>
+          </backendCapabilities>
+         </data>
+        </ocs>
+  recorded_at: Mon, 02 Mar 2026 16:08:46 GMT
+recorded_with: VCR 6.4.0

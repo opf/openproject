@@ -32,8 +32,7 @@ require_relative "../support/board_page"
 
 RSpec.describe "Assignee action board",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:bobself_user) do
     create(:user,
            firstname: "Bob",
@@ -41,7 +40,7 @@ RSpec.describe "Assignee action board",
            member_with_roles: { project => role })
   end
   let(:admin) { create(:admin) }
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:project_without_members) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:project_role, permissions:) }

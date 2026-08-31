@@ -50,12 +50,17 @@ RSpec.describe "List custom fields edit", :js do
 
     fill_in "custom_field_name", with: "My List CF"
 
+    click_on "Save"
+
+    index_cf_page.expect_flash(message: "Successful creation.")
+
+    click_link "Items"
+
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
     click_on "Save"
-
-    index_cf_page.expect_and_dismiss_flash(message: "Successful creation.")
+    wait_for_network_idle
 
     # Expect correct values
     cf = CustomField.last
@@ -63,12 +68,11 @@ RSpec.describe "List custom fields edit", :js do
     expect(cf.possible_values.map(&:value)).to eq %w(A)
 
     # Edit again
-    find("a", text: "My List CF").click
-
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "B"
 
     click_on "Save"
+    wait_for_network_idle
 
     index_cf_page.expect_and_dismiss_flash(message: "Successful update.")
 

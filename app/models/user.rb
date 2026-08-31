@@ -33,7 +33,9 @@ require "digest/sha1"
 class User < Principal
   ScimEmail = Struct.new("ScimEmail", :value, :primary, :type)
 
-  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
+  VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
+  INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
+  VALID_NAME_REGEX   = /\A[#{VALID_NAME_CHARS}]+\z/
   CURRENT_USER_LOGIN_ALIAS = "me"
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -49,6 +51,23 @@ class User < Principal
   include ::Users::PermissionChecks
   extend DeprecatedAlias
 
+  # Join association backing #departments. The group_users lifecycle is already
+  # managed by the `groups` HABTM above, so no :dependent option is declared here.
+  has_many :group_users, inverse_of: :user # rubocop:disable Rails/HasManyOrHasOneDependent
+  # A user belongs to at most one department (an organizational unit group).
+  # Modeled as a has_many because Rails forbids a has_one :through a collection
+  # (group memberships). Use #department for the single value, and eager-load
+  # with User.includes(:departments) to avoid N+1 queries in user lists.
+  has_many :departments,
+           -> { Group.organizational_units },
+           through: :group_users,
+           source: :group
+  # Departments are surfaced as their own attribute, so they are left out here.
+  has_many :regular_groups,
+           -> { Group.not_organizational_units },
+           through: :group_users,
+           source: :group
+
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -60,6 +79,12 @@ class User < Principal
   has_one :rss_token, class_name: "::Token::RSS", dependent: :destroy
   has_many :api_tokens, class_name: "::Token::API", dependent: :destroy
   has_many :oauth_client_tokens, dependent: :destroy
+  has_many :working_hours, class_name: "UserWorkingHours",
+                           dependent: :destroy,
+                           inverse_of: :user
+  has_many :non_working_times, class_name: "UserNonWorkingTime",
+                               dependent: :destroy,
+                               inverse_of: :user
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -106,6 +131,18 @@ class User < Principal
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
 
+  # Resource allocations assigned to this user. Normal user-deletion goes
+  # through Principals::DeleteJob, which rewrites principal_id to a
+  # DeletedUser placeholder before destroy fires (registered in the
+  # resource_management engine). The `dependent: :nullify` here is a
+  # defensive fallback if a user is destroyed outside that flow — the column
+  # is already nullable for the unassigned/filter-only state.
+  has_many :resource_allocations,
+           class_name: "ResourceAllocation",
+           foreign_key: :principal_id,
+           dependent: :nullify,
+           inverse_of: :principal
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
@@ -132,9 +169,9 @@ class User < Principal
      blocked_if_login_since]
   end
 
-  acts_as_customizable
+  acts_as_customizable admin_only_allowed: true
 
-  attr_accessor :password, :password_confirmation, :last_before_login_on
+  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input, :consent_check
 
   validates :login,
             :firstname,
@@ -153,6 +190,8 @@ class User < Principal
 
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
+  # Only on change so that blocking a domain does not make its existing users unsaveable
+  validates :mail, blocked_email_domain: true, if: Proc.new { |user| user.mail_changed? }
 
   validates :password,
             confirmation: {
@@ -381,7 +420,8 @@ class User < Principal
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    user_auth_provider_links.exists?
+    # using #any? instead of #exists? so that it also works on unpersisted auth provider links
+    user_auth_provider_links.any?
   end
 
   #
@@ -506,6 +546,15 @@ class User < Principal
 
   def anonymous?
     !logged?
+  end
+
+  def active_admin?
+    admin? && active?
+  end
+
+  # The single organizational unit (department) the user belongs to, if any.
+  def department
+    departments.first
   end
 
   def consent_expired?
@@ -673,6 +722,29 @@ class User < Principal
   end
 
   include Scimitar::Resources::Mixin
+
+  def non_working_time_entities_for_year(year)
+    NonWorkingDay.for_year(year).to_a + non_working_times.for_year(year).to_a
+  end
+
+  def non_working_days_for_year(year)
+    working_wdays = Setting.working_days.map { |d| d % 7 }
+    all_dates = system_non_working_dates_for_year(year) | user_non_working_dates_for_year(year)
+    all_dates.select { |d| working_wdays.include?(d.wday) }
+  end
+
+  private
+
+  def system_non_working_dates_for_year(year)
+    NonWorkingDay.for_year(year).pluck(:date).to_set
+  end
+
+  def user_non_working_dates_for_year(year)
+    year_range = Date.new(year, 1, 1)..Date.new(year, 12, 31)
+    non_working_times.for_year(year).flat_map do |t|
+      ([t.start_date, year_range.begin].max..[t.end_date, year_range.end].min).to_a
+    end.to_set
+  end
 
   protected
 

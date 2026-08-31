@@ -37,7 +37,7 @@
         [compareWith]="compareByHref"
         style="vertical-align: top;"
         >
-        @for (operator of availableOperators; track operator) {
+        @for (operator of availableOperators; track operator.href) {
           <option
             [textContent]="operator.name"
             [ngValue]="operator"

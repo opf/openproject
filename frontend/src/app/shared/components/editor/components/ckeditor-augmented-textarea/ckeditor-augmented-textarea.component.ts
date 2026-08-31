@@ -21,21 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -66,6 +57,13 @@ import { attributeTokenList, ensureId } from 'core-app/shared/helpers/dom-helper
   standalone: false,
 })
 export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected pathHelper = inject(PathHelperService);
+  protected halResourceService = inject(HalResourceService);
+  protected Notifications = inject(ToastService);
+  protected I18n = inject(I18nService);
+  protected states = inject(States);
+
   // Track form submission "in-flight" state per form, to prevent multiple
   // submissions from multiple CKEditor instances on the same form.
   private static inFlight = new WeakMap<HTMLFormElement, boolean>();
@@ -135,14 +133,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private labelClickSubscription:Subscription;
 
-  constructor(
-    readonly elementRef:ElementRef<HTMLElement>,
-    protected pathHelper:PathHelperService,
-    protected halResourceService:HalResourceService,
-    protected Notifications:ToastService,
-    protected I18n:I18nService,
-    protected states:States,
-  ) {
+  constructor() {
     super();
     populateInputsFromDataset(this);
   }
@@ -177,6 +168,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     this.registerFormSubmitListener();
+    this.registerRefreshSyncListener();
   }
 
   private registerFormSubmitListener():void {
@@ -186,9 +178,24 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         this.untilDestroyed(),
       )
       .subscribe((evt:SubmitEvent) => {
+        // Another handler (e.g. require-password-confirmation) already owns this
+        // submit. Still flush editor → textarea so a later confirmed submit has
+        // the latest content, but do not re-submit — Turbo's navigator.submitForm
+        // would bypass that other handler and POST without confirmation.
+        if (evt.defaultPrevented) {
+          this.syncToTextarea();
+          return;
+        }
+
         evt.preventDefault();
         void this.saveForm(evt);
       });
+  }
+
+  private registerRefreshSyncListener():void {
+    fromEvent(this.formElement, 'refresh-on-form-changes:beforeSnapshot')
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.syncToTextarea());
   }
 
   public editorFocused():void {
@@ -216,7 +223,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         (evt.submitter as HTMLInputElement).disabled = false;
       }
 
-      if (this.turboMode && !this.formElement.dataset.action) {
+      // Honor the form's data-turbo="false" even when this component was created
+      // with turboMode (Primer rich_text_area default). Turbo's submitForm skips
+      // the submit event and would bypass other submit interceptors.
+      const turboDisabled = this.formElement.dataset.turbo === 'false';
+      if (this.turboMode && !turboDisabled && !this.formElement.dataset.action) {
         navigator.submitForm(this.formElement, evt?.submitter ?? undefined);
       } else {
         this.formElement.requestSubmit(evt?.submitter);
@@ -224,34 +235,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
       CkeditorAugmentedTextareaComponent.inFlight.delete(this.formElement);
     });
-  }
-
-  private constrainGroupedDropdownToEditorWidth(_editor:ICKEditorInstance) {
-    const host = this.elementRef.nativeElement;
-
-    const editorWidth = () => {
-      const editorEl = host.querySelector<HTMLElement>('.ck-editor') ?? host;
-      return Math.floor(editorEl.getBoundingClientRect().width);
-    };
-
-    const apply = () => {
-      const width = editorWidth();
-
-      const panels = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          '.ck.ck-dropdown__panel'
-        )
-      );
-
-      for (const panel of panels) {
-        panel.style.maxWidth = `${width - 8}px`;
-
-      }
-    };
-
-    fromEvent(host, 'click')
-      .pipe(this.untilDestroyed())
-      .subscribe(() => setTimeout(apply));
   }
 
   public setup(editor:ICKEditorInstance) {
@@ -270,8 +253,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     editor.ui.focusTracker.on('change:isFocused', (_evt:unknown, _name:string, _isFocused:boolean) => {
       this.setLabel();
     });
-    this.constrainGroupedDropdownToEditorWidth(editor);
-
     return editor;
   }
 
@@ -305,7 +286,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-    this.attachments = _.clone((this.halResource as HalResource).attachments.elements);
+    this.attachments = [...(this.halResource as HalResource).attachments.elements];
 
     this
       .states
@@ -316,11 +297,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         filter((resource) => !!resource),
       )
       .subscribe((resource:HalResource&{ attachments:AttachmentCollectionResource }) => {
-        const missingAttachments = _.differenceBy(
-          this.attachments,
-          resource.attachments.elements,
-          (attachment:HalResource) => attachment.id,
-        );
+        const presentIds = new Set<string|null>(resource.attachments.elements.map((other:HalResource) => other.id));
+        const missingAttachments = this.attachments.filter((attachment:HalResource) => !presentIds.has(attachment.id));
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
@@ -329,7 +307,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
           editor.model.fire('op:attachment-removed', removedUrls);
         }
 
-        this.attachments = _.clone(resource.attachments.elements);
+        this.attachments = [...resource.attachments.elements];
       });
   }
 

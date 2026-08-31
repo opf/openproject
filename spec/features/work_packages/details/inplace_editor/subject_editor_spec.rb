@@ -54,11 +54,10 @@ RSpec.describe "subject inplace editor", :js, :selenium do
       field.set_value too_long
       field.submit_by_enter
 
+      notification.expect_error("Subject is too long (maximum is 255 characters)")
       field.expect_error
       field.expect_active!
       expect(field.input_element.value).to eq(too_long)
-
-      notification.expect_error("Subject is too long (maximum is 255 characters)")
     end
 
     context "when save" do
@@ -80,6 +79,12 @@ RSpec.describe "subject inplace editor", :js, :selenium do
 
   context "with conflicting modification" do
     it "shows a conflict when modified elsewhere" do
+      # Ensure the frontend has loaded the WP at its original lockVersion before we
+      # modify it externally. Otherwise the GET /api/v3/work_packages/:id may resolve
+      # *after* `save!` and cache the already-incremented lockVersion, in which case
+      # activating the editor would not produce a 409.
+      field.expect_state_text(work_package.subject)
+
       work_package.subject = "Some other subject!"
       work_package.save!
 

@@ -21,15 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Inject,
-  Injectable,
-} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { isVisible } from 'core-app/shared/helpers/dom-helpers';
 
@@ -37,8 +34,8 @@ export const ANIMATION_RATE_MS = 100;
 
 @Injectable({ providedIn: 'root' })
 export class TopMenuService {
-  constructor(@Inject(DOCUMENT) private document:Document) {
-  }
+  private document = inject<Document>(DOCUMENT);
+
 
   register():void {
     this.skipContentClickListener();

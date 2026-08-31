@@ -49,8 +49,10 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::AgendaItemDuration
   register_journal_formatter OpenProject::JournalFormatter::AgendaItemPosition
   register_journal_formatter OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter OpenProject::JournalFormatter::AllocatedTime
   register_journal_formatter OpenProject::JournalFormatter::Attachment
   register_journal_formatter OpenProject::JournalFormatter::Cause
+  register_journal_formatter OpenProject::JournalFormatter::CustomComment
   register_journal_formatter OpenProject::JournalFormatter::CustomField
   register_journal_formatter OpenProject::JournalFormatter::Diff
   register_journal_formatter OpenProject::JournalFormatter::FileLink
@@ -58,12 +60,15 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::MeetingStartTime
   register_journal_formatter OpenProject::JournalFormatter::MeetingState
   register_journal_formatter OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter OpenProject::JournalFormatter::ParticipantChange
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
+  register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter OpenProject::JournalFormatter::TargetVersions
   register_journal_formatter OpenProject::JournalFormatter::Template
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryNamedAssociation
@@ -77,26 +82,40 @@ class Journal < ApplicationRecord
                  %i[
                    type
                    feature
+                   import_history
                    work_package_id
                    changed_days
                    status_name
                    status_id
                    status_changes
+                   meeting_id
+                   source_meeting_id
                  ],
                  prefix: true
-  VALID_CAUSE_TYPES = %w[
+
+  MEETING_CAUSE_TYPES = %w[
+    meeting_agenda_item_added
+    meeting_agenda_item_removed
+    meeting_agenda_item_moved
+    meeting_agenda_item_discussed
+    meeting_outcome_recorded
+  ].freeze
+
+  VALID_CAUSE_TYPES = (%w[
     default_attribute_written
+    import
     progress_mode_changed_to_status_based
     status_changed
     system_update
     total_percent_complete_mode_changed_to_work_weighted_average
     work_package_children_changed_times
     work_package_parent_changed_times
+    work_package_parent_deleted
     work_package_predecessor_changed_times
     work_package_related_changed_times
     work_package_duplicate_closed
     working_days_changed
-  ].freeze
+  ] + MEETING_CAUSE_TYPES).freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
@@ -107,10 +126,20 @@ class Journal < ApplicationRecord
   belongs_to :data, polymorphic: true, dependent: :destroy
 
   has_many :agenda_item_journals, class_name: "Journal::MeetingAgendaItemJournal", dependent: :delete_all
+  has_many :participant_journals, class_name: "Journal::MeetingParticipantJournal", dependent: :delete_all
   has_many :attachable_journals, class_name: "Journal::AttachableJournal", dependent: :delete_all
   has_many :customizable_journals, class_name: "Journal::CustomizableJournal", dependent: :delete_all
+  has_many :custom_comment_journals, class_name: "Journal::CustomCommentJournal", dependent: :delete_all
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
+  has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
+  # Row lifecycle is owned by work_package_version_journals above.
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :target_version_journals,
+           -> { where(kind: "target") },
+           class_name: "Journal::WorkPackageVersionJournal",
+           inverse_of: :journal
+  # rubocop:enable Rails/HasManyOrHasOneDependent
 
   has_many :notifications, dependent: :destroy
 
@@ -157,15 +186,15 @@ class Journal < ApplicationRecord
 
   def attachments_visible?(user = User.current)
     if internal?
-      super && user.allowed_in_project?(:view_internal_comments, project)
+      journable.attachments_visible?(user) && user.allowed_in_project?(:view_internal_comments, project)
     else
-      super
+      journable.attachments_visible?(user)
     end
   end
 
   def visible?(user = User.current)
     if internal?
-      user.allowed_in_project?(:view_internal_comments, project)
+      journable.visible?(user) && user.allowed_in_project?(:view_internal_comments, project)
     else
       journable.visible?(user)
     end
@@ -219,12 +248,6 @@ class Journal < ApplicationRecord
     end
   end
 
-  private
-
-  def has_file_links?
-    journable.respond_to?(:file_links)
-  end
-
   def predecessor
     return @predecessor if defined?(@predecessor)
 
@@ -237,5 +260,11 @@ class Journal < ApplicationRecord
                        .order(version: :desc)
                        .first
                    end
+  end
+
+  private
+
+  def has_file_links?
+    journable.respond_to?(:file_links)
   end
 end

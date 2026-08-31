@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ko:
   js:
     two_factor_authentication:
       errors:
-        aborted: "인증이 취소되었습니다. 다시 시도해 주세요."
+        aborted: 인증이 취소되었습니다. 다시 시도해 주세요.

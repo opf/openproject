@@ -33,7 +33,7 @@ class Grids::WidgetController < Grids::BaseInOptionalProjectController
   include OpTurbo::FlashStreamHelper
 
   def show
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   private

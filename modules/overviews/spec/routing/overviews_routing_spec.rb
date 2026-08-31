@@ -39,19 +39,11 @@ RSpec.describe Overviews::OverviewsController do
         )
     end
 
-    context "with the feature flag enabled", with_flag: { new_project_overview: true } do
-      it do
-        expect(get("/projects/my-project/dashboard"))
-          .to route_to(
-            controller: "overviews/overviews", action: "dashboard", project_id: "my-project"
-          )
-      end
-    end
-
-    context "with the feature flag disabled", with_flag: { new_project_overview: false } do
-      it do
-        expect(get("/projects/my-project/dashboard")).not_to be_routable
-      end
+    it do
+      expect(get("/projects/my-project/dashboard"))
+        .to route_to(
+          controller: "overviews/overviews", action: "dashboard", project_id: "my-project"
+        )
     end
 
     it do
@@ -79,19 +71,11 @@ RSpec.describe Overviews::OverviewsController do
         )
     end
 
-    context "with the feature flag enabled", with_flag: { new_project_overview: true } do
-      it do
-        expect(get(dashboard_project_overview_path("my-project")))
-          .to route_to(
-            controller: "overviews/overviews", action: "dashboard", project_id: "my-project"
-          )
-      end
-    end
-
-    context "with the feature flag disabled", with_flag: { new_project_overview: false } do
-      it do
-        expect(get(dashboard_project_overview_path("my-project"))).not_to be_routable
-      end
+    it do
+      expect(get(dashboard_project_overview_path("my-project")))
+        .to route_to(
+          controller: "overviews/overviews", action: "dashboard", project_id: "my-project"
+        )
     end
 
     it do

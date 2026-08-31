@@ -15,7 +15,7 @@ In OpenProject, editable resources such as work packages or projects can be high
 
 Schema objects are the dictionary for the frontend application to identify the available properties of a resource.
 
-*Schemas contain:*
+_Schemas contain:_
 
 - a (possibly) localized name
 - The value type of the defined attributes

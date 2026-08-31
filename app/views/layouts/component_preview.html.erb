@@ -32,20 +32,25 @@ See COPYRIGHT and LICENSE files for more details.
   <%= stylesheet_link_tag "/highlighting/styles/#{Time.current.iso8601}",
                           media: :all,
                           skip_pipeline: true %>
+  <%# Maps Primer primitives (e.g. --body-background) the same way the app layout does, so
+      components relying on those variables render faithfully in the preview. %>
+  <%= render partial: "custom_styles/primer_color_mapping" %>
 </head>
 <%
   styles = []
   min_height = params.dig("lookbook", "display", "min_height")
   styles << "min-height: #{min_height}" if min_height.present?
+
+  # A preview can force a color mode via `@display color_mode dark`. Without it the preview
+  # follows the OS ("auto"). Forcing is the only way to exercise styles anchored on the literal
+  # `[data-color-mode="dark"]` selector, since nothing resolves "auto" to a concrete value here.
+  forced_dark = params.dig("lookbook", "display", "color_mode") == "dark"
+  color_mode_data = forced_dark ? { "color-mode": "dark", "dark-theme": "dark" } : { "color-mode": "auto", "light-theme": "light" }
 %>
 
 <%= content_tag :body,
                 class: "viewcomponent-preview",
-                data: {
-                  controller: "application",
-                  "color-mode": "auto",
-                  "light-theme": "light"
-                },
+                data: { controller: "application" }.merge(color_mode_data),
                 style: styles.join(";") do %>
   <section class="viewcomponent-preview--content">
     <%= yield %>

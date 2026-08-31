@@ -93,8 +93,9 @@ ja:
           news:
             item_0:
               title: デモプロジェクトへようこそ
-              summary: |
-                このモジュールでは、プロジェクトのニュースをチームメンバーに伝えることができます。
+              summary: 'このモジュールでは、プロジェクトのニュースをチームメンバーに伝えることができます。
+
+                '
               description: 実際のニュース
           categories:
             item_0: カテゴリ1（プロジェクト設定で変更）
@@ -403,7 +404,9 @@ ja:
                     *   Bring some drinks, snacks and your smile
         demo-bim-project:
           name: "(デモ) BIM プロジェクト"
-          status_explanation: "すべてのタスクと子プロジェクトは予定通りです。\n関係者はタスクを認知しています。システムは完全にセットアップされています。"
+          status_explanation: |-
+            すべてのタスクと子プロジェクトは予定通りです。
+            関係者はタスクを認知しています。システムは完全にセットアップされています。
           description: これはデモBIMプロジェクトのゴールの概要です。
           news:
             item_0:

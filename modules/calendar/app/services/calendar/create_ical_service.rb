@@ -81,7 +81,7 @@ module Calendar
     end
 
     def summary_value(work_package)
-      work_package.name
+      strip_tags work_package.name
     end
 
     def dtstamp_value(work_package)

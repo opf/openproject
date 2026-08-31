@@ -1,7 +1,37 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
+  Input,
   Injector,
   OnInit,
   QueryList,
@@ -17,8 +47,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Board, BoardWidgetOption } from 'core-app/features/boards/board/board';
@@ -37,12 +66,13 @@ import {
   BoardActionsRegistryService,
 } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  WorkPackageStatesInitializationService,
-} from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { States } from 'core-app/core/states/states.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
+  selector: 'board-list-container',
   templateUrl: './board-list-container.component.html',
   styleUrls: ['./board-list-container.component.sass'],
   providers: [
@@ -52,6 +82,24 @@ import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
   standalone: false,
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly state = inject(StateService);
+  readonly toastService = inject(ToastService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly boardComponent = inject(BoardPartitionedPageComponent);
+  readonly BoardList = inject(BoardListsService);
+  readonly boardActionRegistry = inject(BoardActionsRegistryService);
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly Boards = inject(BoardService);
+  readonly boardListCrossSelectionService = inject(BoardListCrossSelectionService);
+  readonly apiv3Service = inject(ApiV3Service);
+  readonly QueryUpdated = inject(QueryUpdatedService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
+  @Input() boardId:string;
   text = {
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
@@ -66,13 +114,18 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   /** Container reference */
   public _container:HTMLElement;
 
+  /** Shared sortable root spanning all board lists, for cross-column card drags */
+  @ViewChild(OpSortableListsDirective) private sortableRoot?:OpSortableListsDirective;
+
   @ViewChild('container')
-  set container(v:ElementRef|undefined) {
+  set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
       if (this._container === undefined) {
-        this.Drag.addScrollContainer(v.nativeElement);
+        // Deferred one microtask so `sortableRoot` (same element, resolved in
+        // the same query pass) is guaranteed to be set before this runs.
+        void Promise.resolve().then(() => this.sortableRoot?.addScrollContainer(v.nativeElement));
       }
       setTimeout(() => (this._container = v.nativeElement));
     }
@@ -89,34 +142,12 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   showHiddenListWarning = false;
 
-  available = this.Banner.allowsTo('board_view');
-
   private currentQueryUpdatedMonitoring:Subscription;
 
-  constructor(
-readonly I18n:I18nService,
-    readonly state:StateService,
-    readonly toastService:ToastService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly boardComponent:BoardPartitionedPageComponent,
-    readonly BoardList:BoardListsService,
-    readonly boardActionRegistry:BoardActionsRegistryService,
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly Boards:BoardService,
-    readonly Banner:BannersService,
-    readonly boardListCrossSelectionService:BoardListCrossSelectionService,
-    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly Drag:DragAndDropService,
-    readonly apiv3Service:ApiV3Service,
-    readonly QueryUpdated:QueryUpdatedService,
-) {
-    super();
-  }
+  private readonly wpStates = inject(States);
 
   ngOnInit():void {
-    const id:string = this.state.params.board_id.toString();
+    const id:string = this.boardId || this.state.params.board_id?.toString();
     this.board$ = this
       .apiV3Service
       .boards
@@ -126,10 +157,6 @@ readonly I18n:I18nService,
         tap((board) => this.setupQueryUpdatedMonitoring(board)),
       );
 
-    this.board$.subscribe((board) => {
-      this.available = this.Banner.allowsTo('board_view') || board.isFree;
-    });
-
     this.Boards.currentBoard$.next(id);
 
     this.boardListCrossSelectionService
@@ -137,10 +164,13 @@ readonly I18n:I18nService,
       .pipe(
         this.untilDestroyed(),
         filter((state) => state.focusedWorkPackage !== null),
-        filter(() => this.state.includes(`${this.state.current.data.baseRoute}.details`)),
+        filter(() => window.location.pathname.includes('/details/')),
       ).subscribe((selection) => {
-      // Update split screen
-        this.state.go(`${this.state.current.data.baseRoute}.details`, { workPackageId: selection.focusedWorkPackage });
+        // Update split screen
+        const routingId = resolveRoutingId(this.wpStates, selection.focusedWorkPackage!);
+        const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, routingId);
+        const search = window.location.search;
+        Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
       });
   }
 
@@ -241,7 +271,7 @@ readonly I18n:I18nService,
         const { filterName } = service;
         const idFilterName = `${filterName}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
-        const instance = _.find(options.filters, (f) => !!f[filterName] || !!f[idFilterName]);
+        const instance = options.filters.find((f) => !!f[filterName] || !!f[idFilterName]);
 
         if (instance) {
           return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;

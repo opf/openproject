@@ -27,8 +27,8 @@
 #++
 
 class HourlyRate < Rate
-  validates_uniqueness_of :valid_from, scope: %i[user_id project_id]
-  validates_presence_of :user_id, :project_id, :valid_from
+  validates :valid_from, uniqueness: { scope: %i[user_id project_id] }
+  validates :user_id, :project_id, :valid_from, presence: true
   validate :change_of_user_only_on_first_creation
 
   def previous(reference_date = valid_from)
@@ -44,7 +44,7 @@ class HourlyRate < Rate
       .first
   end
 
-  def self.history_for_user(usr)
+  def self.history_for_user(usr) # rubocop:disable Metrics/AbcSize
     projects_with_costs = Project.has_module(:costs)
                                         .active
                                         .visible
@@ -61,8 +61,14 @@ class HourlyRate < Rate
 
     rates = {}
 
+    # pre-cache projects on the user
+    usr.projects.load_target
+
     projects_with_costs.each do |project|
-      rates[project] = rates_by_project.fetch(project, [])
+      project_rates = rates_by_project.fetch(project, [])
+      next if project_rates.empty? && usr.projects.exclude?(project)
+
+      rates[project] = project_rates
     end
 
     # FIXME: What permissions to apply here?

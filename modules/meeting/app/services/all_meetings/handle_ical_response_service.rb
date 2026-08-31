@@ -62,7 +62,7 @@ module AllMeetings
 
     def handle_ical_event(event) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
       uid = event.uid&.value_ical
-      recurrence_id = event.recurrence_id&.to_time
+      recurrence_start_time = event.recurrence_id&.to_time
 
       # First check if the UID belongs to a single meeeting
       meeting = Meeting.visible(user).find_by(uid:)
@@ -82,37 +82,40 @@ module AllMeetings
         return ServiceResult.failure(errors:)
       end
 
-      if recurrence_id.nil?
+      if recurrence_start_time.nil?
         # No recurrence, so update participation on the template
         update_participation_status(recurring_meeting.template, event)
 
         # Also update all instantiated meetings that still need a response
-        instantiated_scheduled_meetings_awaiting_responses(recurring_meeting).each do |scheduled_meeting|
-          update_participation_status(scheduled_meeting.meeting, event)
+        instantiated_scheduled_meetings_awaiting_responses(recurring_meeting).each do |meeting|
+          update_participation_status(meeting, event)
         end
 
         return ServiceResult.success
       end
 
-      # We do have a recurrence ID, so we need to find the scheduled meeting
-      scheduled_meeting = recurring_meeting.scheduled_meetings.find_by(start_time: recurrence_id)
+      # We do have a recurrence ID, so we need to find the occurrence meeting
+      occurrence = recurring_meeting.meetings.not_templated.find_by(recurrence_start_time:)
 
-      if scheduled_meeting
-        # We have an instantiated meeting, so update that one
-        update_participation_status(scheduled_meeting.meeting, event)
+      if occurrence && !occurrence.cancelled?
+        # We have an instantiated (non-cancelled) meeting, update that one
+        update_participation_status(occurrence, event)
       else
         # No instantiated meeting, create or update an interim response
         response = RecurringMeetingInterimResponse.find_or_initialize_by(
           user: user,
           recurring_meeting: recurring_meeting,
-          start_time: recurrence_id
+          start_time: recurrence_start_time
         )
 
         attendee_from_event = attendee(event)
-        response.participation_status = partstat(attendee_from_event)
-        response.comment = comment(attendee_from_event, event)
+        status = partstat(attendee_from_event)
 
-        response.save!
+        if status.present?
+          response.participation_status = status
+          response.comment = comment(attendee_from_event, event)
+          response.save!
+        end
       end
 
       ServiceResult.success
@@ -130,11 +133,13 @@ module AllMeetings
     end
 
     def attendee(event)
-      event.attendee.find { it.value_ical == "mailto:#{user.mail}" }
+      event.attendee.find { it.value_ical.downcase == "mailto:#{user.mail}" }
     end
 
     def partstat(attendee)
-      attendee.ical_params["partstat"].first.downcase
+      return nil if attendee.blank?
+
+      attendee.ical_params["partstat"]&.first&.downcase
     end
 
     def comment(attendee, event)
@@ -151,10 +156,12 @@ module AllMeetings
     def update_participation_status(meeting, event)
       attendee_from_event = attendee(event)
 
-      if attendee_from_event.present?
+      status = partstat(attendee_from_event)
+
+      if status.present?
         participant = meeting.participants.find_by!(user: user)
         participant.update!(
-          participation_status: partstat(attendee_from_event),
+          participation_status: status,
           comment: comment(attendee_from_event, event)
         )
       else
@@ -165,15 +172,16 @@ module AllMeetings
 
     def instantiated_scheduled_meetings_awaiting_responses(recurring_meeting)
       recurring_meeting
-      .scheduled_meetings
-      .joins(meeting: :participants)
-      .includes(meeting: :participants)
-      .where(meetings: {
-               meeting_participants: {
+        .meetings
+        .not_templated
+        .not_cancelled
+        .where.not(recurrence_start_time: nil)
+        .joins(:participants)
+        .includes(:participants)
+        .where(meeting_participants: {
                  user_id: user.id,
                  participation_status: MeetingParticipant.participation_statuses[:needs_action]
-               }
-             })
+               })
     end
   end
 end

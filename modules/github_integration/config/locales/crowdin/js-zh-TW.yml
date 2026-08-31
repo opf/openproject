@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 zh-TW:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Pull 請求"
-        copy_menu:
-          label: Git 代碼段
-          description: 將 Git 代碼段複製到剪貼板
-        git_actions:
-          branch_name: 分支名稱
-          commit_message: 提交訊息
-          cmd: 以空白提交建立分支
-          title: Git 快速代碼段
-          copy_success: '✅ 已複製!'
-          copy_error: '❌ 複製失敗！'
-      tab_prs:
-        empty: '尚未鏈接任何拉取請求。請使用拉取請求描述中的代碼 <code>OP#%{wp_id}</code> 鏈接現有拉取請求，或者創建新的拉取請求。'
       github_actions: 操作
       pull_requests:
-        message: "由 %{github_user_link} 創作的 %{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{pr_state}。"
         merged_message: "%{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{github_user_link} %{pr_state}。"
-        referenced_message: "由 %{github_user_link} 所建立的 %{repository_link} 的合併請求 #%{pr_number} %{pr_link} 參考了此工作套件。"
+        message: '由 %{github_user_link} 創作的 %{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{pr_state}。'
+        referenced_message: '由 %{github_user_link} 所建立的 %{repository_link} 的合併請求 #%{pr_number} %{pr_link} 參考了此工作套件。'
         states:
-          opened: '已開啟'
-          closed: '已關閉'
-          draft: '草稿'
-          merged: '已合併'
-          ready_for_review: '標記為已準備審核'
+          closed: 已關閉
+          draft: 草稿
+          merged: 已合併
+          opened: 已開啟
+          ready_for_review: 標記為已準備審核
+      tab_header:
+        copy_menu:
+          description: 將 Git 代碼段複製到剪貼板
+          label: Git 代碼段
+        git_actions:
+          branch_name: 分支名稱
+          cmd: 以空白提交建立分支
+          commit_message: 提交訊息
+          copy_error: "❌ 複製失敗！"
+          copy_success: "✅ 已複製!"
+          title: Git 快速代碼段
+        title: Pull 請求
+      tab_prs:
+        empty: 尚未鏈接任何拉取請求。請使用拉取請求描述中的代碼 <code>OP#%{wp_id}</code> 鏈接現有拉取請求，或者創建新的拉取請求。
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

@@ -1,46 +1,51 @@
-#English strings go here
+---
 hu:
-  plugin_openproject_boards:
-    name: "OpenProject Boards"
-    description: "Provides board views."
-  permission_show_board_views: "Táblák megtekintése"
-  permission_manage_board_views: "Táblák kezelése"
-  project_module_board_view: "Táblák"
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        other: Boards
+  boards:
+    board_type_attributes:
+      assignee: Megbízott
+      basic: Alapszintű
+      status: Kanban
+      subproject: Alprojekt
+      subtasks: Szülő-gyerek
+      version: Verzió
+    board_type_descriptions:
+      assignee: 'Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+
+        '
+      basic: 'Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
+
+        '
+      status: 'Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
+
+        '
+      subproject: 'Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+
+        '
+      subtasks: 'Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
+
+        '
+      version: 'Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+
+        '
+    board_types:
+      action: Akció tábla (%{attribute})
+      free: Alapszintű
+    label_board: Tábla
+    label_board_type: Tábla típus
+    label_boards: Táblák
+    label_create_new_board: Új tábla létrehozása
   ee:
     upsell:
       board_view:
-        description: 'Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.'
-  boards:
-    label_board: "Tábla"
-    label_boards: "Táblák"
-    label_create_new_board: "Új tábla létrehozása"
-    label_board_type: "Tábla típus"
-    board_types:
-      free: Alapszintű
-      action: "Akció tábla (%{attribute})"
-    board_type_attributes:
-      assignee: Megbízott
-      status: Kanban
-      version: Verzió
-      subproject: Alprojekt
-      subtasks: Szülő-gyerek
-      basic: Alapszintű
-    board_type_descriptions:
-      basic: >
-        Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
-
-      status: >
-        Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
-
-      assignee: >
-        Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
-
-      version: >
-        Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
-
-      subproject: >
-        Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
-
-      subtasks: >
-        Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
-
+        description: Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.
+  permission_manage_board_views: Táblák kezelése
+  permission_show_board_views: Táblák megtekintése
+  plugin_openproject_boards:
+    description: Tábla nézeteket biztosít.
+    name: OpenProject táblák
+  project_module_board_view: Táblák

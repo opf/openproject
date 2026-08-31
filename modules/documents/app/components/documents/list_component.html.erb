@@ -55,8 +55,8 @@
           end
         end
 
-        component.with_row do
-          helpers.pagination_links_full(documents)
+        component.with_row(py: 0) do
+          helpers.pagination_links_full(documents, params: { action: "index" })
         end
       end
     else
@@ -70,11 +70,11 @@
             scheme: :primary,
             label: I18n.t(:label_document_new),
             tag: :a,
-            data: { turbo_method: :post },
+            data: { turbo_method: :post, controller: "disable-when-clicked" },
             href: project_documents_path(project)
           ) do |button|
             button.with_leading_visual_icon(icon: :plus)
-            I18n.t("activerecord.models.document")
+            Document.model_name.human
           end
         end
       end

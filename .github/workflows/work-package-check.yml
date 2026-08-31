@@ -1,0 +1,105 @@
+name: Check work package version and Enterprise plan
+
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write # to comment on the PR
+
+jobs:
+  work-package-check:
+    # Skip automation PRs (dependabot, copilot, the release merge PRs opened by
+    # openprojectci) as they never link a work package.
+    if: >-
+      github.event.pull_request.draft == false
+      && github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+
+      - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
+        id: work-package-check
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: ./script/ci/work_package_check.sh
+
+      - name: Add comment if no work package is linked
+        if: steps.work-package-check.outputs.no_ticket == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: version-mismatch-comment
+          message: |
+            > [!WARNING]
+            > This pull request does not link an OpenProject work package.
+
+            Please add a link to the work package in the description, or reference it in the
+            title in square brackets, e.g. `[SLUG-123] My title here`.
+
+      - name: Add comment if versions differ
+        if: steps.work-package-check.outputs.version_mismatch == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: version-mismatch-comment
+          message: |
+            > [!CAUTION]
+            > The provided work package version does not match the core version
+
+            Details:
+
+             - Work package URL: ${{ steps.work-package-check.outputs.wp_url }}
+             - Work package version: ${{steps.work-package-check.outputs.wp_version}}
+             - Core version: ${{steps.work-package-check.outputs.core_version}}
+
+            Please make sure that:
+
+             - The work package version OR your pull request target branch is correct
+
+      - name: Add comment if Enterprise Plan is missing
+        if: steps.work-package-check.outputs.enterprise_plan_missing == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: enterprise-plan-missing-comment
+          message: |
+            > [!CAUTION]
+            > The Enterprise plan field is not set on the work package
+
+            Details:
+
+             - Work package URL: ${{ steps.work-package-check.outputs.wp_url }}
+
+            Please make sure that:
+
+             - The work package Enterprise plan field is set
+
+      - name: Version check passed
+        if: |
+          steps.work-package-check.outputs.behind_feature_flag == 'true' ||
+          (steps.work-package-check.outputs.version_mismatch != 'true' && steps.work-package-check.outputs.no_ticket != 'true')
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: version-mismatch-comment
+          delete: true
+
+      - name: Enterprise plan check passed
+        if: |
+          steps.work-package-check.outputs.enterprise_plan_missing != 'true'
+          && steps.work-package-check.outputs.no_ticket != 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: enterprise-plan-missing-comment
+          delete: true

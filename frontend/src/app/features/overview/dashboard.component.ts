@@ -21,12 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, Input, OnInit } from '@angular/core';
 import { GridPageComponent } from 'core-app/shared/components/grids/grid/page/grid-page.component';
 import { GRID_PROVIDERS } from 'core-app/shared/components/grids/grid/grid.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
@@ -34,7 +34,7 @@ import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openpro
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 // The OnPush change detection strategy makes the page very slow, especially removing widgets. See #66753
-// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+// TODO: Investigate whether this can be migrated to OnPush after zoneless testing.
 @Component({
   templateUrl: '../../shared/components/grids/grid/page/grid-page.component.html',
   styleUrls: ['../../shared/components/grids/grid/page/grid-page.component.sass'],
@@ -44,11 +44,13 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   ],
   providers: GRID_PROVIDERS,
   standalone: true,
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class DashboardComponent extends GridPageComponent implements OnInit {
   @Input() projectIdentifier:string;
 
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   ngOnInit() {
     populateInputsFromDataset(this);

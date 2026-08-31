@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 it:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Richiesta di pull"
-        copy_menu:
-          label: Snippet su Git
-          description: Copia snippet su Git negli appunti
-        git_actions:
-          branch_name: Nome branch
-          commit_message: Messaggio del commit
-          cmd: Crea branch con commit vuoto
-          title: Snippet rapidi per Git
-          copy_success: '✅ Copiato!'
-          copy_error: '❌ Copia fallita!'
-      tab_prs:
-        empty: 'Non c''è ancora nessuna richiesta di pull collegata. Collega una PR esistente usando il codice <code>OP#%{wp_id}</code> nella descrizione della PR o creane una nuova.'
       github_actions: Azioni
       pull_requests:
-        message: "La richiesta pull #%{pr_number} %{pr_link} per %{repository_link} creata da %{github_user_link} è ora in stato %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} per %{repository_link} %{pr_state} da %{github_user_link}."
-        referenced_message: "La richiesta pull #%{pr_number} %{pr_link} per %{repository_link} creata da %{github_user_link} ha fatto riferimento a questa macro-attività."
+        merged_message: 'Pull request #%{pr_number} %{pr_link} per %{repository_link} %{pr_state} da %{github_user_link}.'
+        message: 'La richiesta pull #%{pr_number} %{pr_link} per %{repository_link} creata da %{github_user_link} è ora in stato %{pr_state}.'
+        referenced_message: 'La richiesta pull #%{pr_number} %{pr_link} per %{repository_link} creata da %{github_user_link} ha fatto riferimento a questa macro-attività.'
         states:
-          opened: 'è stata aperta'
-          closed: 'chiuso'
-          draft: 'è stata abbozzata'
-          merged: 'è stata unita'
-          ready_for_review: 'è stata contrassegnata pronta alla revisione'
+          closed: chiuso
+          draft: è stata abbozzata
+          merged: è stata unita
+          opened: è stata aperta
+          ready_for_review: è stata contrassegnata pronta alla revisione
+      tab_header:
+        copy_menu:
+          description: Copia snippet su Git negli appunti
+          label: Snippet su Git
+        git_actions:
+          branch_name: Nome branch
+          cmd: Crea branch con commit vuoto
+          commit_message: Messaggio del commit
+          copy_error: "❌ Copia fallita!"
+          copy_success: "✅ Copiato!"
+          title: Snippet rapidi per Git
+        title: Richiesta di pull
+      tab_prs:
+        empty: Non c'è ancora nessuna richiesta di pull collegata. Collega una PR esistente usando il codice <code>OP#%{wp_id}</code> nella descrizione della PR o creane una nuova.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

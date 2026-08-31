@@ -33,6 +33,8 @@ class Query < ApplicationRecord
   include Timestamps
   include Highlighting
   include ManualSorting
+  include DeprecatedVersionSelect
+  include DeprecatedVersionFilter
   include Queries::Filters::AvailableFilters
 
   belongs_to :project
@@ -63,6 +65,7 @@ class Query < ApplicationRecord
   validate :validate_timestamps
 
   include Scopes::Scoped
+
   scopes :visible,
          :having_views
 
@@ -189,7 +192,7 @@ class Query < ApplicationRecord
     filter.operator = operator
     filter.values = values
 
-    filters << filter
+    filters << filter if filters.none? { it.field.to_s == filter.field.to_s }
   end
 
   def filter_for(field)
@@ -208,6 +211,25 @@ class Query < ApplicationRecord
     filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
+  # Mirrors `Queries::BaseQuery#find_active_filter` so that consumers built
+  # on top of the modern query API (e.g. `Filters::FilterFormComponent`) can ask any
+  # query — including this legacy work-package one — for its active filter
+  # by name. Signature kept identical to BaseQuery's (symbol arg in, filter
+  # or nil out).
+  def find_active_filter(name)
+    filters.detect { |f| f.name == name }
+  end
+
+  # The manual-sort filter is added programmatically when the user drags
+  # work packages to reorder them — it has no operator/value UI of its own
+  # (type `:empty_value`), so it doesn't belong in the picker that
+  # `Filters::FilterFormComponent` builds. Mirrors how
+  # `Queries::Filters::AvailableFilters#available_advanced_filters` already
+  # excludes the inline `name_and_identifier` quick-filter on projects.
+  def available_advanced_filters
+    super.grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+  end
+
   def normalized_name
     name.parameterize.underscore
   end
@@ -223,10 +245,12 @@ class Query < ApplicationRecord
   end
 
   def self.available_columns(project = nil)
-    Queries::Register
-      .selects[self]
-      .map { |col| col.instances(project) }
-      .flatten
+    RequestStore.fetch(:"available_columns_#{project&.id}") do
+      Queries::Register
+        .selects[self]
+        .map { |col| col.instances(project) }
+        .flatten
+    end
   end
 
   def self.displayable_columns
@@ -258,7 +282,7 @@ class Query < ApplicationRecord
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
     column_sortability = sortable_columns.inject({}) do |h, column|
-      h[column.name.to_s] = column.sortable
+      h[column.name.to_s] = column.sortable(self)
       h
     end
 
@@ -272,7 +296,7 @@ class Query < ApplicationRecord
 
   def columns
     column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
+                    column_list = normalize_select_names(Setting.work_package_list_default_columns)
                     # Adds the project column by default for cross-project lists
                     column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list
@@ -390,6 +414,7 @@ class Query < ApplicationRecord
   def work_package_journals(options = {}) # rubocop:disable Metrics/AbcSize
     Journal.includes(:user)
            .where(journable_type: WorkPackage.to_s, restricted: false)
+           .without_meeting_causes
            .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
            .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
            .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
@@ -468,7 +493,9 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.select! do |criteria|
+    # Assigns rather than mutating: `sort_criteria` no longer hands out the
+    # stored array itself.
+    self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end
   end

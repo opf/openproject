@@ -1,0 +1,99 @@
+# Schema: MeetingAgendaItemModel
+---
+type: object
+required:
+  - _type
+  - id
+  - title
+  - itemType
+  - position
+  - createdAt
+  - updatedAt
+properties:
+  _type:
+    type: string
+    enum:
+      - MeetingAgendaItem
+  id:
+    type: integer
+    description: Identifier of this agenda item
+    minimum: 1
+  title:
+    type: string
+    description: The agenda item's title. Required for simple items.
+  notes:
+    $ref: "./formattable.yml"
+  position:
+    type: integer
+    description: The position of the agenda item within its section.
+  durationInMinutes:
+    type:
+      - integer
+      - "null"
+    description: The agenda item's duration in minutes.
+  itemType:
+    type: string
+    description: |-
+      The type of this agenda item. Possible values:
+
+      - *simple*: a simple text agenda item
+      - *work_package*: an agenda item linked to a work package
+    enum:
+      - simple
+      - work_package
+  lockVersion:
+    type: integer
+    description: The version of the item as used for optimistic locking.
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation.
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change.
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This agenda item
+
+              **Resource**: MeetingAgendaItem
+      meeting:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The meeting this agenda item belongs to
+
+              **Resource**: Meeting
+      author:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user who created this agenda item
+
+              **Resource**: User
+      presenter:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user presenting this agenda item
+
+              **Resource**: User
+      workPackage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The linked work package (for work_package type items)
+
+              **Resource**: WorkPackage
+      section:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The section this agenda item belongs to
+
+              **Resource**: MeetingSection

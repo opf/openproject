@@ -20,75 +20,76 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 pt-PT:
-  attributes:
-    commit: "Confirmar"
-    gitlab: "Identificador do GitLab"
-    gitlab_avatar_url: "URL do Avatar"
-    gitlab_email: "E-mail do GitLab"
-    gitlab_html_url: "URL HTML do GitLab"
-    gitlab_merge_request: "Pedido de fusão"
-    gitlab_name: "Nome do GitLab"
-    gitlab_updated_at: "Atualizado a"
-    gitlab_user_avatar_url: "URL do avatar do GitLab"
-    gitlab_username: "Nome de utilizador do GitLab"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "Detalhes do CI"
       gitlab_merge_request:
-        labels: "Etiquetas"
+        labels: Etiquetas
+      gitlab_pipeline:
+        ci_details: Detalhes do CI
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
+              invalid_schema: 'deve ser um conjunto de hashes com as chaves: cor, título'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Mostrar conteúdo GitLab"
+              invalid_schema: 'deve ser um conjunto de hashes com as chaves: cor, título'
+    models:
+      gitlab_issue:
+        one: Problema do GitLab
+        other: Problemas do GitLab
+      gitlab_merge_request:
+        one: Pedido de fusão do GitLab
+        other: Pedidos de fusão do GitLab
+      gitlab_pipeline:
+        one: Pipeline do GitLab
+        other: Pipelines do GitLab
+      gitlab_user:
+        one: Utilizador GitLab
+        other: Utilizadores GitLab
+  attributes:
+    commit: Commit
+    gitlab: Identificador do GitLab
+    gitlab_avatar_url: URL do Avatar
+    gitlab_email: E-mail do GitLab
+    gitlab_html_url: URL HTML do GitLab
+    gitlab_merge_request: Pedido de fusão
+    gitlab_name: Nome do GitLab
+    gitlab_updated_at: Atualizado a
+    gitlab_user_avatar_url: URL do avatar do GitLab
+    gitlab_username: Nome de utilizador do GitLab
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR aberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_closed_comment: >
-      **MR fechado:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_merged_comment: >
-      **MR fundido:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fundido por [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_reopened_comment: >
-      **MR reaberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
-    note_commit_referenced_comment: >
-      **Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP numa Nota de Confirmação [%{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}):
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **Referenciado em MR:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Comentado em RM:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **Referenciado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Comentado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Referenciado no Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}):
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
-    issue_closed_referenced_comment: >
-      **Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).
-    issue_reopened_referenced_comment: >
-      **Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
-    push_single_commit_comment: >
-      **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **Enviado em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou vários compromissos [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}:
-      %{commit_note}
+    issue_closed_referenced_comment: "**Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR fechado:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR fundido:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fundido por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR aberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR reaberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP numa Nota de Confirmação [%{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Comentado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Referenciado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Comentado em RM:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Referenciado em MR:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Referenciado no Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou vários compromissos [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Enviado em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: Ator do GitLab
+  label_gitlab_integration: Integração no GitLab
+  label_gitlab_webhook_secret: Segredo do webhook
+  permission_show_gitlab_content: Mostrar conteúdo GitLab
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'O utilizador do OpenProject cuja chave API deve ser utilizada para autenticar os pedidos de webhook recebidos. Quando definido, os pedidos autenticados com as credenciais de qualquer outro utilizador são rejeitados. Este utilizador também publica comentários automáticos nos pacotes de trabalho. Quando não definido, a predefinição é o utilizador do sistema.
+
+    '
+  text_gitlab_webhook_secret_info: 'Um token secreto partilhado com o GitLab ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Gitlab-Token em todas as solicitações recebidas, rejeitando cargas que não correspondam. Deixe em branco para ignorar a verificação (não recomendado).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Não está configurado nenhum segredo de webhook. Qualquer solicitação para o ponto de extremidade do webhook do GitLab será aceite sem verificação, o que pode permitir que atores não autorizados simulem eventos. É altamente recomendável definir um segredo.
+
+    '

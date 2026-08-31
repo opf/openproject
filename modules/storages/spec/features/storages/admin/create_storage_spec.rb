@@ -62,8 +62,7 @@ RSpec.describe "Admin Create a new file storage",
         # Page Header
         expect(page).to have_test_selector("storage-new-page-header--title", text: "New Nextcloud storage")
         expect(page).to have_test_selector("storage-new-page-header--description",
-                                           text: "Read our documentation on setting up a Nextcloud file storage " \
-                                                 "integration for more information.")
+                                           text: /setting up a Nextcloud file storage/)
 
         # General information
         expect(page).to have_test_selector("storage-provider-configuration-instructions",
@@ -112,9 +111,6 @@ RSpec.describe "Admin Create a new file storage",
       aggregate_failures "OAuth application" do
         within_test_selector("storage-openproject-oauth-application-form") do
           warning_section = find_test_selector("storage-openproject_oauth_application_warning")
-          expect(warning_section).to have_text("The client secret value will not be accessible again after you close " \
-                                               "this window. Please copy these values into the Nextcloud " \
-                                               "OpenProject Integration settings.")
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "https://example.com/settings/admin/openproject")
 
@@ -306,8 +302,7 @@ RSpec.describe "Admin Create a new file storage",
         # Page Header
         expect(page).to have_test_selector("storage-new-page-header--title", text: "New OneDrive storage")
         expect(page).to have_test_selector("storage-new-page-header--description",
-                                           text: "Read our documentation on setting up a OneDrive " \
-                                                 "file storage integration for more information.")
+                                           text: /setting up a OneDrive file storage/)
 
         # General information
         expect(page).to have_test_selector("storage-provider-configuration-instructions",

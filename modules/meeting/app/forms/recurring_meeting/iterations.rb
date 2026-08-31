@@ -34,7 +34,10 @@ class RecurringMeeting::Iterations < ApplicationForm
       type: :number,
       step: 1,
       max: RecurringMeeting::MAX_ITERATIONS,
-      label: I18n.t("activerecord.attributes.recurring_meeting.iterations")
+      label: I18n.t("activerecord.attributes.recurring_meeting.iterations"),
+      data: {
+        action: "input->recurring-meetings--form#updateFrequencyText"
+      }
     )
   end
 end

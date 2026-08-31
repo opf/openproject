@@ -31,11 +31,14 @@
 class CustomFieldsController < ApplicationController
   include CustomFields::SharedActions # share logic with ProjectCustomFieldsControlller
   include CustomFields::AttributeHelpTextActions
+
   layout "admin"
 
   # rubocop:disable Rails/LexicallyScopedActionFilter
   before_action :require_admin
-  before_action :find_custom_field, only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text update_attribute_help_text)
+  before_action :find_custom_field,
+                only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text update_attribute_help_text
+                         list_items)
   before_action :prepare_custom_option_position, only: %i(update create)
   before_action :find_custom_option, only: :delete_option
   before_action :validate_enterprise_token, only: %i(create)
@@ -45,10 +48,11 @@ class CustomFieldsController < ApplicationController
   def index
     # loading wp cfs exclicity to allow for eager loading
     @custom_fields_by_type = CustomField
-      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField"])
+      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField", "UserCustomField"])
       .group_by { |f| f.class.name }
 
-    @custom_fields_by_type["WorkPackageCustomField"] = WorkPackageCustomField.includes(:types).all
+    @custom_fields_by_type["WorkPackageCustomField"] =
+      WorkPackageCustomField.includes(type_variants: :type).all
 
     @tab = params[:tab] || "WorkPackageCustomField"
   end
@@ -67,6 +71,8 @@ class CustomFieldsController < ApplicationController
     render_attribute_help_text_form
   end
 
+  def list_items; end
+
   def update_attribute_help_text
     update_help_text
   end
@@ -84,8 +90,8 @@ class CustomFieldsController < ApplicationController
   end
 
   def check_custom_field
-    # ProjectCustomFields now managed in a different UI
-    if @custom_field.nil? || @custom_field.type == "ProjectCustomField"
+    # ProjectCustomFields and UserCustomFields now managed in a different UI
+    if @custom_field.nil? || @custom_field.type.in?(%w[ProjectCustomField UserCustomField])
       flash[:error] = "Invalid CF type"
       redirect_to action: :index
     end

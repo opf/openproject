@@ -1,72 +1,80 @@
+---
 de:
-  plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
-    description: "API zur Unterstützung von OpenProject Webhooks für eine bessere Integration von Drittanbietern"
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'Payload-URL'
-        secret: 'Schlüssel für Signatur'
-        events: 'Ereignisse'
-        enabled: 'Aktiviert'
-        projects: 'Aktivierte Projekte'
       webhooks/log:
-        event_name: 'Ereignisname'
-        url: 'Payload-URL'
-        response_code: 'HTTP-Statuscode'
-        response_body: 'Antwort'
+        event_name: Ereignisname
+        response_body: Antwort
+        response_code: HTTP-Statuscode
+        url: Payload-URL
+      webhooks/webhook:
+        enabled: Aktiviert
+        events: Ereignisse
+        projects: Aktivierte Projekte
+        secret: Schlüssel für Signatur
+        url: Payload-URL
     models:
-      webhooks/outgoing_webhook: "Ausgehender Webhook"
+      webhooks/log:
+        one: Webhook-Protokoll
+        other: Webhook-Protokolle
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
+  plugin_openproject_webhooks:
+    description: API zur Unterstützung von OpenProject Webhooks für eine bessere Integration von Drittanbietern
+    name: OpenProject Webhooks
   webhooks:
-    singular: Webhook
-    plural: Webhooks
-    resources:
-      time_entry:
-        name: "Zeiterfassung"
     outgoing:
-      no_results_table: Es wurden noch keine Webhooks definiert.
+      deliveries:
+        no_results_table: Für diesen Webhook wurden in den letzten Tagen keine Zustellungen ausgeführt.
+        time: Zustellzeit
+        title: Letzte Zustellungen
+      events:
+        comment: Kommentar
+        created: Angelegt
+        internal_comment: Interner Kommentar
+        updated: Aktualisiert
+      explanation_html: 'Bei dem Auftreten eines Ereignisses wie der Erstellung eines Arbeitspakets oder einer Aktualisierung eines Projekts sendet OpenProject einen HTTP POST Request an die konfigurierten Web-Endpunkte. Meistens wird das Ereignis nach Ablauf der [konfigurierten Aggregationsziet](aggregation_path) gesendet.
+
+        '
+      form:
+        apiv3_doc_url: Weitere Informationen finden Sie in der API-Dokumentation
+        description:
+          placeholder: Optionale Beschreibung für den Webhook.
+        enabled:
+          description: 'Wenn aktiviert, wird der Webhook auf die ausgewählten Ereignisse ausgelöst. Abwählen, um den Webhook zu deaktivieren.
+
+            '
+        events:
+          title: Aktivierte Ereignisse
+        introduction: 'Senden Sie eine POST-Anfrage an die unten stehende Payload-URL für jedes Ereignis im Projekt, das Sie abonnieren. Der Inhalt entspricht der APIv3-Darstellung des modifizierten Objekts.
+
+          '
+        project_ids:
+          all: Alle Projekte
+          description: Wählen Sie für welche Projekte dieser Webhook ausgeführt werden soll.
+          selected: Nur ausgewählte Projekte
+          title: Aktivierte Projekte
+        secret:
+          description: 'Wenn gesetzt, wird dieser Schlüssel von OpenProject verwendet, um die Webhook-Payload zu signieren.
+
+            '
+        selected_project_ids:
+          title: Ausgewählte Projekte
       label_add_new: Webhook hinzufügen
       label_edit: Webhook bearbeiten
       label_x_events:
-        one: "1 Ereignis"
+        one: 1 Ereignis
         other: "%{count} Ereignisse"
-        zero: "Keine Ereignisse"
-      events:
-        created: "Angelegt"
-        updated: "Aktualisiert"
-        comment: "Kommentar"
-        internal_comment: "Interner Kommentar"
-      explanation:
-        text: >
-          Bei dem Auftreten eines Ereignisses wie der Erstellung eines Arbeitspakets oder einer Aktualisierung eines Projekts sendet OpenProject einen HTTP POST Request an die konfigurierten Web-Endpunkte. Oft wird das Ereignis nach Ablauf der %{link} gesendet.
-        link: konfigurierten Aggregationszeit
+        zero: Keine Ereignisse
+      no_results_table: Es wurden noch keine Webhooks definiert.
       status:
-        enabled: 'Webhook ist aktiv'
-        disabled: 'Webhook ist deaktiviert'
-        enabled_text: 'Der Webhook wird Inhalte für die unten definierten Ereignisse senden.'
-        disabled_text: 'Klicken Sie auf Bearbeiten, um den Webhook zu aktivieren.'
-      deliveries:
-        no_results_table: Für diesen Webhook wurden in den letzten Tagen keine Zustellungen ausgeführt.
-        title: 'Letzte Zustellungen'
-        time: 'Zustellzeit'
-      form:
-        introduction: >
-          Senden Sie eine POST-Anfrage an die unten stehende Payload-URL für jedes Ereignis im Projekt, das Sie abonnieren. Der Inhalt entspricht der APIv3-Darstellung des modifizierten Objekts.
-        apiv3_doc_url: Weitere Informationen finden Sie in der API-Dokumentation
-        description:
-          placeholder: 'Optionale Beschreibung für den Webhook.'
-        enabled:
-          description: >
-            Wenn aktiviert, wird der Webhook auf die ausgewählten Ereignisse ausgelöst. Abwählen, um den Webhook zu deaktivieren.
-        events:
-          title: 'Aktivierte Ereignisse'
-        project_ids:
-          title: 'Aktivierte Projekte'
-          description: 'Wählen Sie für welche Projekte dieser Webhook ausgeführt werden soll.'
-          all: 'Alle Projekte'
-          selected: 'Nur ausgewählte Projekte'
-        selected_project_ids:
-          title: 'Ausgewählte Projekte'
-        secret:
-          description: >
-            Wenn gesetzt, wird dieser Schlüssel von OpenProject verwendet, um die Webhook-Payload zu signieren.
+        disabled: Webhook ist deaktiviert
+        disabled_text: Klicken Sie auf Bearbeiten, um den Webhook zu aktivieren.
+        enabled: Webhook ist aktiv
+        enabled_text: Der Webhook wird Inhalte für die unten definierten Ereignisse senden.
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: Zeiterfassung
+    singular: Webhook

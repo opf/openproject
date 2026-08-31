@@ -1,40 +1,50 @@
-#English strings go here
+---
 id:
-  plugin_openproject_boards:
-    name: "Papan OpenProject"
-    description: "Menampilkan tampilan papan."
-  permission_show_board_views: "Lihat papan"
-  permission_manage_board_views: "Atur papan"
-  project_module_board_view: "Papan"
+  activerecord:
+    models:
+      boards/grid:
+        other: Boards
+  boards:
+    board_type_attributes:
+      assignee: Pelimpahan
+      basic: Dasar
+      status: Kanban
+      subproject: Sub-Project
+      subtasks: Orangtua-anak
+      version: Versi
+    board_type_descriptions:
+      assignee: 'Papan dengan kolom otomatis berdasarkan pengguna yang ditugaskan. Ideal untuk mengirimkan paket kerja.
+
+        '
+      basic: 'Mulai dari awal dengan papan kosong. Tambahkan kartu dan kolom secara manual ke papan ini.
+
+        '
+      status: 'Papan gaya kanban dasar dengan kolom untuk status seperti To Do, In Progress, Done.
+
+        '
+      subproject: 'Papan dengan kolom otomatis untuk subproyek. Menyeret paket pekerjaan ke daftar lain akan memperbarui (sub) proyek yang sesuai.
+
+        '
+      subtasks: 'Papan dengan kolom otomatis untuk sub-elemen. Menyeret paket pekerjaan ke daftar lain akan memperbarui induknya.
+
+        '
+      version: 'Papan dengan kolom otomatis berdasarkan atribut versi. Ideal untuk merencanakan pengembangan produk.
+
+        '
+    board_types:
+      action: Papan aksi (%{attribute}
+      free: Dasar
+    label_board: Papan
+    label_board_type: Tipe papan
+    label_boards: Papan
+    label_create_new_board: Buat papan baru
   ee:
     upsell:
       board_view:
-        description: 'Apakah Anda ingin mengotomatiskan alur kerja Anda dengan Papan? Papan tingkat lanjut adalah add-on Enterprise. Tingkatkan ke paket berbayar.'
-  boards:
-    label_board: "Papan"
-    label_boards: "Papan"
-    label_create_new_board: "Buat papan baru"
-    label_board_type: "Tipe papan"
-    board_types:
-      free: Dasar
-      action: "Papan aksi (%{attribute}"
-    board_type_attributes:
-      assignee: Pelimpahan
-      status: Kanban
-      version: Versi
-      subproject: Sub-Project
-      subtasks: Orangtua-anak
-      basic: Dasar
-    board_type_descriptions:
-      basic: >
-        Mulai dari awal dengan papan kosong. Tambahkan kartu dan kolom secara manual ke papan ini.
-      status: >
-        Papan gaya kanban dasar dengan kolom untuk status seperti To Do, In Progress, Done.
-      assignee: >
-        Papan dengan kolom otomatis berdasarkan pengguna yang ditugaskan. Ideal untuk mengirimkan paket kerja.
-      version: >
-        Papan dengan kolom otomatis berdasarkan atribut versi. Ideal untuk merencanakan pengembangan produk.
-      subproject: >
-        Papan dengan kolom otomatis untuk subproyek. Menyeret paket pekerjaan ke daftar lain akan memperbarui (sub) proyek yang sesuai.
-      subtasks: >
-        Papan dengan kolom otomatis untuk sub-elemen. Menyeret paket pekerjaan ke daftar lain akan memperbarui induknya.
+        description: Apakah Anda ingin mengotomatiskan alur kerja Anda dengan Papan? Papan tingkat lanjut adalah add-on Enterprise. Tingkatkan ke paket berbayar.
+  permission_manage_board_views: Atur papan
+  permission_show_board_views: Lihat papan
+  plugin_openproject_boards:
+    description: Menampilkan tampilan papan.
+    name: Papan OpenProject
+  project_module_board_view: Papan

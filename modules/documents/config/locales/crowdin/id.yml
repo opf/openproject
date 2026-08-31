@@ -19,135 +19,143 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 id:
-  plugin_openproject_documents:
-    name: "Dokumen OpenProject"
-    description: "Plugin OpenProject untuk memungkinkan pembuatan dokumen dalam proyek."
   activerecord:
+    attributes:
+      document:
+        content_binary: Konten biner
+        title: Judul
     errors:
       models:
         document_type:
-          one_or_more_required: "Tidak dapat menghapus jenis dokumen terakhir"
+          one_or_more_required: Tidak dapat menghapus jenis dokumen terakhir
     models:
-      document: "Dokumen"
-      documents: "Dokumen"
-    attributes:
       document:
-        content_binary: "Konten biner"
-        title: "Judul"
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
-      document: "Dokumen"
-  default_doc_category_tech: "Dokumentasi teknis"
-  default_doc_category_user: "Dokumentasi pengguna"
-  enumeration_doc_categories: "Kategori dokumen"
+      document: Dokumen
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
+  default_doc_category_tech: Dokumentasi teknis
+  default_doc_category_user: Dokumentasi pengguna
   documents:
-    page_header:
-      heading: "Semua dokumen"
-      action_menu:
-        document_actions: "Tindakan dokumen"
-        edit_title: "Sunting judul"
-    subheader:
-      filter:
-        label: "Saring nama dokumen"
-        placeholder: "Ketik di sini untuk mencari nama dokumen"
-    documents_list_blank_slate:
-      heading: "Belum ada dokumen yang tersedia"
-      description: "Tidak ada dokumen dalam tampilan ini. Anda dapat mengklik tombol di bawah ini untuk menambahkan satu."
-    document_categories_deprecation_notice:
-      heading: Kategori file sekarang disebut dengan 'Jenis dokumen'
-      description: |-
-        Kategori file yang ada telah diubah menjadi jenis dokumen dengan adanya modul Dokumen baru.
-        Semua dokumen yang ada juga telah dialihkan ke jenis baru ini.
-      primary_action: Atur jenis dokumen
-      secondary_action: Pelajari lebih lanjut tentang modul Dokumen
-    document_type_actions: "Tindakan jenis dokumen"
-    text_collaboration_disabled_notice:
-      description: |-
-        Tidak dapat membuka dokumen karena kolaborasi teks secara langsung telah dinonaktifkan.
-        Silakan hubungi administrator Anda untuk mengaktifkan kolaborasi teks secara langsung jika Anda ingin mengakses dokumen ini.
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          Tidak dapat membuka dokumen karena server kolaborasi teks secara langsung tidak dapat diakses.
-          Silakan hubungi administrator jika masalah masih berlanjut.
-        action: Coba lagi
-      connection_recovery_notice:
-        description: "Koneksi ke server kolaborasi teks secara kangsung telah dipulihkan."
-      tabs: "Tab dokumen"
-    index_page:
-      name: "Nama"
-      type: "Tipe"
-      updated_at: "Terakhir disunting"
-      label_legacy: "Histori"
-    menu:
-      all: "Semua dokumen"
-      types: "Tipe"
-      collaboration_settings: "Kolaborasi secara langsung"
-    last_updated_at: "Terakhir disimpan %{time}."
-    active_editors: "Editor yang aktif"
+    active_editors: Editor yang aktif
     active_editors_count:
       other: "%{count} editor aktif"
-    label_attachment_author: "Lampiran penulis"
-    label_categories: "Kategori"
-    new_category: "Kategori Baru"
-    new_type: "Tipe baru"
-    delete_dialog:
-      title: "Hapus dokumen"
-      heading: "Hapus dokumen ini?"
-      confirmation_message_html: "Tindakan ini akan menghapus dokumen dan semua lampiran file secara permanen. Apakah Anda yakin ingin melakukan ini?"
-    delete_document_type_dialog:
-      title: Hapus jenis dokumen
-      heading: Hapus jenis dokumen ini?
-      confirmation_message: |-
-        Saat ini, jenis “%{type_name}” sedang tidak digunakan. Menghapus jenis ini tidak akan berdampak pada dokumen yang telah ada.
-      select_reassign_to_label: Pindahkan dokumen ke
-      reassign_message:
-        other: Saat ini, jenis “%{type_name}” digunakan dalam dokumen %{document_count}. Silakan pilih jenis yang akan dialihkan ke dokumen-dokumen tersebut.
-      at_least_one_type_required:
-        title: Tidak dapat menghapus jenis dokumen
-        heading: Tidak dapat menghapus jenis dokumen terakhir
-        message: Setidaknya harus selalu ada satu jenis dokumen yang dikonfigurasi. Buat jenis dokumen lain terlebih dahulu jika Anda ingin menghapus dokumen ini.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Nilai-nilai ini dikonfigurasi melalui variabel lingkungan dan tidak dapat disunting di sini.
+          some_unwritable: Beberapa nilai dikonfigurasi melalui variabel lingkungan dan tidak dapat disunting di sini.
+        hocuspocus_server: Server Hocuspocus
+        hocuspocus_server_secret:
+          caption: Salin kode rahasia yang disediakan oleh server Hocuspocus.
+          label: Klien rahasia
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: URL server Hocuspocus
         page_header:
           description: |-
             Saat diaktifkan, kolaborasi secara langusng memungkinkan beberapa pengguna untuk menyunting dokumen secara bersamaan.
             Fitur ini memerlukan server %{hocuspocus_server_link} yang berfungsi untuk beroperasi.
-        banner:
-          none_writable: Nilai-nilai ini dikonfigurasi melalui variabel lingkungan dan tidak dapat disunting di sini.
-          some_unwritable: Beberapa nilai dikonfigurasi melalui variabel lingkungan dan tidak dapat disunting di sini.
-        hocuspocus_server_url:
-          label: "URL server Hocuspocus"
-          caption: "Alamat server Hocuspocus yang sedang beroperasi."
-        hocuspocus_server_secret:
-          label: "Klien rahasia"
-          caption: "Salin kode rahasia yang disediakan oleh server Hocuspocus."
-        hocuspocus_server: Server Hocuspocus
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Saya mengerti bahwa saya mungkin akan kehilangan data secara permanen
+        confirmation_message: |-
+          Semua dokumen yang ada akan mungkin tidak dapat diakses. Harap lakukan ini jika Anda yakin ingin menonaktifkan
+          kolaborasi secara langsung dan editor BlockNote dalam situasi ini.
+        heading: Nonaktifkan kolaborasi secara langsung?
+        success: Kolaborasi secara langsung telah dinonaktifkan.
+        title: Nonaktifkan kolaborasi secara langsung
       enable_text_collaboration:
-        heading: Kolaborasi secara langsung tidak diaktifkan
         description: |-
           Setelah diaktifkan, beberapa pengguna dapat bekerja bersama pada sebuah dokumen secara bersamaan.
           Semua dokumen baru akan didasarkan pada editor baru (BlockNote) dan memerlukan koneksi aktif ke
           server Hocuspocus.
+        heading: Kolaborasi secara langsung tidak diaktifkan
         primary_action: Aktifkan kolaborasi secara langsung
         success: Kolaborasi secara langsung telah diaktifkan.
-      disable_text_collaboration_dialog:
-        title: Nonaktifkan kolaborasi secara langsung
-        heading: Nonaktifkan kolaborasi secara langsung?
-        confirmation_message: |-
-          Semua dokumen yang ada akan mungkin tidak dapat diakses. Harap lakukan ini jika Anda yakin ingin menonaktifkan
-          kolaborasi secara langsung dan editor BlockNote dalam situasi ini.
-        confirmation_checkbox_message: Saya mengerti bahwa saya mungkin akan kehilangan data secara permanen
-        success: Kolaborasi secara langsung telah dinonaktifkan.
-  label_document_added: "Dokumen ditambahkan"
-  label_document_new: "Dokumen baru"
-  label_document_plural: "Dokumen"
-  label_documents: "Dokumen"
-  label_document_title: "Judul"
-  label_document_description: "Deskripsi"
-  label_document_category: "Kategori"
-  label_document_type: "Jenis"
-  permission_manage_documents: "Kelola dokumen"
-  permission_view_documents: "Lihat dokumen"
-  project_module_documents: "Dokumen"
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: Tindakan ini akan menghapus dokumen dan semua lampiran file secara permanen. Apakah Anda yakin ingin melakukan ini?
+      heading: Hapus dokumen ini?
+      title: Hapus dokumen
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Tidak dapat menghapus jenis dokumen terakhir
+        message: Setidaknya harus selalu ada satu jenis dokumen yang dikonfigurasi. Buat jenis dokumen lain terlebih dahulu jika Anda ingin menghapus dokumen ini.
+        title: Tidak dapat menghapus jenis dokumen
+      confirmation_message: Saat ini, jenis “%{type_name}” sedang tidak digunakan. Menghapus jenis ini tidak akan berdampak pada dokumen yang telah ada.
+      heading: Hapus jenis dokumen ini?
+      reassign_message:
+        other: Saat ini, jenis “%{type_name}” digunakan dalam dokumen %{document_count}. Silakan pilih jenis yang akan dialihkan ke dokumen-dokumen tersebut.
+      select_reassign_to_label: Pindahkan dokumen ke
+      title: Hapus jenis dokumen
+    document_categories_deprecation_notice:
+      description: |-
+        Kategori file yang ada telah diubah menjadi jenis dokumen dengan adanya modul Dokumen baru.
+        Semua dokumen yang ada juga telah dialihkan ke jenis baru ini.
+      heading: Kategori file sekarang disebut dengan 'Jenis dokumen'
+      primary_action: Atur jenis dokumen
+      secondary_action: Pelajari lebih lanjut tentang modul Dokumen
+    document_type_actions: Tindakan jenis dokumen
+    documents_list_blank_slate:
+      description: Tidak ada dokumen dalam tampilan ini. Anda dapat mengklik tombol di bawah ini untuk menambahkan satu.
+      heading: Belum ada dokumen yang tersedia
+    index_page:
+      label_legacy: Histori
+      name: Nama
+      type: Tipe
+      updated_at: Terakhir disunting
+    info_line:
+      connection_restored: You are now back online.
+      currently_offline: You are currently offline.
+    label_attachment_author: Lampiran penulis
+    label_categories: Kategori
+    last_updated_at: Terakhir disimpan %{time}.
+    menu:
+      all: Semua dokumen
+      collaboration_settings: Kolaborasi secara langsung
+      types: Tipe
+    new_category: Kategori Baru
+    new_type: Tipe baru
+    page_header:
+      action_menu:
+        document_actions: Tindakan dokumen
+        edit_title: Sunting judul
+      heading: Semua dokumen
+    show_edit_view:
+      connection_error_notice:
+        action: Coba lagi
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Tab dokumen
+    subheader:
+      filter:
+        label: Saring nama dokumen
+        placeholder: Ketik di sini untuk mencari nama dokumen
+    text_collaboration_disabled_notice:
+      description: |-
+        Tidak dapat membuka dokumen karena kolaborasi teks secara langsung telah dinonaktifkan.
+        Silakan hubungi administrator Anda untuk mengaktifkan kolaborasi teks secara langsung jika Anda ingin mengakses dokumen ini.
+  enumeration_doc_categories: Kategori dokumen
+  label_document_added: Dokumen ditambahkan
+  label_document_category: Kategori
+  label_document_description: Deskripsi
+  label_document_new: Dokumen baru
+  label_document_plural: Dokumen
+  label_document_title: Judul
+  label_document_type: Jenis
+  label_documents: Dokumen
+  permission_manage_documents: Kelola dokumen
+  permission_view_documents: Lihat dokumen
+  plugin_openproject_documents:
+    description: Plugin OpenProject untuk memungkinkan pembuatan dokumen dalam proyek.
+    name: Dokumen OpenProject
+  project_module_documents: Dokumen

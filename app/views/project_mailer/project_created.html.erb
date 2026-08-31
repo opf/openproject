@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h1><%= link_to @project.name, project_url(@project) %></h1>
 
-<%= format_text(@notification_text, project: @project) %>
+<%= format_mail_html(@notification_text, project: @project) %>
 
 <% if @project.project_creation_wizard_enabled? %>
   <p>

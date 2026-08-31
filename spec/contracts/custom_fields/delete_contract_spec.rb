@@ -60,4 +60,11 @@ RSpec.describe CustomFields::DeleteContract do
       include_examples "contract is invalid", base: :referenced_in_other_fields
     end
   end
+
+  describe "allows deleting a calculated_value field without an enterprise token" do
+    let(:current_user) { build_stubbed(:admin) }
+    let(:cf) { build_stubbed(:project_custom_field, field_format: "calculated_value") }
+
+    include_examples "contract is valid"
+  end
 end

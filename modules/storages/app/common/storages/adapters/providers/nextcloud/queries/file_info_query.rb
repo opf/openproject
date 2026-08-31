@@ -51,24 +51,24 @@ module Storages
 
             def file_info(http, file_id)
               response = http.get(UrlBuilder.url(@storage.uri, FILE_INFO_PATH, file_id))
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 200..299 }
-                fail_on_ocs_error(response.json(symbolize_keys: true), error)
+                parse_json(response, error).bind { fail_on_ocs_error(it, error) }
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
             def validate_response_object(json)
-              error = Results::Error.new(source: self.class, payload: json)
+              error = SimpleError.new(source: self.class, code: :error, payload: json)
 
-              case json.dig(:ocs, :data, :statuscode)
+              case json_fetch(json, :ocs, :data, :statuscode)
               when 200..299
                 Success(json)
               when 403
@@ -76,12 +76,13 @@ module Storages
               when 404
                 Failure(error.with(code: :not_found))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 
             def create_storage_file_info(json) # rubocop:disable Metrics/AbcSize
-              data = json.dig(:ocs, :data)
+              data = json_fetch(json, :ocs, :data)
+              error = SimpleError.new(source: self.class, code: :invalid_file_info)
               Results::StorageFileInfo.build(
                 status: data[:status]&.downcase,
                 status_code: data[:statuscode],
@@ -97,7 +98,7 @@ module Storages
                 last_modified_by_id: data[:modifier_id],
                 permissions: data[:dav_permissions],
                 location: location(data[:path])
-              )
+              ).or { Failure(error.with(payload: it.errors.messages)) }
             end
 
             def location(file_path)
@@ -107,7 +108,7 @@ module Storages
 
               idx += prefix.length - 1
 
-              UrlBuilder.path(file_path[idx..])
+              file_path[idx..].chomp("/")
             end
           end
         end

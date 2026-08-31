@@ -84,6 +84,8 @@ class WithDirectUploads
   end
 
   def stub_frontend(redirect: false)
+    stub_chrome_background_requests
+
     proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "options").and_return(
       headers: {
         "Access-Control-Allow-Methods" => "POST",
@@ -111,12 +113,32 @@ class WithDirectUploads
         {
           code: ok ? 302 : 403,
           headers: {
-            "Location" => ok ? redirect_url + "?key=" + CGI.escape(key) : nil,
+            "Location" => ok ? append_key_query_param(redirect_url, key) : nil,
             "Access-Control-Allow-Methods" => "POST",
             "Access-Control-Allow-Origin" => "*"
           }
         }
       end)
+  end
+
+  def stub_chrome_background_requests
+    [
+      %r{\Ahttp://clients2\.google\.com:80/},
+      %r{\Ahttps://accounts\.google\.com:443/},
+      %r{\Ahttps://www\.google\.com:443/},
+      %r{\Ahttps://content-autofill\.googleapis\.com:443/},
+      %r{\Ahttps://optimizationguide-pa\.googleapis\.com:443/},
+      %r{\Ahttps://android\.clients\.google\.com:443/}
+    ].each do |url_pattern|
+      %w[get post].each do |method|
+        proxy.stub(url_pattern, method:).and_return(code: 204, headers: {})
+      end
+    end
+  end
+
+  def append_key_query_param(redirect_url, key)
+    delimiter = redirect_url.include?("?") ? "&" : "?"
+    "#{redirect_url}#{delimiter}key=#{CGI.escape(key)}"
   end
 
   def stub_with_status
@@ -172,14 +194,19 @@ RSpec.configure do |config|
 
     WithDirectUploads.new(self).before example
 
-    class FogAttachment < Attachment
-      # Remounting the uploader overrides the original file setter taking care of setting,
-      # among other things, the content type. So we have to restore that original
-      # method this way.
-      # We do this in a new, separate class, as to not interfere with any other specs.
-      alias_method :set_file, :file=
-      mount_uploader :file, FogFileUploader
-      alias_method :file=, :set_file
+    # Only define FogAttachment once. In CW 2.x, mount_uploader uses prepend,
+    # so re-opening the class and re-mounting would stack prepend modules and
+    # cause infinite recursion with the alias_method trick below.
+    unless defined?(FogAttachment)
+      class FogAttachment < Attachment
+        # Remounting the uploader overrides the original file setter taking care of setting,
+        # among other things, the content type. So we have to restore that original
+        # method this way.
+        # We do this in a new, separate class, as to not interfere with any other specs.
+        alias_method :set_file, :file=
+        mount_uploader :file, FogFileUploader
+        alias_method :file=, :set_file
+      end
     end
   end
 

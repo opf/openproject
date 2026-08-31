@@ -31,7 +31,7 @@
 module OpenIDConnect
   module UserTokens
     class RefreshService
-      include Dry::Monads::Result(TokenOperationError)
+      include Dry::Monads::Result(SimpleError)
       include Dry::Monads::Do.for(:call)
 
       def initialize(user:, token_exchange:)
@@ -52,9 +52,9 @@ module OpenIDConnect
 
       private
 
-      def error = TokenOperationError.new(source: self.class)
+      def error(code:, payload: nil) = SimpleError.new(source: self.class, code:, payload:)
 
-      def failure_with(**) = Failure(error.with(**))
+      def failure_with(**) = Failure(error(**))
 
       def exchange_instead_of_refresh(token)
         # We can attempt a token exchange instead of a refresh, if we previously exchanged the token.
@@ -68,8 +68,8 @@ module OpenIDConnect
       end
 
       def refresh_token_request(refresh_token)
-        TokenRequest.new(provider:).refresh(refresh_token).alt_map do
-          it.with(code: :"token_refresh_#{it.code}", source: self.class)
+        OAuthClients::TokenRequest.for_provider(provider).refresh(refresh_token).alt_map do |error|
+          error.with(code: :"token_refresh_#{error.code}", source: self.class)
         end
       end
 

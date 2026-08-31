@@ -1,0 +1,29 @@
+---
+hy:
+  js:
+    bcf:
+      add_viewpoint: Ավելացնել դիտակետ
+      delete_viewpoint: Ջնջել դիտակետը
+      export: Արտահանել
+      export_bcf_xml_file: Արտահանել BCF XML նիշք (BCF տարբերակ 2.1)
+      import: Ներմուծել
+      import_bcf_xml_file: Ներմուծել BCF XML նիշք (BCF տարբերակ 2.1)
+      label_bcf: BCF
+      management: BCF կառավարում
+      refresh: Թարմացնել
+      refresh_work_package: Թարմացնել աշխատանքային փաթեթը
+      show_viewpoint: Ցուցադրել դիտակետը
+      viewpoint: Դիտակետ
+    ifc_models:
+      empty_warning: Այս նախագիծը դեռ չունի IFC մոդելներ։
+      keyboard_input_disabled: Դիտիչը ստեղնաշարային կառավարում չունի։ Սեղմեք դիտիչի վրա՝ ստեղնաշարային կառավարումը դիտիչին փոխանցելու համար։
+      models:
+        ifc_models: IFC մոդելներ
+      use_this_link_to_manage: Օգտագործեք այս հղումը Ձեր IFC մոդելները վերբեռնելու և կառավարելու համար
+      views:
+        split: Դիտիչ և աղյուսակ
+        split_cards: Դիտիչ և քարտեր
+        viewer: Դիտիչ
+    revit:
+      revit_add_in: Revit Add-In
+      revit_add_in_settings: Revit Add-In-ի կարգավորումներ

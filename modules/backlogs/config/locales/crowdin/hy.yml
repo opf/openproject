@@ -1,0 +1,339 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  activerecord:
+    attributes:
+      project:
+        allow_multiple_active_sprints: Թույլատրել մի քանի ակտիվ սպրինտներ
+        backlog_excluded_types: Բացառված աշխատանքային փաթեթների տեսակներ
+        sprint_sharing: Սպրինտների համօգտագործում
+        statuses_considered_closed: Փակված համարվող կարգավիճակներ
+      sprint:
+        duration: Տևողություն
+        finish_date: Ավարտի ամսաթիվ
+        goal: Սպրինտի նպատակ
+        name: Սպրինտի անվանում
+        sharing: Համօգտագործում
+        statuses:
+          active: Ակտիվ
+          completed: Ավարտված
+          in_planning: Պլանավորման փուլում
+        work_packages: Աշխատանքային փաթեթներ
+      sprint_goal:
+        text: Սպրինտի նպատակ
+      work_package:
+        backlog_bucket: Բեքլոգի բաժին
+        backlog_inbox: Բեքլոգի մուտքային արկղ
+        backlogs_work_package_type: Բեքլոգի տեսակ
+        position: Դիրք
+        sprint: Սպրինտ
+        story_points: Պատմության միավորներ
+    errors:
+      messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        dates_required: Սպրինտը սկսելու համար պարտադիր են սկզբի և ավարտի ամսաթվերը։
+        must_be_in_planning: սկսելու համար պետք է լինի պլանավորման փուլում։
+        only_one_active_sprint_allowed: նախագծում թույլատրվում է միայն մեկ ակտիվ սպրինտ։
+      models:
+        project:
+          attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: չի կարող փոփոխվել, քանի դեռ ընթացքի մեջ են մի քանի ակտիվ սպրինտներ։
+              requires_no_sharing: կարող է միացվել միայն այն դեպքում, երբ սպրինտների համօգտագործումը սահմանված է 'Չհամօգտագործել'։
+            sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              locked_by_multiple_active_sprints: չի կարող փոփոխվել, քանի դեռ միացված են մի քանի ակտիվ սպրինտներ։
+              share_all_projects_already_taken: չի կարող սահմանվել, քանի որ "%{name}" նախագիծն արդեն համօգտագործում է բոլոր նախագծերի հետ։
+              share_all_projects_already_taken_anonymous: չի կարող սահմանվել, քանի որ մեկ այլ նախագիծ արդեն համօգտագործում է բոլոր նախագծերի հետ։
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+          receiving_sprints: ստանում է համօգտագործված սպրինտներ։ Սեփական սպրինտներ չեն կարող ստեղծվել։
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                one: Այս սպրինտում մեկ աշխատանքային փաթեթ չի ավարտվել։
+                other: Այս սպրինտում %{count} աշխատանքային փաթեթ չի ավարտվել։
+            status:
+              not_active: ակտիվ չէ, ուստի չի կարող փակվել։
+        sprint_goal:
+          project_already_has_goal: արդեն ունի նպատակ այս սպրինտի համար։
+        work_package:
+          attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: պետք է պատկանի նույն նախագծին, ինչ աշխատանքային փաթեթը։
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: կարող է պարունակել միայն ընթացիկ սպրինտի աշխատանքային փաթեթների ID-ները։
+              must_block_at_least_one_work_package: պետք է պարունակի առնվազն մեկ աշխատանքային փաթեթի ID։
+            sprint:
+              not_assignable: հնարավոր չէ նշանակել, քանի որ այն կամ չի համօգտագործվել նախագծի հետ, կամ արդեն ավարտված է։
+              not_eligible_for_moving: ակտիվ սպրինտ չէ այն նախագծում, որին պատկանում է սպրինտը, որտեղից տեղափոխվում է աշխատանքային փաթեթը։
+            version_id:
+              task_version_must_be_the_same_as_story_version: պետք է նույնը լինի, ինչ ծնող պատմության տարբերակը։
+          backlog_bucket_xor_sprint: չի կարող միաժամանակ նշանակվել սպրինտին և բեքլոգի բաժնին։
+    models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
+      sprint:
+        one: Սպրինտ
+        other: Սպրինտներ
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
+  backlogs:
+    add_existing_work_package_dialog_component:
+      title_without_container: Add existing work package
+    administration_blankslate:
+      text: Մենք ներկայումս վերանախագծում ենք Բեքլոգների մոդուլը։ Սպրինտների և բեքլոգների ադմինիստրատիվ կարգավորումները մոտ ապագայում տեսանելի կլինեն այստեղ։ Նախագծի մակարդակի կարգավորումները մնում են հասանելի։
+      title: Բեքլոգի ադմինիստրատիվ կարգավորումները զարգանում են
+    backlog_component:
+      button_new_backlog_bucket: Բեքլոգի նոր բաժին
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Բեքլոգի բաժին
+        other: Բեքլոգի բաժիններ
+        zero: Բեքլոգի բոլոր բաժինները
+      label_sprint_filter:
+        one: Սպրինտ
+        other: Սպրինտներ
+        zero: Բոլոր սպրինտները
+      select_panel_title: Ընտրեք տարրերը
+    bucket_component:
+      action_menu:
+        add_existing_work_package: Ավելացնել առկա աշխատանքային փաթեթ
+        add_new_work_package: Ավելացնել նոր աշխատանքային փաթեթ
+        delete_backlog_bucket: Ջնջել բեքլոգի բաժինը
+        edit_backlog_bucket: Խմբագրել բեքլոգի բաժինը
+      blankslate_description: Ավելացնելու համար քաշեք տարրերն այստեղ
+      blankslate_title: Բեքլոգի բաժինը դատարկ է
+      drop_zone_label: Այս տարրն ավելացնելու համար թողեք այստեղ
+      label_actions: Բեքլոգի բաժնի գործողություններ
+    bucket_destroy_modal_component:
+      details: "'%{name}' բեքլոգի բաժինը կջնջվի, և բոլոր աշխատանքային փաթեթները կտեղափոխվեն բեքլոգի մուտքային արկղ։ Ոչ մի աշխատանքային փաթեթ չի ջնջվի։"
+      title: Ջնջե՞լ բեքլոգի բաժինը
+    burndown_chart:
+      show:
+        blankslate_description: Այրման գծապատկեր ստեղծելու համար սահմանեք սպրինտի սկզբի և ավարտի ամսաթիվը։
+        blankslate_title: Այրման տվյալներ առկա չեն
+    excluded_work_package_types_caption: 'Ընտրեք, թե աշխատանքային փաթեթների որ տեսակները թաքցնել բեքլոգից։ Ընտրված տեսակների տարրերն ավտոմատ կերպով չեն հայտնվի բեքլոգում, ինչը թույլ կտա այն կենտրոնացած պահել Ձեր թիմի համար կարևոր աշխատանքի վրա։ Օրինակ՝ ավելի բարձր մակարդակում կառավարվող տեսակները, ինչպիսիք են Epic-ները կամ Հանգրվանները, կարող են թաքցվել, որպեսզի բեքլոգը կենտրոնացած մնա գործողության ենթակա տարրերի վրա։
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: Տեղափոխել դրանք բեքլոգի ներքև
+        move_to_sprint: Տեղափոխել դրանք այլ սպրինտ
+        move_to_top_of_backlog: Տեղափոխել դրանք բեքլոգի վերև
+      body: "%{message} Ի՞նչ եք ցանկանում անել դրանց հետ։"
+      button_complete_sprint: Ավարտել սպրինտը
+      legend: Գործողություն չավարտված աշխատանքային փաթեթների համար
+      select_sprint_label: Ընտրեք սպրինտը
+      title: Առկա են ընթացքի մեջ գտնվող տարրեր
+    inbox_component:
+      action_menu:
+        add_existing_work_package: Ավելացնել առկա աշխատանքային փաթեթ
+        add_new_work_package: Ավելացնել նոր աշխատանքային փաթեթ
+      blankslate_description: Սպրինտում կամ բեքլոգի բաժնում չգտնվող բաց աշխատանքային փաթեթներն ավտոմատ կերպով հայտնվում են այստեղ
+      blankslate_title: Բեքլոգի մուտքային արկղը դատարկ է
+      drop_zone_label: Այս տարրն ավելացնելու համար թողեք այստեղ
+      label_actions: Մուտքային արկղի գործողություններ
+      show_more:
+        one: Ցուցադրել ևս 1 տարր
+        other: Ցուցադրել ևս %{count} տարր
+      title: Մուտքային արկղ
+    label_burndown_chart: Այրման գծապատկեր
+    label_is_done_status: "%{status_name} կարգավիճակը նշանակում է ավարտված"
+    label_sprint_board: Սպրինտի տախտակ
+    label_sprint_report: Սպրինտի հաշվետվություն
+    move_to_bucket_dialog_component:
+      title: Տեղափոխել բեքլոգի բաժին
+    move_to_sprint_dialog_component:
+      label_sprint: Սպրինտ
+      title: Տեղափոխել սպրինտ
+    multiple_active_sprints: Մի քանի ակտիվ սպրինտներ
+    points_label:
+      one: միավոր
+      other: միավոր
+    positions_could_not_be_rebuilt: Դիրքերը չհաջողվեց վերակառուցել։
+    positions_rebuilt_successfully: Դիրքերը հաջողությամբ վերակառուցվել են։
+    rebuild: Վերակառուցել
+    rebuild_positions: Վերակառուցել դիրքերը
+    remaining_hours: Մնացած աշխատանք
+    sharing: Սպրինտների համօգտագործում
+    show_burndown_chart: Այրման գծապատկեր
+    sprint_component:
+      action_menu:
+        add_existing_work_package: Ավելացնել առկա աշխատանքային փաթեթ
+        add_new_work_package: Ավելացնել նոր աշխատանքային փաթեթ
+        edit_sprint: Խմբագրել սպրինտը
+      blankslate_description: Դեռ ոչ մի տարր պլանավորված չէ։ Ավելացնելու համար քաշեք տարրերն այստեղ։
+      blankslate_title: "%{name}-ը դատարկ է"
+      drop_zone_label: Այս տարրն ավելացնելու համար թողեք այստեղ
+      label_actions: Սպրինտի գործողություններ
+      label_complete_sprint: Ավարտել սպրինտը
+      label_start_sprint: Սկսել սպրինտը
+      start_sprint_disabled_reason_active_sprint: Մեկ այլ սպրինտ արդեն ակտիվ է։
+      start_sprint_disabled_reason_missing_dates: Սպրինտը սկսելու համար պարտադիր են սկզբի և ավարտի ամսաթվերը։
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_shared_sprint: Այս սպրինտը մեկ այլ նախագծից է, որը չի աջակցում մի քանի ակտիվ սպրինտների։
+    sprint_form:
+      goal_caption: Սպրինտի նպատակը յուրահատուկ է այս նախագծի համար և չի համօգտագործվում այս սպրինտն օգտագործող այլ նախագծերի հետ։
+      goal_for_this_project_label: "%{attribute} (այս նախագծի համար)"
+    sprint_form_component:
+      shared_sprint_info_banner: Սա համօգտագործվող սպրինտ է։ Փոփոխությունները կարտացոլվեն այն օգտագործող բոլոր նախագծերում։
+      shared_sprint_warning_banner: Սա համօգտագործվող սպրինտ է։ Դուք չունեք այն խմբագրելու համար անհրաժեշտ թույլտվություններ։
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Հաշվետվություն
+        title: "%{sprint}-ի հաշվետվություն"
+    sprints:
+      row_component:
+        action_menu:
+          edit_sprint: Խմբագրել սպրինտը
+          sprint_report: Սպրինտի հաշվետվություն
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: Ձեր սպրինտի պլանավորումը սկսելու համար ստեղծեք սպրինտ այստեղ կամ անցեք %{settings_link} բաժին, որպեսզի սպրինտներ ստանաք մեկ այլ նախագծից։
+        create_description_text: Ձեր սպրինտի պլանավորումը սկսելու համար ստեղծեք սպրինտ այստեղ։
+        manage_description_html: Ձեր սպրինտի պլանավորումը սկսելու համար անցեք %{settings_link} բաժին, որպեսզի սպրինտներ ստանաք մեկ այլ նախագծից։
+        no_actions_description_text: Այս նախագծի համար դեռ սպրինտներ հասանելի չեն։
+        receive_and_manage_description_html: Այս նախագիծը սպրինտներ է ստանում մեկ այլ նախագծից։ Կառավարեք սա %{settings_link} բաժնում։
+        receive_description_text: Այս նախագիծը մեկ այլ նախագծից ստանում է համօգտագործված սպրինտներ, սակայն ներկայումս ոչ մեկը հասանելի չէ։
+        settings_link_text: նախագծի կարգավորումներ
+        title: Դեռ սպրինտներ չկան
+      button_new_sprint: Նոր սպրինտ
+    statuses_considered_closed_caption: 'Ընտրեք այն կարգավիճակները, որոնք Ձեր աշխատանքային հոսքում ներկայացնում են փակված կամ ավարտված վիճակ։ Դրանք կդիտարկվեն որպես "Փակված" վիճակ հաշվետվություններում (օրինակ՝ այրման գծապատկերում) և սպրինտի պլանավորման ընթացքում։ Օրինակ՝ Ավարտված, Լուծված կամ Չի շտկվի կարգավիճակները Ձեր գործընթացում կարող են բոլորն էլ ներկայացնել փակված աշխատանքային տարր։
+
+      '
+    story_points:
+      one: "%{count} պատմության միավոր"
+      other: "%{count} պատմության միավոր"
+    types_and_statuses: Տեսակներ և կարգավիճակներ
+    unassigned: Չնշանակված
+    user_preference:
+      button_update_backlogs: Թարմացնել բեքլոգների մոդուլը
+      header_backlogs: Բեքլոգների մոդուլ
+    work_package_card_menu_component:
+      action_menu:
+        copy_url_to_clipboard: Պատճենել URL-ը փոխանակման բուֆերում
+        copy_work_package_id: Պատճենել աշխատանքային փաթեթի ID-ն
+        move_menu: Տեղափոխել դիրք
+        move_to_backlog_bucket: Տեղափոխել բեքլոգի բաժին
+        move_to_inbox: Տեղափոխել բեքլոգի մուտքային արկղ
+        move_to_sprint: Տեղափոխել սպրինտ
+    work_package_is_closed: Աշխատանքային փաթեթն ավարտված է, երբ
+    work_packages:
+      add_existing_dialog:
+        invalid_target: Թիրախը, որին փորձում եք ավելացնել, անվավեր է։
+        target_not_found: Սպրինտը կամ բեքլոգը, որին փորձում եք ավելացնել, չի գտնվել։
+      move:
+        moved_announcement: "%{label} տեղափոխվեց %{list}, դիրք %{position} %{total}-ից"
+      update_service:
+        invalid_target_type: list_type-ը պետք է լինի հետևյալներից մեկը՝ list_id-ով backlog_bucket, list_id-ով sprint կամ առանց list_id-ի inbox։
+        missing_target: list_type-ը կամ list_id-ը պետք է առկա լինի։
+  burndown:
+    story_points: Պատմության միավորներ
+    story_points_ideal: Պատմության միավորներ (իդեալական)
+  ee:
+    features:
+      multiple_active_sprints: Multiple active sprints
+      sprint_sharing: Սպրինտների համօգտագործում
+    upsell:
+      multiple_active_sprints:
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      sprint_sharing:
+        description: Համօգտագործեք սպրինտները նախագծերի միջև, որպեսզի համաձայնեցնեք թիմերը և համակարգեք աշխատանքը մասշտաբավորված Agile մոդելներում (SAFe)։
+  label_all_sprints: Բոլոր սպրինտները
+  label_backlog: Բեքլոգ
+  label_backlog_and_sprints: Բեքլոգ և սպրինտներ
+  label_backlog_bucket_edit: Խմբագրել բեքլոգի բաժինը
+  label_backlog_bucket_new: Բեքլոգի նոր բաժին
+  label_backlogs: Բեքլոգներ
+  label_burndown_chart: Այրման գծապատկեր
+  label_inbox: Մուտքային արկղ
+  label_points_burn_down: Ներքև
+  label_points_burn_up: Վերև
+  label_sprint_board: Սպրինտի տախտակ
+  label_sprint_edit: Խմբագրել սպրինտը
+  label_sprint_new: Նոր սպրինտ
+  label_task_board: Առաջադրանքների տախտակ
+  notice_successful_finish: Սպրինտն ավարտվել է։
+  notice_successful_start: Սպրինտը սկսվել է։
+  notice_unsuccessful_finish: Սպրինտը չհաջողվեց ավարտել։
+  notice_unsuccessful_finish_with_reason: Սպրինտը չհաջողվեց ավարտել՝ %{reason}
+  notice_unsuccessful_start: Սպրինտը չհաջողվեց սկսել։
+  notice_unsuccessful_start_with_reason: Սպրինտը չհաջողվեց սկսել՝ %{reason}
+  notice_work_package_invisible_after_move: 'Աշխատանքային փաթեթը տեղափոխվել է %{backlog}, սակայն տեսանելի չէ, քանի որ դրա տեսակը կամ կարգավիճակը բացառված է բեքլոգից։
+
+    '
+  permission_create_sprints: Ստեղծել սպրինտներ
+  permission_manage_sprint_items: Կառավարել սպրինտի տարրերը
+  permission_select_backlog_types_and_statuses: Ընտրել բեքլոգի տեսակները և կարգավիճակները
+  permission_select_backlog_types_and_statuses_explanation: 'Թույլ է տալիս ընտրել, թե աշխատանքային փաթեթների որ տեսակները թաքցնել բեքլոգից։ Նաև թույլ է տալիս սահմանել, թե որ կարգավիճակները ներկայացնում են փակված կամ ավարտված վիճակ նախագծի աշխատանքային հոսքում։
+
+    '
+  permission_share_sprint: Համօգտագործել սպրինտը
+  permission_start_complete_sprint: Սկսել/ավարտել սպրինտը
+  permission_view_sprints: Դիտել սպրինտները
+  plugin_openproject_backlogs:
+    description: Այս մոդուլն ավելացնում է հնարավորություններ, որոնք ճկուն թիմերին թույլ են տալիս աշխատել OpenProject-ում Scrum նախագծերում։
+    name: OpenProject-ի բեքլոգներ
+  project_module_backlogs: Բեքլոգներ
+  projects:
+    copy:
+      backlog_buckets: Բեքլոգի բաժիններ
+      sprints: Սպրինտներ
+    settings:
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: Այս նախագծում ստեղծված սպրինտները հասանելի և տեսանելի կլինեն միայն այս նախագծին։ Դրանք տեսանելի չեն լինի նաև ենթանախագծերին։
+            label: Չհամօգտագործել
+          receive_shared:
+            caption: Այս նախագիծը կարող է օգտագործել միայն այլ նախագծերի կողմից համօգտագործված սպրինտները։
+            label: Ստանալ համօգտագործված սպրինտներ
+            warning: Այս նախագիծը կարող է օգտագործել միայն այլ նախագծերի կողմից համօգտագործված սպրինտները։ Այս նախագծում նախկինում ստեղծված չօգտագործված սպրինտներն այլևս տեսանելի չեն լինի։
+          share_all_projects:
+            caption: Այս նախագծում ստեղծված սպրինտները հասանելի կլինեն այս համակարգի բոլոր նախագծերին։ Եթե ընտրեք այս տարբերակը, այն այլևս հասանելի չի լինի այլ նախագծերին։
+            disabled_caption: Տարբերակը հասանելի չէ, քանի որ "%{name}" նախագիծը ներկայումս համօգտագործում է բոլոր նախագծերի հետ, և միայն մեկ նախագիծ կարող է դա անել։
+            disabled_caption_anonymous: Ընտրանքը հասանելի չէ, քանի որ մեկ այլ նախագիծ ներկայումս համօգտագործում է բոլոր նախագծերի հետ, և միայն մեկ նախագիծ կարող է դա անել։
+            label: Բոլոր նախագծերը
+          share_subprojects:
+            caption: Այս նախագծում ստեղծված սպրինտները հասանելի կլինեն ընթացիկ նախագծի բոլոր ենթանախագծերին։
+            info: Սպրինտը համօգտագործելիս բոլոր նախագծերում կհամօգտագործվեն անվանումը, կարգավիճակը, ինչպես նաև սկզբի և ավարտի ամսաթվերը։ Դրանք հնարավոր չէ փոփոխել այն նախագծերում, որոնք ստանում և օգտագործում են այս սպրինտները։
+            label: Ենթանախագծեր
+        sprint_sharing: Համօգտագործել սպրինտները
+      backlogs:
+        multiple_active_sprints:
+          description: Կանխադրված դեպքում յուրաքանչյուր նախագծում միաժամանակ կարող է ակտիվ լինել միայն մեկ սպրինտ։ Դուք կարող եք փոխել դա այնպես, որ այս նախագծում մի քանի սպրինտ կարողանա զուգահեռաբար ակտիվ լինել։
+          heading: Ակտիվ սպրինտների քանակ
+        multiple_active_sprints_component:
+          cannot_turn_off: Ներկայումս ակտիվ են մի քանի սպրինտ։ Միաժամանակ միայն մեկ ակտիվ սպրինտ թույլատրելու կարգավորմանը վերադառնալու համար խնդրում ենք նախ համոզվել, որ ակտիվ է առավելագույնը մեկ սպրինտ։
+          not_available_html: Մի քանի ակտիվ սպրինտ հասանելի չէ, երբ միացված է <a href=%{sprint_sharing_url}>սպրինտների համօգտագործումը</a> կամ ստացումը։
+        sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Սպրինտների համօգտագործումը հասանելի չէ, երբ միացված են մի քանի ակտիվ սպրինտ։
+          sharing_description: Այս նախագիծը կարող է կամ համօգտագործել իր սպրինտները, կամ ստանալ համօգտագործված սպրինտներ, կամ սպրինտները կառավարել ինքնուրույն (առանց համօգտագործման)։
+          sharing_fallback_description: Corporate Enterprise պլանի բացակայության դեպքում համօգտագործման ընտրանքները սահմանափակված են նախագծի սեփական սպրինտներով։ Ներկայումս ակտիվ կարգավորումը մնում է ակտիվ։
+  query_fields:
+    backlog_inbox: Բեքլոգի մուտքային արկղ
+  remaining_hours: մնացած աշխատանք

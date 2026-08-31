@@ -1,16 +1,22 @@
 .op-inplace-edit
   &--display-field
-    &_editable
-      margin-left: -9px !important // cancel out 8px padding + 1px border
-      margin-right: -9px !important // cancel out 8px padding + 1px border
-      padding: var(--base-size-8)
-      width: calc(100% + 18px) !important
-      border: 1px solid transparent
-      border-radius: var(--borderRadius-medium)
+    padding: var(--base-size-4) var(--base-size-8)
+    border: 1px solid transparent
+    border-radius: var(--borderRadius-medium)
+    @include text-shortener(false)
 
-      &:hover, &:focus
-        border-color: var(--borderColor-default)
-        box-shadow: var(--shadow-inset)
+    &:hover, &:focus
+      border-color: var(--borderColor-default)
+      box-shadow: var(--shadow-inset)
 
-    &:not(&_editable)
+    &:not(&_clickable)
       cursor: not-allowed
+      &:hover, &:focus
+        background-color: var(--bgColor-muted)
+
+  &--dialog
+    .op-inplace-edit--display-field
+      &:not(&_clickable)
+          &:hover, &:focus
+            border-color: transparent
+            box-shadow: none

@@ -294,6 +294,34 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
       end
     end
 
+    context "with image and dark_image parameters" do
+      let(:component_args) do
+        { variant: :large, image: "enterprise/homescreen.png", dark_image: "enterprise/hierarchies.png" }
+      end
+
+      it "renders both images" do
+        render_component_in_mo
+
+        component = find_test_selector(component_test_selector)
+
+        expect(component)
+          .to have_css('img.op-enterprise-banner--media_light[src$="/enterprise/homescreen.png"]')
+        expect(component)
+          .to have_css('img.op-enterprise-banner--media_dark[src$="/enterprise/hierarchies.png"]')
+      end
+    end
+
+    context "with dark_image but without image parameter" do
+      let(:component_args) do
+        { variant: :large, video: "enterprise/date-alert-notifications.mp4", dark_image: "enterprise/hierarchies.png" }
+      end
+
+      it "raises an error" do
+        expect { render_component_in_mo }
+          .to raise_error(ArgumentError, "The 'dark_image' parameter requires the 'image' parameter")
+      end
+    end
+
     context "with video and image parameters" do
       let(:component_args) do
         { variant: :large, video: "enterprise/date-alert-notifications.mp4", image: "enterprise/homescreen.png" }
@@ -315,6 +343,41 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
     end
   end
 
+  context "with medium variant" do
+    context "with image parameter" do
+      let(:component_args) { { variant: :medium, image: "enterprise/homescreen.png" } }
+
+      it "renders the image as a background custom property" do
+        render_component_in_mo
+
+        component = find_test_selector(component_test_selector)
+
+        expect(component[:class]).to include("op-enterprise-banner_medium")
+
+        image_area = component.find(".op-enterprise-banner--image")
+        expect(image_area[:style]).to include("--op-enterprise-banner--image: url(")
+        expect(image_area[:style]).not_to include("--op-enterprise-banner--image-dark")
+        expect(image_area[:class]).not_to include("op-enterprise-banner--image_dark-variant")
+      end
+    end
+
+    context "with image and dark_image parameters" do
+      let(:component_args) do
+        { variant: :medium, image: "enterprise/homescreen.png", dark_image: "enterprise/hierarchies.png" }
+      end
+
+      it "renders both images as background custom properties" do
+        render_component_in_mo
+
+        component = find_test_selector(component_test_selector)
+
+        image_area = component.find(".op-enterprise-banner--image_dark-variant")
+        expect(image_area[:style]).to include("--op-enterprise-banner--image: url(")
+        expect(image_area[:style]).to include("--op-enterprise-banner--image-dark: url(")
+      end
+    end
+  end
+
   context "with a trial token", :with_ee_trial, with_ee: [:some_enterprise_feature] do
     current_user { build(:admin) }
 
@@ -331,6 +394,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
       expect(component).to have_css(".op-enterprise-banner--dismiss")
       expect(component).to have_content("Buy now")
+      expect(component).to have_content("This feature is included in your active Enterprise trial.")
     end
   end
 end

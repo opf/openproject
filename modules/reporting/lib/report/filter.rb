@@ -40,6 +40,6 @@ class Report::Filter
   end
 
   def self.from_hash
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 end

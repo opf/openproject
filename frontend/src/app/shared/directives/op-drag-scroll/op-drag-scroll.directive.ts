@@ -21,11 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { Directive, ElementRef, OnInit } from '@angular/core';
+
+import { Directive, ElementRef, OnInit, inject } from '@angular/core';
 
 declare global {
   interface GlobalEventHandlersEventMap {
@@ -38,8 +39,8 @@ declare global {
   standalone: false,
 })
 export class OpDragScrollDirective implements OnInit {
-  constructor(readonly elementRef:ElementRef<HTMLElement>) {
-  }
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;

@@ -38,17 +38,6 @@ module OpenProject::TextFormatting::Formats
       end
 
       def wikitoolbar_for(field_id, **context)
-        # Hide the original textarea
-        view_context.content_for(:additional_js_dom_ready) do
-          js = <<-JAVASCRIPT
-            var field = document.getElementById('#{field_id}');
-            field.style.display = 'none';
-            field.removeAttribute('required');
-          JAVASCRIPT
-
-          js.html_safe
-        end
-
         # Pass an optional resource to the CKEditor instance
         resource = context.fetch(:resource, {})
         helpers.angular_component_tag "opce-ckeditor-augmented-textarea",

@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("my_account.notifications.project_specific_settings.dialog_title"),
+        position: :right,
+        test_selector: "project-specific-settings-form"
+      )
+    ) do |d|
+      d.with_body do
+        primer_form_with(
+          model: notification_setting,
+          scope: :notification_setting,
+          url: @form_url,
+          method: edit_mode? ? :patch : :post,
+          html: { id: FORM_ID },
+          data: {
+            turbo: false,
+            controller: "show-when-checked",
+            show_when_checked_visibility_class: "d-none"
+          }
+        ) do |form|
+          forms = [My::Notifications::ProjectAutocompleterForm.new(form, readonly: edit_mode?, user: @user)]
+          forms << My::Notifications::ParticipatingForm.new(form, show_submit: false)
+          forms << My::Notifications::DateAlertsForm.new(form, show_submit: false) if date_alerts_available?
+          forms << My::Notifications::NonParticipatingForm.new(form, show_submit: false)
+          render(Primer::Forms::FormList.new(*forms))
+        end
+      end
+      d.with_footer(show_divider: true) do
+        concat(render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t("button_cancel") })
+        concat(render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: FORM_ID)) { t("button_save") })
+      end
+    end %>

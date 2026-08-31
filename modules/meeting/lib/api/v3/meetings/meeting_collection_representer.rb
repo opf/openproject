@@ -31,6 +31,23 @@ module API
   module V3
     module Meetings
       class MeetingCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        link :createMeetingImmediately do
+          next unless current_user.allowed_in_any_project?(:create_meetings)
+
+          {
+            href: api_v3_paths.meetings,
+            method: :post
+          }
+        end
+
+        link :createMeeting do
+          next unless current_user.allowed_in_any_project?(:create_meetings)
+
+          {
+            href: api_v3_paths.create_meeting_form,
+            method: :post
+          }
+        end
       end
     end
   end

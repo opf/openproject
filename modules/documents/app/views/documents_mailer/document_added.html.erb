@@ -29,4 +29,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <p><%= link_to(@document.title, document_url(@document)) %> (<%= @document.type.name %>)</p>
 
-<%= format_text @document.description %>
+<%= format_mail_html @document.description %>

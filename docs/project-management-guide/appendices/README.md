@@ -98,18 +98,18 @@ This version of the PM² Guide has been produced by:
 
 DIGIT.A2.001, Procurement and Programme Management Solutions. Portfolio Methodologies and Tools
 
-1. CHLAPANI Angeliki *Head of Unit*
-2. KAMINSKI Thomasz *Deputy Head of Unit*
-3. MUSAT Bogdan *Head of Sector*
+1. CHLAPANI Angeliki _Head of Unit_
+2. KAMINSKI Thomasz _Deputy Head of Unit_
+3. MUSAT Bogdan _Head of Sector_
 
 Centre of Excellence in PM² (CoEPM²):
 
-1. SEMERDZHIEVA Svetla *Team Lead*
-2. WHYE Gregory Senior *Consultant*
-3. SUFARU Maria-Cristina *Senior Consultant*
-4. BOCHAROVA Ksenia *Senior Consultant*
-5. LEFTER Diana-Mihaela *Senior Consultant*
-6. COOPER GUMIEL Veronica *Communications Consultant*
+1. SEMERDZHIEVA Svetla _Team Lead_
+2. WHYE Gregory Senior _Consultant_
+3. SUFARU Maria-Cristina _Senior Consultant_
+4. BOCHAROVA Ksenia _Senior Consultant_
+5. LEFTER Diana-Mihaela _Senior Consultant_
+6. COOPER GUMIEL Veronica _Communications Consultant_
 
 Former CoEPM² members who recently moved on to other assignments:
 
@@ -158,7 +158,6 @@ The Requirements Management Plan can be tailored and customised to the project's
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Requirements Management Plan |  | I | I | A | C | C | I | R | S |
 
-
 | Related Artefacts | Initiating | Planning |  | Executing |  | Monitor \& Control |  | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Requirements <br> Management | Project Charter | Project Handbook <br> Requirements <br> Management Plan <br> Deliverables <br> Acceptance Plan |  | Change <br> Requests | Requirements Document(s) <br> Project Work Plan <br> Project Logs |  | Project-End Report |  |
@@ -200,7 +199,6 @@ Project change management brings transparency, accountability and traceability t
 | RAM (RASCI) |  | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Project Change Management Plan |  | I | I | A | C | I | I | R | I |
-
 
 | Related artefacts | Initiating | Planning | Executing | Monitor \& control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -246,7 +244,6 @@ Risk management brings visibility to risks and accountability as to how they are
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Risk Management Plan | I | C | A | C | I | I | R | I |
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -295,7 +292,6 @@ An Issue Log is used to document the identification, evaluation and assignment o
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Issue Management Plan | I | I | A | C | C | I | R | C |
 
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Issue Management | Project <br> Charter | Project Handbook <br> Issue Management Plan | Project <br> Reports | Issue Log <br> Decision Log | Project-End Report |
@@ -305,7 +301,6 @@ An Issue Log is used to document the identification, evaluation and assignment o
 - Issue Management Plan
 - Issue Log
 - Decision Log
-
 
 ### B. 5 Quality management plan 
 
@@ -362,7 +357,6 @@ A configuration management procedure is also documented in the Quality Managemen
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management Plan |  | I | A | C | C | C | C | R | C |
 
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management | Project <br> Charter | Project Handbook <br> Quality <br> Management Plan | Quality Review <br> Reports <br> Audit Reports | Quality Review Checklist Project Logs Phase-exit Review Checklist | Project-End Report <br> Project Acceptance <br> Note |
@@ -372,7 +366,6 @@ A configuration management procedure is also documented in the Quality Managemen
 - Quality Management Plan
 - Quality Review Checklist
 - Phase-exit Review Checklist
-
 
 ### B. 6 Communications management plan 
 
@@ -408,7 +401,6 @@ The Communications Management Plan defines and documents communication activitie
 | RAM (RASCI) |  | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Communications Management Plan |  | I | I | A | S | C | I | R | C |
-
 
 | Related artefacts | Initiating | Planning |  | Executing |  | Monitor \& control |  | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -646,7 +638,6 @@ PM² recognises the complex and uncertain nature of many types of projects and t
 Agile approaches face various challenges, which grow with the size of the organisations in which they are applied. In the case of many organisations, these challenges include coordination between Agile and nonAgile teams, compliance with various organisational governance and audit requirements, and organisational architecture and interoperability constraints.
 ![Fig D. 1 From project phases to daily cycles](d.01.png)
 
-
 The Agile extension to PM² incorporates Agile into the overall PM² framework and creates the foundations for moving towards increased project management and organisational agility. It helps project teams achieve the desired level of agility while accommodating tight procurement and audit requirements, coordination with the programme and portfolio levels, and collaboration with other projects, contractors, other organisational units and even external organisations.
 
 **The Agile extension to PM² provides (for IT projects):**
@@ -662,8 +653,6 @@ Documenting the work planned and performed by the Agile teams is critical to inc
 A set of artefacts supports the use of Agile PM². These artefacts capture and document information related to the management approach, to specific (implementation) activities, milestones, issues and progress reporting. These artefacts are grouped in three categories: Agile-Specific Artefacts, Coordination \& Reporting Artefacts, and Project Governance Artefacts.
 ![Fig D. 3 Agile PM² Artefacts Landscape](d.03.png)
 
-
-
 #### D.1.2 PM² Programme Management (PgM²) 
 
 A programme is a collection of projects aimed towards a common goal which are managed in a coordinated way to obtain benefits and control that could not be obtained from managing them individually.
@@ -672,8 +661,6 @@ Programmes may also include work outside the scope of the discrete projects in t
 
 The programme management layer interacts with the project management layer in that it initiates and coordinates the projects within the programme. The programme itself is initiated from the portfolio management layer within the organisation.
 ![Fig D. 4 Relationships between strategy, project, programme, portfolio and operations](d.04.png)
-
-
 
 **Programme Lifecycle** 
 
@@ -684,12 +671,9 @@ The Executing Phase can also contain several Stages, each one being linked to a 
 The typical programme management activities performed during each phase go hand-in-hand with a number of programme artefacts.
 ![Fig D. 5 The PM² Programme Lifecycle and Artefacts Landscape](d.05.png)
 
-
-
 **Programme Organisation**
 
 ![Fig D. 6 The PM²-Programme organisation](d.06.png)
-
 
 The Programme Owner (PgO) is accountable for the programme's success, whereas the day-to-day management of the programme is delegated to the Programme Manager (PgM), whose focus is to achieve the programme outcomes.
 
@@ -723,7 +707,6 @@ Is the continuous process in which the authorised programmes and projects are ma
 
 Is the continuous process of analysing and interacting with the different stakeholders to ensure their effective involvement in the composition and realisation of the portfolio's objectives.
 ![Fig D. 7 PM² Portfolio Management Process Model](d.07.png)
-
 
 The Portfolio Composition process feeds the continuous processes of Portfolio Realisation with new portfolio components (i.e. programmes or projects), the progress and results of which are communicated by executing the Portfolio Communication \& Stakeholder Management process. The characteristics and governance of the portfolio, as well as the activities of the portfolio management processes and the artefacts produced are defined by the Portfolio Framework.
 
@@ -850,7 +833,6 @@ The purpose of this quick start guide is to help you get started with applying P
 - Set up the Project Steering Committee (PSC).
 - Provide the justification for the project, capture the business requirements and establish its budgetary constraints.
 
-
 #### 2. Identify stakeholders and create the Project Charter -> Project Charter
 
 - Define the project scope.
@@ -858,11 +840,9 @@ The purpose of this quick start guide is to help you get started with applying P
 - Capture the high-level requirements, assumptions and constraints.
 - Decide on a project approach and estimate required resources, costs and timing.
 
-
 #### 3. Set up the Project Logs -> Issue Log, Risk Log, Change Log, Decision Log
 
 - Set up the Risk Log, Issue Log, Decision Log and Change Log. These will be used to document the management of risks, issues and changes to project scope.
-
 
 #### 4. Kick-off the Project Planning with a Meeting -> Planning Kick off, Meeting/MoMs
 
@@ -870,13 +850,11 @@ The purpose of this quick start guide is to help you get started with applying P
 - Go over the Project Charter and ensure a common understanding.
 - Communicate the next steps for the planning of the project.
 
-
 #### 5. Tailor the Project Management approach -> Project Handbook
 
 - Decide which planning documents to use and how they should be tailored.
 - Define rules, assign team responsibilities and define a conflict-resolution process.
 - Identify all stakeholders who require information during the project.
-
 
 #### 6. Create the Project Work Plan -> Project Work Plan
 
@@ -889,7 +867,7 @@ The purpose of this quick start guide is to help you get started with applying P
 
 The Centre of Excellence in PM² (CoEPM²) provides a central location for downloading all PM² information, publications, translations, etc. To study PM² in more detail you can download and review the free PM² Methodology Guide and artefact templates, and explore the online resources:
 
-- PM² Website: https://pm2.europa.eu/downloads en
+- PM² Website: https://pm2.europa.eu/
 - EU Bookshop: https://op.europa.eu/en
 - PM² on EU Academy: https://ec.europa.eu/newsroom/login?univers=informatics
 

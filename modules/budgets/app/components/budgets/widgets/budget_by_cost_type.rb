@@ -34,7 +34,6 @@ module Budgets
       REQUIRED_PERMISSIONS = %i[view_budgets view_cost_rates].freeze
 
       delegate :budget_count, :has_budgets?, :budgeted_labor, :budgeted_material_by_type,
-               :workspace_counts,
                to: :@aggregated_budgets
 
       def initialize(...)
@@ -53,6 +52,10 @@ module Budgets
 
       def chart_data
         chart_entries.values
+      end
+
+      def has_budgets_data?
+        has_budgets? && chart_data.any?
       end
 
       private

@@ -21,16 +21,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Injectable,
-  Injector,
-  OnDestroy,
-} from '@angular/core';
+import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   Observable,
@@ -39,20 +35,18 @@ import {
 } from 'rxjs';
 import { ComponentType } from '@angular/cdk/portal';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
-  @InjectField() I18n!:I18nService;
+  readonly injector = inject(Injector);
 
-  @InjectField() protected readonly currentUser:CurrentUserService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() protected readonly currentProject:CurrentProjectService;
+  protected readonly currentUser = inject(CurrentUserService);
 
-  constructor(readonly injector:Injector) {
-  }
+  protected readonly currentProject = inject(CurrentProjectService);
 
   /**
    * A separate reference pane for the inline create component

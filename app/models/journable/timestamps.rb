@@ -93,20 +93,8 @@ module Journable::Timestamps
   def at_timestamp(timestamp)
     return unless journal = journals.at_timestamp(timestamp).first
 
-    attributes = journal.data.attributes.merge(
-      {
-        "id" => id,
-        "created_at" => created_at,
-        "updated_at" => journal.updated_at,
-        "timestamp" => timestamp,
-        "journal_id" => journal.id
-      }
-    )
-    self.class.column_names_missing_in_journal.each do |missing_column_name|
-      attributes[missing_column_name] = nil
-    end
-    journable = self.class.instantiate(attributes)
-    ::Journable::WithHistoricAttributes.load_custom_values(journable)
+    journable = self.class.instantiate(historic_attributes(journal, timestamp))
+    ::Journable::WithHistoricAttributes.load_journal_associations(journable)
     journable.readonly!
     journable
   end
@@ -127,5 +115,21 @@ module Journable::Timestamps
     raise ActiveRecord::RecordNotSaved, "This is no historic data. You can only revert to historic data." unless historic?
 
     self.class.find(id).update! attributes.except("id", "timestamp", "journal_id", "created_at", "updated_at")
+  end
+
+  private
+
+  def historic_attributes(journal, timestamp)
+    attributes = journal.data.attributes.merge(
+      "id" => id,
+      "created_at" => created_at,
+      "updated_at" => journal.updated_at,
+      "timestamp" => timestamp,
+      "journal_id" => journal.id
+    )
+    self.class.column_names_missing_in_journal.each do |missing_column_name|
+      attributes[missing_column_name] = nil
+    end
+    attributes
   end
 end

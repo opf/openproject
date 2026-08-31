@@ -119,6 +119,50 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
       end
     end
 
+    describe "when the setting for work package identifiers is set to classic",
+             with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
+      let!(:classic_work_package) do
+        create(:work_package,
+               project:,
+               subject: "Classic work package")
+      end
+
+      context "when searching by database id without a prefix" do
+        let(:values) { [classic_work_package.id.to_s] }
+
+        it "returns the work package with the matching id" do
+          expect(subject).to include(classic_work_package)
+          expect(subject).not_to include(epic_work_package, bug_work_package, task_work_package)
+        end
+      end
+
+      context "when searching by database id prefixed with a hash" do
+        let(:values) { ["##{classic_work_package.id}"] }
+
+        it "returns the work package with the matching id" do
+          expect(subject).to include(classic_work_package)
+          expect(subject).not_to include(epic_work_package, bug_work_package, task_work_package)
+        end
+      end
+
+      context "and a work package still carries a sequence number from a previous semantic phase" do
+        let(:sequence_number) { 987_654_321 }
+
+        before do
+          classic_work_package.update_columns(sequence_number:,
+                                              identifier: "#{project.identifier}-#{sequence_number}")
+        end
+
+        context "when searching for that sequence number" do
+          let(:values) { [sequence_number.to_s] }
+
+          it "does not return the work package, as sequence numbers are not displayed in classic mode" do
+            expect(subject).not_to include(classic_work_package)
+          end
+        end
+      end
+    end
+
     context "when searching for 'epic gorilla'" do
       let(:values) { ["epic gorilla"] }
 
@@ -169,6 +213,165 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
 
       it "returns no work packages" do
         expect(subject).to be_empty
+      end
+    end
+
+    describe "when the setting for work package identifiers is set to semantic",
+             with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+      before do
+        previous_identifier = project.identifier
+        project.update!(identifier: "PHX")
+        project.handle_semantic_rename(previous_identifier)
+      end
+
+      let!(:identifier_work_package1) do
+        create(:work_package,
+               project:,
+               subject: "First semantic work package")
+      end
+
+      let!(:identifier_work_package2) do
+        create(:work_package,
+               project:,
+               subject: "Second semantic work package")
+      end
+
+      context "when searching by work package identifier" do
+        let(:values) { [identifier_work_package1.identifier] }
+
+        it "returns work packages with matching identifier" do
+          expect(subject).to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
+      end
+
+      context "when searching by lower case work package identifier" do
+        let(:values) { [identifier_work_package1.identifier.downcase] }
+
+        it "returns work packages with matching identifier" do
+          expect(subject).to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
+      end
+
+      context "when searching by work package identifier prefixed with a hash" do
+        let(:values) { ["##{identifier_work_package1.identifier}"] }
+
+        it "returns work packages with matching identifier" do
+          expect(subject).to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
+      end
+
+      context "when searching for partial identifier" do
+        let(:values) { [project.identifier] }
+
+        it "returns work packages with matching identifier" do
+          expect(subject).to include(identifier_work_package1, identifier_work_package2)
+        end
+      end
+
+      context "and one work package's sequence number is another work package's database id" do
+        let!(:id_twin) do
+          create(:work_package,
+                 project:,
+                 type: task_type,
+                 status: open_status,
+                 subject: "Id twin work package")
+        end
+
+        # The database id cannot be chosen, so the sequence number has to follow it. Direct
+        # assignment is blocked by a validation, hence update_columns.
+        let!(:sequence_number_twin) do
+          create(:work_package,
+                 project:,
+                 type: task_type,
+                 status: open_status,
+                 subject: "Sequence number twin work package").tap do |work_package|
+            work_package.update_columns(sequence_number: id_twin.id,
+                                        identifier: "#{project.identifier}-#{id_twin.id}")
+          end
+        end
+
+        context "when searching for that number without a prefix" do
+          let(:values) { [id_twin.id.to_s] }
+
+          it "returns the work package with the matching sequence number, not the one with the matching id" do
+            expect(subject).to include(sequence_number_twin)
+            expect(subject).not_to include(id_twin)
+          end
+        end
+
+        context "when searching for that number prefixed with a hash" do
+          let(:values) { ["##{id_twin.id}"] }
+
+          it "returns the work package with the matching id, not the one with the matching sequence number" do
+            expect(subject).to include(id_twin)
+            expect(subject).not_to include(sequence_number_twin)
+          end
+        end
+      end
+
+      context "and the project identifier changed" do
+        before do
+          project.update!(identifier: "PHO")
+          project.reload.handle_semantic_rename("PHX")
+        end
+
+        context "when searching for the previous identifier of the work package" do
+          let(:values) { ["PHX-#{identifier_work_package1.sequence_number}"] }
+
+          it "still finds the work package" do
+            expect(identifier_work_package1.reload.identifier).to start_with("PHO")
+            expect(subject).to include(identifier_work_package1)
+            expect(subject).not_to include(identifier_work_package2)
+          end
+        end
+      end
+    end
+
+    describe "when the setting for work package identifiers is set to classic but was semantic before",
+             with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
+      let!(:identifier_work_package1) do
+        create(:work_package,
+               project:,
+               subject: "First semantic work package")
+      end
+
+      let!(:identifier_work_package1_semantic_alias) do
+        create(:work_package_semantic_alias,
+               work_package: identifier_work_package1,
+               identifier: "PHO-1")
+      end
+
+      let!(:identifier_work_package2) do
+        create(:work_package,
+               project:,
+               subject: "Second semantic work package")
+      end
+
+      let!(:identifier_work_package2_semantic_alias) do
+        create(:work_package_semantic_alias,
+               work_package: identifier_work_package2,
+               identifier: "PHO-2")
+      end
+
+      context "when searching by a semantic identifier prefixed with '#'" do
+        let(:values) { ["##{identifier_work_package1_semantic_alias.identifier}"] }
+
+        it "still finds by existing identifiers" do
+          expect(subject).to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
+      end
+
+      context "when searching by a semantic identifier not prefixed with '#'" do
+        let(:values) { [identifier_work_package1_semantic_alias.identifier] }
+
+        it "does not find by existing identifiers" do
+          expect(subject).not_to include(identifier_work_package1)
+          expect(subject).not_to include(identifier_work_package2)
+        end
       end
     end
 

@@ -35,10 +35,14 @@ module API
 
           include API::Caching::CachedRepresenter
 
-          cached_representer key_parts: %i[project type],
+          # type_variant is part of the key on top of type: the configuration in force changes
+          # when the project resolves the family to a different variant, which touches neither
+          # the project's nor the type's timestamp.
+          cached_representer key_parts: %i[project type type_variant],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
-                                                                                Setting.plugin_openproject_backlogs]
+                               all_permissions_granted_to_user_under_project +
+                                 [Setting.work_package_done_ratio,
+                                  Setting::WorkPackageMultipleVersions.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -116,11 +120,11 @@ module API
                  min_length: 1,
                  max_length: 255,
                  has_default: -> {
-                   represented.type&.replacement_pattern_defined_for?(:subject)
+                   represented.type_variant&.replacement_pattern_defined_for?(:subject)
                  },
                  placeholder: -> {
-                   if represented.type&.replacement_pattern_defined_for?(:subject)
-                     I18n.t("placeholders.templated_hint", type: represented.type.name)
+                   if represented.type_variant&.replacement_pattern_defined_for?(:subject)
+                     I18n.t("placeholders.templated_hint", type: represented.type_variant.name)
                    end
                  }
 
@@ -301,6 +305,8 @@ module API
                                          },
                                          required: false
 
+          # Deprecated in favour of `targetVersions`
+          # Removed from the API if multiple_versions is enabled on the instance
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: ->(version) {
@@ -309,6 +315,43 @@ module API
                                              title: version.name
                                            }
                                          },
+                                         required: false,
+                                         deprecated: true,
+                                         # writes through to target_versions, so it is writable when target_versions are.
+                                         writable: ->(*) { represented.writable?(:target_versions) },
+                                         show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
+                                         description: -> { I18n.t("api_v3.attributes.version.deprecated") }
+
+          # While multiple versions is not enabled, the field keeps the label of the
+          # single-valued version field it replaces and announces via options.multiple
+          # that the UI must restrict it to a single value.
+          schema_with_allowed_collection :target_versions,
+                                         type: "[]Version",
+                                         name_source: -> {
+                                           attribute = Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version
+                                           WorkPackage.human_attribute_name(attribute)
+                                         },
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:target_versions) },
+                                         required: false,
+                                         options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
+
+          schema_with_allowed_collection :observed_in_versions,
+                                         type: "[]Version",
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:observed_in_versions) },
                                          required: false
 
           schema_with_allowed_collection :priority,
@@ -337,7 +380,7 @@ module API
                                          }
 
           def attribute_groups
-            (represented.type&.attribute_groups || []).map do |group|
+            (represented.type_variant&.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
                 form_config_query_representation(group)
               else
@@ -349,9 +392,9 @@ module API
           ##
           # Return a map of attribute => group name
           def attribute_group_map(key)
-            return nil if represented.type.nil?
+            return nil if represented.type_variant.nil?
 
-            @attribute_group_map ||= represented.type.attribute_groups.each_with_object({}) do |group, hash|
+            @attribute_group_map ||= represented.type_variant.attribute_groups.each_with_object({}) do |group, hash|
               Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
             end
 
@@ -385,7 +428,7 @@ module API
           end
 
           def form_config_attribute_representation(group)
-            OpenProject::Cache.fetch(*form_config_attribute_cache_key(group)) do
+            OpenProject::Cache.fetch_request_cached(*form_config_attribute_cache_key(group)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
                               .new(group, current_user:, project: represented.project, embed_links: true)
                               .to_json)
@@ -397,7 +440,7 @@ module API
              group.key,
              I18n.locale,
              represented.project,
-             represented.type,
+             represented.type_variant,
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact

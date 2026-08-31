@@ -19,23 +19,18 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 sk:
   js:
-    costs:
-      widgets:
-        actual_costs:
-          blankslate:
-            title: "No data for current year"
-            description: "Log spent time and costs for work packages to start tracking actual costs"
-    text_are_you_sure: "Ste si istí?"
+    button_log_costs: Zaúčtovať jednotkové náklady
+    label_hour: hodina
+    label_hours: hodín
     myTimeTracking:
-      noSpecificTime: "No specific time"
+      noSpecificTime: No specific time
+    text_are_you_sure: Ste si istí?
     work_packages:
-      property_groups:
-        costs: "Náklady"
       properties:
-        overallCosts: "Celkové náklady"
-        spentUnits: "Použité jednotky"
-    button_log_costs: "Zaúčtovať jednotkové náklady"
-    label_hour: "hodina"
-    label_hours: "hodín"
+        overallCosts: Celkové náklady
+        spentUnits: Použité jednotky
+      property_groups:
+        costs: Náklady

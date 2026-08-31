@@ -103,6 +103,12 @@ RSpec.describe NewsController do
 
         expect(response).to be_not_found
       end
+
+      it "renders edit link with correct project identifier" do
+        get :show, params: { project_id: news.project_id, id: news.id }
+
+        expect(response.body).to include edit_project_news_path(project, news)
+      end
     end
   end
 

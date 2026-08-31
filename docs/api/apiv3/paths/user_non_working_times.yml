@@ -1,0 +1,156 @@
+# /api/v3/users/{id}/non_working_times
+---
+get:
+  summary: List personal non-working times for a user
+  operationId: list_user_non_working_times
+  tags:
+    - User Working Times
+  description: |-
+    Returns all personal non-working times for the given user, ordered by start date ascending.
+
+    Personal non-working times mark date ranges as non-working for a user
+    (e.g., a local holiday or personal day off not covered by the system-wide non-working days).
+
+    **Required permissions:**
+    - Administrators can view non-working days for any user.
+    - Users with the global `manage_own_working_times` permission can view their own records.
+    - Users with the global `manage_working_times` permission can view non-working days for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+    - name: year
+      in: query
+      required: false
+      description: |-
+        Filter results to the given year. Defaults to the current year if not provided.
+      schema:
+        type: integer
+      example: 2025
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_non_working_time_collection_model.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
+      description: Returned if the user does not exist or is not visible to the requesting user.
+
+post:
+  summary: Create a personal non-working day for a user
+  operationId: create_user_non_working_time
+  tags:
+    - User Working Times
+  description: |-
+    Creates a personal non-working time range for the given user.
+
+    The date range must not overlap with an existing non-working time record for the same user.
+
+    **Required permissions:**
+    - Administrators can create non-working days for any user.
+    - Users with the global `manage_own_working_times` permission can create records for themselves.
+    - Users with the global `manage_working_times` permission can create non-working days for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/user_non_working_time_model.yml"
+        example:
+          startDate: "2025-06-16"
+          endDate: "2025-06-20"
+  responses:
+    "201":
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_non_working_time_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
+      description: Returned if the user does not exist or is not visible to the requesting user.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: |-
+        Returned if the request body contains invalid parameters, or if the date range
+        overlaps with an existing non-working time record for the user.

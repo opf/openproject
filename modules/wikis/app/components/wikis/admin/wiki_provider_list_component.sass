@@ -1,0 +1,20 @@
+.op-wiki-provider-list--header,
+.op-wiki-provider-list--row
+  display: grid
+  grid-template-columns: 1fr 160px 220px
+  grid-template-areas: "name provider time"
+
+@media screen and (max-width: $breakpoint-lg)
+  .op-wiki-provider-list--header,
+  .op-wiki-provider-list--row
+    grid-template-columns: 1fr 160px 140px
+
+@media screen and (max-width: $breakpoint-sm)
+  .op-wiki-provider-list--row
+    grid-template-columns: 1fr
+    grid-template-areas: "name" "provider" "time"
+    grid-row-gap: 5px
+
+  .op-wiki-provider-list--header
+    grid-template-columns: 1fr
+    grid-template-areas: "name"

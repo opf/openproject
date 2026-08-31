@@ -33,7 +33,7 @@ require "rack/test"
 require_relative "../workspaces/delete_resource_examples"
 
 RSpec.describe "API v3 Program resource delete", content_type: :json do
-  describe "DELETE /api/v3/programs/:id", with_flag: { portfolio_models: true } do
+  describe "DELETE /api/v3/programs/:id" do
     include_examples "APIv3 deleting a workspace" do
       let(:workspace) { create(:program) }
       let(:path_id) { workspace.id }
@@ -44,10 +44,6 @@ RSpec.describe "API v3 Program resource delete", content_type: :json do
           create(:portfolio, public: true)
         end
 
-        it_behaves_like "not found"
-      end
-
-      context "without the feature flag enabled", with_flag: { portfolio_models: false } do
         it_behaves_like "not found"
       end
     end

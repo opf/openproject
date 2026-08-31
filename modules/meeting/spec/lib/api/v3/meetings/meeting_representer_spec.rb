@@ -90,11 +90,30 @@ RSpec.describe API::V3::Meetings::MeetingRepresenter do
       expect(subject).to be_json_eql(meeting.lock_version.to_json).at_path("lockVersion")
       expect(subject).to be_json_eql(meeting.start_time.utc.iso8601(3).to_json).at_path("startTime")
       expect(subject).to be_json_eql(meeting.end_time.utc.iso8601(3).to_json).at_path("endTime")
-      expect(subject).to be_json_eql(meeting.duration.to_json).at_path("duration")
+      expect(subject).to be_json_eql("PT1H".to_json).at_path("duration")
       expect(subject).to be_json_eql(meeting.location.to_json).at_path("location")
 
       expect(subject).to be_json_eql(meeting.created_at.utc.iso8601(3).to_json).at_path("createdAt")
       expect(subject).to be_json_eql(meeting.updated_at.utc.iso8601(3).to_json).at_path("updatedAt")
+    end
+  end
+
+  describe "notify" do
+    subject(:generated) { representer.to_json }
+
+    it "reflects the resolved notify status (notify?) rather than the raw column" do
+      allow(meeting).to receive_messages(notify?: true, notify: false)
+
+      expect(generated).to be_json_eql(true.to_json).at_path("notify")
+    end
+
+    it "invalidates the cache key when the resolved notify status changes" do
+      allow(meeting).to receive(:notify?).and_return(true)
+      cache_key_when_notifying = representer.json_cache_key
+
+      allow(meeting).to receive(:notify?).and_return(false)
+
+      expect(representer.json_cache_key).not_to eql cache_key_when_notifying
     end
   end
 end

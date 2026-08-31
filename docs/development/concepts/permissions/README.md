@@ -13,7 +13,7 @@ With RBAC, the application defines a set of roles that users and groups can be i
 
 ## Key takeaways
 
-*Permissions in OpenProject...*
+_Permissions in OpenProject..._
 
 - use the Role-based access control (RBAC) approach to allow fine-grained access to authorized resources
 - are assigned to users and groups through roles on a per-resource, per-project, or global level
@@ -28,13 +28,13 @@ that holds a set of permissions associated in a `RolePermission` lookup table.
 
 There are multiple types of roles:
 
-- [Global roles](https://github.com/opf/openproject/blob/dev/app/models/global_role.rb) that are granted to user on a global level, i.e. they are not assigned per project. They can contain the permissions to e.g., *Create new projects* or *Create* or *Manage users*
-- Entity specific roles like [WorkPackage Role](https://github.com/opf/openproject/blob/dev/app/models/work_package_role.rb) that allows a user to get certain permissions on a single entity. *Currently, those roles are only seeded and cannot be manually edited or created by administrators.*
+- [Global roles](https://github.com/opf/openproject/blob/dev/app/models/global_role.rb) that are granted to user on a global level, i.e. they are not assigned per project. They can contain the permissions to e.g., _Create new projects_ or _Create_ or _Manage users_
+- Entity specific roles like [WorkPackage Role](https://github.com/opf/openproject/blob/dev/app/models/work_package_role.rb) that allows a user to get certain permissions on a single entity. _Currently, those roles are only seeded and cannot be manually edited or created by administrators._
 - All other roles (and the de facto default) are [Project roles](https://github.com/opf/openproject/blob/dev/app/models/project_role.rb). They grant users permission on an entire project and all resources belonging to that project. There are 2 special types of project roles:
-  - *Non member* roles that is a special role that applies to any _authenticated_ user and all public projects that this user is not a member of. On the OpenProject community, it is configured to grant non-members of the public projects, i.e. all logged in users, the permissions *Add forum posts* and *Create new work package*.
-  - *Anonymous* roles that is a special role, similar to the *non member* role but applying to non-authenticated users.
+  - _Non member_ roles that is a special role that applies to any _authenticated_ user and all public projects that this user is not a member of. On the OpenProject community, it is configured to grant non-members of the public projects, i.e. all logged in users, the permissions _Add forum posts_ and _Create new work package_.
+  - _Anonymous_ roles that is a special role, similar to the _non member_ role but applying to non-authenticated users.
 
-In the following screenshot, you can see the builtin, non-deletable roles *Non member* and *Anonymous*, as well as three additional, user-created roles.
+In the following screenshot, you can see the builtin, non-deletable roles _Non member_ and _Anonymous_, as well as three additional, user-created roles.
 
 ![Overview of some of the roles](roles-administration.png)
 
@@ -61,10 +61,10 @@ The way a developer can check for permissions obviously depends on whether the b
 
 While not the case throughout the application, permissions:
 
-* should be checked in the Contracts whenever wanting to change a record. This also includes the values that are assignable (e.g. which users are available to become assignee of a work package)
-* should be applied to scopes whenever fetching a set of records. Even when only fetching an individual record it is best to apply a scope checking the visibility before the `find` instead of fetching the record first and then check for the visibility.
-* needs unfortunately to be checked in the view/representers whenever an attribute is visible for one group of users but not for another.
-* should **not** be checked in the controller layer unless an explicit 403 response needs to be returned.
+- should be checked in the Contracts whenever wanting to change a record. This also includes the values that are assignable (e.g. which users are available to become assignee of a work package)
+- should be applied to scopes whenever fetching a set of records. Even when only fetching an individual record it is best to apply a scope checking the visibility before the `find` instead of fetching the record first and then check for the visibility.
+- needs unfortunately to be checked in the view/representers whenever an attribute is visible for one group of users but not for another.
+- should **not** be checked in the controller layer unless an explicit 403 response needs to be returned.
 
 ### Controller `before_action`
 

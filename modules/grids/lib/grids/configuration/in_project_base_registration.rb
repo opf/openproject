@@ -14,7 +14,11 @@ module Grids::Configuration
             "custom_text"
 
     remove_query_lambda = -> {
-      ::Query.find_by(id: options[:queryId])&.destroy
+      @query = ::Query.find_by(id: options["queryId"])
+
+      next unless @query && QueryPolicy.new(User.current).allowed?(@query, :destroy)
+
+      @query.destroy!
     }
 
     save_or_manage_queries_lambda = ->(user, project) {

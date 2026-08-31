@@ -1,0 +1,17 @@
+---
+hy:
+  different_formats: Տարբեր ձևաչափեր
+  export:
+    format:
+      xls: XLS
+      xls_with_descriptions: XLS նկարագրություններով
+      xls_with_relations: XLS կապերով
+  export_to_excel: Արտահանել XLS
+  plugin_openproject_xls_export:
+    description: Արտահանել աշխատանքային փաթեթների ցուցակները որպես Excel աղյուսակներ (.xls)։
+    name: OpenProject-ի XLS արտահանում
+  print_with_description: Տպման նախադիտում նկարագրությամբ
+  sentence_separator_or: կամ
+  xls_export:
+    child_of: ենթատարր՝
+    parent_of: ծնող՝

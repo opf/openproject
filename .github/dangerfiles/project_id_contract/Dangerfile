@@ -1,0 +1,112 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# Flags contracts where `attribute :project_id` is being introduced on a
+# Base- or UpdateContract. Exposing project_id as a writable attribute allows
+# moving a resource between projects, which must be gated on permissions in
+# both the source and the destination project. Without that, a user can
+# "steal" a resource into a project they control.
+
+BASE_OR_UPDATE_CONTRACT_REGEX = %r{(?:^|/)(?:modules/[^/]+/)?app/contracts/.*?(base|update)_contract\.rb\z}
+PROJECT_ID_ATTRIBUTE_REGEX = /^\+\s*attribute\s+:project_id\b/
+
+def contracts_introducing_project_id_attribute
+  candidate_files = (git.modified_files + git.added_files).grep(BASE_OR_UPDATE_CONTRACT_REGEX)
+
+  candidate_files.select do |file|
+    diff = git.diff_for_file(file)
+    next false unless diff
+
+    diff.patch.to_s.lines.any? { |line| line.match?(PROJECT_ID_ATTRIBUTE_REGEX) }
+  end
+end
+
+flagged_files = contracts_introducing_project_id_attribute
+
+if flagged_files.any?
+  message_lines = [
+    "**Attention developer & reviewer: `attribute :project_id` found in a Base- or UpdateContract:**",
+    ""
+  ]
+
+  flagged_files.each do |file|
+    message_lines << "- #{file}"
+  end
+
+  message_lines << <<~EOS
+
+    Allowing `project_id` to be written outside of the CreateContract means a resource can be moved between projects.
+    Without explicit permission checks in **both** the source and the destination project,
+    a user can move (and thus "steal") resources into a project they control.
+
+    **Please make sure the contract:**
+
+    1. Includes the `UnchangedProject` concern
+    2. Validates the `manage`-permission against the **source** project (using `with_unchanged_project_id`)
+    3. Validates the `manage`-permission against the **destination** project when `project_id_changed?`
+
+    **Example:**
+
+    ```ruby
+    include UnchangedProject
+
+    MANAGE_PERMISSION = :manage_something
+
+    validate :validate_manage_allowed_in_source_project
+    validate :validate_manage_allowed_in_destination_project
+
+    private
+
+    def validate_manage_allowed_in_source_project
+      if model.new_record?
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
+        return
+      end
+
+      with_unchanged_project_id do
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
+      end
+    end
+
+    def validate_manage_allowed_in_destination_project
+      return if model.new_record?
+      return unless model.project_id_changed?
+
+      unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
+    ```
+
+    If this contract already handles both checks, feel free to resolve this warning.
+  EOS
+
+  warn message_lines.join("\n")
+end

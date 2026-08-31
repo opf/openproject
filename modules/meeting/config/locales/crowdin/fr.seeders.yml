@@ -13,17 +13,18 @@ fr:
           meeting_agenda_items:
             item_0:
               title: Bonne nouvelle
+              notes: Qu'est-ce qui s'est bien passé cette semaine ?
             item_1:
-              title: Des nouvelles de l'équipe de développement
+              title: Actualités de l'équipe
+              notes: Actualités et sujets prioritaires pour la semaine à venir.
             item_2:
-              title: Des nouvelles de l'équipe produit
+              notes: "**Sujet du jour** : organisation de la conférence open source."
             item_3:
-              title: Des nouvelles de l'équipe marketing
+              title: Revue des objectifs trimestriels
+              notes: Évaluation du statut et de l'avancement des objectifs trimestriels définis.
+            item_4:
+              title: Retours sur les valeurs fondamentales
+              notes: Mettre en avant les collaborateurs qui ont incarné les valeurs fondamentales cette semaine.
             item_5:
-              title: Des nouvelles de l'équipe commerciale
-            item_6:
-              title: Révision des objectifs trimestriels
-            item_7:
-              title: Feedback sur les valeurs fondamentales
-            item_8:
-              title: Sujets généraux
+              title: Sujets divers
+              notes: Résoudre des problèmes ou discuter de sujets ensemble.

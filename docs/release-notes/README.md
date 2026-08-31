@@ -13,42 +13,176 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 17.7.2
+
+Release date: 2026-08-13
+
+[Release Notes](17-7-2/)
+
+
+## 17.7.1
+
+Release date: 2026-08-06
+
+[Release Notes](17-7-1/)
+
+
+## 17.7.0
+
+Release date: 2026-08-05
+
+[Release Notes](17-7-0/)
+
+
+## 17.6.0
+
+Release date: 2026-07-08
+
+[Release Notes](17-6-0/)
+
+## 17.5.1
+
+Release date: 2026-06-15
+
+[Release Notes](17-5-1/)
+
+## 17.5.0
+
+Release date: 2026-06-10
+
+[Release Notes](17-5-0/)
+
+## 17.3.4
+
+Release date: 2026-06-08
+
+[Release Notes](17-3-4/)
+
+## 17.4.1
+
+Release date: 2026-06-08
+
+[Release Notes](17-4-1/)
+
+## 17.3.3
+
+Release date: 2026-06-08
+
+[Release Notes](17-3-3/)
+
+## 17.4.0
+
+Release date: 2026-05-13
+
+[Release Notes](17-4-0/)
+
+## 17.3.2
+
+Release date: 2026-05-13
+
+[Release Notes](17-3-2/)
+
+## 17.2.4
+
+Release date: 2026-05-13
+
+[Release Notes](17-2-4/)
+
+## 17.3.1
+
+Release date: 2026-04-20
+
+[Release Notes](17-3-1/)
+
+## 17.3.0
+
+Release date: 2026-04-15
+
+[Release Notes](17-3-0/)
+
+## 17.2.3
+
+Release date: 2026-03-31
+
+[Release Notes](17-2-3/)
+
+## 17.1.4
+
+Release date: 2026-03-31
+
+[Release Notes](17-1-4/)
+
+## 17.0.7
+
+Release date: 2026-03-31
+
+[Release Notes](17-0-7/)
+
+## 17.2.2
+
+Release date: 2026-03-17
+
+[Release Notes](17-2-2/)
+
+## 17.2.1
+
+Release date: 2026-03-16
+
+[Release Notes](17-2-1/)
+
+## 17.1.3
+
+Release date: 2026-03-16
+
+[Release Notes](17-1-3/)
+
+## 17.2.0
+
+Release date: 2026-03-11
+
+[Release Notes](17-2-0/)
+
+## 17.1.2
+
+Release date: 2026-02-26
+
+[Release Notes](17-1-2/)
+
+## 17.0.6
+
+Release date: 2026-03-16
+
+[Release Notes](17-0-6/)
+
+## 17.0.5
+
+Release date: 2026-02-26
+
+[Release Notes](17-0-5/)
+
 ## 17.1.1
 
 Release date: 2026-02-18
 
 [Release Notes](17-1-1/)
 
-
 ## 17.1.0
 
 Release date: 2026-02-11
 
 [Release Notes](17-1-0/)
+
 ## 17.0.4
 
 Release date: 2026-02-18
 
 [Release Notes](17-0-4/)
 
-
 ## 17.0.3
 
 Release date: 2026-02-06
 
 [Release Notes](17-0-3/)
-## 16.6.8
-
-Release date: 2026-02-18
-
-[Release Notes](16-6-8/)
-
-
-## 16.6.7
-
-Release date: 2026-02-06
-
-[Release Notes](16-6-7/)
 
 ## 17.0.2
 
@@ -67,154 +201,12 @@ Release date: 2026-01-16
 Release date: 2026-01-14
 
 [Release Notes](17-0-0/)
-## 16.6.6
-
-Release date: 2026-01-27
-
-[Release Notes](16-6-6/)
-
-## 16.6.5
-
-Release date: 2026-01-16
-
-[Release Notes](16-6-5/)
-
-## 16.6.4
-
-Release date: 2026-01-08
-
-[Release Notes](16-6-4/)
-
-
-## 16.6.3
-
-Release date: 2025-12-11
-
-[Release Notes](16-6-3/)
-
-
-## 16.6.2
-
-Release date: 2025-12-02
-
-[Release Notes](16-6-2/)
-
-
-## 16.6.1
-
-Release date: 2025-11-13
-
-[Release Notes](16-6-1/)
-
-
-## 16.6.0
-
-Release date: 2025-11-05
-
-[Release Notes](16-6-0/)
-
-
-## 16.5.1
-
-Release date: 2025-10-15
-
-[Release Notes](16-5-1/)
-
-
-## 16.5.0
-
-Release date: 2025-10-08
-
-[Release Notes](16-5-0/)
-
-
-## 16.4.1
-
-Release date: 2025-09-16
-
-[Release Notes](16-4-1/)
-
-
-## 16.4.0
-
-Release date: 2025-09-10
-
-[Release Notes](16-4-0/)
-
-
-## 16.3.2
-
-Release date: 2025-08-25
-
-[Release Notes](16-3-2/)
-
-
-## 16.3.1
-
-Release date: 2025-08-13
-
-[Release Notes](16-3-1/)
-
-
-## 16.3.0
-
-Release date: 2025-08-13
-
-[Release Notes](16-3-0/)
-
-
-## 16.2.2
-
-Release date: 2025-08-07
-
-[Release Notes](16-2-2/)
-
-
-## 16.2.1
-
-Release date: 2025-08-04
-
-[Release Notes](16-2-1/)
-
-
-## 16.2.0
-
-Release date: 2025-07-16
-
-[Release Notes](16-2-0/)
-
-
-## 16.1.1
-
-Release date: 2025-06-26
-
-[Release Notes](16-1-1/)
-
-
-## 16.1.0
-
-Release date: 2025-06-18
-
-[Release Notes](16-1-0/)
-
-
-## 16.0.1
-
-Release date: 2025-06-05
-
-[Release Notes](16-0-1/)
-
-
-## 16.0.0
-
-Release date: 2025-05-21
-
-[Release Notes](16-0-0/)
 
 ## Older versions
 
 | Version     | Years              |
 |-------------|--------------------|
+| [16.x](16/) | 2025 / 2026        |
 | [15.x](15/) | 2024 / 2025        |
 | [14.x](14/) | 2024               |
 | [13.x](13/) | 2023 / 2024        |

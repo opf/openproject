@@ -37,10 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
           name: :omniauth_direct_login_provider,
           input_width: :medium,
           label: I18n.t(:setting_omniauth_direct_login_provider),
-          caption: I18n.t(
+          caption: t(
             "settings.authentication.omniauth_direct_login_hint_html",
             internal_path: internal_signin_url
-          ).html_safe,
+          ),
           include_blank: I18n.t(:label_none_parentheses)
         ) do |select|
           AuthProvider

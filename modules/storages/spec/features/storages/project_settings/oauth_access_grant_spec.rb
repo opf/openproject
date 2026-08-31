@@ -67,6 +67,7 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
 
   it "adds a storage, nudges the project admin to grant OAuth access" do
     visit external_file_storages_project_settings_project_storages_path(project_id: project)
+    expect(page).to have_heading "Files"
 
     click_on("Storage")
 
@@ -76,8 +77,7 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
     expect(page).to have_checked_field("New folder with automatically managed permissions")
     click_on("Add")
 
-    expect(page).to have_heading "Files"
-    expect(page).to have_text(storage.name)
+    expect(page).to have_selector(:table_row, [storage.name])
 
     within_test_selector("oauth-access-grant-nudge-modal") do
       expect(page).to be_axe_clean

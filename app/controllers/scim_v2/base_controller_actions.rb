@@ -38,15 +38,9 @@ module ScimV2
       rescue_from "ActiveRecord::RecordNotFound", with: :handle_resource_not_found
 
       def index
-        query = if params[:filter].blank?
-                  storage_scope
-                else
-                  attribute_map = storage_class.new.scim_queryable_attributes
-                  parser        = ::Scimitar::Lists::QueryParser.new(attribute_map)
-
-                  parser.parse(params[:filter])
-                  parser.to_activerecord_query(storage_scope)
-                end
+        # Applies .distinct to avoid duplicate records caused by
+        # left_joins in storage_scope (e.g. groups, auth provider links).
+        query = scim_index_storage_query.distinct
 
         pagination_info = scim_pagination_info(query.count)
         page_of_results = query
@@ -75,19 +69,37 @@ module ScimV2
 
       private
 
-      def include_attributes
-        first_level_attrs = storage_class.scim_attributes_map.keys.map(&:to_s)
-        second_level_attrs =
-          storage_class
-            .scim_attributes_map
-            .find_all { |_, v| v.is_a? Hash }
-            .flat_map { |parent, childs| childs.map { |child, _| "#{parent}.#{child}" } }
-        all_possible_attributes = (first_level_attrs + second_level_attrs)
+      # Builds the base query for the SCIM index action,
+      # applying any SCIM filter params if present.
+      def scim_index_storage_query
+        return storage_scope if params[:filter].blank?
 
+        # Returns the list of SCIM attributes to include in the response,
+        # excluding any attributes specified in the excludedAttributes param.
+        attribute_map = storage_class.new.scim_queryable_attributes
+        parser        = ::Scimitar::Lists::QueryParser.new(attribute_map)
+
+        parser.parse(params[:filter])
+        parser.to_activerecord_query(storage_scope)
+      end
+
+      def include_attributes
+        # Collects all possible SCIM attribute names (top-level and nested)
+        # from the storage class's scim_attributes_map.
         excluded_attributes = params.fetch(:excludedAttributes, "").split(",")
         excluded_parents = excluded_attributes.filter_map { |attr| attr.split(".")[-2] }
 
-        all_possible_attributes - excluded_attributes - excluded_parents
+        scim_all_attribute_names - excluded_attributes - excluded_parents
+      end
+
+      def scim_all_attribute_names
+        map = storage_class.scim_attributes_map
+        nested =
+          map
+            .find_all { |_, v| v.is_a? Hash }
+            .flat_map { |parent, childs| childs.map { |child, _| "#{parent}.#{child}" } }
+
+        map.keys.map(&:to_s) + nested
       end
 
       def raise_result_errors_for_scim(result)

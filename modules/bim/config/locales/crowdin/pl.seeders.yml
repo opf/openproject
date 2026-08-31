@@ -149,7 +149,7 @@ pl:
                 options:
                   name: Kamienie milowe
         demo-planning-constructing-project:
-          name: "Planowanie i budowa (demo)"
+          name: Planowanie i budowa (demo)
           status_explanation: Wszystkie zadania są zaplanowane. Odpowiedni ludzie znają swoje zadania. System jest całkowicie skonfigurowany.
           description: Jest to krótkie podsumowanie celów tego projektu demo planowania i budowy.
           news:
@@ -403,7 +403,7 @@ pl:
                     * Zaproś znajomych
                     * Przynieś coś do picia, przekąski i uśmiech
         demo-bim-project:
-          name: "Projekt BIM (demo)"
+          name: Projekt BIM (demo)
           status_explanation: Wszystkie zadania i podprojekty są zaplanowane. Odpowiedni ludzie znają swoje zadania. System jest całkowicie skonfigurowany.
           description: Jest to krótkie podsumowanie celów tego projektu BIM.
           news:
@@ -473,20 +473,7 @@ pl:
               children:
                 item_0:
                   subject: Gromadzenie danych i informacji dotyczących projektu do modelu BIM
-                  description: |-
-                    ## Cel
-
-                    * Określ strategię informacyjną dla klienta (np. używając pytań w prostych słowach)
-                    * Jeśli dostarczono, przeanalizuj wymogi modelu BIM dotyczące informacji dla klienta 
-                    * Zdefiniuj strategię dostarczania informacji zgodnie z potrzebami klientów
-
-                    ## Opis
-
-                    * Analiza potrzeb i celów klientów w zakresie stosowania metodologii BIM
-                    * Wyniki tych zadań powinny być:
-                    * Wymagania dotyczące  projektu
-                    * Strategia dla fazy dostawy
-                    * ...
+                  description: "## Cel\n\n* Określ strategię informacyjną dla klienta (np. używając pytań w prostych słowach)\n* Jeśli dostarczono, przeanalizuj wymogi modelu BIM dotyczące informacji dla klienta \n* Zdefiniuj strategię dostarczania informacji zgodnie z potrzebami klientów\n\n## Opis\n\n* Analiza potrzeb i celów klientów w zakresie stosowania metodologii BIM\n* Wyniki tych zadań powinny być:\n* Wymagania dotyczące  projektu\n* Strategia dla fazy dostawy\n* ..."
                 item_1:
                   subject: Tworzenie planu wykonania BIM
                   description: |-
@@ -668,7 +655,7 @@ pl:
               subject: Zarządznie aktywami
               description: Ciesz się swoim budynkiem :)
         demo-bcf-management-project:
-          name: "Zarządzanie BCF (demo)"
+          name: Zarządzanie BCF (demo)
           status_explanation: Wszystkie zadania są zaplanowane. Odpowiedni ludzie znają swoje zadania. System jest całkowicie skonfigurowany.
           description: Jest to krótkie podsumowanie celów tego projektu zarządzania BCF.
           ifc_models:

@@ -49,8 +49,6 @@ Rails.application.routes.draw do
       get :delete_dialog
       get :render_avatars, defaults: { format: :turbo_stream }
       get :render_last_saved_at, defaults: { format: :turbo_stream }
-      get :render_connection_error, defaults: { format: :turbo_stream }
-      get :render_connection_recovery, defaults: { format: :turbo_stream }
     end
   end
 

@@ -40,7 +40,7 @@
               opAutofocus
               (keydown.escape)="cancelRelationTypeEditOnEscape($event)"
               >
-              @for (relationType of availableRelationTypes; track relationType) {
+              @for (relationType of availableRelationTypes; track relationType.name) {
                 <option
                   [textContent]="relationType.label"
                   [ngValue]="relationType"
@@ -55,7 +55,7 @@
         data-test-selector="op-relation--row-id"
         uiSref="work-packages.show.tabs"
         [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
-      >#{{relatedWorkPackage.id}}</a>
+      >{{relatedWorkPackage.formattedId}}</a>
       <a
         class="relation-row--grid-subject"
         data-test-selector="op-relation--row-subject"

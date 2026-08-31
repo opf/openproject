@@ -32,7 +32,7 @@
   </div>
 
   @if (sortingMode === 'automatic') {
-    @for (sort of sortationObjects; track sort; let index = $index) {
+    @for (sort of sortationObjects; track $index; let index = $index) {
       <div class="form--row modal-sorting-row-{{index}}"
         >
         <div class="form--field -full-width">
@@ -57,7 +57,7 @@
                 <option [textContent]="emptyColumn.name"
                   [value]="emptyColumn.href"
                   [selected]="sort.column.href === null"></option>
-                @for (column of availableColumns; track column) {
+                @for (column of availableColumns; track column.href) {
                   <option
                     [textContent]="column.name"
                     [value]="column.href"></option>
@@ -68,7 +68,7 @@
         </div>
         <div class="form--field -full-width">
           <div class="form--field-container">
-            @for (availableDirection of availableDirections; track availableDirection) {
+            @for (availableDirection of availableDirections; track availableDirection.href) {
               <label class="option-label">
                 <input type="radio"
                   [(ngModel)]="sort.direction"

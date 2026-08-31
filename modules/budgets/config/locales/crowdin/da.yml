@@ -19,100 +19,115 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 da:
-  plugin_budgets_engine:
-    name: "Budgetter"
   activerecord:
     attributes:
       budget:
-        author: "Forfatter"
-        available: "Tillrådighed"
-        budget: "Planlagte"
-        budget_ratio: "Forbrugt (ratio)"
-        description: "Beskrivelse"
-        spent: "Forbrugt"
-        status: "Status"
-        subject: "Emne"
-        type: "Omkostningstype"
-        labor_budget: "Planlagte lønomkostninger"
-        material_budget: "Planlagte enhedsomkostninger"
-        base_amount: "Base amount"
+        author: Forfatter
+        available: Tillrådighed
+        base_amount: Basisbeløb
+        budget: Planlagte
+        budget_ratio: Forbrugt (ratio)
+        description: Beskrivelse
+        labor_budget: Planlagte lønomkostninger
+        labor_budget_items: Planned labor costs
+        material_budget: Planlagte enhedsomkostninger
+        spent: Forbrugt
+        status: Status
+        subject: Emne
+        type: Omkostningstype
       work_package:
-        budget_subject: "Budgettitel"
+        budget_subject: Budgettitel
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: "Budget"
-      material_budget_item: "Enhed"
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
-      budget: "Budgetter"
+      budget: Budgetter
   attributes:
-    budget: "Budget"
-  button_add_budget_item: "Tilføj planlagte omkostninger"
-  button_add_budget: "Tilføj budget"
-  button_add_cost_type: "Tilføj omkostningstype"
-  button_cancel_edit_budget: "Annullér budgetredigering"
-  button_cancel_edit_costs: "Annullér omkostningsredigering"
-  caption_labor: "Arbejdskraft"
-  caption_labor_costs: "Faktiske lønomkostninger"
-  caption_material_costs: "Faktiske enhedsomkostninger"
-  budgets_title: "Budgetter"
+    budget: Budget
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Få overblik over budgetterne og omkostningerne for effektivt at følge projektets sundhedsstatus
+          heading: Start projektstyring
+        blankslate_zero:
+          description: Tilføj detaljer om det planlagte budget for at se data her
+          heading: Budgetoplysninger mangler
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget efter omkostningstype
+        view_details: Vis budgetdetaljer
+      budget_totals:
+        remaining_budget: Resterende budget
+        spent_budget: Brugt budget
+        title: Budgettotaler
+        total_actual_costs: Samlede faktiske omkostninger
+        total_planned_budget: Samlet planlagt budget
+  budgets_title: Budgetter
+  button_add_budget: Tilføj budget
+  button_add_budget_item: Tilføj planlagte omkostninger
+  button_add_cost_type: Tilføj omkostningstype
+  button_cancel_edit_budget: Annullér budgetredigering
+  button_cancel_edit_costs: Annullér omkostningsredigering
+  caption_labor: Arbejdskraft
+  caption_labor_costs: Faktiske lønomkostninger
+  caption_material_costs: Faktiske enhedsomkostninger
   events:
-    budget: "Budget redigeret"
-  help_click_to_edit: "Klik her for at redigere."
-  help_currency_format: "Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden."
-  help_override_rate: "Angiv en værdi for at tilsidesætte standardsatsen."
-  label_budget: "Budget"
-  label_budget_available: "Tildelt budget"
-  label_budget_id: "Budget #%{id}"
-  label_budget_new: "Nyt budget"
-  label_budget_planned: "Estimeret budget"
-  label_budget_plural: "Budgetter"
-  label_budget_spent: "Forbrugt budget"
-  label_budget_spent_ratio: "Andel forbrugt"
-  label_deliverable: "Budget"
-  label_example_placeholder: "f.eks. %{decimal}"
-  label_view_all_budgets: "Se alle budgetter"
-  label_yes: "Ja"
-  label_budget_totals: "I alt"
-  label_budget_details: "Detaljer om budgettet"
-  notice_budget_conflict: "Work packages must be of the same project."
-  notice_no_budgets_available: "Ingen tilgængelige budgetter."
-  permission_edit_budgets: "Redigér budgetter"
-  permission_view_budgets: "Se budgetter"
-  project_module_budgets: "Budgetter"
-  text_budget_reassign_to: "Overfør dem til dette budget:"
-  text_budget_delete: "Slet budgettet fra alle arbejdspakker"
-  text_budget_destroy_assigned_wp: "Der er %{count} arbejdspakker tilknyttet dette budget. Hvad ønsker du at gøre?"
+    budget: Budget redigeret
+  help_click_to_edit: Klik her for at redigere.
+  help_currency_format: Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden.
+  help_override_rate: Angiv en værdi for at tilsidesætte standardsatsen.
+  label_budget_available: Tildelt budget
+  label_budget_details: Detaljer om budgettet
+  label_budget_id: 'Budget #%{id}'
+  label_budget_new: Nyt budget
+  label_budget_planned: Estimeret budget
+  label_budget_plural: Budgetter
+  label_budget_spent: Forbrugt budget
+  label_budget_spent_ratio: Andel forbrugt
+  label_budget_totals: I alt
+  label_deliverable: Budget
+  label_example_placeholder: f.eks. %{decimal}
+  label_view_all_budgets: Se alle budgetter
+  label_yes: Ja
+  notice_budget_conflict: Work packages must be of the same project.
+  notice_no_budgets_available: Ingen tilgængelige budgetter.
+  permission_edit_budgets: Redigér budgetter
+  permission_view_budgets: Se budgetter
+  plugin_budgets_engine:
+    name: Budgetter
+  project_module_budgets: Budgetter
+  text_budget_delete: Slet budgettet fra alle arbejdspakker
+  text_budget_destroy_assigned_wp: Der er %{count} arbejdspakker tilknyttet dette budget. Hvad ønsker du at gøre?
+  text_budget_reassign_to: 'Overfør dem til dette budget:'
