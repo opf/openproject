@@ -49,7 +49,7 @@ Depending on your device, many of these widgets may also be available as **OS wi
 
 ## How does the Spaces module work?
 
-The **Spaces** module (formerly Projects) provides an index of the spaces/projects you can access. Depending on your setup, it can also display a hierarchy (for example portfolios → programs → projects). You can:
+The **Spaces** module (formerly Projects) provides an index of the spaces/projects you can access. Depending on your setup, it can also display a hierarchy (for example, portfolios → programs → projects). You can:
 
 - Browse the list and navigate hierarchies (if enabled)
 - Filter (e.g., by type)
