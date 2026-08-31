@@ -15,7 +15,7 @@ This section helps you install the OpenProject Mobile app (Beta) and log in to y
 | Feature | Description |
 | --- | --- |
 |[ **Install and log in**](install-login) | Download the app for iOS or Android, check the requirements, and sign in with your OpenProject credentials. |
-|[**Login troubleshooting**](login-troubleshooting) | If login fails, follow a step-by-step checklist to verify OpenProject version, HTTPS/certificates, and OAuth settings. |
+|[**Login troubleshooting**](login-troubleshooting) | If login fails, follow a step-by-step checklist to verify the OpenProject version, HTTPS and certificates, and OAuth settings. |
 
 ## Quick requirements overview
 
