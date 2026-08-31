@@ -71,9 +71,13 @@ See COPYRIGHT and LICENSE files for more details.
                   linked: configurable?(variant)
                 )
               ) do |row| %>
-            <% row.with_label { t("projects.settings.types.only_available_here") } if owned?(variant) %>
-            <% if in_use?(project_type, variant) %>
-              <% row.with_label(scheme: :accent) { t("projects.settings.types.in_use") } %>
+            <% row.with_state do %>
+              <% if owned?(variant) %>
+                <%= render(Primer::Beta::Label.new(ml: 2)) { t("projects.settings.types.only_available_here") } %>
+              <% end %>
+              <% if in_use?(project_type, variant) %>
+                <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { t("projects.settings.types.in_use") } %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

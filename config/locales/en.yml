@@ -6470,7 +6470,7 @@ en:
 
   types:
     creation_wizard:
-      add_variant: "Add variant to %{name}"
+      add_variant: "Add a variant to %{name}"
       create_type: "Create type"
       create_variant: "Create variant"
       fields:
@@ -6708,15 +6708,22 @@ en:
             Each variant can inherit, copy or have its own custom configuration for the default
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
+        created_in_html: "Created in %{project}"
         delete:
           description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
           title: "Delete %{name}"
         filter: "Filter by text"
         filter_no_results: "No variants match this filter"
+        global_section:
+          description: "These variants are available across all projects."
+          title: "Variants"
+        project_specific_section:
+          description: "These variants are only available within the projects in which they were created."
+          title: "Project-specific variants"
       workflow:
         tab: "Workflows"
     index:
-      add_variant: "Add variant to %{name}"
+      add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
       description: >
         Each configuration area inside types and variants can be independently configured, limited
@@ -6728,19 +6735,13 @@ en:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
-      # Administration sees every project's variants side by side, so an owned one says whose.
-      owned_by: "Owned by %{project}"
       project_variants_count:
-        one: "1 variant owned by a project"
-        other: "%{count} variants owned by projects"
+        one: "1 project-specific variant"
+        other: "%{count} project-specific variants"
       remove_default: "Do not activate in new projects"
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"
-      variant_enabled_in_new_projects: "Variant %{name} active in new projects"
       variant_label: "Variant"
-      variants_count:
-        one: "1 variant"
-        other: "%{count} variants"
     milestone_indicator: "Milestone"
 
   unsupported_browser:

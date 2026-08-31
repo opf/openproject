@@ -53,12 +53,15 @@ module WorkPackageTypes
         root.variants.non_default_variants
       end
 
-      def listed_variants(root)
-        named_variants(root).global.in_display_order
+      # Left out rather than shown as zero, so the badge never labels a type nobody has made a
+      # variant of.
+      def variants_count(root)
+        count = named_variants(root).size
+        count if count.positive?
       end
 
-      def variants_count_label(root)
-        t("types.index.variants_count", count: named_variants(root).size)
+      def listed_variants(root)
+        named_variants(root).global.in_display_order
       end
 
       def owned_variants_count(root)
@@ -69,20 +72,11 @@ module WorkPackageTypes
         type_variants_path(type_id: root.id)
       end
 
-      # A named variant carrying the flag is only visible once the group is expanded, so the
-      # collapsed header names it instead.
+      # Only the type's own configuration: a variant carrying the flag says so on its own row.
       def add_default_label(header, type)
-        if type.default_variant.enabled_in_new_projects?
-          header.with_label { t("types.index.enabled_in_new_projects") }
-        elsif (variant = default_variant_for_new_projects(type))
-          header.with_label(scheme: :secondary) do
-            t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
-          end
-        end
-      end
+        return unless type.default_variant.enabled_in_new_projects?
 
-      def default_variant_for_new_projects(type)
-        type.variants.detect(&:enabled_in_new_projects?)
+        header.with_label { t("types.index.enabled_in_new_projects") }
       end
 
       def add_variant_path(type)

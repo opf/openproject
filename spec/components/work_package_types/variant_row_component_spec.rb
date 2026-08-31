@@ -36,9 +36,7 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
-  subject(:rendered_component) { render_inline(described_class.new(variant:, caption:)) }
-
-  let(:caption) { nil }
+  subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
   it "links the variant to its settings page" do
     expect(rendered_component)
@@ -53,26 +51,28 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     expect(rendered_component).to have_no_text(I18n.t("types.index.variant_label"))
   end
 
+  # A slot rather than a string, because one list says "Created in <project>" with the project
+  # linked, which no string can carry.
+  it "renders the caption its caller gives it" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_caption { I18n.t("types.index.variant_label") }
+    end
+
+    expect(rendered).to have_text(I18n.t("types.index.variant_label"))
+  end
+
   it "says nothing about new projects while the variant is not the one they start with" do
     expect(rendered_component).to have_no_text(I18n.t("types.index.enabled_in_new_projects"))
   end
 
-  context "with a caption" do
-    let(:caption) { I18n.t("types.index.variant_label") }
-
-    it "renders it next to the name" do
-      expect(rendered_component).to have_text(caption)
-    end
-  end
-
-  it "renders the labels its caller gives it" do
+  # What a list says about the variant's state here. Not a label: one list says it with a green
+  # check and coloured words, which a Label cannot carry.
+  it "renders the state its caller gives it" do
     rendered = render_inline(described_class.new(variant:)) do |row|
-      row.with_label { "Only available in this project" }
-      row.with_label(scheme: :accent) { "In use" }
+      row.with_state { "Variant in this project" }
     end
 
-    expect(rendered).to have_css(".Label", text: "Only available in this project")
-    expect(rendered).to have_css(".Label--accent", text: "In use")
+    expect(rendered).to have_text("Variant in this project")
   end
 
   it "says nothing of its own about ownership or new projects" do

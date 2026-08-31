@@ -57,43 +57,69 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_text("Internal")
     end
 
+    # As bold as the variant names below it: the type heads the group, it does not caption it.
+    it "sets the type's name in the same weight as its variants" do
+      expect(rendered_component).to have_css(".Box-header a.text-bold", text: "Bug")
+    end
+
     it "still lists the variants every project may use" do
       expect(rendered_component).to have_text("Mobile")
     end
 
     it "counts it, and links the count to the type's variants tab" do
-      expect(rendered_component).to have_link("1 variant owned by a project",
+      expect(rendered_component).to have_link("1 project-specific variant",
                                               href: type_variants_path(type_id: root_type.id))
     end
 
-    it "counts it in the footer rather than in a row", :aggregate_failures do
-      count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
+    # A plain link, like the variant names above it: it leads somewhere the reader may go, and it
+    # is not an affordance of the kind the add action below it is.
+    it "leads with the count rather than an icon", :aggregate_failures do
+      row = "[data-test-selector='type-#{root_type.id}-project-variants']"
 
-      expect(rendered_component).to have_css(".Box-footer #{count_link}")
-      expect(rendered_component).to have_no_css(".Box-row #{count_link}")
+      expect(rendered_component).to have_css(row)
+      expect(rendered_component).to have_no_css("#{row} svg")
+      expect(rendered_component).to have_no_css("#{row}.color-fg-muted")
     end
 
-    # The last row of the list, below the variants and above the footer.
-    it "adds a variant from a row, not from the group header", :aggregate_failures do
+    # The count summarises variants this list does not show; the add action creates one that it
+    # will, and closes the group.
+    it "counts them in a row above the add action", :aggregate_failures do
+      count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
       add_link = "a[href='#{new_creation_wizard_types_path(type_id: root_type.id, back_url: types_path)}']"
 
-      expect(rendered_component).to have_css(".Box-row #{add_link}")
-      expect(rendered_component).to have_no_css(".Box-header #{add_link}")
-      expect(rendered_component).to have_no_css(".Box-footer #{add_link}")
+      expect(rendered_component).to have_css(".Box-row #{count_link}")
+      expect(rendered_component).to have_no_css(".Box-footer #{count_link}")
+      expect(rendered_component).to have_css(".Box-row:last-of-type #{add_link}")
     end
 
     it "names the type it adds to" do
-      expect(rendered_component).to have_link("Add variant to Bug")
+      expect(rendered_component).to have_link("Add a variant to Bug")
     end
 
     it "counts only the variants projects own" do
-      expect(rendered_component).to have_no_text("2 variants owned by projects")
+      expect(rendered_component).to have_no_text("2 project-specific variants")
     end
 
-    # The header counts every named variant of the type, listed or not, so it is the whole
-    # picture: one listed here plus the one the project owns.
-    it "counts both in the header" do
-      expect(rendered_component).to have_css(".Box-header", text: "2 variants")
+    # The badge counts every named variant of the type, listed here or not: one on this list plus
+    # the one the project owns.
+    it "counts both in a badge on the header" do
+      expect(rendered_component).to have_css(".Box-header .Counter", text: "2")
+    end
+
+    # Asserted on the markup rather than on what shows: Primer hides a zero counter by itself, so
+    # a visible-only assertion would hold without the count ever being left out.
+    context "when the type has no variant at all" do
+      shared_let(:root_type) { create(:type, name: "Plain") }
+      shared_let(:owned) { nil }
+      shared_let(:global) { nil }
+
+      it "shows no badge" do
+        expect(rendered_component).to have_no_css(".Box-header .Counter", visible: :all)
+      end
+    end
+
+    it "no longer spells the count out" do
+      expect(rendered_component).to have_no_text("2 variants")
     end
   end
 
@@ -117,9 +143,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     let(:root_type) { create(:type, name: "Task") }
     let!(:variant) { create(:type_variant, type: root_type, variant_name: "Hardware") }
     let(:label_text) { I18n.t("types.index.enabled_in_new_projects") }
-    let(:variant_label_text) do
-      I18n.t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
-    end
 
     subject(:rendered_component) do
       with_request_url "/types" do
@@ -129,9 +152,8 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     end
 
     context "when no variant of the type carries the flag" do
-      it "renders nowhere", :aggregate_failures do
+      it "renders nowhere" do
         expect(rendered_component).to have_no_css(".Label", text: label_text)
-        expect(rendered_component).to have_no_css(".Label", text: variant_label_text)
       end
     end
 
@@ -147,12 +169,10 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     context "when a named variant carries it" do
       before { variant.update!(enabled_in_new_projects: true) }
 
-      it "names the variant in the group header, which stays visible when collapsed" do
-        expect(rendered_component).to have_css(".Box-header .Label", text: variant_label_text)
-      end
-
-      it "marks the variant's own row too" do
+      # Said on the variant's own row, and nowhere else.
+      it "marks the variant's own row and leaves the header alone", :aggregate_failures do
         expect(rendered_component).to have_css(".Box-row .Label", text: label_text)
+        expect(rendered_component).to have_no_css(".Box-header .Label")
       end
     end
   end

@@ -67,15 +67,16 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     )
   end
 
-  it "counts a type's named variants in its header" do
+  it "counts a type's named variants in a badge on its header" do
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      expect(page).to have_text(I18n.t("types.index.variants_count", count: 2))
+      expect(page).to have_css(".Counter", text: "2")
     end
 
+    # Nothing to count, so nothing to show.
     within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      expect(page).to have_no_text(I18n.t("types.index.variants_count", count: 0))
+      expect(page).to have_no_css(".Counter")
     end
   end
 

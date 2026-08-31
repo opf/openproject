@@ -38,13 +38,14 @@ See COPYRIGHT and LICENSE files for more details.
                 empty_state_behavior: :none
               )
             ) do |list| %>
-          <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>
+          <% list.with_header(
+               collapsed: collapsed?(root),
+               show_drag_handle: reorderable?(root),
+               count: variants_count(root)
+             ) do |header| %>
             <% header.with_title do %>
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
-              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
-              <% if named_variants(root).any? %>
-                <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
-              <% end %>
+              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
             <% end %>
             <% add_default_label(header, root) %>
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
@@ -53,15 +54,25 @@ See COPYRIGHT and LICENSE files for more details.
           <% listed_variants(root).each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
-              <%= render(
-                    WorkPackageTypes::VariantRowComponent.new(
-                      variant: child,
-                      caption: t("types.index.variant_label")
-                    )
-                  ) do |row| %>
+              <%= render(WorkPackageTypes::VariantRowComponent.new(variant: child)) do |row| %>
+                <% row.with_caption { t("types.index.variant_label") } %>
                 <% if child.enabled_in_new_projects? %>
                   <% row.with_status_label { t("types.index.enabled_in_new_projects") } %>
                 <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% if (owned_count = owned_variants_count(root)).positive? %>
+            <% list.with_item do %>
+              <%= render(
+                    Primer::Beta::Link.new(
+                      href: owned_variants_path(root),
+                      underline: false,
+                      test_selector: "type-#{root.id}-project-variants"
+                    )
+                  ) do %>
+                <%= t("types.index.project_variants_count", count: owned_count) %>
               <% end %>
             <% end %>
           <% end %>
@@ -82,23 +93,6 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           <% end %>
 
-          <% if (owned_count = owned_variants_count(root)).positive? %>
-            <% list.with_footer do %>
-              <%= render(
-                    Primer::Beta::Link.new(
-                      href: owned_variants_path(root),
-                      color: :muted,
-                      underline: false,
-                      display: :inline_flex,
-                      align_items: :center,
-                      test_selector: "type-#{root.id}-project-variants"
-                    )
-                  ) do %>
-                <%= render(Primer::Beta::Octicon.new(icon: :project, mr: 1)) %>
-                <%= t("types.index.project_variants_count", count: owned_count) %>
-              <% end %>
-            <% end %>
-          <% end %>
         <% end %>
       <% end %>
     <% end %>

@@ -52,8 +52,14 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
       create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Internal")
     end
 
-    it "attributes it to the project owning it" do
-      expect(rendered_component).to have_text("Owned by Apollo")
+    it "says which project it was created in" do
+      expect(rendered_component).to have_text("Created in Apollo")
+    end
+
+    # The one page where that variant means anything: where it is listed, used and configured.
+    it "links that project to its own types settings" do
+      expect(rendered_component)
+        .to have_link("Apollo", href: project_settings_work_packages_types_path(owning_project))
     end
 
     it "links it into the project owning it" do
@@ -61,6 +67,38 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
         .to have_link("Internal",
                       href: edit_type_details_path(in_project_id: owning_project,
                                                    type_id: type.id, variant_id: owned.id))
+    end
+  end
+
+  context "with both kinds of variant" do
+    shared_let(:owning_project) { create(:project, name: "Apollo") }
+
+    before do
+      create(:type_variant, type:, variant_name: "Everywhere")
+      create(:project_owned_type_variant, type:, project: owning_project, variant_name: "Only here")
+    end
+
+    it "heads the variants every project may use with their own section" do
+      expect(rendered_component).to have_text(I18n.t("types.edit.variants.global_section.description"))
+    end
+
+    it "heads the project-specific ones with their own section" do
+      expect(rendered_component)
+        .to have_text(I18n.t("types.edit.variants.project_specific_section.description"))
+    end
+  end
+
+  # A section explains what is in it, so an empty one explains nothing.
+  context "with no project-specific variant" do
+    before { create(:type_variant, type:, variant_name: "Everywhere") }
+
+    it "leaves the project-specific section out" do
+      expect(rendered_component)
+        .to have_no_text(I18n.t("types.edit.variants.project_specific_section.title"))
+    end
+
+    it "still heads the others" do
+      expect(rendered_component).to have_text(I18n.t("types.edit.variants.global_section.title"))
     end
   end
 
@@ -135,7 +173,7 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
   context "without named variants" do
     it "renders a blankslate offering to add one, instead of an empty list" do
       expect(rendered_component).to have_css("[data-test-selector='type-variants-blankslate']")
-      expect(rendered_component).to have_no_css("[data-test-selector='type-variants']")
+      expect(rendered_component).to have_no_css("[data-test-selector^='type-variant-']")
       expect(rendered_component).to have_text(I18n.t("types.edit.variants.blankslate.title"))
       expect(rendered_component)
         .to have_css("[data-test-selector='type-variants-blankslate'] p br")
