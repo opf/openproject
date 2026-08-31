@@ -8,7 +8,7 @@ keywords: Mobile app features time tracking, time tracking, mobile time tracking
 
 # Time tracking
 
-The **Time tracking** module lets you track and log spent time in OpenProject from the mobile app. It is designed for quick time entry on the go, whether you want to log time for **yourself**, or with the proper permissions log time for **other users,** including **multiple users at once**.
+The **Time tracking** module lets you track and log spent time in OpenProject from the mobile app. It is designed for quick time entry on the go, whether you want to log time for **yourself** or, with the proper permissions, log time for **other users**, including **multiple users at once**.
 
 ## Views
 
