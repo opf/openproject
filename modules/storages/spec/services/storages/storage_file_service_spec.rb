@@ -73,7 +73,7 @@ module Storages
 
     describe "OneDriveStorage" do
       shared_let(:user) { create(:user) }
-      shared_let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+      shared_let(:storage) { create(:onedrive_sandbox_storage, oauth_client_token_user: user) }
 
       context "when the file exists", vcr: "onedrive/file_info_query_success_file" do
         let(:file_id) { "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA" }

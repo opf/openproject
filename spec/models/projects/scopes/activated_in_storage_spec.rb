@@ -38,7 +38,7 @@ RSpec.describe Projects::Scopes::ActivatedInStorage do
   end
 
   shared_let(:other_project) { create(:project) }
-  shared_let(:other_storage) { create(:one_drive_storage) }
+  shared_let(:other_storage) { create(:onedrive_storage) }
   shared_let(:other_project_storage) do
     create(:project_storage, project: other_project, storage: other_storage)
   end

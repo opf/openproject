@@ -88,7 +88,7 @@ RSpec.describe Storages::UrlBuilder do
     end
 
     context "if storage is of OneDrive provider type" do
-      let(:storage) { create(:one_drive_storage) }
+      let(:storage) { create(:onedrive_storage) }
 
       it "returns the correct request URL" do
         expect(described_class.url(storage.uri, "/path/")).to eq("https://graph.microsoft.com/path")

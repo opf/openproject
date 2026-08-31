@@ -78,7 +78,7 @@ module Storages
       end
 
       def upsell
-        @provider_type = Storage.provider_types[params.fetch(:provider, "one_drive")]
+        @provider_type = Storage.provider_types[params.fetch(:provider, "onedrive")]
       end
 
       def edit
@@ -275,8 +275,8 @@ module Storages
       def storage_provider_parameter_name
         if params.key?(:storages_nextcloud_storage)
           :storages_nextcloud_storage
-        elsif params.key?(:storages_one_drive_storage)
-          :storages_one_drive_storage
+        elsif params.key?(:storages_onedrive_storage)
+          :storages_onedrive_storage
         elsif params.key?(:storages_sharepoint_storage)
           :storages_sharepoint_storage
         else

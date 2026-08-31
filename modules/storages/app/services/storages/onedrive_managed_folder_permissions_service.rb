@@ -34,7 +34,7 @@ module Storages
 
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
-    def self.i18n_key = "one_drive_sync_service"
+    def self.i18n_key = "onedrive_sync_service"
 
     class << self
       def call(storage:, project_storages_scope: nil)

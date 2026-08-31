@@ -55,7 +55,7 @@ module Storages
           end
 
           it "logs the failure" do
-            allow(Rails.logger).to receive(:error).with("Cannot resolve key one_drive.graph.rest_api.")
+            allow(Rails.logger).to receive(:error).with("Cannot resolve key onedrive.graph.rest_api.")
 
             expect { registry["onedrive.graph.rest_api"] }.to raise_error Errors::ResolverStandardError
           end

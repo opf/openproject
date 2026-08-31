@@ -40,7 +40,7 @@ module Storages
             let(:user) { create(:user) }
 
             let(:storage) do
-              create(:one_drive_sandbox_storage, oauth_client_token_user: user)
+              create(:onedrive_sandbox_storage, oauth_client_token_user: user)
             end
 
             let(:user_bound_strategy) do

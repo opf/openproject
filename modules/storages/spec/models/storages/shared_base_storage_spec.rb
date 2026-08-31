@@ -45,7 +45,7 @@ RSpec.shared_examples_for "base storage" do
         ).to eq(:nextcloud)
         expect(
           described_class.short_provider_name
-        ).to eq(:one_drive)
+        ).to eq(:onedrive)
       end
     end
 
