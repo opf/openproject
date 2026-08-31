@@ -46,7 +46,7 @@ You can create a new time entry from the Time tracking module.
 5. Set the **Date**.
 6. Enter **Hours**, including **exact times** if the instance allows it.
 7. Fill in all the **mandatory fields** depending on the instance configuration.
-8. Fill other **optional fields** if desired.
+8. Fill in other **optional fields** if desired.
 9. Tap **Save** to create the time entry.
 
 ![Log time flow](time_tracking-log_time.png)
