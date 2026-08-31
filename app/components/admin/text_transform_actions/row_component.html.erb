@@ -65,18 +65,23 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       row.with_column(py: 1, mr: 2) do
-        render(
-          Primer::Alpha::ToggleSwitch.new(
-            checked: text_transform_action.active,
-            size: :small,
-            status_label_position: :start,
+        toggle_options = {
+          checked: text_transform_action.active,
+          enabled: toggles_enabled,
+          size: :small,
+          status_label_position: :start,
+          aria: { label: toggle_label },
+          test_selector: "toggle-text-transform-action-#{text_transform_action.id}"
+        }
+        # A disabled toggle never posts; omit the mutation wiring entirely.
+        if toggles_enabled
+          toggle_options.merge!(
             src: toggle_admin_text_transform_action_path(text_transform_action),
             csrf_token: form_authenticity_token,
-            aria: { label: toggle_label },
-            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
-            test_selector: "toggle-text-transform-action-#{text_transform_action.id}"
+            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
           )
-        )
+        end
+        render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
       end
 
       row.with_column do

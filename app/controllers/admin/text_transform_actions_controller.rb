@@ -137,6 +137,7 @@ module Admin
       Setting.ai_text_transform_actions_enabled = boolean_param(:value)
 
       update_via_turbo_stream(component: Admin::TextTransformActions::SettingToggleComponent.new)
+      update_list_via_turbo_stream
       respond_with_turbo_streams do |format|
         format.html { redirect_to action: :index }
       end

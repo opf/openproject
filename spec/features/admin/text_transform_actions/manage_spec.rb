@@ -132,7 +132,7 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
     expect_scope(action, "All work package types")
   end
 
-  it "toggles actions individually and in bulk" do
+  it "toggles actions individually and in bulk", with_settings: { ai_text_transform_actions_enabled: true } do
     first_action = create(:ai_text_transform_action, active: true)
     second_action = create(:ai_text_transform_action, active: true)
 
@@ -187,12 +187,20 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
     expect(page).to have_text("No text transform actions configured yet")
   end
 
-  it "toggles the global setting" do
+  it "toggles the global setting, releasing the list from its disabled state" do
+    action = create(:ai_text_transform_action, active: true)
+
     visit admin_text_transform_actions_path
 
     expect(page).to have_button(accessible_name: "Enable text transform actions", aria: { pressed: false })
+    expect(page).to have_test_selector("text-transform-actions-disabled-banner")
+    expect(page).to have_button(accessible_name: toggle_label(action), disabled: true)
+
     wait_for_turbo_stream { find(:button, accessible_name: "Enable text transform actions").click }
+
     expect(page).to have_button(accessible_name: "Enable text transform actions", aria: { pressed: true })
+    expect(page).to have_no_test_selector("text-transform-actions-disabled-banner")
+    expect(page).to have_button(accessible_name: toggle_label(action), aria: { pressed: true })
     expect(Setting.find_by(name: "ai_text_transform_actions_enabled")&.value).to be(true)
   end
 

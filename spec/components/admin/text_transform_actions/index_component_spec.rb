@@ -42,7 +42,7 @@ RSpec.describe Admin::TextTransformActions::IndexComponent, type: :component do
     end
   end
 
-  context "with actions" do
+  context "with actions", with_settings: { ai_text_transform_actions_enabled: true } do
     shared_let(:action_a) { create(:ai_text_transform_action, label: "Fix grammar", active: true) }
     shared_let(:action_b) do
       create(:ai_text_transform_action, label: "Translate", active: false,
@@ -133,6 +133,43 @@ RSpec.describe Admin::TextTransformActions::IndexComponent, type: :component do
       rendered_component
 
       expect(page.native.to_html).not_to match(/generic-drag-and-drop|dragula/)
+    end
+
+    it "renders no disabled warning" do
+      rendered_component
+
+      expect(page).to have_no_css("[data-test-selector='text-transform-actions-disabled-banner']")
+    end
+  end
+
+  context "with actions while the assistant setting is disabled" do
+    shared_let(:action) { create(:ai_text_transform_action, label: "Fix grammar", active: true) }
+
+    let(:text_transform_actions) { [action] }
+
+    it "renders the disabled warning banner" do
+      rendered_component
+
+      expect(page).to have_css(
+        "[data-test-selector='text-transform-actions-disabled-banner']",
+        text: "Text transform actions are disabled. The following actions will not be available anywhere."
+      )
+    end
+
+    it "disables the row toggles and drops their mutation wiring" do
+      rendered_component
+
+      toggle = page.find("[data-test-selector='toggle-text-transform-action-#{action.id}']")
+      expect(toggle).to have_css("button[disabled]")
+      expect(toggle["src"]).to be_nil
+    end
+
+    it "disables the enable all and disable all header actions" do
+      rendered_component
+
+      expect(page).to have_css("button[disabled][data-test-selector='enable-all-text-transform-actions']")
+      expect(page).to have_css("button[disabled][data-test-selector='disable-all-text-transform-actions']")
+      expect(page).to have_no_css("a[href='#{enable_all_admin_text_transform_actions_path}']")
     end
   end
 

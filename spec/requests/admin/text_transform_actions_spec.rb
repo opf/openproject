@@ -242,6 +242,7 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body).to include('target="text_transform_actions_setting"')
+      expect(response.body).to include('target="text_transform_actions_list"')
       expect(Setting.ai_text_transform_actions_enabled?).to be(true)
     end
 

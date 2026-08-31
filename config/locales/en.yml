@@ -1911,6 +1911,7 @@ en:
         blank_slate:
           description: "Add an action to see it here"
           title: "No text transform actions configured yet"
+        disabled_warning: "Text transform actions are disabled. The following actions will not be available anywhere."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
         title: "Actions"

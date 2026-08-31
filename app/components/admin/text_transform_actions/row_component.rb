@@ -42,6 +42,8 @@ module Admin
         { label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom" }
       ].freeze
 
+      options toggles_enabled: true
+
       alias_method :text_transform_action, :model
 
       def wrapper_uniq_by

@@ -39,6 +39,10 @@ module Admin
 
       private
 
+      def assistant_enabled?
+        Setting.ai_text_transform_actions_enabled?
+      end
+
       def wrapper_data_attributes
         {
           controller: "sortable-lists",

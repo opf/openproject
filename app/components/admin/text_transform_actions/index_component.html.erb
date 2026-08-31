@@ -27,8 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  component_wrapper(data: wrapper_data_attributes) do
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <% unless assistant_enabled? %>
+    <%=
+      render(
+        Primer::Alpha::Banner.new(
+          scheme: :warning,
+          mb: 3,
+          test_selector: "text-transform-actions-disabled-banner"
+        )
+      ) do
+        t(".disabled_warning")
+      end
+    %>
+  <% end %>
+
+  <%=
     render(
       OpenProject::Common::BorderBoxListComponent.new(
         container: "text-transform-actions",
@@ -41,6 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
         header.with_action_button(
           tag: :a,
           href: enable_all_admin_text_transform_actions_path,
+          disabled: !assistant_enabled?,
           scheme: :invisible,
           font_weight: :bold,
           color: :subtle,
@@ -54,6 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
         header.with_action_button(
           tag: :a,
           href: disable_all_admin_text_transform_actions_path,
+          disabled: !assistant_enabled?,
           scheme: :invisible,
           font_weight: :bold,
           color: :subtle,
@@ -77,9 +93,14 @@ See COPYRIGHT and LICENSE files for more details.
           test_selector: "text-transform-action-row-#{text_transform_action.id}",
           data: item_data(text_transform_action)
         ) do
-          render(Admin::TextTransformActions::RowComponent.new(text_transform_action))
+          render(
+            Admin::TextTransformActions::RowComponent.new(
+              text_transform_action,
+              toggles_enabled: assistant_enabled?
+            )
+          )
         end
       end
     end
-  end
-%>
+  %>
+<% end %>
