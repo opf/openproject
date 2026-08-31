@@ -58,7 +58,7 @@ Enter the complete **base URL** of your OpenProject instance, for example: `http
 
 ![Browser pop-up that opens to introduce your login credentials](install_login-login.png)
 
-1. When prompted, allow access so the app can connect securely to your workspace via the **OpenProject API v3**.
+2. When prompted, allow access so the app can connect securely to your workspace via the **OpenProject API v3**.
 
 ![Browser pop-up to authenticate the app to the core API](install_login-authorization.png)
 
