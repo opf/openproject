@@ -85,7 +85,7 @@ You can also log time for **other users** (and even **multiple users at once**) 
 > [!IMPORTANT]
 > The time entries displayed in the app are **personal only**. Entries for other users are not shown in the app even if you logged them.
 
-[Learn more about Time Tracking in OpenProject mobile app](../../core-features/time-tracking/).
+[Learn more about Time Tracking in the OpenProject mobile app](../../core-features/time-tracking/).
 
 ## How do notifications work?
 
