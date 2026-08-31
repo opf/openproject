@@ -12,7 +12,7 @@ The **OpenProject Mobile app (Beta)** is available for **iOS** and **Android**. 
 > [!NOTE]
 > The app is currently under active development. Some features are still evolving, and new capabilities will be added over time. We welcome feedback to help shape OpenProject Mobile.
 
-## Purpose and Vision
+## Purpose and vision
 
 The OpenProject Mobile app focuses on mobile-first workflows that complement the full OpenProject web application. With the mobile app, you can:
 
