@@ -5406,7 +5406,6 @@ en:
         remove_from_project: "Remove from project"
         switch:
           apply: "Apply"
-          description: "Select a different variant of this type to use in this project."
           impact:
             hidden_heading: "Fields that will no longer be shown"
             missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
