@@ -21,7 +21,7 @@ At the same time, many teams also work on **larger screens**. The app can be use
 
 If you use OpenProject on a tablet or a desktop-sized device, you may notice differences compared to a phone:
 
-- layout and spacing adapt to larger displays,
+- Layout and spacing adapt to larger displays,
 - navigation may appear differently depending on screen size and orientation,
 - some interactions may feel closer to a “desktop” experience.
 
