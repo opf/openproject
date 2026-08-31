@@ -31,4 +31,4 @@ For details and platform-specific notes, see:
 | --- | --- |
 |[**Tablet support**](tablet-support) | Guidance and known differences when using the app on tablets.
  |
-|[**Desktop support**](desktop-support) | guidance for teams using the app on desktop-sized devices. |
+|[**Desktop support**](desktop-support) | Guidance for teams using the app on desktop-sized devices. |
