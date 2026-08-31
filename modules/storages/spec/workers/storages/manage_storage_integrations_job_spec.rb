@@ -110,7 +110,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, type: :job do
     before do
       create(:nextcloud_storage_configured, :as_automatically_managed)
       create(:nextcloud_storage, :as_not_automatically_managed)
-      create(:one_drive_sandbox_storage, :as_automatically_managed)
+      create(:onedrive_sandbox_storage, :as_automatically_managed)
     end
 
     it "enqueues a job for each automatically managed storage" do

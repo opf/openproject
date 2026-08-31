@@ -38,7 +38,7 @@ module Storages
         module Queries
           RSpec.describe OpenFileLinkQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:user) { create(:user) }
-            let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+            let(:storage) { create(:onedrive_sandbox_storage, oauth_client_token_user: user) }
             let(:auth_strategy) { Registry.resolve("onedrive.authentication.user_bound").call(user, storage) }
 
             it_behaves_like "storage adapter: query call signature", "open_file_link"

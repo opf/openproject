@@ -41,7 +41,7 @@ RSpec.describe "Admin List File storages",
 
   context "with storages" do
     shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
-    shared_let(:one_drive_storage) { create(:one_drive_storage) }
+    shared_let(:onedrive_storage) { create(:onedrive_storage) }
 
     before do
       visit admin_settings_storages_path
@@ -50,7 +50,7 @@ RSpec.describe "Admin List File storages",
     it "renders a list of all storages" do
       within :css, "#content" do
         expect(page).to have_list_item(nextcloud_storage.name)
-        expect(page).to have_list_item(one_drive_storage.name)
+        expect(page).to have_list_item(onedrive_storage.name)
       end
     end
 

@@ -37,10 +37,10 @@ module Storages
       module OneDrive
         module Commands
           RSpec.describe DeleteFolderCommand, :disable_ssrf_filter, :vcr, :webmock do
-            let(:storage) { create(:one_drive_sandbox_storage) }
+            let(:storage) { create(:onedrive_sandbox_storage) }
             let(:auth_strategy) { Registry["onedrive.authentication.userless"].call }
 
-            it "is registered as commands.one_drive.delete_folder" do
+            it "is registered as commands.onedrive.delete_folder" do
               expect(Registry.resolve("onedrive.commands.delete_folder")).to eq(described_class)
             end
 

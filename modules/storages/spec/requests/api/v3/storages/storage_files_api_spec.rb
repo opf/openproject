@@ -303,7 +303,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
     end
 
     context "without ee token", with_ee: false do
-      let(:storage) { create(:one_drive_storage, creator: current_user) }
+      let(:storage) { create(:onedrive_storage, creator: current_user) }
 
       it { expect(last_response).to have_http_status(:internal_server_error) }
     end

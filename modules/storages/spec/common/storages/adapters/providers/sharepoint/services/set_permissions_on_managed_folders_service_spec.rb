@@ -205,7 +205,7 @@ module Storages
               end
 
               describe "error handling" do
-                let(:error_key_prefix) { "services.errors.models.one_drive_sync_service" }
+                let(:error_key_prefix) { "services.errors.models.onedrive_sync_service" }
 
                 before { allow(Rails.logger).to receive_messages(%i[error warn]) }
 

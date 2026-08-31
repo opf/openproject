@@ -190,7 +190,7 @@ FactoryBot.define do
     end
   end
 
-  factory :one_drive_storage,
+  factory :onedrive_storage,
           parent: :storage,
           class: "::Storages::OneDriveStorage" do
     host { nil }
@@ -203,14 +203,14 @@ FactoryBot.define do
     end
   end
 
-  factory :one_drive_storage_configured, parent: :one_drive_storage do
+  factory :onedrive_storage_configured, parent: :onedrive_storage do
     after(:create) do |storage, _|
       create(:oauth_client, integration: storage)
       create(:oauth_application, integration: storage)
     end
   end
 
-  factory :one_drive_sandbox_storage, parent: :one_drive_storage do
+  factory :onedrive_sandbox_storage, parent: :onedrive_storage do
     automatically_managed { false }
 
     transient do

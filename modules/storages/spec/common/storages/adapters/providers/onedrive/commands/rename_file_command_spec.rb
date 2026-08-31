@@ -37,7 +37,7 @@ module Storages
       module OneDrive
         module Commands
           RSpec.describe RenameFileCommand, :disable_ssrf_filter, :webmock do
-            let(:storage) { create(:one_drive_sandbox_storage) }
+            let(:storage) { create(:onedrive_sandbox_storage) }
             let(:auth_strategy) { Registry.resolve("onedrive.authentication.userless").call }
             let(:input_data) { Input::RenameFile.build(location: file_id, new_name: name).value! }
 

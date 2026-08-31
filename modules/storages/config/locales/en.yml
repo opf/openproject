@@ -79,7 +79,7 @@ en:
       storages/nextcloud_storage:
         one: Nextcloud storage
         other: Nextcloud storages
-      storages/one_drive_storage:
+      storages/onedrive_storage:
         one: OneDrive storage
         other: OneDrive storages
       storages/project_storage:
@@ -132,7 +132,7 @@ en:
         remove_user_from_group: 'Remove User from Group:'
         rename_project_folder: 'Rename managed project Folder:'
         set_folder_permission: 'Set managed project Folder permissions:'
-      one_drive_sync_service:
+      onedrive_sync_service:
         create_folder: 'Managed Project Folder Creation:'
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'
@@ -192,7 +192,7 @@ en:
           not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
           unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} does not exist in Nextcloud."
-        one_drive_sync_service:
+        onedrive_sync_service:
           attributes:
             create_folder:
               conflict: The %{folder_name} already exists on %{parent_location}.
@@ -247,10 +247,10 @@ en:
     configuration_checks:
       oauth_client_incomplete:
         nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
-        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive.
+        onedrive: Allow OpenProject to access Azure data using OAuth to connect OneDrive.
         sharepoint: Allow OpenProject to access SharePoint data using OAuth.
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
+        onedrive: Complete the setup with the correct URI redirection.
         sharepoint: Complete the setup with the correct URI redirection.
     confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
@@ -283,13 +283,13 @@ en:
       automatically_managed_folders: Automatically managed folders
       general_information: General information
       oauth_configuration: OAuth configuration
-      one_drive:
+      onedrive:
         access_management:
           automatic_management: Enable automatically-managed access and folders
           automatic_management_description: Each project using this file storage will necessarily have to use the automatically-managed approach to folder and access management. They cannot do it manually.
           manual_management: Only allow manually-managed access and folders
           manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
-      one_drive_oauth: Azure OAuth
+      onedrive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
       project_folders: Project folders
       redirect_uri: Redirect URI
@@ -427,7 +427,7 @@ en:
       no_storage_set_up: There are no file storages set up yet.
       not_logged_into_storage: To select a project folder, please first login
       oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
-      one_drive:
+      onedrive:
         application_link_text: Azure portal
         copy_redirect_uri: Copy redirect URI
         documentation_link_text: OneDrive file storages documentation
@@ -546,7 +546,7 @@ en:
         label_oauth_client_secret: Nextcloud OAuth Client Secret
         name: Nextcloud
         name_placeholder: e.g. Nextcloud
-      one_drive:
+      onedrive:
         label_oauth_client_id: Azure OAuth Application (client) ID
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive
@@ -573,7 +573,7 @@ en:
       heading: You don't have any storages yet.
     successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsell:
-      one_drive:
+      onedrive:
         description: |-
           Integrate your OneDrive drive as a file storage with OpenProject. Upload files and link them directly to
           work packages in a project.

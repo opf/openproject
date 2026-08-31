@@ -126,7 +126,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
     end
 
     context "with OneDrive storage" do
-      let(:storage) { create(:one_drive_storage) }
+      let(:storage) { create(:onedrive_storage) }
       let(:delete_folder_url) do
         "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_location}"
       end

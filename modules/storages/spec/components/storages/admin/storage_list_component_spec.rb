@@ -33,9 +33,9 @@ require_module_spec_helper
 
 RSpec.describe Storages::Admin::StorageListComponent, type: :component do
   shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
-  shared_let(:one_drive_storage) { create(:one_drive_storage) }
+  shared_let(:onedrive_storage) { create(:onedrive_storage) }
 
-  let(:storages) { [nextcloud_storage, one_drive_storage] }
+  let(:storages) { [nextcloud_storage, onedrive_storage] }
 
   subject(:storage_list_component) { described_class.new(storages) }
 
@@ -47,7 +47,7 @@ RSpec.describe Storages::Admin::StorageListComponent, type: :component do
     it "lists all storages" do
       expect(page).to have_list_item(count: 2)
       expect(page).to have_list_item(nextcloud_storage.name)
-      expect(page).to have_list_item(one_drive_storage.name)
+      expect(page).to have_list_item(onedrive_storage.name)
     end
   end
 

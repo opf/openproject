@@ -36,7 +36,7 @@ module Storages
     shared_let(:admin) { create(:admin) }
     shared_let(:storage) do
       # Automatically Managed Project Folder Drive
-      create(:one_drive_sandbox_storage,
+      create(:onedrive_sandbox_storage,
              drive_id: "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy",
              oauth_client_token_user: admin)
     end
@@ -333,7 +333,7 @@ module Storages
       end
 
       describe "error handling" do
-        let(:error_key_prefix) { "services.errors.models.one_drive_sync_service" }
+        let(:error_key_prefix) { "services.errors.models.onedrive_sync_service" }
 
         before { allow(Rails.logger).to receive_messages(%i[error warn]) }
 

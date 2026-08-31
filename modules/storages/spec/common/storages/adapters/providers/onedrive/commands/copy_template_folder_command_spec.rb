@@ -37,7 +37,7 @@ module Storages
       module OneDrive
         module Commands
           RSpec.describe CopyTemplateFolderCommand, :disable_ssrf_filter, :webmock do
-            shared_let(:storage) { create(:one_drive_sandbox_storage) }
+            shared_let(:storage) { create(:onedrive_sandbox_storage) }
 
             shared_let(:original_folders) do
               use_storages_vcr_cassette("onedrive/copy_template_folder_existing_folders") { existing_folder_tuples }

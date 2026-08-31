@@ -335,7 +335,7 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
 
       context "with OneDrive with AMPF enabled" do
-        let(:storage) { create(:one_drive_storage_configured, :as_automatically_managed) }
+        let(:storage) { create(:onedrive_storage_configured, :as_automatically_managed) }
         let(:project_storage) { create(:project_storage, storage:) }
 
         it "does not show the edit option" do

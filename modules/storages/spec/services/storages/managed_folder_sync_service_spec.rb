@@ -46,13 +46,13 @@ RSpec.describe Storages::ManagedFolderSyncService do
       .with("nextcloud.services.upkeep_managed_folders")
       .and_return(folder_create_service)
     allow(Storages::Adapters::Registry).to receive(:resolve)
-      .with("one_drive.services.upkeep_managed_folders")
+      .with("onedrive.services.upkeep_managed_folders")
       .and_return(folder_create_service)
     allow(Storages::Adapters::Registry).to receive(:resolve)
       .with("nextcloud.services.upkeep_managed_folder_permissions")
       .and_return(folder_permissions_service)
     allow(Storages::Adapters::Registry).to receive(:resolve)
-      .with("one_drive.services.upkeep_managed_folder_permissions")
+      .with("onedrive.services.upkeep_managed_folder_permissions")
       .and_return(folder_permissions_service)
   end
 
@@ -82,17 +82,17 @@ RSpec.describe Storages::ManagedFolderSyncService do
   end
 
   context "when the storage is a OneDrive storage" do
-    let(:storage) { create(:one_drive_storage) }
+    let(:storage) { create(:onedrive_storage) }
 
     it "calls the OneDrive folder create service" do
       call
-      expect(Storages::Adapters::Registry).to have_received(:resolve).with("one_drive.services.upkeep_managed_folders")
+      expect(Storages::Adapters::Registry).to have_received(:resolve).with("onedrive.services.upkeep_managed_folders")
     end
 
     it "calls the OneDrive folder permissions service" do
       call
       expect(Storages::Adapters::Registry)
-        .to have_received(:resolve).with("one_drive.services.upkeep_managed_folder_permissions")
+        .to have_received(:resolve).with("onedrive.services.upkeep_managed_folder_permissions")
     end
   end
 

@@ -280,7 +280,7 @@ RSpec.describe "Admin Create a new file storage",
         end
       end
 
-      wait_for { page }.to have_current_path(upsell_admin_settings_storages_path(provider: "one_drive"))
+      wait_for { page }.to have_current_path(upsell_admin_settings_storages_path(provider: "onedrive"))
       expect(page).to have_text("OneDrive integration")
     end
   end
@@ -296,7 +296,7 @@ RSpec.describe "Admin Create a new file storage",
         within_test_selector("storages-select-provider-action-menu") { click_on("OneDrive") }
       end
 
-      expect(page).to have_current_path(new_admin_settings_storage_path(provider: "one_drive"))
+      expect(page).to have_current_path(new_admin_settings_storage_path(provider: "onedrive"))
 
       aggregate_failures "New provider view" do
         # Page Header
