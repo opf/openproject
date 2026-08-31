@@ -100,6 +100,12 @@ module Users
     # It is only present when freshly written
     def validate_password_writable
       return if model.password.blank?
+
+      unless model.password_login_allowed?
+        errors.add :password, :error_readonly
+        return
+      end
+
       return if password_writable?
 
       if editing_self?

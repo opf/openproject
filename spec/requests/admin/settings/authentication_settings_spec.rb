@@ -142,8 +142,9 @@ RSpec.describe "Authentication Settings",
 
     it "shows that the setting cannot be edited" do
       expect(page).to have_text(
-        "The following setting is configured through the environment and cannot be edited here: Password login."
+        "The following settings are configured through the environment and cannot be edited here:"
       )
+      expect(page).to have_css("li", exact_text: "Password login")
     end
 
     it "disables the password login group" do

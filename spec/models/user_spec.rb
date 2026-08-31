@@ -488,32 +488,6 @@ RSpec.describe User do
     end
   end
 
-  describe "#update_password" do
-    let(:provider) { create(:oidc_provider) }
-
-    context "with password login disabled for SSO users",
-            with_config: { password_login: "except_sso" } do
-      it "does not store a password for a user linked to an OmniAuth provider" do
-        user = create(:user, :passwordless, login: "sso_user", authentication_provider: provider)
-
-        user.update!(password: "pwd123Password!", password_confirmation: "pwd123Password!")
-
-        expect(user.passwords).to be_empty
-      end
-
-      context "and the user on the bypass list",
-              with_config: { password_login_bypass_logins: ["sso_user"] } do
-        it "stores a password" do
-          user = create(:user, :passwordless, login: "sso_user", authentication_provider: provider)
-
-          user.update!(password: "pwd123Password!", password_confirmation: "pwd123Password!")
-
-          expect(user.passwords).not_to be_empty
-        end
-      end
-    end
-  end
-
   describe "#watches" do
     before do
       user.save!

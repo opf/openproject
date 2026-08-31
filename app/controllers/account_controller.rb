@@ -76,7 +76,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
-    @show_password_login_form = true
+    @force_password_login_form = true
     render "account/login"
   end
 

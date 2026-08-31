@@ -55,7 +55,7 @@ RSpec.describe "account/login" do
   context "with password login disabled on the internal login page" do
     before do
       allow(Setting).to receive(:password_login).and_return("none")
-      assign(:show_password_login_form, true)
+      assign(:force_password_login_form, true)
       render
     end
 

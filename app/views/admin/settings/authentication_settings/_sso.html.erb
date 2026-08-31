@@ -28,10 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%
-  bypass_principal_ids = Users::PasswordLogin.bypass_principal_ids
   omniauth_configured = Users::PasswordLogin.omniauth_configured?
-  policy_values = %w[all except_sso none]
-  policy_values = policy_values.map do |value|
+  policy_values = Users::PasswordLogin::MODES.map do |value|
     if value == Users::PasswordLogin::NONE
       {
         name: value,
@@ -62,22 +60,13 @@ See COPYRIGHT and LICENSE files for more details.
   %>
   <% if environment_configured_settings.any? %>
     <%=
-      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
-        message = t(
-          "settings.authentication.password_login_configured_by_environment",
-          count: environment_configured_settings.size,
-          setting: environment_configured_settings.first
+      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, spacious: true)) do
+        safe_join(
+          [
+            t("settings.authentication.password_login_configured_by_environment"),
+            tag.ul(safe_join(environment_configured_settings.map { |setting| tag.li(setting) }))
+          ]
         )
-        if environment_configured_settings.one?
-          message
-        else
-          safe_join(
-            [
-              message,
-              tag.ul(safe_join(environment_configured_settings.map { |setting| tag.li(setting) }))
-            ]
-          )
-        end
       end
     %>
   <% end %>
@@ -165,7 +154,7 @@ See COPYRIGHT and LICENSE files for more details.
               defaultData: false,
               focusDirectly: false,
               disabled: bypass_disabled,
-              inputValue: bypass_principal_ids
+              inputValue: Users::PasswordLogin.bypass_principal_ids
             }
           )
         end

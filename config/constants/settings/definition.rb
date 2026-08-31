@@ -859,7 +859,7 @@ module Settings
       },
       password_login: {
         description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
-                     "users, or nobody (except the break-glass whitelist).",
+                     "users, or nobody (except the break-glass allowlist).",
         format: :string,
         default: lambda {
           if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
@@ -871,7 +871,7 @@ module Settings
         writable: lambda {
           OpenProject::Configuration::TRUE_VALUES.exclude?(OpenProject::Configuration["disable_password_login"])
         },
-        allowed: %w[all except_sso none]
+        allowed: -> { Users::PasswordLogin::MODES }
       },
       password_login_bypass_logins: {
         description: "Logins that keep password login as a break-glass access when password_login " \

@@ -225,7 +225,7 @@ class User < Principal
 
   # create new password if password was set
   def update_password
-    if password && ldap_auth_source_id.blank? && password_login_allowed?
+    if password && ldap_auth_source_id.blank?
       new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
@@ -286,22 +286,13 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
+  def self.try_authentication_for_existing_user(user, password, session = nil)
     activate_user! user, session if session
 
     return nil unless user.active?
+    return nil unless user.check_password?(password)
 
-    unless user.password_login_allowed?
-      Rails.logger.info { "Refused password login for #{user.login} (password_login=#{Users::PasswordLogin.mode})." }
-      return nil
-    end
-
-    if user.ldap_auth_source
-      # user has an external authentication method
-      return nil unless user.ldap_auth_source.authenticate(user.login, password)
-    else
-      # authentication with local password
-      return nil unless user.check_password?(password)
+    unless user.ldap_auth_source
       return nil if user.force_password_change
       return nil if user.password_expired?
     end

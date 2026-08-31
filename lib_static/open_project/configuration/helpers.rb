@@ -220,11 +220,7 @@ module OpenProject
 
       # True when the mapped password-login mode disables it instance-wide.
       def disable_password_login?
-        if defined?(Setting) && Setting.respond_to?(:password_login)
-          Setting.password_login == "none"
-        else
-          self["password_login"] == "none"
-        end
+        Setting.password_login == "none"
       end
 
       def ssrf_protection_ip_allowlist

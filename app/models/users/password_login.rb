@@ -34,7 +34,7 @@ module Users
   # Modes:
   # * +all+ — anyone with a password
   # * +except_sso+ — Users that are not connected to an SSO auth provider
-  # * +none+ — Only users on the whitelist may use their internal password
+  # * +none+ — Only users on the allowlist may use their internal password
   module PasswordLogin
     ALL = "all"
     EXCEPT_SSO = "except_sso"

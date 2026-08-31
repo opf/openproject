@@ -509,6 +509,10 @@ All username/password forms will be removed and only a list of omniauth provider
 presented to the users. This is equivalent to setting [`password_login`](#password-login)
 to `none`, and takes precedence over that setting.
 
+> [!NOTE]
+> Prefer configuring [`password_login`](#password-login) directly. This environment variable
+> is kept for compatibility with existing deployments.
+
 _default: false_
 
 ```yaml
@@ -521,11 +525,11 @@ Controls who may authenticate with a password:
 
 * `all` — anyone with a password, including users linked to an OmniAuth provider
 * `except_sso` — users linked to an OmniAuth provider cannot use a leftover password
-* `none` — nobody, except the break-glass whitelist (same as `disable_password_login`)
+* `none` — nobody, except the break-glass allowlist (same as `disable_password_login`)
 
 Modes `except_sso` and `none` are meant for instances that have at least one OmniAuth
 provider. `none` hides the password form on `/login`. Break-glass users sign in at
-`/login/internal`, which is enabled when a whitelist (or the login overlay below) is
+`/login/internal`, which is enabled when an allowlist (or the login overlay below) is
 non-empty.
 
 This setting is also available in the administration under *Authentication → Settings →
@@ -566,7 +570,7 @@ If this option is active, a login will lead directly to the configured omniauth 
 
 To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/login/internal`.
 This route is available when the direct login provider is set, and also when [`password_login`](#password-login)
-is `none` and a break-glass whitelist (or login overlay) is configured.
+is `none` and a break-glass allowlist (or login overlay) is configured.
 
 > [!NOTE]
 > This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
