@@ -184,7 +184,10 @@ export class WorkPackagesListChecksumService {
         url.searchParams.delete('query_id');
       }
 
-      window.history.pushState({}, '', url.toString());
+      // Marks this history entry as self-initiated, so QueryParamListenerService's
+      // urlParams.changed$ subscriber can ignore it instead of reloading the query
+      // it was itself the result of updating.
+      window.history.pushState({ silent: true }, '', url.toString());
       return Promise.resolve() as unknown as TransitionPromise;
     }
 

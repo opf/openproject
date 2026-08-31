@@ -478,11 +478,25 @@ export class WorkPackagesListService {
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
     if (!this.isOnNonRouterPage()) { return; }
 
-    // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
     const url = new URL(window.location.href);
-    url.pathname = url.pathname.replace(/\/[^/]+$/, `/${queryId}`);
-    url.searchParams.delete('query_id');
-    url.searchParams.delete('query_props');
+    const { pathname } = url;
+
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt')) {
+      // List-based pages: the query id lives in the query_id search param, the path itself
+      // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
+      if (queryId) {
+        url.searchParams.set('query_id', queryId);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+      url.searchParams.delete('query_props');
+    } else {
+      // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
+      url.pathname = pathname.replace(/\/[^/]+$/, `/${queryId}`);
+      url.searchParams.delete('query_id');
+      url.searchParams.delete('query_props');
+    }
+
     window.history.pushState({}, '', url.toString());
   }
 

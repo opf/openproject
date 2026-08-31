@@ -53,6 +53,14 @@ export class QueryParamListenerService {
   public listenForQueryParamsChanged():void {
     // Listen for param changes
     this.queryChangeSubscription = this.urlParams.changed$.subscribe(() => {
+      // Skip self-initiated syncs (see WorkPackagesListChecksumService#maintainUrlQueryState) -
+      // the checksum they reflect into the URL is already up to date, reloading here would
+      // just be undoing the change that triggered them in the first place.
+      const historyState = window.history.state as { silent?:boolean }|null;
+      if (historyState?.silent) {
+        return;
+      }
+
       const params = {
         query_id: this.urlParams.get('query_id'),
         query_props: this.urlParams.get('query_props'),
