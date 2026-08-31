@@ -43,19 +43,26 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
   shared_let(:status_a) { create(:status, name: "Status A", is_default: true) }
   shared_let(:status_b) { create(:status, name: "Status B") }
   shared_let(:bucket) { create(:backlog_bucket, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
 
-  shared_let(:matching_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Keep the Needle in a haystack")
+  def create_bucket_wp(subject:, status: status_a, backlog_bucket: bucket)
+    create(:work_package, project:, backlog_bucket:, status:, subject:)
   end
-  shared_let(:other_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Unrelated subject")
-  end
-  shared_let(:status_b_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_b, subject: "Keep me but wrong status")
-  end
-  shared_let(:keep_last_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Keep last")
-  end
+
+  def create_inbox_wp(subject:, status: status_a)=create_bucket_wp(subject:, status:, backlog_bucket: nil)
+  def create_sprint_wp(subject:, status: status_a)=create(:work_package, project:, sprint:, status:, subject:)
+
+  shared_let(:matching_bucket_wp) { create_bucket_wp(subject: "Keep the Needle in a haystack") }
+  shared_let(:other_bucket_wp) { create_bucket_wp(subject: "Unrelated subject") }
+  shared_let(:status_b_bucket_wp) { create_bucket_wp(subject: "Keep me but wrong status", status: status_b) }
+  shared_let(:keep_last_bucket_wp) { create_bucket_wp(subject: "Keep last") }
+  shared_let(:matching_sprint_wp) { create_sprint_wp(subject: "Keep the Needle in a haystack") }
+  shared_let(:other_sprint_wp) { create_sprint_wp(subject: "Unrelated subject") }
+  shared_let(:status_b_sprint_wp) { create_sprint_wp(subject: "Keep me but wrong status", status: status_b) }
+
+  shared_let(:matching_inbox_wp) { create_inbox_wp(subject: "Keep the Needle in a haystack") }
+  shared_let(:other_inbox_wp) { create_inbox_wp(subject: "Unrelated subject") }
+  shared_let(:status_b_inbox_wp) { create_inbox_wp(subject: "Keep me but wrong status", status: status_b) }
 
   let(:backlogs_page) { Pages::Backlog.new(project) }
 
@@ -64,27 +71,138 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
   before { backlogs_page.visit! }
 
   it "narrows the listings as the subject quick search is typed" do
-    backlogs_page.expect_work_package_in_backlog_bucket(matching_wp, bucket)
-    backlogs_page.expect_work_package_in_backlog_bucket(other_wp, bucket)
-    backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
-    backlogs_page.expect_work_package_in_backlog_bucket(keep_last_wp, bucket)
+    backlogs_page.expect_bucket_items(
+      bucket, items: [matching_bucket_wp, other_bucket_wp, status_b_bucket_wp, keep_last_bucket_wp]
+    )
+    backlogs_page.expect_backlog_bucket_work_package_count(bucket, 4)
+
+    backlogs_page.expect_sprint_items(sprint, items: [matching_sprint_wp, other_sprint_wp, status_b_sprint_wp])
+    backlogs_page.expect_sprint_work_package_count(sprint, 3)
+
+    backlogs_page.expect_inbox_items(items: [matching_inbox_wp, other_inbox_wp, status_b_inbox_wp])
+    backlogs_page.expect_inbox_work_package_count(3)
 
     backlogs_page.apply_subject_filter("Needle")
 
-    backlogs_page.expect_work_package_in_backlog_bucket(matching_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(other_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(status_b_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(keep_last_wp, bucket)
+    backlogs_page.expect_bucket_items(bucket, items: matching_bucket_wp)
+    backlogs_page.expect_no_bucket_items(bucket, items: [other_bucket_wp, status_b_bucket_wp, keep_last_bucket_wp])
+    backlogs_page.expect_backlog_bucket_work_package_count(bucket, 1)
+
+    backlogs_page.expect_sprint_items(sprint, items: matching_sprint_wp)
+    backlogs_page.expect_no_sprint_items(sprint, items: [other_sprint_wp, status_b_sprint_wp])
+    backlogs_page.expect_sprint_work_package_count(sprint, 1)
+
+    backlogs_page.expect_inbox_items(items: matching_inbox_wp)
+    backlogs_page.expect_no_inbox_items(items: [other_inbox_wp, status_b_inbox_wp])
+    backlogs_page.expect_inbox_work_package_count(1)
   end
 
   it "narrows the listings when an advanced filter is applied" do
-    backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
+    backlogs_page.expect_bucket_items(bucket, items: status_b_bucket_wp)
+    backlogs_page.expect_sprint_items(sprint, items: status_b_sprint_wp)
+    backlogs_page.expect_inbox_items(items: status_b_inbox_wp)
 
     backlogs_page.apply_status_filter(status_b)
 
-    backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(matching_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(other_wp, bucket)
-    backlogs_page.expect_work_package_not_in_backlog_bucket(keep_last_wp, bucket)
+    backlogs_page.expect_bucket_items(bucket, items: status_b_bucket_wp)
+    backlogs_page.expect_no_bucket_items(bucket, items: [matching_bucket_wp, other_bucket_wp, keep_last_bucket_wp])
+    backlogs_page.expect_backlog_bucket_work_package_count(bucket, 1)
+
+    backlogs_page.expect_sprint_items(sprint, items: status_b_sprint_wp)
+    backlogs_page.expect_no_sprint_items(sprint, items: [matching_sprint_wp, other_sprint_wp])
+    backlogs_page.expect_sprint_work_package_count(sprint, 1)
+
+    backlogs_page.expect_inbox_items(items: status_b_inbox_wp)
+    backlogs_page.expect_no_inbox_items(items: [matching_inbox_wp, other_inbox_wp])
+    backlogs_page.expect_inbox_work_package_count(1)
+  end
+
+  context "when executing various actions on the page with filters applied" do
+    shared_let(:other_bucket) { create(:backlog_bucket, project:) }
+    shared_let(:sprint_kept_wp) do
+      create(:work_package, project:, sprint:, status: status_a, subject: "Keep me sprint A")
+    end
+    shared_let(:sprint_kept_wp2) do
+      create(:work_package, project:, sprint:, status: status_a, subject: "Keep me sprint B")
+    end
+    shared_let(:empty_target_bucket) { create(:backlog_bucket, project:) }
+    shared_let(:existing_wp) { create_bucket_wp(subject: "Filtered out", backlog_bucket: empty_target_bucket) }
+    shared_let(:draggable_wp) { create_bucket_wp(subject: "Keep draggable") }
+
+    before do
+      backlogs_page.apply_subject_filter("Keep")
+      backlogs_page.apply_status_filter(status_a)
+      backlogs_page.close_filters
+    end
+
+    def expect_filters_preserved
+      expect(page).to have_field("Search by subject", with: "Keep")
+      backlogs_page.expect_no_bucket_items(bucket, items: [other_bucket_wp, status_b_bucket_wp])
+      backlogs_page.expect_no_sprint_items(sprint, items: [other_sprint_wp, status_b_sprint_wp])
+      backlogs_page.expect_no_inbox_items(items: [other_inbox_wp, status_b_inbox_wp])
+    end
+
+    it "preserves the filters after a cross-bucket drag and drop", :selenium do
+      backlogs_page.drag_work_package_to_backlog_bucket(matching_bucket_wp, other_bucket)
+
+      expect_filters_preserved
+      backlogs_page.expect_bucket_items(other_bucket, items: matching_bucket_wp)
+      backlogs_page.expect_bucket_items(bucket, items: keep_last_bucket_wp)
+    end
+
+    it "preserves the filters after opening and closing the work package details" do
+      details_view = backlogs_page.open_work_package_details(matching_bucket_wp)
+      details_view.close
+
+      expect(page).to have_current_path project_backlogs_backlog_path(project), ignore_query: true
+      expect_filters_preserved
+      backlogs_page.expect_bucket_items(bucket, items: matching_bucket_wp)
+    end
+
+    it "preserves the filters after moving work packages up or down" do
+      backlogs_page.click_in_work_package_move_submenu(keep_last_bucket_wp, "Move up")
+
+      expect_filters_preserved
+      backlogs_page.expect_bucket_items_in_order(bucket, work_packages: [keep_last_bucket_wp, matching_bucket_wp])
+
+      backlogs_page.click_in_sprint_story_move_menu(sprint_kept_wp2, "Move up")
+
+      expect_filters_preserved
+      backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [sprint_kept_wp2, sprint_kept_wp])
+    end
+
+    it "persists the drop position among the visible siblings", :selenium do
+      backlogs_page.expect_no_bucket_items(bucket, items: other_bucket_wp)
+
+      backlogs_page.drag_work_package(matching_bucket_wp, after: keep_last_bucket_wp)
+
+      backlogs_page.apply_subject_filter("")
+
+      backlogs_page.expect_bucket_items(bucket, items: other_bucket_wp)
+      backlogs_page.expect_bucket_items_in_order(bucket, work_packages: [keep_last_bucket_wp, matching_bucket_wp])
+    end
+
+    it "persists the move-up position among the visible siblings" do
+      backlogs_page.expect_no_bucket_items(bucket, items: other_bucket_wp)
+
+      backlogs_page.click_in_work_package_move_submenu(keep_last_bucket_wp, "Move up")
+
+      backlogs_page.apply_subject_filter("")
+
+      backlogs_page.expect_bucket_items(bucket, items: other_bucket_wp)
+      backlogs_page.expect_bucket_items_in_order(bucket, work_packages: [keep_last_bucket_wp, matching_bucket_wp])
+    end
+
+    it "inserts the dragged work package at the top of the bucket's real list", :selenium do
+      backlogs_page.expect_backlog_bucket_blankslate(empty_target_bucket)
+
+      backlogs_page.drag_work_package_to_backlog_bucket(draggable_wp, empty_target_bucket)
+
+      backlogs_page.apply_subject_filter("")
+
+      backlogs_page.expect_bucket_items_in_order(
+        empty_target_bucket, work_packages: [draggable_wp, existing_wp]
+      )
+    end
   end
 end
