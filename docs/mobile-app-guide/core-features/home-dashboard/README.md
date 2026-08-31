@@ -53,4 +53,4 @@ This lets you:
 - See key OpenProject information at a glance without opening the app.
 - Jump directly into relevant areas or items faster from your device's home screen.
 
-The exact set of available OS widgets (and what they show) can vary depending on your platform (iOS/Android) and the app version.
+The exact set of available OS widgets (and what they show) can vary depending on your platform (iOS or Android) and the app version.
