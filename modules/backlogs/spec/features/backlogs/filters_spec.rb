@@ -45,13 +45,16 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
   shared_let(:bucket) { create(:backlog_bucket, project:) }
 
   shared_let(:matching_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Needle in a haystack")
+    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Keep the Needle in a haystack")
   end
   shared_let(:other_wp) do
     create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Unrelated subject")
   end
   shared_let(:status_b_wp) do
-    create(:work_package, project:, backlog_bucket: bucket, status: status_b, subject: "Third item")
+    create(:work_package, project:, backlog_bucket: bucket, status: status_b, subject: "Keep me but wrong status")
+  end
+  shared_let(:keep_last_wp) do
+    create(:work_package, project:, backlog_bucket: bucket, status: status_a, subject: "Keep last")
   end
 
   let(:backlogs_page) { Pages::Backlog.new(project) }
@@ -64,31 +67,24 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_work_package_in_backlog_bucket(matching_wp, bucket)
     backlogs_page.expect_work_package_in_backlog_bucket(other_wp, bucket)
     backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
+    backlogs_page.expect_work_package_in_backlog_bucket(keep_last_wp, bucket)
 
-    fill_in "Search by subject", with: "Needle"
-    wait_for_network_idle
+    backlogs_page.apply_subject_filter("Needle")
 
     backlogs_page.expect_work_package_in_backlog_bucket(matching_wp, bucket)
     backlogs_page.expect_work_package_not_in_backlog_bucket(other_wp, bucket)
     backlogs_page.expect_work_package_not_in_backlog_bucket(status_b_wp, bucket)
+    backlogs_page.expect_work_package_not_in_backlog_bucket(keep_last_wp, bucket)
   end
 
   it "narrows the listings when an advanced filter is applied" do
     backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
 
-    find_test_selector("filter-component-toggle").click
-    select "Status", from: "Add filter"
-    select "is (OR)", from: "Status"
-
-    status_value = FormFields::Primerized::AutocompleteField.new(
-      :status_id_value,
-      selector: "[data-filter-name='status_id'][data-filter-autocomplete='true']"
-    )
-    status_value.select_option(status_b.name)
-    wait_for_network_idle
+    backlogs_page.apply_status_filter(status_b)
 
     backlogs_page.expect_work_package_in_backlog_bucket(status_b_wp, bucket)
     backlogs_page.expect_work_package_not_in_backlog_bucket(matching_wp, bucket)
     backlogs_page.expect_work_package_not_in_backlog_bucket(other_wp, bucket)
+    backlogs_page.expect_work_package_not_in_backlog_bucket(keep_last_wp, bucket)
   end
 end

@@ -32,6 +32,8 @@ require "support/pages/page"
 
 module Pages
   class Backlog < Page
+    include ::Components::Common::Filters
+
     attr_reader :project
 
     def initialize(project)
@@ -690,6 +692,17 @@ module Pages
         click_on(I18n.t(:label_inbox), role: "option") if include_inbox
         click_on "Apply"
       end
+      wait_for_network_idle
+    end
+
+    def apply_subject_filter(text)
+      fill_in "Search by subject", with: text
+      wait_for_network_idle
+    end
+
+    def apply_status_filter(status, operator: "is (OR)")
+      open_filters
+      set_filter("status_id", "Status", operator, [status.name])
       wait_for_network_idle
     end
 
