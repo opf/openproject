@@ -45,6 +45,7 @@ module WorkPackageTypes
     # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
     # type it was added to and starts out Linked to that type's base configuration.
     attribute :type_id
+    attribute :workflow_id
     TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
 
     validate :validate_type_allows_project_variants

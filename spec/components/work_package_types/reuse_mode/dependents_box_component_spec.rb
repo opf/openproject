@@ -111,7 +111,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :compo
 
   context "when another aspect is borrowed instead" do
     before do
-      link_configuration(borrowing_type.default_variant, source: variant, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(borrowing_type.default_variant, source: variant, aspect: TypeVariant::DEFAULTS)
 
       render_inline(component)
     end

@@ -412,6 +412,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_type_plural,
             parent: :admin_work_packages
 
+  menu.push :workflows,
+            { controller: "/workflows/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_workflow_plural,
+            parent: :admin_work_packages
+
   menu.push :statuses,
             { controller: "/statuses" },
             if: ->(_) { User.current.admin? },

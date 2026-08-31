@@ -55,7 +55,6 @@ module WorkPackageTypes
         defaults: TypeVariant::DEFAULTS,
         form_configuration: TypeVariant::FORM_CONFIGURATION,
         project_attributes: TypeVariant::PROJECT_ATTRIBUTES,
-        workflows: TypeVariant::WORKFLOWS,
         pdf: TypeVariant::PDF_EXPORT
       }.freeze
 

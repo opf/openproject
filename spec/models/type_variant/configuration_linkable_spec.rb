@@ -151,10 +151,10 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     end
 
     it "keeps the aspects apart" do
-      link_configuration(direct, source:, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(direct, source:, aspect: TypeVariant::PDF_EXPORT)
 
       expect(source.dependents_for(aspect)).to be_empty
-      expect(source.dependents_for(TypeVariant::WORKFLOWS).map(&:id)).to eq([direct.id])
+      expect(source.dependents_for(TypeVariant::PDF_EXPORT).map(&:id)).to eq([direct.id])
     end
 
     it "terminates on a cycle written before cycle prevention" do

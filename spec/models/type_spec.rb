@@ -270,7 +270,7 @@ RSpec.describe Type do
       end
     end
 
-    context "when linked to a source type" do
+    context "when sharing a workflow with another type" do
       let(:role) { create(:project_role) }
       let(:statuses) { create_list(:status, 2) }
       let!(:source) { create(:type) }
@@ -284,51 +284,26 @@ RSpec.describe Type do
                           assignee: false)
       end
 
-      before { link_configuration(type.default_variant, source: source.default_variant, aspect: TypeVariant::WORKFLOWS) }
+      before { type.default_variant.update!(workflow: source.default_variant.workflow) }
 
-      it "resolves the source's statuses" do
-        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
-      end
-    end
-
-    context "when linked through a longer chain" do
-      let(:role) { create(:project_role) }
-      let(:statuses) { create_list(:status, 2) }
-      let!(:owner) { create(:type) }
-      let!(:middle) { create(:type) }
-      let!(:type) { create(:type) }
-      let!(:workflow) do
-        create(:workflow, role_id: role.id,
-                          type_variant: owner.default_variant,
-                          old_status_id: statuses[0].id,
-                          new_status_id: statuses[1].id,
-                          author: false,
-                          assignee: false)
-      end
-
-      before do
-        link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-        link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
-      end
-
-      it "resolves statuses from the chain's owning type" do
+      it "resolves the shared workflow's statuses" do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
     end
   end
 
-  describe "#copy_from_type on own_workflows" do
+  describe ".copy" do
     before do
       allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls the .copy method on Workflows::StatusTransition" do
-      type.default_variant.own_workflows.copy_from_variant(type2.default_variant)
+    it "copies between the workflows the two types reference" do
+      Workflows::StatusTransition.copy(type2.default_variant.workflow, nil, type.default_variant.workflow, nil)
 
       expect(Workflows::StatusTransition)
         .to have_received(:copy)
-        .with(type2.default_variant, nil, type.default_variant, nil)
+        .with(type2.default_variant.workflow, nil, type.default_variant.workflow, nil)
     end
   end
 
@@ -342,46 +317,26 @@ RSpec.describe Type do
                         old_status_id: statuses[0].id, new_status_id: statuses[1].id)
     end
 
-    it "returns its own workflows when unlinked" do
+    it "returns the transitions of the workflow it references" do
       own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
 
       expect(type.default_variant.workflows).to contain_exactly(own)
     end
 
-    it "resolves a child to its linked parent's workflows" do
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
+    it "returns the same transitions as every other variant referencing that workflow" do
+      type.default_variant.update!(workflow: owner.default_variant.workflow)
 
       expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
     end
 
-    it "resolves through a longer chain to the owning type's workflows" do
-      middle = create(:type)
-      link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
+    it "writes reach every variant referencing the workflow" do
+      type.default_variant.update!(workflow: owner.default_variant.workflow)
 
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-    end
+      added = create(:workflow, type_variant: type.default_variant, role_id: role.id,
+                                old_status_id: statuses[1].id, new_status_id: statuses[0].id)
 
-    it "reads the source's rows and not its own while linked" do
-      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-      expect(type.default_variant.workflows).not_to include(own)
-    end
-
-    it "copies onto a forked workflow while linked, leaving the source untouched" do
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-
-      type.default_variant.own_workflows.copy_from_variant(owner.default_variant)
-
-      expect(type.default_variant.own_workflows.sole)
-        .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
-      expect(type.default_variant.workflow_id).not_to eq(owner.default_variant.workflow_id)
-      expect(owner.default_variant.reload.own_workflows).to contain_exactly(owner_workflow)
+      expect(owner.default_variant.reload.workflows).to contain_exactly(owner_workflow, added)
     end
   end
 
@@ -546,7 +501,6 @@ RSpec.describe Type do
           expect(type.pdf_export_templates).to be_readonly
         end
       end
-
     end
 
     context "when linked to a source type" do

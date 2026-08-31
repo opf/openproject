@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::DuplicateService do
 
     expect(copy_variant.attribute_groups.map(&:key)).to include("custom group")
     expect(copy_variant.default_work_package_description).to eq("The source description")
-    expect(copy_variant.own_workflows).to be_present
+    expect(copy_variant.workflow.status_transitions).to be_present
   end
 
   context "when a copy with the default name already exists" do
@@ -105,12 +105,12 @@ RSpec.describe WorkPackageTypes::DuplicateService do
   context "when the source has a linked aspect" do
     shared_let(:link_target) { create(:type, name: "Shared config") }
 
-    before { link_configuration(source, source: link_target, aspect: TypeVariant::WORKFLOWS) }
+    before { link_configuration(source, source: link_target, aspect: TypeVariant::DEFAULTS) }
 
     it "replicates the link on the copy's base variant" do
       copy = service_call.result
 
-      expect(copy.default_variant.source_for(TypeVariant::WORKFLOWS)).to eq(link_target.default_variant)
+      expect(copy.default_variant.source_for(TypeVariant::DEFAULTS)).to eq(link_target.default_variant)
     end
   end
 

@@ -201,7 +201,7 @@ RSpec.describe WorkPackageTypes::VariantsController do
 
       context "when the variant inherits from a project-specific variant" do
         before do
-          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
+          variant.update!(defaults_source: create(:project_owned_type_variant, type:, project: variant.project,
                                                                                 variant_name: "Sibling"))
         end
 
@@ -247,7 +247,7 @@ RSpec.describe WorkPackageTypes::VariantsController do
 
       context "when the variant inherits from a project-specific variant" do
         before do
-          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
+          variant.update!(defaults_source: create(:project_owned_type_variant, type:, project: variant.project,
                                                                                 variant_name: "Sibling"))
         end
 

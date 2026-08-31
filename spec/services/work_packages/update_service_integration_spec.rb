@@ -525,7 +525,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: family_root } }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: root_only_status.id, new_status_id: root_only_status.id)
