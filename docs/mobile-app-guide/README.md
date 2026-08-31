@@ -16,7 +16,7 @@ The **OpenProject Mobile app (Beta)** is available for **iOS** and **Android**. 
 
 The OpenProject Mobile app focuses on mobile-first workflows that complement the full OpenProject web application. With the mobile app, you can:
 
-- **Access your projects, meetings and work packages** on the go.
+- **Access your projects, meetings, and work packages** on the go.
 - **React and respond quickly** to updates and discussions.
 - **Stay informed** about project progress, tasks, meetings and deadlines.
 - **Track and log time** directly in the app to keep reporting up to date.
