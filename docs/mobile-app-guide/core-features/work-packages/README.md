@@ -44,7 +44,7 @@ You can create a new work package directly from the **Work packages** list.
 - Tap the **+ button** (top right), which is also available from the Home dashboard.
 - Select the work package **type**.
 - Select the **project** where you want to create the work package.
-- Fill all the work package **mandatory details**. Any additional fields available for this work package type are available when tapping on the **See all attributes** on the bottom bar.
+- Fill in all the work package **mandatory details**. Any additional fields available for this work package type are available when tapping on **See all attributes** in the bottom bar.
 - Tap **Create** to create the work package.
 
 After creation, the work package opens in its detail view, where you can continue editing, add comments, attachments, relations, watchers, and more.
