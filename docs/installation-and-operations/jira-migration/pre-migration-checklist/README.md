@@ -47,7 +47,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated, beyond individual issues:**
 
-- [ ] List and Hierarchy custom fields never get deduplicated — every import run creates fresh copies of all of them. If you have, say, 20 List/Hierarchy-type fields in Jira and migrate across 10 batches, that's up to 200 separate, auto-numbered fields in OpenProject (My Field, My Field (2), My Field (3), ...) for what should really be 20 distinct fields. (known issue: JIM-170).
+- [ ] List and Hierarchy custom fields never get deduplicated — every import run creates fresh copies of all of them. If you have, say, 20 List/Hierarchy-type fields in Jira and migrate across 10 batches, that's up to 200 separate, auto-numbered fields in OpenProject (My Field, My Field (2), My Field (3), ...) for what should really be 20 distinct fields. (known issue: [JIM-170](https://community.openproject.org/projects/JIM/work_packages/JIM-170/activity)).
 - [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153))
 - [ ] Permission schemes / roles (planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97))
 - [ ] Agile boards (Scrum/Kanban setup, filters, swimlanes) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106))
