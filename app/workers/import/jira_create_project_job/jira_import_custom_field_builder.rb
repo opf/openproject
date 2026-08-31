@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class JiraImportProjectsJob
+  class JiraCreateProjectJob
     # Builds OpenProject custom field definition(s) from a Jira custom field
     # and an optional Jira "field context" group.
     class JiraImportCustomFieldBuilder
@@ -144,17 +144,23 @@ module Import
 
       attr_reader :jira_field, :context_group
 
-      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil)
+      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil,
+                     context_index: 0)
         @jira_field = jira_field
         @context_group = context_group
         @option_value = option_value
         @needs_disambiguation = needs_disambiguation
         @jira_import = jira_import
+        @context_index = context_index
         @import_name = default_cf_name
       end
 
       def find_existing_custom_field
-        existing_cf = custom_field_by_name(@import_name) if %w[hierarchy list].exclude?(format)
+        existing_cf = if %w[hierarchy list].include?(format)
+                        custom_field_created_by_import
+                      else
+                        custom_field_by_name(@import_name)
+                      end
         return existing_cf if existing_cf&.field_format == format
 
         @import_name = unique_custom_field_name
@@ -279,6 +285,37 @@ module Import
       def custom_field_by_name(name)
         WorkPackageCustomField.where("LOWER(name) = LOWER(?)", name).first
       end
+
+      # List and hierarchy fields must not be matched by name: a custom field that happens to
+      # share the name may carry a different option set, and reusing it would silently drop
+      # values. They are matched by the position of their context group instead, which is stable
+      # because build_custom_field_registry derives the contexts of a Jira field deterministically
+      # from its stored payload.
+      #
+      # This is what keeps the registry idempotent: it is rebuilt by every per-project job of an
+      # import run, and without this lookup each rebuild created another copy of every list and
+      # hierarchy field ("CF List", "CF List (2)", ...).
+      def custom_field_created_by_import
+        custom_fields_created_by_import[@context_index]
+      end
+
+      # rubocop:disable Metrics/AbcSize
+      def custom_fields_created_by_import
+        return [] if @jira_import.blank?
+
+        @custom_fields_created_by_import ||= begin
+          ids = Import::JiraOpenProjectReference
+                  .where(jira_import_id: @jira_import.id,
+                         jira_entity_class: jira_field.class.to_s,
+                         jira_entity_id: jira_field.id.to_s,
+                         op_entity_class: "WorkPackageCustomField")
+                  .order(:id)
+                  .pluck(:op_entity_id)
+          by_id = WorkPackageCustomField.where(id: ids).index_by { |cf| cf.id.to_s }
+          ids.filter_map { |id| by_id[id] }
+        end
+      end
+      # rubocop:enable Metrics/AbcSize
 
       def unique_custom_field_name
         unique_name = @import_name
@@ -417,7 +454,7 @@ module Import
       def find_field_user(jira_user_key)
         return if jira_user_key.blank?
 
-        jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
+        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
         if jira_user
           JiraOpenProjectReference.find_by!(
             jira_entity_class: "Import::JiraUser",

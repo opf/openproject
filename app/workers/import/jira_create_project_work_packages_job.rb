@@ -29,125 +29,86 @@
 #++
 
 module Import
-  class JiraImportProjectsJob < ApplicationJob
+  class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
-    include JiraImportCustomFields
-    include Redmine::I18n
+    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+
+    on_complete do
+      # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
+      # or 0 in case there are no work_packages in the project.
+      Project
+        .where(id: @project.id)
+        .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
+                     "FROM work_packages WHERE project_id = ?)", @project.id])
+    end
+
+    def text
+      jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
+      "Create work_packages for '#{jira_project_name}'"
+    end
+
+    def percentage
+      jira_import = Import::JiraImport.find(arguments[0])
+      cursor = jira_import.get_job_cursor(self)
+      if cursor.present?
+        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
+        total = issues.count
+        position = issues.where(id: ..cursor).count
+        (position.to_f / total * 100).round(2)
+      else
+        0
+      end
+    end
 
     # rubocop:disable Metrics/AbcSize
-    def perform(jira_import_id)
+    def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
       @system_user = User.system
       @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+      jira_project = Import::JiraProject.find(jira_project_id)
 
-      unless Setting::WorkPackageIdentifier.semantic?
-        view_context = ApplicationController.new.view_context
-        title = view_context.render(Primer::Beta::Text.new(tag: :p, font_weight: :bold).with_content(
-                                      I18n.t("admin.jira.errors.semantic_identifiers_must_be_enabled.title")
-                                    ))
-        description = view_context.render(
-          Primer::Beta::Text.new(tag: :p).with_content(
-            link_translate(
-              "admin.jira.errors.semantic_identifiers_must_be_enabled.description",
-              links: { link: OpenProject::StaticRouting::StaticUrlHelpers.new.admin_settings_work_packages_identifier_path },
-              external: true
-            )
-          )
-        )
-        raise title + description
-      end
+      @project_role = Role.find_by!(name: "JiraMember")
+      @custom_field_registry = build_custom_field_registry
 
-      ActiveRecord::Base.transaction do
-        @project_role = setup_project_role
-        custom_field_registry = build_custom_field_registry
+      @project = JiraOpenProjectReference.find_by!(
+        jira_entity_id: jira_project.id,
+        jira_entity_class: jira_project.class.to_s
+      ).op_leg
 
-        Import::JiraProject.where(jira_import_id: @jira_import.id,
-                                  jira_project_id: @jira_import.project_ids).find_each do |jira_project|
-          project = import_project(jira_project)
-          update_custom_fields_in_project(project, jira_project, custom_field_registry)
-          Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id).find_each do |jira_issue|
-            import_issue(jira_issue, project, custom_field_registry)
+      update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
+
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+        cursor: cursor
+      )
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    # rubocop:disable Metrics/AbcSize
+    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+      Journal::NotificationConfiguration.with(false) do
+        Journal::EventConfiguration.with(false) do
+          ActiveRecord::Base.transaction do
+            type = create_type(jira_issue, @project)
+            status = create_status(jira_issue)
+            update_workflows(type)
+            new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
+            update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
+            priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+            raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
+            create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
+            @jira_import.set_job_cursor(self, jira_issue.id)
           end
-          # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
-          # or 0 in case there are no work_packages in the project.
-          Project
-            .where(id: project.id)
-            .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
-                         "FROM work_packages WHERE project_id = ?)", project.id])
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
-
-    def setup_project_role
-      service_call = Roles::CreateService.new(user: @system_user).call(
-        name: "JiraMember",
-        permissions: %i[add_work_packages
-                        view_work_packages
-                        add_work_package_comments
-                        add_work_package_attachments
-                        work_package_assigned]
-      )
-      if service_call.success?
-        create_reference!(op_leg: service_call.result, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
-      elsif service_call.errors.find { |error| error.type == :taken }.blank?
-        raise service_call.message
-      end
-      Role.find_by!(name: "JiraMember")
-    end
-
-    def import_project(jira_project)
-      project_key = jira_project.payload.fetch("key")
-      project_keys = jira_project.payload.fetch("projectKeys")
-      service_call = Projects::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         name: jira_project.payload.fetch("name"),
-                         identifier: project_key,
-                         description: jira_project.payload.fetch("description"),
-                         active: true,
-                         public: false,
-                         parent: nil,
-                         status_code: nil,
-                         status_explanation: nil,
-                         templated: false,
-                         workspace_type: "project"
-                       )
-      if service_call.success?
-        project = service_call.result
-        insert_data = project_keys.map do |key|
-          { sluggable_id: project.id,
-            sluggable_type: project.class.to_s,
-            slug: key,
-            scope: nil }
-        end
-        FriendlyId::Slug.insert_all(insert_data, unique_by: %i[slug sluggable_type scope]) if insert_data.present?
-        create_reference!(op_leg: project, jira_leg: jira_project, jira_import: @jira_import, uses_existing: false)
-        return project
-      end
-
-      if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
-        taken_identifier = error.options[:value]
-        raise I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
-      end
-
-      raise service_call.message
-    end
-
-    def import_issue(jira_issue, project, custom_field_registry)
-      type = import_type(jira_issue, project)
-      status = import_status(jira_issue)
-      update_workflows(type)
-      new_custom_fields = new_custom_fields_in_type(jira_issue, type, custom_field_registry)
-      update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
-      priority = import_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
-      raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
-
-      import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
-    end
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       existing_cf_ids = type.default_variant.custom_field_ids
@@ -194,7 +155,8 @@ module Import
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
-    def import_type(jira_issue, project)
+    # rubocop:disable Metrics/AbcSize
+    def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
       uses_existing = true
@@ -210,10 +172,11 @@ module Import
       end
 
       enable_type(project, type)
-      jira_issue_type = Import::JiraIssueType.find_by!(jira_issue_type_id: issue_type["id"], jira_id: @jira_id)
+      jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
     end
+    # rubocop:enable Metrics/AbcSize
 
     def enable_type(project, type)
       service_call = Projects::Types::AddService
@@ -222,7 +185,7 @@ module Import
       raise service_call.message if service_call.failure?
     end
 
-    def import_status(jira_issue)
+    def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
       uses_existing = true
@@ -230,12 +193,12 @@ module Import
         status = Status.create!(name: issue_status["name"])
         uses_existing = false
       end
-      jira_status = Import::JiraStatus.find_by!(jira_status_id: issue_status["id"], jira_id: @jira_id)
+      jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
     end
 
-    def import_priority(jira_issue)
+    def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       if issue_priority.present?
         priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
@@ -244,7 +207,7 @@ module Import
           priority = IssuePriority.create!(name: issue_priority["name"])
           uses_existing = false
         end
-        jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
+        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
         create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
         priority
       end
@@ -260,12 +223,16 @@ module Import
       raise call.message if call.failure?
     end
 
-    def import_work_package(jira_issue, project, type, status, priority, custom_field_registry) # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
+      # required because otherwise project.types does not include type and then wp creation fails.
+      project.reload
+
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
       assigned_to = find_user(assignee_key)
-      [author, assigned_to].uniq.compact.each { |member| import_member(project, member) }
+      [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
 
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
 
@@ -293,7 +260,7 @@ module Import
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
-      sequence_number = WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier)
+      _, sequence_number = identifier.split("-")
       work_package.update_columns(sequence_number:, identifier:)
       work_package_id = work_package.id
       aliases_from_history = jira_issue
@@ -314,10 +281,13 @@ module Import
                                                unique_by: :identifier)
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
-      import_work_package_history(work_package, jira_issue, project)
+      create_work_package_history(work_package, jira_issue, project)
+      work_package
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    def import_work_package_history(work_package, jira_issue, project)
+    # rubocop:disable Metrics/AbcSize
+    def create_work_package_history(work_package, jira_issue, project)
       journal_service = Import::JiraImportJournals.new(work_package:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
@@ -330,46 +300,15 @@ module Import
       comments.each do |comment|
         key = comment.dig("author", "key")
         author = find_user(key)
-        import_member(project, author) if author.present?
+        create_member(project, author)
         journal_service.add_comment(comment:, user: author || User.system)
       end
 
       journal_service.call
-
-      attachments = jira_issue.payload.dig("fields", "attachment") || []
-      attachments.each do |attachment|
-        key = attachment.dig("author", "key")
-        author = find_user(key)
-        import_member(project, author) if author.present?
-        import_attachment(work_package, attachment, author || User.system)
-      end
     end
+    # rubocop:enable Metrics/AbcSize
 
-    def import_attachment(work_package, attachment, author)
-      filename = attachment["filename"]
-      content_url = attachment["content"]
-      mime_type = attachment["mimeType"]
-      size = attachment["size"]
-      @jira_client.download_attachment(content_url, filename) do |tempfile|
-        tempfile.rewind
-        tempfile.define_singleton_method(:original_filename) { filename }
-        tempfile.define_singleton_method(:content_type) { mime_type }
-        tempfile.define_singleton_method(:size) { size }
-        call = Attachments::CreateService
-                 .new(user: author, contract_class: EmptyContract)
-                 .call(container: work_package, filename:, file: tempfile)
-
-        call.on_failure do
-          OpenProject.logger.error("#{work_package}: Attachment creation failed for #{filename}: #{call.message}")
-        end
-      end
-    rescue JiraClient::SsrfError,
-           JiraClient::ConnectionError,
-           JiraClient::ApiError => e
-      OpenProject.logger.error("#{work_package}: Download attachment failed for #{filename}: #{e.message}")
-    end
-
-    def import_member(project, member)
+    def create_member(project, member)
       service_call = Members::CreateService
                        .new(user: @system_user, contract_class: EmptyContract)
                        .call(
@@ -388,23 +327,20 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
+      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
       if jira_user
-        reference = JiraOpenProjectReference.find_by(
-          jira_entity_class: jira_user.class.to_s,
+        ref = JiraOpenProjectReference.find_by(
+          jira_entity_class: "Import::JiraUser",
           jira_entity_id: jira_user.id
         )
-        if reference
-          reference.op_leg
+        if ref.present?
+          ref.op_leg
         else
-          raise "Import::JiraOpenProjectReference with jira_entity_class #{jira_user.class} " \
-                "and jira_entity_id #{jira_user.id} not found!"
+          raise "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
         end
       else
         raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

@@ -29,36 +29,20 @@
 #++
 
 module Import
-  class JiraFetchAndImportProjectsJob < ApplicationJob
-    include Import::JiraOpenProjectReferenceCreation
+  class JiraFetchUsersJob < ApplicationJob
+    def text
+      "Fetch users"
+    end
 
     def perform(jira_import_id)
       jira_import = Import::JiraImport.find(jira_import_id)
-
-      Import::JiraFetchProjectsJob.perform_now(jira_import_id)
-      fetch_and_save_users_data(jira_import)
-
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
-          jira_import.import_users
-          Import::JiraImportProjectsJob.perform_now(jira_import_id)
-        end
-      end
-
-      jira_import.transition_to!(:imported)
-    rescue StandardError => e
-      jira_import&.transition_to!(:import_error, error: e.message, error_backtrace: e.backtrace)
-      jira_import&.update!(job_id: nil, error: e.message)
-    end
-
-    private
-
-    def fetch_and_save_users_data(jira_import)
       user_keys, mention_usernames = collect_user_to_import(jira_import)
       resolve_mention_user_keys(mention_usernames, user_keys, jira_import.client)
       upsert_data = build_users_upsert_data(user_keys, jira_import)
-      Import::JiraUser.upsert_all(upsert_data, unique_by: %i[jira_id jira_user_key])
+      Import::JiraUser.upsert_all(upsert_data, unique_by: %i[jira_import_id origin_id]) if upsert_data.present?
     end
+
+    private
 
     def collect_user_to_import(jira_import)
       user_keys = Set.new
@@ -162,9 +146,8 @@ module Import
       jira_user_by_key = jira_client.user_by_key(key: jira_user_key)
       {
         payload: jira_user_by_key,
-        jira_id: jira_import.jira_id,
         jira_import_id: jira_import.id,
-        jira_user_key:,
+        origin_id: jira_user_key,
         created_at:,
         updated_at:
       }

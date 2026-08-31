@@ -23,21 +23,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Import::JiraImportProjectsJob::JiraImportCustomFieldBuilder do
+RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
+  let(:custom_field) { instance_double(WorkPackageCustomField) }
+
   def jira_field_for(name:, schema:, context_groups: nil)
     payload = { "name" => name, "schema" => schema }
     payload["contextGroups"] = context_groups if context_groups
     instance_double(Import::JiraField, payload:)
   end
-
-  let(:custom_field) { instance_double(WorkPackageCustomField) }
 
   describe "#format" do
     subject(:format) { described_class.new(jira_field).format }

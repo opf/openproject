@@ -29,7 +29,27 @@
 #++
 
 module Import
-  class JiraStatusCategory < ApplicationRecord
-    self.table_name = "jira_status_categories"
+  class ProgressableJob < ApplicationJob
+    include JobIteration::Iteration
+
+    class AbortionError < StandardError; end
+
+    on_complete do
+      raise AbortionError, "Job was aborted" if @aborted
+    end
+
+    def percentage
+      raise "Must be implemented by the job itself"
+    end
+
+    private
+
+    def job_should_exit?
+      if @jira_import.reload.in_state?(:import_aborting)
+        @aborted = true
+        throw(:abort)
+      end
+      super
+    end
   end
 end

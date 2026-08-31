@@ -29,13 +29,13 @@
 #++
 
 module Import
-  class JiraImportProjectsJob
+  class JiraCreateProjectJob
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
 
       def collect_custom_field_attributes(custom_field_registry, jira_issue)
         custom_field_registry.each_with_object({}) do |entry, attrs|
-          field_key = entry[:jira_field].jira_field_id
+          field_key = entry[:jira_field].origin_id
           raw_value = jira_issue.payload["fields"][field_key]
           next if raw_value.blank?
 
@@ -49,7 +49,7 @@ module Import
 
       def custom_fields_for_issue(custom_field_registry, jira_issue)
         custom_field_registry.filter_map do |entry|
-          raw_value = jira_issue.payload["fields"][entry[:jira_field].jira_field_id]
+          raw_value = jira_issue.payload["fields"][entry[:jira_field].origin_id]
           next if raw_value.blank?
 
           find_context_for_issue(entry, jira_issue)&.dig(:custom_field)
@@ -64,25 +64,16 @@ module Import
         return [] if jira_field_ids.empty?
 
         Import::JiraField
-          .where(jira_id: @jira_id, jira_field_id: jira_field_ids)
+          .where(jira_import_id: @jira_import.id, origin_id: jira_field_ids)
           .flat_map { |jira_field| build_registry_entries_for_field(jira_field) }
       end
 
       def collect_used_jira_field_ids
-        used_ids = Set.new
-        jira_project_ids = Import::JiraProject
-                             .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
-                             .pluck(:id)
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: jira_project_ids).find_each do |issue|
-          issue.payload["fields"].each do |key, value|
-            used_ids << key if key.start_with?("customfield_") && value.present?
-          end
-        end
-        used_ids.to_a
+        issue_field_values_index[:used_keys].to_a
       end
 
       def build_registry_entries_for_field(jira_field)
-        return [] unless supported_field?(jira_field)
+        return [] unless JiraImportCustomFieldBuilder.supported?(jira_field)
 
         if multicheckbox_field?(jira_field)
           build_multicheckbox_registry_entries(jira_field)
@@ -91,10 +82,6 @@ module Import
         else
           [{ jira_field:, contexts: build_contexts_for_field(jira_field) }]
         end
-      end
-
-      def supported_field?(jira_field)
-        JiraImportCustomFieldBuilder.supported?(jira_field)
       end
 
       def multicheckbox_field?(jira_field)
@@ -172,9 +159,9 @@ module Import
       end
 
       def all_jira_import_project_ids
-        Import::JiraProject
-          .where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids)
-          .pluck(:id)
+        @all_jira_import_project_ids ||= Import::JiraProject
+                                           .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
+                                           .pluck(:id)
       end
 
       def build_contexts_for_field(jira_field)
@@ -248,20 +235,27 @@ module Import
       end
 
       def issue_option_values(jira_field)
-        issue_field_values_index[:options][jira_field.jira_field_id].values
+        issue_field_values_index[:options][jira_field.origin_id].values
       end
 
       def issue_string_values(jira_field)
-        issue_field_values_index[:strings][jira_field.jira_field_id].to_a.sort
+        issue_field_values_index[:strings][jira_field.origin_id].to_a.sort
       end
 
       def issue_field_values_index
         @issue_field_values_index ||= build_issue_field_values_index
       end
 
+      def new_issue_field_values_index
+        { used_keys: Set.new, options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
+      end
+
       def build_issue_field_values_index
-        index = { options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
-        Import::JiraIssue.where(jira_id: @jira_id, jira_project_id: all_jira_import_project_ids).find_each do |issue|
+        index = new_issue_field_values_index
+        Import::JiraIssue
+          .where(jira_import_id: @jira_import.id,
+                 jira_project_id: all_jira_import_project_ids)
+          .find_each do |issue|
           scope = issue_context_scope(issue)
           used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
         end
@@ -277,6 +271,7 @@ module Import
       end
 
       def record_issue_field_values(index, field_key, raw, scope)
+        index[:used_keys] << field_key
         Array.wrap(raw).each do |value|
           if value.is_a?(Hash)
             record_issue_option_value(index[:options][field_key], value, scope)
@@ -308,9 +303,15 @@ module Import
           context_group:,
           option_value:,
           needs_disambiguation:,
-          jira_import: @jira_import
+          jira_import: @jira_import,
+          context_index: next_context_index(jira_field)
         )
-        custom_field = find_or_create_custom_field(jira_field, builder)
+
+        jira_import = jira_field.jira_import
+        lock_key = "jira_import_#{jira_import.id}_find_or_create_custom_field"
+        custom_field = OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do
+          find_or_create_custom_field(jira_field, builder)
+        end
         {
           projects: Array(context_group&.dig("projects")),
           issuetypes: Array(context_group&.dig("issuetypes")),
@@ -319,12 +320,22 @@ module Import
         }
       end
 
+      # Position of a context group among all context groups built for a Jira field, in the order
+      # build_registry_entries_for_field produces them. Identifies which of the custom fields
+      # already created for that Jira field belongs to this context group.
+      def next_context_index(jira_field)
+        @context_indexes ||= Hash.new(0)
+        index = @context_indexes[jira_field.id]
+        @context_indexes[jira_field.id] = index + 1
+        index
+      end
+
       def find_or_create_custom_field(jira_field, builder)
         existing_cf = builder.find_existing_custom_field
         if existing_cf
           unless Import::JiraOpenProjectReference.exists?(op_entity_id: existing_cf.id,
                                                           op_entity_class: existing_cf.class.to_s,
-                                                          jira_id: @jira_id)
+                                                          jira_import_id: @jira_import.id)
             create_reference!(op_leg: existing_cf, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
           end
           return existing_cf
