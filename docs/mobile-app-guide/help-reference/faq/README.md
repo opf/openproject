@@ -165,7 +165,7 @@ Use **Settings and support → Give feedback** to submit bug reports, feedback, 
 
 ## Can I use the app offline?
 
-The app requires an **active internet connection** to sync. Some previously loaded content may remain visible, but creating and updating items generally requires connectivity. We are currently working on bringing offline capabilities to the app and we hope we will be able to offer this soon.
+The app requires an **active internet connection** to sync. Some previously loaded content may remain visible, but creating and updating items generally requires connectivity. We are currently working on bringing offline capabilities to the app, and we hope we will be able to offer these soon.
 
 ## How can I switch between multiple OpenProject instances?
 
