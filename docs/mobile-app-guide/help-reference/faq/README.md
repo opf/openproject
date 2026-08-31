@@ -12,7 +12,7 @@ keywords: Mobile app FAQ, faq, mobile app questions, OpenProject mobile app
 
 The app is released in **Beta** to provide early access while core functionality is still under development. This allows the OpenProject team to gather **feedback from real users**, identify issues, and improve the experience before a full public release.
 
-## What is the OpenProject Mobile App?
+## What is the OpenProject Mobile app?
 
 The OpenProject Mobile App is a companion to the OpenProject web and desktop applications. It helps you **stay informed, manage work packages, track time, and collaborate** while on the go. As the app is currently in **Beta**, some advanced features are still under development.
 
