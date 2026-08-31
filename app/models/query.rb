@@ -193,7 +193,11 @@ class Query < ApplicationRecord
     filters << filter if filters.none? { it.field.to_s == filter.field.to_s }
   end
 
+  # `version_id` and `target_version_id` are interchangeable representations
+  # of one filter, and only one of them is available at a time; a caller
+  # naming either one gets the currently available filter.
   def filter_for(field)
+    field = Queries::WorkPackages::FilterSerializer.active_version_key(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super
 
     filter.context = self
@@ -206,6 +210,7 @@ class Query < ApplicationRecord
   #
   # @param [String] name the filter to remove
   def remove_filter(name)
+    name = Queries::WorkPackages::FilterSerializer.active_version_key(name)
     filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
@@ -215,7 +220,10 @@ class Query < ApplicationRecord
   # by name. Signature kept identical to BaseQuery's (symbol arg in, filter
   # or nil out).
   def find_active_filter(name)
-    filters.detect { |f| f.name == name }
+    key = Queries::WorkPackages::FilterSerializer.active_version_key(name)
+    key = key.to_sym if name.is_a?(Symbol)
+
+    filters.detect { |f| f.name == key }
   end
 
   # The manual-sort filter is added programmatically when the user drags

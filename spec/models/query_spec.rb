@@ -85,6 +85,13 @@ RSpec.describe Query,
       expect(query.find_active_filter("status_id")).to be_nil
       expect(query.find_active_filter(:status_id)).not_to be_nil
     end
+
+    it "finds a filter added under the other interchangeable version key" do
+      query.add_filter("version_id", "=", ["1"])
+
+      expect(query.find_active_filter(:target_version_id))
+        .to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+    end
   end
 
   describe "#available_advanced_filters" do
@@ -814,6 +821,22 @@ RSpec.describe Query,
         expect(subject.object_id).to eql query.filter_for("status_id").object_id
       end
     end
+
+    context "for version_id/target_version_id, which are interchangeable" do
+      context "with multiple versions active", with_settings: { work_package_multiple_versions: true } do
+        it "returns the target versions filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+        end
+      end
+
+      context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
+        it "returns the version filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+        end
+      end
+    end
   end
 
   describe "filters after deserialization" do
@@ -840,6 +863,15 @@ RSpec.describe Query,
       it "is a noop" do
         expect { query.remove_filter("assigned_to_id") }
           .not_to change { query.filters.count }
+      end
+    end
+
+    context "if the filter was added under the other interchangeable version key" do
+      it "removes it" do
+        query.add_filter("version_id", "=", ["1"])
+
+        expect { query.remove_filter("target_version_id") }
+          .to change { query.filters.count }.by(-1)
       end
     end
   end
