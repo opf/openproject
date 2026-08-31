@@ -40,6 +40,9 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 2) } }
   shared_let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
+  # Which types the project uses is only offered to a reader who may change it.
+  current_user { create(:user, member_with_permissions: { project => %i[view_project manage_types] }) }
+
   subject(:component) { described_class.new(project:) }
 
   context "when a type is active through its base variant" do
@@ -70,10 +73,12 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_no_text("Epic: Design")
     end
 
-    # normalize_ws because render_inline keeps the newline between the two Text
-    # components that a browser lays out on one line.
-    it "names the active variant after the type it presents as" do
-      expect(page).to have_text("Variant: Design", normalize_ws: true)
+    # The variant's own row says it is the one in use, so the header does not repeat it. The
+    # group is open for that row to be read.
+    it "leaves saying which variant is in use to that variant's row" do
+      expect(page).to have_no_text("Variant: Design")
+      expect(page).to have_css("[data-test-selector='project-types-variant-#{design.id}']",
+                               text: "Variant in this project")
     end
 
     it "points the remove action at the type the variant belongs to" do

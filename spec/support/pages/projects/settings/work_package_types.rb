@@ -52,7 +52,12 @@ module Pages
           row = find_row(variant)
 
           expect(row).to have_text(variant.name)
-          expect(row).to have_text("Variant: #{variant_name}") if variant_name
+          return if variant_name.nil?
+
+          # A named variant in use says so on its own row, inside the group the type heads.
+          expect(row).to have_css("[data-test-selector='project-types-variant-#{variant.id}']",
+                                  text: "Variant in this project")
+          expect(row).to have_text(variant_name)
         end
 
         def expect_no_type_row(variant)
@@ -60,7 +65,7 @@ module Pages
         end
 
         def remove_type(variant)
-          within(find_row(variant)) { find("action-menu > button").click }
+          open_type_menu(variant)
           click_on "Remove from project"
         end
 
@@ -71,10 +76,15 @@ module Pages
         end
 
         def open_switch_dialog(variant)
-          within(find_row(variant)) { find("action-menu > button").click }
-          click_on "Switch variant"
+          open_type_menu(variant)
+          click_on "Use in this project"
 
           expect(switch_dialog).to have_select("Variant")
+        end
+
+        # The type's own menu, not one of the variant rows below it: both live inside the group.
+        def open_type_menu(variant)
+          within(find_row(variant)) { find(".op-border-box-list-header action-menu > button").click }
         end
 
         def choose_switch_target(target)
@@ -98,9 +108,10 @@ module Pages
         end
 
         def expect_no_switch_action(variant)
-          within(find_row(variant)) { find("action-menu > button").click }
+          open_type_menu(variant)
 
-          expect(page).to have_no_text("Switch variant")
+          # Scoped to the group: another type's menu carries the same item, hidden until opened.
+          expect(find_row(variant)).to have_no_text("Use in this project")
         end
 
         def find_row(variant)

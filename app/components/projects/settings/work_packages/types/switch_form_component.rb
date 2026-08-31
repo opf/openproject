@@ -53,7 +53,7 @@ module Projects
           attr_reader :project, :source, :url, :selected, :validation_message
 
           def available_targets
-            source.type.variants.available_in(project).in_display_order
+            TypeVariant.switch_targets(user: User.current, project:, source:).in_display_order
           end
 
           # The route addresses the type, as the switch route does: the variant is what the

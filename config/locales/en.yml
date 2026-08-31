@@ -5394,15 +5394,15 @@ en:
           type_label: "Type"
           type_placeholder: "Select a type"
         add_type: "Add type"
-        add_variant: "Add a variant for this project"
+        add_variant: "Add a project-specific variant"
+        base_type_in_use: "Base type used in this project"
         empty_state:
           description: "Add a type to let people create work packages of that type in this project."
           title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
-        in_use: "In use"
         no_results_title_text: There are currently no types available.
-        only_available_here: "Only available in this project"
+        project_specific_variant: "Project-specific variant"
         remove_from_project: "Remove from project"
         switch:
           apply: "Apply"
@@ -5425,10 +5425,10 @@ en:
           success: "The project now uses %{type}."
           target_label: "Variant"
           title: "%{type}: Switch variant"
-        switch_type: "Switch variant"
         type_not_found: "The selected type could not be found."
-        # Carries its own punctuation so locales can set their own spacing.
-        variant_prefix: "Variant:"
+        use_in_project: "Use in this project"
+        variant_in_use: "Variant in this project"
+        variant_label: "Variant"
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.

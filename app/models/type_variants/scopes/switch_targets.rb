@@ -28,37 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Types
-    class SwitchVariantContract < ::BaseContract
-      validate :validate_user_allowed_to_switch
-      validate :validate_target_selectable
+module TypeVariants::Scopes
+  module SwitchTargets
+    extend ActiveSupport::Concern
 
-      protected
+    class_methods do
+      # The variants of the source's type a user may move a project onto. Deciding which variant a
+      # project runs on goes with authoring its variants, not with choosing which types it uses.
+      # Another project's variant is never among them.
+      def switch_targets(user:, project:, source:)
+        return none unless user.allowed_in_project?(:manage_project_variants, project)
 
-      # Deferred to validate_target_selectable, which names what is wrong with the pair itself.
-      def validate_user_allowed_to_switch
-        return if target.nil? || target.type_id != source.type_id
-        return if ::TypeVariant.switchable?(user:, project: model, source:, target:)
-
-        errors.add :base, :error_unauthorized
+        source.type.variants.available_in(project)
       end
 
-      def validate_target_selectable
-        if target.nil?
-          errors.add(:types, :switch_target_blank)
-        elsif target == source
-          errors.add(:types, :switch_target_identical)
-        elsif source.type_id != target.type_id
-          errors.add(:types, :switch_target_not_in_family)
-        end
+      def switchable?(user:, project:, source:, target:)
+        switch_targets(user:, project:, source:).exists?(id: target.id)
       end
-
-      private
-
-      def source = options[:source]
-
-      def target = options[:target]
     end
   end
 end

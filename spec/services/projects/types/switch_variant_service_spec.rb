@@ -118,7 +118,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the user is not allowed to manage types" do
+  context "when the user may not author the project's variants" do
     let(:user) { create(:user) }
 
     it "fails without changing anything" do

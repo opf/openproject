@@ -53,8 +53,24 @@ module Projects
                                         .sort_by { |project_type| project_type.type.position }
           end
 
-          def switchable?(project_type)
-            selectable_variants(project_type).any?
+          def manages_types?
+            User.current.allowed_in_project?(:manage_types, project)
+          end
+
+          def base_variant(project_type) = project_type.type.default_variant
+
+          def switch_targets(project_type)
+            @switch_targets ||= {}
+            @switch_targets[project_type.id] ||=
+              TypeVariant.switch_targets(user: User.current, project:, source: project_type.variant)
+                         .where.not(id: project_type.variant_id)
+                         .ids
+          end
+
+          # The header offers the type's own configuration, so it offers nothing once the project
+          # runs on it.
+          def base_type_usable?(project_type)
+            usable?(project_type, base_variant(project_type))
           end
 
           def selectable_variants(project_type)
@@ -63,6 +79,34 @@ module Projects
 
           def in_use?(project_type, variant)
             project_type.variant_id == variant.id
+          end
+
+          def base_type_in_use?(project_type)
+            project_type.variant.default?
+          end
+
+          # Left out rather than shown as zero, so the badge never labels a type with nothing to
+          # choose from.
+          def variants_count(project_type)
+            count = selectable_variants(project_type).size
+            count if count.positive?
+          end
+
+          def in_use_marker(label)
+            safe_join(
+              [
+                render(Primer::Beta::Octicon.new(icon: "check-circle-fill", color: :success, ml: 2)),
+                render(Primer::Beta::Text.new(color: :success, font_size: :small, font_weight: :normal, ml: 1)) { label }
+              ]
+            )
+          end
+
+          def variant_caption(variant)
+            if owned?(variant)
+              t("projects.settings.types.project_specific_variant")
+            else
+              t("projects.settings.types.variant_label")
+            end
           end
 
           def owned?(variant)
@@ -91,10 +135,22 @@ module Projects
             type_variant_path(in_project_id: project, type_id: variant.type_id, id: variant.id)
           end
 
-          def variant_actions(menu, variant)
+          def actionable?(project_type, variant)
+            usable?(project_type, variant) || configurable?(variant)
+          end
+
+          def usable?(project_type, variant)
+            switch_targets(project_type).include?(variant.id)
+          end
+
+          def variant_actions(menu, project_type, variant)
+            use_action(menu, variant) if usable?(project_type, variant)
+            return unless configurable?(variant)
+
             menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
               entry.with_leading_visual_icon(icon: :pencil)
             end
+            menu.with_divider
             menu.with_item(
               label: t(:button_delete),
               scheme: :danger,
@@ -105,18 +161,33 @@ module Projects
             end
           end
 
-          def switch_path(type)
-            new_project_settings_work_packages_type_switch_path(project, type)
+          # The reader has already chosen on the row, so the dialog opens on that variant.
+          def use_action(menu, variant)
+            menu.with_item(
+              label: t("projects.settings.types.use_in_project"),
+              href: switch_path(variant),
+              content_arguments: { data: { controller: "async-dialog" } }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: "check-circle")
+            end
           end
 
-          def switch_action(menu, type)
-            menu.with_item(
-              label: t("projects.settings.types.switch_type"),
-              href: switch_path(type),
-              content_arguments: { data: { controller: "async-dialog" } }
-            ) do |item|
-              item.with_leading_visual_icon(icon: "list-ordered")
+          def add_variant_action(menu, type)
+            menu.with_item(label: t("projects.settings.types.add_variant"), href: add_variant_path(type)) do |item|
+              item.with_leading_visual_icon(icon: :plus)
             end
+          end
+
+          def type_actions?(project_type)
+            manageable? || base_type_usable?(project_type) || manages_types?
+          end
+
+          def removal_set_apart?(project_type)
+            manages_types? && (manageable? || base_type_usable?(project_type))
+          end
+
+          def switch_path(variant)
+            new_project_settings_work_packages_type_switch_path(project, variant.type, target_id: variant.id)
           end
 
           def remove_path(type)
