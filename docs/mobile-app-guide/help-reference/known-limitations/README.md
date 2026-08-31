@@ -34,7 +34,7 @@ The mobile app is a companion to the web/desktop application. Some advanced func
 Common examples include:
 
 - Not every module or feature from the web application is available in the mobile app yet.
-- Most of the administrative or configuration actions may require using the web application.
+- Most administrative or configuration actions may require using the web application.
 
 ## Search scope
 
