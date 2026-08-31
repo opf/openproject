@@ -36,7 +36,7 @@ The Home dashboard is built from **sections/widgets** that summarize or link to 
 ![All available Home dashboard widgets](home_dashboard-widgets.png)
 
 > [!NOTE]
-> The exact set of sections can vary depending on your OpenProject instance configuration, permissions, memberships and what you have configured as visible in the app settings.
+> The exact set of sections can vary depending on your OpenProject instance configuration, permissions, memberships, and what you have configured to be visible in the app settings.
 
 ## Customize your Home dashboard
 
