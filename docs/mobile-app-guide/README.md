@@ -34,7 +34,7 @@ OpenProject Mobile is organized into modules. See the module guides for details:
 | [**Work Packages**](core-features/work-packages) | Create, view, and edit work packages directly from the app. Work packages are organized for quick access and easy collaboration. |
 | [**Notifications**](core-features/notification-center) | Receive updates about comments, mentions, and work package changes, ensuring you never miss an important activity. |
 | [**Time Tracking**](core-features/time-tracking) | Track time spent on work packages, run timers in focus mode, and keep your reporting accurate and up to date. |
-| [**Meetings**](core-features/meetings) | Access and react to meeting agendas, series and details directly in the app. |
+| [**Meetings**](core-features/meetings) | Access and react to meeting agendas, series, and details directly in the app. |
 | [**Global search**](core-features/global-search) | Search across all the content available in the app from a single place. |
 | [Spaces](core-features/projects) | Browse your projects, access project-specific details, and stay on top of deadlines and activities. |
 | [**User Settings**](core-features/user-settings) | Configure your account, manage app preferences, and tailor notifications to suit your workflow. |
