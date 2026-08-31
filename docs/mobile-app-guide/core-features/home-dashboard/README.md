@@ -6,7 +6,7 @@ description: Create a personalized overview of your projects, work packages, and
 keywords: Mobile app features home dashboard
 ---
 
-# Home Dashboard
+# Home dashboard
 
 The **Home dashboard** is the starting point of the OpenProject mobile app. It gives you quick access to your most important items and helps you continue where you left off without navigating through multiple projects first.
 
