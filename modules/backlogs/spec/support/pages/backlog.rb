@@ -696,6 +696,11 @@ module Pages
       wait_for_network_idle
     end
 
+    def clear_subject_filter
+      find_by_id("backlog-filters-form-clear-button").click
+      wait_for_network_idle
+    end
+
     def apply_status_filter(status, operator: "is (OR)")
       open_filters
       set_filter("status_id", "Status", operator, [status.name])
