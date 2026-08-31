@@ -47,8 +47,7 @@ module AI
           name: :prompt,
           label: attribute_name(:prompt),
           required: true,
-          rows: 8,
-          input_width: :large
+          rows: 8
         )
 
         f.select_list(
