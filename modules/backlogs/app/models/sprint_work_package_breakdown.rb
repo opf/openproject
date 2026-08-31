@@ -33,9 +33,8 @@
 # sprint_id/status_id/story_points values from work_package_journals.
 # The references are the actual start and completion timestamps of the sprint.
 class SprintWorkPackageBreakdown
-  Block = Struct.new(:work_package_count, :story_points, keyword_init: true)
-  ChangeBlock = Struct.new(:added_count, :removed_count, :added_story_points, :removed_story_points,
-                           keyword_init: true)
+  Block = Data.define(:work_package_count, :story_points)
+  ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)
 
   def initialize(sprint:, project:)
     @sprint = sprint

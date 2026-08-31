@@ -1,0 +1,22 @@
+<%= render(Primer::Box.new(classes: "op-wp-overview--block")) do %>
+  <%=
+    flex_layout(align_items: :center) do |flex|
+      flex.with_column(mr: 3) do
+        render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold)) { heading }
+      end
+      flex.with_column do
+        render(Primer::Beta::Link.new(href: show_all_href, data: { turbo: false })) do
+          t(".blocks.show_all")
+        end
+      end
+    end
+  %>
+
+  <% if count? %>
+    <%= count %>
+  <% end %>
+
+  <% if story_points? %>
+    <%= story_points %>
+  <% end %>
+<% end %>

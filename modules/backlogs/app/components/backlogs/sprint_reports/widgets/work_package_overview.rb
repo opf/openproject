@@ -62,33 +62,6 @@ module Backlogs
           (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
         end
 
-        def breakdown_blocks # rubocop:disable Metrics/AbcSize
-          return [] unless sprint.started_at?
-
-          [
-            block(
-              key: :initially_planned,
-              data: breakdown.initially_planned,
-              timestamps: breakdown.reference_start
-            ),
-            changed_after_start_block,
-            block(
-              key: :completed,
-              data: breakdown.completed,
-              timestamps: breakdown.reference_finish,
-              status_filter_operator: "=",
-              count_color: :success
-            ),
-            block(
-              key: :unfinished,
-              data: breakdown.unfinished,
-              timestamps: breakdown.reference_finish,
-              status_filter_operator: "!",
-              count_color: :muted
-            )
-          ]
-        end
-
         private
 
         def resolved_summary_text
@@ -114,32 +87,6 @@ module Backlogs
 
         def breakdown
           @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
-        end
-
-        def block(key:, data:, timestamps:, status_filter_operator: nil, count_color: nil)
-          {
-            heading: t(".blocks.#{key}.heading"),
-            count: data.work_package_count.to_s,
-            story_points: t("backlogs.story_points", count: data.story_points),
-            count_color:,
-            show_all_path: show_all_path(timestamps:, status_filter_operator:)
-          }
-        end
-
-        # "Changed after start" tallies additions and removals separately (e.g. "+4 / -1"), rather
-        # than the single count/story_points the other blocks show.
-        def changed_after_start_block
-          data = breakdown.changed_after_start
-
-          {
-            heading: t(".blocks.changed_after_start.heading"),
-            count: t(".blocks.changed_after_start.count_change_html",
-                     added: data.added_count, removed: data.removed_count, divider: divider_text),
-            story_points: t(".blocks.changed_after_start.story_points_change",
-                            added: data.added_story_points, removed: data.removed_story_points),
-            count_color: nil,
-            show_all_path: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
-          }
         end
 
         def divider_text

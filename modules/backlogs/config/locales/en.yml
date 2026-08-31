@@ -248,9 +248,11 @@ en:
               heading: "Completed"
             initially_planned:
               heading: "Initially planned"
-            show_all: "View all"
             unfinished:
               heading: "Unfinished"
+          breakdown_block:
+            blocks:
+              show_all: "View all"
           closed_work_packages: "Closed work packages"
           resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
 
