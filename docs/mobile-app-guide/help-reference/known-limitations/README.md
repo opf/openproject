@@ -29,7 +29,7 @@ This page lists the most important limitations to be aware of.
 
 ## Feature coverage vs. web/desktop
 
-The mobile app is a companion to the web/desktop application. Some advanced functionality available on desktop is not yet available on mobile.
+The mobile app is a companion to the web/desktop application. Some advanced functionality available on the desktop is not yet available on mobile.
 
 Common examples include:
 
