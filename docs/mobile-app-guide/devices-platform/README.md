@@ -10,7 +10,7 @@ keywords: mobile app devices, device support, tablet, desktop, OpenProject mobil
 
 The OpenProject mobile app is designed first and foremost for **mobile use**. It supports both **iOS** and **Android** and is optimized for quick, on-the-go workflows such as checking notifications, updating work packages, or reviewing meeting agendas.
 
-At the same time, many teams also work on **larger screens**. The app can be used on tablets and on desktop-sized devices to support scenarios where more screen space helps with navigation, reading, and multitasking.
+At the same time, many teams also work on **larger screens**. The app can be used on tablets and desktop-sized devices to support scenarios where more screen space helps with navigation, reading, and multitasking.
 
 ## Supported platforms
 
