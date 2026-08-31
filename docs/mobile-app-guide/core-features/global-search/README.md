@@ -21,7 +21,7 @@ Work is ongoing to also make **meetings** available through global search.
 
 ### What you can do
 
-With Global search you can:
+With global search you can:
 
 - Search by keyword or ID across supported content types.
 - Filter down the list with quick filters related to each content type.
