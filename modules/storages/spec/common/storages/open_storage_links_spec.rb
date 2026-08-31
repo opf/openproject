@@ -44,7 +44,7 @@ RSpec.describe Storages::OpenStorageLinks do
     context "if storage is of provider type one drive" do
       context "if storage has configured oauth credentials" do
         let(:oauth_client) { create(:oauth_client) }
-        let(:storage) { create(:one_drive_storage, oauth_client:) }
+        let(:storage) { create(:onedrive_storage, oauth_client:) }
 
         it "returns the 'ensure connections' link" do
           expect(subject).to end_with("/oauth_clients/#{oauth_client.client_id}/ensure_connection?" \
@@ -54,7 +54,7 @@ RSpec.describe Storages::OpenStorageLinks do
       end
 
       context "if storage is not fully configured" do
-        let(:storage) { create(:one_drive_storage) }
+        let(:storage) { create(:onedrive_storage) }
 
         it "raises an error" do
           expect { subject }.to raise_error(Storages::Errors::ConfigurationError)
@@ -85,7 +85,7 @@ RSpec.describe Storages::OpenStorageLinks do
     context "if storage is of provider type one drive" do
       context "if storage has configured oauth credentials" do
         let(:oauth_client) { create(:oauth_client) }
-        let(:storage) { create(:one_drive_storage, oauth_client:) }
+        let(:storage) { create(:onedrive_storage, oauth_client:) }
 
         it "returns true" do
           expect(subject).to be_truthy
@@ -93,7 +93,7 @@ RSpec.describe Storages::OpenStorageLinks do
       end
 
       context "if storage is not fully configured" do
-        let(:storage) { create(:one_drive_storage) }
+        let(:storage) { create(:onedrive_storage) }
 
         it "returns false" do
           expect(subject).to be_falsy

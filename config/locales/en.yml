@@ -3437,7 +3437,7 @@ en:
       ldap_groups: LDAP users and group sync
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
-      one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
+      onedrive_sharepoint_file_storage: OneDrive/SharePoint File Storage
       placeholder_users: Placeholder Users
       portfolio_management: Portfolio management
       project_creation_wizard: Project initiation request

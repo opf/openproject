@@ -255,7 +255,7 @@ RSpec.describe("Activation of storages in projects",
 
       context "when the storage is a one drive storage" do
         let(:oauth_application) { create(:oauth_application) }
-        let(:storage) { create(:one_drive_storage, :as_automatically_managed, oauth_application:) }
+        let(:storage) { create(:onedrive_storage, :as_automatically_managed, oauth_application:) }
         let(:project_storage) { create(:project_storage, storage:, project:) }
 
         before do
