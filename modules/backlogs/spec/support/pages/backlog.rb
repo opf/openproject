@@ -132,15 +132,20 @@ module Pages
       end
     end
 
-    def expect_inbox_item(work_package)
-      within_backlog_inbox do
-        expect(page).to have_css(work_package_selector(work_package))
-      end
+    def expect_inbox_items(items:)
+      within_backlog_inbox { expect_work_package_items(items:) }
     end
 
-    def expect_no_inbox_item(work_package)
+    def expect_no_inbox_items(items:)
+      within_backlog_inbox { expect_work_package_items(items:, present: false) }
+    end
+
+    def expect_inbox_work_package_count(count)
       within_backlog_inbox do
-        expect(page).to have_no_css(work_package_selector(work_package))
+        expect(page).to have_css(
+          ".Counter",
+          accessible_name: I18n.t(:label_x_work_packages, count:)
+        )
       end
     end
 
@@ -164,20 +169,19 @@ module Pages
       wait_for_backlogs_network_idle
     end
 
-    def expect_work_packages_in_inbox_in_order(work_packages: [])
+    def expect_inbox_items_in_order(work_packages: [])
       within_backlog_inbox do
         expect_work_packages_in_order work_packages:
       end
     end
 
-    def expect_work_packages_in_backlog_bucket_in_order(bucket, work_packages: [])
+    def expect_bucket_items_in_order(bucket, work_packages: [])
       within_backlog_bucket(bucket) do
         expect_work_packages_in_order work_packages:
       end
     end
 
-    def expect_work_packages_in_sprint_in_order(sprint,
-                                                work_packages: [])
+    def expect_sprint_items_in_order(sprint, work_packages: [])
       within_sprint(sprint) do
         expect_work_packages_in_order work_packages:
       end
@@ -245,11 +249,8 @@ module Pages
       end
     end
 
-    def expect_work_package_in_sprint(work_package, sprint)
-      within_sprint(sprint) do
-        expect(page)
-          .to have_selector(work_package_selector(work_package).to_s)
-      end
+    def expect_sprint_items(sprint, items:)
+      within_sprint(sprint) { expect_work_package_items(items:) }
     end
 
     def expect_work_package_text_in_sprint(work_package, sprint, text)
@@ -259,21 +260,16 @@ module Pages
       end
     end
 
-    def expect_work_package_not_in_sprint(work_package, sprint)
-      within_sprint(sprint) do
-        expect(page)
-          .to have_no_selector(work_package_selector(work_package).to_s)
-      end
+    def expect_no_sprint_items(sprint, items:)
+      within_sprint(sprint) { expect_work_package_items(items:, present: false) }
     end
 
     def expect_bucket_names_in_order(*bucket_names)
       expect(bucket_names_in_order).to eq(bucket_names)
     end
 
-    def expect_work_package_in_backlog_bucket(work_package, bucket)
-      within_backlog_bucket(bucket) do
-        expect(page).to have_css(work_package_selector(work_package))
-      end
+    def expect_bucket_items(bucket, items:)
+      within_backlog_bucket(bucket) { expect_work_package_items(items:) }
     end
 
     def expect_backlog_bucket_work_package_count(bucket, count)
@@ -285,10 +281,8 @@ module Pages
       end
     end
 
-    def expect_work_package_not_in_backlog_bucket(work_package, bucket)
-      within_backlog_bucket(bucket) do
-        expect(page).to have_no_css(work_package_selector(work_package))
-      end
+    def expect_no_bucket_items(bucket, items:)
+      within_backlog_bucket(bucket) { expect_work_package_items(items:, present: false) }
     end
 
     def within_sprint_menu(sprint, &)
@@ -993,6 +987,16 @@ module Pages
 
     def work_package_selector(work_package)
       test_selector("work-package-#{work_package.id}")
+    end
+
+    def expect_work_package_items(items:, present: true)
+      Array(items).each do |wp|
+        if present
+          expect(page).to have_css(work_package_selector(wp))
+        else
+          expect(page).to have_no_css(work_package_selector(wp))
+        end
+      end
     end
 
     # `.op-work-package-card` is the class the card component itself owns;

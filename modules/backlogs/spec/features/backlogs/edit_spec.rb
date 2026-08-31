@@ -83,8 +83,8 @@ RSpec.describe "Edit", :js do
   it "lists all open sprints" do
     planning_page.expect_sprint_names_in_order(first_sprint.name, second_sprint.name)
 
-    planning_page.expect_work_package_in_sprint(work_package, first_sprint)
-    planning_page.expect_work_package_not_in_sprint(work_package, second_sprint)
+    planning_page.expect_sprint_items(first_sprint, items: work_package)
+    planning_page.expect_no_sprint_items(second_sprint, items: work_package)
   end
 
   context "with the 'create_sprints' permissions" do
@@ -270,7 +270,7 @@ RSpec.describe "Edit", :js do
   context "when moving work packages from sprints" do
     describe "moving to a different sprint" do
       it "moves a work package to a different sprint" do
-        planning_page.expect_work_package_in_sprint(work_package, first_sprint)
+        planning_page.expect_sprint_items(first_sprint, items: work_package)
 
         planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
@@ -282,8 +282,8 @@ RSpec.describe "Edit", :js do
           click_on "Move"
         end
 
-        planning_page.expect_work_package_not_in_sprint(work_package, first_sprint)
-        planning_page.expect_work_package_in_sprint(work_package, second_sprint)
+        planning_page.expect_no_sprint_items(first_sprint, items: work_package)
+        planning_page.expect_sprint_items(second_sprint, items: work_package)
       end
     end
   end

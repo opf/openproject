@@ -60,13 +60,13 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
   it "reorders work packages within a bucket" do
     backlogs_page.visit!
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
     )
 
     backlogs_page.drag_work_package(alpha_wp1, before: alpha_wp3)
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp2, alpha_wp1, alpha_wp3]
     )
   end
@@ -76,7 +76,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
     backlogs_page.drag_work_package(alpha_wp3, before: alpha_wp1)
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp3, alpha_wp1, alpha_wp2]
     )
   end
@@ -84,14 +84,14 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
   it "does not move the first work package to the end when it is picked up and released" do
     backlogs_page.visit!
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
     )
 
     backlogs_page.pick_up_and_release_work_package(alpha_wp1)
 
     backlogs_page.expect_no_backlogs_move_request
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
     )
   end
@@ -99,14 +99,14 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
   it "does not move a middle work package to the top when it is picked up and released" do
     backlogs_page.visit!
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
     )
 
     backlogs_page.pick_up_and_release_work_package(alpha_wp2)
 
     backlogs_page.expect_no_backlogs_move_request
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
     )
   end
@@ -116,13 +116,13 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
       backlogs_page.visit!
 
       backlogs_page.click_in_inbox_move_menu(alpha_wp2, "Move down")
-      backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+      backlogs_page.expect_bucket_items_in_order(
         bucket_alpha, work_packages: [alpha_wp1, alpha_wp3, alpha_wp2]
       )
 
       backlogs_page.drag_work_package(alpha_wp2, before: alpha_wp1)
 
-      backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+      backlogs_page.expect_bucket_items_in_order(
         bucket_alpha, work_packages: [alpha_wp2, alpha_wp1, alpha_wp3]
       )
     end
@@ -142,7 +142,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
     # move request itself.
     backlogs_page.expect_filter_count(:backlog_bucket, 1)
     backlogs_page.expect_no_backlog_bucket(bucket_beta)
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp2, alpha_wp1, alpha_wp3]
     )
   end
@@ -152,10 +152,10 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
     backlogs_page.drag_work_package_to_backlog_bucket(alpha_wp1, bucket_beta)
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp2, alpha_wp3]
     )
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_beta, work_packages: [alpha_wp1]
     )
 
@@ -167,7 +167,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
     backlogs_page.apply_bucket_filter(bucket_alpha, include_inbox: true)
     backlogs_page.drag_work_package_to_backlog_inbox(alpha_wp1)
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_alpha, work_packages: [alpha_wp2, alpha_wp3]
     )
 
@@ -180,7 +180,7 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
     backlogs_page.drag_work_package_to_backlog_bucket(inbox_wp1, bucket_beta)
 
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
+    backlogs_page.expect_bucket_items_in_order(
       bucket_beta, work_packages: [inbox_wp1]
     )
 

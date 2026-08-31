@@ -73,10 +73,10 @@ RSpec.describe "Backlog bucket display", :js do
     backlogs_page.visit!
 
     backlogs_page.expect_backlog_bucket_work_package_count(bucket_alpha, 2)
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(bucket_alpha,
+    backlogs_page.expect_bucket_items_in_order(bucket_alpha,
                                                                   work_packages: [wp_alpha1, wp_alpha2])
     backlogs_page.expect_backlog_bucket_work_package_count(bucket_beta, 1)
-    backlogs_page.expect_work_packages_in_backlog_bucket_in_order(bucket_beta,
+    backlogs_page.expect_bucket_items_in_order(bucket_beta,
                                                                   work_packages: [wp_beta1])
   end
 

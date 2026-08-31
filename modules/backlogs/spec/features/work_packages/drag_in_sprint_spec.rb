@@ -86,7 +86,7 @@ RSpec.describe "Dragging work packages in and between sprints",
   context "in a non shared sprint" do
     it "displays work packages in correct order and allows dragging them around" do
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_wp1,
                                                                  sprint1_wp2,
                                                                  sprint1_wp3,
@@ -95,7 +95,7 @@ RSpec.describe "Dragging work packages in and between sprints",
         .drag_work_package(sprint1_wp1, before: sprint1_wp4)
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_wp2,
                                                                  sprint1_wp3,
                                                                  sprint1_wp1,
@@ -104,7 +104,7 @@ RSpec.describe "Dragging work packages in and between sprints",
         .drag_work_package(sprint1_wp1, before: sprint1_wp3)
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_wp2,
                                                                  sprint1_wp1,
                                                                  sprint1_wp3,
@@ -114,19 +114,19 @@ RSpec.describe "Dragging work packages in and between sprints",
         .drag_work_package(sprint1_wp1, into: sprint2)
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_wp2,
                                                                  sprint1_wp3,
                                                                  sprint1_wp4])
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint2,
+        .expect_sprint_items_in_order(sprint2,
                                                  work_packages: [sprint1_wp1])
     end
 
     context "when the sprint item was morphed by a Turbo update" do
       it "allows dragging the morphed item" do
         backlogs_page.click_in_sprint_story_move_menu(sprint1_wp2, "Move down")
-        backlogs_page.expect_work_packages_in_sprint_in_order(sprint1,
+        backlogs_page.expect_sprint_items_in_order(sprint1,
                                                               work_packages: [sprint1_wp1,
                                                                               sprint1_wp3,
                                                                               sprint1_wp2,
@@ -134,7 +134,7 @@ RSpec.describe "Dragging work packages in and between sprints",
 
         backlogs_page.drag_work_package(sprint1_wp2, before: sprint1_wp1)
 
-        backlogs_page.expect_work_packages_in_sprint_in_order(sprint1,
+        backlogs_page.expect_sprint_items_in_order(sprint1,
                                                               work_packages: [sprint1_wp2,
                                                                               sprint1_wp1,
                                                                               sprint1_wp3,
@@ -144,7 +144,7 @@ RSpec.describe "Dragging work packages in and between sprints",
 
     it "keeps drop indicators active after moving a bucket item into the sprint" do
       backlogs_page.drag_work_package(bucket_wp2, before: sprint1_wp4)
-      backlogs_page.expect_work_packages_in_sprint_in_order(
+      backlogs_page.expect_sprint_items_in_order(
         sprint1,
         work_packages: [sprint1_wp1, sprint1_wp2, sprint1_wp3, bucket_wp2, sprint1_wp4]
       )
@@ -167,22 +167,22 @@ RSpec.describe "Dragging work packages in and between sprints",
       # placed relative to it. Previously it was dropped from the drop targets, so
       # the second card fell to the list end instead of landing above the first.
       backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
-      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+      backlogs_page.expect_sprint_items_in_order(sprint2, work_packages: [bucket_wp1])
 
       backlogs_page.drag_work_package(bucket_wp2, before: bucket_wp1)
 
-      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp2, bucket_wp1])
+      backlogs_page.expect_sprint_items_in_order(sprint2, work_packages: [bucket_wp2, bucket_wp1])
     end
 
     it "accepts a drop below a card that was itself dropped into the sprint" do
       # Same regression as above, but landing on the lower edge of the
       # re-rendered card, so the second card is placed after it.
       backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
-      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+      backlogs_page.expect_sprint_items_in_order(sprint2, work_packages: [bucket_wp1])
 
       backlogs_page.drag_work_package(bucket_wp2, after: bucket_wp1)
 
-      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1, bucket_wp2])
+      backlogs_page.expect_sprint_items_in_order(sprint2, work_packages: [bucket_wp1, bucket_wp2])
     end
   end
 
@@ -207,7 +207,7 @@ RSpec.describe "Dragging work packages in and between sprints",
 
     it "displays work packages in correct order and allows dragging them around in a shared sprint" do
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_other_project_wp1,
                                                                  sprint1_other_project_wp2,
                                                                  sprint1_other_project_wp3])
@@ -215,7 +215,7 @@ RSpec.describe "Dragging work packages in and between sprints",
         .drag_work_package(sprint1_other_project_wp1, before: sprint1_other_project_wp3)
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
+        .expect_sprint_items_in_order(sprint1,
                                                  work_packages: [sprint1_other_project_wp2,
                                                                  sprint1_other_project_wp1,
                                                                  sprint1_other_project_wp3])
