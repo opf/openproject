@@ -58,6 +58,11 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "new", over
 
     options.logging_prefs = { browser: "ALL" }
 
+    # axe-core audits and Capybara's own hint gathering run as scripts over the
+    # full DOM. On large pages (permissions matrix, Gantt header) the 30s W3C
+    # default is not enough on a loaded CI machine.
+    options.timeouts = { script: 60_000 }
+
     yield(options) if block_given?
 
     client = Selenium::WebDriver::Remote::Http::Default.new
