@@ -70,7 +70,7 @@ The Work packages module supports:
 - Collaboration via the **Activity** tab and watchers
 - More actions such as sharing, time tracking, adding to device calendar, and reminders (depending on platform/version)
 
-[Learn more about Work Packages module in the OpenProject mobile app](../../core-features/work-packages/).
+[Learn more about the Work Packages module in the OpenProject mobile app](../../core-features/work-packages/).
 
 ## How does Time Tracking work?
 
