@@ -60,7 +60,7 @@ The **Spaces** module (formerly Projects) provides an index of the spaces/projec
 
 ## What can I do in Work Packages?
 
-he Work packages module supports:
+The Work packages module supports:
 
 - Viewing and filtering work packages
 - Searching by keywords
