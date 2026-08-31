@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Get started
   priority: 890
-description: Follow these steps to install, log in and start using the OpenProject Mobile App (Beta).
+description: Follow these steps to install, log in, and start using the OpenProject Mobile app (Beta).
 keywords: mobile app first steps, getting started, log in, log-in, login, mobile log in, openproject mobile app, download, access, install, mobile installation
 ---
 
