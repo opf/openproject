@@ -155,7 +155,7 @@ Check the following:
 - Your instance supports **HTTPS** and is reachable from your device.
 - Built-in OAuth applications are **enabled** in your instance administration.
 - Your instance meets the **minimum version** requirement (17.0.0), or the OAuth feature flag is enabled.
-- Ensure your credentials are correct, and you have **API access** enabled on On-Premises instances.
+- Ensure your credentials are correct and that you have **API access** enabled on On-Premises instances.
 
 If none of the above solve the problem, check the [Login Troubleshooting Guide](../../first-steps/login-troubleshooting/).
 
