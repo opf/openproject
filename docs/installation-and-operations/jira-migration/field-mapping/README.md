@@ -55,7 +55,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Email                 | Email                        | If a Jira user has no email, a placeholder one is generated so the account can still be created. Not always a direct 1:1 copy of the Jira value — see the email/username collision handling below |
 | Jira group membership | OpenProject Group membership | Matched or created by name. Note: pulls in the user's entire Jira group list, not just groups relevant to the migrated projects |
 | Username              | Username                        | Not always a direct 1:1 copy either — see the email/username collision handling below |
-| Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward |
+| Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
 
 ## Custom fields
 
