@@ -3,8 +3,8 @@ pt-BR:
   activerecord:
     models:
       grids/overview:
-        one: Overview
-        other: Overviews
+        one: Visão geral
+        other: Visões gerais
   overviews:
     label_dashboard: Painel
     label_home: "%{workspace_type} inicial"

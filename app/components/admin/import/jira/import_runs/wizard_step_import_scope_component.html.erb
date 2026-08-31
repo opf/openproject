@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
               end
             )
-            if model.status_equal_or_after?(:projects_meta_done)
+            if model.state_equal_or_after?(:projects_meta_done)
               concat(
                 render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
                   I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
@@ -46,13 +46,13 @@ See COPYRIGHT and LICENSE files for more details.
           end
         )
 
-        if model.status_before?(:configuring)
+        if model.state_before?(:configuring)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
             end
           )
-        elsif model.status_equal_or_after?(:projects_meta_done)
+        elsif model.state_equal_or_after?(:projects_meta_done)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done_description", count: selected_projects_count)
@@ -135,7 +135,7 @@ See COPYRIGHT and LICENSE files for more details.
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:projects_meta_fetching).actual_job.status))
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
             end
           )

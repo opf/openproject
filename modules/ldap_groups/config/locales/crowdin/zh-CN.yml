@@ -21,9 +21,9 @@ zh-CN:
           must_contain_base_dn: 筛选器基础 DN 必须包含在 LDAP 连接的基础 DN 中
     models:
       ldap_groups/synchronized_filter:
-        other: LDAP Group synchronization filters
+        other: LDAP 群组同步筛选器
       ldap_groups/synchronized_group:
-        other: Synchronized LDAP groups
+        other: 同步的 LDAP 群组
   ee:
     upsell:
       ldap_groups:

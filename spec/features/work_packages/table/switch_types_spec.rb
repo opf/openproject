@@ -124,20 +124,19 @@ RSpec.describe "Switching types in work package table", :js do
 
       # Switch type
       type_field.activate!
-      type_field.set_value type_bug.name
+      type_field.set_select_field_value type_bug.name
 
       wp_table.expect_and_dismiss_toaster(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
 
-      # Required CF requires activation
+      # After a failed type switch, the required CF field is auto-opened in edit mode
       req_text_field.expect_active!
 
       # Now switch back to a type without the required CF
       type_field.activate!
-      type_field.openSelectField
-      type_field.set_value type_task.name
+      type_field.set_select_field_value type_task.name
 
       wp_table.expect_and_dismiss_toaster(
         message: "Successful update."

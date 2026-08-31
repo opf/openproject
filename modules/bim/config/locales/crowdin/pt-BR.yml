@@ -39,17 +39,17 @@ pt-BR:
               invalid_ifc_file: O arquivo fornecido não é um arquivo IFC válido.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        other: BCF comments
+        one: Comentário BCF
+        other: Comentários BCF
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: Problema BCF
+        other: Problemas BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        other: BCF viewpoints
+        one: Ponto de vista BCF
+        other: Pontos de vista BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
-        other: IFC models
+        one: Modelo IFC
+        other: Modelos IFC
   attributes:
     bcf_thumbnail: Instantâneo BCF
   bcf:

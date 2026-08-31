@@ -40,17 +40,17 @@ zh-CN:
               must_be_work_package_query: 必须是工作包查询。
     models:
       resource_allocation:
-        other: Resource Allocations
+        other: 资源分配
       resource_planner:
-        other: Resource Planners
+        other: 资源规划工具
       resource_user_card:
-        other: User cards
+        other: 用户卡
       resource_user_timeline:
-        other: User timelines
+        other: 用户时间线
       resource_work_package_list:
-        other: Work packages lists
+        other: 工作包列表
       resource_work_package_timeline:
-        other: Work packages timelines
+        other: 工作包时间线
   button_next: 下一步
   ee:
     features:
@@ -291,7 +291,7 @@ zh-CN:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: "%{count} members of this project match the allocation's filter criteria."
+          other: 此项目的 %{count} 个成员符合该分配的筛选条件。
       blank:
         add_work_package: 添加工作包
         configure_view: 配置视图

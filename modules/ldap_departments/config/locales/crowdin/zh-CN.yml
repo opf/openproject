@@ -23,9 +23,9 @@ zh-CN:
           overlaps_other_tree: 与同一 LDAP 连接上另一项同步的基础 DN 重叠。
     models:
       ldap_departments/synchronized_department:
-        other: Synchronized departments
+        other: 同步的部门
       ldap_departments/synchronized_tree:
-        other: LDAP department synchronizations
+        other: LDAP 部门同步
   ee:
     upsell:
       ldap_departments:

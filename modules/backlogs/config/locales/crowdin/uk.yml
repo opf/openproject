@@ -50,7 +50,7 @@ uk:
         story_points: Сторі-поінти
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: не можна розпочати, поки проєкт отримує спринти, до яких надано спільний доступ.
         dates_required: Щоб запустити спринт, необхідно вказати дату початку й завершення.
         must_be_in_planning: має бути на етапі планування, перш ніж його можна буде почати.
         only_one_active_sprint_allowed: дозволяється лише один активний спринт для кожного проєкту.
@@ -61,11 +61,11 @@ uk:
               locked_by_multiple_active_sprints: не можна змінювати, поки запущено кілька активних спринтів.
               requires_no_sharing: 'можна вмикати, лише якщо для спринту вибрано таке налаштування спільного доступу: «Не надавати доступ».'
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: не може працювати в режимі отримання, оскільки в проєкті є активний або запозичений спринт. Спочатку закрийте пакети робіт чи скасуйте їх призначення.
               locked_by_multiple_active_sprints: не можна змінювати, поки ввімкнено кілька активних спринтів.
               share_all_projects_already_taken: не можна налаштувати, оскільки проєкт «%{name}» уже надає спільний доступ усім проєктам.
               share_all_projects_already_taken_anonymous: не можна налаштувати, оскільки інший проєкт вже надає спільний доступ усім проєктам.
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: не можна змінити, оскільки пакети робіт усе ще повʼязано зі спільними спринтами. Спочатку скасуйте їх призначення.
           receiving_sprints: використовує спринти, до яких надано доступ. Власні спринти створювати не можна.
         sprint:
           attributes:
@@ -95,23 +95,23 @@ uk:
           backlog_bucket_xor_sprint: не можна призначити як спринту, так і сегменту беклогу.
     models:
       backlog_bucket:
-        one: Backlog bucket
-        few: Backlog buckets
-        many: Backlog buckets
-        other: Backlog buckets
+        one: Сегмент беклогу
+        few: Сегменти беклогу
+        many: Сегменти беклогу
+        other: Сегменти беклогу
       sprint:
         one: Спринт
         few: Спринти
         many: Спринти
         other: Спринти
       sprint_goal:
-        one: Sprint goal
-        few: Sprint goals
-        many: Sprint goals
-        other: Sprint goals
+        one: Ціль спринту
+        few: Цілі спринту
+        many: Цілі спринту
+        other: Цілі спринту
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: Додати наявний пакет робіт
     administration_blankslate:
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
@@ -206,7 +206,7 @@ uk:
       label_start_sprint: Почати спринт
       start_sprint_disabled_reason_active_sprint: Інший спринт уже розпочато.
       start_sprint_disabled_reason_missing_dates: Щоб запустити спринт, необхідно вказати дату початку й завершення.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: Власні спринти цього проєкту не можна розпочати, поки він отримує спринти, до яких надано спільний доступ.
       start_sprint_disabled_reason_shared_sprint: Це спринт з іншого проєкту, який не підтримує використання кількох активних спринтів.
     sprint_form:
       goal_caption: Ціль спринту є унікальною для цього проєкту й не поширюється на інші проєкти, що використовують той самий спринт.
@@ -270,11 +270,11 @@ uk:
     story_points_ideal: Сторі-поінти (ідеально)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Кілька активних спринтів
       sprint_sharing: Спільний доступ до спринту
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Запускайте паралельно кілька спринтів для різних команд, що працюють над вашим проєктом, для більшого контролю й гнучкості.
       sprint_sharing:
         description: Надавайте доступ до спринтів кільком проєктам, щоб узгоджувати й координувати роботу команд у конфігураціях Масштабованої гнучкої розробки (SAFe).
   label_all_sprints: Усі спринти

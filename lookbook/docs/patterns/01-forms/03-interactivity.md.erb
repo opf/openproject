@@ -128,7 +128,7 @@ In some cases we might want to further customize the triggering behaviour, for e
     ```
   - The `data: { action: "change->custom-form-preview#previewForm" }` watches the input changes and calls the `custom-form-preview#previewForm`.
 
-**Important note:** Javascript rendered elements inside the form such as the datepicker above, could be broken after the form update. This happens, because the datepicker input get replaced without re-initializing the datepicker library. To fix the issue, we can either avoid updating the datepicker input elements using "data-turbo-permanent", or we can programmatically re-initialize them after the form update. In case of angular components, this issue is solved automatically by not updating them the components. For more info see the `turbo:before-morph-element` eventlistener in the `turbo-global-listeners.ts`.
+**Important note:** Javascript rendered elements inside the form such as the datepicker above, could be broken after the form update. This happens, because the datepicker input get replaced without re-initializing the datepicker library. To fix the issue, we can either avoid updating the datepicker input elements using "data-turbo-permanent", or we can programmatically re-initialize them after the form update. In case of angular components, this issue is solved automatically by not updating the components. For more info see the `turbo:before-morph-element` eventlistener in the `turbo-global-listeners.ts`.
 
 
 ### How to handle the form preview actions on the backend?

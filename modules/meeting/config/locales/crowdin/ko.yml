@@ -55,7 +55,7 @@ ko:
         presenter: 발표자
         title: 제목
       meeting_outcome:
-        kind: Kind
+        kind: 종류
       meeting_participant:
         attended: 참석함
         invited: 초대됨
@@ -100,19 +100,19 @@ ko:
           not_an_occurrence: "- 이 반복 미팅에 유효한 항목 시간이 아닙니다"
     models:
       meeting:
-        other: One-time meetings
+        other: 일회성 미팅
       meeting_agenda_item:
-        other: Agenda items
+        other: 의제 항목
       meeting_outcome:
-        other: Outcomes
+        other: 결과
       meeting_participant:
-        other: Meeting participants
+        other: 미팅 참가자
       meeting_section:
-        other: Sections
+        other: 섹션
       recurring_meeting:
-        other: Recurring meetings
+        other: 반복 미팅
       scheduled_meeting:
-        other: Scheduled meetings
+        other: 예정된 미팅
       token/ical_meeting:
         other: iCal 미팅 구독
   activity:

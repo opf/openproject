@@ -52,6 +52,8 @@ module WorkPackageTypes
     def source_is_default? = source.present? && source == variant.type.default_variant
 
     def source_path # rubocop:disable Metrics/AbcSize
+      return nil unless source_reachable?
+
       case aspect
       when TypeVariant::DEFAULTS
         edit_type_defaults_path(type_id: source.type_id, variant_id: source.id)
@@ -66,6 +68,15 @@ module WorkPackageTypes
       end
     end
 
+    # Linked only where its own screens can be opened: from a project, a global source's path
+    # would resolve and then refuse.
+    def source_reachable?
+      return false if source.nil?
+      return true if helpers.variant_scope_project.nil?
+
+      source.project_id == helpers.variant_scope_project.id
+    end
+
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
     def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
@@ -77,6 +88,8 @@ module WorkPackageTypes
     def dialog_path_args = variant.path_args.merge(aspect:)
 
     def linked_description
+      return unlinked_description if source_path.nil?
+
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
         i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
@@ -86,6 +99,12 @@ module WorkPackageTypes
         # otherwise swallow the navigation and leave the rest of the page on the old variant.
         data: { turbo_frame: "_top" }
       )
+    end
+
+    def unlinked_description
+      I18n.t("types.edit.reuse_mode.linked.description_unlinked",
+             source_name: source.composite_name,
+             source_suffix: parent_suffix)
     end
 
     def parent_suffix

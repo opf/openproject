@@ -40,35 +40,35 @@ pl:
               must_be_work_package_query: musi być zapytaniem pakietu roboczego.
     models:
       resource_allocation:
-        one: Resource Allocation
-        few: Resource Allocations
-        many: Resource Allocations
-        other: Resource Allocations
+        one: Przydział zasobów
+        few: Przydziały zasobów
+        many: Przydziały zasobów
+        other: Przydziały zasobów
       resource_planner:
-        one: Resource Planner
-        few: Resource Planners
-        many: Resource Planners
-        other: Resource Planners
+        one: Planista zasobów
+        few: Planiści zasobów
+        many: Planiści zasobów
+        other: Planiści zasobów
       resource_user_card:
-        one: User card
-        few: User cards
-        many: User cards
-        other: User cards
+        one: Karta użytkownika
+        few: Karty użytkowników
+        many: Karty użytkowników
+        other: Karty użytkowników
       resource_user_timeline:
-        one: User timeline
-        few: User timelines
-        many: User timelines
-        other: User timelines
+        one: Oś czasu użytkownika
+        few: Osie czasu użytkowników
+        many: Osie czasu użytkowników
+        other: Osie czasu użytkowników
       resource_work_package_list:
-        one: Work packages list
-        few: Work packages lists
-        many: Work packages lists
-        other: Work packages lists
+        one: Lista pakietów roboczych
+        few: Listy pakietów roboczych
+        many: Listy pakietów roboczych
+        other: Listy pakietów roboczych
       resource_work_package_timeline:
-        one: Work packages timeline
-        few: Work packages timelines
-        many: Work packages timelines
-        other: Work packages timelines
+        one: Oś czasu pakietów roboczych
+        few: Osie czasu pakietów roboczych
+        many: Osie czasu pakietów roboczych
+        other: Osie czasu pakietów roboczych
   button_next: Dalej
   ee:
     features:
@@ -315,10 +315,10 @@ pl:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          few: "%{count} members of this project match the allocation's filter criteria."
-          many: "%{count} members of this project match the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} uczestnik tego projektu spełnia kryteria filtrowania przydziału."
+          few: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          many: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          other: "%{count} uczestnika tego projektu spełnia kryteria filtrowania przydziału."
       blank:
         add_work_package: Dodaj pakiet roboczy
         configure_view: Konfiguruj widok

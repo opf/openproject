@@ -56,8 +56,12 @@ class TypeVariant < ApplicationRecord
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
+  store_attribute :pdf_export_templates_config, :export_templates_settings, :json
 
   belongs_to :type
+
+  # The project owning this variant, or nil for a variant every project may use.
+  belongs_to :project, optional: true
 
   # Which workflows we are defining ourselves
   has_many :own_workflows,
@@ -92,10 +96,12 @@ class TypeVariant < ApplicationRecord
   validates :variant_name, length: { maximum: 255 }
   validates :variant_name,
             presence: true,
-            uniqueness: { scope: :type_id, case_sensitive: false },
+            uniqueness: { scope: %i[type_id project_id], case_sensitive: false },
             unless: :is_default_variant?
   validate :base_variant_has_no_name
   validate :only_one_variant_enabled_in_new_projects
+  validate :base_variant_is_never_owned
+  validate :owned_variant_is_never_enabled_in_new_projects
 
   scopes :with_effective_configuration, :with_effective_source
 
@@ -103,6 +109,11 @@ class TypeVariant < ApplicationRecord
 
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
+
+  scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
+  scope :owned_by, ->(project) { where(project:) }
+  scope :available_in, ->(project) { where(project: [nil, project]) }
 
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }
@@ -148,8 +159,11 @@ class TypeVariant < ApplicationRecord
 
   # How the admin routes address this variant. The base one is implied by its type, so naming
   # it would make every type-level URL carry a redundant id.
+  def project_owned? = project_id.present?
+
   def path_args
-    is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
+    args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
+    project_id.nil? ? args : args.merge(in_project_id: project)
   end
 
   # Full variant name, e.g., "Bug: Hardware"
@@ -232,5 +246,19 @@ class TypeVariant < ApplicationRecord
     siblings = siblings.where.not(id:) if persisted?
 
     errors.add(:enabled_in_new_projects, :taken) if siblings.exists?
+  end
+
+  # A new project would start on a configuration only the owning project can see.
+  def owned_variant_is_never_enabled_in_new_projects
+    return unless enabled_in_new_projects? && project_id.present?
+
+    errors.add(:enabled_in_new_projects, :not_available_to_project_owned_variant)
+  end
+
+  # A type's own configuration belongs to the type, so no single project may own it.
+  def base_variant_is_never_owned
+    return unless is_default_variant? && project_id.present?
+
+    errors.add(:project, :present)
   end
 end

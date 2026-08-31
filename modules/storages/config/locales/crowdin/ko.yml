@@ -66,7 +66,7 @@ ko:
             host:
               authorization_header_missing: 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
               cannot_be_connected_to: "- 연결할 수 없습니다. 호스트에 연결할 수 있고 OpenProject 통합 앱이 설치되어 있는지 확인하세요."
-              minimal_nextcloud_version_unmet: "- 최소 버전 요구 사항을 충족하지 않습니다(Nextcloud 23 이상이어야 함)."
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: "- Nextcloud 서버가 아닙니다."
               op_application_not_installed: '"OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.'
             password:
@@ -74,17 +74,17 @@ ko:
               unknown_error: 파일 저장소 공급자에서 유효성을 검사할 수 없습니다. 연결이 제대로 작동되고 있는지 확인하세요.
     models:
       storages/file_link:
-        other: File links
+        other: 파일 링크
       storages/nextcloud_storage:
-        other: Nextcloud storages
+        other: Nextcloud 저장소
       storages/one_drive_storage:
-        other: OneDrive storages
+        other: OneDrive 저장소
       storages/project_storage:
-        other: Project storages
+        other: 프로젝트 저장소
       storages/sharepoint_storage:
-        other: SharePoint storages
+        other: SharePoint 저장소
       storages/storage:
-        other: Storages
+        other: 저장소
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
@@ -145,6 +145,7 @@ ko:
         error: 예기치 않은 오류가 발생했습니다. OpenProject 로그에서 자세한 내용을 확인하거나 관리자에게 문의하세요
         folder_id_collision: 여러 프로젝트 저장소에서 프로젝트 폴더 %{folder}을(를) 관리하려고 시도합니다. 동기화를 건너뛰었습니다.
         forbidden: 요청된 리소스에 OpenProject가 액세스할 수 없습니다. 저장소 공급자의 권한 구성을 확인하세요.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject가 저장소 공급자를 인증할 수 없습니다. 액세스 권한이 있는지 확인하세요.
       models:
         copy_project_folders_service:

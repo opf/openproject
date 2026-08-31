@@ -21,13 +21,13 @@ zh-CN:
               error_phone_number_format: 格式必须为 +XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        other: Backup codes
+        other: 备份代码
       two_factor_authentication/device:
-        other: 2FA devices
+        other: 2FA 设备
       two_factor_authentication/device/sms:
-        other: Mobile phones
+        other: 手机
       two_factor_authentication/device/totp:
-        other: Authenticator applications
+        other: 身份验证器应用程序
       two_factor_authentication/device/webauthn:
         other: WebAuthn
   button_continue: 继续

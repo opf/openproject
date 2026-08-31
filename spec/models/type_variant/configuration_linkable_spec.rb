@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -266,16 +266,14 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect(type.pdf_export_templates.list_enabled.map(&:id)).to contain_exactly("attributes", "artefact")
     end
 
-    # The templates object mutates whatever type it wraps, so it must never be the
-    # owner's — otherwise a linked variant would rewrite the source's configuration.
-    it "writes template changes to this type rather than the owner" do
+    # Mutating methods refuse to run while linked (Type::PdfExportTemplates#readonly?):
+    # merging onto a read that resolves through the link would otherwise silently
+    # corrupt this type's own stored configuration for other templates once unlinked.
+    it "refuses to mutate while linked, rather than writing onto the owner's or its own resolved data",
+       with_flag: { type_variants: true } do
       link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
-      type.pdf_export_templates.disable_all
-      type.save!
 
-      expect(type.read_attribute(:pdf_export_templates_config)["export_templates_disabled"])
-        .to contain_exactly("attributes", "contract", "artefact")
-      expect(owner.reload.export_templates_disabled).to eq(%w[contract])
+      expect { type.pdf_export_templates.disable_all }.to raise_error(Type::PdfExportTemplates::ReadonlyError)
     end
   end
 

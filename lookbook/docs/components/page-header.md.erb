@@ -42,7 +42,7 @@ If you are unsure whether breadcrumbs should be omitted on a particular page, pl
 **To intentionally render a PageHeader without breadcrumbs, always pass nil explicitly**
 
 ```html
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { "Hello" }
       header.with_breadcrumbs(nil)
@@ -52,7 +52,7 @@ If you are unsure whether breadcrumbs should be omitted on a particular page, pl
         "Star"
       end
     end
-  %&gt;
+  %>
 ```
 
 ## Best practices
@@ -84,20 +84,20 @@ This is an exemplary playground of the `Primer::OpenProject::PageHeader`.
 
 ## Technical notes
 
-The PageHeader actions offer a set of predefined slots, to use specific components inside the the PageHeader actions, such as:
+The PageHeader actions offer a set of predefined slots, to use specific components inside the PageHeader actions, such as:
 
 * **Primer::Alpha::Dialog** ([`with_action_dialog`](../../inspect/primer/open_project/page_header/dialog_actions))
-  * The trigger button will be part of the actions and collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+  * The trigger button will be part of the actions and collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
 * **Primer::Alpha::ActionMenu** ([`with_action_menu`](../../inspect/primer/open_project/page_header/menu_actions)):
   * The trigger button will be part of the actions. On mobile, the options of the menu will be added to the options of the mobile action menu.
 * **Primer::OpenProject::ZenModeButton** ([`with_action_zen_mode_button`](../../inspect/primer/open_project/page_header/zen_mode_button_actions)):
   * The button will collapse on mobile into the mobile action menu.
 * **Primer::Beta::IconButton** ([`with_action_icon_button`](../../inspect/primer/open_project/page_header/actions)):
-  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label` has to passed.
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label` has to be passed.
 * **Primer::Beta::Button** ([`with_action_button`](../../inspect/primer/open_project/page_header/actions)):
-  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
 * **Primer::Beta::Link** ([`with_action_link`](../../inspect/primer/open_project/page_header/actions)):
-  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
 * **Primer::Beta::Text** ([`with_action_text`](../../inspect/primer/open_project/page_header/actions)):
   * The text will be hidden on mobile.
 
@@ -133,13 +133,13 @@ The PageHeader can be called directly in any `show`/`edit`/`index`/... `.html.er
 
 ```html
   <!-- app/views/module_a/index.html.erb -->
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { "Some title" }
       header.with_breadcrumbs([{ href: "/foo", text: "Foo" },
                                "Bar"])
     end
-  %&gt;
+  %>
 ```
 
 As soon as the header is more complex, it is recommended to extract it into a separate component. A good rule of thumb is to extract the PageHeader as soon as there are actions involved, because it will increase the component code significantly.
@@ -185,7 +185,7 @@ end
 
 ```html
   <!-- app/components/module_a/index_page_header_component.html.erb -->
-  &lt;%=
+  <%%=
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { 'Some title' }
       header.with_breadcrumbs(breadcrumb_items)
@@ -194,10 +194,10 @@ end
 
       #... additional logic
     end
-  %&gt;
+  %>
 ```
 
 ```html
   <!-- app/views/module_a/index.html.erb -->
-  &lt;%= render(ModuleA::IndexPageHeaderComponent.new) %&gt;
+  <%%= render(ModuleA::IndexPageHeaderComponent.new) %>
 ```

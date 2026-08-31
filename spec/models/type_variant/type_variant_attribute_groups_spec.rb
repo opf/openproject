@@ -216,6 +216,24 @@ RSpec.describe TypeVariant do
     end
   end
 
+  describe "observed_in_versions in the form configuration" do
+    it "is schema-addable but kept out of the default configuration" do
+      expect(variant.work_package_attributes.keys).to include("observed_in_versions")
+
+      members = variant.default_attribute_groups.to_h.values.flatten
+      expect(members).not_to include("observed_in_versions")
+    end
+
+    it "can still be added to a group manually" do
+      variant[:attribute_groups] = [["details", %w[category observed_in_versions]]]
+      variant.unset_attribute_groups_objects
+
+      details = variant.attribute_groups.detect { |group| group.key == "details" }
+
+      expect(details.attributes).to include("observed_in_versions")
+    end
+  end
+
   describe "custom fields" do
     let!(:custom_field) do
       create(

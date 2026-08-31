@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
                 I18n.t(:"admin.jira.run.wizard.sections.confirm_import.title")
               end
             )
-            if model.status_equal_or_after?(:imported)
+            if model.state_equal_or_after?(:imported)
               concat(
                 render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
                   I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done")
@@ -45,13 +45,13 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         )
-        if model.status_before?(:projects_meta_done)
+        if model.state_before?(:projects_meta_done)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption")
             end
           )
-        elsif model.status_equal_or_after?(:imported)
+        elsif model.state_equal_or_after?(:imported)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done_info")
@@ -59,7 +59,17 @@ See COPYRIGHT and LICENSE files for more details.
           )
         end
       end
-      if model.in_state?(:projects_meta_done, :import_error)
+      if model.in_state?(:import_error, :import_aborting, :importing)
+        box.with_row(mb: 3) do
+          render(Primer::Beta::Text.new) do
+            I18n.t(:"admin.jira.run.wizard.sections.confirm_import.info_importing")
+          end
+        end
+        box.with_row(mb: 3) do
+          render(Admin::Import::Jira::ImportRuns::BatchStatusComponent.new(batch: model.state_machine.last_transition_to(:importing).actual_batch))
+        end
+      end
+      if model.in_state?(:projects_meta_done)
         box.with_row(mb: 3) do
           render(Primer::Beta::Text.new) do
             I18n.t(:"admin.jira.run.wizard.sections.confirm_import.description")
@@ -76,53 +86,156 @@ See COPYRIGHT and LICENSE files for more details.
             )
           )
         end
-        if model.in_state?(:projects_meta_done)
-          box.with_row(display: :flex, align_items: :center) do
+        box.with_row(display: :flex, align_items: :center) do
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                tag: :a,
+                size: :medium,
+                mr: 2,
+                href: import_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+                data: { controller: "async-dialog" }
+              )
+            ) { I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_start") }
+          )
+          concat(
+            render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                size: :medium,
+                href: admin_import_jira_path(model.jira)
+              )
+            ) do
+              I18n.t(:button_cancel)
+            end
+          )
+        end
+      elsif model.in_state?(:import_error)
+        box.with_row do
+          render(Primer::Alpha::Stack.new(direction: :horizontal)) do
             concat(
               render(
                 Primer::Beta::Button.new(
-                  scheme: :primary,
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "import"),
+                  data: { turbo_stream: true },
+                  tag: :a
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :sync)
+                I18n.t(:"admin.jira.run.wizard.button_retry")
+              end
+            )
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :danger,
                   tag: :a,
                   size: :medium,
-                  mr: 2,
-                  href: import_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-                  data: { controller: "async-dialog" }
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "revert"),
+                  data: { turbo_stream: true }
                 )
-              ) { I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_start") }
+              ) do
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_revert")
+              end
             )
             concat(
               render(
                 Primer::Beta::Button.new(
                   tag: :a,
                   size: :medium,
-                  href: admin_import_jira_path(model.jira)
+                  href: admin_import_jira_path(id: model.jira.id)
                 )
               ) do
                 I18n.t(:button_close)
               end
             )
           end
-        elsif model.in_state?(:import_error)
-          box.with_row do
-            render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "import"))
+        end
+      elsif model.in_state?(:import_aborting)
+        box.with_row do
+          render(Primer::Alpha::Stack.new(direction: :horizontal)) do
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "import"),
+                  data: { turbo_stream: true },
+                  disabled: true,
+                  tag: :a
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :sync)
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_importing")
+              end
+            )
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :danger,
+                  tag: :a,
+                  size: :medium,
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "abort_import"),
+                  disabled: true,
+                  data: { turbo_stream: true }
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+                I18n.t(:"admin.jira.run.wizard.button_abort")
+              end
+            )
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  tag: :a,
+                  size: :medium,
+                  href: admin_import_jira_path(id: model.jira.id)
+                )
+              ) do
+                I18n.t(:button_cancel)
+              end
+            )
           end
         end
       elsif model.in_state?(:importing)
-        box.with_row(mt: 3, mb: 3) do
-          render(
-            Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-              I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_progress")
+        box.with_row do
+          render(Primer::Alpha::Stack.new(direction: :horizontal)) do
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  disabled: true
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+                I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_importing")
+              end
             )
-          )
-        end
-        box.with_row(mb: 3) do
-          render(
-            Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-              title: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_import_data"),
-              list: import_selection,
-              show_icon: true
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :danger,
+                  tag: :a,
+                  size: :medium,
+                  href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "abort_import"),
+                  data: { turbo_stream: true }
+                )
+              ) do
+                I18n.t(:"admin.jira.run.wizard.button_abort")
+              end
             )
-          )
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  tag: :a,
+                  size: :medium,
+                  href: admin_import_jira_path(id: model.jira.id)
+                )
+              ) do
+                I18n.t(:button_cancel)
+              end
+            )
+          end
         end
       end
     end %>

@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
+    administration_only!
+
     include OpTurbo::ComponentStream
     include TypeDeactivationErrorMessage
 
@@ -84,7 +86,7 @@ module WorkPackageTypes
 
       result = apply_to(projects)
 
-      close_dialog_via_turbo_stream("##{ProjectsTab::AddFormComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
       refresh_projects
 
       if result.success?
@@ -243,11 +245,11 @@ module WorkPackageTypes
 
     def on_switched(target)
       close_dialog_via_turbo_stream(
-        "##{::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}"
+        ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID
       )
       refresh_projects
       render_success_flash_message_via_turbo_stream(
-        message: I18n.t("projects.settings.types.switch_dialog.success", type: target.composite_name)
+        message: I18n.t("projects.settings.types.switch.success", type: target.composite_name)
       )
     end
 
