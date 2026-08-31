@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { waitFor } from '@testing-library/dom';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type FiltersFormControllerType from './filters-form.controller';
 
@@ -103,9 +104,13 @@ describe('Filters form controller - filter count badge', () => {
     await ctx.nextFrame();
     enterSimpleValue('john');
 
-    counters.forEach((counter) => {
-      expect(counter.textContent).toBe('1');
-      expect(counter.hidden).toBe(false);
+    // The counter update is debounced together with the network request, so
+    // it lands asynchronously rather than right after the input event.
+    await waitFor(() => {
+      counters.forEach((counter) => {
+        expect(counter.textContent).toBe('1');
+        expect(counter.hidden).toBe(false);
+      });
     });
   });
 
@@ -115,9 +120,13 @@ describe('Filters form controller - filter count badge', () => {
     controller.addFilterByName('assignee');
     enterSimpleValue('john');
 
-    counters.forEach((counter) => {
-      expect(counter.textContent).toBe('1');
-      expect(counter.hidden).toBe(false);
+    // The counter update is debounced together with the network request, so
+    // it lands asynchronously rather than right after the input event.
+    await waitFor(() => {
+      counters.forEach((counter) => {
+        expect(counter.textContent).toBe('1');
+        expect(counter.hidden).toBe(false);
+      });
     });
 
     controller.removeFilter({ params: { filterName: 'assignee' } });
