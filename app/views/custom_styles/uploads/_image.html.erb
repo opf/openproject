@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
-  <section class="form--section">
+  <section class="form--section" data-test-selector="custom-style-image-<%= image[:field] %>">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= image[:label] %></legend>
       <p class="form--field-instructions"><%= image[:instructions] %></p>
@@ -57,7 +57,10 @@ See COPYRIGHT and LICENSE files for more details.
               Primer::Beta::Button.new(
                 tag: :a,
                 href: image[:delete_path],
-                data: { turbo_method: :delete }
+                data: {
+                  turbo_method: :delete,
+                  test_selector: "delete-custom-style-image-#{image[:field]}"
+                }
               )
             ) do |button| %>
           <% button.with_leading_visual_icon(icon: :trash) %>

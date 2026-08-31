@@ -89,22 +89,27 @@ module CustomStylesHelper
   end
 
   def custom_logo?
-    CustomStyle.current.present? &&
-      (CustomStyle.current.logo.present? || CustomStyle.current.theme_logo.present?)
+    desktop_logo_present?
   end
 
   def desktop_logo_present?
     style = CustomStyle.current
     return false unless style
 
-    style.logo.present? || style.theme_logo.present?
+    custom_logo_fields_present?(style, :desktop) || style.theme_logo.present?
   end
 
   def mobile_logo_present?
     style = CustomStyle.current
     return false unless style
 
-    style.logo_mobile.present?
+    custom_logo_fields_present?(style, :mobile)
+  end
+
+  def custom_logo_url(custom_style, attachment)
+    return if attachment.blank?
+
+    custom_logo_source(custom_style, attachment.mounted_as, true)
   end
 
   def custom_logo_uploads(custom_style, mobile: false)
@@ -155,6 +160,12 @@ module CustomStylesHelper
   end
 
   private
+
+  def custom_logo_fields_present?(custom_style, context)
+    CustomStyle::LOGO_FIELDS.fetch(context).values.any? do |field|
+      custom_style.public_send(field).present?
+    end
+  end
 
   def custom_logo_upload(custom_style, mode:, field:, mobile:)
     attachment = custom_style.public_send(field)
