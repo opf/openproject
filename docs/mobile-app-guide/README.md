@@ -56,7 +56,7 @@ These mobile-specific capabilities enhance your ability to **work efficiently, 
 
 ## What’s coming next
 
-The mobile app is still evolving. Next focus areas include:
+The mobile app is still evolving. The next focus areas include:
 
 - **Bringing more OpenProject core modules to mobile**, such as **Documents** and **Wikis**
 - **Offline capability**, to support working with limited or unreliable connectivity
