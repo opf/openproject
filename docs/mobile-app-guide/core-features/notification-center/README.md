@@ -14,7 +14,7 @@ From here you can review unread items, open the relevant work package, and manag
 
 ## Browse notifications
 
-Each notification in the list shows key information at a glance, including, the work package type and ID, the subject/title, project name, and why you received it such as *Assignee* or *Mention*. Tap a notification to open it.
+Each notification in the list shows key information at a glance including, the work package type and ID, the subject/title, project name, and why you received it, such as *Assignee* or *Mention*. Tap a notification to open it.
 
 ![Available queries in the Notification center](notifications-queries.png)
 
