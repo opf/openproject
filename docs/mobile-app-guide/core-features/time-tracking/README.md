@@ -45,7 +45,7 @@ You can create a new time entry from the Time tracking module.
 4. Select a **Work package**.
 5. Set the **Date**.
 6. Enter **Hours**, including **exact times** if the instance allows it.
-7. Fill all the **mandatory fields** depending on the instance configuration.
+7. Fill in all the **mandatory fields** depending on the instance configuration.
 8. Fill other **optional fields** if desired.
 9. Tap **Save** to create the time entry.
 
