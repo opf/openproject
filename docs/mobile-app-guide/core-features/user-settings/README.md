@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Account and settings
   priority: 720
-description: Personalize their mobile app experience, configure notifications, manage account details, and provide feedback.
+description: Personalize your mobile app experience, configure notifications, manage account details, and provide feedback.
 keywords: Mobile app features user settings, user settings, user rights, user permissions, mobile permission, mobile settings, mobile user, mobile notification settings
 ---
 
