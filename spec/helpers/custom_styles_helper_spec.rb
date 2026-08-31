@@ -126,6 +126,38 @@ RSpec.describe CustomStylesHelper do
     it_behaves_like "apply when ee present"
   end
 
+  describe ".desktop_logo_present?" do
+    subject { helper.desktop_logo_present? }
+
+    context "with only a dark desktop logo" do
+      let(:current_theme) { build(:custom_style_with_logo_dark) }
+
+      it { is_expected.to be true }
+    end
+
+    context "without a desktop logo" do
+      let(:current_theme) { build_stubbed(:custom_style) }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe ".mobile_logo_present?" do
+    subject { helper.mobile_logo_present? }
+
+    context "with only a light high contrast mobile logo" do
+      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
+
+      it { is_expected.to be true }
+    end
+
+    context "without a mobile logo" do
+      let(:current_theme) { build_stubbed(:custom_style) }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe ".export_fonts_fields" do
     let(:style) { create(:custom_style_with_export_font_regular) }
 

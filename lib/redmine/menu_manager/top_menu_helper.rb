@@ -47,8 +47,7 @@ module Redmine::MenuManager::TopMenuHelper
       render_logo
     ]
 
-    cs = CustomStyle.current
-    if cs&.logo_mobile.present? || !custom_logo?
+    if mobile_logo_present? || !custom_logo?
       items << render_logo_icon
     end
 
@@ -78,9 +77,8 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_waffle_menu_logo_icon
-    style = CustomStyle.current
     classes = ["op-logo"]
-    if style&.logo_mobile.present?
+    if mobile_logo_present?
       classes << "op-logo--icon"
     else
       mode_class = User.current.pref.theme == "dark" ? "op-logo--icon_white" : "op-logo--icon"
