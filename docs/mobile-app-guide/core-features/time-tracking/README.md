@@ -44,7 +44,7 @@ You can create a new time entry from the Time tracking module.
 3. By default, you will be selected as **User** to log time**.** With the correct permissions you can select **another user** or **multiple users.**
 4. Select a **Work package**.
 5. Set the **Date**.
-6. Enter **Hours**. Including **exact times** if the instance allows it.
+6. Enter **Hours**, including **exact times** if the instance allows it.
 7. Fill all the **mandatory fields** depending on the instance configuration.
 8. Fill other **optional fields** if desired.
 9. Tap **Save** to create the time entry.
