@@ -21,4 +21,4 @@ Important notes:
 - For these reasons, this option should be **used with caution**, especially for daily production use on desktop devices.
 
 > [!NOTE]
-> We will be working on dedicated applications for desktop support soon. If you have special requests or feedback about possible desktop usage of the app please send us your feedback.
+> We will be working on dedicated applications for desktop support soon. If you have special requests or feedback about possible desktop usage of the app, please send us your feedback.
