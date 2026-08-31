@@ -23,7 +23,7 @@ If you use OpenProject on a tablet or a desktop-sized device, you may notice dif
 
 - Layout and spacing adapt to larger displays,
 - Navigation may appear differently depending on screen size and orientation,
-- some interactions may feel closer to a “desktop” experience.
+- Some interactions may feel closer to a “desktop” experience.
 
 For details and platform-specific notes, see:
 
