@@ -66,7 +66,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@52aa776766211d83d975df51f3b9c53c2f8ba35f # v2
+        uses: crowdin/github-action@8f01d54f70f1713ee3f09d82c2bbb2daeac28689 # v2
         with:
           # Upload current source files
           upload_sources: true
