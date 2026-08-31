@@ -88,7 +88,7 @@ The mobile app documentation opens documentation guides in your browser, so you 
 
 ### Switch instance
 
-If you use multiple OpenProject instances, **Switch instance** lets you change between instance URLs **without signing out** each time.
+If you use multiple OpenProject instances, **Switch instance** lets you switch between instance URLs **without signing out** each time.
 
 This is helpful when you work across multiple organizations or environments (for example, staging and production).
 
