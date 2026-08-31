@@ -8,7 +8,7 @@ keywords: Mobile app features user settings, user settings, user rights, user pe
 
 # Account and settings
 
-The **Account and settings** module allows you manage your account, personalize and setup the OpenProject mobile app. It also provides access to help, release information, and support channels.
+The **Account and settings** module allows you to manage your account, personalize and set up the OpenProject mobile app. It also provides access to help, release information, and support channels.
 
 ## What you can do
 
