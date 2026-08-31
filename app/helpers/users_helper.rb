@@ -151,7 +151,7 @@ module UsersHelper
   end
 
   def can_users_have_auth_source?
-    LdapAuthSource.any? && !OpenProject::Configuration.disable_password_login?
+    LdapAuthSource.any? && Users::PasswordLogin.enabled?
   end
 
   # Renders the user form extension hooks inside the (Primer) user form.

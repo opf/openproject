@@ -212,17 +212,6 @@ module OpenProject
         self["lookbook_enabled"]
       end
 
-      # Defined explicitly so +method_missing+ does not replace the mapped
-      # {#disable_password_login?} predicate with the legacy boolean value.
-      def disable_password_login
-        self["disable_password_login"]
-      end
-
-      # True when the mapped password-login mode disables it instance-wide.
-      def disable_password_login?
-        Setting.password_login == "none"
-      end
-
       def ssrf_protection_ip_allowlist
         @ssrf_protection_ip_allowlist ||= self["ssrf_protection_ip_allowlist"]
           .split(/[\s,]+/)

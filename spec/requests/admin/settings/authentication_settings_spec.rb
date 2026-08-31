@@ -42,7 +42,6 @@ RSpec.describe "Authentication Settings",
   describe "GET /admin/settings/authentication?tab=passwords" do
     context "with password login enabled" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
         get "/admin/settings/authentication.html?tab=passwords"
       end
 
@@ -54,9 +53,8 @@ RSpec.describe "Authentication Settings",
       end
     end
 
-    context "with password login disabled" do
+    context "with password login disabled", with_settings: { password_login: "none" } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         get "/admin/settings/authentication.html?tab=passwords"
       end
 
@@ -132,8 +130,8 @@ RSpec.describe "Authentication Settings",
   end
 
   describe "GET /admin/settings/authentication?tab=sso with password login configured by the environment",
-           with_config: { disable_password_login: true },
-           with_ee: %i[sso_auth_providers] do
+           with_ee: %i[sso_auth_providers],
+           with_env: { "OPENPROJECT_DISABLE__PASSWORD__LOGIN" => "true" } do
     let!(:provider) { create(:oidc_provider) }
 
     before do

@@ -77,24 +77,20 @@ module Users
     end
 
     def show_password?
-      editing? && User.current.admin? && !@user.uses_external_authentication? && !disable_password_login?
+      editing? && User.current.admin? && !@user.uses_external_authentication? && Users::PasswordLogin.enabled?
     end
 
     def show_preferences? = editing? && User.current.admin?
     def show_external_auth? = editing? && @user.uses_external_authentication?
 
     def show_no_login_message?
-      editing? && User.current.admin? && !@user.uses_external_authentication? && disable_password_login?
+      editing? && User.current.admin? && !@user.uses_external_authentication? && Users::PasswordLogin.none?
     end
 
     def show_consent? = editing? && Setting.consent_required?
 
     def can_users_have_auth_source?
-      LdapAuthSource.any? && !disable_password_login?
-    end
-
-    def disable_password_login?
-      OpenProject::Configuration.disable_password_login?
+      LdapAuthSource.any? && Users::PasswordLogin.enabled?
     end
 
     def assign_random_password_checked?

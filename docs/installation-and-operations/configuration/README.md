@@ -356,7 +356,6 @@ OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 - [`auth_source_sso`](#auth-source-sso) (default: nil)
 - [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 - [`oauth_allow_remapping_of_existing_users`](#prevent-omniauth-remapping-of-existing-users) (default: true)
-- [`disable_password_login`](#disable-password-login) (default: false)
 - [`password_login`](#password-login) (default: all)
 - [`password_login_bypass_logins`](#password-login) (default: [])
 - [`password_login_bypass_principal_ids`](#password-login) (default: [])
@@ -500,32 +499,13 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 
 Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification.
 
-### Disable password login
-
-If you enable this option you have to configure at least one omniauth authentication
-provider to take care of authentication instead of the password login.
-
-All username/password forms will be removed and only a list of omniauth providers
-presented to the users. This is equivalent to setting [`password_login`](#password-login)
-to `none`, and takes precedence over that setting.
-
-> [!NOTE]
-> Prefer configuring [`password_login`](#password-login) directly. This environment variable
-> is kept for compatibility with existing deployments.
-
-_default: false_
-
-```yaml
-OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
-```
-
 ### Password login
 
 Controls who may authenticate with a password:
 
 * `all` — anyone with a password, including users linked to an OmniAuth provider
 * `except_sso` — users linked to an OmniAuth provider cannot use a leftover password
-* `none` — nobody, except the break-glass allowlist (same as `disable_password_login`)
+* `none` — nobody, except the break-glass allowlist
 
 Modes `except_sso` and `none` are meant for instances that have at least one OmniAuth
 provider. `none` hides the password form on `/login`. Break-glass users sign in at
@@ -533,13 +513,23 @@ provider. `none` hides the password form on `/login`. Break-glass users sign in 
 non-empty.
 
 This setting is also available in the administration under *Authentication → Settings →
-Single Sign-On*. Setting `OPENPROJECT_DISABLE__PASSWORD__LOGIN` forces the value to
-`none` and makes the select read-only.
+Single Sign-On*.
+
+> [!NOTE]
+> The legacy environment variable `OPENPROJECT_DISABLE__PASSWORD__LOGIN=true` still forces
+> the value to `none` and makes the select read-only for compatibility with existing
+> deployments.
 
 _default: all_
 
 ```yaml
 OPENPROJECT_PASSWORD__LOGIN="except_sso"
+```
+
+Legacy deployments may still use:
+
+```yaml
+OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
 ```
 
 User and group ids that keep password login when the policy is `except_sso` or `none`.

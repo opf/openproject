@@ -314,7 +314,7 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
-    return nil if OpenProject::Configuration.disable_password_login?
+    return nil if Users::PasswordLogin.none?
 
     user = LdapAuthSource.authenticate(login, password)
 

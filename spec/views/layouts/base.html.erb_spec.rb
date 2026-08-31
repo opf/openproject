@@ -91,7 +91,7 @@ RSpec.describe "layouts/base" do
 
     context "with password login disabled" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Users::PasswordLogin).to receive(:none?).and_return(true)
         render
       end
 

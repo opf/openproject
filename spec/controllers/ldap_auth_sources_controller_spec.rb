@@ -34,7 +34,7 @@ RSpec.describe LdapAuthSourcesController do
   let(:current_user) { create(:admin) }
 
   before do
-    allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+    allow(Users::PasswordLogin).to receive(:none?).and_return(false)
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -127,7 +127,7 @@ RSpec.describe LdapAuthSourcesController do
 
   context "with password login disabled" do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      allow(Users::PasswordLogin).to receive(:none?).and_return(true)
     end
 
     it "cannot find index" do

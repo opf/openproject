@@ -221,7 +221,7 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
 
       context "with password login enabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+          allow(Users::PasswordLogin).to receive(:none?).and_return(false)
 
           patch "update", params: { tab: "authentication", settings: new_settings }
         end
@@ -253,7 +253,7 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
 
       describe "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Users::PasswordLogin).to receive(:none?).and_return(true)
 
           patch "update", params: { tab: "authentication", settings: new_settings }
         end
