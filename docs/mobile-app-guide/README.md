@@ -68,7 +68,7 @@ The mobile app is still evolving. Next focus areas include:
 Your feedback helps improve OpenProject Mobile. If you encounter issues or have suggestions, you can:
 
 - Using the **flow to provide feedback** directly from the **app** in the user settings.
-- Create a **feedback work package** directly in [**OpenProject Community instance**](https://community.openproject.org/) and assign it to *Stream Mobile App*.
+- Create a **feedback work package** directly in the [**OpenProject Community instance**](https://community.openproject.org/) and assign it to *Stream Mobile App*.
 
 
 ## Disclaimer
