@@ -132,6 +132,9 @@ en:
         other: "Sprints"
         zero: "All sprints"
       select_panel_title: "Select items"
+
+    blankslate_filtered_title: "No work packages match the filter criteria."
+
     bucket_component:
       action_menu:
         add_existing_work_package: "Add existing work package"

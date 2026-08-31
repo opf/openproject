@@ -66,9 +66,11 @@ module Pages
       end
     end
 
-    def expect_backlog_bucket_blankslate(bucket)
+    def expect_backlog_bucket_blankslate(bucket, filtered: false)
+      text = filtered ? I18n.t("backlogs.blankslate_filtered_title") : "Backlog bucket is empty"
+
       within_backlog_bucket(bucket) do
-        expect(page).to have_selector(:heading, level: 4, text: "Backlog bucket is empty")
+        expect(page).to have_selector(:heading, level: 4, text:)
       end
     end
 
@@ -144,7 +146,7 @@ module Pages
       within_backlog_inbox do
         expect(page).to have_css(
           ".Counter",
-          accessible_name: I18n.t(:label_x_work_packages, count:)
+          accessible_name: I18n.t(:label_x_items, count:)
         )
       end
     end

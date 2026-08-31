@@ -194,7 +194,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     end
 
     it "inserts the dragged work package at the top of the bucket's real list", :selenium do
-      backlogs_page.expect_backlog_bucket_blankslate(empty_target_bucket)
+      backlogs_page.expect_backlog_bucket_blankslate(empty_target_bucket, filtered: true)
 
       backlogs_page.drag_work_package_to_backlog_bucket(draggable_wp, empty_target_bucket)
 

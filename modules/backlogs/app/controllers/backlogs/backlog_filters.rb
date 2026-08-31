@@ -45,6 +45,10 @@ module Backlogs
       bucket_ids.nil? || bucket_ids.include?("inbox")
     end
 
+    def filtered?
+      filters_string.present?
+    end
+
     def bucket_ids_without_inbox
       bucket_ids&.excluding("inbox")
     end
