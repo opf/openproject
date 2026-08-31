@@ -18,7 +18,7 @@ The OpenProject Mobile app focuses on mobile-first workflows that complement the
 
 - **Access your projects, meetings, and work packages** on the go.
 - **React and respond quickly** to updates and discussions.
-- **Stay informed** about project progress, tasks, meetings and deadlines.
+- **Stay informed** about project progress, tasks, meetings, and deadlines.
 - **Track and log time** directly in the app to keep reporting up to date.
 - Use additional mobile-friendly flows to support work in the field, for example, capturing and attaching photos.
 
