@@ -6,7 +6,7 @@
 | ------------------------ | ------------------------------- | ------------------------------------------------------------ |
 | Old/renamed project keys | Also work as project identifier | If a Jira project was renamed, the old key still resolves to the same project afterward |
 | Project description      | Project description             | Copied as-is                                                 |
-| Project key              | Project identifier              | You must enable **project-based semantic identifiers** in OpenProject before importing |
+| Project key              | Project identifier              |  |
 | Project name             | Project name                    | Copied as-is                                                 |
 
 Every migrated project is created **private** and **active**, with no parent — this isn't based on anything in Jira, it's just how the tool creates them.
