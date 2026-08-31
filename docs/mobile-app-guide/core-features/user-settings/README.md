@@ -76,7 +76,7 @@ The feedback flow typically lets you:
 - share general **feedback**
 - request a **feature**
 
-In all of these cases you can also add attachments and provide a **follow-up email** so the team can contact you if more information is needed
+In all of these cases, you can also add attachments and provide a **follow-up email address** so the team can contact you if more information is needed.
 
 ### What’s new
 
