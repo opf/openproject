@@ -3,16 +3,20 @@ import { BlockNoteView } from '@blocknote/mantine';
 import { useCreateBlockNote, SuggestionMenuController, getDefaultReactSlashMenuItems } from '@blocknote/react';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { onTestFinished } from 'vitest';
 import { render } from 'vitest-browser-react';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
   useHashWpMenu,
+  ShadowDomWrapper,
 } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
+import mantineStylesUrl from '@blocknote/mantine/style.css?url';
 
 const defaultSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -57,4 +61,34 @@ function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:a
 
 export function renderEditor(opts?:{ onEditor?:(editor:any) => void; schema?:any }) {
   return render(<Editor onEditor={opts?.onEditor} schema={opts?.schema} />);
+}
+
+export async function renderEditorInShadowDom(opts?:{ onEditor?:(editor:any) => void; schema?:any }) {
+  const host = document.createElement('div');
+  document.body.appendChild(host);
+  onTestFinished(() => host.remove());
+
+  const shadowRoot = host.attachShadow({ mode: 'open' });
+  const mount = document.createElement('div');
+  shadowRoot.appendChild(mount);
+
+  await new Promise<void>((resolve, reject) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = mantineStylesUrl;
+    link.onload = () => resolve();
+    link.onerror = () => reject(new Error('Failed to load BlockNote styles into the shadow root'));
+    shadowRoot.appendChild(link);
+  });
+
+  const renderResult = await render(
+    createPortal(
+      <ShadowDomWrapper target={mount}>
+        <Editor onEditor={opts?.onEditor} schema={opts?.schema} />
+      </ShadowDomWrapper>,
+      mount
+    )
+  );
+
+  return { renderResult, shadowRoot };
 }
