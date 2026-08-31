@@ -55,7 +55,7 @@ You can create a new time entry from the Time tracking module.
 
 Use the **Time tracker** tab when you want to measure time as you work:
 
-- Start the timer with the **Start** button or using the **+** button on the top bar.
+- Start the timer using the **Start** button or the **+** button on the top bar.
 - Optionally **link a work package** while the timer is running.
 - You can always **Pause** the tracker if needed.
 - **Stop** the timer when you are done.
