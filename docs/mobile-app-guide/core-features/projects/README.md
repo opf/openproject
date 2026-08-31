@@ -12,7 +12,7 @@ The **Spaces** module helps you browse and open the portfolios, programs, and pr
 
 ## What you can do
 
-With the Spaces module you can:
+With the Spaces module, you can:
 
 - **Browse spaces** you have access to.
 - **Filter** the list by type.
