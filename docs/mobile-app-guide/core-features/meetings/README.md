@@ -12,7 +12,7 @@ The **Meetings** module lets you plan, run, and review meetings in OpenProject f
 
 ## What you can do
 
-With the Meetings module you can:
+With the Meetings module, you can:
 
 - View **all meetings**, including:
     - **individual meetings**, and
