@@ -196,4 +196,4 @@ Not yet. On macOS, a scaled-up iPad version may be available via the App Store, 
 Check **Settings and support → Notification settings** to configure:
 
 - Which notification types you receive (participation, date alerts, etc.)
-- how Activity items are marked as read (so notifications aren’t cleared too early—or aren’t left unread longer than you want).
+- How Activity items are marked as read (so notifications aren’t cleared too early—or aren’t left unread longer than you want).
