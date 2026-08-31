@@ -56,7 +56,7 @@ Enter the complete **base URL** of your OpenProject instance, for example: `http
 
 1. After your instance is confirmed, log in using your **OpenProject username and password** in the browser modal that opens.
 
-![Browser pop-up that opens to introduce your login credentials](install_login-login.png)
+![Browser pop-up that opens to enter your login credentials](install_login-login.png)
 
 2. When prompted, allow access so the app can connect securely to your workspace via the **OpenProject API v3**.
 
