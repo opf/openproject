@@ -142,7 +142,7 @@ In **Account and settings**, you can manage:
 - Switch instance
 - Sign out
 
-[Learn more about configuring user settings in OpenProject mobile app](../../core-features/user-settings/).
+[Learn more about configuring user settings in the OpenProject mobile app](../../core-features/user-settings/).
 
 ## Are all OpenProject features available in the mobile app?
 
