@@ -27,101 +27,140 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%=
-  widget_wrapper do |container|
-    if show_widget_content?
-      container.with_body do
-        concat(
-          render(
-            Primer::Beta::Subhead.new(hide_border: true, pt: 3, pb: 3)
-          ) do |head|
-            head.with_heading(
-              tag: :h3,
-              size: :medium,
-              font_size: 4,
-              font_weight: :bold,
-              display: :inline_flex,
-              align_items: :center,
-              classes: "gap-2"
-            ) do
-              concat title_text
-              concat(
-                render(
-                  Primer::Beta::Counter.new(
-                    scheme: :primary,
-                    count: total_work_packages_count,
-                    round: true,
-                    limit: 1_000,
-                    hide_if_zero: true
-                  )
+<%= widget_wrapper do |container| %>
+  <% if show_widget_content? %>
+    <%= container.with_body do %>
+      <%=
+        render(
+          Primer::Beta::Subhead.new(hide_border: true, pt: 3, pb: 3)
+        ) do |head|
+          head.with_heading(
+            tag: :h3,
+            size: :medium,
+            font_size: 4,
+            font_weight: :bold,
+            display: :inline_flex,
+            align_items: :center,
+            classes: "gap-2"
+          ) do
+            concat title_text
+            concat(
+              render(
+                Primer::Beta::Counter.new(
+                  scheme: :primary,
+                  count: total_work_packages_count,
+                  round: true,
+                  limit: 1_000,
+                  hide_if_zero: true
                 )
+              )
+            )
+          end
+        end
+      %>
+
+      <%=
+        flex_layout(align_items: :center) do |flex|
+          flex.with_column(flex: 1, mr: 3) do
+            render(
+              Primer::Beta::ProgressBar.new(
+                size: :large
+              )
+            ) do |bar|
+              bar.with_item(
+                percentage: resolved_percentage,
+                aria: { label: t(".closed_work_packages") }
               )
             end
           end
-        )
 
-        concat(
-          flex_layout(align_items: :center) do |flex|
-            flex.with_column(flex: 1, mr: 3) do
-              render(
-                Primer::Beta::ProgressBar.new(
-                  size: :large
-                )
-              ) do |bar|
-                bar.with_item(
-                  percentage: resolved_percentage,
-                  aria: { label: t(".closed_work_packages") }
-                )
-              end
-            end
-
-            flex.with_column(mr: 3) do
-              render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
-                resolved_summary_text
-              end
+          flex.with_column(mr: 3) do
+            render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
+              resolved_summary_text
             end
           end
-        )
+        end
+      %>
 
-        if breakdown_blocks.any?
-          concat(
-            render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do
-              breakdown_blocks.each do |block|
-                concat(
-                  render(Primer::Box.new(classes: "op-wp-overview--block")) do
-                    safe_join(
-                      [
-                        flex_layout(align_items: :center) do |flex|
-                          flex.with_column(mr: 3) do
-                            render(Primer::Beta::Text.new(tag: :h4, font_weight: :bold)) { block[:heading] }
-                          end
-                          flex.with_column do
-                            render(Primer::Beta::Link.new(href: block[:show_all_path], data: { turbo: false })) do
-                              t(".blocks.show_all")
-                            end
-                          end
-                        end,
-                        render(
-                          Primer::Beta::Text.new(tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: block[:count_color])
-                        ) { block[:count] },
-                        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { block[:story_points] }
-                      ]
-                    )
-                  end
+      <% if sprint.started_at? %>
+        <%= render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do %>
+          <%=
+            render(
+              BreakdownBlock.new(
+                heading: t(".blocks.initially_planned.heading"),
+                show_all_href: show_all_path(timestamps: breakdown.reference_start)
+              )
+            ) do |block|
+              block.with_count { breakdown.initially_planned.work_package_count.to_s }
+              block.with_story_points { t("backlogs.story_points", count: breakdown.initially_planned.story_points) }
+            end
+          %>
+
+          <%=
+            render(
+              BreakdownBlock.new(
+                heading: t(".blocks.changed_after_start.heading"),
+                show_all_href: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
+              )
+            ) do |block|
+              block.with_count do
+                t(
+                  ".blocks.changed_after_start.count_change_html",
+                  added: breakdown.changed_after_start.added_count, removed: breakdown.changed_after_start.removed_count, divider: divider_text
+                )
+              end
+              block.with_story_points do
+                t(
+                  ".blocks.changed_after_start.story_points_change",
+                  added: breakdown.changed_after_start.added_story_points, removed: breakdown.changed_after_start.removed_story_points
                 )
               end
             end
-          )
-        end
-      end
-    else
-      container.with_body do
+          %>
+
+          <%=
+            render(
+              BreakdownBlock.new(
+                heading: t(".blocks.completed.heading"),
+                count_color: :success,
+                show_all_href: show_all_path(
+                  timestamps: [breakdown.reference_finish],
+                  status_filter_operator: "="
+                )
+              )
+            ) do |block|
+              block.with_count { breakdown.completed.work_package_count.to_s }
+              block.with_story_points { t("backlogs.story_points", count: breakdown.completed.story_points) }
+            end
+          %>
+
+          <%=
+            render(
+              BreakdownBlock.new(
+                heading: t(".blocks.unfinished.heading"),
+                count_color: :muted,
+                show_all_href: show_all_path(
+                  timestamps: [breakdown.reference_finish],
+                  status_filter_operator: "!"
+                )
+              )
+            ) do |block|
+              block.with_count { breakdown.unfinished.work_package_count.to_s }
+              block.with_story_points { t("backlogs.story_points", count: breakdown.unfinished.story_points) }
+            end
+          %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= container.with_body do %>
+      <%=
         render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
           blankslate.with_visual_icon(icon: :"op-work-packages")
           blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
           blankslate.with_description_content(t(".blankslate.description"))
         end
-      end
-    end
-  end
-%>
+      %>
+    <% end %>
+  <% end %>
+<% end %>
