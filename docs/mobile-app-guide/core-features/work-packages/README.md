@@ -41,7 +41,7 @@ Use the Work packages list to quickly find and open the item you want to work on
 You can create a new work package directly from the **Work packages** list.
 
 - Open **Work packages** from the main navigation.
-- Tap the **+ button** (top right). Also available from the Home dashboard.
+- Tap the **+ button** (top right), which is also available from the Home dashboard.
 - Select the work package **type**.
 - Select the **project** where you want to create the work package.
 - Fill all the work package **mandatory details**. Any additional fields available for this work package type are available when tapping on the **See all attributes** on the bottom bar.
