@@ -105,7 +105,7 @@ You can also adjust:
 
 ## What can I do in Meetings?
 
-The **Meetings** module lets you manage both **one-time meetings** and **recurring meeting series**. In the mobile app you can:
+The **Meetings** module lets you manage both **one-time meetings** and **recurring meeting series**. In the mobile app, you can:
 
 - See all meetings (individual meetings and meeting series)
 - Browse **upcoming** and **past** meetings within a series
