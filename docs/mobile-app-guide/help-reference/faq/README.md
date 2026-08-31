@@ -185,7 +185,7 @@ Even if you logged time for other users, the Time tracking views show **only you
 
 ## Can I search across my whole instance?
 
-Yes. Use **Global search** to search across supported types (currently **Work packages** and **Spaces/Projects**). Meetings are planned to be added in a future update.
+Yes. Use **Global search** to search across supported types (currently, **Work packages** and **Spaces/Projects**). Meetings are planned to be added in a future update.
 
 ## Is there a dedicated desktop app?
 
