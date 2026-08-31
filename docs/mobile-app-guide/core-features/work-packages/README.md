@@ -68,7 +68,7 @@ You can always **edit a work package** details from each field available on the 
 
 ### More actions
 
-From all tabs you can access the **More actions** menu (three dots) with additional options. Depending on your current view and may include:
+From all tabs you can access the **More actions** menu (three dots) with additional options. Depending on your current view, these may include:
 
 - **Share link: T**o share the work package through the OS sharing functionality.
 - **Log time:** Log time to this work package.
