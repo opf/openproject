@@ -72,7 +72,7 @@ If you want to change *which events* generate notifications, and which don’t, 
 
 1. Open **Account and settings**.
 2. Go to **Notification settings**.
-3. Enable/disable the notification types you want to receive.
+3. Enable or disable the notification types you want to receive.
  
 > [!NOTE]
 > This is the central place to control your personal notification preferences. Changing this settings will affect the notifications received both on the mobile app and the core desktop app of OpenProject.
