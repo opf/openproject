@@ -23,7 +23,7 @@ The OpenProject Mobile app is a companion to the OpenProject web and desktop app
 
 The app requires an **active internet connection** to sync data with your OpenProject instance.
 
-## How can I log into the app?
+## How can I log in to the app?
 
 The app requires an **active internet connection** at login to sync data with your OpenProject instance. You can log in using your username and password. Please ensure:
 
