@@ -107,6 +107,14 @@ module CustomStylesHelper
     style.logo_mobile.present?
   end
 
+  def custom_logo_uploads(custom_style, mobile: false)
+    logo_context = mobile ? :mobile : :desktop
+
+    CustomStyle::LOGO_FIELDS.fetch(logo_context).map do |mode, field|
+      custom_logo_upload(custom_style, mode:, field:, mobile:)
+    end
+  end
+
   def show_waffle_icon?
     # Both logos → show icon (mobile logo will be applied by CSS)
     return true if desktop_logo_present? && mobile_logo_present?
@@ -143,6 +151,51 @@ module CustomStylesHelper
         delete_path: public_send(:"custom_style_export_font_#{variant}_delete_path"),
         instructions: I18n.t("text_custom_export_font_#{variant}_instructions")
       }
+    end
+  end
+
+  private
+
+  def custom_logo_upload(custom_style, mode:, field:, mobile:)
+    attachment = custom_style.public_send(field)
+    present = custom_style.persisted? && attachment.present?
+
+    {
+      field:,
+      label: t("admin.custom_styles.branding.modes.#{mode}.name"),
+      present:,
+      source: custom_logo_source(custom_style, field, present),
+      img_class: mobile ? "custom-logo-mobile-preview" : "custom-logo-preview",
+      accept: "image/*",
+      delete_path: custom_logo_delete_path(field),
+      instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
+    }
+  end
+
+  def custom_logo_source(custom_style, field, present)
+    return unless present
+
+    path_options = {
+      digest: custom_style.digest,
+      filename: custom_style.public_send(:"#{field}_identifier")
+    }
+
+    if field == :logo
+      custom_style_logo_path(**path_options)
+    elsif field == :logo_mobile
+      custom_style_logo_mobile_path(**path_options)
+    else
+      custom_style_logo_variant_path(**path_options, variant: field)
+    end
+  end
+
+  def custom_logo_delete_path(field)
+    if field == :logo
+      custom_style_logo_delete_path
+    elsif field == :logo_mobile
+      custom_style_logo_mobile_delete_path
+    else
+      custom_style_logo_variant_delete_path(variant: field)
     end
   end
 end

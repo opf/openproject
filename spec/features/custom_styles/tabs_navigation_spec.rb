@@ -76,6 +76,12 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
     it "redirects to branding tab" do
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
+      expect(page).to have_field("custom_style_logo")
+      expect(page).to have_field("custom_style_logo_dark")
+      expect(page).to have_field("custom_style_logo_light_high_contrast")
+      expect(page).to have_field("custom_style_logo_mobile")
+      expect(page).to have_field("custom_style_logo_mobile_dark")
+      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
