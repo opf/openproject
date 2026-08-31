@@ -226,6 +226,8 @@ en:
     description_select_work_package: "Select work package #%{id}"
     description_subwork_package: "Child of work package #%{id}"
     editor:
+      ai_actions:
+        caption: "Assistant"
       ckeditor_error: "An error occurred within CKEditor"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
       macro:
