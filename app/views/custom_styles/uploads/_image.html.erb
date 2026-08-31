@@ -44,24 +44,25 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
         </div>
       </div>
-      <%=
-        render(Primer::Beta::Button.new(
-          type: :submit
-        )) do |button|
-          button.with_leading_visual_icon(icon: image[:present] ? :upload : :plus)
-          t(image[:present] ? :button_replace : :button_upload)
-        end
-      %>
+      <%= render(
+            Primer::Beta::Button.new(
+              type: :submit
+            )
+          ) do |button| %>
+        <% button.with_leading_visual_icon(icon: image[:present] ? :upload : :plus) %>
+        <%= t(image[:present] ? :button_replace : :button_upload) %>
+      <% end %>
       <% if image[:present] %>
-        <%= render(Primer::Beta::Button.new(
-          tag: :a,
-          href: image[:delete_path],
-          data: { turbo_method: :delete }
-        )) do |button|
-          button.with_leading_visual_icon(icon: :trash)
-          t(:button_delete)
-        end
-        %>
+        <%= render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                href: image[:delete_path],
+                data: { turbo_method: :delete }
+              )
+            ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :trash) %>
+          <%= t(:button_delete) %>
+        <% end %>
       <% end %>
     </fieldset>
   </section>
