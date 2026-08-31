@@ -39,8 +39,8 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
   shared_let(:variant) { type.default_variant }
   shared_let(:source) { source_type.default_variant }
 
-  let(:aspect) { TypeVariant::WORKFLOWS }
-  let(:tab) { { name: "workflow", path: "/workflow", label: "Workflows", aspect: } }
+  let(:aspect) { TypeVariant::DEFAULTS }
+  let(:tab) { { name: "defaults", path: "/defaults", label: "Defaults", aspect: } }
   let(:table) { WorkPackageTypes::Overview::TableComponent.new(variant:, tabs: [tab]) }
 
   subject(:row) { described_class.new(row: tab, table:) }
@@ -49,7 +49,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     it "links to its own tab" do
       render_inline(row)
 
-      expect(page).to have_link("Workflows", href: "/workflow")
+      expect(page).to have_link("Defaults", href: "/defaults")
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
 
         expect(page).to have_text("Inheriting from")
         expect(page).to have_link("Feature",
-                                  href: edit_type_workflow_path(type_id: source.type_id, variant_id: source.id))
+                                  href: edit_type_defaults_path(type_id: source.type_id, variant_id: source.id))
       end
     end
   end

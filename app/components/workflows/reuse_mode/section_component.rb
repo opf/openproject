@@ -28,16 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module CopyConfiguration
-    class WorkflowsService < BaseService
+module Workflows
+  module ReuseMode
+    class SectionComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+
+      def initialize(variant:)
+        super(variant)
+      end
+
       private
 
-      def aspect = TypeVariant::WORKFLOWS
-
-      def copy_from(source)
-        variant.own_workflows.copy_from_variant(source)
-      end
+      def variant = model
     end
   end
 end

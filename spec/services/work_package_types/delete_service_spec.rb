@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::DeleteService do
 
     before do
       borrower = create(:type_variant, type: create(:type, name: "Feature"), variant_name: "Borrower")
-      borrower.update_columns(workflows_source_id: type.default_variant.id)
+      borrower.update_columns(defaults_source_id: type.default_variant.id)
     end
 
     it "keeps the type and leaves the projects using it" do
