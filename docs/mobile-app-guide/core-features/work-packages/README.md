@@ -32,7 +32,7 @@ Use the Work packages list to quickly find and open the item you want to work on
 
 - Use the **project selector** (e.g., *All projects*) to change the scope of what you are browsing.
 - Use the **query selector** (e.g., *All open*) to change the query you are seeing.
-- Use **search, sorting** and **grouping** to find the relevant work package.
+- Use **search, sorting**, and **grouping** to find the relevant work package.
 - Select a work package in the list to open its **details**.
 - Long tap a work package to **preview** it.
 
