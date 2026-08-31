@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Global search
   priority: 750
-description: A centralized view to search all entities inside the mobile app.
+description: A centralized view to search all entities in the mobile app.
 keywords: Mobile app global search, search, mobile search, global search, OpenProject mobile app
 ---
 
