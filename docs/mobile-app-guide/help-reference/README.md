@@ -20,6 +20,6 @@ This section is the entry point for:
 
 | Feature | Description |
 | --- | --- |
-|[**Mobile app FAQ**](faq) | Common questions and answers about using the app day to day.
+|[**Mobile app FAQ**](faq) | Common questions and answers about using the app day to day. |
  |
 |[**Known limitations (beta)**](known-limitations) | A transparent list of current limitations and missing functionality to be aware of while the mobile experience is still evolving. |
