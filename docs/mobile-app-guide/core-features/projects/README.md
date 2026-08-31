@@ -46,7 +46,7 @@ This is useful if you mainly work in a small set of spaces and want faster acces
 
 When you open a space/project, you can typically:
 
-- Review the **Overview,** summary information of project attributes and description.
+- Review the **Overview,** which summarizes project attributes and the description.
 - Navigate to **Work packages** within that space/project to see and work on items.
 
 ![Overviews of the spaces to check its important details](spaces-overviews.png)
