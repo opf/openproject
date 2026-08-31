@@ -35,7 +35,7 @@ Use the selector in the **top header** to switch between different notification 
 
 Below the header, use the toggle to switch between:
 
-- **Unread:** default for catching up
+- **Unread:** the default for catching up
 - **All:** to review everything, including notifications marked as read
 
 ## Common workflows
