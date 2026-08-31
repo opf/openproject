@@ -55,7 +55,7 @@ With the Meetings module, you can:
 3. Switch between **upcoming** and **past** meetings to locate the instance you need.
 4. Tap a meeting to open its details.
 
-![Meetings series index page](meetings-series_index.png)
+![Meeting series index page](meetings-series_index.png)
 
 ### Prepare the agenda
 
