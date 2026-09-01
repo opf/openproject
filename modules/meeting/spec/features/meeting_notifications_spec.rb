@@ -239,6 +239,7 @@ RSpec.describe "Meeting notifications", :js do
         meetings_page.click_on "Recurring"
       end
       meetings_page.set_title "Some title"
+      meetings_page.set_starts_on 1.day.from_now.to_date.iso8601
       meetings_page.click_create
     end
 
@@ -260,6 +261,7 @@ RSpec.describe "Meeting notifications", :js do
         meetings_page.click_on "Recurring"
       end
       meetings_page.set_title "Some title"
+      meetings_page.set_starts_on 1.day.from_now.to_date.iso8601
       meetings_page.click_create
     end
 
