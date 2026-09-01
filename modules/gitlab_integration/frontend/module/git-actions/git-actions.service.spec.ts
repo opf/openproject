@@ -39,7 +39,7 @@ describe('GitActionsService', function () {
       displayId: '42',
       subject: "Find the question, or don't",
       description: {
-        raw: "I recently found the answer is 42. We'd need to compute the correct question."
+        raw: "I recently found\nthe answer is 42.\n\nWe'd need to compute\nthe correct question."
       },
       type: { name: 'User Story' },
       pathHelper: new PathHelperService()
@@ -60,16 +60,22 @@ describe('GitActionsService', function () {
     expect(service.branchName(wp)).toEqual('user-story/42-find-the-question-or-don-t');
     expect(service.commitMessage(wp)).toEqual(`OP#42 Find the question, or don't
 
+I recently found
+the answer is 42.
+
+We'd need to compute
+the correct question.
+
 ${origin}/wp/42`);
 
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#42 Find the question, or don'\\''t' -m '${origin}/wp/42'`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#42 Find the question, or don'\\''t' -m 'I recently found\nthe answer is 42.' -m 'We'\\''d need to compute\nthe correct question.' -m '${origin}/wp/42'`);
   });
 
   it('shell-escapes output for the git-command', () => {
     const wp = createWorkPackage({ subject: "' && rm -rf / #" });
     const origin = window.location.origin;
 
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m 'OP#42 '\\'' && rm -rf / #' -m '${origin}/wp/42'`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m 'OP#42 '\\'' && rm -rf / #' -m 'I recently found\nthe answer is 42.' -m 'We'\\''d need to compute\nthe correct question.' -m '${origin}/wp/42'`);
   });
 
   it('uses semantic identifiers when in semantic mode', () => {
@@ -77,7 +83,22 @@ ${origin}/wp/42`);
     const origin = window.location.origin;
 
     expect(service.branchName(wp)).toEqual('user-story/proj-42-find-the-question-or-don-t');
-    expect(service.commitMessage(wp)).toEqual(`OP#PROJ-42 Find the question, or don't\n\n${origin}/wp/PROJ-42`);
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/proj-42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#PROJ-42 Find the question, or don'\\''t' -m '${origin}/wp/PROJ-42'`);
+    expect(service.commitMessage(wp)).toEqual(`OP#PROJ-42 Find the question, or don't
+
+I recently found
+the answer is 42.
+
+We'd need to compute
+the correct question.
+
+${origin}/wp/PROJ-42`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/proj-42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#PROJ-42 Find the question, or don'\\''t' -m 'I recently found\nthe answer is 42.' -m 'We'\\''d need to compute\nthe correct question.' -m '${origin}/wp/PROJ-42'`);
+  });
+
+  it('skips empty description', () => {
+    const wp = createWorkPackage({ description: {raw: ''} });
+    const origin = window.location.origin;
+
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#42 Find the question, or don'\\''t' -m '${origin}/wp/42'`);
   });
 });
