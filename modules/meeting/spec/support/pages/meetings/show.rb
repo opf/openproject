@@ -444,7 +444,11 @@ module Pages::Meetings
 
     def select_backlog_action(action)
       button = backlog_menu_button
-      button.trigger("click")
+      if page.driver.is_a?(Capybara::Cuprite::Driver)
+        button.trigger("click")
+      else
+        button.click
+      end
       page.find("##{button['popovertarget']} [role='menuitem']", text: action, visible: :visible).click
     end
 
