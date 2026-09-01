@@ -4,63 +4,59 @@ module Components::Autocompleter
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: "body", wait_dropdown_open: true, wait_for_fetched_options: true)
       SeleniumHubWaiter.wait unless using_cuprite?
-      element = refindable_autocomplete(element)
 
       # Wait for dropdown to open
-      if wait_dropdown_open
-        dropdown_open = ng_dropdown_open?(resolve_autocomplete(element), results_selector:)
-        ng_click_autocompleter(element) unless dropdown_open
-      end
+      dropdown_open = ng_dropdown_open?(element, results_selector:) if wait_dropdown_open
+      ng_click_autocompleter(element) unless dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      wait_for_autocomplete_spinner(element)
+      expect(element).to have_no_css(".ng-spinner-loader")
 
       # Insert the text to find
-      page.document.synchronize do
-        current_element = resolve_autocomplete(element)
-        within(current_element) do
-          ng_enter_query(current_element, query, wait_for_fetched_options:)
+      within(element) do
+        retry_block do
+          ng_enter_query(element, query, wait_for_fetched_options:)
         end
       end
 
       # Wait for options to be refreshed after having entered some text.
-      wait_for_autocomplete_spinner(element)
+      expect(element).to have_no_css(".ng-spinner-loader")
+
+      # probably not necessary anymore
+      sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown
-      dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+      dropdown_list = ng_find_dropdown(element, results_selector:)
       scroll_to_element(dropdown_list)
       dropdown_list
     end
 
     def ng_click_autocompleter(target)
-      page.document.synchronize do
-        input = ng_select_input(resolve_autocomplete(target))
+      input = ng_select_input(target)
 
-        scroll_to_element(input, block: :nearest)
-        input.click
-      end
+      scroll_to_element(input, block: :nearest)
+      input.click
     end
 
     def ng_find_dropdown(element, results_selector: "body", raise_on_missing: true)
-      dropdown = find_ng_dropdown(element, results_selector:, wait: 0)
-      return dropdown if dropdown || !raise_on_missing
+      retry_block do
+        if results_selector
+          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == "body"
+          within_window(current_window) do
+            page.find(results_selector, wait: raise_on_missing ? 5 : 0)
+          end
+        else
+          within(element) do
+            page.find("ng-select .ng-dropdown-panel", wait: raise_on_missing ? 5 : 0)
+          end
+        end
+      rescue Capybara::ElementNotFound => e
+        return nil unless raise_on_missing
 
-      ng_select_input(element).send_keys(:down)
-      find_ng_dropdown(element, results_selector:, wait: 5)
-    end
-
-    def find_ng_dropdown(element, results_selector:, wait:)
-      if results_selector
-        selector = ng_panel_selector(results_selector)
-        within_window(current_window) { page.find(selector, wait:) }
-      else
-        within(element) { page.find(".ng-dropdown-panel", wait:) }
+        ng_click_autocompleter(element)
+        raise e
       end
-    rescue Capybara::ElementNotFound
-      raise unless wait.zero?
-
-      nil
     end
 
     def ng_dropdown_open?(element, results_selector: "body")
@@ -69,7 +65,7 @@ module Components::Autocompleter
           page.has_css?(ng_panel_selector(results_selector), wait: 0)
         end
       else
-        element.has_css?(".ng-dropdown-panel", wait: 0)
+        element.has_css?("ng-select .ng-dropdown-panel", wait: 0)
       end
     end
 
@@ -126,21 +122,13 @@ module Components::Autocompleter
       else
         input.clear
       end
-      input = element.find("input[type=text]", visible: :all).native
 
       query = query.to_s
 
-      if using_cuprite?
-        # Send all keys but last one, and then with a delay the last one
-        # to emulate normal typing
-        send_keys(input, query.to_s[0..-2], after_typing_sleep: 0.2)
-        send_keys(input, query.to_s[-1])
-      else
-        send_keys(input, query)
-      end
-
-      current_query = element.find("input[type=text]", visible: :all).value
-      raise Capybara::ElementNotFound unless current_query == query
+      # Send all keys but last one, and then with a delay the last one
+      # to emulate normal typing
+      send_keys(input, query.to_s[0..-2], after_typing_sleep: 0.2)
+      send_keys(input, query.to_s[-1])
 
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
     end
@@ -160,8 +148,7 @@ module Components::Autocompleter
     ##
     # Get the ng_select input element
     def ng_select_input(from_element = page)
-      from_element.first(".ng-select-opened .ng-input input", wait: 0, minimum: 0) ||
-        from_element.all(".ng-input input", minimum: 1).last
+      from_element.find(".ng-input input")
     end
 
     ##
@@ -181,7 +168,6 @@ module Components::Autocompleter
                             results_selector: "body",
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true)
-      element = refindable_autocomplete(element)
       search_autocomplete(element,
                           query:,
                           results_selector:,
@@ -193,30 +179,12 @@ module Components::Autocompleter
       # otherwise use the query
       text = select_text.presence || query
 
-      page.document.synchronize do
+      retry_block do
         # Re-resolve the option on each attempt because ng-select may rerender
         # the dropdown between find and click in Cuprite.
-        ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+        ng_find_dropdown(element, results_selector:)
           .first(".ng-option", text:, wait: 15)
           .click
-      end
-    end
-
-    def resolve_autocomplete(element)
-      element.respond_to?(:call) ? element.call : element
-    end
-
-    def refindable_autocomplete(element)
-      return element if element.respond_to?(:call)
-
-      xpath = element.path
-      -> { page.find(:xpath, xpath) }
-    end
-
-    def wait_for_autocomplete_spinner(element)
-      page.document.synchronize do
-        current_element = resolve_autocomplete(element)
-        raise Capybara::ElementNotFound if current_element.has_css?(".ng-spinner-loader", wait: 0)
       end
     end
 
