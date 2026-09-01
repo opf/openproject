@@ -183,10 +183,10 @@ module Components
         end
       end
 
-      def set_autocomplete_filter(values, clear: true)
-        element = find('[data-filter-autocomplete="true"]')
+      def set_autocomplete_filter(values, clear: true, element: nil)
+        element ||= find('[data-filter-autocomplete="true"]')
 
-        ng_select_clear(element, raise_on_missing: false) if clear
+        ng_select_clear(resolve_autocomplete(element), raise_on_missing: false) if clear
 
         Array(values).each do |query|
           select_autocomplete element,
