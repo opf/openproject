@@ -28,30 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+module TypeVariants::Scopes
+  module SwitchTargets
+    extend ActiveSupport::Concern
 
-          DIALOG_ID = "project-types-switch-dialog"
+    class_methods do
+      # The variants of the source's type a user may move a project onto. Deciding which variant a
+      # project runs on goes with authoring its variants, not with choosing which types it uses.
+      # Another project's variant is never among them.
+      def switch_targets(user:, project:, source:)
+        return none unless user.allowed_in_project?(:manage_project_variants, project)
 
-          def initialize(project:, source:, url:, selected: source)
-            super()
+        source.type.variants.available_in(project)
+      end
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-          end
-
-          private
-
-          attr_reader :project, :source, :url, :selected
-        end
+      def switchable?(user:, project:, source:, target:)
+        switch_targets(user:, project:, source:).exists?(id: target.id)
       end
     end
   end

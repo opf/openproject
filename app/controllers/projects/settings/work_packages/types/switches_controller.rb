@@ -40,7 +40,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source, url: switch_path)
+                          .new(project: @project, source: @source, url: switch_path, selected: requested_target)
   end
 
   def create
@@ -70,6 +70,12 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
         project: @project, source: @source, url: switch_path, selected: target || @source, validation_message: message
       )
     )
+  end
+
+  # A list row asks about the variant it sits on, so the dialog opens on that one. It comes off a
+  # URL: only a variant this project may use counts, as in the list itself.
+  def requested_target
+    @source.type.variants.available_in(@project).find_by(id: params[:target_id]) || @source
   end
 
   def switch_path

@@ -785,7 +785,7 @@ Redmine::MenuManager.map :project_menu do |menu|
       caption: :label_work_package_plural,
       if: ->(project) {
         User.current.allowed_in_project?(:edit_project, project) ||
-          User.current.allowed_in_project?(:manage_types, project) ||
+          User.current.allowed_in_project?(%i[manage_types manage_project_variants], project) ||
           User.current.allowed_in_project?(:manage_categories, project) ||
           User.current.allowed_in_project?(:select_custom_fields, project)
       }

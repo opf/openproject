@@ -28,31 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+require "rails_helper"
 
-          DIALOG_ID = "project-types-switch-dialog"
+RSpec.describe Projects::Settings::WorkPackages::Types::InUseMarkerComponent, type: :component do
+  subject(:rendered_component) { render_inline(described_class.new(label: "Variant in this project")) }
 
-          def initialize(project:, source:, url:, selected: source)
-            super()
+  it "says what is in use" do
+    expect(rendered_component).to have_text("Variant in this project")
+  end
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-          end
+  it "checks it off, so the reader finds it without reading" do
+    expect(rendered_component).to have_css(".octicon-check-circle-fill")
+  end
 
-          private
+  it "sets the words in the colour that means so" do
+    expect(rendered_component).to have_css(".color-fg-success", text: "Variant in this project")
+  end
 
-          attr_reader :project, :source, :url, :selected
-        end
-      end
-    end
+  it "leaves the words in normal weight" do
+    expect(rendered_component).to have_css(".text-normal", text: "Variant in this project")
+  end
+
+  it "is addressable by its own test selector" do
+    expect(rendered_component).to have_css("[data-test-selector='in-use-marker']", text: "Variant in this project")
   end
 end

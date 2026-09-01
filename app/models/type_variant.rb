@@ -103,7 +103,7 @@ class TypeVariant < ApplicationRecord
   validate :base_variant_is_never_owned
   validate :owned_variant_is_never_enabled_in_new_projects
 
-  scopes :with_effective_configuration, :with_effective_source
+  scopes :switch_targets, :with_effective_configuration, :with_effective_source
 
   scope :enabled_in_new_projects, -> { where(enabled_in_new_projects: true) }
 

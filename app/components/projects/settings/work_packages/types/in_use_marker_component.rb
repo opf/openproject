@@ -32,25 +32,18 @@ module Projects
   module Settings
     module WorkPackages
       module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
+        class InUseMarkerComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
 
-          DIALOG_ID = "project-types-switch-dialog"
-
-          def initialize(project:, source:, url:, selected: source)
+          def initialize(label:)
             super()
 
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
+            @label = label
           end
 
           private
 
-          attr_reader :project, :source, :url, :selected
+          attr_reader :label
         end
       end
     end

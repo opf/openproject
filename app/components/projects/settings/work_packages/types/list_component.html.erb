@@ -38,31 +38,32 @@ See COPYRIGHT and LICENSE files for more details.
             data: { test_selector: "project-types-row-#{project_type.variant.id}" }
           )
         ) do |list| %>
-      <% list.with_header(collapsed: true) do |header| %>
+      <%# Open where a variant is in use: the row saying so is inside the group. %>
+      <% list.with_header(
+           count: variants_count(project_type),
+           collapsed: base_type_in_use?(project_type)
+         ) do |header| %>
         <% header.with_title do %>
           <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(project_type.type) } %>
-          <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { project_type.type.name } %>
-          <% if project_type.variant.default? %>
-            <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { t("projects.settings.types.in_use") } %>
-          <% else %>
-            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_size: :small, ml: 2)) do %>
-              <%= t("projects.settings.types.variant_prefix") %>
-            <% end %>
-            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :bold, font_size: :small)) do %>
-              <%= project_type.variant.variant_name %>
-            <% end %>
+          <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :bold, ml: 2)) { project_type.type.name } %>
+          <% if base_type_in_use?(project_type) %>
+            <%= in_use_marker(t("projects.settings.types.base_type_in_use")) %>
           <% end %>
         <% end %>
-        <% header.with_menu do |menu| %>
-          <% switch_action(menu, project_type.type) if switchable?(project_type) %>
-          <% remove_action(menu, project_type.type) %>
+        <% if type_actions?(project_type) %>
+          <% header.with_menu do |menu| %>
+            <% add_variant_action(menu, project_type.type) if manageable? %>
+            <% use_action(menu, base_variant(project_type)) if base_type_usable?(project_type) %>
+            <% menu.with_divider if removal_set_apart?(project_type) %>
+            <% remove_action(menu, project_type.type) if manages_types? %>
+          <% end %>
         <% end %>
       <% end %>
 
       <% selectable_variants(project_type).each do |variant| %>
         <% list.with_item(data: { test_selector: "project-types-variant-#{variant.id}" }) do |item| %>
-          <% if configurable?(variant) %>
-            <% item.with_menu { |menu| variant_actions(menu, variant) } %>
+          <% if actionable?(project_type, variant) %>
+            <% item.with_menu { |menu| variant_actions(menu, project_type, variant) } %>
           <% end %>
           <%# Unlinked unless the reader may open it: the global variants are administration's. %>
           <%= render(
@@ -71,9 +72,9 @@ See COPYRIGHT and LICENSE files for more details.
                   linked: configurable?(variant)
                 )
               ) do |row| %>
-            <% row.with_label { t("projects.settings.types.only_available_here") } if owned?(variant) %>
+            <% row.with_caption { variant_caption(variant) } %>
             <% if in_use?(project_type, variant) %>
-              <% row.with_label(scheme: :accent) { t("projects.settings.types.in_use") } %>
+              <% row.with_state { in_use_marker(t("projects.settings.types.variant_in_use")) } %>
             <% end %>
           <% end %>
         <% end %>

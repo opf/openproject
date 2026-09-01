@@ -27,15 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= flex_layout(direction: :column) do |body| %>
-  <% body.with_row do %>
-    <%= render(
-          Projects::Settings::WorkPackages::Types::SwitchForm.new(
-            @form, targets: @targets, selected: @selected, validation_message: @validation_message
-          )
-        ) %>
-  <% end %>
-  <% body.with_row(mt: 3) do %>
-    <%= render(Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact: @impact)) %>
-  <% end %>
-<% end %>
+<%= render(Primer::Beta::Octicon.new(icon: "check-circle-fill", color: :success, ml: 2)) %>
+<%= render(
+      Primer::Beta::Text.new(
+        color: :success,
+        font_size: :small,
+        font_weight: :normal,
+        ml: 1,
+        test_selector: "in-use-marker"
+      )
+    ) { label } %>
