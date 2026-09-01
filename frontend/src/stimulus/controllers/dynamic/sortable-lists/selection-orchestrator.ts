@@ -62,6 +62,19 @@ export interface SelectionHost {
 /**
  * Batch selection: gestures in, model and presentation out.
  */
+// Read the way browsers bind their own select-all: by the key's meaning on
+// Latin layouts (AZERTY's Ctrl+A sits on physical KeyQ), by the physical key
+// where the layout prints another letter (Cyrillic ф, Greek α on KeyA). A
+// dead key, composition or an AltGr chord is input, not a shortcut.
+function isSelectAllKey(event:KeyboardEvent):boolean {
+  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) {
+    return false;
+  }
+
+  return event.key === 'a' || event.key === 'A'
+    || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));
+}
+
 export class SelectionOrchestrator {
   private readonly selection = new BatchSelection();
 
@@ -199,13 +212,12 @@ export class SelectionOrchestrator {
       case 'End':
         this.handleBoundary(event, candidate, event.key === 'Home' ? 'first' : 'last');
         break;
-      case 'a':
-      case 'A':
-        this.handleSelectAll(event, candidate);
-        break;
       default:
         // Enter belongs to the card's own activation handler; Escape is
         // handled at the document.
+        if (isSelectAllKey(event)) {
+          this.handleSelectAll(event, candidate);
+        }
         break;
     }
   };
