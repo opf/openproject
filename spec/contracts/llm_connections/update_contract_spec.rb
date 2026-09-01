@@ -68,6 +68,12 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     include_examples "contract is invalid", base_url: :request_timed_out
   end
 
+  context "when the TLS handshake fails" do
+    let!(:models_request) { mock_llm_models_response(base_url, raise_error: OpenSSL::SSL::SSLError) }
+
+    include_examples "contract is invalid", base_url: :ssl_error
+  end
+
   # A server can speak the OpenAI API for chat and still not expose a model list:
   # OpenProject's own hosted gateway does exactly that. Blocking the save would
   # leave the administrator unable to configure a working connection at all.

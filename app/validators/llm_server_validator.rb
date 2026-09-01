@@ -107,7 +107,8 @@ class LlmServerValidator < ActiveModel::EachValidator
     add_error(contract, attribute, e)
   end
 
-  # Order matters: SsrfError and TimeoutError are both ConnectionError subclasses.
+  # Order matters: SsrfError, TimeoutError and SslError are all ConnectionError
+  # subclasses.
   def add_error(contract, attribute, error)
     case error
     when Llm::Client::SsrfError
@@ -116,6 +117,8 @@ class LlmServerValidator < ActiveModel::EachValidator
       contract.errors.add(:api_key, :invalid_api_key)
     when Llm::Client::TimeoutError
       contract.errors.add(attribute, :request_timed_out)
+    when Llm::Client::SslError
+      contract.errors.add(attribute, :ssl_error)
     when Llm::Client::ConnectionError
       contract.errors.add(attribute, :cannot_be_connected_to)
     when Llm::Client::ApiError

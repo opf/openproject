@@ -691,6 +691,7 @@ en:
               cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
               not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
+              ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
