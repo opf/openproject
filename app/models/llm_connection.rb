@@ -50,16 +50,11 @@ class LlmConnection < ApplicationRecord
       first || new
     end
 
-    # Cheap enough to call from a menu visibility lambda.
-    def enabled?
-      exists?(enabled: true)
-    end
-
     # Whether LLM-backed features may run right now. This is the predicate
     # sibling features gate on; see #77783.
     def available?
       OpenProject::FeatureDecisions.llm_connection_active? &&
-        enabled? &&
+        Setting.llm_features_enabled? &&
         instance.configured?
     end
   end

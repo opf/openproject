@@ -33,10 +33,5 @@ FactoryBot.define do
     identifier { LlmConnection::SINGLETON_IDENTIFIER }
     base_url { "https://example.com/v1" }
     api_key { "sk-test-key" }
-    enabled { false }
-
-    trait :enabled do
-      enabled { true }
-    end
   end
 end
