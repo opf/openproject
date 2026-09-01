@@ -46,6 +46,12 @@ module RecurringMeetings
 
       recurring_meeting = call.result
 
+      # Make sure we update the template before sending out any emails
+      # to make sure it's attributes (such as a location change) are correctly used
+      update_template(call)
+
+      return call unless call.success?
+
       if should_reschedule?(recurring_meeting)
         reschedule_future_occurrences(recurring_meeting)
         reschedule_init_job(recurring_meeting)
@@ -55,7 +61,7 @@ module RecurringMeetings
       cleanup_cancelled_schedules(recurring_meeting)
       update_future_occurrence_titles(recurring_meeting)
 
-      update_template(call)
+      call
     end
 
     def update_template(call)
