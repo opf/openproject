@@ -44,8 +44,7 @@ module Bim
       menu_item :ifc_models
 
       def index
-        @ifc_models = @ifc_models
-                          .includes(:project, :uploader)
+        @ifc_models = @ifc_models.includes(:project, :uploader)
       end
 
       def show
@@ -54,30 +53,32 @@ module Bim
 
       def new
         @ifc_model = @project.ifc_models.build
-        prepare_form(@ifc_model)
+
+        prepare_form if OpenProject::Configuration.direct_uploads?
       end
 
-      def edit
-        prepare_form(@ifc_model)
-      end
+      def edit; end
 
       def defaults
         frontend_redirect @ifc_models.defaults.pluck(:id).uniq
       end
 
-      def set_direct_upload_file_name # rubocop:disable Metrics/AbcSize
-        if params[:filesize].to_i > Setting.attachment_max_size.to_i.kilobytes
-          render json: { error: I18n.t("activerecord.errors.messages.file_too_large",
-                                       count: Setting.attachment_max_size.to_i.kilobytes) },
+      def set_direct_upload_file_name
+        max_size = Setting.attachment_max_size.to_i.kilobytes
+        if params[:filesize].to_i > max_size
+          render json: { error: I18n.t("activerecord.errors.messages.file_too_large", count: max_size) },
                  status: :unprocessable_entity
           return
         end
 
         session[:pending_ifc_model_title] = params[:title]
+      end
+
+      def set_direct_upload_default_value
         session[:pending_ifc_model_is_default] = params[:isDefault]
       end
 
-      def direct_upload_finished # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+      def direct_upload_finished # rubocop:disable Metrics/AbcSize
         attachment_id = session[:pending_ifc_model_attachment_id]
         unless callback_context_valid?(attachment_id)
           fail_direct_upload
@@ -94,23 +95,13 @@ module Bim
           title: session[:pending_ifc_model_title],
           project: @project,
           ifc_attachment: attachment,
-          is_default: session[:pending_ifc_model_is_default]
+          is_default: session[:pending_ifc_model_is_default] || false
         }
 
-        new_model = true
-        if session[:pending_ifc_model_ifc_model_id]
-          ifc_model = Bim::IfcModels::IfcModel.find_by id: session[:pending_ifc_model_ifc_model_id]
-          new_model = false
+        service_result = ::Bim::IfcModels::CreateService
+                           .new(user: current_user)
+                           .call(params.with_indifferent_access)
 
-          service_result = ::Bim::IfcModels::UpdateService
-                               .new(user: current_user, model: ifc_model)
-                               .call(params.with_indifferent_access)
-        else
-          service_result = ::Bim::IfcModels::CreateService
-                               .new(user: current_user)
-                               .call(params.with_indifferent_access)
-
-        end
         @ifc_model = service_result.result
 
         clear_pending_ifc_model_session
@@ -119,30 +110,24 @@ module Bim
           ::Attachments::FinishDirectUploadJob.perform_later attachment.id,
                                                              allowlist: false
 
-          flash[:notice] = if new_model
-                             t("ifc_models.flash_messages.upload_successful")
-                           else
-                             t(:notice_successful_update)
-                           end
-
+          flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
-          attachment.destroy
+          attachment.destroy!
 
           flash[:error] = service_result.errors.full_messages.join(" ")
-
           redirect_to action: :new
         end
       end
 
       def create
         combined_params = permitted_model_params
-                              .to_h
-                              .reverse_merge(project: @project)
+                            .to_h
+                            .reverse_merge(project: @project)
 
         service_result = ::Bim::IfcModels::CreateService
-                             .new(user: current_user)
-                             .call(combined_params)
+                           .new(user: current_user)
+                           .call(combined_params)
 
         @ifc_model = service_result.result
 
@@ -156,12 +141,12 @@ module Bim
 
       def update
         combined_params = permitted_model_params
-                              .to_h
-                              .reverse_merge(project: @project)
+                            .to_h
+                            .reverse_merge(project: @project)
 
         service_result = ::Bim::IfcModels::UpdateService
-                             .new(user: current_user, model: @ifc_model)
-                             .call(combined_params)
+                           .new(user: current_user, model: @ifc_model)
+                           .call(combined_params)
 
         @ifc_model = service_result.result
 
@@ -174,14 +159,14 @@ module Bim
       end
 
       def destroy
-        @ifc_model.destroy
+        @ifc_model.destroy!
         redirect_to action: :index, status: :see_other
       end
 
       private
 
-      def prepare_form(ifc_model) # rubocop:disable Metrics/AbcSize
-        return unless OpenProject::Configuration.direct_uploads?
+      def prepare_form
+        clear_pending_ifc_model_session
 
         call = ::Attachments::PrepareUploadService
                  .bypass_allowlist(user: current_user)
@@ -189,13 +174,13 @@ module Bim
 
         call.on_failure { flash[:error] = call.message }
 
-        @pending_upload = call.result
-        set_pending_ifc_model_callback_session
+        pending_upload = call.result
+        set_pending_ifc_model_callback_session(pending_upload, @project)
+
         @form = DirectFogUploader.direct_fog_hash(
-          attachment: @pending_upload,
+          attachment: pending_upload,
           success_action_redirect: direct_upload_finished_bcf_project_ifc_models_url(du_token: direct_upload_callback_token)
         )
-        session[:pending_ifc_model_ifc_model_id] = ifc_model.id unless ifc_model.new_record?
       end
 
       def frontend_redirect(model_ids)
@@ -206,20 +191,17 @@ module Bim
       end
 
       def find_all_ifc_models
-        @ifc_models = @project
-                          .ifc_models
-                          .includes(:attachments)
-                          .order("#{IfcModels::IfcModel.table_name}.created_at ASC")
+        @ifc_models = @project.ifc_models
+                              .includes(:attachments)
+                              .order("#{IfcModels::IfcModel.table_name}.created_at ASC")
       end
 
       def permitted_model_params
-        params
-            .require(:bim_ifc_models_ifc_model)
-            .permit("title", "ifc_attachment", "is_default")
+        params.expect(bim_ifc_models_ifc_model: %w[title ifc_attachment is_default])
       end
 
       def find_ifc_model_object
-        @ifc_model = @project.ifc_models.find(params[:id])
+        @ifc_model = @project.ifc_models.find(params.expect(:id))
       end
 
       def direct_upload_callback_token
@@ -239,9 +221,9 @@ module Bim
         Rails.application.message_verifier(DIRECT_UPLOAD_CALLBACK_PURPOSE)
       end
 
-      def set_pending_ifc_model_callback_session
-        session[:pending_ifc_model_attachment_id] = @pending_upload.id
-        session[:pending_ifc_model_project_id] = @project.id
+      def set_pending_ifc_model_callback_session(pending_upload, project)
+        session[:pending_ifc_model_attachment_id] = pending_upload.id
+        session[:pending_ifc_model_project_id] = project.id
         session[:pending_ifc_model_callback_nonce] = SecureRandom.hex(32)
       end
 
@@ -259,7 +241,10 @@ module Bim
           user_id: current_user.id,
           nonce: session[:pending_ifc_model_callback_nonce]
         }.with_indifferent_access
-        actual_payload = payload.with_indifferent_access.slice(:attachment_id, :project_id, :user_id, :nonce).with_indifferent_access
+
+        actual_payload = payload.with_indifferent_access
+                                .slice(:attachment_id, :project_id, :user_id, :nonce)
+                                .with_indifferent_access
 
         actual_payload == expected_payload
       end
