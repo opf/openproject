@@ -183,14 +183,10 @@ module Components
         end
       end
 
-      def set_autocomplete_filter(values, clear: true, element: nil)
-        element ||= find('[data-filter-autocomplete="true"]')
+      def set_autocomplete_filter(values, clear: true)
+        element = find('[data-filter-autocomplete="true"]')
 
-        if clear
-          page.document.synchronize do
-            ng_select_clear(resolve_autocomplete(element), raise_on_missing: false)
-          end
-        end
+        ng_select_clear(element, raise_on_missing: false) if clear
 
         Array(values).each do |query|
           select_autocomplete element,
@@ -245,24 +241,21 @@ module Components
       # when the value container carries the autocomplete marker, otherwise the
       # row's data-filter-type as a symbol (:date, :datetime_past, ...).
       #
-      # Read both values in one browser call because Angular can replace the row
-      # between separate Capybara operations.
+      # Re-finding is required because adding/operating on a filter re-renders
+      # the row, leaving a captured reference stale (ObsoleteNode). The row can
+      # also go stale between the find and the reads, so the whole
+      # classification runs in a synchronize block that retries on that error.
+      # The marker check stays wait: 0 on purpose: rows are pre-rendered, so the
+      # marker is present whenever the row is, and a default wait would only
+      # stall the non-autocomplete branches for the full Capybara timeout before
+      # falling through.
       def filter_kind(name)
         page.document.synchronize do
-          kind = page.evaluate_script(<<~JS)
-            (() => {
-              const row = document.querySelector(#{filter_selector(name).to_json});
-              if (!row) return null;
+          row = page.find(filter_selector(name))
 
-              return row.querySelector('[data-filter-autocomplete="true"]')
-                ? 'autocomplete'
-                : row.dataset.filterType;
-            })()
-          JS
+          next :autocomplete if row.has_css?('[data-filter-autocomplete="true"]', wait: 0)
 
-          raise Capybara::ElementNotFound, "Unable to classify filter #{name}" unless kind
-
-          kind.to_sym
+          row[:"data-filter-type"]&.to_sym
         end
       end
 
