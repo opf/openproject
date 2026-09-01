@@ -41,14 +41,11 @@ RSpec.describe "new work package", :js, :selenium do
     expect(page).to have_css(".inline-edit--container.description h1", text: "New Bug template")
 
     description_field.set_value "Something different than the default."
-
-    sleep 0.1
+    description_field.expect_value "Something different than the default."
 
     type_field.openSelectField
     type_field.set_value type_task
     expect(page).to have_css(".inline-edit--container.description", text: "Something different than the default.")
-
-    sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug

@@ -53,7 +53,7 @@ module Components
         end
 
         def toggle_public
-          find("toggle-switch").click
+          within("toggle-switch") { click_button }
         end
 
         def expect_toggle_public_disabled
