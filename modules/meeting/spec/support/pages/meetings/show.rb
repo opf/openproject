@@ -273,7 +273,10 @@ module Pages::Meetings
         page.find("action-menu[data-ready='true'] button#{selector}")
       end
       button.click
-      page.within(page.find("##{button['popovertarget']}", visible: :visible), &)
+      action_menu = page.document
+        .find("#meeting-agenda-item-#{item.id} action-menu[data-ready='true'] button#{selector}")
+        .find(:xpath, "ancestor::action-menu")
+      page.within(action_menu.find("[id$='-overlay'][popover]:popover-open", visible: :all), &)
     end
 
     def select_outcome_action(action)
@@ -444,12 +447,12 @@ module Pages::Meetings
 
     def select_backlog_action(action)
       button = backlog_menu_button
-      if page.driver.is_a?(Capybara::Cuprite::Driver)
-        button.trigger("click")
-      else
-        button.click
-      end
-      page.find("##{button['popovertarget']} [role='menuitem']", text: action, visible: :visible).click
+      button.click
+      action_menu = backlog_menu_button.find(:xpath, "ancestor::action-menu")
+      menu_item = action_menu
+        .find("[id$='-overlay'][popover]:popover-open", visible: :all)
+        .find("[role='menuitem']", text: action, visible: :visible)
+      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
     end
 
     def backlog_menu_button
