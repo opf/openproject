@@ -30,5 +30,12 @@
 
 module LlmConnections
   class UpdateService < BaseServices::Update
+    private
+
+    def after_perform(call)
+      Setting.llm_features_enabled = model.llm_features_enabled if call.success?
+
+      call
+    end
   end
 end

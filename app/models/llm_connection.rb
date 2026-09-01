@@ -40,6 +40,11 @@ class LlmConnection < ApplicationRecord
 
   has_many :health_reports, as: :subject, dependent: :delete_all
 
+  # Written through to Setting.llm_features_enabled by
+  # LlmConnections::UpdateService, so the form can offer the instance-wide
+  # switch beside the connection's own fields.
+  attribute :llm_features_enabled, :boolean, default: -> { Setting.llm_features_enabled? }
+
   scope :active, -> { where(active: true) }
 
   validates :base_url, presence: true

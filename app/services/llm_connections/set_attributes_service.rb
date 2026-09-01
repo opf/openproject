@@ -36,16 +36,15 @@ module LlmConnections
       super
 
       model.base_url = normalized_base_url if model.base_url.present?
-      set_singleton_defaults
+      set_identifying_defaults
     end
 
-    # +identifier+ and +type+ identify the record but are never user-editable, so they
-    # are set as system changes: the contract's readonly check only looks at
-    # attributes the user changed.
-    def set_singleton_defaults
+    # +identifier+ names the record but is never user-editable, so it is set as a
+    # system change: the contract's readonly check only looks at attributes the
+    # user changed.
+    def set_identifying_defaults
       model.change_by_system do
-        model.identifier ||= LlmConnection::SINGLETON_IDENTIFIER
-        model.type ||= LlmConnection.name
+        model.identifier ||= LlmConnection::DEFAULT_IDENTIFIER
       end
     end
 

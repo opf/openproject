@@ -32,17 +32,17 @@ module LlmConnections
   class ConnectionForm < ApplicationForm
     form do |f|
       f.check_box(
-        name: :enabled,
-        label: LlmConnection.human_attribute_name(:enabled),
-        caption: I18n.t("admin.llm_connections.form.enabled_caption"),
-        data: { target_name: "llm_connection_enabled", show_when_checked_target: "cause" }
+        name: :llm_features_enabled,
+        label: LlmConnection.human_attribute_name(:llm_features_enabled),
+        caption: I18n.t("admin.llm_connections.form.llm_features_enabled_caption"),
+        data: { target_name: "llm_features_enabled", show_when_checked_target: "cause" }
       )
 
       f.fieldset_group(
         title: I18n.t("admin.llm_connections.form.server_group"),
-        hidden: !model.enabled?,
+        hidden: !model.llm_features_enabled,
         data: {
-          target_name: "llm_connection_enabled",
+          target_name: "llm_features_enabled",
           show_when_checked_target: "effect",
           show_when: "checked"
         }

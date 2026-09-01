@@ -185,11 +185,11 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       expect(models_request).to have_been_made.once
     end
 
-    it "does not probe when only the enabled flag changed" do
+    it "does not probe when only the features switch changed" do
       connection.save!
       WebMock.reset_executed_requests!
 
-      connection.enabled = true
+      connection.llm_features_enabled = true
 
       expect(contract.validate).to be(true)
       expect(models_request).not_to have_been_made

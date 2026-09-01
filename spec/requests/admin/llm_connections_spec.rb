@@ -111,19 +111,22 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       it "confirms the connection once LLMs are switched on" do
         patch llm_connection_path,
-              params: { llm_connection: { enabled: "1", base_url:, api_key: "sk-test" } }
+              params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
 
         expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.success"))
       end
     end
 
     context "when the administrator switches LLMs off" do
-      let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-test") }
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-test") }
+
+      # Not with_settings:, which stubs Setting.[] and would hide the write.
+      before { Setting.llm_features_enabled = true }
 
       it "confirms that the features are off instead of claiming a connection" do
-        patch llm_connection_path, params: { llm_connection: { enabled: "0" } }
+        patch llm_connection_path, params: { llm_connection: { llm_features_enabled: "0" } }
 
-        expect(connection.reload).not_to be_enabled
+        expect(Setting.llm_features_enabled?).to be(false)
         expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.disabled"))
         expect(flash[:warning]).to be_blank
       end

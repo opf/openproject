@@ -53,7 +53,7 @@ module Admin
     private
 
     def set_connection
-      @connection = LlmConnection.instance
+      @connection = LlmConnection.active_connection
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page
@@ -63,7 +63,7 @@ module Admin
     end
 
     def redirect_after_save
-      redirect_with_notice(@connection.enabled? ? t(".success") : t(".disabled"))
+      redirect_with_notice(@connection.llm_features_enabled ? t(".success") : t(".disabled"))
     end
 
     def render_form_with_errors
@@ -90,7 +90,7 @@ module Admin
     # saved value, so submitting it unchanged posts an empty string.
     def llm_connection_params
       permitted = params.expect(
-        llm_connection: %i[enabled api_format base_url api_key]
+        llm_connection: %i[llm_features_enabled api_format base_url api_key]
       )
       permitted.delete(:api_key) if permitted[:api_key].blank?
       permitted.to_h.symbolize_keys

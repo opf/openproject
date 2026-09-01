@@ -207,7 +207,7 @@ en:
         base_url: "Host URL"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
-        enabled: "Enable LLMs for this instance"
+        llm_features_enabled: "Enable LLMs for this instance"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -692,7 +692,7 @@ en:
               not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
-            enabled:
+            llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
@@ -1705,7 +1705,7 @@ en:
         api_key_placeholder_stored: "API key stored"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
         button_connect: "Connect"
-        enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"

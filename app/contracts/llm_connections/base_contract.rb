@@ -32,7 +32,7 @@ module LlmConnections
   # Validations that hold for every write, including provisioning from the
   # environment. Deliberately makes no network request -- see UpdateContract.
   class BaseContract < ModelContract
-    attribute :enabled
+    attribute :llm_features_enabled
     attribute :api_format
     attribute :base_url
     attribute :api_key
@@ -51,15 +51,15 @@ module LlmConnections
     # network commonly terminates TLS elsewhere, or not at all.
     validates :base_url, url: { message: :invalid_url }, unless: -> { base_url.blank? }
 
-    validate :enabled_requires_connection
+    validate :features_require_connection
 
     private
 
-    def enabled_requires_connection
-      return unless model.enabled?
+    def features_require_connection
+      return unless model.llm_features_enabled
       return if model.base_url.present?
 
-      errors.add :enabled, :requires_connection
+      errors.add :llm_features_enabled, :requires_connection
     end
   end
 end
