@@ -35,12 +35,12 @@ class CustomStylesController < ApplicationController
   layout "admin"
   menu_item :custom_style
 
-  LOGO_VARIANTS = %w[
+  LOGO_VARIANTS = %i[
     logo_dark
     logo_light_high_contrast
     logo_mobile_dark
     logo_mobile_light_high_contrast
-  ].index_with(&:to_sym).freeze
+  ].index_by(&:to_s).freeze
 
   UNGUARDED_ACTIONS = %i[logo_download
                          logo_mobile_download
