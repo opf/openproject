@@ -67,10 +67,10 @@ module JournalFormatter
     def permission_granted?(permission, **)
       return true unless permission
 
-      if permission.is_a?(Symbol)
-        User.current.allowed_in_project?(permission, project)
-      else
+      if permission.is_a?(Proc)
         instance_exec(&permission)
+      else
+        User.current.allowed_in_project?(permission, project)
       end
     end
 
