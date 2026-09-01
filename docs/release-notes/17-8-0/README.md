@@ -26,8 +26,7 @@ Take a look at our release video showing the most important features introduced 
 
 [feature: mcp_server ]
 
-![AI assistant creating a work package in OpenProject with the MCP Server](openproject_release_notes_17.8_mcp_server_create_work_package.png)
-UPDATE
+![AI assistant creating a work package in OpenProject with the MCP Server](openproject_ai_mcp_wp.gif)
 
 OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/integrations/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
 
@@ -54,9 +53,6 @@ Displaying relations as columns in the work package table makes it easier to see
 
 OpenProject 17.8 introduces **multiple target versions for work packages**. The existing **Version** field is renamed to **Target versions** and changes from a single-value field to a multi-value field. This allows a work package to be assigned to several versions at the same time, for example when a fix is included in several release lines or a feature spans multiple milestones.
 
-![Multiple target versions assigned to a work package](openproject_release_notes_17.8_multiple_target_versions.png)
-UPDATE
-
 For existing OpenProject installations, this conversion does not happen automatically with the 17.8 update. Administrators can enable it manually under *Administration → Work packages → Versions and categories*. New installations have multiple target versions enabled by default.
 
 > [!IMPORTANT]
@@ -64,7 +60,9 @@ For existing OpenProject installations, this conversion does not happen automati
 
 ![Versions and categories in OpenProject administration](openproject_release_notes_17.8_versions_and_categories.png)
 
-Existing version assignments are preserved during the conversion so no data is lost. And once **multiple values** is enabled users can start assignig more than a single version to a work package.
+Existing version assignments are preserved during the conversion so no data is lost. And once **multiple values** is enabled users can start assigning more than a single version to a work package.
+
+![Multiple target versions assigned to a work package](openproject_release_notes_17.8_multiple_target_versions.png)
 
 Existing functionality such as roadmaps, version boards, bulk editing, project copying, queries, filters, exports, and notifications continues to work with target versions.
 
@@ -75,6 +73,8 @@ For more information about the change, migration options, and API compatibility,
 OpenProject 17.8 also extends CKEditor's attribute value macros with a `singleline` and `multiline` layout argument. This allows multi-value attributes to be displayed either as a comma-separated line within a sentence or as a list.
 
 ### Configurable global restrictions for time entries
+
+[feature: time_entry_time_restrictions ]
 
 Administrators can now configure **global restrictions for time entries** under *Administration → Time & Costs → Time*.
 
@@ -228,13 +228,15 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 
 ## Contributions
 
-A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn, ZenDiS, and STEF for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
+A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
 
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to UPDATE.
+Special thanks for reporting and finding bugs go to Christoph Jansen, Chris Kerrison, Laurent Redor, Gernot Hollinger, Thomas Knäuper, Gábor Alexovics, Rince wind.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
 
-- UPDATE
+- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Turkish,
+- [Tom Hykel](https://crowdin.com/profile/thykel) for translations into Czech,
+- [Christophe Gesché](https://crowdin.com/profile/Moosh-be), for translations into French.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

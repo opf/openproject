@@ -54,7 +54,55 @@ module Projects
           end
 
           def switchable?(project_type)
-            project_type.type.variants.non_default_variants.exists?
+            selectable_variants(project_type).any?
+          end
+
+          def selectable_variants(project_type)
+            project_type.type.variants.non_default_variants.available_in(project).in_display_order
+          end
+
+          def in_use?(project_type, variant)
+            project_type.variant_id == variant.id
+          end
+
+          def owned?(variant)
+            variant.project_id == project.id
+          end
+
+          def configurable?(variant)
+            owned?(variant) && manageable?
+          end
+
+          def manageable?
+            User.current.allowed_in_project?(:manage_project_variants, project)
+          end
+
+          # Named explicitly: this page is not one of the variant screens, so no request carries
+          # the project for it.
+          def add_variant_path(type)
+            new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
+          end
+
+          def edit_variant_path(variant)
+            edit_type_details_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
+          end
+
+          def delete_variant_path(variant)
+            type_variant_path(in_project_id: project, type_id: variant.type_id, id: variant.id)
+          end
+
+          def variant_actions(menu, variant)
+            menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
+              entry.with_leading_visual_icon(icon: :pencil)
+            end
+            menu.with_item(
+              label: t(:button_delete),
+              scheme: :danger,
+              href: delete_variant_path(variant),
+              form_arguments: { method: :delete }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: :trash)
+            end
           end
 
           def switch_path(type)

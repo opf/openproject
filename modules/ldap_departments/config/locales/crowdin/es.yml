@@ -23,11 +23,11 @@ es:
           overlaps_other_tree: Se solapa con el DN base de otra sincronización en la misma conexión LDAP.
     models:
       ldap_departments/synchronized_department:
-        one: Synchronized department
-        other: Synchronized departments
+        one: Departamento sincronizado
+        other: Departamentos sincronizados
       ldap_departments/synchronized_tree:
-        one: LDAP department synchronization
-        other: LDAP department synchronizations
+        one: Sincronización de departamentos mediante LDAP
+        other: Sincronizaciones de departamentos mediante LDAP
   ee:
     upsell:
       ldap_departments:

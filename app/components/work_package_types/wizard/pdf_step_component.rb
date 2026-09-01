@@ -56,7 +56,7 @@ module WorkPackageTypes
       private
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :pdf)
+        type_creation_wizard_path(**model.path_args, step: :pdf)
       end
     end
   end

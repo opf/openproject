@@ -76,15 +76,11 @@ module McpTools
 
     def call(id:, **attributes)
       relation = Relation.visible(current_user).find_by(id:)
-      return { error: "The given relation could not be found." } if relation.nil?
+      return Failure("The given relation could not be found.") if relation.nil?
 
       result = Relations::UpdateService.new(user: current_user, model: relation).call(map_attributes(attributes))
 
-      if result.success?
-        API::V3::Relations::RelationRepresenter.create(result.result, current_user:)
-      else
-        { error: result.message }
-      end
+      format_result(result)
     end
 
     private
@@ -93,6 +89,14 @@ module McpTools
       attributes = attributes.slice(:type, :description, :lag)
       attributes[:relation_type] = attributes.delete(:type) if attributes.key?(:type)
       attributes
+    end
+
+    def format_result(result)
+      if result.success?
+        Success(API::V3::Relations::RelationRepresenter.create(result.result, current_user:))
+      else
+        Failure(result.message)
+      end
     end
   end
 end

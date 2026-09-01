@@ -28,35 +28,77 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
-  <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
-    <% active_project_types.each do |project_type| %>
-      <% list.with_item(data: { test_selector: "project-types-row-#{project_type.variant.id}" }) do |item| %>
-        <% item.with_menu do |menu| %>
+  <% active_project_types.each do |project_type| %>
+    <%= render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "project-types-group-#{project_type.type.id}",
+            collapsible: true,
+            empty_state_behavior: :none,
+            mt: 3,
+            data: { test_selector: "project-types-row-#{project_type.variant.id}" }
+          )
+        ) do |list| %>
+      <% list.with_header(collapsed: true) do |header| %>
+        <% header.with_title do %>
+          <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(project_type.type) } %>
+          <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { project_type.type.name } %>
+          <% if project_type.variant.default? %>
+            <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { t("projects.settings.types.in_use") } %>
+          <% else %>
+            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_size: :small, ml: 2)) do %>
+              <%= t("projects.settings.types.variant_prefix") %>
+            <% end %>
+            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :bold, font_size: :small)) do %>
+              <%= project_type.variant.variant_name %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% header.with_menu do |menu| %>
           <% switch_action(menu, project_type.type) if switchable?(project_type) %>
           <% remove_action(menu, project_type.type) %>
         <% end %>
-        <%= flex_layout(align_items: :center) do |row| %>
-          <% row.with_column(display: :inline_flex, align_items: :center, mr: 2) do %>
-            <%= helpers.icon_for_type(project_type.type) %>
+      <% end %>
+
+      <% selectable_variants(project_type).each do |variant| %>
+        <% list.with_item(data: { test_selector: "project-types-variant-#{variant.id}" }) do |item| %>
+          <% if configurable?(variant) %>
+            <% item.with_menu { |menu| variant_actions(menu, variant) } %>
           <% end %>
-          <% row.with_column(mr: 2) do %>
-            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { project_type.type.name } %>
-          <% end %>
-          <% unless project_type.variant.default? %>
-            <% row.with_column do %>
-              <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-                <%= t("projects.settings.types.variant_prefix") %>
-              <% end %>
-              <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :semibold, font_size: :small)) do %>
-                <%= project_type.variant.variant_name %>
-              <% end %>
+          <%# Unlinked unless the reader may open it: the global variants are administration's. %>
+          <%= render(
+                WorkPackageTypes::VariantRowComponent.new(
+                  variant:,
+                  linked: configurable?(variant)
+                )
+              ) do |row| %>
+            <% row.with_label { t("projects.settings.types.only_available_here") } if owned?(variant) %>
+            <% if in_use?(project_type, variant) %>
+              <% row.with_label(scheme: :accent) { t("projects.settings.types.in_use") } %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
-    <% end %>
 
-    <% if active_project_types.empty? %>
+      <% if manageable? %>
+        <% list.with_footer do %>
+          <%= render(
+                Primer::Beta::Link.new(
+                  href: add_variant_path(project_type.type),
+                  muted: true,
+                  display: :inline_flex,
+                  align_items: :center
+                )
+              ) do %>
+            <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
+            <%= t("projects.settings.types.add_variant") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if active_project_types.empty? %>
+    <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
       <% list.with_empty_state(
            title: t("projects.settings.types.empty_state.title"),
            description: t("projects.settings.types.empty_state.description"),

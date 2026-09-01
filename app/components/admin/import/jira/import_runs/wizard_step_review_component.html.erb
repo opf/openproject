@@ -39,11 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
         case model.current_state.to_sym
         when :reverting
           box.with_row(mt: 3) do
-            render(
-              Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-                I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_progress")
-              )
-            )
+            render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job: model.state_machine.last_transition_to(:reverting).actual_job))
           end
         when :reverted
           box.with_row(mt: 3) do
@@ -69,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           box.with_row(mt: 3) do
             render(
               Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-                I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
+                message: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
               )
             )
           end
@@ -91,18 +87,19 @@ See COPYRIGHT and LICENSE files for more details.
               I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
             end
           )
-          if model.status_before?(:imported)
+          if model.state_before?(:imported)
             concat(
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
                 I18n.t(:"admin.jira.run.wizard.sections.import_result.caption")
               end
             )
-          elsif model.in_state?(:imported)
-            concat(
-              render(Primer::Beta::Text.new(mt: 1, tag: :div)) do
-                I18n.t(:"admin.jira.run.wizard.sections.import_result.preview_description")
-              end
-            )
+          end
+        end
+        if model.in_state?(:imported)
+          box.with_row(mt: 3) do
+            render(Primer::Beta::Text.new) do
+              I18n.t(:"admin.jira.run.wizard.sections.import_result.info")
+            end
           end
         end
         if model.in_state?(:imported, :finalizing_done)

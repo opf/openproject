@@ -111,7 +111,7 @@ uk:
         other: Цілі спринту
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: Додати наявний пакет робіт
     administration_blankslate:
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
@@ -270,11 +270,11 @@ uk:
     story_points_ideal: Сторі-поінти (ідеально)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Кілька активних спринтів
       sprint_sharing: Спільний доступ до спринту
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Запускайте паралельно кілька спринтів для різних команд, що працюють над вашим проєктом, для більшого контролю й гнучкості.
       sprint_sharing:
         description: Надавайте доступ до спринтів кільком проєктам, щоб узгоджувати й координувати роботу команд у конфігураціях Масштабованої гнучкої розробки (SAFe).
   label_all_sprints: Усі спринти

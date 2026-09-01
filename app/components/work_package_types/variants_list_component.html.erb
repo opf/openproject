@@ -73,7 +73,14 @@ See COPYRIGHT and LICENSE files for more details.
                 list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
                   item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
 
-                  render(WorkPackageTypes::VariantRowComponent.new(variant:))
+                  render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
+                    if variant.project_owned?
+                      row.with_label { t("types.index.owned_by", project: variant.project.name) }
+                    end
+                    if variant.enabled_in_new_projects?
+                      row.with_status_label { t("types.index.enabled_in_new_projects") }
+                    end
+                  end
                 end
               end
             end

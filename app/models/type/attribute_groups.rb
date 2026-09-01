@@ -49,7 +49,9 @@ module Type::AttributeGroups
         remaining_time: :estimates_and_progress,
         percentage_done: :estimates_and_progress,
         spent_time: :estimates_and_progress,
-        priority: :details
+        priority: :details,
+        # `:excluded` is not a "real" group. It's meant to exclude built in fields from the form
+        observed_in_versions: :excluded
       }
     end
 
@@ -195,8 +197,6 @@ module Type::AttributeGroups
   # Custom fields should not get included into the default form configuration.
   # This method might get patched by modules.
   def default_attribute?(active_cfs, key)
-    return false if key == "observed_in_versions"
-
     !(CustomField.custom_field_attribute?(key) && active_cfs.exclude?(key))
   end
 

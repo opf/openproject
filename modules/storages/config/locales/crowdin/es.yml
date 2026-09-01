@@ -66,7 +66,7 @@ es:
             host:
               authorization_header_missing: no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
               cannot_be_connected_to: no se ha podido acceder. Asegúrese de que se puede acceder al host y de que la aplicación de integración de OpenProject está instalada.
-              minimal_nextcloud_version_unmet: no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: no es un servidor de Nextcloud
               op_application_not_installed: parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
             password:
@@ -74,23 +74,23 @@ es:
               unknown_error: no se ha podido validar con el proveedor de almacenamiento de archivos. Compruebe que la conexión funcione correctamente.
     models:
       storages/file_link:
-        one: File link
-        other: File links
+        one: Enlace de archivo
+        other: Enlaces de archivos
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        other: Nextcloud storages
+        one: Almacenamiento de Nextcloud
+        other: Almacenamientos de Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
-        other: OneDrive storages
+        one: Almacenamiento de OneDrive
+        other: Almacenamientos de OneDrive
       storages/project_storage:
-        one: Project storage
-        other: Project storages
+        one: Almacenamiento de proyectos
+        other: Almacenamientos de proyectos
       storages/sharepoint_storage:
-        one: SharePoint storage
-        other: SharePoint storages
+        one: Almacenamiento de SharePoint
+        other: Almacenamientos de SharePoint
       storages/storage:
-        one: Storage
-        other: Storages
+        one: Almacenamiento
+        other: Almacenamientos
   api_v3:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
@@ -142,7 +142,7 @@ es:
       sharepoint_sync_service:
         create_folder: 'Creación de carpetas de proyecto gestionadas:'
         ensure_root_folder_permissions: 'Establecer permisos de carpeta base:'
-        hide_inactive_folders: 'Ocultar paso de carpetas inactivas:'
+        hide_inactive_folders: 'Paso de ocultar carpetas inactivas:'
         remote_folders: 'Leer el contenido de la carpeta raíz de la unidad:'
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
         set_folder_permission: 'Configurar los permisos de la carpeta del proyecto gestionado:'
@@ -151,6 +151,7 @@ es:
         error: Se ha producido un error inesperado. Compruebe los registros de OpenProject para obtener más información o póngase en contacto con un administrador
         folder_id_collision: Hay varios almacenamientos de proyectos que intentan gestionar la carpeta del proyecto %{folder}. Se ha omitido su sincronización.
         forbidden: OpenProject no ha podido acceder al recurso solicitado. Compruebe su configuración de permisos en el proveedor de almacenamiento.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject no pudo autenticarse con el proveedor de almacenamiento. Asegúrese de que tiene acceso al mismo.
       models:
         copy_project_folders_service:
@@ -447,7 +448,7 @@ es:
         application_link_text: Sitio de SharePoint
         integration: Administración de SharePoint / OpenProject
         oauth_configuration: Copie estos valores de la aplicación deseada en %{application_link_text}.
-        provider_configuration: Asegúrese de tener privilegios de administración en la %{application_link_text} o póngase en contacto con el administrador de Microsoft antes de realizar la configuración. En el portal, también es necesario registrar una aplicación Azure o utilizar una ya existente para la autenticación.
+        provider_configuration: Asegúrese de tener privilegios de administración en %{application_link_text} o póngase en contacto con el administrador de Microsoft antes de realizar la configuración. En el portal, también es necesario registrar una aplicación Azure o utilizar una ya existente para la autenticación.
       type: 'Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:'
       type_link_text: "“Integración OpenProject”"
     label_active: Activo

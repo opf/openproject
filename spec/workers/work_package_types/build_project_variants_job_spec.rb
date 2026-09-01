@@ -82,6 +82,14 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     expect(narrowing_project.enabled_types).to contain_exactly(type)
   end
 
+  # The variant describes one project's narrowing, so it belongs to that project rather than
+  # standing in the instance's list of variants for everyone to see and pick.
+  it "gives the variant to the project it was built for" do
+    run_job
+
+    expect(applied_variant(narrowing_project).project).to eq(narrowing_project)
+  end
+
   it "leaves the base variant untouched" do
     run_job
 

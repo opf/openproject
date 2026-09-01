@@ -30,11 +30,8 @@
 
 # Copies one variant's workflows onto other variants.
 class Workflows::Copies::FromVariantsController < ApplicationController
+  include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
-
-  layout "admin"
-
-  before_action :require_admin
 
   before_action :set_source_variant
   before_action :set_target_variants
@@ -70,7 +67,11 @@ class Workflows::Copies::FromVariantsController < ApplicationController
     @source_variant = ::TypeVariant.find_by(id: params[:variant_id])
   end
 
+  # The targets are written to, so scope them against the source rather than trusting the ids.
   def set_target_variants
-    @target_variants = ::TypeVariant.where(id: params[:target_variant_ids])
+    return @target_variants = ::TypeVariant.none if @source_variant.nil?
+
+    @target_variants = ::TypeVariant.available_in(@source_variant.project)
+                                    .where(id: params[:target_variant_ids])
   end
 end

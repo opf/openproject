@@ -32,11 +32,10 @@
 # that the editor can be modified regardless of the context it is used in
 class Workflows::MatrixController < ApplicationController
   include WorkPackageTypes::AddressesVariant
+  include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
 
   layout false
-
-  before_action :require_admin
 
   helper_method :matrix_context
 

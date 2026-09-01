@@ -4,12 +4,12 @@ fr:
     attributes:
       resource_allocation:
         allocated_hours: Heures
-        allocated_time: Temps alloué
+        allocated_time: Temps affecté
         date_range: Dates
         end_date: Date de fin
         entity: Entité
         filter_name: Nom du filtre de ressources
-        principal: Assigné à
+        principal: Personne assignée
         start_date: Date de début
         state: État
         user_filter: Filtre utilisateur
@@ -40,34 +40,34 @@ fr:
               must_be_work_package_query: doit être une requête de lot de travaux.
     models:
       resource_allocation:
-        one: Resource Allocation
-        other: Resource Allocations
+        one: Affectation de ressources
+        other: Affectations de ressources
       resource_planner:
-        one: Resource Planner
-        other: Resource Planners
+        one: Planificateur de ressources
+        other: Planificateurs de ressources
       resource_user_card:
-        one: User card
-        other: User cards
+        one: Fiche utilisateur
+        other: Fiches utilisateur
       resource_user_timeline:
-        one: User timeline
-        other: User timelines
+        one: Chronologie utilisateur
+        other: Chronologies utilisateur
       resource_work_package_list:
-        one: Work packages list
-        other: Work packages lists
+        one: Liste de lots de travaux
+        other: Listes de lots de travaux
       resource_work_package_timeline:
-        one: Work packages timeline
-        other: Work packages timelines
+        one: Chronologie des lots de travaux
+        other: Chronologies des lots de travaux
   button_next: Suivant
   ee:
     features:
       resource_management: Gestion des ressources
     upsell:
       resource_management:
-        description: Planifiez et équilibrez la charge de travail de votre équipe à l'aide d'outils de planification des ressources. Affectez les collaborateurs aux lots de travaux, suivez l'évolution des capacités au fil du temps et identifiez d'un seul coup d'œil les cas de surcharge ou de sous-utilisation.
+        description: Planifiez et équilibrez la charge de travail de votre équipe à l'aide de planificateurs de ressources. Affectez des personnes aux lots de travaux, suivez les capacités au fil du temps et repérez d'un coup d'œil les situations de suraffectation et de sous-affectation.
         title: Gestion des ressources
   label_resource_management: Gestion des ressources
-  permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
-  permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer les allocations de ressources dans un planificateur de ressources. Cela inclut l'assignation d'utilisateurs (ou des filtres d'utilisateurs) à un planificateur et l'ajustement de la plage de temps et de dates allouées.
+  permission_allocate_user_resources: Affecter des ressources utilisateur
+  permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer des affectations de ressources dans un planificateur de ressources. Cela inclut l'attribution d'utilisateurs (ou de filtres d'utilisateurs) à un planificateur ainsi que l'ajustement du temps affecté et de la période.
   permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des affectations génériques
   permission_assign_users_to_generic_allocations_explanation: Permet d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette autorisation ne permet pas de créer ni de modifier des affectations.
   permission_manage_public_resource_planners: Gérer les planificateurs de ressources publiques
@@ -301,8 +301,8 @@ fr:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} membre de ce projet correspond aux critères de filtrage de l'affectation."
+          other: "%{count} membres de ce projet correspondent aux critères de filtrage de l'affectation."
       blank:
         add_work_package: Ajouter un lot de travaux
         configure_view: Configurer la vue

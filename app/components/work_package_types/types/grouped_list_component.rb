@@ -49,8 +49,24 @@ module WorkPackageTypes
         root.id != expanded_type_id
       end
 
+      def named_variants(root)
+        root.variants.non_default_variants
+      end
+
+      def listed_variants(root)
+        named_variants(root).global.in_display_order
+      end
+
       def variants_count_label(root)
-        t("types.index.variants_count", count: root.variants.non_default_variants.size)
+        t("types.index.variants_count", count: named_variants(root).size)
+      end
+
+      def owned_variants_count(root)
+        named_variants(root).project_owned.size
+      end
+
+      def owned_variants_path(root)
+        type_variants_path(type_id: root.id)
       end
 
       # A named variant carrying the flag is only visible once the group is expanded, so the

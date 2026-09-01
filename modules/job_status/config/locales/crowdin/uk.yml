@@ -3,10 +3,10 @@ uk:
   activerecord:
     models:
       job_status/status:
-        one: Background job status
-        few: Background job statuses
-        many: Background job statuses
-        other: Background job statuses
+        one: Статус фонового завдання
+        few: Статуси фонового завдання
+        many: Статуси фонового завдання
+        other: Статуси фонового завдання
   job_status_dialog:
     click_to_download: Або [натисніть тут](download_url), щоб завантажити.
     download_starts: Завантаження має початись автоматично.

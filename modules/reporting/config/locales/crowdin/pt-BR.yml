@@ -24,8 +24,8 @@ pt-BR:
   activerecord:
     models:
       cost_query:
-        one: Cost report
-        other: Cost reports
+        one: Relatório de custos
+        other: Relatórios de custos
   button_save_report_as: Salvar relatório como...
   comments: Comentário
   cost_reports_title: Tempo e custos

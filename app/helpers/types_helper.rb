@@ -32,10 +32,11 @@ module ::TypesHelper
   include CustomFieldsHelper
 
   # rubocop:disable Rails/HelperInstanceVariable
+  # The projects tab is dropped from a project: a variant it owns is only ever used there.
   def types_tabs # rubocop:disable Metrics/AbcSize
     variant_args = type_variant_tab_args
 
-    [
+    tabs = [
       {
         name: "details",
         path: edit_type_details_path(**variant_args),
@@ -64,7 +65,7 @@ module ::TypesHelper
       },
       {
         name: "projects",
-        path: edit_type_projects_path(**variant_args),
+        path: (edit_type_projects_path(**variant_args) if projects_tab?),
         label: I18n.t("types.edit.projects.tab")
       },
       {
@@ -74,15 +75,23 @@ module ::TypesHelper
         view_component: WorkPackageTypes::ExportConfigurationComponent
       }
     ].compact
+
+    tabs.select { |tab| tab[:path] }
   end
 
   def type_variant_tab_args
     @variant&.path_args || { type_id: @type.id }
   end
 
+  # A variant a project owns may only ever be used there, an administrator included, so which
+  # projects use it is not a question. Mirrors Wizard::Steps.available_for.
+  def projects_tab? = variant_scope_project.nil? && !@variant&.project_owned?
+
   def variants_tab
     return unless OpenProject::FeatureDecisions.type_variants_active?
     return if @variant.present? && !@variant.is_default_variant?
+    # This lists every project's variants of the type, so it is administration's view of them.
+    return if variant_scope_project
 
     {
       name: "variants",

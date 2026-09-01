@@ -46,6 +46,6 @@ fr:
   permission_manage_board_views: Gérer les tableaux
   permission_show_board_views: Afficher les tableaux
   plugin_openproject_boards:
-    description: Fournit des vues du tableau.
+    description: Fournit des vues de tableaux.
     name: Tableaux OpenProject
   project_module_board_view: Tableaux

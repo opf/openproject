@@ -48,7 +48,7 @@ module WorkPackageTypes
 
     # The base variant is the type itself, which the sibling tabs already configure, so only the
     # named ones are listed here.
-    def named_variants = type.variants.non_default_variants
+    def named_variants = type.variants.non_default_variants.includes(:project)
 
     def variants
       @variants ||= begin

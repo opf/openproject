@@ -53,7 +53,7 @@ module WorkPackageTypes
       if source.nil?
         render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
       else
-        close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
+        close_dialog_via_turbo_stream(ConfigurationLinks::DialogComponent::DIALOG_ID)
         dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
       end
 
@@ -63,7 +63,7 @@ module WorkPackageTypes
     def switch
       result = SwitchToLinkedModeService.new(variant: @variant, aspect:).call(source:)
 
-      close_dialog_via_turbo_stream("##{ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID)
 
       respond_to_switch(result)
 
@@ -74,10 +74,11 @@ module WorkPackageTypes
 
     def aspect = params[:aspect]
 
+    # Only what this variant may borrow from: everything global, plus the project's own.
     def source
       return @source if defined?(@source)
 
-      @source = TypeVariant.find_by(id: params[:source_id])
+      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
     end
 
     def respond_to_switch(result)

@@ -51,12 +51,12 @@ RSpec.describe "layouts/admin" do
     allow(User).to receive(:current).and_return admin
   end
 
-  # All password-based authentication is to be hidden and disabled if
-  # `disable_password_login` is true. This includes LDAP.
+  # All password-based authentication is to be hidden and disabled when password login is `none`.
+  # This includes LDAP.
   describe "LDAP authentication menu entry" do
     context "with password login enabled" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+        allow(Users::PasswordLogin).to receive(:none?).and_return(false)
         render
       end
 
@@ -67,7 +67,7 @@ RSpec.describe "layouts/admin" do
 
     context "with password login disabled" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Users::PasswordLogin).to receive(:none?).and_return(true)
         render
       end
 

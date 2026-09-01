@@ -75,22 +75,22 @@ zh-CN:
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              blank: 因不能为空而记录。
+              cannot_log_for_this_work_package: 您没有为此工作包记录时间的权限。
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: 记录的小时数不能超过用户工作日可用的小时数上限 %{limit} 小时。
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: 记录的小时数不能超过管理员规定的单日小时数上限 %{limit} 小时。
+              max_hours_per_entry_exceeded: 记录的小时数不能超过管理员规定的单个时间条目的小时数上限 %{limit} 小时。
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: 无法将时间规划到过去的月份。仅可从 %{date}开始添加、更改或删除时间条目。
+              not_a_working_day: 所选日期不是此用户的工作日。
             start_time:
               format: "%{message}"
-              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
-          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+              invalid_time: 时间无效。时间必须在 00:00 和 23:59 之间。
+          duplicate_ongoing: 另一个计时器已在运行。同一时间只能有一个定时器处于有效状态。
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作包 #%{id} 不是重新分配成本条目的有效目标。'
           nullify_is_not_valid_for_cost_entries: 无法将成本条目分配到项目。
@@ -98,21 +98,21 @@ zh-CN:
       cost_entry:
         other: 成本条目
       cost_rate:
-        other: Cost rates
+        other: 成本费率
       cost_type:
         other: 成本类型
       default_hourly_rate:
-        other: Default hourly rates
+        other: 默认小时费率
       hourly_rate:
-        other: Hourly rates
+        other: 小时费率
       rate:
-        other: Rates
+        other: 费率
       time_entry:
         other: 时间记录
       time_entry_activity:
         other: 时间跟踪活动
       time_entry_custom_field:
-        other: Time entry custom fields
+        other: 时间条目自定义字段
   api_v3:
     errors:
       validation:
@@ -285,7 +285,7 @@ zh-CN:
   setting_enforce_tracking_start_and_end_times_caption: 记录时间时强制输入开始和结束时间。
   setting_enforce_without_allow: 如果不允许，则无法要求开始和结束时间
   setting_time_entries_limit_to_user_working_hours: 用户工作时数限制
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: 将每日可记录的总小时数限制为该用户的有效工作小时数。未定义工作时间的用户将不受此限制。
   setting_time_entries_max_hours_per_day: 每天的最大小时数
   setting_time_entries_max_hours_per_day_caption: 限制用户可以在一天内登录的总小时数。值为 0 表示没有限制。
   setting_time_entries_max_hours_per_entry: 每个时间条目的最大小时数

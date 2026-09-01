@@ -15,8 +15,8 @@ pt-BR:
         url: URL do payload
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Log de webhook
+        other: Logs de webhook
       webhooks/webhook:
         one: Webhook
         other: Webhooks

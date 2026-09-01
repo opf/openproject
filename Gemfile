@@ -69,7 +69,7 @@ gem "scimitar", "~> 2.13"
 gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
-gem "closure_tree", "~> 9.7.0"
+gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
 gem "addressable", "~> 2.9.0"
@@ -161,7 +161,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.24.0"
+gem "mcp", "~> 1.1.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -183,8 +183,8 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.6"
-  gem "redis", "~> 5.4.0"
+  gem "dalli", "~> 5.1.0"
+  gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
@@ -227,7 +227,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.9", require: false
+gem "appsignal", "~> 4.10", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
@@ -366,7 +366,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.36.0"
+  gem "rubocop-rails", "~> 2.37.0"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 

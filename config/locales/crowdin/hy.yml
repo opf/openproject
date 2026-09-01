@@ -471,6 +471,7 @@ hy:
           true: ներառել ոչ աշխատանքային օրերը
         journal_internal: Ներքին մատյան
         notify: Ծանուցել
+        observed_in_versions: Observed in versions
         parent: Ծնող
         parent_issue: Ծնող
         parent_work_package: Ծնող
@@ -740,6 +741,7 @@ hy:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -843,20 +845,26 @@ hy:
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -1494,6 +1502,7 @@ hy:
           finalizing: Վերջնականացվում է
           finalizing_done: Ավարտված
           finalizing_error: Սխալ վերջնականացման ընթացքում
+          import_aborting: Aborting
           import_error: Սխալ ներմուծման ընթացքում
           import_scope: Ընտրեք շրջանակը
           imported: Վերանայման ռեժիմ
@@ -1505,13 +1514,13 @@ hy:
           projects_meta_done: Տվյալները հավաքագրված են
           projects_meta_error: Նախագծի տվյալների ստացման սխալ
           projects_meta_fetching: Նախագծի տվյալները ստացվում են
-          revert_cancelled: Հետարկումը չեղարկված է
-          revert_cancelling: Հետարկումը չեղարկվում է
           revert_error: Սխալ հետարկման ընթացքում
           reverted: Հետարկված է
           reverting: Հետարկվում է
+        step_not_available: This action is not available for the current state of the import run.
         title: Ներմուծման գործարկում
         wizard:
+          button_abort: Abort
           button_retry: Կրկին փորձել
           finalize_dialog:
             confirm: Հասկանում եմ, որ այս գործողությունն անշրջելի է
@@ -1555,11 +1564,14 @@ hy:
             title: Ընդմիշտ հետարկե՞լ այս ներմուծումը։
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Սկսել ներմուծումը
               caption: Վերանայեք Ձեր ներմուծման կարգավորումները և սկսեք ներմուծումը
               caption_done: Ավարտված
               caption_done_info: Բոլոր տվյալները ներմուծված են
               description: Դուք պատրաստվում եք սկսել ներմուծման գործարկում հետևյալ կարգավորումներով։
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
@@ -1580,6 +1592,7 @@ hy:
               button_done: Հաստատել ներմուծումը
               button_revert: Հետարկել ներմուծումը
               caption: Վերանայեք ներմուծման գործարկումը կամ հետարկեք ներմուծումը
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Հաստատել ներմուծումը
               label_finalizing: Ներմուծումը հաստատվում է...
               label_finalizing_done: Ներմուծումը հաստատվել է։
@@ -1587,7 +1600,6 @@ hy:
               label_revert: Հետարկել ներմուծումը
               label_revert_progress: Ներմուծումը հետարկվում է...
               label_reverted: Ներմուծումը հետարկվել է։
-              preview_description: Ներմուծված տվյալները ներկայումս վերանայման ռեժիմում են։ Սեղմեք "Հաստատել ներմուծումը"՝ ներմուծումը մշտական դարձնելու համար, կամ "Հետարկել ներմուծումը"՝ այս ներմուծման գործարկման ընթացքում կատարված բոլոր փոփոխությունները հետարկելու համար։
               stats:
                 other_settings:
                   label: Այլ կարգավորումներ
@@ -1810,8 +1822,6 @@ hy:
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -3189,6 +3199,7 @@ hy:
         progress_calculation_adjusted_from_disabled_mode: Առաջընթացի հաշվարկն ավտոմատ կերպով <a href="%{href}" target="_blank">սահմանվել է աշխատանքի հիմքով ռեժիմ և ճշգրտվել է տարբերակի թարմացման հետ</a>։
         scheduling_mode_adjusted: Պլանավորման ռեժիմն ավտոմատ կերպով ճշգրտվել է տարբերակի թարմացման հետ։
         sprint_migration: "'%{version_name}' տարբերակը պատճենվել է որպես սպրինտ։"
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Աշխատանքի և առաջընթացի ընդհանուր գումարներն ավտոմատ կերպով հեռացվել են ոչ ծնող աշխատանքային փաթեթներից <a href="%{href}" target="_blank">տարբերակի թարմացման</a> հետ։ Սա սպասարկման աշխատանք է և կարող է անվտանգ կերպով անտեսվել։
       total_percent_complete_mode_changed_to_simple_average: Դուստր աշխատանքային փաթեթների «Աշխատանք» արժեքներն անտեսվում են։
@@ -3296,6 +3307,7 @@ hy:
   label_available_project_work_package_categories: Հասանելի աշխատանքային փաթեթների կատեգորիաներ
   label_available_project_work_package_types: Հասանելի աշխատանքային փաթեթների տեսակներ
   label_available_projects: Հասանելի նախագծեր
+  label_backtrace: Backtrace
   label_backup: Պահուստավորում
   label_basic_details: Հիմնական մանրամասներ
   label_between: միջև
@@ -4819,6 +4831,8 @@ hy:
     dialog:
       footer_center:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Էջատակի տեքստ
       footer_right:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի աջ մասում։
@@ -4921,6 +4935,7 @@ hy:
     '
   permission_manage_placeholder_user: Ստեղծել, խմբագրել և ջնջել տեղապահ օգտատերերին
   permission_manage_project_activities: Կառավարել նախագծի գործունեությունները
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Կառավարել հանրային BCF հարցումները
   permission_manage_public_project_queries: Կառավարել նախագծերի հանրային ցուցակները
   permission_manage_public_queries: Կառավարել հանրային տեսքերը
@@ -5229,12 +5244,15 @@ hy:
           type_label: Տեսակ
           type_placeholder: Ընտրեք տեսակ
         add_type: Ավելացնել տեսակ
+        add_variant: Add a variant for this project
         empty_state:
           description: Ավելացրեք տեսակ, որպեսզի օգտատերերը կարողանան այս նախագծում ստեղծել այդ տեսակի աշխատանքային փաթեթներ։
           title: Այս նախագծում ակտիվ տեսակներ չկան
         form:
           enable_type_in_project: Միացնել "%{type}" տեսակը
+        in_use: In use
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
+        only_available_here: Only available in this project
         remove_from_project: Հեռացնել նախագծից
         switch:
           apply: Apply
@@ -5534,7 +5552,7 @@ hy:
   setting_default_language: Կանխադրված լեզու
   setting_default_projects_modules: Նոր նախագծերի համար կանխադրված միացված մոդուլներ
   setting_default_projects_public: Նոր նախագծերն ըստ կանխադրման հանրային են
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Ցուցադրվող տարբերության տողերի առավելագույն քանակ
   setting_disable_password_login: Անջատել գաղտնաբառով նույնականացումը
   setting_display_subprojects_work_packages: Ըստ կանխադրման ցուցադրել ենթանախագծերի աշխատանքային փաթեթները հիմնական նախագծերում
@@ -6273,7 +6291,12 @@ hy:
           label: PDF արտահանման ձևանմուշներ
         tab: Ստեղծել PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF արտահանման ձևանմուշներ
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Բաժին
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -6366,7 +6389,8 @@ hy:
           confirm_dialog:
             check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
             description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-            title: Փոխե՞լ կազմաձևման ռեժիմը։
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Պատճենել տեսակից
           description: Ոչ մի կարգավորում չի ժառանգվում։ Ցանկության դեպքում Դուք դեռևս կարող եք միանգամյա պատճենել կարգավորումները այլ տեսակից։
           dialog:
@@ -6391,12 +6415,15 @@ hy:
           confirm_dialog:
             change_source:
               description_html: Աղբյուրի տեսակը %{source_name}-ի փոխելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ աղբյուրի տեսակը։
+              heading: Change source type?
+              title: Change source type
             check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
             from_independent:
               description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ կազմաձևման ռեժիմը։
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Այս կազմաձևումը կապակցված է և ժառանգում է իր կարգավորումները [%{source_name}](source_url)%{source_suffix} աղբյուրի տեսակից։
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Պատճենեք և ժառանգեք այս կարգավորումները աղբյուրից։ Աղբյուրին ավելացված ցանկացած նոր կազմաձևում կավելացվի նաև այստեղ։
             source_label: Կապակցված աղբյուր
@@ -6431,6 +6458,10 @@ hy:
       make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Չակտիվացնել նոր նախագծերում
       remove_default_notice: "%{name}-ը այլևս ակտիվացված չէ նոր նախագծերում։"
       type_label: Տեսակ

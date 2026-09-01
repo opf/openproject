@@ -77,12 +77,12 @@ pt-PT:
   activerecord:
     attributes:
       ai/text_transform_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+        active: Ativo
+        injects_type_template: Inserir modelo de tipo de pacote de trabalho
+        label: Etiqueta
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Tipos de pacotes de trabalho
+        usage_scope: Âmbito
       announcements:
         show_until: Exibir até
       attachment:
@@ -203,7 +203,7 @@ pt-PT:
         title: Título
       member:
         blocked: Bloqueado
-        roles: Papel
+        roles: Funções
       notification:
         read_ian: Ler na aplicação
         resource: Recurso
@@ -471,6 +471,7 @@ pt-PT:
           true: incluir dias não úteis
         journal_internal: Diário Interno
         notify: Notificar
+        observed_in_versions: Observed in versions
         parent: Mãe
         parent_issue: Principal
         parent_work_package: Principal
@@ -568,7 +569,7 @@ pt-PT:
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
-        status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador atual.
+        status_transition_invalid: é inválido porque não existe transição válida da antiga para as funções do utilizador atual.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
         taken: já está a ser utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
@@ -675,7 +676,7 @@ pt-PT:
             principal:
               unassignable: não pode ser atribuído a um projeto.
             roles:
-              more_than_one: tem mais do que um cargo.
+              more_than_one: tem mais do que uma função.
               ungrantable: tem uma função que não é possível de atribuir.
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
           role_blank: tem de ser atribuído.
@@ -740,6 +741,7 @@ pt-PT:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: deve ser uma variante do tipo que o projeto usa.
         queries/filters/base:
           attributes:
@@ -843,20 +845,26 @@ pt-PT:
               restrict_dependent_destroy:
                 has_many: Não pode ser eliminada enquanto houver projetos a utilizá-la.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: ligaria estas configurações num loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: já está definida para outra configuração deste tipo.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: ligaria estas configurações num loop.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: ligaria estas configurações num loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: ligaria estas configurações num loop.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: ligaria estas configurações num circuito.
         user:
           attributes:
@@ -964,7 +972,7 @@ pt-PT:
               violates_relationships: só pode ser definida como %{soonest_start} ou posterior de modo a não violar as relações do pacote de trabalho.
             status:
               status_invalid_in_type: é inválido porque o estado atual não existe neste tipo.
-              status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador atual.
+              status_transition_invalid: é inválido porque não existe transição válida da antiga para os cargos do utilizador atual.
             status_id:
               status_invalid_in_type: é inválido porque não existe o status atual deste tipo.
               status_transition_invalid: é inválido porque não existe transição válida da antiga para a nova situação do utilizador actual.
@@ -983,8 +991,8 @@ pt-PT:
         one: Ação
         other: Ações
       ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+        one: Ação de transformação de texto
+        other: Ações de transformação de texto
       announcement:
         one: Anúncio
         other: Anúncios
@@ -1494,6 +1502,7 @@ pt-PT:
           finalizing: A finalizar
           finalizing_done: Concluído
           finalizing_error: Erro durante a finalização
+          import_aborting: Aborting
           import_error: Erro durante a importação
           import_scope: Selecionar âmbito
           imported: Modo de revisão
@@ -1505,13 +1514,13 @@ pt-PT:
           projects_meta_done: Dados recolhidos
           projects_meta_error: Erro ao recolher os dados do projeto
           projects_meta_fetching: A recolher dados do projeto
-          revert_cancelled: Reversão cancelada
-          revert_cancelling: A cancelar a reversão
           revert_error: Erro durante a reversão
           reverted: Revertido
           reverting: A reverter
+        step_not_available: This action is not available for the current state of the import run.
         title: Importar execução
         wizard:
+          button_abort: Abort
           button_retry: Tentar novamente
           finalize_dialog:
             confirm: Compreendo que esta ação não pode ser anulada
@@ -1555,11 +1564,14 @@ pt-PT:
             title: Reverter permanentemente esta importação?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Iniciar importação
               caption: Analise as suas definições de importação e inicie a importação
               caption_done: Concluído
               caption_done_info: Todos os dados foram importados
               description: Está prestes a iniciar uma execução de importação com as seguintes definições.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Dados a importar
               label_import_data: A importar
               label_progress: Importação em curso...
@@ -1580,6 +1592,7 @@ pt-PT:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Analisar a execução da importação ou reverter a importação
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Aprovar a importação
               label_finalizing: A aprovar a importação...
               label_finalizing_done: Importação aprovada.
@@ -1587,7 +1600,6 @@ pt-PT:
               label_revert: Reverter importação
               label_revert_progress: A reverter a importação...
               label_reverted: Importação revertida.
-              preview_description: Os dados importados estão em modo de revisão. Clique em "Aprovar importação" para tornar a importação permanente ou em "Reverter importação" para anular todas as alterações feitas nesta importação.
               stats:
                 other_settings:
                   label: Outras definições
@@ -1810,8 +1822,6 @@ pt-PT:
             manual_conversion_hint: Pode optar por executar manualmente a conversão para permitir vários valores antes de ocorrer esta migração automática.
             not_writable_hint: Estas definições são configuradas através de variáveis de ambiente. Se pretender executar manualmente a conversão para permitir vários valores antes da migração automática, atualize o seu ficheiro configuration.yml.
           heading: Versões de destino
-          in_progress:
-            heading: Ativar várias versões
           planned_changes:
             heading: Alterações previstas para uma versão futura
             renamed: O nome do campo “Versão” será alterado para “Versões de destino”.
@@ -1897,7 +1907,7 @@ pt-PT:
         assignee: O utilizador é encarregado
         author: O utilizador é autor
         descriptions:
-          always: Transições disponíveis para os cargos selecionados em todos os casos.
+          always: Transições disponíveis para as funções selecionadas em todos os casos.
           assignee: Transições adicionais disponíveis para o encarregado pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor pelo pacote de trabalho.
         menu_label: Transições apresentadas
@@ -2160,7 +2170,7 @@ pt-PT:
   button_clear: Limpar
   button_click_to_reveal: Clique para revelar
   button_close: Fechar
-  button_collapse_all: Ocultar tudo
+  button_collapse_all: Recolher tudo
   button_complete: Concluído
   button_configure: Configurar
   button_configure_menu_entry: Configurar elemento do menu
@@ -3193,6 +3203,7 @@ pt-PT:
         progress_calculation_adjusted_from_disabled_mode: O cálculo do progresso é automaticamente <a href="%{href}" target="_blank">definido no modo baseado no trabalho e ajustado com a atualização da versão</a>.
         scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão '%{version_name}' foi copiada como sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: As versões de destino são sincronizadas automaticamente com o campo "Versão" antes de ativar a opção de versões de destino múltiplas.
         totals_removed_from_childless_work_packages: Os totais de trabalho e de progresso são automaticamente removidos dos pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização da versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
       total_percent_complete_mode_changed_to_simple_average: Os valores de trabalho dos pacotes de trabalho para crianças são ignorados.
@@ -3292,7 +3303,7 @@ pt-PT:
   label_authentication: Autenticação
   label_auto_option: "(automático)"
   label_available_custom_fields_projects: Projetos de campos personalizados disponíveis
-  label_available_global_roles: Cargos globais disponíveis
+  label_available_global_roles: Funções globais disponíveis
   label_available_project_attributes: Atributos do projeto disponíveis
   label_available_project_forums: Fóruns disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -3300,6 +3311,7 @@ pt-PT:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
   label_available_projects: Projetos disponíveis
+  label_backtrace: Voltar atrás
   label_backup: Cópia de segurança
   label_basic_details: Detalhes básicos
   label_between: entre
@@ -3339,8 +3351,8 @@ pt-PT:
   label_close_versions: Fechar versões concluídas
   label_closed: fechado
   label_closed_work_packages: fechado
-  label_collapse: Colapso
-  label_collapsed_click_to_show: Ocultado. Clique para visualizar
+  label_collapse: Recolher
+  label_collapsed_click_to_show: Recolhido. Clique para mostrar
   label_color_plural: Cores
   label_columns: Colunas
   label_comment_add: Adicionar comentário
@@ -3465,7 +3477,7 @@ pt-PT:
   label_everywhere: em todo o lado
   label_example: Exemplo
   label_expand: Expandir
-  label_expanded_click_to_collapse: Expandido. Clique para ocultar
+  label_expanded_click_to_collapse: Expandido. Clique para recolher
   label_experimental: Experimental
   label_export_plural: Exportações
   label_export_to: 'Também disponível em:'
@@ -3492,7 +3504,7 @@ pt-PT:
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
-  label_forum_sticky: Afixado
+  label_forum_sticky: Fixado
   label_forums_locked: Bloqueado
   label_function_plural: Funções
   label_gantt_chart: Gráfico de Gantt
@@ -3502,7 +3514,7 @@ pt-PT:
   label_git_path: Caminho para o diretório .git
   label_global: Global
   label_global_modules: Módulos globais
-  label_global_roles: Cargos globais
+  label_global_roles: Funções globais
   label_go_back: Retroceder um nível de menu
   label_go_forward: Abrir sub-menu %{module}
   label_greater_or_equal: ">="
@@ -4225,7 +4237,7 @@ pt-PT:
     subject: "%{project} - Você foi adicionado como membro"
   mail_member_updated_global:
     body:
-      roles: 'Dispõe agora das seguintes funções:'
+      roles: 'Tem agora as seguintes funções:'
       updated_by:
         with_message: "%{user} atualizou as funções que você tem globalmente com a seguinte mensagem:"
         without_message: "%{user} atualizou as funções que você tem globalmente."
@@ -4821,6 +4833,8 @@ pt-PT:
     dialog:
       footer_center:
         caption: Esse texto vai aparecer em todas as páginas do centro do rodapé.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Texto do rodapé
       footer_right:
         caption: Esse texto vai aparecer em todas as páginas à direita do rodapé.
@@ -4923,6 +4937,7 @@ pt-PT:
     '
   permission_manage_placeholder_user: Criar, editar e eliminar utilizadores de espaço reservado
   permission_manage_project_activities: Gerir atividades do projeto
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Gerir consultas BCF públicas
   permission_manage_public_project_queries: Gerir listas de projetos públicos
   permission_manage_public_queries: Gerir visualizações públicas
@@ -5231,35 +5246,38 @@ pt-PT:
           type_label: Tipo
           type_placeholder: Selecionar um tipo
         add_type: Adicionar tipo
+        add_variant: Add a variant for this project
         empty_state:
           description: Adicione um tipo para permitir que as pessoas criem pacotes de trabalho desse tipo neste projeto.
           title: Não existem tipos ativos neste projeto
         form:
           enable_type_in_project: Ativar tipo "%{type}"
+        in_use: In use
         no_results_title_text: Atualmente, não existem tipos disponíveis.
+        only_available_here: Only available in this project
         remove_from_project: Remover do projeto
         switch:
-          apply: Apply
-          description: Select a different variant of this type to use in this project.
+          apply: Aplicar
+          description: Selecione uma variante diferente deste tipo para utilizar neste projeto.
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
-            nothing_affected: No fields or statuses are affected.
+            hidden_heading: Campos que deixarão de ser apresentados
+            missing_statuses_description: O fluxo de trabalho para o qual está a mudar não prevê nenhuma transição a partir destes estados, pelo que ninguém poderá avançar com estes pacotes de trabalho.
+            missing_statuses_heading: Pacotes de trabalho que ficam bloqueados
+            new_heading: Campos que ficam disponíveis
+            nothing_affected: Nenhum campo ou estado é afetado.
             status_count:
-              one: 1 work package
-              other: "%{count} work packages"
-            table_suffix: "(table)"
+              one: 1 pacote de trabalho
+              other: "%{count} pacotes de trabalho"
+            table_suffix: "(tabela)"
             value_count:
-              one: 1 work package has a value
-              other: "%{count} work packages have a value"
+              one: 1 pacote de trabalho tem um valor
+              other: "%{count} pacotes de trabalho têm um valor"
             work_packages:
-              one: 1 work package will use the new configuration
-              other: "%{count} work packages will use the new configuration"
-          success: The project now uses %{type}.
-          target_label: Variant
-          title: "%{type}: Switch variant"
+              one: 1 pacote de trabalho utilizará a nova configuração
+              other: "%{count} pacotes de trabalho utilizarão a nova configuração"
+          success: O projeto utiliza agora %{type}.
+          target_label: Variante
+          title: "%{type}: Mudar variante"
         switch_type: Mudar variante
         type_not_found: Não foi possível encontrar o tipo selecionado.
         variant_prefix: 'Variante:'
@@ -5524,7 +5542,7 @@ pt-PT:
   setting_default_language: Idioma predefinido
   setting_default_projects_modules: Módulos ativos por predefinição para novos projetos
   setting_default_projects_public: Projetos novos são públicos por omissão
-  setting_default_projects_wiki: Permite a funcionalidade de wiki para novos projetos por padrão
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
   setting_disable_password_login: Desativar a autenticação por palavra-passe
   setting_display_subprojects_work_packages: Mostrar os pacotes de trabalho dos sub-projetos nos projetos principais
@@ -6264,7 +6282,12 @@ pt-PT:
           label: Modelos de Exportação PDF
         tab: Gerar PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Modelos de exportação para PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -6357,7 +6380,8 @@ pt-PT:
           confirm_dialog:
             check_box: Compreendo que isto vai substituir as definições atuais
             description: Todas as definições selecionadas serão substituídas, e poderão afetar as informações existentes relativas aos pacotes de trabalho deste tipo.
-            title: Ativar o modo de configuração?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copiar do tipo
           description: Nenhuma configuração foi herdada. Se quiser, ainda pode copiar configurações de outro tipo.
           dialog:
@@ -6382,12 +6406,15 @@ pt-PT:
           confirm_dialog:
             change_source:
               description_html: Ao alterar o tipo de fonte para %{source_name}, irá substituir as definições atuais, o que pode afetar as informações existentes nos pacotes de trabalho deste tipo.
-              title: Alterar o tipo de origem?
+              heading: Change source type?
+              title: Change source type
             check_box: Compreendo que isto vai substituir as definições atuais
             from_independent:
               description: Todas as definições selecionadas serão substituídas, e poderão afetar as informações existentes relativas aos pacotes de trabalho deste tipo.
-              title: Alterar o modo de configuração?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: Esta configuração está associada ao tipo de origem [%{source_name}](source_url)%{source_suffix} e herda as definições desse tipo.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copie e herde estas definições de uma origem. Qualquer nova configuração adicionada à origem será também adicionada aqui.
             source_label: Origem associada
@@ -6422,6 +6449,10 @@ pt-PT:
       make_default_notice: "%{name} está agora ativo nos novos projetos."
       no_results_content_text: Crie um novo tipo
       no_results_title_text: Atualmente, não existem tipos.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Não ativar em novos projetos
       remove_default_notice: "%{name} já não está ativo nos novos projetos."
       type_label: Tipo
@@ -6513,9 +6544,9 @@ pt-PT:
         description: 'Esta é a função que o utilizador irá receber quando se juntar ao seu projeto. A função define as ações que pode realizar e as informações que pode ver. [Mais informações sobre funções e permissões.](docs_url)
 
           '
-        label: Cargo em %{project}
-        no_roles_found: Nenhum cargo foi encontrado.
-        required: Selecione um cargo
+        label: Função em %{project}
+        no_roles_found: Não foram encontradas funções
+        required: Selecione uma função
       success_message:
         group: O grupo faz agora parte de %{project}. Entretanto, já pode planear com esse grupo e atribuir pacotes de trabalho, por exemplo.
         placeholder_user: O espaço reservado agora pode ser usado em %{project}. Enquanto isso, já pode planear com este utilizador e atribuir pacotes de trabalho, por exemplo.
@@ -6529,7 +6560,7 @@ pt-PT:
       type:
         already_member_message: Já é membro de %{project}
         group:
-          description: Permissões com base numa função atribuída no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar grupo para %{project_name}
         placeholder_user:
           description: Não tem acesso ao projeto e não são enviados e-mails.
@@ -6537,7 +6568,7 @@ pt-PT:
           title_no_ee: Utilizador de espaço reservado (complemento apenas para a edição Enterprise)
         required: Selecione o tipo a ser convidado
         user:
-          description: Permissões com base no cargo atribuído no projeto selecionado
+          description: Permissões com base na função atribuída no projeto selecionado
           title: Convidar utilizador para %{project_name}
     memberships:
       no_results_title_text: Este utilizador atualmente não é um membro de um projeto.

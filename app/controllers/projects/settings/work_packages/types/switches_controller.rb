@@ -78,7 +78,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   # Reload so the repainted list no longer sees the association's cached types.
   def on_switched(target)
-    close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
+    close_dialog_via_turbo_stream(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
     replace_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
     )
