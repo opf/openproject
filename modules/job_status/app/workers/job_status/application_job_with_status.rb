@@ -62,8 +62,8 @@ module JobStatus
       resource = ::JobStatus::Status.find_or_initialize_by(job_id:)
 
       if resource.new_record?
-        resource.user = User.current # needed so `resource.user` works below
-        resource.user_id = User.current.id
+        resource.user = user_reference # needed so `resource.user` works below
+        resource.user_id = user_reference.id
         resource.reference = status_reference
       end
 
@@ -96,6 +96,12 @@ module JobStatus
       end
 
       attributes.reverse_merge(message: nil, payload: nil)
+    end
+
+    ##
+    # Fetch user started the job
+    def user_reference
+      @user_reference ||= arguments&.first&.dig(:user) || User.current
     end
 
     ##
