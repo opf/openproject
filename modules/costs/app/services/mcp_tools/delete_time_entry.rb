@@ -49,14 +49,14 @@ module McpTools
 
     def call(id:)
       time_entry = TimeEntry.visible(current_user).find_by(id:)
-      return { error: "The given time entry could not be found." } if time_entry.nil?
+      return Failure("The given time entry could not be found.") if time_entry.nil?
 
       result = TimeEntries::DeleteService.new(user: current_user, model: time_entry).call
 
       if result.success?
-        API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:)
+        Success(API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:))
       else
-        { error: result.message }
+        Failure(result.message)
       end
     end
   end

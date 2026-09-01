@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchPrograms < Base
+  class SearchPrograms < SearchTool
     default_title "Search programs"
     default_description "Search programs matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -53,14 +53,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Project.program.visible, filters)
-      programs, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(Project.program.visible)
+    end
 
-      {
-        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
     end
   end
 end
