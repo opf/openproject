@@ -33,6 +33,7 @@
   render(
     Primer::BaseComponent.new(
       tag: "op-block-note", mt: 1, mb: 1,
+      data: { controller: "block-note--editor" },
       "collaboration-enabled": collaboration_enabled,
       "active-user": active_user.to_json,
       "read-only": readonly,
