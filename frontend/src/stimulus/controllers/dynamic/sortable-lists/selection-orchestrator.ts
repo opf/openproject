@@ -492,12 +492,15 @@ export class SelectionOrchestrator {
     }
   }
 
-  // Presentation only: whatever restores the page builds a fresh orchestrator.
+  // Presentation only: a restored page brings its markup back under a fresh
+  // orchestrator, whose model and render baseline are already empty.
   clearPresentation():void {
     applySelectionPresentation(this.host.rootElement, new Set(), this.host.descriptionId);
   }
 
   teardown():void {
+    this.selection.clear();
+    this.lastRenderedKeys = new Set();
     this.clearPresentation();
   }
 }

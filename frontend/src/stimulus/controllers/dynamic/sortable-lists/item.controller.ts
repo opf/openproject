@@ -78,7 +78,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hideUnavailableValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
-  declare readonly mobilityValue:string;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
