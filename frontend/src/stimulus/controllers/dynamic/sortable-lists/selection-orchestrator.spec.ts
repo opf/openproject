@@ -234,6 +234,29 @@ describe('SelectionOrchestrator', () => {
       expect(spoken()).toEqual([]);
     });
 
+    // The details pane opening is the feedback for that card; the count only
+    // matters once a wider batch is lost.
+    it('stays silent on the first plain click', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+
+      orchestrator.handleClick(clickOn(item('1')));
+
+      expect(orchestrator.selectedIds()).toEqual(['1']);
+      expect(spoken()).toEqual([]);
+    });
+
+    it('stays silent when a plain click on a fixed card drops a single selected card', () => {
+      item('2').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      announceSpy.mockClear();
+
+      orchestrator.handleClick(clickOn(item('2')));
+
+      expect(orchestrator.selectedIds()).toEqual([]);
+      expect(spoken()).toEqual([]);
+    });
+
     it('stays silent on a plain click that swaps a one-card selection', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
