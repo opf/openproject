@@ -444,19 +444,8 @@ module Pages::Meetings
     end
 
     def select_backlog_action(action)
-      retry_block do
-        click_on_backlog_menu
-        page.find(".Overlay")
-        page.within(".Overlay") do
-          click_on action
-        end
-      end
-    end
-
-    def click_on_backlog_menu
-      page.within("#meeting-sections-backlogs-header-component") do
-        page.find_test_selector("meeting-section-action-menu").click
-      end
+      header = page.find_by_id("meeting-sections-backlogs-header-component")
+      header.find(".ActionListContent", text: action, visible: :all).trigger("click")
     end
 
     def within_backlog(&)

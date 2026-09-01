@@ -46,4 +46,12 @@ RSpec.describe CustomFields::Inputs::MultiVersionSelectList, type: :forms do
         .to be_json_eql(value.map { it.slice(:name) }.to_json).excluding("group_by", "selected", "disabled")
     end
   end
+
+  context "with a blank stored value" do
+    let(:value) { [nil] }
+
+    it "renders no selected version" do
+      expect(rendered_form.find("opce-autocompleter")["data-model"]).to be_json_eql([])
+    end
+  end
 end
