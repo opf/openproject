@@ -278,7 +278,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         end
       end
 
-      context "when a work package is closed", js: false, driver: :rack_test do
+      context "when a work package is closed", driver: :rack_test, js: false do
         let(:params) { [{ q: query, scope: "all" }] }
         let(:run_visit) { false }
         let(:work_package) { work_packages.last }
@@ -463,9 +463,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   end
 
   describe "when semantic work package IDs are active",
-           js: false,
-           driver: :rack_test,
-           with_settings: { work_packages_identifier: "semantic" } do
+           driver: :rack_test, js: false, with_settings: { work_packages_identifier: "semantic" } do
     let(:run_visit) { false }
     let(:semantic_project) { create(:project, :semantic) }
     let(:semantic_wp) do
@@ -487,7 +485,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     end
   end
 
-  describe "search for notes", js: false, driver: :rack_test do
+  describe "search for notes", driver: :rack_test, js: false do
     let(:work_package) { work_packages[0] }
     let!(:note_one) do
       create(:work_package_journal,
@@ -558,7 +556,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
       it_behaves_like "finds the project"
 
-      describe "searching for list project custom field", js: false, driver: :rack_test do
+      describe "searching for list project custom field", driver: :rack_test, js: false do
         let(:possible_values) { %w[Value1 Value2 Value3] }
         let!(:project_list_cf) do
           create(:list_project_custom_field,
@@ -608,7 +606,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     end
   end
 
-  describe "pagination", js: false, driver: :rack_test do
+  describe "pagination", driver: :rack_test, js: false do
     context "for project wide search" do
       it "works" do
         expect_range 13, 22
