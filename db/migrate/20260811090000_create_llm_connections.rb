@@ -32,6 +32,10 @@ class CreateLlmConnections < ActiveRecord::Migration[8.1]
   def change
     create_table :llm_connections do |t|
       t.string :identifier, null: false, index: { unique: true }
+      # Which of the stored connections features resolve against, not the
+      # instance-wide AI switch, which is Setting.llm_features_enabled. The
+      # partial index allows one row at a time to carry it.
+      t.boolean :active, null: false, default: true, index: { unique: true, where: "active" }
       t.string :base_url, null: false
       # Nullable: an unauthenticated self-hosted server needs no key.
       t.string :api_key

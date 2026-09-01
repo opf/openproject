@@ -61,4 +61,36 @@ RSpec.describe LlmConnection do
       expect(connection).not_to be_api_key_stored
     end
   end
+
+  describe "the single active connection" do
+    it "allows only one connection to be active" do
+      create(:llm_connection)
+      second = build(:llm_connection, active: true)
+
+      expect(second).not_to be_valid
+      expect(second.errors).to be_of_kind(:base, :singleton)
+    end
+
+    it "allows any number of inactive connections beside it" do
+      create(:llm_connection)
+
+      expect(build(:llm_connection, active: false)).to be_valid
+    end
+
+    it "is capped by the database as well as the validation" do
+      create(:llm_connection)
+      second = build(:llm_connection, active: true)
+
+      expect { second.save!(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it "hands out the active connection, unsaved when there is none" do
+      expect(described_class.active_connection).to be_new_record
+      expect(described_class.active_connection).to be_active
+
+      connection = create(:llm_connection)
+
+      expect(described_class.active_connection).to eq(connection)
+    end
+  end
 end

@@ -30,24 +30,27 @@
 
 # The connection to an OpenAI-API-compatible LLM server.
 #
-# Only a single connection is supported today, enforced by a validation rather
-# than by the schema: every association is already scoped by +llm_connection_id+.
+# Only one connection may be active at a time, capped by a validation and a
+# partial unique index. +active+ picks the connection features resolve against.
+#
+# Callers reach that connection through +active_connection+, so lifting the cap
+# is a change to the validation and the index.
 class LlmConnection < ApplicationRecord
-  SINGLETON_IDENTIFIER = "default"
+  DEFAULT_IDENTIFIER = "default"
 
   has_many :health_reports, as: :subject, dependent: :delete_all
 
+  scope :active, -> { where(active: true) }
+
   validates :base_url, presence: true
-  validate :only_one_connection, on: :create
+  validate :single_active_connection, if: :active?
 
   class << self
-    # The connection record, whether or not it has been persisted yet.
-    #
     # Identifying attributes are left unset here and filled in by
     # LlmConnections::SetAttributesService as system changes, so that they do not
     # register as user-made changes to non-writable attributes.
-    def instance
-      first || new
+    def active_connection
+      active.first || new(active: true)
     end
 
     # Whether LLM-backed features may run right now. This is the predicate
@@ -55,7 +58,7 @@ class LlmConnection < ApplicationRecord
     def available?
       OpenProject::FeatureDecisions.llm_connection_active? &&
         Setting.llm_features_enabled? &&
-        instance.configured?
+        active_connection.configured?
     end
   end
 
@@ -74,8 +77,8 @@ class LlmConnection < ApplicationRecord
 
   private
 
-  def only_one_connection
-    return unless self.class.where.not(id:).exists?
+  def single_active_connection
+    return unless self.class.active.where.not(id:).exists?
 
     errors.add(:base, :singleton)
   end
