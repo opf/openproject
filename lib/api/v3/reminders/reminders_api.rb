@@ -52,6 +52,7 @@ module API
               end
             end
 
+            get(&API::V3::Utilities::Endpoints::Show.new(model: Reminder).mount)
             patch(&API::V3::Utilities::Endpoints::Update.new(model: Reminder).mount)
             delete(&API::V3::Utilities::Endpoints::Delete.new(model: Reminder).mount)
           end
