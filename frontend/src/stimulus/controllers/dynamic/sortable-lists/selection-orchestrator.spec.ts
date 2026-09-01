@@ -29,6 +29,7 @@
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import type { SelectionHost } from './selection-orchestrator';
+import { selectionTranslations } from './testing/selection-translations';
 
 // No Stimulus application, no outlets, no controller lifecycle: the host
 // port lets selection be driven over a plain DOM.
@@ -99,22 +100,7 @@ describe('SelectionOrchestrator', () => {
     document.body.append(root, document.createElement('live-region'));
     announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
     pretendPlatform('Windows');
-    window.I18n.store({
-      en: {
-        js: {
-          sortable_lists: {
-            selection: {
-              cleared: 'Selection cleared.',
-              not_selectable: 'Selection unchanged. This item cannot be selected.',
-              range_blocked: 'Selection unchanged. That range contains an item that takes no part in this list\'s ordering.',
-              range_restarted: { one: 'Could not extend the range. 1 item selected.', other: 'Could not extend the range. %{count} items selected.' },
-              range_unavailable: 'Selection unchanged. Expand this list to select that range.',
-              selected: { one: '1 item selected.', other: '%{count} items selected.' },
-            },
-          },
-        },
-      },
-    });
+    window.I18n.store({ en: { js: { sortable_lists: { selection: selectionTranslations } } } });
   });
 
   const userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
@@ -231,7 +217,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('1'), { shiftKey: true }));
 
       expect(orchestrator.selectedIds()).toEqual(['1', '2']);
-      expect(spoken()).toEqual(['2 items selected.']);
+      expect(spoken()).toEqual(['[selected:2]']);
     });
 
     // The baseline is what the previous render painted: tracking the last
@@ -267,7 +253,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2')));
 
-      expect(spoken()).toEqual(['1 item selected.']);
+      expect(spoken()).toEqual(['[selected:1]']);
     });
   });
 
@@ -381,6 +367,19 @@ describe('SelectionOrchestrator', () => {
 
       expect(isSelected(item('2'))).toBe(false);
       expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
+    it('refuses to extend a range over a fixed card', () => {
+      item('2').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      announceSpy.mockClear();
+
+      orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
+
+      expect(orchestrator.selectedIds()).toEqual(['1']);
+      expect(isSelected(item('3'))).toBe(false);
+      expect(announceSpy.mock.calls.map((call) => call[0])).toEqual(['[range_blocked]']);
     });
 
     // Ctrl-click opens the contextual menu on Apple platforms: it must

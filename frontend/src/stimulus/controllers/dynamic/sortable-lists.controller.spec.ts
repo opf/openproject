@@ -60,6 +60,7 @@ import { type Mock, type MockInstance } from 'vitest';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
+import { selectionTranslations } from './sortable-lists/testing/selection-translations';
 import type {
   sortableItemData as sortableItemDataFn,
   sortableListData as sortableListDataFn,
@@ -384,20 +385,7 @@ describe('Sortable lists controller', () => {
               moved: '%{label} moved to position %{position} of %{total}',
               moved_to_list: '%{label} moved to %{list}, position %{position} of %{total}',
             },
-            selection: {
-              cleared: 'Selection cleared.',
-              not_selectable: 'Selection unchanged. This item takes no part in this list\'s ordering.',
-              range_blocked: 'Selection unchanged. That range contains an item that takes no part in this list\'s ordering.',
-              range_restarted: {
-                one: 'Could not extend the range. 1 item selected.',
-                other: 'Could not extend the range. %{count} items selected.',
-              },
-              range_unavailable: 'Selection unchanged. Expand this list to select that range.',
-              selected: {
-                one: '1 item selected.',
-                other: '%{count} items selected.',
-              },
-            },
+            selection: selectionTranslations,
           },
         },
       },
@@ -1331,7 +1319,7 @@ describe('Sortable lists controller', () => {
 
     expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0]]);
     expect(announceSpy.mock.calls.map((call) => [call[0], call[1]])).toEqual([
-      ['1 item selected.', { politeness: 'polite' }],
+      ['[selected:1]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1436,7 +1424,7 @@ describe('Sortable lists controller', () => {
 
     expect(items.filter(isSelected)).toEqual([items[0]]);
     expect(announcedMessages()).toEqual([
-      ['1 item selected.', { politeness: 'polite' }],
+      ['[selected:1]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1522,7 +1510,7 @@ describe('Sortable lists controller', () => {
 
     expect(items.filter(isSelected)).toEqual([items[3]]);
     expect(announcedMessages()).toEqual([
-      ['Could not extend the range. 1 item selected.', { politeness: 'polite' }],
+      ['[range_restarted:1]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1547,7 +1535,7 @@ describe('Sortable lists controller', () => {
     expect(isSelected(items[0])).toBe(false);
     expect(isSelected(items[2])).toBe(true);
     expect(announcedMessages()).toEqual([
-      ['Could not extend the range. 1 item selected.', { politeness: 'polite' }],
+      ['[range_restarted:1]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1565,7 +1553,7 @@ describe('Sortable lists controller', () => {
 
     expect(items.filter(isSelected)).toEqual([items[0]]);
     expect(announcedMessages()).toEqual([
-      ['Selection unchanged. Expand this list to select that range.', { politeness: 'polite' }],
+      ['[range_unavailable]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1581,7 +1569,7 @@ describe('Sortable lists controller', () => {
 
     expect(items.filter(isSelected)).toEqual([items[0]]);
     expect(announcedMessages()).toEqual([
-      ['Selection unchanged. That range contains an item that takes no part in this list\'s ordering.', { politeness: 'polite' }],
+      ['[range_blocked]', { politeness: 'polite' }],
     ]);
   });
 
@@ -1598,7 +1586,7 @@ describe('Sortable lists controller', () => {
     expect(items.filter(isSelected)).toEqual([items[0]]);
     expect(event.defaultPrevented).toBe(true);
     expect(announcedMessages()).toEqual([
-      ['Selection unchanged. This item takes no part in this list\'s ordering.', { politeness: 'polite' }],
+      ['[not_selectable]', { politeness: 'polite' }],
     ]);
   });
 
@@ -2083,7 +2071,7 @@ describe('Sortable lists controller', () => {
       await ctx.nextFrame();
 
       expect(announcedMessages()).toEqual([
-        ['2 items selected.', { politeness: 'polite' }],
+        ['[selected:2]', { politeness: 'polite' }],
       ]);
     });
 
