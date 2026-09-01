@@ -66,8 +66,6 @@ require_relative "journal_formatter/percentage"
 require_relative "journal_formatter/plaintext"
 
 module JournalFormatter
-  include ActionView::Helpers::TagHelper
-
   mattr_accessor :formatters, :registered_fields
 
   def self.register(hash)
@@ -130,9 +128,10 @@ module JournalFormatter
   # unlike #permission_granted? this needs no per-formatter dispatch.
   def render_permission_denied_message(options)
     message = I18n.t(:text_journal_permission_denied)
+    helpers = ActionController::Base.helpers
 
     if options[:html]
-      content_tag("em", message)
+      helpers.content_tag("em", message)
     else
       "_#{message}_"
     end
