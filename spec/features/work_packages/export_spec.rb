@@ -31,7 +31,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "work package export", :js, :selenium do
+RSpec.describe "work package export", :js do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
@@ -119,7 +119,11 @@ RSpec.describe "work package export", :js, :selenium do
   def show_export_dialog!
     settings_menu.open_and_choose I18n.t("js.toolbar.settings.export")
     expect(page).to have_css("#op-work-packages-export-dialog", wait: 5)
-    click_on export_type
+
+    format_control = find("segmented-control")
+    expect(format_control).to have_css(".Button-label[data-content]", text: export_type)
+    format_control.find("button", text: export_type).trigger("click")
+    expect(format_control).to have_css("button[aria-current='true']", text: export_type)
   end
 
   def open_export_dialog!(query_target = :query)
