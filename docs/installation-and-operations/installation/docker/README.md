@@ -453,11 +453,12 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/precompile-assets.sh
+RUN FORCE_ASSET_RECOMPILE=1 ./docker/prod/setup/precompile-assets.sh
 ```
 
 The file is based on the normal OpenProject docker image.
 All the Dockerfile does is copy your custom plugins gemfile into the image, install the gems and precompile any new assets.
+The `FORCE_ASSET_RECOMPILE=1` flag ensures plugin frontend assets are rebuilt when extending from an image that already contains precompiled assets.
 
 **slim image**
 
@@ -477,7 +478,7 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/precompile-assets.sh
+RUN FORCE_ASSET_RECOMPILE=1 ./docker/prod/setup/precompile-assets.sh
 
 FROM openproject/openproject:17-slim
 

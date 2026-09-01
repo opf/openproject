@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-set -x
 
 usage() {
   cat <<'USAGE'
@@ -301,6 +300,55 @@ ps -ef | grep -F "/usr/bin/memcached" | grep -v grep >/dev/null 2>&1 || {
     docker logs "${VALIDATION_CONTAINER_NAME}" --tail 200 || true
     die "Bundled memcached failed to start in all-in-one image."
   fi
+
+  validate_all_in_one_plugin_inheritance
+}
+
+validate_all_in_one_plugin_inheritance() {
+  local plugin_validation_dir plugin_validation_image
+  plugin_validation_dir="$(mktemp -d)"
+  plugin_validation_image="openproject-validate-plugin-${RANDOM}-${RANDOM}"
+
+  cleanup_plugin_inheritance_validation() {
+    trap - RETURN
+    if [[ -n "${plugin_validation_image:-}" ]]; then
+      docker rmi -f "${plugin_validation_image}" >/dev/null 2>&1 || true
+    fi
+    if [[ -n "${plugin_validation_dir:-}" ]]; then
+      rm -rf "${plugin_validation_dir}"
+    fi
+  }
+  trap cleanup_plugin_inheritance_validation RETURN
+
+  cat > "${plugin_validation_dir}/Gemfile.plugins" <<'RUBY'
+group :opf_plugins do
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "dev"
+  gem "openproject-proto_plugin", git: "https://github.com/opf/openproject-proto_plugin.git", branch: "dev"
+end
+RUBY
+
+  cat > "${plugin_validation_dir}/Dockerfile" <<'DOCKER'
+ARG BASE_IMAGE=openproject/openproject:17
+FROM ${BASE_IMAGE}
+
+COPY Gemfile.plugins /app/
+
+RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
+RUN FORCE_ASSET_RECOMPILE=1 ./docker/prod/setup/precompile-assets.sh
+DOCKER
+
+  docker build \
+    --build-arg BASE_IMAGE="${IMAGE}" \
+    --tag "${plugin_validation_image}" \
+    "${plugin_validation_dir}"
+
+  docker run --rm --entrypoint sh "${plugin_validation_image}" -lc '
+set -eu
+bundle info openproject-slack >/dev/null 2>&1
+bundle info openproject-proto_plugin >/dev/null 2>&1
+grep -q "linked/openproject-proto_plugin/main" /app/frontend/src/app/features/plugins/linked-plugins.module.ts
+grep -R -q "proto_plugin_name" /app/public/assets/frontend
+'
 }
 
 case "${TARGET}" in

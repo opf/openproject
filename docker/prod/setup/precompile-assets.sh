@@ -2,6 +2,12 @@
 set -euxo pipefail
 
 DOCKER=${DOCKER:-0}
+FORCE_ASSET_RECOMPILE=${FORCE_ASSET_RECOMPILE:-0}
+
+if [ "$FORCE_ASSET_RECOMPILE" = "1" ]; then
+  echo "Forcing asset recompilation by invalidating cached manifests."
+  rm -f config/frontend_assets.manifest.json db/schema_cache.yml
+fi
 
 if [ -f config/frontend_assets.manifest.json ]; then
   echo "Assets have already been precompiled. Reusing."
