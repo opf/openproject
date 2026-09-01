@@ -35,6 +35,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
   let(:admin) { create(:admin) }
   let(:non_admin) { create(:user) }
   let(:base_url) { "https://example.com/v1" }
+  let(:api_key_field) { "#llm_connection_api_key" }
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -70,6 +71,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         get llm_connection_path
 
         expect(response.body).not_to include("A key is stored")
+        expect(page).to have_no_css("#{api_key_field}[placeholder]", visible: :all)
       end
 
       context "when an API key is stored" do
@@ -80,6 +82,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
           expect(response.body).to include("A key is stored")
           expect(response.body).not_to include("sk-original")
+        end
+
+        it "marks the stored key in the field itself" do
+          get llm_connection_path
+
+          expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
+          expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
         end
       end
     end
