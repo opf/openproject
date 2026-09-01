@@ -34,7 +34,7 @@ module Projects
       def gate_icon = :"op-gate"
 
       def icon_color_class
-        helpers.hl_inline_class("project_phase_definition", phase.definition_id)
+        helpers.hl_foreground_class("project_phase_definition", phase.definition_id)
       end
     end
   end

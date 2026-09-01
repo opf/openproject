@@ -465,10 +465,11 @@ export class TimelineCellRenderer {
 
     // Don't apply the class in selection mode
     const { id } = type;
+    const highlightClasses = Highlighting.backgroundClass('type', id!).split(' ');
     if (selectionMode) {
-      bg.classList.remove(Highlighting.backgroundClass('type', id!));
+      bg.classList.remove(...highlightClasses);
     } else {
-      bg.classList.add(Highlighting.backgroundClass('type', id!));
+      bg.classList.add(...highlightClasses);
     }
   }
 

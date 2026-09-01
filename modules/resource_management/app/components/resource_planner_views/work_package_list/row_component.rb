@@ -87,7 +87,7 @@ module ResourcePlannerViews::WorkPackageList
       render(
         Primer::Beta::Text.new(
           tag: :span,
-          classes: "__hl_inline_priority_#{work_package.priority.id} __hl_inline__small_dot"
+          classes: class_names("__hl_dot_small", helpers.hl_dot_class("priority", work_package.priority))
         )
       ) { work_package.priority.name }
     end

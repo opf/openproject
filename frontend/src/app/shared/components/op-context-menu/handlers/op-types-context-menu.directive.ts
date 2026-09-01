@@ -102,7 +102,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       linkText: type.name,
       href: this.$state.href(this.stateName, { type: type.id! }),
       ariaLabel: type.name,
-      class: Highlighting.inlineClass('type', type.id!),
+      class: Highlighting.typeClass(type.id!),
       onClick: (event:MouseEvent) => {
         if (this.routedFromAngular && !this.browser.isMobile) {
           this.isOpen = false;

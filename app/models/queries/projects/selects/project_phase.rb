@@ -69,7 +69,7 @@ class Queries::Projects::Selects::ProjectPhase < Queries::Selects::Base
   def visual_icon
     {
       icon: :"op-phase",
-      classes: helpers.hl_inline_class("project_phase_definition", project_phase_definition)
+      classes: helpers.hl_foreground_class("project_phase_definition", project_phase_definition)
     }
   end
 

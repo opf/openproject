@@ -74,7 +74,7 @@ export class HighlightingRenderPass {
 
       const id = property.id!;
       const element:HTMLElement = this.tablePass.tableBody.children[position] as HTMLElement;
-      element.classList.add(Highlighting.backgroundClass(highlightAttribute, id));
+      element.classList.add(...Highlighting.backgroundClass(highlightAttribute, id).split(' '));
     });
   }
 
