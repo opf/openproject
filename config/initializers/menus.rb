@@ -628,7 +628,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: "/ldap_auth_sources", action: "index" },
-            if: ->(_) { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
+            if: ->(_) { User.current.admin? && Users::PasswordLogin.enabled? },
             parent: :authentication,
             caption: :label_ldap_auth_source_plural,
             html: { class: "server_authentication" }

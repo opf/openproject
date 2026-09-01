@@ -823,6 +823,7 @@ en:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
               journal_aggregation_time_minutes_is_out_of_bounds: "Aggregation period must be between %{min} and %{max} minutes."
+              password_login_requires_sso_provider: "Password login restrictions require at least one available SSO provider."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
               working_days_are_missing: "At least one day of the week must be defined as a working day."
         status:
@@ -5769,6 +5770,14 @@ en:
   setting_password_active_rules: "Password requirements"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
   setting_password_days_valid: "Number of days, after which to enforce a password change"
+  setting_password_login: "Password login"
+  setting_password_login_all: "Allow for everyone"
+  setting_password_login_all_caption: "Anyone with an internal password can sign in with it, including users linked to an identity provider."
+  setting_password_login_bypass_principal_ids: "Users and groups who may still use a password"
+  setting_password_login_except_sso: "Disallow for SSO users"
+  setting_password_login_except_sso_caption: "Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it."
+  setting_password_login_none: "Disallow for everyone"
+  setting_password_login_none_caption_html: "The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}."
   setting_password_min_length: "Minimum length"
   setting_per_page_options: "Objects per page options"
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
@@ -5934,6 +5943,15 @@ en:
         <br/>
         <strong>Note:</strong> Unless you also disable password logins, with this option enabled,
         users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+      password_login_bypass_principal_ids_hint: >
+        Even when password login in disabled, these users and groups will be able to use their password to sign in.
+        This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will
+        be extended to all users in that group.
+      password_login_configured_by_environment: >
+        The following settings are configured through the environment and cannot be edited here:
+      password_login_requires_sso_provider: >
+        Password login restrictions are unavailable because no SSO provider is currently enabled.
+        Configure and enable an SSO provider before changing these settings.
       registration: "Registration"
       remapping_existing_users_hint: >
         If enabled, allows any configured identity provider to login existing users based on their username,
