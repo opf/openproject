@@ -34,6 +34,18 @@ module OmniAuth
       possible_auth_path? && (match_provider! || false) && super
     end
 
+    # OmniAuth 2 switch to memoizing request_path during +warn_if_using_get_on_request_path+,
+    # before we can consider the provider name.
+    #
+    # As a result, we need to match the provider using the following two methods.
+    def on_request_path?
+      possible_auth_path? && match_provider! && super
+    end
+
+    def on_callback_path?
+      possible_auth_path? && match_provider! && super
+    end
+
     ##
     # Tries to match the request path of the current request with one of the registered providers.
     # If a match is found the strategy is initialised with that provider to handle the request.
@@ -46,6 +58,8 @@ module OmniAuth
 
       if @provider
         options.merge! provider.to_hash
+        @request_path = nil
+        @callback_path = nil
       end
 
       @provider
@@ -90,7 +104,7 @@ module OmniAuth
   end
 
   module FlexibleStrategyClass
-    def new(app, *args, &)
+    def new(app, *, **, &)
       super.tap do |strategy|
         strategy.extend FlexibleStrategy
       end
