@@ -4,7 +4,7 @@ import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
-import { defaultWpVariables } from './atoms';
+import { defaultWpVariables, menuSurfaceStyles } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import {
@@ -38,7 +38,7 @@ const Popover = styled.div.attrs({
   ${defaultWpVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.options};
-  background-color: var(--bn-colors-menu-background, #fff);
+  ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   padding: var(--spacer-s);

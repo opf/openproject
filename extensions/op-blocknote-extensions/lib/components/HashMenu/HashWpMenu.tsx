@@ -2,7 +2,7 @@ import type { FC, RefObject } from 'react';
 import type { SuggestionMenuProps } from '@blocknote/react';
 import styled from 'styled-components';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
 import { SearchMessage } from '../Search/SearchContainer';
 import { Spinner } from '../Spinner';
 import type { HashMenuItem, HashSearchState } from './types';
@@ -24,7 +24,7 @@ import { useTranslation } from 'react-i18next';
  */
 const Menu = styled.div.attrs({ className: 'op-bn-hash-menu' })`
   ${defaultWpVariables}
-  background-color: var(--bn-colors-menu-background, #fff);
+  ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   padding: var(--spacer-s);

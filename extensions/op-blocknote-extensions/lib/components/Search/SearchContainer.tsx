@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
@@ -19,7 +19,7 @@ export const SearchContainer = styled.div.attrs({
   overflow: hidden;
   width: 400px;
   padding: var(--spacer-m) var(--spacer-xl);
-  background-color: var(--bn-colors-menu-background, #fff);
+  ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   line-height: 1.5;
