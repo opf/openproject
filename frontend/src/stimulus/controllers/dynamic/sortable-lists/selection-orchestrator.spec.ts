@@ -264,6 +264,26 @@ describe('SelectionOrchestrator', () => {
       return event;
     };
 
+    it('still moves focus with the arrows while a move is in flight', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      busy = true;
+
+      orchestrator.handleKeydown(keydownOn(item('1'), 'ArrowDown'));
+
+      expect(focused).toBe(item('2'));
+    });
+
+    it('moves focus but does not extend the range with Shift+Arrow while busy', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      busy = true;
+
+      orchestrator.handleKeydown(keydownOn(item('1'), 'ArrowDown', { shiftKey: true }));
+
+      expect(focused).toBe(item('2'));
+      expect(orchestrator.selectedIds()).toEqual(['1']);
+    });
+
     // Consuming the key with nothing to select would block the browser's own
     // select-all and announce nothing in its place.
     it('leaves Ctrl/Cmd+A alone when nothing is selectable', () => {
