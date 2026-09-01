@@ -2130,6 +2130,51 @@ describe('Sortable lists controller', () => {
     root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
   }
 
+  // A frame navigation, such as the "show more" expander, swaps the rows
+  // wholesale without a morph event; the fresh rows arrive unmarked.
+  describe('reconciling the batch after rows are replaced', () => {
+    const replaceRows = (items:HTMLElement[], keep:(item:HTMLElement) => boolean) => {
+      const rowsContainer = items[0].parentElement!;
+      const fresh = items.filter(keep).map((item) => {
+        const clone = item.cloneNode(true) as HTMLElement;
+        clone.removeAttribute('data-batch-selected');
+        return clone;
+      });
+      rowsContainer.replaceChildren(...fresh);
+      return fresh;
+    };
+
+    it('repaints the surviving members on the fresh rows without announcing', async () => {
+      const { items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      const fresh = replaceRows(items, () => true);
+      await ctx.nextFrame();
+
+      expect(fresh.filter(isSelected)).toEqual([fresh[0], fresh[1]]);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('prunes a member the replacement dropped and announces the new count', async () => {
+      const { items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      const fresh = replaceRows(items, (item) => item !== items[1]);
+      await ctx.nextFrame();
+
+      expect(fresh.filter(isSelected)).toEqual([fresh[0]]);
+      expect(announcedMessages()).toEqual([
+        ['[selected:1]', { politeness: 'polite' }],
+      ]);
+    });
+  });
+
   describe('reconciling the batch after a morph', () => {
     it('reapplies the batch presentation after a morph strips it', async () => {
       const { root, items } = renderSelectableRoot();

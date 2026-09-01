@@ -98,6 +98,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
+  private reconcileScheduled = false;
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
@@ -276,10 +277,29 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   sortableListsItemOutletConnected(item:RootAwareChild):void {
     item.connectRoot(this);
+    this.scheduleSelectionReconcile();
   }
 
   sortableListsItemOutletDisconnected(item:RootAwareChild):void {
     item.disconnectRoot();
+    this.scheduleSelectionReconcile();
+  }
+
+  // Rows can be replaced without a morph — a frame navigation such as the
+  // "show more" expander swaps them wholesale — and the fresh rows carry no
+  // marker. Outlet callbacks arrive after the whole mutation batch, so one
+  // microtask later the members that survived are present to be repainted
+  // and the ones that vanished can be pruned.
+  private scheduleSelectionReconcile():void {
+    if (this.reconcileScheduled) {
+      return;
+    }
+
+    this.reconcileScheduled = true;
+    queueMicrotask(() => {
+      this.reconcileScheduled = false;
+      this.selection?.reconcile();
+    });
   }
 
   sortableListsScrollableOutletConnected(scrollable:RootAwareChild):void {

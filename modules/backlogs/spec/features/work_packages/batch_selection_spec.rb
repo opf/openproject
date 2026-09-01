@@ -242,6 +242,31 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
       # Without this, the two above would pass with every card described.
       backlogs_page.expect_work_package_card_not_described(story3)
     end
+
+    # The expander is a frame navigation, not a morph: it swaps the inbox rows
+    # wholesale. The selection made before it must be back on the fresh rows,
+    # not stranded in the model while the cards paint as unselected.
+    context "with a truncated inbox" do
+      let!(:inbox_wps) { create_list(:work_package, 5, project:, type:) }
+
+      # The constant has to be stubbed before the page renders, so the visit
+      # from the outer hook is repeated here.
+      before do
+        stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
+        backlogs_page.visit!
+      end
+
+      it "keeps the selection across the show-more expander" do
+        backlogs_page.expect_inbox_show_more
+        backlogs_page.toggle_card(inbox_wps.first)
+        expect(backlogs_page.selected_card_ids).to eq([inbox_wps.first.id.to_s])
+
+        backlogs_page.click_inbox_show_more
+        backlogs_page.expect_no_inbox_show_more
+
+        expect(backlogs_page.selected_card_ids).to eq([inbox_wps.first.id.to_s])
+      end
+    end
   end
 
   # Selection consumes Space, the arrows, Home/End and Ctrl/Cmd+A. With every
