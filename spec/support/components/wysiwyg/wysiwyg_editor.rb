@@ -47,7 +47,9 @@ module Components
         )
 
         last_updated_after = last_updated_for(textarea)
-        expect(last_updated_after).to be > last_updated_before
+        unless last_updated_after > last_updated_before
+          raise Capybara::ElementNotFound, "CKEditor did not process the set-data event"
+        end
       end
     end
 
