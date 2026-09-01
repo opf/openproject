@@ -273,7 +273,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
         end
 
         before do
-          project2.types = [type2]
+          project2.project_types = [ProjectType.new(type: type2)]
         end
 
         it "fails, informing of the reasons" do

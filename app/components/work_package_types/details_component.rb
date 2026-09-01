@@ -35,7 +35,14 @@ module WorkPackageTypes
     include OpTurbo::Streamable
 
     def form_options
-      { url: type_details_path(type_id: model.id), method: :patch, model: }
+      { url: type_details_path(**path_args), method: :patch, model: }
+    end
+
+    private
+
+    # The details tab edits the type itself until there is a variant to edit.
+    def path_args
+      model.is_a?(TypeVariant) ? model.path_args : { type_id: model.id }
     end
   end
 end

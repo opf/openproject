@@ -30,27 +30,25 @@
 
 module WorkPackageTypes
   module ConfigurationCopies
-    # The "Copy configuration" dialog: pick the source type to copy an aspect's
-    # configuration from. Submitting swaps it for the danger confirmation.
     class DialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
       DIALOG_ID = "configuration-copy-dialog"
 
-      def initialize(type:, aspect:)
+      def initialize(variant:, aspect:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
       end
 
       private
 
-      attr_reader :type, :aspect
+      attr_reader :variant, :aspect
 
       def confirm_path
-        type_configuration_copy_confirm_path(type_id: type.id, aspect:)
+        type_configuration_copy_confirm_path(**variant.path_args, aspect:)
       end
     end
   end

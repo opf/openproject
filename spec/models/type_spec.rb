@@ -31,16 +31,14 @@
 require "spec_helper"
 
 RSpec.describe Type do
-  let(:type) { build(:type) }
-  let(:type2) { build(:type) }
+  let(:type) { create(:type) }
+  let(:type2) { create(:type) }
   let(:project) { build(:project, no_types: true) }
 
   describe ".enabled_in(project)" do
     before do
-      type.projects << project
-      type.save
-
-      type2.save
+      project.save
+      ProjectType.create!(project:, type:, variant: type.default_variant)
     end
 
     it "returns the types enabled in the provided project" do
@@ -49,7 +47,7 @@ RSpec.describe Type do
 
     context "with variants", with_flag: { type_variants: true } do
       shared_let(:enabled_root) { create(:type, name: "Enabled root") }
-      shared_let(:enabled_variant) { create(:type, name: "Enabled variant", parent: enabled_root) }
+      shared_let(:enabled_variant) { create(:type_variant, type: enabled_root, variant_name: "Enabled variant") }
       shared_let(:on_variant) { create(:project, types: [enabled_variant]) }
       shared_let(:also_on_root) { create(:project, types: [enabled_root]) }
 
@@ -71,7 +69,7 @@ RSpec.describe Type do
 
   describe "#projects" do
     shared_let(:root) { create(:type, name: "Bug") }
-    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:variant) { create(:type_variant, type: root, variant_name: "Mobile Bug") }
 
     shared_let(:project_using_root) { create(:project, types: [root]) }
     shared_let(:project_using_variant) { create(:project, types: [variant]) }
@@ -80,32 +78,32 @@ RSpec.describe Type do
       expect(root.projects).to contain_exactly(project_using_root, project_using_variant)
     end
 
-    it "is empty for a variant, which a project never uses directly" do
-      expect(variant.projects).to be_empty
+    it "includes a project applying one of its variants" do
+      expect(root.projects).to include(project_using_variant)
     end
   end
 
-  describe "#effective_in_projects" do
+  describe "TypeVariant#projects" do
     shared_let(:root) { create(:type, name: "Bug") }
-    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
-    shared_let(:sibling) { create(:type, name: "Tablet Bug", parent: root) }
+    shared_let(:variant) { create(:type_variant, type: root, variant_name: "Mobile Bug") }
+    shared_let(:sibling) { create(:type_variant, type: root, variant_name: "Tablet Bug") }
 
     shared_let(:project_using_root) { create(:project, types: [root]) }
     shared_let(:project_using_variant) { create(:project, types: [variant]) }
 
-    it "names the projects a variant configures, which #projects cannot reach" do
-      expect(variant.effective_in_projects).to contain_exactly(project_using_variant)
+    it "names the projects the variant configures" do
+      expect(variant.projects).to contain_exactly(project_using_variant)
     end
 
-    it "excludes projects that resolve the family elsewhere" do
-      expect(root.effective_in_projects).to contain_exactly(project_using_root)
-      expect(sibling.effective_in_projects).to be_empty
+    it "excludes projects applying another variant of the same type" do
+      expect(root.default_variant.projects).to contain_exactly(project_using_root)
+      expect(sibling.projects).to be_empty
     end
   end
 
-  describe "#activate_custom_fields_in_effective_projects!" do
+  describe "TypeVariant#activate_custom_fields_in_effective_projects!" do
     shared_let(:root) { create(:type, name: "Bug") }
-    shared_let(:variant) { create(:type, name: "Mobile Bug", parent: root) }
+    shared_let(:variant) { create(:type_variant, type: root, variant_name: "Mobile Bug") }
 
     shared_let(:project_using_variant) { create(:project, types: [variant]) }
     shared_let(:project_using_root) { create(:project, types: [root]) }
@@ -113,7 +111,7 @@ RSpec.describe Type do
     # A field on the variant's own form is invisible in the work package form until the project
     # activates it, and nothing else can find the projects a variant configures.
     it "activates the type's fields in the projects it configures" do
-      custom_field = create(:integer_wp_custom_field, types: [variant])
+      custom_field = create(:integer_wp_custom_field, type_variants: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .to change { project_using_variant.reload.work_package_custom_field_ids }
@@ -122,7 +120,7 @@ RSpec.describe Type do
     end
 
     it "leaves projects resolving the family elsewhere alone" do
-      create(:integer_wp_custom_field, types: [variant])
+      create(:integer_wp_custom_field, type_variants: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .not_to change { project_using_root.reload.work_package_custom_field_ids }
@@ -131,7 +129,7 @@ RSpec.describe Type do
     it "adds to a project's activation rather than replacing it" do
       existing = create(:integer_wp_custom_field)
       project_using_variant.work_package_custom_fields << existing
-      added = create(:integer_wp_custom_field, types: [variant])
+      added = create(:integer_wp_custom_field, type_variants: [variant])
 
       variant.activate_custom_fields_in_effective_projects!
 
@@ -173,10 +171,10 @@ RSpec.describe Type do
   end
 
   describe "#statuses" do
-    subject { type.statuses }
+    subject { type.default_variant.statuses }
 
     context "when new" do
-      let(:type) { build(:type) }
+      subject { build(:type_variant).statuses }
 
       it "returns an empty relation" do
         expect(subject).to be_empty
@@ -198,7 +196,7 @@ RSpec.describe Type do
       let!(:type) { create(:type) }
       let!(:workflow_a) do
         create(:workflow, role_id: role.id,
-                          type_id: type.id,
+                          type_variant: type.default_variant,
                           old_status_id: statuses[0].id,
                           new_status_id: statuses[1].id,
                           author: false,
@@ -212,7 +210,7 @@ RSpec.describe Type do
       context "with default status" do
         let!(:default_status) { create(:default_status) }
 
-        subject { type.statuses(include_default: true) }
+        subject { type.default_variant.statuses(include_default: true) }
 
         it "returns the workflow and the default status" do
           expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
@@ -224,12 +222,12 @@ RSpec.describe Type do
         let(:other_statuses) { (1..2).map { create(:status) } }
         let!(:other_workflow) do
           create(:workflow, role_id: other_role.id,
-                            type_id: type.id,
+                            type_variant: type.default_variant,
                             old_status_id: other_statuses[0].id,
                             new_status_id: other_statuses[1].id)
         end
 
-        subject { type.statuses(role:) }
+        subject { type.default_variant.statuses(role:) }
 
         it "returns only statuses for the given role" do
           expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
@@ -241,7 +239,7 @@ RSpec.describe Type do
         let(:assignee_statuses) { (1..2).map { create(:status) } }
         let!(:author_workflow) do
           create(:workflow, role_id: role.id,
-                            type_id: type.id,
+                            type_variant: type.default_variant,
                             old_status_id: author_statuses[0].id,
                             new_status_id: author_statuses[1].id,
                             author: true,
@@ -249,7 +247,7 @@ RSpec.describe Type do
         end
         let!(:assignee_workflow) do
           create(:workflow, role_id: role.id,
-                            type_id: type.id,
+                            type_variant: type.default_variant,
                             old_status_id: assignee_statuses[0].id,
                             new_status_id: assignee_statuses[1].id,
                             author: false,
@@ -257,15 +255,17 @@ RSpec.describe Type do
         end
 
         it "returns only always statuses for the always tab" do
-          expect(type.statuses(tab: "always").pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+          expect(type.default_variant.statuses(tab: "always").pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
         end
 
         it "returns only author statuses for the author tab" do
-          expect(type.statuses(tab: "author").pluck(:id)).to contain_exactly(author_statuses[0].id, author_statuses[1].id)
+          expect(type.default_variant.statuses(tab: "author").pluck(:id)).to contain_exactly(author_statuses[0].id,
+                                                                                             author_statuses[1].id)
         end
 
         it "returns only assignee statuses for the assignee tab" do
-          expect(type.statuses(tab: "assignee").pluck(:id)).to contain_exactly(assignee_statuses[0].id, assignee_statuses[1].id)
+          expect(type.default_variant.statuses(tab: "assignee").pluck(:id)).to contain_exactly(assignee_statuses[0].id,
+                                                                                               assignee_statuses[1].id)
         end
       end
     end
@@ -277,22 +277,21 @@ RSpec.describe Type do
       let!(:type) { create(:type) }
       let!(:workflow) do
         create(:workflow, role_id: role.id,
-                          type_id: source.id,
+                          type_variant: source.default_variant,
                           old_status_id: statuses[0].id,
                           new_status_id: statuses[1].id,
                           author: false,
                           assignee: false)
       end
 
-      before { type.link!(Type::ConfigurationLink::WORKFLOWS, source:) }
+      before { link_configuration(type.default_variant, source: source.default_variant, aspect: TypeVariant::WORKFLOWS) }
 
-      it "resolves the source's statuses", with_flag: { type_variants: true } do
+      it "resolves the source's statuses" do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
 
-      it "ignores the link and resolves its own statuses with the feature disabled",
-         with_flag: { type_variants: false } do
-        expect(subject).to be_empty
+      it "resolves the same with the feature disabled", with_flag: { type_variants: false } do
+        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
     end
 
@@ -304,7 +303,7 @@ RSpec.describe Type do
       let!(:type) { create(:type) }
       let!(:workflow) do
         create(:workflow, role_id: role.id,
-                          type_id: owner.id,
+                          type_variant: owner.default_variant,
                           old_status_id: statuses[0].id,
                           new_status_id: statuses[1].id,
                           author: false,
@@ -312,8 +311,8 @@ RSpec.describe Type do
       end
 
       before do
-        middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+        link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
+        link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
       end
 
       it "resolves statuses from the chain's owning type" do
@@ -329,11 +328,11 @@ RSpec.describe Type do
     end
 
     it "calls the .copy method on Workflow" do
-      type.own_workflows.copy_from_type(type2)
+      type.default_variant.own_workflows.copy_from_variant(type2.default_variant)
 
       expect(Workflow)
         .to have_received(:copy)
-        .with(type2, nil, type, nil)
+        .with(type2.default_variant, nil, type.default_variant, nil)
     end
   end
 
@@ -343,63 +342,63 @@ RSpec.describe Type do
     let!(:type) { create(:type) }
     let!(:owner) { create(:type) }
     let!(:owner_workflow) do
-      create(:workflow, type_id: owner.id, role_id: role.id,
+      create(:workflow, type_variant: owner.default_variant, role_id: role.id,
                         old_status_id: statuses[0].id, new_status_id: statuses[1].id)
     end
 
     it "returns its own workflows when unlinked" do
-      own = create(:workflow, type_id: type.id, role_id: role.id,
+      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
 
-      expect(type.workflows).to contain_exactly(own)
+      expect(type.default_variant.workflows).to contain_exactly(own)
     end
 
     it "resolves a child to its linked parent's workflows" do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
 
-      expect(type.workflows).to contain_exactly(owner_workflow)
+      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
     end
 
     it "resolves through a longer chain to the owning type's workflows" do
       middle = create(:type)
-      middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+      link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
+      link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
 
-      expect(type.workflows).to contain_exactly(owner_workflow)
+      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
     end
 
     it "reads the source's rows and not its own while linked" do
-      own = create(:workflow, type_id: type.id, role_id: role.id,
+      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
 
-      expect(type.workflows).to contain_exactly(owner_workflow)
-      expect(type.workflows).not_to include(own)
+      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
+      expect(type.default_variant.workflows).not_to include(own)
     end
 
-    it "ignores the link and returns its own workflows with the feature disabled",
-       with_flag: { type_variants: false } do
-      own = create(:workflow, type_id: type.id, role_id: role.id,
+    it "resolves the link the same with the feature disabled", with_flag: { type_variants: false } do
+      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
 
-      expect(type.workflows).to contain_exactly(own)
+      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
+      expect(type.default_variant.workflows).not_to include(own)
     end
 
     it "writes through #own_workflows to its own rows while linked, leaving the source untouched" do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
-      expect(type.own_workflows).to be_empty
+      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
+      expect(type.default_variant.own_workflows).to be_empty
 
-      type.own_workflows.copy_from_type(owner)
+      type.default_variant.own_workflows.copy_from_variant(owner.default_variant)
 
-      expect(type.own_workflows.sole)
+      expect(type.default_variant.own_workflows.sole)
         .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
-      expect(owner.reload.own_workflows).to contain_exactly(owner_workflow)
+      expect(owner.default_variant.reload.own_workflows).to contain_exactly(owner_workflow)
     end
   end
 
   describe "#work_package_attributes" do
-    subject { type.work_package_attributes }
+    subject { type.default_variant.work_package_attributes }
 
     context "for the duration field" do
       it "does not return the field" do
@@ -418,27 +417,29 @@ RSpec.describe Type do
     it "returns an empty collection when no patterns are defined" do
       type = create(:type)
 
-      expect(type.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
+      expect(type.default_variant.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
     end
 
     it "returns a PatternCollection" do
-      type = create(:type, patterns: {
-                      subject: { blueprint: "{{work_package:custom_field_123}} - {{project:custom_field_321}}", enabled: true }
-                    })
+      type = create(:type)
+      type.default_variant.update!(patterns: {
+                                     subject: { blueprint: "{{work_package:custom_field_123}} - {{project:custom_field_321}}",
+                                                enabled: true }
+                                   })
 
-      expect(type.patterns).to be_a(WorkPackageTypes::Patterns::Collection)
-      expect(type.patterns.subject)
+      expect(type.default_variant.patterns).to be_a(WorkPackageTypes::Patterns::Collection)
+      expect(type.default_variant.patterns.subject)
         .to eq(WorkPackageTypes::Pattern.new("{{work_package:custom_field_123}} - {{project:custom_field_321}}", true))
     end
   end
 
   describe "#patterns=" do
-    subject(:type) { build(:type) }
+    subject(:type) { build(:type_variant) }
 
     it "assigns a patterns collection as-is" do
       collection = WorkPackageTypes::Patterns::Collection.build(patterns: {
-                                                       subject: { blueprint: "some_string", enabled: false }
-                                                     }).value!
+                                                                  subject: { blueprint: "some_string", enabled: false }
+                                                                }).value!
 
       type.patterns = collection
 
@@ -467,283 +468,13 @@ RSpec.describe Type do
     end
   end
 
-  describe "hierarchy" do
-    let!(:parent) { create(:type) }
-    let!(:child) { create(:type, parent:) }
-
-    describe "associations" do
-      it "exposes parent and children" do
-        expect(child.parent).to eq(parent)
-        expect(parent.children).to contain_exactly(child)
-      end
-    end
-
-    describe "scopes" do
-      it ".roots returns only top level types" do
-        expect(described_class.roots).to include(parent)
-        expect(described_class.roots).not_to include(child)
-      end
-
-      it ".variants returns only nested types" do
-        expect(described_class.variants).to contain_exactly(child)
-      end
-
-      it ".global returns every type (all types are global until project-owned types exist)" do
-        expect(described_class.global).to include(parent, child)
-      end
-    end
-
-    describe "#root" do
-      it "returns the parent for a child" do
-        expect(child.root).to eq(parent)
-      end
-
-      it "returns itself for a root" do
-        expect(parent.root).to eq(parent)
-      end
-    end
-
-    # Isolated from the shared parent/child so the factory's generated names
-    # cannot land between the names under test.
-    describe "#sorted_variants" do
-      let!(:family_root) { create(:type, name: "Family") }
-      let!(:yankee) { create(:type, name: "Yankee", parent: family_root) }
-      let!(:bravo) { create(:type, name: "Bravo", parent: family_root) }
-
-      it "orders variants alphabetically by their own name" do
-        expect(family_root.sorted_variants.map(&:own_name)).to eq(%w[Bravo Yankee])
-      end
-
-      it "does not fall back to position, which is append order" do
-        expect(family_root.children.map(&:own_name)).to eq(%w[Yankee Bravo])
-      end
-    end
-
-    describe "#family" do
-      it "returns the root followed by its children" do
-        expect(child.family).to eq([parent, child])
-        expect(parent.family).to eq([parent, child])
-      end
-
-      it "orders the variants the same way #sorted_variants does" do
-        family_root = create(:type, name: "Family")
-        create(:type, name: "Yankee", parent: family_root)
-        create(:type, name: "Bravo", parent: family_root)
-
-        expect(family_root.family).to eq([family_root, *family_root.sorted_variants])
-        expect(family_root.family.map(&:own_name)).to eq(%w[Family Bravo Yankee])
-      end
-    end
-
-    # The types index page and the configuration source pickers both read this,
-    # so the assertions bind to what that page renders rather than to a literal
-    # list, and the two cannot drift apart unnoticed.
-    describe ".in_family_order" do
-      let!(:zeta) { create(:type, name: "Zeta") }
-      let!(:yankee) { create(:type, name: "Yankee", parent: zeta) }
-      let!(:bravo) { create(:type, name: "Bravo", parent: zeta) }
-      # Created last, so the admin's order and an alphabetical one disagree and
-      # the assertions below can tell them apart.
-      let!(:alpha) { create(:type, name: "Alpha") }
-
-      it "keeps the roots in the order the index page lists them" do
-        expect(described_class.in_family_order.reject(&:variant?)).to eq([parent, zeta, alpha])
-      end
-
-      it "orders a family's variants the way the index page renders them" do
-        expect(described_class.in_family_order.select { |member| member.parent == zeta })
-          .to eq([bravo, yankee])
-      end
-
-      it "puts a root ahead of its own variants" do
-        order = described_class.in_family_order
-
-        expect(order.index(zeta)).to be < order.index(bravo)
-      end
-    end
-
-    describe "positioning" do
-      it "scopes position per parent so each group is numbered independently" do
-        parent_a = create(:type)
-        parent_b = create(:type)
-        a1 = create(:type, parent: parent_a, position: nil, name: "A1")
-        a2 = create(:type, parent: parent_a, position: nil, name: "A2")
-        b1 = create(:type, parent: parent_b, position: nil, name: "B1")
-
-        expect([a1.position, a2.position]).to eq([1, 2])
-        expect(b1.position).to eq(1)
-      end
-    end
-
-    describe "validations" do
-      it "rejects nesting deeper than one level" do
-        grandchild = build(:type, parent: child)
-
-        expect(grandchild).not_to be_valid
-      end
-
-      it "rejects a type becoming its own parent" do
-        parent.parent = parent
-
-        expect(parent).not_to be_valid
-      end
-
-      it "rejects giving a parent to a type that already has children" do
-        other_root = create(:type)
-        parent.parent = other_root
-
-        expect(parent).not_to be_valid
-      end
-
-      it "rejects the standard type having a parent" do
-        standard = create(:type_standard)
-        standard.parent = parent
-
-        expect(standard).not_to be_valid
-      end
-
-      it "allows the same name under different parents" do
-        other_parent = create(:type)
-        create(:type, parent:, name: "Shared")
-        duplicate = build(:type, parent: other_parent, name: "Shared")
-
-        expect(duplicate).to be_valid
-      end
-
-      it "rejects a duplicate name under the same parent" do
-        create(:type, parent:, name: "Shared")
-        duplicate = build(:type, parent:, name: "Shared")
-
-        expect(duplicate).not_to be_valid
-      end
-
-      it "freezes parent_id while a project resolves to the variant" do
-        other_root = create(:type)
-        create(:project, types: [child])
-
-        child.parent = other_root
-
-        expect(child).not_to be_valid
-        expect(child.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
-      end
-
-      it "freezes parent_id while a project uses the type as a root" do
-        used_root = create(:type)
-        create(:project, types: [used_root])
-
-        used_root.parent = create(:type)
-
-        expect(used_root).not_to be_valid
-        expect(used_root.errors).to be_of_kind(:parent, :cannot_change_while_used_by_projects)
-      end
-
-      it "allows re-parenting a variant no project uses" do
-        other_root = create(:type)
-
-        child.parent = other_root
-        expect(child).to be_valid
-      end
-
-      it "allows editing a type used by projects when the parent is unchanged" do
-        create(:project, types: [child])
-
-        child.name = "Renamed"
-        expect(child).to be_valid
-      end
-    end
-
-    describe "deletion" do
-      it "is blocked while children exist" do
-        expect(parent.destroy).to be_falsey
-        expect(parent).to be_persisted
-      end
-    end
-  end
-
-  describe "core settings and display helpers" do
-    let(:color) { create(:color) }
-    let!(:parent) do
-      create(:type,
-             name: "Task",
-             color:,
-             is_milestone: true,
-             is_in_roadmap: false,
-             is_default: true)
-    end
-    let!(:child) do
-      create(:type,
-             name: "Bug",
-             parent:,
-             color: nil,
-             is_milestone: false,
-             is_in_roadmap: true,
-             is_default: false)
-    end
-
-    describe "#variant?" do
-      it "is true for a child and false for a root" do
-        expect(child).to be_variant
-        expect(parent).not_to be_variant
-      end
-    end
-
-    describe "display helpers" do
-      it "#name returns the root name" do
-        expect(child.name).to eq("Task")
-        expect(parent.name).to eq("Task")
-      end
-
-      it "#own_name returns the type's own stored label" do
-        expect(child.own_name).to eq("Bug")
-        expect(parent.own_name).to eq("Task")
-      end
-
-      it "#color returns the root color" do
-        expect(child.color).to eq(color)
-        expect(parent.color).to eq(color)
-      end
-
-      it "#composite_name prefixes the parent name for a variant" do
-        expect(child.composite_name).to eq("Task: Bug")
-        expect(parent.composite_name).to eq("Task")
-      end
-    end
-
-    describe "inherited core settings" do
-      it "reads color through to the parent" do
-        expect(child.color).to eq(color)
-        expect(child.color_id).to eq(color.id)
-      end
-
-      it "reads the boolean settings through to the parent, ignoring its own columns" do
-        expect(child.is_milestone?).to be(true)
-        expect(child.is_in_roadmap?).to be(false)
-      end
-
-      it "keeps is_default on the variant itself" do
-        expect(child.is_default?).to be(false)
-      end
-
-      it "keeps the variant's own name as the variant label" do
-        expect(child.own_name).to eq("Bug")
-      end
-
-      it "leaves a root's own settings untouched" do
-        expect(parent.color).to eq(color)
-        expect(parent.is_milestone?).to be(true)
-        expect(parent.is_in_roadmap?).to be(false)
-        expect(parent.is_default?).to be(true)
-      end
-    end
-  end
-
   describe "#artefact_export_mode" do
     it "defaults to 'off'" do
-      expect(build(:type).artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+      expect(build(:type_variant).artefact_export_mode).to eq(Type::ArtefactExport::OFF)
     end
 
     it "persists the value into the pdf_export_templates_config jsonb column" do
-      persisted = create(:type)
+      persisted = create(:type).default_variant
       persisted.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
 
       expect(persisted.reload.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
@@ -753,11 +484,137 @@ RSpec.describe Type do
 
   describe "#artefact_export_enabled?" do
     it "is false when off" do
-      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "off" })).not_to be_artefact_export_enabled
+      expect(build(:type_variant,
+                   pdf_export_templates_config: { "artefact_export_mode" => "off" })).not_to be_artefact_export_enabled
     end
 
     it "is true when a storing mode is set" do
-      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
+      expect(build(:type_variant,
+                   pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
+    end
+  end
+
+  describe "#pdf_export_templates settings" do
+    subject(:type) { create(:type).default_variant }
+
+    it "defaults to an empty hash for a fresh type" do
+      expect(type.pdf_export_templates.settings_for("attributes")).to eq({})
+    end
+
+    it "round-trips settings through #update_settings/#settings_for for each template" do
+      %w[attributes contract artefact].each do |template_id|
+        type.pdf_export_templates.update_settings(template_id, "hyphenation" => "true")
+      end
+      type.save!
+
+      %w[attributes contract artefact].each do |template_id|
+        expect(type.reload.pdf_export_templates.settings_for(template_id)).to eq(hyphenation: "true")
+      end
+    end
+
+    it "merges rather than replaces on repeated #update_settings calls" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A")
+      type.pdf_export_templates.update_settings("attributes", "page_orientation" => "landscape")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes"))
+        .to eq(footer_text: "A", page_orientation: "landscape")
+    end
+
+    it "#clear_setting removes just one field, leaving the others" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A", "page_orientation" => "landscape")
+      type.save!
+
+      type.pdf_export_templates.clear_setting("attributes", "footer_text")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq(page_orientation: "landscape")
+    end
+
+    it "rejects an unknown template id" do
+      expect { type.pdf_export_templates.settings_for("bogus") }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.update_settings("bogus", {}) }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.clear_setting("bogus", "footer_text") }.to raise_error(ArgumentError)
+    end
+
+    it "resolves through a configuration link", with_flag: { type_variants: true } do
+      source = create(:type).default_variant
+      source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+      source.save!
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+
+      expect(type.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Source footer")
+    end
+
+    describe "#readonly?" do
+      it "is false for an unlinked type" do
+        expect(type.pdf_export_templates).not_to be_readonly
+      end
+
+      context "when linked to a source type", with_flag: { type_variants: true } do
+        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+
+        it "is true" do
+          expect(type.pdf_export_templates).to be_readonly
+        end
+      end
+
+      context "when linked but type_variants is disabled" do
+        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+
+        it "is false, since the link has no effect with the flag off" do
+          expect(type.pdf_export_templates).not_to be_readonly
+        end
+      end
+    end
+
+    context "when linked to a source type", with_flag: { type_variants: true } do
+      let(:source) { create(:type).default_variant }
+
+      before do
+        # `type` already has its own stored `contract` settings before being linked -
+        # this is the data #update_settings must not clobber while resolving through the link.
+        type.pdf_export_templates.update_settings("contract", "footer_text_center" => "Type's own contract footer")
+        type.save!
+        source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+        source.pdf_export_templates.update_settings("contract", "footer_text_center" => "Source contract footer")
+        source.save!
+        link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      end
+
+      it "refuses to write via #update_settings, #clear_setting, #toggle, #move, #enable_all, #disable_all" do
+        pdf_export_templates = type.pdf_export_templates
+
+        expect { pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.clear_setting("attributes", "footer_text") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.toggle("attributes") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.move("attributes", 1) }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.enable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.disable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+      end
+
+      it "does not corrupt the type's own settings for a different template once unlinked" do
+        # Attempting to edit "attributes" while linked used to merge onto the *source's*
+        # resolved settings hash (which includes the source's "contract" entry) and write
+        # the whole thing back onto `type`'s own column, clobbering `type`'s own "contract"
+        # settings with a copy of the source's. Guard against a regression of that.
+        begin
+          type.pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override")
+        rescue Type::PdfExportTemplates::ReadonlyError
+          # expected - the write must not happen at all
+        end
+
+        unlink_configuration(type, aspect: TypeVariant::PDF_EXPORT)
+
+        expect(type.reload.pdf_export_templates.settings_for("contract"))
+          .to eq(footer_text_center: "Type's own contract footer")
+      end
     end
   end
 end

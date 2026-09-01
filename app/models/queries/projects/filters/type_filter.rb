@@ -29,36 +29,19 @@
 #++
 
 class Queries::Projects::Filters::TypeFilter < Queries::Projects::Filters::Base
-  def allowed_values
-    @allowed_values ||= Type.pluck(:name, :id)
-  end
-
-  def joins
-    :types
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, Type.table_name, :id)
-  end
-
-  def type
-    :list
-  end
-
-  def autocomplete_options
-    all_items = allowed_values.map { |name, id| { name:, id: } }
-    {
-      component: "opce-autocompleter",
-      bindValue: "id",
-      bindLabel: "name",
-      hideSelected: true,
-      defaultData: false,
-      items: all_items,
-      model: all_items.select { |item| values.include?(item[:id]) }
-    }
-  end
+  include Queries::Projects::Filters::FilterOnProjectType
 
   def self.key
+    :type_id
+  end
+
+  def allowed_values
+    @allowed_values ||= Type.order(:position).pluck(:name, :id)
+  end
+
+  private
+
+  def project_type_column
     :type_id
   end
 end

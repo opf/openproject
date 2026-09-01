@@ -31,11 +31,11 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
-  let(:type) { create(:type) }
+  let(:variant) { create(:type).default_variant }
   let(:subject_configuration_form_data) { nil }
 
   subject(:render_component) do
-    render_inline(described_class.new(type, subject_configuration_form_data:))
+    render_inline(described_class.new(variant, subject_configuration_form_data:))
   end
 
   context "when enterprise edition is activated", with_ee: %i[work_package_subject_generation] do
@@ -64,7 +64,9 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
       end
 
       context "if work package type has subject pattern configured" do
-        let(:type) { create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }) }
+        let(:variant) do
+          create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }).default_variant
+        end
 
         it "must have generated option checked and pattern input filled" do
           expect(page.find("input[type=radio][value=generated]")).to be_checked
@@ -79,7 +81,9 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
       end
 
       context "if work package type has subject pattern configured, but form params have option manual selected" do
-        let(:type) { create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }) }
+        let(:variant) do
+          create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }).default_variant
+        end
         let(:subject_configuration_form_data) { { subject_configuration: :manual } }
 
         it "must have manual option checked" do
@@ -113,11 +117,12 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
     it "keeps the Community-only default description reachable" do
       render_component
 
-      expect(page).to have_css("[name='work_package_types_forms_defaults_form_model[description]']", visible: :all)
+      expect(page).to have_css("[name='work_package_types_forms_defaults_form_model[default_work_package_description]']",
+                               visible: :all)
     end
 
     context "and when the subject is already automatically generated" do
-      let(:type) { create(:type, patterns: { subject: { blueprint: "Hello world", enabled: true } }) }
+      let(:variant) { create(:type, patterns: { subject: { blueprint: "Hello world", enabled: true } }).default_variant }
 
       it "shows the inline enterprise banner" do
         render_component
@@ -135,9 +140,11 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
   end
 
   context "when readonly", with_ee: %i[work_package_subject_generation] do
-    subject(:render_readonly) { render_inline(described_class.new(type, readonly: true)) }
+    subject(:render_readonly) { render_inline(described_class.new(variant, readonly: true)) }
 
-    let(:type) { create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }) }
+    let(:variant) do
+      create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }).default_variant
+    end
 
     it "disables the mode selectors and hides the save button", :aggregate_failures do
       render_readonly
@@ -160,7 +167,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
     end
 
     context "and when subjects are manually editable" do
-      let(:type) { create(:type, patterns: {}) }
+      let(:variant) { create(:type, patterns: {}).default_variant }
 
       # Readonly renders without the Stimulus controller that would otherwise hide this
       # group, so it has to be omitted server-side.

@@ -30,10 +30,26 @@
 
 FactoryBot.define do
   factory :workflow do
+    # A workflow belongs to a variant. `type:` / `type_id:` are kept as aliases so the many
+    # call sites that name a type keep reading naturally: a type contributes its base variant.
+    transient do
+      type { nil }
+      type_id { nil }
+    end
+
     old_status factory: :status
     new_status factory: :status
     role factory: :project_role
-    type
+    type_variant do
+      case type
+      when TypeVariant
+        type
+      when Type
+        type.default_variant
+      else
+        type_id ? Type.find(type_id).default_variant : association(:type_variant)
+      end
+    end
 
     factory :workflow_with_default_status do
       old_status factory: :default_status

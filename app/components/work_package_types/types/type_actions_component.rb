@@ -56,7 +56,7 @@ module WorkPackageTypes
         default_action(menu)
         menu.with_divider
 
-        add_variant_action(menu) unless type.variant?
+        add_variant_action(menu)
         duplicate_action(menu)
         menu.with_divider
 
@@ -70,7 +70,7 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(parent_id: type.id)) do |item|
+                       href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
         end
       end
@@ -91,8 +91,14 @@ module WorkPackageTypes
         end
       end
 
+      # The flag lives on the configuration a project applies the type through, and this menu
+      # acts on the type as a whole, so it toggles the base variant.
+      def default_variant
+        type.default_variant
+      end
+
       def default_action(menu)
-        if type.is_default?
+        if default_variant.enabled_in_new_projects?
           remove_default_action(menu)
         else
           make_default_action(menu)
@@ -102,7 +108,7 @@ module WorkPackageTypes
       def make_default_action(menu)
         menu.with_item(
           label: t("types.index.make_default"),
-          href: make_default_type_path(type),
+          href: make_default_type_variant_path(type_id: type.id, id: default_variant.id),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"check-circle")
@@ -112,7 +118,7 @@ module WorkPackageTypes
       def remove_default_action(menu)
         menu.with_item(
           label: t("types.index.remove_default"),
-          href: remove_default_type_path(type),
+          href: remove_default_type_variant_path(type_id: type.id, id: default_variant.id),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"circle-slash")
@@ -131,7 +137,7 @@ module WorkPackageTypes
       end
 
       def reorderable?
-        !type.variant? && !(type.first? && type.last?)
+        !(type.first? && type.last?)
       end
 
       def move_action(menu)

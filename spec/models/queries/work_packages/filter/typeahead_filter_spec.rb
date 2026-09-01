@@ -275,6 +275,8 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
         let!(:id_twin) do
           create(:work_package,
                  project:,
+                 type: task_type,
+                 status: open_status,
                  subject: "Id twin work package")
         end
 
@@ -283,6 +285,8 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
         let!(:sequence_number_twin) do
           create(:work_package,
                  project:,
+                 type: task_type,
+                 status: open_status,
                  subject: "Sequence number twin work package").tap do |work_package|
             work_package.update_columns(sequence_number: id_twin.id,
                                         identifier: "#{project.identifier}-#{id_twin.id}")

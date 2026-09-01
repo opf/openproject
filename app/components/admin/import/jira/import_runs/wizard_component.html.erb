@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     render(
       border_box_container(
-        data: { "admin--jira-import-target": model.status_running? ? "poll" : "finished" }
+        data: { "admin--jira-import-target": model.running? ? "poll" : "finished" }
       )
     ) do |component|
       component.with_row(scheme: :neutral, color: :muted, align_items: :center) do

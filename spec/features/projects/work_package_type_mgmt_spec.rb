@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe "Projects", "work package type mgmt", :js do
   current_user { create(:user, member_with_permissions: { project => %i[edit_project manage_types] }) }
 
-  let(:phase_type)     { create(:type, name: "Phase", is_default: true) }
-  let(:milestone_type) { create(:type, name: "Milestone", is_default: false) }
+  let(:phase_type)     { create(:type, name: "Phase", default_variant_enabled_in_all_projects: true) }
+  let(:milestone_type) { create(:type, name: "Milestone") }
   let!(:project) { create(:project, name: "Foo project", types: [phase_type, milestone_type]) }
 
   it "have the correct types checked for the project's types" do

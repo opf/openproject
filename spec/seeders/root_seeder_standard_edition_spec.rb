@@ -105,7 +105,7 @@ RSpec.describe RootSeeder,
       template = Meeting.templated.first
       expect(template).not_to be_draft
       expect(template.duration).to eq 1.0
-      expect(template.agenda_items.count).to eq 9
+      expect(template.agenda_items.count).to eq 6
       expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
 
       # The meeting organizer (admin) is the author of every item.
@@ -116,7 +116,7 @@ RSpec.describe RootSeeder,
       expect(Meeting.where(template: false).count).to eq 5
       Meeting.not_templated.find_each do |instance|
         expect(instance.duration).to eq 1.0
-        expect(instance.agenda_items.count).to eq 9
+        expect(instance.agenda_items.count).to eq 6
         expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe RootSeeder,
     end
 
     it "seeds the epic type with embedded query in its form configuration while keeping the default attribute groups" do
-      epic = root_seeder.seed_data.find_reference(:default_type_epic)
+      epic = root_seeder.seed_data.find_reference(:default_type_epic).default_variant
       query_group = epic.attribute_groups[0]
       default_groups = epic.attribute_groups[1..]
 
@@ -182,7 +182,7 @@ RSpec.describe RootSeeder,
     end
 
     it "seeds the user story type with embedded query in its form configuration while keeping the default attribute groups" do
-      user_story = root_seeder.seed_data.find_reference(:default_type_user_story)
+      user_story = root_seeder.seed_data.find_reference(:default_type_user_story).default_variant
       query_group = user_story.attribute_groups[0]
       default_groups = user_story.attribute_groups[1..]
 
@@ -213,6 +213,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
     include_examples "it creates records", model: Workflow, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
@@ -412,7 +413,7 @@ RSpec.describe RootSeeder,
       before_all do
         # Simulate a user having created new statuses, and deleted all default
         # statuses and workflows (making looking up statuses by name impossible)
-        new_status = create(:status, :default, name: "My own default status")
+        new_status = create(:default_status, name: "My own default status")
         Project.destroy_all
         # destroying all statuses will destroy all workflows by cascade
         Status.where.not(id: new_status.id).destroy_all
@@ -427,11 +428,7 @@ RSpec.describe RootSeeder,
       end
 
       it "keeps the epic form configuration from the initial seeding" do
-        # The global queries embedded into the form configuration are not deleted, so the
-        # GlobalQuerySeeder is skipped on this re-seed and their references are not registered
-        # again. The TypeConfigurationSeeder therefore cannot re-apply the form configuration,
-        # but the type created initially still carries it (accepted limitation).
-        expect(Type.find_by(name: "Epic").attribute_groups)
+        expect(Type.find_by(name: "Epic").default_variant.attribute_groups)
           .to include(an_instance_of(Type::QueryGroup))
       end
     end

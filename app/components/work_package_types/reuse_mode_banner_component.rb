@@ -29,15 +29,12 @@
 #++
 
 module WorkPackageTypes
-  # Banner above a type's configuration tab stating whether the aspect is
-  # configured Independently or Linked to a source type, with the actions to
-  # switch between the two modes.
   class ReuseModeBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(type:, aspect:)
+    def initialize(variant:, aspect:)
       @aspect = aspect
-      super(type)
+      super(variant)
     end
 
     def render? = OpenProject::FeatureDecisions.type_variants_active?
@@ -46,35 +43,72 @@ module WorkPackageTypes
 
     attr_reader :aspect
 
-    def type = model
+    def variant = model
 
-    def linked? = type.linked?(aspect)
+    def linked? = variant.linked?(aspect)
 
-    def source = type.source_for(aspect)
+    def source = variant.source_for(aspect)
 
-    def source_is_parent? = source.present? && source == type.parent
+    def source_is_default? = source.present? && source == variant.type.default_variant
 
-    def source_path = edit_type_details_path(type_id: source.id)
+    def source_path # rubocop:disable Metrics/AbcSize
+      return nil unless source_reachable?
+
+      case aspect
+      when TypeVariant::DEFAULTS
+        edit_type_defaults_path(type_id: source.type_id, variant_id: source.id)
+      when TypeVariant::PDF_EXPORT
+        edit_type_pdf_export_template_index_path(type_id: source.type_id, variant_id: source.id)
+      when TypeVariant::PROJECT_ATTRIBUTES
+        edit_type_project_attributes_path(type_id: source.type_id, variant_id: source.id)
+      when TypeVariant::WORKFLOWS
+        edit_type_workflow_path(type_id: source.type_id, variant_id: source.id)
+      else
+        edit_type_form_configuration_path(type_id: source.type_id, variant_id: source.id)
+      end
+    end
+
+    # Linked only where its own screens can be opened: from a project, a global source's path
+    # would resolve and then refuse.
+    def source_reachable?
+      return false if source.nil?
+      return true if helpers.variant_scope_project.nil?
+
+      source.project_id == helpers.variant_scope_project.id
+    end
 
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
-    def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
+    def copy_dialog_path = type_configuration_copy_dialog_path(**dialog_path_args)
 
-    def link_dialog_path = type_configuration_link_dialog_path(type_id: type.id, aspect:)
+    def link_dialog_path = type_configuration_link_dialog_path(**dialog_path_args)
 
-    def independent_dialog_path = type_configuration_independence_dialog_path(type_id: type.id, aspect:)
+    def independent_dialog_path = type_configuration_independence_dialog_path(**dialog_path_args)
+
+    def dialog_path_args = variant.path_args.merge(aspect:)
 
     def linked_description
+      return unlinked_description if source_path.nil?
+
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
         i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
         links: { source_url: source_path },
-        external: false
+        external: false,
+        # The banner renders inside ReloadableConfigurationFrameComponent's frame, which would
+        # otherwise swallow the navigation and leave the rest of the page on the old variant.
+        data: { turbo_frame: "_top" }
       )
     end
 
+    def unlinked_description
+      I18n.t("types.edit.reuse_mode.linked.description_unlinked",
+             source_name: source.composite_name,
+             source_suffix: parent_suffix)
+    end
+
     def parent_suffix
-      source_is_parent? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
+      source_is_default? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
     end
   end
 end

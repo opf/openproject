@@ -34,20 +34,18 @@ module Projects
       private
 
       def persist(service_call)
-        type = params[:type]
+        variant = params[:variant]
 
-        if used_by_work_packages?(type)
-          failure(:in_use_by_work_packages, types: type.name)
+        if used_by_work_packages?(variant)
+          failure(:in_use_by_work_packages, types: variant.name)
         else
-          model.project_types.where(type_id: type.root_id).destroy_all
+          model.project_types.where(type_id: variant.type_id).destroy_all
           service_call
         end
       end
 
-      # Work packages store the root, so a variant has to be checked against the family
-      # rather than against its own id.
-      def used_by_work_packages?(type)
-        WorkPackage.exists?(project: model, type_id: type.root_id)
+      def used_by_work_packages?(variant)
+        WorkPackage.exists?(project: model, type_id: variant.type_id)
       end
     end
   end

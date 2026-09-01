@@ -48,13 +48,13 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="generic-table--results-container">
           <table class="generic-table" data-controller="table-highlighting" id="material_budget_items">
             <colgroup>
-              <col>
-              <col>
+              <col style="width: 15%">
+              <col style="width: 25%">
               <col>
               <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
-                <col>
+                <col style="width: 15%">
               <% end %>
-              <col data-highlight="false">
+              <col style="width: 60px" data-highlight="false">
             </colgroup>
             <thead>
               <tr>
@@ -63,15 +63,6 @@ See COPYRIGHT and LICENSE files for more details.
                     <div class="generic-table--sort-header">
                       <span>
                         <%= MaterialBudgetItem.human_attribute_name(:units) %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                        <%= CostType.human_attribute_name(:unit) %>
                       </span>
                     </div>
                   </div>

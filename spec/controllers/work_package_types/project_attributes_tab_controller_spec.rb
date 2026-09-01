@@ -14,6 +14,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
   let(:type) { create(:type) }
+  let(:variant) { type.default_variant }
   let(:project_custom_field_section) { create(:project_custom_field_section) }
   let!(:project_custom_field) { create(:project_custom_field, project_custom_field_section:) }
 
@@ -39,7 +40,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
                type_id: type.id,
                value: "1",
                project_custom_field_type_mapping: {
-                 type_id: type.id,
+                 variant_id: variant.id,
                  custom_field_id: project_custom_field.id
                }
              }
@@ -47,7 +48,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
 
       it "does not enable the project attribute" do
         expect(response).to have_http_status(:forbidden)
-        expect(type.reload.project_custom_fields).to be_empty
+        expect(variant.reload.project_custom_fields).to be_empty
       end
     end
   end
@@ -70,7 +71,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
           type_id: type.id,
           value: "1",
           project_custom_field_type_mapping: {
-            type_id: type.id,
+            variant_id: variant.id,
             custom_field_id: project_custom_field.id
           }
         }
@@ -80,7 +81,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         post :toggle, params: params
 
         expect(response).to have_http_status(:ok)
-        expect(type.reload.project_custom_fields).to contain_exactly(project_custom_field)
+        expect(variant.reload.project_custom_fields).to contain_exactly(project_custom_field)
       end
     end
 
@@ -89,7 +90,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         {
           type_id: type.id,
           project_custom_field_type_mapping: {
-            type_id: type.id,
+            variant_id: variant.id,
             custom_field_section_id: project_custom_field_section.id
           }
         }
@@ -99,7 +100,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         put :enable_all_of_section, params: params, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(type.reload.project_custom_fields).to contain_exactly(project_custom_field)
+        expect(variant.reload.project_custom_fields).to contain_exactly(project_custom_field)
       end
     end
 
@@ -108,21 +109,21 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         {
           type_id: type.id,
           project_custom_field_type_mapping: {
-            type_id: type.id,
+            variant_id: variant.id,
             custom_field_section_id: project_custom_field_section.id
           }
         }
       end
 
       before do
-        type.project_custom_fields << project_custom_field
+        variant.project_custom_fields << project_custom_field
       end
 
       it "disables all project attributes of the section" do
         put :disable_all_of_section, params: params, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(type.reload.project_custom_fields).to be_empty
+        expect(variant.reload.project_custom_fields).to be_empty
       end
     end
 
@@ -131,7 +132,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
         {
           type_id: type.id,
           project_custom_field_type_mapping: {
-            type_id: type.id,
+            variant_id: variant.id,
             custom_field_section_id: project_custom_field_section.id
           }
         }
@@ -155,14 +156,14 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
     end
 
     context "when the type is linked", with_flag: { type_variants: true } do
-      let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
-      let(:source) { create(:type) }
-      let(:link) { type.configuration_links.find_by(aspect:) }
+      let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+      let(:source) { create(:type).default_variant }
+      let(:link) { variant }
       let(:params) do
         {
           type_id: type.id,
           project_custom_field_type_mapping: {
-            type_id: type.id,
+            variant_id: variant.id,
             custom_field_section_id: project_custom_field_section.id
           }
         }
@@ -170,30 +171,30 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
 
       before do
         source.project_custom_fields << project_custom_field
-        type.link!(aspect, source:)
+        link_configuration(variant, source:, aspect:)
       end
 
       describe "PUT disable_all_of_section" do
         it "excludes the section's inherited attributes on the link" do
-          expect(link.excluded_elements).to be_empty
+          expect(excluded_configuration_elements(link, aspect:)).to be_empty
 
           put :disable_all_of_section, params: params, format: :turbo_stream
 
           expect(response).to have_http_status(:ok)
-          expect(link.reload.excluded_elements).to contain_exactly(project_custom_field.attribute_name)
-          expect(type.project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
+          expect(excluded_configuration_elements(link, aspect:)).to contain_exactly(project_custom_field.attribute_name)
+          expect(variant.own_project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
         end
       end
 
       describe "PUT enable_all_of_section" do
-        before { link.update!(excluded_elements: [project_custom_field.attribute_name]) }
+        before { exclude_configuration_elements(link, aspect:, elements: [project_custom_field.attribute_name]) }
 
         it "re-inherits the section's attributes" do
           put :enable_all_of_section, params: params, format: :turbo_stream
 
           expect(response).to have_http_status(:ok)
-          expect(link.reload.excluded_elements).to be_empty
-          expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
+          expect(excluded_configuration_elements(link, aspect:)).to be_empty
+          expect(variant.project_custom_field_type_mappings.map(&:custom_field_id))
             .to contain_exactly(project_custom_field.id)
         end
       end

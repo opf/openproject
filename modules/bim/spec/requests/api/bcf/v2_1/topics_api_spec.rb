@@ -482,11 +482,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
   describe "POST /api/bcf/2.1/projects/:project_id/topics" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { edit_member_user }
-    let(:type) do
-      create(:type).tap do |t|
-        project.types << t
-      end
-    end
+    let(:type) { create(:type) }
     let(:status) do
       create(:status)
     end
@@ -507,10 +503,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       end
     end
     let!(:default_type) do
-      create(:type, is_default: true)
-    end
-    let!(:standard_type) do
-      create(:type_standard)
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -538,6 +531,12 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
+      [type, default_type].uniq.each do |enabled_type|
+        project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
+          pt.variant = enabled_type.default_variant
+        end
+      end
+
       login_as(current_user)
       other_status
       post path, params.to_json
@@ -745,11 +744,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
   describe "PUT /api/bcf/2.1/projects/:project_id/topics/:guid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { edit_member_user }
-    let!(:type) do
-      create(:type).tap do |t|
-        project.types << t
-      end
-    end
+    let!(:type) { create(:type) }
     let(:status) do
       create(:status)
     end
@@ -770,9 +765,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       create(:default_status)
     end
     let!(:default_type) do
-      create(:type, is_default: true).tap do |t|
-        project.types << t
-      end
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -796,6 +789,18 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
+      # Create the existing topic while the project still only has the type its factory gave it.
+      # Enabling `type` first would make FactoryBot assign that type to the WP (lower
+      # position than the type created later), so a PUT with topic_type: type
+      # would not change type_id and then fail status-transition validation.
+      bcf_issue
+
+      [type, default_type].uniq.each do |enabled_type|
+        project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
+          pt.variant = enabled_type.default_variant
+        end
+      end
+
       login_as(current_user)
       other_status
       put path, params.to_json

@@ -38,25 +38,38 @@ module Projects
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          def initialize(project:, source:, selected: source, validation_message: nil)
+          def initialize(project:, source:, url:, selected: source, validation_message: nil)
             super()
 
             @project = project
             @source = source
+            @url = url
             @selected = selected
             @validation_message = validation_message
           end
 
           private
 
-          attr_reader :project, :source, :selected, :validation_message
-
-          def switch_path
-            project_settings_work_packages_type_switch_path(project, source)
-          end
+          attr_reader :project, :source, :url, :selected, :validation_message
 
           def available_targets
-            source.family
+            source.type.variants.in_display_order
+          end
+
+          # The route addresses the type, as the switch route does: the variant is what the
+          # project resolves it to, and the form body carries which one is being asked about.
+          def impact_path
+            project_settings_work_packages_type_switch_impact_path(project, source.type)
+          end
+
+          # The one place the container leaks in: a page hosting the same fields
+          # would declare its own form and need the same wiring.
+          def refresh_data
+            {
+              controller: "refresh-on-form-changes",
+              refresh_on_form_changes_target: "form",
+              refresh_on_form_changes_turbo_stream_url_value: impact_path
+            }
           end
 
           # Constant lookup in a compiled template does not walk the enclosing modules.

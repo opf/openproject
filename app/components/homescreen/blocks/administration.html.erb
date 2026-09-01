@@ -22,8 +22,8 @@
                   title: t(:label_work_package_types) %>
     </li>
     <li>
-      <%= link_to t(:label_work_package_status), statuses_path,
-                  title: t(:label_work_package_status) %>
+      <%= link_to Status.model_name.human, statuses_path,
+                  title: Status.model_name.human %>
     </li>
     <li>
       <%= link_to t("attributes.custom_values"), custom_fields_path,

@@ -62,6 +62,11 @@ class User < Principal
            -> { Group.organizational_units },
            through: :group_users,
            source: :group
+  # Departments are surfaced as their own attribute, so they are left out here.
+  has_many :regular_groups,
+           -> { Group.not_organizational_units },
+           through: :group_users,
+           source: :group
 
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all

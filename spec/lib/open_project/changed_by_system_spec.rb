@@ -99,13 +99,13 @@ RSpec.describe OpenProject::ChangedBySystem do
         end
       end
 
-      let(:type) { create(:type_standard) }
+      let(:type) { create(:type_task) }
       let(:project) { create(:project, types: [type]) }
       let(:cf1) { create(:work_package_custom_field) }
 
       before do
         project.work_package_custom_fields << cf1
-        type.custom_fields << cf1
+        type.default_variant.custom_fields << cf1
       end
 
       it "returns the custom fields too" do

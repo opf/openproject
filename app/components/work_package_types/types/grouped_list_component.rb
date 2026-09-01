@@ -49,28 +49,44 @@ module WorkPackageTypes
         root.id != expanded_type_id
       end
 
-      def variants_count_label(root)
-        t("types.index.variants_count", count: root.children.size)
+      def named_variants(root)
+        root.variants.non_default_variants
       end
 
-      # A default variant is only visible once the group is expanded, so the
+      def listed_variants(root)
+        named_variants(root).global.in_display_order
+      end
+
+      def variants_count_label(root)
+        t("types.index.variants_count", count: named_variants(root).size)
+      end
+
+      def owned_variants_count(root)
+        named_variants(root).project_owned.size
+      end
+
+      def owned_variants_path(root)
+        type_variants_path(type_id: root.id)
+      end
+
+      # A named variant carrying the flag is only visible once the group is expanded, so the
       # collapsed header names it instead.
-      def add_default_label(header, root)
-        if root.is_default?
+      def add_default_label(header, type)
+        if type.default_variant.enabled_in_new_projects?
           header.with_label { t("types.index.enabled_in_new_projects") }
-        elsif (variant = default_variant(root))
+        elsif (variant = default_variant_for_new_projects(type))
           header.with_label(scheme: :secondary) do
-            t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
+            t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
           end
         end
       end
 
-      def default_variant(root)
-        root.children.find(&:is_default?)
+      def default_variant_for_new_projects(type)
+        type.variants.detect(&:enabled_in_new_projects?)
       end
 
-      def add_variant_path(root)
-        new_creation_wizard_types_path(parent_id: root.id)
+      def add_variant_path(type)
+        new_creation_wizard_types_path(type_id: type.id, back_url: types_path)
       end
 
       def menu_id(type)
@@ -81,8 +97,16 @@ module WorkPackageTypes
         menu_type_path(type)
       end
 
+      def variant_menu_id(variant)
+        VariantActionsComponent.menu_id(variant)
+      end
+
+      def variant_menu_src(variant)
+        menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+      end
+
       def reorderable?(type)
-        !type.variant? && !(type.first? && type.last?)
+        !(type.first? && type.last?)
       end
 
       def drop_target_config

@@ -590,6 +590,14 @@ allOf:
               - Transitioning from single to multiple version support
               - (Temporary) Only allows a single value for compatibility with the version field
               - (Temporary) Must not be written together with `version` in the same request
+          observedInVersions:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of versions in which the behaviour described by the work package was observed
+
+              **Resource**: Collection of Version
           watchers:
             allOf:
               - $ref: "./link.yml"
@@ -669,6 +677,9 @@ example:
       href: "/api/v3/versions/1"
       title: Version 1
     targetVersions:
+      - href: "/api/v3/versions/1"
+        title: Version 1
+    observedInVersions:
       - href: "/api/v3/versions/1"
         title: Version 1
     availableWatchers:

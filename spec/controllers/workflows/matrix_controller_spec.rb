@@ -60,12 +60,12 @@ RSpec.describe Workflows::MatrixController do
     build_stubbed(:project_role)
   end
 
-  let!(:type) do
-    build_stubbed(:type) do |t|
-      allow(Type)
+  let!(:variant) do
+    build_stubbed(:type_variant) do |stub|
+      allow(TypeVariant)
         .to receive(:find)
-              .with(t.id.to_s)
-              .and_return(t)
+              .with(stub.id.to_s)
+              .and_return(stub)
     end
   end
 
@@ -78,12 +78,13 @@ RSpec.describe Workflows::MatrixController do
           get :show,
               params: {
                 role_ids: [role.id.to_s],
-                type_id: type.id.to_s,
+                type_id: variant.type_id.to_s,
+                variant_id: variant.id.to_s,
                 tab: "always"
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
+            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
           )
         end
 
@@ -91,13 +92,14 @@ RSpec.describe Workflows::MatrixController do
           get :show,
               params: {
                 role_ids: [role.id.to_s],
-                type_id: type.id.to_s,
+                type_id: variant.type_id.to_s,
+                variant_id: variant.id.to_s,
                 tab: "always",
                 status_ids: ["1", "2"]
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
+            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
           )
           expect(response.location).not_to include("status_ids")
         end
@@ -117,12 +119,14 @@ RSpec.describe Workflows::MatrixController do
           get :show,
               params: {
                 role_ids: [role.id.to_s, role2.id.to_s],
-                type_id: type.id.to_s,
+                type_id: variant.type_id.to_s,
+                variant_id: variant.id.to_s,
                 tab: "always"
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type, role_ids: [role.id.to_s, role2.id.to_s], tab: "always")
+            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s, role2.id.to_s],
+                                    tab: "always")
           )
         end
       end
@@ -136,7 +140,7 @@ RSpec.describe Workflows::MatrixController do
     # it rather than through a status_ids/displayed_status_ids fixture.
     let(:matrix_context) do
       instance_double(Workflows::MatrixContext,
-                      type:,
+                      variant:,
                       tab: "always",
                       roles: [role],
                       requested_status_ids: [status.id],
@@ -150,7 +154,8 @@ RSpec.describe Workflows::MatrixController do
       post :confirm_statuses,
            params: {
              role_ids: [role.id.to_s],
-             type_id: type.id.to_s,
+             type_id: variant.type_id.to_s,
+             variant_id: variant.id.to_s,
              status_ids: [status.id.to_s],
              tab: "always"
            },
@@ -195,7 +200,7 @@ RSpec.describe Workflows::MatrixController do
       instance_double(Workflows::MatrixUpdateService, call: call_result).tap do |dbl|
         allow(Workflows::MatrixUpdateService)
           .to receive(:new)
-                .with(type: type, roles: roles, tab: "always")
+                .with(variant:, roles:, tab: "always")
                 .and_return(dbl)
       end
     end
@@ -213,7 +218,8 @@ RSpec.describe Workflows::MatrixController do
       post :update,
            params: {
              role_ids: roles.map { it.id.to_s },
-             type_id: type.id,
+             type_id: variant.type_id,
+             variant_id: variant.id,
              tab: "always",
              status: status_params
            },
@@ -245,7 +251,7 @@ RSpec.describe Workflows::MatrixController do
         submit_matrix
 
         expect(Workflows::MatrixUpdateService)
-          .to have_received(:new).with(type: type, roles: roles, tab: "always")
+          .to have_received(:new).with(variant:, roles:, tab: "always")
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end
     end

@@ -38,7 +38,7 @@ RSpec.describe "API v3 Work package resource",
   shared_let(:project) do
     create(:project, identifier: "test_project", public: false)
   end
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
 
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
@@ -167,7 +167,7 @@ RSpec.describe "API v3 Work package resource",
           bogus: "bogus",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -279,7 +279,7 @@ RSpec.describe "API v3 Work package resource",
           subject: nil,
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -506,7 +506,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -543,7 +543,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)

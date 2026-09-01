@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,29 +26,79 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
 RSpec.describe Types::EditPageHeaderComponent, type: :component do
-  let(:parent) { create(:type, name: "Phase") }
+  include Rails.application.routes.url_helpers
 
-  before { login_as(create(:admin)) }
+  shared_let(:project) { create(:project, name: "Apollo") }
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:variant) { create(:type_variant, type:, variant_name: "Internal") }
 
-  describe "breadcrumbs" do
-    it "links the parent and prefixes the variant leaf with 'Variant:'" do
-      render_inline(described_class.new(type: create(:type, parent:, name: "Milestone")))
+  current_user { create(:admin) }
 
-      expect(page).to have_link("Phase",
-                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
-      expect(page).to have_text("Variant: Milestone")
+  def render_header
+    render_inline(described_class.new(type:, variant:))
+  end
+
+  context "when the screen is reached from administration" do
+    before { render_header }
+
+    it "leads back through administration" do
+      expect(page).to have_link("Administration", href: admin_index_path)
     end
 
-    it "omits the parent crumb and the 'Variant:' prefix for a root type" do
-      render_inline(described_class.new(type: create(:type, name: "Milestone")))
+    it "leads back to the list of types" do
+      expect(page).to have_link("Types", href: types_path)
+    end
 
-      expect(page).to have_no_link("Phase")
-      expect(page).to have_no_text("Variant: Milestone")
+    # An administrator may open the type's own configuration, so its name is a way in.
+    it "links the parent type" do
+      expect(page).to have_link("Bug", href: edit_type_details_path(type_id: type.id))
+    end
+
+    it "names the variant being configured" do
+      expect(page).to have_text("Internal")
+    end
+  end
+
+  context "when the screen is reached from a project's settings" do
+    before do
+      # What the controller sets, and what the trail keys off.
+      vc_test_controller.instance_variable_set(:@project, project)
+      render_header
+    end
+
+    it "leads back through the project, not administration" do
+      expect(page).to have_link("Apollo", href: project_overview_path(project.id))
+      expect(page).to have_no_link("Administration")
+    end
+
+    it "leads back through the project's settings" do
+      expect(page).to have_link("Project settings", href: project_settings_general_path(project.id))
+    end
+
+    it "leads back to the project's own work package settings" do
+      expect(page).to have_link(
+        "Work packages",
+        href: project_settings_work_packages_types_path(project)
+      )
+    end
+
+    # The type's own configuration is administration's, so the parent leads back to this
+    # project's types rather than to a screen the caller cannot open.
+    it "leads the parent type back into the project" do
+      expect(page).to have_link("Bug", href: project_settings_work_packages_types_path(project))
+    end
+
+    it "offers no way into the type's own configuration" do
+      expect(page).to have_no_link(href: edit_type_details_path(type_id: type.id))
+    end
+
+    it "still names the variant being configured" do
+      expect(page).to have_text("Internal")
     end
   end
 end

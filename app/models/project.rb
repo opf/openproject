@@ -72,9 +72,9 @@ class Project < ApplicationRecord
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
   has_many :project_types, dependent: :delete_all
+  # The variants this project authored. Removal is left to the FK's cascade.
+  has_many :owned_type_variants, class_name: "TypeVariant", dependent: nil
 
-  # Enabled root-types, variants need to be determined explicitly
-  has_many :types, -> { order("#{::Type.table_name}.position") }, through: :project_types
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
       .includes(:status, :type)

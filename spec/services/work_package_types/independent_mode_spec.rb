@@ -33,27 +33,27 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::IndependentMode do
   describe ".available_for" do
     it "offers copy and default for form configuration" do
-      expect(described_class.available_for(Type::ConfigurationLink::FORM_CONFIGURATION))
+      expect(described_class.available_for(TypeVariant::FORM_CONFIGURATION))
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
     it "offers copy and empty for patterns" do
-      expect(described_class.available_for(Type::ConfigurationLink::DEFAULTS))
+      expect(described_class.available_for(TypeVariant::DEFAULTS))
         .to eq([described_class::COPY, described_class::EMPTY])
     end
 
     it "offers copy and default for PDF export" do
-      expect(described_class.available_for(Type::ConfigurationLink::PDF_EXPORT))
+      expect(described_class.available_for(TypeVariant::PDF_EXPORT))
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
     it "offers copy and empty for workflows" do
-      expect(described_class.available_for(Type::ConfigurationLink::WORKFLOWS))
+      expect(described_class.available_for(TypeVariant::WORKFLOWS))
         .to eq([described_class::COPY, described_class::EMPTY])
     end
 
     it "offers copy and empty for project attributes" do
-      expect(described_class.available_for(Type::ConfigurationLink::PROJECT_ATTRIBUTES))
+      expect(described_class.available_for(TypeVariant::PROJECT_ATTRIBUTES))
         .to eq([described_class::COPY, described_class::EMPTY])
     end
 
@@ -64,12 +64,12 @@ RSpec.describe WorkPackageTypes::IndependentMode do
 
   describe ".available?" do
     it "is true for a mode the aspect offers" do
-      expect(described_class).to be_available(Type::ConfigurationLink::FORM_CONFIGURATION, described_class::DEFAULT)
+      expect(described_class).to be_available(TypeVariant::FORM_CONFIGURATION, described_class::DEFAULT)
     end
 
     it "is false for a mode the aspect does not offer" do
-      expect(described_class).not_to be_available(Type::ConfigurationLink::FORM_CONFIGURATION, described_class::EMPTY)
-      expect(described_class).not_to be_available(Type::ConfigurationLink::DEFAULTS, described_class::DEFAULT)
+      expect(described_class).not_to be_available(TypeVariant::FORM_CONFIGURATION, described_class::EMPTY)
+      expect(described_class).not_to be_available(TypeVariant::DEFAULTS, described_class::DEFAULT)
     end
   end
 end

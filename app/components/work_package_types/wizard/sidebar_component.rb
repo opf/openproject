@@ -33,10 +33,12 @@ module WorkPackageTypes
     class SidebarComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, variant: nil, back_url: nil)
         super(type)
 
         @current_step = current_step
+        @variant = variant
+        @back_url = back_url
       end
 
       LEADING_ICONS = {
@@ -50,20 +52,20 @@ module WorkPackageTypes
       }.freeze
 
       ASPECTS = {
-        defaults: Type::ConfigurationLink::DEFAULTS,
-        form_configuration: Type::ConfigurationLink::FORM_CONFIGURATION,
-        project_attributes: Type::ConfigurationLink::PROJECT_ATTRIBUTES,
-        workflows: Type::ConfigurationLink::WORKFLOWS,
-        pdf: Type::ConfigurationLink::PDF_EXPORT
+        defaults: TypeVariant::DEFAULTS,
+        form_configuration: TypeVariant::FORM_CONFIGURATION,
+        project_attributes: TypeVariant::PROJECT_ATTRIBUTES,
+        workflows: TypeVariant::WORKFLOWS,
+        pdf: TypeVariant::PDF_EXPORT
       }.freeze
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :variant, :back_url
 
       def type = model
 
-      def steps = Steps.all
+      def steps = Steps.available_for(variant)
 
       def leading_icon(step) = LEADING_ICONS.fetch(step)
 
@@ -71,22 +73,22 @@ module WorkPackageTypes
 
       def current?(step) = step == current_step
 
-      # Steps ordered before the current one are considered done. Until the
-      # record is created (step 1) nothing is navigable or completed yet.
       def completed?(step)
-        type.persisted? && Steps.index(step) < Steps.index(current_step)
+        record_persisted? && Steps.index(step) < Steps.index(current_step)
       end
 
       def linked?(step)
         aspect = ASPECTS[step]
-        aspect.present? && type.linked?(aspect)
+        aspect.present? && variant&.linked?(aspect)
       end
 
-      # Only visited/creatable steps are navigable: before the record exists we
-      # cannot address a step by its type id.
       def href_for(step)
-        type_creation_wizard_path(type, step:) if type.persisted?
+        type_creation_wizard_path(**variant_path_args, step:, back_url:) if record_persisted?
       end
+
+      def variant_path_args = variant&.path_args || { type_id: type.id }
+
+      def record_persisted? = variant ? variant.persisted? : type.persisted?
     end
   end
 end

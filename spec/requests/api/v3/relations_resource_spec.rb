@@ -45,12 +45,12 @@ RSpec.describe "API v3 Relation resource" do
   let(:work_package) do
     create(:work_package,
            project:,
-           type: project.types.first)
+           type: project.enabled_types.first)
   end
   let(:visible_work_package) do
     create(:work_package,
            project:,
-           type: project.types.first)
+           type: project.enabled_types.first)
   end
   let(:invisible_work_package) do
     # will be inside another project

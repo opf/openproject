@@ -291,7 +291,7 @@ RSpec.describe WorkPackages::BaseContract do
 
       context "when valid transition" do
         it "is valid" do
-          expect(subject.errors.symbols_for(:status_id))
+          expect(subject.errors.symbols_for(:status))
             .to be_empty
         end
       end
@@ -300,7 +300,7 @@ RSpec.describe WorkPackages::BaseContract do
         let(:valid_transition_result) { false }
 
         it "is invalid" do
-          expect(subject.errors.symbols_for(:status_id))
+          expect(subject.errors.symbols_for(:status))
             .to contain_exactly(:status_transition_invalid)
         end
       end
@@ -322,7 +322,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is valid" do
-          expect(subject.errors.symbols_for(:status_id))
+          expect(subject.errors.symbols_for(:status))
             .to be_empty
         end
       end
@@ -1444,9 +1444,7 @@ RSpec.describe WorkPackages::BaseContract do
   describe "type" do
     context "for disabled type" do
       before do
-        allow(project)
-          .to receive(:types)
-          .and_return([])
+        project.project_types.destroy_all
       end
 
       describe "not changing the type" do
@@ -1632,6 +1630,8 @@ RSpec.describe WorkPackages::BaseContract do
   describe "#assignable_statuses" do
     let(:role) { build_stubbed(:project_role) }
     let(:type) { build_stubbed(:type) }
+    # Transitions hang off the configuration in force, which is what the contract reads.
+    let(:variant) { build_stubbed(:type_variant, type:) }
     let(:assignee_user) { build_stubbed(:user) }
     let(:author_user) { build_stubbed(:user) }
     let(:current_status) { build_stubbed(:status) }
@@ -1661,11 +1661,13 @@ RSpec.describe WorkPackages::BaseContract do
         .to receive(:roles_for_work_package)
          .with(work_package)
          .and_return(roles)
+
+      allow(work_package).to receive(:type_variant).and_return(variant)
     end
 
     shared_examples_for "new_statuses_allowed_to" do
       let(:base_scope) do
-        from_workflows = type.workflows
+        from_workflows = variant.workflows
                         .from_status(current_status.id, [role.id], author:, assignee:)
                         .select(:new_status_id)
 
@@ -1764,16 +1766,18 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
-    context "when the type is linked to a source", with_flag: { type_variants: true } do
+    context "when the variant is linked to a source" do
       let(:role) { create(:project_role) }
       let(:source) { create(:type) }
       let(:type) { create(:type) }
+      # These need the real chain rather than the stub above: resolving it is the point.
+      let(:variant) { type.default_variant }
       let(:current_status) { create(:status) }
       let(:target_status) { create(:status) }
 
       before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source:)
-        create(:workflow, role_id: role.id, type_id: source.id,
+        link_configuration(variant, source:, aspect: TypeVariant::WORKFLOWS)
+        create(:workflow, role_id: role.id, type_variant: source.default_variant,
                           old_status_id: current_status.id, new_status_id: target_status.id,
                           author: false, assignee: false)
       end
@@ -1784,14 +1788,16 @@ RSpec.describe WorkPackages::BaseContract do
 
       it "resolves allowed transitions through a longer link chain" do
         middle = create(:type)
-        middle.link!(Type::ConfigurationLink::WORKFLOWS, source:)
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+        link_configuration(middle, source:, aspect: TypeVariant::WORKFLOWS)
+        link_configuration(variant, source: middle, aspect: TypeVariant::WORKFLOWS)
 
         expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
 
-      it "ignores the link with the variants feature disabled", with_flag: { type_variants: false } do
-        expect(contract.assignable_statuses.pluck(:id)).not_to include(target_status.id)
+      # The feature flag opens the admin surface; it never changes what a link resolves to.
+      it "resolves the link the same with the variants feature disabled",
+         with_flag: { type_variants: false } do
+        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
     end
   end
@@ -1823,7 +1829,7 @@ RSpec.describe WorkPackages::BaseContract do
     context "when project defined" do
       it "is all types of the project" do
         allow(work_package.project)
-          .to receive(:types)
+          .to receive(:enabled_types)
           .and_return(scope)
 
         expect(contract.assignable_types)
@@ -1873,13 +1879,17 @@ RSpec.describe WorkPackages::BaseContract do
 
   it_behaves_like "contract reuses the model errors"
 
-  # The work package stores the family's root, so the subject pattern in force is the one the
-  # project's variant resolves to. Following the stored root would answer with the root's
+  # The work package stores the family's type, so the subject pattern in force is the one the
+  # project's variant resolves to. Following the stored type alone would answer with the base
   # pattern and silently ignore a variant owning its defaults.
   describe "subject patterns when the project resolves the type to a variant",
            with_flag: { type_variants: true } do
     shared_let(:family_root) { create(:type, name: "Family root") }
-    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:variant) do
+      create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
+        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+      end
+    end
 
     let(:project) { create(:project, types: [variant]) }
     let(:type) { family_root }
@@ -1887,7 +1897,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:blueprint) { { subject: { blueprint: "{{type}}", enabled: true } } }
 
     context "when the variant inherits the root's defaults" do
-      before { family_root.update!(patterns: blueprint) }
+      before { family_root.default_variant.update!(patterns: blueprint) }
 
       it "accepts a blank subject, as the pattern generates it" do
         contract.validate
@@ -1902,8 +1912,8 @@ RSpec.describe WorkPackages::BaseContract do
 
     context "when the variant owns its defaults and defines no pattern" do
       before do
-        family_root.update!(patterns: blueprint)
-        variant.configuration_links.find_by(aspect: Type::ConfigurationLink::DEFAULTS).destroy!
+        family_root.default_variant.update!(patterns: blueprint)
+        unlink_configuration(variant, aspect: TypeVariant::DEFAULTS)
         variant.reload
       end
 
@@ -1920,11 +1930,11 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   # #new_statuses_by_workflow reads the workflows of the type in force, which is the variant the
-  # project resolves the stored root to.
+  # project resolves the stored type to.
   describe "#assignable_statuses when the project resolves the type to a variant",
            with_flag: { type_variants: true } do
     shared_let(:family_root) { create(:type, name: "Family root") }
-    shared_let(:variant) { create(:type, name: "Variant", parent: family_root) }
+    shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:current_status) { create(:status, name: "Current") }
     shared_let(:root_target) { create(:status, name: "Root target") }
     shared_let(:variant_target) { create(:status, name: "Variant target") }
@@ -1936,7 +1946,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:work_package) { create(:work_package, project:, type: family_root, status: current_status) }
 
     before do
-      variant.configuration_links.find_by(aspect: Type::ConfigurationLink::WORKFLOWS).destroy!
+      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
       variant.reload
 
       create(:workflow, type: family_root, role:,

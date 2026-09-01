@@ -82,7 +82,7 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
       .to have_content "Successfully copied workflow"
 
     expect(Workflow.where(role_id: work_package_role.id,
-                          type_id: type.id,
+                          type_variant_id: type.default_variant.id,
                           old_status_id: start_status.id,
                           new_status_id: end_status.id,
                           author: false,

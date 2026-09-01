@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::PageInfoForUrl,
                with_settings: { host_name: "openproject.example.com" } do

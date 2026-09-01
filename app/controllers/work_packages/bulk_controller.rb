@@ -113,21 +113,21 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
-    @types = @projects.map(&:types).inject(&:&)
+    @types = @projects.map { |project| project.enabled_types.to_a }.inject(&:&)
     @custom_fields = editable_custom_fields
   end
 
   # Only the custom fields that are enabled on the projects and on the types too.
   def editable_custom_fields
-    @projects.map(&:all_work_package_custom_fields).inject(&:&) & custom_fields_of_effective_types
+    @projects.map(&:all_work_package_custom_fields).inject(&:&) & custom_fields_of_type_variants
   end
 
-  # Each project may resolve a family to its own variant, so the types are resolved per project
+  # Each project applies its own variant of a type, so the variant is resolved per project
   # before #custom_fields follows the form configuration link from there.
-  def custom_fields_of_effective_types
-    @projects.flat_map { |project| project.effective_types(*@types) }
+  def custom_fields_of_type_variants
+    @projects.flat_map { |project| project.type_variants(*@types) }
              .uniq
-             .flat_map { |type| type.custom_fields.to_a }
+             .flat_map { |variant| variant.custom_fields.to_a }
              .uniq
   end
 

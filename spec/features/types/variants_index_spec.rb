@@ -34,12 +34,12 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }
-  shared_let(:zeta_variant) { create(:type, name: "Zeta variant", parent: bug_type) }
-  shared_let(:alfa_variant) { create(:type, name: "Alpha variant", parent: bug_type) }
+  shared_let(:zeta_variant) { create(:type_variant, type: bug_type, variant_name: "Zeta variant") }
+  shared_let(:alfa_variant) { create(:type_variant, type: bug_type, variant_name: "Alpha variant") }
 
   before { login_as(admin) }
 
-  it "makes only root types draggable via a drag handle" do
+  it "makes only types draggable via a drag handle" do
     visit types_path
 
     expect(page).to have_text(bug_type.name)
@@ -48,38 +48,39 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
     expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
 
-    variant_row = page.find(".Box-row", text: alfa_variant.own_name, visible: :all)
+    variant_row = page.find(".Box-row", text: alfa_variant.variant_name, visible: :all)
     expect(variant_row).to have_no_css(".DragHandle", visible: :all)
   end
 
-  it "links a root type's header to its settings page" do
+  it "links a type's header to its settings page" do
     visit types_path
 
     expect(page).to have_link(bug_type.name, href: edit_type_details_path(type_id: bug_type.id))
   end
 
-  it "offers 'Move' only on roots, while both roots and variants can be configured and deleted" do
+  it "links a variant to its settings page, as a type's header links to its own" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      expect(page).to have_link(I18n.t(:button_configure))
-      expect(page).to have_button(I18n.t(:button_move))
-      expect(page).to have_button(I18n.t(:button_delete))
-    end
-    find("body").send_keys :escape
+    expect(page).to have_link(
+      alfa_variant.variant_name,
+      href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+    )
+  end
 
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      expect(page).to have_link(I18n.t(:button_configure))
-      expect(page).to have_button(I18n.t(:button_delete))
-      expect(page).to have_no_button(I18n.t(:button_move))
+  it "counts a type's named variants in its header" do
+    visit types_path
+
+    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+      expect(page).to have_text(I18n.t("types.index.variants_count", count: 2))
+    end
+
+    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+      expect(page).to have_no_text(I18n.t("types.index.variants_count", count: 0))
     end
   end
 
-  it "badges the type and the variant that are marked as default" do
-    feature_type.update!(is_default: true)
-    alfa_variant.update!(is_default: true)
+  it "badges the type that is activated in new projects" do
+    feature_type.default_variant.update!(enabled_in_new_projects: true)
 
     visit types_path
 
@@ -90,167 +91,79 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
       expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
-
-    within(".Box-row", text: alfa_variant.own_name, visible: :all) do
-      expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"), visible: :all)
-    end
-
-    within(".Box-row", text: zeta_variant.own_name, visible: :all) do
-      expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"), visible: :all)
-    end
   end
 
-  it "names the default variant in the collapsed header of its group" do
-    alfa_variant.update!(is_default: true)
-
+  it "offers configure, move and delete on a type" do
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      expect(page).to have_css(
-        ".Label",
-        text: I18n.t("types.index.variant_enabled_in_new_projects", name: alfa_variant.own_name)
-      )
-    end
-
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      expect(page).to have_no_css(".Label")
+      find("action-menu > button").click
+      expect(page).to have_link(I18n.t(:button_configure))
+      expect(page).to have_button(I18n.t(:button_move))
+      expect(page).to have_button(I18n.t(:button_delete))
     end
   end
 
-  it "shows the type's own label rather than a variant's when the root is the default" do
-    bug_type.update!(is_default: true)
-
-    visit types_path
-
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
-    end
-  end
-
-  it "offers activating on every type and variant, and deactivating on the current default" do
-    alfa_variant.update!(is_default: true)
-
+  it "offers configure and delete on a variant" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    within(".Box-row", text: alfa_variant.variant_name) do
       find("action-menu > button").click
-      expect(page).to have_button(I18n.t("types.index.make_default"))
-      expect(page).to have_no_button(I18n.t("types.index.remove_default"))
+
+      expect(page).to have_link(
+        I18n.t(:button_configure),
+        href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      )
+      expect(page).to have_button(I18n.t(:button_delete))
     end
-    find("body").send_keys :escape
-
-    within(".Box-row", text: zeta_variant.own_name) do
-      find("action-menu > button").click
-      expect(page).to have_button(I18n.t("types.index.make_default"))
-      expect(page).to have_no_button(I18n.t("types.index.remove_default"))
-    end
-    find("body").send_keys :escape
-
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      expect(page).to have_button(I18n.t("types.index.remove_default"))
-      expect(page).to have_no_button(I18n.t("types.index.make_default"))
-    end
-  end
-
-  it "removes the default from the chosen variant" do
-    alfa_variant.update!(is_default: true)
-
-    visit types_path
-
-    find(".Box-header", text: bug_type.name).click
-
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      click_on I18n.t("types.index.remove_default")
-    end
-
-    expect(page).to have_text(
-      I18n.t("types.index.remove_default_notice", name: alfa_variant.own_name)
-    )
-    expect(alfa_variant.reload).not_to be_is_default
-  end
-
-  it "moves the default to the chosen variant" do
-    bug_type.update!(is_default: true)
-
-    visit types_path
-
-    find(".Box-header", text: bug_type.name).click
-
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      click_on I18n.t("types.index.make_default")
-    end
-
-    expect(page).to have_text(
-      I18n.t("types.index.make_default_notice", name: alfa_variant.own_name)
-    )
-    expect(alfa_variant.reload).to be_is_default
-    expect(bug_type.reload).not_to be_is_default
-  end
-
-  it "keeps the affected variant's group expanded after setting it as default" do
-    visit types_path
-
-    find(".Box-header", text: bug_type.name).click
-
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      click_on I18n.t("types.index.make_default")
-    end
-
-    expect(page).to have_text(I18n.t("types.index.make_default_notice", name: alfa_variant.own_name))
-    expect(page).to have_link(alfa_variant.own_name)
-    expect(page).to have_link(zeta_variant.own_name)
-  end
-
-  it "leaves the groups collapsed after setting a root type as default" do
-    visit types_path
-
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t("types.index.make_default")
-    end
-
-    expect(page).to have_text(I18n.t("types.index.make_default_notice", name: bug_type.own_name))
-    expect(page).to have_no_link(alfa_variant.own_name)
   end
 
   it "expands the group named by the expand param" do
     visit types_path(expand: bug_type.id)
 
-    expect(page).to have_link(alfa_variant.own_name)
-    expect(page).to have_link(zeta_variant.own_name)
+    expect(page).to have_link(alfa_variant.variant_name)
+    expect(page).to have_link(zeta_variant.variant_name)
   end
 
   it "lists a group's variants alphabetically" do
     visit types_path
 
-    expect(page).to have_link(alfa_variant.own_name, visible: :all)
-    expect(page).to have_link(zeta_variant.own_name, visible: :all)
-    expect(page.body.index(alfa_variant.own_name)).to be < page.body.index(zeta_variant.own_name)
+    expect(page).to have_link(alfa_variant.variant_name, visible: :all)
+    expect(page).to have_link(zeta_variant.variant_name, visible: :all)
+    expect(page.body.index(alfa_variant.variant_name)).to be < page.body.index(zeta_variant.variant_name)
   end
 
-  it "offers 'Add variant' only on roots, linking to the creation wizard for that root" do
+  it "adds a variant to a type from the group's add-variant row" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      expect(page).to have_link(
-        I18n.t("types.index.add_variant_action"),
-        href: new_creation_wizard_types_path(parent_id: bug_type.id)
-      )
+    within("[data-draggable-id='#{bug_type.id}']") do
+      click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
-    find("body").send_keys :escape
 
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      expect(page).to have_no_link(I18n.t("types.index.add_variant_action"))
-    end
+    expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+
+    fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
+    click_on I18n.t(:button_continue)
+
+    expect(bug_type.reload.variants.non_default_variants.pluck(:variant_name))
+      .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 
-  it "duplicates a root type from its action menu" do
+  it "returns to the index when the add-variant wizard is cancelled" do
+    visit types_path(expand: bug_type.id)
+
+    within("[data-draggable-id='#{bug_type.id}']") do
+      click_on I18n.t("types.index.add_variant", name: bug_type.name)
+    end
+
+    expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+
+    click_on I18n.t(:button_cancel), match: :first
+
+    expect(page).to have_current_path(types_path)
+  end
+
+  it "duplicates a type from its action menu" do
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
@@ -258,27 +171,12 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       click_on I18n.t(:button_duplicate)
     end
 
-    expect(page).to have_text(I18n.t("types.index.duplicate_notice", name: bug_type.own_name))
-    expect(page).to have_text(I18n.t("types.index.duplicate_name", name: bug_type.own_name))
-    expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.own_name))).to be(true)
+    expect(page).to have_text(I18n.t("types.index.duplicate_notice", name: bug_type.name))
+    expect(page).to have_text(I18n.t("types.index.duplicate_name", name: bug_type.name))
+    expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.name))).to be(true)
   end
 
-  it "offers 'Duplicate' on both roots and variants" do
-    visit types_path(expand: bug_type.id)
-
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      expect(page).to have_button(I18n.t(:button_duplicate))
-    end
-    find("body").send_keys :escape
-
-    within(".Box-row", text: alfa_variant.own_name) do
-      find("action-menu > button").click
-      expect(page).to have_button(I18n.t(:button_duplicate))
-    end
-  end
-
-  it "reorders root types via drag and drop", :selenium do
+  it "reorders types via drag and drop", :selenium do
     visit types_path
 
     expect(bug_type.position).to be < feature_type.position
@@ -291,7 +189,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
 
-  it "reorders a root type via the async 'Move' submenu" do
+  it "reorders a type via the async 'Move' submenu" do
     visit types_path
 
     expect(bug_type.position).to be < feature_type.position

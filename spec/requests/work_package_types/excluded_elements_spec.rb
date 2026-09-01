@@ -37,9 +37,9 @@ RSpec.describe "Work package type excluded elements",
   shared_let(:admin) { create(:admin) }
   shared_let(:source) { create(:type) }
 
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
   let(:type) { create(:type) }
-  let(:link) { type.configuration_links.find_by(aspect:) }
+  let(:link) { variant_of(type) }
 
   before { login_as admin }
 
@@ -48,30 +48,30 @@ RSpec.describe "Work package type excluded elements",
   end
 
   context "when the type is Linked for the aspect" do
-    before { type.link!(aspect, source:) }
+    before { link_configuration(type, source:, aspect:) }
 
     it "excludes the element when switched off", :aggregate_failures do
       toggle(value: "0")
 
       expect(response).to have_http_status(:ok)
-      expect(link.excluded_elements).to contain_exactly("assignee")
+      expect(excluded_configuration_elements(link, aspect: aspect)).to contain_exactly("assignee")
     end
 
     it "restores the element when switched on", :aggregate_failures do
-      link.update!(excluded_elements: %w[assignee custom_field_1])
+      exclude_configuration_elements(link, aspect: aspect, elements: %w[assignee custom_field_1])
 
       toggle(value: "1")
 
       expect(response).to have_http_status(:ok)
-      expect(link.reload.excluded_elements).to contain_exactly("custom_field_1")
+      expect(excluded_configuration_elements(link, aspect: aspect)).to contain_exactly("custom_field_1")
     end
 
     it "leaves the other aspects alone" do
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
 
       toggle(value: "0")
 
-      expect(type.configuration_links.find_by(aspect: Type::ConfigurationLink::PDF_EXPORT).excluded_elements)
+      expect(excluded_configuration_elements(type, aspect: TypeVariant::PDF_EXPORT))
         .to be_empty
     end
   end
@@ -90,13 +90,13 @@ RSpec.describe "Work package type excluded elements",
   end
 
   context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    before { type.link!(aspect, source:) }
+    before { link_configuration(type, source:, aspect:) }
 
     it "blocks the endpoint and excludes nothing", :aggregate_failures do
       toggle(value: "0")
 
       expect(response).to have_http_status(:not_found)
-      expect(link.excluded_elements).to be_empty
+      expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe "Work package type excluded elements",
     before { login_as create(:user) }
 
     it "is forbidden" do
-      type.link!(aspect, source:)
+      link_configuration(type, source:, aspect:)
 
       toggle(value: "0")
 

@@ -190,7 +190,7 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
       result = MeetingAgendaItems::ConvertToWorkPackageService
         .new(user:, project:)
         .call(meeting_agenda_item: agenda_item,
-              work_package_params: { subject: "Discuss the roadmap", type: project.types.first })
+              work_package_params: { subject: "Discuss the roadmap", type: project.enabled_types.first })
 
       expect(result).to be_success
       journal = result.result.journals.reload.last

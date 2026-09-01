@@ -53,33 +53,27 @@ See COPYRIGHT and LICENSE files for more details.
           <label class="sr-only" for="<%= id_prefix %>_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></label>
           <%= cost_form.text_field :hours,
                                    index: id_or_index,
-                                   value: unitless_currency_number(labor_budget_item.hours),
+                                   value: DurationConverter.output(labor_budget_item.hours),
                                    # Avoid a number field due to chrome bug (OP#32232)
-                                   # but show the appearance of a decimal field on mobile
-                                   inputmode: :decimal,
-                                   placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                                   placeholder: t(:label_example_placeholder, decimal: "2d 10h"),
                                    class: "budget-item-value form--text-field",
                                    data: {
+                                     controller: "chronic-duration",
                                      "request-key": "hours",
-                                     action: "keyup->costs--budget-subform#valueChanged"
+                                     action: "keyup->costs--budget-subform#valueChanged",
+                                     **DurationConverter.stimulus_data_values("chronic-duration")
                                    } %>
         </div>
       </div>
     </td>
     <td class="user">
-      <label class="sr-only" for="<%= id_prefix %>_user_id"><%= t(:label_user) %></label>
-      <%= cost_form.select :user_id,
-                           Principal.possible_assignee(@project).sort.map { |u| [u.name, u.id] },
-                           { prompt: true },
-                           {
-                             index: id_or_index,
-                             class: "form--select budget-item-value",
-                             data: {
-                               "request-key": "user_id",
-                               action: "change->costs--budget-subform#valueChanged"
-                             }
-                           } %>
-
+      <%= angular_component_tag "opce-user-autocompleter",
+                                inputs: labor_budget_item_user_autocompleter_inputs(
+                                  labor_budget_item,
+                                  project: @project,
+                                  name: "#{name_prefix}[user_id]",
+                                  id: "#{id_prefix}_user_id"
+                                ) %>
     </td>
     <td class="comment">
       <label class="sr-only" for="<%= id_prefix %>_comments"><%= LaborBudgetItem.human_attribute_name(:comments) %></label>

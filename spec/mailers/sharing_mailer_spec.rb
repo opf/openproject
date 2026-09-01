@@ -34,7 +34,7 @@ RSpec.describe SharingMailer do
   let(:project) { build_stubbed(:project) }
   let(:work_package) do
     build_stubbed(:work_package,
-                  type: build_stubbed(:type_standard),
+                  type: build_stubbed(:type_task),
                   author: build_stubbed(:user),
                   project:)
   end
@@ -75,7 +75,7 @@ RSpec.describe SharingMailer do
             with_settings: { work_packages_identifier: "semantic" } do
       let(:work_package) do
         build_stubbed(:work_package,
-                      type: build_stubbed(:type_standard),
+                      type: build_stubbed(:type_task),
                       author: build_stubbed(:user),
                       project:,
                       identifier: "PROJ-42")

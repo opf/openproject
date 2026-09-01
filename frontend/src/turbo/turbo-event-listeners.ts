@@ -27,6 +27,7 @@
 //++
 
 import { readScriptNonce, scrubScriptElements } from './csp-script-nonce';
+import { DialogCloseDetail } from './dialog-stream-action';
 
 export function addTurboEventListeners(doc:Document = document, signal?:AbortSignal) {
   // Close the primer dialog when the form inside has been submitted with a success response.
@@ -47,7 +48,7 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
       if (dialog) {
         if (dialog.dataset.keepOpenOnSubmit !== 'true') {
           dialog.close('close-event-already-dispatched');
-          doc.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true } }));
+          doc.dispatchEvent(new CustomEvent<DialogCloseDetail>('dialog:close', { detail: { dialog, submitted: true } }));
         }
       }
     }

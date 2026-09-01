@@ -30,109 +30,30 @@
 
 module Import
   class JiraFetchProjectsJob < ApplicationJob
-    include JiraFetchCustomFields
+    include JiraJobUtils
+
+    def text
+      "Fetch Projects"
+    end
 
     def perform(jira_import_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @updated_at = Time.zone.now
-      @created_at = @updated_at
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-
-      sync_issue_types
-      sync_priorities
-      sync_statuses
-      sync_projects
-      sync_issues
-      sync_custom_fields
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private
 
-    def sync_issue_types
-      issue_types_upsert_data = @jira_client.issue_types.map do |issue_type|
+    def fetch_data
+      projects_upsert_data = @jira_client.projects.map do |payload|
         {
-          payload: issue_type,
-          jira_id: @jira_id,
-          jira_issue_type_id: issue_type.fetch("id"),
+          payload:,
+          origin_id: payload.fetch("id"),
           jira_import_id: @jira_import.id,
           created_at: @created_at,
           updated_at: @updated_at
         }
       end
-      Import::JiraIssueType.upsert_all(issue_types_upsert_data, unique_by: %i[jira_id jira_issue_type_id])
-    end
-
-    def sync_priorities
-      priorities_upsert_data = @jira_client.priorities.map do |priority|
-        {
-          payload: priority,
-          jira_id: @jira_id,
-          jira_priority_id: priority.fetch("id"),
-          jira_import_id: @jira_import.id,
-          created_at: @created_at,
-          updated_at: @updated_at
-        }
-      end
-      Import::JiraPriority.upsert_all(priorities_upsert_data, unique_by: %i[jira_id jira_priority_id])
-    end
-
-    def sync_statuses
-      statuses_upsert_data = @jira_client.statuses.map do |status|
-        {
-          payload: status,
-          jira_id: @jira_id,
-          jira_status_id: status.fetch("id"),
-          jira_import_id: @jira_import.id,
-          created_at: @created_at,
-          updated_at: @updated_at
-        }
-      end
-      Import::JiraStatus.upsert_all(statuses_upsert_data, unique_by: %i[jira_id jira_status_id])
-    end
-
-    def sync_projects
-      projects_upsert_data = @jira_client.projects.map do |p|
-        {
-          payload: p,
-          jira_id: @jira_id,
-          jira_project_id: p.fetch("id"),
-          jira_import_id: @jira_import.id,
-          created_at: @created_at,
-          updated_at: @updated_at
-        }
-      end
-      Import::JiraProject.upsert_all(projects_upsert_data, unique_by: %i[jira_id jira_project_id])
-    end
-
-    def sync_issues
-      Import::JiraProject.where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids).find_each do |jira_project|
-        sync_project_issues(jira_project)
-      end
-    end
-
-    def sync_project_issues(jira_project)
-      jql = "project = '#{jira_project.payload['key']}'"
-      start_at = 0
-      loop do
-        result = @jira_client.issues(jql:, start_at:, max_results: 5)
-        issues = result["issues"]
-        issues_upsert_data = issues.map do |issue|
-          {
-            payload: issue,
-            jira_id: @jira_id,
-            jira_project_id: jira_project.id,
-            jira_issue_id: issue.fetch("id"),
-            jira_import_id: @jira_import.id,
-            created_at: @created_at,
-            updated_at: @updated_at
-          }
-        end
-        Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
-        start_at = result["startAt"] + result["maxResults"]
-        break if start_at >= result["total"]
-      end
+      Import::JiraProject.upsert_all(projects_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
   end
 end

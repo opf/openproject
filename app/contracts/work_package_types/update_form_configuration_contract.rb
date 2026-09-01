@@ -29,8 +29,11 @@
 #++
 
 module WorkPackageTypes
-  class UpdateFormConfigurationContract < BaseContract
+  class UpdateFormConfigurationContract < ::ModelContract
+    include AuthorizesVariantAuthoring
     include RequiresEnterpriseGuard
+
+    def self.model = TypeVariant
 
     self.enterprise_action = :edit_attribute_groups
     self.enterprise_condition = ->(*) { custom_groups_modified? }
@@ -80,7 +83,7 @@ module WorkPackageTypes
         if key.is_a?(String) && valid_attributes.exclude?(key)
           errors.add(
             :attribute_groups,
-            I18n.t("activerecord.errors.models.type.attributes.attribute_groups.attribute_unknown_name",
+            I18n.t("activerecord.errors.models.type_variant.attributes.attribute_groups.attribute_unknown_name",
                    attribute: key)
           )
         end
@@ -93,7 +96,7 @@ module WorkPackageTypes
       old_keys = normalized_old_keys
       new_keys = model.attribute_groups.map(&:key)
 
-      (new_keys - old_keys - Type.default_groups.keys).any?
+      (new_keys - old_keys - TypeVariant.default_groups.keys).any?
     end
 
     def normalized_old_keys

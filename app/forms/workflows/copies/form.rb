@@ -29,11 +29,11 @@
 #++
 
 class Workflows::Copies::Form < ApplicationForm
-  def initialize(source_type:, source_role:, other_types:, all_roles:, append_to: nil)
+  def initialize(source_variant:, source_role:, other_variants:, all_roles:, append_to: nil)
     super()
-    @source_type = source_type
+    @source_variant = source_variant
     @source_role = source_role
-    @other_types = other_types
+    @other_variants = other_variants
     @all_roles = all_roles
     @append_to = append_to
   end
@@ -74,10 +74,10 @@ class Workflows::Copies::Form < ApplicationForm
         }
       ) do |from_type|
         from_type.autocompleter(
-          name: "target_type_ids",
+          name: "target_variant_ids",
           required: true,
           include_blank: false,
-          label: helpers.t("workflows.copies.form.target_type_ids.label"),
+          label: helpers.t("workflows.copies.form.target_variant_ids.label"),
           autocomplete_options: {
             multiple: true,
             decorated: true,
@@ -89,8 +89,8 @@ class Workflows::Copies::Form < ApplicationForm
             }
           }
         ) do |target_list|
-          @other_types.each do |other_type|
-            target_list.option(label: other_type.name, value: other_type.id)
+          @other_variants.each do |other_variant|
+            target_list.option(label: other_variant.composite_name, value: other_variant.id)
           end
         end
       end

@@ -44,7 +44,7 @@ module WorkPackageTypes
     end
 
     def dialog
-      respond_with_dialog ConfigurationCopies::DialogComponent.new(type: @type, aspect:)
+      respond_with_dialog ConfigurationCopies::DialogComponent.new(variant: @variant, aspect:)
     end
 
     # The source picker's submit: swaps the picker for the danger confirmation.
@@ -52,8 +52,8 @@ module WorkPackageTypes
       if source.nil?
         render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.copy.invalid_source"))
       else
-        close_dialog_via_turbo_stream("##{ConfigurationCopies::DialogComponent::DIALOG_ID}")
-        dialog_via_turbo_stream(component: ConfigurationCopies::ConfirmDialogComponent.new(type: @type, aspect:, source:))
+        close_dialog_via_turbo_stream(ConfigurationCopies::DialogComponent::DIALOG_ID)
+        dialog_via_turbo_stream(component: ConfigurationCopies::ConfirmDialogComponent.new(variant: @variant, aspect:, source:))
       end
 
       respond_with_turbo_streams
@@ -62,7 +62,7 @@ module WorkPackageTypes
     def copy
       result = copy_service.call(source:)
 
-      close_dialog_via_turbo_stream("##{ConfigurationCopies::ConfirmDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ConfigurationCopies::ConfirmDialogComponent::DIALOG_ID)
 
       if result.success?
         respond_to_copy_success
@@ -78,7 +78,7 @@ module WorkPackageTypes
     def aspect = params[:aspect]
 
     def copy_service
-      CopyConfiguration.service_for(aspect).new(type: @type, user: current_user)
+      CopyConfiguration.service_for(aspect).new(variant: @variant, user: current_user)
     end
 
     def respond_to_copy_success
@@ -89,10 +89,12 @@ module WorkPackageTypes
       )
     end
 
+    # Scoped here rather than on the record: a copy carries values across and records no source,
+    # so there is no foreign key for the model to validate afterwards.
     def source
       return @source if defined?(@source)
 
-      @source = Type.global.find_by(id: params[:source_id])
+      @source = TypeVariant.available_in(@variant.project).find_by(id: params[:source_id])
     end
 
     def require_supported_aspect

@@ -37,14 +37,16 @@ RSpec.describe "Work package type configuration copies",
   shared_let(:admin) { create(:admin) }
 
   let(:type) { create(:type) }
-  let(:source) { create(:type, name: "Feature") }
-  let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+  let(:variant) { type.default_variant }
+  let(:source_type) { create(:type, name: "Feature") }
+  let(:source) { source_type.default_variant }
+  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
 
   before { login_as(admin) }
 
   describe "GET dialog" do
     it "renders the copy source dialog" do
-      get type_configuration_copy_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
+      get type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Copy configuration")
@@ -52,32 +54,29 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "annotates the parent and orders variants under their root with the composite name" do
-      variant = create(:type, parent: source)
+      named_variant = create(:type_variant, type: source_type, variant_name: "Web")
       root = create(:type, name: "Bug")
-      create(:type, name: "Mobile", parent: root)
-      create(:type, name: "Desktop", parent: root)
+      create(:type_variant, type: root, variant_name: "Mobile")
+      create(:type_variant, type: root, variant_name: "Desktop")
 
-      get type_configuration_copy_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
+      get type_configuration_copy_dialog_path(type_id: source_type.id, variant_id: named_variant.id, aspect:),
+          as: :turbo_stream
 
-      # the current type's own parent is flagged as the likely source
       expect(response.body).to include("Feature (parent)")
-      # variants carry their parent via the composite name
       expect(response.body).to include("Bug: Mobile")
-      # a root is listed before its variant
       expect(response.body.index("Bug")).to be < response.body.index("Bug: Mobile")
-      # variants are alphabetical, not in the order they were added
       expect(response.body.index("Bug: Desktop")).to be < response.body.index("Bug: Mobile")
     end
 
     it "is not found for aspects without a copy service" do
-      get type_configuration_copy_dialog_path(type_id: type.id, aspect: "unknown_aspect"),
+      get type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id, aspect: "unknown_aspect"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end
 
     it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_copy_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
+      get type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end
@@ -85,7 +84,7 @@ RSpec.describe "Work package type configuration copies",
 
   describe "POST confirm" do
     it "closes the picker and renders the danger confirmation" do
-      post type_configuration_copy_confirm_path(type_id: type.id, aspect:),
+      post type_configuration_copy_confirm_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { source_id: source.id },
            as: :turbo_stream
 
@@ -97,7 +96,7 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "flashes an error when no source was picked" do
-      post type_configuration_copy_confirm_path(type_id: type.id, aspect:),
+      post type_configuration_copy_confirm_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { source_id: "" },
            as: :turbo_stream
 
@@ -113,12 +112,12 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "copies the configuration, closes the dialog and dispatches the reload event" do
-      post type_configuration_copy_copy_path(type_id: type.id, aspect:),
+      post type_configuration_copy_copy_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { source_id: source.id },
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(type.reload.attribute_groups.map(&:key)).to eq(["copied group"])
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(["copied group"])
 
       expect(response.body).to include("closeDialog")
       expect(response.body).to include("dispatchEvent")
@@ -128,32 +127,32 @@ RSpec.describe "Work package type configuration copies",
     end
 
     it "flashes an error and copies nothing without a valid source" do
-      post type_configuration_copy_copy_path(type_id: type.id, aspect:),
+      post type_configuration_copy_copy_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { source_id: "" },
            as: :turbo_stream
 
       expect(response.body).not_to include("dispatchEvent")
-      expect(type.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
     end
 
     it "is not found for aspects without a copy service" do
-      post type_configuration_copy_copy_path(type_id: type.id, aspect: "unknown_aspect"),
+      post type_configuration_copy_copy_path(type_id: type.id, variant_id: variant.id, aspect: "unknown_aspect"),
            params: { source_id: source.id },
            as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
-      expect(type.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
     end
 
     it "requires admin" do
       login_as create(:user)
 
-      post type_configuration_copy_copy_path(type_id: type.id, aspect:),
+      post type_configuration_copy_copy_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { source_id: source.id },
            as: :turbo_stream
 
       expect(response).not_to be_successful
-      expect(type.reload.read_attribute(:attribute_groups)).to be_empty
+      expect(variant.reload.read_attribute(:attribute_groups)).to be_empty
     end
   end
 end

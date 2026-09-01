@@ -33,14 +33,13 @@ module WorkPackageTypes
   # project used to express by disabling single fields becomes part of the form configuration
   # instead.
   #
-  # The variant inherits every aspect from the given type and excludes only the custom fields the
-  # project has not enabled. A project that narrows nothing needs no variant, so the given type is
-  # returned unchanged — callers can assign the result to the project either way.
+  # A project that narrows nothing needs no variant, so the given one is returned unchanged and
+  # callers can assign the result either way.
   class BuildVariantFromProjectService < ::BaseServices::BaseCallable
-    def initialize(user:, type:)
+    def initialize(user:, variant:)
       super()
       @user = user
-      @source = type
+      @source = variant
     end
 
     protected
@@ -79,31 +78,29 @@ module WorkPackageTypes
     end
 
     def create_variant(project)
-      # TODO: When FND-204 is fully implemented and we can create project specific variants, let's ensure that
-      # we create a project specific variant here.
-      CreateService
-        .new(user:)
-        .call(name: variant_name(project), parent_id: source.root_id)
+      CreateVariantService
+        .new(user:, type: source.type)
+        .call(variant_name: variant_name(project), project:)
     end
 
-    # A variant is always a child of a root, so a variant built from another variant cannot nest
-    # under it. The configuration links are what carry the relationship: pointing them at the
-    # source variant makes its own exclusions accumulate with the ones added below.
+    # A new variant starts out linked to its type's base configuration. When the project resolved
+    # to a named variant instead, that one is what this has to inherit, so its own exclusions
+    # accumulate with the ones added below.
     def link_aspects_to_source(variant)
-      return unless source.variant?
+      return if source.is_default_variant?
 
-      Type::ConfigurationLink::ASPECTS.each { |aspect| variant.link!(aspect, source:) }
+      TypeVariant::ASPECTS.each { |aspect| variant.link!(aspect, source:) }
     end
 
     def exclude_elements(variant, elements)
       ExcludedElements::AddService
-        .new(user:, type: variant)
-        .call(aspect: Type::ConfigurationLink::FORM_CONFIGURATION, elements:)
+        .new(user:, variant:)
+        .call(aspect: TypeVariant::FORM_CONFIGURATION, elements:)
     end
 
-    # `source.custom_fields` is the type-level set the form configuration puts on a work package,
-    # already resolved through the source's own links and exclusions. Whatever of it the project
-    # has not enabled is exactly what disabling single fields used to hide.
+    # `source.custom_fields` is the set the form configuration puts on a work package, already
+    # resolved through the source's own links and exclusions. Whatever of it the project has not
+    # enabled is exactly what disabling single fields used to hide.
     def elements_to_exclude(project)
       active_ids = project.all_work_package_custom_fields.pluck(:id)
 
@@ -112,10 +109,14 @@ module WorkPackageTypes
             .map(&:attribute_name)
     end
 
-    # Name of a variant must stay unique per root type
+    # Unique within the type and the owner. The project stays in the name: administration lists
+    # every project's together.
     def variant_name(project)
-      base = "#{source.own_name} - #{project.name}"
-      taken = Type.where(parent_id: source.root_id).pluck(:name).map(&:downcase)
+      base = "#{source.display_name} - #{project.name}"
+      # Queried rather than read off `source.type.variants`, which pluck answers from memory
+      # when the association is already loaded.
+      taken = TypeVariant.where(type_id: source.type_id).owned_by(project)
+                         .pluck(:variant_name).compact.map(&:downcase)
 
       return base unless taken.include?(base.downcase)
 

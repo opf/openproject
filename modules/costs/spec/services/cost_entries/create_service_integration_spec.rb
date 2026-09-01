@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe CostEntries::CreateService, "integration", type: :model do
   let(:project) { create(:project_with_types) }
-  let(:work_package) { create(:work_package, project:, type: project.types.first) }
+  let(:work_package) { create(:work_package, project:, type: project.enabled_types.first) }
   let(:cost_type) { create(:cost_type) }
   let(:user) do
     create(:user, member_with_permissions: { project => permissions })

@@ -30,11 +30,6 @@
 
 module Projects
   module Types
-    # Whether a project may move from one member of a type family to another.
-    #
-    # The pair being switched arrives through the contract options rather than off the model:
-    # a switch changes which member the project resolves to, which is a row in project_types
-    # rather than an attribute of the project the contract validates.
     class SwitchVariantContract < ManageTypesContract
       validate :validate_target_selectable
 
@@ -45,7 +40,7 @@ module Projects
           errors.add(:types, :switch_target_blank)
         elsif target == source
           errors.add(:types, :switch_target_identical)
-        elsif source.root_id != target.root_id
+        elsif source.type_id != target.type_id
           errors.add(:types, :switch_target_not_in_family)
         end
       end

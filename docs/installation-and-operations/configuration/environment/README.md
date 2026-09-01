@@ -116,7 +116,7 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The default value is also visible for each variable in parentheses. 
+The default value is also visible for each variable in parentheses.
 
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
@@ -221,6 +221,7 @@ OPENPROJECT_EE__HIDE__BANNERS (default=false) Hide the Enterprise enterprise ban
 OPENPROJECT_EE__MANAGER__VISIBLE (default=true) Show the Enterprise configuration page
 OPENPROJECT_EMAIL__DELIVERY__CONFIGURATION (default="inapp")
 OPENPROJECT_EMAIL__DELIVERY__METHOD (default=nil) Email delivery method
+OPENPROJECT_EMAIL__LIMIT__PER__DAY (default=0) Number of emails which are allowed to be sent per day on average (may be up to 2x as much on a single day). This can be used to address spam and abuse, but is just designed as a last resort as it simply drops mails that are over the limit instead of sending them at a later point in time or notifying the user.
 OPENPROJECT_EMAIL__LOGIN (default=false) Use email as login
 OPENPROJECT_EMAILS__FOOTER (default={"en" => ""}) Emails footer
 OPENPROJECT_EMAILS__HEADER (default={"en" => ""}) Emails header

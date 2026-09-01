@@ -48,30 +48,30 @@ module Pages
           "/projects/#{project.identifier}/settings/work_packages/types"
         end
 
-        def expect_type_row(type, variant: nil)
-          row = find_row(type)
+        def expect_type_row(variant, variant_name: nil)
+          row = find_row(variant)
 
-          expect(row).to have_text(type.root.name)
-          expect(row).to have_text("Variant: #{variant}") if variant
+          expect(row).to have_text(variant.name)
+          expect(row).to have_text("Variant: #{variant_name}") if variant_name
         end
 
-        def expect_no_type_row(type)
-          expect(page).to have_no_css("[data-test-selector='project-types-row-#{type.id}']")
+        def expect_no_type_row(variant)
+          expect(page).to have_no_css("[data-test-selector='project-types-row-#{variant.id}']")
         end
 
-        def remove_type(type)
-          within(find_row(type)) { find("action-menu > button").click }
+        def remove_type(variant)
+          within(find_row(variant)) { find("action-menu > button").click }
           click_on "Remove from project"
         end
 
-        def switch_type(type, target:)
-          open_switch_dialog(type)
+        def switch_type(variant, target:)
+          open_switch_dialog(variant)
           choose_switch_target(target)
           apply_switch
         end
 
-        def open_switch_dialog(type)
-          within(find_row(type)) { find("action-menu > button").click }
+        def open_switch_dialog(variant)
+          within(find_row(variant)) { find("action-menu > button").click }
           click_on "Switch variant"
 
           expect(switch_dialog).to have_select("Variant")
@@ -85,18 +85,26 @@ module Pages
           within(switch_dialog) { click_on "Apply" }
         end
 
+        def expect_switch_impact(text)
+          expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_text(text)
+        end
+
+        def expect_no_switch_impact
+          expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_no_text(/\S/)
+        end
+
         def switch_dialog
           page.find_by_id("project-types-switch-dialog")
         end
 
-        def expect_no_switch_action(type)
-          within(find_row(type)) { find("action-menu > button").click }
+        def expect_no_switch_action(variant)
+          within(find_row(variant)) { find("action-menu > button").click }
 
           expect(page).to have_no_text("Switch variant")
         end
 
-        def find_row(type)
-          page.find("[data-test-selector='project-types-row-#{type.id}']")
+        def find_row(variant)
+          page.find("[data-test-selector='project-types-row-#{variant.id}']")
         end
       end
     end

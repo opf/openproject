@@ -33,10 +33,10 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
   shared_let(:admin) { create(:admin) }
 
-  let(:type) { create(:type) }
-  let(:source) { create(:type) }
+  let(:variant) { create(:type).default_variant }
+  let(:source) { create(:type).default_variant }
 
-  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+  subject(:service_call) { described_class.new(variant:, user: admin).call(source:) }
 
   before do
     login_as(admin)
@@ -53,10 +53,10 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
       source.reload
     end
 
-    it "copies the groups including custom names onto the type" do
+    it "copies the groups including custom names onto the variant" do
       expect(service_call).to be_success
 
-      groups = type.reload.attribute_groups
+      groups = variant.reload.attribute_groups
       expect(groups.map { |group| [group.key, group.attributes, group.display_name] })
         .to eq([
                  ["custom group", %w[assignee responsible], nil],
@@ -77,7 +77,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     it "copies the group with a fresh query instead of sharing the source's" do
       expect { service_call }.to change(Query, :count).by(1)
 
-      copied_group = type.reload.attribute_groups.detect { |group| group.is_a?(Type::QueryGroup) }
+      copied_group = variant.reload.attribute_groups.detect { |group| group.is_a?(Type::QueryGroup) }
       expect(copied_group.key).to eq("Related work packages")
       expect(copied_group.query.id).not_to eq(source_query.id)
     end
@@ -95,20 +95,20 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     let!(:existing_custom_field) { create(:work_package_custom_field, field_format: "string") }
 
     before do
-      type.attribute_groups = [
+      variant.attribute_groups = [
         ["Old table", [existing_query]],
         ["old group", [existing_custom_field.attribute_name]]
       ]
-      type.custom_field_ids = [existing_custom_field.id]
-      type.save!
-      type.reload
+      variant.custom_field_ids = [existing_custom_field.id]
+      variant.save!
+      variant.reload
 
       source.attribute_groups = [["copied group", %w[assignee]]]
       source.save!
       source.reload
     end
 
-    it "destroys the type's previous embedded queries" do
+    it "destroys the variant's previous embedded queries" do
       expect(service_call).to be_success
 
       expect(Query.find_by(id: existing_query.id)).to be_nil
@@ -117,9 +117,9 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     it "replaces the groups and deactivates custom fields the source does not use" do
       expect(service_call).to be_success
 
-      type.reload
-      expect(type.attribute_groups.map(&:key)).to eq(["copied group"])
-      expect(type.custom_field_ids).to be_empty
+      variant.reload
+      expect(variant.attribute_groups.map(&:key)).to eq(["copied group"])
+      expect(variant.custom_field_ids).to be_empty
     end
   end
 
@@ -133,48 +133,42 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
       source.reload
     end
 
-    it "activates the source's custom fields on the type" do
+    it "activates the source's custom fields on the variant" do
       expect(service_call).to be_success
 
-      type.reload
-      expect(type.attribute_groups.first.attributes).to eq([source_custom_field.attribute_name])
-      expect(type.custom_field_ids).to eq([source_custom_field.id])
+      variant.reload
+      expect(variant.attribute_groups.first.attributes).to eq([source_custom_field.attribute_name])
+      expect(variant.custom_field_ids).to eq([source_custom_field.id])
     end
   end
 
   describe "with a Linked source", with_flag: { type_variants: true } do
-    let(:owner) { create(:type) }
+    let(:owner) { create(:type).default_variant }
 
     before do
       owner.attribute_groups = [["owner group", %w[assignee]]]
       owner.save!
       owner.reload
 
-      source.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: owner)
+      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "copies the configuration the source effectively presents" do
       expect(service_call).to be_success
 
-      expect(type.reload.attribute_groups.map(&:key)).to eq(["owner group"])
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(["owner group"])
     end
   end
 
-  # Switching to Independent copies from the type's own link source, so the copy has to freeze
-  # what the type was presenting — not restore the elements its link chain excluded.
-  describe "when the type's link excludes elements", with_flag: { type_variants: true } do
+  describe "when the variant's link excludes elements", with_flag: { type_variants: true } do
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:solo_field) { create(:work_package_custom_field, field_format: "string") }
 
-    # The copy runs while the link is still in place — SwitchToIndependentModeService severs it
-    # afterwards — and Type#attribute_groups resolves through a live link. Reading it directly
-    # would therefore show the still-inherited view and hold whatever was actually persisted, so
-    # these assertions sever the link first and look at the type's own stored groups.
     def own_groups
-      type.configuration_links.destroy_all
+      TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
 
-      type.reload.attribute_groups.to_h { |group| [group.key, group.attributes] }
+      variant.reload.attribute_groups.to_h { |group| [group.key, group.attributes] }
     end
 
     before do
@@ -187,10 +181,12 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
       source.save!
       source.reload
 
-      create(:type_configuration_link, type:, source:,
-                                       aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                       excluded_elements: [excluded_field.attribute_name,
-                                                           solo_field.attribute_name])
+      link_configuration(
+        variant,
+        source: source,
+        aspect: TypeVariant::FORM_CONFIGURATION,
+        excluded: [excluded_field.attribute_name, solo_field.attribute_name]
+      )
     end
 
     it "copies the narrowed groups and drops the emptied one" do
@@ -203,7 +199,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     it "activates only the custom fields that survived the exclusions" do
       expect(service_call).to be_success
 
-      expect(type.reload.custom_field_ids).to contain_exactly(kept_field.id)
+      expect(variant.reload.custom_field_ids).to contain_exactly(kept_field.id)
     end
 
     it "leaves the source's own configuration complete" do
@@ -216,28 +212,26 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
 
     context "with exclusions accumulated over a chain" do
-      let(:owner) { create(:type) }
+      let(:owner) { create(:type).default_variant }
 
       before do
         # Rebuild as owner <- source <- type, each link dropping a little more.
-        type.configuration_links.destroy_all
+        TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
         owner.attribute_groups = source.attribute_groups.map { |g| [g.key, g.attributes] }
         owner.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
         owner.save!
 
         source.update!(attribute_groups: [])
-        create(:type_configuration_link, type: source, source: owner,
-                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                         excluded_elements: [excluded_field.attribute_name])
-        create(:type_configuration_link, type:, source:,
-                                         aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                         excluded_elements: [solo_field.attribute_name])
+        link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
+                                   excluded: [excluded_field.attribute_name])
+        link_configuration(variant, source: source, aspect: TypeVariant::FORM_CONFIGURATION,
+                                    excluded: [solo_field.attribute_name])
       end
 
       it "applies every link's exclusions, not just the nearest one" do
         expect(service_call).to be_success
 
-        expect(type.reload.custom_field_ids).to contain_exactly(kept_field.id)
+        expect(variant.reload.custom_field_ids).to contain_exactly(kept_field.id)
         expect(own_groups.keys).to contain_exactly("numbers", "people")
         expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
       end
@@ -254,9 +248,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
         source.save!
         source.reload
 
-        type.configuration_links
-            .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
-            .update!(excluded_elements: ["query_#{embedded_query.id}"])
+        exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION, elements: ["query_#{embedded_query.id}"])
       end
 
       it "does not copy the excluded section" do
@@ -276,7 +268,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
   # "Copy from type" on the form configuration tab passes an arbitrary source, whose own
   # exclusions are what the user saw when picking it.
   describe "copying from an unrelated Linked type", with_flag: { type_variants: true } do
-    let(:owner) { create(:type) }
+    let(:owner) { create(:type).default_variant }
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
 
@@ -286,36 +278,35 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
       owner.save!
       owner.reload
 
-      create(:type_configuration_link, type: source, source: owner,
-                                       aspect: Type::ConfigurationLink::FORM_CONFIGURATION,
-                                       excluded_elements: [excluded_field.attribute_name])
+      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
+                                 excluded: [excluded_field.attribute_name])
     end
 
     # `type` is Independent here, so its own groups are what the reader returns already.
     it "copies what that type presents, not the owner's full configuration" do
       expect(service_call).to be_success
 
-      expect(type.reload.attribute_groups.first.attributes).to eq([kept_field.attribute_name])
-      expect(type.custom_field_ids).to contain_exactly(kept_field.id)
+      expect(variant.reload.attribute_groups.first.attributes).to eq([kept_field.attribute_name])
+      expect(variant.custom_field_ids).to contain_exactly(kept_field.id)
     end
   end
 
   describe "invalid sources" do
     before do
-      type.attribute_groups = [["existing group", %w[assignee]]]
-      type.save!
-      type.reload
+      variant.attribute_groups = [["existing group", %w[assignee]]]
+      variant.save!
+      variant.reload
     end
 
-    it "fails when the source is the type itself and keeps the configuration" do
-      result = described_class.new(type:, user: admin).call(source: type)
+    it "fails when the source is the variant itself and keeps the configuration" do
+      result = described_class.new(variant:, user: admin).call(source: variant)
 
       expect(result).to be_failure
-      expect(type.reload.attribute_groups.map(&:key)).to eq(["existing group"])
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(["existing group"])
     end
 
     it "fails without a source" do
-      result = described_class.new(type:, user: admin).call(source: nil)
+      result = described_class.new(variant:, user: admin).call(source: nil)
 
       expect(result).to be_failure
     end

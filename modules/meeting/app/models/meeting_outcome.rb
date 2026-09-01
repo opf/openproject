@@ -36,7 +36,7 @@ class MeetingOutcome < ApplicationRecord
     information: 0,
     decision: 1,
     work_package: 2
-  }.freeze, suffix: true, default: "information"
+  }.freeze, suffix: true, default: "information", validate: true
 
   validates :meeting_agenda_item, presence: true
   validates :notes, presence: { if: -> { information_kind? } }

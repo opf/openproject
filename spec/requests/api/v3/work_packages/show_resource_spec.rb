@@ -187,7 +187,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when requesting nonexistent work package" do
-        let(:get_path) { api_v3_paths.work_package 909090 }
+        let(:get_path) { api_v3_paths.work_package(not_existing_id(WorkPackage)) }
 
         it_behaves_like "not found",
                         I18n.t("api_v3.errors.not_found.work_package")

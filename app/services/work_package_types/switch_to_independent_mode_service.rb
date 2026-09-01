@@ -29,23 +29,23 @@
 #++
 
 module WorkPackageTypes
-  # Switches one configuration aspect of a type to Independent by seeding its
+  # Switches one configuration aspect of a variant to Independent by seeding its
   # configuration from the chosen IndependentMode and then severing the link.
   # COPY and DEFAULT reuse the aspect's CopyConfiguration service (from the
-  # linked source, resp. a fresh type); EMPTY writes a blank configuration. The
+  # linked source, resp. a fresh variant); EMPTY writes a blank configuration. The
   # seeding result is aggregated with the severing, so a failed seed leaves the
   # link untouched.
   class SwitchToIndependentModeService
     # How the EMPTY mode blanks each aspect.
     # Column-backed aspects assign blank values, association-backed aspects delete their rows.
     EMPTY_CONFIGURATION = {
-      Type::ConfigurationLink::DEFAULTS => ->(type) { type.update!(patterns: {}, description: nil) },
-      Type::ConfigurationLink::WORKFLOWS => ->(type) { type.own_workflows.destroy_all },
-      Type::ConfigurationLink::PROJECT_ATTRIBUTES => ->(type) { type.own_project_custom_field_type_mappings.delete_all }
+      TypeVariant::DEFAULTS => ->(variant) { variant.update!(patterns: {}, default_work_package_description: nil) },
+      TypeVariant::WORKFLOWS => ->(variant) { variant.own_workflows.destroy_all },
+      TypeVariant::PROJECT_ATTRIBUTES => ->(variant) { variant.own_project_custom_field_type_mappings.delete_all }
     }.freeze
 
-    def initialize(type:, aspect:, user:)
-      @type = type
+    def initialize(variant:, aspect:, user:)
+      @variant = variant
       @aspect = aspect
       @user = user
     end
@@ -61,41 +61,50 @@ module WorkPackageTypes
 
     private
 
-    attr_reader :type, :aspect, :user
+    attr_reader :variant, :aspect, :user
 
     def seed_configuration(mode)
       case mode.to_s
       when IndependentMode::COPY
-        copy_configuration_from(type.source_for(aspect))
+        copy_configuration_from(variant.source_for(aspect))
       when IndependentMode::DEFAULT
-        copy_configuration_from(Type.new)
+        copy_configuration_from(TypeVariant.new(type: Type.new))
       when IndependentMode::EMPTY
         empty_configuration
       end
     end
 
     def copy_configuration_from(source)
-      CopyConfiguration.service_for(aspect).new(type:, user:).call(source:)
+      CopyConfiguration.service_for(aspect).new(variant:, user:).call(source:)
     end
 
     def empty_configuration
-      EMPTY_CONFIGURATION.fetch(aspect).call(type)
+      EMPTY_CONFIGURATION.fetch(aspect).call(variant)
 
-      ServiceResult.success(result: type)
+      ServiceResult.success(result: variant)
     rescue ActiveRecord::RecordInvalid
-      ServiceResult.failure(result: type, errors: type.errors)
+      ServiceResult.failure(result: variant, errors: variant.errors)
     end
 
+    # Owning an aspect is the absence of a source, so severing is a nullifying update rather
+    # than a delete. The exclusions go with it: they describe what was dropped from what was
+    # inherited, and nothing is inherited any more.
     def sever_link
-      type.configuration_links.where(aspect:).destroy_all
+      aspect_column = TypeVariant.validated_configuration_aspect(aspect)
+      attributes = { "#{aspect_column}_source_id" => nil }
+      attributes["#{aspect_column}_excluded_elements"] = [] if TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
 
-      ServiceResult.success(result: type)
+      variant.update!(attributes)
+
+      ServiceResult.success(result: variant)
+    rescue ActiveRecord::RecordInvalid
+      ServiceResult.failure(result: variant, errors: variant.errors)
     end
 
     def invalid_mode_result
-      type.errors.add(:base, I18n.t("types.edit.reuse_mode.independent.invalid_mode"))
+      variant.errors.add(:base, I18n.t("types.edit.reuse_mode.independent.invalid_mode"))
 
-      ServiceResult.failure(result: type, errors: type.errors)
+      ServiceResult.failure(result: variant, errors: variant.errors)
     end
   end
 end

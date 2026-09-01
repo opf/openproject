@@ -481,6 +481,16 @@ module Settings
         default: nil,
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
+      email_limit_per_day: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Number of emails which are allowed to be sent per day on average (may be up to 2x as much on " \
+                     "a single day). This can be used to address spam and abuse, but is just designed as a last " \
+                     "resort as it simply drops mails that are over the limit instead of sending them at a later " \
+                     "point in time or notifying the user."
+      },
       emails_salutation: {
         allowed: %i[firstname name],
         default: :firstname

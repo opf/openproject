@@ -36,19 +36,19 @@ module WorkPackageTypes
     class PdfStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
+      def initialize(variant:)
+        super(variant)
       end
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
           render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::PDF_EXPORT
+                   variant: model,
+                   aspect: TypeVariant::PDF_EXPORT
                  )) +
             render(WorkPackageTypes::ExportConfigurationComponent.new(
                      model,
-                     readonly: model.linked?(Type::ConfigurationLink::PDF_EXPORT)
+                     readonly: model.linked?(TypeVariant::PDF_EXPORT)
                    ))
         end
       end
@@ -56,7 +56,7 @@ module WorkPackageTypes
       private
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :pdf)
+        type_creation_wizard_path(**model.path_args, step: :pdf)
       end
     end
   end

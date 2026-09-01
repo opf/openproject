@@ -33,10 +33,10 @@ module WorkPackageTypes
     class SourceForm < ApplicationForm
       include WorkPackageTypes::SourceOptions
 
-      def initialize(type:, aspect:)
+      def initialize(variant:, aspect:)
         super()
 
-        @type = type
+        @variant = variant
         @aspect = aspect
       end
 
@@ -62,12 +62,14 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type, :aspect
+      attr_reader :variant, :aspect
 
-      # When Linked, the current source is preselected so "change source" opens on
-      # it; when Independent, the parent is preselected as the likely first link.
       def selected_source
-        type.source_for(aspect) || type.parent
+        current = variant.source_for(aspect)
+        return current if current
+
+        base = variant.type.default_variant
+        base unless base == variant
       end
     end
   end

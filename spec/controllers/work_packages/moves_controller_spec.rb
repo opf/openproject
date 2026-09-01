@@ -137,7 +137,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           post :create, params: {
             work_package_id: semantic_work_package.display_id,
             new_project_id: semantic_target_project.id,
-            new_type_id: semantic_target_project.types.first.id,
+            new_type_id: semantic_target_project.enabled_types.first.id,
             follow: "1"
           }
 
@@ -210,7 +210,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                params: {
                  work_package_id: work_package.id,
                  new_project_id: target_project.id,
-                 new_type_id: target_project.types.first.id,
+                 new_type_id: target_project.enabled_types.first.id,
                  assigned_to_id: "",
                  responsible_id: "",
                  status_id: "",
@@ -266,8 +266,9 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         before do
           # make sure, that the types of the work-packages are available on the target-project
           # (and handle it/test it, when this is not the case see #1868)
-          target_project.types << [work_package.type, work_package_2.type]
-          target_project.save
+          [work_package.type, work_package_2.type].each do |type|
+            target_project.project_types.create!(type:)
+          end
 
           post :create,
                params: {
@@ -317,8 +318,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         let(:target_version) { create(:version, project: target_project) }
 
         before do
-          target_project.types << work_package.type
-          target_project.save
+          target_project.project_types.create!(type: work_package.type)
           work_package.target_versions = [source_version]
 
           post :create,
@@ -438,7 +438,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    ids: [work_package.id],
                    copy: "",
                    new_project_id: target_project.id,
-                   new_type_id: target_project.types.first.id, # FIXME see #1868
+                   new_type_id: target_project.enabled_types.first.id, # FIXME see #1868
                    follow: ""
                  }
           end
@@ -486,7 +486,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           let(:start_date) { Date.current }
           let(:due_date) { Date.tomorrow }
           let(:target_version) { create(:version, project: target_project) }
-          let(:target_type) { target_project.types.first }
+          let(:target_type) { target_project.enabled_types.first }
           let(:target_status) { create(:status, workflow_for_type: target_type) }
 
           let(:target_user) do
@@ -676,7 +676,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                      copy: "",
                      new_project_id: to_project.id,
                      work_package_id: child_wp.id,
-                     new_type_id: to_project.types.first.id
+                     new_type_id: to_project.enabled_types.first.id
                    }
             end
           end

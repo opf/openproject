@@ -17,7 +17,7 @@
   <%= layout.with_wizard_content do %>
     <%= grid_layout("op-work-package-types-wizard", tag: :div) do |page| %>
       <% page.with_area("sidebar") do %>
-        <%= render(WorkPackageTypes::Wizard::SidebarComponent.new(type:, current_step:)) %>
+        <%= render(WorkPackageTypes::Wizard::SidebarComponent.new(type:, current_step:, variant:, back_url:)) %>
       <% end %>
 
       <% page.with_area("main") do %>
@@ -46,6 +46,6 @@
   <% end %>
 
   <%= layout.with_footer do %>
-    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:)) %>
+    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:, variant:, back_url:)) %>
   <% end %>
 <% end %>

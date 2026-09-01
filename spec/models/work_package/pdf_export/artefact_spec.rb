@@ -112,8 +112,8 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
 
     before do
-      type.project_custom_fields << string_cf
-      type.project_custom_fields << bool_cf
+      type.default_variant.project_custom_fields << string_cf
+      type.default_variant.project_custom_fields << bool_cf
       project.update!(custom_field_values: { string_cf.id => "Artefact value", bool_cf.id => true })
     end
 
@@ -147,7 +147,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     it "renders work package attributes/custom_fields/wp_tables" do
       joined = pdf_strings.join(" ")
       # standard attribute groups from the work package form configuration
-      expect(joined).to include(work_package.type.attribute_groups.first.translated_key)
+      expect(joined).to include(work_package.type_variant.attribute_groups.first.translated_key)
       # long text custom field label and value
       expect(joined).to include(wp_text_cf.name)
       expect(joined).to include("The long text value")
@@ -167,9 +167,10 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
     let(:type) do
       create(:type_bug, custom_fields: [child_text_cf]).tap do |t|
-        t.attribute_groups = t.default_attribute_groups +
+        variant = t.default_variant
+        variant.attribute_groups = variant.default_attribute_groups +
           [["Related children", [:"query_#{embedded_query.id}"]]]
-        t.save!
+        variant.save!
       end
     end
     let!(:child_work_package) do
@@ -236,7 +237,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
 
     before do
-      type.project_custom_fields << string_cf
+      type.default_variant.project_custom_fields << string_cf
       project.update!(custom_field_values: { string_cf.id => "TOC value" })
     end
 
@@ -246,7 +247,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       # the section header appears both in the table of contents and as a section title
       expect(joined.scan("TOC Section").length).to be >= 2
       # a work package attribute group is indexed too
-      expect(joined).to include(work_package.type.attribute_groups.first.translated_key)
+      expect(joined).to include(work_package.type_variant.attribute_groups.first.translated_key)
     end
 
     it "resolves real page numbers on the second render pass" do
@@ -266,8 +267,9 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   describe "linked form configuration", with_flag: { type_variants: true } do
     let(:source_type) do
       create(:type_bug).tap do |t|
-        t.attribute_groups = t.default_attribute_groups + [["borrowed_group", %w(assignee)]]
-        t.save!
+        variant = t.default_variant
+        variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        variant.save!
       end
     end
     # type_bug is looked up by name (see the factory's initialize_with), so a second
@@ -275,31 +277,33 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     # make link! reject itself as a cycle. A distinct name keeps it a separate type.
     let(:type) do
       create(:type_bug, name: "Bug (linked)").tap do |t|
-        t.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+        link_configuration(t, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
 
     it "renders the source type's groups for the linked type's work package" do
       joined = pdf_strings.join(" ")
-      expect(joined).to include(source_type.attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
+      expect(joined).to include(source_type.default_variant.attribute_groups.find { |g|
+        g.key == "borrowed_group"
+      }.translated_key)
     end
   end
 
   describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
     let(:type) do
       create(:type_bug).tap do |t|
-        t.attribute_groups = t.default_attribute_groups + [["root_group", %w(assignee)]]
-        t.save!
+        variant = t.default_variant
+        variant.attribute_groups = variant.default_attribute_groups + [["root_group", %w(assignee)]]
+        variant.save!
       end
     end
     let(:variant) do
-      create(:type, name: "Bug variant", parent: type).tap do |v|
-        v.configuration_links.find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION).destroy!
+      create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
+        unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
         v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
         v.save!
       end
     end
-    # The work package stores the root; the project is what resolves the variant.
     let(:project) do
       create(:project,
              name: "Artefact project",
@@ -317,7 +321,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
 
     it "does not render the root's groups" do
-      expect(pdf_strings.join(" ")).not_to include(group_caption(type, "root_group"))
+      expect(pdf_strings.join(" ")).not_to include(group_caption(type.default_variant, "root_group"))
     end
   end
 end

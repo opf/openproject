@@ -34,7 +34,7 @@ module WorkPackageTypes
   module FormConfigurationGroups
     RSpec.describe CreateService, type: :service, with_ee: %i[edit_attribute_groups] do
       let(:user) { create(:admin) }
-      let(:type) { create(:type) }
+      let(:variant) { create(:type).default_variant }
       let(:relation_query_props) do
         query = create(:query, user:)
         query.add_filter("parent", "=", [Queries::Filters::TemplatedValue::KEY])
@@ -45,7 +45,7 @@ module WorkPackageTypes
           .to_json
       end
 
-      subject(:service) { described_class.new(user:, type:) }
+      subject(:service) { described_class.new(user:, variant:) }
 
       it "creates an attribute group from service params" do
         result = service.call(group_type: "attribute", name: "New Group")
@@ -53,7 +53,7 @@ module WorkPackageTypes
         expect(result).to be_success
         expect(result.result).to be_a(Type::AttributeGroup)
         expect(result.result.key).to eq("New Group")
-        expect(type.reload.attribute_groups.first.key).to eq(result.result.key)
+        expect(variant.reload.attribute_groups.first.key).to eq(result.result.key)
       end
 
       it "creates a query group from service params" do
@@ -63,7 +63,7 @@ module WorkPackageTypes
         expect(result.result).to be_a(Type::QueryGroup)
         expect(result.result.key).to eq("Related work")
         expect(result.result.attributes).to be_a(Query)
-        expect(type.reload.attribute_groups.first.key).to eq(result.result.key)
+        expect(variant.reload.attribute_groups.first.key).to eq(result.result.key)
       end
     end
   end

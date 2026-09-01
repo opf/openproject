@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "new_type_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        options_from_collection_for_select(available_types, "id", "name", target_type&.id),
+                        options_from_collection_for_select(available_variants, "type_id", "name", target_variant&.type_id),
                       data: {
                         action: "change->refresh-on-form-changes#triggerTurboStream"
                       }
@@ -213,8 +213,8 @@ See COPYRIGHT and LICENSE files for more details.
                                           } %>
               </div>
             </div>
-            <% if target_type %>
-              <% target_type.custom_fields.required.each do |custom_field| %>
+            <% if target_variant %>
+              <% target_variant.custom_fields.required.each do |custom_field| %>
                 <div class="form--field">
                   <%= blank_custom_field_label_tag("", custom_field) %>
                   <div class="form--field-container">

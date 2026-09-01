@@ -38,7 +38,7 @@ RSpec.describe "Calendar create new work package", :js, :selenium do
 
   before do
     login_as current_user
-    project.types << type_task
+    project.project_types.create!(type: type_task)
   end
 
   it "can create a new work package" do

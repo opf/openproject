@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 
   resource :wiki_pages, controller: "wikis/pages", only: [] do
     get :search
+    get :browse
     get :create_new_page_dialog
     post :create_and_link
   end

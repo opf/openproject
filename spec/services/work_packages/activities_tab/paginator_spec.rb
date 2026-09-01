@@ -639,7 +639,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
         let!(:journal_with_cf_set) do
           project.work_package_custom_fields << custom_field
-          work_package.type.custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
           work_package.custom_field_values = { custom_field.id => "Value" }
           work_package.save!
           work_package.journals.order(:version).last
@@ -686,8 +686,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         let!(:journal_with_multi_cf_set) do
           project.work_package_custom_fields << multi_select_cf
           project.work_package_custom_fields << other_cf
-          work_package.type.custom_fields << multi_select_cf
-          work_package.type.custom_fields << other_cf
+          work_package.type.default_variant.custom_fields << multi_select_cf
+          work_package.type.default_variant.custom_fields << other_cf
           work_package.custom_field_values = { multi_select_cf.id => [option1.id, option2.id] }
           work_package.save!
           work_package.journals.order(:version).last

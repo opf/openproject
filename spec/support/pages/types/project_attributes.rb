@@ -27,7 +27,7 @@ module Pages
 
       def toggle(project_custom_field)
         page
-          .find("[data-test-selector='toggle-type-project-attribute-#{project_custom_field.id}'] > button")
+          .find("[data-test-selector='toggle-variant-project-attribute-#{project_custom_field.id}'] > button")
           .click
       end
 

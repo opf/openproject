@@ -29,6 +29,10 @@
 #++
 
 module WorkPackageTypes
+  # Duplicates a type: a new type with the same core settings, project assignments and
+  # base-variant configuration (including linked aspects). Named variants are not copied —
+  # a project that resolved the source family to a named variant has to be pointed at one
+  # on the copy explicitly.
   class DuplicateService
     def initialize(type:, user:)
       @source = type
@@ -45,7 +49,7 @@ module WorkPackageTypes
         copy = result.result
         copy.insert_at(source.position + 1)
 
-        failure = copy_project_assignments(copy) || copy_configuration(copy)
+        failure = copy_configuration(copy) || copy_project_assignments(copy)
         if failure
           result = failure
           raise ActiveRecord::Rollback
@@ -62,28 +66,21 @@ module WorkPackageTypes
     def create_copy
       WorkPackageTypes::CreateService
         .new(user:)
-        .call(core_attributes)
+        .call(
+          name: duplicated_name,
+          color_id: source.color_id,
+          is_milestone: source.is_milestone,
+          is_in_roadmap: source.is_in_roadmap
+        )
     end
 
-    def core_attributes
-      attributes = { name: duplicated_name, parent_id: source.parent_id }
-      return attributes if source.variant?
-
-      attributes.merge(
-        color_id: source.color_id,
-        is_milestone: source.is_milestone,
-        is_in_roadmap: source.is_in_roadmap
-      )
-    end
-
-    # A variant's copy starts with no projects: a project enables the family and resolves the
-    # variant separately, so there is nothing for the copy to claim. A root's copy is its own
-    # family, so no project can be using it yet and AddService always has a free slot to fill.
+    # The copy has only a base variant — #copy_configuration writes that one — so that is what
+    # every project inheriting the assignment applies. It has to run after the configuration is
+    # in place: adding a variant to a project activates the custom fields that variant shows, and
+    # before the form configuration is copied it shows none.
     def copy_project_assignments(copy)
-      return if source.variant?
-
       source.projects.find_each do |project|
-        result = ::Projects::Types::AddService.new(user:, model: project).call(type: copy)
+        result = ::Projects::Types::AddService.new(user:, model: project).call(variant: copy.default_variant)
         return result if result.failure?
       end
 
@@ -91,12 +88,15 @@ module WorkPackageTypes
     end
 
     def copy_configuration(copy)
+      source_variant = source.default_variant
+      copy_variant = copy.default_variant
+
       CopyConfiguration::SERVICES.each_pair do |aspect, service_class|
         aspect_result =
-          if (linked_source = source.source_for(aspect))
-            SwitchToLinkedModeService.new(type: copy, aspect:).call(source: linked_source)
+          if (linked_source = source_variant.source_for(aspect))
+            SwitchToLinkedModeService.new(variant: copy_variant, aspect:).call(source: linked_source)
           else
-            service_class.new(type: copy, user:).call(source:)
+            service_class.new(variant: copy_variant, user:).call(source: source_variant)
           end
 
         return aspect_result if aspect_result.failure?
@@ -105,10 +105,9 @@ module WorkPackageTypes
       nil
     end
 
-    # Name of a variant must stay unique per root type
     def duplicated_name
-      base = I18n.t("types.index.duplicate_name", name: source.own_name)
-      taken = Type.where(parent_id: source.parent_id).pluck(:name).map(&:downcase)
+      base = I18n.t("types.index.duplicate_name", name: source.name)
+      taken = Type.pluck(:name).map(&:downcase)
 
       return base unless taken.include?(base.downcase)
 

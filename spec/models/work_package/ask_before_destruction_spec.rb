@@ -41,7 +41,7 @@ RSpec.describe WorkPackage do
   end
   let(:user) { create(:user) }
 
-  let(:type) { create(:type_standard) }
+  let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type]) }
   let(:project2) { create(:project, types: [type]) }
   let(:role) { create(:project_role) }

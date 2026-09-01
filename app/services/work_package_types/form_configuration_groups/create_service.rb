@@ -67,9 +67,9 @@ module WorkPackageTypes
 
       def build_group(name, query_result: nil)
         if query_result
-          ::Type::QueryGroup.new(type, name, query_result)
+          ::Type::QueryGroup.new(variant, name, query_result)
         else
-          ::Type::AttributeGroup.new(type, name, [])
+          ::Type::AttributeGroup.new(variant, name, [])
         end
       end
     end
