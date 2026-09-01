@@ -323,8 +323,22 @@ module Meetings
 
     def instantiated_occurrences_for_export(recurring_meeting)
       # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
-      # reject the whole series if an event is < master DTSTART.
-      upcoming_schedule_occurrences(recurring_meeting)
+      # may reject the whole series if an event is < master DTSTART.
+      upcoming_schedule_occurrences(recurring_meeting).reject do |meeting|
+        first_series_occurrence?(meeting, recurring_meeting)
+      end
+    end
+
+    def first_series_occurrence?(meeting, recurring_meeting)
+      same_time?(meeting.recurrence_start_time, recurring_meeting.current_schedule_start) &&
+        !meeting.cancelled? &&
+        same_time?(meeting.start_time, meeting.recurrence_start_time) &&
+        same_time?(meeting.start_time, recurring_meeting.current_schedule_start) &&
+        same_time?(meeting.end_time, recurring_meeting.current_schedule_end)
+    end
+
+    def same_time?(left, right)
+      left.to_time.utc == right.to_time.utc
     end
 
     def upcoming_schedule_occurrences(recurring_meeting)

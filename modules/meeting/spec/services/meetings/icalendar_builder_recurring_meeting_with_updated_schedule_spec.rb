@@ -94,8 +94,8 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
     it "starts the ical schedule with the original start time" do
       builder.add_series_event(recurring_meeting: recurring_meeting)
 
-      # we have the recurring meeting event + the first instantiated meeting
-      expect(parsed_calendar.events.count).to eq(2)
+      # the anchor occurrence is already covered by the master event
+      expect(parsed_calendar.events.count).to eq(1)
 
       # our recurring event starts at the original start time
       event = parsed_calendar.events.find { |e| e.recurrence_id.nil? }
@@ -106,12 +106,6 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       expect(rrule.frequency).to eq("WEEKLY")
       expect(rrule.interval).to eq(2)
       expect(rrule.count).to eq(26)
-
-      # the first recurring meeting is part of the calendar with the fitting recurrence id
-      first_meeting_event = parsed_calendar.events.find { |e| e.recurrence_id.present? }
-      expect(first_meeting_event.dtstart).to eq first_meeting.start_time
-      expect(first_meeting_event.recurrence_id).to eq first_meeting.start_time
-      expect(first_meeting_event.rrule).to be_empty
     end
   end
 
@@ -141,9 +135,8 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       # updated start time is the next occurrence of the meeting after the time of our change
       new_start_time = recurring_meeting.next_occurrence(from_time: start_time + 2.days)
 
-      # the master event + the upcoming occurrence created by the update service.
-      # the first occurrence is from the previous schedule and is no longer emitted.
-      expect(parsed_calendar.events.count).to eq(2)
+      # only the master event: the upcoming occurrence matches the new series anchor.
+      expect(parsed_calendar.events.count).to eq(1)
 
       # our recurring event starts at the updated start time
       master_event = parsed_calendar.events.find { |e| e.recurrence_id.nil? }
@@ -157,11 +150,6 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
 
       # the previous-schedule occurrence is no longer represented as an RDATE
       expect(Array(master_event.rdate)).to be_empty
-
-      # the second occurence is emitted as an override already using the new starting times
-      second_occurrence_event = parsed_calendar.events.find { |e| e.recurrence_id.present? }
-      expect(second_occurrence_event.dtstart).to eq new_start_time
-      expect(second_occurrence_event.rrule).to be_empty
     end
   end
 
@@ -191,9 +179,8 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       # updated start time is the next occurrence of the meeting after the time of our change
       new_start_time = recurring_meeting.next_occurrence(from_time: start_time + 2.days)
 
-      # the master event + the upcoming occurrence created by the update service.
-      # the first occurrence is from the previous schedule and is no longer emitted.
-      expect(parsed_calendar.events.count).to eq(2)
+      # only the master event: the upcoming occurrence matches the new series anchor.
+      expect(parsed_calendar.events.count).to eq(1)
 
       # our recurring event starts at the updated start time
       master_event = parsed_calendar.events.find { |e| e.recurrence_id.nil? }
@@ -206,11 +193,6 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
 
       # the previous-schedule occurrence is no longer represented as an RDATE
       expect(Array(master_event.rdate)).to be_empty
-
-      # the second occurence is emitted as an override already using the new starting times
-      second_occurrence_event = parsed_calendar.events.find { |e| e.recurrence_id.present? }
-      expect(second_occurrence_event.dtstart).to eq new_start_time
-      expect(second_occurrence_event.rrule).to be_empty
     end
   end
 

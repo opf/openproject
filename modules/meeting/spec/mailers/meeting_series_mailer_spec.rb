@@ -149,6 +149,8 @@ RSpec.describe MeetingSeriesMailer do
       let!(:occurrence) do
         create(:recurring_meeting_occurrence,
                recurring_meeting: series,
+               title: series.title,
+               location: series.location,
                start_time: series.start_time,
                recurrence_start_time: series.start_time)
       end
@@ -156,16 +158,12 @@ RSpec.describe MeetingSeriesMailer do
       let(:master_event) { calendar.events.find { |event| event.recurrence_id.blank? } }
       let(:occurrence_event) { calendar.events.find { |event| event.recurrence_id.present? } }
 
-      it "renders the series master and occurrence override" do
-        expect(calendar.events.length).to eq(2)
+      it "renders only the series master when the occurrence matches the series anchor" do
+        expect(calendar.events.length).to eq(1)
 
         expect(master_event.uid).to eq(series.uid)
         expect(master_event.rrule).not_to be_empty
-
-        expect(occurrence_event.uid).to eq(series.uid)
-        expect(occurrence_event.recurrence_id).to eq(occurrence.recurrence_start_time)
-        expect(occurrence_event.description.to_s)
-          .to include("Link to meeting occurrence: http://#{Setting.host_name}/meetings/#{occurrence.id}")
+        expect(occurrence_event).to be_nil
       end
     end
   end
