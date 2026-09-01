@@ -30,6 +30,7 @@ import { Controller } from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
 import type { TurboVisitEvent } from '@hotwired/turbo';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
+import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 
 const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
@@ -57,10 +58,10 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     this.element.addEventListener('dblclick', this, { signal });
     this.element.addEventListener('keydown', this, { signal });
     document.addEventListener('turbo:visit', (event:TurboVisitEvent) => {
-      this.syncSelectionFromUrl(event.detail.url);
+      this.syncCurrentFromUrl(event.detail.url);
     }, { signal });
 
-    this.syncSelectionFromUrl(window.location.href);
+    this.syncCurrentFromUrl(window.location.href);
   }
 
   disconnect():void {
@@ -73,7 +74,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     }
   }
 
-  private syncSelectionFromUrl(locationUrl:string):void {
+  private syncCurrentFromUrl(locationUrl:string):void {
     const { pathname } = new URL(locationUrl, window.location.origin);
     const [, id] = DETAILS_URL_PATTERN.exec(pathname) ?? [];
     // Bookmarks and external links may still carry a numeric ID after the
@@ -114,7 +115,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (this.shouldIgnoreMouseTarget(target)) return;
+    if (this.shouldIgnoreTarget(target)) return;
 
     if (this.clickTimeout !== null) return;
 
@@ -128,7 +129,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (this.shouldIgnoreMouseTarget(target)) return;
+    if (this.shouldIgnoreTarget(target)) return;
 
     if (this.clickTimeout !== null) {
       clearTimeout(this.clickTimeout);
@@ -144,7 +145,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (this.shouldIgnoreKeyboardTarget(target)) return;
+    if (this.shouldIgnoreTarget(target)) return;
 
     event.preventDefault();
 
@@ -163,20 +164,9 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     Turbo.visit(this.fullUrlValue, { frame: '_top' });
   }
 
-  private shouldIgnoreMouseTarget(target:HTMLElement):boolean {
-    return [
-      'a',
-      'button',
-      'clipboard-copy',
-    ].some((selector) => target.closest(selector) !== null);
-  }
-
-  private shouldIgnoreKeyboardTarget(target:HTMLElement):boolean {
-    return this.shouldIgnoreMouseTarget(target) || [
-      'input',
-      'textarea',
-      'select',
-      "[contenteditable='true']",
-    ].some((selector) => target.closest(selector) !== null);
+  // The same rule the selection orchestrator applies: a control inside the
+  // card is that control first. The card itself is the boundary, not a hit.
+  private shouldIgnoreTarget(target:HTMLElement):boolean {
+    return closestInteractiveElement(target, this.element) !== null;
   }
 }
