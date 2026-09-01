@@ -312,6 +312,17 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         expect(german_mail.html_part.body).not_to include("Alter Zeitplan")
         expect(german_mail.html_part.body).not_to include("Neuer Zeitplan")
       end
+
+      it "attaches an ICS that referes to the new location" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        english_mail = ActionMailer::Base.deliveries.find { |m| m.to.include?(english_recipient.mail) }
+        calendar = english_mail.all_parts.find { |part| part.mime_type == "text/calendar" }
+
+        expect(calendar.body.decoded).to include("LOCATION:New location")
+        expect(calendar.body.decoded).not_to include("LOCATION:Old location")
+      end
     end
   end
 
