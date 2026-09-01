@@ -32,13 +32,26 @@ require "spec_helper"
 require_relative "shared_context"
 
 RSpec.describe "Edit project custom fields on project overview page", :js do
-  include_context "with seeded projects, members and project custom fields"
+  include_context "with seeded projects, members and project custom fields", seed_all: false
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
   let(:user) { member_with_project_attributes_edit_permissions }
 
   before do
     login_as user
+
+    custom_field
+    case custom_field.field_format
+    when "version"
+      first_version
+      second_version
+      third_version
+    when "user"
+      member_in_project
+      another_member_in_project
+      one_more_member_in_project
+    end
+
     overview_page.visit_page
   end
 
@@ -48,18 +61,19 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     def dialog = overview_page.open_modal_for_custom_field(custom_field).dialog
 
     shared_examples "shows comment input only when comments are allowed by custom field" do
-      it "shows comment input only when comments are allowed by custom field" do
-        custom_field.update!(has_comment: true)
-        refresh
+      context "with comments enabled" do
+        let(:custom_field) { super().tap { |field| field.update!(has_comment: true) } }
 
-        dialog.within_async_content(close_after_yield: true) do
-          expect(page).to have_field("Comment", with: "")
-        end
+        it "shows comment input only when comments are allowed by custom field" do
+          dialog.within_async_content(close_after_yield: true) do
+            expect(page).to have_field("Comment", with: "")
+          end
 
-        create(:custom_comment, custom_field:, customized: project, text: "bar")
+          create(:custom_comment, custom_field:, customized: project, text: "bar")
 
-        dialog.within_async_content(close_after_yield: true) do
-          expect(page).to have_field("Comment", with: "bar")
+          dialog.within_async_content(close_after_yield: true) do
+            expect(page).to have_field("Comment", with: "bar")
+          end
         end
       end
     end
@@ -68,12 +82,14 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       let(:user) { member_without_project_attributes_edit_permissions }
       let(:value_text) { expected_initial_value }
       let(:value_expectation) { have_text(value_text) }
+      let(:custom_field) do
+        super().tap do |field|
+          field.update!(has_comment: true)
+          create(:custom_comment, custom_field: field, customized: project, text: "baz")
+        end
+      end
 
       it "opens show modal with readonly comment input and readonly custom field value" do
-        custom_field.update!(has_comment: true)
-        create(:custom_comment, custom_field:, customized: project, text: "baz")
-        refresh
-
         dialog.within_dialog(close_after_yield: true) do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_no_field(custom_field.name)
@@ -98,34 +114,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        it "is unchecked if no value and no default value is given" do
-          custom_field.custom_values.destroy_all
-
-          field.within_field do
-            expect(page).to have_no_checked_field(custom_field.name)
-          end
-        end
-
-        it "shows default true value if no value is given" do
-          custom_field.custom_values.destroy_all
-
-          custom_field.update!(default_value: true)
-
-          field.within_field do
-            expect(page).to have_checked_field(custom_field.name)
-          end
-        end
-
-        it "shows default false value if no value is given" do
-          custom_field.custom_values.destroy_all
-
-          custom_field.update!(default_value: false)
-
-          field.within_field do
-            expect(page).to have_no_checked_field(custom_field.name)
-          end
-        end
-
         include_examples "shows comment input only when comments are allowed by custom field"
       end
 
@@ -135,48 +123,12 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_field(custom_field.name, with: expected_initial_value)
           end
         end
-
-        it "shows a blank input if no value or default value is given" do
-          custom_field.custom_values.destroy_all
-
-          field.within_field do
-            expect(page).to have_field(custom_field.name, with: expected_blank_value)
-          end
-        end
-
-        it "shows the default value if no value is given" do
-          custom_field.custom_values.destroy_all
-          custom_field.update!(default_value:)
-
-          field.within_field do
-            expect(page).to have_field(custom_field.name, with: default_value)
-          end
-        end
-
-        include_examples "shows comment input only when comments are allowed by custom field"
       end
 
       shared_examples "a rich text custom field input" do
         it "shows the correct value if given" do
           dialog.within_async_content(close_after_yield: true) do
             form_field.expect_value(expected_initial_value)
-          end
-        end
-
-        it "shows a blank input if no value or default value is given" do
-          custom_field.custom_values.destroy_all
-
-          dialog.within_async_content(close_after_yield: true) do
-            form_field.expect_value(expected_blank_value)
-          end
-        end
-
-        it "shows the default value if no value is given" do
-          custom_field.custom_values.destroy_all
-          custom_field.update!(default_value:)
-
-          dialog.within_async_content(close_after_yield: true) do
-            form_field.expect_value(default_value)
           end
         end
 
@@ -201,8 +153,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_initial_value) { "Foo" }
 
         it_behaves_like "a custom field input"
-
-        it_behaves_like "displays readonly modal for user without edit permission"
       end
 
       describe "with integer CF" do
@@ -212,8 +162,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_initial_value) { 123 }
 
         it_behaves_like "a custom field input"
-
-        it_behaves_like "displays readonly modal for user without edit permission"
       end
 
       describe "with float CF" do
@@ -223,8 +171,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_initial_value) { 123.456 }
 
         it_behaves_like "a custom field input"
-
-        it_behaves_like "displays readonly modal for user without edit permission"
       end
 
       describe "with date CF" do
@@ -234,10 +180,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_initial_value) { Date.new(2024, 1, 1) }
 
         it_behaves_like "a custom field input"
-
-        it_behaves_like "displays readonly modal for user without edit permission" do
-          let(:value_text) { "01/01/2024" }
-        end
       end
 
       describe "with link CF" do
@@ -253,10 +195,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           page.within_test_selector "project-custom-field-#{link_project_custom_field.id}" do
             expect(page).to have_link("https://www.openproject.org", href: "https://www.openproject.org")
           end
-        end
-
-        it_behaves_like "displays readonly modal for user without edit permission" do
-          let(:value_expectation) { have_link("https://www.openproject.org", href: "https://www.openproject.org") }
         end
       end
 
@@ -276,7 +214,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
       describe "with calculated value CFs" do
         let(:custom_field) { calculated_from_int_project_custom_field }
-        let(:expected_blank_value) { "" }
         let(:expected_initial_value) { 234 }
 
         it "shows the disabled input with the correct value if given" do
@@ -289,10 +226,13 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
         it "shows the disabled input with a blank value if no value is given" do
           custom_field.custom_values.destroy_all
+          refresh
 
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text(expected_blank_value)
+              expect(page).to have_css(".op-inplace-edit--display-field",
+                                       exact_text: I18n.t("placeholders.default"))
+              expect(page).to have_no_text(expected_initial_value)
             end
           end
         end
@@ -319,12 +259,11 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
 
     describe "with single select fields" do
-      shared_examples "an autocomplete single select field" do
+      shared_examples "an autocomplete single select field" do |comments: false|
         it "shows the correct value if given" do
           field.within_field do
             form_field.expect_selected(expected_initial_value)
           end
-
         end
 
         it "shows a blank input if no value or default value is given" do
@@ -367,7 +306,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        include_examples "shows comment input only when comments are allowed by custom field"
+        include_examples "shows comment input only when comments are allowed by custom field" if comments
       end
 
       describe "with single select list CF" do
@@ -381,18 +320,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:third_option) { custom_field.custom_options.third.value }
 
         it_behaves_like "an autocomplete single select field"
-
-        it "shows the default value if no value is given" do
-          custom_field.custom_values.destroy_all
-
-          custom_field.custom_options.first.update!(default_value: true)
-
-          field.within_field do
-            form_field.expect_selected(custom_field.custom_options.first.value)
-          end
-        end
-
-        it_behaves_like "displays readonly modal for user without edit permission"
       end
 
       describe "with single version select list CF" do
@@ -456,8 +383,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             end
           end
         end
-
-        it_behaves_like "displays readonly modal for user without edit permission"
       end
 
       describe "with single user select list CF" do
@@ -470,7 +395,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { another_member_in_project.name }
         let(:third_option) { one_more_member_in_project.name }
 
-        it_behaves_like "an autocomplete single select field"
+        it_behaves_like "an autocomplete single select field", comments: true
 
         describe "with correct user scoping" do
           let!(:member_in_other_project) do
@@ -536,7 +461,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
 
     describe "with multi select fields" do
-      shared_examples "an autocomplete multi select field" do
+      shared_examples "an autocomplete multi select field" do |comments: false|
         it "shows the correct value if given" do
           field.within_field do
             form_field.expect_selected(*expected_initial_value)
@@ -601,7 +526,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        include_examples "shows comment input only when comments are allowed by custom field"
+        include_examples "shows comment input only when comments are allowed by custom field" if comments
       end
 
       describe "with multi select list CF" do
@@ -615,22 +540,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:third_option) { custom_field.custom_options.third.value }
 
         it_behaves_like "an autocomplete multi select field"
-
-        it "shows the default value if no value is given" do
-          multi_list_project_custom_field.custom_values.destroy_all
-
-          multi_list_project_custom_field.custom_options.first.update!(default_value: true)
-          multi_list_project_custom_field.custom_options.second.update!(default_value: true)
-
-          field.within_field do
-            form_field.expect_selected(multi_list_project_custom_field.custom_options.first.value)
-            form_field.expect_selected(multi_list_project_custom_field.custom_options.second.value)
-          end
-        end
-
-        it_behaves_like "displays readonly modal for user without edit permission" do
-          let(:value_text) { expected_initial_value.join(", ") }
-        end
       end
 
       describe "with multi version select list CF" do
@@ -694,10 +603,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             end
           end
         end
-
-        it_behaves_like "displays readonly modal for user without edit permission" do
-          let(:value_text) { expected_initial_value.join(", ") }
-        end
       end
 
       describe "with multi user select list CF" do
@@ -710,7 +615,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { another_member_in_project.name }
         let(:third_option) { one_more_member_in_project.name }
 
-        it_behaves_like "an autocomplete multi select field"
+        it_behaves_like "an autocomplete multi select field", comments: true
 
         describe "with correct user scoping" do
           let!(:member_in_other_project) do

@@ -111,10 +111,11 @@ RSpec.describe "Work package filtering by assignee", :js do
         filters.open
         filters.add_filter_by("Assignee", "is (OR)", [""])
 
-        autocomplete = find(".advanced-filters--ng-select ng-select")
-        target_dropdown = search_autocomplete autocomplete,
-                                              query: "",
-                                              results_selector: "body"
+        target_dropdown = search_autocomplete(
+          -> { find(".advanced-filters--ng-select ng-select") },
+          query: "",
+          results_selector: "body"
+        )
 
         # Their own email address is visible to users
         expect(target_dropdown).to have_css(".ng-option", text: current_user.firstname)
@@ -137,10 +138,11 @@ RSpec.describe "Work package filtering by assignee", :js do
         filters.open
         filters.add_filter_by("Assignee", "is (OR)", [""])
 
-        autocomplete = find(".advanced-filters--ng-select ng-select")
-        target_dropdown = search_autocomplete autocomplete,
-                                              query: "",
-                                              results_selector: "body"
+        target_dropdown = search_autocomplete(
+          -> { find(".advanced-filters--ng-select ng-select") },
+          query: "",
+          results_selector: "body"
+        )
 
         # Their own email address is visible to users
         expect(target_dropdown).to have_css(".ng-option", text: current_user.firstname)

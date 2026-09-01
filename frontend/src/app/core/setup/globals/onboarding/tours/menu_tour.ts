@@ -46,7 +46,7 @@ export function menuTourSteps():OnboardingStep[] {
       'next #op-app-header--quick-add-menu-button': I18n.t('js.onboarding.steps.quick_add_button'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      condition: () => document.getElementById('op-app-header--quick-add-menu-button') !== undefined,
+      condition: () => document.getElementById('op-app-header--quick-add-menu-button') !== null,
     },
     {
       'next #op-app-header--help-menu-button': I18n.t('js.onboarding.steps.help_menu'),

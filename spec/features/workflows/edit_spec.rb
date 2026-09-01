@@ -506,8 +506,11 @@ RSpec.describe "Workflow edit", :js do
       end
 
       within_dialog "Statuses" do
-        find(".ng-arrow-wrapper").click
-        find(".ng-option", text: statuses[2].name).click
+        select_autocomplete(
+          find("ng-select"),
+          query: statuses[2].name,
+          wait_for_fetched_options: false
+        )
         click_button "Cancel"
       end
 

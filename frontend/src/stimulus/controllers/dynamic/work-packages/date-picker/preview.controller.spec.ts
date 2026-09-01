@@ -79,6 +79,49 @@ describe('Date picker preview controller', () => {
     return ctx.getController<PreviewControllerType>('work-packages--date-picker--preview');
   }
 
+  async function renderDateForm({
+    startDate = '',
+    dueDate = '',
+    duration = '',
+    highlighted = 'start_date',
+    scheduleManually = true,
+    touched = [],
+  }:{
+    startDate?:string,
+    dueDate?:string,
+    duration?:string,
+    highlighted?:'start_date'|'due_date'|'duration',
+    scheduleManually?:boolean,
+    touched?:string[],
+  } = {}) {
+    const field = (name:string, value:string) => `
+      <input type="text" id="work_package_${name}" name="work_package[${name}]" value="${value}"
+             class="${highlighted === name ? 'op-datepicker-modal--date-field_current' : ''}"
+             data-work-packages--date-picker--preview-target="fieldInput">
+      <input type="hidden" value="${value}" data-referrer-field="${name}"
+             data-work-packages--date-picker--preview-target="initialValueInput">
+      <input type="hidden" value="${touched.includes(name) ? 'true' : 'false'}" data-referrer-field="${name}"
+             data-work-packages--date-picker--preview-target="touchedFieldInput">
+    `;
+
+    await ctx.mount(`
+      <turbo-frame id="content-frame" disabled>
+        <div data-controller="work-packages--date-picker--preview"
+             data-work-packages--date-picker--preview-schedule-manually-value="${scheduleManually}">
+          <form action="/work_packages/dialog" data-work-packages--date-picker--preview-target="form">
+            ${field('start_date', startDate)}
+            ${field('due_date', dueDate)}
+            ${field('duration', duration)}
+          </form>
+        </div>
+      </turbo-frame>
+    `);
+
+    const controller = ctx.getController<PreviewControllerType>('work-packages--date-picker--preview');
+    await waitFor(() => { expect(controller.timezone).toBe(timezone); });
+    return controller;
+  }
+
   function flatpickrDatesChanged(dates:Date[]) {
     document.dispatchEvent(new CustomEvent('date-picker:flatpickr-dates-changed', { detail: { dates } }));
   }
@@ -115,6 +158,32 @@ describe('Date picker preview controller', () => {
     const input = ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!;
     expect(input.value).toBe('2026-06-11');
     expect(utcDateToISODateString).toHaveBeenCalled();
+  });
+
+  it('marks a valid field update pending until the preview is rendered', async () => {
+    const controller = await renderDialog();
+    const form = ctx.container.querySelector<HTMLFormElement>('form')!;
+    const input = ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!;
+    input.value = '2026-06-11';
+
+    controller.inputChanged({ target: input } as unknown as Event);
+
+    expect(form.dataset.datepickerPreviewPending).toBe('true');
+
+    controller.afterRendering({});
+
+    expect(form.dataset.datepickerPreviewPending).toBeUndefined();
+  });
+
+  it('does not mark an invalid date pending when no preview is scheduled', async () => {
+    const controller = await renderDialog();
+    const form = ctx.container.querySelector<HTMLFormElement>('form')!;
+    const input = ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!;
+    input.value = 'invalid';
+
+    controller.inputChanged({ target: input } as unknown as Event);
+
+    expect(form.dataset.datepickerPreviewPending).toBeUndefined();
   });
 
   it('ignores flatpickr events when disconnected before the context resolves', async () => {
@@ -161,5 +230,76 @@ describe('Date picker preview controller', () => {
     expect(currentElement.querySelectorAll('opce-test-marker')).toHaveLength(1);
     expect(currentElement.querySelectorAll('div')).toHaveLength(1);
     expect(currentElement.querySelector('div')!.getAttribute('data-marker')).toBe('new');
+  });
+
+  it('clears an earlier due date and duration when the start date moves past it', async () => {
+    const controller = await renderDateForm({
+      startDate: '2026-06-10',
+      dueDate: '2026-06-12',
+      duration: '3',
+    });
+
+    controller.changeStartDate(new Date('2026-06-13'));
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('2026-06-13');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_duration')!.value).toBe('');
+  });
+
+  it('clears a later start date and duration when the due date moves before it', async () => {
+    const controller = await renderDateForm({
+      startDate: '2026-06-10',
+      dueDate: '2026-06-12',
+      duration: '3',
+      highlighted: 'due_date',
+    });
+
+    controller.changeDueDate(new Date('2026-06-09'));
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-09');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_duration')!.value).toBe('');
+  });
+
+  it('turns a lone due date into the start of a range when a later date is selected', async () => {
+    await renderDateForm({ dueDate: '2026-06-12' });
+
+    flatpickrDatesChanged([new Date('2026-06-12'), new Date('2026-06-15')]);
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('2026-06-12');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-15');
+    expect(ctx.container.querySelector('#work_package_due_date')).toHaveClass('op-datepicker-modal--date-field_current');
+  });
+
+  it('turns a lone start date into the end of a range when an earlier date is selected', async () => {
+    await renderDateForm({ startDate: '2026-06-12', highlighted: 'due_date' });
+
+    flatpickrDatesChanged([new Date('2026-06-09'), new Date('2026-06-12')]);
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('2026-06-09');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-12');
+    expect(ctx.container.querySelector('#work_package_start_date')).toHaveClass('op-datepicker-modal--date-field_current');
+  });
+
+  it('uses the due date when duration is highlighted and only a start date exists', async () => {
+    await renderDateForm({ startDate: '2026-06-12', highlighted: 'duration' });
+
+    flatpickrDatesChanged([new Date('2026-06-15')]);
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('2026-06-12');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-15');
+  });
+
+  it('keeps a lone highlighted date in single-date calendar mode', async () => {
+    await renderDateForm({ dueDate: '2026-06-12', highlighted: 'due_date' });
+    let calendarMode:string|undefined;
+    const calendarUpdate = (event:Event) => {
+      calendarMode = (event as CustomEvent<{ mode:string }>).detail.mode;
+    };
+    document.addEventListener('date-picker:flatpickr-set-values', calendarUpdate, { once: true });
+
+    flatpickrDatesChanged([new Date('2026-06-15')]);
+
+    expect(calendarMode).toBe('single');
   });
 });

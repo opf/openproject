@@ -28,31 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class PageComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
-        include WorkPackages::ActivitiesTab::SharedHelpers
+require "spec_helper"
 
-        def initialize(journals:, emoji_reactions:, page:, filter: Filters::ALL)
-          super
+RSpec.describe Queries::Operators::MoreThanAgo do
+  describe ".sql_for_field" do
+    it "returns the upper boundary for the requested number of days" do
+      allow(Time).to receive(:zone).and_return(instance_double(ActiveSupport::TimeZone, today: Date.new(2024, 11, 5)))
 
-          @journals = journals
-          @emoji_reactions = emoji_reactions
-          @filter = filter
-          @page = page
-        end
-
-        def wrapper_uniq_by
-          page
-        end
-
-        private
-
-        attr_reader :journals, :emoji_reactions, :page, :filter
-      end
+      expect(described_class.sql_for_field(["3"], :projects, :created_at))
+        .to eq("projects.created_at <= '2024-11-02 23:59:59.999999'")
     end
   end
 end

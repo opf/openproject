@@ -29,8 +29,7 @@
 require "spec_helper"
 
 RSpec.describe "Work package timeline hierarchies",
-               :js,
-               :selenium do
+               :js do
   let(:user) { create(:admin) }
   let!(:wp_root) do
     create(:work_package,

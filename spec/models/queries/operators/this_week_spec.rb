@@ -28,31 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class PageComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
-        include WorkPackages::ActivitiesTab::SharedHelpers
+require "spec_helper"
 
-        def initialize(journals:, emoji_reactions:, page:, filter: Filters::ALL)
-          super
+RSpec.describe Queries::Operators::ThisWeek do
+  describe ".sql_for_field" do
+    it "returns the configured week boundaries" do
+      beginning_of_week = Time.zone.parse("2024-11-04 00:00:00")
+      allow(OpenProject::Internationalization::Date)
+        .to receive(:time_at_beginning_of_week)
+        .and_return(beginning_of_week)
 
-          @journals = journals
-          @emoji_reactions = emoji_reactions
-          @filter = filter
-          @page = page
-        end
+      connection = described_class.connection
+      expected = "projects.created_at BETWEEN '#{connection.quoted_date(beginning_of_week)}' " \
+                 "AND '#{connection.quoted_date(beginning_of_week + 7.days)}'"
 
-        def wrapper_uniq_by
-          page
-        end
-
-        private
-
-        attr_reader :journals, :emoji_reactions, :page, :filter
-      end
+      expect(described_class.sql_for_field([], :projects, :created_at)).to eq(expected)
     end
   end
 end

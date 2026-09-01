@@ -87,11 +87,9 @@ module Components
     end
 
     def enable_start_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-start-date").click
-        wait_for_network_idle
-        expect_start_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-start-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_start_highlighted
     end
 
     def enable_start_date_if_visible
@@ -109,11 +107,9 @@ module Components
     end
 
     def enable_due_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-due-date").click
-        wait_for_network_idle
-        expect_due_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-due-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_due_highlighted
     end
 
     def enable_due_date_if_visible
@@ -220,6 +216,7 @@ module Components
 
     def toggle_working_days_only
       find("label", text: "Working days only").click
+      wait_for_changes_to_be_applied_after_setting_field
     end
 
     def uncheck_working_days_only
@@ -241,6 +238,13 @@ module Components
         # update the datepicker values.
         sleep 0.350
       end
+    end
+
+    protected
+
+    def wait_for_changes_to_be_applied_after_setting_field
+      expect(container).to have_no_css("[data-datepicker-preview-pending]")
+      wait_for_network_idle
     end
 
     private
