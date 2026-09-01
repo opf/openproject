@@ -42,9 +42,21 @@ module Llm
     class UnsupportedFormat < StandardError; end
 
     # Formats an administrator can choose. "openai" covers OpenAI itself and the
-    # great majority of gateways and self-hosted inference servers; the rest are
-    # RubyLLM providers whose model lists come from its registry.
+    # great majority of gateways and self-hosted inference servers.
     OPENAI_COMPATIBLE = "openai"
+
+    # Formats whose servers answer GET /models in the OpenAI shape, so the list
+    # is what this endpoint actually serves. Perplexity subclasses RubyLLM's
+    # OpenAI provider as well, but serves no model list at all.
+    LIVE_DISCOVERY = %w[
+      openai
+      openrouter
+      deepseek
+      mistral
+      xai
+      ollama
+      gpustack
+    ].freeze
 
     FORMATS = %w[
       openai
@@ -62,16 +74,13 @@ module Llm
       vertexai
     ].freeze
 
+    def self.live_discovery?(format) = LIVE_DISCOVERY.include?(format.to_s)
+
     def self.for(connection)
       format = connection.api_format.to_s
       raise UnsupportedFormat, format unless FORMATS.include?(format)
 
-      if format == OPENAI_COMPATIBLE
-        # Queried live, so the list is what this endpoint actually serves.
-        Openai.new(connection)
-      else
-        RegistryBacked.new(connection)
-      end
+      live_discovery?(format) ? Openai.new(connection) : RegistryBacked.new(connection)
     end
   end
 end
