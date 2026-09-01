@@ -27,29 +27,49 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
+
+module Exports
   module Formatters
     module XLS
-      class Costs < ::Exports::Formatters::Default
-        def self.apply?(name, export_format)
-          %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :xls
+      class CustomField < ::Exports::Formatters::CustomField
+        TYPED_FORMATS = %w[int float date calculated_value].freeze
+
+        def self.apply?(attribute, export_format)
+          export_format == :xls && attribute.start_with?("cf_")
         end
 
-        def format_value(value, _options = {})
-          value
+        def format_for_export(object, custom_field)
+          return super unless typed?(custom_field)
+
+          object.typed_custom_value_for(custom_field)
+        end
+
+        def format_value(value, options)
+          return value if value.is_a?(Date) || value.is_a?(Numeric) || value.in?([true, false])
+
+          super
         end
 
         def format_options
-          { number_format: number_format_string }
+          return {} unless custom_field && typed?(custom_field)
+
+          case custom_field.field_format
+          when "date" then { number_format: DateFormat.date }
+          when "int" then { number_format: integer_format }
+          else { number_format: }
+          end
         end
 
-        def number_format_string
-          # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
-          curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.costs_currency)
-          format = ERB::Util.h Setting.costs_currency_format
-          number = "#,##0.00"
+        private
 
-          format.gsub("%n", number).gsub("%u", curr)
+        def typed?(custom_field)
+          custom_field.field_format.in?(TYPED_FORMATS) && !custom_field.multi_value?
+        end
+
+        def custom_field
+          return @custom_field if defined?(@custom_field)
+
+          @custom_field = ::CustomField.find_by(id: attribute.to_s.delete_prefix("cf_"))
         end
       end
     end

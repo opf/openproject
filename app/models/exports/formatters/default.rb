@@ -87,6 +87,10 @@ module Exports
         "0.00"
       end
 
+      def integer_format
+        "0"
+      end
+
       def percentage_format
         "0%"
       end

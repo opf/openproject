@@ -41,7 +41,7 @@ module WorkPackage::Exports
         ].freeze
 
         def self.apply?(name, export_format)
-          HOUR_FIELDS.include?(name.to_sym) && export_format == :csv
+          HOUR_FIELDS.include?(name.to_sym) && export_format == :xls
         end
 
         def format_value(value, _options)
