@@ -55,10 +55,6 @@ module Llm
         end
       end
 
-      def embeddings(model_id:, input:)
-        client.embeddings(model: model_id, input:)
-      end
-
       # Which server we are talking to decides which non-standard metadata is
       # worth reading later. +owned_by+ is the documented hint; the structural
       # fallback catches an operator who overrode it.

@@ -51,6 +51,12 @@ RSpec.describe Llm::Adapters do
     end
   end
 
+  describe "FORMATS" do
+    it "offers only providers the gem still ships" do
+      expect(described_class::FORMATS).to all(be_in(RubyLLM::Provider.providers.keys.map(&:to_s)))
+    end
+  end
+
   describe ".live_discovery?" do
     it "answers for a symbol as well as a string" do
       expect(described_class).to be_live_discovery(:ollama)
