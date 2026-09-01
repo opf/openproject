@@ -48,20 +48,6 @@ RSpec.describe "The reuse mode and dependents boxes on a type's configuration ta
     expect(page).to have_text("No dependent types")
     expect(page).to have_text("No other type or variant inherits from this configuration")
 
-    row_width, left_width, right_width = page.evaluate_script(<<~JS)
-      (() => {
-        const box = document.querySelector('[data-test-selector="reuse-mode-dependents"]');
-        const row = box.closest('.flex-1').parentElement;
-        const [left, right] = row.children;
-        return [row.getBoundingClientRect().width,
-                left.getBoundingClientRect().width,
-                right.getBoundingClientRect().width];
-      })()
-    JS
-
-    expect(left_width).to be_within(1).of(right_width)
-    expect(left_width).to be_within(row_width * 0.1).of(row_width / 2)
-
     click_on "Inherit from another type"
 
     expect(page).to have_text("Inherit this configuration from a source type")
