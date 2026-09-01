@@ -829,7 +829,7 @@ GEM
     marcel (1.0.4)
     markly (0.16.0)
     matrix (0.4.3)
-    mcp (0.24.0)
+    mcp (1.1.0)
       json_schemer (>= 2.4)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -1649,7 +1649,7 @@ DEPENDENCIES
   mail (= 2.9.1)
   markly (~> 0.15)
   matrix (~> 0.4.3)
-  mcp (~> 0.24.0)
+  mcp (~> 1.1.0)
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.3)
@@ -2003,7 +2003,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (0.24.0) sha256=ef13596f13aad7720940a3fd6ab6f4f5e618d0b0fdb587549a90c22579626500
+  mcp (1.1.0) sha256=930dafc0a8f34941d210ad907dd70bf93c1763fa60b98cb9162c77263e5dac32
   md_to_pdf (0.2.7)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
