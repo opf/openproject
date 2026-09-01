@@ -1502,6 +1502,7 @@ pt-PT:
           finalizing: A finalizar
           finalizing_done: Concluído
           finalizing_error: Erro durante a finalização
+          import_aborting: Aborting
           import_error: Erro durante a importação
           import_scope: Selecionar âmbito
           imported: Modo de revisão
@@ -1513,13 +1514,13 @@ pt-PT:
           projects_meta_done: Dados recolhidos
           projects_meta_error: Erro ao recolher os dados do projeto
           projects_meta_fetching: A recolher dados do projeto
-          revert_cancelled: Reversão cancelada
-          revert_cancelling: A cancelar a reversão
           revert_error: Erro durante a reversão
           reverted: Revertido
           reverting: A reverter
+        step_not_available: This action is not available for the current state of the import run.
         title: Importar execução
         wizard:
+          button_abort: Abort
           button_retry: Tentar novamente
           finalize_dialog:
             confirm: Compreendo que esta ação não pode ser anulada
@@ -1563,11 +1564,14 @@ pt-PT:
             title: Reverter permanentemente esta importação?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Iniciar importação
               caption: Analise as suas definições de importação e inicie a importação
               caption_done: Concluído
               caption_done_info: Todos os dados foram importados
               description: Está prestes a iniciar uma execução de importação com as seguintes definições.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Dados a importar
               label_import_data: A importar
               label_progress: Importação em curso...
@@ -1588,6 +1592,7 @@ pt-PT:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Analisar a execução da importação ou reverter a importação
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Aprovar a importação
               label_finalizing: A aprovar a importação...
               label_finalizing_done: Importação aprovada.
@@ -1595,7 +1600,6 @@ pt-PT:
               label_revert: Reverter importação
               label_revert_progress: A reverter a importação...
               label_reverted: Importação revertida.
-              preview_description: Os dados importados estão em modo de revisão. Clique em "Aprovar importação" para tornar a importação permanente ou em "Reverter importação" para anular todas as alterações feitas nesta importação.
               stats:
                 other_settings:
                   label: Outras definições

@@ -1536,6 +1536,7 @@ hu:
           finalizing: Befejezés
           finalizing_done: Kész
           finalizing_error: Hiba a befejezés során
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Hatókör kiválasztása
           imported: Felülvizsgálati mód
@@ -1547,13 +1548,13 @@ hu:
           projects_meta_done: Összegyűjtött adatok
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: A visszavonás törölve
-          revert_cancelling: A visszavonás visszavonása
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Importálás futtatása
         wizard:
+          button_abort: Abort
           button_retry: Újrapróbál
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1597,11 +1598,14 @@ hu:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Importálandó adatok
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1622,6 +1626,7 @@ hu:
               button_done: Az import jóváhagyása
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Az import jóváhagyása
               label_finalizing: Az import jóváhagyása...
               label_finalizing_done: Az importot jóváhagyták.
@@ -1629,7 +1634,6 @@ hu:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: Az importált adatok jelenleg felülvizsgálati módban vannak. Kattintson az „Import jóváhagyása” gombra az import véglegesítéséhez, vagy az „Import visszavonása” gombra az importálás során végrehajtott összes módosítás visszavonásához.
               stats:
                 other_settings:
                   label: Other settings

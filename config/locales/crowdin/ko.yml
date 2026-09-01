@@ -1396,6 +1396,7 @@ ko:
           finalizing: 마무리 중
           finalizing_done: 완료됨
           finalizing_error: 마무리 중 오류 발생
+          import_aborting: Aborting
           import_error: 가져오는 중에 오류 발생
           import_scope: 범위 선택
           imported: 검토 모드
@@ -1407,13 +1408,13 @@ ko:
           projects_meta_done: 데이터 수집함
           projects_meta_error: 프로젝트 데이터를 가져오는 중에 오류 발생
           projects_meta_fetching: 프로젝트 데이터를 가져오는 중
-          revert_cancelled: 되돌리기 취소됨
-          revert_cancelling: 되돌리기 취소 중
           revert_error: 되돌리는 중에 오류 발생
           reverted: 되돌림
           reverting: 되돌리는 중
+        step_not_available: This action is not available for the current state of the import run.
         title: 가져오기 실행
         wizard:
+          button_abort: Abort
           button_retry: 다시 시도
           finalize_dialog:
             confirm: 이 작업을 취소할 수 없음을 이해합니다.
@@ -1451,11 +1452,14 @@ ko:
             title: 이 가져오기를 영구적으로 되돌리시겠습니까?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: 가져오기 시작
               caption: 가져오기 설정을 검토하고 가져오기를 시작합니다
               caption_done: 완료됨
               caption_done_info: 모든 데이터를 가져왔습니다
               description: 다음 설정으로 가져오기 실행을 시작하려고 합니다.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: 가져올 데이터
               label_import_data: 현재 가져오는 중
               label_progress: 가져오기 진행 중...
@@ -1476,6 +1480,7 @@ ko:
               button_done: 가져오기 승인
               button_revert: 가져오기 되돌리기
               caption: 가져오기 실행 검토 또는 가져오기 되돌리기
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: 가져오기 승인
               label_finalizing: 가져오기 승인 중...
               label_finalizing_done: 가져오기가 승인되었습니다.
@@ -1483,7 +1488,6 @@ ko:
               label_revert: 가져오기 되돌리기
               label_revert_progress: 가져오기를 되돌리는 중...
               label_reverted: 가져오기를 되돌렸습니다.
-              preview_description: 가져온 데이터는 현재 검토 모드에 있습니다. 가져오기를 영구적으로 적용하려면 "가져오기 승인"을 클릭하고, 이 가져오기 실행에서 변경된 모든 사항을 취소하려면 "가져오기 되돌리기"를 클릭합니다.
               stats:
                 other_settings:
                   label: 기타 설정

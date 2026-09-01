@@ -1716,6 +1716,7 @@ cs:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Chyba při importu
           import_scope: Zvolte rozsah
           imported: Review mode
@@ -1727,13 +1728,13 @@ cs:
           projects_meta_done: Shromážděná data
           projects_meta_error: Chyba při načítání dat projektu
           projects_meta_fetching: Načítání dat projektu
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Běh importu
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: Beru na vědomí, že tento úkon nelze vzít zpět
@@ -1789,11 +1790,14 @@ cs:
             title: Trvale revertovat tento import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Spustit import
               caption: Review your import settings and start the import
               caption_done: Dokončeno
               caption_done_info: All data has been imported
               description: Chystáte se spustit import s následujícím. nastavením.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
               label_progress: Probíhá import...
@@ -1814,6 +1818,7 @@ cs:
               button_done: Schválit import
               button_revert: Revertovat import
               caption: Zkontrolovat spuštění importu nebo revertovat import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1821,7 +1826,6 @@ cs:
               label_revert: Revert importu
               label_revert_progress: Revertování importu...
               label_reverted: Import byl revertován.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings

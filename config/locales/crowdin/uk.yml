@@ -1718,6 +1718,7 @@ uk:
           finalizing: Завершення
           finalizing_done: Завершено
           finalizing_error: Помилка під час завершення
+          import_aborting: Aborting
           import_error: Помилка під час імпорту
           import_scope: Вибір обсягу
           imported: Режим перевірки
@@ -1729,13 +1730,13 @@ uk:
           projects_meta_done: Дані зібрано
           projects_meta_error: Не вдалось отримати дані про проєкт
           projects_meta_fetching: Отримання даних про проєкт
-          revert_cancelled: Скасування внесених змін відмінено
-          revert_cancelling: Відміна скасування внесених змін
           revert_error: Помилка під час скасування внесених змін
           reverted: Внесені зміни скасовано
           reverting: Скасування внесених змін
+        step_not_available: This action is not available for the current state of the import run.
         title: Цикл імпорту
         wizard:
+          button_abort: Abort
           button_retry: Повторити спробу
           finalize_dialog:
             confirm: Я розумію, що цю дію не можна відмінити
@@ -1791,11 +1792,14 @@ uk:
             title: Остаточно скасувати цей імпорт?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Почати імпорт
               caption: Перегляньте налаштування імпорту й запустіть його
               caption_done: Завершено
               caption_done_info: Усі дані імпортовано
               description: Ви збираєтеся запустити імпорт із наведеними далі налаштуваннями.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Дані, які імпортуватимуться
               label_import_data: Зараз імпортується
               label_progress: Виконується імпорт…
@@ -1816,6 +1820,7 @@ uk:
               button_done: Схвалити імпорт
               button_revert: Скасувати імпорт
               caption: Перегляньте дані про цикл імпорту або скасуйте внесені зміни
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Схвалити імпорт
               label_finalizing: Схвалення імпорту…
               label_finalizing_done: Імпорт схвалено.
@@ -1823,7 +1828,6 @@ uk:
               label_revert: Скасувати імпорт
               label_revert_progress: Скасування імпорту…
               label_reverted: Імпорт скасовано.
-              preview_description: Імпортовані дані зараз перебувають у режимі перевірки. Натисніть «Схвалити імпорт», щоб застосувати зміни, або «Скасувати імпорт», щоб скасувати всі зміни, внесені під час цього циклу.
               stats:
                 other_settings:
                   label: Інші налаштування

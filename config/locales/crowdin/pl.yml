@@ -1714,6 +1714,7 @@ pl:
           finalizing: Finalizowanie
           finalizing_done: Ukończono
           finalizing_error: Błąd podczas finalizacji
+          import_aborting: Aborting
           import_error: Błąd podczas importu
           import_scope: Wybierz zakres
           imported: Tryb przeglądu
@@ -1725,13 +1726,13 @@ pl:
           projects_meta_done: Zebrano dane
           projects_meta_error: Błąd podczas pobierania danych projektu
           projects_meta_fetching: Pobieranie danych projektu
-          revert_cancelled: Cofnięcie anulowane
-          revert_cancelling: Anulowanie cofnięcia
           revert_error: Błąd podczas cofania
           reverted: Cofnięto
           reverting: Cofanie
+        step_not_available: This action is not available for the current state of the import run.
         title: Uruchomienie importu
         wizard:
+          button_abort: Abort
           button_retry: Ponów próbę
           finalize_dialog:
             confirm: Rozumiem, że tego działania nie będzie można cofnąć
@@ -1787,11 +1788,14 @@ pl:
             title: Na stałe cofnąć ten import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Rozpocznij import
               caption: Sprawdź ustawienia importu i rozpocznij import
               caption_done: Ukończono
               caption_done_info: Wszystkie dane zostały zaimportowane
               description: W ten sposób rozpoczniesz import z następującymi ustawieniami.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Dane do zaimportowania
               label_import_data: Aktualnie importowane
               label_progress: Import w toku...
@@ -1812,6 +1816,7 @@ pl:
               button_done: Zatwierdź import
               button_revert: Cofnij import
               caption: Sprawdź uruchomiony import lub cofnij import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Zatwierdź import
               label_finalizing: Zatwierdzenie importu...
               label_finalizing_done: Zatwierdzono import.
@@ -1819,7 +1824,6 @@ pl:
               label_revert: Cofnij import
               label_revert_progress: Cofanie importu...
               label_reverted: Cofnięto import.
-              preview_description: Zaimportowane dane są obecnie w trybie przeglądu. Kliknij przycisk „Zatwierdź import”, aby zaimportować dane na stałe lub „Cofnij import”, aby cofnąć wszystkie zmiany wprowadzone wskutek importu.
               stats:
                 other_settings:
                   label: Inne ustawienia

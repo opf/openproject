@@ -1714,6 +1714,7 @@ ru:
           finalizing: Завершение
           finalizing_done: Завершено
           finalizing_error: Ошибка при завершении
+          import_aborting: Aborting
           import_error: Ошибка при импорте
           import_scope: Выберите область применения
           imported: Режим обзора
@@ -1725,13 +1726,13 @@ ru:
           projects_meta_done: Данные собраны
           projects_meta_error: Ошибка при получении данных о проекте
           projects_meta_fetching: Получение данных о проекте
-          revert_cancelled: Откат отменен
-          revert_cancelling: Отмена отката
           revert_error: Ошибка при откате
           reverted: Возвращено к исходному состоянию
           reverting: Возврат в исходное состояние
+        step_not_available: This action is not available for the current state of the import run.
         title: Выполнение импорта
         wizard:
+          button_abort: Abort
           button_retry: Повторить
           finalize_dialog:
             confirm: Я понимаю, что это действие не может быть отменено
@@ -1787,11 +1788,14 @@ ru:
             title: Отменить этот импорт?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Начать импорт
               caption: Просмотрите настройки импорта и начните импорт
               caption_done: Завершено
               caption_done_info: Все данные импортированы
               description: Вы собираетесь начать импорт со следующими настройками.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
@@ -1812,6 +1816,7 @@ ru:
               button_done: Завершить импорт
               button_revert: Откатить импорт
               caption: Просмотрите выполнение импорта или отмените импорт
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Завершить импорт
               label_finalizing: Завершение импорта...
               label_finalizing_done: Импорт завершён.
@@ -1819,7 +1824,6 @@ ru:
               label_revert: Откатить импорт
               label_revert_progress: Отмена импорта...
               label_reverted: Импорт отменен.
-              preview_description: В настоящее время импортированные данные находятся в режиме просмотра. Нажмите "Завершить импорт", чтобы сохранить результаты импорта, или "Отменить импорт", чтобы отменить все изменения, сделанные в ходе запуска импорта.
               stats:
                 other_settings:
                   label: Прочие настройки

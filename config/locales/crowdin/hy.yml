@@ -1502,6 +1502,7 @@ hy:
           finalizing: Վերջնականացվում է
           finalizing_done: Ավարտված
           finalizing_error: Սխալ վերջնականացման ընթացքում
+          import_aborting: Aborting
           import_error: Սխալ ներմուծման ընթացքում
           import_scope: Ընտրեք շրջանակը
           imported: Վերանայման ռեժիմ
@@ -1513,13 +1514,13 @@ hy:
           projects_meta_done: Տվյալները հավաքագրված են
           projects_meta_error: Նախագծի տվյալների ստացման սխալ
           projects_meta_fetching: Նախագծի տվյալները ստացվում են
-          revert_cancelled: Հետարկումը չեղարկված է
-          revert_cancelling: Հետարկումը չեղարկվում է
           revert_error: Սխալ հետարկման ընթացքում
           reverted: Հետարկված է
           reverting: Հետարկվում է
+        step_not_available: This action is not available for the current state of the import run.
         title: Ներմուծման գործարկում
         wizard:
+          button_abort: Abort
           button_retry: Կրկին փորձել
           finalize_dialog:
             confirm: Հասկանում եմ, որ այս գործողությունն անշրջելի է
@@ -1563,11 +1564,14 @@ hy:
             title: Ընդմիշտ հետարկե՞լ այս ներմուծումը։
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Սկսել ներմուծումը
               caption: Վերանայեք Ձեր ներմուծման կարգավորումները և սկսեք ներմուծումը
               caption_done: Ավարտված
               caption_done_info: Բոլոր տվյալները ներմուծված են
               description: Դուք պատրաստվում եք սկսել ներմուծման գործարկում հետևյալ կարգավորումներով։
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
@@ -1588,6 +1592,7 @@ hy:
               button_done: Հաստատել ներմուծումը
               button_revert: Հետարկել ներմուծումը
               caption: Վերանայեք ներմուծման գործարկումը կամ հետարկեք ներմուծումը
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Հաստատել ներմուծումը
               label_finalizing: Ներմուծումը հաստատվում է...
               label_finalizing_done: Ներմուծումը հաստատվել է։
@@ -1595,7 +1600,6 @@ hy:
               label_revert: Հետարկել ներմուծումը
               label_revert_progress: Ներմուծումը հետարկվում է...
               label_reverted: Ներմուծումը հետարկվել է։
-              preview_description: Ներմուծված տվյալները ներկայումս վերանայման ռեժիմում են։ Սեղմեք "Հաստատել ներմուծումը"՝ ներմուծումը մշտական դարձնելու համար, կամ "Հետարկել ներմուծումը"՝ այս ներմուծման գործարկման ընթացքում կատարված բոլոր փոփոխությունները հետարկելու համար։
               stats:
                 other_settings:
                   label: Այլ կարգավորումներ

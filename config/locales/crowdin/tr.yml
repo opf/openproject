@@ -1506,6 +1506,7 @@ tr:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1517,13 +1518,13 @@ tr:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: Bu eylemin geri alınamayacağını anlıyorum
@@ -1567,11 +1568,14 @@ tr:
             title: Bu aktarım kalıcı olarak geri alınsın mı?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: İçe aktarmayı başlat
               caption: İçe aktarma ayarlarınızı gözden geçirin ve içe aktarmayı başlatın
               caption_done: Tamamlandı
               caption_done_info: All data has been imported
               description: Aşağıdaki ayarlarla bir içe aktarma çalışması başlatmak üzeresiniz.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
               label_progress: İçe aktarma devam ediyor...
@@ -1592,6 +1596,7 @@ tr:
               button_done: Approve import
               button_revert: İçe aktarımı geri döndür
               caption: İçe aktarma çalışmasını gözden geçirin veya içe aktarmayı geri alın
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1599,7 +1604,6 @@ tr:
               label_revert: İçe aktarımı geri döndür
               label_revert_progress: İçe aktarma geri alınıyor...
               label_reverted: İçe aktarma geri alındı.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings

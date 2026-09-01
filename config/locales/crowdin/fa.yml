@@ -1500,6 +1500,7 @@ fa:
           finalizing: در حال نهایی‌سازی
           finalizing_done: تکمیل‌شده
           finalizing_error: خطا هنگام نهایی‌سازی
+          import_aborting: Aborting
           import_error: خطا هنگام Import
           import_scope: انتخاب دامنه
           imported: حالت بازبینی
@@ -1511,13 +1512,13 @@ fa:
           projects_meta_done: داده‌ها گردآوری شدند
           projects_meta_error: خطا در دریافت داده‌های پروژه
           projects_meta_fetching: در حال دریافت داده‌های پروژه
-          revert_cancelled: لغو بازگردانی انجام شد
-          revert_cancelling: در حال لغو بازگردانی
           revert_error: خطا هنگام بازگردانی
           reverted: بازگردانده شد
           reverting: در حال بازگردانی
+        step_not_available: This action is not available for the current state of the import run.
         title: اجرای Import
         wizard:
+          button_abort: Abort
           button_retry: تلاش مجدد
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
@@ -1561,11 +1562,14 @@ fa:
             title: این Import برای همیشه بازگردانده شود؟
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: شروع Import
               caption: تنظیمات Import را بازبینی و Import را شروع کنید
               caption_done: تکمیل‌شده
               caption_done_info: همه داده‌ها وارد شده‌اند
               description: در آستانه شروع اجرای Import با تنظیمات زیر هستید.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: داده‌هایی که وارد می‌شوند
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
@@ -1586,6 +1590,7 @@ fa:
               button_done: تأیید Import
               button_revert: بازگردانی Import
               caption: بازبینی اجرای Import یا بازگردانی آن
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: تأیید Import
               label_finalizing: در حال تأیید Import...
               label_finalizing_done: Import تأیید شد.
@@ -1593,7 +1598,6 @@ fa:
               label_revert: بازگردانی Import
               label_revert_progress: در حال بازگردانی Import...
               label_reverted: Import بازگردانده شد.
-              preview_description: داده‌های واردشده اکنون در حالت بازبینی هستند. برای دائمی‌کردن Import روی «تأیید Import» یا برای لغو همه تغییرات این اجرا روی «بازگردانی Import» کلیک کنید.
               stats:
                 other_settings:
                   label: تنظیمات دیگر

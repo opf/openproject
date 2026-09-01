@@ -1502,6 +1502,7 @@ de:
           finalizing: Abschließen
           finalizing_done: Abgeschlossen
           finalizing_error: Fehler beim Abschließen
+          import_aborting: Aborting
           import_error: Fehler beim Importieren
           import_scope: Umfang auswählen
           imported: Überprüfungsmodus
@@ -1513,13 +1514,13 @@ de:
           projects_meta_done: Daten erfasst
           projects_meta_error: Fehler beim Abrufen von Projektdaten
           projects_meta_fetching: Abrufen von Projektdaten
-          revert_cancelled: Rückgängig machen abgebrochen
-          revert_cancelling: Rückgängig machen abbrechen
           revert_error: Fehler beim Revertieren
           reverted: Rückgängig gemacht
           reverting: Rückgängig machen
+        step_not_available: This action is not available for the current state of the import run.
         title: Importlauf
         wizard:
+          button_abort: Abort
           button_retry: Erneut versuchen
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
@@ -1563,11 +1564,14 @@ de:
             title: Diesen Import dauerhaft rückgängig machen?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Import starten
               caption: Überprüfen Sie Ihre Importeinstellungen und starten Sie den Import
               caption_done: Abgeschlossen
               caption_done_info: Alle Daten wurden importiert
               description: Sie sind dabei, einen Import mit den folgenden Einstellungen zu starten.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
@@ -1588,6 +1592,7 @@ de:
               button_done: Import bestätigen
               button_revert: Import rückgängig machen
               caption: Importlauf überprüfen oder Import rückgängig machen
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Import bestätigen
               label_finalizing: Import wird abgeschlossen...
               label_finalizing_done: Import bestätigt.
@@ -1595,7 +1600,6 @@ de:
               label_revert: Import rückgängig machen
               label_revert_progress: Import wird rückgängig gemacht...
               label_reverted: Import rückgängig gemacht.
-              preview_description: Die importierten Daten befinden sich derzeit im Überprüfungsmodus. Klicken Sie auf "Import bestätigen", um den Import dauerhaft zu machen, oder auf "Import rückgängig machen", um alle in diesem Importlauf vorgenommenen Änderungen rückgängig zu machen.
               stats:
                 other_settings:
                   label: Andere Einstellungen

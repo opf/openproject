@@ -1396,6 +1396,7 @@ zh-CN:
           finalizing: 正在完成
           finalizing_done: 已完成
           finalizing_error: 完成过程中出错
+          import_aborting: Aborting
           import_error: 导入过程中出错
           import_scope: 选择范围
           imported: 审核模式
@@ -1407,13 +1408,13 @@ zh-CN:
           projects_meta_done: 数据已收集
           projects_meta_error: 获取项目数据时出错
           projects_meta_fetching: 正在获取项目数据
-          revert_cancelled: 已取消撤消
-          revert_cancelling: 正在取消撤消
           revert_error: 撤消过程中出错
           reverted: 已撤消
           reverting: 正在撤消
+        step_not_available: This action is not available for the current state of the import run.
         title: 导入运行
         wizard:
+          button_abort: Abort
           button_retry: 重试
           finalize_dialog:
             confirm: 我明白此操作无法撤消
@@ -1451,11 +1452,14 @@ zh-CN:
             title: 是否永久撤消此导入？
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: 开始导入
               caption: 审核导入设置并开始导入
               caption_done: 已完成
               caption_done_info: 所有数据均已导入
               description: 您即将使用以下设置开始导入运行。
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
               label_progress: 正在导入…
@@ -1476,6 +1480,7 @@ zh-CN:
               button_done: 批准导入
               button_revert: 撤消导入
               caption: 审核导入运行或撤消导入
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: 批准导入
               label_finalizing: 正在批准导入……
               label_finalizing_done: 导入已批准。
@@ -1483,7 +1488,6 @@ zh-CN:
               label_revert: 撤消导入
               label_revert_progress: 正在撤消导入…
               label_reverted: 导入已撤消。
-              preview_description: 导入的数据当前处于审核模式。点击“批准导入”可永久导入，点击“撤消导入”可撤消本次导入运行中的所有更改。
               stats:
                 other_settings:
                   label: 其他设置
