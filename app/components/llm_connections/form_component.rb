@@ -43,7 +43,7 @@ module LlmConnections
     def wrapper_options
       {
         data: {
-          controller: "admin--llm-connection-form",
+          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
           test_selector: "llm-connection--form"
         }
       }

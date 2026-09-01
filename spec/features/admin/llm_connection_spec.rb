@@ -60,8 +60,33 @@ RSpec.describe "LLM connection administration",
     it "renders an accessible, empty settings page" do
       visit llm_connection_path
 
+      check "Enable LLMs for this instance"
+
       expect(page).to have_field("Host URL")
       expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "hides the server settings until the connection is enabled" do
+      visit llm_connection_path
+
+      expect(page).to have_field("Host URL", visible: :hidden)
+
+      check "Enable LLMs for this instance"
+
+      expect(page).to have_field("Host URL")
+    end
+
+    it "describes the server the selected API format expects" do
+      visit llm_connection_path
+
+      check "Enable LLMs for this instance"
+
+      expect(page).to have_text("speaks the OpenAI-compatible API")
+
+      select "Anthropic", from: "API format"
+
+      expect(page).to have_text("speaks the Anthropic API")
+      expect(page).to have_no_text("speaks the OpenAI-compatible API")
     end
   end
 end

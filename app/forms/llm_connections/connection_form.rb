@@ -34,46 +34,58 @@ module LlmConnections
       f.check_box(
         name: :enabled,
         label: LlmConnection.human_attribute_name(:enabled),
-        caption: I18n.t("admin.llm_connections.form.enabled_caption")
+        caption: I18n.t("admin.llm_connections.form.enabled_caption"),
+        data: { target_name: "llm_connection_enabled", show_when_checked_target: "cause" }
       )
 
-      f.select_list(
-        name: :api_format,
-        label: LlmConnection.human_attribute_name(:api_format),
-        caption: I18n.t("admin.llm_connections.form.api_format_caption"),
-        include_blank: false,
-        input_width: :medium
-      ) do |select|
-        # Only formats a request can actually be sent in. The contract rejects
-        # the rest as a backstop, but they should not be offered in the first place.
-        Llm::Adapters::FORMATS.select { |format| Llm::Session.supports?(format) }.each do |format|
-          select.option(value: format, label: I18n.t("llm.api_formats.#{format}"))
+      f.fieldset_group(
+        title: I18n.t("admin.llm_connections.form.server_group"),
+        hidden: !model.enabled?,
+        data: {
+          target_name: "llm_connection_enabled",
+          show_when_checked_target: "effect",
+          show_when: "checked"
+        }
+      ) do |fg|
+        fg.html_content { server_descriptions }
+
+        fg.select_list(
+          name: :api_format,
+          label: LlmConnection.human_attribute_name(:api_format),
+          caption: I18n.t("admin.llm_connections.form.api_format_caption"),
+          include_blank: false,
+          input_width: :medium,
+          data: { target_name: "llm_connection_api_format", show_when_value_selected_target: "cause" }
+        ) do |select|
+          supported_formats.each do |format|
+            select.option(value: format, label: api_format_label(format))
+          end
         end
+
+        fg.text_field(
+          name: :base_url,
+          label: LlmConnection.human_attribute_name(:base_url),
+          caption: I18n.t("admin.llm_connections.form.base_url_caption"),
+          placeholder: "https://example.com/v1",
+          required: true,
+          type: :url,
+          input_width: :large
+        )
+
+        fg.text_field(
+          name: :api_key,
+          label: LlmConnection.human_attribute_name(:api_key),
+          caption: api_key_caption,
+          # The stored key is never sent to the browser. A blank submission means
+          # "keep the current key", handled in the controller.
+          value: nil,
+          placeholder: api_key_placeholder,
+          type: :password,
+          autocomplete: "off",
+          input_width: :large,
+          data: { "admin--llm-connection-form-target": "secretInput" }
+        )
       end
-
-      f.text_field(
-        name: :base_url,
-        label: LlmConnection.human_attribute_name(:base_url),
-        caption: I18n.t("admin.llm_connections.form.base_url_caption"),
-        placeholder: "https://example.com/v1",
-        required: true,
-        type: :url,
-        input_width: :large
-      )
-
-      f.text_field(
-        name: :api_key,
-        label: LlmConnection.human_attribute_name(:api_key),
-        caption: api_key_caption,
-        # The stored key is never sent to the browser. A blank submission means
-        # "keep the current key", handled in the controller.
-        value: nil,
-        placeholder: api_key_placeholder,
-        type: :password,
-        autocomplete: "off",
-        input_width: :large,
-        data: { "admin--llm-connection-form-target": "secretInput" }
-      )
 
       f.submit(
         name: :submit,
@@ -84,6 +96,35 @@ module LlmConnections
     end
 
     private
+
+    # Only formats a request can actually be sent in. The contract rejects the
+    # rest as a backstop, but they should not be offered in the first place.
+    def supported_formats
+      Llm::Adapters::FORMATS.select { |format| Llm::Session.supports?(format) }
+    end
+
+    def api_format_label(format)
+      I18n.t("llm.api_formats.#{format}")
+    end
+
+    def server_descriptions
+      helpers.safe_join(
+        supported_formats.map do |format|
+          render(
+            Primer::Beta::Text.new(
+              tag: :p,
+              color: :muted,
+              hidden: format != model.api_format,
+              data: {
+                target_name: "llm_connection_api_format",
+                show_when_value_selected_target: "effect",
+                value: format
+              }
+            )
+          ) { I18n.t("admin.llm_connections.form.server_description", api_format: api_format_label(format)) }
+        end
+      )
+    end
 
     def submit_label
       model.persisted? ? I18n.t(:button_save) : I18n.t("admin.llm_connections.form.button_connect")
