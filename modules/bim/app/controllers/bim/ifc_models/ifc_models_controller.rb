@@ -120,7 +120,7 @@ module Bim
         end
       end
 
-      def create
+      def create # rubocop:disable Metrics/AbcSize
         combined_params = permitted_model_params
                             .to_h
                             .reverse_merge(project: @project)
@@ -135,6 +135,7 @@ module Bim
           flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
+          flash[:error] = service_result.errors.full_messages.join(" ")
           render action: :new, status: :unprocessable_entity
         end
       end

@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
     method: :patch
   ) do |f|
     render_inline_form(f) do |form|
-      form.text_field(name: :title, label: Bim::IfcModels::IfcModel.human_attribute_name(:title))
+      form.text_field(name: :title, label: Bim::IfcModels::IfcModel.human_attribute_name(:title), input_width: :medium)
       form.check_box(name: :is_default, label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default))
       form.submit(name: :save, label: I18n.t(:button_save), scheme: :primary)
     end

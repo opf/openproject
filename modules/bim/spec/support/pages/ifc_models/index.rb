@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -52,7 +54,7 @@ module Pages
         if allowed
           click_toolbar_button "ifc-create-button"
 
-          expect_correct_page_loaded '.button[type="submit"]'
+          expect_correct_page_loaded '.Button.Button--primary[type="submit"]'
           expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
 
           visit!
@@ -107,7 +109,7 @@ module Pages
         expect_model_active(model)
       end
 
-      def expect_model_active(model, active = true)
+      def expect_model_active(model, active: true)
         expect(page).to have_field("input-#{model.id}", checked: active, wait: 30)
       end
 
@@ -117,7 +119,7 @@ module Pages
         expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         models.each do |model|
-          expect_model_active(model, model.is_default)
+          expect_model_active(model, active: model.is_default)
         end
       end
 
