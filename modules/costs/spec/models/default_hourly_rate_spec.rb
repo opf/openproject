@@ -57,4 +57,28 @@ RSpec.describe DefaultHourlyRate do
       it { expect(rate.user).to eq(DeletedUser.first) }
     end
   end
+
+  describe "#rate_updated (after_update callback)" do
+    # Regression: rate_updated runs in an after_update callback, where the pre-save
+    # dirty API (`valid_from_changed?` / `rate_changed?`) always returns false because
+    # ActiveRecord has already cleared the dirty state. The override must use the
+    # post-save API (`saved_change_to_*?`) — matching the parent Rate#rate_updated.
+    # Without the fix, editing only the rate value silently fails to regenerate the
+    # costs on existing TimeEntry rows.
+    let(:user) { create(:user) }
+    let!(:default_rate) do
+      create(:default_hourly_rate, user:, rate: 100.0, valid_from: 30.days.ago.to_date)
+    end
+    let!(:time_entry) do
+      create(:time_entry, user:, spent_on: 1.day.ago.to_date, hours: 1.0)
+    end
+
+    it "regenerates dependent TimeEntry#costs when only the rate value changes" do
+      expect(time_entry.reload.costs).to eq(100.0)
+
+      default_rate.update!(rate: 120.0)
+
+      expect(time_entry.reload.costs).to eq(120.0)
+    end
+  end
 end
