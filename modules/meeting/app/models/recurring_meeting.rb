@@ -283,7 +283,7 @@ class RecurringMeeting < ApplicationRecord
 
   # Attributes that affect the recurrence schedule itself (not template-only fields like location).
   SCHEDULE_ATTRIBUTES = %w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time
-                           start_time_hour iterations interval end_after end_date].freeze
+                           start_time_hour time_zone iterations interval end_after end_date].freeze
 
   def reschedule_required?(previous: false)
     (previous ? previous_changes : changes)
