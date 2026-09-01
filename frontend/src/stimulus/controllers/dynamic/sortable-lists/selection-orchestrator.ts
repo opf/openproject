@@ -97,6 +97,13 @@ export class SelectionOrchestrator {
     this.renderSelection('selection');
   }
 
+  // The platform's one multi-select modifier: ⌘ on Apple platforms, Ctrl
+  // elsewhere. Meta is not an alternate modifier on Windows or Linux, and
+  // Ctrl on Apple is the secondary click, never multi-select.
+  private multiSelectModifier(event:MouseEvent|KeyboardEvent):boolean {
+    return isApplePlatform() ? event.metaKey : event.ctrlKey;
+  }
+
   readonly handleClick = (event:MouseEvent):void => {
     // Ctrl-click is the secondary click on Apple platforms, where it opens
     // the contextual menu and Cmd is the multi-select key instead.
@@ -104,7 +111,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    const multiSelect = event.metaKey || event.ctrlKey;
+    const multiSelect = this.multiSelectModifier(event);
     const modified = event.shiftKey || multiSelect;
     const candidate = this.candidateForGesture(event.target);
     if (!candidate) {
@@ -291,7 +298,7 @@ export class SelectionOrchestrator {
 
   // Confined to the focused card's list, like a range.
   private handleSelectAll(event:KeyboardEvent, candidate:SelectionCandidate):void {
-    if (!event.metaKey && !event.ctrlKey) {
+    if (!this.multiSelectModifier(event)) {
       return;
     }
 
