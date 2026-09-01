@@ -31,7 +31,7 @@
 class Queries::WorkPackages::Filter::AuthorFilter <
     Queries::WorkPackages::Filter::PrincipalBaseFilter
   def allowed_values
-    @author_values ||= me_allowed_value + principal_loader.user_values
+    @author_values ||= me_allowed_value + principal_loader.principal_values
   end
 
   def type
@@ -42,9 +42,32 @@ class Queries::WorkPackages::Filter::AuthorFilter <
     :author_id
   end
 
+  def where
+    expanded_values = expand_group_values(values_replaced)
+    operator_strategy.sql_for_field(expanded_values, self.class.model.table_name, self.class.key)
+  end
+
   private
 
   def autocomplete_principal_types
     %w[User]
+  end
+
+  def expand_group_values(values)
+    return values if values.empty?
+
+    group_ids = Group.where(id: values).pluck(:id).map(&:to_s)
+    user_ids  = values - group_ids
+
+    if group_ids.any?
+      group_member_ids = User
+                           .joins(:groups)
+                           .where(groups_users: { id: group_ids })
+                           .pluck(:id)
+                           .map(&:to_s)
+      user_ids += group_member_ids
+    end
+
+    user_ids.uniq
   end
 end
