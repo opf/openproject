@@ -383,9 +383,9 @@ module Import
 
       def import_owned?(custom_field)
         Import::JiraOpenProjectReference.exists?(
+          jira_import_id: @jira_import.id,
           op_entity_id: custom_field.id,
-          op_entity_class: custom_field.class.to_s,
-          jira_id: @jira_import.jira_id
+          op_entity_class: custom_field.class.to_s
         )
       end
 

@@ -848,7 +848,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
 
     def import_owned(custom_field)
       create(:jira_open_project_reference,
-             jira:,
              jira_import:,
              op_entity_id: custom_field.id,
              op_entity_class: "WorkPackageCustomField",
