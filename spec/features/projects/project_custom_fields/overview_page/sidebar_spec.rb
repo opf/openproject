@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "shared_context"
 
 RSpec.describe "Show project custom fields on project overview page", :js do
-  include_context "with seeded projects, members and project custom fields"
+  include_context "with seeded projects, members and project custom fields", seed_all: false
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
@@ -41,6 +41,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
   end
 
   it "does show the project attributes sidebar" do
+    boolean_project_custom_field
     overview_page.visit_page
 
     expect(page).to have_test_selector "project-custom-fields-sidebar"
@@ -48,6 +49,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
 
   describe "with correct order and scoping" do
     it "shows the project custom field sections in the correct order" do
+      all_fields
       overview_page.visit_page
 
       overview_page.within_project_attributes_sidebar do
@@ -76,6 +78,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     it "shows the project custom fields in the correct order within the sections" do
+      all_fields
       overview_page.visit_page
 
       overview_page.within_project_attributes_sidebar do
@@ -140,6 +143,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     it "does not show project custom fields not enabled for this project in a sidebar" do
+      boolean_project_custom_field
       create(:string_project_custom_field, projects: [other_project], name: "String field enabled for other project")
 
       overview_page.visit_page
@@ -152,6 +156,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
 
   describe "with correct values" do
     describe "with boolean CF" do
+      before { boolean_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -226,6 +232,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with string CF" do
+      before { string_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -288,6 +296,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with integer CF" do
+      before { integer_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -350,6 +360,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with date CF" do
+      before { date_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -412,6 +424,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with float CF" do
+      before { float_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -474,6 +488,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with text CF" do
+      before { text_project_custom_field }
+
       describe "with value set by user" do
         context "with a value that does not have a line break and spans less than 3 lines" do
           before do
@@ -574,6 +590,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with calculated value CFs", with_ee: %i[calculated_values] do
+      before { calculated_value_fields }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -699,6 +717,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with list CF" do
+      before { list_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -773,6 +793,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with version CF" do
+      before { version_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -822,6 +844,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with user CF" do
+      before { user_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -897,6 +921,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with multi list CF" do
+      before { multi_list_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct values for the project custom field if given" do
           overview_page.visit_page
@@ -958,6 +984,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with multi version CF" do
+      before { multi_version_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct values for the project custom field if given" do
           overview_page.visit_page
@@ -990,6 +1018,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
     end
 
     describe "with multi user CF" do
+      before { multi_user_project_custom_field }
+
       describe "with value set by user" do
         it "shows the correct values for the project custom field if given" do
           overview_page.visit_page
