@@ -45,6 +45,8 @@ class OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::L
   # places of OpenProject, and we want to be able to upload in all those places
   # (work packages module, BCF module, notification center, boards, ...).
   def application_controller_before_action(context)
+    return if turbo_frame_or_stream_request?(context[:request])
+
     storage_ids = ::Storages::ProjectStorage.where(
       project_id: Project.allowed_to(User.current, :manage_file_links)
     ).select(:storage_id)
@@ -56,5 +58,11 @@ class OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::L
       # secure_headers gem provides this helper method to append to the current content security policy
       context[:controller].append_content_security_policy_directives(connect_src: storages_hosts)
     end
+  end
+
+  private
+
+  def turbo_frame_or_stream_request?(request)
+    request.headers&.key?("Turbo-Frame") || request.accept&.include?("text/vnd.turbo-stream.html")
   end
 end
