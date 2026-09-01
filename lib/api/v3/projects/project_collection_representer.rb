@@ -66,7 +66,11 @@ module API
         end
 
         def eager_loaded_paged_models(models)
-          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(models)
+          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(models, favorite_user: current_user)
+        end
+
+        def eager_load_for_element_decorator?
+          true
         end
       end
     end

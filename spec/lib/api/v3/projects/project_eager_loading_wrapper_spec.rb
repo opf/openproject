@@ -50,6 +50,46 @@ RSpec.describe API::V3::Projects::ProjectEagerLoadingWrapper do
       end
     end
 
+    context "with favorites" do
+      let(:current_user) { create(:user) }
+      let!(:favorite) { create(:favorite, user: current_user, favorited: projects.first) }
+
+      subject(:loaded_projects) { described_class.wrap(projects, favorite_user: current_user) }
+
+      it "loads the favorite state once for all projects" do
+        allow(Favorite).to receive(:where).and_call_original
+
+        favorite_states = loaded_projects.map { |project| project.favorited_by?(current_user) }
+
+        expect(Favorite).to have_received(:where).once
+        expect(favorite_states).to eq([true, false, false])
+      end
+
+      it "falls back to the model favorite state for another user" do
+        other_user = create(:user)
+        create(:favorite, user: other_user, favorited: projects.second)
+
+        favorite_states = loaded_projects.map { |project| project.favorited_by?(other_user) }
+
+        expect(favorite_states).to eq([false, true, false])
+      end
+    end
+
+    context "without a favorite user" do
+      subject(:loaded_projects) { described_class.wrap(projects, favorite_user: nil, eager_loaded: [:favorites]) }
+
+      it "does not preload favorites and delegates favorite checks" do
+        allow(Favorite).to receive(:where).and_call_original
+        allow(projects.first).to receive(:favorited_by?).with(nil).and_return(false)
+
+        favorite_state = loaded_projects.first.favorited_by?(nil)
+
+        expect(Favorite).not_to have_received(:where)
+        expect(projects.first).to have_received(:favorited_by?).with(nil)
+        expect(favorite_state).to be(false)
+      end
+    end
+
     context "with available custom fields" do
       let!(:text_project_custom_field) do
         create :text_project_custom_field, projects: [projects.second, projects.third]
