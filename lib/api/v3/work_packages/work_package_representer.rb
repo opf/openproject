@@ -495,11 +495,8 @@ module API
                  as: :hasProjectAttributes,
                  writable: false,
                  uncacheable: true,
-                 getter: ->(*) do
-                   variant = type_variant
-
-                   (variant.present? && project&.available_custom_fields_for_variant(variant.id)&.any?) || false
-                 end
+                 exec_context: :decorator,
+                 getter: ->(*) { has_project_attributes? }
 
         associated_resource :category
 
@@ -809,6 +806,15 @@ module API
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def has_project_attributes?
+          variant = represented.type_variant
+          return false unless variant && represented.project
+
+          RequestStore.fetch("work_package_has_project_attributes/#{represented.project_id}/#{variant.id}") do
+            represented.project.available_custom_fields_for_variant(variant.id).any?
+          end
         end
 
         def project_phase

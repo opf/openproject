@@ -228,6 +228,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
         end
       end
+
+      it "reuses the result for the same project and variant" do
+        2.times { expect(representer.has_project_attributes?).to eq(variant_fields_exist) }
+
+        expect(workspace).to have_received(:available_custom_fields_for_variant)
+          .with(type_variant.id)
+          .once
+      end
     end
 
     describe "startDate" do
