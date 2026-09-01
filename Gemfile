@@ -184,7 +184,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
   gem "dalli", "~> 5.0.6"
-  gem "redis", "~> 5.4.0"
+  gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
