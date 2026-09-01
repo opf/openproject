@@ -7,10 +7,10 @@ uk:
         bim_snippet: Фрагмент BIM
         reference_links: Посилання на джерела
         stage: Етап
-        status_id: Status
+        status_id: Статус
         viewpoint: Точка огляду
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: Статус
       bim/ifc_models/ifc_model:
         attachments: Файл IFC
         ifc_attachment: Файл IFC
@@ -39,25 +39,25 @@ uk:
               invalid_ifc_file: Наданий файл не є дійсним файлом IFC.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        few: BCF comments
-        many: BCF comments
-        other: BCF comments
+        one: Коментар BCF
+        few: Коментарі BCF
+        many: Коментарі BCF
+        other: Коментарі BCF
       bim/bcf/issue:
-        one: BCF issue
-        few: BCF issues
-        many: BCF issues
-        other: BCF issues
+        one: Проблема BCF
+        few: Проблеми BCF
+        many: Проблеми BCF
+        other: Проблеми BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        few: BCF viewpoints
-        many: BCF viewpoints
-        other: BCF viewpoints
+        one: Точка огляду BCF
+        few: Точки огляду BCF
+        many: Точки огляду BCF
+        other: Точки огляду BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
-        few: IFC models
-        many: IFC models
-        other: IFC models
+        one: Модель IFC
+        few: Моделі IFC
+        many: Моделі IFC
+        other: Моделі IFC
   attributes:
     bcf_thumbnail: Снапшот BCF
   bcf:

@@ -39,25 +39,25 @@ pl:
               invalid_ifc_file: Podany plik nie jest prawidłowym plikiem IFC.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        few: BCF comments
-        many: BCF comments
-        other: BCF comments
+        one: Komentarz BCF
+        few: Komentarze BCF
+        many: Komentarze BCF
+        other: Komentarze BCF
       bim/bcf/issue:
-        one: BCF issue
-        few: BCF issues
-        many: BCF issues
-        other: BCF issues
+        one: Problem BCF
+        few: Problemy BCF
+        many: Problemy BCF
+        other: Problemy BCF
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        few: BCF viewpoints
-        many: BCF viewpoints
-        other: BCF viewpoints
+        one: Punkt widzenia BCF
+        few: Punkty widzenia BCF
+        many: Punkty widzenia BCF
+        other: Punkty widzenia BCF
       bim/ifc_models/ifc_model:
-        one: IFC model
-        few: IFC models
-        many: IFC models
-        other: IFC models
+        one: Model IFC
+        few: Modele IFC
+        many: Modele IFC
+        other: Modele IFC
   attributes:
     bcf_thumbnail: Migawka BCF
   bcf:

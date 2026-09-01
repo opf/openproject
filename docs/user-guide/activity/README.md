@@ -14,23 +14,32 @@ OpenProject makes it easy to keep track of what's going on in [specific work pac
 
 The Activity tab within a work package maintains a history of all updates and changes, along with all conversations concerning that work package. This tab is accessible both in full work packages view and in split screen mode.
 
-![The work package Activity tab split screen](Activity-tab.png)
+![The work package Activity tab split screen](openproject_user_guide_activity_tab.png)
 
 When you first access this tab, you will see the comments and list of changes in a timeline. This timeline can be sorted in either chronological (the newest comments at the bottom) or anti-chronological order (the newest comments on top):
 
-![You can order the activities to show newest on top or at the bottom](Activity-sortOrder.png)
+![Dropdown menu to order the activities to show newest on top or at the bottom](openproject_user_guide_activity_sorting_order.png)
 
 You can scroll up and down to go forwards or backwards in time.
 
-By default, the Activity tab shows both comments and changes, but you can filter this to only show one or the other:
+By default, the Activity tab shows comments, changes, and meeting updates, but you can filter these to only show specific types of activity.
 
-![Filter the activity tab](Activity-filter.png)
+Meeting updates include changes related to one-time and recurring meetings. For example, an activity entry is created when a work package is added to, removed from, or moved between meetings, when it is discussed or added as a meeting outcome, and when it is added to or removed from meeting templates, including recurring meeting series templates.
+
+For recurring meetings, an activity entry is also added on creation of each occurrence when the work package is in the series template.
+
+> [!NOTE]
+> Meeting-related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
+
+To hide these entries, select **Hide meetings updates** from the Activity tab filter.
+
+![Dropdown menu to filter what is displayed under the activity tab](openproject_user_guide_activity_display_filter.png)
 
 ### Change sets
 
 When you or another user makes changes to the work package, the updates are listed below the name of the author of those changes. All changes made within the aggregation period (defined by the administrator) are grouped together under one change set.
 
-![Changes made at the same time are grouped together](Activity-changeset.png)
+![Image showing that changes made at the same time are grouped together](openproject_user_guide_activity_changeset.png)
 
 If a comment was also added, then the changes are listed below the associated comment.
 
@@ -38,15 +47,15 @@ If a comment was also added, then the changes are listed below the associated co
 
 Comments allow you to have a conversation about the present work package with other project members, or comment changes you have made.
 
-![A single comment](Activity-comment.png)
+![A comment added in the activity tab](openproject_user_guide_activity_comment.png)
 
 To add a new comment to a work package, click on the comment box at the bottom of the Activity tab. This will expand it and give you formatting options. Click on the post icon or press Command + Enter on your keyboard to publish your comment.
 
-![The comment box expands when you write your comment](Activity-commentBox.png)
+![The comment box expands when you write your comment](openproject_user_guide_activity_comment_box.png)
 
 The more icon (⋯) next to a comment gives you a number of additional functions.
 
-![More menu on a comment](Activity-more.png)
+![The more menu displays additional functions of a comment](openproject_user_guide_activity_comment_menu.png)
 
 You can:
 
@@ -103,7 +112,7 @@ Starting with version 15.0, you can respond to comments with emoji reactions to 
 
 To do so, click on the emoji icon next to each comment and pick from one of eight possible emojis.
 
-![Click the emoji icon to see a list of available emojis](Activity-addEmoji.png)
+![Emoji icon displays a list of available emojis](openproject_user_guide_activity_add_emoji.png)
 
 You can add multiple emojis, or simply click on an emoji that was already used by someone else to add to it.
 > [!TIP]
@@ -113,7 +122,7 @@ You can add multiple emojis, or simply click on an emoji that was already used b
 
 If you would like to direct your comment to particular project members or get their attention, you can @mention them. To do this, type `@` and select the user whom you want to mention.
 
-![Write @ and a user name to mention other users](Activity-mention.png)
+![Enter the at symbol before typing a username to mention another project member](openproject_user_guide_activity_mention.png)
 
 The user will then receive a notification, which allows them to easily see the comment in which they have been mentioned.
 
@@ -129,10 +138,10 @@ Starting with OpenProject 15.0, changes other users make to the currently open w
 OpenProject lets you view an overview of all recent changes within a project. These include changes to:
 
 - work packages (new work packages, new comments, changes to status, assignee, dates, custom fields...)
-- project attributes (name, description, custom fields..)
+- project details (name, description, custom fields..)
 - other modules (news, budget, wiki edits, forum messages, logged time...)
 
-![Project activity module](project-activity-overview.png)
+![An overview of project activity under Activity module in project menu](openproject_user_guide_activity_overview.png)
 
 To view project activity, the **Activity** module must first be enabled.
 
@@ -140,7 +149,7 @@ To view project activity, the **Activity** module must first be enabled.
 
 Within a project, navigate to the **Project settings > Modules** page. Make sure the **Activity** module is enabled and click on the **Save** button at the bottom of the page.
 
-![Enable the Activity module](enable-activity-module.png)
+![Enable Activity module under Modules in Project settings](openproject_user_guide_activity_module_enabled.png)
 
 ### View project activity
 
@@ -148,37 +157,39 @@ Click on the **Activity** option that is now visible in the sidebar of a project
 
 For each update concerning a work package, you will see:
 
-- the work package id and title
+- the work package type, id and subject
 - the name of the project or sub-project that work package belongs to (in brackets)
-- the user who was responsible for the change
+- the user who was responsible for the change or update
 - the date and time of the (aggregated) changes
-- a list of attributes that were changed
+- a list of work package details that were changed
 
-![Work package activity updates](project-activity-workpackge-attributes.png)
+![Work package activity updates displayed in Activity module](openproject-user_guide_project_activity_workpackge_attributes.png)
 
-Starting with version 12.5, the Activity module also lists changes to project attributes, including project custom fields. For each update, you will see:
+The Activity module also lists changes to project details, including project custom fields. For each update, you will see:
 
 - the name of the project or sub-project
 - the user who was responsible for the change
 - the date and time of the (aggregated) changes
-- a list of attributes that were changed
+- a list of project details that were changed
 
-![Work package activity updates](project-activity-project-attributes.png)
+![Updates to project details displayed in Activity module](openproject_user_guide_activity_project_attributes.png)
 
 ### Filter project activity
 
 To filter the project activity list, use the filters on the sidebar. You may filter to show only one or a combination of changes concerning:
 
-- Budgets
+- Documents
+- Forums
+- Meetings
 - News
 - Spent time
-- Wiki edits
+- Wiki
 - Work packages
-- Project attributes
+- Project details
 
 Additionally, you can choose to include or exclude updates concerning sub-projects.
 
-![Project activity filters](project-activity-filter-list.png)
+![Project activity filters](openproject_user_guide_project_activity_filter_list.png)
 
 ### How far back can I trace the project activities?
 

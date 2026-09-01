@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("types.edit.reuse_mode.dependents.dialog.title"),
+        size: :medium_portrait
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("types.edit.reuse_mode.dependents.dialog.description") } %>
+
+    <% { direct: direct_dependents, indirect: indirect_dependents }.each do |group, members| %>
+      <% next if members.empty? %>
+
+      <%= render(
+            OpenProject::Common::BorderBoxListComponent.new(
+              container: "dependents-#{group}",
+              padding: :condensed,
+              mb: 3,
+              test_selector: "#{group}-dependents-list"
+            )
+          ) do |list| %>
+        <% list.with_header(title: t("types.edit.reuse_mode.dependents.dialog.#{group}_heading")) %>
+        <% members.each do |dependent| %>
+          <% list.with_item do %>
+            <%= dependent_link(dependent, bold_font: true) %>
+            <% if (relation = relation(dependent)) %>
+              <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) { relation } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_close) } %>
+  <% end %>
+<% end %>

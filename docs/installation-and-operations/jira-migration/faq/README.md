@@ -68,7 +68,7 @@ Each import run enters a review mode and can be approved or reverted. After appr
 
 ## Which Jira versions can currently be imported?
 
-OpenProject 17.6 supports Jira Server and Jira Data Center 10.x and 11.x. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
+OpenProject 17.6 supports Jira Data Center 10.x and 11.x. Jira Server and Jira Cloud are not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/). Jira Server might be supported in the near feature. It is tracked by [this ticket](https://community.openproject.org/projects/JIM/work_packages/JIM-160/activity).
 
 ## Which data can OpenProject 17.6 import automatically?
 

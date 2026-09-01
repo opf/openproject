@@ -3,7 +3,7 @@ pt-PT:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        other: My pages
+        one: A minha página
+        other: As minhas páginas
   my_page:
     label: A minha página

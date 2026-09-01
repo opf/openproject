@@ -278,12 +278,16 @@ OpenProject provides several installation mechanisms:
 
 OpenProject publishes signed and attested container images so that consumers and operators can verify the origin and integrity of the delivery artifacts before deployment:
 
-- All public images are signed using [Sigstore cosign](https://github.com/sigstore/cosign), allowing consumers to cryptographically verify that an image was built and published by OpenProject.
+- All public images are signed using [Sigstore cosign](https://github.com/sigstore/cosign) with keyless (OIDC) signing, allowing consumers to cryptographically verify that an image was built and published by OpenProject.
 - Each image carries signed attestations:
   - a **Release attestation** documenting build provenance, including the source package, build workflow, git ref, commit SHA, actor and timestamp
   - a **Software Bill of Materials (SBOM)** in CycloneDX 1.6 format listing all components contained in the image
   - a **Vulnerability Exploitability eXchange (VEX)** document in CycloneDX 1.6 format describing the exploitability status of known vulnerabilities in the image
-- The images are immutable delivery artifacts and are subject to static analysis and vulnerability scanning before and during the build (see above).
+  - the same VEX in **OpenVEX 0.2.0** format, which is the format Docker Scout expects
+- The VEX triage is written primarily as CycloneDX, the other format is a conversion of that original. When in doubt, use the CycloneDX attestation.
+- The OpenVEX document is also embedded in the image filesystem and published as an OCI referrer, so a scanner can apply the triage directly from the image.
+- Vulnerability scanning is VEX-aware: the automated Docker Scout scan (see [Security tests](../../testing/#security-tests)) applies the VEX so it reports the vulnerabilities that actually affect OpenProject rather than raw CVE counts. Findings never fail the build; unresolved critical and high findings are reported to the security team.
+- The images are immutable delivery artifacts and are subject to static analysis and vulnerability scanning before and during the build (see above). Operators can verify the signatures and attestations before deployment, see [Verifying image integrity and provenance](../../../installation-and-operations/installation/docker/#verifying-image-integrity-and-provenance).
 
 **Protecting source files at runtime**
 

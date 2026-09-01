@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
@@ -36,10 +36,10 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
+  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
 
   <%= render WorkPackageTypes::ExportConfigurationComponent.new(
         @variant,
-        readonly: @variant.linked?(TypeVariant::PDF_EXPORT)
+        readonly: @variant.pdf_export_templates.readonly?
       ) %>
 <% end %>

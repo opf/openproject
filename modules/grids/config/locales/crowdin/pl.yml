@@ -16,15 +16,15 @@ pl:
           overlaps: nałożenie.
     models:
       grids/grid:
-        one: Grid
-        few: Grids
-        many: Grids
-        other: Grids
+        one: Siatka
+        few: Siatki
+        many: Siatki
+        other: Siatki
       grids/widget:
-        one: Widget
-        few: Widgets
-        many: Widgets
-        other: Widgets
+        one: Widżet
+        few: Widżety
+        many: Widżety
+        other: Widżety
   grids:
     label_widget_in_grid: Widżet zawarty w siatce %{grid_name}
     widgets:

@@ -51,13 +51,36 @@ module RecurringMeetings
       start_time = params.fetch(:start_time)
       return draft_template_failure if recurring_meeting.template.draft?
 
-      in_context(recurring_meeting, send_notifications: false) do
-        call = instantiate(start_time)
-        if call.success?
-          move_interim_responses_to_participants(call.result)
-        end
+      restoring = restoring?(start_time)
+      call = instantiate_in_context(start_time)
 
-        call
+      send_restoration_invitations(call.result) if call.success? && restoring
+
+      call
+    end
+
+    def instantiate_in_context(start_time)
+      in_context(recurring_meeting, send_notifications: false) do
+        result = instantiate(start_time)
+        move_interim_responses_to_participants(result.result) if result.success?
+
+        result
+      end
+    end
+
+    def restoring?(start_time)
+      recurring_meeting
+        .meetings
+        .not_templated
+        .find_by(recurrence_start_time: start_time)
+        &.cancelled?
+    end
+
+    def send_restoration_invitations(meeting)
+      return unless meeting.notify?
+
+      meeting.participants.invited.find_each do |participant|
+        MeetingMailer.invited(meeting, participant.user, user).deliver_later
       end
     end
 

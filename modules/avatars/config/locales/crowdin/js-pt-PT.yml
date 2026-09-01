@@ -2,10 +2,10 @@
 pt-PT:
   js:
     avatars:
-      empty_file_error: Por favor carregue uma imagem válida (jpg, png, gif)
+      empty_file_error: Carregue uma imagem válida (jpg, png, gif)
       error_image_too_large: A imagem é grande demais.
       label_choose_avatar: Escolher Avatar a partir de ficheiro
       uploading_avatar: A carregar o seu avatar.
       wrong_file_format: Os formatos permitidos são jpg, png, gif
     button_update: Atualizar
-    label_preview: Pré visualizar
+    label_preview: Pré-visualizar

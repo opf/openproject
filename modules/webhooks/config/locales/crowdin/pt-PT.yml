@@ -6,7 +6,7 @@ pt-PT:
         event_name: Nome do evento
         response_body: Resposta
         response_code: Código de resposta
-        url: URL Payload
+        url: URL de carga
       webhooks/webhook:
         enabled: Ativada
         events: Eventos
@@ -15,8 +15,8 @@ pt-PT:
         url: URL Payload
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Registo de webhook
+        other: Registos de webhook
       webhooks/webhook:
         one: Webhook
         other: Webhooks

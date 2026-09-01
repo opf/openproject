@@ -40,25 +40,25 @@ uk:
               invalid_schema: 'має бути масивом гешів із ключами: color, title'
     models:
       gitlab_issue:
-        one: GitLab issue
-        few: GitLab issues
-        many: GitLab issues
-        other: GitLab issues
+        one: Задача GitLab
+        few: Задачі GitLab
+        many: Задачі GitLab
+        other: Задачі GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        few: GitLab merge requests
-        many: GitLab merge requests
-        other: GitLab merge requests
+        one: Запит на злиття GitLab
+        few: Запити на злиття GitLab
+        many: Запити на злиття GitLab
+        other: Запити на злиття GitLab
       gitlab_pipeline:
-        one: GitLab pipeline
-        few: GitLab pipelines
-        many: GitLab pipelines
-        other: GitLab pipelines
+        one: Конвеєр GitLab
+        few: Конвеєри GitLab
+        many: Конвеєри GitLab
+        other: Конвеєри GitLab
       gitlab_user:
-        one: GitLab user
-        few: GitLab users
-        many: GitLab users
-        other: GitLab users
+        one: Користувач GitLab
+        few: Користувачі GitLab
+        many: Користувачі GitLab
+        other: Користувачі GitLab
   attributes:
     commit: Коміт
     gitlab: Ідентифікатор GitLab

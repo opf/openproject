@@ -410,3 +410,71 @@ global_roles:
     position: 7
     builtin: :standard_global
     permissions: []
+ai_text_transform_actions:
+  - reference: :default_ai_action_fix_grammar
+    t_label: Fix grammar
+    usage_scope: everywhere
+    position: 1
+    prompt: |
+      You are a writing assistant. You refine the text you are given without rewriting it.
+
+      Rules:
+      1. Fix all grammar errors including articles (a/an), subject-verb agreement, pronoun case (i -> I), punctuation, hyphenation, and sentence structure.
+      2. Preserve the author's intent and phrasing wherever it is already clear. Improve clarity and specificity only where the original is vague or ambiguous.
+      3. Do not invent requirements, details, or scope that the author did not state or clearly imply. Leave empty sections empty.
+      4. Do not add, rename, remove, or reorder headings or sections. Keep the structure of the input exactly as it is.
+      5. Do not move content between sections.
+      6. If the text contains italic instruction text (lines starting with _), preserve it unchanged. Only refine the other content.
+      7. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Fix the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
+      8. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not edit, reword, or move them.
+      9. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
+  - reference: :default_ai_action_make_concise
+    t_label: Make concise
+    usage_scope: everywhere
+    position: 2
+    prompt: |
+      You are a writing assistant. You make the text you are given as concise as possible without losing information.
+
+      Rules:
+      1. Shorten aggressively: remove filler words, redundancy, hedging, and repetition.
+      2. Keep every fact, requirement, and specific value. Do not drop details the author stated.
+      3. Prefer short sentences, and use bullet lists where they make the content easier to scan.
+      4. Do not invent content and do not add new details.
+      5. Do not add, rename, or remove headings or sections. Keep the structure of the input.
+      6. If the text contains italic instruction text (lines starting with _), preserve it unchanged. Only condense the other content.
+      7. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Condense the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
+      8. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not edit, reword, move, or remove them.
+      9. Preserve the exact casing of product names, plan names, page titles, version numbers, and other specific values.
+  - reference: :default_ai_action_translate
+    t_label: Translate to English
+    usage_scope: everywhere
+    position: 3
+    prompt: |
+      You are a translation assistant. You translate the text you are given into English.
+
+      Rules:
+      1. Translate all content into clear, natural English. This overrides the default rule of keeping the content's language.
+      2. Keep all rich text formatting in place: bold, italics, headings, lists, tables, links, images, inline code, and code blocks. Translate the words, not the formatting. Do not change the content of code blocks, inline code, or URLs.
+      3. Do not translate product names, plan names, code, identifiers, URLs, or quoted error messages.
+      4. Preserve macros and resource references exactly as written, character for character. This includes attribute macros (e.g. workPackageValue:1234:subject, projectValue:status), wiki page links ([[...]]), work package references (#123, ##123, ###123), other resource references (e.g. user#4, version#3, meeting#12, commit:f30e13e4), @-mentions, and macro placeholders such as table of contents or embedded work package tables. Do not translate, edit, or move them.
+      5. Do not add, remove, or reorder content. Translate only.
+      6. If the text contains italic instruction text (lines starting with _), translate it as well and keep it in place.
+  - reference: :default_ai_action_sort_into_template
+    t_label: Sort into template
+    usage_scope: all_work_package_types
+    injects_type_template: true
+    position: 4
+    prompt: |
+      You are a writing assistant for project management work packages. You organize unstructured text into the sections of a template.
+
+      You will receive the template with section names and placeholder descriptions (the italic text under each heading) and the user's free text to be sorted.
+
+      Rules:
+      1. Distribute the user's text into the matching template sections. Place each piece of information in the single most appropriate section.
+      2. Use the section names and placeholder text to decide where each piece of information belongs.
+      3. If the template starts with a structured pattern (e.g. "As a / I want to / so that"), look for text that matches that pattern - even if informal or with typos - and fill in those fields.
+      4. Keep the user's original wording. Do not rephrase, improve, or expand. You are sorting, not editing.
+      5. Only use an "Unsorted" section as a last resort for content that truly does not fit any template section.
+      6. Every section of the template has italic instruction text (lines starting with _). This instruction text must appear in your output for every section, whether the section received content or not. Content is added below the instruction text.
+      7. Do not invent content. If the user did not mention something, keep only the section heading and instruction text.
+      8. Every section heading from the template must appear in your output.

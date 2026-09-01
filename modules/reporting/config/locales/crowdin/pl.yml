@@ -24,10 +24,10 @@ pl:
   activerecord:
     models:
       cost_query:
-        one: Cost report
-        few: Cost reports
-        many: Cost reports
-        other: Cost reports
+        one: Raport kosztów
+        few: Raporty kosztów
+        many: Raporty kosztów
+        other: Raporty kosztów
   button_save_report_as: Zapisz raport jako...
   comments: Komentarz
   cost_reports_title: Czas i koszty

@@ -58,7 +58,7 @@ uk:
         presenter: Доповідач
         title: 'Назва '
       meeting_outcome:
-        kind: Kind
+        kind: Вид
       meeting_participant:
         attended: Відвідано
         invited: Запрошені
@@ -103,40 +103,40 @@ uk:
           not_an_occurrence: не є дійсним часом проведення цієї повторюваної наради
     models:
       meeting:
-        one: One-time meeting
-        few: One-time meetings
-        many: One-time meetings
-        other: One-time meetings
+        one: Одноразова нарада
+        few: Одноразові наради
+        many: Одноразові наради
+        other: Одноразові наради
       meeting_agenda_item:
-        one: Agenda item
-        few: Agenda items
-        many: Agenda items
-        other: Agenda items
+        one: Пункт порядку денного
+        few: Пункти порядку денного
+        many: Пункти порядку денного
+        other: Пункти порядку денного
       meeting_outcome:
-        one: Outcome
-        few: Outcomes
-        many: Outcomes
-        other: Outcomes
+        one: Результат
+        few: Результати
+        many: Результати
+        other: Результати
       meeting_participant:
-        one: Meeting participant
-        few: Meeting participants
-        many: Meeting participants
-        other: Meeting participants
+        one: Учасник наради
+        few: Учасники наради
+        many: Учасники наради
+        other: Учасники наради
       meeting_section:
-        one: Section
-        few: Sections
-        many: Sections
-        other: Sections
+        one: Розділ
+        few: Розділи
+        many: Розділи
+        other: Розділи
       recurring_meeting:
-        one: Recurring meeting
-        few: Recurring meetings
-        many: Recurring meetings
-        other: Recurring meetings
+        one: Повторювана нарада
+        few: Повторювані наради
+        many: Повторювані наради
+        other: Повторювані наради
       scheduled_meeting:
-        one: Scheduled meeting
-        few: Scheduled meetings
-        many: Scheduled meetings
-        other: Scheduled meetings
+        one: Запланована нарада
+        few: Заплановані наради
+        many: Заплановані наради
+        other: Заплановані наради
       token/ical_meeting:
         one: Підписка на наради iCal
         few: Підписки на наради iCal

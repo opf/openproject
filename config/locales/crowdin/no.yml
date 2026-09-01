@@ -76,6 +76,13 @@
         dependencies: Avhengigheter
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Vise til
       attachment:
@@ -464,6 +471,7 @@
           true: Inkluder arbeidsfrie dager
         journal_internal: Internal Journal
         notify: Varsle
+        observed_in_versions: Observed in versions
         parent: Overordnet
         parent_issue: Overordnet
         parent_work_package: Overordnet
@@ -733,6 +741,7 @@
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -836,20 +845,26 @@
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -975,6 +990,9 @@
       action:
         one: Action
         other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
       announcement:
         one: Announcement
         other: Announcements
@@ -1484,6 +1502,7 @@
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1495,13 +1514,13 @@
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1545,11 +1564,14 @@
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1570,6 +1592,7 @@
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1577,7 +1600,6 @@
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1800,8 +1822,6 @@
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -3183,6 +3203,7 @@
         progress_calculation_adjusted_from_disabled_mode: Fremdriftsberegning automatisk <a href="%{href}" target="_blank">satt til arbeidsbasert modus og justert med versjon</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Arbeids- og fremdriftssummer fjernet automatisk for ikke-overordnede arbeidspakker med <a href="%{href}" target="_blank">-versjon</a>. Dette er en vedlikeholdsoppgave og kan trygt ignoreres.
       total_percent_complete_mode_changed_to_simple_average: Arbeidsverdier for underordnede arbeidspakker ignoreres.
@@ -3290,6 +3311,7 @@
   label_available_project_work_package_categories: Tilgjengelige arbeidspakkekategorier
   label_available_project_work_package_types: Tilgjengelige arbeidspakketyper
   label_available_projects: Tilgjengelige prosjekter
+  label_backtrace: Backtrace
   label_backup: Sikkerhetskopi
   label_basic_details: Basic details
   label_between: mellom
@@ -4815,6 +4837,8 @@
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -4917,6 +4941,7 @@
     '
   permission_manage_placeholder_user: Opprette, rediger og slett plassholderbrukere
   permission_manage_project_activities: Administrere prosjektaktiviteter
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Administrere offentlige BCF-spørringer
   permission_manage_public_project_queries: Administrere offentlige prosjektlister
   permission_manage_public_queries: Administrer offentlige visninger
@@ -5225,20 +5250,38 @@
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a variant for this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Aktiver type "%{type}"
+        in_use: In use
         no_results_title_text: Det finnes ingen tilgjengelige typer.
+        only_available_here: Only available in this project
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5515,7 +5558,7 @@
   setting_default_language: Standardspråk
   setting_default_projects_modules: Standardaktiverte moduler for nye prosjekter
   setting_default_projects_public: Nye prosjekter er offentlige som standard
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maks antall linjeforskjeller som vises
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Vis arbeidspakker for underprosjekter som standard for hovedprosjekter
@@ -6254,7 +6297,12 @@
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6347,7 +6395,8 @@
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
+            heading: Switch configuration mode?
+            title: Switch configuration mode
           copy_from_type: Copy from type
           description: No settings are inherited. If desired you can still one-time copy settings from another type.
           dialog:
@@ -6372,12 +6421,15 @@
           confirm_dialog:
             change_source:
               description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
+              heading: Change source type?
+              title: Change source type
             check_box: I understand that this will override the current settings
             from_independent:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
+              heading: Switch configuration mode?
+              title: Switch configuration mode
           description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
             source_label: Linked source
@@ -6412,6 +6464,10 @@
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Lag en ny type
       no_results_title_text: Det finnes for øyeblikket ingen typer.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type

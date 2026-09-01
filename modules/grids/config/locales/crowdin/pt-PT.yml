@@ -16,8 +16,8 @@ pt-PT:
           overlaps: sobreposição.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Grelha
+        other: Grelhas
       grids/widget:
         one: Widget
         other: Widgets
@@ -34,7 +34,7 @@ pt-PT:
           one: e mais um membro.
           other: e mais %{count} membros.
       news:
-        no_results: Nada de novo no relatório.
+        no_results: Não há novidades a reportar.
       not_available: Este widget não está disponível.
       project_timeline:
         footer_actions_label: Ver mais detalhes

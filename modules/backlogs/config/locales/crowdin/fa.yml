@@ -93,8 +93,8 @@ fa:
           backlog_bucket_xor_sprint: نمی توان به صورت همزمان به اسپرینت و بک لاگ اختصاص پیدا کند
     models:
       backlog_bucket:
-        one: Backlog bucket
-        other: مخزن‌های بک‌لاگ
+        one: دسته بک‌لاگ
+        other: دسته بک‌لاگ
       sprint:
         one: اسپرینت
         other: اسپرینت‌ها

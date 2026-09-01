@@ -133,7 +133,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page.body.index(alfa_variant.variant_name)).to be < page.body.index(zeta_variant.variant_name)
   end
 
-  it "adds a variant to a type from the group footer" do
+  it "adds a variant to a type from the group's add-variant row" do
     visit types_path(expand: bug_type.id)
 
     within("[data-draggable-id='#{bug_type.id}']") do

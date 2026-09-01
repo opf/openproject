@@ -31,10 +31,16 @@
 class Type::PdfExportTemplates
   include WorkPackage::PDFExport::Templates
 
-  Template = Data.define(:id, :label, :caption, :enabled)
+  Template = Data.define(:id, :label, :caption, :enabled, :settings_component)
+
+  class ReadonlyError < StandardError; end
 
   def initialize(type)
     @type = type
+  end
+
+  def readonly?
+    OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(TypeVariant::PDF_EXPORT)
   end
 
   def list
@@ -55,14 +61,20 @@ class Type::PdfExportTemplates
   end
 
   def enable_all
+    raise_if_readonly!
+
     @type.export_templates_disabled = []
   end
 
   def disable_all
+    raise_if_readonly!
+
     @type.export_templates_disabled = built_in_templates.pluck(:id)
   end
 
   def toggle(template_id)
+    raise_if_readonly!
+
     disabled = @type.export_templates_disabled || []
     if disabled.include?(template_id)
       disabled.delete(template_id)
@@ -73,6 +85,8 @@ class Type::PdfExportTemplates
   end
 
   def move(template_id, position)
+    raise_if_readonly!
+
     ordered_template_ids = list.map(&:id)
     prev_index = ordered_template_ids.find_index(template_id)
     ordered_template_ids.delete_at(prev_index) unless prev_index.nil?
@@ -80,7 +94,43 @@ class Type::PdfExportTemplates
     @type.export_templates_order = ordered_template_ids
   end
 
+  def settings_for(template_id)
+    validate_template_id!(template_id)
+
+    (@type.export_templates_settings || {}).fetch(template_id, {}).symbolize_keys
+  end
+
+  def update_settings(template_id, settings_hash)
+    validate_template_id!(template_id)
+    raise_if_readonly!
+
+    all_settings = (@type.export_templates_settings || {}).dup
+    all_settings[template_id] = (all_settings[template_id] || {}).merge(settings_hash.stringify_keys)
+    @type.export_templates_settings = all_settings
+  end
+
+  def clear_setting(template_id, field)
+    validate_template_id!(template_id)
+    raise_if_readonly!
+
+    all_settings = (@type.export_templates_settings || {}).dup
+    return if all_settings[template_id].blank?
+
+    all_settings[template_id] = all_settings[template_id].except(field.to_s)
+    @type.export_templates_settings = all_settings
+  end
+
   private
+
+  def raise_if_readonly!
+    raise ReadonlyError, "cannot modify PDF export template configuration while linked to a source type" if readonly?
+  end
+
+  def validate_template_id!(template_id)
+    return if built_in_templates.any? { |t| t[:id] == template_id }
+
+    raise ArgumentError, "Unknown PDF export template #{template_id.inspect}"
+  end
 
   def build_templates
     disabled = @type.export_templates_disabled || []

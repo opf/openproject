@@ -3,8 +3,8 @@ es:
   activerecord:
     models:
       grids/overview:
-        one: Overview
-        other: Overviews
+        one: Resumen
+        other: Resúmenes
   overviews:
     label_dashboard: Panel de control
     label_home: Inicio %{workspace_type}

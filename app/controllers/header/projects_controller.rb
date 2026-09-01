@@ -138,34 +138,32 @@ class Header::ProjectsController < ApplicationController
     @user_project_favorites ||= Favorite.where(favorited_type: "Project", user_id: current_user.id)
   end
 
-  # Builds a nested structure from a flat, lft-ordered list of projects.
-  # Each level is sorted alphabetically by project name.
+  # Builds the nested tree from a flat, lft-ordered list of projects and
+  # decorates each node with its query-match and expansion state.
   def build_tree(projects)
-    nodes = projects.index_by(&:id).transform_values do |p|
-      { project: p, children: [], matches_query: @matching_ids.nil? || @matching_ids.include?(p.id) }
-    end
-
-    roots = []
-    projects.each do |project|
-      node   = nodes[project.id]
-      parent = nodes[project.parent_id]
-
-      if parent
-        parent[:children] << node
-      else
-        roots << node
-      end
-    end
-
-    sort_nodes(roots)
+    decorate_nodes(Project.build_projects_hierarchy(projects))
   end
 
-  def sort_nodes(nodes)
-    nodes.sort_by { |n| n[:project].name.downcase }.each do |node|
-      node[:children] = sort_nodes(node[:children])
-      node[:expanded] = filter_mode == "favorited" || node[:children].any? do |c|
-        c[:project].id == @current_project_id || c[:expanded]
-      end
+  def decorate_nodes(nodes)
+    nodes.each do |node|
+      decorate_nodes(node[:children])
+      node[:matches_query] = @matching_ids.nil? || @matching_ids.include?(node[:project].id)
+      node[:expanded] = expanded_node?(node)
+    end
+  end
+
+  # A node is expanded so its children are revealed when:
+  # - favorited mode is active (always expand to surface favorites), or
+  # - a child is grafted onto this node because its real parent is hidden
+  #   (child.parent_id != this node's id) and would otherwise be concealed
+  #   behind a collapsed ancestor, or
+  # - a child is the current project, or
+  # - a child is itself expanded, propagating expansion up the visible chain.
+  def expanded_node?(node)
+    filter_mode == "favorited" || node[:children].any? do |child|
+      child[:project].parent_id != node[:project].id ||
+        child[:project].id == @current_project_id ||
+        child[:expanded]
     end
   end
 end

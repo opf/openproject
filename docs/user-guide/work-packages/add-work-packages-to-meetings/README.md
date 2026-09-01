@@ -51,3 +51,6 @@ The **Meetings** tab will also list all meetings, past and upcoming, to which th
 Each linked meeting will also include any notes associated with that work package agenda item. This can be useful to recall specific discussion points, open questions or decisions taken during a meeting that concerns the current work package.
 
 ![Work package in OpenProject showing a Meetings tab, which displays a meeting in which this work package was referenced](openproject_user_guide_work_packages_meetings_tab.png)
+
+> [!IMPORTANT]
+> To help ensure meeting updates are not missed, the **Activity tab**  tracks all meeting-related changes to a work package. This includes when a work package is added to or removed from a meeting agenda, or moved to another meeting occurrence. The action taken is displayed next to the meeting title and date. 

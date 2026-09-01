@@ -45,6 +45,10 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
       .to have_link("Hardware", href: edit_type_details_path(type_id: type.id, variant_id: variant.id))
   end
 
+  it "names no project for a variant every project may use" do
+    expect(rendered_component).to have_no_link("Hardware", href: /in-project/)
+  end
+
   it "leaves out the caption unless one is given" do
     expect(rendered_component).to have_no_text(I18n.t("types.index.variant_label"))
   end
@@ -61,11 +65,33 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     end
   end
 
-  context "when new projects start with this variant" do
-    before { variant.update!(enabled_in_new_projects: true) }
-
-    it "labels the row" do
-      expect(rendered_component).to have_text(I18n.t("types.index.enabled_in_new_projects"))
+  it "renders the labels its caller gives it" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_label { "Only available in this project" }
+      row.with_label(scheme: :accent) { "In use" }
     end
+
+    expect(rendered).to have_css(".Label", text: "Only available in this project")
+    expect(rendered).to have_css(".Label--accent", text: "In use")
+  end
+
+  it "says nothing of its own about ownership or new projects" do
+    expect(rendered_component).to have_no_css(".Label")
+  end
+
+  # Right-aligned, for status rather than an affordance.
+  it "sets a status label apart from the rest" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_status_label { "Active in new projects" }
+    end
+
+    expect(rendered).to have_css(".Label", text: "Active in new projects")
+  end
+
+  it "renders the name as plain text when it is not linked" do
+    rendered = render_inline(described_class.new(variant:, linked: false))
+
+    expect(rendered).to have_text("Hardware")
+    expect(rendered).to have_no_link("Hardware")
   end
 end

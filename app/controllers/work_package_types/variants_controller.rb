@@ -33,6 +33,7 @@ module WorkPackageTypes
     include TypeVariantsFeature
 
     before_action :require_type_variants_feature
+    administration_only! :index, :make_default, :remove_default
 
     current_menu_item do
       :types
@@ -60,7 +61,7 @@ module WorkPackageTypes
         flash[:error] = service_call.errors.full_messages.to_sentence
       end
 
-      redirect_back_or_default(types_path, status: :see_other)
+      redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
     end
 
     def make_default
@@ -94,8 +95,13 @@ module WorkPackageTypes
       redirect_back_or_default(types_path, status: :see_other)
     end
 
+    # A project reaches only the variants it owns, so another project's is absent rather than
+    # refused after the fact.
     def named_variant
-      @type.variants.non_default_variants.find(params.expect(:id))
+      addressable = @type.variants.non_default_variants
+      addressable = addressable.owned_by(variant_scope_project) if variant_scope_project
+
+      addressable.find(params.expect(:id))
     end
   end
 end

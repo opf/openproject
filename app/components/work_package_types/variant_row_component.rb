@@ -29,25 +29,40 @@
 #++
 
 module WorkPackageTypes
-  # The contents of one variant's row, as listed on the type's variants tab and inside the
-  # type's group on the types index. The row's action menu is not part of this: it hangs off
-  # the surrounding list item, and each list points it back at itself.
+  # The contents of one variant's row, wherever variants are listed: the type's variants tab, the
+  # type's group on the types index, and a project's own list of the variants it may use. The
+  # row's action menu is not part of this: it hangs off the surrounding list item, and each list
+  # points it back at itself.
   class VariantRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
+    # Labels shown after the name. Each list says something different about a variant, so what
+    # they say is the caller's.
+    renders_many :labels, ->(**system_arguments) { Primer::Beta::Label.new(ml: 2, **system_arguments) }
+
+    # A right-aligned label, for supplementary status rather than an affordance. Mirrors the
+    # surrounding BorderBoxListComponent header's own.
+    renders_one :status_label, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
+
     # @param caption [String, nil] muted text after the name, telling rows apart where the
     #   list mixes variants with other records.
-    def initialize(variant:, caption: nil)
+    # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
+    #   where the reader may not open it.
+    def initialize(variant:, caption: nil, linked: true)
       super()
 
       @variant = variant
       @caption = caption
+      @linked = linked
     end
 
     private
 
-    attr_reader :variant, :caption
+    attr_reader :variant, :caption, :linked
 
+    alias_method :linked?, :linked
+
+    # Carries the owning project, if any, so a variant is configured where it belongs.
     def variant_path = edit_type_details_path(**variant.path_args)
   end
 end

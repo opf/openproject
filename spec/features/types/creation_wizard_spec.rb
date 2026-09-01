@@ -69,21 +69,21 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     type = complete_details_step("Incident")
 
     expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:defaults, linked: false)
 
     expect(page).to have_heading("Form configuration")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration, linked: false)
 
     expect(page).to have_heading("Project attributes")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes, linked: false)
 
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows, linked: false)
 
@@ -91,7 +91,7 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     expect_step_saved(:projects, linked: false)
 
     expect(page).to have_heading("PDF generation")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: I18n.t("types.creation_wizard.success"))

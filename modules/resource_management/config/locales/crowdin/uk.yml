@@ -40,35 +40,35 @@ uk:
               must_be_work_package_query: має бути запитом до робочого пакету.
     models:
       resource_allocation:
-        one: Resource Allocation
-        few: Resource Allocations
-        many: Resource Allocations
-        other: Resource Allocations
+        one: Виділення ресурсів
+        few: Виділення ресурсів
+        many: Виділення ресурсів
+        other: Виділення ресурсів
       resource_planner:
-        one: Resource Planner
-        few: Resource Planners
-        many: Resource Planners
-        other: Resource Planners
+        one: Планувальник ресурсів
+        few: Планувальники ресурсів
+        many: Планувальники ресурсів
+        other: Планувальники ресурсів
       resource_user_card:
-        one: User card
-        few: User cards
-        many: User cards
-        other: User cards
+        one: Картка користувачів
+        few: Картки користувачів
+        many: Картки користувачів
+        other: Картки користувачів
       resource_user_timeline:
-        one: User timeline
-        few: User timelines
-        many: User timelines
-        other: User timelines
+        one: Часова шкала користувачів
+        few: Часові шкали користувачів
+        many: Часові шкали користувачів
+        other: Часові шкали користувачів
       resource_work_package_list:
-        one: Work packages list
-        few: Work packages lists
-        many: Work packages lists
-        other: Work packages lists
+        one: Список пакетів робіт
+        few: Списки пакетів робіт
+        many: Списки пакетів робіт
+        other: Списки пакетів робіт
       resource_work_package_timeline:
-        one: Work packages timeline
-        few: Work packages timelines
-        many: Work packages timelines
-        other: Work packages timelines
+        one: Часова шкала пакетів робіт
+        few: Часові шкали пакетів робіт
+        many: Часові шкали пакетів робіт
+        other: Часові шкали пакетів робіт
   button_next: Далі
   ee:
     features:
@@ -315,10 +315,10 @@ uk:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          few: "%{count} members of this project match the allocation's filter criteria."
-          many: "%{count} members of this project match the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} учасник цього проєкту відповідає критеріям фільтрації виділення."
+          few: "%{count} учасники цього проєкту відповідають критеріям фільтрації виділення."
+          many: "%{count} учасників цього проєкту відповідають критеріям фільтрації виділення."
+          other: "%{count} учасника цього проєкту відповідають критеріям фільтрації виділення."
       blank:
         add_work_package: Додати пакет робіт
         configure_view: Налаштувати подання

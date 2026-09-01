@@ -29,10 +29,6 @@
 #++
 
 module WorkPackageTypes
-  # "Switch to independent mode" on a type's configuration tabs: the mode-picker
-  # dialog, the danger confirmation, and the switch itself, which seeds the
-  # configuration from the chosen IndependentMode and severs the link. Built to
-  # mirror ConfigurationLinksController.
   class ConfigurationIndependenceController < BaseTabController
     include TypeVariantsFeature
     include OpTurbo::ComponentStream
@@ -51,11 +47,11 @@ module WorkPackageTypes
     # The mode picker's submit: swaps the picker for the danger confirmation.
     def confirm
       if IndependentMode.available?(aspect, mode)
-        close_dialog_via_turbo_stream("##{ConfigurationIndependence::DialogComponent::DIALOG_ID}")
+        close_dialog_via_turbo_stream(ConfigurationIndependence::DialogComponent::DIALOG_ID)
         dialog_via_turbo_stream(component: ConfigurationIndependence::ConfirmDialogComponent.new(variant: @variant, aspect:,
                                                                                                  mode:))
       else
-        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.independent.invalid_mode"))
+        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.manual.invalid_mode"))
       end
 
       respond_with_turbo_streams
@@ -64,7 +60,7 @@ module WorkPackageTypes
     def switch
       result = SwitchToIndependentModeService.new(variant: @variant, aspect:, user: current_user).call(mode:)
 
-      close_dialog_via_turbo_stream("##{ConfigurationIndependence::ConfirmDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ConfigurationIndependence::ConfirmDialogComponent::DIALOG_ID)
 
       respond_to_switch(result)
 
@@ -79,7 +75,7 @@ module WorkPackageTypes
 
     def respond_to_switch(result)
       if result.success?
-        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.independent.success"))
+        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.manual.success"))
         dispatch_event_via_turbo_stream(
           ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
           detail: { type_id: @type.id, aspect: }

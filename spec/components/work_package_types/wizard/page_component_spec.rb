@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
+  include Rails.application.routes.url_helpers
+
   let(:source) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
@@ -91,6 +93,47 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
         expect(page).to have_css("a.PageHeader-action[href='#{edit_href}']")
         expect(page).to have_css(".op-step-wizard-footer--actions-right a[href='#{edit_href}']")
+      end
+    end
+  end
+
+  # The wizard carries its own header, so fixing the tabs' breadcrumb left this one still leading
+  # a project administrator up through administration.
+  describe "the trail it leads back through" do
+    shared_let(:project) { create(:project, name: "Apollo") }
+    shared_let(:trail_type) { create(:type, name: "Bug") }
+
+    context "when the wizard is reached from administration" do
+      before { render_inline(described_class.new(type: trail_type, current_step: :details)) }
+
+      it "leads back through administration" do
+        expect(page).to have_link("Administration", href: admin_index_path)
+      end
+
+      it "does not name a project" do
+        expect(page).to have_no_link("Apollo")
+      end
+    end
+
+    context "when the wizard is reached from a project's settings" do
+      before do
+        vc_test_controller.instance_variable_set(:@project, project)
+        render_inline(described_class.new(type: trail_type, current_step: :details))
+      end
+
+      it "leads back through the project" do
+        expect(page).to have_link("Apollo", href: project_overview_path(project.id))
+        expect(page).to have_link("Project settings", href: project_settings_general_path(project.id))
+      end
+
+      it "offers no way up into administration" do
+        expect(page).to have_no_link("Administration")
+      end
+
+      # types_path would resolve to an administration URL carrying the project as a query
+      # parameter, which is a dead link for the caller.
+      it "cancels back to the project's own list of types" do
+        expect(page).to have_css("a[href='#{project_settings_work_packages_types_path(project)}']")
       end
     end
   end

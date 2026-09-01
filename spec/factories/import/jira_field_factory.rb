@@ -30,6 +30,6 @@
 
 FactoryBot.define do
   factory :jira_field, class: "Import::JiraField" do
-    sequence(:jira_field_id) { |n| "field_#{n}" }
+    sequence(:origin_id) { |n| "field_#{n}" }
   end
 end

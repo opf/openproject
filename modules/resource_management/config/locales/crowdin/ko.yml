@@ -40,17 +40,17 @@ ko:
               must_be_work_package_query: "- 작업 패키지 쿼리여야 합니다."
     models:
       resource_allocation:
-        other: Resource Allocations
+        other: 리소스 할당
       resource_planner:
-        other: Resource Planners
+        other: 리소스 플래너
       resource_user_card:
-        other: User cards
+        other: 사용자 카드
       resource_user_timeline:
-        other: User timelines
+        other: 사용자 타임라인
       resource_work_package_list:
-        other: Work packages lists
+        other: 작업 패키지 목록
       resource_work_package_timeline:
-        other: Work packages timelines
+        other: 작업 패키지 타임라인
   button_next: 다음
   ee:
     features:
@@ -291,7 +291,7 @@ ko:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: "%{count} members of this project match the allocation's filter criteria."
+          other: 이 프로젝트의 멤버 %{count}명이 할당의 필터 기준에 맞습니다.
       blank:
         add_work_package: 작업 패키지 추가
         configure_view: 보기 구성

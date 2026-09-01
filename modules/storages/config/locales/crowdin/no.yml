@@ -66,7 +66,7 @@
             host:
               authorization_header_missing: er ikke ferdig konfigurert. Nextcloud forekomsten mottar ikke "Authorization"-overskriften, som er nødvendig for en Bearer-nøkkel basert autorisasjon for API-forespørsler. Dobbeltsjekk HTTP-serverkonfigurasjonen din.
               cannot_be_connected_to: kunne ikke nås. Vennligst sørg for at verten er tilgjengelig og at OpenProject integrasjonsapp er installert.
-              minimal_nextcloud_version_unmet: oppfyller ikke minimale krav til versjon (må være Nextcloud 23 eller høyere)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: er ikke en Nextcloud server
               op_application_not_installed: ser ut til å ikke ha appen "OpenProject integrasjon" installert. Installer den først og prøv igjen.
             password:
@@ -151,6 +151,7 @@
         error: Det oppstod en uventet feil. Sjekk OpenProject logger for mer informasjon eller kontakt en administrator
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject kunne ikke logge inn på lagringsstedet. Vennligst sørg for at du har tilgang til det.
       models:
         copy_project_folders_service:

@@ -21,17 +21,17 @@ pt-PT:
               error_phone_number_format: deve ser do formato + XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        other: Backup codes
+        one: Código de cópia de segurança
+        other: Códigos da cópia de segurança
       two_factor_authentication/device:
-        one: 2FA device
-        other: 2FA devices
+        one: Dispositivo 2FA
+        other: Dispositivos 2FA
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        other: Mobile phones
+        one: Telemóvel
+        other: Telemóveis
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        other: Authenticator applications
+        one: Aplicação de autenticação
+        other: Aplicações de autenticação
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn
@@ -184,7 +184,7 @@ pt-PT:
     strategies:
       resdt: SMS Rest API
       sns: Amazon SNS
-      totp: Aplicação autenticadora
+      totp: Aplicação de autenticação
       webauthn: WebAuthn
     text_2fa_disabled: Para ativar a autenticação de dois fatores, utilize o botão abaixo para registar um novo dispositivo 2FA. Se já tiver um dispositivo, terá de o definir como predefinido.
     text_2fa_enabled: Em cada login, você será solicitado a inserir um token OTP do seu dispositivo 2FA padrão.

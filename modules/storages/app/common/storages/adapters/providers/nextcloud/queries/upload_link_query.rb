@@ -66,7 +66,7 @@ module Storages
               case response
               in { status: 200..299 }
                 info "Upload link generated successfully."
-                Success(response.json(symbolize_keys: true))
+                parse_json(response, error)
               in { status: 404 }
                 info "The parent folder was not found."
                 Failure(error.with(code: :not_found))

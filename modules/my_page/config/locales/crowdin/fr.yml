@@ -3,7 +3,7 @@ fr:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        other: My pages
+        one: Ma page
+        other: Mes pages
   my_page:
     label: Ma page

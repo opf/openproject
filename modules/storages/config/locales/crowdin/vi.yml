@@ -66,7 +66,7 @@ vi:
             host:
               authorization_header_missing: chưa được thiết lập đầy đủ. Phiên bản Nextcloud không nhận được tiêu đề "Ủy quyền", tiêu đề này cần thiết cho việc ủy ​​quyền các yêu cầu API dựa trên mã thông báo Bearer. Vui lòng kiểm tra kỹ cấu hình máy chủ HTTP của bạn.
               cannot_be_connected_to: không thể đạt được. Hãy đảm bảo rằng máy chủ có thể truy cập được và ứng dụng tích hợp OpenProject đã được cài đặt.
-              minimal_nextcloud_version_unmet: không đáp ứng yêu cầu phiên bản tối thiểu (phải là Nextcloud 23 trở lên)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: không phải là máy chủ Nextcloud
               op_application_not_installed: dường như chưa cài đặt ứng dụng "Tích hợp OpenProject". Vui lòng cài đặt nó trước và sau đó thử lại.
             password:
@@ -145,6 +145,7 @@ vi:
         error: Đã xảy ra lỗi không mong muốn. Vui lòng kiểm tra nhật ký OpenProject để biết thêm thông tin hoặc liên hệ với quản trị viên
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject không thể truy cập tài nguyên được yêu cầu. Vui lòng kiểm tra cấu hình quyền của bạn trên Nhà cung cấp bộ nhớ.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject không thể xác thực với Nhà cung cấp lưu trữ. Hãy đảm bảo rằng bạn có quyền truy cập vào nó.
       models:
         copy_project_folders_service:

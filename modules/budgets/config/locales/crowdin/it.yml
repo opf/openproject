@@ -48,13 +48,13 @@ it:
     models:
       budget:
         one: Budget
-        other: Budgets
+        other: Budget
       labor_budget_item:
-        one: Planned labor cost
-        other: Planned labor costs
+        one: Costo del lavoro pianificato
+        other: Costi del lavoro pianificati
       material_budget_item:
-        one: Unit
-        other: Units
+        one: Unità
+        other: Unità
   activity:
     filter:
       budget: Budget

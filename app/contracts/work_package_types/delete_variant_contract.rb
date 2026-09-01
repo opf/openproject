@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   class DeleteVariantContract < ::ModelContract
-    include RequiresAdminGuard
+    include AuthorizesVariantAuthoring
 
     def self.model = TypeVariant
 

@@ -202,7 +202,7 @@ RSpec.describe "Work package type project attributes", :js do
     end
   end
 
-  describe "in linked mode", with_flag: { type_variants: true } do
+  describe "with an inherited configuration", with_flag: { type_variants: true } do
     let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
     let(:source_type) { create(:type, name: "Source type") }
     let(:linked_type) { create(:type, name: "Linked type") }
