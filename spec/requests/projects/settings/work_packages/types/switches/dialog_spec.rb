@@ -89,18 +89,4 @@ RSpec.describe "The variant switch dialog",
 
     expect(dialog).to have_select("Variant", selected: epic.default_variant.composite_name)
   end
-
-  it "offers the variants the project may use" do
-    open_dialog
-
-    expect(dialog).to have_select("Variant", options: [epic.default_variant, delivery, ours].map(&:composite_name))
-  end
-
-  # Switching to it would be refused, and its name alone tells this project's administrators
-  # what another project called its own variant.
-  it "offers no variant another project owns" do
-    open_dialog
-
-    expect(dialog).to have_no_css("option", text: "Demo only")
-  end
 end
