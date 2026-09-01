@@ -1,4 +1,12 @@
+---
+sidebar_navigation:
+  title: Post-Migration Checklist
+description: Checklist of tasks to complete after migrating from Jira to OpenProject
+keywords: Jira migration, post-migration checklist
+---
+
 # Jira to OpenProject Post-Migration Checklist
+
 Things to do by hand after an import, given the tool's current scope. If you're migrating in multiple batches, repeat the "Right after import" steps for each batch — they're not a one-time event.
 
 ## Right after import

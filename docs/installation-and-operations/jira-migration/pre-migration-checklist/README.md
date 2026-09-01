@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Pre-Migration Checklist
+description: Checklist of tasks to complete before migrating from Jira to OpenProject
+keywords: Jira migration, pre-migration checklist
+---
+
 # Jira to OpenProject Pre-Migration Checklist
 
 Actions to take in Jira, in OpenProject and in your migration planning before you start an import run, to reduce the number of surprises and manual clean-up steps afterward.

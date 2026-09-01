@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Field Mapping Reference
+description: Reference for how Jira fields are mapped to OpenProject fields during migration
+keywords: Jira migration, field mapping
+---
+
 # Jira to OpenProject Field Mapping Reference
 
 ## Project-level fields
