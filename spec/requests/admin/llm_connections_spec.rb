@@ -99,6 +99,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(connection.base_url).to eq(base_url)
         expect(connection.api_key).to eq("sk-test")
       end
+
+      it "confirms the connection once LLMs are switched on" do
+        patch llm_connection_path,
+              params: { llm_connection: { enabled: "1", base_url:, api_key: "sk-test" } }
+
+        expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.success"))
+      end
+    end
+
+    context "when the administrator switches LLMs off" do
+      let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-test") }
+
+      it "confirms that the features are off instead of claiming a connection" do
+        patch llm_connection_path, params: { llm_connection: { enabled: "0" } }
+
+        expect(connection.reload).not_to be_enabled
+        expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.disabled"))
+        expect(flash[:warning]).to be_blank
+      end
     end
 
     context "with an unreachable server" do

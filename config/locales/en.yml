@@ -1711,6 +1711,7 @@ en:
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
       update:
+        disabled: "Saved. LLM features are switched off for this instance."
         success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:

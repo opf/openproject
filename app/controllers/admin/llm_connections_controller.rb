@@ -63,7 +63,7 @@ module Admin
     end
 
     def redirect_after_save
-      redirect_with_notice(t(".success"))
+      redirect_with_notice(@connection.enabled? ? t(".success") : t(".disabled"))
     end
 
     def render_form_with_errors
