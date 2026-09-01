@@ -1,13 +1,13 @@
 ---
 sidebar_navigation:
-  title: Keyboard Shortcuts and Access Keys
+  title: Keyboard shortcuts and access keys
   priority: 450
-description: Keyboard Shortcuts and Access Keys in OpenProject.
-keywords: keyboard shortcuts and access keys
+description: Keyboard shortcuts and access keys in OpenProject.
+keywords: keyboard shortcuts, access keys, navigation
 ---
-# Keyboard Shortcuts and Access Keys
+# Keyboard shortcuts and access keys
 
-OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance your productivity. We use both access keys and regular  shortcuts. When using access keys, press the modifier keys and the  access key number. For the regular shortcuts just type the listed keys  on any OpenProject page.
+OpenProject offers keyboard shortcuts and access keys to help you navigate and work more efficiently. To use an access key, press the browser-specific modifier keys together with the access key number. To use a regular shortcut, type the listed keys on an OpenProject page.
 
 ## Shortcuts
 
@@ -17,14 +17,14 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 - Project Search: p
 - Go to: My page: g m
 - Open Help Page: –
-- Open regular shortcuts List: ?
+- Open regular shortcuts list: ?
 - Go to: Overview: g o
 - Go to: Work Packages: g w p
 - Go to: Wiki: g w i
 - Go to: Activity: g a
 - Go to: Calendar: g c
 - Go to: News: g n
-- Go to: Timelines: g t
+- Go to: Gantt charts: g t
 - New: Work Package: n w p
 - Go to: Edit (only on certain detail pages): g e
 - Open ‘More’ Menu (only on certain detail pages): m
@@ -45,7 +45,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 - Go to: Activity: –
 - Go to: Calendar: –
 - Go to: News: –
-- Go to: Timelines: –
+- Go to: Gantt charts: –
 - New: Work Package: 2
 - Go to: Edit (only on certain detail pages): 3
 - Open ‘More’ Menu (only on certain detail pages): 7
@@ -59,10 +59,9 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ### Windows
 
-- Internet Explorer: Alt + &lt;access key number&gt;
 - Firefox: Alt + Shift + &lt;access key number&gt;
 - Google Chrome: Alt + &lt;access key number&gt;
-- Safari: Alt + &lt;access key number&gt;
+- Microsoft Edge: Alt + &lt;access key number&gt;
 
 ------
 
@@ -89,4 +88,4 @@ To quickly save changes in a rich text editor (for example a work package descri
 | -------------------------- | -------------- | ------------------------------------------------------------ |
 | CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
-Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).
+Please also refer to the documentation on [working in Rich text editor in OpenProject](../wysiwyg).
