@@ -402,8 +402,6 @@ module Import
         values = custom_field.custom_options.pluck(:value) + missing_labels.to_a
         service_call = CustomFields::UpdateService.new(user:, model: custom_field).call(possible_values: values)
         raise service_call.message if service_call.failure?
-
-        custom_field.reload
       end
 
       def extend_hierarchy_values!(custom_field, missing_labels)
