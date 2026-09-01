@@ -57,7 +57,7 @@ module OpenProject::JournalFormatter::CustomField::ViewPermission
   # render many custom-field journal entries per request, often for the same project, so we
   # cache the verdict set per request and per user. Only used by view_permission Procs
   # (see WorkPackage::Journalized), which #permission_granted? instance_exec's above.
-  def visible_custom_field_ids(project)
+  def visible_work_package_custom_field_ids(project)
     JournalFormatterCache.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
       WorkPackageCustomField.visible(User.current, project:).pluck(:id).to_set
     end
