@@ -241,14 +241,9 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(group(bug.default_variant)).to have_text("Base type used in this project")
     end
 
-    it "checks it off, so the reader finds it without reading" do
-      expect(group(bug.default_variant)).to have_css(".octicon-check-circle-fill")
-    end
-
-    # A statement of fact rather than something to notice: the header's title slot would
-    # otherwise lend it the type name's weight.
-    it "does not emphasise it" do
-      expect(group(bug.default_variant)).to have_css(".text-normal", text: "Base type used in this project")
+    it "marks it as the one in use" do
+      expect(group(bug.default_variant)).to have_css("[data-test-selector='in-use-marker']",
+                                                     text: "Base type used in this project")
     end
 
     # Nothing below the header is in use, so the group has nothing the reader must see.
@@ -273,8 +268,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(row(global)).to have_text("Variant in this project")
     end
 
-    it "checks that row off" do
-      expect(row(global)).to have_css(".octicon-check-circle-fill")
+    it "marks that row as the one in use" do
+      expect(row(global)).to have_css("[data-test-selector='in-use-marker']")
     end
 
     it "says nothing of the sort on the variants the project is not using" do

@@ -92,13 +92,9 @@ module Projects
             count if count.positive?
           end
 
+          # Constant lookup in a compiled template does not walk the enclosing modules.
           def in_use_marker(label)
-            safe_join(
-              [
-                render(Primer::Beta::Octicon.new(icon: "check-circle-fill", color: :success, ml: 2)),
-                render(Primer::Beta::Text.new(color: :success, font_size: :small, font_weight: :normal, ml: 1)) { label }
-              ]
-            )
+            render(InUseMarkerComponent.new(label:))
           end
 
           def variant_caption(variant)
