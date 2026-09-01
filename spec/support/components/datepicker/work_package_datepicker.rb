@@ -228,16 +228,7 @@ module Components
     end
 
     def wait_for_preview_update
-      # we no visual clue that informs that the preview is in progress. With
-      # cuprite we can wait for the network idle, but otherwise we need to sleep
-      # an arbitrary amount of time.
-      if using_cuprite?
-        wait_for_network_idle
-      else
-        # TODO: find a better mechanism to wait for the preview to finish and
-        # update the datepicker values.
-        sleep 0.350
-      end
+      wait_for_changes_to_be_applied_after_setting_field
     end
 
     protected
