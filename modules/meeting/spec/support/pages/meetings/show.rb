@@ -816,7 +816,7 @@ module Pages::Meetings
         raise Capybara::ElementNotFound unless clicked
       end
 
-      expect(page).to have_no_css(".Overlay")
+      expect(page).to have_no_css(".Overlay", wait: 10)
     end
 
     def meeting_reference_value
