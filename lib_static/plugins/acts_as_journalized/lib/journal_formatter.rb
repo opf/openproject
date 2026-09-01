@@ -119,14 +119,11 @@ module JournalFormatter
     formatter = formatter_instance(config[:formatter_key])
     return if formatter.nil?
 
-    rendered_details =
-      if formatter.permission_granted?(config[:view_permission], key: field)
-        formatter.render(field, values, options)
-      else
-        render_permission_denied_message(options)
-      end
-
-    rendered_details&.html_safe # rubocop:disable Rails/OutputSafety
+    if formatter.permission_granted?(config[:view_permission], key: field)
+      formatter.render(field, values, options)&.html_safe # rubocop:disable Rails/OutputSafety
+    else
+      render_permission_denied_message(options)
+    end
   end
 
   # The message is the same regardless of which formatter denied access, so

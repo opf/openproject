@@ -185,7 +185,7 @@ RSpec.describe Journal do
       # formatter for it.
       it "renders the permission denied message instead of the detail" do
         expect(journal.render_detail([field, values]))
-          .to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+          .to be_html_safe.and eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
       end
 
       it "does not call render" do
@@ -204,7 +204,7 @@ RSpec.describe Journal do
     context "with html requested" do
       it "wraps the message in an em tag" do
         expect(journal.render_permission_denied_message(html: true))
-          .to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+          .to be_html_safe.and eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
       end
     end
 
