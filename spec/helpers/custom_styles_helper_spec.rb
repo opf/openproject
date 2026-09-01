@@ -158,6 +158,21 @@ RSpec.describe CustomStylesHelper do
     end
   end
 
+  describe ".custom_logo_uploads" do
+    let(:style) { create(:custom_style_with_logo) }
+
+    it "returns the legacy and variant paths" do
+      uploads = helper.custom_logo_uploads(style).index_by { |upload| upload[:field] }
+
+      expect(uploads.dig(:logo, :source))
+        .to eq(custom_style_logo_path(digest: style.digest, filename: style.logo_identifier))
+      expect(uploads.dig(:logo, :delete_path)).to eq(custom_style_logo_delete_path)
+      expect(uploads.dig(:logo_dark, :source)).to be_nil
+      expect(uploads.dig(:logo_dark, :delete_path))
+        .to eq(custom_style_logo_variant_delete_path(variant: :logo_dark))
+    end
+  end
+
   describe ".export_fonts_fields" do
     let(:style) { create(:custom_style_with_export_font_regular) }
 
