@@ -1,0 +1,42 @@
+{
+  "name": "web-ifc-xeokit-metadata",
+  "version": "0.0.1",
+  "description": "Extracts the IFC structural hierarchy as xeokit-sdk metadata JSON. Drop-in replacement for the .NET-based bimspot/xeokit-metadata, built on web-ifc.",
+  "main": "src/index.ts",
+  "type": "module",
+  "bin": {
+    "web-ifc-xeokit-metadata": "src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opf/openproject.git"
+  },
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/opf/openproject/issues"
+  },
+  "homepage": "https://github.com/opf/openproject/tree/dev/extensions/web-ifc-xeokit-metadata#readme",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "tsx": "^4.21.0",
+    "web-ifc": "^0.0.77"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@eslint/json": "^1.2.0",
+    "@stylistic/eslint-plugin": "^5.3.1",
+    "@types/node": "^25.0.2",
+    "eslint": "^9.35.0",
+    "globals": "^17.3.0",
+    "typescript-eslint": "^8.48.1",
+    "vitest": "^4.0.15"
+  }
+}
