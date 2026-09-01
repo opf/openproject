@@ -155,7 +155,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
     }
   }
 
-  private initializeDatePicker() {
+  protected initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
@@ -234,7 +234,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
     calendarContainer.style.marginTop = '0';
   }
 
-  private appendToBodyOrDialog():HTMLElement|undefined {
+  protected appendToBodyOrDialog():HTMLElement|undefined {
     if (this.inDialog) {
       return document.querySelector<HTMLElement>(`#${this.inDialog}`)!;
     }

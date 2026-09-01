@@ -97,6 +97,9 @@ import {
   OpBasicSingleDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import {
+  OpBasicSingleDateTimePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-single-datetime-picker/basic-single-datetime-picker.component';
+import {
   OpBasicRangeDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
 import { GlobalSearchInputComponent } from 'core-app/core/global_search/input/global-search-input.component';
@@ -177,6 +180,9 @@ import { GlobalSearchWorkPackagesComponent } from 'core-app/core/global_search/g
 import {
   CustomDateActionAdminComponent,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
+import {
+  CustomDateTimeActionAdminComponent,
+} from 'core-app/features/work-packages/components/wp-custom-actions/datetime-action/custom-datetime-action-admin.component';
 import {
   ZenModeButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
@@ -365,6 +371,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
+    registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDateTimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
     registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
@@ -410,6 +417,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-toasts-container', ToastsContainerComponent, { injector });
     registerCustomElement('opce-global-search-work-packages', GlobalSearchWorkPackagesComponent, { injector });
     registerCustomElement('opce-custom-date-action-admin', CustomDateActionAdminComponent, { injector });
+    registerCustomElement('opce-custom-datetime-action-admin', CustomDateTimeActionAdminComponent, { injector });
     registerCustomElement('opce-zen-mode-toggle-button', ZenModeButtonComponent, { injector });
     registerCustomElement('opce-colors-autocompleter', ColorsAutocompleterComponent, { injector });
 

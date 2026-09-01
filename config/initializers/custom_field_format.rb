@@ -58,35 +58,39 @@ OpenProject::CustomFieldFormat.tap do |formats|
                    label: :label_date,
                    order: 7,
                    formatter: "CustomValue::DateStrategy")
+  formats.register("datetime",
+                   label: :label_date_and_time,
+                   order: 8,
+                   formatter: "CustomValue::DateTimeStrategy")
   formats.register("bool",
                    label: :label_boolean,
-                   order: 8,
+                   order: 9,
                    formatter: "CustomValue::BoolStrategy")
   formats.register("user",
                    label: Proc.new { User.model_name.human },
                    only: %w(WorkPackage TimeEntry Version Project),
                    edit_as: "list",
-                   order: 9,
+                   order: 10,
                    multi_value_possible: true,
                    formatter: "CustomValue::UserStrategy")
   formats.register("version",
                    label: Proc.new { Version.model_name.human },
                    only: %w(WorkPackage TimeEntry Version Project),
                    edit_as: "list",
-                   order: 10,
+                   order: 11,
                    multi_value_possible: true,
                    formatter: "CustomValue::VersionStrategy")
   # This is an internal formatter used as a fallback in case a value is not found.
   # Setting the label to nil in order to avoid it becoming available for selection as a custom value format.
   formats.register("empty",
                    label: nil,
-                   order: 11,
+                   order: 12,
                    formatter: "CustomValue::EmptyStrategy")
 
   formats.register("hierarchy",
                    label: :label_hierarchy,
                    only: %w(Project User WorkPackage),
-                   order: 12,
+                   order: 13,
                    multi_value_possible: true,
                    enterprise_feature: :custom_field_hierarchies,
                    formatter: "CustomValue::HierarchyStrategy")
@@ -94,14 +98,14 @@ OpenProject::CustomFieldFormat.tap do |formats|
   formats.register("weighted_item_list",
                    label: :label_weighted_item_list,
                    only: %w(Project WorkPackage),
-                   order: 13,
+                   order: 14,
                    enterprise_feature: :weighted_item_lists,
                    formatter: "CustomValue::WeightedItemListStrategy")
 
   formats.register("calculated_value",
                    label: :label_calculated_value,
                    only: %w(Project),
-                   order: 14,
+                   order: 15,
                    enterprise_feature: :calculated_values,
                    formatter: "CustomValue::CalculatedValueStrategy")
 end

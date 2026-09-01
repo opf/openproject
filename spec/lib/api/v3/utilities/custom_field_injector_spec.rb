@@ -636,6 +636,15 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
+    context "for datetime custom field" do
+      it_behaves_like "injects property custom field" do
+        let(:field_format) { "datetime" }
+        let(:value) { DateTime.parse("2015-01-03T14:30:00Z") }
+        let(:json_value) { "2015-01-03T14:30:00.000Z" }
+        let(:expected_setter) { json_value }
+      end
+    end
+
     context "for text custom field" do
       it_behaves_like "injects property custom field" do
         let(:field_format) { "text" }

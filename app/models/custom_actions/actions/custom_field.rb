@@ -80,6 +80,8 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
         CustomActions::Actions::Strategies::Float
       when "date"
         CustomActions::Actions::Strategies::Date
+      when "datetime"
+        CustomActions::Actions::Strategies::DateTime
       when "bool"
         CustomActions::Actions::Strategies::Boolean
       when "user"
