@@ -31,7 +31,14 @@ module Components
     def search(query, submit: false)
       if using_cuprite?
         ng_click_autocompleter(method(:container))
-        ng_enter_query(container, query)
+        input = ng_select_input(container)
+        page.execute_script(<<~JS, input, query.to_s)
+          const input = arguments[0];
+          const value = arguments[1];
+          const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+          setter.call(input, value);
+          input.dispatchEvent(new InputEvent("input", { bubbles: true, data: value, inputType: "insertText" }));
+        JS
       else
         SeleniumHubWaiter.wait
         input.set ""
