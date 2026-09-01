@@ -78,7 +78,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     RELATION_DESCRIPTION = 10
     RELATED_SUBJECT = 13
 
-    it "produces the correct result" do
+    it "renders the header rows and duplicates rows per relation" do
       expect(query.columns.map(&:name)).to eq %i[type id subject status assigned_to priority]
 
       # the first header row divides the sheet into work packages and relation columns
@@ -97,7 +97,9 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       c2id = child_2.id
       expect(sheet.column(2).drop(2))
         .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
+    end
 
+    it "marks the parent-child relations" do
       # marks Parent as parent of Child 1 and 2
       expect(sheet.row(PARENT)[RELATION]).to eq "parent of"
       expect(sheet.row(PARENT)[RELATED_SUBJECT]).to eq "Child 1"
@@ -116,7 +118,9 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       # shows Child 2 as parent of Child 2's child
       expect(sheet.row(CHILD_2 + 1)[RELATION]).to eq "parent of"
       expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq "Child 2's child"
+    end
 
+    it "marks the follows and precedes relations" do
       # shows Child 2 as following Followed
       expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq "Follows"
       expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq "Followed"
@@ -128,8 +132,9 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.row(FOLLOWED)[RELATION]).to eq "Precedes"
       expect(sheet.row(FOLLOWED)[RELATION_DESCRIPTION]).to eq "description foobar"
       expect(sheet.row(FOLLOWED)[RELATED_SUBJECT]).to eq "Child 2"
+    end
 
-      # exports the correct data (examples)
+    it "exports the work package rows with their relation columns" do
       expect(sheet.row(PARENT))
         .to eq [
           nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
