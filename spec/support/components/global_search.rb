@@ -4,6 +4,7 @@ module Components
   class GlobalSearch
     include Capybara::DSL
     include Capybara::RSpecMatchers
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
     include RSpec::Matchers
 
     def container
@@ -28,10 +29,15 @@ module Components
     end
 
     def search(query, submit: false)
-      SeleniumHubWaiter.wait
-      input.set ""
-      click_input
-      input.set query
+      if using_cuprite?
+        ng_click_autocompleter(method(:container))
+        ng_enter_query(container, query)
+      else
+        SeleniumHubWaiter.wait
+        input.set ""
+        click_input
+        input.set query
+      end
 
       if submit
         submit_with_enter

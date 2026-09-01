@@ -72,7 +72,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_selector(filters_selector, visible: :hidden)
+        expect(page).to have_no_selector("#{filters_selector} #query_form_content", visible: :all)
       end
 
       def expect_quick_filter(text)
