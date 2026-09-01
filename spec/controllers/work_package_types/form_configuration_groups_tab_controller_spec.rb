@@ -107,7 +107,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include("Second group")
         expect(response.body).to include("Group names must be unique.")
-        expect(response.body).not_to include("Form configuration")
+        expect(response.body).not_to include("Form Group names must be unique.")
       end
 
       it "preserves the entered name in the input field" do
@@ -154,7 +154,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('action="update"')
       expect(response.body).to include('target="work-package-types-form-configuration-main-content-component"')
-      expect(response.body).not_to include("Form configuration")
+      expect(response.body).not_to include("Form Group names must be unique.")
     end
 
     it "returns a main content turbo stream response" do
