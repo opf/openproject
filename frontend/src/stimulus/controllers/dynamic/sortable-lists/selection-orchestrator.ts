@@ -257,10 +257,6 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (this.host.busy) {
-      return;
-    }
-
     this.focusAndMaybeExtend(event, next);
   }
 
@@ -278,17 +274,14 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (this.host.busy) {
-      return;
-    }
-
     this.focusAndMaybeExtend(event, target);
   }
 
+  // Focus moves even mid-move: only the range mutation waits for the host.
   private focusAndMaybeExtend(event:KeyboardEvent, target:HTMLElement):void {
     this.focusItemElement(target);
 
-    if (!event.shiftKey) {
+    if (!event.shiftKey || this.host.busy) {
       return;
     }
 
