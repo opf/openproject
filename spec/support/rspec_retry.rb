@@ -25,6 +25,13 @@ RSpec.configure do |config|
     config.around :each, :js do |ex|
       ex.run_with_retry retry: ENV["RSPEC_RETRY_RETRY_COUNT"].to_i
     end
+
+    config.retry_callback = proc do |example|
+      next unless example.metadata[:js]
+
+      driver = Capybara.current_session.driver
+      driver.restart if driver.is_a?(Capybara::Cuprite::Driver)
+    end
   end
 end
 
