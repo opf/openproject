@@ -235,6 +235,31 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
       end
     end
 
+    context "when updating only the time zone" do
+      let(:params) do
+        { time_zone: "Europe/Berlin" }
+      end
+
+      let(:recipient) do
+        create(:user, member_with_permissions: { project => %i(view_meetings) })
+      end
+
+      before do
+        series.template.participants.delete_all
+        series.template.participants << MeetingParticipant.new(user: recipient, invited: true)
+      end
+
+      it "sends out updated mails carrying the new time zone" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+
+        calendar = ActionMailer::Base.deliveries.first.all_parts.find { |part| part.mime_type == "text/calendar" }
+        expect(calendar.body.decoded).to include("TZID:Europe/Berlin")
+      end
+    end
+
     context "when updating only the location with recipients with different locales" do
       let(:german_author) do
         create(:user,
