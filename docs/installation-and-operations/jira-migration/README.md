@@ -32,7 +32,7 @@ This import tool is currently in beta and can only import basic data:
 - Projects
 - Project identifiers
 - Issues
-- Issues identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
+- Issue identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
 - Basic custom fields (see [Custom fields migration](./custom-fields/))
 - Users
 - Statuses
@@ -58,17 +58,17 @@ See [field mapping reference](./field-mapping/) for details.
 ## Supported Jira versions
 
 - We currently only support Jira Data Center versions 10.x and 11.x.
-- Cloud  instances are **not** supported at this time.
+- Cloud instances are **not** supported at this time.
 
 ## Import preparation
 
 ### Prepare a backup
 
 Imports change your OpenProject configuration. After the import you will have the opportunity to review the changes.
-While in review, you have an option to revert or approve the import. After approving the import reverting will no longer be possible.
+While in review, you have an option to revert or approve the import. After approving the import, reverting will no longer be possible.
 Therefore, please make sure that you have [a backup of your OpenProject instance](../../system-admin-guide/backup) before proceeding.
 
-### Setup the API connection
+### Set up the API connection
 
 Navigate to _Administration → Import_. To create a new import configuration, click the **+ Jira configuration** button.
 
@@ -93,7 +93,7 @@ Click **Test configuration** to verify the connection.
 If the connection is successful, a confirmation banner will appear.
 
 > [!IMPORTANT]
-> If your Jira instance is hosted on a private or internal network (e.g. a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
+> If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
 
 ![Successful connection message for Jira import](openproject_admin_import_jira_import_new_config_test.png)
 
@@ -101,7 +101,7 @@ Click **Add configuration** to proceed to the import runs overview. Initially, n
 
 ## Import run
 
-You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode, but not after approving.
+You can import different sets of data with each import run. It is possible to undo an import run while it is in review mode, but not after approving.
 
 ![Empty import runs overview after creating a Jira import configuration](openproject_admin_import_jira_import_new_config_import_run_button.png)
 
@@ -209,4 +209,4 @@ A confirmation warning will also be shown.
 
 ## Current status and next steps of the Jira Migrator
 
-You can follow the progress of OpenProject's [Jira migration Stream](https://community.openproject.org/projects/jira-migration) and provide feedback.
+You can follow the progress of OpenProject's [Jira migration stream](https://community.openproject.org/projects/jira-migration) and provide feedback.
