@@ -222,4 +222,46 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
       expect(impact.new_fields.map(&:label)).to include("Story points")
     end
   end
+
+  describe "how the work packages are scoped" do
+    it "requires exactly one of project or work_packages" do
+      expect { described_class.new(source:, target:) }.to raise_error(ArgumentError)
+      expect { described_class.new(source:, target:, project:, work_packages: WorkPackage.all) }
+        .to raise_error(ArgumentError)
+    end
+
+    it "is single-project only when scoped to a project" do
+      expect(described_class.new(source:, target:, project:)).to be_single_project
+      expect(described_class.new(source:, target:, work_packages: WorkPackage.all)).not_to be_single_project
+    end
+
+    describe "#project_ids" do
+      it "is the one project when scoped to it" do
+        expect(described_class.new(source:, target:, project:).project_ids).to contain_exactly(project.id)
+      end
+
+      it "is every project applying the source variant otherwise" do
+        applied = design
+        one = create(:project, types: [epic])
+        two = create(:project, types: [epic])
+        [one, two].each { |p| p.project_types.find_by(type: epic).update!(variant: applied) }
+
+        impact = described_class.new(source: applied, target: epic_base, work_packages: applied.work_packages)
+
+        expect(impact.project_ids).to contain_exactly(one.id, two.id)
+      end
+    end
+
+    it "counts across the injected scope rather than a single project" do
+      one = create(:project, types: [epic])
+      two = create(:project, types: [epic])
+      create(:work_package, project: one, type: epic)
+      create_list(:work_package, 2, project: two, type: epic)
+
+      impact = described_class.new(source: epic_base, target: design,
+                                   work_packages: WorkPackage.where(type_id: epic.id))
+
+      expect(impact.work_package_count).to eq(3)
+    end
+  end
 end

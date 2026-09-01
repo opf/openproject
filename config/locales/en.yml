@@ -557,6 +557,8 @@ en:
         is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         ldap_managed: "This department is managed by LDAP synchronization and cannot be changed manually."
         less_than_or_equal_to: "must be less than or equal to %{count}."
+        migration_failed: "The variant could not be switched for project '%{project}': %{reason}"
+        migration_target_invalid: "The selected variant must be another variant of the same type that every affected project can use."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "is not a number."
@@ -6706,6 +6708,9 @@ en:
             Each variant can inherit, copy or have its own custom configuration for the default
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
+        delete:
+          description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
+          title: "Delete %{name}"
         filter: "Filter by text"
         filter_no_results: "No variants match this filter"
       workflow:

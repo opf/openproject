@@ -171,6 +171,17 @@ class TypeVariant < ApplicationRecord
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"
   end
 
+  def work_packages
+    WorkPackage.where(type_id:, project_id: project_types.select(:project_id))
+  end
+
+  def migration_targets
+    siblings = self.class.where(type_id:).where.not(id:)
+    owners = projects.distinct.pluck(:id)
+
+    owners.one? ? siblings.available_in(owners.first) : siblings.global
+  end
+
   def workflows
     return own_workflows unless resolve_aspect_in_sql?
 
