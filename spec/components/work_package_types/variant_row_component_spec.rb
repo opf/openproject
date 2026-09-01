@@ -51,8 +51,6 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     expect(rendered_component).to have_no_text(I18n.t("types.index.variant_label"))
   end
 
-  # A slot rather than a string, because one list says "Created in <project>" with the project
-  # linked, which no string can carry.
   it "renders the caption its caller gives it" do
     rendered = render_inline(described_class.new(variant:)) do |row|
       row.with_caption { I18n.t("types.index.variant_label") }
@@ -65,8 +63,6 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     expect(rendered_component).to have_no_text(I18n.t("types.index.enabled_in_new_projects"))
   end
 
-  # What a list says about the variant's state here. Not a label: one list says it with a green
-  # check and coloured words, which a Label cannot carry.
   it "renders the state its caller gives it" do
     rendered = render_inline(described_class.new(variant:)) do |row|
       row.with_state { "Variant in this project" }
@@ -79,7 +75,6 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     expect(rendered_component).to have_no_css(".Label")
   end
 
-  # Right-aligned, for status rather than an affordance.
   it "sets a status label apart from the rest" do
     rendered = render_inline(described_class.new(variant:)) do |row|
       row.with_status_label { "Active in new projects" }

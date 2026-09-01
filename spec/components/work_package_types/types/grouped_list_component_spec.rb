@@ -35,8 +35,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
   current_user { create(:admin) }
 
-  # An administrator sees every project's variants together, so an owned one has to say whose it
-  # is; otherwise it is indistinguishable from a variant every project may use.
   describe "a variant a project owns" do
     shared_let(:owning_project) { create(:project, name: "Apollo") }
     shared_let(:root_type) { create(:type, name: "Bug") }
@@ -51,13 +49,10 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       end
     end
 
-    # The index is the list of variants every project may use. A project's own belong to that
-    # project, and are reached from the type's variants tab instead.
     it "does not list it" do
       expect(rendered_component).to have_no_text("Internal")
     end
 
-    # As bold as the variant names below it: the type heads the group, it does not caption it.
     it "sets the type's name in the same weight as its variants" do
       expect(rendered_component).to have_css(".Box-header a.text-bold", text: "Bug")
     end
@@ -71,8 +66,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
                                               href: type_variants_path(type_id: root_type.id))
     end
 
-    # A plain link, like the variant names above it: it leads somewhere the reader may go, and it
-    # is not an affordance of the kind the add action below it is.
     it "leads with the count rather than an icon", :aggregate_failures do
       row = "[data-test-selector='type-#{root_type.id}-project-variants']"
 
@@ -81,8 +74,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_css("#{row}.color-fg-muted")
     end
 
-    # The count summarises variants this list does not show; the add action creates one that it
-    # will, and closes the group.
     it "counts them in a row above the add action", :aggregate_failures do
       count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
       add_link = "a[href='#{new_creation_wizard_types_path(type_id: root_type.id, back_url: types_path)}']"
@@ -100,19 +91,17 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_text("2 project-specific variants")
     end
 
-    # The badge counts every named variant of the type, listed here or not: one on this list plus
-    # the one the project owns.
     it "counts both in a badge on the header" do
       expect(rendered_component).to have_css(".Box-header .Counter", text: "2")
     end
 
-    # Asserted on the markup rather than on what shows: Primer hides a zero counter by itself, so
-    # a visible-only assertion would hold without the count ever being left out.
     context "when the type has no variant at all" do
       shared_let(:root_type) { create(:type, name: "Plain") }
       shared_let(:owned) { nil }
       shared_let(:global) { nil }
 
+      # visible: :all, because Primer hides a zero counter by itself: a visible-only assertion
+      # would hold whether or not the count is left out.
       it "shows no badge" do
         expect(rendered_component).to have_no_css(".Box-header .Counter", visible: :all)
       end
@@ -169,7 +158,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     context "when a named variant carries it" do
       before { variant.update!(enabled_in_new_projects: true) }
 
-      # Said on the variant's own row, and nowhere else.
       it "marks the variant's own row and leaves the header alone", :aggregate_failures do
         expect(rendered_component).to have_css(".Box-row .Label", text: label_text)
         expect(rendered_component).to have_no_css(".Box-header .Label")

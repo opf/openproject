@@ -53,8 +53,6 @@ RSpec.describe "The variant switch dialog",
   # The dialog arrives inside a turbo-stream template, whose contents Capybara does not enter.
   def dialog = Capybara.string(Nokogiri::HTML5.fragment(response.body).css("template").inner_html)
 
-  # A row's action names the variant it was asked from, so the reader does not have to find it
-  # again in the select.
   it "opens on the variant it was asked about" do
     open_dialog(target_id: delivery.id)
 
@@ -62,8 +60,6 @@ RSpec.describe "The variant switch dialog",
     expect(dialog).to have_select("Variant", selected: delivery.composite_name)
   end
 
-  # The reader chose on the row they came from, so the dialog states the choice rather than asking
-  # for it again; the select is there to change one's mind, not to make the decision.
   it "does not ask the reader to choose a variant" do
     open_dialog(target_id: delivery.id)
 
@@ -82,8 +78,6 @@ RSpec.describe "The variant switch dialog",
     expect(dialog).to have_select("Variant", selected: epic.default_variant.composite_name)
   end
 
-  # The parameter comes off a URL, so it decides nothing on its own: a variant this project may
-  # not use is no more selectable here than it is in the list.
   it "ignores a variant another project owns" do
     open_dialog(target_id: theirs.id)
 

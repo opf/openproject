@@ -74,12 +74,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_text("Mobile")
     end
 
-    # The point of the whole feature: one project's variant is invisible to the others.
     it "never lists another project's variant" do
       expect(page).to have_no_text("Demo only")
     end
 
-    # The type heads the group, as bold as the variant names below it.
     it "sets the type's name in the same weight as its variants" do
       expect(header_of(bug.default_variant)).to have_css(".text-bold", text: "Bug")
     end
@@ -93,9 +91,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(row(global)).to have_no_text("Project-specific variant")
     end
 
-    # Which variant is in use is a state, not something to act on, and ownership is a plain
-    # statement about the row it sits on. Neither is a label.
-    it "labels nothing" do
+    it "renders no label for ownership or use" do
       expect(page).to have_no_css(".Label")
     end
 
@@ -106,9 +102,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
-    # The name is the affordance administration's list already uses. The others have no page
-    # this reader may open: the type's own configuration and the global variants are
-    # administration's.
     it "links the name of the variant it owns" do
       expect(page).to have_link(
         "Internal review",
@@ -132,8 +125,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
-    # Set apart the way the type's own menu sets removal apart: a destructive action should not sit
-    # flush against the one above it.
     it "puts a divider before deleting the one it owns" do
       items = row(ours).all("action-menu li").map do |item|
         item[:class].to_s.include?("ActionList-sectionDivider") ? "---" : item.text.strip
@@ -149,8 +140,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
-    # Authoring the project's own variant and putting it to use are one job: leaving the second
-    # half to whoever administers the instance's types makes the first half pointless.
     it "offers the variant it owns for use" do
       expect(row(ours)).to have_link(
         "Use in this project",
@@ -158,7 +147,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
-    # Which of the variants it may use the project runs on is the project's own choice.
     it "offers a global variant for use as well" do
       expect(row(global)).to have_link(
         "Use in this project",
@@ -170,9 +158,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_no_button("Remove from project", visible: :all)
     end
 
-    # A global variant belongs to every project, so no single one may edit or remove it.
-    # The type's own menu gathers everything that can be done to it, while the row at the foot of
-    # the group stays: a reader scanning the variants finds it there without opening a menu.
     it "offers to add a project-specific variant from the type's menu as well as the last row" do
       expect(header_of(bug.default_variant)).to have_link(
         "Add a project-specific variant",
@@ -189,8 +174,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
-  # The reader opening a group is choosing among the variants this project may use, so that is
-  # what the count counts.
   describe "the count on a type" do
     shared_let(:plain) { create(:type, name: "Plain").tap { |type| type.update_column(:position, 2) } }
 
@@ -210,8 +193,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
-  # A type the project uses no named variant of shows an empty group, as it does on the types
-  # index, rather than a blank slate telling the reader nothing they cannot see.
   describe "a type with no variant the project may use" do
     shared_let(:plain) { create(:type, name: "Plain") }
 
@@ -246,7 +227,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
                                                      text: "Base type used in this project")
     end
 
-    # Nothing below the header is in use, so the group has nothing the reader must see.
     it "leaves the group closed" do
       expect(group(bug.default_variant)).to have_css(".CollapsibleHeader--collapsed")
     end
@@ -276,7 +256,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(row(ours)).to have_no_text("Variant in this project")
     end
 
-    # The row saying so is inside the group, so the group has to be open for it to be read.
     it "opens the group" do
       expect(group(global)).to have_no_css(".CollapsibleHeader--collapsed")
     end
@@ -294,8 +273,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     context "when the project uses the type's own configuration" do
       before { render_inline(component) }
 
-      # The reader has already chosen on the row, so the dialog opens on that variant rather than
-      # asking them to find it again in a select.
       it "offers a row's variant for use, with the dialog set to it" do
         expect(page).to have_link(
           "Use in this project",
@@ -327,9 +304,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
-  # The header stands for the type's own configuration, the way each row below it stands for a
-  # variant. Its action therefore puts that configuration to use, named and preselected exactly
-  # as a row's is.
   describe "the type's own menu" do
     current_user do
       create(:user, member_with_permissions: { project => %i[view_project manage_types manage_project_variants] })
@@ -357,14 +331,12 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
         expect(header_of(bug.default_variant)).to have_no_link("Use in this project")
       end
 
-      # Taking the type out of the project is not of a kind with the rest of the menu.
       it "still sets taking the type out of the project apart" do
         expect(header_of(bug.default_variant)).to have_css(".ActionList-sectionDivider")
       end
     end
   end
 
-  # Choosing the types the project uses is not choosing which variant of one it runs on.
   describe "a member who may only choose the project's types" do
     current_user { create(:user, member_with_permissions: { project => %i[view_project manage_types] }) }
 
@@ -382,13 +354,11 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_button("Remove from project", visible: :all)
     end
 
-    # Nothing precedes it in the menu, so there is nothing to set it apart from.
     it "renders no divider" do
       expect(header_of(bug.default_variant)).to have_no_css(".ActionList-sectionDivider")
     end
   end
 
-  # Applying one's own variant would be a trap if it could not be undone.
   describe "an author of the project's variants, once the project uses their variant" do
     current_user do
       create(:user, member_with_permissions: { project => %i[view_project manage_project_variants] })
@@ -431,7 +401,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_no_link("Internal review")
     end
 
-    # An empty kebab is a promise of something to do, on every row of every type.
     it "renders no action menu on a row it can do nothing with" do
       expect(row(ours)).to have_no_css("action-menu")
     end

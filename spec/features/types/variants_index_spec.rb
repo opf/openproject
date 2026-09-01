@@ -74,7 +74,6 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       expect(page).to have_css(".Counter", text: "2")
     end
 
-    # Nothing to count, so nothing to show.
     within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
       expect(page).to have_no_css(".Counter")
     end

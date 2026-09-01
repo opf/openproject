@@ -44,8 +44,6 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     new_creation_wizard_types_path(type_id: type.id, back_url: type_variants_path(type_id: type.id))
   end
 
-  # The types index counts these rather than listing them, so this tab is where an administrator
-  # sees whose they are.
   context "with a variant a project owns" do
     shared_let(:owning_project) { create(:project, name: "Apollo") }
     shared_let(:owned) do
@@ -56,7 +54,6 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
       expect(rendered_component).to have_text("Created in Apollo")
     end
 
-    # The one page where that variant means anything: where it is listed, used and configured.
     it "links that project to its own types settings" do
       expect(rendered_component)
         .to have_link("Apollo", href: project_settings_work_packages_types_path(owning_project))
@@ -88,7 +85,6 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     end
   end
 
-  # A section explains what is in it, so an empty one explains nothing.
   context "with no project-specific variant" do
     before { create(:type_variant, type:, variant_name: "Everywhere") }
 

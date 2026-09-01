@@ -45,13 +45,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::InUseMarkerComponent, ty
     expect(rendered_component).to have_css(".color-fg-success", text: "Variant in this project")
   end
 
-  # A statement of fact rather than something to notice: a header's title slot would otherwise lend
-  # it the type name's weight.
-  it "does not emphasise it" do
+  it "leaves the words in normal weight" do
     expect(rendered_component).to have_css(".text-normal", text: "Variant in this project")
   end
 
-  # The lists that show it assert on this rather than on the markup above.
   it "is addressable by its own test selector" do
     expect(rendered_component).to have_css("[data-test-selector='in-use-marker']", text: "Variant in this project")
   end

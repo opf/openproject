@@ -40,7 +40,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 2) } }
   shared_let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
-  # Which types the project uses is only offered to a reader who may change it.
   current_user { create(:user, member_with_permissions: { project => %i[view_project manage_types] }) }
 
   subject(:component) { described_class.new(project:) }
@@ -73,8 +72,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       expect(page).to have_no_text("Epic: Design")
     end
 
-    # The variant's own row says it is the one in use, so the header does not repeat it. The
-    # group is open for that row to be read.
     it "leaves saying which variant is in use to that variant's row" do
       expect(page).to have_no_text("Variant: Design")
       expect(page).to have_css("[data-test-selector='project-types-variant-#{design.id}']",

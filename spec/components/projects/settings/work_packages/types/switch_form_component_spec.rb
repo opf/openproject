@@ -56,8 +56,6 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchFormComponent,
     expect(page).to have_select("Variant", options: [base, global, ours].map(&:composite_name))
   end
 
-  # Switching to it would be refused, and its name alone tells this project's administrators what
-  # another project called its own variant.
   it "offers no variant another project owns" do
     render_form
 

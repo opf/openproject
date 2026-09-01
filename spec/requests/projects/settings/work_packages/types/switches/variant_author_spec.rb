@@ -30,8 +30,6 @@
 
 require "spec_helper"
 
-# A member who may author the project's own variants can reach them, apply one and take it back
-# off again, without also holding the permission to choose which types the project uses.
 RSpec.describe "Switching to a variant a project owns",
                :skip_csrf,
                type: :rails_request,
@@ -71,7 +69,6 @@ RSpec.describe "Switching to a variant a project owns",
       expect(response.body).to include("Internal")
     end
 
-    # Which types the project uses is not theirs to change, so the page offers none of it.
     it "offers no way to add or remove a type" do
       expect(response.body).not_to include("project-types-add-button")
       expect(response.body).not_to include("Remove from project")
@@ -88,9 +85,6 @@ RSpec.describe "Switching to a variant a project owns",
     expect(response).to redirect_to(project_settings_work_packages_types_path(project))
   end
 
-  # Both permissions reach the same page, so both need the same way in: the sidebar's Project
-  # settings entry deep-links to the first settings section the member may open, and this is the
-  # one that leads to the types.
   context "when the member may only choose which types the project uses" do
     before { login_as create(:user, member_with_permissions: { project => %i[view_project manage_types] }) }
 
@@ -134,8 +128,6 @@ RSpec.describe "Switching to a variant a project owns",
     expect(applied_variant).to eq(base)
   end
 
-  # Which variant the project uses is the project's own choice, whether or not the project
-  # authored the variant.
   it "switches the project to a variant every project shares" do
     switch_to(global)
 

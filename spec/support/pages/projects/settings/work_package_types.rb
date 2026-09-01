@@ -54,7 +54,6 @@ module Pages
           expect(row).to have_text(variant.name)
           return if variant_name.nil?
 
-          # A named variant in use says so on its own row, inside the group the type heads.
           expect(row).to have_css("[data-test-selector='project-types-variant-#{variant.id}']",
                                   text: "Variant in this project")
           expect(row).to have_text(variant_name)

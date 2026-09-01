@@ -123,8 +123,6 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(epic.default_variant)
   end
 
-  # The type's action puts the type's own configuration to use, so that is what the dialog opens
-  # on. What it costs is reported once the reader changes their mind in the select.
   it "opens on the type's own configuration, with nothing reported yet" do
     settings_page.open_switch_dialog(design)
 
@@ -149,7 +147,6 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(design)
   end
 
-  # The type's action puts its own configuration to use, which this project already does.
   it "does not offer the type's own configuration when the project already uses it" do
     settings_page.expect_no_switch_action(bug.default_variant)
   end

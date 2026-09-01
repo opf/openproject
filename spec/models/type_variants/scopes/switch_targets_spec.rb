@@ -30,8 +30,6 @@
 
 require "spec_helper"
 
-# Who may move a project from one variant of a type to another: whoever authors the project's own
-# variants. A variant another project owns is nobody else's to use.
 RSpec.describe TypeVariants::Scopes::SwitchTargets do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:base) { type.default_variant }
@@ -52,8 +50,6 @@ RSpec.describe TypeVariants::Scopes::SwitchTargets do
     TypeVariant.switch_targets(user:, project:, source:)
   end
 
-  # Selecting which types the project uses is a different job from deciding which variant of one
-  # it runs on, and it does not carry it.
   describe "an administrator of the project's types" do
     it "may not switch variants" do
       expect(targets(type_manager, source: base)).to be_empty
@@ -65,7 +61,6 @@ RSpec.describe TypeVariants::Scopes::SwitchTargets do
       expect(targets(variant_author, source: base)).to include(ours)
     end
 
-    # The project's own choice among the configurations it may use, whichever of them it is on.
     it "may switch to the type's base and to a variant every project shares" do
       expect(targets(variant_author, source: ours)).to contain_exactly(base, global, ours)
     end
