@@ -203,89 +203,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
   end
 
-  context "when a workpackage is created and visited by the same user" do
-    current_user { admin }
-    let(:work_package) { create(:work_package, project:, author: admin) }
-
-    before do
-      # for some reason the journal is set to the "Anonymous"
-      # although the work_package is created by the admin
-      # so we need to update the journal to the admin manually to simulate the real world case
-      work_package.journals.first.update!(user: admin)
-
-      wp_page.visit!
-      wp_page.wait_for_activity_tab
-    end
-
-    it "shows and merges activities and comments correctly" do
-      first_journal = work_package.journals.first
-
-      # initial journal entry is shown without changeset or comment
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_journal_details_header(text: admin.name)
-        activity_tab.expect_no_journal_notes
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      wp_page.update_attributes(subject: "A new subject") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # even when attributes are changed, the initial journal entry is still not showing any changeset
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # merges the initial journal entry with the first comment when a comment is added right after the work package is created
-      activity_tab.add_comment(text: "First comment")
-
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_details_header
-        activity_tab.expect_journal_notes_header(text: admin.name)
-        activity_tab.expect_journal_notes(text: "First comment")
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # changing the work package attributes after the first comment is added
-      wp_page.update_attributes(subject: "A new subject!!!") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is still not shown in the journal entry
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # adding a second comment
-      activity_tab.add_comment(text: "Second comment")
-
-      second_journal = work_package.journals.second
-
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # changing the work package attributes after the first comment is added
-      wp_page.update_attributes(subject: "A new subject") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is shown for the second journal entry (all but initial)
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_journal_changed_attribute(text: "Subject")
-      end
-
-      wp_page.update_attributes(assignee: member.name) # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is merged for the second journal entry
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_journal_changed_attribute(text: "Subject")
-        activity_tab.expect_journal_changed_attribute(text: "Assignee")
-      end
-    end
-  end
-
   context "when a workpackage is created and visited by different users" do
     current_user { member }
     let(:work_package) { create(:work_package, project:, author: admin) }
+    let(:assignee) do
+      create(:user,
+             firstname: "B",
+             lastname: "Assignee",
+             member_with_roles: { project => member_role })
+    end
 
     before do
       # for some reason the journal is set to the "Anonymous"
@@ -339,6 +265,14 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.within_journal_entry(third_journal) do
         activity_tab.expect_journal_details_header(text: member.name)
         activity_tab.expect_journal_changed_attribute(text: "Subject")
+      end
+
+      wp_page.update_attributes(assignee: assignee.name) # rubocop:disable Rails/ActiveRecordAliases
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+
+      activity_tab.within_journal_entry(third_journal) do
+        activity_tab.expect_journal_changed_attribute(text: "Subject")
+        activity_tab.expect_journal_changed_attribute(text: "Assignee")
       end
     end
   end
