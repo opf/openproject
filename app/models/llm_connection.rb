@@ -35,8 +35,6 @@
 # every association is already scoped by +llm_connection_id+ and the STI +type+
 # column is in place.
 class LlmConnection < ApplicationRecord
-  include Redmine::Ciphering
-
   SINGLETON_IDENTIFIER = "default"
 
   has_many :health_reports, as: :subject, dependent: :delete_all
@@ -68,13 +66,8 @@ class LlmConnection < ApplicationRecord
     end
   end
 
-  def api_key
-    read_ciphered_attribute(:api_key)
-  end
-
-  def api_key=(value)
-    write_ciphered_attribute(:api_key, value)
-  end
+  # A key assigned but not saved, as after a failed update, is not stored.
+  def api_key_stored? = persisted? && api_key_in_database.present?
 
   # Deliberately does not consider +last_connected_at+: a connection provisioned
   # from the environment is never probed, and must still count as configured.

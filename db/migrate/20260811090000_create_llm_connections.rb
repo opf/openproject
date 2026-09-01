@@ -35,7 +35,6 @@ class CreateLlmConnections < ActiveRecord::Migration[8.1]
       t.string :type, null: false, index: true
       t.boolean :enabled, null: false, default: false
       t.string :base_url, null: false
-      # Ciphered through Redmine::Ciphering when database_cipher_key is configured.
       # Nullable: an unauthenticated self-hosted server needs no key.
       t.string :api_key
       # Which dialect the server speaks. Only a subset is implemented; the column
