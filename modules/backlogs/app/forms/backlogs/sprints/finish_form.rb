@@ -56,7 +56,6 @@ module Backlogs
           group.radio_button(
             label: label("actions.move_to_bottom_of_backlog"),
             value: :move_to_bottom_of_backlog,
-            checked: !sprints_available?,
             data: {
               "show-when-value-selected-target": "cause",
               target_name: "unfinished_action"
