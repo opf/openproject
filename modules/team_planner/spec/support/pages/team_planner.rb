@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -297,7 +299,7 @@ module Pages
       wp_strip = event(work_package)
       lane = lane(user)
 
-      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, to: lane))
+      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, destination: lane))
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
@@ -356,8 +358,8 @@ module Pages
       expect(page).to have_no_css(".op-submenu--item-title", text: name)
     end
 
-    def y_distance(from:, to:)
-      y_center(to) - y_center(from)
+    def y_distance(from:, destination:)
+      y_center(destination) - y_center(from)
     end
 
     def y_center(element)
