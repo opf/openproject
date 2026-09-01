@@ -133,6 +133,11 @@ module Import
         "user" => "user"
       }.freeze
 
+      # Picks how a same-name candidate is matched when Jira Field Contexts have split one
+      # Jira field into several OP custom fields: `:subset` (needed values already covered),
+      # `:exact` (identical option set) or `:extend` (best overlap, missing values appended).
+      VALUE_MATCH_MODE = :subset
+
       def self.supported?(jira_field)
         schema = jira_field.payload["schema"] || {}
         JIRA_SUPPORTED_FIELDS.any? do |entry|
@@ -153,9 +158,10 @@ module Import
         @import_name = default_cf_name
       end
 
-      def find_existing_custom_field
-        existing_cf = custom_field_by_name(@import_name) if %w[hierarchy list].exclude?(format)
-        return existing_cf if existing_cf&.field_format == format
+      def find_existing_custom_field(run_custom_field_ids: [])
+        @pending_value_extension = nil
+        match = best_matching_candidate(compatible_candidates, run_custom_field_ids)
+        return match if match
 
         @import_name = unique_custom_field_name
         nil
@@ -193,15 +199,25 @@ module Import
         populate_hierarchy_items(custom_field) if format == "hierarchy"
       end
 
+      def apply_pending_value_extension(custom_field, user:)
+        return if @pending_value_extension.blank?
+
+        extend_custom_field_values!(custom_field, @pending_value_extension, user:)
+      end
+
       def format
         @format ||= @option_value ? "bool" : jira_to_op_field_format(jira_field)
       end
 
       private
 
-      def default_cf_name
+      def stable_base_name
         base_name = jira_field.payload["name"]
-        base_name = "#{base_name} - #{@option_value}" if @option_value
+        @option_value ? "#{base_name} - #{@option_value}" : base_name
+      end
+
+      def default_cf_name
+        base_name = stable_base_name
         project_keys = context_group_projects
         return base_name if project_keys.empty? || !@needs_disambiguation
 
@@ -274,6 +290,143 @@ module Import
           full_path = parent_path ? "#{parent_path} / #{label}" : label
           [full_path] + flatten_cascading_allowed_values(Array(av["children"]), parent_path: full_path)
         end.uniq
+      end
+
+      # Matches `Example`, `Example (2)`, `Example (DYX)` and `Example (DYX, ABC)
+      def candidate_custom_fields
+        base_name = stable_base_name
+        escaped = ActiveRecord::Base.sanitize_sql_like(base_name)
+        WorkPackageCustomField
+          .where("LOWER(name) = LOWER(?)", base_name)
+          .or(WorkPackageCustomField.where("name ILIKE ?", "#{escaped} (%"))
+          .order(:id)
+      end
+
+      def compatible_candidates
+        candidate_custom_fields.select { |cf| cf.field_format == format && compatible_multi_value?(cf) }
+      end
+
+      def compatible_multi_value?(custom_field)
+        return true unless %w[list user].include?(format)
+
+        custom_field.multi_value? == jira_field_multi_value?
+      end
+
+      def best_matching_candidate(candidates, run_custom_field_ids)
+        return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
+
+        candidates.find { |cf| cf.name.casecmp?(@import_name) } ||
+          candidates.find { |cf| cf.name.casecmp?(stable_base_name) }
+      end
+
+      def value_bearing_format?
+        %w[list hierarchy].include?(format)
+      end
+
+      def best_value_bearing_candidate(candidates, run_custom_field_ids)
+        needed = needed_value_labels.to_set
+        return nil if needed.empty?
+
+        same_run, other_runs = candidates.partition { |cf| run_custom_field_ids.include?(cf.id) }
+        exact_match(same_run, needed) || match_by_mode(other_runs, needed)
+      end
+
+      def match_by_mode(candidates, needed)
+        case VALUE_MATCH_MODE
+        when :exact then exact_match(candidates, needed)
+        when :extend then extend_best_overlapping_candidate(candidates, needed)
+        else candidates.find { |cf| needed.subset?(existing_value_labels(cf).to_set) }
+        end
+      end
+
+      def exact_match(candidates, needed)
+        candidates.find { |cf| existing_value_labels(cf).to_set == needed }
+      end
+
+      def needed_value_labels
+        format == "hierarchy" ? flatten_cascading_allowed_values(context_group_allowed_values) : list_field_option_values
+      end
+
+      def existing_value_labels(custom_field)
+        labels = format == "hierarchy" ? hierarchy_labels(custom_field) : custom_field.custom_options.pluck(:value)
+        labels.map { |label| option_label(label) }.compact_blank
+      end
+
+      def hierarchy_labels(custom_field)
+        root = custom_field.hierarchy_root
+        return [] if root.nil?
+
+        CustomFields::Hierarchy::HierarchicalItemService
+          .new
+          .get_descendants(item: root, include_self: false)
+          .fmap { |items| items.map(&:ancestry_path) }
+          .value_or([])
+      end
+
+      def extend_best_overlapping_candidate(candidates, needed)
+        scored = candidates.filter_map { |cf| score_extension_candidate(cf, needed) }
+        return nil if scored.empty?
+
+        candidate, existing = scored.min_by { |cf, values| [-(needed & values).size, cf.id] }
+        @pending_value_extension = needed - existing
+        candidate
+      end
+
+      def score_extension_candidate(custom_field, needed)
+        existing = existing_value_labels(custom_field).to_set
+        return unless needed.intersect?(existing)
+
+        [custom_field, existing] if needed.subset?(existing) || import_owned?(custom_field)
+      end
+
+      def import_owned?(custom_field)
+        Import::JiraOpenProjectReference.exists?(
+          op_entity_id: custom_field.id,
+          op_entity_class: custom_field.class.to_s,
+          jira_id: @jira_import.jira_id
+        )
+      end
+
+      def extend_custom_field_values!(custom_field, missing_labels, user:)
+        return if missing_labels.empty?
+
+        if format == "hierarchy"
+          extend_hierarchy_values!(custom_field, missing_labels)
+        else
+          extend_list_values!(custom_field, missing_labels, user:)
+        end
+      end
+
+      def extend_list_values!(custom_field, missing_labels, user:)
+        values = custom_field.custom_options.pluck(:value) + missing_labels.to_a
+        service_call = CustomFields::UpdateService.new(user:, model: custom_field).call(possible_values: values)
+        raise service_call.message if service_call.failure?
+      end
+
+      def extend_hierarchy_values!(custom_field, missing_labels)
+        custom_field.reload
+        root = custom_field.hierarchy_root
+        return unless root
+
+        service = CustomFields::Hierarchy::HierarchicalItemService.new
+        contract = CustomFields::Hierarchy::InsertListItemContract
+        context_group_allowed_values.each do |option|
+          insert_missing_hierarchy_option(service, contract, root, option, missing_labels)
+        end
+      end
+
+      def insert_missing_hierarchy_option(service, contract, parent, option, missing_labels, parent_path: nil)
+        label = option_label(option["value"])
+        return if label.blank?
+
+        full_path = parent_path ? "#{parent_path} / #{label}" : label
+        item = parent.children.find_by(label:)
+        item = insert_hierarchy_item(service, contract, parent, label) if item.nil? && missing_labels.include?(full_path)
+        return unless item
+
+        Array(option["children"]).each do |child_option|
+          insert_missing_hierarchy_option(service, contract, item, child_option, missing_labels, parent_path: full_path)
+        end
       end
 
       def custom_field_by_name(name)
@@ -376,13 +529,17 @@ module Import
         label = option_label(option["value"])
         return if label.blank?
 
-        result = service.insert_item(contract_class: contract, parent:, label:)
-        return unless result.success?
+        item = insert_hierarchy_item(service, contract, parent, label)
+        return unless item
 
-        item = result.value!
         Array(option["children"]).each do |child_option|
           insert_hierarchy_option(service, contract, item, child_option)
         end
+      end
+
+      def insert_hierarchy_item(service, contract, parent, label)
+        result = service.insert_item(contract_class: contract, parent:, label:)
+        result.success? ? result.value! : nil
       end
 
       # Fallback for scalar formats (string, float, date, link). Hash values
