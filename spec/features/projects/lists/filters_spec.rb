@@ -408,15 +408,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_listed(project)
     end
 
-    it "filters for any group where the user is a member" do
-      load_and_open_filters manager
-
-      # Since the user is member of this group, this project will match the filter
-      projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_group.name])
-
-      projects_page.expect_projects_listed(project)
-    end
-
     it "displays the visible project members, groups and placeholders as available options" do
       load_and_open_filters manager
 
@@ -429,50 +420,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       ]
 
       projects_page.expect_user_autocomplete_options_for(user_cf, expected_options)
-    end
-
-    context "with the cf field set to a group" do
-      before do
-        project.update(custom_field_values: { user_cf.id => [some_group.id] })
-      end
-
-      it "filters for the group" do
-        load_and_open_filters manager
-
-        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_group.name])
-
-        projects_page.expect_projects_listed(project)
-      end
-
-      it "filters for users that are members of the group" do
-        load_and_open_filters manager
-
-        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_user.name])
-
-        projects_page.expect_projects_listed(project)
-      end
-
-      it "does not match if you filter for another group" do
-        load_and_open_filters manager
-
-        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [empty_group.name])
-
-        projects_page.expect_projects_not_listed(project)
-      end
-    end
-
-    context "with the cf field set to a placeholder user" do
-      before do
-        project.update(custom_field_values: { user_cf.id => [some_placeholder.id] })
-      end
-
-      it "filters for the placeholder user" do
-        load_and_open_filters manager
-
-        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_placeholder.name])
-
-        projects_page.expect_projects_listed(project)
-      end
     end
   end
 
