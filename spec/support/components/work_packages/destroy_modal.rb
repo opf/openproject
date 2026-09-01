@@ -63,6 +63,9 @@ module Components
         within_dialog do
           # By id: the label says what is being deleted and so varies with the hierarchy.
           check "#{dialog_id}-check_box", allow_label_click: true
+        end
+
+        within_dialog do
           expect(page).to have_button "Delete permanently", disabled: false
           click_button "Delete permanently"
         end
