@@ -98,16 +98,30 @@ pt-BR:
       cost_entry:
         one: Registro de custo
         other: Registros de custo
+      cost_rate:
+        one: Taxa de custo
+        other: Taxas de custo
       cost_type:
         one: Tipo de custo
         other: Tipos de custo
-      rate: Taxa
+      default_hourly_rate:
+        one: Taxa horária padrão
+        other: Taxas horárias padrão
+      hourly_rate:
+        one: Taxa horária
+        other: Taxas horárias
+      rate:
+        one: Taxa
+        other: Taxas
       time_entry:
         one: Registro de tempo
         other: Registros de tempo
       time_entry_activity:
         one: Atividade de registro de tempo
         other: Atividades de registro de tempo
+      time_entry_custom_field:
+        one: Campo personalizado do lançamento de horas
+        other: Campos personalizados do lançamento de horas
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ pt-BR:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_by_add: Adicionar campo de agrupamento
-  label_hourly_rate: Taxa horária
   label_include_deleted: Incluir excluídos
   label_kind: Tipo
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ pt-BR:
   label_previous_month: Mês anterior
   label_previous_week: Semana anterior
   label_previous_workweek: Semana útil anterior
-  label_rate: Taxa
   label_rate_plural: Taxas
   label_show: Exibir
   label_specific_day: Dia %{day}
@@ -241,7 +253,6 @@ pt-BR:
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
-  label_user: Usuário
   label_valid_from: Válido a partir de
   label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho

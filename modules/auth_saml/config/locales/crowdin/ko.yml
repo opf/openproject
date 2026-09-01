@@ -3,6 +3,7 @@ ko:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS(Assertion Consumer Service) URL
         authn_requests_signed: SAML AuthnRequests 서명
         certificate: OpenProject에서 SAML 요청에 사용하는 인증서
@@ -32,6 +33,9 @@ ko:
           invalid_certificate: "- 유효한 PEM 형식 인증서가 아닙니다: %{additional_message}"
           invalid_private_key: "- 유효한 PEM 형식 비공개 키가 아닙니다: %{additional_message}"
           unmatched_private_key: "- 지정된 인증서에 속하지 않습니다."
+    models:
+      saml/provider:
+        other: SAML 공급자
   saml:
     delete_heading: 이 SAML 공급자를 삭제하시겠습니까?
     delete_title: SAML 공급자 삭제
@@ -41,6 +45,9 @@ ko:
         '
       title: SAML 프로토콜 구성 매개 변수
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: '이 옵션을 선택하면 OpenProject가 SAML AuthnRequest에 서명합니다. 아래 필드를 사용하여 서명 인증서와 비공개 키를 제공해야 합니다.
 
         '

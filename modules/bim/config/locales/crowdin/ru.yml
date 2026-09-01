@@ -7,7 +7,10 @@ ru:
         bim_snippet: Сниппет BIM
         reference_links: Референсные ссылки
         stage: Этап
+        status_id: Статус
         viewpoint: Точка просмотра
+      bim/bcf/viewpoint:
+        status_id: Статус
       bim/ifc_models/ifc_model:
         attachments: Файл IFC
         ifc_attachment: Файл IFC
@@ -35,7 +38,26 @@ ru:
               ifc_attachment_missing: Нет вложенных файлов IFC.
               invalid_ifc_file: Указанный файл не является допустимым файлом IFC.
     models:
-      bim/ifc_models/ifc_model: Модель IFC
+      bim/bcf/comment:
+        one: Комментарий BCF
+        few: BCF comments
+        many: BCF comments
+        other: Комментарии BCF
+      bim/bcf/issue:
+        one: Проблема BCF
+        few: BCF issues
+        many: BCF issues
+        other: Проблемы BCF
+      bim/bcf/viewpoint:
+        one: Точка просмотра BCF
+        few: BCF viewpoints
+        many: BCF viewpoints
+        other: Точки просмотра BCF
+      bim/ifc_models/ifc_model:
+        one: Модель IFC
+        few: IFC models
+        many: IFC models
+        other: Модели IFC
   attributes:
     bcf_thumbnail: Снимок BCF
   bcf:

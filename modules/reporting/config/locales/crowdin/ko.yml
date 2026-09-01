@@ -21,6 +21,10 @@
 #++
 ---
 ko:
+  activerecord:
+    models:
+      cost_query:
+        other: 비용 보고서
   button_save_report_as: 다른 이름으로 보고서로 저장...
   comments: 코멘트
   cost_reports_title: 시간 및 비용
@@ -46,7 +50,6 @@ ko:
   label_closed: 마감됨
   label_columns: 열
   label_cost_entry_attributes: 비용 항목 특성
-  label_cost_report: 비용 보고서
   label_cost_report_plural: 비용 보고서
   label_count: 카운트
   label_days_ago: 지난 기간(일) 중

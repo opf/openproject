@@ -161,7 +161,7 @@ da:
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Fjern alle markeringer
-    button_update: Opdatér
+    button_update: Opdater
     caption_rate_history: Satshistorik
     card:
       add_new: Add new card

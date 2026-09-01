@@ -73,8 +73,24 @@ de:
               invalid_password: ist ungültig.
               unknown_error: konnte nicht mit dem Dateispeicheranbieter validiert werden. Bitte überprüfen Sie, ob die Verbindung ordnungsgemäß funktioniert.
     models:
-      file_link: Datei
-      storages/storage: Speicher
+      storages/file_link:
+        one: Datei-Link
+        other: Datei-Links
+      storages/nextcloud_storage:
+        one: Nextcloud-Speicher
+        other: Nextcloud-Speicher
+      storages/one_drive_storage:
+        one: OneDrive-Speicher
+        other: OneDrive-Speicher
+      storages/project_storage:
+        one: Projektspeicher
+        other: Projektspeicher
+      storages/sharepoint_storage:
+        one: SharePoint-Speicher
+        other: SharePoint-Speicher
+      storages/storage:
+        one: Speicher
+        other: Speicher
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.

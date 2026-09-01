@@ -92,9 +92,15 @@ fr:
               task_version_must_be_the_same_as_story_version: doit être identique à la version de l'histoire parente.
           backlog_bucket_xor_sprint: ne peut pas être affecté à la fois à un sprint et à un bucket de backlog.
     models:
+      backlog_bucket:
+        one: Bucket de backlog
+        other: Buckets de backlog
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Objectif de sprint
+        other: Objectifs de sprint
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Ajouter un lot de travaux existant

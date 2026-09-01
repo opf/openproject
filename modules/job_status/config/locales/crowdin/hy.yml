@@ -1,5 +1,10 @@
 ---
 hy:
+  activerecord:
+    models:
+      job_status/status:
+        one: Background job status
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Կամ ներբեռնելու համար [սեղմեք այստեղ](download_url)։
     download_starts: Ներբեռնումը պետք է սկսվի ավտոմատ կերպով։

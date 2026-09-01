@@ -99,11 +99,26 @@ ro:
         one: Poziție cost
         few: Poziții cost
         other: Poziții cost
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Tipul de cost
         few: Tipuri de costuri
         other: Tipuri de costuri
-      rate: Evaluează
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        other: Rates
       time_entry:
         one: Înregistrarea timpului
         few: Înregistrările timpului
@@ -112,6 +127,10 @@ ro:
         one: Activitatea de urmărire a timpului
         few: Activități de urmărire timp
         other: Activități de urmărire timp
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -210,7 +229,6 @@ ro:
   label_greater_or_equal: ">="
   label_group_by: Grupează după
   label_group_by_add: Adaugă un câmp de grupare
-  label_hourly_rate: Tarif orar
   label_include_deleted: Includeți șters
   label_kind: Tip
   label_less_or_equal: "<="
@@ -231,7 +249,6 @@ ro:
   label_previous_month: Luna anterioară
   label_previous_week: Săptămâna trecută
   label_previous_workweek: Săptămâna lucru anterioară
-  label_rate: Evaluează
   label_rate_plural: Tarife
   label_show: Arată
   label_specific_day: Ziua %{day}
@@ -245,7 +262,6 @@ ro:
   label_today_capitalized: Azi
   label_units: Unități de cost
   label_until: până la
-  label_user: Utilizator
   label_valid_from: Valabil de la
   label_view_mode_switcher: Schimbă vizualizarea
   label_work_package_filter_add: Adaugă un filtru pentru pachetul de lucru

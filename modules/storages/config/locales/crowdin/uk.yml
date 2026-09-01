@@ -73,8 +73,36 @@ uk:
               invalid_password: недійсний.
               unknown_error: не вдалося перевірити через постачальника файлового сховища. Переконайтеся, що з’єднання працює належним чином.
     models:
-      file_link: Файл
-      storages/storage: Сховище
+      storages/file_link:
+        one: Посилання на файл
+        few: Посилання на файли
+        many: Посилання на файли
+        other: Посилання на файли
+      storages/nextcloud_storage:
+        one: Сховище Nextcloud
+        few: Сховища Nextcloud
+        many: Сховища Nextcloud
+        other: Сховища Nextcloud
+      storages/one_drive_storage:
+        one: Сховище OneDrive
+        few: Сховища OneDrive
+        many: Сховища OneDrive
+        other: Сховища OneDrive
+      storages/project_storage:
+        one: Сховище проєкту
+        few: Сховища проєкту
+        many: Сховища проєкту
+        other: Сховища проєкту
+      storages/sharepoint_storage:
+        one: Сховище SharePoint
+        few: Сховища SharePoint
+        many: Сховища SharePoint
+        other: Сховища SharePoint
+      storages/storage:
+        one: Сховище
+        few: Сховища
+        many: Сховища
+        other: Сховища
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.

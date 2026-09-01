@@ -30,6 +30,9 @@ es:
       wikis/internal_provider:
         one: Proveedor interno
         other: Proveedores internos
+      wikis/page_link:
+        one: Enlace de página
+        other: Enlaces de páginas
       wikis/provider:
         one: Proveedor de Wiki
         other: Proveedores de Wiki

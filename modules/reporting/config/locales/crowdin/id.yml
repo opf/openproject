@@ -21,6 +21,10 @@
 #++
 ---
 id:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: Simpan sebagai...
   comments: Komentar
   cost_reports_title: Waktu dan biaya
@@ -46,7 +50,6 @@ id:
   label_closed: berakhir
   label_columns: Kolom
   label_cost_entry_attributes: Atrribut masukan biaya
-  label_cost_report: Laporan biaya
   label_cost_report_plural: Pelaporan biaya
   label_count: Hitung
   label_days_ago: beberapa hari terakhir

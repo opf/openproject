@@ -7,7 +7,10 @@ fa:
         bim_snippet: قطعه کد BIM
         reference_links: لینک های مرجع
         stage: مرحله
+        status_id: وضعیت
         viewpoint: دیدگاه
+      bim/bcf/viewpoint:
+        status_id: وضعیت
       bim/ifc_models/ifc_model:
         attachments: فایل IFC
         ifc_attachment: فایل IFC
@@ -35,7 +38,18 @@ fa:
               ifc_attachment_missing: هیچ فایل if پیوست نشده است.
               invalid_ifc_file: فایل ارائه شده یک فایل IFC معتبر نیست.
     models:
-      bim/ifc_models/ifc_model: الگو  IFC
+      bim/bcf/comment:
+        one: دیدگاه BCF
+        other: دیدگاه‌های BCF
+      bim/bcf/issue:
+        one: مسئله BCF
+        other: مسائل BCF
+      bim/bcf/viewpoint:
+        one: نمای BCF
+        other: نماهای BCF
+      bim/ifc_models/ifc_model:
+        one: مدل IFC
+        other: مدل‌های IFC
   attributes:
     bcf_thumbnail: تصویر فوری BCF
   bcf:

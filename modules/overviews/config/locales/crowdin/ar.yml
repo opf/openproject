@@ -1,5 +1,14 @@
 ---
 ar:
+  activerecord:
+    models:
+      grids/overview:
+        zero: Overviews
+        one: Overview
+        two: Overviews
+        few: Overviews
+        many: Overviews
+        other: Overviews
   overviews:
     label_dashboard: " لوحة القيادة"
     label_home: "%{workspace_type} home"

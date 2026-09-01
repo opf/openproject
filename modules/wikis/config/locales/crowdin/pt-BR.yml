@@ -30,6 +30,9 @@ pt-BR:
       wikis/internal_provider:
         one: Provedor interno
         other: Provedores internos
+      wikis/page_link:
+        one: Link da página
+        other: Links da página
       wikis/provider:
         one: Provedor de wiki
         other: Provedores de wiki

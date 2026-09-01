@@ -13,17 +13,18 @@ it:
           meeting_agenda_items:
             item_0:
               title: Buone notizie
+              notes: Cosa è andato bene questa settimana?
             item_1:
-              title: Aggiornamenti dal team di sviluppo
+              title: Aggiornamenti del team
+              notes: Novità e argomenti specifici per la prossima settimana.
             item_2:
-              title: Aggiornamenti dal team di prodotto
+              notes: "**Argomento di oggi**: organizzazione della conferenza open source."
             item_3:
-              title: Aggiornamenti dal team di marketing
+              title: Revisione degli obiettivi trimestrali
+              notes: Valutazione dello stato e dei progressi degli obiettivi trimestrali definiti.
+            item_4:
+              title: Feedback sui valori fondamentali
+              notes: Metti in evidenza i dipendenti che questa settimana hanno incarnato i valori fondamentali.
             item_5:
-              title: Aggiornamenti dal team di vendita
-            item_6:
-              title: Riesame degli obiettivi trimestrali
-            item_7:
-              title: Feedback dei valori fondamentali
-            item_8:
               title: Argomenti generali
+              notes: Risoluzione o discussione di argomenti insieme.

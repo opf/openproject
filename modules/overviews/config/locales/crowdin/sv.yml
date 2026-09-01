@@ -1,5 +1,10 @@
 ---
 sv:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Översikt
     label_home: "%{workspace_type} hem"

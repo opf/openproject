@@ -97,13 +97,22 @@ vi:
     models:
       cost_entry:
         other: Mục nhập chi phí
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: Loại chi phí
-      rate: tỷ lệ
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: Mục thời gian
       time_entry_activity:
         other: Hoạt động theo dõi thời gian
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ vi:
   label_greater_or_equal: ">="
   label_group_by: Nhóm theo
   label_group_by_add: Thêm trường nhóm
-  label_hourly_rate: Tỷ lệ hàng giờ
   label_include_deleted: Bao gồm đã xóa
   label_kind: loại
   label_less_or_equal: "<="
@@ -223,7 +231,6 @@ vi:
   label_previous_month: Tháng trước
   label_previous_week: Tuần trước
   label_previous_workweek: Tuần làm việc trước đó
-  label_rate: tỷ lệ
   label_rate_plural: tỷ lệ
   label_show: Hiển thị
   label_specific_day: Ngày %{day}
@@ -237,7 +244,6 @@ vi:
   label_today_capitalized: hôm nay
   label_units: Đơn vị chi phí
   label_until: cho đến khi
-  label_user: người dùng
   label_valid_from: Có hiệu lực từ
   label_view_mode_switcher: Thay đổi chế độ xem
   label_work_package_filter_add: Thêm bộ lọc gói công việc

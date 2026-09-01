@@ -21,6 +21,23 @@
 #++
 ---
 it:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Controllo dello stato del deployment
+        other: Controlli dello stato del deployment
+      deploy_target:
+        one: Destinazione del deployment
+        other: Destinazioni del deployment
+      github_check_run:
+        one: Esecuzione del controllo GitHub
+        other: Esecuzioni dei controlli GitHub
+      github_pull_request:
+        one: Pull request GitHub
+        other: Pull request GitHub
+      github_user:
+        one: Utente GitHub
+        other: Utenti Github
   attributes:
     additions_count: Numero di aggiunte
     changed_files_count: File modificati

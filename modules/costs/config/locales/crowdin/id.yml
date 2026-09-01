@@ -97,13 +97,22 @@ id:
     models:
       cost_entry:
         other: Biaya masuk
+      cost_rate:
+        other: Cost rates
       cost_type:
         other: Jenis biaya
-      rate: Rate
+      default_hourly_rate:
+        other: Default hourly rates
+      hourly_rate:
+        other: Hourly rates
+      rate:
+        other: Rates
       time_entry:
         other: Entri waktu
       time_entry_activity:
         other: Kegiatan pelacakan waktu
+      time_entry_custom_field:
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -202,7 +211,6 @@ id:
   label_greater_or_equal: ">="
   label_group_by: Pengelompokan
   label_group_by_add: Tambahkan grup
-  label_hourly_rate: Rate per-jam
   label_include_deleted: Termasuk yang telah dihapus
   label_kind: Tipe
   label_less_or_equal: "<="
@@ -223,7 +231,6 @@ id:
   label_previous_month: Bulan sebelumnya
   label_previous_week: Minggu sebelumnya
   label_previous_workweek: Minggu kerja sebelumnya
-  label_rate: Rate
   label_rate_plural: Rate
   label_show: Tampilkan
   label_specific_day: Hari %{day}
@@ -237,7 +244,6 @@ id:
   label_today_capitalized: Hari Ini
   label_units: Biaya unit
   label_until: hingga
-  label_user: User
   label_valid_from: Berlaku dari
   label_view_mode_switcher: Ubah tampilan
   label_work_package_filter_add: Tambahkan filter

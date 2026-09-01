@@ -30,6 +30,9 @@ si:
       wikis/internal_provider:
         one: Internal provider
         other: Internal providers
+      wikis/page_link:
+        one: Page link
+        other: Page links
       wikis/provider:
         one: Wiki provider
         other: Wiki providers

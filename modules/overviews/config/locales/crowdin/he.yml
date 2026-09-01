@@ -1,5 +1,12 @@
 ---
 he:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        two: Overviews
+        many: Overviews
+        other: Overviews
   overviews:
     label_dashboard: דאשבורד
     label_home: "%{workspace_type} home"

@@ -22,8 +22,12 @@ fi:
           must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
           overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department:
+        one: Synchronized department
+        other: Synchronized departments
+      ldap_departments/synchronized_tree:
+        one: LDAP department synchronization
+        other: LDAP department synchronizations
   ee:
     upsell:
       ldap_departments:

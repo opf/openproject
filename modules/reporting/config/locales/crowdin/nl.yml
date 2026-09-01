@@ -21,6 +21,11 @@
 #++
 ---
 nl:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Rapport opslaan als...
   comments: Commentaar
   cost_reports_title: Tijd en kosten
@@ -46,7 +51,6 @@ nl:
   label_closed: gesloten
   label_columns: Kolommen
   label_cost_entry_attributes: Attributen van de kosteninvoer
-  label_cost_report: Kostenrapport
   label_cost_report_plural: Kostenrapporten
   label_count: Aantal
   label_days_ago: gedurende de laatste dagen

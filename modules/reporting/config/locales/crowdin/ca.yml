@@ -21,6 +21,11 @@
 #++
 ---
 ca:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Desa l'informe com...
   comments: Comentari
   cost_reports_title: Temps i costs
@@ -46,7 +51,6 @@ ca:
   label_closed: tancat
   label_columns: Columnes
   label_cost_entry_attributes: Atributs d'entrada de costs
-  label_cost_report: Informe de costs
   label_cost_report_plural: Informes de costs
   label_count: Recompte
   label_days_ago: durant els últims dies

@@ -7,7 +7,10 @@ tr:
         bim_snippet: BIM snippet
         reference_links: Referans bağlantıları
         stage: Aşama
+        status_id: Status
         viewpoint: bakış açısı
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC dosyası
         ifc_attachment: IFC dosyası
@@ -35,7 +38,18 @@ tr:
               ifc_attachment_missing: İfc dosyası eklenmedi.
               invalid_ifc_file: Sağlanan dosya geçerli bir IFC dosyası değil.
     models:
-      bim/ifc_models/ifc_model: IFC model
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF görüntüsü
   bcf:

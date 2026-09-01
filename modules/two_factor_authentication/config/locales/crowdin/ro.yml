@@ -20,11 +20,27 @@ ro:
             phone_number:
               error_phone_number_format: trebuie să aibă formatul +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispozitiv 2FA
-      two_factor_authentication/device/sms: Telefon mobil
-      two_factor_authentication/device/totp: Aplicația Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Continuă
+      two_factor_authentication/backup_code:
+        one: Backup code
+        few: Backup codes
+        other: Backup codes
+      two_factor_authentication/device:
+        one: 2FA device
+        few: 2FA devices
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        one: Mobile phone
+        few: Mobile phones
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        one: Authenticator application
+        few: Authenticator applications
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        other: WebAuthn
+  button_continue: Continuaţi
   button_make_active: Activate
   button_make_default: Marcați ca implicit
   button_otp_by_sms: SMS

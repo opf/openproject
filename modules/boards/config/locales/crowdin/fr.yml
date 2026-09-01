@@ -1,5 +1,10 @@
 ---
 fr:
+  activerecord:
+    models:
+      boards/grid:
+        one: Tableau
+        other: Tableaux
   boards:
     board_type_attributes:
       assignee: Assigné à

@@ -1,5 +1,12 @@
 ---
 uk:
+  activerecord:
+    models:
+      boards/grid:
+        one: Дошка
+        few: Дошки
+        many: Дошки
+        other: Дошки
   boards:
     board_type_attributes:
       assignee: Виконавець

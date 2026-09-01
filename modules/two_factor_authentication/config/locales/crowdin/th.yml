@@ -20,10 +20,16 @@ th:
             phone_number:
               error_phone_number_format: ควรกำหนดในรูปแบบ +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA device
-      two_factor_authentication/device/sms: Mobile phone
-      two_factor_authentication/device/totp: Authenticator application
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: Continue
   button_make_active: Activate
   button_make_default: Mark as default

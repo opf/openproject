@@ -46,9 +46,18 @@ hr:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Budžet
-      labor_budget_item: Planned labor cost
-      material_budget_item: Jedinica
+      budget:
+        one: Budget
+        few: Budgets
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        few: Planned labor costs
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        few: Units
+        other: Units
   activity:
     filter:
       budget: Proračuni
@@ -102,7 +111,6 @@ hr:
   help_click_to_edit: Kliknite ovdje za uređivanje.
   help_currency_format: Format prikazanih novčanih valuta. %n je zamijenjen s novčanom valum, %u je zmijenjen s jedinicom vlute.
   help_override_rate: Unesite vrijednost ovdje za prepravljanje postavljene vrijednosti.
-  label_budget: Budžet
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Proračun #%{id}'

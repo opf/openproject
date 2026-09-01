@@ -71,6 +71,15 @@ zh-CN:
           name: 员工和项目经理
         item_1:
           name: 默认全局角色
+      ai_text_transform_actions:
+        item_0:
+          label: 修复语法
+        item_1:
+          label: 设为精简
+        item_2:
+          label: 翻译为英语
+        item_3:
+          label: 归类为模板
     standard:
       project_phases:
         item_0:
@@ -112,7 +121,7 @@ zh-CN:
         demo-project:
           name: 演示项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -218,7 +227,7 @@ zh-CN:
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示Scrum项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目

@@ -21,6 +21,10 @@
 #++
 ---
 zh-TW:
+  activerecord:
+    models:
+      cost_query:
+        other: Cost reports
   button_save_report_as: 另存報表...
   comments: 留言
   cost_reports_title: 時間與費用
@@ -46,7 +50,6 @@ zh-TW:
   label_closed: 已關閉
   label_columns: 欄位
   label_cost_entry_attributes: 成本項屬性
-  label_cost_report: 成本報告
   label_cost_report_plural: 成本報告
   label_count: 數量
   label_days_ago: 期間
@@ -58,7 +61,7 @@ zh-TW:
   label_filter_value: 值
   label_filters: 篩選器
   label_greater: ">"
-  label_group_by: 分類
+  label_group_by: 分組依據
   label_group_by_add: 新增群組欄位
   label_inactive: "«不活動»"
   label_is_not_project_with_subprojects: 不是 (包括子專案)
@@ -73,7 +76,7 @@ zh-TW:
   label_no: 否
   label_no_reports: 尚無費用報告
   label_none: "(沒有資料)"
-  label_open: 開啟
+  label_open: 開啟中
   label_operator: 操作員
   label_private_report_plural: 私密成本報告
   label_progress_bar_explanation: 產生報告中...

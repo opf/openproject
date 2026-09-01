@@ -39,10 +39,24 @@ fr:
             query:
               must_be_work_package_query: doit être une requête de lot de travaux.
     models:
-      resource_allocation: Affectation des ressources
-      resource_planner: Planificateur de ressources
-      resource_user_card: Fiches des utilisateurs
-      resource_work_package_list: Liste des lots de travaux
+      resource_allocation:
+        one: Affectation de ressources
+        other: Affectations de ressources
+      resource_planner:
+        one: Planificateur de ressources
+        other: Planificateurs de ressources
+      resource_user_card:
+        one: Fiche utilisateur
+        other: Fiches utilisateur
+      resource_user_timeline:
+        one: Chronologie utilisateur
+        other: Chronologies utilisateur
+      resource_work_package_list:
+        one: Liste de lots de travaux
+        other: Listes de lots de travaux
+      resource_work_package_timeline:
+        one: Chronologie des lots de travaux
+        other: Chronologies des lots de travaux
   button_next: Suivant
   ee:
     features:

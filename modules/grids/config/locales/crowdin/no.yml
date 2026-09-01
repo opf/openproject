@@ -14,6 +14,13 @@
           end_before_start: sluttverdien må være større enn startverdien.
           outside: er utenfor rutenett.
           overlaps: overlapp.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget i tabell %{grid_name}
     widgets:

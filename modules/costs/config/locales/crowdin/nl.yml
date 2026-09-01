@@ -98,16 +98,30 @@ nl:
       cost_entry:
         one: Kosteninvoer
         other: Kostenregistraties
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Soort kosten
         other: Soort kosten
-      rate: Tarief
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Tijd invoer
         other: Tijdregistraties
       time_entry_activity:
         one: Activiteit van tijdregistratie
         other: Activiteiten voor het bijhouden van tijd
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ nl:
   label_greater_or_equal: ">="
   label_group_by: Groeperen op
   label_group_by_add: Voeg groeperingsveld toe
-  label_hourly_rate: Tarief per uur
   label_include_deleted: Inclusief verwijderde
   label_kind: Type
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ nl:
   label_previous_month: Vorige maand
   label_previous_week: Vorige week
   label_previous_workweek: Vorige werkweek
-  label_rate: Tarief
   label_rate_plural: Tarieven
   label_show: Toon
   label_specific_day: Dag %{day}
@@ -241,7 +253,6 @@ nl:
   label_today_capitalized: Vandaag
   label_units: Kosten eenheden
   label_until: tot
-  label_user: Gebruiker
   label_valid_from: Geldig vanaf
   label_view_mode_switcher: Weergave wijzigen
   label_work_package_filter_add: Werkpakket filter toevoegen

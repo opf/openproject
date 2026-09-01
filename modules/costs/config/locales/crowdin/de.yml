@@ -98,16 +98,30 @@ de:
       cost_entry:
         one: Kosteneintrag
         other: Kosteneinträge
+      cost_rate:
+        one: Kostensatz
+        other: Kostensätze
       cost_type:
         one: Kostentyp
         other: Kostentypen
-      rate: Satz
+      default_hourly_rate:
+        one: Standard-Stundensatz
+        other: Standard Stundensätze
+      hourly_rate:
+        one: Stundensatz
+        other: Stundensätze
+      rate:
+        one: Preis
+        other: Preise
       time_entry:
         one: Zeitbuchung
         other: Zeitbuchungen
       time_entry_activity:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
+      time_entry_custom_field:
+        one: Benutzerdefiniertes Feld
+        other: Benutzerdefinierte Felder
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ de:
   label_greater_or_equal: ">="
   label_group_by: Gruppieren nach
   label_group_by_add: Gruppierungsfeld hinzufügen
-  label_hourly_rate: Stundensatz
   label_include_deleted: Gelöschte anzeigen
   label_kind: Typ
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ de:
   label_previous_month: Vorheriger Monat
   label_previous_week: Woche zurück
   label_previous_workweek: Vorherige Arbeitswoche
-  label_rate: Satz
   label_rate_plural: Sätze
   label_show: Anzeigen
   label_specific_day: Tag %{day}
@@ -241,7 +253,6 @@ de:
   label_today_capitalized: Heute
   label_units: Einheiten
   label_until: bis
-  label_user: Benutzer
   label_valid_from: Gültig ab
   label_view_mode_switcher: Ansicht ändern
   label_work_package_filter_add: Ticketfilter hinzufügen
@@ -281,7 +292,7 @@ de:
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
-  setting_enforce_without_allow: Start- und Endzeiten können nicht verpflichtend erfasst werden, ohne die Erfassung zu erlauben
+  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_time_entries_limit_to_user_working_hours: Auf die Arbeitszeit des Benutzers beschränken
   setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der buchbaren Stunden auf die hinterlegten Arbeitszeiten des Benutzers. Wenn keine Arbeitszeiten hinterlegt sind, hat diese Einstellung keine Auswirkung.
   setting_time_entries_max_hours_per_day: Maximale Stundenzahl pro Tag
