@@ -1400,14 +1400,18 @@ module Pages
     end
 
     def open_controlled_menu(button)
-      button.click
-      page.find(:menu, id: button[:controls] || button["aria-controls"])
+      overlay_id = button["popovertarget"]
+      page.execute_script("document.getElementById(arguments[0]).showPopover()", overlay_id)
+      page.document
+        .find("##{overlay_id}:popover-open", visible: :all)
+        .find(:menu)
     end
 
     def open_move_submenu(menu)
       move_item = menu.find(:menuitem, text: "Move to position")
+      menu_id = move_item["aria-controls"]
       move_item.click
-      page.find(:menu, id: move_item["aria-controls"])
+      page.document.find(:menu, id: menu_id)
     end
 
     def dismiss_menu(menu_owner)

@@ -226,6 +226,10 @@ RSpec.describe "Meeting Presentation Mode", :js do
   end
 
   it "automatically refreshes when things get updated" do
+    allow_any_instance_of(Meetings::PresentationMode::ShowComponent) # rubocop:disable RSpec/AnyInstance
+      .to receive(:check_for_updates_interval)
+            .and_return(100)
+
     visit project_meeting_presentation_path(project, meeting)
     expect(page).to have_css(".op-meeting-presentation")
     expect(page).to have_text("Sprint Planning")
