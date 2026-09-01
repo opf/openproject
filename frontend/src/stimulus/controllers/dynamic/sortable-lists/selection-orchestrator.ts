@@ -75,6 +75,10 @@ function isSelectAllKey(event:KeyboardEvent):boolean {
     || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));
 }
 
+// Every root listens for Escape at the document, so the first to clear
+// would otherwise look to the next like an overlay that consumed the key.
+const escapesClearedBySelection = new WeakSet<Event>();
+
 export class SelectionOrchestrator {
   private readonly selection = new BatchSelection();
 
@@ -334,8 +338,10 @@ export class SelectionOrchestrator {
   // At the document, in the bubble phase: focus routinely sits off the root
   // after a mouse selection, and an overlay's own Escape must run first.
   readonly handleEscape = (event:KeyboardEvent):void => {
-    // A consumed Escape already answered the keystroke.
-    if (event.key !== 'Escape' || event.defaultPrevented) {
+    // A consumed Escape already answered the keystroke — unless it was
+    // another root's selection that consumed it, in which case this root's
+    // batch still has to go.
+    if (event.key !== 'Escape' || (event.defaultPrevented && !escapesClearedBySelection.has(event))) {
       return;
     }
 
@@ -351,24 +357,27 @@ export class SelectionOrchestrator {
     }
 
     event.preventDefault();
+    escapesClearedBySelection.add(event);
     this.selection.clear();
     this.renderSelection('selection');
   };
 
-  // An overlay and an unrelated widget both own their own Escape, which
-  // means "dismiss that thing" rather than "drop this selection".
+  // Escape drops the selection from wherever focus sits, except where the
+  // key already means "dismiss this thing": an open overlay anywhere — focus
+  // can still sit on its invoker for a frame after it opens — or a field
+  // whose widget owns it (a picker, an inline editor, an autocompleter).
   private escapeConcernsSelection(target:EventTarget|null):boolean {
+    if (document.querySelector('dialog[open], :popover-open')) {
+      return false;
+    }
+
     if (!(target instanceof Element)) {
       return true;
     }
 
-    if (target.closest('dialog, [popover], [role="dialog"], [role="menu"], [role="listbox"]')) {
-      return false;
-    }
-
-    return target === document.body
-      || target === document.documentElement
-      || this.host.rootElement.contains(target);
+    return target.closest(
+      '[role="dialog"], [role="menu"], [role="listbox"], input, textarea, select, [contenteditable]',
+    ) === null;
   }
 
   // A batch holds one item type: "all of these together" has no meaning
