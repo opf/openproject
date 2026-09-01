@@ -380,7 +380,9 @@ RSpec.describe "Meeting Backlogs", :js do
         first_occurrence_page.expect_empty_backlog
 
         # clear and autocollapse backlog
-        first_occurrence_page.select_action(agenda_item, I18n.t(:label_agenda_item_move_to_backlog))
+        first_occurrence_page.wait_for_turbo_stream do
+          first_occurrence_page.select_action(agenda_item, I18n.t(:label_agenda_item_move_to_backlog))
+        end
         first_occurrence_page.clear_backlog
         first_occurrence_page.expect_series_backlog collapsed: true
 

@@ -268,13 +268,12 @@ module Pages::Meetings
     end
 
     def open_menu(item, &)
-      retry_block do
-        page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").click
-        end
-        page.find(".Overlay")
-        page.within(".Overlay", &)
+      selector = test_selector("op-meeting-agenda-actions")
+      button = page.within("#meeting-agenda-item-#{item.id}") do
+        page.find("action-menu[data-ready='true'] button#{selector}")
       end
+      button.click
+      page.within(page.find("##{button['popovertarget']}", visible: :visible), &)
     end
 
     def select_outcome_action(action)
@@ -444,18 +443,15 @@ module Pages::Meetings
     end
 
     def select_backlog_action(action)
-      retry_block do
-        click_on_backlog_menu
-        page.find(".Overlay")
-        page.within(".Overlay") do
-          click_on action
-        end
-      end
+      button = backlog_menu_button
+      button.trigger("click")
+      page.find("##{button['popovertarget']} [role='menuitem']", text: action, visible: :visible).click
     end
 
-    def click_on_backlog_menu
+    def backlog_menu_button
+      selector = test_selector("meeting-section-action-menu")
       page.within("#meeting-sections-backlogs-header-component") do
-        page.find_test_selector("meeting-section-action-menu").click
+        page.find("action-menu#{selector}[data-ready='true'] button")
       end
     end
 
@@ -781,9 +777,7 @@ module Pages::Meetings
 
     # still a bit ambiguous, but better than nothing
     def expect_focused_ckeditor
-      retry_block do
-        expect(page.evaluate_script("document.activeElement.classList.contains('ck-focused')")).to be true
-      end
+      expect(page).to have_css(".ck-editor__editable.ck-focused")
     end
 
     def expect_notes(text)
