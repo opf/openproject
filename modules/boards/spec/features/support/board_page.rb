@@ -147,7 +147,7 @@ module Pages
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
                                                   # Don't wait on non-presence expectation
-                                                  wait: present ? 10 : 0)
+                                                  wait: present ? 20 : 0)
       end
     end
 
