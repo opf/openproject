@@ -14,7 +14,20 @@ ar:
         secret: Signature secret
         url: Payload URL
     models:
-      webhooks/outgoing_webhook: Outgoing webhook
+      webhooks/log:
+        zero: Webhook logs
+        one: Webhook log
+        two: Webhook logs
+        few: Webhook logs
+        many: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        zero: Webhooks
+        one: Webhook
+        two: Webhooks
+        few: Webhooks
+        many: Webhooks
+        other: Webhooks
   plugin_openproject_webhooks:
     description: يوفر واجهة برمجة تطبيقات إضافية لدعم OpenProject webhooks من أجل تكامل أفضل مع الطرف الثالث.
     name: OpenProject Webhooks

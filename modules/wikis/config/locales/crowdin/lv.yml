@@ -32,6 +32,10 @@ lv:
         zero: Internal providers
         one: Internal provider
         other: Internal providers
+      wikis/page_link:
+        zero: Page links
+        one: Page link
+        other: Page links
       wikis/provider:
         zero: Wiki providers
         one: Wiki provider

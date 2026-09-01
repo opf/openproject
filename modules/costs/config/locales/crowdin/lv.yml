@@ -99,11 +99,26 @@ lv:
         zero: Cost entries
         one: Izmaksu ieraksts
         other: Cost entries
+      cost_rate:
+        zero: Cost rates
+        one: Cost rate
+        other: Cost rates
       cost_type:
         zero: Izmaksu veids
         one: Izmaksu veids
         other: Cost types
-      rate: Likme
+      default_hourly_rate:
+        zero: Default hourly rates
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        zero: Hourly rates
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        zero: Rates
+        one: Rate
+        other: Rates
       time_entry:
         zero: Time entries
         one: Time entry
@@ -112,6 +127,10 @@ lv:
         zero: Time tracking activities
         one: Time tracking activity
         other: Time tracking activities
+      time_entry_custom_field:
+        zero: Time entry custom fields
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -210,7 +229,6 @@ lv:
   label_greater_or_equal: ">="
   label_group_by: Grupēt pēc
   label_group_by_add: Add grouping field
-  label_hourly_rate: Stundas likme
   label_include_deleted: Iekļaut dzēstos
   label_kind: Veids
   label_less_or_equal: mazāks vai vienāds
@@ -231,7 +249,6 @@ lv:
   label_previous_month: Previous month
   label_previous_week: Previous week
   label_previous_workweek: Previous work week
-  label_rate: Likme
   label_rate_plural: Likmes
   label_show: Rādīt
   label_specific_day: Day %{day}
@@ -245,7 +262,6 @@ lv:
   label_today_capitalized: Today
   label_units: Izmaksu vienības
   label_until: līdz
-  label_user: Lietotāji
   label_valid_from: Derīgs no
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter

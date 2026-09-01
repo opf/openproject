@@ -38,6 +38,19 @@ de:
           attributes:
             labels:
               invalid_schema: 'muss ein Array von Hashes mit folgenden Schlüsseln sein: Farbe, Titel'
+    models:
+      gitlab_issue:
+        one: GitLab Ticket
+        other: GitLab-Tickets
+      gitlab_merge_request:
+        one: GitLab-Merge-Request
+        other: GitLab-Merge-Requests
+      gitlab_pipeline:
+        one: GitLab-Pipeline
+        other: GitLab-Pipelines
+      gitlab_user:
+        one: GitLab-Benutzer
+        other: GitLab-Benutzer
   attributes:
     commit: Commit
     gitlab: GitLab Kennung

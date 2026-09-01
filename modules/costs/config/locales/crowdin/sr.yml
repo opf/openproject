@@ -99,11 +99,26 @@ sr:
         one: Cost entry
         few: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        other: Cost rates
       cost_type:
         one: Cost type
         few: Cost types
         other: Cost types
-      rate: Rate
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        other: Rates
       time_entry:
         one: Time entry
         few: Time entries
@@ -112,6 +127,10 @@ sr:
         one: Time tracking activity
         few: Time tracking activities
         other: Time tracking activities
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -210,7 +229,6 @@ sr:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_by_add: Add grouping field
-  label_hourly_rate: Hourly rate
   label_include_deleted: Include deleted
   label_kind: Type
   label_less_or_equal: "<="
@@ -231,7 +249,6 @@ sr:
   label_previous_month: Previous month
   label_previous_week: Previous week
   label_previous_workweek: Previous work week
-  label_rate: Rate
   label_rate_plural: Rates
   label_show: Show
   label_specific_day: Day %{day}
@@ -245,7 +262,6 @@ sr:
   label_today_capitalized: Today
   label_units: Cost units
   label_until: until
-  label_user: User
   label_valid_from: Valid from
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter

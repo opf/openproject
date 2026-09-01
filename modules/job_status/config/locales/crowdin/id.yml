@@ -1,5 +1,9 @@
 ---
 id:
+  activerecord:
+    models:
+      job_status/status:
+        other: Background job statuses
   job_status_dialog:
     click_to_download: Or [click here](download_url) to download.
     download_starts: Unduhan dimulai secara otomatis.

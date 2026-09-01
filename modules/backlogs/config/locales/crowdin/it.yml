@@ -92,9 +92,15 @@ it:
               task_version_must_be_the_same_as_story_version: deve essere uguale alla versione della storia del genitore.
           backlog_bucket_xor_sprint: non può essere assegnato contemporaneamente a uno sprint e a un bucket del backlog.
     models:
+      backlog_bucket:
+        one: Bucket del backlog
+        other: Bucket del backlog
       sprint:
         one: Sprint
         other: Sprint
+      sprint_goal:
+        one: Obiettivo dello sprint
+        other: Obiettivi dello sprint
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Aggiungi macro-attività esistente

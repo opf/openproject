@@ -7,7 +7,10 @@ da:
         bim_snippet: BIM-uddrag
         reference_links: Referencelinks
         stage: Fase
+        status_id: Status
         viewpoint: Synsvinkel
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC-fil
         ifc_attachment: IFC-fil
@@ -35,7 +38,18 @@ da:
               ifc_attachment_missing: Ingen ifc-fil vedhæftet.
               invalid_ifc_file: Den angivne fil er ikke en gyldig IFC-fil.
     models:
-      bim/ifc_models/ifc_model: IFC-model
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF øjebliksbillede
   bcf:

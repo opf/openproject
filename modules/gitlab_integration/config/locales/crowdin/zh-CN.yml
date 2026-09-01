@@ -38,6 +38,15 @@ zh-CN:
           attributes:
             labels:
               invalid_schema: 必须是键为“颜色，标题”的哈希数组
+    models:
+      gitlab_issue:
+        other: GitLab 问题
+      gitlab_merge_request:
+        other: GitLab 合并请求
+      gitlab_pipeline:
+        other: GitLab 流水线
+      gitlab_user:
+        other: GitLab 用户
   attributes:
     commit: 提交
     gitlab: GitLab 标识符

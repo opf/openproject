@@ -43,6 +43,13 @@ tr:
           invalid_claims_location: 'desteklenmeyen konumları içerir: %{invalid}. Desteklenen konumlar şunlardır: %{supported}.'
           invalid_claims_values: "%{attribute}adresinde bir dizi tanımlamaz."
           non_object_attribute: "%{attribute}adresinde bir JSON nesnesi tanımlamaz."
+    models:
+      openid_connect/provider:
+        one: OpenID Connect provider
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        one: OpenID Connect token
+        other: OpenID Connect tokens
   logout_warning: 'Çıkış yaptınız. Gönderdiğiniz herhangi bir formun içeriği kaybolabilir. Lütfen giriş yapın].
 
     '

@@ -76,6 +76,13 @@ tr:
         dependencies: Bağımlılıklar
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Son yayın tarihi
       attachment:
@@ -236,6 +243,7 @@ tr:
         project_creation_wizard_status_when_submitted: Teslim edildiğinde durum
         project_creation_wizard_work_package_comment: İş paketi yorumları
         project_creation_wizard_work_package_type: İş paketi türleri
+        project_types: Types
         public_value:
           false: özel
           title: Görünürlük
@@ -255,6 +263,7 @@ tr:
         templated_value:
           false: şablon olarak işaretlenmemiş
           true: şablon olarak kaydedildi
+        type_variant: Work package type variant
         types: Türler
         versions: Sürümler
         work_packages: İş Paketleri
@@ -275,6 +284,8 @@ tr:
         start_gate_name: Başlangıç aşaması kapı adı
       project_custom_field:
         custom_field_section: Bölüm
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Çocuk iş paketleri
         column_names: Sütunlar
@@ -342,18 +353,26 @@ tr:
       token/named:
         token_name: Anahtar adı
       type:
-        attribute_groups: Formu yapılandırma
-        children: Variants
         color: Renk
-        dependent_configuration_links: Linked types
-        description: Açıklama için varsayılan metin
-        is_default: Yeni projelerde varsayılan olarak aktif
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_milestone: Kilometre taşı
-        parent: Parent type
-        patterns: Desenler
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama kaynağı
@@ -452,6 +471,7 @@ tr:
           true: çalışılmayan günleri dahil et
         journal_internal: İç Dergi
         notify: Bildirim
+        observed_in_versions: Observed in versions
         parent: Üst
         parent_issue: Üst
         parent_work_package: Üst
@@ -553,6 +573,7 @@ tr:
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: zaten alınmıştır.
         too_long: çok uzun (en fazla %{count} karakterdir).
@@ -723,9 +744,8 @@ tr:
               blank: Lütfen bir proje seçin.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -815,25 +835,40 @@ tr:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
-              attribute_unknown_name: 'Geçersiz iş paketi özelliği kullanılmış: %{attribute}'
-              duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı. Grup isimleri benzersiz olmalıdır."
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 'Gömülü sorgu ''%{group}'' geçersiz: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -939,6 +974,9 @@ tr:
             start_date:
               cannot_be_null: başlangıç tarihi ve süresi bilindiğinden sıfır değerine ayarlanamaz.
               violates_relationships: yalnızca %{soonest_start} veya daha sonra iş paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: Geçerli durum bu türde bulunmadığından geçersiz.
               status_transition_invalid: geçerli kullanıcının rolleri için eski durumdan yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
@@ -953,70 +991,309 @@ tr:
           one: "%{model} kaydı 1 hatadan dolayı engellendi"
           other: "%{model} kaydı %{count} hatadan dolayı engellendi"
     models:
-      attachment: Dosya
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Öznitelik yardım metni
         other: Öznitelik yardım metnileri
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Kimlik doğrulama sağlayıcısı
         other: Kimlik doğrulama sağlayıcıları
-      category: Kategori
-      color: Renk
-      comment: Yorum
-      custom_action: Özel eylem
-      custom_field: Özel alan
-      customized: Customized
-      doorkeeper/application: OAuth uygulaması
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Kurumsal anahtar
         other: Kurumsal anahtarlar
-      forum: Forum
-      global_role: Global rol
-      group: Grup
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Öncelik
         other: Öncelik
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Toplantı katılımcısı
-      member: Üye
-      message: Message
-      news: Haberler
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Bildirim
         other: Bildirimler
-      placeholder_user: Yer tutucu kullanıcı
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Proje
         other: Projeler
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Proje listesi
         other: Proje listesi
-      query: Özel sorgu
-      reminder: Hatırlatma
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Rol
         other: Yetkiler
       scim_client:
         one: SCIM istemcisi
         other: SCIM istemcileri
-      status: İş paketi durumu
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Erişim simgesi
         other: Erişim belirteçleri
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS Anahtarı
         other: RSS Anahtarları
       type:
         one: Tip
         other: Tipler
-      user: Kullanıcı
-      version: Sürüm
-      wiki: Viki
-      wiki_page: Viki sayfası
-      work_package: İş paketi
-      workflow: İş akışı
+      type_variant:
+        one: Variant
+        other: Variants
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Bu zaman dilimi içerisinde proje için herhangi bir faaliyet olmamıştır.
@@ -1229,6 +1506,7 @@ tr:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1240,13 +1518,13 @@ tr:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: Bu eylemin geri alınamayacağını anlıyorum
@@ -1290,11 +1568,14 @@ tr:
             title: Bu aktarım kalıcı olarak geri alınsın mı?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: İçe aktarmayı başlat
               caption: İçe aktarma ayarlarınızı gözden geçirin ve içe aktarmayı başlatın
               caption_done: Tamamlandı
               caption_done_info: All data has been imported
               description: Aşağıdaki ayarlarla bir içe aktarma çalışması başlatmak üzeresiniz.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
               label_progress: İçe aktarma devam ediyor...
@@ -1315,6 +1596,7 @@ tr:
               button_done: Approve import
               button_revert: İçe aktarımı geri döndür
               caption: İçe aktarma çalışmasını gözden geçirin veya içe aktarmayı geri alın
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1322,7 +1604,6 @@ tr:
               label_revert: İçe aktarımı geri döndür
               label_revert_progress: İçe aktarma geri alınıyor...
               label_reverted: İçe aktarma geri alındı.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1748,6 +2029,7 @@ tr:
     custom_field: Özel alan
     custom_options: Olası değerler
     custom_values: Özel alanlar
+    customized: Customized
     date: Tarih
     dates_interval: Tarih aralığı
     default_columns: Varsayılan sütunlar
@@ -1774,6 +2056,7 @@ tr:
     is_default: Varsayılan değer
     is_for_all: Tüm projeler için
     issue: İş paketi
+    jira: Jira
     journal: Günlük
     journal_notes: Yorum
     lastname: Soy isim
@@ -1806,6 +2089,7 @@ tr:
     start_date: Başlangıç tarihi
     state: Durum
     status: Durum
+    status_id: Status
     subject: Konu
     summary: Özet
     template: Template
@@ -2327,8 +2611,12 @@ tr:
   description_available_columns: Kullanılabilir sütunlar
   description_category_reassign: Kategori seçin
   description_choose_project: Projeler
-  description_compare_from: Karşılaştır (kaynak)
-  description_compare_to: Karşılaştır (hedef)
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Buradasınız:'
   description_date_from: Başlangıç tarihini girin
   description_date_to: Bitiş tarihini girin
@@ -2555,18 +2843,17 @@ tr:
   error_attribute_not_highlightable: 'Nitelikler vurgulanmıyor: %{attributes}'
   error_auth_source_sso_failed: Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu
   error_can_not_archive_project: 'Bu proje arşivlenemiyor: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_can_not_delete_entry: Girdi silinemiyor
   error_can_not_delete_in_use_archived_undisclosed: Arşivlenmiş projelerde de iş paketleri var. Hangi projelerin etkilendiğini görmek için bir yöneticiden silme işlemini gerçekleştirmesini istemeniz gerekir.
   error_can_not_delete_in_use_archived_work_packages: 'Arşivlenen projelerde de iş paketleri var. İlgili iş paketlerinin niteliğini değiştirebilmeniz için önce aşağıdaki projeleri yeniden etkinleştirmeniz gerekir: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Standart türler silinemez.
   error_can_not_delete_type:
     explanation: Bu tür iş paketleri içerir ve silinemez. Etkilenen tüm iş paketlerini <a target="_blank" href="%{url}">bu görünümde</a> görebilirsiniz.
   error_can_not_find_all_resources: Bu istekle ilgili tüm kaynaklar bulunamadı.
   error_can_not_invite_user: Kullanıcı daveti gönderemedi.
   error_can_not_remove_role: Bu rol kullanımda ve silinemez.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Kapalı bir sürüme atanan bir iş paketi yeniden açılamaz
   error_can_not_unarchive_project: 'Bu proje arşivlenemez: %{errors}'
   error_check_user_and_role: Lütfen bir kullanıcı ve bir rol seçin.
@@ -3032,7 +3319,6 @@ tr:
   label_available_projects: Mevcut projeler
   label_backtrace: Backtrace
   label_backup: Yedekleme
-  label_backup_code: Yedek kodu
   label_basic_details: Temel bilgiler
   label_between: arasında
   label_blocked_by: bağlı
@@ -3052,7 +3338,6 @@ tr:
   label_calendar_show: Takvimi Göster
   label_calendar_subscriptions: Takvim abonelikleri
   label_calendars_and_dates: Takvimler ve tarihler
-  label_category: Kategori
   label_change_parent: Üstünü değiştir
   label_change_password: Change password
   label_change_plural: Değişiklikler
@@ -3061,9 +3346,9 @@ tr:
   label_change_status_of_user: "#{username} durumunu değiştir"
   label_change_view_all: Tüm değişiklikleri gör
   label_changes_details: Tüm değişikliklerin detayları
-  label_changeset: Değişiklik kümesi
   label_changeset_id: Değişiklik kümesi kimliği
   label_changeset_plural: Değişiklik Listeleri
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Sütunundaki tümü işaretle / işaretini kaldır
   label_check_uncheck_all_in_row: Sıralı tümü işaretle / işaretini kaldır
   label_checked: kontrol
@@ -3210,6 +3495,7 @@ tr:
   label_feeds_access_key: RSS erişim anahtarı
   label_feeds_access_key_created_on: RSS erişim anahtarı %{value} önce oluşturuldu
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Dosyalar
   label_filter: Filtreler
   label_filter_add: Filtre ekle
@@ -3234,7 +3520,6 @@ tr:
   label_git_path: ".git dizininin yolu"
   label_global: Küresel
   label_global_modules: Global modüller
-  label_global_role: Global rol
   label_global_roles: Genel roller
   label_go_back: Bir menü seviyesi geri git
   label_go_forward: "%{module} alt menüsünü açın"
@@ -3303,7 +3588,6 @@ tr:
   label_last_week: geçen hafta
   label_latest_revision: En son gözden geçirim
   label_latest_revision_plural: En son gözden geçirimler
-  label_ldap_auth_source: LDAP bağlantısı
   label_ldap_auth_source_new: Yeni LDAP bağlantısı
   label_ldap_auth_source_plural: LDAP bağlantıları
   label_ldap_authentication: LDAP yetkilendirmesi
@@ -3330,9 +3614,9 @@ tr:
   label_me: ben
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_new: Yeni Üye
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Üyeler
-  label_member_role: Proje rolü
   label_membership_added: Üye eklendi
   label_membership_plural: Üyelikler
   label_membership_updated: Üye güncellendi
@@ -3445,7 +3729,6 @@ tr:
   label_permissions: İzinler
   label_permissions_report: İzin raporu
   label_personalize_page: Bu sayfayı kişiselleştir
-  label_placeholder_user: Yer tutucu kullanıcı
   label_placeholder_user_new: Yeni yer tutucu kullanıcı
   label_placeholder_user_plural: Yer tutucu kullanıcılar
   label_planning: Planlanıyor
@@ -3508,7 +3791,6 @@ tr:
   label_related_work_packages: İlişkili iş paketleri
   label_relates: ile ilişkili
   label_relates_to: ile ilişkili
-  label_relation: İlişki
   label_relation_actions: İlişki eylemleri
   label_relation_delete: İlişkiyi sil
   label_relation_edit: İlişkiyi düzenle
@@ -3561,7 +3843,6 @@ tr:
   label_send_information: Kullanıcıya yeni kimlik bilgilerini gönderme
   label_send_invitation: Davet gönder
   label_send_test_email: Deneme e-postası gönder
-  label_session: Oturum
   label_setting_plural: Ayarlar
   label_share: Paylaş
   label_share_project_list: Proje listesini paylaş
@@ -3637,7 +3918,6 @@ tr:
   label_used_by: Kullanan
   label_used_by_types: Türleri tarafından kullanılan
   label_used_in_projects: Projede kullanılan
-  label_user: Kullanıcı
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Kullanıcılar ve izinler
   label_user_anonymous: Anonim
@@ -3668,19 +3948,17 @@ tr:
   label_week: Hafta
   label_weighted_item_list: Ağırlıklı öğe listesi
   label_what_is_this: Bu nedir?
-  label_widget: Araçlar
   label_widget_new: Yeni araç
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Wiki sayfası güncellendi
   label_wiki_dont_show_menu_item: Bu wiki sayfasını proje gezinme bölümünde gösterme
   label_wiki_edit: Wiki Düzenle
   label_wiki_edit_plural: Wiki Düzenle
-  label_wiki_menu_item: Viki menü öğesi
   label_wiki_navigation: Wiki'de gezinme
-  label_wiki_page: Viki sayfası
   label_wiki_page_attachments: Wiki sayfası ekleri
   label_wiki_page_id: Wiki sayfa kimliği
   label_wiki_page_plural: Viki sayfaları
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Alt menü öğesini göster 'İçindekiler tablosu'
   label_wiki_show_menu_item: Proje gezintisinde menü öğesi olarak göster
   label_wiki_show_new_page_link: Alt menü öğesini göster 'Yeni alt sayfa oluştur'
@@ -3697,7 +3975,6 @@ tr:
   label_work_package_hierarchy: İş paketi hiyerarşisi
   label_work_package_new: Yeni iş paketi
   label_work_package_plural: İş paketleri
-  label_work_package_status: İş paketi durumu
   label_work_package_status_new: Yeni durum
   label_work_package_status_plural: İş paketi durumları
   label_work_package_tracking: İş paketi takibi
@@ -4279,7 +4556,6 @@ tr:
   notice_auth_stage_error: "'%{stage}' kimlik doğrulama aşaması başarısız oldu."
   notice_auth_stage_verification_error: "'%{stage}' aşması doğrulanamadı."
   notice_auth_stage_wrong_stage: "'%{expected}' kimlik doğrulama aşamasının bitmesi bekleniyordu ama '%{actual}' ile karşılaşıldı."
-  notice_automatic_set_of_standard_type: Standart türün otomatik olarak ayarlanması.
   notice_bad_request: Hatalı istek.
   notice_can_t_change_password: Bu hesap harici bir kimlik doğrulama kaynağı kullanıyor. Parolayı değiştirmek imkansız.
   notice_custom_options_deleted: "%{option_value} ayarı ve bunun %{num_deleted} tekrarı silindi."
@@ -4567,6 +4843,8 @@ tr:
     dialog:
       footer_center:
         caption: Bu metin her sayfada altbilginin ortasında görünecektir.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Altbilgi metni
       footer_right:
         caption: Bu metin her sayfada altbilginin sağında görünecektir.
@@ -4669,6 +4947,7 @@ tr:
     '
   permission_manage_placeholder_user: Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin
   permission_manage_project_activities: Proje aktivitilerini yönet
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Genel BCF sorgularını yönetme
   permission_manage_public_project_queries: Genel proje listelerini yönetme
   permission_manage_public_queries: Herkese açık görünümleri yönetmek
@@ -4977,20 +5256,38 @@ tr:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a variant for this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: '" %{type} " türünü etkinleştir'
+        in_use: In use
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
+        only_available_here: Only available in this project
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5931,10 +6228,11 @@ tr:
   total_progress: Toplam ilerleme
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5946,7 +6244,7 @@ tr:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5971,6 +6269,7 @@ tr:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -5998,7 +6297,12 @@ tr:
           label: PDF Dışa Aktarma şablonları
         tab: PDF oluşturma
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6041,6 +6345,13 @@ tr:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6048,6 +6359,17 @@ tr:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Tüm projeler için etkinleştir
         select_projects: Projeleri seçin
         select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
@@ -6107,6 +6429,7 @@ tr:
               heading: Switch configuration mode?
               title: Switch configuration mode
           description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
             source_label: Linked source
@@ -6118,6 +6441,14 @@ tr:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6133,6 +6464,10 @@ tr:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
@@ -6640,17 +6975,17 @@ tr:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"

@@ -100,12 +100,31 @@ lt:
         few: Cost entries
         many: Cost entries
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        few: Cost rates
+        many: Cost rates
+        other: Cost rates
       cost_type:
         one: Kaštų tipas
         few: Kaštų tipai
         many: Kaštų tipų
         other: Kaštų tipai
-      rate: Koeficientas
+      default_hourly_rate:
+        one: Default hourly rate
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        few: Hourly rates
+        many: Hourly rates
+        other: Hourly rates
+      rate:
+        one: Rate
+        few: Rates
+        many: Rates
+        other: Rates
       time_entry:
         one: Laiko įrašas
         few: Time entries
@@ -116,6 +135,11 @@ lt:
         few: Laiko sekimo veiklos
         many: Laiko sekimo veiklos
         other: Laiko sekimo veiklos
+      time_entry_custom_field:
+        one: Time entry custom field
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -214,7 +238,6 @@ lt:
   label_greater_or_equal: ">="
   label_group_by: Grupuoti pagal
   label_group_by_add: Pridėti grupavimo lauką
-  label_hourly_rate: Valandinis koeficientas
   label_include_deleted: Įtraukti ištrintus
   label_kind: Tipas
   label_less_or_equal: "<="
@@ -235,7 +258,6 @@ lt:
   label_previous_month: Previous month
   label_previous_week: Ankstesnė savaitė
   label_previous_workweek: Previous work week
-  label_rate: Koeficientas
   label_rate_plural: Koeficientai
   label_show: Rodyti
   label_specific_day: Day %{day}
@@ -249,7 +271,6 @@ lt:
   label_today_capitalized: Šiandien
   label_units: Kaštų vienetai
   label_until: iki
-  label_user: Vartotojas
   label_valid_from: Galioja nuo
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Pridėti darbų paketo filtrą

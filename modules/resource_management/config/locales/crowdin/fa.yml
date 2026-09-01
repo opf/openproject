@@ -39,10 +39,24 @@ fa:
             query:
               must_be_work_package_query: باید یک پرس‌وجوی بستهٔ کاری باشد.
     models:
-      resource_allocation: تخصیص منبع
-      resource_planner: برنامه‌ریز منابع
-      resource_user_card: کارت‌های کاربر
-      resource_work_package_list: فهرست بسته‌های کاری
+      resource_allocation:
+        one: تخصیص منبع
+        other: تخصیص‌های منابع
+      resource_planner:
+        one: برنامه‌ریز منابع
+        other: برنامه‌ریزهای منابع
+      resource_user_card:
+        one: کارت کاربر
+        other: کارت‌های کاربر
+      resource_user_timeline:
+        one: خط زمانی کاربر
+        other: خطوط زمانی کاربر
+      resource_work_package_list:
+        one: فهرست بسته‌های کاری
+        other: فهرست‌های بسته‌های کاری
+      resource_work_package_timeline:
+        one: خط زمانی بسته‌های کاری
+        other: خطوط زمانی بسته‌های کاری
   button_next: بعدی
   ee:
     features:

@@ -1,4 +1,10 @@
 ---
 ro:
+  activerecord:
+    models:
+      grids/my_page:
+        one: My page
+        few: My pages
+        other: My pages
   my_page:
     label: Pagina mea

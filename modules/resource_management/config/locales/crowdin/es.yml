@@ -39,10 +39,24 @@ es:
             query:
               must_be_work_package_query: debe ser una consulta del paquete de trabajo.
     models:
-      resource_allocation: Asignación de recursos
-      resource_planner: Planificador de recursos
-      resource_user_card: Tarjetas de usuario
-      resource_work_package_list: Lista de paquetes de trabajo
+      resource_allocation:
+        one: Asignación de recursos
+        other: Asignaciones de recursos
+      resource_planner:
+        one: Planificador de recursos
+        other: Planificadores de recursos
+      resource_user_card:
+        one: Tarjeta de usuario
+        other: Tarjetas de usuario
+      resource_user_timeline:
+        one: Línea de tiempo de usuarios
+        other: Líneas de tiempo de usuarios
+      resource_work_package_list:
+        one: Lista de paquetes de trabajo
+        other: Listas de paquetes de trabajo
+      resource_work_package_timeline:
+        one: Calendario de los paquetes de trabajo
+        other: Calendarios de los paquetes de trabajo
   button_next: Siguiente
   ee:
     features:

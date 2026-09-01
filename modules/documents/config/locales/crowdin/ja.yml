@@ -31,19 +31,22 @@ ja:
         document_type:
           one_or_more_required: 最後のドキュメントタイプを削除することはできません
     models:
-      document: ドキュメント
-      documents: ドキュメント
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: ドキュメント
   attributes:
     collaborative_editing_hocuspocus_url: HocuspocusサーバーのURL
+    documents: Documents
   default_doc_category_tech: 技術文書
   default_doc_category_user: ユーザー文書
   documents:
     active_editors: アクティブな編集者
     active_editors_count:
-      other: "%{count} active editors"
+      other: "%{count} アクティブな編集者"
     admin:
       collaboration_settings:
         banner:
@@ -114,7 +117,7 @@ ja:
       currently_offline: 現在、オフラインです。
     label_attachment_author: 添付ファイルの作成者
     label_categories: カテゴリ
-    last_updated_at: Last saved %{time}.
+    last_updated_at: 最終保存日時： %{time}。
     menu:
       all: 全てのドキュメント
       collaboration_settings: リアルタイムのコラボレーション

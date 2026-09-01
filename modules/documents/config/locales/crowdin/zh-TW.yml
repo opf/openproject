@@ -31,13 +31,16 @@ zh-TW:
         document_type:
           one_or_more_required: 無法刪除最後一個文件類型
     models:
-      document: 文件
-      documents: 文件
+      document:
+        other: Documents
+      document_type:
+        other: Document types
   activity:
     filter:
       document: 文件
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus 伺服器 URL
+    documents: Documents
   default_doc_category_tech: 技術文件
   default_doc_category_user: 使用者文件
   documents:

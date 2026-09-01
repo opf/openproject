@@ -14,7 +14,12 @@ hy:
         secret: Ստորագրության գաղտնիք
         url: Տվյալների URL
     models:
-      webhooks/outgoing_webhook: Ելքային վեբհուկ
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Ապահովում է հավելումների API՝ OpenProject-ի վեբհուկներին աջակցելու համար՝ երրորդ կողմերի հետ ավելի լավ ինտեգրացիայի նպատակով։
     name: OpenProject-ի վեբհուկներ

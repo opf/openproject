@@ -39,10 +39,18 @@ ko:
             query:
               must_be_work_package_query: "- 작업 패키지 쿼리여야 합니다."
     models:
-      resource_allocation: 리소스 할당
-      resource_planner: 리소스 플래너
-      resource_user_card: 사용자 카드
-      resource_work_package_list: 작업 패키지 목록
+      resource_allocation:
+        other: 리소스 할당
+      resource_planner:
+        other: 리소스 플래너
+      resource_user_card:
+        other: 사용자 카드
+      resource_user_timeline:
+        other: 사용자 타임라인
+      resource_work_package_list:
+        other: 작업 패키지 목록
+      resource_work_package_timeline:
+        other: 작업 패키지 타임라인
   button_next: 다음
   ee:
     features:

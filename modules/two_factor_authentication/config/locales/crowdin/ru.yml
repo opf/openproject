@@ -20,11 +20,32 @@ ru:
             phone_number:
               error_phone_number_format: необходимо указывать в формате +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Устройство 2ФА
-      two_factor_authentication/device/sms: Мобильный телефон
-      two_factor_authentication/device/totp: Приложение для аутентификации
-      two_factor_authentication/device/webauthn: WebAuthn
-  button_continue: Продолжить
+      two_factor_authentication/backup_code:
+        one: Резервный код
+        few: Backup codes
+        many: Backup codes
+        other: Резервные коды
+      two_factor_authentication/device:
+        one: 2FA устройство
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA устройства
+      two_factor_authentication/device/sms:
+        one: Мобильный телефон
+        few: Мобильные телефоны
+        many: Мобильные телефоны
+        other: Мобильные телефоны
+      two_factor_authentication/device/totp:
+        one: Приложение-аутентификатор
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Приложения-аутентификаторы
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
+  button_continue: Далее
   button_make_active: Активировать
   button_make_default: Задать по умолчанию
   button_otp_by_sms: SMS

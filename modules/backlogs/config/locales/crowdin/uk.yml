@@ -94,11 +94,21 @@ uk:
               task_version_must_be_the_same_as_story_version: має збігатись із версією батьківської історії.
           backlog_bucket_xor_sprint: не можна призначити як спринту, так і сегменту беклогу.
     models:
+      backlog_bucket:
+        one: Сегмент беклогу
+        few: Сегменти беклогу
+        many: Сегменти беклогу
+        other: Сегменти беклогу
       sprint:
         one: Спринт
         few: Спринти
         many: Спринти
         other: Спринти
+      sprint_goal:
+        one: Ціль спринту
+        few: Цілі спринту
+        many: Цілі спринту
+        other: Цілі спринту
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Додати наявний пакет робіт

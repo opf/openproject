@@ -7,7 +7,10 @@ id:
         bim_snippet: Cuplikan BIM
         reference_links: Tautan rujukan
         stage: Tahapan
+        status_id: Status
         viewpoint: Sudut pandang
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: berkas IFC
         ifc_attachment: berkas IFC
@@ -35,7 +38,14 @@ id:
               ifc_attachment_missing: Tidak ada file ifc yang dilampirkan.
               invalid_ifc_file: File yang disediakan bukan file IFC yang valid.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: Snapshot BCF
   bcf:

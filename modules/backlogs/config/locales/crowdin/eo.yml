@@ -92,9 +92,15 @@ eo:
               task_version_must_be_the_same_as_story_version: must be the same as the parent story's version.
           backlog_bucket_xor_sprint: ne eblas asigni ĝin al kaj sprinto kaj tasklista ujo.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Sprinto
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package

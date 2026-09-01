@@ -1,5 +1,12 @@
 ---
 pl:
+  activerecord:
+    models:
+      boards/grid:
+        one: Tablica
+        few: Tablice
+        many: Tablice
+        other: Tablice
   boards:
     board_type_attributes:
       assignee: Przypisany do

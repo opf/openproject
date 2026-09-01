@@ -91,8 +91,12 @@ zh-TW:
               task_version_must_be_the_same_as_story_version: 必須與上層「使用者需求」(User Story)的版本相同。
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        other: Backlog buckets
       sprint:
         other: Sprints
+      sprint_goal:
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -286,7 +290,7 @@ zh-TW:
   permission_view_sprints: View sprints
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject待辦事項
+    name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:

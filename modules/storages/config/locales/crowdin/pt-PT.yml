@@ -73,8 +73,24 @@ pt-PT:
               invalid_password: não é válido.
               unknown_error: não foi possível validar com o fornecedor de armazenamento de ficheiros. Verifique se a ligação está a funcionar corretamente.
     models:
-      file_link: Ficheiro
-      storages/storage: Armazenamento
+      storages/file_link:
+        one: Link do ficheiro
+        other: Links do ficheiro
+      storages/nextcloud_storage:
+        one: Armazenamento Nextcloud
+        other: Armazenamentos Nextcloud
+      storages/one_drive_storage:
+        one: Armazenamento OneDrive
+        other: Armazenamentos OneDrive
+      storages/project_storage:
+        one: Armazenamento de projeto
+        other: Armazenamentos de projeto
+      storages/sharepoint_storage:
+        one: Armazenamento SharePoint
+        other: Armazenamentos SharePoint
+      storages/storage:
+        one: Armazenamento
+        other: Armazenamentos
   api_v3:
     errors:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.

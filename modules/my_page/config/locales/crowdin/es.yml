@@ -1,4 +1,9 @@
 ---
 es:
+  activerecord:
+    models:
+      grids/my_page:
+        one: Mi página
+        other: Mis páginas
   my_page:
     label: Mi página

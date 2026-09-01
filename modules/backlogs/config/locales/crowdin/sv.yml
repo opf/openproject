@@ -92,9 +92,15 @@ sv:
               task_version_must_be_the_same_as_story_version: måste vara samma som föräldraberättelsens version.
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package

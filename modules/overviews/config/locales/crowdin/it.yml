@@ -1,5 +1,10 @@
 ---
 it:
+  activerecord:
+    models:
+      grids/overview:
+        one: Panoramica
+        other: Panoramiche
   overviews:
     label_dashboard: Dashboard
     label_home: Pagina principale %{workspace_type}

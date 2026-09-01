@@ -28,6 +28,8 @@ ko:
         other: 인라인 페이지 링크
       wikis/internal_provider:
         other: 내부 공급자
+      wikis/page_link:
+        other: 페이지 링크
       wikis/provider:
         other: 위키 공급자
       wikis/relation_page_link:

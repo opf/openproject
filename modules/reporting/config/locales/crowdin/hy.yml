@@ -21,6 +21,11 @@
 #++
 ---
 hy:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Պահպանել հաշվետվությունը որպես...
   comments: Մեկնաբանություն
   cost_reports_title: Ժամանակ և ծախսեր
@@ -46,7 +51,6 @@ hy:
   label_closed: փակ
   label_columns: Սյունակներ
   label_cost_entry_attributes: Ծախսի գրառման հատկանիշներ
-  label_cost_report: Ծախսերի հաշվետվություն
   label_cost_report_plural: Ծախսերի հաշվետվություններ
   label_count: Քանակ
   label_days_ago: վերջին օրերի ընթացքում

@@ -39,10 +39,24 @@ pt-PT:
             query:
               must_be_work_package_query: deve ser uma consulta sobre um pacote de trabalho.
     models:
-      resource_allocation: Alocação de recursos
-      resource_planner: Planeador de recursos
-      resource_user_card: Cartões de utilizador
-      resource_work_package_list: Lista de pacotes de trabalho
+      resource_allocation:
+        one: Atribuição de recursos
+        other: Atribuições de recursos
+      resource_planner:
+        one: Planeador de recursos
+        other: Planeadores de recursos
+      resource_user_card:
+        one: Cartão de utilizador
+        other: Cartões de utilizador
+      resource_user_timeline:
+        one: Cronograma do utilizador
+        other: Cronogramas do utilizador
+      resource_work_package_list:
+        one: Lista de pacotes de trabalho
+        other: Listas de pacotes de trabalho
+      resource_work_package_timeline:
+        one: Cronograma dos pacotes de trabalho
+        other: Cronogramas dos pacotes de trabalho
   button_next: Seguinte
   ee:
     features:

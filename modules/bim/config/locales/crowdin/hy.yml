@@ -7,7 +7,10 @@ hy:
         bim_snippet: BIM հատված
         reference_links: Տեղեկատու հղումներ
         stage: Փուլ
+        status_id: Status
         viewpoint: Դիտակետ
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: IFC նիշք
         ifc_attachment: IFC նիշք
@@ -35,7 +38,18 @@ hy:
               ifc_attachment_missing: IFC նիշք կցված չէ։
               invalid_ifc_file: Տրամադրված նիշքը վավեր IFC նիշք չէ։
     models:
-      bim/ifc_models/ifc_model: IFC մոդել
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF պատկեր
   bcf:

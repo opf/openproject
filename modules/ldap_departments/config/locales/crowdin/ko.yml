@@ -22,8 +22,10 @@ ko:
           must_contain_base_dn: 기본 DN은 LDAP 연결의 기본 DN에 포함되어야 합니다.
           overlaps_other_tree: 동일한 LDAP 연결에서 다른 동기화의 기본 DN과 중복됩니다.
     models:
-      ldap_departments/synchronized_department: 동기화된 부서
-      ldap_departments/synchronized_tree: LDAP 부서 동기화
+      ldap_departments/synchronized_department:
+        other: 동기화된 부서
+      ldap_departments/synchronized_tree:
+        other: LDAP 부서 동기화
   ee:
     upsell:
       ldap_departments:

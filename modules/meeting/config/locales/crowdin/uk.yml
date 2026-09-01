@@ -57,6 +57,8 @@ uk:
         position: Позиція
         presenter: Доповідач
         title: 'Назва '
+      meeting_outcome:
+        kind: Вид
       meeting_participant:
         attended: Відвідано
         invited: Запрошені
@@ -100,11 +102,41 @@ uk:
         recurring_meeting_interim_response:
           not_an_occurrence: не є дійсним часом проведення цієї повторюваної наради
     models:
-      meeting: Одноразова нарада
-      meeting_agenda: Порядок денний
-      meeting_agenda_item: Пункт порядку денного
-      meeting_section: Розділ
-      recurring_meeting: Повторювана нарада
+      meeting:
+        one: Одноразова нарада
+        few: Одноразові наради
+        many: Одноразові наради
+        other: Одноразові наради
+      meeting_agenda_item:
+        one: Пункт порядку денного
+        few: Пункти порядку денного
+        many: Пункти порядку денного
+        other: Пункти порядку денного
+      meeting_outcome:
+        one: Результат
+        few: Результати
+        many: Результати
+        other: Результати
+      meeting_participant:
+        one: Учасник наради
+        few: Учасники наради
+        many: Учасники наради
+        other: Учасники наради
+      meeting_section:
+        one: Розділ
+        few: Розділи
+        many: Розділи
+        other: Розділи
+      recurring_meeting:
+        one: Повторювана нарада
+        few: Повторювані наради
+        many: Повторювані наради
+        other: Повторювані наради
+      scheduled_meeting:
+        one: Запланована нарада
+        few: Заплановані наради
+        many: Заплановані наради
+        other: Заплановані наради
       token/ical_meeting:
         one: Підписка на наради iCal
         few: Підписки на наради iCal
@@ -259,7 +291,6 @@ uk:
   label_past_meetings: Минулі заходи
   label_past_meetings_short: Минулі
   label_recurring_filter: Рекурентний фільтр
-  label_recurring_meeting: Повторювана нарада
   label_recurring_meeting_cancel: Скасувати це повторення
   label_recurring_meeting_create: Відкрити
   label_recurring_meeting_delete: Видалити повторення

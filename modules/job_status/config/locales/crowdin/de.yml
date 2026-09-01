@@ -1,5 +1,10 @@
 ---
 de:
+  activerecord:
+    models:
+      job_status/status:
+        one: Status des Hintergrundauftrags
+        other: Status der Hintergrundaufträge
   job_status_dialog:
     click_to_download: Oder [hier klicken](download_url) zum Herunterladen.
     download_starts: Der Download sollte automatisch starten.

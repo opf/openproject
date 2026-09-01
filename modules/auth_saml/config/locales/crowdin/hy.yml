@@ -3,6 +3,7 @@ hy:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS-ի (պնդումներն ընդունող ծառայության) URL
         authn_requests_signed: Ստորագրել SAML AuthnRequest-ները
         certificate: OpenProject-ի կողմից SAML հարցումների համար օգտագործվող վկայագիր
@@ -32,6 +33,10 @@ hy:
           invalid_certificate: վավեր PEM ձևաչափի վկայագիր չէ՝ %{additional_message}
           invalid_private_key: վավեր PEM ձևաչափի մասնավոր բանալի չէ՝ %{additional_message}
           unmatched_private_key: չի պատկանում տրված վկայագրին
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Ջնջե՞լ այս SAML մատակարարը
     delete_title: Ջնջել SAML մատակարարը
@@ -41,6 +46,9 @@ hy:
         '
       title: SAML արձանագրության կազմաձևման պարամետրեր
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Եթե ընտրված է, OpenProject-ը կստորագրի SAML AuthnRequest-ը։ Դուք պետք է ստորև բերված դաշտերում նշեք ստորագրման վկայագիրը և մասնավոր բանալին։
 
         '

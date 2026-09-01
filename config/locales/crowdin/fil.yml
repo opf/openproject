@@ -76,6 +76,13 @@ fil:
         dependencies: Dependencia
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: I-displey hanggang
       attachment:
@@ -236,6 +243,7 @@ fil:
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: private
           title: Nakikita
@@ -255,6 +263,7 @@ fil:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Mga uri
         versions: Mga bersyon
         work_packages: Ang mga pakete na ginawa
@@ -275,6 +284,8 @@ fil:
         start_gate_name: Start phase gate name
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Child work packages
         column_names: Mga hanay
@@ -342,18 +353,26 @@ fil:
       token/named:
         token_name: Token name
       type:
-        attribute_groups: Form kompigurasyon
-        children: Variants
         color: Kulay
-        dependent_configuration_links: Linked types
-        description: Default text for description
-        is_default: Activated for new projects by default
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Ay milestone
-        parent: Parent type
-        patterns: Patterns
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Tagapangasiwa
         auth_source: Authentication source
@@ -452,6 +471,7 @@ fil:
           true: include non-working days
         journal_internal: Internal Journal
         notify: Notify
+        observed_in_versions: Observed in versions
         parent: Magulang
         parent_issue: Magulang
         parent_work_package: Magulang
@@ -549,6 +569,7 @@ fil:
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas sa pinakamataas na haba.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: ay nakuha na.
         too_long: ay masyadong mahaba (pinakamataas ay ang mga %{count} karakter).
@@ -719,9 +740,8 @@ fil:
               blank: Please select a project.
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -811,25 +831,40 @@ fil:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Hindi balido ang work package attribute ang nagamit.
+              attribute_unknown: Invalid work package attribute used.
               attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -935,6 +970,9 @@ fil:
             start_date:
               cannot_be_null: can not be set to null as finish date and duration are known.
               violates_relationships: nakatakda lamang sa %{soonest_start} o mamaya bilang hindi lumalabag sa relasyon ng mga work package.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: is invalid because the current status does not exist in this type.
               status_transition_invalid: ay invalid dahil walang valid na transisyon na umiiral mula sa luma hanggang sa bagong estado para sa mga role ng kasalukuyang user.
@@ -949,70 +987,309 @@ fil:
           one: Ipinagbabawal na isang error sa %{model} na jto mula sa pagka-save
           other: "%{count} mga error na ipinagbabawal sa iton %{model} mula sa pagka-save"
     models:
-      attachment: File
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Kategorya
-      color: Kulay
-      comment: Komento
-      custom_action: Custom aksyon
-      custom_field: Pasadyang patlang
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Grupo
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Ang prayoridad
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Miyembro
-      message: Message
-      news: Mga balita
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Proyekto
         other: Mga proyekto
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Project lists
-      query: Custom query
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Tungkulin
         other: Mga tungkulin
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Estado ng pakete ng gumagawa
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: I-access ang token
         other: Access tokens
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
       type:
         one: Type
         other: Types
-      user: Gumagamit
-      version: Bersyon
-      wiki: Wiki
-      wiki_page: Pahina ng wiki
-      work_package: Work package
-      workflow: Daloy ng trabaho
+      type_variant:
+        one: Variant
+        other: Variants
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: May mga walang mga pagkikilos sa proyekto sa panahong ito.
@@ -1225,6 +1502,7 @@ fil:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1236,13 +1514,13 @@ fil:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1286,11 +1564,14 @@ fil:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1311,6 +1592,7 @@ fil:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1318,7 +1600,6 @@ fil:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1742,6 +2023,7 @@ fil:
     custom_field: Pasadyang patlang
     custom_options: Ang mga posibleng halaga
     custom_values: Mga pasadyang patlang
+    customized: Customized
     date: Petsa
     dates_interval: Haba ng petsa
     default_columns: I-default ang mga hanay
@@ -1768,6 +2050,7 @@ fil:
     is_default: Ang default na halaga
     is_for_all: Para sa lahat ng mga proyekto
     issue: Work package
+    jira: Jira
     journal: Talaarawan
     journal_notes: Komento
     lastname: Huling pangalan
@@ -1800,6 +2083,7 @@ fil:
     start_date: Petsa ng pagsimula
     state: State
     status: Estado
+    status_id: Status
     subject: Paksa
     summary: Buod
     template: Template
@@ -2321,8 +2605,12 @@ fil:
   description_available_columns: Ang mga hanay na magagamit
   description_category_reassign: Pumili ng kategorya
   description_choose_project: Mga proyekto
-  description_compare_from: Ikinumpara mula sa
-  description_compare_to: Ikinumpara sa
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Ipasok ang petsa ng pasisimula
   description_date_to: Ipasok ang katapusang petsa
@@ -2549,18 +2837,17 @@ fil:
   error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) para sa gumagamit ng '%{value}' ay nabigo
   error_can_not_archive_project: 'This project cannot be archived: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Hindi mabura ang custom field
   error_can_not_delete_entry: Hindi mabura na entry
   error_can_not_delete_in_use_archived_undisclosed: There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Ang mga uri ng pamantayan na hindi maaring burahin.
   error_can_not_delete_type:
     explanation: This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_can_not_invite_user: Nabigong ipadala ang imbiyltasyon sa gumagamit.
   error_can_not_remove_role: Itong tungkulin ay ginamit pa at hindi pwedeng burahin.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Ang work package ay nakatalaga sa isinarang bersyon na hindi pwede buksan muli
   error_can_not_unarchive_project: 'This project cannot be unarchived: %{errors}'
   error_check_user_and_role: Mangyaring pumili ng gumagamit at tungkulin.
@@ -3026,7 +3313,6 @@ fil:
   label_available_projects: Available projects
   label_backtrace: Backtrace
   label_backup: Backup
-  label_backup_code: Ang Backup code
   label_basic_details: Basic details
   label_between: sa pagitan ng
   label_blocked_by: hinarangan ni
@@ -3046,7 +3332,6 @@ fil:
   label_calendar_show: Ipakita ang kalendaryo
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategorya
   label_change_parent: Palitan ng magulang
   label_change_password: Change password
   label_change_plural: Pagbabago
@@ -3055,9 +3340,9 @@ fil:
   label_change_status_of_user: 'Baguhin ang estado ng #{username}'
   label_change_view_all: Tanawin lahat ang mga pagbabago
   label_changes_details: Detalye ng lahat na mga pagbabago
-  label_changeset: Changeset
   label_changeset_id: ID ng changeset
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: I-check/I-ncheck ang lahat sa hanay
   label_check_uncheck_all_in_row: I-check/I-uncheck ang lahat sa hilera
   label_checked: sinuri
@@ -3204,6 +3489,7 @@ fil:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key na nillikha %{value} nakalipas
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Mga file
   label_filter: Mga nasala
   label_filter_add: Magdagdag ng filter
@@ -3228,7 +3514,6 @@ fil:
   label_git_path: Landas sa .git direktoryo
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3297,7 +3582,6 @@ fil:
   label_last_week: huling semana
   label_latest_revision: Pinakamabagong rebisyon
   label_latest_revision_plural: Ang mga pinakamabagong rebisyon
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP na pagpapatunay
@@ -3324,9 +3608,9 @@ fil:
   label_me: ako
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Bagong miyembro
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Mga miyembro
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3439,7 +3723,6 @@ fil:
   label_permissions: Mga pahintulot
   label_permissions_report: Mga pinahintulutan na ulat
   label_personalize_page: Personalize ang pahina na ito
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Pagpaplano
@@ -3502,7 +3785,6 @@ fil:
   label_related_work_packages: Nauugnay sa mga work package
   label_relates: nauugnay sa
   label_relates_to: nauugnay sa
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Burahin ang relasyon
   label_relation_edit: Edit relation
@@ -3555,7 +3837,6 @@ fil:
   label_send_information: Send new credentials to the user
   label_send_invitation: Magpadala ng imbitasyon
   label_send_test_email: Magpadala ng test email
-  label_session: Sesyon
   label_setting_plural: Mga setting
   label_share: Ibahagi
   label_share_project_list: Share project list
@@ -3631,7 +3912,6 @@ fil:
   label_used_by: Ginamit ni
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto
-  label_user: Gumagamit
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Hindi kilala
@@ -3662,19 +3942,17 @@ fil:
   label_week: Linggo
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Ang idinagdag na wiking pahina
   label_wiki_content_updated: Naka-update na wiking pahina
   label_wiki_dont_show_menu_item: Huwag ipakita ang wikipage na ito sa oroject nabigasyon
   label_wiki_edit: I-edit ang wiki
   label_wiki_edit_plural: I-edit ang mga wiki
-  label_wiki_menu_item: Ang aytem ng wiki na pagpipilian
   label_wiki_navigation: Nabigasyong wiki
-  label_wiki_page: Pahina ng wiki
   label_wiki_page_attachments: Nakakalakip na wiking pahina
   label_wiki_page_id: ID ng Wiki na pahina
   label_wiki_page_plural: Ang mga pahinang wiki
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Ipakita ang aytem ng submenu 'Talaan ng Nilalaman'
   label_wiki_show_menu_item: Ipakita bilanh aytem na pagpipilian sa proyektong nabigasyon
   label_wiki_show_new_page_link: Ipakita ang submenu aytem 'Lumikha ng bagong bata na pahina'
@@ -3691,7 +3969,6 @@ fil:
   label_work_package_hierarchy: Hierarchy ng work package
   label_work_package_new: Bagong work package
   label_work_package_plural: Ang mga work package
-  label_work_package_status: Estado ng pakete ng gumagawa
   label_work_package_status_new: Bagong estado
   label_work_package_status_plural: Ang mga estado ng work package
   label_work_package_tracking: Ang pagtra-track ng work package
@@ -4273,7 +4550,6 @@ fil:
   notice_auth_stage_error: Yugto ng pagpapatunay '%{stage}' ay nabigo.
   notice_auth_stage_verification_error: Hindi mapapatunayan ang yugto '%{stage}'.
   notice_auth_stage_wrong_stage: Inaasahang matapos ang yugto ng pagpapatunay '%{expected}', ngunit '%{actual}' ay binalik.
-  notice_automatic_set_of_standard_type: Magtakda ng automatikong pamantayang uri.
   notice_bad_request: Masamang kahilingan.
   notice_can_t_change_password: Itong akwant ay gumagakit ng isang external authentication source. Imposibleng mapalitan ang password.
   notice_custom_options_deleted: Opsyon ngB'%{option_value}' at ang itong %{num_deleted} nagaganal ay naibura na.
@@ -4563,6 +4839,8 @@ fil:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -4665,6 +4943,7 @@ fil:
     '
   permission_manage_placeholder_user: Create, edit, and delete placeholder users
   permission_manage_project_activities: Ang mga aktibidad ng pamahalaing proyekto
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Manage public BCF queries
   permission_manage_public_project_queries: Manage public project lists
   permission_manage_public_queries: Manage public views
@@ -4973,20 +5252,38 @@ fil:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a variant for this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Paganahin ang uri "%{type}"
+        in_use: In use
         no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
+        only_available_here: Only available in this project
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
           description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
         switch_type: Switch variant
         type_not_found: The selected type could not be found.
         variant_prefix: 'Variant:'
@@ -5929,10 +6226,11 @@ fil:
   total_progress: Kabuuang progreso
   types:
     creation_wizard:
+      add_variant: Add variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5944,7 +6242,7 @@ fil:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5969,6 +6267,7 @@ fil:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -5996,7 +6295,12 @@ fil:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6039,6 +6343,13 @@ fil:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          independent:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+          linked:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6046,6 +6357,17 @@ fil:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6105,6 +6427,7 @@ fil:
               heading: Switch configuration mode?
               title: Switch configuration mode
           description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
             source_label: Linked source
@@ -6116,6 +6439,14 @@ fil:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        filter: Filter by text
+        filter_no_results: No variants match this filter
       workflow:
         tab: Workflows
     index:
@@ -6131,6 +6462,10 @@ fil:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Gumawa ng bagong uri
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
+      owned_by: Owned by %{project}
+      project_variants_count:
+        one: 1 variant owned by a project
+        other: "%{count} variants owned by projects"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
@@ -6638,17 +6973,17 @@ fil:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"

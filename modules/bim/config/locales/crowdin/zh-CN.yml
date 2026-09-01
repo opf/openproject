@@ -7,7 +7,10 @@ zh-CN:
         bim_snippet: BIM 片段
         reference_links: 参考链接
         stage: 阶段
+        status_id: 状态
         viewpoint: 视点
+      bim/bcf/viewpoint:
+        status_id: 状态
       bim/ifc_models/ifc_model:
         attachments: IFC 文件
         ifc_attachment: IFC 文件
@@ -35,7 +38,14 @@ zh-CN:
               ifc_attachment_missing: 未附加 IFC 文件。
               invalid_ifc_file: 提供的文件不是有效的 IFC 文件。
     models:
-      bim/ifc_models/ifc_model: IFC 模型
+      bim/bcf/comment:
+        other: BCF 评论
+      bim/bcf/issue:
+        other: BCF 问题
+      bim/bcf/viewpoint:
+        other: BCF 观点
+      bim/ifc_models/ifc_model:
+        other: IFC 模型
   attributes:
     bcf_thumbnail: BCF 快照
   bcf:

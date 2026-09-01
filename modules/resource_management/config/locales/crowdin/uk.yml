@@ -39,10 +39,36 @@ uk:
             query:
               must_be_work_package_query: має бути запитом до робочого пакету.
     models:
-      resource_allocation: Виділення ресурсів
-      resource_planner: Планувальник ресурсів
-      resource_user_card: Картки користувачів
-      resource_work_package_list: Список пакетів робіт
+      resource_allocation:
+        one: Виділення ресурсів
+        few: Виділення ресурсів
+        many: Виділення ресурсів
+        other: Виділення ресурсів
+      resource_planner:
+        one: Планувальник ресурсів
+        few: Планувальники ресурсів
+        many: Планувальники ресурсів
+        other: Планувальники ресурсів
+      resource_user_card:
+        one: Картка користувачів
+        few: Картки користувачів
+        many: Картки користувачів
+        other: Картки користувачів
+      resource_user_timeline:
+        one: Часова шкала користувачів
+        few: Часові шкали користувачів
+        many: Часові шкали користувачів
+        other: Часові шкали користувачів
+      resource_work_package_list:
+        one: Список пакетів робіт
+        few: Списки пакетів робіт
+        many: Списки пакетів робіт
+        other: Списки пакетів робіт
+      resource_work_package_timeline:
+        one: Часова шкала пакетів робіт
+        few: Часові шкали пакетів робіт
+        many: Часові шкали пакетів робіт
+        other: Часові шкали пакетів робіт
   button_next: Далі
   ee:
     features:
