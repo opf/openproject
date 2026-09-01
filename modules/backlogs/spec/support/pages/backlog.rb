@@ -897,26 +897,33 @@ module Pages
 
     def choose_to_move_unfinished_work_packages_to_sprint(sprint_name)
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_sprint")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_sprint")
+        choose action
+        expect(page).to have_checked_field(action)
         select sprint_name, from: "Select sprint"
+        expect(page).to have_select("Select sprint", selected: sprint_name)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
     def choose_to_move_unfinished_work_packages_to_top_of_backlog
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_top_of_backlog")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_top_of_backlog")
+        choose action
+        expect(page).to have_checked_field(action)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
     def choose_to_move_unfinished_work_packages_to_bottom_of_backlog
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_bottom_of_backlog")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_bottom_of_backlog")
+        choose action
+        expect(page).to have_checked_field(action)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
