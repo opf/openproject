@@ -132,12 +132,11 @@ describe('Create work package', () => {
   it('shows the color of the chosen type', async () => {
     renderEditor();
     await openCreateModal();
+
+    await expect.element(page.getByTestId('create-wp-type-color')).not.toBeInTheDocument();
     await pickProject();
 
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-    await expect.element(page.getByTestId('create-wp-type-color')).not.toBeInTheDocument();
-
-    await selectOptionNamed('Type *', 'Task');
     const dot = page.getByTestId('create-wp-type-color');
     await expect.element(dot).toBeVisible();
     await expect.poll(() => colorChannelsOf(dot.element())).toEqual(['211', '84', '0']);
@@ -201,7 +200,7 @@ describe('Create work package', () => {
 
     await userEvent.click(page.getByLabelText('Assignee'));
     await userEvent.click(page.getByRole('option', { name: 'Elif Yildiz' }));
-    await selectOptionNamed('Type *', 'Task');
+    await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
   });

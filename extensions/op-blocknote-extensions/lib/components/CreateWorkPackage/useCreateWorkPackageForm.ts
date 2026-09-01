@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { WorkPackage, WorkPackageForm, WorkPackagePayload } from '../../openProjectTypes';
 import { createWorkPackage, fetchWorkPackageCreateForm, OpenProjectApiError } from '../../services/openProjectApi';
 import {
+  allowedValueOf,
+  applyLabel,
   applyValue,
   buildCreatePayload,
   clearsOtherValues,
@@ -13,18 +15,23 @@ import {
   unsupportedRequiredFields,
   valueProblems,
 } from './formSchema';
-import type { FieldErrors, FieldValue, FieldValues, FormField, ValueProblems } from './formSchema';
+import type { FieldErrors, FieldLabels, FieldValue, FieldValues, FormField, ValueProblems } from './formSchema';
+import { rememberSelection } from './lastSelection';
+import { prefillFor, projectPrefill, selectionToRemember } from './prefill';
+import type { Prefill } from './prefill';
 
 export interface CreateWorkPackageFormState {
   primaryFields:FormField[];
   extraFields:FormField[];
   values:FieldValues;
-  setValue:(key:string, value:FieldValue) => void;
+  valueLabels:FieldLabels;
+  setValue:(key:string, value:FieldValue, label?:string) => void;
   projectHref?:string;
   typeHref?:string;
   isDirty:boolean;
   selectedTypeLabel?:string;
   loading:boolean;
+  initialising:boolean;
   loadError:string | null;
   notAllowed:boolean;
   submitting:boolean;
@@ -53,6 +60,7 @@ export function useCreateWorkPackageForm(
 ):CreateWorkPackageFormState {
   const [form, setForm] = useState<WorkPackageForm | null>(null);
   const [values, setValues] = useState<FieldValues>({ subject: '' });
+  const [valueLabels, setValueLabels] = useState<FieldLabels>({});
   const [loaded, setLoaded] = useState<{ project?:string; type?:string } | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notAllowed, setNotAllowed] = useState(false);
@@ -60,11 +68,15 @@ export function useCreateWorkPackageForm(
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const projectPrefilled = useRef(false);
 
   const projectHref = typeof values.project === 'string' && values.project ? values.project : undefined;
   const typeHref = typeof values.type === 'string' && values.type ? values.type : undefined;
 
   const loading = loaded === null || loaded.project !== projectHref || loaded.type !== typeHref;
+
+  const initialising = loading && !touched;
 
   useEffect(() => {
     let active = true;
@@ -72,14 +84,35 @@ export function useCreateWorkPackageForm(
     if (projectHref) links.project = { href: projectHref };
     if (typeHref) links.type = { href: typeHref };
 
+    // Only the first bare load prefills, so a cleared project stays cleared.
+    const prefillOn = (loaded:WorkPackageForm):Promise<Prefill | undefined> => {
+      const loadedSchema = loaded._embedded?.schema;
+      const offered = fixedFields(loadedSchema, { project: !!projectHref, type: false });
+
+      if (!projectHref) {
+        if (projectPrefilled.current) return Promise.resolve(undefined);
+        return projectPrefill(offered.find((field) => field.key === 'project'));
+      }
+      if (typeHref) return Promise.resolve(undefined);
+
+      return prefillFor(offered, loaded._embedded?.payload ?? {});
+    };
+
     fetchWorkPackageCreateForm(projectHref ? { _links: links } : {})
-      .then((loaded) => {
+      .then(async (loaded) => {
+        const loadedSchema = loaded._embedded?.schema;
+        const prefill = await prefillOn(loaded);
         if (!active) return;
+
+        if (!projectHref) projectPrefilled.current = true;
+
         setForm(loaded);
         setLoadError(null);
         setNotAllowed(false);
-        const defaults = defaultValuesOf(extraRequiredFields(loaded._embedded?.schema));
-        setValues((previous) => ({ ...defaults, ...previous }));
+        const defaults = defaultValuesOf(extraRequiredFields(loadedSchema));
+        // What is already in the form outranks both: the user has answered it.
+        setValues((previous) => ({ ...defaults, ...prefill?.values, ...previous }));
+        setValueLabels((previous) => ({ ...prefill?.labels, ...previous }));
       })
       .catch((error:unknown) => {
         if (!active) return;
@@ -110,13 +143,10 @@ export function useCreateWorkPackageForm(
   const extraFields = selected.type ? extraRequiredFields(schema) : [];
   const allFields = [...primaryFields, ...extraFields];
 
-  const selectedTypeLabel = primaryFields
-    .find((field) => field.key === 'type')
-    ?.allowedValues
-    ?.find((allowed) => allowed.href === typeHref)
-    ?.label;
+  const selectedTypeLabel = allowedValueOf(primaryFields.find((field) => field.key === 'type'), typeHref)?.label;
 
-  const setValue = (key:string, value:FieldValue) => {
+  const setValue = (key:string, value:FieldValue, label?:string) => {
+    setTouched(true);
     setSubmitError(null);
     if (clearsOtherValues(key)) setSubmitAttempted(false);
     // Only the corrected field loses its complaint, unless the whole form is reloaded.
@@ -129,6 +159,7 @@ export function useCreateWorkPackageForm(
       return next;
     });
     setValues((previous) => applyValue(previous, key, value));
+    setValueLabels((previous) => applyLabel(previous, key, label));
   };
 
   const unsupportedFields = unsupportedRequiredFields(allFields);
@@ -145,7 +176,9 @@ export function useCreateWorkPackageForm(
     !notAllowed &&
     unsupportedFields.length === 0;
 
-  const isDirty = allFields.some((field) => field.kind !== 'checkbox' && isValueFilled(field, values[field.key]));
+  // What was prefilled is nothing the user would miss.
+  const isDirty = touched
+    && allFields.some((field) => field.kind !== 'checkbox' && isValueFilled(field, values[field.key]));
 
   const submit = () => {
     if (!form || submitting) return;
@@ -157,6 +190,7 @@ export function useCreateWorkPackageForm(
     createWorkPackage(buildCreatePayload(form._embedded?.payload ?? {}, allFields, values))
       .then(
         (workPackage) => {
+          rememberSelection(selectionToRemember(allFields, values, valueLabels));
           // Not chained behind onCreated: a failed insert must not read as a
           // failed create, which would invite a duplicate.
           setSubmitting(false);
@@ -190,12 +224,14 @@ export function useCreateWorkPackageForm(
     primaryFields,
     extraFields,
     values,
+    valueLabels,
     setValue,
     projectHref,
     typeHref,
     isDirty,
     selectedTypeLabel,
     loading,
+    initialising,
     loadError: loading ? null : loadError,
     notAllowed: loading ? false : notAllowed,
     submitting,

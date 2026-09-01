@@ -10,6 +10,11 @@ afterEach(() => worker.resetHandlers());
 const SCROLL_STEP = 40;
 const MAX_LIST_GAP = 4;
 
+async function settledFieldRows() {
+  const panel = page.getByTestId('create-wp-modal').element();
+  await Promise.all(panel.getAnimations({ subtree: true }).map((animation) => animation.finished.catch(() => {})));
+}
+
 describe('Create work package - form and editor boundaries', () => {
   it('loads the form once and puts the cursor into the subject', async () => {
     let formRequests = 0;
@@ -55,6 +60,7 @@ describe('Create work package - form and editor boundaries', () => {
   it('lays the suggestions over the form instead of inside its scroll area', async () => {
     renderEditor();
     await openCreateModal();
+    await settledFieldRows();
 
     await userEvent.click(page.getByLabelText('Project *'));
     await expect.element(page.getByRole('option', { name: 'Demo project' })).toBeVisible();
@@ -158,21 +164,23 @@ describe('Create work package - form and editor boundaries', () => {
     await expect.element(page.getByLabelText('Project *')).toHaveValue('');
   });
 
-  it('re-asks for the type when the project changes', async () => {
+  it('re-asks for the fields of the type when the project changes', async () => {
     renderEditor();
     await openCreateModal();
 
     await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-    await selectOptionNamed('Type *', 'Task');
+    await selectOptionNamed('Type *', 'Bug');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+    await userEvent.click(page.getByLabelText('Supervisor *'));
+    await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
 
     await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
     await userEvent.click(page.getByRole('option', { name: 'Scrum project' }));
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('');
-    await expect.element(page.getByLabelText('Supervisor *')).not.toBeInTheDocument();
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
   });
 
   it('states that creating work packages is not permitted', async () => {

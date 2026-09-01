@@ -2,9 +2,11 @@ import { beforeAll, afterAll, beforeEach } from 'vitest';
 import { worker } from './mocks/browser';
 import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/hooks/useWorkPackage';
+import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 
 beforeEach(() => {
   clearWorkPackageCache();
+  forgetLastSelection();
 });
 
 beforeAll(async () => {

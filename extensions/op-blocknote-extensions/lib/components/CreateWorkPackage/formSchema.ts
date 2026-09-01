@@ -37,6 +37,7 @@ export interface FormField {
 export type FieldValue = string | boolean;
 export type FieldValues = Record<string, FieldValue>;
 export type FieldErrors = Record<string, string>;
+export type FieldLabels = Record<string, string>;
 
 export type ValueProblem = 'missing' | 'notANumber' | 'notAWholeNumber';
 export type ValueProblems = Record<string, ValueProblem>;
@@ -94,6 +95,11 @@ export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
     const href = resource._links?.self?.href;
     return href ? [{ href, label: labelOfResource(resource) }] : [];
   });
+}
+
+export function allowedValueOf(field:FormField | undefined, href:string | undefined):AllowedValue | undefined {
+  if (!field || !href) return undefined;
+  return field.allowedValues?.find((value) => value.href === href);
 }
 
 export function allowedValuesOf(property:SchemaProperty):AllowedValue[] | undefined {
@@ -257,17 +263,27 @@ export function clearsOtherValues(key:string):boolean {
   return key in KEPT_ON_CHANGE;
 }
 
-export function applyValue(previous:FieldValues, key:string, value:FieldValue):FieldValues {
+function applyToRecord<T>(previous:Record<string, T>, key:string, value:T | undefined):Record<string, T> {
   const kept = KEPT_ON_CHANGE[key];
-  if (!kept) return { ...previous, [key]: value };
+  const next:Record<string, T> = {};
 
-  const next:FieldValues = {};
-  for (const name of kept) {
+  for (const name of kept ?? Object.keys(previous)) {
     const existing = previous[name];
     if (existing !== undefined) next[name] = existing;
   }
-  next[key] = value;
+
+  if (value === undefined) delete next[key];
+  else next[key] = value;
+
   return next;
+}
+
+export function applyValue(previous:FieldValues, key:string, value:FieldValue):FieldValues {
+  return applyToRecord(previous, key, value);
+}
+
+export function applyLabel(previous:FieldLabels, key:string, label:string | undefined):FieldLabels {
+  return applyToRecord(previous, key, label);
 }
 
 function payloadValueOf(field:FormField, value:FieldValue | undefined):unknown {
