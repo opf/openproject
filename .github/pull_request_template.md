@@ -16,6 +16,17 @@
      List any tradeoffs you made to take on or pay down tech debt.
      Describe any alternative approaches you considered and why you discarded them. -->
 
+# AI involvement
+<!-- Self-assess how much AI drove this PR. Check one box. -->
+
+- [ ] **None** — No AI assistance used.
+- [ ] **Assisted** — Autocomplete or small pasted snippets; I wrote and understand all the code.
+- [ ] **Collaborative** — AI generated a substantial part of the code; I reviewed and understand every line.
+- [ ] **Directed** — I specified the requirements and AI implemented most of it; I validated via testing rather than a full line-by-line review.
+- [ ] **Autonomous** — AI worked with little supervision; I mainly smoke-tested the result.
+
+<!-- If Directed or Autonomous, name the tool/model used, e.g. "Claude Code (Sonnet 5)" -->
+
 # Merge checklist
 
 - [ ] Added/updated tests
