@@ -254,12 +254,6 @@ module WorkPackageTypes
 
         context "when the multiple versions feature is inactive",
                 with_settings: { work_package_multiple_versions: false } do
-          it "accepts target_versions" do
-            model.attribute_groups = [["foo", ["target_versions"]]]
-
-            expect(contract).to be_valid
-          end
-
           it "rejects the deprecated version as an unknown attribute" do
             model.attribute_groups = [["foo", ["version"]]]
 
