@@ -29,6 +29,7 @@
 #++
 
 require "support/pages/page"
+require "support/browsers/browser_platform"
 
 module Pages
   class Backlog < Page
@@ -716,7 +717,11 @@ module Pages
     # Toggles membership without navigating, and re-bases the anchor to this
     # card even when the toggle deselects it.
     def toggle_card(work_package)
-      modified_click(work_package, :meta)
+      modified_click(work_package, multi_select_modifier)
+    end
+
+    def multi_select_modifier
+      BrowserPlatform.multi_select_modifier(page)
     end
 
     # Selects the contiguous range from the anchor to this card. Repeated

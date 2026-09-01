@@ -180,7 +180,7 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
     # The fixtures span a sprint and a bucket, so a regression to root-wide
     # select-all would take this past the sprint's four cards.
     it "selects every orderable card of the focused card's list with Ctrl/Cmd+A" do
-      backlogs_page.send_work_package_card_keys(story1, [:control, "a"])
+      backlogs_page.send_work_package_card_keys(story1, [backlogs_page.multi_select_modifier, "a"])
 
       expect(page).to have_css("[data-batch-selected]", count: 4)
       expect(backlogs_page.selected_card_ids).to contain_exactly(

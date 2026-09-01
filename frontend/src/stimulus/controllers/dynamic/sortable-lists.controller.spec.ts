@@ -81,6 +81,7 @@ describe('Sortable lists controller', () => {
   // cannot resolve `.mock.calls`'s element type from; pin the spied method's
   // own signature instead so calls stay typed.
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
+  let userAgentDataDescriptor:PropertyDescriptor|undefined;
 
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
@@ -340,6 +341,15 @@ describe('Sortable lists controller', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
 
+    // Multi-select gestures below use Ctrl, which is only the multi-select
+    // modifier off Apple platforms — pin the platform so the suite behaves
+    // the same on a macOS workstation and on Linux CI.
+    userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: { platform: 'Windows' },
+      configurable: true,
+    });
+
     // The synthetic drop input below carries fixed coordinates that bear no
     // relation to where the fixture's rows actually lay out, so a real
     // hit-test would report the source's own row for every drop and the
@@ -409,6 +419,11 @@ describe('Sortable lists controller', () => {
     document.body.querySelector('live-region')?.remove();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    if (userAgentDataDescriptor) {
+      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
+    } else {
+      delete (navigator as { userAgentData?:unknown }).userAgentData;
+    }
   });
 
   it('moves a list-only drop onto the source list to its configured position', async () => {
@@ -1308,8 +1323,8 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
     items[0].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, metaKey: true }));
-    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, metaKey: true }));
+    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
     announceSpy.mockClear();
 
     controller.collapseSelectionForDrag(items[0]);
@@ -1399,7 +1414,7 @@ describe('Sortable lists controller', () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     click(items[0]);
-    click(items[1], { metaKey: true });
+    click(items[1], { ctrlKey: true });
     items[2].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
     const event = new MouseEvent('click', { bubbles: true, cancelable: true });
 
@@ -1413,8 +1428,8 @@ describe('Sortable lists controller', () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     click(items[0]);
-    click(items[1], { metaKey: true });
-    click(items[2], { metaKey: true });
+    click(items[1], { ctrlKey: true });
+    click(items[2], { ctrlKey: true });
     announceSpy.mockClear();
 
     click(items[0]);
@@ -1444,7 +1459,7 @@ describe('Sortable lists controller', () => {
     const { root, items } = renderSelectableRoot();
     await ctx.nextFrame();
     root.setAttribute('data-sortable-lists-busy', 'true');
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true, metaKey: true });
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
 
     items[0].dispatchEvent(event);
 
@@ -1452,10 +1467,10 @@ describe('Sortable lists controller', () => {
     expect(items.some(isSelected)).toBe(false);
   });
 
-  it('toggles a card without navigating on a meta click', async () => {
+  it('toggles a card without navigating on a modified click', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true, metaKey: true });
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
 
     click(items[0]);
     items[1].dispatchEvent(event);
@@ -1517,7 +1532,7 @@ describe('Sortable lists controller', () => {
     const { root, items } = renderSelectableRoot();
     await ctx.nextFrame();
     click(items[0]);
-    click(items[1], { metaKey: true });
+    click(items[1], { ctrlKey: true });
     items[1].remove();
     morphRoot(root);
     await ctx.nextFrame();
@@ -1570,11 +1585,11 @@ describe('Sortable lists controller', () => {
     ]);
   });
 
-  it('preserves the batch and announces when a non-movable card is meta clicked', async () => {
+  it('preserves the batch and announces when a non-movable card is modifier-clicked', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     items[1].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true, metaKey: true });
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
 
     click(items[0]);
     announceSpy.mockClear();
@@ -1594,7 +1609,7 @@ describe('Sortable lists controller', () => {
     link.href = '/somewhere';
     items[0].appendChild(link);
 
-    clickWithoutNavigating(link, { metaKey: true });
+    clickWithoutNavigating(link, { ctrlKey: true });
 
     expect(items.some(isSelected)).toBe(false);
   });
@@ -1827,13 +1842,13 @@ describe('Sortable lists controller', () => {
 
   // The fixture spans two lists: items[0..2] in the source, items[3..4] in
   // the target.
-  it('selects every movable card in the focused list on meta A', async () => {
+  it('selects every movable card in the focused list on Ctrl+A', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     items[1].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
     items[0].focus();
 
-    keydown(items[0], 'a', { metaKey: true });
+    keydown(items[0], 'a', { ctrlKey: true });
 
     const selected = items.filter(isSelected);
     expect(selected).toEqual([items[0], items[2]]);
@@ -1841,12 +1856,12 @@ describe('Sortable lists controller', () => {
   });
 
   // Would pass under a root-wide select-all.
-  it('leaves movable cards of other lists unselected on meta A', async () => {
+  it('leaves movable cards of other lists unselected on Ctrl+A', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     items[0].focus();
 
-    keydown(items[0], 'a', { metaKey: true });
+    keydown(items[0], 'a', { ctrlKey: true });
 
     expect(isSelected(items[3])).toBe(false);
     expect(isSelected(items[4])).toBe(false);
@@ -1875,12 +1890,12 @@ describe('Sortable lists controller', () => {
 
   // Focusing something other than the first card rules out an anchor that
   // merely coincides with a document-order fallback.
-  it('anchors the batch on the focused card after meta A when it is movable', async () => {
+  it('anchors the batch on the focused card after Ctrl+A when it is movable', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     items[2].focus();
 
-    keydown(items[2], 'a', { metaKey: true });
+    keydown(items[2], 'a', { ctrlKey: true });
     keydown(items[0], ' ', { shiftKey: true });
 
     expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
@@ -1888,13 +1903,13 @@ describe('Sortable lists controller', () => {
 
   // A subsequent Shift gesture proves the fallback anchor is set: no anchor
   // at all would collapse the range to a single card.
-  it('anchors the batch on the first movable card after meta A when the focused card is not movable', async () => {
+  it('anchors the batch on the first movable card after Ctrl+A when the focused card is not movable', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
     items[0].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
     items[0].focus();
 
-    keydown(items[0], 'a', { metaKey: true });
+    keydown(items[0], 'a', { ctrlKey: true });
     keydown(items[2], ' ', { shiftKey: true });
 
     expect(items.filter(isSelected)).toEqual([items[1], items[2]]);
@@ -2059,8 +2074,8 @@ describe('Sortable lists controller', () => {
       const { root, items } = renderSelectableRoot();
       await ctx.nextFrame();
       click(items[0]);
-      click(items[1], { metaKey: true });
-      click(items[2], { metaKey: true });
+      click(items[1], { ctrlKey: true });
+      click(items[2], { ctrlKey: true });
       items[1].remove();
       announceSpy.mockClear();
 
@@ -2078,7 +2093,7 @@ describe('Sortable lists controller', () => {
       const { root, items } = renderSelectableRoot();
       await ctx.nextFrame();
       click(items[0]);
-      click(items[1], { metaKey: true });
+      click(items[1], { ctrlKey: true });
       announceSpy.mockClear();
 
       morphRoot(root);
@@ -2095,7 +2110,7 @@ describe('Sortable lists controller', () => {
       const { root, items } = renderSelectableRoot();
       await ctx.nextFrame();
       click(items[0]);
-      click(items[1], { metaKey: true });
+      click(items[1], { ctrlKey: true });
       items[1].remove();
 
       morphRoot(root);

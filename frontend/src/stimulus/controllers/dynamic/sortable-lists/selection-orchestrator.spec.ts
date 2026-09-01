@@ -117,19 +117,28 @@ describe('SelectionOrchestrator', () => {
     });
   });
 
+  const userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
+
   afterEach(() => {
     root.remove();
     document.querySelector('live-region')?.remove();
     announceSpy.mockRestore();
+    restorePlatform();
   });
 
-  // navigator.platform and userAgentData are read-only accessors, so the
-  // stub is installed per test and torn down with the fixture.
   function pretendPlatform(platform:string):void {
     Object.defineProperty(navigator, 'userAgentData', {
       value: { platform },
       configurable: true,
     });
+  }
+
+  function restorePlatform():void {
+    if (userAgentDataDescriptor) {
+      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
+    } else {
+      delete (navigator as { userAgentData?:unknown }).userAgentData;
+    }
   }
 
   // Type-qualified, because the fixture deliberately holds a section and a
@@ -275,7 +284,7 @@ describe('SelectionOrchestrator', () => {
       root.querySelectorAll('[data-sortable-lists--item-id-value]')
         .forEach((el) => el.setAttribute('data-sortable-lists--item-mobility-value', 'fixed'));
       const orchestrator = new SelectionOrchestrator(hostFor(root));
-      const event = keydownOn(item('1'), 'a', { metaKey: true });
+      const event = keydownOn(item('1'), 'a', { ctrlKey: true });
 
       orchestrator.handleKeydown(event);
 
@@ -285,7 +294,7 @@ describe('SelectionOrchestrator', () => {
 
     it('still consumes Ctrl/Cmd+A when there is something to select', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
-      const event = keydownOn(item('1'), 'a', { metaKey: true });
+      const event = keydownOn(item('1'), 'a', { ctrlKey: true });
 
       orchestrator.handleKeydown(event);
 
@@ -297,7 +306,7 @@ describe('SelectionOrchestrator', () => {
       item('1').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
       const orchestrator = new SelectionOrchestrator(hostFor(root));
 
-      orchestrator.handleKeydown(keydownOn(item('1'), 'a', { metaKey: true }));
+      orchestrator.handleKeydown(keydownOn(item('1'), 'a', { ctrlKey: true }));
 
       expect(orchestrator.selectedIds()).toEqual(['2', '3']);
       // The fallback anchor is the first orderable card of the same list, so
@@ -306,13 +315,47 @@ describe('SelectionOrchestrator', () => {
       expect(orchestrator.selectedIds()).toEqual(['2', '3']);
     });
 
+    // Select all binds to the platform's one multi-select modifier: ⌘ on
+    // Apple platforms, Ctrl elsewhere — never the other way around.
+    it('consumes Cmd+A on Apple platforms', () => {
+      pretendPlatform('macOS');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'a', { metaKey: true });
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+    });
+
+    it('leaves Ctrl+A alone on Apple platforms', () => {
+      pretendPlatform('macOS');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'a', { ctrlKey: true });
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
+    it('leaves Meta+A alone off Apple platforms', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'a', { metaKey: true });
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
     // With nothing selectable in this list, the browser's own select-all
     // keeps the gesture even though another list has cards.
     it('leaves Ctrl/Cmd+A alone when only other lists are selectable', () => {
       root.querySelectorAll('[data-sortable-lists--list-id-value="7"] [data-sortable-lists--item-id-value]')
         .forEach((el) => el.setAttribute('data-sortable-lists--item-mobility-value', 'fixed'));
       const orchestrator = new SelectionOrchestrator(hostFor(root));
-      const event = keydownOn(item('1'), 'a', { metaKey: true });
+      const event = keydownOn(item('1'), 'a', { ctrlKey: true });
 
       orchestrator.handleKeydown(event);
 
@@ -364,6 +407,18 @@ describe('SelectionOrchestrator', () => {
 
       expect(orchestrator.selectedIds()).toEqual(['1', '2']);
     });
+
+    // Meta is not an alternate multi-select modifier off Apple platforms: a
+    // Meta-click classifies as an ordinary click and replaces the batch.
+    it('does not treat Meta-click as multi-select elsewhere', () => {
+      pretendPlatform('Windows');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+
+      orchestrator.handleClick(clickOn(item('2'), { metaKey: true }));
+
+      expect(orchestrator.selectedIds()).toEqual(['2']);
+    });
   });
 
   // collapseForDrag stamps the anchor at drag start, so a cross-list drop
@@ -396,9 +451,9 @@ describe('SelectionOrchestrator', () => {
     it('restarts the batch when Ctrl/Cmd-click lands on another type', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('2'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
 
-      orchestrator.handleClick(clickOn(sectionItem('1'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(sectionItem('1'), { ctrlKey: true }));
 
       expect(orchestrator.selectedIds()).toEqual(['1']);
       expect(isSelected(sectionItem('1'))).toBe(true);
@@ -419,7 +474,7 @@ describe('SelectionOrchestrator', () => {
 
     it('scopes select-all to the anchoring candidate type', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
-      const event = new KeyboardEvent('keydown', { key: 'a', metaKey: true, bubbles: true, cancelable: true });
+      const event = new KeyboardEvent('keydown', { key: 'a', ctrlKey: true, bubbles: true, cancelable: true });
       Object.defineProperty(event, 'target', { value: sectionItem('1') });
 
       orchestrator.handleKeydown(event);
@@ -447,7 +502,7 @@ describe('SelectionOrchestrator', () => {
   it('drops members that a morph removed from the document', () => {
     const orchestrator = new SelectionOrchestrator(hostFor(root));
     orchestrator.handleClick(clickOn(item('1')));
-    orchestrator.handleClick(clickOn(item('2'), { metaKey: true }));
+    orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
     item('1').remove();
 
     orchestrator.reconcile();
