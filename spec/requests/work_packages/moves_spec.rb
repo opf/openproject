@@ -90,6 +90,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
 
     context "with current move form values" do
       let(:version) { create(:version, project: target) }
+      let(:observed_in_version) { create(:version, project: target, name: "Observed version") }
       let(:priority) { create(:priority, name: "High") }
       let(:assignee_role) { create(:project_role, permissions: %i[view_work_packages work_package_assigned]) }
       let(:assignee) { create(:user, member_with_roles: { target => assignee_role }) }
@@ -105,6 +106,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
           new_type_id: type.id,
           status_id: status.id,
           "target_version_ids[]": version.id,
+          "observed_in_version_ids[]": observed_in_version.id,
           priority_id: priority.id,
           assigned_to_id: assignee.id,
           responsible_id: "none",
@@ -126,6 +128,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
         expect(response.body)
           .to include(%(option selected="selected" value="#{status.id}"))
           .and include(%(option selected="selected" value="#{version.id}"))
+          .and include(%(option selected="selected" value="#{observed_in_version.id}"))
           .and include(%(option selected="selected" value="#{priority.id}"))
           .and include(%(option selected="selected" value="#{assignee.id}"))
           .and include(%(option selected="selected" value="none"))

@@ -85,6 +85,10 @@ module WorkPackages
         @available_versions ||= target_project.assignable_versions
       end
 
+      def available_observed_in_versions
+        @available_observed_in_versions ||= target_project.assignable_versions(only_open: false)
+      end
+
       def available_statuses
         @available_statuses ||= Workflow.available_statuses(target_project, current_user)
       end
@@ -118,6 +122,12 @@ module WorkPackages
         selected_ids = Array(selected_values[:target_version_ids]).map(&:to_s)
 
         available_versions.select { |version| selected_ids.include?(version.id.to_s) }
+      end
+
+      def selected_observed_in_versions
+        selected_ids = Array(selected_values[:observed_in_version_ids]).map(&:to_s)
+
+        available_observed_in_versions.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
       def selected_custom_field_value(custom_field)
