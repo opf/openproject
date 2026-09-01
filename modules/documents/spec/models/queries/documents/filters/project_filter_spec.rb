@@ -31,33 +31,66 @@
 require "spec_helper"
 
 RSpec.describe Queries::Documents::Filters::ProjectFilter do
-  let(:project1) { build_stubbed(:project) }
-  let(:project2) { build_stubbed(:project) }
+  include_context "with visible projects"
 
-  before do
-    allow(Project)
-      .to receive_message_chain(:visible, :pluck)
-      .with(:id)
-      .and_return([project1.id, project2.id])
-  end
+  let(:model) { Document }
 
-  it_behaves_like "basic query filter" do
-    let(:class_key) { :project_id }
-    let(:type) { :list_optional }
-    let(:name) { Document.human_attribute_name(:project) }
+  describe "#values=" do
+    let(:instance) { described_class.create!(name: :project_id, operator: "=", values:) }
 
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
+    context "with a project identifier" do
+      let(:values) { [project1.identifier] }
 
-        expect(instance.allowed_values).to match_array(expected)
+      it "replaces the identifier with the project id" do
+        expect(instance.values).to eq([project1.id.to_s])
+        expect(instance).to be_valid
+      end
+    end
+
+    context "with a semantic project identifier", with_settings: { work_packages_identifier: "semantic" } do
+      let(:project1) { create(:project, identifier: "SDT") }
+      let(:values) { %w[SDT] }
+
+      it "replaces the identifier with the project id" do
+        expect(instance.values).to eq([project1.id.to_s])
+        expect(instance).to be_valid
+      end
+    end
+
+    context "with a project identifier in a different case" do
+      let(:values) { [project1.identifier.upcase] }
+
+      it "replaces the identifier with the project id" do
+        expect(instance.values).to eq([project1.id.to_s])
+      end
+    end
+
+    context "with a project id" do
+      let(:values) { [project1.id.to_s] }
+
+      it "keeps the id" do
+        expect(instance.values).to eq([project1.id.to_s])
+      end
+    end
+
+    context "with the identifier of one and the id of another project" do
+      let(:values) { [project1.identifier, project2.id.to_s] }
+
+      it "replaces only the identifier" do
+        expect(instance.values).to eq([project1.id.to_s, project2.id.to_s])
+      end
+    end
+
+    context "with the identifier of a project the user cannot see" do
+      let(:invisible_project) { create(:project) }
+      let(:values) { [invisible_project.identifier] }
+
+      it "keeps the identifier and is invalid" do
+        expect(instance.values).to eq([invisible_project.identifier])
+        expect(instance).not_to be_valid
       end
     end
   end
 
-  it_behaves_like "list_optional query filter" do
-    let(:attribute) { :project_id }
-    let(:model) { Document }
-    let(:valid_values) { [project1.id.to_s] }
-  end
+  it_behaves_like "project_id list_optional filter"
 end
