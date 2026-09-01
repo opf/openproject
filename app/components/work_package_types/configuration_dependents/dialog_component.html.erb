@@ -30,20 +30,40 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
-        title: t("types.edit.reuse_mode.manual.dialog.title"),
+        title: t("types.edit.reuse_mode.dependents.dialog.title"),
         size: :medium_portrait
       )
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <%= primer_form_with(url: confirm_path, method: :post) do |form| %>
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= render(WorkPackageTypes::ConfigurationIndependence::ModeForm.new(form, aspect:)) %>
-    <% end %>
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("types.edit.reuse_mode.dependents.dialog.description") } %>
 
-    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t("types.edit.reuse_mode.manual.dialog.submit") } %>
+    <% { direct: direct_dependents, indirect: indirect_dependents }.each do |group, members| %>
+      <% next if members.empty? %>
+
+      <%= render(
+            OpenProject::Common::BorderBoxListComponent.new(
+              container: "dependents-#{group}",
+              padding: :condensed,
+              mb: 3,
+              test_selector: "#{group}-dependents-list"
+            )
+          ) do |list| %>
+        <% list.with_header(title: t("types.edit.reuse_mode.dependents.dialog.#{group}_heading")) %>
+        <% members.each do |dependent| %>
+          <% list.with_item do %>
+            <%= dependent_link(dependent, bold_font: true) %>
+            <% if (relation = relation(dependent)) %>
+              <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) { relation } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_close) } %>
   <% end %>
 <% end %>

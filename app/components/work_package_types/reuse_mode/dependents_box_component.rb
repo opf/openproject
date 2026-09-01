@@ -29,46 +29,45 @@
 #++
 
 module WorkPackageTypes
-  module ConfigurationLinks
-    class ConfirmDialogComponent < ApplicationComponent
-      include OpTurbo::Streamable
+  module ReuseMode
+    class DependentsBoxComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      DIALOG_ID = "configuration-link-confirm-dialog"
-
-      def initialize(variant:, aspect:, source:)
-        super()
-
-        @variant = variant
+      def initialize(variant:, aspect:)
         @aspect = aspect
-        @source = source
+        super(variant)
       end
 
       private
 
-      attr_reader :variant, :aspect, :source
+      attr_reader :aspect
 
-      def changing_source?
-        variant.linked?(aspect)
+      def variant = model
+
+      def dependents_count
+        @dependents_count ||= variant.dependents_for(aspect).count(:all)
       end
+
+      def any_dependents? = dependents_count.positive?
+
+      def scheme = any_dependents? ? :warning : :default
+
+      def icon = any_dependents? ? :alert : :"git-branch"
 
       def title
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
-        end
+        return t("types.edit.reuse_mode.dependents.blank.title") unless any_dependents?
+
+        t("types.edit.reuse_mode.dependents.title", count: dependents_count)
       end
 
-      def heading
-        if changing_source?
-          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
-        else
-          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
-        end
+      def description
+        return t("types.edit.reuse_mode.dependents.blank.description") unless any_dependents?
+
+        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
       end
 
-      def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
+      def dialog_path
+        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
       end
     end
   end
