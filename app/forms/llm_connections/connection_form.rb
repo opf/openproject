@@ -76,10 +76,10 @@ module LlmConnections
           name: :api_key,
           label: LlmConnection.human_attribute_name(:api_key),
           caption: api_key_caption,
-          # The stored key is never sent to the browser. A blank submission means
-          # "keep the current key", handled in the controller.
-          value: nil,
-          placeholder: api_key_placeholder,
+          # The stored key is never sent to the browser, only a key typed into a
+          # submission that failed. A blank submission means "keep the current
+          # key", handled in the controller.
+          value: model.api_key_changed? ? model.api_key : nil,
           type: :password,
           autocomplete: "off",
           input_width: :large,
@@ -131,12 +131,7 @@ module LlmConnections
     end
 
     def api_key_caption
-      key = model.persisted? && model.api_key.present?
-      I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if key}")
-    end
-
-    def api_key_placeholder
-      "••••••••••••••••" if model.api_key.present?
+      I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")
     end
   end
 end

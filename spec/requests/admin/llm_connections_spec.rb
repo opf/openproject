@@ -65,6 +65,23 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Host URL")
       end
+
+      it "does not claim that a key is stored before one is saved" do
+        get llm_connection_path
+
+        expect(response.body).not_to include("A key is stored")
+      end
+
+      context "when an API key is stored" do
+        let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+
+        it "says that a key is stored and keeps the field blank" do
+          get llm_connection_path
+
+          expect(response.body).to include("A key is stored")
+          expect(response.body).not_to include("sk-original")
+        end
+      end
     end
   end
 
@@ -74,7 +91,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     context "with a reachable server" do
       let!(:models_request) { mock_llm_models_response(base_url) }
 
-      it "stores the connection and caches the catalogue" do
+      it "stores the connection" do
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
 
         expect(response).to have_http_status(:see_other)
@@ -84,9 +101,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
-    # The case that matters for OpenProject's own gateway: chat completions are
-    # routed, the model list is not.
-
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
 
@@ -94,6 +108,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
 
         expect(LlmConnection.count).to eq(0)
+      end
+
+      it "renders the typed API key back into the form" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-typed" } }
+
+        expect(response.body).to include('value="sk-typed"')
+        expect(response.body).not_to include("A key is stored")
       end
     end
 
