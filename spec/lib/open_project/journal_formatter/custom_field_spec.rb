@@ -489,11 +489,12 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  # The permission check itself has moved to JournalFormatter#render_detail, which
-  # calls #permission_granted? on the formatter before calling #render (see
-  # spec/models/journal/work_package_journal_spec.rb and project_journal_spec.rb
-  # for the end-to-end behavior). Here we only verify the dispatch this formatter
-  # exposes to that caller.
+  # The #permission_granted? method is used by the JournalFormatter#render_detail
+  # to check whether the user has the permission to see the rendered activity.
+  # It receives a permission as a Proc or a Symbol and a CustomField key.
+  # In case a Symbol is provided, the permission check happens on the project.
+  # In case a Proc is provided, the CustomField resolved by the key is yielded
+  # to the Proc allowing customized permission checks.
   describe "#permission_granted?" do
     subject { instance.permission_granted?(permission, key:) }
 
@@ -520,20 +521,22 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     context "with a named (Symbol) permission" do
       let(:permission) { :view_project }
       let(:project) { build_stubbed(:project) }
-      let(:journal) { instance_double(Journal, id:, project:) }
+      let(:journal) { instance_double(Journal, project:) }
+
+      before do
+        mock_permissions_for(User.current) do |mock|
+          mock.allow_in_project(*permissions, project:)
+        end
+      end
 
       context "when the current user has the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
-        end
+        let(:permissions) { [:view_project] }
 
         it { is_expected.to be(true) }
       end
 
       context "when the current user lacks the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
-        end
+        let(:permissions) { [] }
 
         it { is_expected.to be(false) }
       end

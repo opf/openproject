@@ -75,18 +75,20 @@ RSpec.describe JournalFormatter::Base do
       let(:project) { build_stubbed(:project) }
       let(:work_package) { build_stubbed(:work_package, project:) }
 
-      context "when the current user has the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_work_packages, project).and_return(true)
+      before do
+        mock_permissions_for(User.current) do |mock|
+          mock.allow_in_project(*permissions, project:)
         end
+      end
+
+      context "when the current user has the permission in the project" do
+        let(:permissions) { [:view_work_packages] }
 
         it { is_expected.to be(true) }
       end
 
       context "when the current user lacks the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_work_packages, project).and_return(false)
-        end
+        let(:permissions) { [] }
 
         it { is_expected.to be(false) }
       end

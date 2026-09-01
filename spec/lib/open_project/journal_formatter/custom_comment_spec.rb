@@ -116,10 +116,12 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
     include_examples "results are expected"
   end
 
-  # The permission check itself has moved to JournalFormatter#render_detail, which
-  # calls #permission_granted? on the formatter before calling #render. Here we
-  # only verify the dispatch this formatter (via CustomField::ViewPermission) exposes
-  # to that caller.
+  # The #permission_granted? method is used by the JournalFormatter#render_detail
+  # to check whether the user has the permission to see the rendered activity.
+  # It receives a permission as a Proc or a Symbol and a CustomField key.
+  # In case a Symbol is provided, the permission check happens on the project.
+  # In case a Proc is provided, the CustomField resolved by the key is yielded
+  # to the Proc allowing customized permission checks.
   describe "#permission_granted?" do
     subject { instance.permission_granted?(permission, key:) }
 
@@ -148,18 +150,20 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
       let(:project) { build_stubbed(:project) }
       let(:journal) { instance_double(Journal, id:, project:) }
 
-      context "when the current user has the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
+      before do
+        mock_permissions_for(User.current) do |mock|
+          mock.allow_in_project(*permissions, project:)
         end
+      end
+
+      context "when the current user has the permission in the project" do
+        let(:permissions) { [:view_project] }
 
         it { is_expected.to be(true) }
       end
 
       context "when the current user lacks the permission in the project" do
-        before do
-          allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
-        end
+        let(:permissions) { [] }
 
         it { is_expected.to be(false) }
       end
