@@ -118,6 +118,12 @@ describe('sortable-lists selection adapter', () => {
     });
   });
 
+  it('keys the list by its type and id, not its DOM id', () => {
+    itemFor('1').closest('[data-controller~="sortable-lists--list"]')!.id = 'inbox_project_4';
+
+    expect(candidateFor('1').listKey).toBe('sprint:7');
+  });
+
   // The focus host is also the boundary the interactive-descendant check
   // stops at, so a focusable host does not disqualify its own card.
   it('reports the focus target as the focus host when there is one', () => {
@@ -127,6 +133,13 @@ describe('sortable-lists selection adapter', () => {
     itemFor('2').appendChild(card);
 
     expect(resolveCandidate(root, card)!.focusHost).toBe(card);
+  });
+
+  it('does not take a nested item\'s focus target as the focus host', () => {
+    appendNestedList();
+    itemFor('60').setAttribute('data-sortable-lists--item-target', 'focus');
+
+    expect(candidateFor('6').focusHost).toBe(itemFor('6'));
   });
 
   it('resolves a non-movable candidate', () => {
@@ -204,6 +217,38 @@ describe('sortable-lists selection adapter', () => {
     const anchor = { type: 'work_package', id: '3', listKey: 'sprint:7' };
 
     expect(resolveRangeItems(root, anchor, candidateFor('4'), rowsContainerFor(itemFor('4')))).toEqual({ ok: false, reason: 'crossList' });
+  });
+
+  it('does not take a same-id item of another type for the anchor', () => {
+    const decoy = document.createElement('li');
+    decoy.setAttribute('data-controller', 'sortable-lists--item');
+    decoy.setAttribute('data-sortable-lists--item-id-value', '1');
+    decoy.setAttribute('data-sortable-lists--item-type-value', 'decoy');
+    root.querySelector('ul')!.prepend(decoy);
+    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
+    const candidate = candidateFor('2');
+
+    expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
+  });
+
+  // A structural row holding only a nested list has no item of its own; the
+  // nested list's first field must not be mistaken for one.
+  it('rejects a range across a row that only hosts a nested list', () => {
+    const hostRow = document.createElement('li');
+    hostRow.innerHTML = `
+      <div data-controller="sortable-lists--list"
+           data-sortable-lists--list-type-value="section"
+           data-sortable-lists--list-id-value="6">
+        <ul>
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="60" data-sortable-lists--item-type-value="field"></li>
+        </ul>
+      </div>
+    `;
+    itemFor('1').after(hostRow);
+    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
+    const candidate = candidateFor('2');
+
+    expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
   });
 
   it('rejects a range whose anchor id was never a row in this list', () => {
@@ -298,6 +343,17 @@ describe('sortable-lists selection adapter', () => {
 
   // Nothing prunes duplicates on read, so a repeated apply is the only thing
   // that catches a regression of the write-time de-duplication.
+  it('describes the outer item, not a nested item\'s focus target', () => {
+    appendNestedList();
+    const nestedTarget = itemFor('60');
+    nestedTarget.setAttribute('data-sortable-lists--item-target', 'focus');
+
+    applySelectionPresentation(root, new Set([selectionKey({ type: 'section', id: '6' })]), 'selected-description');
+
+    expect(itemFor('6').getAttribute('aria-describedby')).toBe('selected-description');
+    expect(nestedTarget.hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('does not accumulate duplicate description tokens on repeated apply', () => {
     applySelectionPresentation(root, new Set([selectionKey({ type: 'work_package', id: '1' })]), 'selected-description');
     applySelectionPresentation(root, new Set([selectionKey({ type: 'work_package', id: '1' })]), 'selected-description');

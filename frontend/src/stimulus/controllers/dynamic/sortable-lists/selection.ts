@@ -53,18 +53,22 @@ export interface SelectionCandidate extends SelectionItem {
 
 export const itemFocusTargetSelector = '[data-sortable-lists--item-target~="focus"]';
 
-// Decides only whether a range stays inside the list it started in. The DOM
-// id survives a morph; the type/id pair is the fallback for consumers that
-// render none.
+// Decides only whether a range stays inside the list it started in. Derived
+// from the list's own values rather than its DOM id, so every consumer keys
+// its lists the same way.
 function listKeyOf(listElement:HTMLElement):string {
-  if (listElement.id !== '') {
-    return listElement.id;
-  }
-
   const type = listElement.getAttribute('data-sortable-lists--list-type-value') ?? '';
   const id = listElement.getAttribute('data-sortable-lists--list-id-value') ?? '';
 
   return `${type}:${id}`;
+}
+
+// Bounded to the item's own subtree: a nested list's items carry focus
+// targets of their own, and a descendant's must never stand in for the
+// outer item's.
+function focusHostOf(itemElement:HTMLElement):HTMLElement {
+  return Array.from(itemElement.querySelectorAll<HTMLElement>(itemFocusTargetSelector))
+    .find((target) => target.closest(sortableItemSelector) === itemElement) ?? itemElement;
 }
 
 // A child belongs to the nearest root, not to any root containing it: an
@@ -79,13 +83,13 @@ function ownerList(root:HTMLElement, itemElement:HTMLElement):HTMLElement|null {
   return list && ownsElement(root, list) ? list : null;
 }
 
-// Bounded by the rows container: resolveItemElement's querySelector fallback
-// descends unbounded, so a section row would otherwise resolve to the first
-// field of the list nested inside it.
-function rowItemId(row:Element, rowsContainer:Element):string|null {
+// The boundary bounds only the upward walk; resolveItemElement's downward
+// fallback would hand a structural row the first item of a list nested
+// inside it, so the resolved item must also belong to this list.
+function rowItem(row:Element, rowsContainer:Element, root:HTMLElement, list:HTMLElement):HTMLElement|null {
   const item = resolveItemElement(row, rowsContainer);
 
-  return item ? resolveItemId(item) : null;
+  return item && ownerList(root, item) === list ? item : null;
 }
 
 export function orderedItemElements(root:HTMLElement):HTMLElement[] {
@@ -125,7 +129,7 @@ export function resolveCandidate(root:HTMLElement, target:EventTarget|null):Sele
   return {
     type,
     itemElement,
-    focusHost: itemElement.querySelector<HTMLElement>(itemFocusTargetSelector) ?? itemElement,
+    focusHost: focusHostOf(itemElement),
     id,
     listKey: listKeyOf(list),
     orderable: isOrderableItem(itemElement),
@@ -194,12 +198,18 @@ export function resolveRangeItems(
     return { ok: false, reason: 'crossList' };
   }
 
-  if (!ownerList(root, candidate.itemElement) || !rowsContainer) {
+  const list = ownerList(root, candidate.itemElement);
+  if (!list || !rowsContainer) {
     return { ok: false, reason: 'unavailable' };
   }
 
   const rows = Array.from(rowsContainer.children);
-  const anchorRow = rows.find((row) => rowItemId(row, rowsContainer) === anchor.id);
+  const anchorKey = selectionKey(anchor);
+  const anchorRow = rows.find((row) => {
+    const item = rowItem(row, rowsContainer, root, list);
+    const identity = item && itemIdentity(item);
+    return identity !== null && selectionKey(identity) === anchorKey;
+  });
   // A candidate whose item sits outside the rows container has no row here.
   const candidateRow = rowOf(rowsContainer, candidate.itemElement);
   if (!anchorRow || !candidateRow) {
@@ -212,7 +222,7 @@ export function resolveRangeItems(
 
   const items:SelectionItem[] = [];
   for (const row of span) {
-    const item = resolveItemElement(row, rowsContainer);
+    const item = rowItem(row, rowsContainer, root, list);
     const id = item ? resolveItemId(item) : null;
     // A truncation marker in the span and a card the user cannot move are
     // both hard boundaries, but only the first can be resolved by expanding.
@@ -252,7 +262,7 @@ export function applySelectionPresentation(
 ):void {
   for (const item of orderedItemElements(root)) {
     const identity = itemIdentity(item);
-    const focusHost = item.querySelector<HTMLElement>(itemFocusTargetSelector) ?? item;
+    const focusHost = focusHostOf(item);
 
     if (identity && keys.has(selectionKey(identity))) {
       item.setAttribute(batchSelectedAttribute, '');
