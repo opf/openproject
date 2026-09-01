@@ -65,13 +65,15 @@ RSpec.describe "Meeting notifications", :js do
 
       within "#exit-draft-mode-dialog" do
         # toggle between checkbox states
-        checkbox = find_field(I18n.t("label_meeting_send_updates"))
+        label = I18n.t("label_meeting_send_updates")
         expect(page).to have_css(".Banner", text: enabled_text.strip)
 
-        checkbox.click
+        find("label", text: label).click
+        expect(page).to have_unchecked_field(label)
         expect(page).to have_css(".Banner", text: disabled_text.strip)
 
-        checkbox.click
+        find("label", text: label).click
+        expect(page).to have_checked_field(label)
         expect(page).to have_css(".Banner", text: enabled_text.strip)
       end
     end
