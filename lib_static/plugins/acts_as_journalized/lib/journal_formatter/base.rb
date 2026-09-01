@@ -64,12 +64,7 @@ module JournalFormatter
     #   arguments. Subclasses may override this method to instance_exec the
     #   proc with additional context relevant to the field being rendered
     #   (see e.g. OpenProject::JournalFormatter::CustomField::ViewPermission).
-    # @param key [String] the field being rendered. Unused here, but
-    #   JournalFormatter#render_detail calls every formatter's
-    #   #permission_granted? the same way, so the signature must accept it
-    #   even where it goes unused (mirrors #render's own unused +key+ param
-    #   in e.g. OpenProject::JournalFormatter::Template).
-    def permission_granted?(permission, key: nil) # rubocop:disable Lint/UnusedMethodArgument
+    def permission_granted?(permission, **)
       return true unless permission
 
       if permission.is_a?(Symbol)
