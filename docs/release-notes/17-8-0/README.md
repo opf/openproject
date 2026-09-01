@@ -235,8 +235,7 @@ Special thanks for reporting and finding bugs go to Christoph Jansen, Chris Kerr
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
 
-- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Turkish,
-- [Tom Hykel](https://crowdin.com/profile/thykel) for translations into Czech,
-- [Christophe Gesché](https://crowdin.com/profile/Moosh-be), for translations into French.
+- [Narek Selvinazyan](https://crowdin.com/profile/narek.selvinazyan), for translations into Armenian,
+- [Amir Zalaghi](https://crowdin.com/profile/zalaghi) for translations to Persian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
