@@ -439,8 +439,9 @@ export class SelectionOrchestrator {
   }
 
   // Announcement follows the gesture class, not the count: `navigation` (a
-  // plain click) speaks only when the count moves, since the details pane it
-  // opens is its own feedback; `selection` speaks on any membership change.
+  // plain click) speaks only when it collapsed a batch, since the details
+  // pane it opens is its own feedback for the card itself; `selection`
+  // speaks on any membership change.
   private renderSelection(kind:'navigation'|'selection'):void {
     const previous = this.lastRenderedKeys;
     this.syncSelectionPresentation();
@@ -449,7 +450,7 @@ export class SelectionOrchestrator {
     this.lastRenderedKeys = current;
 
     const changed = kind === 'navigation'
-      ? current.size !== previous.size
+      ? previous.size > 1 && current.size !== previous.size
       : current.size !== previous.size || [...current].some((id) => !previous.has(id));
 
     if (changed) {
