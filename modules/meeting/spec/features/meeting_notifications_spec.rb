@@ -97,8 +97,7 @@ RSpec.describe "Meeting notifications", :js do
     include_examples "notification checkbox behaviour"
 
     it "sets and toggles the calendar updates state" do
-      # a time comfortably away from the now-based default start time, so editing is a real change
-      edit_start_time = 4.hours.from_now.strftime("%H:00")
+      edit_start_at = 1.day.from_now.change(hour: 10)
 
       # check if the default is set correctly
       expect(meeting.notify).to be false
@@ -132,9 +131,9 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        show_page.set_start_time edit_start_time
-        click_on "Save"
+        show_page.set_start_datetime edit_start_at
       end
+      show_page.save_details
 
       wait_for_network_idle
 
@@ -171,9 +170,9 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        show_page.set_start_time edit_start_time
-        click_on "Save"
+        show_page.set_start_datetime edit_start_at
       end
+      show_page.save_details
 
       wait_for_network_idle
 
@@ -263,9 +262,8 @@ RSpec.describe "Meeting notifications", :js do
     end
 
     it "can set and toggle the calendar updates state for the template and occurrences" do
-      # times comfortably away from the now-based default start time, so each edit is a real change
-      template_start_time = 4.hours.from_now.strftime("%H:00")
-      occurrence_start_time = 5.hours.from_now.strftime("%H:00")
+      template_start_at = 1.day.from_now.change(hour: 10)
+      occurrence_start_at = 1.day.from_now.change(hour: 11)
 
       template_page.visit!
 
@@ -298,10 +296,10 @@ RSpec.describe "Meeting notifications", :js do
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
         expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
-        template_page.set_start_time template_start_time
+        template_page.set_start_datetime template_start_at
         wait_for_network_idle
-        click_on "Save"
       end
+      template_page.save_details
 
       wait_for_network_idle
 
@@ -329,10 +327,10 @@ RSpec.describe "Meeting notifications", :js do
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
         expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
-        occurrence_page.set_start_time occurrence_start_time
+        occurrence_page.set_start_datetime occurrence_start_at
         wait_for_network_idle
-        click_on "Save"
       end
+      occurrence_page.save_details
 
       wait_for_network_idle
 

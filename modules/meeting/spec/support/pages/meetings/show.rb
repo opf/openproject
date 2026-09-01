@@ -797,6 +797,28 @@ module Pages::Meetings
       page.execute_script("arguments[0].dispatchEvent(new Event('input'))", input.native)
     end
 
+    def set_start_datetime(datetime)
+      fill_in "meeting_start_date", with: datetime.to_date.iso8601
+      set_start_time datetime.strftime("%H:%M")
+    end
+
+    def save_details
+      page.document.synchronize do
+        clicked = page.evaluate_script(<<~JS)
+          (() => {
+            const button = document.querySelector(".Overlay button[type='submit']");
+            if (!button || button.disabled) return false;
+
+            button.click();
+            return true;
+          })()
+        JS
+        raise Capybara::ElementNotFound unless clicked
+      end
+
+      expect(page).to have_no_css(".Overlay")
+    end
+
     def meeting_reference_value
       page_header = page.find("#meetings-header-component page-header")
       page_header["data-reference-value"]
