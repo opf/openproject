@@ -77,11 +77,30 @@ RSpec.describe "custom_styles/_inline_css_logo" do
     expect(rendered).to include('data-turbo-track="reload"')
   end
 
+  context "without custom logos" do
+    before do
+      allow(view).to receive(:apply_custom_styles?).and_return(false)
+
+      render partial: "custom_styles/inline_css_logo"
+    end
+
+    it "preserves the distinct default mobile icon assets" do
+      expect(background_image_for(".op-logo--icon")).to eq(asset_path("icon_logo.svg"))
+      expect(background_image_for(".op-logo--icon_white")).to eq(asset_path("icon_logo_white.svg"))
+    end
+  end
+
   def logo_variant_path(field)
     custom_style_logo_variant_path(
       digest: custom_style.digest,
       filename: custom_style.public_send(:"#{field}_identifier"),
       variant: field
     )
+  end
+
+  def background_image_for(selector)
+    css = Nokogiri::HTML.fragment(rendered).css("style").last.content
+
+    css.match(/#{Regexp.escape(selector)}\s*\{\s*background-image: url\(([^)]+)\)/m)[1]
   end
 end
