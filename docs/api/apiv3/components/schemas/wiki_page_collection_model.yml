@@ -1,0 +1,12 @@
+---
+allOf:
+- "$ref": "./collection_model.yml"
+- type: object
+  properties:
+    _embedded:
+      type: object
+      properties:
+        elements:
+          type: array
+          items:
+            "$ref": "./wiki_page_model.yml"

@@ -1,0 +1,16 @@
+# /api/v3/wiki_pages/{id}/form
+---
+post:
+  summary: Update wiki page form
+  operationId: Update_Wiki_Page_Form
+  tags:
+  - Wiki Pages
+  parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK

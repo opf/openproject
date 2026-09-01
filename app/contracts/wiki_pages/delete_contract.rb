@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,20 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module API
-  module V3
-    module Workspaces
-      class NestedApis < ::API::OpenProjectAPI
-        mount API::V3::Workspaces::AvailableAssigneesAPI
-        mount API::V3::Types::TypesByWorkspaceAPI
-        mount API::V3::WorkPackages::WorkPackagesByWorkspaceAPI
-        mount API::V3::Categories::CategoriesByWorkspaceAPI
-        mount API::V3::Versions::VersionsByProjectAPI
-        mount API::V3::WikiPages::NestedApis
-        mount API::V3::Queries::QueriesByWorkspaceAPI
-        mount API::V3::Favorites::FavoriteActionsAPI, with: { favorite_object_getter: ->(*) { @project } }
+module WikiPages
+  class DeleteContract < ::DeleteContract
+    delete_permission :manage_wiki
+
+    validate :validate_todo
+    validate :validate_reassignment
+
+    private
+
+    def validate_todo
+      todo = options[:todo]
+
+      if model.descendants.any?
+        if todo.blank?
+          errors.add :todo, :blank
+          return
+        end
+
+        unless %w[nullify destroy reassign].include?(todo)
+          errors.add :todo, :inclusion
+        end
+      elsif todo.present? && !%w[nullify destroy reassign].include?(todo)
+        errors.add :todo, :inclusion
+      end
+    end
+
+    def validate_reassignment
+      return unless options[:todo] == "reassign"
+
+      reassign_to = options[:reassign_to]
+      if reassign_to.blank? || model.self_and_descendants.include?(reassign_to)
+        errors.add :reassign_to, :invalid
       end
     end
   end

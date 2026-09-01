@@ -12,6 +12,32 @@ properties:
   title:
     type: string
     description: The wiki page's title
+  slug:
+    type: string
+    readOnly: true
+  text:
+    "$ref": "./formattable.yml"
+  lockVersion:
+    type: integer
+    description: |-
+      Optimistic locking token (ActiveRecord `lock_version`).
+      Required on update; stale values yield an UpdateConflict error.
+      Distinct from `version`, which is the journal/history revision.
+  version:
+    type: integer
+    description: Journal history revision number (read-only). Distinct from lockVersion.
+    readOnly: true
+  protected:
+    type: boolean
+    description: When true, editing requires manage wiki permission
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true
   _links:
     type: object
     properties:

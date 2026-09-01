@@ -1,0 +1,10 @@
+# /api/v3/wiki_pages/form
+---
+post:
+  summary: Create wiki page form
+  operationId: Create_Wiki_Page_Form
+  tags:
+  - Wiki Pages
+  responses:
+    '200':
+      description: OK

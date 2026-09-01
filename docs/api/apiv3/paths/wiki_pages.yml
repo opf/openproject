@@ -1,0 +1,32 @@
+# /api/v3/wiki_pages
+---
+get:
+  summary: List wiki pages
+  operationId: List_Wiki_Pages
+  tags:
+  - Wiki Pages
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/wiki_page_collection_model.yml"
+post:
+  summary: Create wiki page
+  operationId: Create_Wiki_Page
+  tags:
+  - Wiki Pages
+  requestBody:
+    required: true
+    content:
+      application/hal+json:
+        schema:
+          "$ref": "../components/schemas/wiki_page_write_model.yml"
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/wiki_page_model.yml"

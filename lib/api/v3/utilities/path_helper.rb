@@ -654,8 +654,14 @@ module API
             "#{work_package_watchers(work_package_id)}/#{id}"
           end
 
-          def self.wiki_page(id)
-            "#{root}/wiki_pages/#{id}"
+          resources :wiki_page
+
+          def self.wiki_page_activities(id)
+            "#{wiki_page(id)}/activities"
+          end
+
+          def self.wiki_pages_by_project(project_id)
+            "#{project(project_id)}/wiki_pages"
           end
 
           resources :work_package, except: :schema

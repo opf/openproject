@@ -571,8 +571,20 @@ paths:
     "$ref": "./paths/view.yml"
   "/api/v3/wiki_pages/{id}":
     "$ref": "./paths/wiki_page.yml"
+  "/api/v3/wiki_pages":
+    "$ref": "./paths/wiki_pages.yml"
+  "/api/v3/wiki_pages/schema":
+    "$ref": "./paths/wiki_pages_schema.yml"
+  "/api/v3/wiki_pages/form":
+    "$ref": "./paths/wiki_pages_form.yml"
+  "/api/v3/wiki_pages/{id}/form":
+    "$ref": "./paths/wiki_page_form.yml"
+  "/api/v3/wiki_pages/{id}/activities":
+    "$ref": "./paths/wiki_page_activities.yml"
   "/api/v3/wiki_pages/{id}/attachments":
     "$ref": "./paths/wiki_page_attachments.yml"
+  "/api/v3/projects/{id}/wiki_pages":
+    "$ref": "./paths/project_wiki_pages.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
@@ -1160,6 +1172,10 @@ components:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
+    Wiki_PageCollectionModel:
+      "$ref": "./components/schemas/wiki_page_collection_model.yml"
+    Wiki_PageWriteModel:
+      "$ref": "./components/schemas/wiki_page_write_model.yml"
     WorkPackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
     WorkPackageFormModel:
