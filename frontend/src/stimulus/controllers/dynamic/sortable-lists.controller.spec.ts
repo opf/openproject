@@ -2008,6 +2008,102 @@ describe('Sortable lists controller', () => {
     expect(isSelected(items[0])).toBe(true);
   });
 
+  // Focus routinely rests in the details pane or the page header after a
+  // selection; Escape there still means "drop the selection".
+  it('clears the batch on Escape from a control outside the root', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const button = document.createElement('button');
+    document.body.appendChild(button);
+    button.focus();
+
+    try {
+      keydown(button, 'Escape');
+    } finally {
+      button.remove();
+    }
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('leaves Escape to a text field outside the root', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+    input.focus();
+
+    try {
+      const event = keydown(input, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      input.remove();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  it('leaves Escape to an open dialog', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const dialog = document.createElement('dialog');
+    const button = document.createElement('button');
+    dialog.appendChild(button);
+    document.body.appendChild(dialog);
+    dialog.showModal();
+
+    try {
+      const event = keydown(button, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      dialog.close();
+      dialog.remove();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  // A menu opens its popover before moving focus into it on the next frame,
+  // so an Escape in between still targets the invoker inside the card.
+  it('leaves Escape to an open popover while focus is still on its invoker', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const invoker = document.createElement('button');
+    const popover = document.createElement('div');
+    popover.setAttribute('popover', '');
+    items[1].append(invoker, popover);
+    popover.showPopover();
+    invoker.focus();
+
+    try {
+      const event = keydown(invoker, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      popover.hidePopover();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  it('clears the batch on Escape once the popover has closed', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const popover = document.createElement('div');
+    popover.setAttribute('popover', '');
+    items[1].appendChild(popover);
+    popover.showPopover();
+    popover.hidePopover();
+
+    keydown(items[1], 'Escape');
+
+    expect(isSelected(items[0])).toBe(false);
+  });
+
   it('leaves Enter to the navigation handler', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();

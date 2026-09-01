@@ -203,6 +203,41 @@ describe('SelectionOrchestrator', () => {
     expect(orchestrator.selectedIds()).toEqual(['1']);
   });
 
+  // Both roots listen at the document; the first to clear consumes the key,
+  // which must not read as an overlay's Escape to the second.
+  it('clears every root\'s batch on one Escape, not only the first listener\'s', () => {
+    const secondRoot = root.cloneNode(true) as HTMLElement;
+    document.body.appendChild(secondRoot);
+    const first = new SelectionOrchestrator(hostFor(root));
+    const second = new SelectionOrchestrator(hostFor(secondRoot));
+    first.handleClick(clickOn(item('1')));
+    second.handleClick(clickOn(secondRoot.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!));
+    const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'target', { value: document.body });
+
+    try {
+      first.handleEscape(event);
+      second.handleEscape(event);
+    } finally {
+      secondRoot.remove();
+    }
+
+    expect(first.selectedIds()).toEqual([]);
+    expect(second.selectedIds()).toEqual([]);
+  });
+
+  it('still leaves an Escape an overlay consumed alone', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1')));
+    const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'target', { value: document.body });
+    event.preventDefault();
+
+    orchestrator.handleEscape(event);
+
+    expect(orchestrator.selectedIds()).toEqual(['1']);
+  });
+
   describe('announcements', () => {
     const spoken = () => announceSpy.mock.calls.map((call) => call[0]);
 
