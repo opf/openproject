@@ -81,12 +81,12 @@ RSpec.describe "LLM connection administration",
 
       check "Enable LLMs for this instance"
 
-      expect(page).to have_text("speaks the OpenAI-compatible API")
+      expect(page).to have_text("speaks the OpenAI API")
 
       select "Anthropic", from: "API format"
 
       expect(page).to have_text("speaks the Anthropic API")
-      expect(page).to have_no_text("speaks the OpenAI-compatible API")
+      expect(page).to have_no_text("speaks the OpenAI API")
     end
   end
 end

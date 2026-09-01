@@ -1700,7 +1700,7 @@ en:
 
     llm_connections:
       form:
-        api_format_caption: "Which API the server speaks. Choose OpenAI-compatible for most gateways and self-hosted servers."
+        api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
@@ -4238,7 +4238,7 @@ en:
       gpustack: "GPUStack"
       mistral: "Mistral"
       ollama: "Ollama"
-      openai: "OpenAI-compatible"
+      openai: "OpenAI"
       openrouter: "OpenRouter"
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
