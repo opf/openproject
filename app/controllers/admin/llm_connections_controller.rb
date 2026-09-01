@@ -31,7 +31,6 @@
 module Admin
   class LlmConnectionsController < ApplicationController
     include OpTurbo::ComponentStream
-    include PaginationHelper
 
     layout "admin"
     menu_item :llm_connection
@@ -69,8 +68,6 @@ module Admin
 
     def render_form_with_errors
       update_via_turbo_stream(component: ::LlmConnections::FormComponent.new(@connection))
-      # The HTML fallback re-renders the whole page, which needs everything the
-      # show action assigns -- not just the form that failed.
       respond_with_turbo_streams do |format|
         format.html do
           show
