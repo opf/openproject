@@ -171,10 +171,16 @@ export const useAnchoredPopover = ({
     update();
     window.addEventListener('scroll', handleScroll, true);
     window.addEventListener('resize', scheduleUpdate);
+    // A popover opened on a field that is still animating in was measured
+    // against a position the anchor has since left.
+    window.addEventListener('animationend', scheduleUpdate, true);
+    window.addEventListener('transitionend', scheduleUpdate, true);
     return () => {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('resize', scheduleUpdate);
+      window.removeEventListener('animationend', scheduleUpdate, true);
+      window.removeEventListener('transitionend', scheduleUpdate, true);
     };
   }, [anchorEl, popoverRef]);
 
