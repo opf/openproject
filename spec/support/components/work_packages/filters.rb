@@ -229,6 +229,7 @@ module Components
 
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+        expect(page).to have_no_css("#filter_#{field}")
       end
 
       def clear_filter_value(field)
