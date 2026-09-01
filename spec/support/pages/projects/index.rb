@@ -258,7 +258,8 @@ module Pages
           if boolean_filter?(name)
             set_toggle_filter(values)
           elsif kind == :autocomplete
-            set_autocomplete_filter(values)
+            element = -> { page.document.find("#{filter_selector(name)} [data-filter-autocomplete=\"true\"]") }
+            set_autocomplete_filter(values, element:)
           elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
             set_datetime_filter(name, human_operator, values, send_keys:)

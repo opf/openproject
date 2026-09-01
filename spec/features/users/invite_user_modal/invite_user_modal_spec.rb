@@ -246,18 +246,11 @@ RSpec.describe "Invite user modal", :js do
             list_cf
           end
 
-          it_behaves_like "invites the principal to the project" do
-            let(:added_principal) { principal }
-            let(:mail_membership_recipients) { [principal] }
-          end
+          context "when another required CF value is missing" do
+            let(:string_cf) { create(:user_custom_field, :string, name: "Department", is_required: true) }
 
-          context "when the required list CF value is missing" do
-            let(:list_cf) do
-              create(:user_custom_field,
-                     :list,
-                     name: "List",
-                     is_required: true,
-                     editable: false)
+            before do
+              string_cf
             end
 
             it_behaves_like "invites the principal to the project" do
@@ -294,12 +287,6 @@ RSpec.describe "Invite user modal", :js do
 
             before do
               list_cf
-            end
-
-            it_behaves_like "invites the principal to the project" do
-              let(:added_principal) { User.find_by!(mail: principal.mail) }
-              let(:mail_invite_recipients) { [added_principal] }
-              let(:mail_membership_recipients) { [added_principal] }
             end
 
             context "when the required list CF value is missing" do
@@ -436,11 +423,6 @@ RSpec.describe "Invite user modal", :js do
 
           before do
             list_cf
-          end
-
-          it_behaves_like "invites the principal to the project" do
-            let(:added_principal) { principal }
-            let(:mail_membership_recipients) { [group_user] }
           end
 
           context "when the required group CF value is missing" do

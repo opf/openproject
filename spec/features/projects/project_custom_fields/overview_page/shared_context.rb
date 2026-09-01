@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context "with seeded projects, members and project custom fields" do
+RSpec.shared_context "with seeded projects, members and project custom fields" do |seed_all: true|
   let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
   let(:other_project) { create(:project, name: "Bar project", identifier: "bar-project") }
 
-  let!(:first_version) { create(:version, name: "Version 1", project:) }
-  let!(:second_version) { create(:version, name: "Version 2", project:) }
-  let!(:third_version) { create(:version, name: "Version 3", project:) }
+  let(:first_version) { create(:version, name: "Version 1", project:) }
+  let(:second_version) { create(:version, name: "Version 2", project:) }
+  let(:third_version) { create(:version, name: "Version 3", project:) }
 
   shared_let(:standard) { create(:standard_global_role) }
   shared_let(:reader_role_without_project_attributes) do
@@ -54,25 +54,25 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     create(:project_role, permissions: %i[view_work_packages view_project_attributes edit_project_attributes edit_project])
   end
 
-  let!(:admin) do
+  let(:admin) do
     create(:admin)
   end
 
-  let!(:member_in_project) do
+  let(:member_in_project) do
     create(:user,
            firstname: "Member 1",
            lastname: "In Project",
            member_with_roles: { project => reader_role })
   end
 
-  let!(:another_member_in_project) do
+  let(:another_member_in_project) do
     create(:user,
            firstname: "Member 2",
            lastname: "In Project",
            member_with_roles: { project => reader_role })
   end
 
-  let!(:one_more_member_in_project) do
+  let(:one_more_member_in_project) do
     create(:user,
            firstname: "Member 3",
            lastname: "In Project",
@@ -100,15 +100,15 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
            member_with_roles: { project => edit_project_role })
   end
 
-  let!(:member_without_project_attributes_edit_permissions) do
+  let(:member_without_project_attributes_edit_permissions) do
     member_in_project
   end
 
-  let!(:section_for_input_fields) { create(:project_custom_field_section, name: "Input fields") }
-  let!(:section_for_select_fields) { create(:project_custom_field_section, name: "Select fields") }
-  let!(:section_for_multi_select_fields) { create(:project_custom_field_section, name: "Multi select fields") }
+  let(:section_for_input_fields) { create(:project_custom_field_section, name: "Input fields") }
+  let(:section_for_select_fields) { create(:project_custom_field_section, name: "Select fields") }
+  let(:section_for_multi_select_fields) { create(:project_custom_field_section, name: "Multi select fields") }
 
-  let!(:boolean_project_custom_field) do
+  let(:boolean_project_custom_field) do
     create(
       :boolean_project_custom_field,
       projects: [project],
@@ -119,7 +119,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:string_project_custom_field) do
+  let(:string_project_custom_field) do
     create(
       :string_project_custom_field,
       projects: [project],
@@ -130,7 +130,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:integer_project_custom_field) do
+  let(:integer_project_custom_field) do
     create(
       :integer_project_custom_field,
       projects: [project],
@@ -141,7 +141,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:float_project_custom_field) do
+  let(:float_project_custom_field) do
     create(
       :float_project_custom_field,
       projects: [project],
@@ -152,7 +152,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:date_project_custom_field) do
+  let(:date_project_custom_field) do
     create(
       :date_project_custom_field,
       projects: [project],
@@ -163,7 +163,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:link_project_custom_field) do
+  let(:link_project_custom_field) do
     create(
       :link_project_custom_field,
       projects: [project],
@@ -174,7 +174,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:text_project_custom_field) do
+  let(:text_project_custom_field) do
     create(
       :text_project_custom_field,
       projects: [project],
@@ -185,7 +185,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:calculated_from_int_project_custom_field) do
+  let(:calculated_from_int_project_custom_field) do
     create(
       :calculated_value_project_custom_field,
       :skip_validations,
@@ -198,7 +198,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:calculated_from_int_and_float_project_custom_field) do
+  let(:calculated_from_int_and_float_project_custom_field) do
     create(
       :calculated_value_project_custom_field,
       :skip_validations,
@@ -211,7 +211,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:list_project_custom_field) do
+  let(:list_project_custom_field) do
     create(
       :list_project_custom_field,
       projects: [project],
@@ -223,7 +223,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:version_project_custom_field) do
+  let(:version_project_custom_field) do
     create(
       :version_project_custom_field,
       projects: [project],
@@ -234,7 +234,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:user_project_custom_field) do
+  let(:user_project_custom_field) do
     create(
       :user_project_custom_field,
       projects: [project],
@@ -245,7 +245,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:multi_list_project_custom_field) do
+  let(:multi_list_project_custom_field) do
     create(
       :list_project_custom_field,
       projects: [project],
@@ -259,7 +259,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:multi_version_project_custom_field) do
+  let(:multi_version_project_custom_field) do
     create(
       :version_project_custom_field,
       projects: [project],
@@ -272,7 +272,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:multi_user_project_custom_field) do
+  let(:multi_user_project_custom_field) do
     create(
       :user_project_custom_field,
       projects: [project],
@@ -285,7 +285,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     end
   end
 
-  let!(:sections) do
+  let(:sections) do
     [
       section_for_input_fields,
       section_for_select_fields,
@@ -293,7 +293,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     ]
   end
 
-  let!(:input_fields) do
+  let(:input_fields) do
     [
       boolean_project_custom_field,
       string_project_custom_field,
@@ -305,7 +305,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     ]
   end
 
-  let!(:select_fields) do
+  let(:select_fields) do
     [
       list_project_custom_field,
       version_project_custom_field,
@@ -313,7 +313,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     ]
   end
 
-  let!(:multi_select_fields) do
+  let(:multi_select_fields) do
     [
       multi_list_project_custom_field,
       multi_version_project_custom_field,
@@ -321,7 +321,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     ]
   end
 
-  let!(:calculated_value_fields) do
+  let(:calculated_value_fields) do
     [
       calculated_from_int_project_custom_field,
       calculated_from_int_and_float_project_custom_field
@@ -330,12 +330,49 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
 
   let(:all_fields) { input_fields + select_fields + multi_select_fields + calculated_value_fields }
 
-  let!(:boolean_project_custom_field_activated_in_other_project) do
+  let(:boolean_project_custom_field_activated_in_other_project) do
     create(
       :boolean_project_custom_field,
       projects: [other_project],
       name: "Other Boolean field",
       project_custom_field_section: section_for_input_fields
     )
+  end
+
+  if seed_all
+    before do
+      first_version
+      second_version
+      third_version
+      admin
+      member_in_project
+      another_member_in_project
+      one_more_member_in_project
+      member_without_project_attributes_edit_permissions
+      section_for_input_fields
+      section_for_select_fields
+      section_for_multi_select_fields
+      boolean_project_custom_field
+      string_project_custom_field
+      integer_project_custom_field
+      float_project_custom_field
+      date_project_custom_field
+      link_project_custom_field
+      text_project_custom_field
+      calculated_from_int_project_custom_field
+      calculated_from_int_and_float_project_custom_field
+      list_project_custom_field
+      version_project_custom_field
+      user_project_custom_field
+      multi_list_project_custom_field
+      multi_version_project_custom_field
+      multi_user_project_custom_field
+      sections
+      input_fields
+      select_fields
+      multi_select_fields
+      calculated_value_fields
+      boolean_project_custom_field_activated_in_other_project
+    end
   end
 end

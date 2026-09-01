@@ -45,10 +45,6 @@ module WorkPackages
           @page = page
         end
 
-        def render?
-          journals.any?
-        end
-
         def wrapper_uniq_by
           page
         end

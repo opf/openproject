@@ -66,7 +66,9 @@ module Pages
     end
 
     def resize_date(work_package, date, end_date: true)
-      retry_block do
+      selector = end_date ? ".fc-event-resizer-end" : ".fc-event-resizer-start"
+
+      page.document.synchronize do
         wp_strip = event(work_package)
 
         page
@@ -76,11 +78,10 @@ module Pages
           .move_to(wp_strip.native)
           .perform
 
-        selector = end_date ? ".fc-event-resizer-end" : ".fc-event-resizer-start"
-        resizer = wp_strip.find(selector)
-        end_container = date_container date
+        resizer = event(work_package).find(selector, visible: :visible)
+        raise Capybara::ElementNotFound if resizer.native.rect.width.zero?
 
-        drag_n_drop_element(from: resizer, to: end_container)
+        drag_n_drop_element(from: resizer, to: date_container(date))
       end
     end
 
