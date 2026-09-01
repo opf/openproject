@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" } do
+RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   create_shared_association_defaults_for_work_package_factory
@@ -181,15 +181,11 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
 
     it "announces the number of items via aria-live" do
-      input = page.find(".top-menu-search--input")
-      input.set "Subject"
+      global_search.search("Subject")
 
-      live_region = page.find(
-        "live-region",
-        visible: :all
-      )
-
-      expect(live_region).to have_text(/\d+ items available/, wait: 5)
+      wait_for do
+        page.evaluate_script("document.querySelector('live-region').shadowRoot.textContent")
+      end.to match(/\d+ items available/)
     end
   end
 
