@@ -90,9 +90,9 @@ module Llm
     def get(path)
       response = session.get(uri_for(path))
       # A connection-level failure yields an HTTPX::ErrorResponse. A real response
-      # carrying a 4xx/5xx is an ordinary HTTPX::Response — note that its #error
-      # is also populated (it delegates to #raise_for_status), so the response
-      # class, not #error, is what distinguishes the two.
+      # carrying a 4xx/5xx is an ordinary HTTPX::Response whose #error is also
+      # populated (it delegates to #raise_for_status), so the response class, not
+      # #error, is what distinguishes the two.
       handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
       handle_status(response)
       parse(response)
