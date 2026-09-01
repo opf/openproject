@@ -335,6 +335,69 @@ describe('SelectionOrchestrator', () => {
       expect(orchestrator.selectedIds()).toEqual([]);
     });
 
+    // Non-Latin layouts print another letter on the A key; AZERTY prints A
+    // on KeyQ. Both users expect Ctrl+A where their keyboard says A.
+    it('selects all from the physical A key on a non-Latin layout', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'ф', { ctrlKey: true, code: 'KeyA' });
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+    });
+
+    it('selects all from the A key of an AZERTY layout', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'a', { ctrlKey: true, code: 'KeyQ' });
+
+      orchestrator.handleKeydown(event);
+
+      expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+    });
+
+    it('leaves Ctrl+Q alone on an AZERTY layout although it sits on KeyA', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'q', { ctrlKey: true, code: 'KeyA' });
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
+    // Non-Latin keys throughout, so that only the guard under test, never
+    // the Latin exclusion, can be what leaves the key alone.
+    it.each([
+      ['a dead key', { key: 'Dead', code: 'KeyA', ctrlKey: true }],
+      ['IME composition', { key: 'Process', code: 'KeyA', ctrlKey: true }],
+      ['a composing letter', { key: 'ф', code: 'KeyA', ctrlKey: true, isComposing: true }],
+      ['punctuation on the A key', { key: ';', code: 'KeyA', ctrlKey: true }],
+      ['an AltGr chord', { key: 'ф', code: 'KeyA', ctrlKey: true, altKey: true }],
+    ])('leaves %s alone although it sits on KeyA', (_label, init) => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const { key, ...rest } = init as KeyboardEventInit & { key:string };
+      const event = keydownOn(item('1'), key, rest);
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
+    // Stubbed rather than passed as `modifierAltGraph`: not every engine maps
+    // the init member onto getModifierState.
+    it('leaves an AltGraph chord alone although it sits on KeyA', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      const event = keydownOn(item('1'), 'ф', { code: 'KeyA', ctrlKey: true });
+      vi.spyOn(event, 'getModifierState').mockImplementation((key) => key === 'AltGraph');
+
+      orchestrator.handleKeydown(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(orchestrator.selectedIds()).toEqual([]);
+    });
+
     // With nothing selectable in this list, the browser's own select-all
     // keeps the gesture even though another list has cards.
     it('leaves Ctrl/Cmd+A alone when only other lists are selectable', () => {
