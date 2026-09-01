@@ -66,7 +66,7 @@ zh-TW:
             host:
               authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 令牌(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
               cannot_be_connected_to: 無法連線。請確認主機可以連線，且已安裝 OpenProject 整合應用程式。
-              minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
               op_application_not_installed: 似乎沒有安裝應用「OpenProject 整合套件」。請先安裝，然後重試。
             password:
@@ -135,6 +135,7 @@ zh-TW:
         error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject 無法存取所要求的資源。請檢查您在儲存服務提供者上的權限設定。
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject 無法驗證儲存服務提供商。請確認您有存取權。
       models:
         copy_project_folders_service:

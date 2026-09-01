@@ -66,7 +66,7 @@ pt-BR:
             host:
               authorization_header_missing: se não totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token Bearer com base na autorização de solicitações de API. Verifique novamente suas configurações de servidor HTTP.
               cannot_be_connected_to: não pôde ser acessado. Verifique se o host está disponível e se o aplicativo de integração do OpenProject está instalado.
-              minimal_nextcloud_version_unmet: não atende aos requisitos mínimos de versão (deve ser Nextcloud 23 ou superior)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: Parece não possui o aplicativo "OpenProject integration" instalado. Instale-o primeiro e depois tente novamente.
             password:
@@ -135,6 +135,7 @@ pt-BR:
         error: Ocorreu um erro inesperado. Verifique os registros do OpenProject para obter mais informações ou entre em contato com um administrador
         folder_id_collision: Vários armazenamentos de projeto tentam gerenciar a pasta do projeto %{folder}. A sincronização foi ignorada.
         forbidden: O OpenProject não conseguiu acessar o recurso solicitado. Verifique a configuração de permissões no Provedor de Armazenamento.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: O OpenProject não conseguiu se autenticar com o provedor de armazenamento. Verifique se você possui acesso a ele.
       models:
         copy_project_folders_service:

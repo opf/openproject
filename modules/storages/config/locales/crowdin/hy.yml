@@ -66,7 +66,7 @@ hy:
             host:
               authorization_header_missing: ամբողջությամբ կարգավորված չէ։ Nextcloud համակարգը չի ստանում "Authorization" վերնագիրը, որն անհրաժեշտ է API հարցումների՝ Bearer թոքենի վրա հիմնված լիազորման համար։ Խնդրում ենք կրկնակի ստուգել Ձեր HTTP սերվերի կազմաձևումը։
               cannot_be_connected_to: անհասանելի է։ Խնդրում ենք համոզվել, որ հոսթը հասանելի է և OpenProject-ի ինտեգրացիայի հավելվածը տեղադրված է։
-              minimal_nextcloud_version_unmet: չի բավարարում նվազագույն տարբերակի պահանջները (պետք է լինի Nextcloud 23 կամ ավելի բարձր)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: Nextcloud սերվեր չէ
               op_application_not_installed: ըստ երևույթին չունի տեղադրված "OpenProject integration" հավելվածը։ Խնդրում ենք նախ տեղադրել այն և ապա կրկին փորձել։
             password:
@@ -135,6 +135,7 @@ hy:
         error: Անսպասելի սխալ է տեղի ունեցել։ Լրացուցիչ տեղեկությունների համար խնդրում ենք ստուգել OpenProject-ի մատյանները կամ դիմել ադմինիստրատորին
         folder_id_collision: Մի քանի նախագծի պահեստներ փորձում են կառավարել %{folder} նախագծի պանակը։ Դրա համաժամացումը բաց է թողնվել։
         forbidden: OpenProject-ը չկարողացավ մուտք գործել պահանջվող ռեսուրսը։ Խնդրում ենք ստուգել Ձեր թույլտվությունների կազմաձևումը պահեստի մատակարարի մոտ։
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject-ը չկարողացավ նույնականացվել պահեստի մատակարարի մոտ։ Խնդրում ենք համոզվել, որ Դուք ունեք դրա հասանելիությունը։
       models:
         copy_project_folders_service:

@@ -66,7 +66,7 @@ fa:
             host:
               authorization_header_missing: به‌طور کامل راه‌اندازی نشده است. نمونه Nextcloud هدر «Authorization» را دریافت نمی‌کند که برای مجوزدهی مبتنی بر Bearer Token در درخواست‌های API لازم است. پیکربندی HTTP Server را دوباره بررسی کنید.
               cannot_be_connected_to: قابل دسترسی نبود. مطمئن شوید Host در دسترس است و برنامه OpenProject Integration نصب شده باشد.
-              minimal_nextcloud_version_unmet: حداقل نسخه موردنیاز را ندارد (باید Nextcloud 23 یا بالاتر باشد)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: سرور Nextcloud نیست
               op_application_not_installed: به نظر می‌رسد برنامه «OpenProject integration» نصب نشده است. ابتدا آن را نصب و دوباره تلاش کنید.
             password:
@@ -135,6 +135,7 @@ fa:
         error: خطای غیرمنتظره‌ای رخ داد. برای اطلاعات بیشتر لاگ‌های OpenProject را بررسی کنید یا با مدیر تماس بگیرید
         folder_id_collision: چند فضای ذخیره‌سازی پروژه تلاش می‌کنند پوشه پروژه %{folder} را مدیریت کنند. همگام‌سازی آن رد شد.
         forbidden: OpenProject نتوانست به منبع درخواستی دسترسی پیدا کند. پیکربندی مجوزها در ارائه‌دهنده فضای ذخیره‌سازی را بررسی کنید.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject نتوانست با ارائه‌دهنده فضای ذخیره‌سازی احراز هویت کند. مطمئن شوید به آن دسترسی دارید.
       models:
         copy_project_folders_service:
