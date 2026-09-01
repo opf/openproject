@@ -1034,11 +1034,21 @@ RSpec.describe Import::JiraImportProjectsJob::JiraImportCustomFieldBuilder do
         expect(date_builder.find_existing_custom_field).to eq(exact)
       end
 
-      it "falls back to the oldest suffixed candidate when no exact name exists" do
-        oldest = create(:date_wp_custom_field, name: "Due (archived)")
+      it "does not reuse a suffixed candidate when no exact name matches" do
+        create(:date_wp_custom_field, name: "Due (archived)")
         create(:date_wp_custom_field, name: "Due (2)")
 
-        expect(date_builder.find_existing_custom_field).to eq(oldest)
+        expect(date_builder.find_existing_custom_field).to be_nil
+      end
+
+      it "keeps two Jira fields apart when one is named like the other's dedup suffix" do
+        suffixed = create(:string_wp_custom_field, name: "foo (2)")
+        schema = { "type" => "string", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textfield" }
+        builder = described_class.new(jira_field_for(name: "foo", schema:), jira_import:)
+
+        expect(builder.find_existing_custom_field).to be_nil
+        expect(builder.custom_field_settings.first).to eq("foo")
+        expect(suffixed.reload.name).to eq("foo (2)")
       end
     end
 

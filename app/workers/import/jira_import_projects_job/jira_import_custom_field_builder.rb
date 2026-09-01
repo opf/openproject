@@ -316,8 +316,7 @@ module Import
         return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
 
         candidates.find { |cf| cf.name.casecmp?(@import_name) } ||
-          candidates.find { |cf| cf.name.casecmp?(stable_base_name) } ||
-          candidates.first
+          candidates.find { |cf| cf.name.casecmp?(stable_base_name) }
       end
 
       def value_bearing_format?
