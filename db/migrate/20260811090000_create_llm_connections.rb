@@ -32,7 +32,6 @@ class CreateLlmConnections < ActiveRecord::Migration[8.1]
   def change
     create_table :llm_connections do |t|
       t.string :identifier, null: false, index: { unique: true }
-      t.string :type, null: false, index: true
       t.boolean :enabled, null: false, default: false
       t.string :base_url, null: false
       # Nullable: an unauthenticated self-hosted server needs no key.

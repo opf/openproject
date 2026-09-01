@@ -30,10 +30,8 @@
 
 # The connection to an OpenAI-API-compatible LLM server.
 #
-# Only a single connection is supported today. That is enforced by a validation
-# rather than by the schema, so lifting the restriction later is a one-line change:
-# every association is already scoped by +llm_connection_id+ and the STI +type+
-# column is in place.
+# Only a single connection is supported today, enforced by a validation rather
+# than by the schema: every association is already scoped by +llm_connection_id+.
 class LlmConnection < ApplicationRecord
   SINGLETON_IDENTIFIER = "default"
 
