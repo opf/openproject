@@ -465,6 +465,8 @@ ms:
         duration: Tempoh
         end_deletion: Pengakhiran pemadaman
         end_insertion: Pengakhiran kemasukan
+        end_deletion: Pengakhiran pemadaman
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Abaikan hari tidak bekerja
         include_non_working_days:

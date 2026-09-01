@@ -463,6 +463,8 @@ fi:
         duration: Kesto
         end_deletion: Poistokohdan loppu
         end_insertion: Lisäyksen loppu
+        end_deletion: Poistokohdan loppu
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

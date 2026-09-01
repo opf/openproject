@@ -465,6 +465,8 @@ cs:
         duration: Doba trvání
         end_deletion: Konec odstranění
         end_insertion: Konec vložení
+        end_deletion: Konec odstranění
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignorovat nepracovní dny
         include_non_working_days:

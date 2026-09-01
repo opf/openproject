@@ -462,6 +462,7 @@ he:
         done_ratio: "% Complete"
         duration: משך זמן
         end_deletion: End of the deletion
+        has_spent_time: Has spent time
         end_insertion: End of the insertion
         identifier: Identifier
         ignore_non_working_days: Ignore non working days

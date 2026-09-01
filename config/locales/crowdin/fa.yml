@@ -463,6 +463,7 @@ fa:
         duration: مدت
         end_deletion: پایان حذف
         end_insertion: پایان درج
+        has_spent_time: Has spent time
         identifier: شناسه
         ignore_non_working_days: نادیده‌گرفتن روزهای غیرکاری
         include_non_working_days:

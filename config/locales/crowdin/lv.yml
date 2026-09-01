@@ -463,6 +463,8 @@ lv:
         duration: Ilgums
         end_deletion: Dzēšanas beigas
         end_insertion: Ievietošanas beigas
+        end_deletion: Dzēšanas beigas
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

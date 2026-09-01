@@ -463,6 +463,8 @@
         duration: Varighet
         end_deletion: Slutt på slettingen
         end_insertion: Slutt på innsettingen
+        end_deletion: Slutt på slettingen
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignorer arbeidsfrie dager
         include_non_working_days:

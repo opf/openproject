@@ -463,6 +463,8 @@ sk:
         duration: Trvanie
         end_deletion: Koniec odstraňovania
         end_insertion: Koniec vkladania
+        end_deletion: Koniec odstraňovania
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

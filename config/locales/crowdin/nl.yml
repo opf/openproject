@@ -465,6 +465,7 @@ nl:
         end_insertion: Einde van het invoegen
         identifier: Identifier
         ignore_non_working_days: Negeer niet-werkdagen
+        has_spent_time: Has spent time
         include_non_working_days:
           false: Alleen werkdagen
           title: Werkdagen

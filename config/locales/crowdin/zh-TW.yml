@@ -462,6 +462,7 @@ zh-TW:
         done_ratio: 完成度(%)
         duration: 時長
         end_deletion: 結束刪除
+        has_spent_time: Has spent time
         end_insertion: 結束插入
         identifier: Identifier
         ignore_non_working_days: 忽略非工作日

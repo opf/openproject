@@ -463,6 +463,8 @@ el:
         duration: Διάρκεια
         end_deletion: Λήξη της διαγραφής
         end_insertion: Λήξη της εισαγωγής
+        end_deletion: Λήξη της διαγραφής
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

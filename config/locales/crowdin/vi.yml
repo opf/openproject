@@ -463,6 +463,8 @@ vi:
         duration: thời lượng
         end_deletion: Kết thúc quá trình xóa
         end_insertion: Kết thúc chèn
+        end_deletion: Kết thúc quá trình xóa
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Bỏ qua những ngày không làm việc
         include_non_working_days:

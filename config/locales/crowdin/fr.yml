@@ -462,6 +462,7 @@ fr:
         done_ratio: "% réalisé"
         duration: Durée
         end_deletion: Fin de la suppression
+        has_spent_time: Has spent time
         end_insertion: Fin de l'insertion
         identifier: Identifiant
         ignore_non_working_days: Ignorer les jours non ouvrables

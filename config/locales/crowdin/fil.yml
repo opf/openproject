@@ -463,6 +463,8 @@ fil:
         duration: Durasyon
         end_deletion: Katapusan ng pagbubura
         end_insertion: Katapusan na
+        end_deletion: Katapusan ng pagbubura
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

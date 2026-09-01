@@ -463,6 +463,8 @@ sl:
         duration: Trajanje
         end_deletion: Konec izbrisa
         end_insertion: Konec vstavitve
+        end_deletion: Konec izbrisa
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

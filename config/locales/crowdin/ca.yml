@@ -463,6 +463,8 @@ ca:
         duration: Duració
         end_deletion: Final de la supressió
         end_insertion: Final de la inserció
+        end_deletion: Final de la supressió
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignora dies no laborals
         include_non_working_days:

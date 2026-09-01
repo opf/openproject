@@ -465,6 +465,8 @@ ja:
         duration: 期間
         end_deletion: 削除の終わり
         end_insertion: 挿入の終わり
+        end_deletion: 削除の終わり
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: 非営業日を無視
         include_non_working_days:

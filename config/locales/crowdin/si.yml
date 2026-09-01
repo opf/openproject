@@ -463,6 +463,8 @@ si:
         duration: කාල සීමාව
         end_deletion: මකාදැමීමේ අවසානය
         end_insertion: ඇතුළත් කිරීමේ අවසානය
+        end_deletion: මකාදැමීමේ අවසානය
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

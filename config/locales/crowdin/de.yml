@@ -462,6 +462,7 @@ de:
         done_ratio: "% abgeschlossen"
         duration: Dauer
         end_deletion: Ende des Löschvorgangs
+        has_spent_time: Has spent time
         end_insertion: Ende der Einfügung
         identifier: Kennung
         ignore_non_working_days: Nicht-Arbeitstage ignorieren

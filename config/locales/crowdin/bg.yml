@@ -462,6 +462,7 @@ bg:
         done_ratio: "% Завършено"
         duration: Продължителност
         end_deletion: Края на изтриване
+        has_spent_time: Has spent time
         end_insertion: Край на вмъкване
         identifier: Identifier
         ignore_non_working_days: Игнориране на неработни дни

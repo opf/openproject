@@ -462,6 +462,7 @@ tr:
         done_ratio: Tamamlanma yüzdesi
         duration: Süre
         end_deletion: Silme işlemi bitti
+        has_spent_time: Has spent time
         end_insertion: Ekleme işlemi bitti
         identifier: Tanımlayıcı
         ignore_non_working_days: Çalışma dışı günleri yoksay

@@ -462,6 +462,7 @@ ar:
         done_ratio: "% Complete"
         duration: المدّة
         end_deletion: نهاية الحذف
+        has_spent_time: Has spent time
         end_insertion: نهاية الإدراج
         identifier: Identifier
         ignore_non_working_days: Ignore non working days

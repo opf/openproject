@@ -463,6 +463,8 @@ pl:
         duration: Czas trwania
         end_deletion: Koniec usuwania
         end_insertion: Koniec wstawiania
+        end_deletion: Koniec usuwania
+        has_spent_time: Has spent time
         identifier: Identyfikator
         ignore_non_working_days: Ignoruj dni wolne od pracy
         include_non_working_days:

@@ -464,6 +464,7 @@ hu:
         done_ratio: "%-ban kész"
         duration: Időtartam
         end_deletion: Törlés vége
+        has_spent_time: Has spent time
         end_insertion: Beillesztés vége
         identifier: Identifier
         ignore_non_working_days: Munkaszüneti napokat kivéve

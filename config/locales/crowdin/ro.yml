@@ -463,6 +463,8 @@ ro:
         duration: Durată
         end_deletion: Sfârșit de ștergere
         end_insertion: Sfârșitul inserării
+        end_deletion: Sfârșit de ștergere
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignoră zilele nelucrătoare
         include_non_working_days:

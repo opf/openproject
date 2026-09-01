@@ -462,6 +462,7 @@ uk:
         done_ratio: "% завершення"
         duration: Тривалість
         end_deletion: Кінець видалення
+        has_spent_time: Has spent time
         end_insertion: Кінець вставки
         identifier: Ідентифікатор
         ignore_non_working_days: Ігнорувати неробочі дні

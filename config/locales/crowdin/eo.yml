@@ -463,6 +463,8 @@ eo:
         duration: Daŭro
         end_deletion: Fino de forigo
         end_insertion: Fino de enmeto
+        end_deletion: Fino de forigo
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

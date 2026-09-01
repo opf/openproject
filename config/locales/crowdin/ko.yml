@@ -463,6 +463,8 @@ ko:
         duration: 기간
         end_deletion: 삭제 끝
         end_insertion: 삽입 끝
+        end_deletion: 삭제 끝
+        has_spent_time: Has spent time
         identifier: 식별자
         ignore_non_working_days: 휴무일 무시
         include_non_working_days:

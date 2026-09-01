@@ -462,6 +462,7 @@ lt:
         done_ratio: "% baigta"
         duration: Trukmė
         end_deletion: Ištrynimo pabaigoje
+        has_spent_time: Has spent time
         end_insertion: Įterpimo pabaigoje
         identifier: Identifier
         ignore_non_working_days: Ignoruoti nedarbo dienas

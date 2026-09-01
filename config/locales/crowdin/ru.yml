@@ -463,6 +463,8 @@ ru:
         duration: Продолжительность
         end_deletion: Завершение удаления
         end_insertion: Завершение вставки
+        end_deletion: Завершение удаления
+        has_spent_time: Has spent time
         identifier: Идентификатор
         ignore_non_working_days: Игнорировать нерабочие дни
         include_non_working_days:

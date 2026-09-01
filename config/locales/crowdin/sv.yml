@@ -463,6 +463,8 @@ sv:
         duration: Varaktighet
         end_deletion: Slutet av raderingen
         end_insertion: Slutet av införandet
+        end_deletion: Slutet av raderingen
+        has_spent_time: Has spent time
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
         include_non_working_days:

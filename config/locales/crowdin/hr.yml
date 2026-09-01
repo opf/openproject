@@ -462,6 +462,7 @@ hr:
         done_ratio: "% Complete"
         duration: Trajanje
         end_deletion: Kraj brisanja
+        has_spent_time: Has spent time
         end_insertion: Kraj umetanja
         identifier: Identifier
         ignore_non_working_days: Ignore non working days
