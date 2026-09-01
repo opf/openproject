@@ -36,6 +36,8 @@ module Components
           const input = arguments[0];
           const value = arguments[1];
           const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+          setter.call(input, "");
+          input.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "deleteContentBackward" }));
           setter.call(input, value);
           input.dispatchEvent(new InputEvent("input", { bubbles: true, data: value, inputType: "insertText" }));
         JS
@@ -118,7 +120,26 @@ module Components
     end
 
     def click_work_package(wp)
-      find_work_package(wp).click
+      unless using_cuprite?
+        find_work_package(wp).click
+        return
+      end
+
+      page.document.synchronize do
+        clicked = page.evaluate_script(<<~JS, wp.subject.to_s)
+          (() => {
+            const text = arguments[0];
+            const subject = Array.from(document.querySelectorAll(".global-search--wp-subject"))
+              .find((element) => element.textContent.trim() === text);
+            if (subject) {
+              subject.closest("a").click();
+              return true;
+            }
+            return false;
+          })()
+        JS
+        raise Capybara::ElementNotFound unless clicked
+      end
     end
 
     def find_work_package(wp)
@@ -126,8 +147,7 @@ module Components
     end
 
     def find_option(text)
-      expect(page).to have_css(".global-search--wp-subject", text:, wait: 10)
-      find(".global-search--wp-subject", text:)
+      find(".global-search--wp-subject", text:, wait: 10)
     end
 
     def cancel
