@@ -163,19 +163,19 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.click_in_work_package_move_submenu(keep_last_bucket_wp, "Move up")
 
       expect_filters_preserved
-      backlogs_page.expect_bucket_items_in_order(bucket, work_packages: [keep_last_bucket_wp, matching_bucket_wp])
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [keep_last_bucket_wp, matching_bucket_wp])
 
       backlogs_page.click_in_sprint_story_move_menu(sprint_kept_wp2, "Move up")
 
       expect_filters_preserved
-      backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [sprint_kept_wp2, sprint_kept_wp])
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [sprint_kept_wp2, sprint_kept_wp])
     end
 
     it "persists the drop position among the visible siblings", :selenium do
       backlogs_page.expect_no_bucket_items(bucket, items: excluded_bucket_wp)
       backlogs_page.expect_bucket_items_in_order(
         bucket,
-        work_packages: [matching_bucket_wp, keep_last_bucket_wp, draggable_wp]
+        items: [matching_bucket_wp, keep_last_bucket_wp, draggable_wp]
       )
 
       backlogs_page.drag_work_package(matching_bucket_wp, after: keep_last_bucket_wp)
@@ -184,7 +184,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
 
       backlogs_page.expect_bucket_items_in_order(
         bucket,
-        work_packages: [excluded_bucket_wp, keep_last_bucket_wp, matching_bucket_wp, draggable_wp]
+        items: [excluded_bucket_wp, keep_last_bucket_wp, matching_bucket_wp, draggable_wp]
       )
     end
 
@@ -192,7 +192,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.expect_no_bucket_items(bucket, items: excluded_bucket_wp)
       backlogs_page.expect_bucket_items_in_order(
         bucket,
-        work_packages: [matching_bucket_wp, keep_last_bucket_wp, draggable_wp]
+        items: [matching_bucket_wp, keep_last_bucket_wp, draggable_wp]
       )
 
       backlogs_page.click_in_work_package_move_submenu(keep_last_bucket_wp, "Move up")
@@ -201,7 +201,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
 
       backlogs_page.expect_bucket_items_in_order(
         bucket,
-        work_packages: [keep_last_bucket_wp, matching_bucket_wp, excluded_bucket_wp, draggable_wp]
+        items: [keep_last_bucket_wp, matching_bucket_wp, excluded_bucket_wp, draggable_wp]
       )
     end
 
@@ -213,7 +213,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.clear_subject_filter
 
       backlogs_page.expect_bucket_items_in_order(
-        empty_target_bucket, work_packages: [draggable_wp, existing_wp]
+        empty_target_bucket, items: [draggable_wp, existing_wp]
       )
     end
   end

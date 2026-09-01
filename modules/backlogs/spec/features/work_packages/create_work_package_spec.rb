@@ -117,9 +117,9 @@ RSpec.describe "Create work package", :js do
 
       backlogs_page
         .expect_sprint_items_in_order(sprint1,
-                                                 work_packages: [sprint1_wp1,
-                                                                 sprint1_wp2,
-                                                                 created_work_package])
+                                      items: [sprint1_wp1,
+                                              sprint1_wp2,
+                                              created_work_package])
 
       # created with the selected type (HighlightedTypeComponent renders type name in uppercase)
       backlogs_page.within_work_package(created_work_package) do
@@ -143,8 +143,7 @@ RSpec.describe "Create work package", :js do
       created_work_package = WorkPackage.last
 
       backlogs_page
-        .expect_sprint_items_in_order(sprint2,
-                                                 work_packages: [created_work_package])
+        .expect_sprint_items_in_order(sprint2, items: [created_work_package])
     end
   end
 
@@ -166,8 +165,8 @@ RSpec.describe "Create work package", :js do
 
       backlogs_page
         .expect_sprint_items_in_order(sprint1,
-                                                 work_packages: [sprint1_other_project_wp1,
-                                                                 created_work_package])
+                                      items: [sprint1_other_project_wp1,
+                                              created_work_package])
     end
   end
 

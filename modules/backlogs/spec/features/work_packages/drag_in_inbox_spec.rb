@@ -68,29 +68,29 @@ RSpec.describe "Dragging work packages in the inbox",
     backlogs_page.visit!
 
     backlogs_page
-      .expect_inbox_items_in_order(work_packages: [inbox_wp1,
-                                                              inbox_wp2,
-                                                              inbox_wp3,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp1,
+                                           inbox_wp2,
+                                           inbox_wp3,
+                                           inbox_wp4,
+                                           inbox_wp5])
     backlogs_page
       .drag_work_package(inbox_wp1, before: inbox_wp4)
 
     backlogs_page
-      .expect_inbox_items_in_order(work_packages: [inbox_wp2,
-                                                              inbox_wp3,
-                                                              inbox_wp1,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp2,
+                                           inbox_wp3,
+                                           inbox_wp1,
+                                           inbox_wp4,
+                                           inbox_wp5])
     backlogs_page
       .drag_work_package(inbox_wp1, before: inbox_wp3)
 
     backlogs_page
-      .expect_inbox_items_in_order(work_packages: [inbox_wp2,
-                                                              inbox_wp1,
-                                                              inbox_wp3,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp2,
+                                           inbox_wp1,
+                                           inbox_wp3,
+                                           inbox_wp4,
+                                           inbox_wp5])
   end
 
   context "when having closed work packages at the top" do
@@ -107,16 +107,16 @@ RSpec.describe "Dragging work packages in the inbox",
       backlogs_page.visit!
 
       backlogs_page
-        .expect_inbox_items_in_order(work_packages: [inbox_wp1,
-                                                                inbox_wp4,
-                                                                inbox_wp5])
+        .expect_inbox_items_in_order(items: [inbox_wp1,
+                                             inbox_wp4,
+                                             inbox_wp5])
       backlogs_page
         .drag_work_package(inbox_wp1, before: inbox_wp5)
 
       backlogs_page
-        .expect_inbox_items_in_order(work_packages: [inbox_wp4,
-                                                                inbox_wp1,
-                                                                inbox_wp5])
+        .expect_inbox_items_in_order(items: [inbox_wp4,
+                                             inbox_wp1,
+                                             inbox_wp5])
     end
   end
 
@@ -125,19 +125,19 @@ RSpec.describe "Dragging work packages in the inbox",
       backlogs_page.visit!
 
       backlogs_page.click_in_inbox_move_menu(inbox_wp2, "Move down")
-      backlogs_page.expect_inbox_items_in_order(work_packages: [inbox_wp1,
-                                                                           inbox_wp3,
-                                                                           inbox_wp2,
-                                                                           inbox_wp4,
-                                                                           inbox_wp5])
+      backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1,
+                                                        inbox_wp3,
+                                                        inbox_wp2,
+                                                        inbox_wp4,
+                                                        inbox_wp5])
 
       backlogs_page.drag_work_package(inbox_wp2, before: inbox_wp5)
 
-      backlogs_page.expect_inbox_items_in_order(work_packages: [inbox_wp1,
-                                                                           inbox_wp3,
-                                                                           inbox_wp4,
-                                                                           inbox_wp2,
-                                                                           inbox_wp5])
+      backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1,
+                                                        inbox_wp3,
+                                                        inbox_wp4,
+                                                        inbox_wp2,
+                                                        inbox_wp5])
     end
   end
 

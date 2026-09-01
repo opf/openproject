@@ -171,21 +171,21 @@ module Pages
       wait_for_backlogs_network_idle
     end
 
-    def expect_inbox_items_in_order(work_packages: [])
+    def expect_inbox_items_in_order(items: [])
       within_backlog_inbox do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 
-    def expect_bucket_items_in_order(bucket, work_packages: [])
+    def expect_bucket_items_in_order(bucket, items: [])
       within_backlog_bucket(bucket) do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 
-    def expect_sprint_items_in_order(sprint, work_packages: [])
+    def expect_sprint_items_in_order(sprint, items: [])
       within_sprint(sprint) do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 

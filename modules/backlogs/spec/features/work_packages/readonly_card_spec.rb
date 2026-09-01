@@ -73,7 +73,7 @@ RSpec.describe "A read-only work package card in Backlogs",
   end
 
   it "can be reordered within its own list, and stays a drop target", :aggregate_failures do
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [movable_wp, rejected_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [movable_wp, rejected_wp])
 
     backlogs_page.expect_work_package_confined(rejected_wp)
 
@@ -81,21 +81,21 @@ RSpec.describe "A read-only work package card in Backlogs",
     # position is not one of its attributes — so the card keeps its drag
     # inside its own list.
     backlogs_page.drag_work_package(rejected_wp, before: movable_wp)
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [rejected_wp, movable_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [rejected_wp, movable_wp])
 
     # Dropping a movable neighbour against it proves the read-only card is
     # also still a drop target: confining its drag must not carve a dead zone
     # out of the list.
     backlogs_page.drag_work_package(movable_wp, before: rejected_wp)
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [movable_wp, rejected_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [movable_wp, rejected_wp])
   end
 
   it "refuses to leave its sprint by drag", :aggregate_failures do
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [movable_wp, rejected_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [movable_wp, rejected_wp])
 
     backlogs_page.drag_work_package_without_move(rejected_wp, into: other_sprint)
 
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [movable_wp, rejected_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [movable_wp, rejected_wp])
     expect(rejected_wp.reload.sprint_id).to eq(sprint.id)
   end
 
@@ -115,11 +115,11 @@ RSpec.describe "A read-only work package card in Backlogs",
   # positional move and the server accepts it, proving the two agree on what a
   # read-only work package may do.
   it "moves within its list through the positional menu actions" do
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [movable_wp, rejected_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [movable_wp, rejected_wp])
 
     backlogs_page.click_in_work_package_move_submenu(rejected_wp, I18n.t(:label_sort_highest))
 
-    backlogs_page.expect_sprint_items_in_order(sprint, work_packages: [rejected_wp, movable_wp])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [rejected_wp, movable_wp])
   end
 
   it "keeps the movement actions on a movable card in the same sprint" do

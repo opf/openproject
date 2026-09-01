@@ -216,7 +216,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
     it "displays all items in position order and hides the blankslate" do
       planning_page.expect_inbox_items(items: [inbox_wp1, inbox_wp2, inbox_wp3])
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp1, inbox_wp2, inbox_wp3])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp1, inbox_wp2, inbox_wp3])
       planning_page.expect_no_inbox_blankslate
     end
 
@@ -241,19 +241,19 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       wait_for_network_idle
 
       planning_page.click_in_work_package_move_submenu(inbox_wp1, "Move down")
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp2, inbox_wp1, inbox_wp3])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp2, inbox_wp1, inbox_wp3])
 
       planning_page.click_in_work_package_move_submenu(inbox_wp1, "Move down")
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp2, inbox_wp3, inbox_wp1])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp2, inbox_wp3, inbox_wp1])
 
       planning_page.click_in_work_package_move_submenu(inbox_wp2, "Move to bottom")
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp3, inbox_wp1, inbox_wp2])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp3, inbox_wp1, inbox_wp2])
 
       planning_page.click_in_work_package_move_submenu(inbox_wp2, "Move to top")
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp2, inbox_wp3, inbox_wp1])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp2, inbox_wp3, inbox_wp1])
 
       planning_page.click_in_work_package_move_submenu(inbox_wp1, "Move up")
-      planning_page.expect_inbox_items_in_order(work_packages: [inbox_wp2, inbox_wp1, inbox_wp3])
+      planning_page.expect_inbox_items_in_order(items: [inbox_wp2, inbox_wp1, inbox_wp3])
     end
 
     describe "moving backlog items to a sprint via the 'Move to sprint' menu item" do
@@ -275,7 +275,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
         planning_page.expect_no_inbox_items(items: inbox_wp1)
         planning_page.expect_sprint_items(sprint, items: inbox_wp1)
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [sprint_wp, inbox_wp1])
+        planning_page.expect_sprint_items_in_order(sprint, items: [sprint_wp, inbox_wp1])
       end
 
       context "when the target sprint is completed (race condition #73750)" do
@@ -376,19 +376,19 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         end
 
         planning_page.click_in_work_package_move_submenu(top_item, "Move down")
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [middle_item, top_item, bottom_item])
+        planning_page.expect_sprint_items_in_order(sprint, items: [middle_item, top_item, bottom_item])
 
         planning_page.click_in_work_package_move_submenu(top_item, "Move down")
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [middle_item, bottom_item, top_item])
+        planning_page.expect_sprint_items_in_order(sprint, items: [middle_item, bottom_item, top_item])
 
         planning_page.click_in_work_package_move_submenu(middle_item, "Move to bottom")
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [bottom_item, top_item, middle_item])
+        planning_page.expect_sprint_items_in_order(sprint, items: [bottom_item, top_item, middle_item])
 
         planning_page.click_in_work_package_move_submenu(middle_item, "Move to top")
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [middle_item, bottom_item, top_item])
+        planning_page.expect_sprint_items_in_order(sprint, items: [middle_item, bottom_item, top_item])
 
         planning_page.click_in_work_package_move_submenu(top_item, "Move up")
-        planning_page.expect_sprint_items_in_order(sprint, work_packages: [middle_item, top_item, bottom_item])
+        planning_page.expect_sprint_items_in_order(sprint, items: [middle_item, top_item, bottom_item])
       end
     end
 
