@@ -207,6 +207,19 @@ RSpec.describe Meeting do
     end
   end
 
+  describe "#changed_hash" do
+    let!(:first_agenda_item) { create(:meeting_agenda_item, meeting:) }
+    let!(:second_agenda_item) { create(:meeting_agenda_item, meeting:) }
+
+    it "changes when an agenda item is deleted" do
+      hash_before_deletion = meeting.changed_hash
+
+      first_agenda_item.destroy!
+
+      expect(meeting.changed_hash).not_to eq(hash_before_deletion)
+    end
+  end
+
   describe ".templates_visible_in_project" do
     shared_let(:ancestor_project) { create(:project) }
     shared_let(:current_project) { create(:project, parent: ancestor_project) }
