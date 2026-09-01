@@ -1707,7 +1707,7 @@ en:
         button_connect: "Connect"
         enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
-        server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it."
+        server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
