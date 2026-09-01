@@ -28,24 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::UnpersistedQuery
-  extend ActiveSupport::Concern
+class Queries::Serialization::GroupBys
+  include Queries::GroupBys::AvailableGroupBys
 
-  included do
-    attr_accessor :filters,
-                  :orders
-    attr_reader :group_bys
+  def load(serialized_group_bys)
+    return [] if serialized_group_bys.nil?
 
-    def initialize(*args)
-      @filters = []
-      @orders = []
-      @group_bys = []
-      @user = args.first[:user] if args&.first
+    serialized_group_bys.map do |group_by|
+      group_by_for(group_by.to_sym)
     end
-
-    protected
-
-    attr_accessor :user
-    attr_writer :group_bys
   end
+
+  def dump(group_bys)
+    group_bys.map { |group_by| group_by.attribute.to_s }
+  end
+
+  def group_by_register
+    ::Queries::Register.group_bys[klass]
+  end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

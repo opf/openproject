@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,26 +26,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Queries::UnpersistedQuery
-  extend ActiveSupport::Concern
-
-  included do
-    attr_accessor :filters,
-                  :orders
-    attr_reader :group_bys
-
-    def initialize(*args)
-      @filters = []
-      @orders = []
-      @group_bys = []
-      @user = args.first[:user] if args&.first
-    end
-
-    protected
-
-    attr_accessor :user
-    attr_writer :group_bys
+class AddGroupBysToPersistedQueries < ActiveRecord::Migration[8.1]
+  def change
+    add_column :persisted_queries, :group_bys, :jsonb, default: []
   end
 end
