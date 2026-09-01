@@ -424,7 +424,7 @@ OPENPROJECT_USER__DEFAULT__TIMEZONE (default=nil) Users default time zone
 OPENPROJECT_USER__FORMAT (default=:firstname_lastname) Users name format
 OPENPROJECT_USERS__DELETABLE__BY__ADMINS (default=false) User accounts deletable by admins
 OPENPROJECT_USERS__DELETABLE__BY__SELF (default=false) Users allowed to delete their accounts
-OPENPROJECT_WEB (default={"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}) Web worker count and threads configuration
+OPENPROJECT_WEB (default={"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 3, "max_threads" => 5, "term_on_timeout" => 1}) Web worker count and threads configuration
 OPENPROJECT_WELCOME__ON__HOMESCREEN (default=false) Display welcome block on homescreen
 OPENPROJECT_WELCOME__TEXT (default=nil) Welcome block text
 OPENPROJECT_WELCOME__TITLE (default=nil) Welcome block title

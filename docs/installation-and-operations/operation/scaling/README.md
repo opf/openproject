@@ -12,8 +12,12 @@ The following environment variables are relevant for performance.
 - `OPENPROJECT_WEB_WORKERS`: Number of web workers handling HTTP requests. Note that in Kubernetes deployments, this value is applied using replicas of the services.
 - `OPENPROJECT_WEB_TIMEOUT`: Maximum request processing time in seconds.
 - `OPENPROJECT_WEB_WAIT__TIMEOUT`: Timeout for waiting requests in seconds.
-- `OPENPROJECT_WEB_MIN__THREADS`: Minimum number of threads per web worker.
-- `OPENPROJECT_WEB_MAX__THREADS`: Maximum number of threads per web worker.
+- `OPENPROJECT_WEB_MIN__THREADS`: Minimum number of threads per web worker (default: 3).
+- `OPENPROJECT_WEB_MAX__THREADS`: Maximum number of threads per web worker (default: 5).
+
+> [!NOTE]
+>
+> Due to Ruby's Global VM Lock (GVL), MRI Ruby can only execute one thread at a time for CPU-bound work. More threads increase memory usage and context-switching overhead without proportional throughput gains. The defaults of 3–5 threads per worker reflect this constraint. See the [Rails performance guide](https://guides.rubyonrails.org/tuning_performance_for_deployment.html#understanding-ruby-s-concurrency-and-parallelism) for a detailed explanation. Scale horizontally by adding more workers rather than increasing thread counts.
 - `OPENPROJECT_GOOD__JOB__MAX_THREADS`: Maximum number of threads for background workers.
 
 ## Packaged installation
