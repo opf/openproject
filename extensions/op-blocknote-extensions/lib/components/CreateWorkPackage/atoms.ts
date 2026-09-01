@@ -102,6 +102,9 @@ export const Panel = styled.div.attrs({
   max-width: 100%;
   max-height: calc(100% - ${MODAL_TOP_OFFSET});
   overflow: hidden;
+  /*  Focused only to catch the keys before the first field exists, so it takes
+      no focus ring of its own.  */
+  outline: none;
   border-radius: ${radiusLarge};
   background: ${surfaceColor};
   box-shadow: var(--op-create-wp-shadow);

@@ -26,6 +26,15 @@ function holdBackFormLoads(ms:number) {
   worker.use(http.post('http://localhost:3000/api/v3/work_packages/form', async () => { await delay(ms); }));
 }
 
+function heldFormLoad():() => void {
+  let release = () => {};
+  worker.use(http.post('http://localhost:3000/api/v3/work_packages/form', async () => {
+    await new Promise<void>((resolve) => { release = resolve; });
+  }));
+
+  return () => release();
+}
+
 async function pickAssignee(name:string) {
   await userEvent.click(page.getByLabelText('Assignee'));
   await expect.element(page.getByRole('option', { name })).toBeVisible();
@@ -126,17 +135,21 @@ describe('Create work package - prefilled from previous selections', () => {
   });
 
   it('answers Escape before a single field has loaded', async () => {
-    holdBackFormLoads(700);
+    const release = heldFormLoad();
     initEditorContext({ projectId: 1 });
 
-    renderEditor();
-    await openCreateModal();
-    await expect.element(page.getByTestId('create-wp-loading')).toBeVisible();
+    try {
+      renderEditor();
+      await openCreateModal();
+      await expect.element(page.getByTestId('create-wp-loading')).toBeVisible();
 
-    await userEvent.keyboard('nothing of this belongs in the document{Escape}');
+      await userEvent.keyboard('nothing of this belongs in the document{Escape}');
 
-    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
-    await expect.element(page.getByRole('textbox')).not.toHaveTextContent('belongs in the document');
+      await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+      await expect.element(page.getByRole('textbox')).not.toHaveTextContent('belongs in the document');
+    } finally {
+      release();
+    }
   });
 
   it('leaves the fields already shown where they are when the rest arrives', async () => {
@@ -187,6 +200,59 @@ describe('Create work package - prefilled from previous selections', () => {
     await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+  });
+
+  it('drops a fully prefilled form nothing was answered in on Escape', async () => {
+    initEditorContext({ projectId: 1 });
+
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+
+    await userEvent.keyboard('{Escape}');
+
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+  });
+
+  it('keeps a form an answer was given in when the overlay is clicked', async () => {
+    initEditorContext({ projectId: 1 });
+
+    renderEditor();
+    await openCreateModal();
+    await userEvent.fill(page.getByLabelText('Subject *'), 'Worth keeping');
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+
+    await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+    await expect.element(page.getByLabelText('Subject *')).toHaveValue('Worth keeping');
+  });
+
+  it('keeps a form a checkbox was ticked in', async () => {
+    initEditorContext({ projectId: 1 });
+
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByLabelText('Needs documentation')).toBeVisible();
+    await userEvent.click(page.getByLabelText('Needs documentation'));
+
+    await userEvent.keyboard('{Escape}');
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+
+    await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+    await expect.element(page.getByLabelText('Needs documentation')).toBeChecked();
+  });
+
+  it('keeps a form an answer was given in when Escape is pressed', async () => {
+    initEditorContext({ projectId: 1 });
+
+    renderEditor();
+    await openCreateModal();
+    await userEvent.fill(page.getByLabelText('Subject *'), 'Worth keeping');
+
+    await userEvent.keyboard('{Escape}');
+
+    await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+    await expect.element(page.getByLabelText('Subject *')).toHaveValue('Worth keeping');
   });
 
   it('asks for the project again once it is cleared', async () => {

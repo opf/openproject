@@ -189,7 +189,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
           onMouseDown={(event) => event.stopPropagation()}
           onKeyDown={(event) => {
             event.stopPropagation();
-            if (event.key === 'Escape') onCancel();
+            if (event.key === 'Escape' && !isDirty) onCancel();
             if (event.key === 'Tab') keepFocusInside(panelRef.current, event);
           }}
         >
