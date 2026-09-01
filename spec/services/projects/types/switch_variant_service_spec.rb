@@ -104,6 +104,11 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
     end
+
+    # The pair is malformed, not the user unwelcome: reporting both would name the wrong problem.
+    it "says nothing about the user's permissions" do
+      expect(service_call.errors.symbols_for(:base)).to be_empty
+    end
   end
 
   # Refused rather than raised on: the caller reaches the service with whatever the request
