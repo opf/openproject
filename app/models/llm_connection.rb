@@ -37,7 +37,7 @@
 class LlmConnection < ApplicationRecord
   include Redmine::Ciphering
 
-  SINGLETON_NAME = "default"
+  SINGLETON_IDENTIFIER = "default"
 
   has_many :health_reports, as: :subject, dependent: :delete_all
 
