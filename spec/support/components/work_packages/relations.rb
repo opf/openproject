@@ -178,9 +178,9 @@ module Components
         page.find_test_selector("op-relation-row-#{actual_relatable.id}-edit-button")
       end
 
-      def relatable_delete_button(relatable, **options)
+      def relatable_delete_button(relatable, **)
         actual_relatable = find_relatable(relatable)
-        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button", **options)
+        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button", **)
       end
 
       def expect_relatable_delete_button(relatable)
@@ -432,7 +432,7 @@ module Components
         action_menu = nil
         within(relatable_row) do
           action_menu = relatable_action_menu(relatable)
-          action_menu.find("button").click
+          action_menu.click_button
         end
 
         action_menu.find("[popover]:popover-open", visible: :all)

@@ -92,7 +92,7 @@ RSpec.describe "My account session management", :js do
 
       # Revoke the old session
       accept_confirm do
-        within find(".session-row", text: "Mozilla Firefox (Version 12.3)") do
+        within ".session-row", text: "Mozilla Firefox (Version 12.3)" do
           find_test_selector("session-revoke-button").click
         end
       end
@@ -103,7 +103,7 @@ RSpec.describe "My account session management", :js do
     page.within_test_selector("Users::Sessions::TableComponent") do
       # Revoke the remembered device (this will also delete the linked session)
       accept_confirm do
-        within find(".session-row", text: "Firefox (Version 142)") do
+        within ".session-row", text: "Firefox (Version 142)" do
           find_test_selector("session-revoke-button").click
         end
       end
