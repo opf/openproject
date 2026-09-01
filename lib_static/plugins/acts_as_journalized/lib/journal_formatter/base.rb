@@ -63,7 +63,7 @@ module JournalFormatter
     #   permission check, instance_exec'd against this formatter with no
     #   arguments. Subclasses may override this method to instance_exec the
     #   proc with additional context relevant to the field being rendered
-    #   (see e.g. OpenProject::JournalFormatter::CustomField::ViewPermission).
+    #   (see e.g. OpenProject::JournalFormatter::Customizable::ViewPermission).
     def permission_granted?(permission, **)
       return true unless permission
 

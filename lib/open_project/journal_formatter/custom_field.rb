@@ -27,8 +27,8 @@
 #++
 
 class OpenProject::JournalFormatter::CustomField
+  include OpenProject::JournalFormatter::Customizable::ViewPermission
   include SharedMethods
-  include ViewPermission
 
   delegate :project, to: :@journal
 

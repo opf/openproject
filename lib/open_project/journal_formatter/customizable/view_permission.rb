@@ -37,10 +37,12 @@
 # +super+) so it can be mixed into formatters that aren't Base subclasses,
 # such as CustomField, which is a plain dispatcher and has no other use for
 # Base's rendering machinery.
-module OpenProject::JournalFormatter::CustomField::ViewPermission
-  # A Proc permission is instance_exec'd with the CustomField being
-  # rendered (or nil, if it has since been deleted) as its sole argument,
-  # rather than with no arguments as JournalFormatter::Base does.
+module OpenProject::JournalFormatter::Customizable::ViewPermission
+  # @param permission [Symbol, Proc, nil] a permission to check via
+  #   User.current.allowed_in_project?, or a lambda/proc performing a custom
+  #   permission check, instance_exec'd with the CustomField being rendered
+  #   (or nil, if it has since been deleted)
+  # @param key [String] the key of CustomField being rendered.
   def permission_granted?(permission, key: nil)
     return true unless permission
 
