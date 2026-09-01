@@ -95,7 +95,7 @@ class Query < ApplicationRecord
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [%w[id asc]]
+    self.sort_criteria = [%w[id desc]]
   end
 
   def context
