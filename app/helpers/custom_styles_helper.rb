@@ -112,6 +112,20 @@ module CustomStylesHelper
     custom_logo_source(custom_style, attachment.mounted_as, true)
   end
 
+  def custom_logo_urls(custom_style, mobile: false)
+    context = mobile ? :mobile : :desktop
+
+    CustomStyle::LOGO_FIELDS.fetch(context).keys.to_h do |mode|
+      attachment = custom_style.logo_for(
+        color_mode: mode == :dark ? :dark : :light,
+        high_contrast: mode == :light_high_contrast,
+        mobile:
+      )
+
+      [mode, custom_logo_url(custom_style, attachment)]
+    end
+  end
+
   def custom_logo_uploads(custom_style, mobile: false)
     logo_context = mobile ? :mobile : :desktop
 
