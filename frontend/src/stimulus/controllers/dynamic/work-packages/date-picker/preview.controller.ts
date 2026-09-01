@@ -112,20 +112,20 @@ export default class PreviewController extends DialogPreviewController {
       if (/^\d{4}-\d{2}-\d{2}$/.test(field.value)) {
         const selectedDate = new Date(field.value);
         this.changeStartDate(selectedDate);
-        this.requestDelayedPreview(field);
+        this.debouncedDelayedPreview(field);
       } else if (field.value === '') {
-        this.requestDelayedPreview(field);
+        this.debouncedDelayedPreview(field);
       }
     } else if (field.name === 'work_package[due_date]') {
       if (/^\d{4}-\d{2}-\d{2}$/.test(field.value)) {
         const selectedDate = new Date(field.value);
         this.changeDueDate(selectedDate);
-        this.requestDelayedPreview(field);
+        this.debouncedDelayedPreview(field);
       } else if (field.value === '') {
-        this.requestDelayedPreview(field);
+        this.debouncedDelayedPreview(field);
       }
     } else {
-      this.requestDelayedPreview(field);
+      this.debouncedDelayedPreview(field);
     }
   }
 
@@ -150,7 +150,7 @@ export default class PreviewController extends DialogPreviewController {
       this.setStartDateFieldValue(dates[0]);
       this.doMarkFieldAsTouched('start_date');
     } else {
-      const selectedDate:Date = this.lastClickedDate(dates) ?? dates[0];
+      const selectedDate:Date = this.lastClickedDate(dates) || dates[0];
       let dateFieldToChange = this.dateFieldToChange();
       this.swapDateFieldsIfNeeded(selectedDate, dateFieldToChange);
       dateFieldToChange = this.dateFieldToChange();
@@ -163,22 +163,8 @@ export default class PreviewController extends DialogPreviewController {
     }
     this.updateFlatpickrCalendar();
     if (fieldUpdatedWithUserValue) {
-      this.requestImmediatePreview(fieldUpdatedWithUserValue);
+      this.debouncedImmediatePreview(fieldUpdatedWithUserValue);
     }
-  }
-
-  private requestDelayedPreview(field:HTMLInputElement) {
-    this.markPreviewPending();
-    this.debouncedDelayedPreview(field);
-  }
-
-  private requestImmediatePreview(field:HTMLInputElement) {
-    this.markPreviewPending();
-    this.debouncedImmediatePreview(field);
-  }
-
-  private markPreviewPending() {
-    this.formTarget.dataset.datepickerPreviewPending = 'true';
   }
 
   dateFieldToChange():HTMLInputElement|undefined {
@@ -331,7 +317,6 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   afterRendering(params:{ shouldFocusBanner?:boolean }) {
-    delete this.formTarget.dataset.datepickerPreviewPending;
     if (params.shouldFocusBanner) {
       this.focusOnOpen();
     }

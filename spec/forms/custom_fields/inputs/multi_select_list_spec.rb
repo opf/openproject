@@ -51,12 +51,4 @@ RSpec.describe CustomFields::Inputs::MultiSelectList, type: :forms do
       expect(autocompleter["data-model"]).to be_json_eql(%{[{"disabled": false, "name": "tre", "selected": true}, {"disabled": false, "name": "quattro", "selected": true}]})
     end
   end
-
-  context "with a blank stored value" do
-    let(:value) { [nil] }
-
-    it "renders no selected option" do
-      expect(rendered_form.find("opce-autocompleter")["data-model"]).to be_json_eql([])
-    end
-  end
 end

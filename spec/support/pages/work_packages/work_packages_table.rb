@@ -170,15 +170,12 @@ module Pages
     # @param ids [Array<WorkPackage, String, Integer>] The work package IDs or
     #   objects.
     def expect_work_package_order(*ids)
-      expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-
-      page.document.synchronize do
-        rows = page.all(".work-package-table .wp--row", minimum: expected.size)
+      retry_block do
+        rows = page.all ".work-package-table .wp--row"
+        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
         found = rows.map { |el| el["data-work-package-id"] }
 
-        unless found == expected
-          raise Capybara::ElementNotFound, "Order is incorrect: #{found.inspect} != #{expected.inspect}"
-        end
+        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
       end
     end
 

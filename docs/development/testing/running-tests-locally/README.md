@@ -197,46 +197,6 @@ You can run the specs with the following commands:
 
 - `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
 
-## Ruby coverage
-
-Set `COVERAGE=1` to collect Ruby line and branch coverage with SimpleCov. This starts
-before Rails loads and includes `app`, `lib`, `lib_static`, module `app`/`lib` code,
-and evaluated ERB templates from those directories.
-It does not measure browser JavaScript coverage. Coverage is disabled by default.
-
-Use a fresh output directory for each run or comparison:
-
-```shell
-mkdir -p coverage
-export COVERAGE_DIR=$(mktemp -d coverage/rspec.XXXXXX)
-COVERAGE=1 mise exec -- bundle exec rspec spec/models/project_spec.rb
-```
-
-After the tests succeed, generate HTML and JSON reports:
-
-```shell
-mise exec -- bundle exec ruby script/coverage_report "$COVERAGE_DIR" 1
-```
-
-Open `$COVERAGE_DIR/report/index.html`. The final argument is the expected number of
-RSpec processes. Each process writes a separate resultset, and report generation fails
-if the expected number is missing. Reusing a directory can mix results from different
-runs, so always start with a fresh directory.
-
-For units and features in one parallel CI job, use the same `COVERAGE_DIR` for both
-phases and collate once after they both succeed. For example, 32 unit workers and
-16 feature workers produce 48 reports; a separate final retry process adds another.
-`COVERAGE_SUITE` optionally labels the phase in the report. Pass these environment
-variables into containers explicitly and collate in the same environment and checkout
-used by the tests, before editing source files. If tests used mounted source overrides,
-report generation must see those same source files.
-
-Focused runs include unloaded Ruby files at zero coverage, so their aggregate percentage
-is not a full-suite coverage result. Unloaded ERB is not assigned guessed executable
-lines. Compare affected lines and branches together with retained behavior assertions;
-code coverage does not prove equivalent UI, permission, or browser interaction checks.
-Run performance comparisons without coverage instrumentation.
-
 ## Parallel testing
 
 Running tests in parallel makes usage of all available cores of the machine.

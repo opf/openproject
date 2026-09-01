@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package copy", :js do
+RSpec.describe "Work package copy", :js, :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => create_role })

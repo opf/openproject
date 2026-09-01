@@ -169,34 +169,21 @@ run_features() {
 	reset_dbs
 
 	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
-		retry_failed_features
+		failed_count=$(grep --count ' failed ' tmp/spec_examples.txt 2>/dev/null || echo 0)
+		if [ "$failed_count" -eq 0 ]; then
+			echo "failed to find failing examples, unexpected"
+			exit 1
+		elif [ "$failed_count" -le 10 ]; then
+			echo "retrying $failed_count failed examples"
+			awk '$3 == "failed" {print "- `rspec " $1 "`"}' tmp/spec_examples.txt > tmp/retried_specs.txt
+			execute "bundle exec rspec --only-failures --format documentation {,modules/*/}spec/features/**/*_spec.rb"
+		else
+			echo "too many failures ($failed_count), not retrying"
+			exit 1
+		fi
 	fi
 
 	cleanup
-}
-
-retry_failed_features() {
-	local status_file="tmp/spec_examples.txt"
-	local failed_count
-	if [ ! -f "$status_file" ]; then
-		echo "failed to find the feature example status file"
-		return 1
-	fi
-
-	failed_count=$(awk '$3 == "failed" { count++ } END { print count + 0 }' "$status_file" 2>/dev/null)
-
-	if [ "$failed_count" -eq 0 ]; then
-		echo "failed to find failing examples, unexpected"
-		return 1
-	elif [ "$failed_count" -gt 10 ]; then
-		echo "too many failures ($failed_count), not retrying"
-		return 1
-	fi
-
-	echo "retrying $failed_count failed examples"
-	awk '$3 == "failed" {print "- `rspec " $1 "`"}' "$status_file" > tmp/retried_specs.txt
-	mapfile -t failed_examples < <(awk '$3 == "failed" { print $1 }' "$status_file")
-	bundle exec rspec --format documentation "${failed_examples[@]}"
 }
 
 run_all() {
@@ -206,7 +193,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features retry_failed_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift

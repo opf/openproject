@@ -35,7 +35,7 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-%d" } do
+RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:user) { create(:admin) }
   shared_let(:type) { project.enabled_types.first }
@@ -58,7 +58,7 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new }
   let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
-  let(:start_date) { DateEditField.new(page, :combinedDate) }
+  let(:start_date) { work_packages_page.edit_field(:combinedDate) }
   let(:datepicker) { start_date.datepicker }
 
   before do
@@ -144,7 +144,8 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
 
       start_date.datepicker.expect_start_date "2016-01-03"
 
-      start_date.datepicker.wait_for_preview_update
+      # The inputs have a debounce which we have to wait for before clicking the next field
+      sleep 0.25
 
       # Since the focus shifts automatically, we can directly click again to modify the end date
       start_date.datepicker.select_day "21"
@@ -195,7 +196,8 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
       start_date.activate!
       start_date.expect_active!
 
-      start_date.datepicker.expect_visible
+      # Wait for the datepicker to be loaded
+      sleep 1
 
       start_date.enable_start_date
 
@@ -216,6 +218,8 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
     start_date.activate!
     start_date.expect_active!
 
+    # The calendar needs some time to get initialised.
+    sleep 2
     start_date.datepicker.expect_visible
 
     # Due date is hidden behind a button as it is empty
@@ -261,8 +265,7 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
     start_date.clear with_backspace: true
     start_date.input_element.send_keys :backspace
 
-    start_date.datepicker.wait_for_preview_update
-    start_date.datepicker.expect_start_date ""
+    sleep 1
     start_date.save!
 
     work_packages_page.expect_and_dismiss_toaster message: "Successful update."
@@ -392,6 +395,21 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
         wp_timeline.expect_timeline!
       end
     end
+
+    context "when work package is not manually scheduled" do
+      let(:schedule_manually) { false }
+
+      it "shows no banner as the WP is not automatically savable without children or predecessor" do
+        expect(page).not_to have_test_selector("op-modal-banner-warning")
+        expect(page).not_to have_test_selector("op-modal-banner-info")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nClick on \"Show relations\" for Gantt overview.")
+      end
+    end
   end
 
   context "with the work package being a parent" do
@@ -432,6 +450,23 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
 
     context "when parent is not manually scheduled" do
       let(:schedule_manually) { false }
+
+      it "shows a banner that the dates are are determined by the child" do
+        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
+                                 text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child work packages but their start dates are ignored.")
+
+        new_window = window_opened_by { click_on "Show relations" }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed child
+        wp_timeline.expect_timeline!
+      end
 
       context "and child has working days only set" do
         let!(:child) do
@@ -514,6 +549,59 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
         wp_timeline.expect_timeline!
       end
     end
+
+    context "when work package is not manually scheduled" do
+      let(:schedule_manually) { false }
+      let(:wp_start_date) { nil }
+      let(:wp_due_date) { nil }
+
+      it "shows a banner that the start date it set by the predecessor" do
+        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
+                                 text: "The start date is set by a predecessor.\nClick on \"Show relations\" for Gantt overview.")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nClick on \"Show relations\" for Gantt overview.")
+      end
+    end
+
+    context "with the work package having a precedes relation which overlaps" do
+      let(:schedule_manually) { true }
+      let(:wp_start_date) { 6.days.ago }
+      let(:wp_due_date) { 1.day.ago }
+
+      it "shows a banner that there is an overlap" do
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nOverlaps with at least one predecessor.")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        # Expect new banner info
+        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
+                                 text: "The start date is set by a predecessor.\nClick on \"Show relations\" for Gantt overview.")
+      end
+    end
+
+    context "with the work package having a precedes relation with a gap of over two days" do
+      let(:schedule_manually) { true }
+      let(:wp_start_date) { 1.day.ago }
+      let(:wp_due_date) { 1.day.ago }
+
+      it "shows a banner that there is a gap" do
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nThere is a gap between this and all predecessors.")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        # Expect new banner info
+        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
+                                 text: "The start date is set by a predecessor.\nClick on \"Show relations\" for Gantt overview.")
+      end
+    end
   end
 
   context "with the work package having a follows relation" do
@@ -555,6 +643,22 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
         wp_table.expect_work_package_listed following
         wp_table.expect_work_package_listed work_package
         wp_timeline.expect_timeline!
+      end
+    end
+
+    context "when work package is not manually scheduled" do
+      let(:schedule_manually) { false }
+
+      it "shows no banner as the WP is not automatically savable without children or predecessor" do
+        # There is no banner
+        expect(page).not_to have_test_selector("op-modal-banner-warning")
+        expect(page).not_to have_test_selector("op-modal-banner-info")
+
+        # When toggling manually scheduled
+        start_date.toggle_scheduling_mode
+
+        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
+                                 text: "Manually scheduled. Dates not affected by relations.\nClick on \"Show relations\" for Gantt overview.")
       end
     end
   end

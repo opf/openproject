@@ -48,7 +48,10 @@ end
 # Helper to pass options to retriable while logging
 # failures
 def retry_block(args: {}, screenshot: false, &)
-  return yield if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
+  if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
+    yield
+    return
+  end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
     max_tries = args[:tries] || Retriable.config.tries

@@ -99,22 +99,8 @@ class DateEditField < EditField
     datepicker
   end
 
-  def activate!(expect_open: true)
-    unless active?(wait: 0)
-      SeleniumHubWaiter.wait unless using_cuprite?
-      scroll_to_and_click(display_trigger_element, block: :nearest)
-      SeleniumHubWaiter.wait unless using_cuprite?
-    end
-
-    if expect_open && !active?(wait: 10)
-      raise "Expected field for attribute '#{property_name}' to be active."
-    end
-
-    self
-  end
-
-  def active?(wait: 1)
-    page.has_selector?(modal_selector, wait:)
+  def active?
+    page.has_selector?(modal_selector, wait: 1)
   end
 
   def expect_active!

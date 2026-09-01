@@ -109,6 +109,58 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when no values set, updating duration (scenario 2)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: nil,
+        duration: nil
+      }
+    end
+
+    it "sets only the duration" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date ""
+      datepicker.expect_duration ""
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date ""
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: nil,
+                             due_date: nil
+    end
+  end
+
+  describe "when only due date set, updating duration (scenario 3)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse("2021-02-19"),
+        duration: nil
+      }
+    end
+
+    it "sets the start date" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-19"
+      datepicker.expect_duration ""
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date "2021-02-08"
+      datepicker.expect_due_date "2021-02-19"
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: Date.parse("2021-02-08"),
+                             due_date: Date.parse("2021-02-19")
+    end
+  end
+
   describe "when all values set, increasing duration (scenario 4)" do
     let(:current_attributes) do
       {
@@ -132,6 +184,54 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
       apply_and_expect_saved duration: 11,
                              start_date: Date.parse("2021-02-08"),
                              due_date: Date.parse("2021-02-22")
+    end
+  end
+
+  describe "when all values set, reducing duration (scenario 5)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2021-02-08"),
+        due_date: Date.parse("2021-02-22"),
+        duration: 11
+      }
+    end
+
+    it "updates the finish date to an earlier date" do
+      datepicker.expect_start_date "2021-02-08"
+      datepicker.expect_due_date "2021-02-22"
+      datepicker.expect_duration 11
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date "2021-02-08"
+      datepicker.expect_due_date "2021-02-19"
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: Date.parse("2021-02-08"),
+                             due_date: Date.parse("2021-02-19")
+    end
+  end
+
+  describe "when all values set, removing duration (scenario 6)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2021-02-09"),
+        due_date: Date.parse("2021-02-12"),
+        duration: 4
+      }
+    end
+
+    it "also unsets the due date" do
+      datepicker.expect_start_date "2021-02-09"
+      datepicker.expect_due_date "2021-02-12"
+      datepicker.expect_duration 4
+
+      datepicker.clear_duration
+
+      datepicker.expect_start_date "2021-02-09"
+      datepicker.expect_due_date ""
+      datepicker.expect_duration ""
     end
   end
 
@@ -222,6 +322,28 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when all values set, changing due date (scenario 8)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2021-02-09"),
+        due_date: Date.parse("2021-02-12"),
+        duration: 4
+      }
+    end
+
+    it "adjusts the duration" do
+      datepicker.expect_start_date "2021-02-09"
+      datepicker.expect_due_date "2021-02-12"
+      datepicker.expect_duration 4
+
+      datepicker.set_due_date "2021-02-11"
+
+      datepicker.expect_start_date "2021-02-09"
+      datepicker.expect_due_date "2021-02-11"
+      datepicker.expect_duration 3
+    end
+  end
+
   describe "when only duration set, setting finish date (scenario 9)" do
     let(:current_attributes) do
       {
@@ -244,6 +366,29 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when only due date set, setting start date (scenario 10)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse("2021-02-11"),
+        duration: nil
+      }
+    end
+
+    it "derives the duration" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-11"
+      datepicker.expect_duration ""
+
+      datepicker.enable_start_date
+      datepicker.set_start_date "2021-02-09"
+
+      datepicker.expect_start_date "2021-02-09"
+      datepicker.expect_due_date "2021-02-11"
+      datepicker.expect_duration 3
+    end
+  end
+
   describe "when all values set, changing the start date to the future in the picker (Scenario 13)" do
     let(:current_attributes) do
       {
@@ -260,6 +405,29 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
       datepicker.expect_start_highlighted
 
       datepicker.set_date "2021-03-03"
+
+      datepicker.expect_start_date "2021-03-03"
+      datepicker.expect_due_date ""
+      datepicker.expect_duration ""
+    end
+  end
+
+  describe "when only finish date set, changing the start date to the future in the picker (Scenario 13 variation)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse("2021-02-11"),
+        duration: nil
+      }
+    end
+
+    it "unsets the finish date" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-11"
+      datepicker.expect_duration ""
+
+      datepicker.enable_start_date
+      datepicker.set_start_date "2021-03-03"
 
       datepicker.expect_start_date "2021-03-03"
       datepicker.expect_due_date ""
@@ -360,6 +528,31 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when all values set and include NWD true, changing include NWD to false (Scenario 16)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2025-01-09"),
+        due_date: Date.parse("2025-01-14"),
+        duration: 6,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "conserves the finish date and updates the duration" do
+      datepicker.expect_start_date "2025-01-09"
+      datepicker.expect_due_date "2025-01-14"
+      datepicker.expect_duration 6
+      datepicker.expect_working_days_only false
+
+      datepicker.toggle_working_days_only
+
+      datepicker.expect_working_days_only true
+      datepicker.expect_start_date "2025-01-09"
+      datepicker.expect_due_date "2025-01-14"
+      datepicker.expect_duration 4
+    end
+  end
+
   describe "when all values set and include NWD true, changing include NWD to false (Scenario 17)" do
     let(:current_attributes) do
       {
@@ -382,6 +575,36 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
       datepicker.expect_start_date "2025-01-13"
       datepicker.expect_due_date "2025-01-13"
       datepicker.expect_duration 1
+    end
+  end
+
+  describe "when all values set and include NWD true, changing include NWD to false (Scenario 18)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2025-01-11"),
+        due_date: Date.parse("2025-01-21"),
+        duration: 11,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "shifts the start date to soonest working day, conserves the finish date, and updates duration accordingly" do
+      datepicker.expect_start_date "2025-01-11"
+      datepicker.expect_due_date "2025-01-21"
+      datepicker.expect_duration 11
+      datepicker.expect_working_days_only false
+
+      datepicker.toggle_working_days_only
+
+      datepicker.expect_working_days_only true
+      datepicker.expect_start_date "2025-01-13"
+      datepicker.expect_due_date "2025-01-21"
+      datepicker.expect_duration 7
+
+      apply_and_expect_saved duration: 7,
+                             start_date: Date.parse("2025-01-13"),
+                             due_date: Date.parse("2025-01-21"),
+                             ignore_non_working_days: false
     end
   end
 
@@ -415,6 +638,36 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when only finish date set and include NWD true, changing include NWD to false (Scenario 20)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse("2021-02-21"),
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "shifts the finish date to soonest working day" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-21"
+      datepicker.expect_duration ""
+      datepicker.expect_working_days_only false
+
+      datepicker.toggle_working_days_only
+
+      datepicker.expect_working_days_only true
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-22"
+      datepicker.expect_duration ""
+
+      apply_and_expect_saved duration: nil,
+                             start_date: nil,
+                             due_date: Date.parse("2021-02-22"),
+                             ignore_non_working_days: false
+    end
+  end
+
   describe "when all values set, clear the start date (Scenario 21a)" do
     let(:current_attributes) do
       {
@@ -439,6 +692,34 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
       apply_and_expect_saved duration: nil,
                              start_date: nil,
                              due_date: Date.parse("2021-02-21"),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe "when all values set, clear the due date (Scenario 21b)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2021-02-20"),
+        due_date: Date.parse("2021-02-21"),
+        duration: 2,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "also removes duration, but keeps start date" do
+      datepicker.expect_start_date "2021-02-20"
+      datepicker.expect_due_date "2021-02-21"
+      datepicker.expect_duration 2
+      datepicker.expect_working_days_only false
+
+      datepicker.set_due_date ""
+
+      datepicker.expect_duration ""
+      datepicker.expect_start_date "2021-02-20"
+
+      apply_and_expect_saved duration: nil,
+                             start_date: Date.parse("2021-02-20"),
+                             due_date: nil,
                              ignore_non_working_days: true
     end
   end
@@ -475,6 +756,39 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
     end
   end
 
+  describe "when only start date set, duration in focus, select later date (Scenario 22b)" do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse("2021-02-18"),
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "sets finish date to selected date" do
+      datepicker.expect_start_date "2021-02-18"
+      datepicker.expect_due_date "", visible: false
+      datepicker.expect_duration ""
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      datepicker.select_day 19
+
+      datepicker.expect_start_date "2021-02-18"
+      datepicker.expect_due_date "2021-02-19"
+      datepicker.expect_duration 2
+
+      datepicker.expect_start_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse("2021-02-18"),
+                             due_date: Date.parse("2021-02-19"),
+                             ignore_non_working_days: true
+    end
+  end
+
   describe "when only due date set, duration in focus, select later date (Scenario 23a)" do
     let(:current_attributes) do
       {
@@ -504,6 +818,38 @@ RSpec.describe "Datepicker modal logic test cases (WP #43539)", :js, with_settin
       apply_and_expect_saved duration: 2,
                              start_date: Date.parse("2021-02-18"),
                              due_date: Date.parse("2021-02-19"),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe "when only due date set, duration in focus, select earlier date (Scenario 23b)" do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse("2021-02-18"),
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it "sets start date to selected date" do
+      datepicker.expect_start_date "", visible: false
+      datepicker.expect_due_date "2021-02-18"
+      datepicker.expect_duration ""
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      datepicker.select_day 17
+      datepicker.expect_start_date "2021-02-17"
+      datepicker.expect_due_date "2021-02-18"
+      datepicker.expect_duration 2
+
+      datepicker.expect_due_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse("2021-02-17"),
+                             due_date: Date.parse("2021-02-18"),
                              ignore_non_working_days: true
     end
   end

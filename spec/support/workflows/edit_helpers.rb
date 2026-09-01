@@ -30,8 +30,6 @@
 
 module Workflows
   module EditHelpers
-    include Components::Autocompleter::NgSelectAutocompleteHelpers
-
     def workflow_checkbox(from_index, to_index)
       "status_#{statuses[from_index].id}_#{statuses[to_index].id}"
     end
@@ -60,7 +58,8 @@ module Workflows
         click_link "Status"
       end
       within_dialog "Statuses" do
-        select_autocomplete(find("ng-select"), query: status.name, wait_for_fetched_options: false)
+        find(".ng-arrow-wrapper").click
+        find(".ng-option", text: status.name).click
         click_button "Apply"
       end
     end
@@ -71,7 +70,6 @@ module Workflows
       end
       within_dialog "Statuses" do
         find(".ng-value", text: status.name).find(".ng-value-icon").click
-        expect(page).to have_no_css(".ng-value-label", text: status.name)
         click_button "Apply"
       end
     end

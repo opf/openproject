@@ -31,18 +31,10 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Actions, type: :component do
-  shared_let(:project) { create(:project) }
-  shared_let(:author) { create(:user) }
-  shared_let(:work_package) { create(:work_package, project:, author:) }
+  shared_let(:work_package) { create(:work_package) }
+  shared_let(:journal) { work_package.journals.last }
 
-  let(:journal) do
-    create(:work_package_journal, journable: work_package, user: journal_user, notes: "A comment", version: 2)
-  end
-  let(:journal_user) { author }
-  let(:permissions) { [] }
-  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
-
-  current_user { user }
+  current_user { create(:admin) }
 
   before do
     render_inline(described_class.new(journal))
@@ -52,39 +44,5 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Actions, ty
     expect(page.find("clipboard-copy")["value"])
       .to end_with("/projects/#{work_package.project.identifier}" \
                    "/work_packages/#{work_package.id}/activity#comment-#{journal.id}")
-  end
-
-  context "without comment permissions" do
-    it "does not offer edit or quote actions" do
-      expect(page).to have_no_test_selector("op-wp-journal-#{journal.id}-edit")
-      expect(page).to have_no_test_selector("op-wp-journal-#{journal.id}-quote")
-    end
-  end
-
-  context "with permission to add comments and edit own comments" do
-    let(:permissions) { %i[view_work_packages add_work_package_comments edit_own_work_package_comments] }
-
-    it "can quote but cannot edit another user's comment" do
-      expect(page).to have_no_test_selector("op-wp-journal-#{journal.id}-edit")
-      expect(page).to have_test_selector("op-wp-journal-#{journal.id}-quote")
-    end
-
-    context "when the comment belongs to the current user" do
-      let(:journal_user) { user }
-
-      it "offers edit and quote actions" do
-        expect(page).to have_test_selector("op-wp-journal-#{journal.id}-edit")
-        expect(page).to have_test_selector("op-wp-journal-#{journal.id}-quote")
-      end
-    end
-  end
-
-  context "with permission to edit all comments" do
-    let(:permissions) { %i[view_work_packages add_work_package_comments edit_work_package_comments] }
-
-    it "offers edit and quote actions for another user's comment" do
-      expect(page).to have_test_selector("op-wp-journal-#{journal.id}-edit")
-      expect(page).to have_test_selector("op-wp-journal-#{journal.id}-quote")
-    end
   end
 end

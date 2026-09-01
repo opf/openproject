@@ -62,11 +62,15 @@ module Pages
     end
 
     def expect_upcoming_counter_to_be(amount)
-      expect(page).to have_test_selector("op-upcoming-meetings-counter", exact_text: amount.to_s)
+      page.within_test_selector("op-upcoming-meetings-counter") do
+        expect(page).to have_content(amount)
+      end
     end
 
     def expect_past_counter_to_be(amount)
-      expect(page).to have_test_selector("op-past-meetings-counter", exact_text: amount.to_s)
+      page.within_test_selector("op-past-meetings-counter") do
+        expect(page).to have_content(amount)
+      end
     end
 
     def expect_add_to_meeting_button_present
@@ -98,14 +102,19 @@ module Pages
     end
 
     def fill_and_submit_meeting_dialog(meeting, notes, counter)
-      fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
-      wait_for_turbo_stream do
-        page.find(".ng-option-marked", text: meeting.title).click
-      end
-      page.find(".ck-editor__editable").set(notes)
+      retry_block do
+        fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
+        wait_for_turbo_stream do
+          page.find(".ng-option-marked", text: meeting.title).click
+        end
+        page.find(".ck-editor__editable").set(notes)
 
-      wait_for_turbo_stream { click_on("Save") }
-      expect_upcoming_counter_to_be(counter)
+        wait_for_turbo_stream { click_on("Save") }
+
+        page.within_test_selector("op-upcoming-meetings-counter") do
+          raise "Expected counter to eq #{counter}" unless page.has_content?(counter)
+        end
+      end
     end
 
     private

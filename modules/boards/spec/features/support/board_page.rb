@@ -130,9 +130,9 @@ module Pages
 
       target_dropdown = search_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                                             query: work_package.subject,
-                                            results_selector: "body")
+                                            results_selector: ".work-packages-partitioned-query-space--container")
 
-      expect(target_dropdown).to have_no_css(".ng-option", text: work_package.subject)
+      expect(target_dropdown).to have_no_css(".ui-menu-item", text: work_package.subject)
     end
 
     ##

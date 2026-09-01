@@ -56,7 +56,8 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     create_page = index_page.click_create_message
     create_page.set_subject "A new message"
 
-    editor.wait_until_loaded
+    # adding an image
+    sleep 1
     editor.drag_attachment image_fixture.path, "Image uploaded on creation"
 
     editor.attachments_list.expect_attached("image.png")
@@ -71,7 +72,13 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
 
     page.find_test_selector("message-edit-button").click
 
-    editor.wait_until_loaded
+    retry_block do
+      find(".op-uc-figure").click
+      find(".ck-widget__type-around__button_after").click
+    end
+
+    editor.type_slowly("A spacer text")
+
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
     editor.attachments_list.expect_attached("image.png", count: 2)
@@ -87,7 +94,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     attachments_list.expect_attached("image.png", count: 2)
   end
 
-  it "can upload an image via drag & drop on attachments" do
+  it "can upload an image to new and existing messages via drag & drop on attachments" do
     index_page.visit!
     click_link_or_button forum.name
 
@@ -108,5 +115,19 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     attachments_list.expect_attached("image.png")
+    page.find_test_selector("message-edit-button").click
+    wait_for_network_idle
+
+    retry_block do
+      editor.attachments_list.drag_enter
+      editor.attachments_list.drop(image_fixture)
+      editor.wait_until_upload_progress_toaster_cleared
+      editor.attachments_list.expect_attached!("image.png", count: 2)
+    end
+
+    click_link_or_button "Save"
+    wait_for_network_idle
+
+    attachments_list.expect_attached("image.png", count: 2)
   end
 end

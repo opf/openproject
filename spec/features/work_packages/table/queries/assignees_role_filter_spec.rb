@@ -86,6 +86,13 @@ RSpec.describe "Work package filtering by assignee's role", :js do
     wp_table.expect_work_package_listed(work_package_user_assignee)
     wp_table.ensure_work_package_not_listed!(work_package_user_not_assignee)
 
+    # TODO: Remove
+    # If that sleep is not here, the test fails because the 2nd role is not added
+    # to the filter. If we sleep it is correctly saved. I really don't know why this is happening.
+    # The screenshot shows that the role is selected but it does not really get persisted correctly
+
+    sleep 1
+
     wp_table.save_as("Subject query", by_title: true)
     wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 

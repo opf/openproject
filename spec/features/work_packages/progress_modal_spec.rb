@@ -513,6 +513,52 @@ RSpec.describe "Progress modal", :js do
     context "given work = 10h, remaining work = 4h, % complete = 60%" do
       before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 4.0) }
 
+      specify "Case 1: When I clear work it clears remaining work" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(work: "")
+        progress_popover.expect_values(remaining_work: "")
+        progress_popover.expect_hints(remaining_work: :cleared_because_work_is_empty,
+                                      percent_complete: nil)
+      end
+
+      specify "Case 2: when work is set to 12h, " \
+              "remaining work is automatically set to 6h " \
+              "and subsequently work is set to 14h, " \
+              "remaining work updates to 8h" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(work: "12")
+        progress_popover.expect_values(remaining_work: "6h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
+                                      percent_complete: :derived)
+
+        progress_popover.set_values(work: "14")
+        progress_popover.expect_values(remaining_work: "8h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 4 } },
+                                      percent_complete: :derived)
+      end
+
+      specify "Case 3: when work is set to 2h, " \
+              "remaining work is automatically set to 0h, " \
+              "and work is subsequently set to 12h, " \
+              "remaining work is updated to 6h" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(work: "2")
+        progress_popover.expect_values(remaining_work: "0h")
+        progress_popover.expect_hints(remaining_work: { decreased_by_delta_like_work: { delta: -8 } },
+                                      percent_complete: :derived)
+
+        progress_popover.set_values(work: "12")
+        progress_popover.expect_values(remaining_work: "6h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
+                                      percent_complete: :derived)
+      end
+
       specify "Case 23-7: when remaining work or % complete are set, work never " \
               "changes, instead remaining work and % complete are derived" do
         visit_progress_query_displaying_work_package
@@ -536,6 +582,147 @@ RSpec.describe "Progress modal", :js do
                                       remaining_work: nil,
                                       percent_complete: :derived)
       end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 23-11: when work is cleared, and remaining work is set, " \
+              "then work is derived again" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        # clear work
+        progress_popover.set_values(work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: :cleared_because_work_is_empty,
+                                      percent_complete: nil)
+
+        # set remaining work
+        progress_popover.set_values(remaining_work: "8h")
+        # work is derived
+        progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 23-14: when remaining work is cleared, and work is set, " \
+              "then remaining work is derived again" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        # clear work
+        progress_popover.set_values(remaining_work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: :cleared_because_remaining_work_is_empty,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+
+        # set work
+        progress_popover.set_values(work: "20h")
+        # => remaining work is derived
+        progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: :derived,
+                                      percent_complete: nil)
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 33-1: when work and % complete are cleared, and then work " \
+              "is set again then % complete is derived again" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        # clear work and % complete
+        progress_popover.set_values(work: "", percent_complete: "")
+        progress_popover.expect_values(work: "", remaining_work: "4h", percent_complete: "")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+
+        # set work
+        progress_popover.set_values(work: "20h")
+        # => % complete is derived
+        progress_popover.expect_values(work: "20h", remaining_work: "4h", percent_complete: "80%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: :derived)
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 33-2: when remaining work and % complete are cleared, " \
+              "changing or clearing work does not modify % complete at all" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(remaining_work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: :cleared_because_remaining_work_is_empty)
+
+        progress_popover.set_values(percent_complete: "")
+        progress_popover.expect_values(work: "10h", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
+
+        # partially deleting work value like when pressing backspace
+        progress_popover.set_values(work: "1")
+        progress_popover.expect_values(work: "1", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
+
+        # completly clearing work value
+        progress_popover.set_values(work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
+      end
+    end
+
+    context "given work, remaining work, and % complete are all empty" do
+      before do
+        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 20-4: when remaining work and % complete are both set, work " \
+              "is derived because it's initially empty" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(remaining_work: "2h", percent_complete: "50%")
+        progress_popover.expect_values(work: "4h")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+
+        progress_popover.set_values(remaining_work: "10h")
+        progress_popover.expect_values(work: "20h")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 30-1: when % complete is set, remaining work is set, and " \
+              "% complete is changed, then work is always derived" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(percent_complete: "40%")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "40%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+
+        progress_popover.set_values(remaining_work: "60h")
+        progress_popover.expect_values(work: "100h", remaining_work: "60h", percent_complete: "40%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+
+        progress_popover.set_values(percent_complete: "80%")
+        progress_popover.expect_values(work: "300h", remaining_work: "60h", percent_complete: "80%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+      end
     end
 
     context "in status-based mode",
@@ -553,6 +740,25 @@ RSpec.describe "Progress modal", :js do
                old_status: open_status_with_0p_done_ratio,
                new_status: complete_status_with_100p_done_ratio,
                role:)
+      end
+
+      context "given status has % complete to 50% and work is unset" do
+        before do
+          update_work_package_with(work_package, status: in_progress_status_with_50p_done_ratio,
+                                                 estimated_hours: nil)
+        end
+
+        specify "when setting work, it updates remaining work and % complete" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.expect_values(work: "", remaining_work: "")
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+
+          progress_popover.set_values(work: "10h")
+          progress_popover.expect_values(work: "10h", remaining_work: "5h")
+          progress_popover.expect_hints(work: nil, remaining_work: :derived)
+        end
       end
 
       context "given work = 10h" do

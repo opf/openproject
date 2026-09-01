@@ -193,20 +193,22 @@ RSpec.describe "Work package calendars", :js do
 
     # Going back in browser history will lead us back to the calendar
     # Regression #29664
-    page.go_back
-    expect(page).to have_current_path(%r{/projects/#{project.identifier}/calendars/new(?:\?|$)})
-    page.refresh
-    expect_angular_frontend_initialized
-    expect(page)
-      .to have_css(".fc-event-title", text: current_work_package.subject, wait: 20)
-    current_wp_split_screen.expect_closed
+    retry_block do
+      page.go_back
+      expect_angular_frontend_initialized
+      expect(page)
+        .to have_css(".fc-event-title", text: current_work_package.subject, wait: 20)
+      current_wp_split_screen.expect_closed
+    end
 
     # After go_back, the app may not be fully initialized even though the
     # calendar events are visible. Clicking too early can cause an "not
     # authorized" error on the split screen API call. Retry to handle this.
-    page.find(".fc-event-title", text: current_work_package.subject).click
-    wait_for_turbo_frame do
-      current_wp_split_screen.expect_open
+    retry_block do
+      page.find(".fc-event-title", text: current_work_package.subject).click
+      wait_for_turbo_frame do
+        current_wp_split_screen.expect_open
+      end
     end
 
     # click back goes back to calendar

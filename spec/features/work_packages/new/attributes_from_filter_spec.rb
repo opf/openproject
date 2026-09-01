@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package create uses attributes from filters", :js do
+RSpec.describe "Work package create uses attributes from filters", :js, :selenium do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }

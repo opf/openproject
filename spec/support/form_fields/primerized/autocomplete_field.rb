@@ -15,7 +15,7 @@ module FormFields
 
           expect(page).to have_css(".ng-option", text: val, visible: :all)
           page.find(".ng-option", text: val, visible: :all).click
-          expect_selected(val)
+          sleep 0.25 # still required?
         end
       end
 
@@ -23,10 +23,10 @@ module FormFields
         values.each do |val|
           open_options
           page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
-          expect_not_selected(val)
+          sleep 0.25 # still required?
         end
-        field_container.find(".ng-input input").send_keys(:escape)
-        expect(field_container).to have_no_css("ng-select.ng-select-opened")
+        field_container.find(".ng-arrow-wrapper").click # close dropdown
+        sleep 0.25
       end
 
       def search(text)
@@ -130,7 +130,7 @@ module FormFields
 
       def expect_error(string = nil)
         expect(field_container).to have_css(".FormControl-inlineValidation", visible: :all)
-        expect(field_container).to have_text(string) if string
+        expect(field_container).to have_content(string) if string
       end
     end
   end

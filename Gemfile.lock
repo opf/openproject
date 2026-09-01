@@ -1417,7 +1417,6 @@ GEM
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
       jwt (>= 1.5, < 4.0)
-    simplecov (1.1.1)
     simpleidn (0.2.3)
     smart_properties (1.17.0)
     spreadsheet (1.3.5)
@@ -1754,7 +1753,6 @@ DEPENDENCIES
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
   shoulda-matchers (~> 8.0)
-  simplecov (~> 1.1.1)
   spring
   spring-commands-rspec
   spring-commands-rubocop
@@ -2251,7 +2249,6 @@ CHECKSUMS
   shoulda-context (2.0.0) sha256=7adf45342cd800f507d2a053658cb1cce2884b616b26004d39684b912ea32c34
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.0) sha256=b76d495ccb07ad35dbc89f3e920665a9d8ed717141955034005d7843dcfe4780
-  simplecov (1.1.1) sha256=25825ef13f0b2e74694d769817dad6ab8e90131dabdaa666e522fea105521e78
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   spreadsheet (1.3.5) sha256=cd83ea66803d9cae4ac258dfe16cd8c2b85da33eec18a6d7b48fd4a45840ab7d

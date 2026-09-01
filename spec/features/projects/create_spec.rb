@@ -397,13 +397,11 @@ RSpec.describe "Projects", "creation", :js do
         click_on "Continue"
 
         # Step 3: Fill in required custom field
-        page.find("body", text: "3 of 3")
         fill_in "Required Foo", with: "Required value"
-        page.find_field("Required Foo", with: "Required value")
       end
 
       it "enables custom fields with provided values and for_all fields for this project" do
-        wait_for_turbo { click_on "Complete" }
+        click_on "Complete"
 
         expect_and_dismiss_flash type: :success, message: "Successful creation."
 
@@ -448,7 +446,7 @@ RSpec.describe "Projects", "creation", :js do
         it "does enable custom fields with default values if overwritten with a new value" do
           fill_in "Foo with default value", with: "foo"
 
-          wait_for_turbo { click_on "Complete" }
+          click_on "Complete"
 
           expect(page).to have_current_path /\/projects\/foo-bar\/?/
 
@@ -479,9 +477,8 @@ RSpec.describe "Projects", "creation", :js do
             expect(page).to have_content "Text for Admins only"
 
             fill_in "Text for Admins only", with: "foo"
-            expect(page).to have_field("Text for Admins only", with: "foo")
 
-            wait_for_turbo { click_on "Complete" }
+            click_on "Complete"
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 

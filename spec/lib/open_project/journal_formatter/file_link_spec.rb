@@ -65,10 +65,7 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       end
 
       it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
-        file_link
-        missing_file_link_key = "file_links_#{Storages::FileLink.maximum(:id).to_i + 1}"
-
-        expect(instance.render(missing_file_link_key, [changes, nil]))
+        expect(instance.render("file_links_12", [changes, nil]))
           .to eq(I18n.t(:text_journal_file_link_deleted,
                         label: "<strong>#{I18n.t(:label_file)}</strong>",
                         old: "<strike><i>#{file_link.origin_name}</i></strike>",

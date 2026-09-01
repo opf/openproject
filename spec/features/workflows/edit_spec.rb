@@ -176,23 +176,45 @@ RSpec.describe "Workflow edit", :js do
       visit_workflow_edit(roles: [role])
     end
 
-    it "shows the workflow matrix for each tab" do
+    it "shows the always tab by default" do
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(0, 1), checked: true
       end
+    end
 
+    it "shows the author matrix when switching to the author tab" do
       switch_transition_tab "User is author"
 
       within "#workflow_form_author" do
         expect(page).to have_field workflow_checkbox(1, 2), checked: true
         expect(page).to have_no_field workflow_checkbox(0, 1)
       end
+    end
 
+    it "shows the assignee matrix when switching to the assignee tab" do
       switch_transition_tab "User is assignee"
 
       within "#workflow_form_assignee" do
         expect(page).to have_field workflow_checkbox(0, 2), checked: true
         expect(page).to have_no_field workflow_checkbox(0, 1)
+      end
+    end
+
+    it "loses unsaved checkbox changes when switching tabs and ignoring" do
+      within "#workflow_form_always" do
+        check workflow_checkbox(1, 0)
+      end
+
+      switch_transition_tab "User is author"
+
+      within_dialog "Save changes before continuing?" do
+        click_button "Ignore changes"
+      end
+
+      switch_transition_tab "Default transitions"
+
+      within "#workflow_form_always" do
+        expect(page).to have_field workflow_checkbox(1, 0), checked: false
       end
     end
 
@@ -214,9 +236,42 @@ RSpec.describe "Workflow edit", :js do
       expect_transition(role, 1, 0, exist: true)
     end
 
+    it "keeps unsaved changes and stays on the same tab when closing the dialog via 'X'" do
+      within "#workflow_form_always" do
+        check workflow_checkbox(1, 0)
+      end
+
+      switch_transition_tab "User is author"
+
+      within_dialog "Save changes before continuing?" do
+        find(".close-button").click
+      end
+
+      expect(page).to have_no_dialog("Save changes before continuing?")
+      expect(page).to have_css("#workflow_form_always")
+
+      within "#workflow_form_always" do
+        expect(page).to have_field workflow_checkbox(1, 0), checked: true
+      end
+    end
+
     it "shows a confirmation dialog when switching tabs after adding a status" do
       add_status_via_dialog(statuses[2])
       expect(page).to have_field workflow_checkbox(0, 2)
+
+      switch_transition_tab "User is author"
+
+      expect(page).to have_dialog("Save changes before continuing?")
+    end
+
+    it "shows a confirmation dialog when switching tabs after removing a status" do
+      remove_status_via_dialog(statuses[1])
+
+      within_dialog "Remove statuses" do
+        click_button "Remove"
+      end
+
+      expect(page).to have_no_field workflow_checkbox(0, 1)
 
       switch_transition_tab "User is author"
 
@@ -236,12 +291,14 @@ RSpec.describe "Workflow edit", :js do
       visit_workflow_edit(roles: [role])
     end
 
-    it "shows the workflow matrix for each role" do
+    it "shows the matrix for the first role" do
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(0, 1)
         expect(page).to have_no_field workflow_checkbox(1, 2)
       end
+    end
 
+    it "loads the matrix for a different role after switching" do
       switch_role_via_panel(role, other_role)
 
       within "#workflow_form_always" do
@@ -270,6 +327,54 @@ RSpec.describe "Workflow edit", :js do
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
       end
+    end
+
+    it "saves changes and switches to the new role when clicking 'Save changes and continue'" do
+      within "#workflow_form_always" do
+        check workflow_checkbox(1, 0)
+      end
+
+      switch_role_via_panel(role, other_role)
+
+      within_dialog "Save changes before continuing?" do
+        click_button "Save changes and continue"
+      end
+
+      expect_flash(message: "Successful update.")
+
+      within "#workflow_form_always" do
+        expect(page).to have_field workflow_checkbox(1, 2)
+      end
+
+      expect_transition(role, 1, 0, exist: true)
+    end
+
+    it "keeps unsaved changes and stays on the same role when closing the dialog via 'X'" do
+      within "#workflow_form_always" do
+        check workflow_checkbox(1, 0)
+      end
+
+      switch_role_via_panel(role, other_role)
+
+      within_dialog "Save changes before continuing?" do
+        find(".close-button").click
+      end
+
+      expect(page).to have_no_dialog("Save changes before continuing?")
+
+      within "#workflow_form_always" do
+        expect(page).to have_field workflow_checkbox(0, 1)
+        expect(page).to have_field workflow_checkbox(1, 0), checked: true
+      end
+    end
+
+    it "shows a confirmation dialog when changing roles after adding a status" do
+      add_status_via_dialog(statuses[2])
+      expect(page).to have_field workflow_checkbox(0, 2)
+
+      switch_role_via_panel(role, other_role)
+
+      expect(page).to have_dialog("Save changes before continuing?")
     end
 
     it "shows a confirmation dialog when changing roles after removing a status" do
@@ -401,11 +506,8 @@ RSpec.describe "Workflow edit", :js do
       end
 
       within_dialog "Statuses" do
-        select_autocomplete(
-          find("ng-select"),
-          query: statuses[2].name,
-          wait_for_fetched_options: false
-        )
+        find(".ng-arrow-wrapper").click
+        find(".ng-option", text: statuses[2].name).click
         click_button "Cancel"
       end
 
@@ -531,7 +633,42 @@ RSpec.describe "Workflow edit", :js do
     end
 
     context "with unsaved checkbox" do
-      it "keeps unsaved changes without opening the copy dialog when closing the confirmation" do
+      it "loses unsaved checkbox changes when clicking on copy and ignoring" do
+        within "#workflow_form_always" do
+          check workflow_checkbox(1, 0)
+        end
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Ignore changes"
+        end
+
+        within "#workflow_form_always" do
+          expect(page).to have_field workflow_checkbox(1, 0), checked: false
+        end
+        expect(page).to have_dialog "Copy workflow"
+      end
+
+      it "saves changes and switches to the new role when clicking 'Save changes and continue'" do
+        within "#workflow_form_always" do
+          check workflow_checkbox(1, 0)
+        end
+
+        click_link "Copy"
+
+        within_dialog "Save changes before continuing?" do
+          click_button "Save changes and continue"
+        end
+
+        expect_flash(message: "Successful update.")
+
+        expect_transition(role, 1, 0, exist: true)
+
+        expect(page).to have_dialog "Copy workflow"
+      end
+
+      it "keeps unsaved changes and stays on the same role when closing the dialog via 'X'" do
         within "#workflow_form_always" do
           check workflow_checkbox(1, 0)
         end
@@ -553,6 +690,15 @@ RSpec.describe "Workflow edit", :js do
     end
 
     context "with unsaved new status" do
+      it "shows a confirmation dialog when copying after adding a status" do
+        add_status_via_dialog(statuses[2])
+        expect(page).to have_field workflow_checkbox(0, 2)
+
+        click_link "Copy"
+
+        expect(page).to have_dialog("Save changes before continuing?")
+      end
+
       it "reverts the added status on changes ignored" do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)

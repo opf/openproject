@@ -28,7 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 ENV["RAILS_ENV"] ||= "test"
-require_relative "../script/support/rspec_coverage" if ENV["COVERAGE"] == "1"
 require_relative "../config/environment"
 require "factory_bot"
 require "factory_bot_rails"

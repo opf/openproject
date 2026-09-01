@@ -71,10 +71,8 @@ module WorkPackageTypes
       end
 
       it "removes unavailable attributes from legacy form configurations when updating rows" do
-        deleted_custom_field = create(:work_package_custom_field, field_format: "string")
-        deleted_custom_field_attribute = deleted_custom_field.attribute_name
-        deleted_custom_field.destroy!
         custom_field = create(:work_package_custom_field, field_format: "string")
+        deleted_custom_field_attribute = "custom_field_1"
         variant.update_column(:attribute_groups, [
                                 ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
                               ])

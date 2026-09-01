@@ -45,9 +45,10 @@ RSpec.describe "Project public/private toggle", :js do
 
     expect(page).to have_text I18n.t("projects.settings.public_confirmation.title")
 
-    check I18n.t("projects.settings.public_confirmation.checkbox")
-    expect(page).to have_checked_field(I18n.t("projects.settings.public_confirmation.checkbox"))
-    click_button "Confirm"
+    retry_block do
+      check I18n.t("projects.settings.public_confirmation.checkbox")
+      click_button "Confirm"
+    end
 
     expect(page).to have_test_selector("op-projects-public-warning")
     expect(page).to have_text(I18n.t("projects.settings.public_warning"))
@@ -60,9 +61,10 @@ RSpec.describe "Project public/private toggle", :js do
     page.find_test_selector("project-settings--toggle-public").click
     expect(page).to have_text I18n.t("projects.settings.private_confirmation.title")
 
-    check I18n.t("projects.settings.private_confirmation.checkbox")
-    expect(page).to have_checked_field(I18n.t("projects.settings.private_confirmation.checkbox"))
-    click_button "Confirm"
+    retry_block do
+      check I18n.t("projects.settings.private_confirmation.checkbox")
+      click_button "Confirm"
+    end
 
     expect(page).not_to have_test_selector("op-projects-public-warning")
     expect(page).to have_no_text(I18n.t("projects.settings.public_warning"))

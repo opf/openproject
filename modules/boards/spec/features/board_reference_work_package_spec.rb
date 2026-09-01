@@ -111,6 +111,11 @@ RSpec.describe "Board reference work package spec",
       board_page = board_index.create_board
       board_page.rename_list "Unnamed list", "First"
 
+      # Reference an existing work package
+      board_page.expect_not_referencable("First", work_package)
+      sleep 2
+      board_page.expect_card("First", work_package.subject, present: false)
+
       # Add subproject filter
       filters.open
       filters.add_filter_by("subproject", "is not empty", nil, "subprojectId")

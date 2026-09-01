@@ -83,20 +83,16 @@ RSpec.describe "new work package", :js do
     login_as(user)
   end
 
-  shared_examples "work package creation workflow" do |full_matrix:|
+  shared_examples "work package creation workflow" do
     before do
       create_method.call(type_task, project.name)
 
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
-    it "creates a basic work package and then a subsequent work package" do
+    it "creates a subsequent work package" do
       wp_page.subject_field.set(subject)
-      description_field.set_value(description)
       save_work_package!
-
-      expect(page).to have_css(".op-work-package-tabs")
-      wp_page.edit_field(:description).expect_state_text(description)
 
       # safeguards
       wp_page.dismiss_toaster!
@@ -113,99 +109,109 @@ RSpec.describe "new work package", :js do
       type_field.expect_state_text /#{type_bug.name}/i
     end
 
-    if full_matrix
-      it "saves the work package with enter" do
+    it "saves the work package with enter" do
+      subject_field = wp_page.subject_field
+      subject_field.set(subject)
+      subject_field.send_keys(:enter)
+
+      # safeguards
+      wp_page.dismiss_toaster!
+      wp_page.expect_no_toaster(
+        message: "Successful creation."
+      )
+
+      wp_page.edit_field(:subject).expect_text(subject)
+    end
+
+    context "with missing values" do
+      it "shows an error when subject is missing" do
+        description_field.set_value(description)
+
+        # Need to send keys to emulate change
         subject_field = wp_page.subject_field
-        subject_field.set(subject)
-        subject_field.send_keys(:enter)
+        subject_field.set("")
+        subject_field.send_keys("a")
+        subject_field.send_keys(:backspace)
 
-        # safeguards
-        wp_page.dismiss_toaster!
-        wp_page.expect_no_toaster(
-          message: "Successful creation."
+        save_work_package!(false)
+        toaster.expect_error("Subject can't be blank.")
+      end
+    end
+
+    context "with subject set" do
+      it "creates a basic work package" do
+        description_field = wp_page.edit_field :description
+        description_field.set_value description
+
+        save_work_package!
+        expect(page).to have_css(".op-work-package-tabs")
+
+        subject_field.expect_state_text(subject)
+        description_field = wp_page.edit_field :description
+        description_field.expect_state_text(description)
+      end
+
+      it "can switch types and keep attributes" do
+        wp_page.subject_field.set(subject)
+        type_field.activate!
+        type_field.openSelectField
+        type_field.set_value type_bug.name
+
+        save_work_package!
+
+        wp_page.expect_attributes(subject:)
+        wp_page.expect_attributes type: type_bug.name.upcase
+      end
+    end
+
+    describe "custom fields" do
+      let(:custom_field1) do
+        create(
+          :work_package_custom_field,
+          field_format: "string",
+          is_required: true,
+          is_for_all: true
         )
-
-        wp_page.edit_field(:subject).expect_text(subject)
+      end
+      let(:custom_field2) do
+        create(
+          :work_package_custom_field,
+          field_format: "list",
+          possible_values: %w(foo bar xyz),
+          is_required: false,
+          is_for_all: true
+        )
+      end
+      let(:custom_fields) do
+        [custom_field1, custom_field2]
+      end
+      let(:type_task) { create(:type_task, custom_fields:) }
+      let(:project) do
+        create(:project,
+               types:,
+               work_package_custom_fields: custom_fields)
       end
 
-      context "with missing values" do
-        it "shows an error when subject is missing" do
-          description_field.set_value(description)
+      it "saves and validates the custom field values" do
+        custom_fields.map(&:id)
+        cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
+        expect(cf1).not_to be_nil
 
-          # Need to send keys to emulate change
-          subject_field = wp_page.subject_field
-          subject_field.set("")
-          subject_field.send_keys("a")
-          subject_field.send_keys(:backspace)
+        expect(page).to have_css(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
 
-          save_work_package!(false)
-          toaster.expect_error("Subject can't be blank.")
-        end
-      end
+        cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
+        cf.field_type = "create-autocompleter"
+        cf.openSelectField
+        cf.set_value "foo"
+        save_work_package!(false)
 
-      context "with subject set" do
-        it "can switch types and keep attributes" do
-          wp_page.subject_field.set(subject)
-          type_field.activate!
-          type_field.openSelectField
-          type_field.set_value type_bug.name
+        toaster.expect_error("#{custom_field1.name} can't be blank.")
 
-          save_work_package!
+        cf1.set "Custom field content"
+        save_work_package!(true)
 
-          wp_page.expect_attributes(subject:)
-          wp_page.expect_attributes type: type_bug.name.upcase
-        end
-      end
-
-      describe "custom fields" do
-        let(:custom_field1) do
-          create(
-            :work_package_custom_field,
-            field_format: "string",
-            is_required: true,
-            is_for_all: true
-          )
-        end
-        let(:custom_field2) do
-          create(
-            :work_package_custom_field,
-            field_format: "list",
-            possible_values: %w(foo bar xyz),
-            is_required: false,
-            is_for_all: true
-          )
-        end
-        let(:custom_fields) do
-          [custom_field1, custom_field2]
-        end
-        let(:type_task) { create(:type_task, custom_fields:) }
-        let(:project) do
-          create(:project,
-                 types:,
-                 work_package_custom_fields: custom_fields)
-        end
-
-        it "saves and validates the custom field values" do
-          custom_fields.map(&:id)
-          cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
-          expect(cf1).not_to be_nil
-
-          expect(page).to have_css(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
-
-          cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
-          cf.field_type = "create-autocompleter"
-          cf.openSelectField
-          cf.set_value "foo"
-          save_work_package!(false)
-
-          toaster.expect_error("#{custom_field1.name} can't be blank.")
-
-          cf1.set "Custom field content"
-          save_work_package!(true)
-
-          wp_page.expect_attributes "customField#{custom_field1.id}" => "Custom field content",
-                                    "customField#{custom_field2.id}" => "foo"
-        end
+        wp_page.expect_attributes "customField#{custom_field1.id}" => "Custom field content",
+                                  "customField#{custom_field2.id}" => "foo"
       end
     end
   end
@@ -219,7 +225,7 @@ RSpec.describe "new work package", :js do
       wp_table.visit!
     end
 
-    it_behaves_like "work package creation workflow", full_matrix: false do
+    it_behaves_like "work package creation workflow" do
       let(:create_method) { method(:create_work_package) }
     end
 
@@ -303,7 +309,7 @@ RSpec.describe "new work package", :js do
       )
     end
 
-    it_behaves_like "work package creation workflow", full_matrix: true do
+    it_behaves_like "work package creation workflow" do
       let(:create_method) { method(:create_work_package) }
     end
   end
@@ -317,7 +323,7 @@ RSpec.describe "new work package", :js do
       wp_table.visit!
     end
 
-    it_behaves_like "work package creation workflow", full_matrix: false do
+    it_behaves_like "work package creation workflow" do
       let(:create_method) { method(:create_work_package_globally) }
     end
 
@@ -442,7 +448,8 @@ RSpec.describe "new work package", :js do
     it "can create the work package, but not update it after saving" do
       type_field.activate!
       type_field.set_value type_bug.name
-      type_field.expect_state_text(/#{type_bug.name}/i)
+      # wait after the type change
+      sleep(0.2)
       subject_field.update("new work package", save: true)
 
       wp_page.expect_and_dismiss_toaster(

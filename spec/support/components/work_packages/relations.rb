@@ -178,9 +178,9 @@ module Components
         page.find_test_selector("op-relation-row-#{actual_relatable.id}-edit-button")
       end
 
-      def relatable_delete_button(relatable, **options)
+      def relatable_delete_button(relatable)
         actual_relatable = find_relatable(relatable)
-        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button", **options)
+        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button")
       end
 
       def expect_relatable_delete_button(relatable)
@@ -418,25 +418,21 @@ module Components
       def remove_relation_with_work_package(relatable)
         open_action_menu_with_work_package(relatable) do
           accept_confirm do
-            delete_button = relatable_delete_button(relatable, visible: :all).find("button", visible: :all)
-            page.execute_script("arguments[0].click()", delete_button)
+            relatable_delete_button(relatable).click
           end
         end
 
-        wait_for_network_idle if using_cuprite?
         expect_no_row(relatable)
       end
 
       def open_action_menu_with_work_package(relatable)
-        relatable_row = find_row(relatable)
-        action_menu = nil
-        within(relatable_row) do
-          action_menu = relatable_action_menu(relatable)
-          action_menu.find("button").click
+        retry_block do
+          relatable_row = find_row(relatable)
+          within(relatable_row) do
+            relatable_action_menu(relatable).click
+            yield
+          end
         end
-
-        action_menu.find("[popover]:popover-open", visible: :all)
-        yield
       end
 
       def first_level_relation?(relation_type)

@@ -6,40 +6,37 @@ module Components::Autocompleter
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
-      dropdown_open = ng_dropdown_open?(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
+      dropdown_open = ng_dropdown_open?(element, results_selector:) if wait_dropdown_open
       ng_click_autocompleter(element) unless dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader")
+      expect(element).to have_no_css(".ng-spinner-loader")
 
       # Insert the text to find
-      page.document.synchronize do
-        current_element = resolve_autocomplete(element)
-        within(current_element) do
-          ng_enter_query(current_element, query, wait_for_fetched_options:)
+      within(element) do
+        retry_block do
+          ng_enter_query(element, query, wait_for_fetched_options:)
         end
       end
 
       # Wait for options to be refreshed after having entered some text.
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader")
+      expect(element).to have_no_css(".ng-spinner-loader")
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown
-      dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+      dropdown_list = ng_find_dropdown(element, results_selector:)
       scroll_to_element(dropdown_list)
       dropdown_list
     end
 
     def ng_click_autocompleter(target)
-      page.document.synchronize do
-        input = ng_select_input(resolve_autocomplete(target))
+      input = ng_select_input(target)
 
-        scroll_to_element(input, block: :nearest)
-        input.click
-      end
+      scroll_to_element(input, block: :nearest)
+      input.click
     end
 
     def ng_find_dropdown(element, results_selector: "body", raise_on_missing: true)
@@ -182,15 +179,13 @@ module Components::Autocompleter
       # otherwise use the query
       text = select_text.presence || query
 
-      page.document.synchronize do
-        ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+      retry_block do
+        # Re-resolve the option on each attempt because ng-select may rerender
+        # the dropdown between find and click in Cuprite.
+        ng_find_dropdown(element, results_selector:)
           .first(".ng-option", text:, wait: 15)
           .click
       end
-    end
-
-    def resolve_autocomplete(element)
-      element.respond_to?(:call) ? element.call : element
     end
 
     def expect_current_autocompleter_value(element, value)

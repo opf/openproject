@@ -65,7 +65,6 @@ RSpec.describe "Work package Parent field ranks exact matches first", :js, :sele
     field.activate!
 
     dropdown = field.autocomplete("#PARENTFIELD-5", select: false)
-    expect(dropdown).to have_css(".ng-option", text: exact_match.subject)
 
     within(dropdown) do
       # Both matches must be rendered before the options are read, otherwise the

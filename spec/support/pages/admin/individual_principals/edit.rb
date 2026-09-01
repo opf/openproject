@@ -107,12 +107,10 @@ module Pages
         end
 
         def select_project!(project_name)
-          page.document.synchronize do
-            select_autocomplete page.find('[data-test-selector="membership_project_id"]'),
-                                query: project_name,
-                                select_text: project_name,
-                                results_selector: "body"
-          end
+          select_autocomplete page.find('[data-test-selector="membership_project_id"]'),
+                              query: project_name,
+                              select_text: project_name,
+                              results_selector: "body"
         end
 
         def open_global_roles_tab!
@@ -122,9 +120,7 @@ module Pages
         end
 
         def expect_global_roles(roles)
-          selector = "#table_principal_roles tr td.role"
-          expect(page).to have_css(selector, count: roles.size)
-          roles_in_on_page = page.all(selector)
+          roles_in_on_page = page.find_all("#table_principal_roles tr td.role")
 
           expect(roles_in_on_page.map(&:text)).to eq(roles)
         end

@@ -80,6 +80,21 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     projects_page.open_filters
   end
 
+  context "with a filter set" do
+    it "only shows the matching projects and filters" do
+      load_and_open_filters admin
+
+      click_button accessible_name: "Project name filter"
+      projects_page.filter_by_name_and_identifier("Plain")
+
+      # Filter is applied: Only the project that contains the the word "Plain" gets listed
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
+      # Filter form is visible and the filter is still set.
+      expect(page).to have_field("name_and_identifier", with: "Plain")
+    end
+  end
+
   specify "Name and identifier gives results in both, name and identifier" do
     load_and_open_filters admin
 
@@ -90,7 +105,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
     projects_page.expect_projects_listed(project)
     projects_page.expect_projects_not_listed(development_project, public_project)
-    expect(page).to have_field("name_and_identifier", with: "Plain")
 
     projects_page.remove_filter("name_and_identifier")
     projects_page.expect_projects_listed(project, development_project, public_project)
@@ -257,6 +271,30 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       expect(page).to have_text(green_project.name)
       expect(page).to have_no_text(no_status_project.name)
+
+      projects_page.set_filter("project_status_code",
+                               "Status",
+                               "is not empty",
+                               [])
+
+      expect(page).to have_text(green_project.name)
+      expect(page).to have_no_text(no_status_project.name)
+
+      projects_page.set_filter("project_status_code",
+                               "Status",
+                               "is empty",
+                               [])
+
+      expect(page).to have_no_text(green_project.name)
+      expect(page).to have_text(no_status_project.name)
+
+      projects_page.set_filter("project_status_code",
+                               "Status",
+                               "is not",
+                               ["On track"])
+
+      expect(page).to have_no_text(green_project.name)
+      expect(page).to have_text(no_status_project.name)
     end
   end
 
@@ -283,6 +321,13 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     ensure
       travel_back
     end
+    shared_let(:project_created_on_six_days_ago) do
+      travel_to(DateTime.now - 6.days)
+      create(:project,
+             name: "Created on six days ago project")
+    ensure
+      travel_back
+    end
     shared_let(:project_created_on_fixed_date) do
       travel_to(fixed_datetime)
       create(:project,
@@ -305,7 +350,21 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                                project_created_on_fixed_date)
       projects_page.expect_projects_listed(project_created_on_today)
 
-      # Date input
+      # created on 'this week' shows projects that were created within the last seven days
+      projects_page.remove_filter("created_at")
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+
+      projects_page.set_filter("created_at",
+                               "Created on",
+                               "this week")
+
+      projects_page.expect_projects_not_listed(project_created_on_fixed_date)
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week)
+
+      # created on 'on' shows projects that were created within the last seven days
       projects_page.remove_filter("created_at")
 
       projects_page.expect_projects_listed(project_created_on_today,
@@ -321,7 +380,21 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                                project_created_on_this_week)
       projects_page.expect_projects_listed(project_created_on_fixed_date)
 
-      # Numeric input triggered by an input event
+      # created on 'less than days ago'
+      projects_page.remove_filter("created_at")
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+
+      projects_page.set_filter("created_at",
+                               "Created on",
+                               "less than days ago",
+                               ["1"])
+
+      projects_page.expect_projects_not_listed(project_created_on_fixed_date)
+      projects_page.expect_projects_listed(project_created_on_today)
+
+      # created on 'less than days ago' triggered by an input event
       projects_page.remove_filter("created_at")
       projects_page.expect_projects_listed(project_created_on_today,
                                            project_created_on_this_week,
@@ -336,7 +409,36 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_not_listed(project_created_on_fixed_date)
       projects_page.expect_projects_listed(project_created_on_today)
 
-      # Range input
+      # created on 'more than days ago'
+      projects_page.remove_filter("created_at")
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+
+      projects_page.set_filter("created_at",
+                               "Created on",
+                               "more than days ago",
+                               ["1"])
+
+      projects_page.expect_projects_not_listed(project_created_on_today)
+      projects_page.expect_projects_listed(project_created_on_fixed_date)
+
+      # created on 'more than days ago'
+      projects_page.remove_filter("created_at")
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+
+      projects_page.set_filter("created_at",
+                               "Created on",
+                               "more than days ago",
+                               ["1"],
+                               send_keys: true)
+
+      projects_page.expect_projects_not_listed(project_created_on_today)
+      projects_page.expect_projects_listed(project_created_on_fixed_date)
+
+      # created on 'between'
       projects_page.remove_filter("created_at")
       projects_page.expect_projects_listed(project_created_on_today,
                                            project_created_on_this_week,
@@ -345,8 +447,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.set_filter("created_at",
                                "Created on",
                                "between",
-                               ["2017-11-10", "2017-11-12"],
-                               send_keys: true)
+                               ["2017-11-10", "2017-11-12"])
 
       projects_page.expect_projects_not_listed(project_created_on_today)
       projects_page.expect_projects_listed(project_created_on_fixed_date)
@@ -358,6 +459,14 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       load_and_open_filters admin
 
       projects_page.expect_projects_listed(project, public_project)
+
+      projects_page.filter_by_public("no")
+      wait_for_reload
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
+
+      load_and_open_filters admin
 
       projects_page.filter_by_public("yes")
       wait_for_reload
@@ -408,6 +517,15 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_listed(project)
     end
 
+    it "filters for any group where the user is a member" do
+      load_and_open_filters manager
+
+      # Since the user is member of this group, this project will match the filter
+      projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_group.name])
+
+      projects_page.expect_projects_listed(project)
+    end
+
     it "displays the visible project members, groups and placeholders as available options" do
       load_and_open_filters manager
 
@@ -420,6 +538,50 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       ]
 
       projects_page.expect_user_autocomplete_options_for(user_cf, expected_options)
+    end
+
+    context "with the cf field set to a group" do
+      before do
+        project.update(custom_field_values: { user_cf.id => [some_group.id] })
+      end
+
+      it "filters for the group" do
+        load_and_open_filters manager
+
+        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_group.name])
+
+        projects_page.expect_projects_listed(project)
+      end
+
+      it "filters for users that are members of the group" do
+        load_and_open_filters manager
+
+        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_user.name])
+
+        projects_page.expect_projects_listed(project)
+      end
+
+      it "does not match if you filter for another group" do
+        load_and_open_filters manager
+
+        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [empty_group.name])
+
+        projects_page.expect_projects_not_listed(project)
+      end
+    end
+
+    context "with the cf field set to a placeholder user" do
+      before do
+        project.update(custom_field_values: { user_cf.id => [some_placeholder.id] })
+      end
+
+      it "filters for the placeholder user" do
+        load_and_open_filters manager
+
+        projects_page.set_filter(user_cf.column_name, user_cf.name, "is (OR)", [some_placeholder.name])
+
+        projects_page.expect_projects_listed(project)
+      end
     end
   end
 
@@ -738,11 +900,54 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         projects_page.set_filter("project_phase_any",
                                  "Project phase: Any",
                                  "on",
-                                 [Time.zone.today.to_s],
-                                 send_keys: true)
+                                 [Time.zone.today])
 
         projects_page.expect_projects_not_listed(development_project)
         projects_page.expect_projects_in_order(project, public_project)
+
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_any",
+                                 "Project phase: Any",
+                                 "today")
+
+        projects_page.expect_projects_not_listed(development_project)
+        projects_page.expect_projects_in_order(project, public_project)
+
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_any",
+                                 "Project phase: Any",
+                                 "between",
+                                 [Time.zone.today - 5.days, Time.zone.today + 10.days])
+
+        projects_page.expect_projects_not_listed(development_project)
+        projects_page.expect_projects_in_order(project, public_project)
+
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_any",
+                                 "Project phase: Any",
+                                 "this week")
+
+        projects_page.expect_projects_not_listed(development_project)
+        projects_page.expect_projects_in_order(project, public_project)
+
+        wait_for_turbo_stream { projects_page.remove_filter("project_phase_any") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_any",
+                                 "Project phase: Any",
+                                 "is empty")
+
+        projects_page.expect_projects_not_listed(public_project, development_project, project)
       end
     end
 
@@ -766,12 +971,55 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
         projects_page.set_filter("project_phase_#{stage.definition_id}",
                                  "Project phase: #{stage.name}",
-                                 "between",
-                                 [Time.zone.today - 5.days, Time.zone.today + 10.days],
-                                 send_keys: true)
+                                 "on",
+                                 [Time.zone.today + 5.days])
 
         projects_page.expect_projects_not_listed(development_project, public_project)
         projects_page.expect_projects_in_order(project)
+
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_#{stage.definition_id}",
+                                 "Project phase: #{stage.name}",
+                                 "today")
+
+        projects_page.expect_projects_not_listed(development_project, public_project)
+        projects_page.expect_projects_in_order(project)
+
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_#{stage.definition_id}",
+                                 "Project phase: #{stage.name}",
+                                 "between",
+                                 [Time.zone.today - 5.days, Time.zone.today + 10.days])
+
+        projects_page.expect_projects_not_listed(development_project, public_project)
+        projects_page.expect_projects_in_order(project)
+
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_#{stage.definition_id}",
+                                 "Project phase: #{stage.name}",
+                                 "this week")
+
+        projects_page.expect_projects_not_listed(development_project, public_project)
+        projects_page.expect_projects_in_order(project)
+
+        wait_for_turbo_frame { projects_page.remove_filter("project_phase_#{stage.definition_id}") }
+
+        projects_page.expect_projects_in_order(development_project, project, public_project)
+
+        projects_page.set_filter("project_phase_#{stage.definition_id}",
+                                 "Project phase: #{stage.name}",
+                                 "is empty")
+
+        projects_page.expect_projects_not_listed(public_project, development_project, project)
       end
     end
 
@@ -794,10 +1042,55 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
           projects_page.set_filter("project_finish_gate_#{gate.definition_id}",
                                    "Project phase gate: #{gate.finish_gate_name}",
+                                   "on",
+                                   [Time.zone.today])
+
+          projects_page.expect_projects_not_listed(development_project, project)
+          projects_page.expect_projects_in_order(public_project)
+
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
+
+          projects_page.expect_projects_in_order(development_project, project, public_project)
+
+          projects_page.set_filter("project_finish_gate_#{gate.definition_id}",
+                                   "Project phase gate: #{gate.finish_gate_name}",
                                    "today")
 
           projects_page.expect_projects_not_listed(development_project, project)
           projects_page.expect_projects_in_order(public_project)
+
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
+
+          projects_page.expect_projects_in_order(development_project, project, public_project)
+
+          projects_page.set_filter("project_finish_gate_#{gate.definition_id}",
+                                   "Project phase gate: #{gate.finish_gate_name}",
+                                   "between",
+                                   [Time.zone.today - 5.days, Time.zone.today + 10.days])
+
+          projects_page.expect_projects_not_listed(development_project, project)
+          projects_page.expect_projects_in_order(public_project)
+
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
+
+          projects_page.expect_projects_in_order(development_project, project, public_project)
+
+          projects_page.set_filter("project_finish_gate_#{gate.definition_id}",
+                                   "Project phase gate: #{gate.finish_gate_name}",
+                                   "this week")
+
+          projects_page.expect_projects_not_listed(development_project, project)
+          projects_page.expect_projects_in_order(public_project)
+
+          wait_for_turbo_stream { projects_page.remove_filter("project_finish_gate_#{gate.definition_id}") }
+
+          projects_page.expect_projects_in_order(development_project, project, public_project)
+
+          projects_page.set_filter("project_finish_gate_#{gate.definition_id}",
+                                   "Project phase gate: #{gate.finish_gate_name}",
+                                   "is empty")
+
+          projects_page.expect_projects_not_listed(public_project, development_project, project)
         end
       end
 

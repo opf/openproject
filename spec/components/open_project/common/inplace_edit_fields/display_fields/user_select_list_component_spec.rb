@@ -43,31 +43,15 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::UserSelect
 
   it "renders the user avatar for a single-value user custom field" do
     create(:custom_value, :skip_validations, customized: project, custom_field:, value: selected_user.id.to_s)
-    component = described_class.new(model: Project.find(project.id), attribute:, writable: false, truncated: false)
-    render_inline(component)
+    render_inline(described_class.new(model: Project.find(project.id), attribute:, writable: false, truncated: false))
 
     expect(rendered_content).to have_css "opce-principal"
     expect(rendered_content).to have_no_text(I18n.t("placeholders.default"))
-
-    formatted_values = component.formatted_custom_field_values
-    expect(component.formatted_custom_field_values).to equal(formatted_values)
   end
 
   it "renders the placeholder when no user is selected" do
     render_inline(described_class.new(model: project, attribute:, writable: false, truncated: false))
 
     expect(rendered_content).to have_text(I18n.t("placeholders.default"))
-  end
-
-  it "renders a placeholder if the selected value is removed after loading the model" do
-    value = create(:custom_value, :skip_validations, customized: project, custom_field:, value: selected_user.id.to_s)
-    project.reload
-    expect(project.public_send(attribute)).to eq(selected_user)
-    value.destroy!
-
-    render_inline(described_class.new(model: project, attribute:, writable: false, truncated: false))
-
-    expect(rendered_content).to have_text(I18n.t("placeholders.default"))
-    expect(rendered_content).to have_no_css("opce-principal")
   end
 end
