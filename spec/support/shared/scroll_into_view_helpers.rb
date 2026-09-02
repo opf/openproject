@@ -45,10 +45,11 @@ def scroll_to_element(element, block: :start, inline: :nearest)
   end
 end
 
-def scroll_to_and_click(element, block: :start, inline: :nearest)
-  retry_block do
-    scroll_to_element(element, block:, inline:)
-    element.click
+def scroll_to_and_click(element = nil, block: :start, inline: :nearest)
+  page.document.synchronize do
+    current_element = block_given? ? yield : element
+    scroll_to_element(current_element, block:, inline:)
+    current_element.click
   end
 end
 

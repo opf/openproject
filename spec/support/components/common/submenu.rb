@@ -63,14 +63,18 @@ module Components
     end
 
     def expect_item_with_count(item, count)
-      within page.find_test_selector("op-submenu--item-action", text: item) do
-        expect_count count
+      page.document.synchronize do
+        page
+          .find_test_selector("op-submenu--item-action", text: item)
+          .find("[data-test-selector='op-submenu--item-count']", exact_text: count.to_s)
       end
     end
 
     def expect_item_with_no_count(item)
-      within page.find_test_selector("op-submenu--item-action", text: item) do
-        expect_no_count
+      page.document.synchronize do
+        page
+          .find_test_selector("op-submenu--item-action", text: item)
+          .assert_no_selector("[data-test-selector='op-submenu--item-count']")
       end
     end
 

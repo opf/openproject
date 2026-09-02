@@ -102,7 +102,7 @@ class DateEditField < EditField
   def activate!(expect_open: true)
     unless active?(wait: 0)
       SeleniumHubWaiter.wait unless using_cuprite?
-      scroll_to_and_click(display_trigger_element, block: :nearest)
+      scroll_to_and_click(block: :nearest) { display_trigger_element }
       SeleniumHubWaiter.wait unless using_cuprite?
     end
 

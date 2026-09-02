@@ -402,16 +402,19 @@ module Components
       end
 
       def set_journal_sorting(sorting, default_filter: :all)
-        retry_block do
-          menu_button = page.find_test_selector("op-wp-journals-sorting-menu")
-          action_menu = menu_button.find(:xpath, "./ancestor::action-menu")
-          wait_for { action_menu["data-ready"] }.to eq("true")
+        option_selector = "[data-test-selector='op-wp-journals-sorting-#{sorting}']"
 
-          menu_button.click
-          sorting_option = page.find_test_selector("op-wp-journals-sorting-#{sorting}")
-          sorting_option.click
-          expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")
+        page.document.synchronize do
+          unless page.has_css?(option_selector, wait: 0)
+            page.find(
+              "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
+            ).click
+          end
+
+          page.find(option_selector).click
         end
+
+        expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")
       end
 
       def trigger_update_streams_poll
