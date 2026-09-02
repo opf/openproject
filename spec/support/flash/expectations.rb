@@ -18,6 +18,21 @@ module Flash
       expect_no_flash(type:, message:, exact_message:, wait: 5)
     end
 
+    def expect_and_dismiss_all_flashes(message: nil, exact_message: nil, type: :success, wait: 20)
+      expect_flash(type:, message:, exact_message:, wait:)
+      expected_css = expected_flash_css(type)
+
+      while page.has_css?(expected_css, wait: 1, **{ text: message, exact_text: exact_message }.compact)
+        page.document.synchronize do
+          page.first(expected_css, **{ text: message, exact_text: exact_message }.compact)
+            .find(".Banner-close button") # rubocop:disable Capybara/SpecificActions
+            .click
+        end
+      end
+
+      expect_no_flash(type:, message:, exact_message:, wait: 2)
+    end
+
     def dismiss_flash!
       page.find(".Banner-close button").click # rubocop:disable Capybara/SpecificActions
     end
