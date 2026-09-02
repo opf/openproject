@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, onTestFinished } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 
@@ -30,6 +30,20 @@ describe('Inline work package search popover', () => {
     const popoverStyle = getComputedStyle(popover);
     expect(popoverStyle.fontSize).toBe(editorStyle.fontSize);
     expect(popoverStyle.fontWeight).toBe(editorStyle.fontWeight);
+  });
+
+  it('takes its text color from the theme, not from the host page', async () => {
+    const hostColor = 'rgb(255, 0, 0)';
+    const previousBodyColor = document.body.style.color;
+    document.body.style.color = hostColor;
+    onTestFinished(() => { document.body.style.color = previousBodyColor; });
+
+    const popover = await openInlineSearch('Some text ');
+    const labelStyle = getComputedStyle(popover.querySelector('.op-bn-search--label')!);
+    const editorStyle = getComputedStyle(document.querySelector('.bn-editor')!);
+
+    expect(labelStyle.color).not.toBe(hostColor);
+    expect(labelStyle.color).toBe(editorStyle.color);
   });
 
   it('links a work package picked from inside a heading', async () => {

@@ -4,6 +4,7 @@ import { page, userEvent } from 'vitest/browser';
 import { BlockNoteSchema, defaultInlineContentSpecs } from '@blocknote/core';
 import { openProjectWorkPackageBlockSpec } from '../../../../lib';
 import { renderEditor } from '../../../helpers/renderEditor';
+import { openEditorAndStartBulletList } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
 
 // Simulate pasting a plain text URL by dispatching a ClipboardEvent carrying
@@ -29,6 +30,17 @@ describe('Paste work package URL', () => {
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
+  });
+
+  it('creates an inline chip when pasting into an empty list item', async () => {
+    renderEditor();
+    await openEditorAndStartBulletList();
+
+    pastePlainText('http://localhost:3000/wp/123');
+
+    await expect.element(page.getByText('#123')).toBeVisible();
+    expect(document.querySelector('[data-testid="block-card"]')).toBeNull();
+    expect(document.querySelectorAll('[data-content-type="bulletListItem"]')).toHaveLength(2);
   });
 
   it('creates an inline chip when pasting into a non-empty paragraph', async () => {

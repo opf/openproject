@@ -35,6 +35,11 @@ export const defaultWpVariables = css`
   }
 `;
 
+export const menuSurfaceStyles = css`
+  background-color: var(--bn-colors-menu-background, #fff);
+  color: var(--bn-colors-menu-text, #3f3f3f);
+`;
+
 // The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
 // property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
 // chip text selectable there. Belongs on the container only: `user-select` is not inherited,

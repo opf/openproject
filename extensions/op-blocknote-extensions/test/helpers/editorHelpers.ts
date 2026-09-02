@@ -9,6 +9,11 @@ export async function openEditorAndType(text:string) {
   await userEvent.type(editorEl, text);
 }
 
+export async function openEditorAndStartBulletList(firstItem = 'First item') {
+  await openEditorAndType(`- ${firstItem}`);
+  await userEvent.keyboard('{Enter}');
+}
+
 export async function insertInlineWorkPackageViaSlashMenu(searchTerm='Fix', resultTerm='Fix login bug') {
   await openEditorAndType(' /');
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();

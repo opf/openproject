@@ -1,6 +1,6 @@
 import { useRef, type ReactNode } from 'react';
 import styled from 'styled-components';
-import { defaultWpVariables } from './atoms';
+import { defaultWpVariables, menuSurfaceStyles } from './atoms';
 import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
@@ -15,7 +15,7 @@ const PreviewContainer = styled.div.attrs({
   left: 0;
   width: max-content;
   max-width: min(420px, calc(100vw - 24px));
-  background-color: var(--bn-colors-menu-background, #fff);
+  ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   padding: var(--spacer-s);

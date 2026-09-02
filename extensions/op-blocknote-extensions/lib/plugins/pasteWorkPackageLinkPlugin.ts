@@ -5,7 +5,7 @@ import type { InlineContent, StyleSchema, StyledText } from '@blocknote/core';
 import type { AnyEditor } from '../editorTypes';
 import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
 import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
-import { isCurrentBlockEmpty } from '../utils/blockContent';
+import { canCardReplaceCurrentBlock, isCurrentBlockEmpty } from '../utils/blockContent';
 import { moveCursorAfterBlock } from '../utils/cursor';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +56,7 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
         if (!block || block.type === 'codeBlock') return false;
 
         const sole = soleReference(parts);
-        if (sole && isCurrentBlockEmpty(editor)) {
+        if (sole && canCardReplaceCurrentBlock(editor)) {
           void insertBlockWorkPackage(editor, sole, block.id);
           return true;
         }
