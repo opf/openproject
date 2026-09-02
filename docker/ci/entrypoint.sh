@@ -181,7 +181,9 @@ report_slowest_feature_files() {
 
 	if [ -s "$runtime_log" ]; then
 		echo "20 slowest feature files by aggregate example time:"
-		sort -t: -k2,2nr "$runtime_log" | awk -F: 'NR <= 20 { printf "%8.1fs  %s\n", $2, $1 }'
+		awk -F: '$1 ~ /^(modules\/[^:]+|spec\/[^:]+)_spec\.rb$/ { print }' "$runtime_log" \
+			| sort -t: -k2,2nr \
+			| awk -F: 'NR <= 20 { printf "%8.1fs  %s\n", $2, $1 }'
 	fi
 }
 
