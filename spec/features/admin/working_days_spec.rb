@@ -345,6 +345,10 @@ RSpec.describe "Working Days", :js do
       end
 
       page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
+      expect(page).to have_css(
+        "input[name='settings[non_working_days_attributes][#{non_working_days.first.id}][_destroy]'][value='true']",
+        visible: :hidden
+      )
 
       click_on "Apply changes"
 
@@ -365,6 +369,10 @@ RSpec.describe "Working Days", :js do
       # rubocop:enable RSpec/AnyInstance
 
       page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
+      expect(page).to have_css(
+        "input[name='settings[non_working_days_attributes][#{non_working_days.second.id}][_destroy]'][value='true']",
+        visible: :hidden
+      )
 
       click_on "Apply changes"
 
