@@ -63,7 +63,10 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
     expect(page).to have_text("Copy configuration?")
     expect(page).to have_button("Confirm", disabled: true)
 
-    find_field("confirm_dangerous_action").click
+    checkbox = find_field("confirm_dangerous_action", visible: :all)
+    page.execute_script("arguments[0].click()", checkbox)
+    expect(page).to have_checked_field("confirm_dangerous_action", visible: :all)
+    expect(page).to have_button("Confirm", disabled: false)
     click_on "Confirm"
 
     expect_flash(message: I18n.t("types.edit.reuse_mode.copy.success"))

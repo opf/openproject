@@ -125,7 +125,11 @@ module Components
       def open_add_relation_action_menu
         return if add_relation_action_menu.visible?
 
-        new_relation_button.click
+        button = new_relation_button
+        overlay_id = button["popovertarget"]
+        page.find(id: overlay_id, visible: :all)
+        button.click
+        page.find("##{overlay_id}:popover-open", visible: :all)
       end
 
       def open_relation_sub_menu
@@ -343,9 +347,7 @@ module Components
       def add_existing_child(work_package)
         SeleniumHubWaiter.wait
 
-        retry_block do
-          select_relation_type "Child"
-        end
+        select_relation_type "Child"
 
         within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
@@ -361,9 +363,7 @@ module Components
       def add_parent_relation(work_package)
         SeleniumHubWaiter.wait
 
-        retry_block do
-          select_relation_type "Parent"
-        end
+        select_relation_type "Parent"
 
         within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
@@ -429,13 +429,16 @@ module Components
 
       def open_action_menu_with_work_package(relatable)
         relatable_row = find_row(relatable)
-        action_menu = nil
+        overlay_id = nil
         within(relatable_row) do
           action_menu = relatable_action_menu(relatable)
-          action_menu.click_button
+          button = action_menu.find("button[popovertarget]")
+          overlay_id = button["popovertarget"]
+          page.find(id: overlay_id, visible: :all)
+          page.execute_script("arguments[0].click()", button)
         end
 
-        action_menu.find("[popover]:popover-open", visible: :all)
+        page.find("##{overlay_id}:popover-open", visible: :all)
         yield
       end
 
