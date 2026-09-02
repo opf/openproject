@@ -65,10 +65,8 @@ module Components
           check "#{dialog_id}-check_box", allow_label_click: true
         end
 
-        within_dialog do
-          expect(page).to have_button "Delete permanently", disabled: false
-          click_button "Delete permanently"
-        end
+        expect(page).to have_button "Delete permanently", disabled: false
+        click_button "Delete permanently"
       end
 
       def cancel_deletion
