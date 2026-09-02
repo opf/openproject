@@ -640,7 +640,7 @@ GEM
       fugit (>= 1.11.0)
       railties (>= 6.1.0)
       thor (>= 1.0.0)
-    google-apis-core (1.2.4)
+    google-apis-core (1.2.5)
       addressable (~> 2.9)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
@@ -649,7 +649,7 @@ GEM
       multi_json (~> 1.11)
       representable (~> 3.0)
       retriable (>= 3.1, < 5.0)
-    google-apis-gmail_v1 (0.52.0)
+    google-apis-gmail_v1 (0.53.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-env (2.4.0)
       base64 (~> 0.2)
@@ -1938,8 +1938,8 @@ CHECKSUMS
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   good_job (4.19.2) sha256=73f4ea0595a29d28b9d9c0bf23361cc7434542b4d286f59b803819110c26e4b0
-  google-apis-core (1.2.4) sha256=da9d12dbc7a3fbf3a68fc461e23e6f23245e57ab3b47eb71137d4dcf61a686b3
-  google-apis-gmail_v1 (0.52.0) sha256=94efe9b6f323e5e5e58ba126fb2c0105642874906b3375cf7e887562398652ff
+  google-apis-core (1.2.5) sha256=e21562b5627a0fc6a0c3165e429c3afed0f6a628eaa514e83f7204dda1adff69
+  google-apis-gmail_v1 (0.53.0) sha256=8ac02850e636de42bd6f54f20565eab4bf089f4334ae6ee76ad7c051e92cd5a4
   google-cloud-env (2.4.0) sha256=01cb35ecee5d1c4d1cd4deaed8bb5bddc838e296bcc2a35c5d1ddd07ce40d28d
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
   google-protobuf (4.35.1) sha256=a3a6471331d918f58dfa4d014a8f6286f0af2cf4840216bde52fcf2ea3fe3726
