@@ -61,9 +61,10 @@ module Components
 
       attr_reader :create_form
 
-      def initialize(container: page, create_form: false)
+      def initialize(container: page, create_form: false, field_selector_prefix: nil)
         @container_or_lambda_to_get_container = container
         @create_form = create_form
+        @field_selector_prefix = field_selector_prefix
       end
 
       def container
@@ -181,7 +182,10 @@ module Components
 
       def field(field_name)
         field_name = js_field_name(field_name)
-        ProgressEditField.new(container, field_name, create_form:)
+        selector = if @field_selector_prefix
+                     "#{@field_selector_prefix} .inline-edit--container.#{field_name.to_s.camelize(:lower)}"
+                   end
+        ProgressEditField.new(container, field_name, create_form:, selector:)
       end
 
       def js_field_name(field_name)
