@@ -253,8 +253,13 @@ module Pages
         page.find('[data-test-selector="tp-assignee-add-button"]', wait: 10).click
       end
 
-      ng_click_autocompleter(autocomplete) unless page.has_selector?(panel_selector, wait: 0)
-      page.find(panel_selector, wait: 10)
+      page.document.synchronize(10) do
+        unless page.has_selector?(panel_selector, wait: 0)
+          ng_click_autocompleter(autocomplete)
+        end
+
+        page.find(panel_selector, wait: 0)
+      end
     end
 
     def select_user_to_add(name)
