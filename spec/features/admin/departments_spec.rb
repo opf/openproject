@@ -92,13 +92,12 @@ RSpec.describe "Departments admin",
       expect(page).to have_current_path("/admin/departments/#{child.id}")
 
       page.go_back
-      wait_for_network_idle
 
       # Without the patch the URL reverts but the frame keeps the Backend
       # content, leaving three breadcrumbs; the exact-match assertion below
       # fails in that case and only passes once the parent frame is restored.
       expect(page).to have_current_path("/admin/departments/#{parent.id}")
-      departments_page.expect_breadcrumbs(organization_name, "Engineering")
+      departments_page.expect_breadcrumbs(organization_name, "Engineering", wait: 10)
       departments_page.tree_view.should_have_active_item("Engineering")
     end
   end

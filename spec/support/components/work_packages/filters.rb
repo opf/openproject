@@ -236,6 +236,8 @@ module Components
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
         expect(page).to have_no_css("#filter_#{field}")
+        page.has_css?(".loading-indicator--background", wait: 2)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
       end
 
       def clear_filter_value(field)
