@@ -155,11 +155,8 @@ module Components
 
         close_autocompleter(id)
 
-        if using_cuprite?
-          wait_for_network_idle(duration: 0.55)
-        else
-          sleep 0.5
-        end
+        page.has_css?(".loading-indicator--background", wait: 2)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
       end
 
       def expect_missing_filter(name)
