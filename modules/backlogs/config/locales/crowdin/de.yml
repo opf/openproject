@@ -199,7 +199,7 @@ de:
     sprint_reports:
       page_header_component:
         breadcrumb: Bericht
-        title: "%{sprint} Report"
+        title: "%{sprint} Bericht"
     sprints:
       row_component:
         action_menu:
