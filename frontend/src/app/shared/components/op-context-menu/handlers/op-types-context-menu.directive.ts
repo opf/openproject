@@ -61,6 +61,9 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
   @Input() routedFromAngular = true;
 
+  /** Whether this dropdown is mounted on the full work package view rather than a list toolbar. */
+  @Input() fullView = false;
+
   public isOpen = false;
 
   ngAfterViewInit():void {
@@ -112,12 +115,21 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
   /**
    * `routedFromAngular` distinguishes contexts still driven by the classic uiRouter
-   * state tree (e.g. BIM) from those already migrated to Rails/Turbo split views
-   * (work packages, gantt), where the create form opens inline via splitCreatePath.
+   * state tree (e.g. BIM) from those already migrated to Rails/Turbo (work packages,
+   * gantt). Among the latter, `fullView` distinguishes this dropdown being mounted on
+   * the full work package view (opens another full "new work package" page) from a
+   * list toolbar (opens the create form inline via splitCreatePath).
    */
   private buildHref(type:TypeResource):string {
     if (this.routedFromAngular) {
       return this.$state.href(this.stateName, { type: type.id! });
+    }
+
+    if (this.fullView) {
+      const newPath = this.currentProject.identifier
+        ? this.pathHelper.projectWorkPackageNewPath(this.currentProject.identifier)
+        : this.pathHelper.workPackageNewPath();
+      return extendSearchParams(newPath, { type: type.id! });
     }
 
     return extendSearchParams(this.urlParams.splitCreatePath(), { type: type.id! });
@@ -139,6 +151,8 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
     if (this.routedFromAngular) {
       this.$state.go(this.stateName, { type: type.id });
+    } else if (this.fullView) {
+      Turbo.visit(this.buildHref(type), { action: 'advance' });
     } else {
       Turbo.visit(this.buildHref(type), { frame: 'content-bodyRight', action: 'advance' });
     }

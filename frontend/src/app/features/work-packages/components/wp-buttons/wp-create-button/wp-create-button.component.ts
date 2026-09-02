@@ -58,6 +58,9 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   @Input() routedFromAngular = true;
 
+  /** Whether this button is mounted on the full work package view rather than a list toolbar. */
+  @Input() fullView = false;
+
   allowed:boolean;
 
   disabled:boolean;

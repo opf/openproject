@@ -48,9 +48,15 @@ export class UrlParamsService {
    * The current list's base path (work packages, gantt, boards, calendars, ...),
    * stripped of any already-open details/:id(/:tab) or create_new suffix. Used to
    * build the next details/create link relative to whichever list is currently rendering.
+   *
+   * Also strips a work_packages/gantt full-view's own :id(/:tab) suffix, so the button
+   * still resolves to the list's create path when clicked from a full work package view.
    */
   public basePathWithoutDetails(url = window.location.pathname):string {
-    return url.replace(/\/details\/.*$/, '').replace(/\/create_new$/, '');
+    return url
+      .replace(/\/details\/.*$/, '')
+      .replace(/\/create_new$/, '')
+      .replace(/\/(work_packages|gantt)\/[^/]+(\/[^/]+)?$/, '/$1');
   }
 
   /**
