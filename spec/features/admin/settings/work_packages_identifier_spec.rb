@@ -114,10 +114,10 @@ RSpec.describe "Work packages identifier admin settings", :js do
         within_dialog "Change work package identifiers" do
           expect(page).to have_button("Change identifiers", disabled: true)
 
-          confirmation = find_field("I understand that this will permanently change all work package IDs")
-          confirmation.click
+          confirmation = "I understand that this will permanently change all work package IDs"
+          find("label", text: confirmation, exact_text: true).click
 
-          expect(confirmation).to be_checked
+          expect(page).to have_checked_field(confirmation)
           expect(page).to have_button("Change identifiers", disabled: false)
         end
       end
