@@ -206,6 +206,7 @@ RSpec.describe "Jira import select projects modal", :js do
 
     it "saves the selected projects, closes the dialog, and updates the wizard button count" do
       check "Project Alpha"
+      expect_selection_requests_drained(1)
       check "Project Beta"
       expect_selection_requests_drained(2)
 
