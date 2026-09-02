@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,7 +33,6 @@ require_relative "shared_context"
 
 RSpec.describe "Team planner create new work package",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view] do
   include_context "with team planner full access"
 

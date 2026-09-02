@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -91,7 +92,7 @@ RSpec.describe "Recurring meetings global creation",
       end
 
       meetings_page.set_title "Some title"
-      meetings_page.click_create(wait_for: :turbo_stream)
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Project can't be blank."
       meetings_page.set_project project
