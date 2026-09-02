@@ -16,7 +16,7 @@ get:
       schema:
         type: string
     - description: Page number inside the requested collection.
-      example: '25'
+      example: 25
       in: query
       name: offset
       required: false
@@ -24,7 +24,7 @@ get:
         default: 1
         type: integer
     - description: Number of elements to display per page.
-      example: '25'
+      example: 25
       in: query
       name: pageSize
       required: false
