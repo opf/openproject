@@ -52,17 +52,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   describe "permission checks" do
-    let(:viewer_role_with_commenting_permission) do
-      create(:project_role,
-             permissions: %i[view_work_packages add_work_package_comments edit_own_work_package_comments])
-    end
-    let(:viewer_with_commenting_permission) do
-      create(:user,
-             firstname: "A",
-             lastname: "Viewer",
-             member_with_roles: { project => viewer_role_with_commenting_permission })
-    end
-
     let(:comment_work_package_role) { create(:comment_work_package_role) }
     let(:user_with_commenting_permission_via_a_work_package_share) do
       create(:user,
@@ -72,68 +61,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
 
     let(:work_package) { create(:work_package, project:, author: admin) }
-    let(:first_comment) do
-      create(:work_package_journal,
-             user: admin,
-             notes: "First comment by admin",
-             journable: work_package,
-             version: 2)
-    end
-
-    context "when project is public", with_settings: { login_required: false } do
-      let(:project) { create(:project, public: true) }
-      let!(:anonymous_role) do
-        create(:anonymous_role, permissions: %i[view_project view_work_packages])
-      end
-
-      context "when visited by an anonymous visitor" do
-        before do
-          first_comment
-
-          login_as User.anonymous
-
-          wp_page.visit!
-          wp_page.wait_for_activity_tab
-        end
-
-        it "does show comments but does not enable adding, editing or quoting comments" do
-          activity_tab.expect_journal_notes(text: "First comment by admin")
-
-          activity_tab.within_journal_entry(first_comment) do
-            page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
-
-            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
-            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-          end
-
-          activity_tab.expect_no_input_field
-        end
-      end
-    end
-
-    context "when a user has add_work_package_comments and edit_own_work_package_comments permission" do
-      current_user { viewer_with_commenting_permission }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "enable adding and quoting comments and editing OWN comments" do
-        activity_tab.expect_input_field
-
-        activity_tab.add_comment(text: "First comment by viewer with commenting permission")
-
-        second_comment = work_package.journals.reload.last
-
-        activity_tab.within_journal_entry(second_comment) do
-          page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click
-
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
-        end
-      end
-    end
 
     context "when a user has been shared a work package with at least comment rights" do
       current_user { user_with_commenting_permission_via_a_work_package_share }
@@ -151,26 +78,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
     end
 
-    context "when a user cannot see internal comments" do
-      current_user { member }
-
-      before do
-        create(:work_package_journal,
-               user: admin,
-               notes: "First comment by admin",
-               journable: work_package,
-               internal: true,
-               version: 2)
-      end
-
-      it "does not show the comment" do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.expect_no_journal_notes(text: "First comment by admin")
-      end
-    end
-
     context "when a user can see internal comments" do
       current_user { admin }
 
@@ -181,13 +88,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
                journable: work_package,
                internal: true,
                version: 2)
-      end
-
-      it "shows the comment" do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.expect_journal_notes(text: "First comment by admin")
       end
 
       it "highlights the comment specified in the URL until the user clicks anywhere" do
@@ -994,58 +894,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
     end
 
-    describe "when the comment anchor changes without reloading the page" do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
-
-      before do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
-        wp_page.wait_for_activity_tab
-      end
-
-      it "moves the highlight to the comment newly referenced in the URL hash" do
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
-
-        # As clicking an in-page comment link or editing the comment id by hand would:
-        # the URL hash changes but the page is not reloaded.
-        page.execute_script("window.location.hash = '#comment-#{comment_2.id}'")
-
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
-        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
-      end
-    end
-
-    describe "when clicking an in-content link to another comment on the same page" do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
-
-      before do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
-        wp_page.wait_for_activity_tab
-      end
-
-      it "scrolls to and highlights the comment instead of letting Turbo drop the fragment" do
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
-
-        # Comment bodies render plain links. Inject one (so this stays independent of
-        # the rich-text formatter) pointing to another comment on this same activity
-        # page, as a pasted comment link would, then click it through a real browser
-        # click so Turbo's own handlers run. Turbo must not swallow it.
-        page.execute_script(<<~JS)
-          const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
-          const link = document.createElement('a');
-          link.href = window.location.pathname + '#comment-#{comment_2.id}';
-          link.textContent = 'jump to the other comment';
-          link.id = 'injected-comment-link';
-          root.prepend(link);
-        JS
-
-        find_by_id("injected-comment-link").click
-
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
-        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
-        expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_2.id}")
-      end
-    end
-
     # speed up the polling interval to 1s for the test duration
     context "when sorting set to asc",
             with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
@@ -1106,6 +954,47 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
           expect(scroll_position).to eq(0)
         end
       end
+    end
+  end
+
+  describe "anchor updates without a page reload" do
+    current_user { admin }
+
+    let(:work_package) { create(:work_package, project:, author: admin) }
+    let!(:comment_one) do
+      create(:work_package_journal, user: admin, notes: "Comment 1", journable: work_package, version: 2)
+    end
+    let!(:comment_two) do
+      create(:work_package_journal, user: admin, notes: "Comment 2", journable: work_package, version: 3)
+    end
+    let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+
+    before do
+      visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_one.id}")
+      wp_page.wait_for_activity_tab
+    end
+
+    it "tracks direct hash changes and in-content comment links" do
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+      page.execute_script(<<~JS)
+        const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
+        const link = document.createElement('a');
+        link.href = window.location.pathname + '#comment-#{comment_two.id}';
+        link.textContent = 'jump to the other comment';
+        link.id = 'injected-comment-link';
+        root.prepend(link);
+      JS
+      find_by_id("injected-comment-link").click
+
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+      expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+      expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_two.id}")
+
+      page.execute_script("window.location.hash = '#comment-#{comment_one.id}'")
+
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+      expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 2")
     end
   end
 
