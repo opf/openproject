@@ -171,8 +171,20 @@ run_features() {
 	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
 		retry_failed_features
 	fi
+	report_slowest_feature_files
 
 	cleanup
+}
+
+report_slowest_feature_files() {
+	local runtime_log="spec/support/runtime-logs/turbo_runtime_features.log"
+
+	if [ -s "$runtime_log" ]; then
+		echo "20 slowest feature files by aggregate example time:"
+		awk -F: '$1 ~ /^(modules\/[^:]+|spec\/[^:]+)_spec\.rb$/ { print }' "$runtime_log" \
+			| sort -t: -k2,2nr \
+			| awk -F: 'NR <= 20 { printf "%8.1fs  %s\n", $2, $1 }'
+	fi
 }
 
 retry_failed_features() {
@@ -206,7 +218,7 @@ run_all() {
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features retry_failed_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features report_slowest_feature_files retry_failed_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift
