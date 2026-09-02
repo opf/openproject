@@ -211,9 +211,13 @@ class EditField
     raise ArgumentError.new("Is not an autocompleter field") unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query:, select_text:, results_selector: "body"
+      select_autocomplete -> { field_container },
+                          query:,
+                          select_text:,
+                          results_selector: "body",
+                          wait_dropdown_open: false
     else
-      search_autocomplete field_container, query:, results_selector: "body"
+      search_autocomplete -> { field_container }, query:, results_selector: "body", wait_dropdown_open: false
     end
   end
 

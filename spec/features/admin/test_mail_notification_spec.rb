@@ -44,10 +44,9 @@ RSpec.describe "Test mail notification", :js do
 
     click_link "Send a test email"
 
-    expect(UserMailer).to have_received(:test_mail).with(admin, delivery_method_options: {})
-
     expected = "An error occurred while sending mail (#{error_message})"
     expect_flash(type: :error, message: expected)
+    expect(UserMailer).to have_received(:test_mail).with(admin, delivery_method_options: {})
     expect(page).to have_no_css(".op-toast.-error strong")
   end
 end

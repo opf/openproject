@@ -404,14 +404,16 @@ module Components
       def set_journal_sorting(sorting, default_filter: :all)
         option_selector = "[data-test-selector='op-wp-journals-sorting-#{sorting}']"
 
-        page.document.synchronize do
-          unless page.has_css?(option_selector, wait: 0)
-            page.find(
-              "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
-            ).click
-          end
+        wait_for_turbo_stream do
+          page.document.synchronize do
+            unless page.has_css?(option_selector, wait: 0)
+              page.find(
+                "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
+              ).click
+            end
 
-          page.find(option_selector).click
+            page.find(option_selector).click
+          end
         end
 
         expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")

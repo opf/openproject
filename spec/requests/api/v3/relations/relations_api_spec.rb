@@ -506,7 +506,8 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
             expect(last_response.body)
               .not_to include(secret_wp.subject)
             expect(last_response.body)
-              .not_to include(secret_relation.id.to_s)
+              .to be_json_eql("[]")
+              .at_path("_embedded/elements")
           end
         end
       end

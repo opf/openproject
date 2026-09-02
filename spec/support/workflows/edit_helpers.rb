@@ -70,7 +70,7 @@ module Workflows
         click_link "Status"
       end
       within_dialog "Statuses" do
-        find(".ng-value", text: status.name).find(".ng-value-icon").click
+        find(".ng-value", text: status.name).find(".ng-value-icon").trigger("click")
         expect(page).to have_no_css(".ng-value-label", text: status.name)
         click_button "Apply"
       end

@@ -75,6 +75,7 @@ RSpec.describe "Work package timeline hierarchies",
 
     # Toggling hierarchies hides the inner children
     hierarchy.toggle_row(wp_root)
+    hierarchy.expect_hierarchy_at(wp_root, collapsed: true)
 
     # Root, other showing
     wp_timeline.expect_work_package_listed(wp_root)

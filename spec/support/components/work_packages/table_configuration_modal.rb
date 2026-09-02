@@ -97,7 +97,7 @@ module Components
       end
 
       def expect_open
-        raise "Expected modal to be open" unless open?
+        expect(page).to have_css(".wp-table--configuration-modal")
       end
 
       def open?
