@@ -46,7 +46,7 @@ RSpec.describe "Projects copy", :js,
                optional_project_custom_field_with_default.id => "foo"
              }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
-        p.types.first.custom_fields << wp_custom_field
+        p.enabled_variants.first.custom_fields << wp_custom_field
 
         # Enable the project custom field mappings
         p.project_custom_field_project_mappings
@@ -133,7 +133,7 @@ RSpec.describe "Projects copy", :js,
     let!(:work_package) do
       create(:work_package,
              project:,
-             type: project.types.first,
+             type: project.enabled_types.first,
              author: wp_user,
              assigned_to: wp_user,
              responsible: wp_user,

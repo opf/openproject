@@ -116,7 +116,7 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The default value is also visible for each variable in parentheses. 
+The default value is also visible for each variable in parentheses.
 
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
@@ -210,7 +210,7 @@ OPENPROJECT_DIRECT__UPLOADS (default=true) Enable direct uploads to AWS S3. Only
 OPENPROJECT_DISABLE__BROWSER__CACHE (default=true) Prevent browser from caching any logged-in responses for security reasons
 OPENPROJECT_DISABLE__KEYBOARD__SHORTCUTS (default=false) Whether keyboard short cuts should be disabled (e.g. for better screen reader support)
 OPENPROJECT_DISABLE__PASSWORD__CHOICE (default=false) If enabled a user's password cannot be set to an arbitrary value, but can only be randomized.
-OPENPROJECT_DISABLE__PASSWORD__LOGIN (default=false) Disable internal logins and instead only allow SSO through OmniAuth.
+OPENPROJECT_DISABLE__PASSWORD__LOGIN (default=false) Disable internal logins and instead only allow SSO through OmniAuth. Forces password_login to 'none'. Prefer setting password_login directly.
 OPENPROJECT_DISABLED__MODULES (default=[]) A list of module names to prevent access to in the application
 OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES (default=true) Display subprojects work packages on main projects by default
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN (default=false) Destroy all sessions for current_user on login
@@ -221,6 +221,7 @@ OPENPROJECT_EE__HIDE__BANNERS (default=false) Hide the Enterprise enterprise ban
 OPENPROJECT_EE__MANAGER__VISIBLE (default=true) Show the Enterprise configuration page
 OPENPROJECT_EMAIL__DELIVERY__CONFIGURATION (default="inapp") 
 OPENPROJECT_EMAIL__DELIVERY__METHOD (default=nil) Email delivery method
+OPENPROJECT_EMAIL__LIMIT__PER__DAY (default=0) Number of emails which are allowed to be sent per day on average (may be up to 2x as much on a single day). This can be used to address spam and abuse, but is just designed as a last resort as it simply drops mails that are over the limit instead of sending them at a later point in time or notifying the user.
 OPENPROJECT_EMAIL__LOGIN (default=false) Use email as login
 OPENPROJECT_EMAILS__FOOTER (default={"en" => ""}) Emails footer
 OPENPROJECT_EMAILS__HEADER (default={"en" => ""}) Emails header
@@ -318,6 +319,9 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR (default=nil) Set a custom BCrypt cos
 OPENPROJECT_PASSWORD__ACTIVE__RULES (default=["lowercase", "uppercase", "numeric", "special"]) Password requirements
 OPENPROJECT_PASSWORD__COUNT__FORMER__BANNED (default=0) Number of most recently used passwords banned for reuse
 OPENPROJECT_PASSWORD__DAYS__VALID (default=0) Number of days, after which to enforce a password change
+OPENPROJECT_PASSWORD__LOGIN (default="all") Who may authenticate with a password: all users, everyone except OmniAuth-linked users, or nobody (except the break-glass allowlist).
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS (default=[]) Logins that keep password login as a break-glass access when password_login is except_sso or none. Intended as an environment overlay when nobody can reach administration. Matched case-insensitively.
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS (default=[]) User and group ids that keep password login as a break-glass access when password_login is except_sso or none. Groups include their descendant groups.
 OPENPROJECT_PASSWORD__MIN__LENGTH (default=10) Minimum length
 OPENPROJECT_PER__PAGE__OPTIONS (default="20, 100") Objects per page options
 OPENPROJECT_PERCENT__COMPLETE__ON__STATUS__CLOSED (default="no_change") Describes how % complete should change when setting a work package status to a closed one

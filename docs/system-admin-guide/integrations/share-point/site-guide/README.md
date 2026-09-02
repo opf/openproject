@@ -13,18 +13,26 @@ keywords: SharePoint file storage integration, SharePoint, Sites.Selected, Sites
 You will need to grant the `manage` permission to the Azure Application so that the integration can work.
 
 > [!IMPORTANT]
-> Some of the following descriptions are very tightly connected to the current (2025-10-29) state of SharePoint configuration. This may easily change in future, as we neither control, nor foresee changes to the configuration UI developed by Microsoft. 
+> Some of the following descriptions are very tightly connected to the current (2025-10-29) state of SharePoint
+> configuration. This may easily change in future, as we neither control nor foresee changes to the configuration UI
+> developed by Microsoft.
 
 ### Authentication and permission
 
-To communicate with the GRAPH API you need to authenticate against it. This is done through an Azure application defined in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID.
+To communicate with the GRAPH API you need to authenticate against it. This is done through an Azure application defined
+in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID or by using
+the [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer). The authenticated user must
+have the `owner` role for the required site and the access token must have the delegated permission
+`Sites.FullControl.All`.
 
 ### API Endpoints
 
-Once you have an access token, as a Site Admin, you will be able to check the site permissions using the following endpoints:
+Once you have an access token, you will be able to check the site permissions using the following endpoints:
 
 > [!IMPORTANT]
-> The current documentation for setting permissions on a SharePoint site can also be found at the [Microsoft Graph API documentation](https://learn.microsoft.com/en-us/graph/api/site-post-permissions?view=graph-rest-1.0&tabs=http)
+> The current documentation for setting permissions on a SharePoint site can also be found at
+>
+the [Microsoft Graph API documentation](https://learn.microsoft.com/en-us/graph/api/site-post-permissions?view=graph-rest-1.0&tabs=http)
 
 ```shell
 GET https://graph.microsoft.com/v1.0/sites/<SHAREPOINT HOSTNAME>:/sites/<SITE NAME>:/permissions

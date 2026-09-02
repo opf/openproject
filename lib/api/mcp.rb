@@ -34,7 +34,7 @@ module API
 
     default_format :json
 
-    error_representer ::API::Mcp::ErrorRepresenter, :json
+    error_representer ::API::Mcp::ErrorRepresenter, "application/json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::MCP_SCOPE
 
     helpers do

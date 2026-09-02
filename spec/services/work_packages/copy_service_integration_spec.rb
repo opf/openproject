@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe WorkPackages::CopyService, "integration", type: :model do
   shared_let(:custom_field) { create(:work_package_custom_field) }
   shared_let(:type) do
-    create(:type_standard,
+    create(:type_task,
            custom_fields: [custom_field])
   end
   shared_let(:project) { create(:project, types: [type]) }
@@ -245,7 +245,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
 
       describe "#attributes" do
         before do
-          target_project.types << work_package.type
+          target_project.project_types.create!(type: work_package.type)
         end
 
         context "assigned_to" do
@@ -430,7 +430,7 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
     context "with a type auto-generating subjects" do
       let(:type_with_pattern) do
         create(:type, patterns: { subject: { blueprint: "{{type}} {{id}} {{project_name}}", enabled: true } }) do |type|
-          project.types << type
+          project.project_types.create!(type:)
         end
       end
 

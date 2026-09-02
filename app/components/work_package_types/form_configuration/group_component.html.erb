@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
             group: @group,
-            type: @type,
+            variant: @variant,
             ee_available: ee_available?,
             first: first?,
             last: last?,
@@ -87,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
-                type: @type,
+                variant: @variant,
                 index:,
                 total_count: attributes.length,
                 readonly: readonly?,

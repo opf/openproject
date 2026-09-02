@@ -124,7 +124,7 @@ RSpec.describe "POST /api/v3/queries/form",
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
-        cf.types << project.types.first
+        cf.type_variants << project.enabled_variants.first
 
         cf
       end
@@ -156,7 +156,7 @@ RSpec.describe "POST /api/v3/queries/form",
       end
 
       let(:relation_to_type_columns_json) do
-        project.types.map do |type|
+        project.enabled_types.map do |type|
           {
             _type: "QueryColumn::RelationToType",
             id: "relationsToType#{type.id}"

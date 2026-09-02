@@ -44,7 +44,7 @@ module WorkPackageTypes
         next
       end
 
-      key.failure(:workflow_missing) if type.own_workflows.empty?
+      key.failure(:workflow_missing) if type.default_variant.own_workflows.empty?
     end
   end
 end

@@ -446,6 +446,38 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#schedule_changed? and #reschedule_required?" do
+    let(:series) { create(:recurring_meeting, time_zone: "UTC") }
+
+    it "reports a time zone change as a schedule change" do
+      series.time_zone = "Europe/Berlin"
+
+      expect(series).to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+
+    it "reports a frequency change as a schedule change" do
+      series.frequency = "daily"
+
+      expect(series).to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+
+    it "does not report a title change as either" do
+      series.title = "A new title"
+
+      expect(series).not_to be_schedule_changed
+      expect(series).not_to be_reschedule_required
+    end
+
+    it "reports a location change as a reschedule but not as a schedule change" do
+      series.location = "A new location"
+
+      expect(series).not_to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+  end
+
   describe "#uid" do
     it "assigns a uid on create" do
       series = build(:recurring_meeting)

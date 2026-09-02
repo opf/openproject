@@ -33,39 +33,39 @@ module Projects
     class AddService < BaseService
       private
 
-      # A project uses one member per family, so enabling a second is a conflict
-      # with whatever that row already resolves to rather than a check per pair of members.
+      # A project applies one variant per type, so enabling a second is a conflict with
+      # whatever that row already resolves to rather than a check per pair of variants.
       def persist(service_call)
-        type = params[:type]
-        current_project_type = model.project_types.find_by(type_id: type.root_id)
+        variant = params[:variant]
+        current_project_type = model.project_types.find_by(type_id: variant.type_id)
 
-        if current_project_type&.effective_type == type
+        if current_project_type&.variant_id == variant.id
           service_call
-        elsif variant_without_feature?(type)
+        elsif named_variant_without_feature?(variant)
           failure(:cannot_assign_variants_yet)
         elsif current_project_type
-          failure(conflict_with(current_project_type, type))
+          failure(conflict_with(current_project_type, variant))
         else
-          add_type(type)
+          add_variant(variant)
           service_call
         end
       end
 
-      def conflict_with(current_project_type, type)
-        if type.variant? && current_project_type.variant
-          :cannot_assign_multiple_variants_of_parent
-        else
+      def conflict_with(current_project_type, variant)
+        if variant.is_default_variant? || current_project_type.variant.is_default_variant?
           :cannot_assign_variant_and_parent
+        else
+          :cannot_assign_multiple_variants_of_parent
         end
       end
 
-      def variant_without_feature?(type)
-        type.variant? && !OpenProject::FeatureDecisions.type_variants_active?
+      def named_variant_without_feature?(variant)
+        !variant.is_default_variant? && !OpenProject::FeatureDecisions.type_variants_active?
       end
 
-      def add_type(type)
-        model.project_types.create!(type: type.root, variant: (type if type.variant?))
-        enable_work_package_custom_fields(type)
+      def add_variant(variant)
+        model.project_types.create!(type_id: variant.type_id, variant:)
+        enable_work_package_custom_fields(variant)
       end
     end
   end

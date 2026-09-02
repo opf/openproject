@@ -162,10 +162,6 @@ OpenProject/AddPreviewForViewComponent:
 # own configuration, which is the shape the cop cannot tell apart from a work package's stored
 # root. Note the gap this leaves: a spec that builds a work package and reads configuration off
 # its `type` is the real bug and is no longer flagged here.
-OpenProject/UseEffectiveTypeForConfiguration:
-  Exclude:
-    - "spec/**/*.rb"
-    - "modules/*/spec/**/*.rb"
 
 Performance/Casecmp:
   Enabled: false
@@ -547,4 +543,8 @@ Style/WhileUntilModifier:
   Enabled: false
 
 Style/WordArray:
+  Enabled: false
+
+# Obsolete since type configuration moved to TypeVariant. We can remove this cop from rubocop-openproject again.
+OpenProject/UseEffectiveTypeForConfiguration:
   Enabled: false

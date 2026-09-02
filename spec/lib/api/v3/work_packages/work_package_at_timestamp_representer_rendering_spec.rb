@@ -67,7 +67,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:custom_field) do
     build_stubbed(:string_wp_custom_field,
                   name: "String CF",
-                  types: project.types,
+                  types: project.project_types.map(&:type),
                   projects: [project])
   end
 

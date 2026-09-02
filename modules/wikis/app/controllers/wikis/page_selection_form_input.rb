@@ -34,7 +34,7 @@ module Wikis
     def parse_selected_node(wiki_page_selection)
       case wiki_page_selection
       in [selected_node]
-        Adapters::Results::PageSearchTreeNode::Key.parse(
+        Adapters::Results::PageSearchTreeNode::NodeKey.parse(
           MultiJson.load(selected_node, symbolize_keys: true)[:nodeId]
         )
       else
@@ -43,9 +43,9 @@ module Wikis
     end
 
     def parse_page_identifier(wiki_page_selection)
-      node = parse_selected_node(wiki_page_selection)
+      node_key = parse_selected_node(wiki_page_selection)
 
-      node.identifier if node&.page?
+      node_key&.identifier if node_key&.type == :page
     end
   end
 end

@@ -35,26 +35,26 @@ module WorkPackageTypes
     # object it binds to, and any reuse mode — so PageComponent stays a shell that only
     # asks for those, never for a particular step.
     module StepEditors
-      def self.for(step, type)
+      def self.for(step, variant)
         case step
-        when :details then Details.new(type)
-        when :defaults then Defaults.new(type)
-        when :workflows then Workflows.new(type)
+        when :details then Details.new(variant)
+        when :defaults then Defaults.new(variant)
+        when :workflows then Workflows.new(variant)
         end
       end
 
       class Base
-        def initialize(type)
-          @type = type
+        def initialize(variant)
+          @variant = variant
         end
 
-        attr_reader :type
+        attr_reader :variant
 
         def aspect = nil
 
         def linkable_aspect? = aspect.present?
 
-        def model = type
+        def model = variant
 
         def editor(_builder)
           raise SubclassResponsibilityError
@@ -64,7 +64,7 @@ module WorkPackageTypes
 
         def reload_from_location? = false
 
-        def readonly? = linkable_aspect? && type.linked?(aspect)
+        def readonly? = linkable_aspect? && variant.linked?(aspect)
       end
 
       class Details < Base
@@ -74,10 +74,10 @@ module WorkPackageTypes
       class Defaults < Base
         def editor(builder) = WorkPackageTypes::DefaultsForm.new(builder)
 
-        def aspect = Type::ConfigurationLink::DEFAULTS
+        def aspect = TypeVariant::DEFAULTS
 
         def model
-          @model ||= Forms::DefaultsFormModel.build(type)
+          @model ||= Forms::DefaultsFormModel.build(variant)
         end
 
         # Without this the pattern input cannot be toggled as the subject mode changes.
@@ -85,12 +85,12 @@ module WorkPackageTypes
       end
 
       class Workflows < Base
-        def aspect = Type::ConfigurationLink::WORKFLOWS
+        def aspect = TypeVariant::WORKFLOWS
 
         # The workflow matrix editor is not using a primer form, thus it does not consume the builder
         # It can internally switch what tab it is editing, those trigger a submit to its own controller action.
         # The submit of the final page happens through the wizard's continue button
-        def editor(_builder) = WorkflowsStepComponent.new(type:)
+        def editor(_builder) = WorkflowsStepComponent.new(variant:)
 
         # The matrix keeps the selected roles and transition tab in the page URL, which a
         # reload from the step path would discard.

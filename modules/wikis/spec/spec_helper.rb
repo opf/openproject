@@ -33,6 +33,8 @@ require "dry/monads"
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 
+WIKIS_CASSETTE_LIBRARY_DIR = "modules/wikis/spec/support/fixtures/vcr_cassettes"
+
 RSpec.configure do |config|
   config.include Dry::Monads[:result]
 
@@ -41,5 +43,9 @@ RSpec.configure do |config|
   end
   config.append_after do
     Wikis::Adapters::Registry.unstub
+  end
+
+  config.define_derived_metadata(file_path: %r{/modules/wikis/spec}) do |metadata|
+    metadata[:vcr_cassette_library_dir] = WIKIS_CASSETTE_LIBRARY_DIR
   end
 end

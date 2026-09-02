@@ -82,21 +82,10 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
       it { expect(response).to redirect_to(edit_type_details_path(type_id: type.id)) }
 
       it "updates the core settings" do
-        expect(type.reload).to have_attributes(own_name: "Galactic Order",
+        expect(type.reload).to have_attributes(name: "Galactic Order",
                                                color_id: lightsaber_red.id,
                                                is_milestone: false,
                                                is_in_roadmap: true)
-      end
-
-      context "when the parent is submitted anyway" do
-        let(:other_root) { create(:type_feature) }
-        let(:params) do
-          { "type_id" => type.id, "type" => { "name" => type.own_name, "parent_id" => other_root.id.to_s } }
-        end
-
-        it "ignores it, since the parent is only chosen while creating a type" do
-          expect(type.reload.parent_id).to be_nil
-        end
       end
 
       context "if the the params are invalid" do

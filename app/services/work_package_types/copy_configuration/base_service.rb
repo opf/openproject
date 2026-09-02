@@ -32,12 +32,12 @@ module WorkPackageTypes
   module CopyConfiguration
     # Shared scaffolding for the per-aspect copy services: the source guard and a
     # template `call` that adopts the source's resolved configuration onto the
-    # type. Aspects whose copy is a straight column adoption only implement
+    # variant. Aspects whose copy is a straight column adoption only implement
     # #aspect and #copy_from; aspects with a richer copy (form configuration)
     # override #call.
     class BaseService
-      def initialize(type:, user:)
-        @type = type
+      def initialize(variant:, user:)
+        @variant = variant
         @user = user
       end
 
@@ -46,33 +46,33 @@ module WorkPackageTypes
 
         copy_from(source.effective_source_for(aspect))
 
-        ServiceResult.success(result: type)
+        ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid
-        ServiceResult.failure(result: type, errors: type.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
 
       private
 
-      attr_reader :type, :user
+      attr_reader :variant, :user
 
       def aspect
         raise SubclassResponsibilityError
       end
 
       # A Linked source presents its inherited configuration, so #call resolves
-      # the owning type first and hands it here to adopt.
+      # the owning variant first and hands it here to adopt.
       def copy_from(_source)
         raise SubclassResponsibilityError
       end
 
       def valid_source?(source)
-        source.present? && source != type
+        source.present? && source != variant
       end
 
       def invalid_source_result
-        type.errors.add(:base, I18n.t("types.edit.reuse_mode.copy.invalid_source"))
+        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.copy.invalid_source"))
 
-        ServiceResult.failure(result: type, errors: type.errors)
+        ServiceResult.failure(result: variant, errors: variant.errors)
       end
     end
   end

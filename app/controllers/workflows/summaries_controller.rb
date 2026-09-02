@@ -34,7 +34,7 @@ class Workflows::SummariesController < ApplicationController
   before_action :require_admin
 
   def show
-    @workflow_counts = Workflow.count_by_type_and_role
+    @workflow_counts = Workflow.count_by_type_variant_and_role
     @roles = @workflow_counts.first&.last&.map(&:first)
   end
 end

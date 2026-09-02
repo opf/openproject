@@ -53,6 +53,7 @@ module Queries::Projects
     filter Filters::PublicFilter
     filter Filters::TemplatedFilter
     filter Filters::TypeFilter
+    filter Filters::TypeVariantFilter
     filter Filters::TypeaheadFilter
     filter Filters::UpdatedAtFilter
     filter Filters::UserActionFilter

@@ -42,6 +42,7 @@ class AuthProvider < ApplicationRecord
   validates :display_name, presence: true
   validates :display_name, uniqueness: true
 
+  after_update :unset_direct_provider, if: -> { saved_change_to_available? && !available? }
   after_destroy :unset_direct_provider
 
   def user_count

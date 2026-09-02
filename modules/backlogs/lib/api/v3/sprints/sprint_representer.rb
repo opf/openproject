@@ -60,6 +60,9 @@ module API
 
         date_property :finish_date
 
+        date_time_property :started_at
+        date_time_property :completed_at
+
         date_time_property :created_at
         date_time_property :updated_at
 

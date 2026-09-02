@@ -36,7 +36,7 @@ RSpec.describe Relations::DeleteService do
     create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil)
   end
   shared_let(:priority) { create(:priority) }
-  shared_let(:type_task) { create(:type_task, :default) }
+  shared_let(:type_task) { create(:type_task, default_variant_enabled_in_all_projects: true) }
   shared_let(:type_with_mandatory_cf) do
     create(:type,
            position: type_task.position + 1,

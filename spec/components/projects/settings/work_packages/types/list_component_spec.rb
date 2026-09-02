@@ -36,17 +36,15 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
   include Rails.application.routes.url_helpers
 
   # acts_as_list overrides positions passed at creation, so pin them afterwards.
-  # The family order is Epic(1) then Bug(2), while the variant's own position (9)
-  # is scoped to its parent and must not influence the row order.
   shared_let(:epic) { create(:type, name: "Epic").tap { |type| type.update_column(:position, 1) } }
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 2) } }
-  shared_let(:design) do
-    create(:type, name: "Design", parent: epic).tap { |type| type.update_column(:position, 9) }
-  end
+  shared_let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
+
+  current_user { create(:user, member_with_permissions: { project => %i[view_project manage_types] }) }
 
   subject(:component) { described_class.new(project:) }
 
-  context "when a family is active through its parent" do
+  context "when a type is active through its base variant" do
     let(:project) { create(:project, types: [bug]) }
 
     before { render_inline(component) }
@@ -64,38 +62,38 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     end
   end
 
-  context "when a family is active through a variant" do
+  context "when a type is active through a named variant" do
     let(:project) { create(:project, types: [design]) }
 
     before { render_inline(component) }
 
-    it "names the parent type, not the composite name" do
+    it "names the type, not the composite name" do
       expect(page).to have_text("Epic")
       expect(page).to have_no_text("Epic: Design")
     end
 
-    # normalize_ws because render_inline keeps the newline between the two Text
-    # components that a browser lays out on one line.
-    it "names the active variant after the parent it presents as" do
-      expect(page).to have_text("Variant: Design", normalize_ws: true)
+    it "leaves saying which variant is in use to that variant's row" do
+      expect(page).to have_no_text("Variant: Design")
+      expect(page).to have_css("[data-test-selector='project-types-variant-#{design.id}']",
+                               text: "Variant in this project")
     end
 
-    it "points the remove action at the variant" do
+    it "points the remove action at the type the variant belongs to" do
       expect(page).to have_css(
-        "form[action='#{project_settings_work_packages_type_path(project, design)}']",
+        "form[action='#{project_settings_work_packages_type_path(project, epic)}']",
         visible: :all
       )
     end
   end
 
-  context "with several active families" do
+  context "with several active types" do
     let(:project) { create(:project, types: [design, bug]) }
 
     before { render_inline(component) }
 
-    it "orders rows by the family's position rather than the member's" do
+    it "orders rows by the type's position" do
       expect(page.all("[data-test-selector^='project-types-row-']").pluck(:"data-test-selector"))
-        .to eq(["project-types-row-#{design.id}", "project-types-row-#{bug.id}"])
+        .to eq(["project-types-row-#{design.id}", "project-types-row-#{bug.default_variant.id}"])
     end
   end
 

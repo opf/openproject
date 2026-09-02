@@ -39,25 +39,27 @@ module WorkPackageTypes
 
       FORM_IDENTIFIER = "type-wizard-form"
 
-      def initialize(type:, current_step:)
+      def initialize(type:, current_step:, variant: nil, back_url: nil)
         super(type)
 
         @current_step = current_step
+        @variant = variant
+        @back_url = back_url
       end
 
       private
 
-      attr_reader :current_step
+      attr_reader :current_step, :variant, :back_url
 
       def type = model
 
       def first_step? = current_step == Steps.first
 
-      def last_step? = current_step == Steps.last
+      def last_step? = current_step == Steps.last_for(variant)
 
-      def current_number = Steps.index(current_step) + 1
+      def current_number = Steps.available_for(variant).index(current_step).to_i + 1
 
-      def total_steps = Steps.all.size
+      def total_steps = Steps.available_for(variant).size
 
       def progress_percentage = (current_number.to_f / total_steps * 100).round
 
@@ -67,12 +69,22 @@ module WorkPackageTypes
       end
 
       def back_href
-        previous_step = Steps.previous_before(current_step)
-        type_creation_wizard_path(type, step: previous_step) if previous_step && type.persisted?
+        previous_step = Steps.previous_before(current_step, variant)
+        return unless previous_step && record_persisted?
+
+        type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
       end
 
+      def variant_path_args = variant&.path_args || { type_id: type.id }
+
+      def record_persisted? = variant ? variant.persisted? : type.persisted?
+
+      # A project has no screen for the type itself, so cancelling there returns to its list.
       def cancel_href
-        type.persisted? ? edit_type_details_path(type_id: type.id) : types_path
+        return back_url if back_url.present?
+        return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
+
+        edit_type_details_path(type_id: type.id)
       end
     end
   end

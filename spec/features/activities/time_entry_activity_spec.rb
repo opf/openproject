@@ -49,8 +49,8 @@ RSpec.describe "TimeEntry activity",
   let(:project) { build(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }
   let(:time_entry_activity) { create(:time_entry_activity) }
   let(:time_entry_activity2) { create(:time_entry_activity) }
-  let(:work_package) { create(:work_package, project:, type: project.types.first) }
-  let(:work_package2) { build(:work_package, project:, type: project.types.second) }
+  let(:work_package) { create(:work_package, project:, type: project.enabled_types.first) }
+  let(:work_package2) { build(:work_package, project:, type: project.enabled_types.second) }
   let!(:time_entry) do
     create(:time_entry,
            project:,
@@ -74,7 +74,7 @@ RSpec.describe "TimeEntry activity",
     click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}")
+      expect(page).to have_link("#{project.enabled_types.first} ##{work_package.id}: #{work_package.subject}")
       expect(page).to have_css("li", text: "Spent time: 5 hours")
       expect(page).to have_link("Details")
       click_link("Details")
@@ -106,7 +106,7 @@ RSpec.describe "TimeEntry activity",
     click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_link("#{project.types.first} ##{work_package2.id}: #{work_package2.subject}")
+      expect(page).to have_link("#{project.enabled_types.first} ##{work_package2.id}: #{work_package2.subject}")
       expect(page).to have_css("li", text: "Logged for #{user2.name}")
       expect(page).to have_css("li",
                                text: "Logged for changed from #{work_package.name} to #{work_package2.name}")

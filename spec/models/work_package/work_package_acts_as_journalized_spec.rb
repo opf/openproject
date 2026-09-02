@@ -607,7 +607,7 @@ RSpec.describe WorkPackage do
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
           project.work_package_custom_fields << custom_field
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
         end
       end
 
@@ -698,7 +698,7 @@ RSpec.describe WorkPackage do
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
               project.work_package_custom_fields << cf
-              type.custom_fields << cf
+              type.default_variant.custom_fields << cf
             end
           end
         end
@@ -711,7 +711,7 @@ RSpec.describe WorkPackage do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
             project.work_package_custom_fields << cf
-            type.custom_fields << cf
+            type.default_variant.custom_fields << cf
           end
         end
 
@@ -1035,6 +1035,82 @@ RSpec.describe WorkPackage do
                        expect_new_journal: true
     end
 
+    context "on only journal notes adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true
+    end
+
+    context "on only journal notes adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
+    context "on only journal cause adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true
+    end
+
+    context "on only journal cause adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
     context "when aggregation leads to an empty change (changing back and forth)",
             with_settings: { journal_aggregation_time_minutes: 1 } do
       shared_let(:journable) do
@@ -1222,7 +1298,7 @@ RSpec.describe WorkPackage do
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let(:work_package) do

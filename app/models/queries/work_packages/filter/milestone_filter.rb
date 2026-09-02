@@ -62,7 +62,10 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
   end
 
   def milestone_subselect
+    # Order is irrelevant for an IN subselect; unscope so Type's default position
+    # ordering does not leak into the SQL (and its quoting does not break specs).
     Type
+      .unscoped
       .where(is_milestone: true)
       .select(:id)
       .to_sql

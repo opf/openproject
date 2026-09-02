@@ -34,12 +34,13 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   include Rails.application.routes.url_helpers
 
   let(:type) { create(:type) }
-  let(:draggable_records) { type.pdf_export_templates.list }
+  let(:variant) { type.default_variant }
+  let(:draggable_records) { variant.pdf_export_templates.list }
 
-  subject(:rendered_component) { render_inline(described_class.new(type:)) }
+  subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
   def drop_url_for(template)
-    drop_type_pdf_export_template_path(type_id: type.id, id: template.id)
+    drop_type_pdf_export_template_path(**variant.path_args, id: template.id)
   end
 
   it_behaves_like "rendering Box", row_count: 3
@@ -57,6 +58,15 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     end
   end
 
+  it "links each template label to its settings page" do
+    draggable_records.each do |template|
+      expect(rendered_component).to have_link(
+        template.label,
+        href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+      )
+    end
+  end
+
   it "labels each template toggle button with its template" do
     draggable_records.each do |template|
       expect(rendered_component).to have_button(
@@ -70,7 +80,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   end
 
   context "when readonly" do
-    subject(:rendered_component) { render_inline(described_class.new(type:, readonly: true)) }
+    subject(:rendered_component) { render_inline(described_class.new(variant:, readonly: true)) }
 
     it "renders no drag-and-drop wiring", :aggregate_failures do
       expect(rendered_component).to have_no_css('[data-controller~="generic-drag-and-drop"]')
@@ -82,6 +92,15 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     it "renders no header actions", :aggregate_failures do
       expect(rendered_component).to have_no_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
       expect(rendered_component).to have_no_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
+    end
+
+    it "renders each template label as plain text instead of a link to its settings page" do
+      draggable_records.each do |template|
+        expect(rendered_component).to have_no_link(
+          href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+        )
+        expect(rendered_component).to have_text(template.label)
+      end
     end
   end
 end

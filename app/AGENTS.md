@@ -16,7 +16,8 @@
 - Use service objects for complex business logic (return `ServiceResult`)
 - Use contracts for validation and authorization
 - Keep controllers thin, models focused
-- Document with [YARD](https://yardoc.org/)
+- Where documentation is warranted, use [YARD](https://yardoc.org/) syntax — but see
+  "Code Comments" in the root `AGENTS.md`: self-descriptive methods get no docblock
 - Write RSpec tests for all new features
 - **Work package identifiers**: `WorkPackage.find("PROJ-42")` resolves semantic identifiers transparently. Use `find_by_display_id` only when input could legitimately be numeric OR semantic (controllers, URL-driven components, macro resolvers). Low-level code (queries, filters, services) should stick to `find_by(id:)` with primary keys. See `app/models/work_package/semantic_identifier/finder_methods.rb`.
 

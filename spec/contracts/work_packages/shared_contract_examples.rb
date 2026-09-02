@@ -135,7 +135,7 @@ RSpec.shared_examples "work package contract" do
       context "when the type has a disabled replacement pattern for subject" do
         let(:type_with_disabled_pattern) do
           create(:type, patterns: { subject: { blueprint: "{{type}} {{project_name}}", enabled: false } }) do |type|
-            work_package.project.types << type
+            work_package.project.project_types.create!(type:)
           end
         end
 

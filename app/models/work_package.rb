@@ -260,12 +260,12 @@ class WorkPackage < ApplicationRecord
   # Human-readable label composed from the work package's type, id and subject.
   #
   # @param style [Symbol]
-  #   :heading => "Bug #42: Fix login" (non-standard type; type name omitted for standard types)
-  #   :caption => "Bug: Fix login (#42)" (type name always shown, even for standard types)
+  #   :heading => "Bug #42: Fix login"
+  #   :caption => "Bug: Fix login (#42)"
   # @return [String]
   def to_fs(style = :heading)
     case style
-    when :heading then "#{type&.name unless type&.is_standard} #{formatted_id}: #{subject}"
+    when :heading then "#{type&.name} #{formatted_id}: #{subject}"
     when :caption then "#{"#{type.name}: " if type}#{subject} (#{formatted_id})"
     else raise ArgumentError, "unknown format style: #{style.inspect}"
     end
@@ -293,14 +293,12 @@ class WorkPackage < ApplicationRecord
 
   alias_method :is_milestone?, :milestone?
 
-  # The type to read configuration from: #type is the family's root, which is what this work
-  # package stores, while its project may resolve the family to a variant configured
-  # differently. Use this for form configuration, workflows, custom fields, defaults and
-  # export templates; use #type for identity, filtering and grouping.
-  def effective_type
-    return type&.root if project.nil?
+  # The configuration to read from. A type carries has no config of its own: this work package stores
+  # its type, and its project decides which of that type's variants applies
+  def type_variant
+    return type&.default_variant if project.nil?
 
-    project.effective_type(type)
+    project.type_variant(type)
   end
 
   def included_in_totals_calculation?
@@ -514,49 +512,45 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.preload_available_custom_fields(work_packages)
-    effective_type_ids = effective_type_ids_by_pair(work_packages)
+    type_variant_ids = type_variant_ids_by_pair(work_packages)
 
     custom_fields = available_custom_fields_from_db(work_packages)
                     .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(wp_types.own_id) available_type_ids",
+                            "array_agg(wp_variants.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
     work_packages.each do |work_package|
-      effective_type_id = effective_type_ids[custom_field_pair(work_package)]
+      type_variant_id = type_variant_ids[custom_field_pair(work_package)]
 
       RequestStore.store[available_custom_field_key(work_package)] =
-        custom_fields.select { |cf| available_for?(cf, work_package, effective_type_id) }
+        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
     end
   end
 
-  def self.available_for?(custom_field, work_package, effective_type_id)
+  def self.available_for?(custom_field, work_package, type_variant_id)
     (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
-      custom_field.available_type_ids.include?(effective_type_id)
+      custom_field.available_type_ids.include?(type_variant_id)
   end
   private_class_method :available_for?
 
-  # A work package stores its family's root, while its project may resolve that family to a
-  # variant owning a different form configuration. The fields available therefore depend on the
-  # (project, type) pair rather than the type alone, which is what #available_custom_field_key
-  # already caches on.
-  #
-  # Resolved here in Ruby rather than joined into the query below: it costs one small query and
-  # leaves the form configuration SQL — and its measured performance characteristics — untouched.
-  def self.effective_type_ids_by_pair(work_packages)
+  # A work package stores its type, while its project may apply a variant resulting in a different
+  # form configuration. The fields available therefore depend on the (project, type) pair
+  # rather than the type alone.
+  def self.type_variant_ids_by_pair(work_packages) # rubocop:disable Metrics/AbcSize
     pairs = work_packages.filter_map { |work_package| custom_field_pair(work_package) }.uniq
     return {} if pairs.empty?
 
     resolved = ProjectType
                  .where(project_id: pairs.map(&:first), type_id: pairs.map(&:last))
                  .pluck(:project_id, :type_id, :variant_id)
-                 .to_h { |project_id, type_id, variant_id| [[project_id, type_id], variant_id || type_id] }
+                 .to_h { |project_id, type_id, variant_id| [[project_id, type_id], variant_id] }
 
-    # A pair with no row means the project does not use the family, so only the root's own
-    # configuration could apply.
-    pairs.index_with { |pair| resolved.fetch(pair, pair.last) }
+    # A pair with no row means the project does not use the type, so its base variant applies.
+    base = TypeVariant.default_variant.where(type_id: pairs.map(&:last)).pluck(:type_id, :id).to_h
+    pairs.index_with { |pair| resolved[pair] || base[pair.last] }
   end
-  private_class_method :effective_type_ids_by_pair
+  private_class_method :type_variant_ids_by_pair
 
   def self.custom_field_pair(work_package)
     return if work_package.project_id.nil? || work_package.type_id.nil?
@@ -566,7 +560,9 @@ class WorkPackage < ApplicationRecord
   private_class_method :custom_field_pair
 
   def self.available_custom_fields_from_db(work_packages)
-    type_ids = effective_type_ids_by_pair(work_packages).values.uniq
+    # Drop unresolved pairs (e.g. stubbed types with no base variant in the DB): an empty
+    # VALUES list is invalid SQL, and those work packages have no available custom fields.
+    type_ids = type_variant_ids_by_pair(work_packages).values.compact.uniq
     return WorkPackageCustomField.none if type_ids.empty?
 
     project_ids = work_packages.map(&:project_id).uniq
@@ -595,16 +591,15 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the type that owns the (possibly linked) form configuration, minus
-  # the ones its link chain excludes, but keep the driving type id available so a batch preload
-  # can match it against each work package's effective type id.
-  def self.form_configuration_custom_fields_join(type_ids)
-    source_table, source_type_id, excluded = Type::FormConfigurationSql.source_table(type_ids)
-    exclusion = Type.excluded_custom_field_condition("custom_fields.id", excluded)
+  # Match custom fields on the variant that owns the form configuration,
+  # excluding fields that are hidden somewhere in the source
+  def self.form_configuration_custom_fields_join(variant_ids)
+    source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)
+    exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
     "#{source_table} " \
       "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.type_id = #{source_type_id} " \
+      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
       "AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join

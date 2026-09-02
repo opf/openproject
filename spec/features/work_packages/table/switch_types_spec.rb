@@ -117,24 +117,26 @@ RSpec.describe "Switching types in work package table", :js do
     end
 
     it "can switch back from an open required CF (Regression test #28099)" do
+      # The required field is not a column, so opening it makes the table load its query form and
+      # add the required field. we need to make sure the type is editable before we try it to prevent a race condition
+      expect(type_field).to be_editable
       wait_for_network_idle
 
       # Switch type
       type_field.activate!
-      type_field.set_value type_bug.name
+      type_field.set_select_field_value type_bug.name
 
       wp_table.expect_and_dismiss_toaster(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
 
-      # Required CF requires activation
+      # After a failed type switch, the required CF field is auto-opened in edit mode
       req_text_field.expect_active!
 
       # Now switch back to a type without the required CF
       type_field.activate!
-      type_field.openSelectField
-      type_field.set_value type_task.name
+      type_field.set_select_field_value type_task.name
 
       wp_table.expect_and_dismiss_toaster(
         message: "Successful update."

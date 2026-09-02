@@ -152,7 +152,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
     end
 
     context "when the work package does not exist" do
-      let(:post_path) { api_v3_paths.work_package_watchers 9999 }
+      let(:post_path) { api_v3_paths.work_package_watchers(not_existing_id(WorkPackage)) }
 
       it_behaves_like "not found",
                       I18n.t("api_v3.errors.not_found.work_package")
@@ -161,7 +161,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
     context "when the user does not exist" do
       let(:post_body) do
         {
-          user: { href: api_v3_paths.user(99999) }
+          user: { href: api_v3_paths.user(not_existing_id(User)) }
         }.to_json
       end
 
@@ -236,7 +236,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
       end
 
       context "when removing nonexistent user" do
-        let(:delete_path) { api_v3_paths.watcher 9999, work_package.id }
+        let(:delete_path) { api_v3_paths.watcher(not_existing_id(User), work_package.id) }
 
         it_behaves_like "not found"
       end

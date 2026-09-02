@@ -147,10 +147,12 @@ RSpec.describe "Work package navigation", :js, :selenium do
   end
 
   it "loading an unknown work package ID" do
-    visit "/work_packages/999999999"
+    unknown_id = not_existing_id(WorkPackage)
+
+    visit "/work_packages/#{unknown_id}"
     expect_flash type: :error, message: I18n.t(:notice_file_not_found)
 
-    visit "/projects/#{project.identifier}/work_packages/999999999"
+    visit "/projects/#{project.identifier}/work_packages/#{unknown_id}"
     expect_flash type: :error, message: I18n.t(:notice_file_not_found)
   end
 

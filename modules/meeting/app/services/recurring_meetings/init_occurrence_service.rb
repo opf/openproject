@@ -85,7 +85,8 @@ module RecurringMeetings
     end
 
     def draft_template_failure
-      ServiceResult.failure(message: I18n.t("recurring_meeting.occurrence.error_template_draft"))
+      recurring_meeting.errors.add(:base, I18n.t("recurring_meeting.occurrence.error_template_draft"))
+      ServiceResult.failure(errors: recurring_meeting.errors)
     end
 
     def validate_contract

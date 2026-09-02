@@ -70,8 +70,31 @@ module Users
       helpers.format_time user.created_at
     end
 
+    def consented_at
+      helpers.format_time user.consented_at unless user.consented_at.nil?
+    end
+
     def status
       helpers.full_user_status user
+    end
+
+    def department
+      return if user.department.nil?
+
+      safe_join(
+        [
+          render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted, mr: 1)),
+          user.department.name
+        ]
+      )
+    end
+
+    def member_of_group
+      joined_names user.regular_groups
+    end
+
+    def member_of_project
+      joined_names user.projects
     end
 
     def button_links
@@ -101,19 +124,29 @@ module Users
     def column_value(column)
       return custom_field_column(column) if custom_field_column?(column)
 
-      send(column.respond_to?(:attribute) ? column.attribute : column)
+      attribute = column_attribute(column)
+
+      respond_to?(attribute) ? send(attribute) : user.public_send(attribute)
     end
 
     def column_css_class(column)
-      attr = column.respond_to?(:attribute) ? column.attribute : column
-      case attr
+      attribute = column_attribute(column)
+      case attribute
       when :mail then "email"
       when :login then "username"
-      else attr.to_s
+      else attribute.to_s
       end
     end
 
     private
+
+    def column_attribute(column)
+      column.respond_to?(:attribute) ? column.attribute : column
+    end
+
+    def joined_names(records)
+      records.map(&:name).sort.join(", ")
+    end
 
     def custom_field_column_subject
       user

@@ -39,13 +39,13 @@ module OpenProject::Backlogs
             property :position,
                      render_nil: true,
                      skip_render: ->(*) do
-                       !(backlogs_enabled? && type&.passes_attribute_constraint?(:position, project:))
+                       !(backlogs_enabled? && type_variant&.passes_attribute_constraint?(:position, project:))
                      end
 
             property :story_points,
                      render_nil: true,
                      skip_render: ->(*) do
-                       !(backlogs_enabled? && type&.passes_attribute_constraint?(:story_points, project:))
+                       !(backlogs_enabled? && type_variant&.passes_attribute_constraint?(:story_points, project:))
                      end
 
             resource :sprint,

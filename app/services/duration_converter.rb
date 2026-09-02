@@ -107,6 +107,13 @@ class DurationConverter
                              **duration_length_options)
     end
 
+    # Data attributes for a Stimulus controller parsing durations client-side,
+    # so that "1d" resolves to the same number of hours as it does here.
+    def stimulus_data_values(controller)
+      { "#{controller}-hours-per-day-value" => Setting.hours_per_day,
+        "#{controller}-days-per-month-value" => Setting.days_per_month }
+    end
+
     private
 
     def parseable?(duration_string)

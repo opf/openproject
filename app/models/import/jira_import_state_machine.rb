@@ -47,12 +47,11 @@ module Import
 
     state :importing
     state :import_error
+    state :import_aborting
     state :imported
 
     state :reverting
     state :revert_error
-    state :revert_cancelling
-    state :revert_cancelled
     state :reverted
 
     state :finalizing
@@ -67,71 +66,126 @@ module Import
     transition from: PROJECTS_META_FETCHING, to: [PROJECTS_META_DONE, PROJECTS_META_ERROR]
     transition from: PROJECTS_META_ERROR,    to: [PROJECTS_META_FETCHING]
     transition from: PROJECTS_META_DONE,     to: [IMPORTING]
-    transition from: IMPORTING,              to: [IMPORTED, IMPORT_ERROR]
+    transition from: IMPORTING,              to: [IMPORTED, IMPORT_ERROR, IMPORT_ABORTING]
+    transition from: IMPORT_ABORTING,        to: [IMPORT_ERROR]
     transition from: IMPORT_ERROR,           to: [IMPORTING, REVERTING]
     transition from: IMPORTED,               to: [FINALIZING, REVERTING]
     transition from: FINALIZING,             to: [FINALIZING_ERROR, FINALIZING_DONE]
     transition from: FINALIZING_ERROR,       to: [FINALIZING]
-    transition from: REVERTING,              to: [REVERTED, REVERT_CANCELLING, REVERT_ERROR]
-    transition from: REVERT_CANCELLING,      to: [REVERT_CANCELLED]
-    transition from: REVERT_CANCELLED,       to: [REVERTING]
+    transition from: REVERTING,              to: [REVERTED, REVERT_ERROR]
     transition from: REVERT_ERROR,           to: [REVERTING]
 
-    after_transition(to: :reverted) do |jira_import, _transition|
-      jira_import.update_column(:cursor, nil)
+    def self.enqueued_job_id(job_class, jira_import_id)
+      job = job_class.perform_later(jira_import_id)
+      return job.job_id if job
+
+      # GoodJob's enqueue_limit makes perform_later return false when an equivalent job is still queued
+      GoodJob::Job
+        .where(concurrency_key: job_class.new(jira_import_id).good_job_concurrency_key)
+        .unfinished
+        .order(:created_at)
+        .pick(:id)
     end
 
-    after_transition(to: :instance_meta_fetching) do |jira_import, _transition|
-      Import::JiraInstanceMetaDataJob.perform_later(jira_import.id)
-    end
-
-    after_transition(to: :projects_meta_fetching) do |jira_import, _transition|
-      Import::JiraProjectsMetaDataJob.perform_later(jira_import.id)
-    end
-
-    after_transition(to: :importing) do |jira_import, _transition|
-      Import::JiraFetchAndImportProjectsJob.perform_later(jira_import.id)
-    end
-
-    after_transition(to: :reverting) do |jira_import, transition|
-      job = Import::JiraRevertImportJob.perform_later(jira_import.id)
-      transition.metadata["job_id"] = job.job_id
+    after_transition(to: :instance_meta_fetching) do |jira_import, transition|
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraInstanceMetaDataJob, jira_import.id)
       transition.save!
     end
 
-    after_transition(to: :finalizing) do |jira_import, _transition|
-      Import::JiraFinalizeImportJob.perform_later(jira_import.id)
+    after_transition(to: :projects_meta_fetching) do |jira_import, transition|
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraProjectsMetaDataJob, jira_import.id)
+      transition.metadata["user_id"] = User.current.id
+      transition.save!
     end
 
-    def status_running?
+    after_transition(to: :importing) do |jira_import, transition|
+      last_importing_transition =
+        jira_import
+          .transitions
+          .where(to_state: "importing", most_recent: false)
+          .order(created_at: :desc)
+          .first
+
+      if last_importing_transition.nil?
+        batch = GoodJob::Batch.enqueue(on_success: Import::JiraStagedImportJob,
+                                       on_finish: Import::JiraStagedImportJob::FinishCallbackJob,
+                                       on_discard: Import::JiraStagedImportJob::DiscardCallbackJob,
+                                       jira_import_id: jira_import.id,
+                                       stage: nil)
+      else
+        batch = last_importing_transition.actual_batch
+        batch.retry
+      end
+      transition.metadata["batch_id"] = batch.id
+      transition.metadata["user_id"] = User.current.id
+      transition.save!
+    end
+
+    after_transition(to: :reverting) do |jira_import, transition|
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraRevertImportJob, jira_import.id)
+      transition.metadata["user_id"] = User.current.id
+      transition.save!
+    end
+
+    after_transition(to: :finalizing) do |jira_import, transition|
+      transition.metadata["job_id"] = enqueued_job_id(Import::JiraFinalizeImportJob, jira_import.id)
+      transition.metadata["user_id"] = User.current.id
+      transition.save!
+    end
+
+    after_transition(to: :import_aborting) do |jira_import, _transition|
+      jira_import
+        .state_machine
+        .last_transition_to(:importing)
+        .actual_batch
+        ._record
+        .jobs.each do |job|
+        job.discard_job("Discarded because user clicked abort.") if job.status.in?(%i[queued retried scheduled])
+      rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError,
+             GoodJob::Job::ActionForStateMismatchError
+        next
+      end
+    end
+
+    def state_equal_or_after?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) >= JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_equal_or_before?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) <= JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_before?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) < JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def state_after?(check_status)
+      JiraImportStateMachine.states.index(current_state.to_s) > JiraImportStateMachine.states.index(check_status.to_s)
+    end
+
+    def running?
       [
         INSTANCE_META_FETCHING,
         PROJECTS_META_FETCHING,
         IMPORTING,
+        IMPORT_ABORTING,
         REVERTING,
-        REVERT_CANCELLING,
         FINALIZING
       ].include?(current_state)
     end
 
-    def status_equal_or_after?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) >= JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_equal_or_before?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) <= JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_before?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) < JiraImportStateMachine.states.index(check_status.to_s)
-    end
-
-    def status_after?(check_status)
-      JiraImportStateMachine.states.index(current_state.to_s) > JiraImportStateMachine.states.index(check_status.to_s)
+    def error?
+      [
+        INSTANCE_META_ERROR,
+        PROJECTS_META_ERROR,
+        IMPORT_ERROR,
+        REVERT_ERROR,
+        FINALIZING_ERROR
+      ].include?(current_state)
     end
 
     def deletable?
-      !status_running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
+      !running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
     end
   end
 end

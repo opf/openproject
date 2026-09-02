@@ -35,12 +35,11 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
 
   shared_let(:root_type) { create(:type, name: "Bug") }
   shared_let(:sibling_type) { create(:type, name: "Feature") }
-  shared_let(:variant_type) { create(:type, name: "Alpha variant", parent: root_type) }
 
   current_user { create(:admin) }
 
   describe "menu items" do
-    context "for a root type" do
+    context "for a type" do
       subject(:rendered_component) { render_inline(described_class.new(type: root_type)) }
 
       it "offers configure, make default, add variant, duplicate, move and delete", :aggregate_failures do
@@ -55,22 +54,10 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
       end
     end
 
-    context "for a variant" do
-      subject(:rendered_component) { render_inline(described_class.new(type: variant_type)) }
-
-      it "omits add variant and move but keeps configure, duplicate and delete", :aggregate_failures do
-        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure)
-        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_duplicate)
-        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
-        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.add_variant_action")
-        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t(:button_move)
-      end
-    end
-
     context "when the type is the current default" do
       subject(:rendered_component) { render_inline(described_class.new(type: root_type)) }
 
-      before { allow(root_type).to receive(:is_default?).and_return(true) }
+      before { root_type.default_variant.update!(enabled_in_new_projects: true) }
 
       it "offers removing the default instead of setting it", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.remove_default")
@@ -78,7 +65,7 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
       end
     end
 
-    context "when there is only one root" do
+    context "when there is only one type" do
       subject(:rendered_component) { render_inline(described_class.new(type: root_type)) }
 
       before { allow(root_type).to receive_messages(first?: true, last?: true) }

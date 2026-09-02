@@ -38,7 +38,7 @@ module WorkPackageTypes
 
     before_action :require_admin
     before_action :require_type_variants_feature, only: %i[drop duplicate menu]
-    before_action :find_type, only: %i[move destroy drop make_default remove_default duplicate menu]
+    before_action :find_type, only: %i[move destroy drop duplicate menu]
 
     current_menu_item do
       :types
@@ -46,15 +46,7 @@ module WorkPackageTypes
 
     def index
       @expanded_type_id = params[:expand].presence&.to_i
-      @types =
-        if type_variants_enabled?
-          root_types
-        else
-          ::Type
-            .includes(:own_workflows, :projects, :custom_fields, :color)
-            .page(page_param)
-            .per_page(per_page_param)
-        end
+      @types = types_for_index
     end
 
     def type
@@ -87,10 +79,7 @@ module WorkPackageTypes
     end
 
     def destroy
-      # types cannot be deleted when they have work packages
-      # or they are standard types
-      # or they have variants
-      if @type.is_standard? || @type.work_packages.any?
+      if @type.work_packages.any?
         flash[:error] = destroy_error_message
       elsif @type.destroy
         flash[:notice] = I18n.t(:notice_successful_delete)
@@ -100,40 +89,16 @@ module WorkPackageTypes
       redirect_to action: "index", status: :see_other
     end
 
-    def make_default
-      service_call = WorkPackageTypes::MakeDefaultService.new(type: @type, user: current_user).call
-
-      if service_call.success?
-        flash[:notice] = t("types.index.make_default_notice", name: @type.own_name)
-      else
-        flash[:error] = service_call.errors.full_messages
-      end
-
-      redirect_to types_path(expand: @type.parent_id), status: :see_other
-    end
-
-    def remove_default
-      service_call = WorkPackageTypes::RemoveDefaultService.new(type: @type, user: current_user).call
-
-      if service_call.success?
-        flash[:notice] = t("types.index.remove_default_notice", name: @type.own_name)
-      else
-        flash[:error] = service_call.errors.full_messages
-      end
-
-      redirect_to types_path(expand: @type.parent_id), status: :see_other
-    end
-
     def duplicate
       service_call = WorkPackageTypes::DuplicateService.new(type: @type, user: current_user).call
 
       if service_call.success?
-        flash[:notice] = t("types.index.duplicate_notice", name: @type.own_name)
+        flash[:notice] = t("types.index.duplicate_notice", name: @type.name)
       else
         flash[:error] = service_call.errors.full_messages
       end
 
-      redirect_to types_path(expand: @type.parent_id), status: :see_other
+      redirect_to types_path, status: :see_other
     end
 
     def drop
@@ -141,7 +106,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: @type.errors.full_messages.to_sentence)
       end
 
-      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: root_types))
+      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: types_for_index))
       respond_to_with_turbo_streams
     end
 
@@ -155,11 +120,10 @@ module WorkPackageTypes
       @type = ::Type.find(params[:id])
     end
 
-    def root_types
+    def types_for_index
       ::Type
-        .roots
-        .includes(:own_workflows, :projects, :custom_fields, :color,
-                  children: %i[own_workflows projects custom_fields color])
+        .includes(:color, :projects,
+                  variants: %i[own_workflows custom_fields])
         .page(page_param)
         .per_page(per_page_param)
     end
@@ -183,9 +147,7 @@ module WorkPackageTypes
     def permitted_type_params
       # having to call #to_unsafe_h as a query hash the attribute_groups
       # parameters would otherwise still be an ActiveSupport::Parameter
-      params = permitted_params.type.to_unsafe_h
-      params = params.except(:parent_id) unless type_variants_enabled?
-      params
+      permitted_params.type.to_unsafe_h
     end
 
     def load_projects_and_types
@@ -194,26 +156,22 @@ module WorkPackageTypes
     end
 
     def destroy_error_message
-      if @type.is_standard?
-        t(:error_can_not_delete_standard_type)
-      else
-        error_message = [
-          ApplicationController.helpers.sanitize(
-            t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.root_id)),
-            attributes: %w(href target)
-          )
-        ]
+      error_message = [
+        ApplicationController.helpers.sanitize(
+          t(:"error_can_not_delete_type.explanation", url: belonging_wps_url(@type.id)),
+          attributes: %w(href target)
+        )
+      ]
 
-        if archived_projects.any?
-          error_message << ApplicationController.helpers.sanitize(
-            t(:error_can_not_delete_in_use_archived_work_packages,
-              archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
-            attributes: %w(href target)
-          )
-        end
-
-        error_message
+      if archived_projects.any?
+        error_message << ApplicationController.helpers.sanitize(
+          t(:error_can_not_delete_in_use_archived_work_packages,
+            archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
+          attributes: %w(href target)
+        )
       end
+
+      error_message
     end
 
     def belonging_wps_url(type_id)

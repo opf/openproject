@@ -32,7 +32,7 @@ module WorkPackageTypes
   module FormConfiguration
     # Form-configuration binding of WorkPackageTypes::ExclusionToggleComponent.
     class ExclusionToggleComponent < WorkPackageTypes::ExclusionToggleComponent
-      ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
+      ASPECT = TypeVariant::FORM_CONFIGURATION
 
       def initialize(exclusions:, element_key:, label:)
         super(

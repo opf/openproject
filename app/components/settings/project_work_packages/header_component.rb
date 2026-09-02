@@ -43,7 +43,7 @@ module Settings
       end
 
       def show_types?
-        User.current.allowed_in_project?(:manage_types, @project)
+        User.current.allowed_in_project?(%i[manage_types manage_project_variants], @project)
       end
 
       def show_categories?

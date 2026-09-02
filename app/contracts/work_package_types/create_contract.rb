@@ -30,17 +30,11 @@
 
 module WorkPackageTypes
   class CreateContract < BaseContract
-    attribute :description
-    with_options(writable: -> { !model.variant? }) do
-      attribute :color_id
-      attribute :is_default
-      attribute :is_in_roadmap
-      attribute :is_milestone
-    end
+    attribute :color_id
+    attribute :is_in_roadmap
+    attribute :is_milestone
     attribute :name
-    attribute :parent_id
-    attribute :attribute_groups
 
-    validates :is_default, :is_milestone, :is_in_roadmap, inclusion: { in: [true, false] }
+    validates :is_milestone, :is_in_roadmap, inclusion: { in: [true, false] }
   end
 end

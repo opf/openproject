@@ -110,7 +110,7 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
         dataset = chart_data["datasets"].first
         expect(dataset).to have_key("label")
         expect(dataset).to have_key("data")
-        expect(dataset["label"]).to eq(I18n.t(:label_budget))
+        expect(dataset["label"]).to eq(Budget.model_name.human)
         expect(dataset["data"]).to be_an(Array)
       end
     end

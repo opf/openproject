@@ -141,14 +141,14 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     let!(:source_cf) do
       create(:integer_wp_custom_field).tap do |cf|
         project.work_package_custom_fields << cf
-        source_type.custom_fields << cf
+        source_type.default_variant.custom_fields << cf
       end
     end
 
     subject { described_class.new(project:, type: linked_type) }
 
     before do
-      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "intersects the project's fields with the effective source type's fields" do
@@ -159,16 +159,16 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   describe "#available_custom_fields when the project resolves a variant",
            with_flag: { type_variants: true } do
     let(:root_type) { create(:type) }
-    let(:variant) { create(:type, parent: root_type) }
+    let(:variant) do
+      create(:type_variant, type: root_type).tap do |named|
+        link_configuration(named, source: root_type, aspect: TypeVariant::FORM_CONFIGURATION)
+      end
+    end
     let(:project) { create(:project, types: [variant]) }
 
-    # Activated from the custom field side on purpose: Type#custom_fields resolves through the
-    # form configuration link, so appending to it while the variant is linked would write to
-    # the root instead.
     let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
     let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
 
-    # The schema is asked for the root, which is what a work package stores.
     subject { described_class.new(project:, type: root_type) }
 
     context "when the variant inherits its form configuration" do
@@ -180,9 +180,7 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
     context "when the variant owns its form configuration" do
       before do
-        variant.configuration_links
-               .find_by(aspect: Type::ConfigurationLink::FORM_CONFIGURATION)
-               .destroy!
+        unlink_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
       end
 
       it "answers with the variant's own fields" do

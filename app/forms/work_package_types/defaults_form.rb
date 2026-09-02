@@ -34,7 +34,7 @@ module WorkPackageTypes
 
     form do |subject_form|
       subject_form.rich_text_area(
-        name: :description,
+        name: :default_work_package_description,
         label: I18n.t("types.edit.defaults.description.label"),
         caption: I18n.t("types.edit.defaults.description.caption"),
         disabled: readonly?,

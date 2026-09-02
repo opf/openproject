@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe CostEntries::UpdateService, "integration", type: :model do
   let(:project) { create(:project_with_types) }
-  let(:work_package) { create(:work_package, project:, type: project.types.first) }
+  let(:work_package) { create(:work_package, project:, type: project.enabled_types.first) }
   let(:cost_type) { create(:cost_type) }
   let(:user) do
     create(:user, member_with_permissions: { project => permissions })
@@ -77,7 +77,7 @@ RSpec.describe CostEntries::UpdateService, "integration", type: :model do
   context "when moving the entry to a work package in another project" do
     let(:permissions) { %i[view_work_packages view_cost_entries edit_cost_entries] }
     let(:target_project) { create(:project_with_types) }
-    let(:target_work_package) { create(:work_package, project: target_project, type: target_project.types.first) }
+    let(:target_work_package) { create(:work_package, project: target_project, type: target_project.enabled_types.first) }
     let(:params) { { entity_type: "WorkPackage", entity_id: target_work_package.id } }
 
     before do

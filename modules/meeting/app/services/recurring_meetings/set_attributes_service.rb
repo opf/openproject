@@ -40,8 +40,20 @@ module RecurringMeetings
           model.interval = 1
         end
 
-        model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
+        determine_current_schedule_start
       end
+    end
+
+    # current_schedule_start will become the DTSTART of the ICS series event.
+    #
+    # If DTSTART is changed and the UID does not change, some clients MAY delete all earlier occurrences.
+    # We have to make sure we never write it unless
+    #  - we are really changing the schedule (schedule_changed?)
+    #  - we are first creating the series
+    def determine_current_schedule_start
+      return unless model.new_record? || model.schedule_changed?
+
+      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
     end
 
     def set_default_attributes(_params)

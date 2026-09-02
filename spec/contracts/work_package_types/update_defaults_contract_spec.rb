@@ -32,7 +32,7 @@ require "spec_helper"
 
 module WorkPackageTypes
   RSpec.describe UpdateDefaultsContract, with_ee: [:work_package_subject_generation] do
-    let(:model) { create(:type, :with_subject_pattern) }
+    let(:model) { create(:type, :with_subject_pattern).default_variant }
     let(:user) { create(:admin) }
 
     subject(:contract) { described_class.new(model, user) }
@@ -58,7 +58,7 @@ module WorkPackageTypes
       end
 
       context "with manual subject configuration" do
-        let(:model) { create(:type) }
+        let(:model) { create(:type).default_variant }
 
         it "succeeds" do
           expect(contract.validate).to be_truthy
@@ -71,7 +71,7 @@ module WorkPackageTypes
       let(:invalid_pattern) { { subject: { blueprint: "{{vader_s_rubber_duck}}", enabled: true } } }
 
       context "with no previous subject patterns" do
-        let(:model) { create(:type) }
+        let(:model) { create(:type).default_variant }
 
         it "is valid with a valid pattern" do
           model.patterns = valid_pattern

@@ -30,15 +30,17 @@
 
 module WorkPackageTypes
   class DetailsTabController < BaseTabController
-    layout "admin"
-
     current_menu_item %i[edit update] do
       :types
     end
 
+    before_action :set_editable
+
     def edit; end
 
     def update
+      return update_variant if named_variant?
+
       result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateDetailsContract)
                             .call(permitted_details_params)
 
@@ -51,8 +53,27 @@ module WorkPackageTypes
 
     private
 
+    def set_editable
+      @editable = named_variant? ? @variant : @type
+    end
+
+    def named_variant? = @variant.present? && !@variant.is_default_variant?
+
+    def update_variant
+      if @variant.update(permitted_variant_params)
+        redirect_to edit_type_details_path(type_id: @type.id, variant_id: @variant.id),
+                    notice: I18n.t(:notice_successful_update)
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
     def permitted_details_params
       params.expect(type: %i[name color_id is_milestone is_in_roadmap])
+    end
+
+    def permitted_variant_params
+      params.expect(type_variant: [:variant_name])
     end
   end
 end

@@ -52,8 +52,10 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
     it { expect(response).to redirect_to(project_settings_types_path(project.identifier)) }
 
     it "shows an error message with a link to the affected work packages" do
-      expect(sanitize_string(flash[:error]))
-        .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+      refusal = %(Unable to remove "#{type.name}" from project "#{project.name}" \
+because it's still in use by work packages)
+
+      expect(sanitize_string(flash[:error].first)).to include(refusal)
       expect(flash[:error].first)
         .to include(work_packages_path(query_props: { f: [
           { n: "type", o: "=", v: [type.id] },
@@ -62,7 +64,7 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
     end
 
     it "keeps the type active in the project" do
-      expect(project.reload.types).to include(type)
+      expect(project.enabled_types).to include(type)
     end
   end
 
@@ -80,10 +82,10 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
       end
 
       it "activates the type" do
-        post :create, params: { project_id: project.identifier, type_id: type.id }, format: :turbo_stream
+        post :create, params: { project_id: project.identifier, variant_id: type.default_variant.id }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(project.reload.types).to include(type)
+        expect(project.enabled_types).to include(type)
       end
     end
 

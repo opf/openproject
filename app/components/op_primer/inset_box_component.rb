@@ -30,11 +30,36 @@
 
 module OpPrimer
   class InsetBoxComponent < Primer::Component
-    attr_reader :border, :system_arguments
+    DEFAULT_SCHEME = :default
+    SCHEME_MAPPINGS = {
+      DEFAULT_SCHEME => { bg: :inset },
+      info: { bg: :accent, border_color: :accent },
+      warning: { bg: :attention, border_color: :attention },
+      danger: { bg: :danger, border_color: :danger },
+      success: { bg: :success, border_color: :success }
+    }.freeze
 
-    def initialize(border: true, **system_arguments)
+    attr_reader :border, :scheme_arguments, :system_arguments
+
+    renders_one :title_icon, Primer::Beta::Octicon
+
+    renders_one :title, lambda { |tag: :h3, **system_arguments|
+      Primer::Beta::Heading.new(tag:, font_size: 5, font_weight: :semibold, **system_arguments)
+    }
+
+    renders_many :actions, types: {
+      button: lambda { |**system_arguments|
+        Primer::Beta::Button.new(**system_arguments)
+      },
+      menu: lambda { |**system_arguments|
+        Primer::Alpha::ActionMenu.new(**system_arguments)
+      }
+    }
+
+    def initialize(border: true, scheme: DEFAULT_SCHEME, **system_arguments)
       super()
       @border = border
+      @scheme_arguments = SCHEME_MAPPINGS[fetch_or_fallback(SCHEME_MAPPINGS.keys, scheme, DEFAULT_SCHEME)]
       @system_arguments = system_arguments
     end
   end

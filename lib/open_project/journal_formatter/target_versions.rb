@@ -45,14 +45,14 @@ class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAss
     end
   end
 
-  def format_values(values, key, cache:)
+  def format_values(values, key)
     klass = class_from_field(key)
 
     values.map do |value|
       next if value.blank? || klass.nil?
 
       value.to_s.split(",")
-           .filter_map { |id| name_or_placeholder(associated_object(klass, id.to_i, cache:)) }
+           .filter_map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
            .join(", ")
            .presence
     end

@@ -17,9 +17,9 @@ RSpec.describe ProjectCustomFieldTypeMappings::BaseContract do
   include_context "ModelContract shared context"
 
   let(:user) { build_stubbed(:admin) }
-  let(:type) { build_stubbed(:type) }
+  let(:type_variant) { build_stubbed(:type_variant) }
   let(:project_custom_field) { build_stubbed(:project_custom_field) }
-  let(:mapping) { ProjectCustomFieldTypeMapping.new(type:, project_custom_field:) }
+  let(:mapping) { ProjectCustomFieldTypeMapping.new(type_variant:, project_custom_field:) }
   let(:contract) { described_class.new(mapping, user) }
 
   it_behaves_like "contract is valid"
@@ -34,7 +34,7 @@ RSpec.describe ProjectCustomFieldTypeMappings::BaseContract do
     let(:work_package_custom_field) { create(:wp_custom_field) }
     let(:mapping) do
       ProjectCustomFieldTypeMapping.new(
-        type:,
+        type_variant:,
         custom_field_id: work_package_custom_field.id
       )
     end

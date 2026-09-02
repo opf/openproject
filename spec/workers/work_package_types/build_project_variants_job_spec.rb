@@ -35,11 +35,13 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   let(:dropped_field) { create(:work_package_custom_field, is_for_all: false) }
 
   let!(:type) do
-    create(:type, name: "Bug", custom_fields: [kept_field, dropped_field]).tap do |type|
-      type.attribute_groups = [["custom group", %w[assignee] + [kept_field, dropped_field].map(&:attribute_name)]]
-      type.save!
-    end
+    create(:type,
+           name: "Bug",
+           custom_fields: [kept_field, dropped_field],
+           attribute_groups: [["custom group", %w[assignee] + [kept_field, dropped_field].map(&:attribute_name)]])
   end
+
+  let(:base) { type.default_variant }
 
   let!(:narrowing_project) do
     create(:project, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field])
@@ -49,8 +51,8 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     create(:project, name: "Intranet", types: [type], work_package_custom_fields: [kept_field, dropped_field])
   end
 
-  def resolved_type(project)
-    project.reload.project_types.sole.effective_type
+  def applied_variant(project)
+    project.reload.project_types.sole.variant
   end
 
   subject(:run_job) { described_class.perform_now }
@@ -58,33 +60,41 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   before { RequestStore.clear! }
 
   it "builds a variant only for the project that narrows the form configuration" do
-    expect { run_job }.to change(Type, :count).by(1)
+    expect { run_job }.to change(TypeVariant, :count).by(1)
 
-    expect(resolved_type(narrowing_project).own_name).to eq("Bug - Website Relaunch")
-    expect(resolved_type(complete_project)).to eq(type)
+    expect(applied_variant(narrowing_project).variant_name).to eq("Bug - Website Relaunch")
+    expect(applied_variant(complete_project)).to eq(base)
   end
 
   it "resolves the narrowing project to its variant" do
     run_job
 
-    variant = resolved_type(narrowing_project)
+    variant = applied_variant(narrowing_project)
 
-    expect(variant).to be_variant
-    expect(variant.parent).to eq(type)
+    expect(variant).not_to be_is_default_variant
+    expect(variant.type).to eq(type)
     expect(variant.custom_fields).to contain_exactly(kept_field)
   end
 
-  it "keeps the project on the shared root type" do
+  it "keeps the project on the shared type" do
     run_job
 
-    expect(narrowing_project.reload.types).to contain_exactly(type)
+    expect(narrowing_project.enabled_types).to contain_exactly(type)
   end
 
-  it "leaves the root type untouched" do
+  # The variant describes one project's narrowing, so it belongs to that project rather than
+  # standing in the instance's list of variants for everyone to see and pick.
+  it "gives the variant to the project it was built for" do
     run_job
 
-    expect(type.reload.custom_fields).to contain_exactly(kept_field, dropped_field)
-    expect(type.configuration_links).to be_empty
+    expect(applied_variant(narrowing_project).project).to eq(narrowing_project)
+  end
+
+  it "leaves the base variant untouched" do
+    run_job
+
+    expect(base.reload.custom_fields).to contain_exactly(kept_field, dropped_field)
+    expect(TypeVariant::ASPECTS.map { base.source_for(it) }).to all(be_nil)
   end
 
   it "does not retype the work packages" do
@@ -96,35 +106,45 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   it "is idempotent" do
     run_job
 
-    expect { described_class.perform_now }.not_to change(Type, :count)
-    expect(resolved_type(narrowing_project).own_name).to eq("Bug - Website Relaunch")
+    expect { described_class.perform_now }.not_to change(TypeVariant, :count)
+    expect(applied_variant(narrowing_project).variant_name).to eq("Bug - Website Relaunch")
   end
 
-  context "when a project already resolves to a variant that narrows further" do
+  context "when a project already applies a variant that narrows further" do
     let(:third_field) { create(:work_package_custom_field, is_for_all: false) }
 
     let!(:type) do
-      create(:type, name: "Bug", custom_fields: [kept_field, dropped_field, third_field]).tap do |type|
-        type.attribute_groups = [
-          ["custom group", %w[assignee] + [kept_field, dropped_field, third_field].map(&:attribute_name)]
-        ]
-        type.save!
+      create(:type,
+             name: "Bug",
+             custom_fields: [kept_field, dropped_field, third_field],
+             attribute_groups: [
+               ["custom group", %w[assignee] + [kept_field, dropped_field, third_field].map(&:attribute_name)]
+             ])
+    end
+
+    # Through the service, so the variant inherits the type's form configuration the way a
+    # variant added in the admin does. A bare factory variant would inherit nothing and so
+    # narrow nothing.
+    let!(:variant) do
+      WorkPackageTypes::CreateVariantService
+        .new(user: create(:admin), type:)
+        .call(variant_name: "Regression")
+        .result
+    end
+
+    let!(:narrowing_project) do
+      create(:project, name: "Website Relaunch", types: [type], work_package_custom_fields: [kept_field]).tap do |project|
+        project.project_types.sole.update!(variant:)
       end
     end
 
-    let!(:variant) { create(:type, name: "Regression", parent: type) }
-
-    let!(:narrowing_project) do
-      create(:project, name: "Website Relaunch", types: [variant], work_package_custom_fields: [kept_field])
-    end
-
-    it "builds the new variant from the resolved variant rather than the root" do
+    it "builds the new variant from the applied variant rather than the base one" do
       run_job
 
-      built = resolved_type(narrowing_project)
+      built = applied_variant(narrowing_project)
 
-      expect(built.own_name).to eq("Regression - Website Relaunch")
-      expect(built.source_for(Type::ConfigurationLink::FORM_CONFIGURATION)).to eq(variant)
+      expect(built.variant_name).to eq("Regression - Website Relaunch")
+      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(variant)
       expect(built.custom_fields).to contain_exactly(kept_field)
     end
   end
@@ -137,9 +157,9 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     it "builds the variant anyway, as an archived project cannot be configured by hand" do
       run_job
 
-      variant = resolved_type(narrowing_project)
+      variant = applied_variant(narrowing_project)
 
-      expect(variant).to be_variant
+      expect(variant).not_to be_is_default_variant
       expect(variant.custom_fields).to contain_exactly(kept_field)
     end
   end
@@ -147,7 +167,7 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
   context "when the type_variants feature is inactive", with_flag: { type_variants: false } do
     it "refuses to run, as exclusions would have no effect" do
       expect { run_job }.to raise_error(/type_variants/)
-      expect(resolved_type(narrowing_project)).to eq(type)
+      expect(applied_variant(narrowing_project)).to eq(base)
     end
   end
 
@@ -166,10 +186,10 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
       expect(Rails.logger).to have_received(:error)
     end
 
-    it "leaves no variant behind that no project resolves to" do
+    it "leaves no variant behind that no project applies" do
       allow(Rails.logger).to receive(:error)
 
-      expect { run_job }.not_to change(Type, :count)
+      expect { run_job }.not_to change(TypeVariant, :count)
     end
   end
 end

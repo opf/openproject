@@ -33,6 +33,8 @@ class JournalFormatterCache
     RequestStore.store[:journal_formatter_cache] ||= new
   end
 
+  def self.fetch(...) = request_instance.fetch(...)
+
   def initialize
     @cache = Hash.new
   end

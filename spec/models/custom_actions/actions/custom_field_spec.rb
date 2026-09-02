@@ -677,7 +677,7 @@ RSpec.describe CustomActions::Actions::CustomField do
       before do
         # Ensure the work package has the custom field
         work_package.project.work_package_custom_fields << custom_field
-        work_package.type.custom_fields << custom_field
+        work_package.type.default_variant.custom_fields << custom_field
         work_package.reload # Reload to pick up the new custom field associations
       end
 
@@ -716,7 +716,7 @@ RSpec.describe CustomActions::Actions::CustomField do
 
         before do
           work_package.project.work_package_custom_fields << another_custom_field
-          work_package.type.custom_fields << another_custom_field
+          work_package.type.default_variant.custom_fields << another_custom_field
         end
 
         it "accumulates custom values in custom_values_to_validate" do

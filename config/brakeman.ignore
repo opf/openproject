@@ -43,6 +43,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "06d3701309b02c96866805e0ca6c9a68c7443e653c32a6687233f73a648ab350",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/type_variant/configuration_linkable.rb",
+      "line": 199,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins(\"INNER JOIN (#{dependent_tree_sql(variant_id, validated_configuration_aspect(aspect))}) dependent_tree ON dependent_tree.node_id = #{quoted_table_name}.id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TypeVariant",
+        "method": "dependents_of"
+      },
+      "user_input": "dependent_tree_sql(variant_id, validated_configuration_aspect(aspect))",
+      "confidence": "Medium",
+      "note": "static SQL string: the variant id is bound through sanitize_sql_array and the aspect is checked against TypeVariant::ASPECTS before it reaches the query"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "0a7846a219566627938cc3c69924f53dbbcc6973e21081aef5572ffbcedd77d3",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -232,6 +252,26 @@
       "note": "version_projection is static"
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9d80556ffaadb0d021fda19ef2a2ccbfa66ad6ec89adac4c605b03d10ff22b08",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/type_variant/configuration_linkable.rb",
+      "line": 513,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"(#{self.class.effective_source_id_subquery(id, aspect)})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TypeVariant",
+        "method": "effective_source_id_ref"
+      },
+      "user_input": "self.class.effective_source_id_subquery(id, aspect)",
+      "confidence": "Medium",
+      "note": "static SQL string: the variant id is bound through sanitize_sql_array and the aspect is checked against TypeVariant::ASPECTS before it reaches the query"
+    },
+    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "a3c07dcfb1cc7221e7c2e2faacc431e982161342f91962c468296b6eae966345",
@@ -330,6 +370,26 @@
       "user_input": "quoted_right_column_name",
       "confidence": "Weak",
       "note": "Never called with user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d56a038f539dc65afc72c8587fa303f218f65b6d41f32b7a9d2a10c6bae64414",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/projects/custom_fields.rb",
+      "line": 64,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "available_custom_fields.joins(:project_custom_field_type_mappings).where(\"project_custom_field_type_mappings.type_variant_id = (#{TypeVariant.effective_source_id_subquery(variant_id, TypeVariant::PROJECT_ATTRIBUTES)})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Projects::CustomFields",
+        "method": "available_custom_fields_for_variant"
+      },
+      "user_input": "TypeVariant.effective_source_id_subquery(variant_id, TypeVariant::PROJECT_ATTRIBUTES)",
+      "confidence": "Medium",
+      "note": "static SQL string: the subquery comes from TypeVariant.effective_source_id_subquery, which binds the variant id and whitelists the aspect"
     },
     {
       "warning_type": "SQL Injection",

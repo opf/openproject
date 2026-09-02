@@ -11,10 +11,10 @@ keywords: Jira migration, field mapping
 
 | Jira field               | Becomes in OpenProject          | What you should know                                         |
 | ------------------------ | ------------------------------- | ------------------------------------------------------------ |
-| Old/renamed project keys | Also work as project identifier | If a Jira project was renamed, the old key still resolves to the same project afterward |
-| Project description      | Project description             | Copied as-is                                                 |
+| Old/renamed project keys | Project identifier              | If a Jira project was renamed, the old key still resolves to the same project afterward |
+| Project description      | Project description             | -                                                            |
 | Project key              | Project identifier              | -                                                            |
-| Project name             | Project name                    | Copied as-is                                                 |
+| Project name             | Project name                    | -                                                            |
 
 Every migrated project is created **private** and **active**, with no parent — this isn't based on anything in Jira, it's just how the tool creates them.
 
@@ -30,7 +30,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Components                                         | **Not migrated**          | — (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107)) |
 | Creator                                            | Author                    | —                                                            |
 | Description                                        | Description               | Converted from Jira's markup to OpenProject's — headings, bold/italic, links, code/quote blocks, and tables all convert. Some elements don't: `{info}`/`{warning}`/`{note}`/`{tip}` boxes, `{toc}`, and `{expand}`/`{section}`/`{column}` layouts aren't recognized at all — their content is kept, but the raw `{macro}` tag text is left behind, visible and unconverted, rather than being cleanly stripped or styled. Bare issue-key links like `[PROJECT-123]` and attachment links like `[^file.pdf]` are also left as literal, non-clickable text. See the [Pre-Migration checklist](../pre-migration-checklist/) and [Post-Migration checklist](../post-migration-checklist/) |
-| Due date                                           | Due date                  | Copied as-is                                                 |
+| Due date                                           | Due date                  | -                                                            |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
 | Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189)) |
@@ -39,16 +39,16 @@ Every migrated project is created **private** and **active**, with no parent —
 | Issue links (blocks, relates to, etc.)             | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
 | Issue type                                         | Type                      | Matched by name (not case-sensitive); a new Type is created automatically if nothing matches, and it's attached to the right projects (mirroring Jira's per-project Issue Type Scheme). Only the name comes across. No migrated type is marked as the project's default, even if it was the default in Jira. |
 | Logged work / time entries                         | **Not migrated**          | Only the two estimate fields above come across, not actual logged time (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93)) |
-| Original time estimate                             | Estimated hours           | Copied as-is                                                 |
+| Original time estimate                             | Estimated hours           | -                                                            |
 | Priority                                           | Priority                  | Matched by name (not case-sensitive); created automatically if missing. If an issue has no priority in Jira, OpenProject's default priority is used. Only the name comes across — Jira's severity order, colors, and icons aren't preserved, and this matters beyond appearance: OpenProject falls back to whichever priority ends up first in the list when an issue has none set |
-| Remaining time estimate                            | Remaining hours           | Copied as-is                                                 |
+| Remaining time estimate                            | Remaining hours           | -                                                            |
 | Reporter                                           | **Not migrated**          | Jira's "Reporter" concept doesn't exist in OpenProject and is dropped; only Creator becomes Author |
 | Resolution                                         | **Not migrated**          | Jira tracks *why* an issue was closed (Fixed, Won't Fix, Duplicate, Cannot Reproduce) separately from its workflow state (Status). Only Status comes across — the reason is dropped entirely, and several different Jira resolutions can end up mapped to the same single OpenProject status with no trace of which one applied (planned as a custom field: [JIM-149](https://community.openproject.org/projects/JIM/work_packages/JIM-149); broader native support tracked as [FND-231](https://community.openproject.org/projects/FND/work_packages/FND-231)) |
 | Resolution date                                    | **Not migrated**          | —                                                            |
 | Security Level                                     | **Not migrated**          | —                                                            |
 | Status                                             | Status                    | Matched by name (not case-sensitive); created automatically if missing. Only the name comes across — a migrated status is never automatically marked as "closed" in OpenProject, even if it represented a finished state in Jira (e.g. Done, Closed, Resolved). This affects any filtering or reporting that depends on knowing which work packages are actually finished |
 | Sub-tasks / parent-child links                     | **Not migrated**          | — (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75)) |
-| Summary                                            | Subject                   | Copied as-is                                                 |
+| Summary                                            | Subject                   | -                                                            |
 | Votes                                              | **Not migrated**          | —                                                            |
 | Watchers                                           | **Not migrated**          | — (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180)) |
 
@@ -61,7 +61,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Display name          | First / last name            | Split automatically; single-word names get used for both     |
 | Email                 | Email                        | If a Jira user has no email, a placeholder one is generated so the account can still be created. Not always a direct 1:1 copy of the Jira value — see the email/username collision handling below |
 | Jira group membership | OpenProject Group membership | Matched or created by name. Note: pulls in the user's entire Jira group list, not just groups relevant to the migrated projects |
-| Username              | Username                        | Not always a direct 1:1 copy either — see the email/username collision handling below |
+| Username              | Username                     | Not always a direct 1:1 copy either — see the email/username collision handling below |
 | Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
 
 ## Custom fields

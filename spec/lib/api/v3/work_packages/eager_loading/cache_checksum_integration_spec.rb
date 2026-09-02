@@ -145,12 +145,34 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
         .not_to eql orig_checksum
     end
 
-    it "produces the same checksum on changes to an observed_in version" do
+    it "produces a different checksum on changes to an additional observed_in version" do
       other_version = create(:version, project:)
       work_package.work_package_versions.create!(version: other_version, kind: "observed_in")
 
       expect(new_checksum)
-        .to eql orig_checksum
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to an observed_in version" do
+      other_version = create(:version, project:)
+      work_package.work_package_versions.create!(version: other_version, kind: "observed_in")
+
+      previous_checksum = EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+
+      other_version.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(new_checksum)
+        .not_to eql previous_checksum
+    end
+
+    it "produces a different checksum on moving a version between kinds" do
+      work_package.work_package_versions.where(kind: "target").update_all(kind: "observed_in")
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the type id" do

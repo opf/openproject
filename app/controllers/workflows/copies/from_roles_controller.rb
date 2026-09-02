@@ -29,18 +29,16 @@
 #++
 
 class Workflows::Copies::FromRolesController < ApplicationController
+  include WorkPackageTypes::AddressesVariant
+  include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
 
-  layout "admin"
-
-  before_action :require_admin
-
-  before_action :set_source_type
+  before_action :set_source_variant
   before_action :set_source_role
   before_action :set_target_roles
 
   def create # rubocop:disable Metrics/AbcSize
-    if @source_type.nil? || @source_role.nil?
+    if @source_variant.nil? || @source_role.nil?
       render_flash_message_via_turbo_stream(
         message: I18n.t(:error_workflow_copy_source),
         scheme: :danger
@@ -53,15 +51,16 @@ class Workflows::Copies::FromRolesController < ApplicationController
       )
       @turbo_status = :unprocessable_entity
     else
-      Workflow.copy(@source_type, @source_role, [@source_type], @target_roles)
+      Workflow.copy(@source_variant, @source_role, [@source_variant], @target_roles)
 
-      close_dialog_via_turbo_stream("#copy_from_type_dialog")
+      close_dialog_via_turbo_stream("copy_from_type_dialog")
       render_success_flash_message_via_turbo_stream(
         message: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
       )
       set_frame_src_via_turbo_stream(
         "workflow-table",
-        type_workflow_matrix_path(@source_type, tab: params[:tab], role_ids: @target_roles.map(&:id))
+        type_workflow_matrix_path(**@source_variant.path_args,
+                                  tab: params[:tab], role_ids: @target_roles.map(&:id))
       )
     end
 
@@ -70,8 +69,12 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
-  def set_source_type
-    @source_type = ::Type.find_by(id: params[:type_id])
+  # A stale dialog can name a source that is gone; #create answers that with a flash rather
+  # than a 404, so a miss has to arrive here as nil.
+  def set_source_variant
+    @source_variant = addressed_variant
+  rescue ActiveRecord::RecordNotFound
+    @source_variant = nil
   end
 
   def set_source_role

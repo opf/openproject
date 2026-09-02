@@ -33,15 +33,15 @@ require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Results::PageSearchTreeNode do
   describe "#key" do
-    subject { described_class.new(identifier: "42", type: :page, name: "A page", children: []).key }
+    subject { described_class.new(identifier: "42", type: :page, name: "A page").key }
 
     it "consists of the node's type and identifier" do
-      expect(subject).to eq(described_class::Key.new(type: :page, identifier: "42"))
+      expect(subject).to eq(described_class::NodeKey.new(type: :page, identifier: "42"))
       expect(subject.to_s).to eq("page:42")
     end
   end
 
-  describe described_class::Key do
+  describe described_class::NodeKey do
     describe ".parse" do
       subject { described_class.parse(string) }
 
@@ -49,14 +49,10 @@ RSpec.describe Wikis::Adapters::Results::PageSearchTreeNode do
 
       it { is_expected.to eq(described_class.new(type: :page, identifier: "42")) }
 
-      it { is_expected.to be_page }
-
       context "when the key refers to a wiki" do
         let(:string) { "wiki:7" }
 
         it { is_expected.to eq(described_class.new(type: :wiki, identifier: "7")) }
-
-        it { is_expected.not_to be_page }
       end
 
       context "when the opaque identifier contains colons itself" do

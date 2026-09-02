@@ -50,26 +50,19 @@ module Projects::CustomFields
       all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
     end
 
-    def available_custom_fields_for_type(type_id)
+    def available_custom_fields_for_variant(variant_id)
       scope = available_custom_fields.joins(:project_custom_field_type_mappings)
 
-      # A type Linked for PROJECT_ATTRIBUTES has no own mappings; its enabled
-      # attributes are the source type's. The link chain is resolved inline via a
-      # subquery so no extra query is issued per call. The flag guard keeps that
-      # resolution out of the path while variants are off, where every type owns
-      # its own mappings.
-      unless type_id && OpenProject::FeatureDecisions.type_variants_active?
-        return scope.where(project_custom_field_type_mappings: { type_id: })
-      end
+      return scope.where(project_custom_field_type_mappings: { type_variant_id: nil }) if variant_id.nil?
 
-      aspect = Type::ConfigurationLink::PROJECT_ATTRIBUTES
-      resolved_type_id = Type.effective_source_id_subquery(type_id, aspect)
+      aspect = TypeVariant::PROJECT_ATTRIBUTES
+      resolved_variant_id = TypeVariant.effective_source_id_subquery(variant_id, aspect)
       # The attributes the chain drops are subtracted in the same query. The subquery yields one
       # element per row, so `<> ALL` is TRUE when nothing is excluded.
-      excluded = Type.effective_excluded_elements_subquery(type_id, aspect)
+      excluded = TypeVariant.effective_excluded_elements_subquery(variant_id, aspect)
 
-      scope.where("project_custom_field_type_mappings.type_id = (#{resolved_type_id})")
-           .where(Type.excluded_custom_field_condition("custom_fields.id", excluded))
+      scope.where("project_custom_field_type_mappings.type_variant_id = (#{resolved_variant_id})")
+           .where(TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded))
     end
 
     # Note:

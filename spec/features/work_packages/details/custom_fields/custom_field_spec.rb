@@ -6,7 +6,7 @@ require "features/work_packages/details/inplace_editor/shared_examples"
 
 RSpec.describe "custom field inplace editor", :js do
   let(:user) { create(:admin) }
-  let(:type) { create(:type_standard, custom_fields:) }
+  let(:type) { create(:type_task, custom_fields:) }
   let(:project) do
     create(:project,
            types: [type],

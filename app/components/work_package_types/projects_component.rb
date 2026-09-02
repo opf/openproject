@@ -36,7 +36,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: type_projects_path(type_id: model.id),
+        url: type_projects_path(**variant.path_args),
         method: :put,
         model:,
         data: {
@@ -51,22 +51,19 @@ module WorkPackageTypes
       add_sub_tree(tree, nested_project_list)
     end
 
-    # A variant is a per-project choice — a project uses at most one member of a family, so
-    # enabling one everywhere would collide with every project already using its root or a
-    # sibling. The toggle is therefore not offered, and nothing is ever "all projects" for it.
-    def enable_all_available? = !model.variant?
+    def enable_all_available? = variant.is_default_variant?
 
     def enabled_for_all_projects?
       enable_all_available? && enabled_project_ids.sort == projects.pluck(:id).sort
     end
 
+    def variant = options[:variant]
+
     private
 
     def projects = options[:projects]
 
-    # Not #projects: a project uses the family's root, so a variant never appears there and the
-    # tab would render every project unticked no matter where the variant is actually in force.
-    def enabled_project_ids = @enabled_project_ids ||= model.effective_in_projects.pluck(:id)
+    def enabled_project_ids = @enabled_project_ids ||= variant.projects.pluck(:id)
 
     def add_sub_tree(tree, project_list)
       project_list.each do |project_hash|
