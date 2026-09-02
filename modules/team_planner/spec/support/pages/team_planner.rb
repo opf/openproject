@@ -249,14 +249,12 @@ module Pages
       autocomplete = -> { page.find('[data-test-selector="tp-add-assignee"]') }
       panel_selector = "body .ng-dropdown-panel"
 
-      page.document.synchronize do
-        unless page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
-          page.find('[data-test-selector="tp-assignee-add-button"]').click
-        end
-
-        ng_click_autocompleter(autocomplete) unless page.has_selector?(panel_selector, wait: 0)
-        page.find(panel_selector, wait: 1)
+      unless page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
+        page.find('[data-test-selector="tp-assignee-add-button"]', wait: 10).click
       end
+
+      ng_click_autocompleter(autocomplete) unless page.has_selector?(panel_selector, wait: 0)
+      page.find(panel_selector, wait: 10)
     end
 
     def select_user_to_add(name)

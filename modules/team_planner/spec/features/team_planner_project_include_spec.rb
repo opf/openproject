@@ -58,13 +58,8 @@ RSpec.describe "Team planner project include",
       work_package_view.expect_assignee(user, present: false)
       work_package_view.expect_assignee(other_user, present: false)
 
-      retry_block do
-        work_package_view.add_assignee user.name
-      end
-
-      retry_block do
-        work_package_view.add_assignee other_user.name
-      end
+      work_package_view.add_assignee user.name
+      work_package_view.add_assignee other_user.name
 
       work_package_view.expect_assignee user
       work_package_view.expect_assignee other_user
