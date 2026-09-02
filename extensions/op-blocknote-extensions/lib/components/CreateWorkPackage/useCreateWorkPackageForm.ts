@@ -177,8 +177,9 @@ export function useCreateWorkPackageForm(
     unsupportedFields.length === 0;
 
   // What was prefilled is nothing the user would miss.
-  const isDirty = touched
-    && allFields.some((field) => field.kind !== 'checkbox' && isValueFilled(field, values[field.key]));
+  const isDirty = touched && allFields.some((field) => (field.kind === 'checkbox'
+    ? values[field.key] === true
+    : isValueFilled(field, values[field.key])));
 
   const submit = () => {
     if (!form || submitting) return;
