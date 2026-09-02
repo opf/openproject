@@ -142,6 +142,40 @@ RSpec.describe MeetingParticipants::CreateService do
       end
     end
 
+    context "when the meeting is a series template" do
+      shared_let(:series) { create(:recurring_meeting, project:) }
+
+      let(:user_id) { user_with_meeting_permissions.id }
+
+      subject do
+        described_class.new(user: current_user)
+                       .call(meeting: series.template, user_id:, invited: true, attended: false)
+      end
+
+      it "advances the ICS revision of the series" do
+        expect { expect(subject).to be_success }
+          .to change { series.reload.ical_sequence }.by(1)
+      end
+    end
+
+    context "when the meeting is an occurrence of a series" do
+      shared_let(:occurrence_series) { create(:recurring_meeting, project:) }
+      shared_let(:occurrence) do
+        create(:recurring_meeting_occurrence, recurring_meeting: occurrence_series, start_time: 1.day.from_now)
+      end
+
+      let(:user_id) { user_with_meeting_permissions.id }
+
+      subject do
+        described_class.new(user: current_user).call(meeting: occurrence, user_id:, invited: true, attended: false)
+      end
+
+      it "leaves the ICS revision of the series alone" do
+        expect { expect(subject).to be_success }
+          .not_to change { occurrence_series.reload.ical_sequence }
+      end
+    end
+
     context "when creating with custom attributes" do
       let(:user_id) { user_with_meeting_permissions.id }
       let(:invited) { false }
