@@ -72,12 +72,12 @@ RSpec.describe "Team planner",
                view_work_packages edit_work_packages view_team_planner manage_team_planner
              ] })
     end
-    let!(:user_outside_project) { create(:user, firstname: "Not", lastname: "In Project") }
+    let(:user_outside_project) { create(:user, firstname: "Not", lastname: "In Project") }
     let(:type_task) { create(:type_task) }
     let(:type_bug) { create(:type_bug) }
     let(:closed_status) { create(:status, is_closed: true) }
 
-    let!(:other_task) do
+    let(:other_task) do
       create(:work_package,
              project:,
              type: type_task,
@@ -86,7 +86,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today.monday + 3.days,
              subject: "A task for the other user")
     end
-    let!(:other_bug) do
+    let(:other_bug) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -95,7 +95,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today.monday + 3.days,
              subject: "Another task for the other user")
     end
-    let!(:closed_bug) do
+    let(:closed_bug) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -105,7 +105,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today.monday + 3.days,
              subject: "Closed bug")
     end
-    let!(:user_bug) do
+    let(:user_bug) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -114,7 +114,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today + 20.days,
              subject: "A task for the logged in user")
     end
-    let!(:user_bug_next_week) do
+    let(:user_bug_next_week) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -123,7 +123,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today.monday + 12.days,
              subject: "A task for the logged in user in the next week")
     end
-    let!(:user_bug_last_week) do
+    let(:user_bug_last_week) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -132,7 +132,7 @@ RSpec.describe "Team planner",
              due_date: Time.zone.today.monday - 5.days,
              subject: "A task for the logged in user in the last week")
     end
-    let!(:user_bug_on_weekend) do
+    let(:user_bug_on_weekend) do
       create(:work_package,
              project:,
              type: type_bug,
@@ -142,12 +142,20 @@ RSpec.describe "Team planner",
              subject: "A task for the logged in user on the weekend")
     end
 
-    before do
+    def prepare_project_types
       project.project_types.create!(type: type_bug)
       project.project_types.create!(type: type_task)
     end
 
+    def prepare_work_package_matrix
+      prepare_project_types
+
+      [other_task, other_bug, closed_bug, user_bug, user_bug_next_week, user_bug_last_week, user_bug_on_weekend]
+        .each(&:id)
+    end
+
     it "renders a team planner displaying work packages by assignee and date" do
+      prepare_work_package_matrix
       team_planner.visit!
 
       team_planner.title
@@ -302,6 +310,8 @@ RSpec.describe "Team planner",
       end
 
       it "renders assignees and assignee dropdown correctly" do
+        prepare_project_types
+        other_task.id
         team_planner.visit!
         team_planner.wait_for_loaded
 
