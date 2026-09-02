@@ -42,6 +42,8 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     before do
       connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
                                              state: "supported", source: "admin", checked_at: Time.current)
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
+                                             state: "unsupported", source: "metadata", checked_at: Time.current)
       connection.update_columns(base_url: "https://elsewhere.example/v1",
                                 connection_fingerprint: "the-previous-deployment")
     end
@@ -52,8 +54,17 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       result = service.call
 
       expect(result).to be_failure
-      expect(connection.capability_verdicts).to be_empty
+      expect(connection.capability_verdicts.pluck(:capability, :source)).to eq([%w[embeddings admin]])
       expect(connection.models.active).to be_empty
+    end
+
+    it "keeps administrator assertions and re-activates what the new server reports" do
+      mock_llm_models_response("https://elsewhere.example/v1")
+
+      described_class.new(connection).call
+
+      expect(connection.capability_verdicts.where(source: "admin").pluck(:capability)).to eq(["embeddings"])
+      expect(connection.models.active.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
     end
   end
 
@@ -67,6 +78,31 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       described_class.new(connection).call
 
       expect(llm_model.reload.context_window).to eq(4096)
+    end
+
+    it "keeps an administrator's display name when the server reports none" do
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      llm_model.update!(display_name: "The house model")
+
+      described_class.new(connection).call
+
+      expect(llm_model.reload.display_name).to eq("The house model")
+    end
+
+    # Only the registry-backed adapters report a name; a server speaking the
+    # OpenAI API lists ids and nothing else.
+    it "adopts the display name the adapter reports" do
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      llm_model.update!(display_name: "The house model")
+      allow(Llm::Adapters).to receive(:for).and_return(
+        instance_double(Llm::Adapters::RegistryBacked,
+                        models: [{ id: "qwen3.6-27b", display_name: "Qwen 3.6 27B", raw: {} }],
+                        server_flavour: "anthropic")
+      )
+
+      described_class.new(connection).call
+
+      expect(llm_model.reload.display_name).to eq("Qwen 3.6 27B")
     end
 
     it "drops every non-admin verdict when the catalogue comes back empty" do

@@ -31,8 +31,7 @@
 module LlmConnections
   # Confirms removing the stored API key.
   #
-  # No confirmation checkbox: the key itself can simply be pasted again. The
-  # dialog exists for what is *not* recoverable -- see #loses_admin_verdicts?.
+  # No confirmation checkbox: the key itself can simply be pasted again.
   class DeleteApiKeyDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -43,15 +42,6 @@ module LlmConnections
 
     def form_arguments
       { action: url_helpers.api_key_llm_connection_path, method: :delete }
-    end
-
-    # The catalogue sync fingerprints base_url and api_key together, so the next
-    # refresh after the key changes treats the endpoint as a different deployment
-    # and discards every capability verdict -- including the ones an
-    # administrator asserted by hand, which nothing else in the system throws
-    # away. Worth saying out loud before the key goes.
-    def loses_admin_verdicts?
-      connection.capability_verdicts.exists?(source: "admin")
     end
   end
 end

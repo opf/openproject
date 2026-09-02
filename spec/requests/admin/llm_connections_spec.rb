@@ -283,20 +283,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Remove the stored API key?")
     end
-
-    # The catalogue sync fingerprints base_url and api_key together, so changing
-    # the key discards every verdict -- including hand-made ones, which nothing
-    # else throws away.
-    it "warns when hand-made capability assertions would be lost" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "supported", source: "admin",
-                                             checked_at: Time.current)
-
-      get delete_api_key_dialog_llm_connection_path,
-          headers: { "Accept" => "text/vnd.turbo-stream.html" }
-
-      expect(response.body).to include("assertions you made yourself")
-    end
   end
 
   describe "disconnecting" do

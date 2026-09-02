@@ -91,7 +91,7 @@ module LlmConnections
 
       cards.each do |card|
         model = connection.models.find_or_initialize_by(external_id: card.fetch(:id))
-        model.update!(display_name: card[:display_name],
+        model.update!(display_name: card[:display_name].presence || model.display_name,
                       raw_metadata: merged_metadata(model, card),
                       last_seen_at: now,
                       active: true)
@@ -111,9 +111,9 @@ module LlmConnections
       scope.update_all(active: false)
     end
 
-    # A changed base URL or key means a different deployment, so everything we
-    # learned about the old one is void -- including administrator assertions,
-    # which were about that deployment.
+    # A changed base URL or key means a different deployment, so what the
+    # registry and the probes established about the old one is void. What an
+    # administrator asserted is theirs and survives, as it does on a refresh.
     def invalidate_a_different_deployment
       return if connection.connection_fingerprint.blank?
       return if connection.connection_fingerprint == fingerprint
@@ -123,14 +123,15 @@ module LlmConnections
 
     def forget_the_previous_deployment
       ActiveRecord::Base.transaction do
-        connection.capability_verdicts.delete_all
+        connection.capability_verdicts.where.not(source: "admin").delete_all
         connection.models.discovered.update_all(active: false)
         connection.update!(connection_fingerprint: fingerprint)
       end
     end
 
-    # The server names the model; the administrator's context-window override is
-    # theirs, and a routine refresh must not silently discard it.
+    # The server names the model, but only when it says so: the administrator's
+    # display name and context-window override are theirs, and a routine refresh
+    # must not silently discard them.
     def merged_metadata(model, card)
       raw = card.fetch(:raw, {})
       admin_window = model.raw_metadata["admin_context_window"]
