@@ -30,35 +30,11 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    class FinishCallbackJob < ApplicationJob
-      def perform(batch, context)
-        jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
-
-        case context[:event]
-        when :finish
-          if jira_import.in_state?(:import_aborting)
-            jira_import.transition_to!(:import_error)
-          end
-        end
-      end
-    end
-
-    class DiscardCallbackJob < ApplicationJob
-      def perform(batch, context)
-        jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
-        case context[:event]
-        when :discard
-          jira_import.transition_to!(:import_error) unless jira_import.in_state?(:import_aborting, :import_error)
-        end
-      end
-    end
-
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    def perform(batch, context)
+    def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
-      case context[:event]
-      when :success
+      if batch.succeeded?
         if batch.properties[:stage].nil?
           batch.enqueue(stage: 1) do
             Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
@@ -99,7 +75,7 @@ module Import
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
               Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"])
-                                                      .perform_later(jira_import.id, jira_project.id)
+                .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 7
@@ -107,12 +83,14 @@ module Import
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
               Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"])
-                                                                .perform_later(jira_import.id, jira_project.id)
+                .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8
           jira_import.transition_to!(:imported)
         end
+      elsif batch.discarded?
+        jira_import.transition_to!(:import_error)
       end
     end
     # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
