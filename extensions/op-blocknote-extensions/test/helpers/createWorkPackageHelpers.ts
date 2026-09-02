@@ -25,8 +25,13 @@ export async function openCreateModalAtCursor() {
 
 export async function pickProject(name = 'Demo project') {
   await userEvent.click(page.getByLabelText('Project *'));
-  await expect.element(page.getByRole('option', { name })).toBeVisible();
-  await userEvent.click(page.getByRole('option', { name }));
+  await expect.element(page.getByRole('treeitem', { name })).toBeVisible();
+  await userEvent.click(page.getByRole('treeitem', { name }));
+}
+
+export async function clearProject() {
+  await userEvent.click(page.getByLabelText('Project *'));
+  await userEvent.click(page.getByTestId('op-bn-create-wp-project-list-deselect'));
 }
 
 // Chosen by what the option reads as; a plain string would be matched against

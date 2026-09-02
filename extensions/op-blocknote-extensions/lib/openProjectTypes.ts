@@ -72,12 +72,14 @@ export interface HalResource {
   name?:string;
   subject?:string;
   value?:string;
-  _links?:{ self?:HalLink };
+  favorited?:boolean;
+  _links?:{ self?:HalLink; ancestors?:HalLink[] };
 }
 
 export interface HalCollection<T> {
   total?:number;
   count?:number;
+  pageSize?:number;
   _embedded?:{ elements?:T[] };
 }
 

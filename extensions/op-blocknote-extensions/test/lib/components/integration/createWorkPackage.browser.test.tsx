@@ -4,6 +4,7 @@ import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
+import { requestsDuring } from '../../../helpers/requestHelpers';
 import { mockCreatedWorkPackage } from '../../../mocks/handlers';
 
 afterEach(() => worker.resetHandlers());
@@ -152,9 +153,10 @@ describe('Create work package', () => {
     renderEditor();
     await openCreateModal();
 
+    await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
-    await expect.element(page.getByRole('option', { name: 'Scrum project' })).toBeVisible();
-    await expect.element(page.getByRole('option', { name: 'Demo project' })).not.toBeInTheDocument();
+    await expect.element(page.getByRole('treeitem', { name: 'Scrum project' })).toBeVisible();
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).not.toBeInTheDocument();
   });
 
   it('keeps a match the API made on something the option does not read as', async () => {
@@ -223,6 +225,51 @@ describe('Create work package', () => {
     await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
+  });
+
+  it('leaves the first option reachable when a key comes before the options do', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/projects/:id/available_assignees', async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        return HttpResponse.json({
+          _embedded: { elements: [{ id: 5, name: 'Elif Yildiz', _links: { self: { href: '/api/v3/users/5' } } }] },
+        });
+      })
+    );
+
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+
+    await userEvent.click(page.getByLabelText('Assignee'));
+    // Nothing is listed yet, so there is no option below to walk to.
+    await userEvent.keyboard('{ArrowDown}');
+
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+    await userEvent.keyboard('{Enter}');
+
+    await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
+  });
+
+  it('opens a second create modal on the assignees the first one was given', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await userEvent.click(page.getByLabelText('Assignee'));
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+
+    await userEvent.keyboard('{Escape}');
+    await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
+    await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
+
+    const asked = await requestsDuring('/available_assignees', async () => {
+      await openCreateModal();
+      await pickProject();
+      await userEvent.click(page.getByLabelText('Assignee'));
+      await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+    });
+
+    expect(asked).toEqual([]);
   });
 
   it('asks for every required custom field the type brings, whatever its kind', async () => {

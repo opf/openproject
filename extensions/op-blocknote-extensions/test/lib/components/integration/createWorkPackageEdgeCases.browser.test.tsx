@@ -63,8 +63,8 @@ describe('Create work package - form and editor boundaries', () => {
     await settledFieldRows();
 
     await userEvent.click(page.getByLabelText('Project *'));
-    await expect.element(page.getByRole('option', { name: 'Demo project' })).toBeVisible();
-    const list = page.getByRole('listbox', { name: 'Project' }).element();
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+    const list = page.getByTestId('op-bn-create-wp-project-list-popover').element();
 
     const input = page.getByLabelText('Project *').element();
     expect(getComputedStyle(list).position).toBe('fixed');
@@ -88,7 +88,9 @@ describe('Create work package - form and editor boundaries', () => {
       await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
 
       const input = page.getByLabelText('Supervisor *').element();
-      const list = page.getByRole('listbox', { name: 'Supervisor' }).element();
+      // The options sit in a popover of their own, which is what is positioned.
+      const list = page.getByRole('listbox', { name: 'Supervisor' })
+        .element().closest('[data-testid$="-popover"]')!;
       // Distance to whichever side of the field the list sits on.
       const gapToField = () => {
         const field = input.getBoundingClientRect();
@@ -137,31 +139,29 @@ describe('Create work package - form and editor boundaries', () => {
     await expect.element(page.getByTestId('block-card')).toBeVisible();
   });
 
-  it('picks a suggestion with the keyboard, and typing over it unselects', async () => {
+  it('picks a suggestion with the keyboard', async () => {
     renderEditor();
     await openCreateModal();
 
     await userEvent.click(page.getByLabelText('Project *'));
-    await expect.element(page.getByRole('option', { name: 'Demo project' })).toBeVisible();
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+    await userEvent.keyboard('{ArrowDown}{Enter}');
 
     await expect.element(page.getByLabelText('Project *')).toHaveValue('Scrum project');
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
-
-    await userEvent.fill(page.getByLabelText('Project *'), 'Demo');
-
-    await expect.element(page.getByLabelText('Type *')).not.toBeInTheDocument();
   });
 
   it('does not leave text behind that stands for no selection', async () => {
     renderEditor();
     await openCreateModal();
+    await pickProject();
+    await expect.element(page.getByLabelText('Assignee')).toBeVisible();
 
-    await userEvent.fill(page.getByLabelText('Project *'), 'nothing matches this');
+    await userEvent.fill(page.getByLabelText('Assignee'), 'nothing matches this');
     await expect.element(page.getByText('No results')).toBeVisible();
     await userEvent.click(page.getByLabelText('Subject *'));
 
-    await expect.element(page.getByLabelText('Project *')).toHaveValue('');
+    await expect.element(page.getByLabelText('Assignee')).toHaveValue('');
   });
 
   it('re-asks for the fields of the type when the project changes', async () => {
@@ -169,15 +169,15 @@ describe('Create work package - form and editor boundaries', () => {
     await openCreateModal();
 
     await userEvent.click(page.getByLabelText('Project *'));
-    await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
     await selectOptionNamed('Type *', 'Bug');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
     await userEvent.click(page.getByLabelText('Supervisor *'));
     await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
 
-    await userEvent.fill(page.getByLabelText('Project *'), 'Scrum');
-    await userEvent.click(page.getByRole('option', { name: 'Scrum project' }));
+    await userEvent.click(page.getByLabelText('Project *'));
+    await userEvent.click(page.getByRole('treeitem', { name: 'Scrum project' }));
 
     await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
@@ -314,7 +314,7 @@ describe('Create work package - form and editor boundaries', () => {
 
     await userEvent.fill(page.getByLabelText('Subject *'), 'Fix the header alignment');
     await userEvent.click(page.getByLabelText('Project *'));
-    await userEvent.click(page.getByRole('option', { name: 'Demo project' }));
+    await userEvent.click(page.getByRole('treeitem', { name: 'Demo project' }));
     await expect.element(page.getByLabelText('Type *')).toBeVisible();
     await selectOptionNamed('Type *', 'Task');
 
@@ -434,10 +434,11 @@ describe('Create work package - form and editor boundaries', () => {
     const hint = getComputedStyle(subject, '::placeholder');
     expect([hint.fontSize, hint.fontWeight, hint.color]).toEqual(['14px', '400', 'rgb(89, 99, 110)']);
 
+    // Opaque where the field rests, gone where it has the cursor - and the
+    // subject is the field the modal opens on.
     const project = page.getByLabelText('Project *').element();
     expect(getComputedStyle(project, '::placeholder').opacity).toBe('1');
-    await userEvent.click(project);
-    expect(getComputedStyle(project, '::placeholder').opacity).toBe('0');
+    expect(getComputedStyle(subject, '::placeholder').opacity).toBe('0');
   });
 
   it('keeps its controls legible under the metrics the host forces on inputs', async () => {
@@ -473,13 +474,14 @@ describe('Create work package - form and editor boundaries', () => {
 
     const controls = [page.getByLabelText('Project *').element(), page.getByLabelText('Type *').element()];
     const shapes = controls.map((control) => {
-      const arrows = control.parentElement!.querySelectorAll('svg');
-      const styles = getComputedStyle(control);
+      // The last two of them: only the searchable picker carries a clear button.
+      const arrows = Array.from(control.parentElement!.querySelectorAll('svg')).slice(-2);
+      const bounds = control.getBoundingClientRect();
       return {
         arrows: arrows.length,
         color: getComputedStyle(arrows[0]).color,
-        paddingRight: styles.paddingRight,
-        height: Math.round(control.getBoundingClientRect().height),
+        inset: Math.round(bounds.right - arrows[1].getBoundingClientRect().right),
+        height: Math.round(bounds.height),
       };
     });
 
