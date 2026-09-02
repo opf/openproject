@@ -2,7 +2,12 @@
 
 module Components::Autocompleter
   module NgSelectAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: "body", wait_dropdown_open: true, wait_for_fetched_options: true)
+    def search_autocomplete(element,
+                            query:,
+                            results_selector: "body",
+                            wait_dropdown_open: true,
+                            wait_for_fetched_options: true,
+                            wait: Capybara.default_max_wait_time)
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
@@ -11,7 +16,7 @@ module Components::Autocompleter
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader")
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
 
       # Insert the text to find
       page.document.synchronize do
@@ -22,7 +27,7 @@ module Components::Autocompleter
       end
 
       # Wait for options to be refreshed after having entered some text.
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader")
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
@@ -170,12 +175,14 @@ module Components::Autocompleter
                             select_text: nil,
                             results_selector: "body",
                             wait_dropdown_open: true,
-                            wait_for_fetched_options: true)
+                            wait_for_fetched_options: true,
+                            wait: Capybara.default_max_wait_time)
       search_autocomplete(element,
                           query:,
                           results_selector:,
                           wait_dropdown_open:,
-                          wait_for_fetched_options:)
+                          wait_for_fetched_options:,
+                          wait:)
 
       ##
       # If a specific select_text is given, use that to locate the match,

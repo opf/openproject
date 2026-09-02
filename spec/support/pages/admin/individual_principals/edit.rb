@@ -111,7 +111,8 @@ module Pages
             select_autocomplete -> { page.find('[data-test-selector="membership_project_id"]') },
                                 query: project_name,
                                 select_text: project_name,
-                                results_selector: "body"
+                                results_selector: "body",
+                                wait: 10
           end
         end
 
