@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def start_dragging(from, offset_x: nil, offset_y: nil)
-  scroll_to_element(from)
+def start_dragging(from, offset_x: nil, offset_y: nil, scroll: true)
+  scroll_to_element(from) if scroll
   page
     .driver
     .browser
