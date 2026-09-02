@@ -127,19 +127,17 @@ module Components
       end
 
       def add_filter(name)
-        select_autocomplete page.find(".advanced-filters--add-filter-value"),
+        select_autocomplete -> { page.find(".advanced-filters--add-filter-value") },
                             query: name,
                             results_selector: ".ng-dropdown-panel-items"
       end
 
       def add_filter_by(name, operator, value, selector = nil)
+        id = selector || name.downcase
         add_filter(name)
+        expect(page).to have_css("#filter_#{id}")
 
         set_filter(name, operator, value, selector)
-
-        # Wait for the debounce of the filter input to apply filters
-        # See frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts:69
-        sleep 0.5
       end
 
       def set_operator(name, operator, selector = nil)
@@ -156,6 +154,12 @@ module Components
         set_value(id, value, operator) unless value.nil?
 
         close_autocompleter(id)
+
+        if using_cuprite?
+          wait_for_network_idle(duration: 0.55)
+        else
+          sleep 0.5
+        end
       end
 
       def expect_missing_filter(name)
@@ -270,24 +274,21 @@ module Components
       end
 
       def set_value(id, value, operator)
-        retry_block do
-          # wait for filter to be present
-          filter_element = page.find("#filter_#{id}")
-          if filter_element.has_selector?("[data-test-selector='op-basic-range-date-picker']", wait: false)
-            insert_date_range(filter_element, value)
-          elsif operator == "between"
-            insert_two_single_dates(id, value)
-          elsif filter_element.has_selector?(".ng-select-container", wait: false)
-            insert_autocomplete_item(id, value)
-          else
-            insert_plain_value(id, value)
-          end
+        filter_element = page.find("#filter_#{id}")
+        if filter_element.has_selector?("[data-test-selector='op-basic-range-date-picker']", wait: false)
+          insert_date_range(filter_element, value)
+        elsif operator == "between"
+          insert_two_single_dates(id, value)
+        elsif filter_element.has_selector?(".ng-select-container", wait: false)
+          insert_autocomplete_item(id, value)
+        else
+          insert_plain_value(id, value)
         end
       end
 
       def insert_autocomplete_item(id, value)
         Array(value).each do |val|
-          select_autocomplete page.find("#filter_#{id} ng-select"),
+          select_autocomplete -> { page.find("#filter_#{id} ng-select") },
                               query: val,
                               results_selector: ".ng-dropdown-panel-items"
         end

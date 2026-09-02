@@ -151,8 +151,8 @@ class EditField
   alias :editing? :active?
 
   def expect_active!
-    expect(field_container)
-      .to have_selector(field_type, wait: 10),
+    expect(context)
+      .to have_css("#{@selector} #{field_type}", wait: 10),
           "Expected field input type '#{field_type}' for attribute '#{property_name}'."
 
     # Also ensure the element is not disabled
@@ -161,8 +161,8 @@ class EditField
   end
 
   def expect_inactive!
-    expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).to have_no_selector(field_type)
+    expect(context).to have_css("#{@selector} #{display_selector}", wait: 10)
+    expect(context).to have_no_selector("#{@selector} #{field_type}")
   end
 
   def expect_enabled!
