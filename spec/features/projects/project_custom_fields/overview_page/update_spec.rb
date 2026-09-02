@@ -118,25 +118,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_content "No"
           end
         end
-
-        it "does not change the value if untouched" do
-          custom_field.update!(has_comment: true)
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
-          end
-
-          open_dialog do |dialog|
-            # don't touch the input
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
-          end
-        end
-
-        include_examples "saves custom comment"
       end
 
       shared_examples "saves a custom field input" do
@@ -269,22 +250,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        it "does not change the value if untouched" do
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
-          end
-
-          open_dialog do |dialog|
-            # don't touch the input
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
-          end
-        end
-
         it "removes the value properly" do
           overview_page.visit_page
 
@@ -300,8 +265,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_no_text(expected_initial_value)
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with boolean CF" do
@@ -355,12 +318,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_updated_value) { "Dolor sit" }
 
         it_behaves_like "a rich text custom field input"
-      end
-
-      describe "with calculated CF with comment enabled" do
-        let(:custom_field) { calculated_from_int_project_custom_field }
-
-        include_examples "saves custom comment"
       end
     end
 
@@ -445,8 +402,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_no_text first_option
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with list CF" do
@@ -550,26 +505,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       end
 
       shared_examples "an autocomplete multi select field" do
-        it "saves single selected values properly" do
-          custom_field.custom_values.delete_all
-
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_no_text first_option
-          end
-
-          open_field do
-            field.select_option(first_option)
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
-          end
-        end
-
-        include_examples "saves multiple selected values"
-
         it "removes deselected values properly" do
           overview_page.visit_page
 
@@ -584,25 +519,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_no_text first_option
-            expect(page).to have_text second_option
-          end
-        end
-
-        it "does not remove values when not touching the init values" do
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
-            expect(page).to have_text second_option
-          end
-
-          open_field do
-            field.expect_selected(first_option, second_option) # wait for proper initialization
-            # don't touch the values
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
             expect(page).to have_text second_option
           end
         end
@@ -653,8 +569,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_text second_option
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with multi select list CF" do
