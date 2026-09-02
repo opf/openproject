@@ -41,11 +41,10 @@ class MigrateVersionToTargetVersionsInTypeVariants < ActiveRecord::Migration[8.1
   def up
     migrate_attribute_groups
     migrate_excluded_elements
+    migrate_attribute_help_texts
   end
 
-  def down
-    raise ActiveRecord::IrreversibleMigration
-  end
+  def down; end
 
   private
 
@@ -62,13 +61,13 @@ class MigrateVersionToTargetVersionsInTypeVariants < ActiveRecord::Migration[8.1
   end
 
   def migrate_groups(groups)
-    keep_renamed = groups.none? { |_key, attributes, *| attributes.include?("target_versions") }
+    rename_next_occurrence = groups.none? { |_key, attributes, *| attributes.include?("target_versions") }
     groups.map do |key, attributes, *rest|
       migrated = attributes.filter_map do |attribute|
         next attribute unless attribute == "version"
-        next unless keep_renamed
+        next unless rename_next_occurrence
 
-        keep_renamed = false
+        rename_next_occurrence = false
         "target_versions"
       end.uniq
       [key, migrated, *rest]
@@ -81,6 +80,17 @@ class MigrateVersionToTargetVersionsInTypeVariants < ActiveRecord::Migration[8.1
       SET form_configuration_excluded_elements =
         ARRAY(SELECT DISTINCT unnest(array_replace(form_configuration_excluded_elements, 'version', 'target_versions')))
       WHERE 'version' = ANY (form_configuration_excluded_elements)
+    SQL
+  end
+
+  def migrate_attribute_help_texts
+    execute <<~SQL.squish
+      UPDATE attribute_help_texts
+      SET attribute_name = 'target_versions'
+      WHERE id = (SELECT min(id) FROM attribute_help_texts
+                  WHERE type = 'AttributeHelpText::WorkPackage' AND attribute_name = 'version')
+        AND NOT EXISTS (SELECT 1 FROM attribute_help_texts t
+                        WHERE t.type = 'AttributeHelpText::WorkPackage' AND t.attribute_name = 'target_versions')
     SQL
   end
 end

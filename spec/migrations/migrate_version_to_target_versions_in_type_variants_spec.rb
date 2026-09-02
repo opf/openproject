@@ -136,7 +136,7 @@ RSpec.describe MigrateVersionToTargetVersionsInTypeVariants, type: :model do
     ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
     expect(excluded_elements_variant.reload.read_attribute(:form_configuration_excluded_elements))
-      .to eq(%w[target_versions priority])
+      .to match_array(%w[target_versions priority])
   end
 
   it "dedupes form_configuration_excluded_elements when a row already excludes both keys" do
@@ -144,5 +144,72 @@ RSpec.describe MigrateVersionToTargetVersionsInTypeVariants, type: :model do
 
     expect(excluded_elements_both_variant.reload.read_attribute(:form_configuration_excluded_elements))
       .to match_array(%w[target_versions priority])
+  end
+
+  it "renames the sole version attribute help text to target_versions" do
+    help_text = create(:work_package_help_text, attribute_name: "status")
+    help_text.update_column(:attribute_name, "version")
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+    expect(help_text.reload.attribute_name).to eq("target_versions")
+  end
+
+  it "leaves a version row untouched when a target_versions row already exists" do
+    survivor = create(:work_package_help_text, attribute_name: "target_versions")
+    duplicate = create(:work_package_help_text, attribute_name: "status")
+    duplicate.update_column(:attribute_name, "version")
+    duplicate_attachment = create(:attachment, container: duplicate)
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+    expect(survivor.reload.attribute_name).to eq("target_versions")
+    expect(duplicate.reload.attribute_name).to eq("version")
+    expect(Attachment.exists?(duplicate_attachment.id)).to be true
+  end
+
+  it "renames only the lowest-id version row when several exist and no target_versions row exists" do
+    lower_id_help_text = create(:work_package_help_text, attribute_name: "status")
+    lower_id_help_text.update_column(:attribute_name, "version")
+    lower_id_attachment = create(:attachment, container: lower_id_help_text)
+    higher_id_help_text = create(:work_package_help_text, attribute_name: "priority")
+    higher_id_help_text.update_column(:attribute_name, "version")
+    higher_id_attachment = create(:attachment, container: higher_id_help_text)
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+    expect(lower_id_help_text.reload.attribute_name).to eq("target_versions")
+    expect(higher_id_help_text.reload.attribute_name).to eq("version")
+    expect(Attachment.exists?(lower_id_attachment.id)).to be true
+    expect(Attachment.exists?(higher_id_attachment.id)).to be true
+  end
+
+  it "leaves a non-WorkPackage attribute help text named version untouched" do
+    project_help_text = create(:project_help_text, attribute_name: "members")
+    project_help_text.update_column(:attribute_name, "version")
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+    expect(project_help_text.reload.attribute_name).to eq("version")
+  end
+
+  it "leaves a work package attribute help text with another attribute name untouched" do
+    status_help_text = create(:work_package_help_text, attribute_name: "status")
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+    expect(status_help_text.reload.attribute_name).to eq("status")
+  end
+
+  it "leaves migrated data unchanged when rolled back" do
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+    attribute_groups_after_up = duplicate_after_rename_variant.reload.read_attribute(:attribute_groups)
+    excluded_elements_after_up = excluded_elements_variant.reload.read_attribute(:form_configuration_excluded_elements)
+
+    expect { ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) } }.not_to raise_error
+
+    expect(duplicate_after_rename_variant.reload.read_attribute(:attribute_groups)).to eq(attribute_groups_after_up)
+    expect(excluded_elements_variant.reload.read_attribute(:form_configuration_excluded_elements))
+      .to eq(excluded_elements_after_up)
   end
 end

@@ -250,7 +250,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Priority", "Normal",
       *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
       *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
-      WorkPackage.human_attribute_name(:target_versions), work_package.target_versions.first,
+      WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
