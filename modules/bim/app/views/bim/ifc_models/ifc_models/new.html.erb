@@ -39,16 +39,18 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if OpenProject::Configuration.direct_uploads? %>
-  <% content_controller "bim--ifc-model-direct-upload",
-                        "bim--ifc-model-direct-upload-set-default-model-url-value": set_direct_upload_default_value_bcf_project_ifc_models_path,
-                        "bim--ifc-model-direct-upload-set-model-title-url-value": set_direct_upload_file_name_bcf_project_ifc_models_path %>
-
   <%=
     primer_form_with(
       model: @ifc_model,
       url: @form[:uri],
-      data: { "bim--ifc-model-direct-upload-target": "form" },
-      multipart: true
+      multipart: true,
+      authenticity_token: false,
+      data: {
+        controller: "bim--ifc-model-direct-upload",
+        "bim--ifc-model-direct-upload-set-default-model-url-value": set_direct_upload_default_value_bcf_project_ifc_models_path,
+        "bim--ifc-model-direct-upload-set-model-title-url-value": set_direct_upload_file_name_bcf_project_ifc_models_path,
+        "bim--ifc-model-direct-upload-target": "form"
+      }
     ) do |f|
   %>
     <% @form.except(:uri).each do |key, value| %>
@@ -65,7 +67,8 @@ See COPYRIGHT and LICENSE files for more details.
              name="file"
              accept=".ifc"
              class="FormControl-input FormControl-medium border-0"
-             data-action="change->bim--ifc-model-direct-upload#updateSessionModelTitle"
+             data-action="change->bim--ifc-model-direct-upload#setSessionModelTitle"
+             data-bim--ifc-model-direct-upload-target="fileInput"
              required>
     </div>
 

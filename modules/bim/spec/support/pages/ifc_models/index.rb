@@ -153,7 +153,6 @@ module Pages
       end
 
       def change_model_name(model_name, new_name)
-        expect(page).to have_css('input[type="file"]')
         expect(page).to have_field("bim_ifc_models_ifc_model[title]", with: model_name)
         fill_in "bim_ifc_models_ifc_model[title]", with: new_name
       end

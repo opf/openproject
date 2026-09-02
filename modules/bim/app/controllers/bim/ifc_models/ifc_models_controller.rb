@@ -65,8 +65,8 @@ module Bim
 
       def set_direct_upload_file_name
         max_size = Setting.attachment_max_size.to_i.kilobytes
-        if params[:filesize].to_i > max_size
-          render json: { error: I18n.t("activerecord.errors.messages.file_too_large", count: max_size) },
+        if params[:fileSize].to_i > max_size
+          render json: { error: I18n.t("bim.error_direct_upload_file_too_large", size: max_size) },
                  status: :unprocessable_entity
           return
         end
@@ -86,7 +86,7 @@ module Bim
         end
 
         attachment = Attachment.pending_direct_upload.find_by(id: attachment_id)
-        if attachment.nil? || attachment.author_id != current_user.id # this should not happen
+        if attachment.nil? || attachment.author_id != current_user.id
           fail_direct_upload
           return
         end
@@ -100,7 +100,7 @@ module Bim
 
         service_result = ::Bim::IfcModels::CreateService
                            .new(user: current_user)
-                           .call(params.with_indifferent_access)
+                           .call(params)
 
         @ifc_model = service_result.result
 
@@ -115,12 +115,12 @@ module Bim
         else
           attachment.destroy!
 
-          flash[:error] = service_result.errors.full_messages.join(" ")
+          flash[:error] = service_result.message
           redirect_to action: :new
         end
       end
 
-      def create # rubocop:disable Metrics/AbcSize
+      def create
         combined_params = permitted_model_params
                             .to_h
                             .reverse_merge(project: @project)
@@ -135,7 +135,7 @@ module Bim
           flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
-          flash[:error] = service_result.errors.full_messages.join(" ")
+          flash[:error] = service_result.message
           render action: :new, status: :unprocessable_entity
         end
       end
@@ -194,7 +194,7 @@ module Bim
       def find_all_ifc_models
         @ifc_models = @project.ifc_models
                               .includes(:attachments)
-                              .order("#{IfcModels::IfcModel.table_name}.created_at ASC")
+                              .order(created_at: :asc)
       end
 
       def permitted_model_params
@@ -241,11 +241,9 @@ module Bim
           project_id: @project.id,
           user_id: current_user.id,
           nonce: session[:pending_ifc_model_callback_nonce]
-        }.with_indifferent_access
+        }
 
-        actual_payload = payload.with_indifferent_access
-                                .slice(:attachment_id, :project_id, :user_id, :nonce)
-                                .with_indifferent_access
+        actual_payload = payload.symbolize_keys.slice(:attachment_id, :project_id, :user_id, :nonce)
 
         actual_payload == expected_payload
       end

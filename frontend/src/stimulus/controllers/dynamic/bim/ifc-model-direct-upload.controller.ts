@@ -29,7 +29,10 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class IfcModelDirectUploadController extends Controller {
-  static targets = ['form'];
+  static targets = [
+    'form',
+    'fileInput',
+  ];
 
   static values = {
     setDefaultModelUrl: String,
@@ -40,12 +43,9 @@ export default class IfcModelDirectUploadController extends Controller {
   declare setModelTitleUrlValue:string;
 
   declare readonly formTarget:HTMLFormElement;
+  declare readonly fileInputTarget:HTMLInputElement;
 
-  connect():void {
-    this.removeAuthenticityToken();
-  }
-
-  updateSessionModelTitle(event:Event):void {
+  setSessionModelTitle(event:Event):void {
     const target = event.target;
     if (!this.isHTMLInputElement(target)) {
       return;
@@ -66,8 +66,16 @@ export default class IfcModelDirectUploadController extends Controller {
         'X-CSRF-Token': this.csrfToken,
       },
       body: new URLSearchParams({ title, fileSize }),
-    });
+    }).then((response) => {
+      if (response.status !== 422) { return; }
 
+      void response.text().then((json) => {
+        const message = (JSON.parse(json) as { error:string }).error;
+
+        this.fileInputTarget.setCustomValidity(message);
+        this.fileInputTarget.reportValidity();
+      });
+    });
   }
 
   setSessionDefaultValue(event:Event):void {
@@ -81,13 +89,6 @@ export default class IfcModelDirectUploadController extends Controller {
         },
         body: new URLSearchParams({ isDefault: String(target.checked) }),
       });
-    }
-  }
-
-  private removeAuthenticityToken():void {
-    const authenticityTokenInput = this.formTarget.querySelector('input[name="authenticity_token"]');
-    if (this.isHTMLInputElement(authenticityTokenInput)) {
-      authenticityTokenInput.remove();
     }
   }
 
