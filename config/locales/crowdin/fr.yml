@@ -547,6 +547,8 @@ fr:
         is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
         ldap_managed: Ce service est géré par synchronisation LDAP et ne peut pas être modifié manuellement.
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.
         not_a_number: n'est pas un nombre.
@@ -814,6 +816,7 @@ fr:
               hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               hours_per_day_is_out_of_bounds: Le nombre d'heures par jour ne peut être supérieur à 24.
               journal_aggregation_time_minutes_is_out_of_bounds: La période d'agrégation doit être comprise entre %{min} et %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
               working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
         status:
@@ -5250,19 +5253,18 @@ fr:
           type_label: Type
           type_placeholder: Sélectionner un type
         add_type: Ajouter un type
-        add_variant: Add a variant for this project
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Ajoutez un type afin de permettre aux utilisateurs de créer des lots de travaux de ce type dans ce projet.
           title: Aucun type n'est actif dans ce projet
         form:
           enable_type_in_project: Autorise le type « %{type} »
-        in_use: In use
         no_results_title_text: Il n'y a actuellement aucun type disponible.
-        only_available_here: Only available in this project
+        project_specific_variant: Project-specific variant
         remove_from_project: Retirer du projet
         switch:
           apply: Appliquer
-          description: Veuillez sélectionner une autre variante de ce type à utiliser dans ce projet.
           impact:
             hidden_heading: Champs qui ne seront plus affichés
             missing_statuses_description: 'Le flux de travail vers lequel vous basculez ne comporte aucune transition depuis ces statuts : personne ne pourra donc faire avancer ces lots de travaux.'
@@ -5282,9 +5284,10 @@ fr:
           success: Le projet utilise désormais %{type}.
           target_label: Variante
           title: "%{type} : Changer de variante"
-        switch_type: Changer de variante
         type_not_found: Le type sélectionné est introuvable.
-        variant_prefix: 'Variante :'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.
@@ -5604,6 +5607,14 @@ fr:
   setting_password_active_rules: Exigences relatives au mot de passe
   setting_password_count_former_banned: Nombre de mots de passe récents interdits de réutilisation
   setting_password_days_valid: Nombre de jours après lequel le changement de mot de passe est obligatoire
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Longueur minimale
   setting_per_page_options: Options des objets par page
   setting_percent_complete_on_status_closed: "% réalisé lorsque le statut est fermé"
@@ -5738,6 +5749,15 @@ fr:
     authentication:
       login: Connexion
       omniauth_direct_login_hint_html: 'Si cette option est activée, les demandes de connexion seront redirigées vers le fournisseur omniauth configuré. La liste déroulante de connexion et la page de connexion seront désactivées. <br/> <strong>Remarque :</strong> lorsque cette option est activée, les utilisateurs peuvent toujours se connecter en interne en visitant la page de connexion <code>%{internal_path}</code>, sauf si vous désactivez également les connexions par mot de passe.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Inscription
@@ -6223,7 +6243,7 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      add_variant: Ajouter une variante à %{name}
+      add_variant: Add a variant to %{name}
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
@@ -6341,12 +6361,12 @@ fr:
           label_disable_all: Désactiver tout
           label_enable_all: Activer tout
         blankslate:
-          independent:
-            description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
-            title: Aucun attribut de projet n'est disponible
-          linked:
-            description: Ce type n'est associé à aucun attribut de projet.
-            title: Aucun attribut de projet n'a été configuré
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:
@@ -6376,65 +6396,84 @@ fr:
             description_html: En copiant les données depuis %{source_name}, vous écraserez les paramètres actuels et risquez d'altérer les informations existantes des lots de travaux de ce type.
             title: Copier la configuration ?
           dialog:
-            description: Copiez la configuration d'un type source et utilisez-la comme base ponctuelle. Cela ne crée pas de lien permanent entre les deux types.
-            source_label: Source de la copie
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Sélectionnez un type ou une variante
             submit: Enregistrer et copier
             title: Copier la configuration
           invalid_source: La configuration ne peut pas être copiée depuis le type sélectionné. Veuillez sélectionner un autre type source.
           success: La configuration a été copiée.
-        exclusions:
-          not_linked: Ce type dispose de sa propre configuration pour cette section ; il n'y a donc rien à exclure. Modifiez plutôt directement la configuration.
-          unknown_aspect: Section de configuration inconnue « %{aspect} ».
-        independent:
-          confirm_dialog:
-            check_box: Je comprends que cela remplacera les paramètres actuels
-            description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient affecter les informations existantes des lots de travaux de ce type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copier à partir du type
-          description: Aucun paramètre n'est hérité. Si vous le souhaitez, vous pouvez toutefois copier ponctuellement les paramètres d'un autre type.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: Changer
-            title: Mode indépendant
-          invalid_mode: Le mode sélectionné n'est pas disponible pour cette configuration. Veuillez choisir un autre mode.
-          modes:
-            copy:
-              caption: Commencez par effectuer une copie ponctuelle des paramètres actuels définis en mode lié.
-              label: Copier depuis le mode lié
-            default:
-              caption: Utilisez les paramètres par défaut pour les nouveaux types.
-              label: Paramètres par défaut
-            empty:
-              caption: Configurez tout à partir de zéro, en partant d'une configuration vierge.
-              label: Vide
-          success: Le mode de configuration a été modifié.
-          switch_to_linked: Passer en mode « lié »
-          title: Mode indépendant
-        linked:
-          change_source: Modifier le type source
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Section de configuration inconnue « %{aspect} ».
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: En remplaçant le type source par %{source_name}, vous écraserez les paramètres actuels, ce qui pourrait affecter les informations existantes des lots de travaux de ce type.
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
               heading: Change source type?
               title: Change source type
-            check_box: Je comprends que cela remplacera les paramètres actuels
-            from_independent:
-              description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travaux de ce type.
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: Cette configuration est liée au type source [%{source_name}](source_url)%{source_suffix}, dont elle hérite les paramètres.
-          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: Copiez ces paramètres depuis une source et héritez-en. Toute nouvelle configuration ajoutée à la source sera également ajoutée ici.
-            source_label: Source liée
-            source_placeholder: Sélectionnez un type ou une variante
-            submit: Changer
-            title: Mode lié
-          invalid_source: La configuration ne peut pas être liée au type sélectionné. Veuillez sélectionner un autre type source.
-          success: Le mode de configuration a été modifié.
-          switch_to_independent: Passer en mode indépendant
-          title: Mode lié
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (parent)"
       variants:
         blankslate:
@@ -6442,12 +6481,22 @@ fr:
 
             '
           title: Il n'existe aucune variante pour ce type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: Filtrer par texte
         filter_no_results: Aucune variante ne correspond à ce filtre
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Flux de travail
     index:
-      add_variant: Ajouter une variante à %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Ajouter une variante
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
@@ -6459,18 +6508,13 @@ fr:
       make_default_notice: "%{name} est désormais activé dans les nouveaux projets."
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
-      owned_by: Owned by %{project}
       project_variants_count:
-        one: 1 variant owned by a project
-        other: "%{count} variants owned by projects"
+        one: 1 project-specific variant
+        other: "%{count} project-specific variants"
       remove_default: Ne pas activer dans les nouveaux projets
       remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
-      variant_enabled_in_new_projects: Variante %{name} active dans les nouveaux projets
       variant_label: Variante
-      variants_count:
-        one: 1 variante
-        other: "%{count} variantes"
     milestone_indicator: Jalon
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
