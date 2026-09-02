@@ -161,7 +161,10 @@ RSpec.describe MeetingParticipants::CreateService do
     context "when the meeting is an occurrence of a series" do
       shared_let(:occurrence_series) { create(:recurring_meeting, project:) }
       shared_let(:occurrence) do
-        create(:recurring_meeting_occurrence, recurring_meeting: occurrence_series, start_time: 1.day.from_now)
+        create(:recurring_meeting_occurrence,
+               recurring_meeting: occurrence_series,
+               project:,
+               start_time: 1.day.from_now)
       end
 
       let(:user_id) { user_with_meeting_permissions.id }
