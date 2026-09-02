@@ -6,6 +6,7 @@ module FormFields
   module Primerized
     class AutocompleteField < FormField
       include RSpec::Wait
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       ### actions
 
@@ -30,7 +31,7 @@ module FormFields
       end
 
       def search(text)
-        field_container.find(".ng-select-container input").set text
+        search_autocomplete(-> { field_container }, query: text)
       end
 
       # For remote typeahead autocompleters, where options are only loaded for
