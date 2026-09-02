@@ -154,6 +154,7 @@ RSpec.describe "work package generate PDF dialog", :js do
 
     it "downloads with options" do
       check("Hyphenation")
+      expect(page).to have_checked_field("Hyphenation")
       select "Deutsch", from: "hyphenation_language"
       fill_in "footer_text", with: "Custom Footer Text"
       generate!

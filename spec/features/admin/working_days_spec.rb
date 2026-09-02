@@ -344,9 +344,7 @@ RSpec.describe "Working Days", :js do
         expect(page).to have_css("tr", text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
-      delete_button.hover
-      delete_button.click
+      page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
 
       click_on "Apply changes"
 
@@ -366,9 +364,7 @@ RSpec.describe "Working Days", :js do
               .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
-      delete_button.hover
-      delete_button.click
+      page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
 
       click_on "Apply changes"
 
