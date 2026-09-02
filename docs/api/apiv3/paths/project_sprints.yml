@@ -14,7 +14,7 @@ get:
         
         Accepts the same format and filters as returned by the [sprints](https://www.openproject.org/docs/api/endpoints/sprints/) endpoint.
 
-      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] }" }]'
+      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] } }]'
       in: query
       name: filters
       required: false

@@ -8,7 +8,7 @@ get:
       Currently supported filters are:
 
       + id: Returns only the action having the id or all actions except those having the id(s).
-    example: '[{ "id": { "operator": "=", "values": ["memberships/create"] }" }]'
+    example: '[{ "id": { "operator": "=", "values": ["memberships/create"] } }]'
     in: query
     name: filters
     required: false

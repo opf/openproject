@@ -9,7 +9,7 @@ get:
 
         + definingWorkspace: filters sprints based on the project they are defined in. This is opposed to the projects they are shared with.
 
-      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] }" }]'
+      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] } }]'
       in: query
       name: filters
       required: false
