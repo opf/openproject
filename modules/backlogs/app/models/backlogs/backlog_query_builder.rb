@@ -41,6 +41,10 @@ module Backlogs
       query = Query.new(project: @project, user: @user, include_subprojects: false)
 
       generic_filters.each { |filter| query.add_filter(filter[:attribute], filter[:operator], filter[:values]) }
+
+      # Limit the scope of the query to the current project.
+      query.add_filter("project_id", "=", [@project.id.to_s])
+
       extra_filters.each { |field, operator, values| query.add_filter(field, operator, values) }
 
       query.sort_criteria = [%w[position asc], %w[id asc]]
@@ -61,6 +65,7 @@ module Backlogs
       backlog_conditions(bucket_ids:, show_inbox:)
         .map { |extra_filters| build(extra_filters:).results.work_packages }
         .reduce { |relation, other| relation.or(other) }
+        .merge(WorkPackage.in_backlog_for(project: @project))
     end
 
     private

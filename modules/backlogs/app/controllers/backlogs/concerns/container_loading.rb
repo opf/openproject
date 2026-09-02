@@ -63,7 +63,6 @@ module Backlogs::Concerns
 
       @work_packages_by_backlog_id = backlog_query_builder
                                        .build_backlog_work_packages(bucket_ids:, show_inbox:)
-                                       .merge(WorkPackage.in_backlog_for(project: @project))
                                        .includes(:type, :status, :assigned_to, :priority, :parent)
                                        .group_by(&:backlog_bucket_id)
     end
