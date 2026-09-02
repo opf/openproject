@@ -207,7 +207,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows a work package table with a parent filter to list the direct children" do
-        click_on("Σ 20h")
+        wait_for_turbo { click_on("Σ 20h") }
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -225,7 +225,7 @@ RSpec.describe "Work display", :js do
         end
 
         it "still shows it (Bug #62847)" do
-          click_on("Σ 20h")
+          wait_for_turbo { click_on("Σ 20h") }
 
           wp_table.expect_work_package_count(4)
           wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -240,7 +240,7 @@ RSpec.describe "Work display", :js do
 
       it "shows also all ancestors in the work package table" do
         expect(page).to have_text("Work\n3h·Σ 15h")
-        click_on("Σ 15h")
+        wait_for_turbo { click_on("Σ 15h") }
 
         wp_table.expect_work_package_count(3)
         wp_table.expect_work_package_listed(parent, child2, grand_child21)
