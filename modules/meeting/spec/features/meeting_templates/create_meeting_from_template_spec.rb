@@ -189,7 +189,7 @@ RSpec.describe "Create meeting from template", :js do
         meetings_page.click_on "One-time"
 
         within_dialog "New one-time meeting" do
-          find('[data-test-selector="template_id"]').click
+          ng_click_autocompleter(find('[data-test-selector="template_id"]'))
 
           expect(page).to have_text("Current project template")
 
@@ -235,7 +235,7 @@ RSpec.describe "Create meeting from template", :js do
       end
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
         expect(page).to have_text(template.title)
       end
     end
