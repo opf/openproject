@@ -837,4 +837,111 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
       end
     end
   end
+  describe "the ICS identity" do
+    around do |example|
+      travel_to(Time.utc(2026, 6, 15, 9, 0, 0)) { example.run }
+    end
+
+    let(:anchor) { Time.utc(2026, 5, 4, 10, 0, 0) }
+
+    let(:series) do
+      create(:recurring_meeting,
+             project:,
+             start_time: anchor,
+             frequency: "weekly",
+             interval: 1,
+             end_after: "never",
+             end_date: nil,
+             time_zone: "UTC")
+    end
+
+    let!(:previous_uid) { series.uid }
+
+    context "with a change that leaves the schedule alone" do
+      let(:params) { { title: "A new title" } }
+
+      it "keeps the UID and the anchor" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq anchor
+        expect(series.ical_predecessor).to be_nil
+      end
+    end
+
+    context "with a schedule change that keeps the anchor on the grid" do
+      let(:params) { { interval: 2 } }
+
+      it "keeps the UID and the anchor" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq anchor
+        expect(series.ical_predecessor).to be_nil
+      end
+    end
+
+    context "with a schedule change that moves the anchor off the grid" do
+      let(:params) { { start_date: Date.new(2026, 6, 22), start_time_hour: "14:00" } }
+
+      it "mints a new UID and freezes the predecessor" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).not_to eq previous_uid
+        expect(series.current_schedule_start).to eq Time.utc(2026, 6, 22, 14, 0, 0)
+
+        predecessor = series.ical_predecessor
+        expect(predecessor.uid).to eq previous_uid
+        expect(predecessor.dtstart).to eq anchor
+        expect(predecessor.sequence).to eq 1
+        expect(predecessor.rrule).to include "FREQ=WEEKLY"
+      end
+
+      it "ends the predecessor at the last old slot that already happened" do
+        expect(service_result).to be_success
+
+        # Monday 8 June 10:00 is the last one before the frozen now. Monday 15 June 10:00 is
+        # still ahead, thus this update moved it and the successor owns it.
+        expect(series.reload.ical_predecessor.rrule).to include "UNTIL=20260608T100000Z"
+      end
+    end
+
+    context "with a cancelled occurrence in the past of the old grid" do
+      let(:cancelled_slot) { Time.utc(2026, 5, 18, 10, 0, 0) }
+      let(:params) { { start_date: Date.new(2026, 6, 22), start_time_hour: "14:00" } }
+
+      let!(:cancelled_occurrence) do
+        create(:meeting,
+               recurring_meeting: series,
+               project:,
+               start_time: cancelled_slot,
+               recurrence_start_time: cancelled_slot,
+               state: :cancelled)
+      end
+
+      it "freezes it as an EXDATE, before the reschedule destroys the row" do
+        expect(service_result).to be_success
+
+        expect(series.reload.ical_predecessor.exdates).to contain_exactly(cancelled_slot)
+        expect { cancelled_occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "with a schedule change on a series that did not run yet" do
+      let(:anchor) { Time.utc(2026, 7, 6, 10, 0, 0) }
+      let(:params) { { start_date: Date.new(2026, 7, 13), start_time_hour: "14:00" } }
+
+      it "moves the anchor and keeps the UID" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq Time.utc(2026, 7, 13, 14, 0, 0)
+        expect(series.ical_predecessor).to be_nil
+      end
+    end
+  end
 end
