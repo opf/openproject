@@ -63,6 +63,12 @@ class LlmModel < ApplicationRecord
     nil
   end
 
+  # A model is an embedding model when its embeddings verdict says so, and a
+  # chat model otherwise. There is no third kind, and no model is both.
+  def embedding? = verdict_for(:embeddings)&.state == "supported"
+
+  def model_type = embedding? ? :embedding : :chat
+
   def verdict_for(capability)
     llm_connection.capability_verdicts
                   .for_model(external_id)

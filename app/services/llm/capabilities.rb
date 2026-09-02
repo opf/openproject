@@ -67,8 +67,11 @@ module Llm
       embedding = info.type.to_s == "embedding"
       published = Array(info.capabilities).map(&:to_sym)
       relevant = embedding ? EMBEDDING : CHAT
+      # An entry that lists no capability at all says nothing about the model,
+      # which is not the same as saying it can do nothing.
+      unpublished = published.empty? ? :unknown : :unsupported
 
-      states = relevant.index_with { |capability| published.include?(capability) ? :supported : :unsupported }
+      states = relevant.index_with { |capability| published.include?(capability) ? :supported : unpublished }
       states.merge(embeddings: embedding ? :supported : :unsupported)
     end
 
