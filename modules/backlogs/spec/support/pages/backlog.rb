@@ -861,6 +861,41 @@ module Pages
       retry
     end
 
+    def move_work_package_to_sprint_via_browser_request(work_package, sprint)
+      move_url = move_project_backlogs_work_package_path(project, work_package, optimistic: true)
+      response = page.evaluate_async_script(<<~JS, move_url, sprint.id.to_s)
+        const [url, sprintId] = arguments;
+        const done = arguments[arguments.length - 1];
+        const body = new FormData();
+        body.append('list_type', 'sprint');
+        body.append('list_id', sprintId);
+        body.append('prev_id', '');
+
+        fetch(url, {
+          method: 'PUT',
+          body,
+          credentials: 'same-origin',
+          headers: {
+            'Accept': 'text/vnd.turbo-stream.html',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          }
+        }).then(async (result) => {
+          const responseBody = await result.text();
+          if (result.ok) {
+            window.Turbo.renderStreamMessage(responseBody);
+          }
+          done({ status: result.status, body: responseBody });
+        }).catch((error) => {
+          done({ error: error.message });
+        });
+      JS
+
+      raise response["error"] if response["error"]
+
+      expect(response["status"]).to eq(200), response["body"]
+      wait_for { work_package.reload.sprint_id }.to eq(sprint.id)
+    end
+
     def open_create_sprint_dialog
       find_test_selector("op-sprints--new-sprint-button", text: "Sprint").click
     end

@@ -133,19 +133,18 @@ RSpec.shared_examples "a principal autocomplete field" do
     it "autocompletes links to user profiles" do
       field.activate!
       field.clear with_backspace: true
-      field.input_element.send_keys(" @lau")
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name)
+      field.ckeditor.click_and_type_slowly " @lau"
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 10)
       expect(page).to have_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
 
       # Close the autocompleter
       field.input_element.send_keys :escape
       field.ckeditor.clear
-
-      sleep 2
+      expect(page).to have_no_css(".mention-list-item")
 
       field.ckeditor.type_slowly "@Laura"
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name)
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 10)
       expect(page).to have_no_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
     end

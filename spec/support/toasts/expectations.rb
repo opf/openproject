@@ -20,20 +20,22 @@ module Toasts
       expect_toast(type:, message:, wait:)
 
       while page.has_css?(".op-toast.-#{type}", wait: 1)
-        page.first(".op-toast.-#{type} .op-toast--close", wait: 1).click
+        page.document.synchronize do
+          page.first(".op-toast.-#{type} .op-toast--close", wait: 0)&.click
+        end
       end
 
       expect_no_toaster(type:, message:, wait: 2)
     end
 
     def dismiss_toaster!
-      sleep 0.1
-      page.find(".op-toast--close").click
+      page.document.synchronize { page.find(".op-toast--close").click }
     end
 
     def dismiss_specific_toaster!(message:, type: :success)
-      sleep 0.1
-      page.find(".op-toast.-#{type}", text: message).find(".op-toast--close").click
+      page.document.synchronize do
+        page.find(".op-toast.-#{type}", text: message).find(".op-toast--close").click
+      end
     end
 
     # Clears a toaster if there is one waiting 1 second max, but do not fail if there is none

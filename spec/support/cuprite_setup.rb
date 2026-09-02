@@ -160,6 +160,14 @@ Ferrum::Contexts.prepend(Module.new do
   end
 end)
 
+Capybara::Cuprite::Browser.prepend(Module.new do
+  def reset
+    super
+  rescue Ferrum::TimeoutError, Ferrum::DeadBrowserError
+    restart
+  end
+end)
+
 register_better_cuprite "en"
 
 RSpec.configure do |config|
