@@ -110,8 +110,14 @@ RSpec.describe "SAML administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      within_dialog "Delete SAML provider" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.")
+        confirmation.click
+
+        expect(confirmation).to be_checked
+        expect(page).to have_button("Delete permanently", disabled: false)
+        click_on "Delete permanently"
+      end
 
       expect(page).to have_text "No SAML providers configured yet."
       expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound

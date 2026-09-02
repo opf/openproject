@@ -171,9 +171,10 @@ RSpec.describe "Jira import select projects modal", :js do
 
     it "tracks the selection counter and shows the submit button once all requests drain" do
       check "Project Alpha"
-      within("[data-admin--jira-projects-target='submitButton']") do
-        expect(page).to have_text("1")
-      end
+      expect(page).to have_css(
+        "[data-admin--jira-projects-target='submitButton']",
+        text: /\b1\b/
+      )
 
       check "Project Beta"
       check "Gamma Project"
@@ -181,9 +182,10 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
 
       uncheck "Project Beta"
-      within("[data-admin--jira-projects-target='submitButton']") do
-        expect(page).to have_text("2")
-      end
+      expect(page).to have_css(
+        "[data-admin--jira-projects-target='submitButton']",
+        text: /\b2\b/
+      )
     end
   end
 
