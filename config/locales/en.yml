@@ -1717,6 +1717,7 @@ en:
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
+        api_key_remove: "Remove key"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
         button_connect: "Connect"
         llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."

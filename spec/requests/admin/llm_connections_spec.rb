@@ -36,6 +36,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
   let(:non_admin) { create(:user) }
   let(:base_url) { "https://example.com/v1" }
   let(:api_key_field) { "#llm_connection_api_key" }
+  let(:remove_api_key) { "[data-test-selector='llm-connection--remove-api-key']" }
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -72,6 +73,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).not_to include("A key is stored")
         expect(page).to have_no_css("#{api_key_field}[placeholder]", visible: :all)
+        expect(page).to have_no_css(remove_api_key, visible: :all)
       end
 
       context "when an API key is stored" do
@@ -89,6 +91,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
           expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
           expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
+        end
+
+        it "offers to remove the key beside the field" do
+          get llm_connection_path
+
+          expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
         end
       end
     end
@@ -158,6 +166,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
           expect(response.body).to include('value="sk-typed"')
           expect(response.body).not_to include("llm-connection--delete-api-key")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
         end
       end
     end
@@ -213,6 +222,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response.body).not_to include("A key is stored")
       expect(response.body).not_to include("llm-connection--delete-api-key")
+      expect(page).to have_no_css(remove_api_key, visible: :all)
     end
   end
 

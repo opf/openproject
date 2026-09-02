@@ -89,4 +89,24 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_no_text("speaks the OpenAI API")
     end
   end
+
+  context "when a key is stored" do
+    let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-original") }
+
+    it "removes the key from beside the field" do
+      visit llm_connection_path
+
+      expect(page).to have_field("API key", placeholder: "API key stored")
+
+      find_test_selector("llm-connection--remove-api-key").click
+
+      within_test_selector("llm-connection--delete-api-key-dialog") do
+        click_on "Remove API key"
+      end
+
+      expect(page).to have_no_test_selector("llm-connection--remove-api-key")
+      expect(page).to have_field("API key", placeholder: nil)
+      expect(connection.reload.api_key).to be_nil
+    end
+  end
 end
