@@ -428,17 +428,17 @@ module Components
       end
 
       def open_action_menu_with_work_package(relatable)
-        relatable_row = find_row(relatable)
-        overlay_id = nil
-        within(relatable_row) do
-          action_menu = relatable_action_menu(relatable)
-          button = action_menu.find("button[popovertarget]")
-          overlay_id = button["popovertarget"]
-          page.find(id: overlay_id, visible: :all)
-          page.execute_script("arguments[0].click()", button)
+        page.document.synchronize(10) do
+          within(find_row(relatable)) do
+            button = relatable_action_menu(relatable).find("button[popovertarget]")
+            overlay_selector = "##{button['popovertarget']}:popover-open"
+            page.execute_script("arguments[0].click()", button) unless page.has_selector?(overlay_selector,
+                                                                                          visible: :all,
+                                                                                          wait: 0)
+            page.find(overlay_selector, visible: :all, wait: 0)
+          end
         end
 
-        page.find("##{overlay_id}:popover-open", visible: :all)
         yield
       end
 

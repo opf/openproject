@@ -65,7 +65,7 @@ RSpec.describe "Recurring meetings global creation",
       end
 
       meetings_page.set_project project
-      meetings_page.click_create(wait_for: :turbo_stream)
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Title can't be blank."
 

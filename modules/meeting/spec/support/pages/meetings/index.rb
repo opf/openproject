@@ -78,6 +78,14 @@ module Pages::Meetings
     end
 
     def click_create(wait_for: :turbo)
+      action = proc do
+        within "#new-meeting-dialog" do
+          click_on "Create meeting"
+        end
+      end
+
+      return action.call unless wait_for
+
       waiter = case wait_for
                when :turbo
                  method(:wait_for_turbo)
@@ -87,11 +95,7 @@ module Pages::Meetings
                  raise ArgumentError, "Unsupported wait target: #{wait_for.inspect}"
                end
 
-      waiter.call do
-        within "#new-meeting-dialog" do
-          click_on "Create meeting"
-        end
-      end
+      waiter.call(&action)
     end
 
     def expect_no_main_menu
