@@ -120,6 +120,22 @@ RSpec.describe MigrateStoredVersionQueryNamesToActiveRepresentation, type: :mode
       end
     end
 
+    shared_let(:null_sort_criteria_query) do
+      create(:query).tap do |query|
+        Query.where(id: query.id).update_all(
+          ["column_names = ?, sort_criteria = NULL, group_by = NULL, filters = ?",
+           YAML.dump(%i[id version]), YAML.dump({})]
+        )
+      end
+    end
+
+    it "migrates a legacy select when sort_criteria is stored as NULL" do
+      ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+
+      expect(null_sort_criteria_query.reload.column_names).to eq(%i[id target_versions])
+      expect(null_sort_criteria_query.sort_criteria_before_type_cast).to be_nil
+    end
+
     it "renames the stored select, sort, group_by, and filter names to their active representation" do
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
