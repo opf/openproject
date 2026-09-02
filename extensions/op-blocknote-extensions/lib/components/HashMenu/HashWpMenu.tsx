@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import type { FC, RefObject } from 'react';
 import type { SuggestionMenuProps } from '@blocknote/react';
 import styled from 'styled-components';
@@ -5,6 +6,7 @@ import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { SearchMessage } from '../Search/SearchContainer';
 import { Spinner } from '../Spinner';
+import { supportsHover } from '../../utils/device';
 import type { HashMenuItem, HashSearchState } from './types';
 import { useTranslation } from 'react-i18next';
 
@@ -34,16 +36,12 @@ const Menu = styled.div.attrs({ className: 'op-bn-hash-menu' })`
   min-height: 0;
 `;
 
-const MenuItem = styled.div<{ $selected:boolean }>`
+const MenuItem = styled.div.attrs({ className: 'op-bn-hash-menu-item' })<{ $highlighted:boolean }>`
   border-radius: var(--bn-border-radius-small);
-  background: ${({ $selected }) =>
-    $selected ? 'var(--op-item-hover-bg)' : 'transparent'};
+  background: ${({ $highlighted }) =>
+    $highlighted ? 'var(--op-item-hover-bg)' : 'transparent'};
   cursor: pointer;
   padding: 0 var(--spacer-s);
-
-  &:hover {
-    background: var(--op-item-hover-bg);
-  }
 `;
 
 const MAX_RESULTS = 5;
@@ -60,6 +58,15 @@ export function createHashWpMenuComponent(
     const { t } = useTranslation();
     const { query, results, error } = searchStateRef.current;
     const visibleResults = results.slice(0, MAX_RESULTS);
+
+    const canHover = useMemo(() => supportsHover(), []);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+      setHoveredIndex(null);
+    }, [selectedIndex, items]);
+
+    const highlightedIndex = hoveredIndex ?? selectedIndex;
 
     if (loadingState !== 'loaded') {
       return (
@@ -89,15 +96,15 @@ export function createHashWpMenuComponent(
     }
 
     return (
-      <Menu>
+      <Menu onMouseLeave={canHover ? () => setHoveredIndex(null) : undefined}>
         {visibleResults.map((wp, index) => (
           <MenuItem
             key={wp.id}
-            $selected={selectedIndex === index}
-            // Mouse path: e.preventDefault() prevents the editor from losing focus.
-            // This allows us to safely insert the chip without needing TipTap to restore the cursor.
-            onMouseDown={(e) => {
-              e.preventDefault();
+            $highlighted={highlightedIndex === index}
+            onMouseMove={canHover ? () => setHoveredIndex(index) : undefined}
+            role="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
               if (items[index]) onItemClick?.(items[index]);
             }}
           >
