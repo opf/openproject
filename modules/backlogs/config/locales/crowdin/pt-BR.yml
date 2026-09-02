@@ -92,9 +92,15 @@ pt-BR:
               task_version_must_be_the_same_as_story_version: deve ser igual à versão da história dos pais.
           backlog_bucket_xor_sprint: não pode ser atribuído simultaneamente a uma sprint e a um grupo de backlog.
     models:
+      backlog_bucket:
+        one: Grupo de backlog
+        other: Grupos de backlog
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Objetivo da sprint
+        other: Objetivos da sprint
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Adicionar pacote de trabalho existente

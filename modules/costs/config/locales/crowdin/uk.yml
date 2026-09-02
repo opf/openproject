@@ -100,12 +100,31 @@ uk:
         few: Записи витрат
         many: Записи витрат
         other: Записи витрат
+      cost_rate:
+        one: Ставка витрат
+        few: Ставки витрат
+        many: Ставки витрат
+        other: Ставки витрат
       cost_type:
         one: Тип вартості
         few: Види витрат
         many: Види витрат
         other: Види витрат
-      rate: Оцінити
+      default_hourly_rate:
+        one: Стандартна погодинна ставка
+        few: Стандартні погодинні ставки
+        many: Стандартні погодинні ставки
+        other: Стандартні погодинні ставки
+      hourly_rate:
+        one: Погодинна ставка
+        few: Погодинні ставки
+        many: Погодинні ставки
+        other: Погодинні ставки
+      rate:
+        one: Ставка
+        few: Ставки
+        many: Ставки
+        other: Ставки
       time_entry:
         one: Запис часу
         few: Записи часу
@@ -116,6 +135,11 @@ uk:
         few: Дії з обліку часу
         many: Дії з обліку часу
         other: Дії з обліку часу
+      time_entry_custom_field:
+        one: Користувацьке поле для запису часу
+        few: Користувацькі поля для запису часу
+        many: Користувацькі поля для запису часу
+        other: Користувацькі поля для запису часу
   api_v3:
     errors:
       validation:
@@ -214,7 +238,6 @@ uk:
   label_greater_or_equal: ">="
   label_group_by: Групувати за
   label_group_by_add: Додати поле групування
-  label_hourly_rate: Погодинна ставка
   label_include_deleted: Включити видалення
   label_kind: Тип
   label_less_or_equal: "<="
@@ -235,7 +258,6 @@ uk:
   label_previous_month: Попередній місяць
   label_previous_week: Попередній тиждень
   label_previous_workweek: Попередній робочий тиждень
-  label_rate: Оцінити
   label_rate_plural: Тариф
   label_show: Показати
   label_specific_day: День %{day}
@@ -249,7 +271,6 @@ uk:
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат
   label_until: до
-  label_user: Користувач
   label_valid_from: Діє з
   label_view_mode_switcher: Змінити подання
   label_work_package_filter_add: Додати фільтр робочого пакета

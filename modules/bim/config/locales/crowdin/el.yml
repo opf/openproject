@@ -7,7 +7,10 @@ el:
         bim_snippet: BIM snippet
         reference_links: Reference links
         stage: Stage
+        status_id: Status
         viewpoint: Viewpoint
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Αρχείο IFC
         ifc_attachment: Αρχείο IFC
@@ -35,7 +38,18 @@ el:
               ifc_attachment_missing: Δεν υπάρχει συνημμένο ifc αρχείο.
               invalid_ifc_file: Το δοθέν αρχείο δεν είναι ένα έγκυρο αρχείο IFC.
     models:
-      bim/ifc_models/ifc_model: Μοντέλο IFC
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:

@@ -38,6 +38,15 @@ ms:
           attributes:
             labels:
               invalid_schema: 'mestilah jalur hash dengan kunci-kunci: warna, tajuk'
+    models:
+      gitlab_issue:
+        other: GitLab issues
+      gitlab_merge_request:
+        other: GitLab merge requests
+      gitlab_pipeline:
+        other: GitLab pipelines
+      gitlab_user:
+        other: GitLab users
   attributes:
     commit: Commit
     gitlab: GitLab identifier

@@ -7,7 +7,10 @@ fr:
         bim_snippet: Extrait de code BIM
         reference_links: Liens de référence
         stage: Étape
+        status_id: Statut
         viewpoint: Point de vue
+      bim/bcf/viewpoint:
+        status_id: Statut
       bim/ifc_models/ifc_model:
         attachments: Fichier IFC
         ifc_attachment: Fichier IFC
@@ -35,7 +38,18 @@ fr:
               ifc_attachment_missing: Aucun fichier ifc joint.
               invalid_ifc_file: Le fichier fourni n'est pas un fichier IFC valide.
     models:
-      bim/ifc_models/ifc_model: Modèle IFC
+      bim/bcf/comment:
+        one: Commentaire BCF
+        other: Commentaires BCF
+      bim/bcf/issue:
+        one: Problème BCF
+        other: Problèmes BCF
+      bim/bcf/viewpoint:
+        one: Point de vue BCF
+        other: Points de vue BCF
+      bim/ifc_models/ifc_model:
+        one: Modèle IFC
+        other: Modèles IFC
   attributes:
     bcf_thumbnail: Capture d'écran BCF
   bcf:
@@ -70,7 +84,7 @@ fr:
         replace_with_system_user: Les remplacer par l'utilisateur "Système"
         unknown_emails_found: Des adresses e-mail inconnues ont été trouvées
         unknown_property: Propriété inconnue
-        what_to_do: Que voulez-vous faire ?
+        what_to_do: Que voulez-vous faire?
         work_package_has_newer_changes: Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la "ModifiedDate" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés.
       import_canceled: Importation BCF-XML annulée.
       import_failed: 'Impossible d''importer le fichier BCF : %{error}'

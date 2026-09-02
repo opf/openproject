@@ -14,6 +14,11 @@ zh-TW:
           end_before_start: 結束值必須大於開始值。
           outside: 不在網格(grid)內。
           overlaps: 重疊
+    models:
+      grids/grid:
+        other: Grids
+      grids/widget:
+        other: Widgets
   grids:
     label_widget_in_grid: 網格(Grid) %{grid_name} 中包含的工具集
     widgets:

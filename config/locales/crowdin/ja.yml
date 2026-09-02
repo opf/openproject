@@ -76,6 +76,13 @@ ja:
         dependencies: 依存関係
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: までを表示
       attachment:
@@ -236,6 +243,7 @@ ja:
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: 非公開
           title: 可視性
@@ -255,6 +263,7 @@ ja:
         templated_value:
           false: テンプレートとしてマークされていません
           true: テンプレートとしてマーク
+        type_variant: Work package type variant
         types: ワークパッケージのタイプ
         versions: バージョン
         work_packages: ワークパッケージ
@@ -275,6 +284,8 @@ ja:
         start_gate_name: フェーズゲート名を開始
       project_custom_field:
         custom_field_section: セクション
+      project_type:
+        variant: Variant
       query:
         child_work_packages: 子ワークパッケージ
         column_names: 列
@@ -342,18 +353,26 @@ ja:
       token/named:
         token_name: トークン名
       type:
-        attribute_groups: フォームの設定
-        children: Variants
         color: 色
-        dependent_configuration_links: Linked types
-        description: デフォルトの説明
-        is_default: デフォルトで新規プロジェクト用に有効化
         is_in_roadmap: デフォルトでロードマップに表示されます
         is_milestone: マイルストーン
-        parent: Parent type
-        patterns: パターン
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: 管理者
         auth_source: 認証ソース
@@ -454,6 +473,7 @@ ja:
           true: 休業日を含む
         journal_internal: 社内雑誌
         notify: 通知する
+        observed_in_versions: Observed in versions
         parent: 親項目
         parent_issue: 親項目
         parent_work_package: 親項目
@@ -529,6 +549,8 @@ ja:
         is_for_all_cannot_modify: はすべてのプロジェクトで使用されているため、変更できません。
         ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: は%{count}以下の値にしてください。
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
         not_a_number: は数値にしてください。
@@ -551,6 +573,7 @@ ja:
         regex_match_failed: 正規表現 %{expression}と一致しません。
         smaller_than_or_equal_to_max_length: は最大長さより以下でなければなりません。
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: は既に使用されています。
         too_long: は%{count}文字以内を入力してください。
@@ -720,9 +743,8 @@ ja:
               blank: プロジェクトを選択してください。
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -795,6 +817,7 @@ ja:
               hours_per_day_are_missing: 1日あたりの時間数を設定してください。
               hours_per_day_is_out_of_bounds: 1 日あたりの時間は 24 を超えることはできません
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: 営業日設定の以前の変更はまだ適用されていません。
               working_days_are_missing: 週の少なくとも1日は営業日として定義する必要があります。
         status:
@@ -812,25 +835,40 @@ ja:
               blank: トークン名を入力してください
               format: "%{message}"
               in_use: このトークン名は既に使用されています。違うトークン名を入力してください
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: 無効なワークパッケージの属性が使用されています。
-              attribute_unknown_name: '無効なワークパッケージの属性が使用されています: %{attribute}'
-              duplicate_group: グループ名 '%{group}' は複数回使用されています。グループ名は一意でなければなりません。
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: フィールド内の1つ以上の属性が無効です。保存する前に属性を修正してください。
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -935,6 +973,9 @@ ja:
             start_date:
               cannot_be_null: 終了日と期間がわかっているため、nullには設定できません。
               violates_relationships: は、ワークパッケージの関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: 現在のステータスがこのタイプに存在しないため無効です。
               status_transition_invalid: 現在のユーザロールでは旧ステータスから新ステータスへの有効な遷移がないため無効
@@ -948,57 +989,208 @@ ja:
         header:
           other: "%{count} つのエラーにより %{model} を保存できませんでした"
     models:
-      attachment: ファイル
+      action:
+        other: Actions
+      ai/text_transform_action:
+        other: Text transform actions
+      announcement:
+        other: Announcements
+      anonymous_user:
+        other: Anonymous users
+      attachment:
+        other: Files
       attribute_help_text:
         other: Attribute help texts
+      attribute_help_text/project:
+        other: Project attribute help texts
+      attribute_help_text/user:
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        other: Work package attribute help texts
       auth_provider:
         other: 認証プロバイダー
-      category: カテゴリ
-      color: 色
-      comment: コメント
-      custom_action: カスタムアクション
-      custom_field: カスタムフィールド
-      customized: Customized
-      doorkeeper/application: OAuthアプリケーション
+      backup:
+        other: Backups
+      capability:
+        other: Capabilities
+      category:
+        other: Categories
+      change:
+        other: File changes
+      changeset:
+        other: Changesets
+      color:
+        other: Colors
+      comment:
+        other: Comments
+      custom_action:
+        other: Custom actions
+      custom_field:
+        other: Custom fields
+      custom_field/hierarchy/item:
+        other: Hierarchy items
+      custom_field_section:
+        other: Custom field sections
+      custom_option:
+        other: Custom field options
+      custom_style:
+        other: Designs
+      day:
+        other: Days
+      deleted_user:
+        other: Deleted users
+      design_color:
+        other: Design colors
+      doorkeeper/application:
+        other: OAuth applications
+      emoji_reaction:
+        other: Emoji reactions
       enterprise_token:
         other: エンタープライズトークン
-      forum: フォーラム
-      global_role: グローバルロール
-      group: グループ
+      enterprise_trial:
+        other: Enterprise trials
+      enumeration:
+        other: Enumerations
+      export:
+        other: Exports
+      export_setting:
+        other: Export settings
+      forum:
+        other: Forums
+      global_role:
+        other: Global roles
+      group:
+        other: Groups
+      group_custom_field:
+        other: Group custom fields
+      health_report:
+        other: Health reports
       issue_priority:
         other: 優先度
-      jira:
-        other: Jira
-      meeting_participant: Meeting participant
-      member: メンバー
-      message: Message
-      news: ニュース
+      ldap_auth_source:
+        other: LDAP connections
+      mcp_configuration:
+        other: MCP configurations
+      member:
+        other: Members
+      menu_item:
+        other: Menu items
+      menu_items/wiki_menu_item:
+        other: Wiki menu items
+      message:
+        other: Messages
+      news:
+        other: News
+      non_working_day:
+        other: Non-working days
       notification:
         other: 通知
-      placeholder_user: プレースホルダー ユーザー
+      notification_setting:
+        other: Notification settings
+      oauth_client:
+        other: OAuth clients
+      oauth_client_token:
+        other: OAuth client tokens
+      persisted_query:
+        other: Persisted queries
+      persisted_view:
+        other: Persisted views
+      placeholder_user:
+        other: Placeholder users
+      plugin_auth_provider:
+        other: Plugin authentication providers
+      principal:
+        other: Principals
       project:
         other: プロジェクト
+      project/phase:
+        other: Project phases
+      project/phase_definition:
+        other: Project phase definitions
+      project_custom_field:
+        other: Project attributes
+      project_custom_field_section:
+        other: Project attribute sections
       project_query:
         other: プロジェクト一覧
-      query: ユーザのクエリ
-      reminder: リマインダ
+      project_query_role:
+        other: Project list roles
+      project_role:
+        other: Project roles
+      query:
+        other: Custom queries
+      relation:
+        other: Relations
+      reminder:
+        other: Reminders
+      remote_identity:
+        other: Remote identities
+      repository:
+        other: Repositories
+      repository/git:
+        other: Git repositories
+      repository/subversion:
+        other: Subversion repositories
       role:
         other: ロール
       scim_client:
         other: SCIMクライアント
-      status: ステータス名
+      service_account:
+        other: Service accounts
+      sessions/user_session:
+        other: Sessions
+      setting:
+        other: Settings
+      status:
+        other: Work package statuses
+      system_user:
+        other: System users
       token/api:
         other: アクセストークン
+      token/base:
+        other: Tokens
+      token/ical:
+        other: iCalendar tokens
       token/rss:
         other: RSS tokens
       type:
         other: Types
-      user: ユーザ
-      version: バージョン
-      wiki: Wiki
-      wiki_page: Wiki ページ
-      work_package: ワーク パッケージ
-      workflow: ワークフロー
+      type_variant:
+        other: Variants
+      user:
+        other: Users
+      user_custom_field:
+        other: User attributes
+      user_custom_field_section:
+        other: User attribute sections
+      user_non_working_time:
+        other: Non-working times
+      user_password:
+        other: Passwords
+      user_preference:
+        other: User preferences
+      user_query:
+        other: User lists
+      user_working_hours:
+        other: Working hours
+      version:
+        other: Versions
+      version_custom_field:
+        other: Version custom fields
+      view:
+        other: Views
+      wiki:
+        other: Wikis
+      wiki_page:
+        other: Wiki pages
+      work_package:
+        other: Work packages
+      work_package_custom_field:
+        other: Work package custom fields
+      work_package_role:
+        other: Work package roles
+      workflow:
+        other: Workflows
   activities:
     index:
       no_results_title_text: この期間内にプロジェクトの活動はありませんでした。
@@ -1209,6 +1401,7 @@ ja:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1220,13 +1413,13 @@ ja:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1264,11 +1457,14 @@ ja:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1289,6 +1485,7 @@ ja:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1296,7 +1493,6 @@ ja:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1423,13 +1619,13 @@ ja:
       title: Reserved project identifiers
     scim_clients:
       authentication_methods:
-        oauth2_client: OAuth 2.0クライアント認証情報
+        oauth2_client: OAuth 2.0 クライアント資格情報
         oauth2_token: 静的アクセストークン
-        sso: IDプロバイダーからのJWT
+        sso: アイデンティティプロバイダからのJWT
       created_client_credentials_dialog_component:
-        heading: クライアント認証情報が生成されました
-        one_time_hint: クライアント・シークレットが表示されるのはこの時だけです。必ずコピーしてください。
-        title: クライアント認証情報の作成
+        heading: クライアントの資格情報が生成されました
+        one_time_hint: クライアントのシークレットが表示される唯一の時間です。今すぐコピーしてください。
+        title: クライアントの資格情報が作成されました
       created_token_dialog_component:
         heading: トークンが生成されました
         label_token: トークン
@@ -1442,21 +1638,21 @@ ja:
       edit:
         label_delete_scim_client: SCIM クライアントを削除
       form:
-        auth_provider_description: これは、SCIM プロバイダによって追加されたユーザが OpenProject で認証するために使用するサービスです。
-        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに<code>scim_v2</code>スコープが含まれていることを確認してください。
-        description: これらの設定オプションの詳細については、[SCIMクライアントの設定に関する文書](docs_url)を参照してください。
+        auth_provider_description: これは、SCIMプロバイダが追加したユーザーがOpenProjectでの認証に使用するサービスです。
+        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに <code>scim_v2</code> スコープが含まれていることを確認してください。
+        description: 設定オプションの詳細については、[SCIM クライアントの設定に関するドキュメント](docs_url)を参照してください。
         jwt_sub_description: 例えば、Keycloakの場合、これはSCIMクライアントに関連付けられたサービスアカウントのUUIDです。あなたのユースケースにあった Subject claim を見つける方法については [ドキュメント](docs_url) を参照してください。
-        name_description: このクライアントが設定された理由を他の管理者が理解しやすい名前を選んでください。
+        name_description: 他の管理者がこのクライアントが設定された理由を理解するのに役立つ名前を選択してください。
       index:
-        description: ここで設定された SCIM クライアントは、OpenProject SCIM サーバ API と対話し、ユーザアカウントやグループのプロビジョニング、更新、デプロビジョニングを行うことができます。
-        label_create_button: SCIMクライアントの追加
+        description: ここで設定されたSCIMクライアントは、OpenProjectのSCIMサーバー APIと相互作用して、ユーザーアカウントとグループのプロビジョニング、更新、およびデプロビジョニングを行うことができます。
+        label_create_button: SCIMクライアントを追加
       new:
         title: 新しいSCIMクライアント
       revoke_static_token_dialog_component:
         confirm_button: 取り消す
-        description: このトークンを使っている SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
-        heading: このトークンを本当に取り消しますか？
-        title: 静的トークンの失効
+        description: このトークンを使用する SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
+        heading: このトークンを取り消してもよろしいですか？
+        title: 静的トークンを取り消す
       table_component:
         blank_slate:
           description: ここに表示するクライアントを追加
@@ -1715,6 +1911,7 @@ ja:
     custom_field: カスタムフィールド
     custom_options: 選択肢
     custom_values: カスタムフィールド
+    customized: Customized
     date: 日付
     dates_interval: 期間
     default_columns: 既定の列
@@ -1741,6 +1938,7 @@ ja:
     is_default: デフォルト値
     is_for_all: 全プロジェクト向け
     issue: ワーク パッケージ
+    jira: Jira
     journal: 履歴記述
     journal_notes: コメント
     lastname: 苗字
@@ -1773,6 +1971,7 @@ ja:
     start_date: 開始日
     state: 状態
     status: ステータス
+    status_id: Status
     subject: タイトル
     summary: サマリー(概要)
     template: Template
@@ -2274,8 +2473,12 @@ ja:
   description_available_columns: 利用できる項目
   description_category_reassign: 新しいカテゴリを選択してください。
   description_choose_project: プロジェクト
-  description_compare_from: 以下と比較：
-  description_compare_to: 比較：
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: '現在の位置: '
   description_date_from: 開始日
   description_date_to: 終了日
@@ -2501,18 +2704,17 @@ ja:
   error_attribute_not_highlightable: '強調表示されない属性: %{attributes}'
   error_auth_source_sso_failed: ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました
   error_can_not_archive_project: 'このプロジェクトはアーカイブできません: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: カスタムフィールドを削除できません。
   error_can_not_delete_entry: エントリを削除できません
   error_can_not_delete_in_use_archived_undisclosed: アーカイブされたプロジェクトにもワークパッケージがあります。どのプロジェクトが影響を受けるかは、管理者に削除の実行を依頼する必要があります。
   error_can_not_delete_in_use_archived_work_packages: 'アーカイブされたプロジェクトにもワークパッケージがあります。 対応するワークパッケージの属性を変更する前に、まず以下のプロジェクトを再度有効にする必要があります: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: 標準型は削除できません。
   error_can_not_delete_type:
     explanation: このタイプはワークパッケージを含み、削除できない。<a target="_blank" href="%{url}">このビューでは</a>、影響を受けるすべてのワークパッケージを見ることができます。
   error_can_not_find_all_resources: この要求に、すべての関連リソースを見つけられませんでした。
   error_can_not_invite_user: ユーザーへの招待状の送信に失敗しました。
   error_can_not_remove_role: このロールは使用されています。削除できません。
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: 終了したバージョンにひも付けられたワークパッケージは再度開くことはできません。
   error_can_not_unarchive_project: 'このプロジェクトはアーカイブを戻すことができません: %{errors}'
   error_check_user_and_role: ユーザーとロールを選択してください。
@@ -2974,7 +3176,6 @@ ja:
   label_available_projects: 利用可能なプロジェクト
   label_backtrace: Backtrace
   label_backup: バックアップ
-  label_backup_code: バックアップコード
   label_basic_details: 基本的な詳細
   label_between: 次の範囲内
   label_blocked_by: ブロックされている
@@ -2994,7 +3195,6 @@ ja:
   label_calendar_show: カレンダーを表示
   label_calendar_subscriptions: カレンダーのサブスクリプション
   label_calendars_and_dates: カレンダーと日付
-  label_category: カテゴリ
   label_change_parent: 親タスクの変更
   label_change_password: Change password
   label_change_plural: 変更
@@ -3003,9 +3203,9 @@ ja:
   label_change_status_of_user: "#{username} のステータスを変更"
   label_change_view_all: 全変更を表示
   label_changes_details: 全変更の詳細
-  label_changeset: 変更セット
   label_changeset_id: 変更セット ID
   label_changeset_plural: 更新履歴
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: すべての欄をチェック/チェックを外す
   label_check_uncheck_all_in_row: すべての行をチェック/チェックを外す
   label_checked: 選択済み
@@ -3152,6 +3352,7 @@ ja:
   label_feeds_access_key: RSSアクセスキー
   label_feeds_access_key_created_on: RSSアクセスキーが%{value}前に作成されました
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: ファイルを添付する
   label_filter: フィルタ
   label_filter_add: フィルタを追加
@@ -3176,7 +3377,6 @@ ja:
   label_git_path: ".gitディレクトリへのパス"
   label_global: 全般
   label_global_modules: グローバルモジュール
-  label_global_role: グローバルロール
   label_global_roles: グローバルロール
   label_go_back: 1つのメニューレベルに戻る
   label_go_forward: "%{module} サブメニューを開く"
@@ -3245,7 +3445,6 @@ ja:
   label_last_week: 先週
   label_latest_revision: 最新のリビジョン
   label_latest_revision_plural: 最新のリビジョン
-  label_ldap_auth_source: LDAP 接続
   label_ldap_auth_source_new: 新しい LDAP 接続
   label_ldap_auth_source_plural: LDAP 接続
   label_ldap_authentication: LDAP認証
@@ -3272,9 +3471,9 @@ ja:
   label_me: 自分
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_new: 新規メンバー
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: メンバー
-  label_member_role: プロジェクトロール
   label_membership_added: メンバーが追加されました
   label_membership_plural: メンバシップ
   label_membership_updated: メンバーが更新されました
@@ -3387,7 +3586,6 @@ ja:
   label_permissions: 権限
   label_permissions_report: 権限のレポート
   label_personalize_page: このページを個人用にカスタマイズする
-  label_placeholder_user: プレースホルダー ユーザー
   label_placeholder_user_new: 新しいプレースホルダー ユーザー
   label_placeholder_user_plural: プレースホルダー ユーザー
   label_planning: 計画
@@ -3450,7 +3648,6 @@ ja:
   label_related_work_packages: 関係するワークパッケージ
   label_relates: 関係している
   label_relates_to: 関連している
-  label_relation: 関連
   label_relation_actions: リレーションアクション
   label_relation_delete: 関係の削除
   label_relation_edit: リレーションを編集
@@ -3503,7 +3700,6 @@ ja:
   label_send_information: ユーザーに新しい資格情報を送信
   label_send_invitation: 招待状を送信
   label_send_test_email: テスト電子メールを送信
-  label_session: セッション
   label_setting_plural: 設定
   label_share: 共有
   label_share_project_list: プロジェクト一覧を共有
@@ -3579,7 +3775,6 @@ ja:
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
-  label_user: ユーザ
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: ユーザーと権限
   label_user_anonymous: 匿名ユーザ
@@ -3610,19 +3805,17 @@ ja:
   label_week: 週
   label_weighted_item_list: Weighted item list
   label_what_is_this: これは何ですか?
-  label_widget: ウィジェット
   label_widget_new: 新規ウィジェット
   label_wiki_content_added: Wikiページが追加されました。
   label_wiki_content_updated: Wikiページが更新されました。
   label_wiki_dont_show_menu_item: プロジェクトのメニューでこのWikiページを非表示
   label_wiki_edit: Wikiの編集
   label_wiki_edit_plural: Wikiの編集
-  label_wiki_menu_item: Wikiのメニュー項目
   label_wiki_navigation: Wikiのメニュー
-  label_wiki_page: Wiki ページ
   label_wiki_page_attachments: Wiki ページの添付ファイル
   label_wiki_page_id: WikiページのID
   label_wiki_page_plural: Wikiページ
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: 下位のメニューで「目次」を表示
   label_wiki_show_menu_item: プロジェクトのメニューで項目として表示
   label_wiki_show_new_page_link: 下位のメニューで「子ページを新規作成」の項目を表示
@@ -3639,7 +3832,6 @@ ja:
   label_work_package_hierarchy: ワークパッケージの階層
   label_work_package_new: 新しいワークパッケージ
   label_work_package_plural: ワークパッケージ
-  label_work_package_status: ステータス名
   label_work_package_status_new: 新規ステータス
   label_work_package_status_plural: ステータスの種類
   label_work_package_tracking: ワークパッケージの追跡
@@ -3949,9 +4141,9 @@ ja:
       also_work_packages_shared_with_user_html:
         other: また、 %{shared_work_packages_link} はこのユーザーと共有されています。
       can_remove_direct_but_not_shared_roles: このユーザーを直接プロジェクトメンバーとして削除することはできますが、彼らが参加しているグループはこのプロジェクトのメンバーでもあります。 グループを経由して引き続きメンバーになっていきます。
-      cannot_delete_inherited_membership: このプロジェクトのメンバーであるグループに所属しているため、このメンバーを削除することはできません。
-      cannot_delete_inherited_membership_note_admin_html: "%{administration_settings_link}で、プロジェクトのメンバーとしてグループを削除することも、特定のメンバーをグループから削除することもできます。"
-      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に連絡してこの特定のメンバーをグループから削除することができます。
+      cannot_delete_inherited_membership: このメンバーはこのプロジェクトのメンバーであるグループに属しているため、削除できません。
+      cannot_delete_inherited_membership_note_admin_html: プロジェクトのメンバーとしてグループを削除するか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
       however_work_packages_shared_with_group_html:
         other: ただし、 %{shared_work_packages_link} もこのグループと共有されています。
       however_work_packages_shared_with_user_html:
@@ -3961,26 +4153,26 @@ ja:
       remove_work_packages_shared_with_user_too: メンバーから削除されたユーザーは、まだ共有ワークパッケージにアクセスできます。共有も削除しますか？
       title: メンバーを削除
       will_not_affect_inherited_shares: "(これはグループと共有されているワークパッケージには影響しません)。"
-      will_remove_all_group_access_priveleges: このメンバを削除すると、プロジェクトに対するグループのすべてのアクセス権が削除されます。グループはサイトの一部としてまだ存在します。
+      will_remove_all_group_access_priveleges: このメンバーを削除すると、グループのすべてのアクセス権がプロジェクトに削除されます。グループはサイトの一部として存在します。
       will_remove_all_user_access_priveleges: このメンバーを削除すると、プロジェクトへのユーザーのすべてのアクセス権が削除されます。ユーザーはまだサイトの一部として存在します。
       will_remove_the_groups_role: これにより、このプロジェクトからグループのロールが削除されます。
       will_remove_the_users_role: これにより、このプロジェクトからユーザーのロールが削除されます。
     delete_work_package_shares_dialog:
-      cannot_remove_inherited: グループで共有されたワークパッケージの共有は削除できません。
-      cannot_remove_inherited_note_admin_html: "%{administration_settings_link}、グループへの共有を取り消すか、グループからこの特定のメンバーを削除することができます。"
-      cannot_remove_inherited_note_non_admin: グループへの共有を取り消すか、管理者に連絡して特定のメンバーをグループから削除することができます。
-      cannot_remove_inherited_with_role: ロール %{shared_role_name} で共有されるワークパッケージは、グループを介して共有され、削除することはできません。
-      revoke_all_or_with_role: すべての共有ワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセス権を剥奪しますか？
+      cannot_remove_inherited: グループ間で共有されるワークパッケージは削除できません。
+      cannot_remove_inherited_note_admin_html: あなたは、グループへの共有を取り消すか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_remove_inherited_note_non_admin: 共有をグループに取り消すか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
+      cannot_remove_inherited_with_role: ワークパッケージとロール %{shared_role_name} が共有されているため、削除できません。
+      revoke_all_or_with_role: 共有されたワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセスを取り消しますか？
       shared_with_permission_html:
         other: "%{shared_work_packages_link} のみが %{shared_role_name} 権限と共有されています。"
       shared_with_this_group_html:
         other: "%{all_shared_work_packages_link} はこのグループと共有されています。"
       shared_with_this_user_html:
         other: "%{all_shared_work_packages_link} はこのユーザーと共有されています。"
-      title: ワーク・パッケージ・シェアの破棄
-      will_not_affect_inherited_shares: "(これは、そのグループと共有しているワークパッケージには影響しません）。"
-      will_revoke_access_to_all: このアクションは、すべてのアクセス権を剥奪する。
-      will_revoke_directly_granted_access: このアクションは、グループと共有されているワークパッケージ以外の、すべてのワークパッケージへのアクセス権を剥奪する。
+      title: ワークパッケージの共有の取り消し
+      will_not_affect_inherited_shares: "(これはグループと共有されているワークパッケージには影響しません)。"
+      will_revoke_access_to_all: このアクションは、すべてのユーザーへのアクセスを取り消します。
+      will_revoke_directly_granted_access: このアクションは、すべてのユーザーへのアクセスを取り消しますが、グループと共有されているワークパッケージです。
     filters:
       all_shares: すべてのシェア
     index:
@@ -4028,7 +4220,7 @@ ja:
       failed_to_revoke_token: 'アクセストークンの取り消しに失敗しました: %{error}'
       no_results_title_text: 現在、有効なアクセス トークンはありません。
       notice_api_token_revoked: APIトークンが削除されました。新しいトークンを作成するには、APIセクションの作成ボタンを使用してください。
-      notice_ical_token_revoked: プロジェクト "%{project_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{token_name}" が失効しました。このトークンを持つiCalendar URLは無効になりました。
+      notice_ical_token_revoked: プロジェクト "%{token_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{project_name}" が取り消されました。 このトークンのiCalendar URLは無効です。
       notice_reset_token: '新しい %{type} トークンが生成されました。アクセストークンは:'
       notice_rss_token_revoked: RSSトークンが削除されました。新しいトークンを作成するには、RSSセクションのリンクを使用してください。
       token_value_warning: '注: これはこのトークンが表示される唯一の機会です。今すぐコピーして確認してください。'
@@ -4210,7 +4402,6 @@ ja:
   notice_auth_stage_error: 認証ステージ '%{stage}' に失敗しました。
   notice_auth_stage_verification_error: ステージ '%{stage}' を確認できませんでした。
   notice_auth_stage_wrong_stage: 認証ステージ '%{expected}' の完了を期待しましたが、'%{actual}' が返されました。
-  notice_automatic_set_of_standard_type: 自動的に標準型を設定します。
   notice_bad_request: 不正な要求です。
   notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
   notice_custom_options_deleted: オプション '%{option_value}' と %{num_deleted} の発生が削除されました。
@@ -4494,6 +4685,8 @@ ja:
     dialog:
       footer_center:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: フッターテキスト
       footer_right:
         caption: このテキストはフッターの右側にあるすべてのページに表示されます。
@@ -4596,6 +4789,7 @@ ja:
     '
   permission_manage_placeholder_user: プレースホルダーユーザーの作成、編集、削除
   permission_manage_project_activities: プロジェクト活動の管理
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: 公開BCFクエリの管理
   permission_manage_public_project_queries: 公開プロジェクトリストの管理
   permission_manage_public_queries: 公開ビューの管理
@@ -4649,7 +4843,7 @@ ja:
   permission_work_package_assigned: 担当者/責任者になる
   permission_work_package_assigned_explanation: それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。
   placeholder_users:
-    delete_tooltip: プレースホルダー・ユーザーの削除
+    delete_tooltip: プレースホルダー ユーザーを削除
     deletion_info:
       data_consequences: 'プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。 削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
 
@@ -4903,23 +5097,38 @@ ja:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: "「%{type}」型を有効にする"
         no_results_title_text: 現在、有効な種類はありません。
+        project_specific_variant: Project-specific variant
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              other: "%{count} work packages have a value"
+            work_packages:
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
         type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: 新しいバージョンを作成
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
@@ -4967,9 +5176,9 @@ ja:
     add_reaction: リアクションを追加
     and_others:
       other: と %{count} その他
-    and_user: および %{user}
-    react_with: "%{reaction} と リアクト"
-    reaction_by: "%{reaction} によって"
+    and_user: と %{user}
+    react_with: "%{reaction} で反応する"
+    reaction_by: "%{reaction} による"
   reportings:
     index:
       no_results_content_text: ステータス報告を追加
@@ -5238,6 +5447,14 @@ ja:
   setting_password_active_rules: Password requirements
   setting_password_count_former_banned: 再利用を禁止される最近使用済みパスワードの数
   setting_password_days_valid: パスワードを強制変更させる経過日数
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: 最短長
   setting_per_page_options: オプションページごとの項目数
   setting_percent_complete_on_status_closed: ワークパッケージが終了したときの処理
@@ -5370,6 +5587,15 @@ ja:
     authentication:
       login: ログイン
       omniauth_direct_login_hint_html: 'このオプションが有効な場合、ログイン要求は設定された omniauth プロバイダにリダイレクトされます。ログインドロップダウンとサインインページは無効になります。 <br/> <strong>注意:</strong>パスワードログインも無効にしない限り、このオプションを有効にした場合でも、ユーザは内部的に <code>%{internal_path}</code>ログインページにアクセスしてログインすることができます。
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: 参加登録
@@ -5632,19 +5858,20 @@ ja:
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
-      status_default_text: 新しいワークパッケージは、デフォルトでこのタイプに設定される。読み取り専用にはできない。
+      status_default_text: 新しいワークパッケージはデフォルトでこのタイプに設定されています。読み取り専用にすることはできません。
       status_excluded_from_totals_text: |-
-        このステータスを持つワークパッケージを、階層内の「作業」、「
-        残作業」、「完了率」の合計から除外するには、このオプションをオンにします。
+        このオプションをオンにすると、このステータスのワークパッケージを合計作業量、
+        残作業量、および階層構造で完了させることができます。
       status_percent_complete_text_html: |-
         In [status-based progress calculation mode](setting_url), the % Complete of a work
         package is automatically set to this value when this status is selected.
         Ignored in work-based mode.
       status_readonly_html: |
-        このステータスを持つワークパッケージを読み取り専用としてマークするには、このオプションをチェックする。
-        ステータス以外の属性は変更できません。
+        ワークパッケージを読み取り専用としてマークするには、このオプションをオンにしてください。
+        ステータスを除いて変更することはできません。
+
         <br>
-        <strong>注意</strong>: 継承された値 (子やリレーションなど) は適用されます。
+        <strong>メモ</strong>: 継承された値 (例えば、子や関連) が適用されます。
     index:
       headers:
         excluded_from_totals: 合計から除外
@@ -5820,7 +6047,7 @@ ja:
   text_zoom_in: 拡大
   text_zoom_out: 拡大
   themes:
-    dark: 暗い
+    dark: ダーク
     light: ライト
     sync_with_os: 自動(OSのテーマ設定に追従)
   time:
@@ -5860,10 +6087,11 @@ ja:
   total_progress: 全体の進行状況
   types:
     creation_wizard:
+      add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5875,7 +6103,7 @@ ja:
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -5900,6 +6128,7 @@ ja:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
@@ -5927,7 +6156,12 @@ ja:
           label: PDF エクスポート テンプレート
         tab: PDFを生成
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -5970,6 +6204,13 @@ ja:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -5977,6 +6218,17 @@ ja:
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: すべてのプロジェクトで有効
         select_projects: プロジェクトを選択
         select_projects_description: このタイプを使用するプロジェクトを選択。
@@ -5988,32 +6240,74 @@ ja:
             description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
             title: Copy configuration?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
             heading: Switch configuration mode?
             title: Switch configuration mode
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6021,36 +6315,30 @@ ja:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+          title: Manual configuration
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
+        filter: Filter by text
+        filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Workflows
     index:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
@@ -6062,13 +6350,12 @@ ja:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: 新しい種類を作成
       no_results_title_text: 現在、種類はありません。
+      project_variants_count:
+        other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
-      variants_count:
-        other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
     close_warning: この警告を無視する。
@@ -6117,11 +6404,11 @@ ja:
       '
   users:
     autologins:
-      prompt: ログインしたまま %{num_days}
+      prompt: "%{num_days} のログインを維持"
     force_password_change_hint: The user must set a new password on their next login. Automatically enabled when sending credentials via email.
     groups:
       member_in_these_groups: このユーザーは現在以下のグループのメンバーです：
-      more: "%{count} もっと見る"
+      more: "%{count} 以上"
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
       summary_html: Member of %{names}.
       summary_with_more_html: Member of %{names} and %{count_link}.
@@ -6179,7 +6466,7 @@ ja:
           title: Invite user to %{project_name}
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
-    open_profile: プロフィール
+    open_profile: プロファイルを開く
     send_information_hint: Emails the password in plain text. When checked, the user will be required to change their password on first login.
     sessions:
       browser: ブラウザ
@@ -6190,7 +6477,7 @@ ja:
       expires: 有効期限
       instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognise or from devices you do not control.
       last_connection: 前回の接続
-      may_not_delete_current: 現在のセッションを削除することはできません。
+      may_not_delete_current: 現在のセッションは削除できません。
       session_name: "%{browser_name} %{browser_version} の %{os_name}"
       title: セッション管理
       unknown: "(unknown)"
@@ -6348,10 +6635,10 @@ ja:
       '
   work_package_relations_tab:
     index:
-      action_bar_title: 他のワークパッケージとのリレーションを追加して、それらの間にリンクを作成する。
+      action_bar_title: 他のワークパッケージにリレーションを追加して、その間にリンクを作成します。
       blankslate_description: このワークパッケージにはまだリレーションがありません。
-      blankslate_heading: 関係なし
-      no_results_title_text: 現在、利用可能な関係はない。
+      blankslate_heading: リレーションなし
+      no_results_title_text: 現在利用可能なリレーションはありません。
     label_add_child_button: 子要素
     label_add_description: 説明を追加
     label_add_x: "%{x} を追加"
@@ -6429,10 +6716,10 @@ ja:
       could_not_be_saved: '次のワークパッケージを保存できませんでした:'
       deletion_successful:
         other: Successfully deleted %{count} work packages.
-      descendant: 選択された子孫
+      descendant: 選択された子孫です
       move_failed: ワークパッケージを移動できませんでした。
       none_could_be_saved: "%{total} ワークパッケージのどれも更新できませんでした。"
-      selected_because_descendants: "%{selected} のワークパッケージが選択されたが、合計 %{total} のワークパッケージが影響を受け、その中には子孫も含まれる。"
+      selected_because_descendants: "%{selected} ワークパッケージが選択されている間、合計で %{total} ワークパッケージが子孫を含む影響を受けます。"
       x_out_of_y_could_be_saved: "%{failing} の %{total} ワークパッケージのうち、 %{success} を更新できませんでした。"
     bulk_delete_dialog:
       children_label: 'The following descendants will also be deleted:'
@@ -6556,13 +6843,13 @@ ja:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
           notice:
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
             other: Successfully copied workflow to %{count} types.

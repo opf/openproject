@@ -14,6 +14,17 @@ uk:
           end_before_start: кінцеве значення має бути більше початкового значення.
           outside: знаходиться за межами сітки.
           overlaps: перекриваються.
+    models:
+      grids/grid:
+        one: Сітка
+        few: Сітки
+        many: Сітки
+        other: Сітки
+      grids/widget:
+        one: Віджет
+        few: Віджети
+        many: Віджети
+        other: Віджети
   grids:
     label_widget_in_grid: Віджет, що міститься в сітці %{grid_name}
     widgets:

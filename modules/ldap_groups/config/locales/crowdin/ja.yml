@@ -20,8 +20,10 @@ ja:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: フィルタベース DN は、LDAP 接続のベース DN 内に含まれている必要があります
     models:
-      ldap_groups/synchronized_filter: LDAP グループ同期フィルター
-      ldap_groups/synchronized_group: 同期済 LDAP グループ
+      ldap_groups/synchronized_filter:
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

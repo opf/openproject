@@ -39,10 +39,36 @@ ru:
             query:
               must_be_work_package_query: должен быть представлением пакетов работ.
     models:
-      resource_allocation: Распределение ресурсов
-      resource_planner: Планирование ресурсов
-      resource_user_card: Карточки пользователей
-      resource_work_package_list: Список пакетов работ
+      resource_allocation:
+        one: Распределение ресурсов
+        few: Resource Allocations
+        many: Resource Allocations
+        other: Распределения ресурсов
+      resource_planner:
+        one: Планировщик ресурсов
+        few: Resource Planners
+        many: Resource Planners
+        other: Планировщики ресурсов
+      resource_user_card:
+        one: Карточка пользователя
+        few: User cards
+        many: User cards
+        other: Карточки пользователей
+      resource_user_timeline:
+        one: Таймлайн пользователей
+        few: User timelines
+        many: User timelines
+        other: Таймлайны пользователей
+      resource_work_package_list:
+        one: Список пакетов работ
+        few: Work packages lists
+        many: Work packages lists
+        other: Списки пакетов работ
+      resource_work_package_timeline:
+        one: Таймлайн пакетов работ
+        few: Work packages timelines
+        many: Work packages timelines
+        other: Таймлайны пакетов работ
   button_next: Далее
   ee:
     features:

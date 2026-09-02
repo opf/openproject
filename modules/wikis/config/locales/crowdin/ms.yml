@@ -28,6 +28,8 @@ ms:
         other: Inline page links
       wikis/internal_provider:
         other: Internal providers
+      wikis/page_link:
+        other: Page links
       wikis/provider:
         other: Wiki providers
       wikis/relation_page_link:

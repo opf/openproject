@@ -73,8 +73,36 @@ sl:
               invalid_password: is not valid.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: Datoteka
-      storages/storage: Storage
+      storages/file_link:
+        one: File link
+        two: File links
+        few: File links
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        two: Nextcloud storages
+        few: Nextcloud storages
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        two: OneDrive storages
+        few: OneDrive storages
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        two: Project storages
+        few: Project storages
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        two: SharePoint storages
+        few: SharePoint storages
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        two: Storages
+        few: Storages
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.

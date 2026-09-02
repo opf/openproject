@@ -21,6 +21,18 @@
 #++
 ---
 id:
+  activerecord:
+    models:
+      deploy_status_check:
+        other: Deployment status checks
+      deploy_target:
+        other: Deployment targets
+      github_check_run:
+        other: GitHub check runs
+      github_pull_request:
+        other: GitHub pull requests
+      github_user:
+        other: GitHub users
   attributes:
     additions_count: Jumlah penambahan
     changed_files_count: File yang diubah

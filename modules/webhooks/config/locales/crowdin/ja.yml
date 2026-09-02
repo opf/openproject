@@ -14,7 +14,10 @@ ja:
         secret: 署名シークレット
         url: ペイロード URL
     models:
-      webhooks/outgoing_webhook: 発信 webhook
+      webhooks/log:
+        other: Webhook logs
+      webhooks/webhook:
+        other: Webhooks
   plugin_openproject_webhooks:
     description: より良いサードパーティの統合のためにOpenProjectのWebhookをサポートするプラグイン API を提供します。
     name: OpenProject Webhooks

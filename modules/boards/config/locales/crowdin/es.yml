@@ -1,5 +1,10 @@
 ---
 es:
+  activerecord:
+    models:
+      boards/grid:
+        one: Tablero
+        other: Tableros
   boards:
     board_type_attributes:
       assignee: Asignado a

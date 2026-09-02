@@ -73,8 +73,24 @@ nl:
               invalid_password: is niet geldig.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: Bestand
-      storages/storage: Opslag
+      storages/file_link:
+        one: File link
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Te veel elementen gemaakt tegelijk. %{max} verwacht hoogstens %{actual}.

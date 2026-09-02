@@ -21,6 +21,13 @@
 #++
 ---
 ru:
+  activerecord:
+    models:
+      cost_query:
+        one: Отчет о затратах
+        few: Cost reports
+        many: Cost reports
+        other: Отчеты о затратах
   button_save_report_as: Сохранить отчет как...
   comments: Комментарий
   cost_reports_title: Время и затраты
@@ -46,7 +53,6 @@ ru:
   label_closed: закрыто
   label_columns: Столбцы
   label_cost_entry_attributes: Стоимость входных атрибутов
-  label_cost_report: Отчет по расходам
   label_cost_report_plural: Отчет по стоимости
   label_count: Количество
   label_days_ago: в последние дни

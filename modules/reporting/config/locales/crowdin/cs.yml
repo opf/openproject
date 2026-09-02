@@ -21,6 +21,13 @@
 #++
 ---
 cs:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: Uložit report jako...
   comments: Komentář
   cost_reports_title: Čas a náklady
@@ -46,7 +53,6 @@ cs:
   label_closed: uzavřeno
   label_columns: Sloupce
   label_cost_entry_attributes: Atributy nákladové položky
-  label_cost_report: Výkaz nákladů
   label_cost_report_plural: Výkazy nákladů
   label_count: Počet
   label_days_ago: za poslední dny

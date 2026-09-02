@@ -98,16 +98,30 @@ pt-PT:
       cost_entry:
         one: Entrada de custo
         other: Entradas de custo
+      cost_rate:
+        one: Taxa de custo
+        other: Taxas de custo
       cost_type:
         one: Tipo de custo
         other: Tipos de custos
-      rate: Tarifa
+      default_hourly_rate:
+        one: Tarifa horária padrão
+        other: Tarifas horárias padrão
+      hourly_rate:
+        one: Tarifa horária
+        other: Tarifas horárias
+      rate:
+        one: Tarifa
+        other: Tarifas
       time_entry:
         one: Entrada de hora
         other: Entradas de hora
       time_entry_activity:
         one: Atividade de controlo de tempo
         other: Atividades de controlo de tempo
+      time_entry_custom_field:
+        one: Campo personalizado de registo de horas
+        other: Campos personalizados de registo de horas
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ pt-PT:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_by_add: Adicionar campo de agrupamento
-  label_hourly_rate: Taxa horária
   label_include_deleted: Incluir eliminados
   label_kind: Tipo
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ pt-PT:
   label_previous_month: Mês anterior
   label_previous_week: Semana passada
   label_previous_workweek: Semana de trabalho anterior
-  label_rate: Tarifa
   label_rate_plural: Taxas
   label_show: Mostrar
   label_specific_day: Dia %{day}
@@ -241,7 +253,6 @@ pt-PT:
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
-  label_user: Utilizador
   label_valid_from: Válido a partir de
   label_view_mode_switcher: Mudar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho

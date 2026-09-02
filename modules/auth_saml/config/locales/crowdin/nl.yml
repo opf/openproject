@@ -3,6 +3,7 @@ nl:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS (Assertion consumer service) URL
         authn_requests_signed: SAML AuthnRequests ondertekenen
         certificate: Certificaat gebruikt door OpenProject voor SAML verzoeken
@@ -32,6 +33,10 @@ nl:
           invalid_certificate: 'is geen geldig PEM-geformatteerd certificaat: %{additional_message}'
           invalid_private_key: 'is geen geldig PEM-geformatteerd privésleutel: %{additional_message}'
           unmatched_private_key: behoort niet tot het gegeven certificaat
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Deze SAML-provider verwijderen?
     delete_title: SAML provider verwijderen
@@ -41,6 +46,9 @@ nl:
         '
       title: SAML-protocol configuratieparameters
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
 
         '

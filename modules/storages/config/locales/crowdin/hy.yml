@@ -73,8 +73,24 @@ hy:
               invalid_password: վավեր չէ։
               unknown_error: չհաջողվեց վավերացնել նիշքերի պահեստի մատակարարի մոտ։ Խնդրում ենք ստուգել, որ միացումը պատշաճ աշխատում է։
     models:
-      file_link: Նիշք
-      storages/storage: Պահեստ
+      storages/file_link:
+        one: File link
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Միանգամից ստեղծվել են չափազանց շատ տարրեր։ Ակնկալվում էր առավելագույնը %{max}, ստացվել է %{actual}։

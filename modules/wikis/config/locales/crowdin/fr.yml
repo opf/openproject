@@ -30,6 +30,9 @@ fr:
       wikis/internal_provider:
         one: Fournisseur interne
         other: Fournisseurs internes
+      wikis/page_link:
+        one: Lien de page
+        other: Liens de page
       wikis/provider:
         one: Fournisseur de wiki
         other: Fournisseurs de wiki

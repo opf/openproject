@@ -20,10 +20,21 @@ pt-PT:
             phone_number:
               error_phone_number_format: deve ser do formato + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Dispositivo 2FA
-      two_factor_authentication/device/sms: Telemóvel
-      two_factor_authentication/device/totp: Aplicação autenticadora
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Código de cópia de segurança
+        other: Códigos da cópia de segurança
+      two_factor_authentication/device:
+        one: Dispositivo 2FA
+        other: Dispositivos 2FA
+      two_factor_authentication/device/sms:
+        one: Telemóvel
+        other: Telemóveis
+      two_factor_authentication/device/totp:
+        one: Aplicação de autenticação
+        other: Aplicações de autenticação
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continuar
   button_make_active: Ativar
   button_make_default: Marque como padrão

@@ -73,8 +73,24 @@ fr:
               invalid_password: n'est pas valide.
               unknown_error: n'a pas pu être validé auprès du fournisseur d'espace de stockage de fichiers. Veuillez vérifier que la connexion fonctionne correctement.
     models:
-      file_link: Fichier
-      storages/storage: Stockage
+      storages/file_link:
+        one: Lien de fichier
+        other: Liens de fichiers
+      storages/nextcloud_storage:
+        one: Espace de stockage Nextcloud
+        other: Espaces de stockage Nextcloud
+      storages/one_drive_storage:
+        one: Espace de stockage OneDrive
+        other: Espaces de stockage OneDrive
+      storages/project_storage:
+        one: Espace de stockage de projet
+        other: Espaces de stockage de projet
+      storages/sharepoint_storage:
+        one: Espace de stockage SharePoint
+        other: Espaces de stockage SharePoint
+      storages/storage:
+        one: Espace de stockage
+        other: Espaces de stockage
   api_v3:
     errors:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.

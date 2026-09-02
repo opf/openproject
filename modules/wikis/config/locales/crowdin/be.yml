@@ -34,6 +34,11 @@ be:
         few: Internal providers
         many: Internal providers
         other: Internal providers
+      wikis/page_link:
+        one: Page link
+        few: Page links
+        many: Page links
+        other: Page links
       wikis/provider:
         one: Wiki provider
         few: Wiki providers

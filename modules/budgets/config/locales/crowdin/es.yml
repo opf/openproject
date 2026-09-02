@@ -46,9 +46,15 @@ es:
             principal:
               not_a_member_of_budget_project: no es miembro del proyecto presupuestario
     models:
-      budget: Presupuesto
-      labor_budget_item: Costo laboral previsto
-      material_budget_item: Unidad
+      budget:
+        one: Presupuesto
+        other: Presupuestos
+      labor_budget_item:
+        one: Coste laboral previsto
+        other: Costes laborales previstos
+      material_budget_item:
+        one: Unidad
+        other: Unidades
   activity:
     filter:
       budget: Presupuestos
@@ -102,7 +108,6 @@ es:
   help_click_to_edit: Haga clic aquí para editar.
   help_currency_format: Formato de muestra de valores de divisas. %n se sustituye por el valor de la moneda, %u es reemplazada por la unidad monetaria.
   help_override_rate: Introduzca un valor para anular la morisidad.
-  label_budget: Presupuesto
   label_budget_available: Presupuesto disponible
   label_budget_details: Detalles de presupuesto
   label_budget_id: 'Presupuesto #%{id}'

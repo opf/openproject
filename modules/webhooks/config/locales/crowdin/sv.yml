@@ -14,7 +14,12 @@ sv:
         secret: Signeringshemlighet
         url: Payload-URL
     models:
-      webhooks/outgoing_webhook: Utgående webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Tillhandahåller ett plug-in API för att stödja OpenProject webhooks för bättre integration med tredje part.
     name: Webhooks för OpenProject

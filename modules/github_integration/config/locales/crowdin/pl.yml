@@ -21,6 +21,33 @@
 #++
 ---
 pl:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Kontrola stanu wdrożenia
+        few: Kontrole stanu wdrożenia
+        many: Kontrole stanu wdrożenia
+        other: Kontrole stanu wdrożenia
+      deploy_target:
+        one: Cel wdrożenia
+        few: Cele wdrożenia
+        many: Cele wdrożenia
+        other: Cele wdrożenia
+      github_check_run:
+        one: Uruchomienie kontroli GitHub
+        few: Uruchomienia kontroli GitHub
+        many: Uruchomienia kontroli GitHub
+        other: Uruchomienia kontroli GitHub
+      github_pull_request:
+        one: Żądanie Pull Request w GitHub
+        few: Żądania Pull Request w GitHub
+        many: Żądania Pull Request w GitHub
+        other: Żądania Pull Request w GitHub
+      github_user:
+        one: Użytkownik GitHub
+        few: Użytkownicy GitHub
+        many: Użytkownicy GitHub
+        other: Użytkownicy GitHub
   attributes:
     additions_count: Liczba dodań
     changed_files_count: Zmienione pliki

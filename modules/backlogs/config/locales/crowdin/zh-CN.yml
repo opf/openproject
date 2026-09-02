@@ -91,8 +91,12 @@ zh-CN:
               task_version_must_be_the_same_as_story_version: 必须与父级故事的版本相同。
           backlog_bucket_xor_sprint: 无法同时指定至冲刺和积压工作存储桶。
     models:
+      backlog_bucket:
+        other: 积压工作存储桶
       sprint:
         other: 冲刺
+      sprint_goal:
+        other: 冲刺目标
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: 添加现有工作包

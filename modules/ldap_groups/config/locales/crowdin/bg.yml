@@ -20,8 +20,12 @@ bg:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Основният DN на филтъра трябва да се съдържа в основния DN на LDAP връзката
     models:
-      ldap_groups/synchronized_filter: Филтър за синхронизиране на LDAP групи
-      ldap_groups/synchronized_group: Синхронизирана LDAP група
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

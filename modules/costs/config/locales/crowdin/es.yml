@@ -98,16 +98,30 @@ es:
       cost_entry:
         one: Entrada de costes
         other: Entradas de costes
+      cost_rate:
+        one: Tarifa de coste
+        other: Tarifas de coste
       cost_type:
         one: Tipo de costo
         other: Tipos de costos
-      rate: Proporción
+      default_hourly_rate:
+        one: Tarifa por hora predeterminada
+        other: Tarifas por hora predeterminadas
+      hourly_rate:
+        one: Tarifa por hora
+        other: Tarifas por hora
+      rate:
+        one: Tarifa
+        other: Tarifas
       time_entry:
         one: Entrada de tiempo
         other: Entradas de tiempo
       time_entry_activity:
         one: Actividad de seguimiento del tiempo
         other: Actividades de seguimiento del tiempo
+      time_entry_custom_field:
+        one: Campo personalizado de entrada de tiempo
+        other: Campos personalizados de entrada de tiempo
   api_v3:
     errors:
       validation:
@@ -206,7 +220,6 @@ es:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_by_add: Añadir campo de agrupamiento
-  label_hourly_rate: Tarifa por hora
   label_include_deleted: Incluir eliminados
   label_kind: Tipo
   label_less_or_equal: "<="
@@ -227,7 +240,6 @@ es:
   label_previous_month: Mes anterior
   label_previous_week: Semana anterior
   label_previous_workweek: Semana laboral anterior
-  label_rate: Proporción
   label_rate_plural: Tasas
   label_show: Mostrar
   label_specific_day: Día %{day}
@@ -241,7 +253,6 @@ es:
   label_today_capitalized: Hoy
   label_units: Unidades de costo
   label_until: hasta
-  label_user: Usuario
   label_valid_from: Válido desde
   label_view_mode_switcher: Cambia vista
   label_work_package_filter_add: Añadir filtro del paquete de trabajo

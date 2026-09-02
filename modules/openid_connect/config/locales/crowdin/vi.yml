@@ -43,6 +43,11 @@ vi:
           invalid_claims_location: 'chứa các vị trí không được hỗ trợ: %{invalid}. Các địa điểm được hỗ trợ là: %{supported}.'
           invalid_claims_values: không xác định mảng tại %{attribute}.
           non_object_attribute: không xác định đối tượng JSON tại %{attribute}.
+    models:
+      openid_connect/provider:
+        other: OpenID Connect providers
+      openid_connect/user_token:
+        other: OpenID Connect tokens
   logout_warning: 'Bạn đã đăng xuất. Nội dung của bất kỳ hình thức nào bạn gửi có thể bị mất. Xin vui lòng [log in].
 
     '

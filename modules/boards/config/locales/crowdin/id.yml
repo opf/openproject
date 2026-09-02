@@ -1,5 +1,9 @@
 ---
 id:
+  activerecord:
+    models:
+      boards/grid:
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Pelimpahan

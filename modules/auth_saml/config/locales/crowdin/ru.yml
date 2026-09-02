@@ -3,6 +3,7 @@ ru:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL-адрес ACS (Служба Поддержки Потребителей)
         authn_requests_signed: Подпись запросов аутентификации SAML
         certificate: Сертификат, используемый для запросов SAML
@@ -32,6 +33,12 @@ ru:
           invalid_certificate: 'не является допустимым сертификатом в формате PEM: %{additional_message}'
           invalid_private_key: 'не является допустимым закрытым ключом в формате PEM: %{additional_message}'
           unmatched_private_key: не принадлежит данному сертификату
+    models:
+      saml/provider:
+        one: Провайдер SAML
+        few: SAML providers
+        many: SAML providers
+        other: Провайдеры SAML
   saml:
     delete_heading: Удалить этот провайдер SAML?
     delete_title: Удалить провайдера SAML
@@ -41,6 +48,9 @@ ru:
         '
       title: Параметры конфигурации протокола SAML
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Если установлено, то OpenProject подпишет запрос SAML. Вам нужно будет предоставить сертификат подписи и закрытый ключ, используя поля ниже.
 
         '

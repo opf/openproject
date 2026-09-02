@@ -54,6 +54,8 @@ zh-CN:
         position: 位置
         presenter: 演讲者
         title: 标题
+      meeting_outcome:
+        kind: 种类
       meeting_participant:
         attended: 已参加
         invited: 已邀请
@@ -97,11 +99,20 @@ zh-CN:
         recurring_meeting_interim_response:
           not_an_occurrence: 不是此定期会议的有效事件时间
     models:
-      meeting: 一次性会议
-      meeting_agenda: 议程
-      meeting_agenda_item: 议程项目
-      meeting_section: 节
-      recurring_meeting: 定期会议
+      meeting:
+        other: 一次性会议
+      meeting_agenda_item:
+        other: 议程条目
+      meeting_outcome:
+        other: 成果
+      meeting_participant:
+        other: 会议参与者
+      meeting_section:
+        other: 小节
+      recurring_meeting:
+        other: 定期会议
+      scheduled_meeting:
+        other: 预定会议
       token/ical_meeting:
         other: iCal 会议订阅
   activity:
@@ -250,7 +261,6 @@ zh-CN:
   label_past_meetings: 过去的会议
   label_past_meetings_short: 过往
   label_recurring_filter: 重复过滤器
-  label_recurring_meeting: 定期会议
   label_recurring_meeting_cancel: 取消此事件
   label_recurring_meeting_create: 打开
   label_recurring_meeting_delete: 删除事件

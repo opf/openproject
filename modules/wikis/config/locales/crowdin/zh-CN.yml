@@ -28,6 +28,8 @@ zh-CN:
         other: 内联页面链接
       wikis/internal_provider:
         other: 内部提供商
+      wikis/page_link:
+        other: 页面链接
       wikis/provider:
         other: |-
           One

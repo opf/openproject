@@ -1,5 +1,12 @@
 ---
 lt:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        few: Overviews
+        many: Overviews
+        other: Overviews
   overviews:
     label_dashboard: Skydelis
     label_home: "%{workspace_type} home"

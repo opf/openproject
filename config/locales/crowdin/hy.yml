@@ -76,6 +76,13 @@ hy:
         dependencies: Կախվածություններ
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Ցուցադրել մինչև
       attachment:
@@ -236,6 +243,7 @@ hy:
         project_creation_wizard_status_when_submitted: Կարգավիճակ ներկայացնելիս
         project_creation_wizard_work_package_comment: Աշխատանքային փաթեթի մեկնաբանություն
         project_creation_wizard_work_package_type: Աշխատանքային փաթեթի տեսակ
+        project_types: Types
         public_value:
           false: մասնավոր
           title: Տեսանելիություն
@@ -255,6 +263,7 @@ hy:
         templated_value:
           false: նշված չէ որպես ձևանմուշ
           true: նշված է որպես ձևանմուշ
+        type_variant: Work package type variant
         types: Տեսակներ
         versions: Տարբերակներ
         work_packages: Աշխատանքային փաթեթներ
@@ -275,6 +284,8 @@ hy:
         start_gate_name: Փուլի սկզբի դարպասի անվանում
       project_custom_field:
         custom_field_section: Բաժին
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Դուստր աշխատանքային փաթեթներ
         column_names: Սյունակներ
@@ -342,18 +353,26 @@ hy:
       token/named:
         token_name: Թոքենի անվանում
       type:
-        attribute_groups: Ձևի կազմաձևում
-        children: Variants
         color: Գույն
-        dependent_configuration_links: Կապակցված տեսակներ
-        description: Նկարագրության կանխադրված տեքստ
-        is_default: Կանխադրված կարգով ակտիվացված է նոր նախագծերի համար
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
-        parent: Ծնող տեսակ
-        patterns: Կաղապարներ
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Աղբյուրի տեսակ
+      type_variant:
+        attribute_groups: Form configuration
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form configuration source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Ադմինիստրատոր
         auth_source: Նույնականացման աղբյուր
@@ -452,6 +471,7 @@ hy:
           true: ներառել ոչ աշխատանքային օրերը
         journal_internal: Ներքին մատյան
         notify: Ծանուցել
+        observed_in_versions: Observed in versions
         parent: Ծնող
         parent_issue: Ծնող
         parent_work_package: Ծնող
@@ -527,6 +547,8 @@ hy:
         is_for_all_cannot_modify: վերաբերում է բոլոր նախագծերին և հետևաբար չի կարող փոփոխվել։
         ldap_managed: Այս ստորաբաժանումը կառավարվում է LDAP համաժամացման միջոցով և չի կարող փոփոխվել ձեռքով։
         less_than_or_equal_to: պետք է փոքր կամ հավասար լինի %{count}-ին։
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: վավեր ամսաթիվ չէ։
         not_a_datetime: վավեր ամսաթիվ և ժամ չէ։
         not_a_number: թիվ չէ։
@@ -549,6 +571,7 @@ hy:
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
         ssrf_filtered: խախտում է այս OpenProject համակարգի SSRF քաղաքականությունը։
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: հակասում է այս ամսաթվի համար գործող համակարգային ոչ աշխատանքային օրվան։
         taken: արդեն զբաղված է։
         too_long: չափազանց երկար է (առավելագույնը՝ %{count} նշան)։
@@ -719,9 +742,8 @@ hy:
               blank: Խնդրում ենք ընտրել նախագիծ։
         project_type:
           attributes:
-            type:
-              must_be_a_root_type: must be a top-level type. A project uses roots and resolves a variant separately.
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -794,6 +816,7 @@ hy:
               hours_per_day_are_missing: Օրվա ժամերի քանակը պետք է սահմանված լինի։
               hours_per_day_is_out_of_bounds: Օրվա ժամերը չեն կարող լինել 24-ից ավելի
               journal_aggregation_time_minutes_is_out_of_bounds: Համախմբման ժամանակահատվածը պետք է լինի %{min} և %{max} րոպեի միջև։
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Աշխատանքային օրերի կազմաձևման նախորդ փոփոխությունները դեռ չեն կիրառվել։
               working_days_are_missing: Շաբաթվա առնվազն մեկ օր պետք է սահմանված լինի որպես աշխատանքային օր։
         status:
@@ -811,25 +834,40 @@ hy:
               blank: Խնդրում ենք նշել թոքենի անվանում
               format: "%{message}"
               in_use: Այս թոքենի անվանումն արդեն օգտագործվում է, խնդրում ենք ընտրել այլ անվանում
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Օգտագործվել է աշխատանքային փաթեթի անվավեր հատկանիշ։
-              attribute_unknown_name: Օգտագործվել է աշխատանքային փաթեթի անվավեր հատկանիշ՝ %{attribute}
-              duplicate_group: "'%{group}' խմբի անվանումն օգտագործվել է մեկից ավելի անգամ։ Խմբերի անվանումները պետք է լինեն եզակի։"
-              group_without_name: Խմբի անվանումը չի կարող դատարկ լինել։
-              query_invalid: "'%{group}' ներդրված հարցումն անվավեր է՝ %{details}"
-            parent:
-              cannot_be_self: չի կարող լինել տեսակն ինքը։
-              cannot_change_while_used_by_projects: can't be changed while projects still use this type.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: ինքը պետք է լինի վերին մակարդակի տեսակ։ Տեսակները կարող են ներդրվել միայն մեկ մակարդակ խորությամբ։
-              standard_type_must_be_root: հնարավոր չէ սահմանել ստանդարտ տեսակի համար։
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
             patterns:
-              invalid_tokens: Դաշտի ներսում մեկ կամ մի քանի հատկանիշ վավեր չէ։ Խնդրում ենք ուղղել հատկանիշները նախքան պահպանելը։
-        type/configuration_link:
-          attributes:
-            source_id:
+              invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -935,6 +973,9 @@ hy:
             start_date:
               cannot_be_null: չի կարող դատարկ սահմանվել, քանի որ ավարտի ամսաթիվը և տևողությունը հայտնի են։
               violates_relationships: կարող է սահմանվել միայն %{soonest_start} կամ ավելի ուշ, որպեսզի չխախտվեն աշխատանքային փաթեթի կապերը։
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: անվավեր է, քանի որ ընթացիկ կարգավիճակը գոյություն չունի այս տեսակում։
               status_transition_invalid: անվավեր է, քանի որ ընթացիկ օգտատիրոջ դերերի համար հին կարգավիճակից նորին վավեր անցում գոյություն չունի։
@@ -949,70 +990,309 @@ hy:
           one: 1 սխալ արգելեց այս %{model}-ի պահպանումը
           other: "%{count} սխալ արգելեց այս %{model}-ի պահպանումը"
     models:
-      attachment: Նիշք
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Հատկանիշի օգնության տեքստ
         other: Հատկանիշների օգնության տեքստեր
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Նույնականացման մատակարար
         other: Նույնականացման մատակարարներ
-      category: Կատեգորիա
-      color: Գույն
-      comment: Մեկնաբանություն
-      custom_action: Հատուկ գործողություն
-      custom_field: Հատուկ դաշտ
-      customized: Հարմարեցված
-      doorkeeper/application: OAuth հավելված
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise թոքեն
         other: Enterprise թոքեններ
-      forum: Ֆորում
-      global_role: Գլոբալ դեր
-      group: Խումբ
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Առաջնահերթություն
         other: Առաջնահերթություններ
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Հանդիպման մասնակից
-      member: Անդամ
-      message: Հաղորդագրություն
-      news: Նորություններ
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Ծանուցում
         other: Ծանուցումներ
-      placeholder_user: Տեղապահ օգտատեր
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Նախագիծ
         other: Նախագծեր
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Նախագծերի ցանկ
         other: Նախագծերի ցանկեր
-      query: Հատուկ հարցում
-      reminder: Հիշեցում
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Դեր
         other: Դերեր
       scim_client:
         one: SCIM հաճախորդ
         other: SCIM հաճախորդներ
-      status: Աշխատանքային փաթեթի կարգավիճակ
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Մուտքի թոքեն
         other: Մուտքի թոքեններ
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS թոքեն
         other: RSS թոքեններ
       type:
         one: Տեսակ
         other: Տեսակներ
-      user: Օգտատեր
-      version: Տարբերակ
-      wiki: Վիքի
-      wiki_page: Վիքի էջ
-      work_package: Աշխատանքային փաթեթ
-      workflow: Աշխատանքային հոսք
+      type_variant:
+        one: Variant
+        other: Variants
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: Այս ժամանակահատվածում նախագծի համար գործունեություն չի եղել։
@@ -1225,6 +1505,7 @@ hy:
           finalizing: Վերջնականացվում է
           finalizing_done: Ավարտված
           finalizing_error: Սխալ վերջնականացման ընթացքում
+          import_aborting: Aborting
           import_error: Սխալ ներմուծման ընթացքում
           import_scope: Ընտրեք շրջանակը
           imported: Վերանայման ռեժիմ
@@ -1236,13 +1517,13 @@ hy:
           projects_meta_done: Տվյալները հավաքագրված են
           projects_meta_error: Նախագծի տվյալների ստացման սխալ
           projects_meta_fetching: Նախագծի տվյալները ստացվում են
-          revert_cancelled: Հետարկումը չեղարկված է
-          revert_cancelling: Հետարկումը չեղարկվում է
           revert_error: Սխալ հետարկման ընթացքում
           reverted: Հետարկված է
           reverting: Հետարկվում է
+        step_not_available: This action is not available for the current state of the import run.
         title: Ներմուծման գործարկում
         wizard:
+          button_abort: Abort
           button_retry: Կրկին փորձել
           finalize_dialog:
             confirm: Հասկանում եմ, որ այս գործողությունն անշրջելի է
@@ -1286,11 +1567,14 @@ hy:
             title: Ընդմիշտ հետարկե՞լ այս ներմուծումը։
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Սկսել ներմուծումը
               caption: Վերանայեք Ձեր ներմուծման կարգավորումները և սկսեք ներմուծումը
               caption_done: Ավարտված
               caption_done_info: Բոլոր տվյալները ներմուծված են
               description: Դուք պատրաստվում եք սկսել ներմուծման գործարկում հետևյալ կարգավորումներով։
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
@@ -1311,6 +1595,7 @@ hy:
               button_done: Հաստատել ներմուծումը
               button_revert: Հետարկել ներմուծումը
               caption: Վերանայեք ներմուծման գործարկումը կամ հետարկեք ներմուծումը
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Հաստատել ներմուծումը
               label_finalizing: Ներմուծումը հաստատվում է...
               label_finalizing_done: Ներմուծումը հաստատվել է։
@@ -1318,7 +1603,6 @@ hy:
               label_revert: Հետարկել ներմուծումը
               label_revert_progress: Ներմուծումը հետարկվում է...
               label_reverted: Ներմուծումը հետարկվել է։
-              preview_description: Ներմուծված տվյալները ներկայումս վերանայման ռեժիմում են։ Սեղմեք "Հաստատել ներմուծումը"՝ ներմուծումը մշտական դարձնելու համար, կամ "Հետարկել ներմուծումը"՝ այս ներմուծման գործարկման ընթացքում կատարված բոլոր փոփոխությունները հետարկելու համար։
               stats:
                 other_settings:
                   label: Այլ կարգավորումներ
@@ -1740,6 +2024,7 @@ hy:
     custom_field: Հատուկ դաշտ
     custom_options: Հնարավոր արժեքներ
     custom_values: Հատուկ դաշտեր
+    customized: Customized
     date: Ամսաթիվ
     dates_interval: Ամսաթվերի միջակայք
     default_columns: Կանխադրված սյունակներ
@@ -1766,6 +2051,7 @@ hy:
     is_default: Կանխադրված արժեք
     is_for_all: Բոլոր նախագծերի համար
     issue: Աշխատանքային փաթեթ
+    jira: Jira
     journal: Մատյան
     journal_notes: Մեկնաբանություն
     lastname: Ազգանուն
@@ -1798,6 +2084,7 @@ hy:
     start_date: Սկզբի ամսաթիվ
     state: Վիճակ
     status: Կարգավիճակ
+    status_id: Status
     subject: Վերնագիր
     summary: Ամփոփում
     template: Ձևանմուշ
@@ -2319,8 +2606,12 @@ hy:
   description_available_columns: Հասանելի սյունակներ
   description_category_reassign: Ընտրեք կատեգորիա
   description_choose_project: Նախագծեր
-  description_compare_from: Համեմատել սկսած
-  description_compare_to: Համեմատել մինչև
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Դուք այստեղ եք՝ '
   description_date_from: Մուտքագրեք սկզբի ամսաթիվը
   description_date_to: Մուտքագրեք ավարտի ամսաթիվը
@@ -2545,18 +2836,17 @@ hy:
   error_attribute_not_highlightable: Հատկանիշ(ներ), որոնք հնարավոր չէ ընդգծել՝ %{attributes}
   error_auth_source_sso_failed: "'%{value}' օգտատիրոջ համար Single Sign-On (SSO)-ն ձախողվեց"
   error_can_not_archive_project: Այս նախագիծը հնարավոր չէ արխիվացնել՝ %{errors}
-  error_can_not_deactivate_type: Հնարավոր չէ ապաակտիվացնել %{type} տեսակը, քանի որ այն դեռ օգտագործվում է %{work_packages_link}-ի կողմից
   error_can_not_deactivate_type_invisible_projects: Աշխատանքային փաթեթներ առկա են նաև այն նախագծերում, որոնք Դուք չեք կարող տեսնել։
   error_can_not_delete_custom_field: Հնարավոր չէ ջնջել հատուկ դաշտը
   error_can_not_delete_entry: Հնարավոր չէ ջնջել գրառումը
   error_can_not_delete_in_use_archived_undisclosed: Աշխատանքային փաթեթներ առկա են նաև արխիվացված նախագծերում։ Դուք պետք է խնդրեք ադմինիստրատորին կատարել ջնջումը, որպեսզի տեսնեք, թե որ նախագծերի վրա է դա ազդում։
   error_can_not_delete_in_use_archived_work_packages: Աշխատանքային փաթեթներ առկա են նաև արխիվացված նախագծերում։ Համապատասխան աշխատանքային փաթեթների հատկանիշը փոխելուց առաջ Դուք պետք է վերաակտիվացնեք հետևյալ նախագծերը՝ %{archived_projects_urls}
-  error_can_not_delete_standard_type: Ստանդարտ տեսակները հնարավոր չէ ջնջել։
   error_can_not_delete_type:
     explanation: Այս տեսակը պարունակում է աշխատանքային փաթեթներ և հնարավոր չէ ջնջել։ Բոլոր առնչվող աշխատանքային փաթեթները Դուք կարող եք տեսնել <a target="_blank" href="%{url}">այս տեսքում</a>։
   error_can_not_find_all_resources: Չհաջողվեց գտնել այս պահանջին առնչվող բոլոր ռեսուրսները։
   error_can_not_invite_user: Օգտատիրոջը հրավեր ուղարկելը ձախողվեց։
   error_can_not_remove_role: Այս դերն օգտագործվում է և հնարավոր չէ ջնջել։
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Փակ տարբերակին նշանակված աշխատանքային փաթեթը հնարավոր չէ նորից բացել
   error_can_not_unarchive_project: Այս նախագիծը հնարավոր չէ արխիվից վերականգնել՝ %{errors}
   error_check_user_and_role: Խնդրում ենք ընտրել օգտատեր և դեր։
@@ -3022,7 +3312,6 @@ hy:
   label_available_projects: Հասանելի նախագծեր
   label_backtrace: Backtrace
   label_backup: Պահուստավորում
-  label_backup_code: Պահուստային կոդ
   label_basic_details: Հիմնական մանրամասներ
   label_between: միջև
   label_blocked_by: արգելափակված է
@@ -3042,7 +3331,6 @@ hy:
   label_calendar_show: Ցուցադրել օրացույցը
   label_calendar_subscriptions: Օրացույցի բաժանորդագրություններ
   label_calendars_and_dates: Օրացույցներ և ամսաթվեր
-  label_category: Կատեգորիա
   label_change_parent: Փոխել ծնողը
   label_change_password: Փոփոխել գաղտնաբառը
   label_change_plural: Փոփոխություններ
@@ -3051,9 +3339,9 @@ hy:
   label_change_status_of_user: 'Փոխել #{username}-ի կարգավիճակը'
   label_change_view_all: Դիտել բոլոր փոփոխությունները
   label_changes_details: Բոլոր փոփոխությունների մանրամասները
-  label_changeset: Փոփոխությունների խումբ
   label_changeset_id: Փոփոխությունների խմբի ID
   label_changeset_plural: Փոփոխությունների խմբեր
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Նշել/Հանել նշումը սյունակում
   label_check_uncheck_all_in_row: Նշել/Հանել նշումը տողում
   label_checked: նշված
@@ -3200,6 +3488,7 @@ hy:
   label_feeds_access_key: RSS մուտքի բանալի
   label_feeds_access_key_created_on: RSS մուտքի բանալին ստեղծվել է %{value} առաջ
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Նիշքեր
   label_filter: Զտիչներ
   label_filter_add: Ավելացնել զտիչ
@@ -3224,7 +3513,6 @@ hy:
   label_git_path: Ուղի .git պանակին
   label_global: Գլոբալ
   label_global_modules: Գլոբալ մոդուլներ
-  label_global_role: Գլոբալ դեր
   label_global_roles: Գլոբալ դերեր
   label_go_back: Վերադառնալ ցանկի մեկ մակարդակ հետ
   label_go_forward: Բացել %{module} ենթացանկը
@@ -3293,7 +3581,6 @@ hy:
   label_last_week: անցյալ շաբաթ
   label_latest_revision: Վերջին ռևիզիա
   label_latest_revision_plural: Վերջին ռևիզիաներ
-  label_ldap_auth_source: LDAP կապ
   label_ldap_auth_source_new: Նոր LDAP կապ
   label_ldap_auth_source_plural: LDAP կապեր
   label_ldap_authentication: LDAP նույնականացում
@@ -3320,9 +3607,9 @@ hy:
   label_me: ես
   label_member_all_admin: "(Բոլոր դերերը՝ ադմինիստրատորի կարգավիճակի շնորհիվ)"
   label_member_new: Նոր անդամ
+  label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Անդամներ
-  label_member_role: Նախագծի դեր
   label_membership_added: Անդամն ավելացվել է
   label_membership_plural: Անդամակցություններ
   label_membership_updated: Անդամը թարմացվել է
@@ -3435,7 +3722,6 @@ hy:
   label_permissions: Թույլտվություններ
   label_permissions_report: Թույլտվությունների հաշվետվություն
   label_personalize_page: Անհատականացնել այս էջը
-  label_placeholder_user: Տեղապահ օգտատեր
   label_placeholder_user_new: Նոր տեղապահ օգտատեր
   label_placeholder_user_plural: Տեղապահ օգտատերեր
   label_planning: Պլանավորում
@@ -3498,7 +3784,6 @@ hy:
   label_related_work_packages: Կապակցված աշխատանքային փաթեթներ
   label_relates: կապված է
   label_relates_to: կապված է
-  label_relation: Կապ
   label_relation_actions: Կապի գործողություններ
   label_relation_delete: Ջնջել կապը
   label_relation_edit: Խմբագրել կապը
@@ -3551,7 +3836,6 @@ hy:
   label_send_information: Ուղարկել նոր մուտքի տվյալները օգտատիրոջը
   label_send_invitation: Ուղարկել հրավեր
   label_send_test_email: Ուղարկել փորձնական էլ. նամակ
-  label_session: Աշխատաշրջան
   label_setting_plural: Կարգավորումներ
   label_share: Համօգտագործել
   label_share_project_list: Համօգտագործել նախագծերի ցանկը
@@ -3627,7 +3911,6 @@ hy:
   label_used_by: Օգտագործվում է
   label_used_by_types: Օգտագործվում է տեսակներում
   label_used_in_projects: Օգտագործվում է նախագծերում
-  label_user: Օգտատեր
   label_user_activity_html: "%{value}-ի գործունեություն"
   label_user_and_permission: Օգտատերեր և թույլտվություններ
   label_user_anonymous: Անանուն
@@ -3658,19 +3941,17 @@ hy:
   label_week: Շաբաթ
   label_weighted_item_list: Կշռված տարրերի ցանկ
   label_what_is_this: Ի՞նչ է սա
-  label_widget: Վիջեթ
   label_widget_new: Նոր վիջեթ
   label_wiki_content_added: Վիքի էջն ավելացվել է
   label_wiki_content_updated: Վիքի էջը թարմացվել է
   label_wiki_dont_show_menu_item: Չցուցադրել այս վիքի էջը նախագծի նավիգացիայում
   label_wiki_edit: Վիքի խմբագրում
   label_wiki_edit_plural: Վիքի խմբագրումներ
-  label_wiki_menu_item: Վիքի ընտրացանկի տարր
   label_wiki_navigation: Վիքի նավիգացիա
-  label_wiki_page: Վիքի էջ
   label_wiki_page_attachments: Վիքի էջի կցորդներ
   label_wiki_page_id: Վիքի էջի ID
   label_wiki_page_plural: Վիքի էջեր
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Ցուցադրել 'Բովանդակության ցանկ' ենթակետը
   label_wiki_show_menu_item: Ցուցադրել որպես ընտրացանկի տարր նախագծի նավիգացիայում
   label_wiki_show_new_page_link: Ցուցադրել 'Ստեղծել նոր ենթաէջ' ենթակետը
@@ -3687,7 +3968,6 @@ hy:
   label_work_package_hierarchy: Աշխատանքային փաթեթների հիերարխիա
   label_work_package_new: Նոր աշխատանքային փաթեթ
   label_work_package_plural: Աշխատանքային փաթեթներ
-  label_work_package_status: Աշխատանքային փաթեթի կարգավիճակ
   label_work_package_status_new: Նոր կարգավիճակ
   label_work_package_status_plural: Աշխատանքային փաթեթների կարգավիճակներ
   label_work_package_tracking: Աշխատանքային փաթեթների հետագծում
@@ -4269,7 +4549,6 @@ hy:
   notice_auth_stage_error: Նույնականացման '%{stage}' փուլը ձախողվեց։
   notice_auth_stage_verification_error: Հնարավոր չէր ստուգել '%{stage}' փուլը։
   notice_auth_stage_wrong_stage: Ակնկալվում էր նույնականացման '%{expected}' փուլի ավարտը, սակայն վերադարձվել է '%{actual}'-ը։
-  notice_automatic_set_of_standard_type: Ստանդարտ տեսակն ավտոմատ կերպով սահմանվել է։
   notice_bad_request: Սխալ հարցում։
   notice_can_t_change_password: Այս հաշիվն օգտագործում է արտաքին նույնականացման աղբյուր։ Գաղտնաբառը փոխել հնարավոր չէ։
   notice_custom_options_deleted: "'%{option_value}' ընտրանքը և դրա %{num_deleted} օգտագործումները ջնջվել են։"
@@ -4555,6 +4834,8 @@ hy:
     dialog:
       footer_center:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Էջատակի տեքստ
       footer_right:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի աջ մասում։
@@ -4657,6 +4938,7 @@ hy:
     '
   permission_manage_placeholder_user: Ստեղծել, խմբագրել և ջնջել տեղապահ օգտատերերին
   permission_manage_project_activities: Կառավարել նախագծի գործունեությունները
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Կառավարել հանրային BCF հարցումները
   permission_manage_public_project_queries: Կառավարել նախագծերի հանրային ցուցակները
   permission_manage_public_queries: Կառավարել հանրային տեսքերը
@@ -4965,23 +5247,41 @@ hy:
           type_label: Տեսակ
           type_placeholder: Ընտրեք տեսակ
         add_type: Ավելացնել տեսակ
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Ավելացրեք տեսակ, որպեսզի օգտատերերը կարողանան այս նախագծում ստեղծել այդ տեսակի աշխատանքային փաթեթներ։
           title: Այս նախագծում ակտիվ տեսակներ չկան
         form:
           enable_type_in_project: Միացնել "%{type}" տեսակը
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
+        project_specific_variant: Project-specific variant
         remove_from_project: Հեռացնել նախագծից
-        switch_dialog:
+        switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
         type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
         no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։
@@ -5303,6 +5603,14 @@ hy:
   setting_password_active_rules: Գաղտնաբառի պահանջներ
   setting_password_count_former_banned: Վերջին օգտագործված գաղտնաբառերի քանակը, որոնց կրկնակի օգտագործումն արգելված է
   setting_password_days_valid: Օրերի քանակը, որից հետո պարտադրվում է գաղտնաբառի փոփոխություն
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Նվազագույն երկարություն
   setting_per_page_options: Մեկ էջում օբյեկտների քանակի ընտրանքներ
   setting_percent_complete_on_status_closed: Կատարման %, երբ կարգավիճակը փակ է
@@ -5435,6 +5743,15 @@ hy:
     authentication:
       login: Մուտք
       omniauth_direct_login_hint_html: 'Եթե այս ընտրանքն ակտիվ է, մուտքի հարցումները կվերահղվեն դեպի կազմաձևված omniauth մատակարարը։ Մուտքի բացվող ցանկը և մուտքի էջն անջատված կլինեն։ <br/> <strong>Նշում՝</strong> եթե չանջատեք նաև գաղտնաբառով մուտքը, ապա այս ընտրանքը միացված վիճակում օգտատերերը դեռևս կկարողանան ներքին եղանակով մուտք գործել՝ այցելելով <code>%{internal_path}</code> մուտքի էջը։
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Գրանցում
@@ -5925,10 +6242,11 @@ hy:
   total_progress: Ընդհանուր առաջընթաց
   types:
     creation_wizard:
+      add_variant: Add a variant to %{name}
       create_type: Ստեղծել տեսակ
       create_variant: Ստեղծել տարատեսակ
       fields:
-        inherited_from_parent_html: Ժառանգված է <b>%{parent}</b> ծնող տեսակից։
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Ավարտել
       placeholder_description: Այս քայլը շուտով հասանելի կլինի։
       progress_label: Քայլ %{number} %{total}-ից
@@ -5940,7 +6258,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         workflows: Աշխատանքային հոսքեր
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
       defaults:
@@ -5965,6 +6283,7 @@ hy:
             work_package: Աշխատանքային փաթեթ
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
       export_configuration:
@@ -5992,7 +6311,12 @@ hy:
           label: PDF արտահանման ձևանմուշներ
         tab: Ստեղծել PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF արտահանման ձևանմուշներ
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Բաժին
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -6035,6 +6359,13 @@ hy:
         actions:
           label_disable_all: Անջատել բոլորը
           label_enable_all: Միացնել բոլորը
+        blankslate:
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
         disabled: Disabled
         exclusions:
@@ -6042,6 +6373,17 @@ hy:
         filter: Որոնել ըստ բաժնի կամ անվանման
         tab: Նախագծի հատկանիշներ
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Միացնել բոլոր նախագծերի համար
         select_projects: Ընտրել նախագծերը
         select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
@@ -6053,69 +6395,107 @@ hy:
             description_html: "%{source_name}-ից տվյալներ պատճենելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։"
             title: Պատճենե՞լ կազմաձևումը։
           dialog:
-            description: Պատճենեք կազմաձևումն աղբյուրի տեսակից և օգտագործեք այն որպես միանգամյա հիմք։ Սա մշտապես չի կապակցում երկու տեսակները։
-            source_label: Պատճենման աղբյուր
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
             submit: Պահպանել և պատճենել
             title: Պատճենել կազմաձևումը
           invalid_source: Կազմաձևումը հնարավոր չէ պատճենել ընտրված տեսակից։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
           success: Կազմաձևումը պատճենվել է։
-        exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
-          confirm_dialog:
-            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
-            description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Պատճենել տեսակից
-          description: Ոչ մի կարգավորում չի ժառանգվում։ Ցանկության դեպքում Դուք դեռևս կարող եք միանգամյա պատճենել կարգավորումները այլ տեսակից։
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: Անցնել
-            title: Անկախ ռեժիմ
-          invalid_mode: Ընտրված ռեժիմը հասանելի չէ այս կազմաձևման համար։ Խնդրում ենք ընտրել այլ ռեժիմ։
-          modes:
-            copy:
-              caption: Սկսեք կապակցված ռեժիմում սահմանված ընթացիկ կարգավորումների միանգամյա պատճենով։
-              label: Պատճենել կապակցվածից
-            default:
-              caption: Օգտագործել կանխադրված կարգավորումները նոր տեսակների համար։
-              label: Կանխադրված կարգավորումներ
-            empty:
-              caption: Կազմաձևեք ամեն ինչ զրոյից՝ սկսելով դատարկ կազմաձևումից։
-              label: Դատարկ
-          success: Կազմաձևման ռեժիմը փոխվել է։
-          switch_to_linked: Անցնել կապակցված ռեժիմին
-          title: Անկախ ռեժիմ
-        linked:
-          change_source: Փոխել աղբյուրի տեսակը
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: Աղբյուրի տեսակը %{source_name}-ի փոխելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
               heading: Change source type?
               title: Change source type
-            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
-            from_independent:
-              description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: Այս կազմաձևումը կապակցված է և ժառանգում է իր կարգավորումները [%{source_name}](source_url)%{source_suffix} աղբյուրի տեսակից։
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: Պատճենեք և ժառանգեք այս կարգավորումները աղբյուրից։ Աղբյուրին ավելացված ցանկացած նոր կազմաձևում կավելացվի նաև այստեղ։
-            source_label: Կապակցված աղբյուր
-            source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
-            submit: Անցնել
-            title: Կապակցված ռեժիմ
-          invalid_source: Կազմաձևումը հնարավոր չէ կապակցել ընտրված տեսակին։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
-          success: Կազմաձևման ռեժիմը փոխվել է։
-          switch_to_independent: Անցնել անկախ ռեժիմին
-          title: Կապակցված ռեժիմ
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (ծնող)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
+        filter: Filter by text
+        filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Աշխատանքային հոսքեր
     index:
-      add_variant: Ավելացնել տարատեսակ %{name}-ին
+      add_variant: Add a variant to %{name}
       add_variant_action: Ավելացնել տարատեսակ
       description: 'Տեսակների և տարատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
 
@@ -6127,14 +6507,13 @@ hy:
       make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
+      project_variants_count:
+        one: 1 project-specific variant
+        other: "%{count} project-specific variants"
       remove_default: Չակտիվացնել նոր նախագծերում
       remove_default_notice: "%{name}-ը այլևս ակտիվացված չէ նոր նախագծերում։"
       type_label: Տեսակ
-      variant_enabled_in_new_projects: "%{name} տարատեսակն ակտիվ է նոր նախագծերում"
       variant_label: Տարատեսակ
-      variants_count:
-        one: 1 տարատեսակ
-        other: "%{count} տարատեսակ"
     milestone_indicator: Հանգրվան
   unsupported_browser:
     close_warning: Անտեսել այս նախազգուշացումը։
@@ -6634,18 +7013,18 @@ hy:
           label: Աղբյուրի դեր
         target_role_ids:
           label: Նպատակային դերեր
-        target_type_ids:
-          label: Նպատակային տեսակներ
+        target_variant_ids:
+          label: Target types
       from_roles:
         create:
           notice:
             one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{role_name}' դերին։
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{type_name}' տեսակին։
-            other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} տեսակի։
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Պատճենել "%{source_type}"-ի աշխատանքային հոսքը
     form:

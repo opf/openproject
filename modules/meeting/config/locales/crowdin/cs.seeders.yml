@@ -13,17 +13,18 @@ cs:
           meeting_agenda_items:
             item_0:
               title: Dobré zprávy
+              notes: What went well this week?
             item_1:
-              title: Novinky od vývojářského týmu
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Novinky od produktového týmu
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Novinky od marketingového týmu
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Novinky od marketingového týmu
-            item_6:
-              title: Vyhodnocení čtvrtletních cílů
-            item_7:
-              title: Zpětná vazba základních hodnot
-            item_8:
-              title: Obecná témata
+              title: General topics
+              notes: Solving or discussing topics together.

@@ -22,8 +22,12 @@ fr:
           must_contain_base_dn: Le DN de base doit être contenu dans le DN de base de la connexion LDAP.
           overlaps_other_tree: Le DN de base chevauche celui d'une autre synchronisation sur la même connexion LDAP.
     models:
-      ldap_departments/synchronized_department: Service synchronisé
-      ldap_departments/synchronized_tree: Synchronisation du service LDAP
+      ldap_departments/synchronized_department:
+        one: Service synchronisé
+        other: Services synchronisés
+      ldap_departments/synchronized_tree:
+        one: Synchronisation des services LDAP
+        other: Synchronisations des services LDAP
   ee:
     upsell:
       ldap_departments:

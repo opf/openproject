@@ -46,9 +46,15 @@ nl:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Begroting
-      labor_budget_item: Planned labor cost
-      material_budget_item: Eenheid
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Begrotingen
@@ -102,7 +108,6 @@ nl:
   help_click_to_edit: Klik hier om te bewerken.
   help_currency_format: Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid.
   help_override_rate: Voer hier een waarde in om de standaardkoers te overschrijven.
-  label_budget: Begroting
   label_budget_available: Beschikbaar budget
   label_budget_details: Budget details
   label_budget_id: 'Begroting #%{id}'
