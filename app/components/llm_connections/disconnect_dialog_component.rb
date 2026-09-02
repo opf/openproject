@@ -35,12 +35,6 @@ module LlmConnections
   # not delete anything: the endpoint, the model catalogue, the capability
   # verdicts and every feature binding are kept, so reconnecting is a matter of
   # entering the key again.
-  #
-  # That is also why there is no confirmation checkbox -- nothing here is
-  # irreversible. A destroying variant would have been, and would have taken the
-  # locked embedding bindings with it: those are the only record that a vector
-  # index exists and which model and dimension it was written under, and
-  # dependent: :delete_all bypasses the guard that protects them.
   class DisconnectDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

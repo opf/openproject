@@ -232,7 +232,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).to include("Disconnect from the LLM server?")
     end
 
-    # Disconnecting is reversible on purpose: destroying the connection would
     it "clears the credential and switches the connection off, keeping everything else" do
       post disconnect_llm_connection_path
 
