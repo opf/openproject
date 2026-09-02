@@ -54,10 +54,13 @@ module Admin
       respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
     end
 
-    # Clears the credential and switches the connection off, keeping the endpoint
+    # Clears the credential and switches the AI features off, keeping the endpoint
     # and the catalogue. Deliberately not a destroy.
     def disconnect
-      @connection.update!(api_key: nil, enabled: false)
+      ApplicationRecord.transaction do
+        @connection.update!(api_key: nil)
+        Setting.llm_features_enabled = false
+      end
 
       redirect_with_notice(t(".success"))
     end

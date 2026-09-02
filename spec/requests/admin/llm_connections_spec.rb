@@ -228,11 +228,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
   describe "disconnecting" do
     let!(:connection) do
-      create(:llm_connection, :enabled,
+      create(:llm_connection,
              base_url: "https://example.com/v1", api_key: "sk-test")
     end
 
-    before { login_as admin }
+    before do
+      login_as admin
+      # Not with_settings:, which stubs Setting.[] and would hide the write.
+      Setting.llm_features_enabled = true
+    end
 
     it "offers the confirmation, naming what is kept" do
       get disconnect_dialog_llm_connection_path,
@@ -247,7 +251,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       connection.reload
       expect(connection.api_key).to be_blank
-      expect(connection).not_to be_enabled
+      expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
     end
 

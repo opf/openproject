@@ -91,7 +91,7 @@ RSpec.describe "LLM connection administration",
   end
 
   context "when a key is stored" do
-    let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-original") }
+    let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
     it "removes the key from beside the field" do
       visit llm_connection_path
