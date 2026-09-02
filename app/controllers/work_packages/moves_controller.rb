@@ -30,7 +30,7 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::TargetVersionNormalization
+  include WorkPackages::VersionIdsNormalization
   include OpTurbo::ComponentStream
 
   default_search_scope :work_packages

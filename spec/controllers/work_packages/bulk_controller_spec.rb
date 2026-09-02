@@ -596,6 +596,58 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
+          describe "set observed_in_version_ids attribute" do
+            shared_let(:observed_in_subproject) do
+              create(:project, parent: project1, types: [type])
+            end
+            shared_let(:observed_in_version) do
+              create(:version, status: "open", sharing: "tree", project: observed_in_subproject)
+            end
+
+            describe "to a version" do
+              before do
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: [observed_in_version.id.to_s] }
+                    }
+              end
+
+              it "redirects on success" do
+                expect(response).to be_redirect
+              end
+
+              it "assigns the version as observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([observed_in_version.id])
+              end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(observed_in_subproject.id)
+              end
+            end
+
+            describe "to none" do
+              before do
+                work_packages.each do |wp|
+                  wp.work_package_versions.create!(version_id: observed_in_version.id, kind: "observed_in")
+                end
+
+                # 'none' is a magic value that clears all observed_in_versions
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: ["none"] }
+                    }
+              end
+
+              it "clears the observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([])
+              end
+            end
+          end
         end
 
         describe "#done_ratio" do
