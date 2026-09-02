@@ -281,7 +281,7 @@ RSpec.describe "Enterprise trial management",
 
       # Expect flash with resend link
       page.within("#primerized-flash-messages") do
-        click_link_or_button("Resend confirmation email")
+        wait_for_turbo { click_link_or_button("Resend confirmation email") }
       end
 
       expect(page).to have_text("Quick feature overview")
