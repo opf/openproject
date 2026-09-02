@@ -50,7 +50,18 @@ class CreateLlmModels < ActiveRecord::Migration[8.1]
 
     add_index :llm_models, %i[llm_connection_id external_id], unique: true
 
-    # Superseded by the table above.
-    remove_column :llm_connections, :catalogue, :jsonb, null: false, default: {}
+    # The catalogue is superseded by the table above, and a model the server
+    # stops reporting keeps its row here, so a default can be a reference rather
+    # than an identifier that nothing resolves. Clearing it on delete is what the
+    # administrator is warned about before removing a model.
+    change_table :llm_connections, bulk: true do |t|
+      t.remove :catalogue, type: :jsonb, null: false, default: {}
+      t.remove :default_chat_model_id, type: :string
+      t.remove :default_embedding_model_id, type: :string
+      t.references :default_chat_model, null: true,
+                                        foreign_key: { to_table: :llm_models, on_delete: :nullify }
+      t.references :default_embedding_model, null: true,
+                                             foreign_key: { to_table: :llm_models, on_delete: :nullify }
+    end
   end
 end
