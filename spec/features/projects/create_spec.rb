@@ -72,55 +72,6 @@ RSpec.describe "Projects", "creation", :js do
     expect(page).to have_content "Foo bar"
   end
 
-  it "redirects to the parent project page when users cancels while creating subproject" do
-    # Go to parent project page
-    visit project_overview_path(project.id)
-
-    # Start creating a subproject from parent context
-    page.find_test_selector("quick-add-menu-button").click
-    page.find_test_selector("quick-add-menu-item", text: "Project", wait: 5).click
-
-    expect(page).to have_heading "New project"
-
-    click_on "Cancel"
-
-    expect(page).to have_current_path project_overview_path(project.id)
-  end
-
-  it "redirects to projects#index when users cancels" do
-    visit new_project_path
-
-    expect(page).to have_heading "New project"
-
-    click_on "Cancel"
-    expect(page).to have_current_path projects_path
-  end
-
-  it "redirects to the parent project page when users press the close icon while creating subproject" do
-    # Go to parent project page
-    visit project_overview_path(project.id)
-
-    # Start creating a subproject from parent context
-    page.find_test_selector("quick-add-menu-button").click
-    page.find_test_selector("quick-add-menu-item", text: "Project", wait: 5).click
-
-    expect(page).to have_heading "New project"
-
-    # Click the close (X) icon in the header
-    find_test_selector("new_project_form_close_icon").click
-
-    expect(page).to have_current_path project_overview_path(project.id)
-  end
-
-  it "redirects to projects#index when users click on close icon" do
-    visit new_project_path
-
-    expect(page).to have_heading "New project"
-
-    find_test_selector("new_project_form_close_icon").click
-    expect(page).to have_current_path projects_path
-  end
-
   it "does not create a project with an already existing identifier" do
     projects_page.create_new_workspace :project, open_menu: true
 
@@ -500,9 +451,8 @@ RSpec.describe "Projects", "creation", :js do
         context "with a non-admin user" do
           current_user { create(:user, global_permissions: %i[add_project]) }
 
-          it "does not show invisible fields in the form and thus not activates the invisible field" do
-            pending "Admin-only project attributes currently prevent users from creating projects (OP#64479)"
-
+          it "does not show invisible fields in the form and thus not activates the invisible field",
+             skip: "Admin-only project attributes currently prevent users from creating projects (OP#64479)" do
             expect(page).to have_no_content "Text for Admins only"
 
             click_on "Complete"

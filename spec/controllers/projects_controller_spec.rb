@@ -40,6 +40,8 @@ RSpec.describe ProjectsController do
   end
 
   describe "#new" do
+    render_views
+
     shared_examples_for "successful requests" do
       context "without a parent" do
         let(:parent) { nil }
@@ -76,11 +78,17 @@ RSpec.describe ProjectsController do
 
     shared_examples_for "successful request" do
       it "renders 'new'", :aggregate_failures do
+        cancel_path = parent ? project_overview_path(parent.id) : projects_path
+
         expect(response).to be_successful
         expect(assigns(:new_project)).to be_a_new(Project)
         expect(assigns(:parent)).to eq parent
         expect(assigns(:template)).to eq template
         expect(response).to render_template "new"
+        expect(response.body).to have_link(I18n.t(:button_cancel), href: cancel_path)
+        expect(response.body).to have_css(
+          "[data-test-selector='new_project_form_close_icon'][href='#{cancel_path}']"
+        )
       end
     end
 
@@ -109,6 +117,22 @@ RSpec.describe ProjectsController do
         let(:parent) { create(:project) }
 
         it_behaves_like "successful request"
+      end
+
+      context "with an admin-only project custom field" do
+        let(:parent) { nil }
+
+        it "does not render the field" do
+          create(:string_project_custom_field,
+                 name: "Text for Admins only",
+                 is_required: true,
+                 is_for_all: true,
+                 admin_only: true)
+
+          get :new, params: { workspace_type: }
+
+          expect(response.body).to have_no_text("Text for Admins only")
+        end
       end
     end
 
