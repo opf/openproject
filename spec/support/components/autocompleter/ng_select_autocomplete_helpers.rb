@@ -27,8 +27,7 @@ module Components::Autocompleter
         end
       end
 
-      # Wait for options to be refreshed after having entered some text.
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
+      wait_for_selenium_autocomplete(element, wait:)
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
@@ -197,6 +196,12 @@ module Components::Autocompleter
 
     def resolve_autocomplete(element)
       element.respond_to?(:call) ? element.call : element
+    end
+
+    def wait_for_selenium_autocomplete(element, wait:)
+      return if using_cuprite?
+
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
     end
 
     def expect_current_autocompleter_value(element, value)
