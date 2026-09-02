@@ -91,6 +91,14 @@ RSpec.describe "Jira import select projects modal", :js do
     page.execute_script("document.querySelector('[name=\"filter\"]').dispatchEvent(new Event('input', {bubbles:true}))")
   end
 
+  def expect_selection_requests_drained(count)
+    expect(page).to have_css(
+      "[data-admin--jira-projects-target='submitButton']:not([hidden])",
+      text: /\b#{count}\b/
+    )
+    expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
+  end
+
   it "opens dialog showing all projects unchecked, with title and key captions" do
     open_select_projects_modal
 
@@ -182,21 +190,14 @@ RSpec.describe "Jira import select projects modal", :js do
 
     it "tracks the selection counter and shows the submit button once all requests drain" do
       check "Project Alpha"
-      expect(page).to have_css(
-        "[data-admin--jira-projects-target='submitButton']",
-        text: /\b1\b/
-      )
+      expect_selection_requests_drained(1)
 
       check "Project Beta"
       check "Gamma Project"
-      expect(page).to have_css("[data-admin--jira-projects-target='submitButton']:not([hidden])")
-      expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
+      expect_selection_requests_drained(3)
 
       uncheck "Project Beta"
-      expect(page).to have_css(
-        "[data-admin--jira-projects-target='submitButton']",
-        text: /\b2\b/
-      )
+      expect_selection_requests_drained(2)
     end
   end
 
@@ -243,6 +244,7 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_no_field("Project 21")
 
       check "Project 01"
+      expect_selection_requests_drained(1)
       pagination_button_for(I18n.t(:label_next)).click
 
       expect(page).to have_text("2 / 2")
@@ -251,6 +253,7 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_no_field("Project 01")
 
       check "Project 21"
+      expect_selection_requests_drained(2)
       pagination_button_for(I18n.t(:label_previous)).click
 
       expect(page).to have_text("1 / 2")
