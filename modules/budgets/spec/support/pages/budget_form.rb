@@ -61,13 +61,12 @@ module Pages
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
       options = { fill_options: { clear: :backspace } }
 
-      retry_block do
-        fill_in("#{prefix}_units", with: units, **options) if units.present?
-        fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+      wait_for_budget_subform_controller(prefix)
+      fill_in("#{prefix}_units", with: units, **options) if units.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+      if expected_costs.present?
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs, wait: 10)
       end
     end
 
@@ -105,21 +104,39 @@ module Pages
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
       options = { fill_options: { clear: :backspace } }
 
-      retry_block do
-        fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
-        select_labor_costs_user!(prefix, user_name) if user_name.present?
-        fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+      wait_for_budget_subform_controller(prefix)
+      select_labor_costs_user!(prefix, user_name) if user_name.present?
+      fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+      if expected_costs.present?
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs, wait: 10)
       end
     end
 
     def select_labor_costs_user!(row_id, user_name)
-      select_autocomplete page.find("##{row_id} opce-user-autocompleter"),
+      autocompleter = -> { page.find("##{row_id} opce-user-autocompleter") }
+
+      select_autocomplete autocompleter,
                           query: user_name,
                           results_selector: "body"
+      expect_current_autocompleter_value(autocompleter.call, user_name)
+    end
+
+    def wait_for_budget_subform_controller(row_id)
+      row = page.find("##{row_id}")
+      controller_root = row.ancestor('[data-controller~="costs--budget-subform"]')
+
+      page.document.synchronize(10) do
+        connected = page.evaluate_script(<<~JS, controller_root)
+          window.Stimulus?.getControllerForElementAndIdentifier(
+            arguments[0],
+            'costs--budget-subform'
+          ) !== null
+        JS
+
+        raise Capybara::ExpectationNotMet, "Budget subform controller is not connected" unless connected
+      end
     end
 
     def add_unit_costs_row!

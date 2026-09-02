@@ -141,7 +141,7 @@ RSpec.describe "Versions and categories admin settings" do
 
         check "I understand that this action is not reversible"
 
-        expect(page).to have_button("Enable", disabled: false)
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
       end
     end
 

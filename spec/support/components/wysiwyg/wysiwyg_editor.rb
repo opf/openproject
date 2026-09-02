@@ -66,10 +66,18 @@ module Components
 
     def clear
       textarea = container.find(".op-ckeditor-source-element", visible: :all)
-      page.execute_script(
-        'arguments[0].dispatchEvent(new Event("op:ckeditor:clear"))',
-        textarea.native
-      )
+      last_updated_before = last_updated_for(textarea)
+
+      page.execute_script('arguments[0].dispatchEvent(new Event("op:ckeditor:clear"))', textarea.native)
+
+      page.document.synchronize do
+        last_updated_after = last_updated_for(textarea)
+        cleared = editor_element.text.blank?
+
+        unless last_updated_after > last_updated_before && cleared
+          raise Capybara::ElementNotFound, "CKEditor did not process the clear event"
+        end
+      end
     end
 
     def trigger_autosave
