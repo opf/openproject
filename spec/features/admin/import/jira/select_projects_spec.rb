@@ -63,6 +63,17 @@ RSpec.describe "Jira import select projects modal", :js do
   def open_select_projects_modal
     click_on I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
     expect(page).to have_css("##{modal_id}[open]")
+
+    page.document.synchronize do
+      connected = page.evaluate_script(<<~JS, find("##{modal_id}"))
+        window.Stimulus?.getControllerForElementAndIdentifier(
+          arguments[0],
+          'admin--jira-projects'
+        ) !== null
+      JS
+
+      raise Capybara::ExpectationNotMet, "Jira projects controller is not connected" unless connected
+    end
   end
 
   # Primer IconButton moves `aria-label` to a hidden `<tool-tip>` web component
