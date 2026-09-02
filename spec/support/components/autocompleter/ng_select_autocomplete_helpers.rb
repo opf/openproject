@@ -131,12 +131,11 @@ module Components::Autocompleter
 
       query = query.to_s
 
-      # Send all keys but last one, and then with a delay the last one
-      # to emulate normal typing
-      send_keys(input, query.to_s[0..-2], after_typing_sleep: 0.2)
+      # Send all keys but last one, and then the last one separately to emulate normal typing
+      send_keys(input, query.to_s[0..-2], after_typing_sleep: (0.2 unless using_cuprite?))
       send_keys(input, query.to_s[-1])
 
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      wait_for_network_idle(duration: 0.3) if using_cuprite? && wait_for_fetched_options
     end
 
     def send_keys(input, text, after_typing_sleep: nil)

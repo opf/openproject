@@ -66,12 +66,10 @@ module Pages
     #
     # @param work_packages [Array<WorkPackage>] The work package objects.
     def expect_work_package_listed(*work_packages)
-      within(table_container) do
-        work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id} td.subject",
-                                   text: wp.subject,
-                                   wait: 20)
-        end
+      work_packages.each do |wp|
+        expect(page).to have_css("#content .work-packages-split-view--tabletimeline-side .wp-row-#{wp.id} td.subject",
+                                 text: wp.subject,
+                                 wait: 20)
       end
     end
 

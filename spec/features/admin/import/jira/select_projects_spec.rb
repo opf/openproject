@@ -99,6 +99,10 @@ RSpec.describe "Jira import select projects modal", :js do
     expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
   end
 
+  def toggle_project(name)
+    find_field(name).click
+  end
+
   it "opens dialog showing all projects unchecked, with title and key captions" do
     open_select_projects_modal
 
@@ -189,14 +193,14 @@ RSpec.describe "Jira import select projects modal", :js do
     before { open_select_projects_modal }
 
     it "tracks the selection counter and shows the submit button once all requests drain" do
-      check "Project Alpha"
+      toggle_project "Project Alpha"
       expect_selection_requests_drained(1)
 
-      check "Project Beta"
-      check "Gamma Project"
+      toggle_project "Project Beta"
+      toggle_project "Gamma Project"
       expect_selection_requests_drained(3)
 
-      uncheck "Project Beta"
+      toggle_project "Project Beta"
       expect_selection_requests_drained(2)
     end
   end
@@ -205,9 +209,9 @@ RSpec.describe "Jira import select projects modal", :js do
     before { open_select_projects_modal }
 
     it "saves the selected projects, closes the dialog, and updates the wizard button count" do
-      check "Project Alpha"
+      toggle_project "Project Alpha"
       expect_selection_requests_drained(1)
-      check "Project Beta"
+      toggle_project "Project Beta"
       expect_selection_requests_drained(2)
 
       within("[data-admin--jira-projects-target='submitButton']") do
@@ -245,7 +249,7 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_field("Project 01")
       expect(page).to have_no_field("Project 21")
 
-      check "Project 01"
+      toggle_project "Project 01"
       expect_selection_requests_drained(1)
       pagination_button_for(I18n.t(:label_next)).click
 
@@ -254,7 +258,7 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_field("Project 21")
       expect(page).to have_no_field("Project 01")
 
-      check "Project 21"
+      toggle_project "Project 21"
       expect_selection_requests_drained(2)
       pagination_button_for(I18n.t(:label_previous)).click
 
