@@ -45,6 +45,7 @@ module RecurringMeetings
       return call unless call.success?
 
       recurring_meeting = call.result
+      recurring_meeting.bump_ical_sequence!
 
       if should_reschedule?(recurring_meeting)
         reschedule_future_occurrences(recurring_meeting)

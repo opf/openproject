@@ -454,6 +454,17 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#bump_ical_sequence!" do
+    it "advances the counter without touching the lock version of the template" do
+      series = create(:recurring_meeting)
+      lock_version = series.template.lock_version
+
+      expect { series.bump_ical_sequence! }.to change(series, :ical_sequence).by(1)
+      expect(series.reload.ical_sequence).to eq 1
+      expect(series.template.reload.lock_version).to eq lock_version
+    end
+  end
+
   describe "#occurrence_count_until_end_date" do
     it "counts the remaining occurrences up to the end date" do
       series = build(:recurring_meeting,
