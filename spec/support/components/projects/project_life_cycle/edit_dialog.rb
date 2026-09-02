@@ -55,13 +55,11 @@ module Components
           fields = Array(fields)
 
           if fields.include?(:start_date) && has_button?("start_date_clear_button")
-            click_button("start_date_clear_button")
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) { click_button("start_date_clear_button") }
           end
 
           if fields.include?(:finish_date) && has_button?("finish_date_clear_button")
-            click_button("finish_date_clear_button")
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) { click_button("finish_date_clear_button") }
           end
         end
 
@@ -70,8 +68,9 @@ module Components
           datepicker = Components::RangeDatepicker.new(dialog_selector)
 
           values.each do |date|
-            datepicker.set_date(date.strftime("%Y-%m-%d"))
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) do
+              datepicker.set_date(date.strftime("%Y-%m-%d"))
+            end
           end
         end
 
@@ -101,8 +100,10 @@ module Components
         end
 
         def submit
-          within_dialog do
-            page.find("[data-test-selector='save-project-life-cycle-button']").click
+          wait_for_turbo_stream(wait: 10) do
+            within_dialog do
+              page.find("[data-test-selector='save-project-life-cycle-button']").click
+            end
           end
         end
 
