@@ -146,7 +146,7 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
 
-COPY --from=openproject/hocuspocus:17.7.2 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+COPY --from=openproject/hocuspocus:17.8.0 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

@@ -58,7 +58,7 @@ get:
       name: id
       required: true
       schema:
-        type: string
+        type: integer
   responses:
     '200':
       content:

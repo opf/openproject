@@ -9,7 +9,7 @@ get:
     - name: id
       description: The custom field's unique identifier
       in: path
-      example: '42'
+      example: 42
       required: true
       schema:
         type: integer

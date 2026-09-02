@@ -25,7 +25,7 @@ get:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
     - name: year
       in: query
       required: false
@@ -86,7 +86,7 @@ post:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
   requestBody:
     content:
       application/json:
