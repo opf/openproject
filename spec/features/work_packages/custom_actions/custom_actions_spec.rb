@@ -545,6 +545,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     it "executes the custom action (Regression#49588)" do
       login_as(user)
       wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(work_package)
       wp_page = wp_table.open_full_screen_by_link(work_package)
 
       wp_page.ensure_page_loaded
