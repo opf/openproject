@@ -100,7 +100,7 @@ RSpec.describe "Jira import select projects modal", :js do
   end
 
   def toggle_project(name)
-    find_field(name).click
+    find("label", exact_text: name).click
   end
 
   it "opens dialog showing all projects unchecked, with title and key captions" do
