@@ -115,7 +115,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         connection = LlmConnection.first
         expect(connection.base_url).to eq(base_url)
         expect(connection.api_key).to eq("sk-test")
-        expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+      end
+
+      it "fills the catalogue once when none is stored" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(LlmConnection.first.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
       end
 
       it "confirms the connection once LLMs are switched on" do
@@ -123,6 +128,28 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
               params: { llm_connection: { llm_features_enabled: "1", base_url:, api_key: "sk-test" } }
 
         expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.update.success"))
+      end
+
+      context "when models are already stored" do
+        let!(:connection) { create(:llm_connection, :with_models, base_url:, api_key: "sk-test") }
+
+        before do
+          connection.update!(connection_fingerprint: connection.settings_fingerprint)
+          connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                                 state: "supported", source: "admin", checked_at: Time.current)
+        end
+
+        it "leaves the stored catalogue alone when the host URL changes" do
+          elsewhere = "https://elsewhere.example/v1"
+          mock_llm_models_response(elsewhere, models: [{ id: "llama4-8b", object: "model", owned_by: "vllm" }])
+
+          patch llm_connection_path, params: { llm_connection: { base_url: elsewhere } }
+
+          connection.reload
+          expect(connection.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
+          expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+          expect(connection).to be_models_stale
+        end
       end
     end
 
@@ -239,20 +266,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).not_to include("A key is stored")
       expect(response.body).not_to include("llm-connection--delete-api-key")
       expect(page).to have_no_css(remove_api_key, visible: :all)
-    end
-  end
-
-  describe "POST /admin/llm_connection/refresh_models" do
-    before { login_as admin }
-
-    it "refetches the catalogue" do
-      create(:llm_connection, base_url:)
-      request = mock_llm_models_response(base_url)
-
-      post refresh_models_llm_connection_path
-
-      expect(request).to have_been_made.once
-      expect(LlmConnection.first.available_model_ids).to include("bge-m3")
     end
   end
 

@@ -88,6 +88,18 @@ class LlmConnection < ApplicationRecord
     models.active.by_identifier.pluck(:external_id)
   end
 
+  # Identifies the deployment the models were fetched from. Recorded by
+  # LlmConnections::SyncModelsService as +connection_fingerprint+.
+  def settings_fingerprint
+    Digest::SHA256.hexdigest("#{api_format}\0#{base_url}\0#{api_key}")
+  end
+
+  # The stored models were fetched from another deployment than the one
+  # configured now, so the list may no longer describe what the server offers.
+  def models_stale?
+    connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
+  end
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end

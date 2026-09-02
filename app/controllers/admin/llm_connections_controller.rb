@@ -50,16 +50,6 @@ module Admin
       result.on_failure { render_form_with_errors }
     end
 
-    def refresh_models
-      result = ::LlmConnections::SyncModelsService.new(@connection).call
-
-      if result.success?
-        redirect_with_notice(t(".success"))
-      else
-        redirect_with_error(t(".failure"))
-      end
-    end
-
     def disconnect_dialog
       respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
     end

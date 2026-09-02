@@ -1734,14 +1734,11 @@ en:
         label_connecting: "Contacting the LLM server…"
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"
-      refresh_models:
-        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
-        success: "The model list has been refreshed."
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
       update:
         disabled: "Saved. LLM features are switched off for this instance."
-        no_models: "Saved, but the server did not return a model list. Either it does not offer one, or the endpoint is wrong — a URL missing its API version segment (for example /v1) looks exactly the same from here. Add the models you want to use below, then run the health checks to confirm the server answers."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1)."
         success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:

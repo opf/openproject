@@ -35,10 +35,9 @@ module Llm
   # -- an LLM server that has not finished starting.
   class SyncModelsJob < ApplicationJob
     def perform
-      connection = LlmConnection.first
-      return if connection.nil? || !connection.configured?
-
-      LlmConnections::SyncModelsService.new(connection).call
+      LlmConnection.find_each do |connection|
+        LlmConnections::SyncModelsService.new(connection).call
+      end
     end
   end
 end
