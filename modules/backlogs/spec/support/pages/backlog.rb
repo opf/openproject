@@ -898,8 +898,7 @@ module Pages
     def choose_to_move_unfinished_work_packages_to_sprint(sprint_name)
       within sprint_complete_modal_selector do
         action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_sprint")
-        choose action
-        expect(page).to have_checked_field(action)
+        choose_sprint_completion_action(action)
         select sprint_name, from: "Select sprint"
         expect(page).to have_select("Select sprint", selected: sprint_name)
 
@@ -910,8 +909,7 @@ module Pages
     def choose_to_move_unfinished_work_packages_to_top_of_backlog
       within sprint_complete_modal_selector do
         action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_top_of_backlog")
-        choose action
-        expect(page).to have_checked_field(action)
+        choose_sprint_completion_action(action)
 
         wait_for_turbo { click_button "Complete sprint" }
       end
@@ -920,8 +918,7 @@ module Pages
     def choose_to_move_unfinished_work_packages_to_bottom_of_backlog
       within sprint_complete_modal_selector do
         action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_bottom_of_backlog")
-        choose action
-        expect(page).to have_checked_field(action)
+        choose_sprint_completion_action(action)
 
         wait_for_turbo { click_button "Complete sprint" }
       end
@@ -938,6 +935,12 @@ module Pages
     end
 
     private
+
+    def choose_sprint_completion_action(action)
+      radio = find_field(action, visible: :all)
+      page.execute_script("arguments[0].click()", radio)
+      expect(radio).to be_checked
+    end
 
     def within_sprint(sprint, &)
       within(sprint_selector(sprint), &)
