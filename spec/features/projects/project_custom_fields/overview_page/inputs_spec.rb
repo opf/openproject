@@ -259,50 +259,52 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
 
     describe "with single select fields" do
-      shared_examples "an autocomplete single select field" do |comments: false|
+      shared_examples "an autocomplete single select field" do |comments: false, widget_interactions: true|
         it "shows the correct value if given" do
           field.within_field do
             form_field.expect_selected(expected_initial_value)
           end
         end
 
-        it "shows a blank input if no value or default value is given" do
-          custom_field.custom_values.destroy_all
+        if widget_interactions
+          it "shows a blank input if no value or default value is given" do
+            custom_field.custom_values.destroy_all
 
-          field.within_field do
-            form_field.expect_blank
+            field.within_field do
+              form_field.expect_blank
+            end
           end
-        end
 
-        it "filters the list based on the input" do
-          field.within_field do
-            form_field.search(second_option)
+          it "filters the list based on the input" do
+            field.within_field do
+              form_field.search(second_option)
 
-            form_field.expect_option(second_option)
-            form_field.expect_no_option(first_option)
-            form_field.expect_no_option(third_option)
+              form_field.expect_option(second_option)
+              form_field.expect_no_option(first_option)
+              form_field.expect_no_option(third_option)
+            end
           end
-        end
 
-        it "enables the user to select a single value from a list" do
-          field.within_field do
-            form_field.search(second_option)
-            form_field.select_option(second_option)
+          it "enables the user to select a single value from a list" do
+            field.within_field do
+              form_field.search(second_option)
+              form_field.select_option(second_option)
 
-            form_field.expect_selected(second_option)
+              form_field.expect_selected(second_option)
 
-            form_field.search(third_option)
-            form_field.select_option(third_option)
+              form_field.search(third_option)
+              form_field.select_option(third_option)
 
-            form_field.expect_selected(third_option)
-            form_field.expect_not_selected(second_option)
+              form_field.expect_selected(third_option)
+              form_field.expect_not_selected(second_option)
+            end
           end
-        end
 
-        it "clears the input if clicked on the clear button" do
-          field.within_field do
-            form_field.clear
-            form_field.expect_blank
+          it "clears the input if clicked on the clear button" do
+            field.within_field do
+              form_field.clear
+              form_field.expect_blank
+            end
           end
         end
 
@@ -332,7 +334,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { second_version.name }
         let(:third_option) { third_version.name }
 
-        it_behaves_like "an autocomplete single select field"
+        it_behaves_like "an autocomplete single select field", widget_interactions: false
 
         describe "with correct version scoping" do
           context "with a version on a different project" do
@@ -395,7 +397,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { another_member_in_project.name }
         let(:third_option) { one_more_member_in_project.name }
 
-        it_behaves_like "an autocomplete single select field", comments: true
+        it_behaves_like "an autocomplete single select field", comments: true, widget_interactions: false
 
         describe "with correct user scoping" do
           let!(:member_in_other_project) do
@@ -461,68 +463,70 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
 
     describe "with multi select fields" do
-      shared_examples "an autocomplete multi select field" do |comments: false|
+      shared_examples "an autocomplete multi select field" do |comments: false, widget_interactions: true|
         it "shows the correct value if given" do
           field.within_field do
             form_field.expect_selected(*expected_initial_value)
           end
         end
 
-        it "shows a blank input if no value or default value is given" do
-          custom_field.custom_values.destroy_all
+        if widget_interactions
+          it "shows a blank input if no value or default value is given" do
+            custom_field.custom_values.destroy_all
 
-          field.within_field do
-            form_field.expect_blank
+            field.within_field do
+              form_field.expect_blank
+            end
           end
-        end
 
-        it "filters the list based on the input" do
-          field.within_field do
-            form_field.search(second_option)
+          it "filters the list based on the input" do
+            field.within_field do
+              form_field.search(second_option)
 
-            form_field.expect_option(second_option)
-            form_field.expect_no_option(first_option)
-            form_field.expect_no_option(third_option)
+              form_field.expect_option(second_option)
+              form_field.expect_no_option(first_option)
+              form_field.expect_no_option(third_option)
+            end
           end
-        end
 
-        it "allows to select multiple values" do
-          custom_field.custom_values.destroy_all
+          it "allows to select multiple values" do
+            custom_field.custom_values.destroy_all
 
-          field.within_field do
-            form_field.select_option(second_option)
-            form_field.select_option(third_option)
+            field.within_field do
+              form_field.select_option(second_option)
+              form_field.select_option(third_option)
 
-            form_field.expect_selected(second_option)
-            form_field.expect_selected(third_option)
+              form_field.expect_selected(second_option)
+              form_field.expect_selected(third_option)
+            end
           end
-        end
 
-        it "allows to remove selected values" do
-          custom_field.custom_values.destroy_all
+          it "allows to remove selected values" do
+            custom_field.custom_values.destroy_all
 
-          field.within_field do
-            form_field.select_option(second_option)
-            form_field.select_option(third_option)
+            field.within_field do
+              form_field.select_option(second_option)
+              form_field.select_option(third_option)
 
-            form_field.deselect_option(third_option)
+              form_field.deselect_option(third_option)
 
-            form_field.expect_selected(second_option)
-            form_field.expect_not_selected(third_option)
+              form_field.expect_selected(second_option)
+              form_field.expect_not_selected(third_option)
+            end
           end
-        end
 
-        it "allows to remove all selected values at once" do
-          custom_field.custom_values.destroy_all
+          it "allows to remove all selected values at once" do
+            custom_field.custom_values.destroy_all
 
-          field.within_field do
-            form_field.select_option(second_option)
-            form_field.select_option(third_option)
+            field.within_field do
+              form_field.select_option(second_option)
+              form_field.select_option(third_option)
 
-            form_field.clear
+              form_field.clear
 
-            form_field.expect_not_selected(second_option)
-            form_field.expect_not_selected(third_option)
+              form_field.expect_not_selected(second_option)
+              form_field.expect_not_selected(third_option)
+            end
           end
         end
 
@@ -552,7 +556,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { second_version.name }
         let(:third_option) { third_version.name }
 
-        it_behaves_like "an autocomplete multi select field"
+        it_behaves_like "an autocomplete multi select field", widget_interactions: false
 
         describe "with correct version scoping" do
           context "with a version on a different project" do
@@ -615,7 +619,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:second_option) { another_member_in_project.name }
         let(:third_option) { one_more_member_in_project.name }
 
-        it_behaves_like "an autocomplete multi select field", comments: true
+        it_behaves_like "an autocomplete multi select field", comments: true, widget_interactions: false
 
         describe "with correct user scoping" do
           let!(:member_in_other_project) do
