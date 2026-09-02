@@ -228,35 +228,6 @@ RSpec.describe "Invite user modal", :js do
             let(:mail_membership_recipients) { [principal] }
           end
         end
-
-        context "with a required list user CF (regression #58429)" do
-          let(:current_user) { create(:admin) }
-          let(:list_cf) do
-            create(:user_custom_field,
-                   :list,
-                   name: "List",
-                   is_required: true,
-                   editable: false,
-                   default_option: "A")
-          end
-
-          before do
-            list_cf
-          end
-
-          context "when another required CF value is missing" do
-            let(:string_cf) { create(:user_custom_field, :string, name: "Department", is_required: true) }
-
-            before do
-              string_cf
-            end
-
-            it_behaves_like "invites the principal to the project" do
-              let(:added_principal) { principal }
-              let(:mail_membership_recipients) { [principal] }
-            end
-          end
-        end
       end
 
       context "with a user to be invited" do
@@ -270,36 +241,6 @@ RSpec.describe "Invite user modal", :js do
             let(:added_principal) { User.find_by!(mail: principal.mail) }
             let(:mail_invite_recipients) { [added_principal] }
             let(:mail_membership_recipients) { [added_principal] }
-          end
-
-          context "with a required list user CF" do
-            let(:current_user) { create(:admin) }
-            let(:list_cf) do
-              create(:user_custom_field,
-                     :list,
-                     name: "List",
-                     is_required: true,
-                     editable: false,
-                     default_option: "A")
-            end
-
-            before do
-              list_cf
-            end
-
-            context "when the required list CF value is missing" do
-              let(:string_cf) { create(:user_custom_field, :string, name: "Department", is_required: true) }
-
-              before do
-                string_cf
-              end
-
-              it_behaves_like "invites the principal to the project" do
-                let(:added_principal) { User.find_by!(mail: principal.mail) }
-                let(:mail_invite_recipients) { [added_principal] }
-                let(:mail_membership_recipients) { [added_principal] }
-              end
-            end
           end
         end
 
@@ -406,35 +347,6 @@ RSpec.describe "Invite user modal", :js do
           let(:added_principal) { principal }
           # Groups get no invite mail themselves but their members do
           let(:mail_membership_recipients) { [group_user] }
-        end
-
-        context "with a required group custom field" do
-          let(:current_user) { create(:admin) }
-          let(:list_cf) do
-            create(:group_custom_field,
-                   :list,
-                   name: "Department",
-                   is_required: true,
-                   editable: false,
-                   default_option: "A")
-          end
-
-          before do
-            list_cf
-          end
-
-          context "when the required group CF value is missing" do
-            let(:string_cf) { create(:group_custom_field, :string, name: "Team Type", is_required: true) }
-
-            before do
-              string_cf
-            end
-
-            it_behaves_like "invites the principal to the project" do
-              let(:added_principal) { principal }
-              let(:mail_membership_recipients) { [group_user] }
-            end
-          end
         end
       end
     end

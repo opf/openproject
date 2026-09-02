@@ -562,6 +562,18 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "#cache_key" do
+    it "distinguishes single- and multi-value fields" do
+      field = create(:list_wp_custom_field, multi_value: false)
+
+      expect(field.cache_key).to end_with("/sv")
+
+      field.update!(multi_value: true)
+
+      expect(field.cache_key).to end_with("/mv")
+    end
+  end
+
   describe "#allow_non_open_versions?" do
     context "with a wp list cf" do
       let(:field) { build_stubbed(:list_wp_custom_field) }
