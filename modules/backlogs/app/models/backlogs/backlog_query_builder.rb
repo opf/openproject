@@ -54,14 +54,18 @@ module Backlogs
     end
 
     def build_sprint_work_packages(sprint_ids:)
+      return WorkPackage.none if sprint_ids.empty?
+
       build(extra_filters: [[:sprint_id, "=", sprint_ids]])
-       .results
-       .work_packages
+        .results
+        .work_packages
     end
 
     # Since the Query class does not support "OR" conditions, separate queries are generated for the
     # inbox and the bucket ids. The resulting arel queries are joined with an `.or` query.
     def build_backlog_work_packages(bucket_ids:, show_inbox:)
+      return WorkPackage.none if bucket_ids.empty? && !show_inbox
+
       backlog_conditions(bucket_ids:, show_inbox:)
         .map { |extra_filters| build(extra_filters:).results.work_packages }
         .reduce { |relation, other| relation.or(other) }
@@ -79,10 +83,6 @@ module Backlogs
     end
 
     def backlog_conditions(bucket_ids:, show_inbox:)
-      # No bucket_ids param at all means no explicit bucket selection was made. in_backlog_for
-      # (merged in by the caller) already scopes to buckets + inbox, so no extra restriction is needed.
-      return [[]] if bucket_ids.nil?
-
       conditions = []
       conditions << [[:backlog_bucket_id, "=", bucket_ids.map(&:to_s)]] if bucket_ids.present?
       conditions << [[:backlog_inbox, "=", [OpenProject::Database::DB_VALUE_TRUE]]] if show_inbox
