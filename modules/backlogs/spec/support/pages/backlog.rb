@@ -692,7 +692,7 @@ module Pages
     end
 
     def apply_subject_filter(text)
-      fill_in "Search by subject", with: text
+      fill_in "Search work packages by subject", with: text
       wait_for_network_idle
     end
 

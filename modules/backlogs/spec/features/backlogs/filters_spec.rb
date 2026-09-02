@@ -136,7 +136,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     end
 
     def expect_filters_preserved
-      expect(page).to have_field("Search by subject", with: "Keep")
+      expect(page).to have_field("Search work packages by subject", with: "Keep")
       backlogs_page.expect_no_bucket_items(bucket, items: [excluded_bucket_wp, status_b_bucket_wp])
       backlogs_page.expect_no_sprint_items(sprint, items: [excluded_sprint_wp, status_b_sprint_wp])
       backlogs_page.expect_no_inbox_items(items: [excluded_inbox_wp, status_b_inbox_wp])
