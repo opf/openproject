@@ -188,7 +188,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             { workPackageId: this.workPackage.displayId, tabIdentifier: 'relations' },
           );
         } else {
-          const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
+          const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
           Turbo.visit(relationsPath, { frame: 'content-bodyRight', action: 'advance' });
         }
         break;

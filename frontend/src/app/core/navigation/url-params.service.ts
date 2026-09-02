@@ -30,6 +30,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { NavigationService } from 'core-app/core/navigation/navigation.service';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
@@ -42,6 +43,20 @@ export class UrlParamsService {
 
   public pathMatching(key:RegExp, url = window.location.pathname):string|null {
     return url.match(key)?.[1] ?? null;
+  }
+
+  /**
+   * The routing ID (numeric or semantic) and tab of the currently open details/split
+   * view, if any. Null if the current URL isn't showing one.
+   */
+  public currentDetailsRouteParams(url = window.location.pathname):{ routingId:string, tab:string|null }|null {
+    const match = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/([^/]+))?$`).exec(url);
+    if (!match) {
+      return null;
+    }
+
+    const [, routingId, tab] = match;
+    return { routingId, tab: tab ?? null };
   }
 
   /**
