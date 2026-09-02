@@ -206,9 +206,7 @@ RSpec.describe "Invite user modal", :js do
 
       before do
         wp_page.visit!
-        retry_block do
-          assignee_field.activate!
-        end
+        assignee_field.activate!
         find(".ng-dropdown-footer button", text: "Invite", wait: 10).click
       end
 
