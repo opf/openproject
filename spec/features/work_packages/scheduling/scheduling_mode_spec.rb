@@ -160,6 +160,8 @@ RSpec.describe "scheduling mode", :js do
     # Changing the scheduling mode is journalized
     activity_tab.expect_journal_changed_attribute(text: "Scheduling mode set to Manual")
     work_packages_page.switch_to_tab(tab: :overview)
+    work_packages_page.expect_tab(:overview)
+    wait_for_network_idle
 
     expect_dates(wp, "2016-01-05", "2016-01-10")
     expect(wp.schedule_manually).to be_truthy
@@ -224,9 +226,6 @@ RSpec.describe "scheduling mode", :js do
     combined_field.expect_manual_scheduling_mode
 
     wait_for_network_idle
-
-    # The calendar needs some time to get initialized.
-    sleep 2
     combined_field.expect_calendar
 
     # Increasing the duration while at it

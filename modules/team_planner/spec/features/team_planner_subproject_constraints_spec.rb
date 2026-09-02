@@ -76,7 +76,8 @@ RSpec.describe "Team planner constraints for a subproject",
       drag_release
 
       # Try to drag work package to other user
-      start_dragging team_planner.event(work_package)
+      scroll_to_element team_planner.event(work_package)
+      start_dragging team_planner.event(work_package), scroll: false
       drag_element_to find(".fc-timeline-lane[data-resource-id='/api/v3/users/#{other_user.id}']")
 
       # Expect background event on other user
