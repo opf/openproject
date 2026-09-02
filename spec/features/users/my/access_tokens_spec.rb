@@ -72,7 +72,7 @@ RSpec.describe "my access tokens", :js do
 
         # create API token
         fill_in "token_api[token_name]", with: "Testing Token"
-        find_test_selector("create-api-token-button").click
+        wait_for_turbo_stream { find_test_selector("create-api-token-button").click }
 
         within("dialog#api-created-dialog") do
           expect(page).to have_content "The API token has been generated"
