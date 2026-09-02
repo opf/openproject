@@ -6,8 +6,7 @@ class EditField
   include RSpec::Matchers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  attr_reader :context,
-              :property_name,
+  attr_reader :property_name,
               :selector
 
   attr_accessor :field_type
@@ -38,6 +37,10 @@ class EditField
 
   def create_form?
     @create_form
+  end
+
+  def context
+    @context.respond_to?(:call) ? @context.call : @context
   end
 
   def visible_on_create_form?
@@ -145,7 +148,7 @@ class EditField
   end
 
   def active?
-    @context.has_selector? "#{@selector} #{input_selector}", wait: 1
+    context.has_selector? "#{@selector} #{input_selector}", wait: 1
   end
 
   alias :editing? :active?
@@ -166,7 +169,7 @@ class EditField
   end
 
   def expect_enabled!
-    expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
+    expect(context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
   end
 
   def expect_invalid
