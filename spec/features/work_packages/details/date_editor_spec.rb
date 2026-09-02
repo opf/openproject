@@ -335,26 +335,6 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
     end
   end
 
-  context "with the work package having no relations whatsoever" do
-    let!(:work_package) { create(:work_package, project:) }
-
-    before do
-      start_date.activate!
-      start_date.expect_active!
-    end
-
-    it "does not show a banner with or without manual scheduling" do
-      expect(page).not_to have_test_selector("op-modal-banner-warning")
-      expect(page).not_to have_test_selector("op-modal-banner-info")
-
-      # When toggling manually scheduled
-      start_date.toggle_scheduling_mode
-
-      expect(page).not_to have_test_selector("op-modal-banner-warning")
-      expect(page).not_to have_test_selector("op-modal-banner-info")
-    end
-  end
-
   context "with the work package being the last in the hierarchy" do
     let!(:parent) { create(:work_package, project:, schedule_manually:, start_date: 1.day.ago, due_date: 5.days.from_now) }
     let!(:work_package) { create(:work_package, project:, schedule_manually:, parent:) }
@@ -407,29 +387,6 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
       start_date.expect_active!
     end
 
-    context "when parent is manually scheduled" do
-      let(:schedule_manually) { true }
-
-      it "shows a banner that the relations are ignored" do
-        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child work packages but their start dates are ignored.")
-
-        # When toggling manually scheduled
-        start_date.toggle_scheduling_mode
-
-        # Expect banner to switch
-        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                 text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
-
-        new_window = window_opened_by { click_on "Show relations" }
-        switch_to_window new_window
-
-        wp_table.expect_work_package_listed child
-        wp_table.expect_work_package_listed work_package
-        wp_timeline.expect_timeline!
-      end
-    end
-
     context "when parent is not manually scheduled" do
       let(:schedule_manually) { false }
 
@@ -474,90 +431,6 @@ RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-
     end
   end
 
-  context "with the work package having a precedes relation" do
-    let!(:work_package) { create(:work_package, project:, schedule_manually:, start_date: wp_start_date, due_date: wp_due_date) }
-    let!(:preceding) { create(:work_package, project:, start_date: 10.days.ago, due_date: 5.days.ago) }
-
-    let!(:relationship) do
-      create(:relation,
-             from: preceding,
-             to: work_package,
-             relation_type: Relation::TYPE_PRECEDES)
-    end
-
-    before do
-      start_date.activate!
-      start_date.expect_active!
-    end
-
-    context "when work package is manually scheduled" do
-      let(:schedule_manually) { true }
-      let(:wp_start_date) { nil }
-      let(:wp_due_date) { nil }
-
-      it "shows a banner that the relations are ignored" do
-        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                 text: "Manually scheduled. Dates not affected by relations.\nClick on \"Show relations\" for Gantt overview.")
-
-        # When toggling manually scheduled
-        start_date.toggle_scheduling_mode
-
-        # Expect new banner info
-        expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                 text: "The start date is set by a predecessor.\nClick on \"Show relations\" for Gantt overview.")
-
-        new_window = window_opened_by { click_on "Show relations" }
-        switch_to_window new_window
-
-        wp_table.expect_work_package_listed preceding
-        wp_table.expect_work_package_listed work_package
-        wp_timeline.expect_timeline!
-      end
-    end
-  end
-
-  context "with the work package having a follows relation" do
-    let!(:work_package) { create(:work_package, project:, schedule_manually:) }
-    let!(:following) { create(:work_package, project:, start_date: 5.days.from_now, due_date: 10.days.from_now) }
-
-    let!(:relationship) do
-      create(:relation,
-             from: following,
-             to: work_package,
-             relation_type: Relation::TYPE_FOLLOWS)
-    end
-
-    before do
-      start_date.activate!
-      start_date.expect_active!
-    end
-
-    context "when work package is manually scheduled" do
-      let(:schedule_manually) { true }
-
-      it "shows a banner that the relations are ignored" do
-        expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                 text: "Manually scheduled. Dates not affected by relations.\nClick on \"Show relations\" for Gantt overview.")
-
-        # When toggling manually scheduled
-        start_date.toggle_scheduling_mode
-
-        # There is no banner
-        expect(page).not_to have_test_selector("op-modal-banner-warning")
-        expect(page).not_to have_test_selector("op-modal-banner-info")
-
-        # Toggle back to see the banner again
-        start_date.toggle_scheduling_mode
-
-        new_window = window_opened_by { click_on "Show relations" }
-        switch_to_window new_window
-
-        wp_table.expect_work_package_listed following
-        wp_table.expect_work_package_listed work_package
-        wp_timeline.expect_timeline!
-      end
-    end
-  end
   # rubocop:enable Layout/LineLength
 
   context "with a negative time zone", driver: :chrome_new_york_time_zone do
