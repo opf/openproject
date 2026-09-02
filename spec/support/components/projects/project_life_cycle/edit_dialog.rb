@@ -69,8 +69,6 @@ module Components
           dialog_selector = "##{Overviews::ProjectPhases::EditDialogComponent::DIALOG_ID}"
           datepicker = Components::RangeDatepicker.new(dialog_selector)
 
-          sleep 1
-
           values.each do |date|
             datepicker.set_date(date.strftime("%Y-%m-%d"))
             wait_for_form_preview_to_reload
@@ -98,7 +96,7 @@ module Components
         end
 
         def wait_for_form_preview_to_reload
-          expect(page).to have_css('form[aria-busy="true"]')
+          wait_for_network_idle
           expect(page).to have_no_css("form[aria-busy]")
         end
 
