@@ -146,6 +146,7 @@ end
 Ferrum::Contexts.prepend(Module.new do
   def reset
     super
+  ensure
     @default_context = nil
   end
 
