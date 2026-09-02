@@ -490,6 +490,48 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
   end
 
+  context "with more past occurrences than the export limit" do
+    subject(:builder) { described_class.new(timezone:) }
+
+    let(:project) { create(:project) }
+    let(:anchor) { 30.weeks.ago.beginning_of_week + 9.hours }
+
+    let(:recurring_meeting) do
+      create(:recurring_meeting,
+             start_time: anchor,
+             project:,
+             end_after: :never,
+             time_zone: timezone.tzinfo.name)
+    end
+
+    let!(:past_occurrences) do
+      Array.new(12) do |index|
+        time = anchor + index.weeks
+
+        create(:meeting,
+               recurring_meeting:,
+               project:,
+               start_time: time,
+               recurrence_start_time: time)
+      end
+    end
+
+    it "emits only the most recent PAST_OCCURRENCES_LIMIT overrides" do
+      builder.add_series_event(recurring_meeting:)
+
+      parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+      overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+      expect(overrides.size).to eq(described_class::PAST_OCCURRENCES_LIMIT)
+
+      expected = past_occurrences
+                   .last(described_class::PAST_OCCURRENCES_LIMIT)
+                   .map { |meeting| meeting.recurrence_start_time.utc.to_i }
+
+      expect(overrides.map { |e| e.recurrence_id.to_time.utc.to_i }).to match_array(expected)
+    end
+  end
+
   context "with a recurring meeting and interim responses" do
     let(:project) { create(:project) }
     let(:user1) do

@@ -322,24 +322,21 @@ module Meetings
     end
 
     def instantiated_occurrences_for_export(recurring_meeting)
-      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
-      # reject the whole series if an event is < master DTSTART.
-      upcoming_schedule_occurrences(recurring_meeting)
+      @export_occurrences_cache ||= {}
+      @export_occurrences_cache[recurring_meeting.id] ||= begin
+        past, upcoming = exportable_occurrences(recurring_meeting)
+                           .partition { it.recurrence_start_time < Time.current }
+
+        past.last(PAST_OCCURRENCES_LIMIT) + upcoming
+      end
     end
 
-    def upcoming_schedule_occurrences(recurring_meeting)
-      instantiated_schedules_partitioned(recurring_meeting).second
-    end
-
-    def instantiated_schedules_partitioned(recurring_meeting)
-      @instantiated_schedules_partition_cache ||= {}
-      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
-        instantiated_schedules(recurring_meeting)
-          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
-    end
-
-    def in_previous_schedule?(meeting, recurring_meeting)
-      meeting.recurrence_start_time < recurring_meeting.current_schedule_start
+    # Some implementations (such as OpenXchange) reject the full series if an event starts
+    # before the master DTSTART.
+    def exportable_occurrences(recurring_meeting)
+      instantiated_schedules(recurring_meeting)
+        .reject { it.recurrence_start_time < recurring_meeting.current_schedule_start }
+        .sort_by(&:recurrence_start_time)
     end
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
