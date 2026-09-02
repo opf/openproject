@@ -223,8 +223,10 @@ module Components
 
       def expect_filter_order(name, values, selector = nil)
         id = selector || name.downcase
+        value_selector = "#values-#{id} .ng-value-label"
 
-        expect(page.all("#values-#{id} .ng-value-label").map(&:text)).to eq(values)
+        expect(page).to have_css(value_selector, count: values.size)
+        expect(page.all(value_selector).map(&:text)).to eq(values)
       end
 
       def remove_filter(field)
