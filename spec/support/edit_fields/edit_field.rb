@@ -249,10 +249,8 @@ class EditField
   ##
   # Use option of ng-select field to create new element from within the autocompleter
   def set_new_value(content)
-    scroll_to_element(input_element)
-    input_element.find("input").set content
-
-    page.find(".ng-option", text: "Create: #{content}").click
+    dropdown = search_autocomplete(-> { input_element }, query: content)
+    dropdown.find(".ng-option", text: "Create: #{content}").click
   end
 
   def type(text)
