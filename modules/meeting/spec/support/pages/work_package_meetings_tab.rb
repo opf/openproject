@@ -98,14 +98,18 @@ module Pages
     end
 
     def fill_and_submit_meeting_dialog(meeting, notes, counter)
-      fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
-      wait_for_turbo_stream do
-        page.find(".ng-option-marked", text: meeting.title).click
-      end
+      select_meeting(meeting)
       page.find(".ck-editor__editable").set(notes)
 
       wait_for_turbo_stream { click_on("Save") }
       expect_upcoming_counter_to_be(counter)
+    end
+
+    def select_meeting(meeting)
+      fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
+      wait_for_turbo_stream do
+        page.find(".ng-option-marked", text: meeting.title).click
+      end
     end
 
     private
