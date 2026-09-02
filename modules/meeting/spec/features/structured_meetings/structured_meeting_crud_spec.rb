@@ -181,8 +181,10 @@ RSpec.describe "Meetings CRUD",
     show_page.expect_item_edit_form(second, visible: true)
 
     # Accepting the confirmation reorders items and closes the edit state
-    accept_confirm do
-      show_page.select_action(wp_item, I18n.t(:label_sort_highest))
+    wait_for_turbo_stream do
+      accept_confirm do
+        show_page.select_action(wp_item, I18n.t(:label_sort_highest))
+      end
     end
 
     show_page.assert_agenda_order! "Important task", "Updated title", "Second"
