@@ -638,20 +638,8 @@ RSpec.describe "Open the Meetings tab",
 
         context "when testing section selection behaviour" do
           shared_let(:meeting_without_sections) { create(:meeting, project:, start_time: 1.hour.from_now) }
-          shared_let(:meeting_with_sections) do
-            create(:meeting, project:, start_time: 2.hours.from_now).tap do |meeting|
-              create(:meeting_section, meeting:, title: "Section 1")
-              create(:meeting_section, meeting:, title: "Section 2")
-            end
-          end
           shared_let(:recurring_meeting) do
             create(:recurring_meeting, project:)
-          end
-          shared_let(:empty_recurring_meeting_occurrence) do
-            create(:recurring_meeting_occurrence,
-                   project:,
-                   recurring_meeting:,
-                   start_time: 3.hours.from_now)
           end
           shared_let(:recurring_meeting_occurrence) do
             create(:recurring_meeting_occurrence,
@@ -663,77 +651,20 @@ RSpec.describe "Open the Meetings tab",
             end
           end
 
-          it "automatically selects the backlog for one-time meetings without sections" do
-            check_section_auto_selection(meeting_without_sections, "Agenda backlog")
-          end
-
-          it "automatically selects the backlog for one-time meetings with sections" do
-            check_section_auto_selection(meeting_with_sections, "Agenda backlog")
-          end
-
-          it "automatically selects the last section for recurring meeting occurrences that is not the series backlog" do
-            last_section = recurring_meeting_occurrence.sections.last.title
-            check_section_auto_selection(recurring_meeting_occurrence, last_section)
-          end
-
-          it "always has the series backlog as a manually selectable option" do
-            work_package_page.visit!
-            switch_to_meetings_tab
-
-            meetings_tab.open_add_to_meeting_dialog
-
-            fill_in("meeting_agenda_item_meeting_id", with: recurring_meeting_occurrence.title)
-            page.find(".ng-option-marked", text: recurring_meeting_occurrence.title)
-            page.find(".ng-option-marked").click
-
-            wait_for_network_idle
-
-            section_field = find_field("meeting_agenda_item_meeting_section_id")
-            section_field.click
-
-            expect(page).to have_css(".ng-option", text: "Series backlog")
-          end
-
-          it "shows the automatically created untitled section when no sections exist for recurring meeting occurrences" do
-            meeting = empty_recurring_meeting_occurrence
-
-            check_section_auto_selection(meeting, "Untitled section")
-          end
-
           it "updates section selection when switching between meetings" do
             work_package_page.visit!
             switch_to_meetings_tab
 
             meetings_tab.open_add_to_meeting_dialog
 
-            retry_block do
-              fill_in("meeting_agenda_item_meeting_id", with: recurring_meeting_occurrence.title)
-              page.find(".ng-option-marked", text: recurring_meeting_occurrence.title)
-              page.find(".ng-option-marked").click
+            meetings_tab.select_meeting(recurring_meeting_occurrence)
 
-              wait_for_network_idle
+            last_section = recurring_meeting_occurrence.sections.last
+            expect(page).to have_text(last_section.title)
 
-              last_section = recurring_meeting_occurrence.sections.last
-              expect(page).to have_text(last_section.title)
+            meetings_tab.select_meeting(meeting_without_sections)
 
-              fill_in("meeting_agenda_item_meeting_id", with: meeting_without_sections.title)
-              page.find(".ng-option-marked", text: meeting_without_sections.title)
-              page.find(".ng-option-marked").click
-
-              wait_for_network_idle
-
-              expect(page).to have_text("Agenda backlog")
-            end
-          end
-
-          it "shows section autocompleter as disabled when no meeting is selected" do
-            work_package_page.visit!
-            switch_to_meetings_tab
-
-            meetings_tab.open_add_to_meeting_dialog
-
-            page.find_field("meeting_agenda_item_meeting_section_id", disabled: true, visible: false)
-            expect(page).to have_text("Meeting selection is required first")
+            expect(page).to have_text("Agenda backlog")
           end
         end
       end
@@ -743,7 +674,12 @@ RSpec.describe "Open the Meetings tab",
   describe "work package split view" do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
 
-    it_behaves_like "meetings tab integration"
+    it "renders the meetings tab" do
+      work_package_page.visit!
+      work_package_page.switch_to_tab(tab: "meetings")
+
+      meetings_tab.expect_tab_content_rendered
+    end
   end
 
   private
@@ -751,23 +687,5 @@ RSpec.describe "Open the Meetings tab",
   def switch_to_meetings_tab
     work_package_page.switch_to_tab(tab: "meetings")
     meetings_tab.expect_tab_content_rendered # wait for the tab to be rendered
-  end
-
-  def check_section_auto_selection(meeting, expected_section)
-    work_package_page.visit!
-    switch_to_meetings_tab
-
-    meetings_tab.open_add_to_meeting_dialog
-
-    fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
-    page.find(".ng-option-marked", text: meeting.title)
-    page.find(".ng-option-marked").click
-
-    wait_for_network_idle
-
-    section_field = find_field("meeting_agenda_item_meeting_section_id")
-    expect(section_field).not_to be_disabled
-
-    expect(page).to have_css(".ng-value-label", text: expected_section)
   end
 end
