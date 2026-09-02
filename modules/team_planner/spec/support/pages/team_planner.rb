@@ -86,13 +86,9 @@ module Pages
     end
 
     def switch_view_mode(text)
-      retry_block do
-        find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
-
-        within("#op-team-planner--view-select-dropdown") do
-          click_button(text)
-        end
-      end
+      expect(page).to have_no_css("#op-team-planner--view-select-dropdown")
+      find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
+      find("#op-team-planner--view-select-dropdown .menu-item", exact_text: text).click
 
       expect_view_mode(text)
     end
