@@ -67,6 +67,7 @@ RSpec.describe "Repository Settings", :js do
 
         SeleniumHubWaiter.wait
         check "I understand that this deletion cannot be reversed."
+        expect(page).to have_button(I18n.t(:button_delete_permanently), disabled: false)
         click_on I18n.t(:button_delete_permanently)
       else
         find("a.icon-remove", text: I18n.t(:button_remove)).click
