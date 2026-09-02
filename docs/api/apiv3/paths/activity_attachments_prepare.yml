@@ -1,0 +1,139 @@
+# /api/v3/activities/{id}/attachments/prepare
+---
+post:
+  summary: Prepare a direct attachment upload for an activity
+  operationId: prepare_activity_attachment_upload
+  tags:
+    - Activities
+    - Attachments
+  description: |-
+    Prepares a direct upload of an attachment for the given activity (e.g. a work package
+    comment), to be performed by the client without the file content passing through the
+    OpenProject server. See `POST /api/v3/attachments/prepare` for a detailed description of the
+    three-step flow this endpoint is the first step of.
+
+    Unlike `POST /api/v3/attachments/prepare`, the resulting pending attachment is immediately
+    associated with this activity as its container.
+  parameters:
+    - name: id
+      description: ID of the activity to receive the attachment
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - metadata
+          properties:
+            metadata:
+              type: string
+              contentMediaType: application/json
+              contentSchema:
+                $ref: '../components/schemas/attachment_prepare_upload_write_model.yml'
+              description: |-
+                A **single** part, named `metadata`, whose value is a *JSON-encoded string*
+                conforming to the schema referenced above (see the *Model* tab for its
+                properties) - it must **not** be split into separate `fileName`, `fileSize`, ...
+                form fields. No file content is sent with this request.
+              example: '{"fileName":"cat.png","fileSize":24,"contentType":"image/png"}'
+        encoding:
+          metadata:
+            contentType: application/json
+  responses:
+    '201':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/attachment_upload_model.yml'
+    '400':
+      description: |-
+        Returned if the client sends a not understandable request. Reasons include:
+
+        * Omitting the `metadata` part
+
+        * sending unparsable JSON in the metadata part
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request could not be parsed as JSON.
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** add_work_package_comments
+
+        *Note that you will only receive this error, if you are at least allowed to see the activity*
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to add attachments to this activity.
+    '404':
+      description: |-
+        Returned if the activity does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:**
+        - `view_work_packages`
+        - for internal comments: `view_internal_comments`
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of an activity.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if the client tries to prepare an invalid attachment upload.
+        Reasons are:
+
+        * Omitting the file name (`fileName` property of metadata part)
+
+        * Omitting the file size (`fileSize` property of metadata part)
+
+        * The instance is not configured for direct uploads
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            'direct uploads not available':
+              description: |-
+                Returned if the OpenProject instance is not configured for direct uploads.
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Direct file upload is not available due to a system configuration issue. Please contact your administrator.
+            'missing file name':
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: "File can't be blank."

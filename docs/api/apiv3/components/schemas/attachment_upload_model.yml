@@ -1,0 +1,166 @@
+# Schema: AttachmentUploadModel
+---
+type: object
+required:
+  - _type
+  - _links
+  - id
+  - fileName
+properties:
+  _type:
+    type: string
+    enum:
+      - AttachmentUpload
+  id:
+    type: integer
+    description: |-
+      The id of the pending `Attachment` record that was created for this upload. It can be used to
+      reference the attachment (e.g. for deletion) before the upload has been completed.
+    minimum: 1
+  fileName:
+    type: string
+    description: The name the file will be stored under, as given in the request.
+  description:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: A user provided description of the file.
+  createdAt:
+    type: string
+    format: date-time
+    description: Time this pending attachment record was created.
+  _links:
+    type: object
+    required:
+      - self
+      - author
+      - addAttachment
+      - completeUpload
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Not an actual retrievable resource. As the pending upload is a temporary, one-time
+              object, requesting this URL directly will return a `404 Not Found`. Use the `id`
+              property together with the container's attachments endpoints once the upload has
+              been completed.
+      author:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The user preparing the upload, i.e. the currently authenticated user.
+
+              **Resource**: User
+      container:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The object (e.g. WorkPackage) the resulting attachment will belong to. Absent if the
+              upload was prepared without a container (see `POST /api/v3/attachments/prepare`).
+
+              **Resource**: Anything
+      addAttachment:
+        type: object
+        description: |-
+          The direct upload instruction for the storage backend (e.g. an S3-compatible object store).
+          The client must issue exactly this request, unmodified, to upload the actual file content.
+
+          # Conditions
+
+          The storage backend, and therefore the exact set of `form_fields`, is implementation
+          defined and may change between requests and OpenProject versions. Clients *must not*
+          assume a specific set of fields and instead pass through the ones given.
+        required:
+          - href
+          - method
+          - form_fields
+        properties:
+          href:
+            type: string
+            description: The URL of the storage backend the file needs to be uploaded to.
+          method:
+            type: string
+            description: The HTTP verb to use for the direct upload request (currently always `post`).
+          form_fields:
+            type: object
+            description: |-
+              A set of additional fields that *must* be included, in this exact form and order, as
+              parts of the `multipart/form-data` request sent to `href`, in addition to a `file`
+              part carrying the raw file content (which *must* be the last part of the request).
+
+              These fields typically include storage credentials in the form of a short-lived,
+              pre-signed upload policy (e.g. `key`, `policy`, `X-Amz-Credential`, `X-Amz-Signature`,
+              `X-Amz-Algorithm`, `X-Amz-Date`, `success_action_status`, `Content-Type` for an S3
+              backend) and *must* be treated as opaque values by the client.
+            additionalProperties:
+              type: string
+      completeUpload:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              To be called by the client after the direct upload to `addAttachment` has finished
+              successfully, in order to complete the attachment.
+
+              **Resource**: Attachment
+      delete:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Deletes the pending attachment, e.g. to abort the upload.
+
+              **Resource**: -
+      staticDownloadLocation:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Direct download link to the attachment once it has been uploaded and stored on the
+              OpenProject server.
+
+              **Resource**: -
+      downloadLocation:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Download link to the attachment. Points to the external storage location once the
+              attachment resides in remote storage, otherwise identical to `staticDownloadLocation`.
+
+              **Resource**: -
+example:
+  _type: AttachmentUpload
+  id: 42
+  fileName: cat.png
+  description:
+    format: plain
+    raw: ''
+    html: ''
+  createdAt: '2014-05-21T08:51:20.396Z'
+  _links:
+    self:
+      href: "/api/v3/attachment_upload/42"
+      title: cat.png
+    author:
+      href: "/api/v3/users/1"
+    container:
+      href: "/api/v3/work_packages/1"
+    addAttachment:
+      href: "https://my-bucket.s3.amazonaws.com/"
+      method: post
+      form_fields:
+        key: uploads/42/cat.png
+        acl: private
+        success_action_status: '201'
+        Content-Type: image/png
+        X-Amz-Credential: AKIAIOSFODNN7EXAMPLE/20260101/eu-west-1/s3/aws4_request
+        X-Amz-Algorithm: AWS4-HMAC-SHA256
+        X-Amz-Date: 20260101T000000Z
+        policy: eyJleHBpcmF0aW9uIjogIjIwMjYtMDEtMDFUMDE6MDA6MDBaIiwgImNvbmRpdGlvbnMiOiBbXX0=
+        X-Amz-Signature: abcdef0123456789
+    completeUpload:
+      href: "/api/v3/attachments/42/uploaded"
+    delete:
+      href: "/api/v3/attachments/42"
+      method: delete
+    staticDownloadLocation:
+      href: "/api/v3/attachments/42/content"
+    downloadLocation:
+      href: "/api/v3/attachments/42/content"

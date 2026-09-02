@@ -1,0 +1,175 @@
+# /api/v3/attachments/prepare
+---
+post:
+  summary: Prepare a direct attachment upload
+  operationId: prepare_attachment_upload
+  tags:
+    - Attachments
+  description: |-
+    Prepares a **direct upload** of a file to OpenProject's attachment storage, bypassing the
+    OpenProject server for the actual file transfer.
+
+    ## Why this endpoint exists
+
+    Attachments can always be created in one step by sending the raw file content together with
+    the request, see `POST /api/v3/attachments` and the equivalent `.../attachments` endpoints of
+    the various containers (work packages, wiki pages, meetings, ...). For large files or slow
+    connections this means the file has to be transferred to the OpenProject server first, and
+    then from there to the configured remote storage (e.g. an S3-compatible object store) - twice
+    the traffic and twice the time.
+
+    When OpenProject is configured to use a remote, S3-compatible storage for attachments,
+    it can instead hand the client a short-lived, pre-signed upload
+    instruction that allows the client to upload the file **directly** to that storage, without the
+    OpenProject server ever being involved in the transfer. This is what this
+    endpoint, and its per-container siblings such as
+    `POST /api/v3/work_packages/{id}/attachments/prepare`, are used for.
+
+    If direct uploads are not available (e.g. because attachments are stored on the local disk of
+    the OpenProject server, or a remote storage without access-key credentials is used), this
+    request fails with a `422` error. Clients should fall back to the regular, single-step upload
+    in that case.
+
+    ## The three-step flow
+
+    1. **Prepare** (this request): the client tells the server the file name and size (and
+       optionally its content type, description and a checksum) it intends to upload. The server
+       creates a pending `Attachment` (`status: prepared`) without any file content yet and
+       responds with an `AttachmentUpload` resource. That resource contains, among others:
+        - `_links.addAttachment`: the direct upload instruction (`href`, `method` and `form_fields`)
+          for the storage backend.
+        - `_links.completeUpload`: the link to call once step 2 has finished.
+
+    2. **Upload**: the client sends a `multipart/form-data` request exactly as instructed by
+       `_links.addAttachment`, i.e. to the given `href`, using the given `method`, including every
+       given `form_fields` entry as its own part (in the given order), and finally a `file` part
+       carrying the raw file content as the *last* part of the request. This request goes directly
+       to the storage backend, not to the OpenProject server.
+
+    3. **Complete** (`GET` the href given in `_links.completeUpload`, i.e.
+       `/api/v3/attachments/{id}/uploaded`): tells the OpenProject server that the direct upload has
+       finished. The server verifies that the file is now present in the storage, and asynchronously
+       finalizes the attachment (determining its definitive content type, matching it against the
+       configured content type allowlist if any, running a virus scan if enabled, and creating
+       activity/notifications for its container). The response is the regular `Attachment` resource.
+       Until this step has completed, the pending attachment is not considered part of its
+       container and will eventually be cleaned up if it is never completed.
+
+    Only the user that prepared the upload can complete it; a pending upload that is never
+    completed (e.g. because the client failed to perform step 2 or 3) is garbage collected after
+    some time.
+
+    ## Container vs. containerless uploads
+
+    This endpoint (`/api/v3/attachments/prepare`) does not take a container - it prepares an
+    attachment that is not yet attached to anything, e.g. because the containing resource (a new
+    work package, for instance) does not exist yet. Such a containerless attachment can later be
+    **claimed** by referencing its `id` while creating the eligible resource, exactly like
+    containerless attachments created via `POST /api/v3/attachments`.
+
+    Most containers that support attachments (e.g. work packages, wiki pages, meetings, forum
+    messages, activity comments) additionally expose the very same operation scoped to an existing
+    instance of themselves, e.g. `POST /api/v3/work_packages/{id}/attachments/prepare`. Using one
+    of those instead immediately associates the resulting attachment with that container, and is
+    subject to the same permission requirements as `POST .../attachments` on that container.
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - metadata
+          properties:
+            metadata:
+              type: string
+              contentMediaType: application/json
+              contentSchema:
+                $ref: '../components/schemas/attachment_prepare_upload_write_model.yml'
+              description: |-
+                A **single** part, named `metadata`, whose value is a *JSON-encoded string*
+                conforming to the schema referenced above (see the *Model* tab for its
+                properties) - it must **not** be split into separate `fileName`, `fileSize`, ...
+                form fields. This is, unlike the regular attachment creation endpoints, the
+                *only* part of this request - no file content is sent here.
+              example: '{"fileName":"cat.png","fileSize":24,"contentType":"image/png"}'
+        encoding:
+          metadata:
+            contentType: application/json
+  responses:
+    '201':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/attachment_upload_model.yml'
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request could not be parsed as JSON.
+      description: |-
+        Returned if the client sends a not understandable request. Reasons include:
+
+        * Omitting the `metadata` part
+
+        * Sending unparsable JSON in the `metadata` part
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to upload attachments.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** At least one permission in any project that allows creating
+        attachments (e.g. edit work package, add work package, edit messages, edit wiki pages;
+        plugins might extend this list)
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            'direct uploads not available':
+              description: |-
+                Returned if the OpenProject instance is not configured for direct uploads, e.g.
+                because attachments are stored locally rather than in a remote, S3-compatible
+                storage with access-key credentials.
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Direct file upload is not available due to a system configuration issue. Please contact your administrator.
+            'missing file name':
+              description: Returned if the `fileName` property of the metadata part is missing.
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: "File can't be blank."
+            'missing file size':
+              description: Returned if the `fileSize` property of the metadata part is missing.
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: "Size can't be blank."
+            'content type not allowed':
+              description: |-
+                Returned if a specific `contentType` was given in the metadata part and it is not
+                part of the configured content type allowlist.
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: "'text/plain' is not allowed for upload."
+      description: |-
+        Returned if the client tries to prepare an invalid attachment upload.
