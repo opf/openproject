@@ -471,7 +471,7 @@ export const SuggestionList = styled.div`
   position: fixed;
   z-index: 1;
   overflow-y: auto;
-  padding: var(--spacer-s);
+  padding: 0 var(--spacer-s) var(--spacer-s);
   border: 1px solid ${controlBorderColor};
   border-radius: ${radius};
   background: ${surfaceColor};
@@ -535,8 +535,9 @@ export const SuggestionHeader = styled.div`
   display: flex;
   align-items: center;
   gap: var(--spacer-m);
-  margin-bottom: var(--spacer-s);
-  padding: var(--spacer-s) var(--spacer-s) var(--spacer-m);
+  /*  Bled over the list's side padding, so its rule spans the whole popover.  */
+  margin: 0 calc(-1 * var(--spacer-s));
+  padding: var(--spacer-m);
   border-bottom: 1px solid ${borderColor};
   background: ${surfaceColor};
 `;
@@ -590,6 +591,8 @@ export const LevelLine = styled.span`
 `;
 
 export const SuggestionTree = styled.div`
+  padding-top: var(--spacer-s);
+
   @media (hover: hover) {
     ${LevelLine}::before {
       opacity: 0;

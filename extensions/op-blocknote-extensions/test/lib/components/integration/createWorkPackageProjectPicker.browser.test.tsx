@@ -773,6 +773,22 @@ describe('Create work package - project picker', () => {
     expect(header.contains(painted)).toBe(true);
   });
 
+  it('leaves no strip above the header for the rows to show through', async () => {
+    serveManyProjects();
+    await openProjectPicker('Parent project');
+    await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
+    await expect.element(page.getByRole('treeitem', { name: 'Child project 01' })).toBeVisible();
+
+    const popover = page.getByTestId(`${LIST}-popover`).element();
+    const header = page.getByTestId(HEADER).element();
+    popover.scrollTop = 40;
+
+    const bounds = popover.getBoundingClientRect();
+    // Just inside the top border, where the list's own padding used to leave a gap.
+    const painted = document.elementFromPoint(bounds.left + bounds.width / 2, bounds.top + 2);
+    expect(header.contains(painted)).toBe(true);
+  });
+
   it('keeps working where the API says nothing about favorites or nesting', async () => {
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
