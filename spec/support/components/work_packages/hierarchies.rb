@@ -122,7 +122,7 @@ module Components
 
       def expect_hidden(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id}", visible: :hidden)
+          expect(page).to have_no_css(".wp-row-#{wp.id}", visible: :visible)
         end
       end
 
