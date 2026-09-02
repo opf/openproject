@@ -66,7 +66,7 @@ RSpec.describe "Show/Edit Document View",
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
 
-        click_on "Edit title"
+        page.find(:menuitem, "Edit title").click
 
         fill_in "document_title", with: ""
         click_on "Save"
@@ -78,7 +78,7 @@ RSpec.describe "Show/Edit Document View",
         expect(page).to have_content("Updated collaborative document")
 
         click_button accessible_name: "Document actions"
-        click_on "Edit title"
+        page.find(:menuitem, "Edit title").click
         click_on "Cancel"
         expect(page).to have_content("Updated collaborative document")
       end
