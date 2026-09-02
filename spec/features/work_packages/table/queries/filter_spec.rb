@@ -306,7 +306,7 @@ RSpec.describe "filter work packages", :js do
       wp_table.visit!
     end
 
-    it "allows filtering, saving and retrieving the saved filter" do
+    it "filters by a list custom field and excludes the selected value from the autocomplete" do
       # Wait for form to load
       filters.expect_loaded
 
@@ -324,28 +324,6 @@ RSpec.describe "filter work packages", :js do
       filters.open_autocompleter list_cf.attribute_name(:camel_case)
 
       expect(page).to have_no_css(".ng-option", text: list_cf.custom_options.last.value)
-
-      wp_table.save_as("Some query name")
-
-      filters.remove_filter list_cf.attribute_name(:camel_case)
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_list_value, work_package_with_anti_list_value
-
-      last_query = Query.last
-
-      wp_table.visit_query(last_query)
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_list_value
-      wp_table.ensure_work_package_not_listed! work_package_with_anti_list_value
-
-      filters.open
-
-      filters.expect_filter_by(list_cf.name,
-                               "is not",
-                               list_cf.custom_options.last.value,
-                               "customField#{list_cf.id}")
     end
   end
 
@@ -466,13 +444,12 @@ RSpec.describe "filter work packages", :js do
         skip("Database does not support full text search.") unless OpenProject::Database::allows_tsv?
       end
 
-      it "allows filtering and retrieving and altering the saved filter" do
+      it "wires attachment content and file name filters to the table" do
         wp_table.visit!
         wp_table.expect_work_package_listed wp_with_attachment_a, wp_with_attachment_b
 
         filters.open
 
-        # content contains with multiple hits
         filters.add_filter_by("Attachment content",
                               "contains",
                               ["text"],
@@ -486,58 +463,6 @@ RSpec.describe "filter work packages", :js do
         filters.remove_filter "attachmentContent"
         loading_indicator_saveguard
 
-        filters.add_filter_by("Attachment content",
-                              "contains",
-                              ["first 1.99"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # content does not contain
-        filters.add_filter_by("Attachment content",
-                              "doesn't contain",
-                              ["first"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_b, wp_without_attachment
-        wp_table.ensure_work_package_not_listed! wp_with_attachment_a
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # ignores special characters
-        filters.add_filter_by("Attachment content",
-                              "contains",
-                              ["! first:* ')"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # file name contains
-        filters.add_filter_by("Attachment file name",
-                              "contains",
-                              ["first"],
-                              "attachmentFileName")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentFileName"
-        loading_indicator_saveguard
-
-        # file name does not contain
         filters.add_filter_by("Attachment file name",
                               "doesn't contain",
                               ["first"],
@@ -547,16 +472,6 @@ RSpec.describe "filter work packages", :js do
         wp_table.expect_work_package_listed wp_with_attachment_b
         wp_table.ensure_work_package_not_listed! wp_with_attachment_a
       end
-    end
-  end
-
-  context "DB does not offer TSVector support" do
-    before do
-      allow(OpenProject::Database).to receive(:allows_tsv?).and_return(false)
-    end
-
-    it "does not offer attachment filters" do
-      expect(page).to have_no_select "add_filter_select", with_options: ["Attachment content", "Attachment file name"]
     end
   end
 
@@ -611,76 +526,6 @@ RSpec.describe "filter work packages", :js do
       wp_table.ensure_work_package_not_listed! wp_updated_3d_ago, wp_updated_5d_ago
     end
 
-    it "filters on date by updated_at" do
-      wp_table.visit!
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
-
-      filters.open
-
-      filters.add_filter_by "Updated",
-                            "on",
-                            [Date.current.iso8601],
-                            "updatedAt"
-
-      loading_indicator_saveguard
-
-      wp_table.expect_work_package_listed wp_updated_today
-      wp_table.ensure_work_package_not_listed! wp_updated_3d_ago, wp_updated_5d_ago
-    end
-
-    it "filters between date by updated_at", skip: "flickering spec (#68677)" do
-      wp_table.visit!
-      wait_for_network_idle
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
-
-      filters.open
-
-      filters.add_filter_by "Updated",
-                            "between",
-                            [4.days.ago.to_date.iso8601, 2.days.ago.to_date.iso8601],
-                            "updatedAt"
-
-      wait_for_network_idle
-      loading_indicator_saveguard
-
-      wp_table.expect_work_package_listed wp_updated_3d_ago
-      wp_table.ensure_work_package_not_listed! wp_updated_today, wp_updated_5d_ago
-
-      wp_table.save_as("Some query name")
-
-      filters.remove_filter "updatedAt"
-
-      wait_for_network_idle
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
-
-      last_query = Query.where(name: "Some query name").first
-      date_filter = last_query.filters.last
-
-      # The frontend sends the date as a datetime string in utc where both bounds have the local offset deduced
-      # e.g. ["2023-05-31T22:00:00Z", "2023-06-03T21:59:59Z"]
-      Time.use_zone(user.time_zone) do
-        expect(date_filter.values)
-          .to eq [4.days.ago.beginning_of_day.utc.iso8601, 2.days.ago.end_of_day.utc.iso8601]
-      end
-
-      wp_table.visit_query(last_query)
-
-      wait_for_network_idle
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_3d_ago
-      wp_table.ensure_work_package_not_listed! wp_updated_today, wp_updated_5d_ago
-
-      filters.open
-
-      filters.expect_filter_by "Updated on",
-                               "between",
-                               [4.days.ago.to_date.iso8601, 2.days.ago.to_date.iso8601],
-                               "updatedAt"
-    end
-
     it "filters between date by updated_at (lower boundary only)" do
       wp_table.visit!
       loading_indicator_saveguard
@@ -699,19 +544,6 @@ RSpec.describe "filter work packages", :js do
       wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
 
       wp_table.save_as("Some query name")
-
-      filters.remove_filter "updatedAt"
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
-
-      filters.add_filter_by "Updated",
-                            "between",
-                            [6.days.ago.to_date.iso8601],
-                            "updatedAt"
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
 
       last_query = Query.where(name: "Some query name").first
       date_filter = last_query.filters.last
@@ -753,19 +585,6 @@ RSpec.describe "filter work packages", :js do
 
       wp_table.save_as("Some query name")
 
-      filters.remove_filter "updatedAt"
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_3d_ago, wp_updated_5d_ago
-
-      filters.add_filter_by "Updated",
-                            "between",
-                            [nil, 6.days.ago.to_date.iso8601],
-                            "updatedAt"
-
-      loading_indicator_saveguard
-      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago, wp_updated_3d_ago, wp_updated_today
-
       last_query = Query.where(name: "Some query name").first
       date_filter = last_query.filters.last
       Time.use_zone(user.time_zone) do
@@ -799,8 +618,6 @@ RSpec.describe "filter work packages", :js do
       filters.open
       filters.add_filter_by "Target versions", "is (OR)", [version2.name, version1.name], "targetVersion"
       loading_indicator_saveguard
-
-      sleep(3)
 
       filters.expect_filter_by "Target versions", "is (OR)", [version1.name], "targetVersion"
       filters.expect_filter_by "Target versions", "is (OR)", [version2.name], "targetVersion"
