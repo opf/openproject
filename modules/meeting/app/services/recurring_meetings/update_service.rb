@@ -36,6 +36,7 @@ module RecurringMeetings
 
     def validate_params
       @old_schedule_model = model.dup
+      @previous_snapshot = ScheduleSnapshot.capture(model)
       @old_location = model.template.location
       @old_title = model.title
       super
@@ -53,6 +54,8 @@ module RecurringMeetings
 
       return call unless call.success?
 
+      start_new_schedule(recurring_meeting)
+
       if should_reschedule?(recurring_meeting)
         reschedule_future_occurrences(recurring_meeting)
         reschedule_init_job(recurring_meeting)
@@ -63,6 +66,16 @@ module RecurringMeetings
       update_future_occurrence_titles(recurring_meeting)
 
       call
+    end
+
+    # Updating this series will replace and rewrite occurrences. IF we need to start
+    # a new schedule, we have to do it before this update.
+    def start_new_schedule(recurring_meeting)
+      return unless recurring_meeting.schedule_changed?(previous: true)
+
+      StartNewScheduleService
+        .new(recurring_meeting:, previous: @previous_snapshot)
+        .call
     end
 
     def update_template(call)

@@ -218,6 +218,27 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
+  # The recurrence rule without the end rule applied.
+  # This is used to define the UNTIL rule for previous schedules.
+  def frequency_rule # rubocop:disable Metrics/AbcSize
+    case frequency
+    when "daily"
+      IceCube::Rule.daily(interval)
+    when "working_days"
+      IceCube::Rule
+        .weekly(interval)
+        .day(*Setting.working_day_names)
+    when "weekly"
+      IceCube::Rule.weekly(interval)
+    when "monthly_day_of_month"
+      IceCube::Rule.monthly(interval).day_of_month(monthly_day)
+    when "monthly_nth_weekday"
+      IceCube::Rule.monthly(interval).day_of_week(monthly_weekday_rule)
+    else
+      raise ArgumentError, "Invalid frequency: #{frequency}"
+    end
+  end
+
   def base_schedule # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     case frequency
     when "daily"
@@ -461,25 +482,6 @@ class RecurringMeeting < ApplicationRecord
 
   def monthly_weekday_rule
     { monthly_weekday.to_sym => [monthly_ordinal] }
-  end
-
-  def frequency_rule # rubocop:disable Metrics/AbcSize
-    case frequency
-    when "daily"
-      IceCube::Rule.daily(interval)
-    when "working_days"
-      IceCube::Rule
-        .weekly(interval)
-        .day(*Setting.working_day_names)
-    when "weekly"
-      IceCube::Rule.weekly(interval)
-    when "monthly_day_of_month"
-      IceCube::Rule.monthly(interval).day_of_month(monthly_day)
-    when "monthly_nth_weekday"
-      IceCube::Rule.monthly(interval).day_of_week(monthly_weekday_rule)
-    else
-      raise ArgumentError, "Invalid frequency: #{frequency}"
-    end
   end
 
   def count_rule(rule, only_upcoming_iterations: false)
