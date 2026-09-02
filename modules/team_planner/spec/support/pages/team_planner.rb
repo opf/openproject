@@ -249,6 +249,8 @@ module Pages
         page.find('[data-test-selector="tp-assignee-add-button"]', wait: 10).click
       end
 
+      autocomplete.call.find(".ng-input input", wait: 10)
+
       page.document.synchronize(10) do
         unless page.has_selector?(panel_selector, wait: 0)
           ng_click_autocompleter(autocomplete)
