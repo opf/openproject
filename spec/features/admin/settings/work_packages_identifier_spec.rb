@@ -111,11 +111,13 @@ RSpec.describe "Work packages identifier admin settings", :js do
       it "enables the confirm button only after checking the checkbox" do
         click_on "Convert identifiers"
 
-        within "[role=alertdialog]" do
+        within_dialog "Change work package identifiers" do
           expect(page).to have_button("Change identifiers", disabled: true)
 
-          check "I understand that this will permanently change all work package IDs"
+          confirmation = find_field("I understand that this will permanently change all work package IDs")
+          confirmation.click
 
+          expect(confirmation).to be_checked
           expect(page).to have_button("Change identifiers", disabled: false)
         end
       end

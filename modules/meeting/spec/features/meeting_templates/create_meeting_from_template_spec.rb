@@ -398,11 +398,11 @@ RSpec.describe "Create meeting from template", :js do
       project_a_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
+        dropdown = search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
 
-        expect(page).to have_text("Template A1")
-        expect(page).to have_text("Template A2")
-        expect(page).to have_text("Project B: Template A1")
+        expect(dropdown).to have_text("Template A1")
+        expect(dropdown).to have_text("Template A2")
+        expect(dropdown).to have_text("Project B: Template A1")
       end
     end
 
@@ -411,9 +411,9 @@ RSpec.describe "Create meeting from template", :js do
       project_a_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
+        dropdown = search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
 
-        options = all(".ng-option", count: 3).map(&:text)
+        options = dropdown.all(".ng-option", count: 3).map(&:text)
         expect(options).to eq(["Template A1", "Template A2", "Project B: Template A1"])
       end
     end
