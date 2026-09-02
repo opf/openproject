@@ -59,6 +59,10 @@ import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
+  GlobalEditFormChangesTrackerService,
+} from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 
 @Component({
   selector: 'wp-list-view',
@@ -77,6 +81,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly keepTab = inject(KeepTabService);
+  readonly configurationService = inject(ConfigurationService);
+  readonly globalEditFormChangesTracker = inject(GlobalEditFormChangesTrackerService);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly wpViewFilters = inject(WorkPackageViewFiltersService);
   readonly deviceService = inject(DeviceService);
@@ -212,6 +218,16 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
    * mount this component and only differ in their base path (/work_packages vs /gantt).
    */
   private openInSplitView(workPackageId:string):void {
+    // Previously we checked that via uiRouter (via $transitions.onBefore). Since that got removed,
+    // we need to check that here explicitly.
+    if (
+      this.globalEditFormChangesTracker.thereAreFormsBeingEdited
+      && this.configurationService.warnOnLeavingUnsaved()
+      && !window.confirm(this.I18n.t('js.work_packages.confirm_edit_cancel'))
+    ) {
+      return;
+    }
+
     const basePath = this.urlParams.basePathWithoutDetails();
     Turbo.visit(
       `${basePath}/details/${workPackageId}/${this.keepTab.currentDetailsTab}${window.location.search}`,

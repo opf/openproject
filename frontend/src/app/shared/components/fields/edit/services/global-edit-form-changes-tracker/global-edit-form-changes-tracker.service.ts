@@ -51,6 +51,20 @@ export class GlobalEditFormChangesTrackerService {
       ));
   }
 
+  /**
+   * Broader than thereAreFormsWithUnsavedChanges: true whenever a field is active
+   * (form.editing), even if no value has actually been changed yet. Matches the
+   * uiRouter $transitions.onBefore hook's condition that used to guard split-view
+   * switches - merely activating a field (e.g. opening a dropdown) is enough to warn
+   * on navigating away, unlike the stricter check used for the native beforeunload
+   * prompt.
+   */
+  get thereAreFormsBeingEdited() {
+    return Array
+      .from(this.activeForms.keys())
+      .some((form) => form.editing && !form.change.inFlight);
+  }
+
   constructor() {
     const { signal } = this.abortController;
 
@@ -64,13 +78,23 @@ export class GlobalEditFormChangesTrackerService {
       this.visitApproved = action !== 'restore';
     }, { signal });
 
-    // Block Turbo restoration renders that would clobber Angular's
-    // DOM while an edit form is active.  For restoration visits
-    // visitApproved is false, so the guard fires.
+    // Block Turbo restoration renders that would clobber Angular's DOM while an
+    // edit form is active. For restoration visits visitApproved is false, so the
+    // guard fires. This is also the only place we can warn about unsaved changes
+    // for a back/forward navigation: turbo:before-visit (used by
+    // beforeunload.controller.ts) is never dispatched for popstate-driven
+    // restorations - the browser has already moved through history by the time
+    // popstate fires, so Turbo skips straight to starting the visit.
     document.addEventListener('turbo:before-render', (event) => {
-      if (!this.visitApproved && this.thereAreFormsWithUnsavedChanges) {
-        event.preventDefault();
+      if (this.visitApproved || !this.thereAreFormsWithUnsavedChanges) {
+        return;
       }
+
+      if (window.confirm(this.i18nService.t<string>('js.work_packages.confirm_edit_cancel'))) {
+        return;
+      }
+
+      event.preventDefault();
     }, { signal });
 
     // Show a data loss warning when the user closes the tab or
