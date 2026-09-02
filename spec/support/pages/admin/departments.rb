@@ -82,8 +82,8 @@ module Pages
         end
       end
 
-      def expect_breadcrumbs(*names)
-        page.document.synchronize do
+      def expect_breadcrumbs(*names, wait: Capybara.default_max_wait_time)
+        page.document.synchronize(wait) do
           actual = page.find(detail_component_selector).all("li.breadcrumb-item", wait: 0).map(&:text)
           raise Capybara::ExpectationNotMet, "expected #{names.inspect}, got #{actual.inspect}" unless actual == names
         end

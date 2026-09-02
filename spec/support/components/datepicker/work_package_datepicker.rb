@@ -234,6 +234,7 @@ module Components
     protected
 
     def wait_for_changes_to_be_applied_after_setting_field
+      container.has_css?("[data-datepicker-preview-pending]", wait: 2)
       expect(container).to have_no_css("[data-datepicker-preview-pending]")
       wait_for_network_idle
     end
