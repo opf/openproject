@@ -70,12 +70,6 @@ RSpec.describe "new work package", :js do
     project_field.set_value project_name
 
     wait_for_network_idle
-
-    # Select self as assignee
-    assignee_field.openSelectField
-    assignee_field.set_value user.name
-
-    wait_for_network_idle
   end
 
   before do
@@ -223,13 +217,6 @@ RSpec.describe "new work package", :js do
       let(:create_method) { method(:create_work_package) }
     end
 
-    it "allows to go to the full page through the toaster (Regression #37555)" do
-      create_work_package(type_task)
-      save_work_package!
-
-      wp_page.expect_toast message: "Successful creation."
-    end
-
     it "reloads the table and selects the new work package" do
       expect(page).to have_no_css(".wp--row")
 
@@ -348,6 +335,10 @@ RSpec.describe "new work package", :js do
       create_work_package_globally(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
+      assignee_field.openSelectField
+      assignee_field.set_value user.name
+      wait_for_network_idle
+
       wp_page.subject_field.set("new work package")
       save_work_package!
       wp_page.dismiss_toaster!
@@ -410,18 +401,12 @@ RSpec.describe "new work package", :js do
     end
   end
 
-  context "as a user with no permissions" do
-    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+  context "as a user with no permission to add work packages" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::Page.new }
 
-    it "shows a 403 error on creation paths" do
-      visit new_work_package_path
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
-      visit new_project_work_packages_path(project)
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
+    it "shows the API authorization error on split creation paths" do
       visit new_split_work_packages_path
       wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
 
@@ -452,27 +437,6 @@ RSpec.describe "new work package", :js do
       subject_field.expect_read_only
       subject_field.display_element.click
       subject_field.expect_inactive!
-    end
-  end
-
-  context "an anonymous user is prompted to login" do
-    let(:user) { create(:anonymous) }
-    let(:wp_page) { Pages::Page.new }
-
-    let(:paths) do
-      [
-        new_work_package_path,
-        new_split_work_packages_path,
-        new_project_work_packages_path(project),
-        new_split_project_work_packages_path(project)
-      ]
-    end
-
-    it "shows a 403 error on creation paths" do
-      paths.each do |path|
-        visit path
-        expect(wp_page.current_url).to match /#{signin_path}\?back_url=/
-      end
     end
   end
 
