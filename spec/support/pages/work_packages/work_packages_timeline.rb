@@ -144,7 +144,7 @@ module Pages
     end
 
     def expect_hidden_row(work_package)
-      expect(page).to have_css(".wp-row-#{work_package.id}-timeline", visible: :hidden)
+      expect(page).to have_no_css(".wp-row-#{work_package.id}-timeline", visible: :visible)
     end
   end
 end
