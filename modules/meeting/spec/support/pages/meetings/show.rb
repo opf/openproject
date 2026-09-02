@@ -163,8 +163,13 @@ module Pages::Meetings
 
     def assert_agenda_order!(*titles)
       wait_for_network_idle
-      expect(page).to have_test_selector("op-meeting-agenda-title", count: titles.size)
-      expect(page.all(:test_id, "op-meeting-agenda-title").map(&:text)).to eq(titles)
+      errors = page.driver.invalid_element_errors + [
+        Capybara::ElementNotFound,
+        RSpec::Expectations::ExpectationNotMetError
+      ]
+      page.document.synchronize(errors:) do
+        expect(page.all(:test_id, "op-meeting-agenda-title").map(&:text)).to eq(titles)
+      end
     end
 
     def remove_agenda_item(item)

@@ -60,11 +60,8 @@ class EditField
   end
 
   def display_trigger_element
-    if display_element.has_selector?(".inline-edit--display-trigger", wait: 0)
-      display_element.find(".inline-edit--display-trigger")
-    else
-      display_element
-    end
+    display = display_element
+    display.first(".inline-edit--display-trigger", minimum: 0, wait: 0) || display
   end
 
   def input_element
@@ -113,7 +110,7 @@ class EditField
     retry_block(args: { tries: 2 }) do
       unless active?
         SeleniumHubWaiter.wait unless using_cuprite?
-        scroll_to_and_click(display_trigger_element, block: :nearest)
+        scroll_to_and_click(block: :nearest) { display_trigger_element }
         SeleniumHubWaiter.wait unless using_cuprite?
       end
 
@@ -154,8 +151,8 @@ class EditField
   alias :editing? :active?
 
   def expect_active!
-    expect(field_container)
-      .to have_selector(field_type, wait: 10),
+    expect(context)
+      .to have_css("#{@selector} #{field_type}", wait: 10),
           "Expected field input type '#{field_type}' for attribute '#{property_name}'."
 
     # Also ensure the element is not disabled
@@ -164,8 +161,8 @@ class EditField
   end
 
   def expect_inactive!
-    expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).to have_no_selector(field_type)
+    expect(context).to have_css("#{@selector} #{display_selector}", wait: 10)
+    expect(context).to have_no_selector("#{@selector} #{field_type}")
   end
 
   def expect_enabled!
@@ -211,9 +208,13 @@ class EditField
     raise ArgumentError.new("Is not an autocompleter field") unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query:, select_text:, results_selector: "body"
+      select_autocomplete -> { field_container },
+                          query:,
+                          select_text:,
+                          results_selector: "body",
+                          wait_dropdown_open: false
     else
-      search_autocomplete field_container, query:, results_selector: "body"
+      search_autocomplete -> { field_container }, query:, results_selector: "body", wait_dropdown_open: false
     end
   end
 

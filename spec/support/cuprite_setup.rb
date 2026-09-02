@@ -146,6 +146,7 @@ end
 Ferrum::Contexts.prepend(Module.new do
   def reset
     super
+  ensure
     @default_context = nil
   end
 
@@ -156,6 +157,14 @@ Ferrum::Contexts.prepend(Module.new do
 
     context = Ferrum::Context.new(@client, self, context_id)
     contexts[context_id] = context
+  end
+end)
+
+Capybara::Cuprite::Browser.prepend(Module.new do
+  def reset
+    super
+  rescue Ferrum::TimeoutError, Ferrum::DeadBrowserError
+    restart
   end
 end)
 

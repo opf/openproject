@@ -306,8 +306,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       end
     end
 
-    describe "moving backlog items to a sprint via drag-and-drop", :selenium do
-      it "moves multiple items into the sprint one by one" do
+    describe "moving backlog items to a sprint", :selenium do
+      it "moves multiple items into the sprint one by one via drag-and-drop" do
         planning_page.drag_work_package_to_sprint(inbox_wp1, sprint)
         planning_page.expect_no_inbox_item(inbox_wp1)
 
@@ -340,11 +340,12 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         before do
           logout
           login_with(current_user.login, user_password)
+          page.assert_no_selector(test_selector("user-login--form"), wait: 10)
           planning_page.visit!
         end
 
-        it "moves a backlog item to the sprint without an error (Regression#73416)" do
-          planning_page.drag_work_package_to_sprint(inbox_wp1, sprint)
+        it "moves a backlog item through an authenticated browser request (Regression#73416)" do
+          planning_page.move_work_package_to_sprint_via_browser_request(inbox_wp1, sprint)
           planning_page.expect_no_inbox_item(inbox_wp1)
         end
       end

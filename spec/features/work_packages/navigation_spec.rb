@@ -85,7 +85,8 @@ RSpec.describe "Work package navigation", :js do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(global_work_packages.table_container).to have_css(".wp-row-#{work_package.id}.-checked")
+    global_work_packages.expect_work_package_listed(work_package)
+    expect(page).to have_css("#{global_work_packages.row_selector(work_package)}.-checked")
 
     # deep link work package show
 

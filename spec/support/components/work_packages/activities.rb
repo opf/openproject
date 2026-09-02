@@ -372,14 +372,13 @@ module Components
         end
       end
 
-      def get_all_comments_as_array
-        page.all(".work-packages-activities-tab-journals-item-component--journal-notes-body").map(&:text)
-      end
-
       def expect_comments_order(items)
-        retry_block do
-          expect(get_all_comments_as_array).to eq(items)
-        end
+        comments = page.all(
+          ".work-packages-activities-tab-journals-item-component--journal-notes-body",
+          count: items.size
+        )
+
+        expect(comments.map(&:text)).to eq(items)
       end
 
       def filter_journals(filter)
@@ -404,14 +403,16 @@ module Components
       def set_journal_sorting(sorting, default_filter: :all)
         option_selector = "[data-test-selector='op-wp-journals-sorting-#{sorting}']"
 
-        page.document.synchronize do
-          unless page.has_css?(option_selector, wait: 0)
-            page.find(
-              "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
-            ).click
-          end
+        wait_for_turbo_stream do
+          page.document.synchronize do
+            unless page.has_css?(option_selector, wait: 0)
+              page.find(
+                "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
+              ).click
+            end
 
-          page.find(option_selector).click
+            page.find(option_selector).click
+          end
         end
 
         expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")

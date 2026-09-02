@@ -376,7 +376,7 @@ module Pages
     end
 
     def progress_popover(work_package)
-      Components::WorkPackages::ProgressPopover.new(container: -> { work_package_container(work_package) })
+      Components::WorkPackages::ProgressPopover.new(container: page, field_selector_prefix: row_selector(work_package))
     end
 
     def expect_no_column_add_option(column_name)
@@ -391,16 +391,18 @@ module Pages
     end
 
     def work_package_field(work_package, key)
-      container = work_package_container(work_package)
+      row = work_package.nil? ? ".wp-inline-create-row" : row_selector(work_package)
+      selector = "#{row} .inline-edit--container.#{key.to_s.camelize(:lower)}"
+
       case key.to_sym
       when :date, :startDate, :dueDate, :combinedDate
-        DateEditField.new container, key, is_milestone: work_package.milestone?, is_table: true
+        DateEditField.new page, key, selector:, is_milestone: work_package.milestone?, is_table: true
       when :estimatedTime, :remainingTime
-        ProgressEditField.new container, key
+        ProgressEditField.new page, key, selector:
       when :project
-        InlineProjectEditField.new container, key
+        InlineProjectEditField.new page, key, selector:
       else
-        EditField.new container, key
+        EditField.new page, key, selector:
       end
     end
 

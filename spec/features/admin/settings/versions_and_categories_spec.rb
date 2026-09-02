@@ -139,9 +139,9 @@ RSpec.describe "Versions and categories admin settings" do
       within "[role=alertdialog]" do
         expect(page).to have_button("Enable", disabled: true)
 
-        check "I understand that this action is not reversible"
+        find_field("I understand that this action is not reversible").click
 
-        expect(page).to have_button("Enable", disabled: false)
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
       end
     end
 
@@ -149,7 +149,7 @@ RSpec.describe "Versions and categories admin settings" do
       click_on "Enable multiple values"
 
       within_dialog "Enable multiple target versions" do
-        check "I understand that this action is not reversible"
+        find_field("I understand that this action is not reversible").click
         click_button "Enable"
       end
 

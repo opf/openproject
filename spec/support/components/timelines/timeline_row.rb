@@ -93,7 +93,7 @@ module Components
       end
 
       def expect_bar(duration: 1)
-        loading_indicator_saveguard
+        loading_indicator_saveguard(wait: 10)
         expected_length = duration * 30
         expect(container).to have_css(".timeline-element", style: { width: "#{expected_length}px" })
       end
@@ -121,7 +121,7 @@ module Components
         # The timeline element and the mouse handlers are lazily loaded and can
         # be hidden if no dates are set. Finding it waits until the lazy loading
         # has completed.
-        container.find(".timeline-element", visible: :all)
+        container.find(".timeline-element", visible: :all, wait: 10)
       end
 
       private

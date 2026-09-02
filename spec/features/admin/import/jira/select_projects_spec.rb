@@ -63,6 +63,17 @@ RSpec.describe "Jira import select projects modal", :js do
   def open_select_projects_modal
     click_on I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
     expect(page).to have_css("##{modal_id}[open]")
+
+    page.document.synchronize do
+      connected = page.evaluate_script(<<~JS, find("##{modal_id}"))
+        window.Stimulus?.getControllerForElementAndIdentifier(
+          arguments[0],
+          'admin--jira-projects'
+        ) !== null
+      JS
+
+      raise Capybara::ExpectationNotMet, "Jira projects controller is not connected" unless connected
+    end
   end
 
   # Primer IconButton moves `aria-label` to a hidden `<tool-tip>` web component
@@ -78,6 +89,18 @@ RSpec.describe "Jira import select projects modal", :js do
   def clear_filter
     find("[name='filter']").set("")
     page.execute_script("document.querySelector('[name=\"filter\"]').dispatchEvent(new Event('input', {bubbles:true}))")
+  end
+
+  def expect_selection_requests_drained(count)
+    expect(page).to have_css(
+      "[data-admin--jira-projects-target='submitButton']:not([hidden])",
+      text: /\b#{count}\b/
+    )
+    expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
+  end
+
+  def toggle_project(name)
+    find("label", exact_text: name).click
   end
 
   it "opens dialog showing all projects unchecked, with title and key captions" do
@@ -170,22 +193,15 @@ RSpec.describe "Jira import select projects modal", :js do
     before { open_select_projects_modal }
 
     it "tracks the selection counter and shows the submit button once all requests drain" do
-      check "Project Alpha"
-      expect(page).to have_css(
-        "[data-admin--jira-projects-target='submitButton']",
-        text: /\b1\b/
-      )
+      toggle_project "Project Alpha"
+      expect_selection_requests_drained(1)
 
-      check "Project Beta"
-      check "Gamma Project"
-      expect(page).to have_css("[data-admin--jira-projects-target='submitButton']:not([hidden])")
-      expect(page).to have_css("[data-admin--jira-projects-target='spinnerButton'][hidden]", visible: :all)
+      toggle_project "Project Beta"
+      toggle_project "Gamma Project"
+      expect_selection_requests_drained(3)
 
-      uncheck "Project Beta"
-      expect(page).to have_css(
-        "[data-admin--jira-projects-target='submitButton']",
-        text: /\b2\b/
-      )
+      toggle_project "Project Beta"
+      expect_selection_requests_drained(2)
     end
   end
 
@@ -193,8 +209,10 @@ RSpec.describe "Jira import select projects modal", :js do
     before { open_select_projects_modal }
 
     it "saves the selected projects, closes the dialog, and updates the wizard button count" do
-      check "Project Alpha"
-      check "Project Beta"
+      toggle_project "Project Alpha"
+      expect_selection_requests_drained(1)
+      toggle_project "Project Beta"
+      expect_selection_requests_drained(2)
 
       within("[data-admin--jira-projects-target='submitButton']") do
         click_on I18n.t(:button_continue)
@@ -231,7 +249,8 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_field("Project 01")
       expect(page).to have_no_field("Project 21")
 
-      check "Project 01"
+      toggle_project "Project 01"
+      expect_selection_requests_drained(1)
       pagination_button_for(I18n.t(:label_next)).click
 
       expect(page).to have_text("2 / 2")
@@ -239,7 +258,8 @@ RSpec.describe "Jira import select projects modal", :js do
       expect(page).to have_field("Project 21")
       expect(page).to have_no_field("Project 01")
 
-      check "Project 21"
+      toggle_project "Project 21"
+      expect_selection_requests_drained(2)
       pagination_button_for(I18n.t(:label_previous)).click
 
       expect(page).to have_text("1 / 2")

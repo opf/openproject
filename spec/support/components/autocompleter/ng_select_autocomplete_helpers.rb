@@ -11,7 +11,7 @@ module Components::Autocompleter
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
-      dropdown_open = ng_dropdown_open?(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
+      dropdown_open = ng_dropdown_open?(resolve_autocomplete(element)) if wait_dropdown_open
       ng_click_autocompleter(element) unless dropdown_open
       ng_find_dropdown(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
 
@@ -65,21 +65,9 @@ module Components::Autocompleter
       end
     end
 
-    def ng_dropdown_open?(element, results_selector: "body")
-      if results_selector
-        within_window(current_window) do
-          page.has_css?(ng_panel_selector(results_selector), wait: 0)
-        end
-      else
-        element.has_css?("ng-select .ng-dropdown-panel", wait: 0)
-      end
-    end
-
-    def ng_panel_selector(results_selector)
-      return "body .ng-dropdown-panel" if results_selector == "body"
-      return results_selector if results_selector.include?(".ng-dropdown-panel")
-
-      "#{results_selector} .ng-dropdown-panel"
+    def ng_dropdown_open?(element)
+      element["class"].to_s.split.include?("ng-select-opened") ||
+        element.has_css?("ng-select.ng-select-opened", wait: 0)
     end
 
     def expect_ng_option(element, option, grouping: nil, results_selector: "body", present: true)
@@ -131,12 +119,11 @@ module Components::Autocompleter
 
       query = query.to_s
 
-      # Send all keys but last one, and then with a delay the last one
-      # to emulate normal typing
-      send_keys(input, query.to_s[0..-2], after_typing_sleep: 0.2)
+      # Send all keys but last one, and then the last one separately to emulate normal typing
+      send_keys(input, query.to_s[0..-2], after_typing_sleep: (0.2 unless using_cuprite?))
       send_keys(input, query.to_s[-1])
 
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      wait_for_network_idle(duration: 0.3) if using_cuprite? && wait_for_fetched_options
     end
 
     def send_keys(input, text, after_typing_sleep: nil)

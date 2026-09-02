@@ -75,6 +75,7 @@ RSpec.describe "Hide attachments", :js do
   describe "OpenProject setting" do
     it "changes database value" do
       checkbox_label = "Show attachments in the files tab by default"
+      Setting[:show_work_package_attachments] = true
 
       login_as create(:admin)
       visit admin_settings_attachments_path
