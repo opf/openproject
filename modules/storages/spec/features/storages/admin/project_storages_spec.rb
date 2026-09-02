@@ -322,11 +322,9 @@ RSpec.describe "Admin lists project mappings for a storage",
           project_storages_index_page.click_menu_item_of("Edit project folder", project_storage.project)
 
           within("dialog") do
+            login_button = find("opce-storage-login-button[ng-version] button", visible: :all, wait: 20)
             choose "Existing folder with manually managed permissions"
-            # The login button is an Angular custom element whose label is set asynchronously
-            # in ngOnInit(). On slow CI, bootstrapping can take longer than the default wait.
-            expect(page).to have_button("Nextcloud login", wait: 20)
-            click_on("Nextcloud login")
+            login_button.click
             wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )

@@ -128,6 +128,7 @@ RSpec.describe "Custom field filter in boards",
 
     # Save that filter
     board_page.save
+    board_page.expect_card("Open", "Foo", present: true)
 
     board_page.add_list option: "Closed", query: "closed"
     board_page.expect_list "Closed"

@@ -207,6 +207,7 @@ RSpec.describe "Jira import select projects modal", :js do
     it "saves the selected projects, closes the dialog, and updates the wizard button count" do
       check "Project Alpha"
       check "Project Beta"
+      expect_selection_requests_drained(2)
 
       within("[data-admin--jira-projects-target='submitButton']") do
         click_on I18n.t(:button_continue)
