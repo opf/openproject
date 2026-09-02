@@ -58,6 +58,13 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.models.active).to be_empty
     end
 
+    it "keeps warning about a stale list when the new server refuses it" do
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 404)
+
+      expect(service.call).to be_failure
+      expect(connection.reload).to be_models_stale
+    end
+
     it "keeps administrator assertions and re-activates what the new server reports" do
       mock_llm_models_response("https://elsewhere.example/v1")
 

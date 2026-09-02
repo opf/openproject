@@ -121,11 +121,12 @@ module LlmConnections
       forget_the_previous_deployment
     end
 
+    # Only a successful fetch records the fingerprint (see
+    # +connection_attributes+), so a failed refresh leaves the list stale.
     def forget_the_previous_deployment
       ActiveRecord::Base.transaction do
         connection.capability_verdicts.where.not(source: "admin").delete_all
         connection.models.discovered.update_all(active: false)
-        connection.update!(connection_fingerprint: fingerprint)
       end
     end
 
