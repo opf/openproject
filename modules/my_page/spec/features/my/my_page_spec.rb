@@ -105,7 +105,7 @@ RSpec.describe "My page",
 
     # Waits for the default view to be created
     # Waits for the default view to be created
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -167,7 +167,7 @@ RSpec.describe "My page",
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 
@@ -182,7 +182,7 @@ RSpec.describe "My page",
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 

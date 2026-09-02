@@ -118,14 +118,10 @@ module Components
       end
 
       def switch_to(target)
-        # Switching too fast may result in the click handler not yet firing
-        # so wait a bit initially
         SeleniumHubWaiter.wait unless using_cuprite?
 
-        retry_block do
-          find("#{selector} .op-tab-row--link", text: target.upcase, wait: 2).click
-          selected_tab(target)
-        end
+        find("#{selector} .op-tab-row--link", text: target.upcase, wait: 10).click
+        selected_tab(target)
       end
 
       def selector
