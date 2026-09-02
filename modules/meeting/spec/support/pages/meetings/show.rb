@@ -296,14 +296,16 @@ module Pages::Meetings
     end
 
     def expect_no_outcome_action(item)
-      retry_block do
+      overlay = page.document.synchronize(10) do
         page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").trigger("click")
+          button = page.find_test_selector("op-meeting-agenda-actions")
+          overlay_selector = "##{button['popovertarget']}:popover-open"
+          button.trigger("click") unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+          page.find(overlay_selector, visible: :all, wait: 0)
         end
-        page.find(".Overlay")
       end
 
-      page.within(".Overlay") do
+      page.within(overlay) do
         expect(page).to have_no_text("Add outcome")
       end
     end

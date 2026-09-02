@@ -13,6 +13,7 @@ module Components::Autocompleter
       # Wait for dropdown to open
       dropdown_open = ng_dropdown_open?(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
       ng_click_autocompleter(element) unless dropdown_open
+      ng_find_dropdown(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
@@ -48,22 +49,20 @@ module Components::Autocompleter
     end
 
     def ng_find_dropdown(element, results_selector: "body", raise_on_missing: true)
-      retry_block do
-        if results_selector
-          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == "body"
-          within_window(current_window) do
-            page.find(results_selector, wait: raise_on_missing ? 5 : 0)
-          end
-        else
-          within(element) do
-            page.find("ng-select .ng-dropdown-panel", wait: raise_on_missing ? 5 : 0)
-          end
-        end
-      rescue Capybara::ElementNotFound => e
-        return nil unless raise_on_missing
+      selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
+      find_dropdown(element, selector:, wait: raise_on_missing ? 5 : 0)
+    rescue Capybara::ElementNotFound
+      return nil unless raise_on_missing
 
-        ng_click_autocompleter(element)
-        raise e
+      ng_click_autocompleter(element)
+      find_dropdown(element, selector:, wait: 10)
+    end
+
+    def find_dropdown(element, selector:, wait:)
+      if selector
+        within_window(current_window) { page.find(selector, wait:) }
+      else
+        within(element) { page.find("ng-select .ng-dropdown-panel", wait:) }
       end
     end
 

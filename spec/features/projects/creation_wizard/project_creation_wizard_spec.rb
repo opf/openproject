@@ -386,10 +386,10 @@ RSpec.describe "Project creation wizard",
       click_button "Continue"
       click_link "Project Details"
 
-      select_autocomplete page.find("[data-custom-field-id='#{list_custom_field.id}']"),
+      select_autocomplete -> { page.find("[data-custom-field-id='#{list_custom_field.id}']") },
                           results_selector: "body",
                           query: "Internal"
-      select_autocomplete page.find("[data-custom-field-id='#{user_custom_field.id}']"),
+      select_autocomplete -> { page.find("[data-custom-field-id='#{user_custom_field.id}']") },
                           results_selector: "body",
                           query: user_assignee.name
       fill_in "Team Size", with: "3"
