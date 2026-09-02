@@ -77,7 +77,14 @@ module Backlogs
     def generic_filters
       return [] if @params[:filters].blank?
 
-      Queries::ParamsParser.parse(@params).fetch(:filters, [])
+      Queries::ParamsParser.parse(@params).fetch(:filters, []).map do |filter|
+        filter.merge(
+          attribute: API::Utilities::QueryFiltersNameConverter.to_ar_name(
+            filter[:attribute],
+            refer_to_ids: true
+          )
+        )
+      end
     rescue JSON::ParserError
       []
     end

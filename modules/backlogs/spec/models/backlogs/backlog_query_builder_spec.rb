@@ -63,6 +63,19 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
     end
   end
 
+  context "with an API style filter name" do
+    shared_let(:status) { create(:status) }
+    let(:params) { { filters: "status = \"#{status.id}\"" } }
+
+    it "applies the parsed filter to the query", :aggregate_failures do
+      filter = query.find_active_filter(:status_id)
+
+      expect(filter).to be_present
+      expect(filter.operator).to eq("=")
+      expect(filter.values).to eq([status.id.to_s])
+    end
+  end
+
   context "with a subject search filter" do
     let(:params) { { filters: 'subject ~ "foo"' } }
 
