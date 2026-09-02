@@ -61,6 +61,13 @@ export class QueryParamListenerService {
         return;
       }
 
+      // Skip while the initial query load for this page is still in flight - it will itself
+      // seed the checksum via WorkPackageStatesInitializationService#initialize once done.
+      // Reacting here too races that in-flight load with a second, redundant reload (#62847).
+      if (this.wpListChecksumService.isUninitialized()) {
+        return;
+      }
+
       const params = {
         query_id: this.urlParams.get('query_id'),
         query_props: this.urlParams.get('query_props'),
