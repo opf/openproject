@@ -504,9 +504,10 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
               .to be_json_eql("0")
               .at_path("total")
             expect(last_response.body)
-              .not_to include(secret_wp.subject)
+              .to have_json_size(0)
+              .at_path("_embedded/elements")
             expect(last_response.body)
-              .not_to include(secret_relation.id.to_s)
+              .not_to include(secret_wp.subject)
           end
         end
       end

@@ -349,7 +349,8 @@ module Components
 
         select_relation_type "Child"
 
-        within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
+        dialog = page.find("##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}", wait: 10)
+        within dialog do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
           select_autocomplete(autocomplete_field,
                               query: work_package.subject,
@@ -365,7 +366,8 @@ module Components
 
         select_relation_type "Parent"
 
-        within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
+        dialog = page.find("##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}", wait: 10)
+        within dialog do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
           select_autocomplete(autocomplete_field,
                               query: work_package.subject,

@@ -114,7 +114,7 @@ module Pages
       JS
 
       page.execute_script(script, assignee, start_date, end_date)
-      ::Pages::SplitWorkPackageCreate.new project:
+      ::Pages::SplitWorkPackageCreate.new(project:).tap(&:expect_fully_loaded)
     end
 
     def remove_assignee(user)

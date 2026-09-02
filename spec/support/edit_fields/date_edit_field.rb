@@ -126,7 +126,7 @@ class DateEditField < EditField
   end
 
   def expect_inactive!
-    expect(context).to have_selector(display_selector, wait: 10)
+    expect(context).to have_selector("#{selector} #{display_selector}", wait: 10)
     expect(page).to have_no_css("#{modal_selector} #{input_selector}")
   end
 

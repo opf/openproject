@@ -66,9 +66,7 @@ RSpec.describe WorkPackages::ExportJob, "Integration" do
     JobStatus::Status.find_by(job_id: job.job_id)
   end
 
-  before do
-    allow(Time.zone).to receive(:now).and_return(test_time)
-  end
+  around { |example| travel_to(test_time, &example) }
 
   describe "with special characters in the project title" do
     let(:project) { create(:project, name: "Foo Bla. Report No. 4/2021 with/for Case 42") }

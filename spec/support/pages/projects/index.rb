@@ -341,9 +341,15 @@ module Pages
       def activate_menu_of(project)
         within_row(project) do |row|
           row.hover
-          menu = find("[data-test-selector='project-list-row--action-menu']")
-          menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
+          menu_selector = "[data-test-selector='project-list-row--action-menu']"
+          expect(row).to have_css(menu_selector, visible: :visible)
+
+          menu = row.find(menu_selector)
+          menu_button = menu.find("button[popovertarget]")
+          overlay_selector = "##{menu_button['popovertarget']}:popover-open"
+
           menu_button.click
+          page.find(overlay_selector, visible: :all)
           wait_for_network_idle
           expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
