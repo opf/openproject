@@ -304,6 +304,15 @@ class RecurringMeeting < ApplicationRecord
     increment!(:ical_sequence)
   end
 
+  def ical_predecessor
+    ICalPredecessor.load(ical_predecessor_uid, ical_predecessor_snapshot)
+  end
+
+  def ical_predecessor=(predecessor)
+    self.ical_predecessor_uid = predecessor&.uid
+    self.ical_predecessor_snapshot = predecessor&.dump
+  end
+
   def scheduled_occurrences(limit:, from_time: Time.current)
     schedule.next_occurrences(limit, from_time)
   end

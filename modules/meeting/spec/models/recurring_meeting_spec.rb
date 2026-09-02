@@ -497,6 +497,58 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#ical_predecessor" do
+    let(:snapshot) do
+      RecurringMeeting::ICalPredecessor.new(
+        uid: "old-uid@example.com",
+        dtstart: ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-03-02 09:00"),
+        tzid: "Europe/Berlin",
+        duration: 1.5,
+        summary: "Weekly sync",
+        location: "https://example.com/room",
+        rrule: "FREQ=WEEKLY;UNTIL=20260824T070000Z",
+        exdates: [ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-03-09 09:00")],
+        sequence: 4,
+        rotated_at: Time.zone.parse("2026-08-31 12:00")
+      )
+    end
+
+    it "is nil while nothing rotated" do
+      expect(build(:recurring_meeting).ical_predecessor).to be_nil
+    end
+
+    it "survives a round trip through the database" do
+      series = create(:recurring_meeting)
+      series.ical_predecessor = snapshot
+      series.save!
+
+      expect(series.reload.ical_predecessor).to eq snapshot
+    end
+
+    it "keeps the local time of the frozen time zone" do
+      series = create(:recurring_meeting)
+      series.ical_predecessor = snapshot
+      series.save!
+
+      dtstart = series.reload.ical_predecessor.dtstart
+
+      expect(dtstart.time_zone.name).to eq "Europe/Berlin"
+      expect(dtstart.strftime("%H:%M")).to eq "09:00"
+    end
+
+    it "clears both columns when unset" do
+      series = create(:recurring_meeting)
+      series.ical_predecessor = snapshot
+      series.save!
+
+      series.ical_predecessor = nil
+      series.save!
+
+      expect(series.reload.ical_predecessor_uid).to be_nil
+      expect(series.reload.ical_predecessor_snapshot).to be_nil
+    end
+  end
+
   describe "#occurrence_count_until_end_date" do
     it "counts the remaining occurrences up to the end date" do
       series = build(:recurring_meeting,
