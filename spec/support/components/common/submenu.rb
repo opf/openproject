@@ -39,19 +39,18 @@ module Components
     end
 
     def expect_item(name, selected: false, favorited: nil, visible: true)
-      within "#main-menu" do
-        selected_specifier = selected ? ".selected" : ":not(.selected)"
+      selected_specifier = selected ? ".selected" : ":not(.selected)"
+      selector = "#main-menu .op-submenu--item-action#{selected_specifier}"
 
-        if favorited.nil?
-          expect(page).to have_css(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
+      if favorited.nil?
+        expect(page).to have_css(selector, text: name, visible:)
+      else
+        item = page.find(selector, text: name, visible:)
+
+        if favorited
+          expect(item).to have_css(".op-primer--star-icon")
         else
-          item = page.find(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
-
-          if favorited
-            expect(item).to have_css(".op-primer--star-icon")
-          else
-            expect(item).to have_no_css(".op-primer--star-icon")
-          end
+          expect(item).to have_no_css(".op-primer--star-icon")
         end
       end
     end

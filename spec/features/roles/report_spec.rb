@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Roles report", :js, :selenium do
+RSpec.describe "Roles report", :js do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Project 1", identifier: "project1") }
   let(:permissions) { %i[view_project permission1 permission2] }
@@ -43,7 +43,7 @@ RSpec.describe "Roles report", :js, :selenium do
     visit report_roles_path
   end
 
-  it "allows checking and unchecking by row" do
+  it "allows checking and unchecking by row", :selenium do
     expect(page).to have_heading "Permissions report"
     expect(page).to be_axe_clean
       .within("#content")
@@ -81,9 +81,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking by column" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     expect(page).to have_region "Project"
 
@@ -121,9 +118,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking all" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     within("#project-section") do # FIXME: collapsible section semantics
       expect(page).to have_unchecked_field "Create projects"

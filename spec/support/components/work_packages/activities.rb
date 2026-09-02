@@ -372,14 +372,13 @@ module Components
         end
       end
 
-      def get_all_comments_as_array
-        page.all(".work-packages-activities-tab-journals-item-component--journal-notes-body").map(&:text)
-      end
-
       def expect_comments_order(items)
-        retry_block do
-          expect(get_all_comments_as_array).to eq(items)
-        end
+        comments = page.all(
+          ".work-packages-activities-tab-journals-item-component--journal-notes-body",
+          count: items.size
+        )
+
+        expect(comments.map(&:text)).to eq(items)
       end
 
       def filter_journals(filter)
