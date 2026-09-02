@@ -49,10 +49,9 @@ module Pages
     end
 
     def add_item(start_date, end_date)
-      start_container = date_container start_date
-      end_container = date_container end_date
-
-      drag_n_drop_element(from: start_container, to: end_container)
+      page.document.synchronize do
+        drag_n_drop_element(from: date_container(start_date), to: date_container(end_date))
+      end
 
       ::Pages::SplitWorkPackageCreate.new project:
     end
@@ -86,10 +85,9 @@ module Pages
     end
 
     def drag_event(work_package, target)
-      start_container = event(work_package)
-      end_container = date_container target
-
-      drag_n_drop_element(from: start_container, to: end_container)
+      page.document.synchronize do
+        drag_n_drop_element(from: event(work_package), to: date_container(target))
+      end
       expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
     end
 
