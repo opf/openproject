@@ -45,6 +45,7 @@ module RecurringMeetings
       return call unless call.success?
 
       recurring_meeting = call.result
+      recurring_meeting.bump_ical_sequence!
 
       # Make sure we update the template before sending out any emails
       # to make sure it's attributes (such as a location change) are correctly used

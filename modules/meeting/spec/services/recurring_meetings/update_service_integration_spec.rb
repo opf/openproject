@@ -199,6 +199,42 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
     end
   end
 
+  describe "the ICS revision counter" do
+    let(:recipient) do
+      create(:user, member_with_permissions: { project => %i(view_meetings) })
+    end
+
+    before do
+      series.template.participants.delete_all
+      series.template.participants << MeetingParticipant.new(user: recipient, invited: true)
+    end
+
+    context "when changing only the frequency" do
+      let(:params) do
+        { frequency: "weekly" }
+      end
+
+      it "advances although the template stays untouched" do
+        lock_version = series.template.lock_version
+
+        expect { expect(service_result).to be_success }
+          .to change { series.reload.ical_sequence }.by(1)
+
+        expect(series.template.reload.lock_version).to eq lock_version
+      end
+
+      it "puts the new revision into the attached ICS" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        calendar = ActionMailer::Base.deliveries.first.all_parts.find { |part| part.mime_type == "text/calendar" }
+
+        expect(series.reload.ical_sequence).to eq 1
+        expect(calendar.body.decoded).to include("SEQUENCE:1")
+      end
+    end
+  end
+
   describe "rescheduling mails" do
     context "when updating the title" do
       let(:params) do

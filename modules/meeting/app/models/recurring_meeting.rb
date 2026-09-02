@@ -297,6 +297,13 @@ class RecurringMeeting < ApplicationRecord
       .intersect?(SCHEDULE_ATTRIBUTES)
   end
 
+  # Bump the SEQUENCE value of the ICS series event.
+  # Previously, this value would simply match the template's lock_version, but that increases far more often.
+  # By using an explicit database-backed value, we can control when we want to bump it.
+  def bump_ical_sequence!
+    increment!(:ical_sequence)
+  end
+
   def scheduled_occurrences(limit:, from_time: Time.current)
     schedule.next_occurrences(limit, from_time)
   end
