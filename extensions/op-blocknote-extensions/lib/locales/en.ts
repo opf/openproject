@@ -15,6 +15,9 @@ export const en = {
         'create': 'create'
       }
     },
+    'formattingToolbar': {
+      'createWorkPackage': 'Create work package'
+    },
     'createWorkPackage': {
       'title': 'Create new work package',
       'close': 'Close',

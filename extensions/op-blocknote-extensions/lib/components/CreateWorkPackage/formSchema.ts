@@ -351,6 +351,18 @@ export function applyLabel(previous:FieldLabels, key:string, label:string | unde
   return applyToRecord(previous, key, label);
 }
 
+export function clampedValues(fields:FormField[], values:FieldValues):FieldValues {
+  const clamped:FieldValues = { ...values };
+
+  for (const field of fields) {
+    const value = clamped[field.key];
+    if (field.maxLength === undefined || typeof value !== 'string') continue;
+    if (value.length > field.maxLength) clamped[field.key] = value.slice(0, field.maxLength);
+  }
+
+  return clamped;
+}
+
 function fieldNamed(fields:FormField[], key:string):FormField | undefined {
   return fields.find((field) => field.key === key);
 }

@@ -112,11 +112,12 @@ function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):vo
 
 export interface CreateWorkPackageModalProps {
   anchorEl?:HTMLElement | null;
+  initialSubject?:string;
   onCreated:(workPackage:WorkPackage) => void;
   onCancel:() => void;
 }
 
-export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateWorkPackageModalProps) => {
+export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
@@ -143,7 +144,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     unsupportedFields,
     submitEnabled,
     attemptSubmit,
-  } = useCreateWorkPackageForm(onCreated);
+  } = useCreateWorkPackageForm(onCreated, initialSubject);
 
   const showField = (key:string) => {
     const control = panelRef.current?.querySelector<HTMLElement>(`[id="op-bn-create-wp-${key}"]`);

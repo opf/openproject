@@ -14,6 +14,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from '../lib';
 import './fetchOverride';
@@ -53,9 +54,10 @@ export default function App() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
-
   return (
-    <BlockNoteView editor={editor} slashMenu={false}>
+    <BlockNoteView editor={editor} slashMenu={false} formattingToolbar={false}>
+      <OpenProjectFormattingToolbar />
+
       <SuggestionMenuController
         triggerCharacter="/"
         getItems={getSlashItems}

@@ -6,6 +6,7 @@ import {
   applyLabel,
   applyValue,
   buildCreatePayload,
+  clampedValues,
   extraRequiredFields,
   fixedFields,
   isValueFilled,
@@ -58,10 +59,11 @@ function defaultValuesOf(fields:FormField[]):FieldValues {
 }
 
 export function useCreateWorkPackageForm(
-  onCreated:(workPackage:WorkPackage) => void
+  onCreated:(workPackage:WorkPackage) => void,
+  initialSubject = ''
 ):CreateWorkPackageFormState {
   const [form, setForm] = useState<WorkPackageForm | null>(null);
-  const [values, setValues] = useState<FieldValues>({ subject: '' });
+  const [values, setValues] = useState<FieldValues>({ subject: initialSubject });
   const [valueLabels, setValueLabels] = useState<FieldLabels>({});
   const [loaded, setLoaded] = useState<{ project?:string; type?:string } | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -115,7 +117,12 @@ export function useCreateWorkPackageForm(
         const offered = [...fixedFields(loadedSchema, { project: true, type: true }), ...extras];
         const defaults = defaultValuesOf(extras);
         // What is already in the form outranks both, as far as it survives the reshape.
-        setValues((previous) => ({ ...defaults, ...prefill?.values, ...survivingValues(offered, previous) }));
+        // Clamped once the schema is known: a value the form was opened with never
+        // passed through the field's own maxLength.
+        setValues((previous) => clampedValues(
+          offered,
+          { ...defaults, ...prefill?.values, ...survivingValues(offered, previous) }
+        ));
         setValueLabels((previous) => ({ ...prefill?.labels, ...survivingLabels(offered, previous) }));
       })
       .catch((error:unknown) => {

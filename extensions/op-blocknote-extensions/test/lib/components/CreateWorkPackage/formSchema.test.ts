@@ -5,6 +5,7 @@ import {
   applyValue,
   buildCreatePayload,
   buildField,
+  clampedValues,
   dependencyOf,
   extraRequiredFields,
   fieldFor,
@@ -372,6 +373,26 @@ describe('formSchema', () => {
 
       expect(Object.keys(fieldErrors)).toEqual(['subject']);
       expect(otherMessages).toEqual(['Start date must be before the finish date.']);
+    });
+  });
+
+  describe('clampedValues', () => {
+    const offered = [
+      buildField('subject', property({ name: 'Subject', maxLength: 8 })),
+      buildField('customField1', property({ name: 'Note' })),
+    ];
+
+    it('cuts a value to the length its field takes', () => {
+      expect(clampedValues(offered, { subject: 'Redesign the landing page' })).toEqual({ subject: 'Redesign' });
+    });
+
+    it('leaves a value the field can hold, and one no length is given for, alone', () => {
+      const values = { subject: 'Redesign', customField1: 'A note far longer than eight characters' };
+      expect(clampedValues(offered, values)).toEqual(values);
+    });
+
+    it('has nothing to cut off a value that is no text', () => {
+      expect(clampedValues(offered, { subject: true })).toEqual({ subject: true });
     });
   });
 

@@ -23,6 +23,13 @@ export async function openCreateModalAtCursor() {
   await chooseCreateCommand();
 }
 
+export async function openCreateModalFromToolbar() {
+  const button = page.getByRole('button', { name: 'Create work package' });
+  await expect.element(button).toBeVisible();
+  await userEvent.click(button);
+  await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+}
+
 export async function pickProject(name = 'Demo project') {
   await userEvent.click(page.getByLabelText('Project *'));
   await expect.element(page.getByRole('treeitem', { name })).toBeVisible();
@@ -48,6 +55,10 @@ export async function selectOptionNamed(label:string, option:string) {
 
 export async function fillRequiredFields(subject:string) {
   await userEvent.fill(page.getByLabelText('Subject *'), subject);
+  await fillRequiredFieldsBesidesSubject();
+}
+
+export async function fillRequiredFieldsBesidesSubject() {
   await pickProject();
 
   await expect.element(page.getByLabelText('Type *')).toBeVisible();
