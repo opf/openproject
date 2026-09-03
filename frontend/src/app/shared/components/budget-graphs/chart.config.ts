@@ -28,6 +28,11 @@
 
 import { ChartOptions, TooltipModel } from 'chart.js';
 import { html, render } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
+import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 
 export const chartFont:ChartOptions['font'] = {
   family:
@@ -54,49 +59,82 @@ interface TooltipContext<TType extends 'bar' | 'pie'> {
   tooltip:TooltipModel<TType>;
 }
 
-function applyTooltipPosition<TType extends 'bar' | 'pie'>(
-  context:TooltipContext<TType>,
-  popoverHtml:ReturnType<typeof html>,
-  tooltipId:string,
-) {
-  render(popoverHtml, document.body);
+export type BarTooltipContext = TooltipContext<'bar'>;
+export type PieTooltipContext = TooltipContext<'pie'>;
 
-  const tooltipEl = document.getElementById(tooltipId)!;
+class ChartTooltip {
+  private anchor:DOMRect|null = null;
+  private caret:CaretPlacement|null = null;
+  private items:TemplateResult[] = [];
+  private readonly close = () => {
+    const popover = this.popover;
+    if (popover?.isConnected) popover.togglePopover(false);
+  };
 
-  if (context.tooltip.opacity === 0) {
-    tooltipEl.style.opacity = '0';
-    return;
+  constructor(private readonly host:HTMLElement) {
+    this.draw();
+    document.addEventListener('scroll', this.close, { capture: true, passive: true });
+    window.addEventListener('resize', this.close);
   }
 
-  const { left, top } = context.chart.canvas.getBoundingClientRect();
-  const x = Math.round(left + context.tooltip.caretX);
-  const y = Math.round(top + context.tooltip.caretY);
-
-  const wasHidden = !tooltipEl.style.opacity || tooltipEl.style.opacity === '0';
-  if (wasHidden) {
-    // Snap to position before fading in (avoids sliding from initial 0,0)
-    tooltipEl.style.transition = 'none';
-    tooltipEl.style.transform = `translate(${x}px, ${y}px)`;
-    void tooltipEl.offsetHeight; // force reflow so transform is committed
-    tooltipEl.style.transition = 'transform 0.1s ease, opacity 0.15s ease';
-  } else {
-    tooltipEl.style.transition = 'transform 0.1s ease, opacity 0.15s ease';
-    tooltipEl.style.transform = `translate(${x}px, ${y}px)`;
+  destroy():void {
+    document.removeEventListener('scroll', this.close, { capture: true });
+    window.removeEventListener('resize', this.close);
+    this.close();
   }
 
-  tooltipEl.style.opacity = '1';
+  update<TType extends 'bar'|'pie'>(context:TooltipContext<TType>, items:TemplateResult[]):void {
+    if (context.tooltip.opacity === 0) {
+      this.close();
+      return;
+    }
+
+    const { left, top } = context.chart.canvas.getBoundingClientRect();
+    const anchor = new DOMRect(Math.round(left + context.tooltip.caretX), Math.round(top + context.tooltip.caretY), 0, 0);
+    const moved = anchor.x !== this.anchor?.x || anchor.y !== this.anchor?.y || !this.popover?.matches(':popover-open');
+
+    this.anchor = anchor;
+    this.items = items;
+    this.draw();
+
+    const popover = this.popover;
+    if (!moved || !popover?.isConnected) return;
+
+    // Primer's getAnchoredPosition accepts `Element|DOMRect`; the element's
+    // setter only narrows the type.
+    popover.anchorElement = anchor as unknown as HTMLElement;
+    popover.togglePopover(true);
+    popover.update();
+    this.caret = placePopover(popover, anchor);
+    this.draw();
+  }
+
+  private get popover():AnchoredPositionElement|null {
+    return this.host.querySelector<AnchoredPositionElement>('anchored-position');
+  }
+
+  private draw():void {
+    render(
+      html`
+        <anchored-position
+          class="op-anchored-popover--host op-chart-tooltip"
+          popover="manual"
+          side="outside-right"
+          align="center"
+          anchor-offset="spacious">
+          ${popoverMessage(html`<ul class="list-style-none ml-0">${this.items}</ul>`, this.caret)}
+        </anchored-position>
+      `,
+      this.host,
+    );
+  }
 }
 
 function renderColorDot(color:string) {
   return html`<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; vertical-align: baseline; margin-right: 4px"></span>`;
 }
 
-function renderTooltipItem(
-  color:string,
-  label:string,
-  formattedValue:string,
-  dateStr?:string,
-):ReturnType<typeof html> {
+function renderTooltipItem(color:string, label:string, formattedValue:string, dateStr?:string):TemplateResult {
   const header = dateStr
     ? html`<div><strong style="margin-right: 8px">${dateStr}</strong>${renderColorDot(color)}<strong>${label}</strong></div>`
     : html`<div>${renderColorDot(color)}<strong>${label}</strong></div>`;
@@ -107,43 +145,30 @@ function renderTooltipItem(
     </li>`;
 }
 
-function renderTooltipPopover(tooltipId:string, items:ReturnType<typeof html>[]):ReturnType<typeof html> {
-  return html`
-    <div class="Popover" id="${tooltipId}" style="position: fixed; top: 0; left: 0; pointer-events: none">
-      <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
-        <ul class="list-style-none ml-0">
-          ${items}
-        </ul>
-      </div>
-    </div>`;
-}
-
-export function createBarTooltipRenderer(formatCurrency:FormatCurrency) {
-  return function(context:TooltipContext<'bar'>) {
-    const { tooltip } = context;
-    const items = tooltip.dataPoints.map((dp, i) => {
+export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:FormatCurrency) {
+  const tooltip = new ChartTooltip(host);
+  const renderer = (context:TooltipContext<'bar'>) => {
+    const items = context.tooltip.dataPoints.map((dp, i) => {
       const timestamp = dp.parsed.x;
       const dateStr = timestamp != null
         ? new Date(timestamp).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
         : undefined;
-      const label = dp.dataset.label ?? '';
-      const value = dp.parsed.y ?? 0;
-      const color = tooltip.labelColors[i]?.backgroundColor as string;
-      return renderTooltipItem(color, label, formatCurrency(value), dateStr);
+      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      return renderTooltipItem(color, dp.dataset.label ?? '', formatCurrency(dp.parsed.y ?? 0), dateStr);
     });
-    applyTooltipPosition(context, renderTooltipPopover('chartjs-tooltip-bar', items), 'chartjs-tooltip-bar');
+    tooltip.update(context, items);
   };
+  return Object.assign(renderer, { destroy: () => tooltip.destroy() });
 }
 
-export function createPieTooltipRenderer(formatCurrency:FormatCurrency) {
-  return function(context:TooltipContext<'pie'>) {
-    const { tooltip } = context;
-    const items = tooltip.dataPoints.map((dp, i) => {
-      const color = tooltip.labelColors[i]?.backgroundColor as string;
-      const label = dp.label ?? '';
-      const value = dp.parsed;
-      return renderTooltipItem(color, label, formatCurrency(value));
+export function createPieTooltipRenderer(host:HTMLElement, formatCurrency:FormatCurrency) {
+  const tooltip = new ChartTooltip(host);
+  const renderer = (context:TooltipContext<'pie'>) => {
+    const items = context.tooltip.dataPoints.map((dp, i) => {
+      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      return renderTooltipItem(color, dp.label ?? '', formatCurrency(dp.parsed));
     });
-    applyTooltipPosition(context, renderTooltipPopover('chartjs-tooltip-pie', items), 'chartjs-tooltip-pie');
+    tooltip.update(context, items);
   };
+  return Object.assign(renderer, { destroy: () => tooltip.destroy() });
 }
