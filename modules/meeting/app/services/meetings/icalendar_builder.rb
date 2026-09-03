@@ -129,6 +129,46 @@ module Meetings
       add_virtual_occurences_for_interim_responses(recurring_meeting: recurring_meeting)
     end
 
+    # If a series ever has been rescheduled, we record its past historic schedules.
+    # We need to output that as a separate master event.
+    # RFC 5546 3.2.2 allows only one UID per REQUEST, so we need to actually send out separate mails for this.
+    # This matches the behavior of other cross-service series schedule changes.
+    def historic_schedule_event(recurring_meeting:) # rubocop:disable Metrics/AbcSize
+      predecessor = recurring_meeting.ical_predecessor
+      return if predecessor.nil?
+
+      timezone = predecessor.time_zone
+
+      calendar.event do |e|
+        e.uid = predecessor.uid
+        e.summary = predecessor.summary
+
+        url = url_helpers.recurring_meeting_url(recurring_meeting)
+        e.url = url
+        e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
+        e.organizer = ical_organizer
+
+        e.created = recurring_meeting.template.created_at.utc
+        e.last_modified = predecessor.rotated_at.utc
+        e.sequence = predecessor.sequence
+
+        e.rrule = predecessor.rrule
+        e.dtstart = ical_datetime(predecessor.dtstart, timezone:)
+        e.dtend = ical_datetime(predecessor.dtend, timezone:)
+        e.location = predecessor.location.presence
+        e.status = "CONFIRMED"
+
+        # RRULE;UNTIL expands each old slot again, thus a slot that was cancelled comes back
+        # unless it stays excluded.
+        e.exdate = predecessor.exdates.map { ical_datetime(it, timezone:) }
+
+        # The last instance closes the window that build_timezones has to cover.
+        all_times[timezone].push(predecessor.ends_at.in_time_zone(timezone))
+
+        add_attendees(event: e, meeting: recurring_meeting.template)
+      end
+    end
+
     def add_single_recurring_occurrence(meeting:, cancelled: false) # rubocop:disable Metrics/AbcSize
       recurring_meeting = meeting.recurring_meeting
 
