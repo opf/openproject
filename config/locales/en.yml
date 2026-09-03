@@ -7095,6 +7095,13 @@ en:
       confirm_deletion: "I confirm that the selected work packages and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "These work packages span multiple projects: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "You are trying to delete work packages that have descendants. Do you want to delete them as well?"
+        self_only_label: "Delete just the selected work packages"
+        self_only_caption: "Descendants will not be deleted but hierarchical relations will be removed."
+        with_descendants_label: "Delete the selected work packages and their descendants"
+        with_descendants_caption: "The entire hierarchy will be deleted."
       description: "Are you sure you want to delete the selected work packages and all associated data?"
       description_with_all_descendants: "Are you sure you want to delete the selected work packages and all of their descendants?"
       description_with_descendants: "Are you sure you want to delete the selected work packages and all the following descendants?"
@@ -7174,6 +7181,13 @@ en:
       confirm_deletion: "I confirm that the work package and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "Work packages from the following projects will be deleted: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "This work package has descendants. Do you want to delete them as well?"
+        self_only_label: "Delete just this work package"
+        self_only_caption: "Descendants will not be deleted but hierarchical relations will be removed."
+        with_descendants_label: "Delete this work package and descendants"
+        with_descendants_caption: "The entire hierarchy will be deleted."
       description: 'Are you sure you want to delete "%{name}"?'
       heading: "Permanently delete this work package?"
       hidden_descendants_only_warning:

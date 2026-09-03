@@ -1043,6 +1043,7 @@ Rails.application.routes.draw do
       collection do
         match :reassign, via: %i[get delete]
         get :delete_dialog
+        post :confirm_delete
       end
     end
   end
