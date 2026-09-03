@@ -32,11 +32,17 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
-/** Matches the full-view "show" page: /work_packages/:id/:tab (project-scoped or global). */
+/**
+ * Matches the full-view "show" page: /work_packages/:id/:tab (project-scoped or global).
+ *
+ * Not anchored against the work package id, so a details/split-view URL with its tab
+ * segment omitted (the canonical form for the default "overview" tab, e.g.
+ * ".../work_packages/details/42") also satisfies this pattern - "details" reads as
+ * the fake :id and the work package id as the fake :tab. Callers must therefore check
+ * `currentDetailsRouteParams()` first and only fall back to this pattern when that
+ * doesn't match.
+ */
 const showTabPattern = /\/work_packages\/[^/]+\/([^/?]+)$/;
-
-/** Matches the split-view "details" pane: <any list base>/details/:id/:tab. */
-const detailsTabPattern = /\/details\/[^/]+\/([^/?]+)$/;
 
 @Injectable({ providedIn: 'root' })
 export class KeepTabService {
@@ -108,23 +114,19 @@ export class KeepTabService {
     return this.urlParams.pathMatching(showTabPattern);
   }
 
-  private get currentDetailsTabFromUrl():string|null {
-    return this.urlParams.pathMatching(detailsTabPattern);
-  }
-
   public updateTabs():void {
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (details) {
+      this.currentTab = details.tab ?? 'overview';
+      this.notify();
+      return;
+    }
+
     const showTab = this.currentShowTabFromUrl;
     if (showTab) {
       // Ignore the switch from show#activity to details#activity
       // and show details#overview instead
       this.currentTab = showTab === 'activity' ? 'overview' : showTab;
-      this.notify();
-      return;
-    }
-
-    const detailsTab = this.currentDetailsTabFromUrl;
-    if (detailsTab) {
-      this.currentTab = detailsTab;
       this.notify();
     }
   }

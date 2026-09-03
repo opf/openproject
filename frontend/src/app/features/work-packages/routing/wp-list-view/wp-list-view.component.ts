@@ -58,11 +58,13 @@ import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp
 import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
-import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { resolveNumericId, resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   GlobalEditFormChangesTrackerService,
 } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Component({
   selector: 'wp-list-view',
@@ -94,6 +96,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly pathHelper = inject(PathHelperService);
   readonly urlParams = inject(UrlParamsService);
   readonly states = inject(States);
+  readonly wpTableSelection = inject(WorkPackageViewSelectionService);
 
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -121,6 +124,22 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   ngOnInit() {
+    // If a work package is open in the split view (per the URL), select its row.
+    // The split view lives in its own isolated query space and can't reach this
+    // list's own WorkPackageViewSelectionService directly - the old uiRouter-based
+    // WorkPackageSplitViewComponent#init did this via a shared query space/injector.
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (details) {
+      // Plain numeric ids need no lookup; resolving a semantic id needs the
+      // work package cached already, which may not be the case yet this early.
+      const numericId = isSemanticWorkPackageId(details.routingId)
+        ? resolveNumericId(this.states, details.routingId)
+        : details.routingId;
+      if (numericId) {
+        this.wpTableSelection.initializeSelection([numericId]);
+      }
+    }
+
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
     const statesCombined = combineLatest([
@@ -229,8 +248,13 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
 
     const basePath = this.urlParams.basePathWithoutDetails();
+    const tab = this.keepTab.currentDetailsTab;
+    // Match the details/:work_package_id(/:tab) route's own defaults: { tab: 'overview' } -
+    // Rails' path helpers omit the segment when it's the default, so keep the same canonical
+    // (shorter) URL here rather than always spelling the tab out.
+    const tabSegment = tab === 'overview' ? '' : `/${tab}`;
     Turbo.visit(
-      `${basePath}/details/${workPackageId}/${this.keepTab.currentDetailsTab}${window.location.search}`,
+      `${basePath}/details/${workPackageId}${tabSegment}${window.location.search}`,
       { frame: 'content-bodyRight', action: 'advance' },
     );
   }
