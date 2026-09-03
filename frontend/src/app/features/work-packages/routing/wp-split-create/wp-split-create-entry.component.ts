@@ -32,6 +32,14 @@ import {
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
+const splitCreateBodyClass = 'router--work-packages-partitioned-split-view-new';
+
+// Turbo's non-morphing body swap on a redirect-driven visit can construct the new
+// instance before the old one's ngOnDestroy fires. Without a count, the late
+// remove() from the dying instance would wipe out the class the new, live
+// instance already added (see the identical fix in wp-split-view-entry.component.ts).
+let splitCreateInstanceCount = 0;
+
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
  * for the work package split create (create form in the split panel).
@@ -58,7 +66,8 @@ export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDe
 
   constructor() {
     populateInputsFromDataset(this);
-    document.body.classList.add('router--work-packages-partitioned-split-view-new');
+    splitCreateInstanceCount += 1;
+    document.body.classList.add(splitCreateBodyClass);
   }
 
   ngAfterViewInit():void {
@@ -69,6 +78,9 @@ export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDe
   }
 
   ngOnDestroy():void {
-    document.body.classList.remove('router--work-packages-partitioned-split-view-new');
+    splitCreateInstanceCount -= 1;
+    if (splitCreateInstanceCount <= 0) {
+      document.body.classList.remove(splitCreateBodyClass);
+    }
   }
 }
