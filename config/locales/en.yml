@@ -4967,10 +4967,10 @@ en:
     prev_page: "Previous Page"
   pdf_generator:
     budgets_table:
-      labor: Labor costs
-      material: Unit costs
       cost_per_unit: Cost per unit
       description: Description
+      labor: Labor costs
+      material: Unit costs
       sum: Sum
       total: Total
     dialog:
