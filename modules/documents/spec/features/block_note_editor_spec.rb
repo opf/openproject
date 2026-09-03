@@ -32,6 +32,7 @@ require "rails_helper"
 
 RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { real_time_text_collaboration_enabled: true } do
   include_context "with hocuspocus"
+  include FormFields::Primerized::BlockNoteEditorBrowserActions
 
   let(:admin) { create(:admin) }
   let(:document) { create(:document, :collaborative) }
@@ -146,7 +147,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
         expect(editor.element).to have_no_text("Link existing work package") # search dialog is closed
         expect(editor.element).to have_no_text("Loading")
-        expect(editor.element.text).to match(/LIFE GOALS\s##{work_package.display_id}\sOpen\spet a tiger/)
+        expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
 
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href")).to end_with("/wp/#{work_package.id}")
@@ -281,7 +282,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         within editor.create_work_package_form do
           expect(page).to have_field("Project", with: project.name)
 
-          select type.name, from: "Type"
+          find_field("Type").click
+          find("[role='option']", text: type.name).click
           fill_in "Subject", with: "Write the release notes"
           fill_in "Release note", with: "16.0"
 
@@ -296,6 +298,43 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(work_package.type).to eq(type)
         expect(work_package.subject).to eq("Write the release notes")
         expect(work_package.custom_value_for(release_note).value).to eq("16.0")
+      end
+    end
+
+    context "when creating a work package from a text selection" do
+      let(:type) { create(:type_task) }
+      let(:project) { create(:project, name: "Documented project", types: [type]) }
+      let(:document) { create(:document, :collaborative, project:, description: "") }
+      let!(:default_status) { create(:status, is_default: true) }
+      let!(:default_priority) { create(:priority, is_default: true) }
+
+      it "names the work package after the selected text and links it in its place" do
+        expect(WorkPackage.where(subject: "Write the release notes")).not_to exist
+
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.fill_in("Write the release notes")
+        select_to_line_start
+        editor.click_formatting_toolbar_button("Create work package")
+
+        within editor.create_work_package_form do
+          expect(page).to have_field("Subject", with: "Write the release notes")
+
+          find_field("Type").click
+          find("[role='option']", text: type.name).click
+
+          click_on "Create"
+        end
+
+        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+
+        work_package = WorkPackage.find_by(subject: "Write the release notes")
+        expect(work_package).to be_present
+        expect(work_package.project).to eq(project)
+
+        expect(editor.element.find_link(text: "Write the release notes").native.property("href"))
+          .to end_with("/wp/#{work_package.id}")
       end
     end
   end
