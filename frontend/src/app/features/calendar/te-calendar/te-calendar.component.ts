@@ -700,8 +700,15 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
         `;
   }
 
-  private sanitizedValue(value:string):string {
-    return this.sanitizer.sanitize(SecurityContext.HTML, value) ?? '';
+  private sanitizedValue(value: string): string {
+    if (!value) {
+      return '';
+    }
+
+    const sanitized = this.sanitizer.sanitize(SecurityContext.HTML, value) ?? '';
+
+    const parser = new DOMParser();
+    return parser.parseFromString(sanitized, 'text/html').body.textContent || sanitized;
   }
 
   protected formatNumber(value:number):string {
