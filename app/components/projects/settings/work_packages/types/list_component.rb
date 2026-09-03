@@ -117,6 +117,22 @@ module Projects
             User.current.allowed_in_project?(:manage_project_variants, project)
           end
 
+          def project_variants_allowed?(type) = type.allow_project_variants?
+
+          def variants_not_allowed_caption = t("projects.settings.types.variants_not_allowed")
+
+          # Inactive rather than disabled: a disabled button takes neither hover nor focus, and the
+          # reason would go with it.
+          def disabled_add_variant_arguments(type)
+            {
+              id: "add-project-variant-#{type.id}",
+              scheme: :invisible,
+              inactive: true,
+              pl: 0,
+              aria: { disabled: true }
+            }
+          end
+
           # Named explicitly: this page is not one of the variant screens, so no request carries
           # the project for it.
           def add_variant_path(type)
@@ -169,8 +185,17 @@ module Projects
           end
 
           def add_variant_action(menu, type)
+            return disabled_add_variant_action(menu) unless project_variants_allowed?(type)
+
             menu.with_item(label: t("projects.settings.types.add_variant"), href: add_variant_path(type)) do |item|
               item.with_leading_visual_icon(icon: :plus)
+            end
+          end
+
+          def disabled_add_variant_action(menu)
+            menu.with_item(label: t("projects.settings.types.add_variant"), disabled: true) do |item|
+              item.with_leading_visual_icon(icon: :plus)
+              item.with_tooltip(text: variants_not_allowed_caption)
             end
           end
 
