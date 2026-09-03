@@ -1,6 +1,12 @@
 > [!WARNING]
 > Flaky specs
 
+<!-- openproject-flaky-specs:
+commit=${GITHUB_SHA}
+run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+run_id=${GITHUB_RUN_ID}
+-->
+
 ${SPECS}
 
 <details>
