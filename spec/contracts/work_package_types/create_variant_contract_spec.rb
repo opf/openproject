@@ -39,7 +39,9 @@ module WorkPackageTypes
     let(:owner) { project }
     let(:variant) { bug.variants.new(variant_name: "Internal review", project: owner) }
 
-    subject(:contract) { described_class.new(variant, user, options: {}) }
+    let(:options) { {} }
+
+    subject(:contract) { described_class.new(variant, user, options:) }
 
     def base_errors
       contract.validate
@@ -64,6 +66,14 @@ module WorkPackageTypes
 
         it "refuses it as well" do
           expect(base_errors).to include(:project_variants_not_allowed)
+        end
+      end
+
+      context "and the variant stands in for configuration the project already had" do
+        let(:options) { { pre_existing_configuration: true } }
+
+        it "allows it: the project is not authoring anything new" do
+          expect(base_errors).to be_empty
         end
       end
 

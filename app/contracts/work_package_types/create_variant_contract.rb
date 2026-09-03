@@ -51,9 +51,12 @@ module WorkPackageTypes
 
     private
 
-    # Only creation is governed: turning the setting off later leaves the variants a project
-    # already owns in place, which is why this rule is not in AuthorizesVariantAuthoring.
+    # Only a project authoring something new is governed, which is why this rule is not in
+    # AuthorizesVariantAuthoring: turning the setting off leaves the variants a project already
+    # owns in place, and a variant standing in for configuration the project had before variants
+    # existed is one of those.
     def validate_type_allows_project_variants
+      return if options[:pre_existing_configuration]
       return if model.project.nil?
       return if model.type&.allow_project_variants?
 
