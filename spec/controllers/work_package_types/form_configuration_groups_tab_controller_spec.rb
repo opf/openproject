@@ -107,7 +107,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include("Second group")
         expect(response.body).to include("Group names must be unique.")
-        expect(response.body).not_to include("Form configuration")
+        expect(response.body).not_to include("Form Group names must be unique.")
       end
 
       it "preserves the entered name in the input field" do
@@ -136,6 +136,22 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context "when the group was deleted meanwhile" do
+      it "flashes the failure rather than re-rendering the editor of a gone group" do
+        patch :update,
+              params: {
+                type_id: type.id,
+                key: "Gone group",
+                group: { name: "Any name" }
+              },
+              format: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
+        expect(response.body).to include("The requested form item could not be found.")
+      end
+    end
   end
 
   describe "POST #create (duplicate name)", with_ee: %i[edit_attribute_groups] do
@@ -154,7 +170,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('action="update"')
       expect(response.body).to include('target="work-package-types-form-configuration-main-content-component"')
-      expect(response.body).not_to include("Form configuration")
+      expect(response.body).not_to include("Form Group names must be unique.")
     end
 
     it "returns a main content turbo stream response" do
