@@ -33,7 +33,6 @@ import { isHTMLInputElement } from 'core-app/shared/helpers/dom-helpers';
 
 export default class IfcModelDirectUploadController extends Controller {
   static targets = [
-    'form',
     'fileInput',
   ];
 
@@ -45,12 +44,11 @@ export default class IfcModelDirectUploadController extends Controller {
   declare setDefaultModelUrlValue:string;
   declare setModelTitleUrlValue:string;
 
-  declare readonly formTarget:HTMLFormElement;
   declare readonly fileInputTarget:HTMLInputElement;
 
   setSessionModelTitle(event:Event):void {
     const target = event.target;
-    if (!this.isHTMLInputElement(target)) {
+    if (!isHTMLInputElement(target)) {
       return;
     }
 

@@ -53,7 +53,7 @@ RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_nam
         post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id),
              { title: "Test.ifc", isDefault: "0", fileSize: "113328073" }
         expect(last_response).to have_http_status(:unprocessable_entity)
-        expect(parse_json(last_response.body)).to eq({ "error" => "is too large (maximum size is 1024 Bytes)." })
+        expect(parse_json(last_response.body)).to eq({ "error" => "IFC model is too large (maximum size is 1024 Bytes)." })
       end
     end
   end

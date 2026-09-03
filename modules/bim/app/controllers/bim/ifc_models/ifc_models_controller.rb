@@ -121,13 +121,9 @@ module Bim
       end
 
       def create
-        combined_params = permitted_model_params
-                            .to_h
-                            .reverse_merge(project: @project)
-
         service_result = ::Bim::IfcModels::CreateService
                            .new(user: current_user)
-                           .call(combined_params)
+                           .call(permitted_model_params.merge(project: @project))
 
         @ifc_model = service_result.result
 
@@ -135,19 +131,15 @@ module Bim
           flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
-          flash[:error] = service_result.message
+          flash.now[:error] = service_result.message
           render action: :new, status: :unprocessable_entity
         end
       end
 
       def update
-        combined_params = permitted_model_params
-                            .to_h
-                            .reverse_merge(project: @project)
-
         service_result = ::Bim::IfcModels::UpdateService
                            .new(user: current_user, model: @ifc_model)
-                           .call(combined_params)
+                           .call(permitted_model_params.merge(project: @project))
 
         @ifc_model = service_result.result
 
@@ -155,6 +147,7 @@ module Bim
           flash[:notice] = t(:notice_successful_update)
           redirect_to action: :index
         else
+          flash.now[:error] = service_result.message
           render action: :edit, status: :unprocessable_entity
         end
       end
