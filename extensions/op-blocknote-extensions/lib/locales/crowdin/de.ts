@@ -21,37 +21,37 @@ export const en = {
       'cancel': "Abbrechen",
       'create': "Erstellen",
       'creating': "Wird erstellt…",
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'projectPlaceholder': 'Select a project…',
-      'loadingFields': 'Loading the fields of this work package…',
-      'loadingTypeFields': 'Loading required fields for {{type}}…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'selectPlaceholder': "Bitte auswählen",
+      'searchPlaceholder': "Geben Sie Ihren Suchbegriff ein",
+      'loading': "Lädt…",
+      'noResults': "Keine Ergebnisse",
+      'filterBy': "Liste filtern",
+      'allValues': "Alle",
+      'favorites': "Favoriten",
+      'clear': "Zurücksetzen",
+      'deselect': "Auswahl entfernen",
+      'openOptions': "Optionen anzeigen",
+      'closeOptions': "Optionen ausblenden",
+      'subjectPlaceholder': "Geben Sie hier den Betreff ein",
+      'projectPlaceholder': "Wählen Sie ein Projekt aus…",
+      'loadingFields': "Die Felder dieses Arbeitspakets werden geladen…",
+      'loadingTypeFields': "Pflichtfelder für {{type}} werden geladen…",
+      'loadFailed': "Das Arbeitspaket-Formular konnte nicht geladen werden: {{message}}",
+      'notAllowed': "Sie sind nicht berechtigt, Arbeitspakete zu erstellen.",
+      'validationFailed': "Bitte korrigieren Sie die unten hervorgehobenen Felder.",
+      'requiredField': "Dies ist ein Pflichtfeld.",
+      'notANumber': "Bitte geben Sie eine gültige Zahl ein.",
+      'notAWholeNumber': "Bitte geben Sie eine ganze Zahl ohne Dezimaltrennzeichen ein.",
+      'unsupportedField': "\"{{field}}\" kann hier nicht gesetzt werden.",
+      'unsupportedRequired': "Für dieses Arbeitspaket ist ein Feld erforderlich, das hier nicht festgelegt werden kann.",
+      'createInOpenProject': "In OpenProject erstellen"
     },
     'search': {
       'label': "Vorhandenes Arbeitspaket verlinken",
       'placeholder': "Nach ID oder Betreff suchen",
       'dropdownAriaLabel': "Suchergebnisse (Arbeitspakete)",
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.'
+      'noResults': "Keine Ergebnisse",
+      'error': "Fehler. Der Inhalt konnte nicht geladen werden."
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -61,12 +61,12 @@ export const en = {
       'unauthorized': {
         'header': "Das verlinkte Arbeitspaket ist nicht verfügbar",
         'message': "Aufgrund fehlender Berechtigungen kann es nicht angezeigt werden",
-        'short_message': 'Work package unavailable: no permission'
+        'short_message': "Arbeitspaket nicht verfügbar: keine Berechtigung"
       },
       'error': {
         'header': "Fehler",
         'message': "Arbeitspaket konnte nicht geladen werden",
-        'short_message': 'Unavailable: error'
+        'short_message': "Nicht verfügbar: Fehler"
       }
     },
     'options': {
@@ -110,7 +110,7 @@ export const en = {
       'typeToSearch': "Nach Arbeitspaketen suchen…"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Lädt"
     }
   }
 };
