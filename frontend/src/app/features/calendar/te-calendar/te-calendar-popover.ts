@@ -30,10 +30,42 @@ import { html } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
 import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
 import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
+import type { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import type { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
+import type { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+
+export interface TimeEntrySchema extends SchemaResource {
+  activity:IFieldSchema;
+  entity:IFieldSchema;
+  project:IFieldSchema;
+  hours:IFieldSchema;
+  user:IFieldSchema;
+  comment:IFieldSchema;
+}
 
 export interface PopoverRow {
   label:string;
   value:string;
+}
+
+export interface TimeEntryPopoverContext {
+  placeholder:string;
+  formattedDuration:string;
+}
+
+export function timeEntryPopoverRows(
+  entry:TimeEntryResource,
+  schema:TimeEntrySchema,
+  { placeholder, formattedDuration }:TimeEntryPopoverContext,
+):PopoverRow[] {
+  return [
+    { label: schema.project.name, value: entry.project.name },
+    { label: schema.entity.name, value: entry.entity ? formatTimeEntryEntityName(entry.entity) : placeholder },
+    { label: schema.activity.name, value: entry.activity?.name ?? '' },
+    { label: schema.hours.name, value: formattedDuration },
+    { label: schema.comment.name, value: entry.comment.raw ?? placeholder },
+  ];
 }
 
 export function timeEntryPopoverHtml(
