@@ -29,15 +29,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
   Signal,
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { chartFont, chartLegend, createBarTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
+import type { BarTooltipContext } from 'core-app/shared/components/budget-graphs/chart.config';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
@@ -50,6 +54,14 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 })
 export class ActualCostsComponent {
   private readonly i18n = inject(I18nService);
+  private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
+
+  private renderer:ReturnType<typeof createBarTooltipRenderer>|null = null;
+  private renderedHost:HTMLElement|null = null;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.renderer?.destroy());
+  }
 
   readonly chartData = input.required<string>();
   readonly currency = input<string>('€');
@@ -80,10 +92,22 @@ export class ActualCostsComponent {
       'primer-colors': { datasetLabelBased: true },
       tooltip: {
         enabled: false,
-        external: createBarTooltipRenderer(this.formatCurrency.bind(this)),
+        external: this.tooltipRenderer,
       },
     },
   }));
+
+  private readonly tooltipRenderer = (context:BarTooltipContext) => {
+    const host = this.tooltipHost()?.nativeElement;
+    if (!host) return;
+
+    if (host !== this.renderedHost) {
+      this.renderer?.destroy();
+      this.renderer = createBarTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderedHost = host;
+    }
+    this.renderer?.(context);
+  };
 
   private formatCurrencyCompact(value:number):string {
     const currency = this.currency();
