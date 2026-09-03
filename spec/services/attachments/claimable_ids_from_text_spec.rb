@@ -96,4 +96,53 @@ RSpec.describe Attachments::ClaimableIdsFromText do
 
     it { is_expected.to eq([]) }
   end
+
+  context "when a container is given" do
+    subject(:claimable_ids) { described_class.call(text, user:, container:) }
+
+    shared_let(:work_package) { create(:work_package) }
+    shared_let(:containered_in_given_container) { create(:attachment, author: user, container: work_package) }
+    shared_let(:containered_elsewhere) { create(:attachment, author: user, container: create(:work_package)) }
+
+    let(:container) { work_package }
+    let(:text) do
+      "![](/api/v3/attachments/#{own_uncontainered.id}/content) " \
+        "![](/api/v3/attachments/#{containered_in_given_container.id}/content) " \
+        "![](/api/v3/attachments/#{containered_elsewhere.id}/content)"
+    end
+
+    it "includes attachments already in that container alongside the still-uncontainered ones" do
+      expect(claimable_ids).to contain_exactly(own_uncontainered.id, containered_in_given_container.id)
+    end
+
+    context "when the text also references another user's uncontainered attachment" do
+      shared_let(:other_users_attachment) { create(:attachment, author: other_user, container: nil) }
+
+      let(:text) do
+        "![](/api/v3/attachments/#{own_uncontainered.id}/content) " \
+          "![](/api/v3/attachments/#{containered_in_given_container.id}/content) " \
+          "![](/api/v3/attachments/#{other_users_attachment.id}/content)"
+      end
+
+      it "excludes the other user's attachment" do
+        expect(claimable_ids).to contain_exactly(own_uncontainered.id, containered_in_given_container.id)
+      end
+    end
+
+    context "when the container is a new record" do
+      let(:container) { WorkPackage.new }
+
+      it "behaves like no container was given" do
+        expect(claimable_ids).to contain_exactly(own_uncontainered.id)
+      end
+    end
+
+    context "when the container is nil" do
+      let(:container) { nil }
+
+      it "behaves like the container kwarg was omitted" do
+        expect(claimable_ids).to contain_exactly(own_uncontainered.id)
+      end
+    end
+  end
 end

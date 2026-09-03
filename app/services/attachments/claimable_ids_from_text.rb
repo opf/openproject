@@ -34,11 +34,18 @@ module Attachments
 
     module_function
 
-    def call(text, user:)
+    def call(text, user:, container: nil)
       ids = text.to_s.scan(REFERENCE_REGEX).flatten.map(&:to_i).uniq
       return [] if ids.empty?
 
-      Attachment.where(id: ids, container: nil, author: user).pluck(:id)
+      claimable_scope(container).where(id: ids, author: user).pluck(:id)
+    end
+
+    def claimable_scope(container)
+      uncontainered = Attachment.where(container: nil)
+      return uncontainered if container.nil? || container.new_record?
+
+      uncontainered.or(Attachment.where(container:))
     end
   end
 end
