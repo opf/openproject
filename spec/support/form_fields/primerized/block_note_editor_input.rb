@@ -24,6 +24,10 @@ module FormFields
         send_keys(:enter)
       end
 
+      def click_formatting_toolbar_button(label)
+        shadow_root.find("button[aria-label='#{label}']").click
+      end
+
       def create_work_package_form
         page.find("[data-testid='create-wp-modal']")
       end
