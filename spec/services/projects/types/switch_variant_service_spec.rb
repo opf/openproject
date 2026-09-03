@@ -104,6 +104,10 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
     end
+
+    it "says nothing about the user's permissions" do
+      expect(service_call.errors.symbols_for(:base)).to be_empty
+    end
   end
 
   # Refused rather than raised on: the caller reaches the service with whatever the request
@@ -118,7 +122,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the user is not allowed to manage types" do
+  context "when the user may not author the project's variants" do
     let(:user) { create(:user) }
 
     it "fails without changing anything" do

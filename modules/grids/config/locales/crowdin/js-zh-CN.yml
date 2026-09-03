@@ -35,7 +35,13 @@ zh-CN:
         project_timeline:
           accessible_date_range: "%{start} 至 %{end}"
           accessible_gate: 阶段关口 %{name}：%{date}
+          accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: 阶段 %{name}：%{date}
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
           tooltip_type_gate: 阶段关口
           tooltip_type_milestone: 里程碑
           tooltip_type_phase: 阶段

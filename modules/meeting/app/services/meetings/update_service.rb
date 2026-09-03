@@ -40,6 +40,7 @@ module Meetings
     def after_perform(call)
       if call.success?
         meeting = call.result
+        meeting.bump_series_ical_sequence!
 
         if send_initial_invitations?(meeting)
           MeetingNotificationService.new(meeting).call(:invited)

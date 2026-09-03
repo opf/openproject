@@ -5,7 +5,7 @@ fr:
       add_assignee: Attributaire
       add_existing: Ajouter existant
       add_existing_title: Ajouter des lots de travaux existants
-      cannot_drag_here: Impossible de déplacer le lot de travaux en raison de restrictions d'autorisation ou d'édition.
+      cannot_drag_here: Impossible de déplacer le lot de travaux en raison de restrictions liées aux autorisations ou à la modification.
       cannot_drag_to_non_working_day: Ce lot de travaux ne peut pas démarrer/terminer sur un jour non ouvré.
       create_label: Planificateur d'équipe
       create_title: Créer un nouveau planificateur d'équipe

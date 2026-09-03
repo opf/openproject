@@ -24,30 +24,30 @@ uk:
   activerecord:
     models:
       deploy_status_check:
-        one: Deployment status check
-        few: Deployment status checks
-        many: Deployment status checks
-        other: Deployment status checks
+        one: Перевірка статусу розгортання
+        few: Перевірки статусу розгортання
+        many: Перевірки статусу розгортання
+        other: Перевірки статусу розгортання
       deploy_target:
-        one: Deployment target
-        few: Deployment targets
-        many: Deployment targets
-        other: Deployment targets
+        one: Ціль розгортання
+        few: Цілі розгортання
+        many: Цілі розгортання
+        other: Цілі розгортання
       github_check_run:
-        one: GitHub check run
-        few: GitHub check runs
-        many: GitHub check runs
-        other: GitHub check runs
+        one: Запуск перевірки GitHub
+        few: Запуски перевірок GitHub
+        many: Запуски перевірок GitHub
+        other: Запуски перевірок GitHub
       github_pull_request:
-        one: GitHub pull request
-        few: GitHub pull requests
-        many: GitHub pull requests
-        other: GitHub pull requests
+        one: Запит на включення GitHub
+        few: Запити на включення GitHub
+        many: Запити на включення GitHub
+        other: Запити на включення GitHub
       github_user:
-        one: GitHub user
-        few: GitHub users
-        many: GitHub users
-        other: GitHub users
+        one: Користувач GitHub
+        few: Користувачі GitHub
+        many: Користувачі GitHub
+        other: Користувачі GitHub
   attributes:
     additions_count: Кількість додавань
     changed_files_count: Змінені файли

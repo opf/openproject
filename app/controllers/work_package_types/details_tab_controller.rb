@@ -30,8 +30,6 @@
 
 module WorkPackageTypes
   class DetailsTabController < BaseTabController
-    layout "admin"
-
     current_menu_item %i[edit update] do
       :types
     end

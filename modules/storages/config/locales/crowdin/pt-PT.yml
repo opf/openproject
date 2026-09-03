@@ -32,7 +32,7 @@ pt-PT:
         creator: Criador
         drive: ID da unidade
         file_link_origin: ID de origem da ligação de ficheiro
-        host: Hospedeiro
+        host: Anfitrião
         linkable_to_storage: Pode ser associado a armazenamento
         linkable_to_storage_url: Pode ser associado a um URL de armazenamento
         name: Nome
@@ -66,7 +66,7 @@ pt-PT:
             host:
               authorization_header_missing: não está totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token portador com base na autorização das solicitações de API. Verifique novamente a configuração do seu servidor HTTP.
               cannot_be_connected_to: não foi possível aceder. Certifique-se de que o anfitrião está acessível e que a aplicação de integração do OpenProject está instalada.
-              minimal_nextcloud_version_unmet: não atende aos requisitos mínimos de versão (deve ser Nextcloud 23 ou superior)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: parece não ter a app "OpenProject integration" instalada. Instale-a primeiro e tente novamente.
             password:
@@ -140,17 +140,18 @@ pt-PT:
         rename_project_folder: 'Renomear pasta do projeto gerido:'
         set_folder_permission: 'Definir permissões da pasta do projeto gerido:'
       sharepoint_sync_service:
-        create_folder: 'Criação de pastas de projeto geridas:'
+        create_folder: 'Criação de pastas de projetos geridos:'
         ensure_root_folder_permissions: 'Definir permissões da pasta base:'
-        hide_inactive_folders: 'Passo "Ocultar pastas inativas":'
+        hide_inactive_folders: 'Passo para ocultar pastas inativas:'
         remote_folders: 'Ler conteúdo da pasta raiz da unidade:'
-        rename_project_folder: 'Renomear pasta do projeto gerido:'
+        rename_project_folder: 'Mudar o nome da pasta do projeto gerido:'
         set_folder_permission: 'Definir permissões da pasta do projeto gerido:'
     errors:
       messages:
         error: Ocorreu um erro inesperado. Verifique os registos do OpenProject para obter mais informações ou contacte um administrador
         folder_id_collision: Vários repositórios de projetos tentam gerir a pasta do projeto %{folder}. A sua sincronização foi ignorada.
         forbidden: O OpenProject não conseguiu aceder ao recurso solicitado. Verifique a sua configuração de permissões no fornecedor de armazenamento.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: Não foi possível autenticar o OpenProject com o fornecedor de armazenamento. Certifique-se de que tem acesso ao mesmo.
       models:
         copy_project_folders_service:
@@ -222,8 +223,8 @@ pt-PT:
             hide_inactive_folders:
               permission_not_set: não foi possível definir permissões em %{path}.
             rename_project_folder:
-              conflict: O OpenProject não conseguiu renomear a pasta %{current_path} para %{project_folder_name} porque já existe uma pasta com o mesmo nome
-              forbidden: 'O OpenProject não tem acesso a %{current_path} para poder renomeá-lo.
+              conflict: O OpenProject não conseguiu mudar o nome da pasta %{current_path} para %{project_folder_name} porque já existe uma pasta com o mesmo nome
+              forbidden: 'O OpenProject não tem acesso a %{current_path} para poder mudar-lhe o nome.
 
                 '
               not_found: "%{current_path} não foi encontrado."
@@ -336,7 +337,7 @@ pt-PT:
         base_configuration:
           capabilities_request: Capacidade de armazenamento de ficheiros remotos
           client_id: ID do cliente
-          client_secret: Client Secret
+          client_secret: Segredo do cliente
           dependencies_check: Dependências
           dependencies_versions: Dependências (versão)
           diagnostic_request: Solicitação de diagnóstico
@@ -483,7 +484,7 @@ pt-PT:
     label_openproject_oauth_application_secret: Segredo de Cliente OAuth OpenProject
     label_project_folder: Pasta do projeto
     label_provider: Fornecedor
-    label_redirect_uri: Redirecionar URI
+    label_redirect_uri: URI de redirecionamento
     label_show_storage_redirect_uri: Mostrar URI de redirecionamento
     label_status: Estado
     label_storage: Armazenamento
@@ -511,7 +512,7 @@ pt-PT:
       login_button_label: Início de sessão em %{provider_type}
       project_settings:
         description: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
-      requesting_access_to: Solicitando acesso a %{storage}
+      requesting_access_to: A solicitar acesso a %{storage}
       storage_admin:
         description: Para adicionar projetos a este armazenamento, tem de iniciar sessão em %{provider_type}. Inicie sessão e tente novamente.
     open_project_storage_modal:
@@ -557,7 +558,7 @@ pt-PT:
       sharepoint:
         drive_description: Biblioteca de documentos gerida pelo acesso ao OpenProject
         label_oauth_client_id: ID da aplicação Azure OAuth (cliente)
-        label_oauth_client_secret: Valor Secreto do Cliente Azure OAuth
+        label_oauth_client_secret: Valor secreto do cliente Azure OAuth
         name: SharePoint
         name_placeholder: 'ex: SharePoint'
     show_attachments_toggle:

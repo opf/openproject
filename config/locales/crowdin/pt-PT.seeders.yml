@@ -19,7 +19,7 @@ pt-PT:
         item_5:
           name: Amarelo
         item_6:
-          name: Cor de Laranja
+          name: Laranja
         item_7:
           name: Vermelho
         item_8:
@@ -27,11 +27,11 @@ pt-PT:
         item_9:
           name: Branco
         item_10:
-          name: Cinza (claro)
+          name: Cinzento (claro)
         item_11:
-          name: Cinza
+          name: Cinzento
         item_12:
-          name: Cinza (escuro)
+          name: Cinzento (escuro)
         item_13:
           name: Preto
       project_phase_colors:
@@ -65,7 +65,7 @@ pt-PT:
         item_3:
           name: Leitor
         item_4:
-          name: Administrador do Projeto
+          name: Administrador do projeto
       global_roles:
         item_0:
           name: Equipa e gestor de projetos
@@ -73,13 +73,13 @@ pt-PT:
           name: Função global padrão
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Corrigir a gramática
         item_1:
-          label: Make concise
+          label: Tornar conciso
         item_2:
-          label: Translate to English
+          label: Traduzir para inglês
         item_3:
-          label: Sort into template
+          label: Organizar num modelo
     standard:
       project_phases:
         item_0:
@@ -163,7 +163,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject.
 
@@ -337,7 +337,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se ter juntado a nós! Sugerimos que experimente algumas coisas para começar a usar o OpenProject.
 
@@ -466,11 +466,11 @@ pt-PT:
         item_3:
           name: Confirmado
         item_4:
-          name: Para ser agendado
+          name: Por agendar
         item_5:
           name: Agendado
         item_6:
-          name: A decorrer
+          name: Em curso
         item_7:
           name: Desenvolvido
         item_8:
@@ -478,7 +478,7 @@ pt-PT:
         item_9:
           name: Testado
         item_10:
-          name: Teste falhou
+          name: O teste falhou
         item_11:
           name: Fechado
         item_12:
@@ -493,9 +493,9 @@ pt-PT:
         item_2:
           name: Desenvolvimento
         item_3:
-          name: Testar
+          name: Em teste
         item_4:
-          name: Suporte
+          name: Apoio
         item_5:
           name: Outro
       types:
@@ -512,7 +512,7 @@ pt-PT:
         item_5:
           name: História do utilizador
         item_6:
-          name: Bug
+          name: Erro
       global_queries:
         item_0:
           name: 'Filhos épicos: histórias de utilizadores e erros'

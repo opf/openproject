@@ -43,7 +43,7 @@ ko:
       bim/bcf/issue:
         other: BCF 이슈
       bim/bcf/viewpoint:
-        other: BCF viewpoints
+        other: BCF 뷰포인트
       bim/ifc_models/ifc_model:
         other: IFC 모델
   attributes:

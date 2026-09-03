@@ -1,38 +1,88 @@
 ---
 sidebar_navigation:
   title: Notification Center
-  priority: 750
-description: A centralized view of all updates, mentions, and activities that require the user’s attention in OpenProject mobile app.
+  priority: 760
+description: A centralized view of all updates, mentions, and activities that require the user’s attention in the OpenProject mobile app.
 keywords: Mobile app Notification Center, mobile notification, mobile notifications, notification, mobile mention
 ---
 
-# Notification Center
+# Notifications
 
-The **Notification Center** provides a centralized view of all updates, mentions, and activities that require the user’s attention. It ensures users can stay informed about important changes across their projects, even while on the move. Notifications from the web or desktop application are synchronized with the mobile app, making it easy to keep track of all relevant activity in one place.
+The **Notifications** module (notification center) helps you stay up to date with changes that matter to you, for example when you are **mentioned**, **assigned**, added as a **watcher**, or when a **date alert** is triggered.
 
-## Receiving and Viewing Notifications
+From here you can review unread items, open the relevant work package, and manage what you have already seen.
 
-After logging into the app, you will automatically receive notifications generated in their OpenProject environment. Whenever an update occurs—such as a comment, status change, or mention—the notification will appear inside the Notification Center. You can simply open the app and navigate to the Notification Center to view any new, unread items waiting for their attention.
+## Browse notifications
 
-You can also choose to display **all notifications**, not just unread ones. By toggling the switch to view all items, the Notification Center expands to include both read and unread notifications. This is useful for revisiting past activity or reviewing a complete history of updates.
+Each notification in the list shows key information at a glance including, the work package type and ID, the subject/title, project name, and why you received it, such as *Assignee* or *Mention*. Tap a notification to open it.
 
-![OpenProject mobile app Notification Center](mobile_app_notification_centre.png)
+![Available queries in the Notification center](notifications-queries.png)
 
-## Viewing Notification Details
+### Switch notification queries
 
-Tapping on a notification opens the associated work package directly in the mobile app. You are taken to the Activity tab of that work package, where the specific update that triggered the notification is highlighted. This makes it easy to understand the context of the notification and respond immediately if needed.
+Use the selector in the **top header** to switch between different notification queries, such as:
 
-![OpenProject mobile app work package activity tab](mobile_app_workpackage_activity.png)
+- **Inbox**
+- **Mentioned**
+- **Assignee**
+- **Accountable**
+- **Watcher**
+- **Date alert**
+- **Reminder**
+- **Shared**
 
-## Marking Notifications as Read
+### Unread vs. all
 
-When a notification is opened or manually marked as read, it is removed from the **Unread** inbox. This allows you to maintain a clear and focused view of only pending items. For quicker inbox management, the Notification Center also provides an option to **mark all notifications as read** from the top bar, clearing the unread list in a single action.
+Below the header, use the toggle to switch between:
 
-![Mark a notification as read by swiping it in the OpenProject mobile app](mobile_app_notification_centre_swipe_markasread.png)
-![Mark a notification as read using the more menu in the OpenProject mobile app](mobile_app_notification_centre_moreaction_markasread.png)
+- **Unread:** the default for catching up
+- **All:** to review everything, including notifications marked as read
 
-## Switching Between Notification Queries
+## Common workflows
 
-The Notification Center includes filters that allow you to switch between different notification queries, similar to the web interface. You can choose alternative inboxes—such as “Assignee,” “Mention,” or other notification categories their instance provides. When switching queries, the list updates immediately to show only the notifications relevant to that filter.
+### Open a notification in context
 
-![OpenProject mobile app switch the Notification Center query](mobile_app_notification_centre_queries.png)
+When you open a notification, it takes you to the related **work package**, focused on the **Activity** tab so you can immediately see the update or conversation that triggered the notification.
+
+From there you can:
+
+- read the latest changes and comments,
+- reply or add a comment,
+- continue working on the work package,
+- and mark the notification as read when the work is completed.
+
+![Notifications in the work package activity tab](notifications-activity.png)
+
+### Mark notifications as read
+
+To keep your inbox tidy, mark notifications as read after reviewing them. You can mark notifications as read by:
+
+- Using the more menu (three dots) in the notification list to mark all notifications from a single work package as read.
+- Swipe the entire card to the right or left to mark all notifications from a single work package as read.
+- Mark all notifications as read in the notification centre using the mark all as read action on the top right corner of the notification list. This action is also available on the header of the work package details view when it has notifications.
+- Additionally, you can mark single activities as read without marking the rest inside the work packages activities by using the more menu (three dots) for each activity.
+
+![Different ways of marking notifications as read](notifications-mark_as_read.png)
+
+### Additional notification settings
+
+#### Manage notification settings (what you receive)
+
+If you want to change *which events* generate notifications, and which don’t, you can do so at any time from the app:
+
+1. Open **Account and settings**.
+2. Go to **Notification settings**.
+3. Enable or disable the notification types you want to receive.
+ 
+> [!NOTE]
+> This is the central place to control your personal notification preferences. Changing these settings will affect the notifications received both on the mobile app and the core desktop app of OpenProject.
+
+#### Control when activities are marked as read automatically
+
+You can also configure *when* items are marked as read automatically while working in a work package’s **Activity** tab. In **Account and settings → Work package settings**, choose one of the following behaviors:
+
+- **Automatically mark all as read:** Automatically marks all notifications/activities as read as soon as you open the Activity tab.
+- **Mark as read when commenting:** Marks all items as read only after you add a comment in the Activity tab.
+- **Mark as read on reply:** Marks a specific activity as read when you **quote reply** to that specific activity entry.
+
+These options help you decide whether simply viewing activity should clear notifications, or whether they should only be cleared when you actively respond.

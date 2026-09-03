@@ -1035,6 +1035,82 @@ RSpec.describe WorkPackage do
                        expect_new_journal: true
     end
 
+    context "on only journal notes adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true
+    end
+
+    context "on only journal notes adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
+    context "on only journal cause adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true
+    end
+
+    context "on only journal cause adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
     context "when aggregation leads to an empty change (changing back and forth)",
             with_settings: { journal_aggregation_time_minutes: 1 } do
       shared_let(:journable) do

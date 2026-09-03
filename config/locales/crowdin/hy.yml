@@ -471,6 +471,7 @@ hy:
           true: ներառել ոչ աշխատանքային օրերը
         journal_internal: Ներքին մատյան
         notify: Ծանուցել
+        observed_in_versions: Observed in versions
         parent: Ծնող
         parent_issue: Ծնող
         parent_work_package: Ծնող
@@ -546,6 +547,8 @@ hy:
         is_for_all_cannot_modify: վերաբերում է բոլոր նախագծերին և հետևաբար չի կարող փոփոխվել։
         ldap_managed: Այս ստորաբաժանումը կառավարվում է LDAP համաժամացման միջոցով և չի կարող փոփոխվել ձեռքով։
         less_than_or_equal_to: պետք է փոքր կամ հավասար լինի %{count}-ին։
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: վավեր ամսաթիվ չէ։
         not_a_datetime: վավեր ամսաթիվ և ժամ չէ։
         not_a_number: թիվ չէ։
@@ -740,6 +743,7 @@ hy:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -812,6 +816,7 @@ hy:
               hours_per_day_are_missing: Օրվա ժամերի քանակը պետք է սահմանված լինի։
               hours_per_day_is_out_of_bounds: Օրվա ժամերը չեն կարող լինել 24-ից ավելի
               journal_aggregation_time_minutes_is_out_of_bounds: Համախմբման ժամանակահատվածը պետք է լինի %{min} և %{max} րոպեի միջև։
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Աշխատանքային օրերի կազմաձևման նախորդ փոփոխությունները դեռ չեն կիրառվել։
               working_days_are_missing: Շաբաթվա առնվազն մեկ օր պետք է սահմանված լինի որպես աշխատանքային օր։
         status:
@@ -843,20 +848,26 @@ hy:
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -1494,6 +1505,7 @@ hy:
           finalizing: Վերջնականացվում է
           finalizing_done: Ավարտված
           finalizing_error: Սխալ վերջնականացման ընթացքում
+          import_aborting: Aborting
           import_error: Սխալ ներմուծման ընթացքում
           import_scope: Ընտրեք շրջանակը
           imported: Վերանայման ռեժիմ
@@ -1505,13 +1517,13 @@ hy:
           projects_meta_done: Տվյալները հավաքագրված են
           projects_meta_error: Նախագծի տվյալների ստացման սխալ
           projects_meta_fetching: Նախագծի տվյալները ստացվում են
-          revert_cancelled: Հետարկումը չեղարկված է
-          revert_cancelling: Հետարկումը չեղարկվում է
           revert_error: Սխալ հետարկման ընթացքում
           reverted: Հետարկված է
           reverting: Հետարկվում է
+        step_not_available: This action is not available for the current state of the import run.
         title: Ներմուծման գործարկում
         wizard:
+          button_abort: Abort
           button_retry: Կրկին փորձել
           finalize_dialog:
             confirm: Հասկանում եմ, որ այս գործողությունն անշրջելի է
@@ -1555,11 +1567,14 @@ hy:
             title: Ընդմիշտ հետարկե՞լ այս ներմուծումը։
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Սկսել ներմուծումը
               caption: Վերանայեք Ձեր ներմուծման կարգավորումները և սկսեք ներմուծումը
               caption_done: Ավարտված
               caption_done_info: Բոլոր տվյալները ներմուծված են
               description: Դուք պատրաստվում եք սկսել ներմուծման գործարկում հետևյալ կարգավորումներով։
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
@@ -1580,6 +1595,7 @@ hy:
               button_done: Հաստատել ներմուծումը
               button_revert: Հետարկել ներմուծումը
               caption: Վերանայեք ներմուծման գործարկումը կամ հետարկեք ներմուծումը
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Հաստատել ներմուծումը
               label_finalizing: Ներմուծումը հաստատվում է...
               label_finalizing_done: Ներմուծումը հաստատվել է։
@@ -1587,7 +1603,6 @@ hy:
               label_revert: Հետարկել ներմուծումը
               label_revert_progress: Ներմուծումը հետարկվում է...
               label_reverted: Ներմուծումը հետարկվել է։
-              preview_description: Ներմուծված տվյալները ներկայումս վերանայման ռեժիմում են։ Սեղմեք "Հաստատել ներմուծումը"՝ ներմուծումը մշտական դարձնելու համար, կամ "Հետարկել ներմուծումը"՝ այս ներմուծման գործարկման ընթացքում կատարված բոլոր փոփոխությունները հետարկելու համար։
               stats:
                 other_settings:
                   label: Այլ կարգավորումներ
@@ -1810,8 +1825,6 @@ hy:
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -3189,6 +3202,7 @@ hy:
         progress_calculation_adjusted_from_disabled_mode: Առաջընթացի հաշվարկն ավտոմատ կերպով <a href="%{href}" target="_blank">սահմանվել է աշխատանքի հիմքով ռեժիմ և ճշգրտվել է տարբերակի թարմացման հետ</a>։
         scheduling_mode_adjusted: Պլանավորման ռեժիմն ավտոմատ կերպով ճշգրտվել է տարբերակի թարմացման հետ։
         sprint_migration: "'%{version_name}' տարբերակը պատճենվել է որպես սպրինտ։"
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Աշխատանքի և առաջընթացի ընդհանուր գումարներն ավտոմատ կերպով հեռացվել են ոչ ծնող աշխատանքային փաթեթներից <a href="%{href}" target="_blank">տարբերակի թարմացման</a> հետ։ Սա սպասարկման աշխատանք է և կարող է անվտանգ կերպով անտեսվել։
       total_percent_complete_mode_changed_to_simple_average: Դուստր աշխատանքային փաթեթների «Աշխատանք» արժեքներն անտեսվում են։
@@ -3296,6 +3310,7 @@ hy:
   label_available_project_work_package_categories: Հասանելի աշխատանքային փաթեթների կատեգորիաներ
   label_available_project_work_package_types: Հասանելի աշխատանքային փաթեթների տեսակներ
   label_available_projects: Հասանելի նախագծեր
+  label_backtrace: Backtrace
   label_backup: Պահուստավորում
   label_basic_details: Հիմնական մանրամասներ
   label_between: միջև
@@ -4819,6 +4834,8 @@ hy:
     dialog:
       footer_center:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Էջատակի տեքստ
       footer_right:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի աջ մասում։
@@ -4921,6 +4938,7 @@ hy:
     '
   permission_manage_placeholder_user: Ստեղծել, խմբագրել և ջնջել տեղապահ օգտատերերին
   permission_manage_project_activities: Կառավարել նախագծի գործունեությունները
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Կառավարել հանրային BCF հարցումները
   permission_manage_public_project_queries: Կառավարել նախագծերի հանրային ցուցակները
   permission_manage_public_queries: Կառավարել հանրային տեսքերը
@@ -5229,16 +5247,18 @@ hy:
           type_label: Տեսակ
           type_placeholder: Ընտրեք տեսակ
         add_type: Ավելացնել տեսակ
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Ավելացրեք տեսակ, որպեսզի օգտատերերը կարողանան այս նախագծում ստեղծել այդ տեսակի աշխատանքային փաթեթներ։
           title: Այս նախագծում ակտիվ տեսակներ չկան
         form:
           enable_type_in_project: Միացնել "%{type}" տեսակը
         no_results_title_text: Ներկայումս հասանելի տեսակներ չկան։
+        project_specific_variant: Project-specific variant
         remove_from_project: Հեռացնել նախագծից
         switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
           impact:
             hidden_heading: Fields that will no longer be shown
             missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
@@ -5258,9 +5278,10 @@ hy:
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-        switch_type: Switch variant
         type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
         no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։
@@ -5534,7 +5555,7 @@ hy:
   setting_default_language: Կանխադրված լեզու
   setting_default_projects_modules: Նոր նախագծերի համար կանխադրված միացված մոդուլներ
   setting_default_projects_public: Նոր նախագծերն ըստ կանխադրման հանրային են
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Ցուցադրվող տարբերության տողերի առավելագույն քանակ
   setting_disable_password_login: Անջատել գաղտնաբառով նույնականացումը
   setting_display_subprojects_work_packages: Ըստ կանխադրման ցուցադրել ենթանախագծերի աշխատանքային փաթեթները հիմնական նախագծերում
@@ -5582,6 +5603,14 @@ hy:
   setting_password_active_rules: Գաղտնաբառի պահանջներ
   setting_password_count_former_banned: Վերջին օգտագործված գաղտնաբառերի քանակը, որոնց կրկնակի օգտագործումն արգելված է
   setting_password_days_valid: Օրերի քանակը, որից հետո պարտադրվում է գաղտնաբառի փոփոխություն
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Նվազագույն երկարություն
   setting_per_page_options: Մեկ էջում օբյեկտների քանակի ընտրանքներ
   setting_percent_complete_on_status_closed: Կատարման %, երբ կարգավիճակը փակ է
@@ -5714,6 +5743,15 @@ hy:
     authentication:
       login: Մուտք
       omniauth_direct_login_hint_html: 'Եթե այս ընտրանքն ակտիվ է, մուտքի հարցումները կվերահղվեն դեպի կազմաձևված omniauth մատակարարը։ Մուտքի բացվող ցանկը և մուտքի էջն անջատված կլինեն։ <br/> <strong>Նշում՝</strong> եթե չանջատեք նաև գաղտնաբառով մուտքը, ապա այս ընտրանքը միացված վիճակում օգտատերերը դեռևս կկարողանան ներքին եղանակով մուտք գործել՝ այցելելով <code>%{internal_path}</code> մուտքի էջը։
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Գրանցում
@@ -6204,7 +6242,7 @@ hy:
   total_progress: Ընդհանուր առաջընթաց
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       create_type: Ստեղծել տեսակ
       create_variant: Ստեղծել տարատեսակ
       fields:
@@ -6273,7 +6311,12 @@ hy:
           label: PDF արտահանման ձևանմուշներ
         tab: Ստեղծել PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF արտահանման ձևանմուշներ
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Բաժին
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -6317,12 +6360,12 @@ hy:
           label_disable_all: Անջատել բոլորը
           label_enable_all: Միացնել բոլորը
         blankslate:
-          independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
-          linked:
+          inherited:
             description: This type does not have any project attributes associated with it.
             title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
         disabled: Disabled
         exclusions:
@@ -6352,61 +6395,84 @@ hy:
             description_html: "%{source_name}-ից տվյալներ պատճենելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։"
             title: Պատճենե՞լ կազմաձևումը։
           dialog:
-            description: Պատճենեք կազմաձևումն աղբյուրի տեսակից և օգտագործեք այն որպես միանգամյա հիմք։ Սա մշտապես չի կապակցում երկու տեսակները։
-            source_label: Պատճենման աղբյուր
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
             submit: Պահպանել և պատճենել
             title: Պատճենել կազմաձևումը
           invalid_source: Կազմաձևումը հնարավոր չէ պատճենել ընտրված տեսակից։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
           success: Կազմաձևումը պատճենվել է։
-        exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
-          confirm_dialog:
-            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
-            description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-            title: Փոխե՞լ կազմաձևման ռեժիմը։
-          copy_from_type: Պատճենել տեսակից
-          description: Ոչ մի կարգավորում չի ժառանգվում։ Ցանկության դեպքում Դուք դեռևս կարող եք միանգամյա պատճենել կարգավորումները այլ տեսակից։
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: Անցնել
-            title: Անկախ ռեժիմ
-          invalid_mode: Ընտրված ռեժիմը հասանելի չէ այս կազմաձևման համար։ Խնդրում ենք ընտրել այլ ռեժիմ։
-          modes:
-            copy:
-              caption: Սկսեք կապակցված ռեժիմում սահմանված ընթացիկ կարգավորումների միանգամյա պատճենով։
-              label: Պատճենել կապակցվածից
-            default:
-              caption: Օգտագործել կանխադրված կարգավորումները նոր տեսակների համար։
-              label: Կանխադրված կարգավորումներ
-            empty:
-              caption: Կազմաձևեք ամեն ինչ զրոյից՝ սկսելով դատարկ կազմաձևումից։
-              label: Դատարկ
-          success: Կազմաձևման ռեժիմը փոխվել է։
-          switch_to_linked: Անցնել կապակցված ռեժիմին
-          title: Անկախ ռեժիմ
-        linked:
-          change_source: Փոխել աղբյուրի տեսակը
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Unknown configuration section "%{aspect}".
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: Աղբյուրի տեսակը %{source_name}-ի փոխելով Դուք կվերագրեք ընթացիկ կարգավորումները և կարող եք ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ աղբյուրի տեսակը։
-            check_box: Հասկանում եմ, որ սա կվերագրի ընթացիկ կարգավորումները
-            from_independent:
-              description: Ընթացիկ ընտրված բոլոր կարգավորումները կվերագրվեն և կարող են ազդել այս տեսակի աշխատանքային փաթեթների առկա տեղեկությունների վրա։
-              title: Փոխե՞լ կազմաձևման ռեժիմը։
-          description: Այս կազմաձևումը կապակցված է և ժառանգում է իր կարգավորումները [%{source_name}](source_url)%{source_suffix} աղբյուրի տեսակից։
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: Պատճենեք և ժառանգեք այս կարգավորումները աղբյուրից։ Աղբյուրին ավելացված ցանկացած նոր կազմաձևում կավելացվի նաև այստեղ։
-            source_label: Կապակցված աղբյուր
-            source_placeholder: Ընտրեք տեսակ կամ տարատեսակ
-            submit: Անցնել
-            title: Կապակցված ռեժիմ
-          invalid_source: Կազմաձևումը հնարավոր չէ կապակցել ընտրված տեսակին։ Խնդրում ենք ընտրել այլ աղբյուրի տեսակ։
-          success: Կազմաձևման ռեժիմը փոխվել է։
-          switch_to_independent: Անցնել անկախ ռեժիմին
-          title: Կապակցված ռեժիմ
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (ծնող)"
       variants:
         blankslate:
@@ -6414,12 +6480,22 @@ hy:
 
             '
           title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: Filter by text
         filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Աշխատանքային հոսքեր
     index:
-      add_variant: Ավելացնել տարատեսակ %{name}-ին
+      add_variant: Add a variant to %{name}
       add_variant_action: Ավելացնել տարատեսակ
       description: 'Տեսակների և տարատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
 
@@ -6431,14 +6507,13 @@ hy:
       make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
+      project_variants_count:
+        one: 1 project-specific variant
+        other: "%{count} project-specific variants"
       remove_default: Չակտիվացնել նոր նախագծերում
       remove_default_notice: "%{name}-ը այլևս ակտիվացված չէ նոր նախագծերում։"
       type_label: Տեսակ
-      variant_enabled_in_new_projects: "%{name} տարատեսակն ակտիվ է նոր նախագծերում"
       variant_label: Տարատեսակ
-      variants_count:
-        one: 1 տարատեսակ
-        other: "%{count} տարատեսակ"
     milestone_indicator: Հանգրվան
   unsupported_browser:
     close_warning: Անտեսել այս նախազգուշացումը։

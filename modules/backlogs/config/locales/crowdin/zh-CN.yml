@@ -32,7 +32,7 @@ zh-CN:
         duration: 持续时间
         finish_date: 结束日期
         goal: 冲刺目标
-        name: Sprint 冲刺名称
+        name: 冲刺名称
         sharing: 共享中
         statuses:
           active: 激活
@@ -92,11 +92,11 @@ zh-CN:
           backlog_bucket_xor_sprint: 无法同时指定至冲刺和积压工作存储桶。
     models:
       backlog_bucket:
-        other: Backlog buckets
+        other: 积压工作存储桶
       sprint:
         other: 冲刺
       sprint_goal:
-        other: Sprint goals
+        other: 冲刺目标
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: 添加现有工作包

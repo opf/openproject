@@ -32,21 +32,21 @@ uk:
           one_or_more_required: Неможливо видалити останній тип документа
     models:
       document:
-        one: Document
-        few: Documents
-        many: Documents
-        other: Documents
+        one: Документ
+        few: Документи
+        many: Документи
+        other: Документи
       document_type:
-        one: Document type
-        few: Document types
-        many: Document types
-        other: Document types
+        one: Тип документів
+        few: Типи документів
+        many: Типи документів
+        other: Типи документів
   activity:
     filter:
       document: Документи
   attributes:
     collaborative_editing_hocuspocus_url: URL-адреса сервера Hocuspocus
-    documents: Documents
+    documents: Документи
   default_doc_category_tech: Технічна документація
   default_doc_category_user: Документація користувача
   documents:

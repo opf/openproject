@@ -11,7 +11,7 @@ keywords: manage subscription, enterprise edition, cloud edition
 Welcome to the OpenProject **Enterprise guide**.
 
 > [!IMPORTANT]
-> **Changes in our Enterprise plans with OpenProject 16.0.0**: Starting with 16.0 (scheduled for 2025-05-21), we will be introducing new Enterprise plans that include changes to our Enterprise add-ons. There are certain add-ons that will only be available on higher plans.
+> **Changes in our Enterprise plans with OpenProject 16.0.0**: With the release of 16.0, we introduced new Enterprise plans that changed how Enterprise add-ons are distributed.
 > Customers who have booked an Enterprise plan before May 21, 2025, will not be affected by the changes. You will **not** lose any features with the update.
 
 The OpenProject Enterprise editions (both cloud and on-premises) include all OpenProject Community features plus, based on the selected Enterprise plan, additional [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons), as well as professional [support](https://www.openproject.org/pricing/#support).

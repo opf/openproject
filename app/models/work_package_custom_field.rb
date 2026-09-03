@@ -64,4 +64,8 @@ class WorkPackageCustomField < CustomField
   def type_name
     :label_work_package_plural
   end
+
+  def to_s
+    "#{name} #{field_format}"
+  end
 end

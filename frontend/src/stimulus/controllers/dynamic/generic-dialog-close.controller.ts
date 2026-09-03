@@ -27,6 +27,7 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 export default class GenericDialogCloseController extends Controller<HTMLElement> {
   // TODO: Add something that we can only refresh a certain turbo frame, etc
@@ -39,8 +40,8 @@ export default class GenericDialogCloseController extends Controller<HTMLElement
     document.removeEventListener('dialog:close', this.dialogCloseListener);
   }
 
-  dialogCloseListener(this:void, event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  dialogCloseListener(this:void, event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
 
     if (dialog.id === 'time-entry-dialog' && submitted) {
       window.location.reload();

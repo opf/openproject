@@ -48,6 +48,7 @@ class TypeVariant
       end
 
       validate :sources_would_not_create_a_cycle
+      validate :sources_are_available_to_this_variant
       before_destroy :ensure_nothing_links_here
     end
 
@@ -191,6 +192,18 @@ class TypeVariant
         candidate
       end
 
+      def dependents_of(variant_id, aspect)
+        aspect = validated_configuration_aspect(aspect)
+
+        joins("INNER JOIN (#{dependent_tree_sql(variant_id, aspect)}) dependent_tree " \
+              "ON dependent_tree.node_id = #{quoted_table_name}.id")
+          .select("#{quoted_table_name}.*", "dependent_tree.depth AS dependent_depth")
+          .joins(:type)
+          .preload(:type)
+          .order(Type.arel_table[:position].asc)
+          .in_display_order
+      end
+
       def validated_configuration_aspect(aspect)
         aspect.to_s.tap do |candidate|
           raise ArgumentError, "Unknown configuration aspect #{aspect.inspect}" unless TypeVariant::ASPECTS.include?(candidate)
@@ -234,6 +247,22 @@ class TypeVariant
         SQL
       end
 
+      def dependent_tree_sql(seed_variant_id, aspect)
+        sanitize_sql_array([<<~SQL.squish, { seed: seed_variant_id }])
+          WITH RECURSIVE reachable(node_id, path, depth) AS (
+            SELECT v.id, ARRAY[CAST(:seed AS bigint), v.id], 1
+            FROM type_variants v
+            WHERE v.#{aspect}_source_id = :seed
+            UNION ALL
+            SELECT v.id, r.path || v.id, r.depth + 1
+            FROM reachable r
+            JOIN type_variants v ON v.#{aspect}_source_id = r.node_id
+            WHERE NOT v.id = ANY(r.path)
+          )
+          SELECT node_id, depth FROM reachable
+        SQL
+      end
+
       def terminal_node_condition(aspect)
         <<~SQL.squish
           NOT EXISTS (
@@ -251,6 +280,10 @@ class TypeVariant
 
     def source_for(aspect)
       public_send(:"#{self.class.validated_configuration_aspect(aspect)}_source")
+    end
+
+    def dependents_for(aspect)
+      self.class.dependents_of(id, aspect)
     end
 
     def link!(aspect, source:)
@@ -368,6 +401,13 @@ class TypeVariant
       source.export_templates_order
     end
 
+    def export_templates_settings
+      source = linked_configuration_source(TypeVariant::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_settings
+    end
+
     # Follows the reader-override pattern above, but yields this variant's own groups while a
     # change is pending: the switch-to-Independent copy assigns groups and reads them back to
     # sync active custom fields while the link still exists
@@ -417,6 +457,18 @@ class TypeVariant
         next if source_id.blank?
 
         errors.add(:"#{aspect}_source_id", :would_create_cycle) if reaches_self?(source_id, aspect)
+      end
+    end
+
+    # A rule about the variant, not about who is editing it: an administrator sees every
+    # project's variants, and linking one project's configuration into another's would tie the
+    # two together.
+    def sources_are_available_to_this_variant
+      TypeVariant::ASPECTS.each do |aspect|
+        source = public_send(:"#{aspect}_source")
+        next if source.nil? || source.project_id.nil? || source.project_id == project_id
+
+        errors.add(:"#{aspect}_source_id", :must_be_available_to_the_variant)
       end
     end
 

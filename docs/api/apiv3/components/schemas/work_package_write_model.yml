@@ -126,6 +126,14 @@ properties:
 
           - Transitioning from single to multiple version support
           - (Temporary) Only allows a single value for compatibility with the version field
+      observedInVersions:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of versions in which the behaviour described by the work package was observed
+
+          **Resource**: Collection of Version
       parent:
         allOf:
           - $ref: './link.yml'

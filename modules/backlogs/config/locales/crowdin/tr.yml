@@ -99,21 +99,21 @@ tr:
         one: Sprint
         other: Sprints
       sprint_goal:
-        one: Sprint goal
-        other: Sprint goals
+        one: Sprint Hedefi
+        other: Sprint Hedefleri
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
     administration_blankslate:
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      text: Şu anda İş listesi havuz modülünü tekrardan tasarlıyoruz. Sprintler ve iş listeleri için yönetici ayarları yakında burada görünür olacak. Proje düzeyindeki ayarlar hala kullanılabilir durumda.
       title: Backlog admin settings are evolving
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Yeni iş listesi havuzu
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: İş listesi havuzu
+        other: İş listesi havuzları
+        zero: Bütün iş listesi havuzları
       label_sprint_filter:
         one: Sprint
         other: Sprints

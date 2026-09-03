@@ -24,4 +24,4 @@ pt-PT:
   js:
     two_factor_authentication:
       errors:
-        aborted: A autenticação foi cancelada. Por favor, tente novamente.
+        aborted: A autenticação foi cancelada. Tente novamente.

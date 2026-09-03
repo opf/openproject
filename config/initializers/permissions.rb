@@ -239,9 +239,41 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      # Separate from :manage_types, which is about which types a project uses. This one is about
+      # authoring the project's own variants of them, on administration's own controllers.
+      map.permission :manage_project_variants,
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index],
                        "projects/settings/work_packages/types/switches": %i[new create],
-                       "projects/settings/work_packages/types/switches/impacts": %i[create]
+                       "projects/settings/work_packages/types/switches/impacts": %i[create],
+                       "work_package_types/variants": %i[destroy menu],
+                       "work_package_types/creation_wizard": %i[new create show update],
+                       "work_package_types/details_tab": %i[edit update],
+                       "work_package_types/defaults_tab": %i[edit update],
+                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog],
+                       "work_package_types/form_configuration_groups_tab":
+                         %i[create edit update destroy add_group cancel_edit drop move update_query],
+                       "work_package_types/project_attributes_tab":
+                         %i[edit toggle enable_all_of_section disable_all_of_section],
+                       "work_package_types/workflow_tab": %i[edit],
+                       "work_package_types/pdf_export_template":
+                         %i[edit toggle drop enable_all disable_all update_artefact_export
+                            edit_settings update_settings],
+                       "work_package_types/excluded_elements": %i[toggle],
+                       "work_package_types/configuration_links": %i[dialog confirm switch],
+                       "work_package_types/configuration_independence": %i[dialog confirm switch],
+                       "work_package_types/configuration_copies": %i[dialog confirm copy],
+                       "workflows/matrix": %i[show update status_dialog confirm_statuses],
+                       "workflows/copies": %i[new],
+                       "workflows/copies/from_variants": %i[create],
+                       "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,
                      require: :member

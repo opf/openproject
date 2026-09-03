@@ -73,13 +73,13 @@ uk:
           name: Стандартна глобальна роль
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Виправити граматику
         item_1:
-          label: Make concise
+          label: Скоротити
         item_2:
-          label: Translate to English
+          label: Перекласти англійською
         item_3:
-          label: Sort into template
+          label: Упорядкувати за шаблоном
     standard:
       project_phases:
         item_0:

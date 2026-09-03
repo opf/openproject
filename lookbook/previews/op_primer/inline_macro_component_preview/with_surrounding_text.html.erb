@@ -1,4 +1,5 @@
 <p>
-  A component commonly used inline is the <%= render(OpPrimer::InlineMacroComponent.new) { |c| c.with_leading_visual_icon(icon: :book); "InlineMacroComponent" } %>. It
-  can appear in the middle of other text.
+  A component commonly used inline is the <%= render(OpPrimer::InlineMacroComponent.new) { |c| c.with_leading_visual_icon(icon: :book); "InlineMacroComponent" } %>.
+  It can appear in the middle of other text.
+  When <%= render(OpPrimer::InlineMacroComponent.new) { |c| c.with_leading_visual_icon(icon: :book); "it contains a longer sentence it can also" } %> wrap multiple lines without issue.
 </p>

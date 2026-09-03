@@ -28,11 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout(direction: :column) do |body| %>
-  <% body.with_row(mb: 2) do %>
-    <%= render(Primer::Beta::Text.new(tag: :p)) do %>
-      <%= t("projects.settings.types.switch.description") %>
-    <% end %>
-  <% end %>
   <% body.with_row do %>
     <%= render(
           Projects::Settings::WorkPackages::Types::SwitchForm.new(

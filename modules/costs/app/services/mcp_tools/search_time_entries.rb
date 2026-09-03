@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchTimeEntries < Base
+  class SearchTimeEntries < SearchTool
     default_title "Search time entries"
     default_description "Search time entries matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -65,15 +65,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filters = filters.reverse_merge(spent_since: Date.current, spent_until: Date.current)
-      filtered = apply_filters(TimeEntry.visible, filters)
-      time_entries, total = apply_pagination(filtered, page)
+    def base_scope = Success(TimeEntry.visible)
 
-      {
-        items: time_entries.map { |entry| API::V3::TimeEntries::TimeEntryRepresenter.create(entry, current_user:) },
-        total:
-      }
+    def default_filters = { spent_since: Date.current, spent_until: Date.current }
+
+    def format_item(item)
+      API::V3::TimeEntries::TimeEntryRepresenter.create(item, current_user:)
     end
   end
 end

@@ -58,14 +58,18 @@ module McpTools
 
     def call(work_package_id:, comment:, internal: false)
       work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
-      return { error: "The given work package could not be found." } if work_package.nil?
+      return Failure("The given work package could not be found.") if work_package.nil?
 
       result = AddWorkPackageNoteService.new(user: current_user, work_package:).call(comment, send_notifications: true, internal:)
 
+      format_result(result)
+    end
+
+    def format_result(result)
       if result.success?
-        API::V3::Activities::ActivityRepresenter.create(result.result, current_user:)
+        Success(API::V3::Activities::ActivityRepresenter.create(result.result, current_user:))
       else
-        { error: result.message }
+        Failure(result.message)
       end
     end
   end

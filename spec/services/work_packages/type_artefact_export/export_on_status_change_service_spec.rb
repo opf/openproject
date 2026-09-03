@@ -179,6 +179,38 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
+    context "when the type has stored artefact export settings" do
+      before do
+        type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+        type.default_variant.pdf_export_templates.update_settings(
+          "artefact", "toc" => "false", "hyphenation" => "true", "hyphenation_language" => "de"
+        )
+        type.default_variant.save!
+      end
+
+      it "passes the stored settings to the exporter" do
+        allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_call_original
+
+        instance.call!(changes:)
+
+        expect(WorkPackage::PDFExport::Artefact)
+          .to have_received(:new)
+                .with(work_package, hash_including(toc: "false", hyphenation: "true", hyphenation_language: "de"))
+      end
+    end
+
+    context "when the type has no stored artefact export settings" do
+      before { type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT) }
+
+      it "passes an empty options hash, behaving exactly as before this feature" do
+        allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_call_original
+
+        instance.call!(changes:)
+
+        expect(WorkPackage::PDFExport::Artefact).to have_received(:new).with(work_package, {})
+      end
+    end
+
     context "when PDF generation raises" do
       let(:pdf_export) { instance_double(WorkPackage::PDFExport::Artefact) }
 
@@ -233,6 +265,25 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
         it "does not export" do
           expect { instance.call!(changes:) }
             .not_to change { variant_work_package.reload.attachments.count }
+        end
+      end
+
+      context "when the variant has stored artefact export settings and the root does not" do
+        before do
+          type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::OFF)
+          variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+          variant.pdf_export_templates.update_settings("artefact", "toc" => "false")
+          variant.save!
+        end
+
+        it "resolves the settings from the variant, not the stored root" do
+          allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_call_original
+
+          instance.call!(changes:)
+
+          expect(WorkPackage::PDFExport::Artefact)
+            .to have_received(:new)
+                  .with(variant_work_package, hash_including(toc: "false"))
         end
       end
     end

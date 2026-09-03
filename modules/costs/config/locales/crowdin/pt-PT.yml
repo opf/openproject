@@ -137,7 +137,7 @@ pt-PT:
     valid_from: Válido desde
   button_add_activity: Atividade
   button_add_rate: Adicionar Taxa
-  button_add_time_entry: Tempo de registro
+  button_add_time_entry: Hora de registo
   button_log_costs: Registar custos unitários
   button_log_time: Registo
   button_stop_timer: Parar temporizador

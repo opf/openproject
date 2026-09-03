@@ -49,16 +49,18 @@ module OAuthClients
     # Obtains an access token for the given OAuthClient, refreshing it beforehand if necessary.
     def access_token_for(oauth_client:)
       log_debug("Obtaining token at client #{oauth_client&.id}.")
-      token = OAuthClientToken.find_by(user:, oauth_client:)
-      if token.nil?
-        log_warn("Could not find an existing token.")
-        return Failure(SimpleError.new(source: self.class, code: :missing_token))
-      end
+      OAuthClientToken.transaction do
+        token = OAuthClientToken.lock("FOR UPDATE").find_by(user:, oauth_client:)
+        if token.nil?
+          log_warn("Could not find an existing token.")
+          return Failure(SimpleError.new(source: self.class, code: :missing_token))
+        end
 
-      if expired?(token)
-        refresh(token)
-      else
-        Success(token.access_token)
+        if expired?(token)
+          refresh(token)
+        else
+          Success(token.access_token)
+        end
       end
     end
 
@@ -77,13 +79,7 @@ module OAuthClients
           return Failure(SimpleError.new(source: self.class, code: :token_refresh_response_invalid))
         end
 
-        begin
-          token.update!(access_token:, refresh_token:, expires_in:)
-        rescue ActiveRecord::StaleObjectError
-          log_info("Access token was already refreshed in background. Reloading from database.")
-          token.reload
-        end
-
+        token.update!(access_token:, refresh_token:, expires_in:)
         Success(token.access_token)
       end
     end
