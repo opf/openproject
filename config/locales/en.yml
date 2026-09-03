@@ -6512,6 +6512,7 @@ en:
         inherited_from_type_html: "Inherited from type <b>%{type}</b>."
         tab: "Details"
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: "This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members."
       export_configuration:
         artefact_export:
           attachment:
