@@ -60,6 +60,7 @@ class WorkPackage < ApplicationRecord
   belongs_to :author, class_name: "User"
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
+  belongs_to :risk_owner, class_name: "User", optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
@@ -76,6 +77,24 @@ class WorkPackage < ApplicationRecord
 
   has_many :meeting_agenda_items, dependent: :nullify
   has_many :meeting_outcomes, dependent: :nullify
+
+  validates :risk_likelihood,
+            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
+            allow_nil: true
+  validates :risk_impact, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :risk_response,
+            inclusion: { in: %w[mitigate accept avoid transfer] },
+            allow_blank: true
+
+  def risk_exposure
+    return if risk_likelihood.nil? || risk_impact.nil?
+
+    risk_likelihood * risk_impact / 100
+  end
+
+  def risk_categories
+    RiskManagement::RiskCategory.where(id: risk_category_ids).order(:position)
+  end
   # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
   # that retrieves the meetings, hence we need to remove the order.
   has_many :meetings, -> { unscope(:order).distinct }, through: :meeting_agenda_items, source: :meeting

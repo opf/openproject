@@ -30,6 +30,7 @@ group :opf_plugins do
   gem 'openproject-ldap_departments',          path: 'modules/ldap_departments'
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
   gem 'openproject-job_status',                path: 'modules/job_status'
+  gem 'openproject-risk_management',           path: 'modules/risk_management'
 
   gem 'grids',                                 path: 'modules/grids'
   gem 'my_page',                               path: 'modules/my_page'

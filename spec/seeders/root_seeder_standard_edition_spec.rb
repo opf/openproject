@@ -42,7 +42,7 @@ RSpec.describe RootSeeder,
     clear_performed_jobs
   end
 
-  shared_examples "creates standard demo data" do
+  shared_examples "creates standard demo data" do |status_count:|
     it "creates the system user" do
       expect(SystemUser.where(admin: true).count).to eq 1
     end
@@ -60,8 +60,8 @@ RSpec.describe RootSeeder,
 
     it "creates the demo data" do # rubocop:disable RSpec/MultipleExpectations
       expect(Project.count).to eq 2
-      expect(EnabledModule.count).to eq 17
-      expect(WorkPackage.count).to eq 37
+      expect(EnabledModule.count).to eq 18
+      expect(WorkPackage.count).to eq 49
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
       expect(View.where(type: "work_packages_table").count).to eq 5
@@ -209,9 +209,9 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: ProjectRole, expected_count: 5
     include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
     include_examples "it creates records", model: IssuePriority, expected_count: 4
-    include_examples "it creates records", model: Status, expected_count: 14
+    include_examples "it creates records", model: Status, expected_count: status_count
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
-    include_examples "it creates records", model: Workflow, expected_count: 1758
+    include_examples "it creates records", model: Workflow, expected_count: 1938
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
     include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
@@ -361,7 +361,7 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples "creates standard demo data"
+    include_examples "creates standard demo data", status_count: 18
 
     include_examples "no email deliveries"
 
@@ -374,7 +374,7 @@ RSpec.describe RootSeeder,
 
       it "does not create additional data and does not raise any errors" do
         expect(Project.count).to eq 2
-        expect(WorkPackage.count).to eq 37
+        expect(WorkPackage.count).to eq 49
         expect(Wiki.count).to eq 2
         expect(Query.having_views.count).to eq 8
         expect(View.where(type: "work_packages_table").count).to eq 5
@@ -403,7 +403,7 @@ RSpec.describe RootSeeder,
 
       it "does not create additional data and does not raise any errors" do
         expect(Project.count).to eq 2
-        expect(WorkPackage.count).to eq 37
+        expect(WorkPackage.count).to eq 49
         expect(Wiki.count).to eq 2
       end
     end
@@ -424,7 +424,7 @@ RSpec.describe RootSeeder,
         # seeding recreates 2 demo projects
         expect(Project.count).to eq 2
         # but they're mostly empty because of the missing default statuses
-        expect(WorkPackage.count).to eq 0
+        expect(WorkPackage.count).to eq 12
       end
 
       it "keeps the epic form configuration from the initial seeding" do
@@ -452,7 +452,7 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples "creates standard demo data"
+    include_examples "creates standard demo data", status_count: 20
 
     it "has all Query.name translated" do
       expect(Query.pluck(:name)).to all(start_with("tr: "))
@@ -491,7 +491,7 @@ RSpec.describe RootSeeder,
         expect(Setting.find_by(name: "default_language")).to have_attributes(value: "de")
       end
 
-      include_examples "creates standard demo data"
+      include_examples "creates standard demo data", status_count: 20
     end
   end
 
@@ -518,8 +518,8 @@ RSpec.describe RootSeeder,
       expect(Project.count).to eq 7
     end
 
-    it "creates 4 additional work packages for development" do
-      expect(WorkPackage.count).to eq 41
+    it "creates additional work packages for development" do
+      expect(WorkPackage.count).to eq 53
     end
 
     it "creates 1 project with custom fields" do
@@ -550,7 +550,7 @@ RSpec.describe RootSeeder,
 
     it "seeds without any errors, but locks the admin user", :aggregate_failures do
       expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 37
+      expect(WorkPackage.count).to eq 49
       expect(root_seeder.admin_user).to be_locked
     end
   end

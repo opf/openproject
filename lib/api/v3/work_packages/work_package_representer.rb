@@ -571,6 +571,20 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:responsible)
 
+        associated_resource :risk_owner,
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                              .create_getter_lambda(:risk_owner),
+                            setter: ::API::V3::Principals::PrincipalRepresenterFactory
+                              .create_setter_lambda(:risk_owner),
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                              .create_link_lambda(:risk_owner)
+
+        property :risk_likelihood
+        property :risk_impact
+        property :risk_exposure, writable: false
+        property :risk_response
+        property :risk_category_ids
+
         associated_resource :assignee,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_getter_lambda(:assigned_to),

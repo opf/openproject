@@ -1,0 +1,75 @@
+<%= render Primer::OpenProject::SubHeader.new(
+      collapsed_search: filter_input_value.blank?,
+      data: sub_header_data_attributes
+    ) do |subheader| %>
+  <% subheader.with_filter_input(
+       name: "subject",
+       label: t(:label_search),
+       value: filter_input_value,
+       placeholder: t(:label_search),
+       clear_button_id: "risk-log-filters-clear-button",
+       data: filter_input_data_attributes
+     ) %>
+
+  <% subheader.with_quick_filter do %>
+    <%= render RiskManagement::RiskLog::SelectFilterComponent.new(
+          name: t("risk_management.risk_log.filters.status"),
+          query: @query,
+          filter_key: :status_id,
+          project: @project,
+          options: Status.where(name: BasicData::RiskManagement::Seeder::RISK_STATUSES.keys)
+            .order(:position)
+            .map { |status| [status.name, status.id] }
+        ) %>
+  <% end %>
+  <% subheader.with_quick_filter do %>
+    <%= render RiskManagement::RiskLog::SelectFilterComponent.new(
+          name: t("risk_management.risk_log.filters.owner"),
+          query: @query,
+          filter_key: :risk_owner_id,
+          project: @project,
+          options: @owners.map { |owner| [owner.name, owner.id] }
+        ) %>
+  <% end %>
+  <% subheader.with_quick_filter do %>
+    <%= render RiskManagement::RiskLog::SelectFilterComponent.new(
+          name: t("risk_management.risk_log.filters.category"),
+          query: @query,
+          filter_key: :risk_category_ids,
+          project: @project,
+          options: RiskManagement::RiskCategory.active.order(:position).pluck(:name, :id)
+        ) %>
+  <% end %>
+  <% subheader.with_quick_filter do %>
+    <%= render RiskManagement::RiskLog::SelectFilterComponent.new(
+          name: t("risk_management.risk_log.filters.response"),
+          query: @query,
+          filter_key: :risk_response,
+          project: @project,
+          options: response_options
+        ) %>
+  <% end %>
+
+  <% subheader.with_filter_component do %>
+    <%= render Primer::OpenProject::FlexLayout.new(align_items: :center) do |flex| %>
+      <% flex.with_column do %>
+        <%= render RiskManagement::RiskLog::FilterButtonComponent.new(query: @query) %>
+      <% end %>
+      <% if active_filters? %>
+        <% flex.with_column(ml: 3) do %>
+          <%= render Primer::Beta::Link.new(href: project_risk_log_path(@project)) do %>
+            <%= t("risk_management.risk_log.filters.clear_all") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% subheader.with_bottom_pane_component do %>
+    <%= render RiskManagement::RiskLog::FiltersComponent.new(
+          query: @query,
+          allowed_filter_keys: advanced_filter_keys,
+          initially_expanded: filters_expanded?
+        ) %>
+  <% end %>
+<% end %>

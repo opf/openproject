@@ -51,6 +51,7 @@ class Type < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+  validates :builtin_identifier, uniqueness: true, allow_nil: true
 
   scopes :milestone
 
@@ -77,6 +78,10 @@ class Type < ApplicationRecord
     name <=> other.name
   end
 
+  def builtin?
+    builtin_identifier.present?
+  end
+
   # The types the given project(s) use.
   #
   # Resolved as a subquery rather than a join so a type used by several projects yields one
@@ -95,6 +100,11 @@ class Type < ApplicationRecord
   end
 
   def check_integrity # rubocop:disable Naming/PredicateMethod
+    if builtin?
+      errors.add(:base, I18n.t("types.errors.builtin_cannot_be_deleted"))
+      throw :abort
+    end
+
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true
