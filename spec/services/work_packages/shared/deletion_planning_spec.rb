@@ -42,6 +42,8 @@ RSpec.describe WorkPackages::Shared::DeletionPlanning do
         @deletion_roots = Array(roots)
         @deletion_user = user
       end
+
+      def include_descendants? = true
     end
   end
 
@@ -162,6 +164,7 @@ RSpec.describe WorkPackages::Shared::DeletionPlanning do
           @deletion_user = user
         end
 
+        def include_descendants? = true
         def deletable?(_descendant) = false
       end
     end

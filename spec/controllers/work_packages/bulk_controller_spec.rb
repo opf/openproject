@@ -820,7 +820,9 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.find_by(id: work_package1.id)).to be_present
         expect(WorkPackage.find_by(id: work_package2.id)).to be_present
-        expect(response).to redirect_to(reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id]))
+        expect(response).to redirect_to(
+          reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id], delete_descendants: true)
+        )
       end
     end
 
