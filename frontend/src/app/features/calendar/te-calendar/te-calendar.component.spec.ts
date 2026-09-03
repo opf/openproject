@@ -47,13 +47,26 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import '@openproject/primer-view-components/app/components/primer/anchored_position';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { TimeEntryCalendarComponent } from './te-calendar.component';
 
 describe('TimeEntryCalendarComponent', () => {
   let fixture:ComponentFixture<TimeEntryCalendarComponent>;
   let element:HTMLElement;
+  let entries:unknown[];
+
+  const saturdayEntry = () => ({
+    hours: 'PT1H',
+    spentOn: moment().startOf('isoWeek').add(5, 'days').format('YYYY-MM-DD'),
+    project: { name: 'Demo' },
+    entity: { href: '/api/v3/work_packages/42', name: 'Task' },
+    activity: { name: 'Development' },
+    comment: { raw: 'note' },
+  });
 
   beforeEach(async () => {
+    entries = [];
     await TestBed.configureTestingModule({
       declarations: [TimeEntryCalendarComponent],
       imports: [FullCalendarModule],
@@ -63,7 +76,7 @@ describe('TimeEntryCalendarComponent', () => {
         { provide: ConfigurationService, useValue: { startOfWeek: () => 1, isTimezoneSet: () => false, timezone: () => 'UTC', dateFormatPresent: () => false } },
         { provide: WeekdayService, useValue: { loadWeekdays: () => of([]), isNonWorkingDay: () => false } },
         { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
-        { provide: ApiV3Service, useValue: { time_entries: { list: () => of({ elements: [], createTimeEntry: undefined }) } } },
+        { provide: ApiV3Service, useValue: { time_entries: { list: () => of({ elements: entries, createTimeEntry: undefined }) } } },
         {
           provide: TimezoneService,
           useValue: {
@@ -76,8 +89,19 @@ describe('TimeEntryCalendarComponent', () => {
         { provide: States, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: HalResourceNotificationService, useValue: {} },
-        { provide: SchemaCacheService, useValue: {} },
-        { provide: ColorsService, useValue: {} },
+        {
+          provide: SchemaCacheService,
+          useValue: {
+            ensureLoaded: () => Promise.resolve({
+              project: { name: 'Project' },
+              entity: { name: 'Entity' },
+              activity: { name: 'Activity' },
+              hours: { name: 'Hours' },
+              comment: { name: 'Comment' },
+            }),
+          },
+        },
+        { provide: ColorsService, useValue: { toHsl: () => 'hsl(200 50% 50%)', toHsla: () => 'hsla(200 50% 50% / 1)' } },
       ],
     })
       .overrideComponent(TimeEntryCalendarComponent, {
@@ -119,6 +143,91 @@ describe('TimeEntryCalendarComponent', () => {
   it('hides the days that are not displayed', async () => {
     await renderWeek([true, true, true, true, true, false, false]);
     expect(element.querySelectorAll('.fc-col-header-cell.fc-day')).toHaveLength(5);
+  });
+
+  describe('with an entry clipped by the calendar scroller', () => {
+    let scroller:HTMLElement;
+    let entry:HTMLElement;
+    let popover:AnchoredPositionElement;
+    let layout:HTMLStyleElement;
+
+    const scrollerPaddingRight = () => scroller.getBoundingClientRect().left + scroller.clientLeft + scroller.clientWidth;
+    const twoFrames = async () => {
+      await new Promise(requestAnimationFrame);
+      await new Promise(requestAnimationFrame);
+    };
+
+    // TestBed hosts the component in a div, so the tag-scoped calendar sass does not apply.
+    beforeEach(async () => {
+      entries = [saturdayEntry()];
+      element.id = 'calendar-under-test';
+      element.style.width = '300px';
+      layout = document.createElement('style');
+      layout.textContent = '#calendar-under-test full-calendar { overflow-x: auto } #calendar-under-test .fc-view { min-width: 800px }';
+      document.head.append(layout);
+      await renderWeek([true, true, true, true, true, true, true]);
+      await vi.waitUntil(() => element.querySelector('.te-calendar--time-entry[popovertarget]') !== null);
+
+      scroller = element.querySelector<HTMLElement>('full-calendar')!;
+      entry = element.querySelector<HTMLElement>('.te-calendar--time-entry')!;
+      popover = document.getElementById(entry.getAttribute('popovertarget')!) as AnchoredPositionElement;
+
+      scroller.scrollLeft = 0;
+      scroller.scrollLeft = entry.getBoundingClientRect().right - scrollerPaddingRight() - 20;
+    });
+
+    afterEach(() => {
+      popover.remove();
+      layout.remove();
+    });
+
+    it('anchors the popover on the visible part of the entry', () => {
+      expect(entry.getBoundingClientRect().right).toBeGreaterThan(scrollerPaddingRight());
+
+      entry.dispatchEvent(new Event('mouseenter'));
+
+      expect(popover.matches(':popover-open')).toBe(true);
+      const anchor = popover.anchorElement as unknown as DOMRect;
+      expect(anchor.right).toBeLessThanOrEqual(scrollerPaddingRight() + 0.5);
+      expect(anchor.right).toBeLessThan(entry.getBoundingClientRect().right);
+    });
+
+    it('follows the calendar when it scrolls', async () => {
+      entry.dispatchEvent(new Event('mouseenter'));
+      await new Promise((resolve) => { setTimeout(resolve); });
+      const before = popover.getBoundingClientRect().left;
+
+      scroller.scrollLeft = scroller.scrollWidth;
+      scroller.dispatchEvent(new Event('scroll'));
+
+      expect(popover.matches(':popover-open')).toBe(true);
+      expect(popover.getBoundingClientRect().left).not.toBeCloseTo(before, 0);
+    });
+
+    it('stops following once the popover was dismissed', async () => {
+      entry.dispatchEvent(new Event('mouseenter'));
+      popover.hidePopover();
+      await new Promise((resolve) => { setTimeout(resolve); });
+      const left = popover.style.left;
+
+      scroller.scrollLeft = scroller.scrollWidth;
+      scroller.dispatchEvent(new Event('scroll'));
+
+      expect(popover.style.left).toBe(left);
+    });
+
+    it('stays beside the entry when focusing it scrolls it into view', async () => {
+      scroller.scrollLeft -= entry.getBoundingClientRect().width + 40;
+      expect(entry.getBoundingClientRect().left).toBeGreaterThan(scrollerPaddingRight());
+
+      entry.focus();
+      await twoFrames();
+
+      expect(popover.matches(':popover-open')).toBe(true);
+      const entryBox = entry.getBoundingClientRect();
+      expect(entryBox.right).toBeLessThanOrEqual(scrollerPaddingRight() + 0.5);
+      expect(popover.getBoundingClientRect().left).toBeCloseTo(entryBox.right + 8, 0);
+    });
   });
 
   it('closes an open entry popover when the window is resized', () => {
