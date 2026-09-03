@@ -126,6 +126,13 @@ module CustomStylesHelper
     end
   end
 
+  def resolved_logo_urls
+    defaults = default_logo_urls
+    return defaults unless apply_custom_styles?
+
+    logo_urls_with_custom_style(CustomStyle.current, defaults)
+  end
+
   def custom_logo_uploads(custom_style, mobile: false)
     logo_context = mobile ? :mobile : :desktop
 
@@ -174,6 +181,49 @@ module CustomStylesHelper
   end
 
   private
+
+  def default_logo_urls
+    desktop_light = asset_path(I18n.locale == :ru ? "logo-white-bg-ua.png" : "logo_openproject_white_big.png")
+    desktop_light_high_contrast = if OpenProject::Configuration.bim?
+                                    asset_path("bim/logo_openproject_bim_big_coloured.png")
+                                  else
+                                    asset_path(I18n.locale == :ru ? "logo-black-bg-ua.png" : "logo_openproject.png")
+                                  end
+    mobile_white = asset_path("icon_logo_white.svg")
+
+    {
+      desktop: {
+        light: desktop_light,
+        light_high_contrast: desktop_light_high_contrast,
+        dark: desktop_light
+      },
+      mobile: {
+        light: asset_path("icon_logo.svg"),
+        light_high_contrast: asset_path("icon_logo.svg"),
+        dark: mobile_white
+      },
+      mobile_white_class: mobile_white
+    }
+  end
+
+  def logo_urls_with_custom_style(custom_style, defaults)
+    desktop = custom_logo_urls(custom_style)
+    mobile = custom_logo_urls(custom_style, mobile: true)
+    desktop = mobile unless desktop.values.any?
+
+    {
+      desktop: desktop_logo_defaults(custom_style, defaults[:desktop]).merge(desktop.compact),
+      mobile: defaults[:mobile].merge(mobile.compact),
+      mobile_white_class: mobile[:light] || defaults[:mobile_white_class]
+    }
+  end
+
+  def desktop_logo_defaults(custom_style, defaults)
+    return defaults if custom_style.theme_logo.blank?
+
+    theme_logo = asset_path(custom_style.theme_logo)
+    defaults.merge(light: theme_logo, dark: theme_logo)
+  end
 
   def custom_logo_fields_present?(custom_style, context)
     CustomStyle::LOGO_FIELDS.fetch(context).values.any? do |field|
