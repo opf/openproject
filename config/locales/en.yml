@@ -1735,6 +1735,9 @@ en:
         server_group: "Server"
       show:
         description: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+      tabs:
+        connection: "Connection"
+        models: "LLMs"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
         no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
@@ -1755,8 +1758,6 @@ en:
         source_manual: "Added manually"
         source_withdrawn: "No longer reported"
         stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
-        unconfigured_description: "Connect OpenProject to an LLM server first. The models it offers are listed here once it is reachable."
-        unconfigured_title: "No LLM server configured"
       refresh:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
@@ -4537,7 +4538,6 @@ en:
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
-      llm_models: "LLMs"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

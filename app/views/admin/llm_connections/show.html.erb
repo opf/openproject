@@ -44,6 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
        t("menus.admin.llm_connection")]
     )
+    render_tab_header_nav(header, llm_settings_tabs(@connection), test_selector: "llm-settings--tabs")
 
     if @connection.persisted?
       header.with_action_menu(

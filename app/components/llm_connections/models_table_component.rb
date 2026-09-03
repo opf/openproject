@@ -53,7 +53,7 @@ module LlmConnections
 
     def has_footer? = false
 
-    def mobile_title = I18n.t("menus.admin.llm_models")
+    def mobile_title = I18n.t("admin.llm_connections.tabs.models")
 
     # The row class is otherwise derived by convention as LlmConnections::RowComponent.
     def row_class = ModelsRowComponent

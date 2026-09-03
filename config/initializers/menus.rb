@@ -510,12 +510,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: I18n.t("menus.admin.llm_connection"),
             parent: :ai
 
-  menu.push :llm_models,
-            { controller: "/admin/llm_models", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
-            caption: I18n.t("menus.admin.llm_models"),
-            parent: :ai
-
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },
             if: ->(_) { User.current.admin? },

@@ -76,6 +76,24 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_field("Host URL")
     end
 
+    it "offers the models tab only once the connection is enabled" do
+      mock_llm_models_response(base_url)
+
+      visit llm_connection_path
+
+      expect(page).to have_no_test_selector("llm-settings--tabs")
+
+      check "Enable LLMs for this instance"
+      fill_in "Host URL", with: base_url
+      click_on "Connect"
+
+      expect(page).to have_test_selector("llm-settings--tabs")
+
+      within_test_selector("llm-settings--tabs") { click_on "LLMs" }
+
+      expect(page).to have_current_path(llm_models_path)
+    end
+
     it "describes the server the selected API format expects" do
       visit llm_connection_path
 

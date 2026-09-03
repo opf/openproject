@@ -76,6 +76,23 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_no_css(remove_api_key, visible: :all)
       end
 
+      it "offers no tabs while the connection is disabled" do
+        create(:llm_connection, base_url:)
+
+        get llm_connection_path
+
+        expect(response.body).not_to include("llm-settings--tabs")
+      end
+
+      it "offers the LLMs tab once the connection is enabled" do
+        create(:llm_connection, :enabled, base_url:)
+
+        get llm_connection_path
+
+        expect(response.body).to include("llm-settings--tabs")
+        expect(response.body).to include(llm_models_path)
+      end
+
       context "when an API key is stored" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 

@@ -23,41 +23,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class FormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module LlmConnectionsHelper
+  # The tabs of the LLM settings page. A connection that is switched off has
+  # nothing to configure beyond the settings themselves, and a single tab says
+  # nothing, so the nav stays empty until the connection is enabled.
+  def llm_settings_tabs(connection)
+    return [] unless connection.enabled?
 
-    def self.wrapper_key = :llm_connection_form
-
-    alias_method :connection, :model
-
-    private
-
-    def wrapper_options
-      {
-        data: {
-          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
-          test_selector: "llm-connection--form"
-        }
-      }
-    end
-
-    # The save can turn the connection on, which adds the tabs to the page
-    # header outside this frame, so the response replaces the whole page.
-    def form_options
-      {
-        model: connection,
-        url: llm_connection_path,
-        method: :patch,
-        data: { turbo_frame: "_top" }
-      }
-    end
+    [
+      { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },
+      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") }
+    ]
   end
 end

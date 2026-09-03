@@ -59,7 +59,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       before { login_as admin }
 
       it "lists the cached models without contacting the server" do
-        create(:llm_connection, :with_models, base_url:)
+        create(:llm_connection, :with_models, :enabled, base_url:)
 
         get llm_models_path
 
@@ -69,7 +69,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "warns that the list predates the current settings" do
-        connection = create(:llm_connection, :with_models, base_url:)
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
         connection.update!(api_key: "rotated")
 
@@ -79,7 +79,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "does not warn while the list matches the settings" do
-        connection = create(:llm_connection, :with_models, base_url:)
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
         connection.update!(connection_fingerprint: connection.settings_fingerprint)
 
         get llm_models_path
@@ -88,7 +88,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "shows every model as either a chat or an embedding model" do
-        connection = create(:llm_connection, base_url:)
+        connection = create(:llm_connection, :enabled, base_url:)
         create(:llm_model, llm_connection: connection, external_id: "bge-m3")
         create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
@@ -102,7 +102,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "keeps a long model name readable through the truncation" do
-        connection = create(:llm_connection, base_url:)
+        connection = create(:llm_connection, :enabled, base_url:)
         long_name = "publisher/a-very-long-model-name-that-does-not-fit-the-column-32b-instruct-2026-05"
         create(:llm_model, llm_connection: connection, external_id: long_name)
 
@@ -112,18 +112,24 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("title=\"#{long_name}\"")
       end
 
-      it "points at the settings page while no connection is stored" do
+      it "sends the administrator to the settings while the connection is disabled" do
+        create(:llm_connection, :with_models, base_url:)
+
         get llm_models_path
 
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include("No LLM server configured")
-        expect(response.body).to include(llm_connection_path)
+        expect(response).to redirect_to(llm_connection_path)
+      end
+
+      it "sends the administrator to the settings while no connection is stored" do
+        get llm_models_path
+
+        expect(response).to redirect_to(llm_connection_path)
       end
     end
   end
 
   describe "POST /admin/llm_models/refresh" do
-    let!(:connection) { create(:llm_connection, base_url:) }
+    let!(:connection) { create(:llm_connection, :enabled, base_url:) }
 
     before { login_as admin }
 

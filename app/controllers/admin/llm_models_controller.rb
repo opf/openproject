@@ -34,11 +34,12 @@ module Admin
     include PaginationHelper
 
     layout "admin"
-    menu_item :llm_models
+    menu_item :llm_connection
 
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
+    before_action :require_enabled_connection
 
     def index
       @query = ParamsToQueryService
@@ -76,6 +77,12 @@ module Admin
     # must not accept writes just because somebody knows the URL.
     def require_feature
       render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
+    end
+
+    # The models are a tab of the LLM settings, and that tab is offered only
+    # while the connection is enabled.
+    def require_enabled_connection
+      redirect_to llm_connection_path, status: :see_other unless @connection.enabled?
     end
   end
 end
