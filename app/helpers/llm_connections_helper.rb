@@ -29,11 +29,11 @@
 #++
 
 module LlmConnectionsHelper
-  # The tabs of the LLM settings page. A connection that is switched off has
-  # nothing to configure beyond the settings themselves, and a single tab says
-  # nothing, so the nav stays empty until the connection is enabled.
-  def llm_settings_tabs(connection)
-    return [] unless connection.enabled?
+  # The tabs of the LLM settings page. With the AI features switched off there
+  # is nothing to configure beyond the settings themselves, and a single tab says
+  # nothing, so the nav stays empty until they are switched on.
+  def llm_settings_tabs(_connection)
+    return [] unless Setting.llm_features_enabled?
 
     [
       { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },

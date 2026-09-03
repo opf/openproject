@@ -129,7 +129,7 @@ RSpec.describe "LLM connection administration",
   end
 
   context "with a configured connection" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before { mock_llm_models_response(base_url) }
 
@@ -173,7 +173,7 @@ RSpec.describe "LLM connection administration",
         click_on "Disconnect"
       end
 
-      wait_for { connection.reload.enabled? }.to be(false)
+      wait_for { Setting.llm_features_enabled? }.to be(false)
       expect(connection.api_key).to be_blank
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)

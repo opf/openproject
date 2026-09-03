@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t("menus.admin.llm_connection") }
     header.with_description do
-      if @connection.enabled?
+      if Setting.llm_features_enabled?
         link_translate(
           "admin.llm_connections.show.description_enabled",
           links: { models_url: llm_models_path },

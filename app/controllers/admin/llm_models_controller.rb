@@ -70,7 +70,7 @@ module Admin
     private
 
     def set_connection
-      @connection = LlmConnection.instance
+      @connection = LlmConnection.active_connection
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page
@@ -80,9 +80,9 @@ module Admin
     end
 
     # The models are a tab of the LLM settings, and that tab is offered only
-    # while the connection is enabled.
+    # while the AI features are switched on and a server is configured.
     def require_enabled_connection
-      return if @connection.enabled?
+      return if Setting.llm_features_enabled? && @connection.configured?
 
       flash[:notice] = t("admin.llm_connections.disabled_notice")
       redirect_to llm_connection_path, status: :see_other

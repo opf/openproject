@@ -93,8 +93,9 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).not_to include("review the models offered by the server")
       end
 
-      it "points at the LLMs tab once the connection is enabled" do
-        create(:llm_connection, :enabled, base_url:)
+      it "points at the LLMs tab once the features are on",
+         with_settings: { llm_features_enabled: true } do
+        create(:llm_connection, base_url:)
 
         get llm_connection_path
 
@@ -102,8 +103,9 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "LLMs")
       end
 
-      it "offers the LLMs tab once the connection is enabled" do
-        create(:llm_connection, :enabled, base_url:)
+      it "offers the LLMs tab once the features are on",
+         with_settings: { llm_features_enabled: true } do
+        create(:llm_connection, base_url:)
 
         get llm_connection_path
 
