@@ -116,8 +116,8 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
                   work_package
                 end
 
-      expect { token.call(context) }.not_to raise_error
-      expect(token.call(context)).not_to be_nil
+      expect { token.call(context, nil) }.not_to raise_error
+      expect(token.call(context, nil)).not_to be_nil
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       token = enabled.detect do |t|
         t.key == :"custom_field_#{mult_list_custom_field.id}"
       end
-      expect(token.call(work_package)).to eq("A, B")
+      expect(token.call(work_package, nil)).to eq("A, B")
     end
 
     it "supports boolean custom fields" do
@@ -138,7 +138,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         t.key == :"custom_field_#{boolean_custom_field.id}"
       end
 
-      expect(token.call(work_package)).to eq("false")
+      expect(token.call(work_package, nil)).to eq("false")
     end
 
     it "formats date custom fields with a default format" do
@@ -147,7 +147,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         t.key == :"custom_field_#{date_custom_field.id}"
       end
 
-      expect(token.call(work_package)).to eq("2025-10-03")
+      expect(token.call(work_package, nil)).to eq("2025-10-03")
     end
 
     it "must return :attribute_not_available if custom field is not activated in project" do
@@ -156,8 +156,8 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         t.key == :"custom_field_#{not_activated_custom_field.id}"
       end
 
-      expect { token.call(work_package) }.not_to raise_error
-      expect(token.call(work_package)).to eq(:attribute_not_available)
+      expect { token.call(work_package, nil) }.not_to raise_error
+      expect(token.call(work_package, nil)).to eq(:attribute_not_available)
     end
 
     it "returns all possible tokens as enabled" do
@@ -191,7 +191,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           t.key == :"custom_field_#{date_custom_field.id}"
         end
 
-        expect(token.call(work_package)).to eq("03.10.2025")
+        expect(token.call(work_package, nil)).to eq("03.10.2025")
       end
     end
 
@@ -205,7 +205,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :type)
 
-        expect(token.call(work_package_of_type)).to eq("Task")
+        expect(token.call(work_package_of_type, nil)).to eq("Task")
       end
     end
 
@@ -222,7 +222,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           enabled, = subject
           token = detect(enabled, :version)
 
-          expect(token.call(work_package)).to eq("#{version.name}, #{second_version.name}")
+          expect(token.call(work_package, nil)).to eq("#{version.name}, #{second_version.name}")
         end
 
         it "label is target versions" do
@@ -251,7 +251,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :observed_in_versions)
 
-        expect(token.call(work_package).split(", "))
+        expect(token.call(work_package, nil).split(", "))
           .to contain_exactly(observed_version.name, second_observed_version.name)
       end
 
@@ -259,7 +259,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :parent_observed_in_versions)
 
-        expect(token.call(work_package_parent)).to eq(observed_version.name)
+        expect(token.call(work_package_parent, nil)).to eq(observed_version.name)
       end
 
       context "when work package multiple versions is active",
