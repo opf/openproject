@@ -28,7 +28,9 @@
 
 import { render } from 'lit-html';
 import { within } from '@testing-library/dom';
-import { timeEntryPopoverHtml } from './te-calendar-popover';
+import type { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { timeEntryPopoverHtml, timeEntryPopoverRows } from './te-calendar-popover';
+import type { TimeEntrySchema } from './te-calendar-popover';
 
 describe('timeEntryPopoverHtml', () => {
   let host:HTMLElement;
@@ -65,5 +67,59 @@ describe('timeEntryPopoverHtml', () => {
 
     expect(message).toHaveClass('Popover-message--right');
     expect(message.style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe('20px');
+  });
+
+  it('binds values as text, never as markup', () => {
+    render(timeEntryPopoverHtml('pop-1', 'anchor-1', [{ label: 'Comment', value: '<b>bold</b>' }], null), host);
+    const [entry] = within(host).getAllByRole('listitem');
+
+    expect(entry).toHaveTextContent('Comment: <b>bold</b>');
+    expect(host.querySelector('b')).toBeNull();
+  });
+});
+
+describe('timeEntryPopoverRows', () => {
+  const schema = {
+    project: { name: 'Проект' },
+    entity: { name: 'Учтено' },
+    activity: { name: 'Деятельность' },
+    hours: { name: 'Часы' },
+    comment: { name: 'Комментарий' },
+  } as unknown as TimeEntrySchema;
+
+  const context = { placeholder: '-', formattedDuration: '7 ч' };
+
+  const entry = (overrides:Record<string, unknown> = {}) => ({
+    project: { name: 'Техподдержка, BIM и т.п.' },
+    entity: { name: 'Провести анализ', href: '/api/v3/work_packages/42' },
+    activity: { name: 'Разработка' },
+    hours: 'PT7H',
+    comment: { raw: 'Комментарий <b>жирный</b>' },
+    ...overrides,
+  }) as unknown as TimeEntryResource;
+
+  it('keeps non-ASCII values verbatim', () => {
+    const rows = timeEntryPopoverRows(entry(), schema, context);
+
+    expect(rows).toEqual([
+      { label: 'Проект', value: 'Техподдержка, BIM и т.п.' },
+      { label: 'Учтено', value: '#42: Провести анализ' },
+      { label: 'Деятельность', value: 'Разработка' },
+      { label: 'Часы', value: '7 ч' },
+      { label: 'Комментарий', value: 'Комментарий <b>жирный</b>' },
+    ]);
+  });
+
+  it('falls back to the placeholder without entity and comment', () => {
+    const rows = timeEntryPopoverRows(entry({ entity: null, comment: { raw: null } }), schema, context);
+
+    expect(rows[1]).toEqual({ label: 'Учтено', value: '-' });
+    expect(rows[4]).toEqual({ label: 'Комментарий', value: '-' });
+  });
+
+  it('shows an empty activity as blank', () => {
+    const rows = timeEntryPopoverRows(entry({ activity: null }), schema, context);
+
+    expect(rows[2]).toEqual({ label: 'Деятельность', value: '' });
   });
 });
