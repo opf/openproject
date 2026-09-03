@@ -795,6 +795,11 @@ GEM
       logger
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    live_component (0.4.0)
+      railties (~> 8.0)
+      use_context (~> 1.2)
+      view_component (~> 4.0)
+      weak_key_map (~> 1.0)
     lobby_boy (0.1.3)
       omniauth (~> 1.1)
       omniauth-openid-connect (>= 0.2.1)
@@ -1481,6 +1486,7 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
     uri (1.1.1)
+    use_context (1.2.0)
     useragent (0.16.11)
     validate_email (0.1.6)
       activemodel (>= 3.0)
@@ -1498,6 +1504,7 @@ GEM
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
+    weak_key_map (1.0.0)
     webauthn (3.4.3)
       android_key_attestation (~> 0.3.0)
       bindata (~> 2.4)
@@ -1644,6 +1651,7 @@ DEPENDENCIES
   launchy (~> 3.1.0)
   letter_opener_web
   listen (~> 3.10.0)
+  live_component (~> 0.4.0)
   lograge (~> 0.15.0)
   lookbook (= 2.3.14)
   mail (= 2.9.1)
@@ -1994,6 +2002,7 @@ CHECKSUMS
   letter_opener_web (3.0.0) sha256=3f391efe0e8b9b24becfab5537dfb17a5cf5eb532038f947daab58cb4b749860
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   listen (3.10.0) sha256=c6e182db62143aeccc2e1960033bebe7445309c7272061979bb098d03760c9d2
+  live_component (0.4.0) sha256=4518ef95d4cb771285c1c397db511d50f0cbd7db604fcfe9f3a64ada628ca43c
   lobby_boy (0.1.3) sha256=9460bb3c052aef158eb3f137b8f7679ca756b8e2983d140dbdc0caa85c018172
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.15.0) sha256=34072c1f50b95019dc185137f5fec1a6759f5a1b6d55c28163d0cba204e6df16
@@ -2286,6 +2295,7 @@ CHECKSUMS
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
+  use_context (1.2.0) sha256=887b430251034e06d1f6550fa487f8cec05f76650922f028da139c0c285a62c7
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   validate_email (0.1.6) sha256=9dfe9016d527b17a8d3a6e95e4dc50a125400eef899d13d4cc2a254393f82ee4
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
@@ -2294,6 +2304,7 @@ CHECKSUMS
   view_component (4.12.0) sha256=b9a5979d1c43eba2aa21a06a86f661aab3990104855f2909ef7c3779acdcdcb4
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
+  weak_key_map (1.0.0) sha256=dedbdb092955419f4a7c5c62cfda5b8427d91f9acbec4e2948d1ef7b78692ab7
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
   webmock (3.26.3) sha256=77c612816bdcb2fc43db0e42fd98b19be7d4770fd708816fdde65a006664ddec

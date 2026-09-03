@@ -34,7 +34,10 @@
     component.with_main(classes: "op-document-view--main") do
       flex_layout(align_items: :center) do |flex|
         flex.with_row(classes: "op-document-view--header") do
-          render Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:)
+          render Documents::ShowEditView::PageHeaderComponent.new(
+            document:, state:,
+            __lc_attributes: { "id" => Documents::ShowEditView::PageHeaderComponent::DOM_ID }
+          )
         end
 
         flex.with_row(classes: "op-document-view--editor") do

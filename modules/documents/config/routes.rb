@@ -42,9 +42,6 @@ Rails.application.routes.draw do
 
   resources :documents, except: %i[create new index] do
     member do
-      get :edit_title, defaults: { format: :turbo_stream }
-      put :update_title, defaults: { format: :turbo_stream }
-      get :cancel_title_edit, defaults: { format: :turbo_stream }
       put :update_type, defaults: { format: :turbo_stream }
       get :delete_dialog
       get :render_avatars, defaults: { format: :turbo_stream }

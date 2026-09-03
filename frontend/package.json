@@ -78,6 +78,7 @@
     "@blocknote/mantine": "^0.51.4",
     "@blocknote/react": "^0.51.3",
     "@braintree/sanitize-url": "^7.1.2",
+    "@camertron/live-component": "0.4.0",
     "@datorama/akita": "^8.0.1",
     "@floating-ui/dom": "^1.2.1",
     "@fullcalendar/angular": "^6.1.21",

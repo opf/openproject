@@ -50,7 +50,10 @@
     )
   ) do |layout|
     layout.with_header do
-      render Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:)
+      render Documents::ShowEditView::PageHeaderComponent.new(
+        document:, state:,
+        __lc_attributes: { "id" => Documents::ShowEditView::PageHeaderComponent::DOM_ID }
+      )
     end
 
     layout.with_tab(name: Document.model_name.human, show_left: true) do
