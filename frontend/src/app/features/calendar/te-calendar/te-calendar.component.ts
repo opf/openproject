@@ -70,6 +70,8 @@ import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
+import { liveRect } from 'core-app/shared/components/anchored-popover/live-rect';
+import { visibleRect } from 'core-app/shared/components/anchored-popover/visible-rect';
 import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 import { timeEntryPopoverHtml, timeEntryPopoverRows } from './te-calendar-popover';
 import type { TimeEntrySchema } from './te-calendar-popover';
@@ -177,8 +179,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
 
+  private placeOpenPopover:(() => void)|null = null;
+
   private closeOpenPopover = () => {
     this.element.nativeElement.querySelector<HTMLElement>('.te-calendar--popover:popover-open')?.hidePopover();
+  };
+
+  private repositionOpenPopover = () => {
+    this.placeOpenPopover?.();
   };
 
   public additionalOptions:CalendarOptionsWithDayGrid = {
@@ -235,11 +243,13 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit():void {
     document.addEventListener('dialog:close', this.closeDialogHandler);
     window.addEventListener('resize', this.closeOpenPopover);
+    document.addEventListener('scroll', this.repositionOpenPopover, { capture: true });
   }
 
   ngOnDestroy():void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
     window.removeEventListener('resize', this.closeOpenPopover);
+    document.removeEventListener('scroll', this.repositionOpenPopover, { capture: true });
   }
 
   async requireNonWorkingDays(start:Date | string, end:Date | string) {
@@ -550,6 +560,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     const schema = (await this.schemaCache.ensureLoaded(entry)) as TimeEntrySchema;
 
     const anchorEl = event.el;
+    if (!anchorEl.isConnected) {
+      return;
+    }
+
     const anchorId = ensureId(anchorEl);
     anchorEl.role = 'button';
 
@@ -565,10 +579,16 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     anchorEl.setAttribute('popovertarget', popoverId);
 
     const popoverEl = document.getElementById(popoverId) as AnchoredPositionElement;
+    const anchorRect = liveRect(() => visibleRect(anchorEl));
+    popoverEl.anchorElement = anchorRect as unknown as HTMLElement;
+    const place = () => draw(placePopover(popoverEl, anchorRect));
+    popoverEl.addEventListener('toggle', (toggle) => {
+      this.placeOpenPopover = toggle.newState === 'open' ? place : null;
+    });
     const showPopover = () => {
       if (popoverEl.matches(':popover-open')) return;
       popoverEl.showPopover();
-      draw(placePopover(popoverEl, anchorEl));
+      place();
     };
     const hidePopover = () => { popoverEl.hidePopover(); };
 
@@ -589,7 +609,11 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     anchorEl.removeAttribute('popovertarget');
     anchorEl.removeAttribute('aria-haspopup');
     anchorEl.removeAttribute('role');
-    document.querySelector(`anchored-position[anchor="${anchorId}"]`)?.remove();
+    const popoverEl = document.querySelector(`anchored-position[anchor="${anchorId}"]`);
+    if (popoverEl?.matches(':popover-open')) {
+      this.placeOpenPopover = null;
+    }
+    popoverEl?.remove();
   }
 
   private prependDuration(event:CalendarViewEvent):void {
