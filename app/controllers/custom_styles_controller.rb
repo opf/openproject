@@ -35,12 +35,7 @@ class CustomStylesController < ApplicationController
   layout "admin"
   menu_item :custom_style
 
-  LOGO_VARIANTS = %i[
-    logo_dark
-    logo_light_high_contrast
-    logo_mobile_dark
-    logo_mobile_light_high_contrast
-  ].index_by(&:to_s).freeze
+  LOGO_VARIANTS = CustomStyle::LOGO_VARIANTS
 
   UNGUARDED_ACTIONS = %i[logo_download
                          logo_mobile_download
@@ -117,7 +112,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_variant_download
-    file_download(:"#{logo_variant}_path")
+    return unless (variant = logo_variant)
+
+    file_download(:"#{variant}_path")
   end
 
   def export_logo_download
@@ -149,7 +146,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_variant_delete
-    file_delete(:"remove_#{logo_variant}")
+    return unless (variant = logo_variant)
+
+    file_delete(:"remove_#{variant}")
   end
 
   def export_logo_delete
@@ -269,7 +268,10 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_variant
-    LOGO_VARIANTS.fetch(params[:variant])
+    LOGO_VARIANTS.fetch(params[:variant]) do
+      head :not_found
+      nil
+    end
   end
 
   def file_download(path_method)

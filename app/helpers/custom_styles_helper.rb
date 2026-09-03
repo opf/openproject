@@ -209,6 +209,7 @@ module CustomStylesHelper
   def logo_urls_with_custom_style(custom_style, defaults)
     desktop = custom_logo_urls(custom_style)
     mobile = custom_logo_urls(custom_style, mobile: true)
+    # Preserve the legacy fallback to the mobile logo when no desktop logo is configured.
     desktop = mobile unless desktop.values.any?
 
     {
