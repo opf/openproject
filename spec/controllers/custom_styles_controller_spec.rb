@@ -358,16 +358,46 @@ RSpec.describe CustomStylesController do
     describe "#logo_variant_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_logo_dark) }
 
-      before do
-        allow(CustomStyle).to receive(:current).and_return(custom_style)
+      context "when the logo variant is valid" do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(custom_style)
 
-        delete :logo_variant_delete, params: { variant: "logo_dark" }
+          delete :logo_variant_delete, params: { variant: "logo_dark" }
+        end
+
+        it "removes the logo variant" do
+          expect(custom_style.reload.logo_dark).not_to be_present
+          expect(response).to redirect_to(action: :show)
+          expect(response).to have_http_status(:see_other)
+        end
+      end
+    end
+
+    describe "an invalid logo variant", with_ee: %i[define_custom_style] do
+      before do
+        routes.draw do
+          get "logo_variant/:variant" => "custom_styles#logo_variant_download"
+          delete "logo_variant/:variant" => "custom_styles#logo_variant_delete"
+        end
+
+        allow(controller).to receive(:file_download)
+        allow(controller).to receive(:file_delete)
       end
 
-      it "removes the logo variant" do
-        expect(custom_style.reload.logo_dark).not_to be_present
-        expect(response).to redirect_to(action: :show)
-        expect(response).to have_http_status(:see_other)
+      after { Rails.application.reload_routes! }
+
+      it "does not run the download" do
+        get :logo_variant_download, params: { variant: "invalid" }
+
+        expect(controller).not_to have_received(:file_download)
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "does not run the deletion" do
+        delete :logo_variant_delete, params: { variant: "invalid" }
+
+        expect(controller).not_to have_received(:file_delete)
+        expect(response).to have_http_status(:not_found)
       end
     end
 
