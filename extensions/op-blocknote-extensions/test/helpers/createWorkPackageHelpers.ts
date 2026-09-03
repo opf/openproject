@@ -1,6 +1,10 @@
 import { expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 
+export const modalPanel = ():HTMLElement => page.getByTestId('create-wp-modal').element() as HTMLElement;
+
+export const modalBody = ():HTMLElement => modalPanel().querySelector<HTMLElement>('form > div')!;
+
 export async function chooseCreateCommand() {
   await expect.element(page.getByText('Create new work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Create new work package').first());

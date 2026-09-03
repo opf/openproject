@@ -203,8 +203,15 @@ export const HeaderTitle = styled.span`
 export const Body = styled.div`
   flex: 1;
   min-height: 0;
-  padding: var(--spacer-xl);
   overflow-y: auto;
+
+  &[data-growing] {
+    overflow-y: hidden;
+  }
+`;
+
+export const BodyContent = styled.div`
+  padding: var(--spacer-xl);
 `;
 
 export const Footer = styled.div`
@@ -286,6 +293,10 @@ const fieldIn = keyframes`
 export const FieldRow = styled.div<{ $invalid?:boolean }>`
   margin-bottom: var(--spacer-xl);
   animation: ${fieldIn} 0.18s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 
   /*  Tripled: the controls carry their own doubled rules, ":focus" among them.  */
   ${({ $invalid }) => $invalid && css`
