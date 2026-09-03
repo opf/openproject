@@ -471,7 +471,7 @@ pt-BR:
           true: incluindo dias não-úteis
         journal_internal: Diário interno
         notify: Notificar
-        observed_in_versions: Observed in versions
+        observed_in_versions: Observado nas versões
         parent: Pai
         parent_issue: Pai
         parent_work_package: Pai
@@ -547,8 +547,8 @@ pt-BR:
         is_for_all_cannot_modify: é aplicável a todos os projetos e, portanto, não pode ser modificado.
         ldap_managed: Este departamento é gerenciado pela sincronização LDAP e não pode ser alterado manualmente.
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
-        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
-        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
+        migration_failed: 'Não foi possível alternar a variante para o projeto ''%{project}'': %{reason}'
+        migration_target_invalid: A variante selecionada deve ser outra variante do mesmo tipo que todos os projetos afetados possam utilizar.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
         not_a_number: não é um número.
@@ -743,7 +743,7 @@ pt-BR:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: não deve ser uma variante pertencente a outro projeto.
               must_belong_to_the_type: deve ser uma variante do tipo que o projeto utiliza.
         queries/filters/base:
           attributes:
@@ -816,7 +816,7 @@ pt-BR:
               hours_per_day_are_missing: O número de horas por dia deve ser definido.
               hours_per_day_is_out_of_bounds: As horas por dia não podem ultrapassar 24
               journal_aggregation_time_minutes_is_out_of_bounds: O período de agregação deve estar entre %{min} e %{max} minutos.
-              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
+              password_login_requires_sso_provider: As restrições de login por senha exigem que haja pelo menos um provedor de SSO disponível.
               previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
               working_days_are_missing: Pelo menos um dia da semana deve ser definido como um dia útil.
         status:
@@ -848,26 +848,26 @@ pt-BR:
               restrict_dependent_destroy:
                 has_many: Não pode ser excluído enquanto houver projetos que ainda o utilizem.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: não pode ser definido em uma variante pertencente a um projeto.
               taken: já está definido para outra configuração deste tipo.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
             pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
             workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
         user:
           attributes:
@@ -1505,7 +1505,7 @@ pt-BR:
           finalizing: Finalizando
           finalizing_done: Concluído
           finalizing_error: Erro ao finalizar
-          import_aborting: Aborting
+          import_aborting: Interrompendo
           import_error: Erro durante importação
           import_scope: Selecionar escopo
           imported: Modo de revisão
@@ -1520,10 +1520,10 @@ pt-BR:
           revert_error: Erro durante a reversão
           reverted: Revertido
           reverting: Revertendo
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Essa ação não está disponível para o estado atual da execução da importação.
         title: Execução de importação
         wizard:
-          button_abort: Abort
+          button_abort: Interromper
           button_retry: Tentar novamente
           finalize_dialog:
             confirm: Compreendo que esta ação é irreversível
@@ -1567,14 +1567,14 @@ pt-BR:
             title: Deseja reverter esta importação de forma permanente?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Importando dados
+              button_revert: Reverter importação
               button_start: Iniciar importação
               caption: Revise suas configurações de importação e inicie a importação
               caption_done: Concluído
               caption_done_info: Todos os dados foram importados
               description: Você está prestes a iniciar uma execução de importação com as seguintes configurações.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: A importação está em andamento. Fechar esta aba não irá interrompê-la, e você poderá verificar o status da importação a qualquer momento abrindo a execução.
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
               label_progress: Importação em andamento...
@@ -1595,7 +1595,7 @@ pt-BR:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Revisar execução de importação ou reverter importação
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: Os dados importados estão, no momento, no modo de revisão. Clique em “Aprovar importação” para tornar a importação definitiva ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução de importação.
               label_finalize_import: Aprovar importação
               label_finalizing: Aprovando importação...
               label_finalizing_done: Importação aprovada.
@@ -3206,7 +3206,7 @@ pt-BR:
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão "%{version_name}" foi copiada como um sprint.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: A versão de destino desatualizada foi removida automaticamente. Ela havia sido adicionada incorretamente quando várias versões de destino estavam ativadas.
         target_versions_repaired: Versões de destino sincronizadas automaticamente com o campo Versão antes de habilitar várias versões de destino.
         totals_removed_from_childless_work_packages: Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
       total_percent_complete_mode_changed_to_simple_average: Os valores de trabalho dos pacotes de trabalho filhos são ignorados.
@@ -4839,8 +4839,8 @@ pt-BR:
     dialog:
       footer_center:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Quando deixado em branco, o padrão é o nome do projeto.
+        default_hint_subject: Quando deixado em branco, o padrão é o assunto do pacote de trabalho.
         label: Texto do rodapé
       footer_right:
         caption: Este texto aparecerá em todas as páginas à direita do rodapé.
@@ -4943,7 +4943,7 @@ pt-BR:
     '
   permission_manage_placeholder_user: Criar, editar e excluir usuários do espaço reservado
   permission_manage_project_activities: Gerenciar atividades do projeto
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Gerenciar as variantes de tipo específicas do projeto
   permission_manage_public_bcf_queries: Gerenciar consultas públicas a BCF
   permission_manage_public_project_queries: Gerenciar listas de projetos públicos
   permission_manage_public_queries: Gerenciar visões públicas
@@ -5252,15 +5252,15 @@ pt-BR:
           type_label: Tipo
           type_placeholder: Selecione um tipo
         add_type: Adicionar tipo
-        add_variant: Add a project-specific variant
-        base_type_in_use: Base type used in this project
+        add_variant: Adicionar uma variante específica do projeto
+        base_type_in_use: Tipo de base utilizado neste projeto
         empty_state:
           description: Adicione um tipo para permitir que as pessoas criem pacotes de trabalho desse tipo neste projeto.
           title: Nenhum tipo está ativo neste projeto
         form:
           enable_type_in_project: Habilitar o tipo "%{type}"
         no_results_title_text: Atualmente, não há tipos disponíveis.
-        project_specific_variant: Project-specific variant
+        project_specific_variant: Variante específica do projeto
         remove_from_project: Remover do projeto
         switch:
           apply: Aplicar
@@ -5284,9 +5284,9 @@ pt-BR:
           target_label: Variante
           title: "%{type}: Trocar variante"
         type_not_found: Não foi possível encontrar o tipo selecionado.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
+        use_in_project: Usar neste projeto
+        variant_in_use: Variante neste projeto
+        variant_label: Variante
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
@@ -5600,14 +5600,14 @@ pt-BR:
   setting_password_active_rules: Requisitos de senha
   setting_password_count_former_banned: Número de senhas usadas mais recentemente banidas para reutilização
   setting_password_days_valid: Número de dias antes de exigir alteração de senha
-  setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
-  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login: Senha de login
+  setting_password_login_all: Permitir para todos
+  setting_password_login_all_caption: Qualquer pessoa com uma senha interna pode fazer login com ela, incluindo usuários ligados a um provedor de identidade.
+  setting_password_login_bypass_principal_ids: Usuários e grupos que ainda podem usar uma senha
+  setting_password_login_except_sso: Proibir usuários de SSO
+  setting_password_login_except_sso_caption: Os usuários vinculados a um provedor de identidade não podem fazer login com sua senha interna. Os demais usuários podem continuar usando-a.
+  setting_password_login_none: Proibir para todos
+  setting_password_login_none_caption_html: O campo de senha está oculto. Apenas os usuários e grupos listados abaixo podem fazer login com uma senha por meio de %{internal_login_link}.
   setting_password_min_length: Tamanho mínimo
   setting_per_page_options: Opções de objetos por página
   setting_percent_complete_on_status_closed: "% de conclusão quando o status for fechado"
@@ -5744,7 +5744,7 @@ pt-BR:
       omniauth_direct_login_hint_html: 'Se esta opção estiver ativada, as solicitações de login serão redirecionadas para o provedor omniauth configurado. O menu suspenso de login e a página de login serão desativados. <br/> <strong>Obs.:</strong> A menos que você também desative os logins por senha, com esta opção ativada, os usuários ainda poderão fazer login internamente acessando a página de login em <code>%{internal_path}</code>.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Mesmo quando o login por senha estiver desativado, esses usuários e grupos poderão usar suas senhas para fazer login. Isso é útil, por exemplo, caso o provedor de identidade fique indisponível. Se você incluir um grupo, o acesso será estendido a todos os usuários desse grupo.
 
         '
       password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
@@ -6304,8 +6304,8 @@ pt-BR:
           readonly_error: Cannot be changed while linked to a source type.
           section_title: Modelos de exportação de PDF
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
+            edit_link: Editar configurações
+            reset_to_default: Redefinir para os padrões
             title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Seção
