@@ -1,52 +1,52 @@
 ---
 sidebar_navigation:
-  title: Projects
-  priority: 780
+  title: Spaces
+  priority: 730
 description: An organized view of all portfolios, programs, and projects you have access to.
 keywords: Mobile app features projects, mobile project, mobile portfolio, mobile program, program, programme, project, portfolio, mobile app
 ---
 
-# Projects
+# Spaces
 
-The **Projects module** in the OpenProject Mobile App gives you an organized view of all **portfolios, programs, and projects** you have access to. It allows you to **check status, attributes, and progress**, explore hierarchy, and navigate seamlessly between different levels of work.
+The **Spaces** module helps you browse and open the portfolios, programs, and projects you have access to in OpenProject. It provides a structured overview (including hierarchies, when configured) and lets you quickly jump into a specific space to continue working, for example by opening the space overview or its work packages.
 
-## Purpose
+## What you can do
 
-The Projects module is designed to help you:
+With the Spaces module, you can:
 
-- **Monitor progress and status** of projects, programs, and portfolios.
-- **View all attributes and key details** of a portfolio, program, or project.
-- **Understand hierarchy** by exploring the relationship between portfolios, programs, and projects.
-- **Access work packages and child projects** of portfolios, programs, and projects directly from the mobile interface.
+- **Browse spaces** you have access to.
+- **Filter** the list by type.
+- **Search** for a specific space by name.
+- Mark spaces as **favorites** and quickly access them via the Favorites view.
+- **Open a space** to view its details and navigate to its work packages or sub-spaces.
 
-This module is particularly useful for team members, project managers, and portfolio managers who need a **clear overview of ongoing work and its organization**.
+## Common workflows
 
-## Project Index
+### Browse all spaces and filter by type
 
-The main screen of the Projects module acts as an **index page**, allowing you to:
+1. Open **Spaces**.
+2. Use the **type selector** in the header (e.g., *All types*) to narrow the list.
+3. Use **search** to find a specific space/project by name.
+4. Scroll the list and tap an entry to open it.
 
-- **Enter Portfolios, Programs, or individual Projects** directly.
-- **Browse a hierarchical list of all projects**, expandable to show programs and child projects.
-- **Filter the list** to display only your **favorite projects** for quick access.
+![Spaces filter by type](spaces-type_filter.png)
 
-![Project module index in the OpenProject mobile app](mobile_app_projectsmodule.png)
+### Switch between All and Favorites
 
-## Portfolio, Program, and Project Details
+1. Open **Spaces**.
+2. Use the toggle below the header to switch between:
+    - **All** (everything you can access), and
+    - **Favorites** (spaces you’ve starred).
 
-When you enter a portfolio, program, or project, the mobile app provides three key tabs for detailed insights:
+This is useful if you mainly work in a small set of spaces and want faster access.
 
-1. **Overview Tab**
-   - Shows the **description, status, and all available attributes** of the selected item.
-   - Provides a snapshot of key details at a glance.        
-2. **Work Packages Tab**
-   - Lists **all work packages** associated with the portfolio, program, or project.
-   - Allows you to view, open, and interact with tasks directly from the app.      
-3. **In this Portfolio / Program / Project**
-   - Displays all **projects or programs that belong to the selected portfolio, program, or project**.
-   - Helps you explore the hierarchy and drill down into individual initiatives.
+![Spaces navigation between all and favorites](spaces-favorites.png)
 
-![Project details overview in the OpenProject mobile app](mobile_app_project_overview.png)
+### Open a space and review details or navigate to work
 
-![Project details work packages in the OpenProject mobile app](mobile_app_project_workpackages.png)
+When you open a space/project, you can typically:
 
-![Project details sub-elements in the project in the OpenProject mobile app](mobile_app_project_inthisportfolio.png)
+- Review the **Overview,** which summarizes project attributes and the description.
+- Navigate to **Work packages** within that space/project to see and work on items.
+
+![Overviews of the spaces to check its important details](spaces-overviews.png)

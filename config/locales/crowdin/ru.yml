@@ -76,6 +76,13 @@ ru:
         dependencies: Связи
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Отобразить до
       attachment:
@@ -464,6 +471,7 @@ ru:
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
         notify: Уведомлять
+        observed_in_versions: Observed in versions
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
@@ -539,6 +547,8 @@ ru:
         is_for_all_cannot_modify: предназначено для всех проектов и поэтому не может быть изменено.
         ldap_managed: Это подразделение управляется с помощью синхронизации LDAP и не может быть изменен вручную.
         less_than_or_equal_to: должно быть меньше или равно %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
         not_a_number: не является числом.
@@ -735,6 +745,7 @@ ru:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: должен быть вариантом того типа, который используется в проекте.
         queries/filters/base:
           attributes:
@@ -807,6 +818,7 @@ ru:
               hours_per_day_are_missing: Необходимо указать количество часов в день.
               hours_per_day_is_out_of_bounds: Количество часов в день не может быть больше 24
               journal_aggregation_time_minutes_is_out_of_bounds: Период агрегации должен составлять от %{min} до %{max} минут.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Предыдущие изменения конфигурации рабочих дней еще не были применены.
               working_days_are_missing: По крайней мере, один день недели должен быть определен как рабочий.
         status:
@@ -838,20 +850,26 @@ ru:
               restrict_dependent_destroy:
                 has_many: Невозможно удалить, пока он используется в проектах.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: уже настроен для другой конфигурации данного типа.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
@@ -983,6 +1001,11 @@ ru:
         few: Actions
         many: Actions
         other: Действия
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
       announcement:
         one: Объявление
         few: Announcements
@@ -1694,6 +1717,7 @@ ru:
           finalizing: Завершение
           finalizing_done: Завершено
           finalizing_error: Ошибка при завершении
+          import_aborting: Aborting
           import_error: Ошибка при импорте
           import_scope: Выберите область применения
           imported: Режим обзора
@@ -1705,13 +1729,13 @@ ru:
           projects_meta_done: Данные собраны
           projects_meta_error: Ошибка при получении данных о проекте
           projects_meta_fetching: Получение данных о проекте
-          revert_cancelled: Откат отменен
-          revert_cancelling: Отмена отката
           revert_error: Ошибка при откате
           reverted: Возвращено к исходному состоянию
           reverting: Возврат в исходное состояние
+        step_not_available: This action is not available for the current state of the import run.
         title: Выполнение импорта
         wizard:
+          button_abort: Abort
           button_retry: Повторить
           finalize_dialog:
             confirm: Я понимаю, что это действие не может быть отменено
@@ -1767,11 +1791,14 @@ ru:
             title: Отменить этот импорт?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Начать импорт
               caption: Просмотрите настройки импорта и начните импорт
               caption_done: Завершено
               caption_done_info: Все данные импортированы
               description: Вы собираетесь начать импорт со следующими настройками.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
@@ -1792,6 +1819,7 @@ ru:
               button_done: Завершить импорт
               button_revert: Откатить импорт
               caption: Просмотрите выполнение импорта или отмените импорт
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Завершить импорт
               label_finalizing: Завершение импорта...
               label_finalizing_done: Импорт завершён.
@@ -1799,7 +1827,6 @@ ru:
               label_revert: Откатить импорт
               label_revert_progress: Отмена импорта...
               label_reverted: Импорт отменен.
-              preview_description: В настоящее время импортированные данные находятся в режиме просмотра. Нажмите "Завершить импорт", чтобы сохранить результаты импорта, или "Отменить импорт", чтобы отменить все изменения, сделанные в ходе запуска импорта.
               stats:
                 other_settings:
                   label: Прочие настройки
@@ -2026,8 +2053,6 @@ ru:
             manual_conversion_hint: Вы можете вручную запустить преобразование для включения нескольких значений, прежде чем произойдет автоматическая миграция.
             not_writable_hint: Эти настройки настроены через переменные среды. Если вы хотите вручную запустить преобразование, чтобы включить несколько значений перед автоматической миграцией, обновите файл configuration.yml.
           heading: Целевые версии
-          in_progress:
-            heading: Включение поддержки нескольких версий
           planned_changes:
             heading: Планируемые изменения в будущем выпуске
             renamed: Поле «Версия» будет переименовано в «Целевые версии».
@@ -3465,6 +3490,7 @@ ru:
         progress_calculation_adjusted_from_disabled_mode: Расчет прогресса автоматически <a href="%{href}" target="_blank">устанавливается в режим "На основе трудозатрат" и корректируется при обновлении версии</a>.
         scheduling_mode_adjusted: Режим планирования автоматически настраивается с обновлением версии.
         sprint_migration: Версия '%{version_name}' была скопирована как спринт.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Целевые версии автоматически синхронизируются с полем версии перед включением нескольких целевых версий.
         totals_removed_from_childless_work_packages: При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
       total_percent_complete_mode_changed_to_simple_average: Значения Работы дочерних пакетов работ игнорируются.
@@ -3572,6 +3598,7 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
+  label_backtrace: Backtrace
   label_backup: Резервное копирование
   label_basic_details: Основные детали
   label_between: между
@@ -5120,6 +5147,8 @@ ru:
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Текст нижнего колонтитула
       footer_right:
         caption: Этот текст появится на каждой странице с правой стороны нижнего колонтитула.
@@ -5222,6 +5251,7 @@ ru:
     '
   permission_manage_placeholder_user: Создавать, редактировать и удалять пользователей-заполнителей
   permission_manage_project_activities: Активировать виды деятельности в проектах
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Управление публичными BCF запросами
   permission_manage_public_project_queries: Управление списками общедоступных проектов
   permission_manage_public_queries: Управление общими представлениями
@@ -5532,23 +5562,47 @@ ru:
           type_label: Тип
           type_placeholder: Выберите тип
         add_type: Добавить тип
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Добавьте тип, чтобы люди могли создавать пакеты работ такого типа в этом проекте.
           title: В этом проекте нет активных типов
         form:
           enable_type_in_project: Разрешить тип «%{type}»
         no_results_title_text: На данный момент доступных типов нет.
+        project_specific_variant: Project-specific variant
         remove_from_project: Удалить из проекта
-        switch_dialog:
-          apply: Применить
-          description: Выберите другой вариант данного типа для использования в этом проекте.
-          success: Проект теперь использует %{type}.
-          target_label: Вариант
-          title: "%{type}: Переключить вариант"
-          warning: При переключении вариантов вы можете потерять информацию, связанную с пользовательскими полями, которые могут отсутствовать в новой.
-        switch_type: Переключить вариант
+        switch:
+          apply: Apply
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         type_not_found: Выбранный тип не найден.
-        variant_prefix: 'Вариант:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Создать новую версию
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
@@ -5812,7 +5866,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: По умолчанию включает функцию вики для новых проектов
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -5860,6 +5914,14 @@ ru:
   setting_password_active_rules: Требования к паролю
   setting_password_count_former_banned: Количество паролей, запрещенных для повторного использования
   setting_password_days_valid: Количество дней, после которого требуется смена пароля
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Минимальная длина
   setting_per_page_options: Количество объектов на страницу
   setting_percent_complete_on_status_closed: "% завершения, когда статус Закрыто"
@@ -5994,6 +6056,15 @@ ru:
     authentication:
       login: Входное имя
       omniauth_direct_login_hint_html: 'Если эта опция включена, запросы на вход в систему будут перенаправлены на настроенный провайдер omniauth. Выпадающий список входа и страница входа будут отключены. <br/> <strong>Примечание:</strong> Если вы также не отключите вход по паролю, то пользователи все еще могут войти внутри системы, посетив страницу входа <code>%{internal_path}</code>.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Регистрация
@@ -6478,7 +6549,7 @@ ru:
   total_progress: Общий прогресс
   types:
     creation_wizard:
-      add_variant: Добавить вариант к %{name}
+      add_variant: Add a variant to %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
       fields:
@@ -6547,7 +6618,12 @@ ru:
           label: Шаблоны экспорта в PDF
         tab: Создать PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: Шаблоны экспорта в PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Секция
         add_query_group: Таблица связанных пакетов работ
@@ -6591,12 +6667,12 @@ ru:
           label_disable_all: Отключить все
           label_enable_all: Включить все
         blankslate:
-          independent:
-            description: После того как вы [создадите атрибуты проекта](administration_url), они станут видны здесь и их можно будет добавить к типу.
-            title: Нет доступных атрибутов проекта
-          linked:
-            description: С данным типом не связано ни одного атрибута проекта.
-            title: Атрибуты проекта не настроены
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
         disabled: Отключено
         exclusions:
@@ -6626,61 +6702,88 @@ ru:
             description_html: При копировании данных из %{source_name} вы перезапишите текущие настройки и это может повлиять на существующую информацию о пакетах работ данного типа.
             title: Скопировать конфигурацию?
           dialog:
-            description: Скопировать конфигурацию из типа-источника и используйте ее в качестве одноразовой базы. Это не связывает два типа навсегда.
-            source_label: Скопировать источник
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Выберите тип или вариант
             submit: Сохранить и скопировать
             title: Скопировать конфигурацию
           invalid_source: Конфигурация не может быть скопирована из выбранного типа. Пожалуйста, выберите другой источник типа.
           success: Конфигурация была скопирована.
-        exclusions:
-          not_linked: Этот тип имеет свою конфигурацию для этой секции, поэтому нет ничего, что исключать. Редактируйте конфигурацию напрямую.
-          unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
-        independent:
-          confirm_dialog:
-            check_box: Я понимаю, что это переопределит текущие настройки
-            description: Все текущие выбранные настройки будут переопределены и могут повлиять на существующую информацию о пакетах работ данного типа.
-            title: Переключить режим конфигурации?
-          copy_from_type: Копировать из типа
-          description: Ни один из параметров не унаследован. Если нужно, вы можете разово скопировать настройки другого типа.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: Переключить
-            title: Независимый режим
-          invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
-          modes:
-            copy:
-              caption: Начать с одноразовой копии текущих настроек в связанном режиме.
-              label: Копировать из связанного
-            default:
-              caption: Использовать настройки по умолчанию для новых типов.
-              label: Настройки по умолчанию
-            empty:
-              caption: Настроить всё с нуля, начиная с пустой конфигурации.
-              label: Пустой
-          success: Режим конфигурации был переключен.
-          switch_to_linked: Перейти в режим связи
-          title: Независимый режим
-        linked:
-          change_source: Изменить тип-источник
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            few: "%{count} dependent types"
+            many: "%{count} dependent types"
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: Изменив источник типа на %{source_name}, вы перезапишете текущие настройки, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
-              title: Изменить тип-источник?
-            check_box: Я понимаю, что это переопределит текущие настройки
-            from_independent:
-              description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
-              title: Переключить режим конфигурации?
-          description: Эта конфигурация связана и наследует свои настройки из исходного типа [%{source_name}](source_url)%{source_suffix}.
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: Скопируйте эти настройки из источника и унаследуйте их. Любые новые настройки, добавленные в источник, также будут добавлены сюда.
-            source_label: Связанный источник
-            source_placeholder: Выберите тип или вариант
-            submit: Переключить
-            title: Связанный режим
-          invalid_source: Конфигурация не может быть связана с выбранным типом. Пожалуйста, выберите другой тип источника.
-          success: Режим конфигурации переключен.
-          switch_to_independent: Переключиться в независимый режим
-          title: Связанный режим
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (родитель)"
       variants:
         blankslate:
@@ -6688,12 +6791,22 @@ ru:
 
             '
           title: Для этого типа не существует вариантов
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: Фильтр по тексту
         filter_no_results: Нет вариантов, соответствующих этому фильтру
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Рабочие процессы
     index:
-      add_variant: Добавить вариант к %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Добавить вариант
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
@@ -6705,16 +6818,15 @@ ru:
       make_default_notice: "%{name} теперь активирован в новых проектах."
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
+      project_variants_count:
+        one: 1 project-specific variant
+        few: "%{count} project-specific variants"
+        many: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
       remove_default: Не активировать в новых проектах
       remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
       type_label: Тип
-      variant_enabled_in_new_projects: Вариант %{name} активен в новых проектах
       variant_label: Вариант
-      variants_count:
-        one: 1 вариант
-        few: "%{count} варианта"
-        many: "%{count} вариантов"
-        other: "%{count} вариантов"
     milestone_indicator: Веха
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.

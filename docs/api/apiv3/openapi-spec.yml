@@ -455,6 +455,10 @@ paths:
     "$ref": "./paths/recurring_meetings.yml"
   "/api/v3/recurring_meetings/{id}":
     "$ref": "./paths/recurring_meeting.yml"
+  "/api/v3/recurring_meetings/{id}/end":
+    "$ref": "./paths/recurring_meeting_end.yml"
+  "/api/v3/recurring_meetings/{id}/template_completed":
+    "$ref": "./paths/recurring_meeting_template_completed.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/upcoming":
     "$ref": "./paths/recurring_meeting_occurrences_upcoming.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/past":

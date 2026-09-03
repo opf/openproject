@@ -54,25 +54,25 @@ module McpTools
     )
 
     def call(data:)
-      attributes = parse_work_package(data)
+      attributes = parse_work_package(data).on_failure { |result| return Failure(result.message) }.result
 
       result = WorkPackages::CreateService.new(user: current_user).call(**attributes)
 
-      if result.success?
-        API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)
-      else
-        { error: result.message }
-      end
+      format_result(result)
     end
 
     private
 
     def parse_work_package(data)
-      ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
-        .create(::API::V3::WorkPackages::ParsingStruct.new, current_user:)
-        .from_hash(data.deep_stringify_keys)
-        .to_h
-        .reverse_merge(lock_version: nil)
+      ::API::V3::WorkPackages::ParseParamsService.new(current_user, model: WorkPackage).call(data.deep_stringify_keys)
+    end
+
+    def format_result(result)
+      if result.success?
+        Success(API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:))
+      else
+        Failure(result.message)
+      end
     end
   end
 end

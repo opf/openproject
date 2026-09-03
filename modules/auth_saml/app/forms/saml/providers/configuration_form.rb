@@ -76,6 +76,18 @@ module Saml
             list.option(label: format, value: format)
           end
         end
+        f.text_field(
+          name: :allowed_clock_drift,
+          type: :number,
+          min: 0,
+          max: Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT,
+          step: "any",
+          label: I18n.t("activerecord.attributes.saml/provider.allowed_clock_drift"),
+          caption: I18n.t("saml.instructions.allowed_clock_drift"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :xsmall
+        )
         f.check_box(
           name: :limit_self_registration,
           label: I18n.t("activerecord.attributes.saml/provider.limit_self_registration"),

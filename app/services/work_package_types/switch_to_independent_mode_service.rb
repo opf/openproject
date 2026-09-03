@@ -102,7 +102,7 @@ module WorkPackageTypes
     end
 
     def invalid_mode_result
-      variant.errors.add(:base, I18n.t("types.edit.reuse_mode.independent.invalid_mode"))
+      variant.errors.add(:base, I18n.t("types.edit.reuse_mode.manual.invalid_mode"))
 
       ServiceResult.failure(result: variant, errors: variant.errors)
     end

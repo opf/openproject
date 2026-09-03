@@ -30,11 +30,8 @@
 
 class Workflows::Copies::FromRolesController < ApplicationController
   include WorkPackageTypes::AddressesVariant
+  include ::WorkPackageTypes::ConfiguredInScope
   include OpTurbo::ComponentStream
-
-  layout "admin"
-
-  before_action :require_admin
 
   before_action :set_source_variant
   before_action :set_source_role
@@ -56,7 +53,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
     else
       Workflow.copy(@source_variant, @source_role, [@source_variant], @target_roles)
 
-      close_dialog_via_turbo_stream("#copy_from_type_dialog")
+      close_dialog_via_turbo_stream("copy_from_type_dialog")
       render_success_flash_message_via_turbo_stream(
         message: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
       )

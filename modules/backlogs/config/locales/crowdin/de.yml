@@ -205,7 +205,7 @@ de:
     sprint_reports:
       page_header_component:
         breadcrumb: Bericht
-        title: "%{sprint} Report"
+        title: "%{sprint} Bericht"
     sprints:
       row_component:
         action_menu:
@@ -260,7 +260,7 @@ de:
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Führen Sie in einem Projekt mehrere Sprints parallel mit verschiedene Teams aus.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints

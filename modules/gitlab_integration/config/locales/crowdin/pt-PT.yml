@@ -40,19 +40,19 @@ pt-PT:
               invalid_schema: 'deve ser um conjunto de hashes com as chaves: cor, título'
     models:
       gitlab_issue:
-        one: GitLab issue
-        other: GitLab issues
+        one: Problema do GitLab
+        other: Problemas do GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        other: GitLab merge requests
+        one: Pedido de fusão do GitLab
+        other: Pedidos de fusão do GitLab
       gitlab_pipeline:
-        one: GitLab pipeline
-        other: GitLab pipelines
+        one: Pipeline do GitLab
+        other: Pipelines do GitLab
       gitlab_user:
-        one: GitLab user
-        other: GitLab users
+        one: Utilizador GitLab
+        other: Utilizadores GitLab
   attributes:
-    commit: Confirmar
+    commit: Commit
     gitlab: Identificador do GitLab
     gitlab_avatar_url: URL do Avatar
     gitlab_email: E-mail do GitLab

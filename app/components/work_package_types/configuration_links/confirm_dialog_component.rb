@@ -53,9 +53,17 @@ module WorkPackageTypes
 
       def title
         if changing_source?
-          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.title")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.title")
         else
-          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.title")
+          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
+        end
+      end
+
+      def heading
+        if changing_source?
+          t("types.edit.reuse_mode.inherited.confirm_dialog.change_source.heading")
+        else
+          t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
         end
       end
 

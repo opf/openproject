@@ -3,8 +3,8 @@ pt-PT:
   activerecord:
     models:
       grids/overview:
-        one: Overview
-        other: Overviews
+        one: Síntese
+        other: Sínteses
   overviews:
     label_dashboard: Painel de controlo
     label_home: "%{workspace_type} casa"

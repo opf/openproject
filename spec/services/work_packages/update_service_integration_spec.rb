@@ -1807,16 +1807,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   end
 
   context "with work packages having automatically generated subjects" do
-    # rubocop:disable RSpec/BeforeAfterAll
-    before_all do
-      set_factory_default(:type, autosubject_type)
-    end
-
-    after(:all) do
-      set_factory_default(:type, type)
-    end
-    # rubocop:enable RSpec/BeforeAfterAll
-
     shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type) }
     let(:attributes) { { description: "new description" } }
 

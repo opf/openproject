@@ -16,8 +16,8 @@ es:
           overlaps: superpuesto.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Cuadrícula
+        other: Cuadrículas
       grids/widget:
         one: Widget
         other: Widgets

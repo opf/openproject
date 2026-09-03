@@ -76,6 +76,13 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: نمایش تا
       attachment:
@@ -464,6 +471,7 @@ fa:
           true: شامل روزهای غیرکاری
         journal_internal: ژورنال داخلی
         notify: اعلان
+        observed_in_versions: Observed in versions
         parent: بالادستی
         parent_issue: والد
         parent_work_package: والد
@@ -539,6 +547,8 @@ fa:
         is_for_all_cannot_modify: برای همه پروژه‌ها است و بنابراین قابل تغییر نیست.
         ldap_managed: این واحد سازمانی با همگام‌سازی LDAP مدیریت می‌شود و نمی‌توان آن را به‌صورت دستی تغییر داد.
         less_than_or_equal_to: باید کوچک‌تر از یا برابر با %{count} باشد.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: تاریخ معتبر نیست.
         not_a_datetime: تاریخ و زمان معتبر نیست.
         not_a_number: عدد نیست.
@@ -731,6 +741,7 @@ fa:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: باید گونه‌ای از نوع مورد استفاده پروژه باشد.
         queries/filters/base:
           attributes:
@@ -803,6 +814,7 @@ fa:
               hours_per_day_are_missing: تعداد ساعات روزانه باید تعریف شود.
               hours_per_day_is_out_of_bounds: ساعات روزانه نمی‌تواند بیشتر از ۲۴ باشد
               journal_aggregation_time_minutes_is_out_of_bounds: دوره تجمیع باید بین %{min} و %{max} دقیقه باشد.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: تغییرات قبلی پیکربندی روزهای کاری هنوز اعمال نشده‌اند.
               working_days_are_missing: حداقل یک روز هفته باید به‌عنوان روز کاری تعریف شود.
         status:
@@ -834,20 +846,26 @@ fa:
               restrict_dependent_destroy:
                 has_many: تا زمانی که پروژه‌ها از آن استفاده می‌کنند قابل حذف نیست.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: از قبل برای پیکربندی دیگری از این نوع تنظیم شده است.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             patterns:
               invalid_tokens: یک یا چند ویژگی داخل فیلد معتبر نیستند. لطفاً پیش از ذخیره آن‌ها را اصلاح کنید.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
         user:
           attributes:
@@ -973,6 +991,9 @@ fa:
       action:
         one: اقدام
         other: اقدام‌ها
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
       announcement:
         one: اعلان
         other: اعلان‌ها
@@ -1482,6 +1503,7 @@ fa:
           finalizing: در حال نهایی‌سازی
           finalizing_done: تکمیل‌شده
           finalizing_error: خطا هنگام نهایی‌سازی
+          import_aborting: Aborting
           import_error: خطا هنگام Import
           import_scope: انتخاب دامنه
           imported: حالت بازبینی
@@ -1493,13 +1515,13 @@ fa:
           projects_meta_done: داده‌ها گردآوری شدند
           projects_meta_error: خطا در دریافت داده‌های پروژه
           projects_meta_fetching: در حال دریافت داده‌های پروژه
-          revert_cancelled: لغو بازگردانی انجام شد
-          revert_cancelling: در حال لغو بازگردانی
           revert_error: خطا هنگام بازگردانی
           reverted: بازگردانده شد
           reverting: در حال بازگردانی
+        step_not_available: This action is not available for the current state of the import run.
         title: اجرای Import
         wizard:
+          button_abort: Abort
           button_retry: تلاش مجدد
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
@@ -1543,11 +1565,14 @@ fa:
             title: این Import برای همیشه بازگردانده شود؟
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: شروع Import
               caption: تنظیمات Import را بازبینی و Import را شروع کنید
               caption_done: تکمیل‌شده
               caption_done_info: همه داده‌ها وارد شده‌اند
               description: در آستانه شروع اجرای Import با تنظیمات زیر هستید.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: داده‌هایی که وارد می‌شوند
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
@@ -1568,6 +1593,7 @@ fa:
               button_done: تأیید Import
               button_revert: بازگردانی Import
               caption: بازبینی اجرای Import یا بازگردانی آن
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: تأیید Import
               label_finalizing: در حال تأیید Import...
               label_finalizing_done: Import تأیید شد.
@@ -1575,7 +1601,6 @@ fa:
               label_revert: بازگردانی Import
               label_revert_progress: در حال بازگردانی Import...
               label_reverted: Import بازگردانده شد.
-              preview_description: داده‌های واردشده اکنون در حالت بازبینی هستند. برای دائمی‌کردن Import روی «تأیید Import» یا برای لغو همه تغییرات این اجرا روی «بازگردانی Import» کلیک کنید.
               stats:
                 other_settings:
                   label: تنظیمات دیگر
@@ -1798,8 +1823,6 @@ fa:
             manual_conversion_hint: می‌توانید پیش از انجام مهاجرت خودکار، تبدیل به حالت چندمقداری را به‌صورت دستی اجرا کنید.
             not_writable_hint: این تنظیمات از طریق متغیرهای محیطی پیکربندی شده‌اند. اگر می‌خواهید پیش از مهاجرت خودکار، تبدیل به حالت چندمقداری را به‌صورت دستی اجرا کنید، فایل configuration.yml را به‌روزرسانی کنید.
           heading: نسخه‌های هدف
-          in_progress:
-            heading: فعال‌سازی چند نسخه
           planned_changes:
             heading: تغییرات برنامه‌ریزی‌شده در نسخه آینده
             renamed: فیلد «نسخه» به «نسخه‌های هدف» تغییرنام خواهد یافت.
@@ -3179,6 +3202,7 @@ fa:
         progress_calculation_adjusted_from_disabled_mode: محاسبه پیشرفت با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار روی حالت مبتنی بر کار تنظیم و اصلاح شد.
         scheduling_mode_adjusted: حالت زمان‌بندی با به‌روزرسانی نسخه به‌طور خودکار اصلاح شد.
         sprint_migration: نسخه «%{version_name}» به‌عنوان اسپرینت کپی شد.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: پیش از فعال‌سازی چند نسخه هدف، نسخه‌های هدف به‌طور خودکار با فیلد نسخه همگام شدند.
         totals_removed_from_childless_work_packages: مقادیر کار و مجموع پیشرفت برای بسته‌های کاری غیرِوالد با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار حذف شدند. این یک وظیفه نگهداری است و می‌توانید با خیال راحت آن را نادیده بگیرید.
       total_percent_complete_mode_changed_to_simple_average: مقادیر کار بسته‌های کاری فرزند نادیده گرفته می‌شوند.
@@ -3286,6 +3310,7 @@ fa:
   label_available_project_work_package_categories: دسته‌بندی‌های بسته کاری موجود
   label_available_project_work_package_types: نوع‌های بسته کاری موجود
   label_available_projects: پروژه‌های موجود
+  label_backtrace: Backtrace
   label_backup: پشتیبان‌گیری
   label_basic_details: جزئیات پایه
   label_between: بین
@@ -4809,6 +4834,8 @@ fa:
     dialog:
       footer_center:
         caption: این متن در همه صفحات، وسط پابرگ نمایش داده می‌شود.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: متن پابرگ
       footer_right:
         caption: این متن در سمت راست Footer همه صفحه‌ها نمایش داده می‌شود.
@@ -4911,6 +4938,7 @@ fa:
     '
   permission_manage_placeholder_user: ایجاد، ویرایش و حذف کاربران جایگزین
   permission_manage_project_activities: مدیریت فعالیت‌های پروژه
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: مدیریت Queryهای عمومی BCF
   permission_manage_public_project_queries: مدیریت فهرست‌های عمومی پروژه
   permission_manage_public_queries: مدیریت نماهای عمومی
@@ -5219,23 +5247,41 @@ fa:
           type_label: نوع
           type_placeholder: انتخاب نوع
         add_type: افزودن نوع
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: یک نوع اضافه کنید تا افراد بتوانند بسته‌های کاری از آن نوع را در این پروژه ایجاد کنند.
           title: هیچ نوعی در این پروژه فعال نیست
         form:
           enable_type_in_project: فعال‌کردن نوع «%{type}»
         no_results_title_text: در حال حاضر هیچ نوعی در دسترس نیست.
+        project_specific_variant: Project-specific variant
         remove_from_project: حذف از پروژه
-        switch_dialog:
-          apply: اعمال
-          description: گونه متفاوتی از این نوع را برای استفاده در این پروژه انتخاب کنید.
-          success: پروژه اکنون از %{type} استفاده می‌کند.
-          target_label: گونه
-          title: "%{type}: تغییر گونه"
-          warning: اگر گونه را تغییر دهید، ممکن است اطلاعات مرتبط با فیلدهای سفارشی‌ای که در گونه جدید وجود ندارند از دست بروند.
-        switch_type: تغییر گونه
+        switch:
+          apply: Apply
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         type_not_found: نوع انتخاب‌شده یافت نشد.
-        variant_prefix: 'گونه:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: ایجاد نسخه جدید
         no_results_title_text: در حال حاضر هیچ نسخه‌ای برای پروژه وجود ندارد.
@@ -5509,7 +5555,7 @@ fa:
   setting_default_language: زبان پیش‌فرض
   setting_default_projects_modules: ماژول‌های فعال پیش‌فرض برای پروژه‌های جدید
   setting_default_projects_public: پروژه‌های جدید به‌طور پیش‌فرض عمومی هستند
-  setting_default_projects_wiki: قابلیت Wiki را به‌طور پیش‌فرض برای پروژه‌های جدید فعال می‌کند
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
   setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض
@@ -5557,6 +5603,14 @@ fa:
   setting_password_active_rules: الزامات گذرواژه
   setting_password_count_former_banned: تعداد گذرواژه‌های اخیر که استفاده مجدد از آن‌ها ممنوع است
   setting_password_days_valid: تعداد روزهایی که پس از آن تغییر گذرواژه اجباری می‌شود
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: حداقل طول
   setting_per_page_options: گزینه‌های تعداد اشیا در هر صفحه
   setting_percent_complete_on_status_closed: "٪ تکمیل وقتی وضعیت بسته است"
@@ -5691,6 +5745,15 @@ fa:
     authentication:
       login: ورود
       omniauth_direct_login_hint_html: 'اگر این گزینه فعال باشد، درخواست‌های ورود به ارائه‌دهنده OmniAuth پیکربندی‌شده Redirect می‌شوند. Dropdown ورود و صفحه ورود غیرفعال خواهند شد. <br/> <strong>توجه:</strong> مگر اینکه ورود با گذرواژه را نیز غیرفعال کنید، کاربران با وجود فعال‌بودن این گزینه همچنان می‌توانند با مراجعه به صفحه ورود <code>%{internal_path}</code> به‌صورت داخلی وارد شوند.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: ثبت‌نام
@@ -6181,7 +6244,7 @@ fa:
   total_progress: پیشرفت کل
   types:
     creation_wizard:
-      add_variant: افزودن گونه به %{name}
+      add_variant: Add a variant to %{name}
       create_type: ایجاد نوع
       create_variant: ایجاد گونه
       fields:
@@ -6250,7 +6313,12 @@ fa:
           label: الگوهای خروجی PDF
         tab: تولید PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: الگوهای خروجی PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: بخش
         add_query_group: جدول بسته‌های کاری مرتبط
@@ -6294,12 +6362,12 @@ fa:
           label_disable_all: غیرفعال‌کردن همه
           label_enable_all: فعال‌کردن همه
         blankslate:
-          independent:
-            description: پس از اینکه [ویژگی‌های پروژه را ایجاد کنید](administration_url)، در اینجا قابل مشاهده خواهند بود و می‌توان آن‌ها را به یک نوع اضافه کرد.
-            title: هیچ ویژگی پروژه‌ای در دسترس نیست
-          linked:
-            description: این نوع هیچ ویژگی پروژه مرتبطی ندارد.
-            title: هیچ ویژگی پروژه‌ای پیکربندی نشده است
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: ویژگی‌های پروژه‌ای را که می‌خواهید برای این نوع بسته کاری فعال شوند انتخاب کنید. ویژگی‌های فعال پروژه در Tab جداگانه‌ای در بسته‌های کاری این نوع نمایش داده می‌شوند. کاربران دارای مجوزهای لازم می‌توانند آن‌ها را مشاهده و ویرایش کنند.
         disabled: غیرفعال
         exclusions:
@@ -6329,61 +6397,84 @@ fa:
             description_html: با کپی داده از %{source_name}، تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت تأثیر قرار گیرند.
             title: پیکربندی کپی شود؟
           dialog:
-            description: پیکربندی را از یک نوع منبع کپی کنید و به‌عنوان پایه یک‌باره استفاده کنید. این کار دو نوع را به‌طور دائمی به هم متصل نمی‌کند.
-            source_label: منبع کپی
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: انتخاب نوع یا گونه
             submit: ذخیره و کپی
             title: کپی پیکربندی
           invalid_source: پیکربندی از نوع انتخاب‌شده قابل کپی نیست. لطفاً نوع منبع دیگری انتخاب کنید.
           success: پیکربندی کپی شد.
-        exclusions:
-          not_linked: این نوع مالک پیکربندی این بخش است، بنابراین چیزی برای حذف از وراثت وجود ندارد. به‌جای آن پیکربندی را مستقیماً ویرایش کنید.
-          unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
-        independent:
-          confirm_dialog:
-            check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
-            description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
-            title: حالت پیکربندی تغییر کند؟
-          copy_from_type: کپی از نوع
-          description: هیچ تنظیمی به ارث نمی‌رسد. در صورت تمایل هنوز می‌توانید یک‌بار تنظیمات را از نوع دیگری کپی کنید.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: تغییر
-            title: حالت مستقل
-          invalid_mode: حالت انتخاب‌شده برای این پیکربندی در دسترس نیست. لطفاً حالت دیگری انتخاب کنید.
-          modes:
-            copy:
-              caption: با یک کپی یک‌باره از تنظیمات فعلیِ حالت پیوندشده شروع کنید.
-              label: کپی از حالت پیوندشده
-            default:
-              caption: استفاده از تنظیمات پیش‌فرض برای نوع‌های جدید.
-              label: تنظیمات پیش‌فرض
-            empty:
-              caption: همه‌چیز را از ابتدا و با پیکربندی خالی تنظیم کنید.
-              label: خالی
-          success: حالت پیکربندی تغییر کرد.
-          switch_to_linked: تغییر به حالت پیوندشده
-          title: حالت مستقل
-        linked:
-          change_source: تغییر نوع منبع
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: با تغییر نوع منبع به %{source_name} تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت تأثیر قرار گیرند.
-              title: نوع منبع تغییر کند؟
-            check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
-            from_independent:
-              description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
-              title: حالت پیکربندی تغییر کند؟
-          description: این پیکربندی پیوندشده است و تنظیمات خود را از نوع منبع [%{source_name}](source_url)%{source_suffix} به ارث می‌برد.
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: این تنظیمات را از یک منبع کپی و به ارث ببرید. هر پیکربندی جدیدی که به منبع اضافه شود، اینجا نیز اضافه خواهد شد.
-            source_label: منبع پیوندشده
-            source_placeholder: انتخاب نوع یا گونه
-            submit: تغییر
-            title: حالت پیوندشده
-          invalid_source: این پیکربندی به نوع انتخاب‌شده قابل پیوند نیست. لطفاً نوع منبع دیگری انتخاب کنید.
-          success: حالت پیکربندی تغییر کرد.
-          switch_to_independent: تغییر به حالت مستقل
-          title: حالت پیوندشده
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (والد)"
       variants:
         blankslate:
@@ -6391,12 +6482,22 @@ fa:
 
             '
           title: هیچ گونه‌ای برای این نوع وجود ندارد
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: فیلتر بر اساس متن
         filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: گردش‌کارها
     index:
-      add_variant: افزودن گونه به %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: افزودن گونه
       description: 'هر بخش پیکربندی در نوع‌ها و گونه‌ها می‌تواند مستقل پیکربندی شود، از نوع دیگری محدود شود یا به‌طور کامل به یک منبع پیوند داده شود.
 
@@ -6408,14 +6509,13 @@ fa:
       make_default_notice: "%{name} اکنون در پروژه‌های جدید فعال است."
       no_results_content_text: ایجاد نوع جدید
       no_results_title_text: در حال حاضر هیچ نوعی وجود ندارد.
+      project_variants_count:
+        one: 1 project-specific variant
+        other: "%{count} project-specific variants"
       remove_default: در پروژه‌های جدید فعال نشود
       remove_default_notice: "%{name} دیگر در پروژه‌های جدید فعال نیست."
       type_label: نوع
-      variant_enabled_in_new_projects: گونه %{name} در پروژه‌های جدید فعال است
       variant_label: گونه
-      variants_count:
-        one: ۱ گونه
-        other: "%{count} گونه"
     milestone_indicator: نقطه عطف
   unsupported_browser:
     close_warning: این هشدار را نادیده بگیرید.

@@ -152,9 +152,14 @@ describe('Date picker preview controller', () => {
   it('replaces an OPCE-* node when scheduling has changed', async () => {
     const currentElement = await morphFrame('/work_packages/123/dialog/preview?schedule_manually=true');
 
-    // The `<div>` sibling is NOT expected to morph here: oldNode.replaceWith()
-    // detaches the OPCE node from the DOM, which breaks idiomorph's sibling walk
-    // for anything that follows it. Pre-existing bug, tracked as OP-19669.
     expect(currentElement.querySelector('opce-test-marker')!.getAttribute('data-marker')).toBe('new');
+  });
+
+  it('keeps morphing siblings that follow a replaced OPCE-* node', async () => {
+    const currentElement = await morphFrame('/work_packages/123/dialog/preview?schedule_manually=true');
+
+    expect(currentElement.querySelectorAll('opce-test-marker')).toHaveLength(1);
+    expect(currentElement.querySelectorAll('div')).toHaveLength(1);
+    expect(currentElement.querySelector('div')!.getAttribute('data-marker')).toBe('new');
   });
 });

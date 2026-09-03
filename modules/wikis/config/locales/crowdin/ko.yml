@@ -27,9 +27,9 @@ ko:
       wikis/inline_page_link:
         other: 인라인 페이지 링크
       wikis/internal_provider:
-        other: Internal providers
+        other: 내부 공급자
       wikis/page_link:
-        other: Page links
+        other: 페이지 링크
       wikis/provider:
         other: 위키 공급자
       wikis/relation_page_link:
@@ -38,11 +38,11 @@ ko:
         other: XWiki 공급자
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: 외부 위키 공급자
+      internal_wiki_provider: 프로젝트 위키
       wikis: 위키
     project_settings:
-      wiki: Project wiki
+      wiki: 프로젝트 위키
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
   wikis:
     admin:
@@ -72,11 +72,11 @@ ko:
           no_health_report_description: 이 위키 공급자에 대한 전체 상태 보고서를 보려면 지금 검사를 실행하세요.
           title: 상태 보고서
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: 프로젝트가 외부 위키 공급자와 함께 프로젝트 위키를 사용하도록 허용
+        checkbox_label: OpenProject 프로젝트 위키 활성화
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: 프로젝트 위키를 활성화 또는 비활성화하도록 선택
       oauth_application_info_component:
         confirm_replace_oauth_application: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 XWiki 인스턴스에서 자격 증명을 다시 입력해야 하며 모든 사용자가 다시 인증해야 합니다. 계속하시겠습니까?
         label_oauth_client_id: OAuth 클라이언트 ID
@@ -161,7 +161,7 @@ ko:
     index:
       column_last_edited: 마지막 편집
       column_name: 위키 페이지
-      column_parent: Parent
+      column_parent: 부모
       column_project: 프로젝트
       column_sub_pages: 하위 페이지
       filter_by_name: 페이지 이름으로 필터링
@@ -193,7 +193,7 @@ ko:
     page_link_forms:
       labels:
         page_title: 제목
-        parent: Parent
+        parent: 부모
         wiki_page: 위키 페이지
       search:
         no_results: 위키 페이지를 찾을 수 없습니다
@@ -208,10 +208,10 @@ ko:
         parent: 부모로
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: 이 경우, 프로젝트 위키는 전체적으로 비활성화되어 있으므로 프로젝트별로 활성화할 수 없습니다. 관리자에게 문의하여 관리 설정에서 글로벌 위키를 활성화해 달라고 요청하세요.
+        blankslate_title: 프로젝트 위키가 전체적으로 비활성화되었습니다
         caption: 이 옵션은 해당 프로젝트의 네이티브 위키 기능을 활성화합니다. 멤버는 OpenProject에 저장된 위키 페이지를 생성하고 읽을 수 있게 됩니다.
-        enable: Enable the OpenProject wiki for this project
+        enable: 이 프로젝트의 OpenProject 위키 활성화
     provider_types:
       internal:
         name: OpenProject

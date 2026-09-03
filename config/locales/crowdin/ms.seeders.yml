@@ -71,6 +71,15 @@ ms:
           name: Kakitangan dan pengurus projek
         item_1:
           name: Peranan global standard
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:

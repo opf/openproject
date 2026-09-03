@@ -16,8 +16,8 @@ fr:
           overlaps: superposition.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Grille
+        other: Grilles
       grids/widget:
         one: Widget
         other: Widgets
@@ -27,12 +27,12 @@ fr:
       empty: Ce widget est actuellement vide.
       members:
         no_results: Aucun membre visible.
-        show_members_count: Afficher tous les membres de %{count}
+        show_members_count: Afficher les %{count} membres
         title: Membres
         view_all_members: Afficher tous les membres
         x_more:
           one: et un membre supplémentaire.
-          other: et %{count} plus de membres.
+          other: et %{count} membres supplémentaires.
       news:
         no_results: Rien de nouveau à signaler.
       not_available: Ce widget n'est pas disponible.

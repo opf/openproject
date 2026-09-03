@@ -21,9 +21,9 @@ ko:
           must_contain_base_dn: 필터 기본 DN은 LDAP 연결의 기본 DN에 포함되어야 합니다
     models:
       ldap_groups/synchronized_filter:
-        other: LDAP Group synchronization filters
+        other: LDAP 그룹 동기화 필터
       ldap_groups/synchronized_group:
-        other: Synchronized LDAP groups
+        other: 동기화된 LDAP 그룹
   ee:
     upsell:
       ldap_groups:

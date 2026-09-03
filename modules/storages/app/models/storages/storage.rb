@@ -117,7 +117,7 @@ module Storages
 
     def oauth_access_granted?(user)
       (user.authentication_provider.is_a?(OpenIDConnect::Provider) && authenticate_via_idp?) ||
-        OAuthClientToken.exists?(user:, oauth_client:)
+        OAuthClients::TokenFetcher.new(user:).connected?(oauth_client:)
     end
 
     # For the time being, all Storages support OAuth redirect.

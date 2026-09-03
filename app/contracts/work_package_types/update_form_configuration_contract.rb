@@ -29,7 +29,8 @@
 #++
 
 module WorkPackageTypes
-  class UpdateFormConfigurationContract < BaseContract
+  class UpdateFormConfigurationContract < ::ModelContract
+    include AuthorizesVariantAuthoring
     include RequiresEnterpriseGuard
 
     def self.model = TypeVariant

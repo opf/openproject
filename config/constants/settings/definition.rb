@@ -429,7 +429,8 @@ module Settings
         default: false
       },
       disable_password_login: {
-        description: "Disable internal logins and instead only allow SSO through OmniAuth.",
+        description: "Disable internal logins and instead only allow SSO through OmniAuth. " \
+                     "Forces password_login to 'none'. Prefer setting password_login directly.",
         default: false
       },
       display_subprojects_work_packages: {
@@ -480,6 +481,16 @@ module Settings
         format: :symbol,
         default: nil,
         env_alias: "EMAIL_DELIVERY_METHOD"
+      },
+      email_limit_per_day: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Number of emails which are allowed to be sent per day on average (may be up to 2x as much on " \
+                     "a single day). This can be used to address spam and abuse, but is just designed as a last " \
+                     "resort as it simply drops mails that are over the limit instead of sending them at a later " \
+                     "point in time or notifying the user."
       },
       emails_salutation: {
         allowed: %i[firstname name],
@@ -855,6 +866,35 @@ module Settings
       },
       password_days_valid: {
         default: 0
+      },
+      password_login: {
+        description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
+                     "users, or nobody (except the break-glass allowlist).",
+        format: :string,
+        default: lambda {
+          if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
+            "none"
+          else
+            "all"
+          end
+        },
+        writable: lambda {
+          OpenProject::Configuration::TRUE_VALUES.exclude?(OpenProject::Configuration["disable_password_login"])
+        },
+        allowed: -> { Users::PasswordLogin::MODES }
+      },
+      password_login_bypass_logins: {
+        description: "Logins that keep password login as a break-glass access when password_login " \
+                     "is except_sso or none. Intended as an environment overlay when nobody can " \
+                     "reach administration. Matched case-insensitively.",
+        format: :array,
+        default: []
+      },
+      password_login_bypass_principal_ids: {
+        description: "User and group ids that keep password login as a break-glass access when " \
+                     "password_login is except_sso or none. Groups include their descendant groups.",
+        format: :array,
+        default: []
       },
       password_min_length: {
         default: 10,

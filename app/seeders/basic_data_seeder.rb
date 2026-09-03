@@ -47,7 +47,8 @@ class BasicDataSeeder < CompositeSeeder
       ::BasicData::PrioritySeeder,
       ::BasicData::SettingSeeder,
       ::BasicData::ProjectCustomFieldSectionSeeder,
-      ::BasicData::UserCustomFieldSectionSeeder
+      ::BasicData::UserCustomFieldSectionSeeder,
+      ::BasicData::AiTextTransformActionSeeder
     ]
   end
 

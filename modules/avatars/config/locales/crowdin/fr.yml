@@ -22,7 +22,7 @@ fr:
   label_current_avatar: Avatar actuel
   message_avatar_uploaded: L'avatar a bien été changé.
   plugin_openproject_avatars:
-    description: Ce plugin permet aux utilisateurs d'OpenProject de télécharger une image à utiliser comme avatar ou d'utiliser des images provenant de Gravatar.
+    description: Ce plugin permet aux utilisateurs d'OpenProject de téléverser une image à utiliser comme avatar ou d'utiliser des images enregistrées dans Gravatar.
     name: Avatars
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
   wrong_file_format: Les formats autorisés sont Jpg, Png et Gif

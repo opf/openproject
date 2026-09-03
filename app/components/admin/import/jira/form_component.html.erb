@@ -29,16 +29,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper(tag: "turbo-frame", **wrapper_options) do
-    concat(settings_primer_form_with(**form_options) do |f|
-      render(Admin::Import::Jira::Form.new(f))
-    end)
     concat(
-      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-        I18n.t("admin.jira.form.label_testing"),
-        hidden: true,
-        mt: 3,
-        data: { "admin--jira-configuration-form-target": "progressBanner" }
-      ))
+      settings_primer_form_with(**form_options) do |f|
+        render(Admin::Import::Jira::Form.new(f))
+      end
+    )
+    concat(
+      render(
+        Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+          message: I18n.t("admin.jira.form.label_testing"),
+          hidden: true,
+          mt: 3,
+          data: { "admin--jira-configuration-form-target": "progressBanner" }
+        )
+      )
     )
   end
 %>

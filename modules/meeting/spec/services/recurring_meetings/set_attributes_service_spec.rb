@@ -108,6 +108,51 @@ RSpec.describe RecurringMeetings::SetAttributesService, type: :model do
     end
   end
 
+  context "when updating a persisted series" do
+    let(:current_user) { create(:user) }
+    let(:model_instance) do
+      create(:recurring_meeting,
+             author: current_user,
+             start_time: Time.utc(2026, 1, 7, 10, 0, 0),
+             frequency: "weekly",
+             interval: 1,
+             end_after: "never",
+             end_date: nil,
+             time_zone: "UTC")
+    end
+    let(:instance) do
+      described_class.new(user: current_user, model: model_instance, contract_class: RecurringMeetings::UpdateContract)
+    end
+
+    around do |example|
+      travel_to(Time.utc(2026, 6, 15, 9, 0, 0)) { example.run }
+    end
+
+    context "with a schedule change" do
+      let(:params) { { start_time_hour: "14:00" } }
+
+      it "moves the anchor to the next occurrence of the new schedule" do
+        subject
+
+        expect(model_instance.current_schedule_start).to eq("2026-06-17 14:00:00 UTC")
+      end
+    end
+
+    context "without a schedule change" do
+      let(:params) { { title: "A new title" } }
+
+      it "leaves the anchor untouched" do
+        expect { subject }.not_to change(model_instance, :current_schedule_start)
+      end
+
+      it "still applies the other attributes" do
+        subject
+
+        expect(model_instance.title).to eq "A new title"
+      end
+    end
+  end
+
   context "when calling without params to set default attributes" do
     let(:params) { {} }
 

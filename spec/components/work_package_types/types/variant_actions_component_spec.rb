@@ -55,12 +55,59 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       )
     end
 
+    # A new project would start on a configuration only the owning project can see, so this is
+    # not an action a project-owned variant has. TypeVariant refuses it as well.
+    context "when a project owns the variant" do
+      shared_let(:owned) do
+        create(:project_owned_type_variant, type: root_type, project: create(:project), variant_name: "Internal")
+      end
+
+      subject(:rendered_component) { render_inline(described_class.new(variant: owned)) }
+
+      it "offers no activating in new projects", :aggregate_failures do
+        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.make_default")
+        expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.remove_default")
+      end
+
+      it "still offers configuring and deleting it", :aggregate_failures do
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure)
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
+      end
+    end
+
     context "when the variant is the one new projects start with" do
       before { variant.update!(enabled_in_new_projects: true) }
 
       it "offers removing the default instead of setting it", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.remove_default")
         expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.make_default")
+      end
+    end
+
+    describe "deleting" do
+      context "when no project applies the variant" do
+        it "deletes it directly, behind a confirmation" do
+          rendered_component
+
+          expect(page).to have_css(
+            "form[action='#{type_variant_path(type_id: root_type.id, id: variant.id)}'][data-turbo-confirm]"
+          )
+        end
+      end
+
+      context "when projects apply the variant" do
+        before do
+          project = create(:project, types: [root_type])
+          project.project_types.find_by(type: root_type).update!(variant:)
+        end
+
+        it "opens the migration dialog instead of deleting straight away", :aggregate_failures do
+          rendered_component
+          link = page.find_link(I18n.t(:button_delete))
+
+          expect(link[:href]).to eq deletion_dialog_type_variant_path(type_id: root_type.id, id: variant.id)
+          expect(link["data-controller"]).to eq("async-dialog")
+        end
       end
     end
   end
