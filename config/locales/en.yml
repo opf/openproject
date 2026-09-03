@@ -1754,6 +1754,7 @@ en:
         source_discovered: "Reported by server"
         source_manual: "Added manually"
         source_withdrawn: "No longer reported"
+        stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
         unconfigured_description: "Connect OpenProject to an LLM server first. The models it offers are listed here once it is reachable."
         unconfigured_title: "No LLM server configured"
       refresh:

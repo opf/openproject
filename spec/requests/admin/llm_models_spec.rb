@@ -68,6 +68,25 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
       end
 
+      it "warns that the list predates the current settings" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update!(connection_fingerprint: connection.settings_fingerprint)
+        connection.update!(api_key: "rotated")
+
+        get llm_models_path
+
+        expect(response.body).to include("llm-models--stale")
+      end
+
+      it "does not warn while the list matches the settings" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update!(connection_fingerprint: connection.settings_fingerprint)
+
+        get llm_models_path
+
+        expect(response.body).not_to include("llm-models--stale")
+      end
+
       it "points at the settings page while no connection is stored" do
         get llm_models_path
 
