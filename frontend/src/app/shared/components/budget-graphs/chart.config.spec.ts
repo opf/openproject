@@ -28,7 +28,8 @@
 
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { within } from '@testing-library/dom';
-import { createPieTooltipRenderer } from './chart.config';
+import { createBarTooltipRenderer, createPieTooltipRenderer } from './chart.config';
+import type { BarTooltipContext } from './chart.config';
 
 describe('chart tooltip renderer', () => {
   let wrapper:HTMLElement;
@@ -129,6 +130,31 @@ describe('chart tooltip renderer', () => {
     change();
 
     expect(popover().matches(':popover-open')).toBe(false);
+  });
+
+  it('centres a bar tooltip on the hovered segment', () => {
+    const renderTooltip = createBarTooltipRenderer(host, (v) => `${v}`);
+    renderers.push(renderTooltip);
+    renderTooltip({
+      chart: { canvas },
+      tooltip: {
+        opacity: 1,
+        caretX: 50,
+        caretY: 20,
+        dataPoints: [{
+          parsed: { x: 0, y: 10 },
+          dataset: { label: 'Labour' },
+          element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) },
+        }],
+        labelColors: [{ backgroundColor: '#123456' }],
+      },
+    } as unknown as BarTooltipContext);
+
+    const box = popover().getBoundingClientRect();
+    expect(box.left).toBeCloseTo(100 + 65 + 8, 0);
+    expect(box.top + box.height / 2).toBeCloseTo(100 + 70, 0);
+    expect(message()).toHaveClass('Popover-message--left');
+    expect(message().style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe(`${box.height / 2}px`);
   });
 
   it('never renders into document.body', () => {

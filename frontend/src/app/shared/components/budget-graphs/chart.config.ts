@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChartOptions, TooltipModel } from 'chart.js';
+import { BarElement, ChartOptions, TooltipModel } from 'chart.js';
 import { html, render } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
@@ -83,14 +83,12 @@ class ChartTooltip {
     this.close();
   }
 
-  update<TType extends 'bar'|'pie'>(context:TooltipContext<TType>, items:TemplateResult[]):void {
+  update<TType extends 'bar'|'pie'>(context:TooltipContext<TType>, items:TemplateResult[], anchor = caretPoint(context)):void {
     if (context.tooltip.opacity === 0) {
       this.close();
       return;
     }
 
-    const { left, top } = context.chart.canvas.getBoundingClientRect();
-    const anchor = new DOMRect(Math.round(left + context.tooltip.caretX), Math.round(top + context.tooltip.caretY), 0, 0);
     const moved = anchor.x !== this.anchor?.x || anchor.y !== this.anchor?.y || !this.popover?.matches(':popover-open');
 
     this.anchor = anchor;
@@ -130,6 +128,27 @@ class ChartTooltip {
   }
 }
 
+function caretPoint<TType extends 'bar'|'pie'>(context:TooltipContext<TType>):DOMRect {
+  const { left, top } = context.chart.canvas.getBoundingClientRect();
+  return new DOMRect(Math.round(left + context.tooltip.caretX), Math.round(top + context.tooltip.caretY), 0, 0);
+}
+
+// Chart.js anchors a bar tooltip on the top edge of the hovered segment; the
+// segment's box lets anchored-position centre the popover on it instead.
+function barBox(context:TooltipContext<'bar'>):DOMRect {
+  const bar = context.tooltip.dataPoints[0]?.element as BarElement|undefined;
+  const { x, y, base, width } = bar?.getProps(['x', 'y', 'base', 'width']) ?? {};
+  if (x == null || y == null || base == null || width == null) return caretPoint(context);
+
+  const { left, top } = context.chart.canvas.getBoundingClientRect();
+  return new DOMRect(
+    Math.round(left + x - width / 2),
+    Math.round(top + Math.min(y, base)),
+    Math.round(width),
+    Math.round(Math.abs(base - y)),
+  );
+}
+
 function renderColorDot(color:string) {
   return html`<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; vertical-align: baseline; margin-right: 4px"></span>`;
 }
@@ -156,7 +175,7 @@ export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:Format
       const color = context.tooltip.labelColors[i]?.backgroundColor as string;
       return renderTooltipItem(color, dp.dataset.label ?? '', formatCurrency(dp.parsed.y ?? 0), dateStr);
     });
-    tooltip.update(context, items);
+    tooltip.update(context, items, barBox(context));
   };
   return Object.assign(renderer, { destroy: () => tooltip.destroy() });
 }
