@@ -44,7 +44,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.9.0",
+    "globals": "^17.11.0",
     "jsdom": "^29.1.1",
     "patch-package": "^8.0.1",
     "playwright": "^1.61.1",
