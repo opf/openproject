@@ -37,88 +37,34 @@ module WorkPackageTypes
       DURATION = ->(v) { DurationConverter.output(v) }
 
       class << self
-        def attribute(key, label_fn, value_fn, formatter = STRING_OR_NIL)
-          AttributeToken.new(key, label_fn, value_fn, formatter)
+        def add_static_attribute(key, label_fn, value_fn, formatter = STRING_OR_NIL)
+          static_tokens << AttributeToken.new(key, label_fn, value_fn, formatter)
+        end
+
+        def static_tokens
+          @static_tokens ||= []
+        end
+
+        def add_custom_fields(scope_fn, prefix = "")
+          custom_field_definitions << [scope_fn, prefix]
+        end
+
+        def custom_field_definitions
+          @custom_field_definitions ||= []
         end
       end
-      # rubocop:disable Layout/LineLength
-      BASE_ATTRIBUTE_TOKENS = [
-        attribute(:id, -> { WorkPackage.human_attribute_name(:id) }, ->(wp) { wp.id }),
-        attribute(:accountable, -> { WorkPackage.human_attribute_name(:responsible) }, ->(wp) { wp.responsible }),
-        attribute(:assignee, -> { WorkPackage.human_attribute_name(:assigned_to) }, ->(wp) { wp.assigned_to }),
-        attribute(:author, -> { WorkPackage.human_attribute_name(:author) }, ->(wp) { wp.author }),
-        attribute(:category, -> { WorkPackage.human_attribute_name(:category) }, ->(wp) { wp.category }),
-        attribute(:creation_date, -> { WorkPackage.human_attribute_name(:created_at) }, ->(wp) { wp.created_at }, DATE),
-        attribute(:estimated_time, -> { WorkPackage.human_attribute_name(:estimated_hours) }, ->(wp) { wp.estimated_hours }, DURATION),
-        attribute(:remaining_time, -> { WorkPackage.human_attribute_name(:remaining_hours) }, ->(wp) { wp.remaining_hours }, DURATION),
-        attribute(:finish_date, -> { WorkPackage.human_attribute_name(:due_date) }, ->(wp) { wp.due_date }, DATE),
-        attribute(:observed_in_versions, -> { WorkPackage.human_attribute_name(:observed_in_versions) }, ->(wp) { wp.observed_in_versions }, ARRAY),
-        attribute(:parent_id, -> { WorkPackage.human_attribute_name(:id) }, ->(parent) { parent.id }),
-        attribute(:parent_assignee, -> { WorkPackage.human_attribute_name(:assigned_to) }, ->(parent) { parent.assigned_to }),
-        attribute(:parent_author, -> { WorkPackage.human_attribute_name(:author) }, ->(parent) { parent.author }),
-        attribute(:parent_category, -> { WorkPackage.human_attribute_name(:category) }, ->(parent) { parent.category }),
-        attribute(:parent_creation_date, -> { WorkPackage.human_attribute_name(:created_at) }, ->(parent) { parent.created_at }, DATE),
-        attribute(:parent_estimated_time, -> { WorkPackage.human_attribute_name(:estimated_hours) }, ->(parent) { parent.estimated_hours }, DURATION),
-        attribute(:parent_remaining_time, -> { WorkPackage.human_attribute_name(:remaining_hours) }, ->(parent) { parent.remaining_hours }, DURATION),
-        attribute(:parent_finish_date, -> { WorkPackage.human_attribute_name(:due_date) }, ->(parent) { parent.due_date }, DATE),
-        attribute(:parent_observed_in_versions, -> { WorkPackage.human_attribute_name(:observed_in_versions) }, ->(parent) { parent.observed_in_versions }, ARRAY),
-        attribute(:parent_priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(parent) { parent.priority }),
-        attribute(:parent_subject, -> { WorkPackage.human_attribute_name(:subject) }, ->(parent) { parent.subject }),
-        attribute(:parent_status, -> { WorkPackage.human_attribute_name(:status) }, ->(parent) { parent.status }),
-        attribute(:parent_type, -> { WorkPackage.human_attribute_name(:type) }, ->(parent) { parent.type }),
-        attribute(:parent_version, -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.target_versions }, ARRAY),
-        attribute(:priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(wp) { wp.priority }),
-        attribute(:project_id, -> { Project.human_attribute_name(:id) }, ->(project) { project.id }),
-        attribute(:project_active, -> { Project.human_attribute_name(:active) }, ->(project) { project.active? }),
-        attribute(:project_name, -> { Project.human_attribute_name(:name) }, ->(project) { project }),
-        attribute(:project_status, -> { Project.human_attribute_name(:status_code) }, ->(project) { project.status_code && I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}") }),
-        attribute(:project_parent, -> { Project.human_attribute_name(:parent) }, ->(project) { project.parent_id }),
-        attribute(:project_public, -> { Project.human_attribute_name(:public) }, ->(project) { project.public? }),
-        attribute(:start_date, -> { WorkPackage.human_attribute_name(:start_date) }, ->(wp) { wp.start_date }, DATE),
-        attribute(:status, -> { WorkPackage.human_attribute_name(:status) }, ->(wp) { wp.status }),
-        attribute(:type, -> { WorkPackage.human_attribute_name(:type) }, ->(wp) { wp.type }),
-        attribute(:version, -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.target_versions }, ARRAY)
-      ].freeze
-      # rubocop:enable Layout/LineLength
 
       def partitioned_tokens_for_type(variant)
-        enabled_tokens = [
-          *BASE_ATTRIBUTE_TOKENS,
-          *tokenize(work_package_cfs_for(variant)),
-          *tokenize(project_cfs, "project_"),
-          *tokenize(all_work_package_cfs, "parent_")
-        ].to_set
-
-        all_tokens.partition { |token| enabled_tokens.include?(token) }
+        enabled_cf_tokens = custom_field_tokens(variant)
+        [self.class.static_tokens + enabled_cf_tokens, custom_field_tokens(nil) - enabled_cf_tokens]
       end
 
       private
 
-      def all_tokens
-        [
-          *BASE_ATTRIBUTE_TOKENS,
-          *tokenize(all_work_package_cfs),
-          *tokenize(project_cfs, "project_"),
-          *tokenize(all_work_package_cfs, "parent_")
-        ]
-      end
-
-      def default_tokens
-        BASE_ATTRIBUTE_TOKENS.each_with_object({ work_package: {}, project: {}, parent: {} }) do |token, obj|
-          case token.key.to_s
-          when /^project_/
-            obj[:project][token.key] = token
-          when /^parent_/
-            obj[:parent][token.key] = token
-          else
-            obj[:work_package][token.key] = token
-          end
+      def custom_field_tokens(variant)
+        self.class.custom_field_definitions.flat_map do |scope_fn, prefix|
+          tokenize(scope_fn.call(variant), prefix)
         end
-      end
-
-      def prefixed_label(context, attribute_label)
-        attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
-        I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label:)
       end
 
       def tokenize(custom_field_scope, prefix = nil)
@@ -142,18 +88,6 @@ module WorkPackageTypes
             formatter
           )
         end
-      end
-
-      def work_package_cfs_for(variant)
-        all_work_package_cfs.merge(variant.custom_fields)
-      end
-
-      def all_work_package_cfs
-        WorkPackageCustomField.where.not(field_format: %w[text link empty]).order(:name)
-      end
-
-      def project_cfs
-        ProjectCustomField.where.not(field_format: %w[text link empty]).where(admin_only: false, multi_value: false).order(:name)
       end
     end
   end
