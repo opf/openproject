@@ -31,10 +31,10 @@
 module WorkPackageTypes
   module Patterns
     class TokenPropertyMapper
-      STRING_OR_NIL = ->(v) { v&.to_s }
-      ARRAY = ->(v) { v.compact.presence&.join(", ") }
-      DATE = ->(v) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
-      DURATION = ->(v) { DurationConverter.output(v) }
+      STRING_OR_NIL = ->(v, _) { v&.to_s }
+      ARRAY = ->(v, _) { v.compact.presence&.join(", ") }
+      DATE = ->(v, _) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
+      DURATION = ->(v, _) { DurationConverter.output(v) }
 
       class << self
         def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
@@ -74,7 +74,7 @@ module WorkPackageTypes
                       elsif format == "date"
                         DATE
                       else
-                        ->(v) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v) }
+                        ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",
