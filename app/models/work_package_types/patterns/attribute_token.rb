@@ -40,9 +40,9 @@ module WorkPackageTypes
         label_fn.call
       end
 
-      def call(context)
+      def call(context, format_param)
         value = resolve_fn.call(context)
-        formatter.call(value)
+        formatter.call(value, format_param)
       end
 
       # --- Equality overrides ---
