@@ -18,17 +18,3 @@ export const PickerArrowsGlyph = () => (
     <TriangleDownIcon size={12} />
   </Glyph>
 );
-
-const ArrowsSlot = styled.span`
-  position: absolute;
-  right: var(--spacer-l);
-  display: flex;
-  pointer-events: none;
-  color: var(--op-create-wp-arrow);
-`;
-
-export const PickerArrows = () => (
-  <ArrowsSlot>
-    <PickerArrowsGlyph />
-  </ArrowsSlot>
-);

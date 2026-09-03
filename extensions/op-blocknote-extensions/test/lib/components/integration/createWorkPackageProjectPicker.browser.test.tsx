@@ -2,6 +2,7 @@ import { afterEach, describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
+import { recordFrames } from '../../../helpers/animationHelpers';
 import { openCreateModal } from '../../../helpers/createWorkPackageHelpers';
 import { requestsDuring } from '../../../helpers/requestHelpers';
 import { worker } from '../../../mocks/browser';
@@ -19,6 +20,23 @@ async function openProjectPicker(firstProject = 'Demo project') {
   await openCreateModal();
   await userEvent.click(page.getByLabelText(PROJECT_FIELD));
   await expect.element(page.getByRole('treeitem', { name: firstProject })).toBeVisible();
+}
+
+function serveNestedProjects(children:number) {
+  const parent = { href: '/api/v3/projects/100', title: 'Parent project' };
+
+  worker.use(
+    http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
+      HttpResponse.json({ _embedded: { elements: [
+        { id: 100, name: 'Parent project', _links: { self: { href: parent.href } } },
+        ...Array.from({ length: children }, (_, index) => ({
+          id: 200 + index,
+          name: `Child ${index + 1}`,
+          _links: { self: { href: `/api/v3/projects/${200 + index}` }, ancestors: [parent] },
+        })),
+      ] } })
+    )
+  );
 }
 
 function serveManyProjects() {
@@ -687,6 +705,7 @@ describe('Create work package - project picker', () => {
   it('stays open when its own chrome is clicked', async () => {
     await openProjectPicker();
 
+    await expect.poll(() => page.getByTestId(`${LIST}-popover`).element().getAnimations().length).toBe(0);
     const popover = page.getByTestId(`${LIST}-popover`).element().getBoundingClientRect();
     await userEvent.click(page.getByTestId(`${LIST}-popover`), {
       position: { x: 4, y: Math.round(popover.height) - 3 },
@@ -805,4 +824,60 @@ describe('Create work package - project picker', () => {
     expect(optionLabels()).toEqual(['Demo project']);
     expect(page.getByRole('treeitem', { name: 'Demo project' }).element().querySelectorAll('svg')).toHaveLength(0);
   });
+  it('rolls away from the height it had when closed part way through an unfold', async () => {
+    serveNestedProjects(5);
+    await openProjectPicker('Parent project');
+
+    const popover = () => document.querySelector<HTMLElement>(`[data-testid="${LIST}-popover"]`);
+    await expect.poll(() => popover()?.getAnimations().length).toBe(0);
+    const settled = popover()!.getBoundingClientRect().height;
+
+    const recorded = recordFrames<number>(() => {
+      const list = popover();
+      return list ? list.getBoundingClientRect().height : null;
+    });
+
+    await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
+    await new Promise((resolve) => { setTimeout(resolve, 60); });
+    await userEvent.keyboard('{Escape}');
+    await expect.poll(popover).toBeNull();
+    recorded.stop();
+
+    expect(Math.max(...recorded.frames)).toBeGreaterThan(settled);
+
+    const steps = recorded.frames
+      .slice(1)
+      .map((height, index) => height - recorded.frames[index])
+      .filter((step) => step > 0);
+
+    expect(steps.length).toBeGreaterThan(2);
+    expect(Math.max(...steps)).toBe(steps[0]);
+  });
+
+  it('crosses to its new height when a parent unfolds rather than jumping', async () => {
+    serveNestedProjects(4);
+    await openProjectPicker('Parent project');
+
+    const popover = () => document.querySelector<HTMLElement>(`[data-testid="${LIST}-popover"]`);
+    await expect.poll(() => popover()?.getAnimations().length).toBe(0);
+
+    const before = popover()!.getBoundingClientRect().height;
+    const recorded = recordFrames<number>(() => {
+      const list = popover();
+      return list ? list.getBoundingClientRect().height : null;
+    });
+
+    await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
+    await expect.element(page.getByRole('treeitem', { name: 'Child 1' })).toBeVisible();
+    await expect.poll(() => popover()?.getAnimations().length).toBe(0);
+    recorded.stop();
+
+    const after = popover()!.getBoundingClientRect().height;
+    expect(after).toBeGreaterThan(before);
+
+    expect(new Set(recorded.frames).size).toBeGreaterThan(2);
+    expect(Math.min(...recorded.frames)).toBe(before);
+    expect(Math.max(...recorded.frames)).toBeLessThanOrEqual(after);
+  });
+
 });
