@@ -63,7 +63,7 @@ describe('ActualCostsComponent', () => {
       opacity,
       caretX: 50,
       caretY: 40,
-      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labour' } }],
+      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labour' }, element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) } }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   } as unknown as BarTooltipContext);
