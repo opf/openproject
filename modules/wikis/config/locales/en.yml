@@ -68,6 +68,7 @@ en:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
           redirect_uri: Redirect URI
+          redirect_uri_blank_caption: Fill in the OAuth values above to generate the Redirect URI.
           redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
@@ -189,7 +190,6 @@ en:
     instructions:
       xwiki:
         integration: XWiki Administration
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
         oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
     link_existing_wiki_page_dialog:
       title: Add existing wiki page

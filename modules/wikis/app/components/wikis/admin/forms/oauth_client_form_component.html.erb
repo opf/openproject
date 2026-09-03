@@ -61,13 +61,13 @@
               name: "oauth_client[redirect_uri]",
               label: t(".redirect_uri"),
               visually_hide_label: false,
-              value: redirect_uri_or_instructions
+              value: redirect_uri
             )
             input_group.with_trailing_action_clipboard_copy_button(
               for: "oauth_client_redirect_uri",
-              aria: { label: t("button_copy_to_clipboard") }
+              aria: { label: t("button_copy_to_clipboard"), disabled: redirect_uri.blank? }
             )
-            input_group.with_caption { t(".redirect_uri_caption") }
+            input_group.with_caption { redirect_uri_caption }
           end
         end
 
