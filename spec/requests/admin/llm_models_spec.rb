@@ -112,6 +112,18 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("title=\"#{long_name}\"")
       end
 
+      it "keeps the source label short and spells it out on hover" do
+        connection = create(:llm_connection, :enabled, base_url:)
+        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
+
+        get llm_models_path
+
+        cell = page.find(".op-border-box-grid__row-item.source")
+        expect(cell[:class]).to include("-no-ellipsis")
+        expect(cell.find(".Label").text).to eq("Server")
+        expect(cell.find(".Label")[:title]).to eq("Reported by the server")
+      end
+
       it "sends the administrator to the settings while the connection is disabled" do
         create(:llm_connection, :with_models, base_url:)
 

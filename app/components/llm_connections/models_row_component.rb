@@ -34,6 +34,12 @@ module LlmConnections
   class ModelsRowComponent < OpPrimer::BorderBoxRowComponent
     alias_method :llm_model, :model
 
+    def column_css_class(column)
+      return "#{super} -no-ellipsis" if column == :source
+
+      super
+    end
+
     def identifier
       render(Primer::Beta::Truncate.new(font_weight: :bold)) do |truncate|
         truncate.with_item(expandable: true, max_width: 320, title: llm_model.name) { llm_model.name }
@@ -64,7 +70,9 @@ module LlmConnections
     def source
       scheme, key = source_label
 
-      render(Primer::Beta::Label.new(scheme:)) { I18n.t("admin.llm_models.index.#{key}") }
+      render(Primer::Beta::Label.new(scheme:, title: I18n.t("admin.llm_models.index.#{key}_description"))) do
+        I18n.t("admin.llm_models.index.#{key}")
+      end
     end
 
     def source_label
