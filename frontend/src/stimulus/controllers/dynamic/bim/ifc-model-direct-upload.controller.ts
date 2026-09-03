@@ -27,6 +27,9 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { post } from '@rails/request.js';
+
+import { isHTMLInputElement } from 'core-app/shared/helpers/dom-helpers';
 
 export default class IfcModelDirectUploadController extends Controller {
   static targets = [
@@ -56,52 +59,30 @@ export default class IfcModelDirectUploadController extends Controller {
       return;
     }
 
+    this.fileInputTarget.setCustomValidity('');
     const title = this.trimFileExtension(fileList[0].name);
     const fileSize = String(fileList[0].size);
 
-    void fetch(this.setModelTitleUrlValue, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-Token': this.csrfToken,
-      },
-      body: new URLSearchParams({ title, fileSize }),
-    }).then((response) => {
-      if (response.status !== 422) { return; }
+    void post(this.setModelTitleUrlValue, { body: { title, fileSize }, responseKind: 'json' })
+      .then(async (response) => {
+        if (!response.unprocessableEntity) { return; }
 
-      void response.text().then((json) => {
-        const message = (JSON.parse(json) as { error:string }).error;
+        const { error } = await response.json as { error:string };
 
-        this.fileInputTarget.setCustomValidity(message);
+        this.fileInputTarget.setCustomValidity(error);
         this.fileInputTarget.reportValidity();
       });
-    });
   }
 
   setSessionDefaultValue(event:Event):void {
     const target = event.target;
-    if (this.isHTMLInputElement(target)) {
-      void fetch(this.setDefaultModelUrlValue, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRF-Token': this.csrfToken,
-        },
-        body: new URLSearchParams({ isDefault: String(target.checked) }),
-      });
+    if (isHTMLInputElement(target)) {
+      void post(this.setDefaultModelUrlValue, { body: { isDefault: String(target.checked) } });
     }
-  }
-
-  private isHTMLInputElement(element:EventTarget|Element|null):element is HTMLInputElement {
-    return element !== null && element instanceof HTMLInputElement;
   }
 
   private trimFileExtension(fileName:string):string {
     const fileNameParts = fileName.split('.');
     return fileNameParts.slice(0, -1).join('.');
-  }
-
-  private get csrfToken():string {
-    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
   }
 }
