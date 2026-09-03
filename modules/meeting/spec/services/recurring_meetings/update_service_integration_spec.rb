@@ -898,6 +898,9 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         expect(predecessor.dtstart).to eq anchor
         expect(predecessor.sequence).to eq 1
         expect(predecessor.rrule).to include "FREQ=WEEKLY"
+
+        # SEQUENCE counts the revisions of one UID, thus the new UID starts again.
+        expect(series.ical_sequence).to eq 0
       end
 
       it "ends the predecessor at the last old slot that already happened" do

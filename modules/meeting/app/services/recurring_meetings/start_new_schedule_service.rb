@@ -59,6 +59,9 @@ module RecurringMeetings
 
       attributes.merge(
         uid: RecurringMeeting.new_uid,
+        # SEQUENCE counts the revisions of one UID. The new UID is a new object (RFC 5545 3.8.7.4),
+        # thus its count starts again.
+        ical_sequence: 0,
         ical_predecessor_uid: previous.uid,
         ical_predecessor_snapshot: predecessor.dump
       )
