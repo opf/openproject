@@ -41,197 +41,189 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
-  context "without the EE plan for sprint report widgets" do
-    it "does not render the widget" do
-      expect(rendered_component.to_html).to be_blank
+  context "when the sprint has started" do
+    current_user { build_stubbed(:user) }
+
+    let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
+    let(:planned) do
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
+    end
+    let(:changed) do
+      SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
+                                                  removed_story_points: 2)
+    end
+    let(:completed) do
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
+    end
+    let(:unfinished) do
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
+    end
+
+    before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+
+      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
+      allow(breakdown).to receive_messages(
+        initially_planned: planned,
+        changed_after_start: changed,
+        completed:,
+        unfinished:,
+        reference_start: Timestamp.new(sprint.started_at),
+        reference_finish: Timestamp.now,
+        done_status_ids: [1, 2]
+      )
+    end
+
+    it "renders a heading, count and story points for each block" do
+      expect(rendered_component).to have_css(".op-wp-overview--blocks")
+      expect(rendered_component).to have_text("Initially planned")
+      expect(rendered_component).to have_text("Scope change")
+      expect(rendered_component).to have_text("Completed")
+      expect(rendered_component).to have_text("Unfinished")
+      expect(rendered_component).to have_text("5")
+      expect(rendered_component).to have_text("13 story points")
+      expect(rendered_component).to have_text("+4 / -1")
+      expect(rendered_component).to have_text("+6 / -2 story points")
+      expect(rendered_component).to have_text("View all", count: 4)
+
+      expect(rendered_component).to have_no_css(".blankslate")
+    end
+
+    it "colors the completed count green and the unfinished count muted" do
+      expect(rendered_component).to have_css(".color-fg-success", text: "3")
+      expect(rendered_component).to have_css(".color-fg-muted", text: "2")
+    end
+
+    it "links each block's 'View all' to the work packages table filtered to the sprint" do
+      query_props = rendered_component.css("a", text: "View all").map do |link|
+        JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first)
+      end
+
+      expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
+      expect(query_props).to all(include("ts"))
     end
   end
 
-  context "with the EE plan for sprint report widgets", with_ee: %i[sprint_report_pro_widgets] do
-    context "when the sprint has started" do
-      current_user { build_stubbed(:user) }
+  describe "visibility" do
+    let(:project) { create(:project) }
+    let(:type_feature) { create(:type_feature) }
+    let(:issue_open) { create(:status, name: "Open", is_default: true) }
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 5.days,
+                      finish_date: Time.zone.today + 5.days,
+                      started_at: 5.days.ago)
+    end
 
-      let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
-      let(:planned) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
-      end
-      let(:changed) do
-        SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                    removed_story_points: 2)
-      end
-      let(:completed) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
-      end
-      let(:unfinished) do
-        SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
-      end
+    let!(:work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
 
-      before do
-        mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+    before do
+      work_package.last_journal.update_columns(
+        created_at: work_package.created_at,
+        updated_at: work_package.created_at,
+        validity_period: work_package.created_at..Float::INFINITY
+      )
+    end
 
-        allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
-        allow(breakdown).to receive_messages(
-          initially_planned: planned,
-          changed_after_start: changed,
-          completed:,
-          unfinished:,
-          reference_start: Timestamp.new(sprint.started_at),
-          reference_finish: Timestamp.now,
-          done_status_ids: [1, 2]
-        )
-      end
+    def block_count(heading)
+      block = rendered_component.css(".op-wp-overview--blocks > div").find { |node| node.text.include?(heading) }
+      block.css("p.f1").text
+    end
 
-      it "renders a heading, count and story points for each block" do
-        expect(rendered_component).to have_css(".op-wp-overview--blocks")
-        expect(rendered_component).to have_text("Initially planned")
-        expect(rendered_component).to have_text("Scope change")
-        expect(rendered_component).to have_text("Completed")
-        expect(rendered_component).to have_text("Unfinished")
-        expect(rendered_component).to have_text("5")
-        expect(rendered_component).to have_text("13 story points")
-        expect(rendered_component).to have_text("+4 / -1")
-        expect(rendered_component).to have_text("+6 / -2 story points")
-        expect(rendered_component).to have_text("View all", count: 4)
+    def title_counter_text
+      rendered_component.css(".Counter").text
+    end
 
-        expect(rendered_component).to have_no_css(".blankslate")
+    context "when the current user can view the project's work packages" do
+      let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
+
+      current_user { create(:user, member_with_roles: { project => role }) }
+
+      it "counts the work package in the progress bar" do
+        expect(rendered_component).to have_text("0 of 1 work packages")
       end
 
-      it "colors the completed count green and the unfinished count muted" do
-        expect(rendered_component).to have_css(".color-fg-success", text: "3")
-        expect(rendered_component).to have_css(".color-fg-muted", text: "2")
+      it "counts the work package in the initially planned and unfinished boxes" do
+        expect(block_count("Initially planned")).to eq("1")
+        expect(block_count("Unfinished")).to eq("1")
       end
 
-      it "links each block's 'View all' to the work packages table filtered to the sprint" do
-        query_props = rendered_component.css("a", text: "View all").map do |link|
-          JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first)
-        end
+      it "reports no scope change, since the work package never moved in or out of the sprint" do
+        expect(block_count("Scope change")).to eq("+0 / -0")
+      end
 
-        expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
-        expect(query_props).to all(include("ts"))
+      it "shows a counter in the title for the total number of work packages" do
+        expect(title_counter_text).to eq("1")
       end
     end
 
-    describe "visibility" do
-      let(:project) { create(:project) }
-      let(:type_feature) { create(:type_feature) }
-      let(:issue_open) { create(:status, name: "Open", is_default: true) }
-      let(:sprint) do
-        create(:sprint, project:,
-                        start_date: Time.zone.today - 5.days,
-                        finish_date: Time.zone.today + 5.days,
-                        started_at: 5.days.ago)
+    context "when the current user has no permission to view the project's work packages" do
+      let(:role) { create(:project_role, permissions: [:view_sprints]) }
+
+      current_user { create(:user, member_with_roles: { project => role }) }
+
+      it "excludes the work package from the progress bar" do
+        expect(rendered_component).to have_text("0 of 0 work packages")
       end
 
-      let!(:work_package) do
-        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
-                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      it "excludes the work package from every breakdown box" do
+        expect(block_count("Initially planned")).to eq("0")
+        expect(block_count("Scope change")).to eq("+0 / -0")
+        expect(block_count("Completed")).to eq("0")
+        expect(block_count("Unfinished")).to eq("0")
       end
 
-      before do
-        work_package.last_journal.update_columns(
-          created_at: work_package.created_at,
-          updated_at: work_package.created_at,
-          validity_period: work_package.created_at..Float::INFINITY
-        )
-      end
-
-      def block_count(heading)
-        block = rendered_component.css(".op-wp-overview--blocks > div").find { |node| node.text.include?(heading) }
-        block.css("p.f1").text
-      end
-
-      def title_counter_text
-        rendered_component.css(".Counter").text
-      end
-
-      context "when the current user can view the project's work packages" do
-        let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
-
-        current_user { create(:user, member_with_roles: { project => role }) }
-
-        it "counts the work package in the progress bar" do
-          expect(rendered_component).to have_text("0 of 1 work packages")
-        end
-
-        it "counts the work package in the initially planned and unfinished boxes" do
-          expect(block_count("Initially planned")).to eq("1")
-          expect(block_count("Unfinished")).to eq("1")
-        end
-
-        it "reports no scope change, since the work package never moved in or out of the sprint" do
-          expect(block_count("Scope change")).to eq("+0 / -0")
-        end
-
-        it "shows a counter in the title for the total number of work packages" do
-          expect(title_counter_text).to eq("1")
-        end
-      end
-
-      context "when the current user has no permission to view the project's work packages" do
-        let(:role) { create(:project_role, permissions: [:view_sprints]) }
-
-        current_user { create(:user, member_with_roles: { project => role }) }
-
-        it "excludes the work package from the progress bar" do
-          expect(rendered_component).to have_text("0 of 0 work packages")
-        end
-
-        it "excludes the work package from every breakdown box" do
-          expect(block_count("Initially planned")).to eq("0")
-          expect(block_count("Scope change")).to eq("+0 / -0")
-          expect(block_count("Completed")).to eq("0")
-          expect(block_count("Unfinished")).to eq("0")
-        end
-
-        it "excludes the work package from the title counter" do
-          expect(title_counter_text).to eq("0")
-        end
-      end
-
-      context "when the current user lacks permission to view sprints at all" do
-        let(:role) { create(:project_role, permissions: [:view_work_packages]) }
-
-        current_user { create(:user, member_with_roles: { project => role }) }
-
-        it "does not render the widget" do
-          expect(rendered_component.to_html).to be_blank
-        end
+      it "excludes the work package from the title counter" do
+        expect(title_counter_text).to eq("0")
       end
     end
 
-    context "when the sprint has dates but was never started" do
-      let(:sprint) do
-        build_stubbed(:sprint, project:,
-                               start_date: 1.week.ago.to_date,
-                               finish_date: 1.week.from_now.to_date,
-                               started_at: nil)
-      end
+    context "when the current user lacks permission to view sprints at all" do
+      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
-      current_user { build_stubbed(:user) }
+      current_user { create(:user, member_with_roles: { project => role }) }
 
-      before do
-        mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
-      end
-
-      it "renders the progress bar without any breakdown block" do
-        expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
-        expect(rendered_component).to have_text("work packages")
+      it "does not render the widget" do
+        expect(rendered_component.to_html).to be_blank
       end
     end
+  end
 
-    context "when the sprint has no date range set" do
-      let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+  context "when the sprint has dates but was never started" do
+    let(:sprint) do
+      build_stubbed(:sprint, project:,
+                             start_date: 1.week.ago.to_date,
+                             finish_date: 1.week.from_now.to_date,
+                             started_at: nil)
+    end
 
-      current_user { build_stubbed(:user) }
+    current_user { build_stubbed(:user) }
 
-      before do
-        mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
-      end
+    before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+    end
 
-      it "renders a blankslate" do
-        expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
-        expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
-      end
+    it "renders the progress bar without any breakdown block" do
+      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
+      expect(rendered_component).to have_text("work packages")
+    end
+  end
+
+  context "when the sprint has no date range set" do
+    let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+
+    current_user { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+    end
+
+    it "renders a blankslate" do
+      expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
+      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
     end
   end
 end
