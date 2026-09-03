@@ -28,36 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # A named variant's own attributes. Everything else about it is configuration, which the
-  # aspect tabs and their services own.
-  class CreateVariantContract < ::ModelContract
-    include AuthorizesVariantAuthoring
+require "rails_helper"
 
-    def self.model = TypeVariant
+RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
+  shared_let(:bug) { create(:type, name: "Bug") }
 
-    attribute :variant_name
+  current_user { create(:admin) }
 
-    # The owner an :error_unauthorized is raised over, so it has to be writable for the rule in
-    # AuthorizesVariantAuthoring to be the one that decides.
-    attribute :project_id
+  let(:checkbox_label) { "Allow project-specific variants" }
 
-    # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
-    # type it was added to and starts out Linked to that type's base configuration.
-    attribute :type_id
-    TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
+  context "with the variants feature enabled", with_flag: { type_variants: true } do
+    it "offers the setting on the type" do
+      render_inline(described_class.new(bug))
 
-    validate :validate_type_allows_project_variants
+      expect(page).to have_field(checkbox_label)
+      expect(page).to have_text("this type can be extended or modified within a project")
+    end
 
-    private
+    it "leaves it out on a variant, which the type decides it for" do
+      render_inline(described_class.new(create(:type_variant, type: bug, variant_name: "Hardware")))
 
-    # Only creation is governed: turning the setting off later leaves the variants a project
-    # already owns in place, which is why this rule is not in AuthorizesVariantAuthoring.
-    def validate_type_allows_project_variants
-      return if model.project.nil?
-      return if model.type&.allow_project_variants?
+      expect(page).to have_no_field(checkbox_label)
+    end
+  end
 
-      errors.add(:base, :project_variants_not_allowed)
+  context "with the variants feature disabled" do
+    it "leaves it out" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_no_field(checkbox_label)
     end
   end
 end

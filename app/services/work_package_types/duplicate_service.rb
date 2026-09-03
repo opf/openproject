@@ -70,7 +70,8 @@ module WorkPackageTypes
           name: duplicated_name,
           color_id: source.color_id,
           is_milestone: source.is_milestone,
-          is_in_roadmap: source.is_in_roadmap
+          is_in_roadmap: source.is_in_roadmap,
+          allow_project_variants: source.allow_project_variants
         )
     end
 

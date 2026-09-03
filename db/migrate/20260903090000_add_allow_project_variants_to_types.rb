@@ -28,36 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # A named variant's own attributes. Everything else about it is configuration, which the
-  # aspect tabs and their services own.
-  class CreateVariantContract < ::ModelContract
-    include AuthorizesVariantAuthoring
-
-    def self.model = TypeVariant
-
-    attribute :variant_name
-
-    # The owner an :error_unauthorized is raised over, so it has to be writable for the rule in
-    # AuthorizesVariantAuthoring to be the one that decides.
-    attribute :project_id
-
-    # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
-    # type it was added to and starts out Linked to that type's base configuration.
-    attribute :type_id
-    TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
-
-    validate :validate_type_allows_project_variants
-
-    private
-
-    # Only creation is governed: turning the setting off later leaves the variants a project
-    # already owns in place, which is why this rule is not in AuthorizesVariantAuthoring.
-    def validate_type_allows_project_variants
-      return if model.project.nil?
-      return if model.type&.allow_project_variants?
-
-      errors.add(:base, :project_variants_not_allowed)
-    end
+class AddAllowProjectVariantsToTypes < ActiveRecord::Migration[8.0]
+  def change
+    add_column :types, :allow_project_variants, :boolean, default: true, null: false
   end
 end
