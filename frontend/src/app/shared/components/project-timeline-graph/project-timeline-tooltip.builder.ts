@@ -38,7 +38,7 @@ import type { CaretPlacement } from 'core-app/shared/components/anchored-popover
 import type { ProjectTimelineItem } from './project-timeline-item.builder';
 
 export interface TooltipView {
-  anchor:HTMLElement | null;
+  anchor:HTMLElement|DOMRect|null;
   content:HTMLElement | string | null;
   caret:CaretPlacement | null;
 }
