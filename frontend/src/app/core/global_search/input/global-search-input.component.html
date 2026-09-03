@@ -46,7 +46,7 @@
     [searchFn]="customSearchFn"
     [virtualScroll]="false"
     (focus)="onFocus()"
-    (blur)="onFocusOut()"
+    (blur)="onFocusOut($event)"
     (search)="search($event)"
     (close)="onClose()"
     (change)="followItem($event)"
@@ -62,29 +62,122 @@
       @if (!searchTerm && (hasRecentItems$ | async)) {
         <div>{{text.recently_viewed}}</div>
       }
+      @if (searchTerm) {
+        <div class="global-search--toolbar">
+          <div class="global-search--tabs" role="tablist">
+            @for (resultType of resultTypes; track resultType) {
+              <button
+                type="button"
+                class="global-search--tab"
+                role="tab"
+                [class.-selected]="activeResultType === resultType"
+                [attr.aria-selected]="activeResultType === resultType"
+                (mousedown)="$event.preventDefault()"
+                (click)="$event.stopPropagation(); selectResultType(resultType)"
+              >{{ text[resultType] }}</button>
+            }
+          </div>
+          <select
+            class="global-search--project-scope-select"
+            [attr.aria-label]="text.project"
+            [value]="selectedProjectScope"
+            (mousedown)="onProjectScopeMouseDown($event)"
+            (click)="$event.stopPropagation()"
+            (blur)="onProjectScopeBlur()"
+            (change)="selectProjectScope($event)"
+          >
+            @for (projectScope of projectScopes; track projectScope) {
+              <option [value]="projectScope">{{ text[projectScope] }}</option>
+            }
+          </select>
+        </div>
+        <div class="global-search--quick-filters">
+          <div class="global-search--quick-filter-group">
+            <span class="global-search--quick-filter-label">{{ text.last_updated }}</span>
+            @for (filter of lastUpdatedFilters; track filter) {
+              <button
+                type="button"
+                class="global-search--quick-filter"
+                [class.-selected]="selectedLastUpdatedFilter === filter"
+                [attr.aria-pressed]="selectedLastUpdatedFilter === filter"
+                (mousedown)="$event.preventDefault()"
+                (click)="$event.stopPropagation(); selectLastUpdatedFilter(filter)"
+              >{{ text[filter] }}</button>
+            }
+          </div>
+          @if (activeResultType === 'work_packages') {
+            <div class="global-search--quick-filter-group">
+              <span class="global-search--quick-filter-label">{{ text.status }}</span>
+              @for (filter of workPackageStatusFilters; track filter) {
+                <button
+                  type="button"
+                  class="global-search--quick-filter"
+                  [class.-selected]="selectedWorkPackageStatusFilter === filter"
+                  [attr.aria-pressed]="selectedWorkPackageStatusFilter === filter"
+                  (mousedown)="$event.preventDefault()"
+                  (click)="$event.stopPropagation(); selectWorkPackageStatusFilter(filter)"
+                >{{ text[filter] }}</button>
+              }
+            </div>
+            <div class="global-search--quick-filter-group">
+              <span class="global-search--quick-filter-label">{{ text.involvement }}</span>
+              @for (filter of workPackageInvolvementFilters; track filter) {
+                <button
+                  type="button"
+                  class="global-search--quick-filter"
+                  [class.-selected]="selectedWorkPackageInvolvementFilter === filter"
+                  [attr.aria-pressed]="selectedWorkPackageInvolvementFilter === filter"
+                  (mousedown)="$event.preventDefault()"
+                  (click)="$event.stopPropagation(); selectWorkPackageInvolvementFilter(filter)"
+                >{{ text[filter] }}</button>
+              }
+            </div>
+          }
+          @if (activeResultType === 'meetings') {
+            <div class="global-search--quick-filter-group">
+              <span class="global-search--quick-filter-label">{{ text.meeting_date }}</span>
+              @for (filter of meetingTimeFilters; track filter) {
+                <button
+                  type="button"
+                  class="global-search--quick-filter"
+                  [class.-selected]="selectedMeetingTimeFilter === filter"
+                  [attr.aria-pressed]="selectedMeetingTimeFilter === filter"
+                  (mousedown)="$event.preventDefault()"
+                  (click)="$event.stopPropagation(); selectMeetingTimeFilter(filter)"
+                >{{ text[filter] }}</button>
+              }
+            </div>
+            <div class="global-search--quick-filter-group">
+              <span class="global-search--quick-filter-label">{{ text.involvement }}</span>
+              @for (filter of meetingInvolvementFilters; track filter) {
+                <button
+                  type="button"
+                  class="global-search--quick-filter"
+                  [class.-selected]="selectedMeetingInvolvementFilter === filter"
+                  [attr.aria-pressed]="selectedMeetingInvolvementFilter === filter"
+                  (mousedown)="$event.preventDefault()"
+                  (click)="$event.stopPropagation(); selectMeetingInvolvementFilter(filter)"
+                >{{ text[filter] }}</button>
+              }
+            </div>
+          }
+        </div>
+      }
     </ng-template>
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
-      @if (!item.id) {
-        <div>
-          <a tabindex="0"
-             href="#"
-             class="global-search--option"
-             (click)="$event.preventDefault(); followItem(item)"
-             (keydown.enter)="$event.preventDefault(); followItem(item)"
-             (keydown.space)="$event.preventDefault(); followItem(item)">
-            <div class="global-search--search-term">{{ currentValue }}</div>
-            <div class="global-search--project-scope" title="{{ item.projectScope }}">{{ item.text }} ↵</div>
-          </a>
-        </div>
-      } @else {
-        <a
-          class="global-search--option"
-          [href]="wpPath(item.displayId)"
-          (click)="redirectToWp(item.displayId, $event)"
-          style="line-height: 1"
-          >
-          <div class="global-search--option-meta">
-            <div class="global-search--wp-line">
+      <a
+        class="global-search--option global-search--result-card"
+        [href]="resultPath(item)"
+        (click)="redirectToResult(item, $event)"
+      >
+        <span class="global-search--result-icon" aria-hidden="true">
+          <svg octicon [icon]="resultIcon(item)" size="small"></svg>
+        </span>
+        <div class="global-search--option-meta">
+          <div class="global-search--result-kind-line">
+            <span class="global-search--result-kind">{{ resultTypeLabel(item) }}</span>
+            @if (isWorkPackage(item)) {
+              <span aria-hidden="true">·</span>
               <span [ngClass]="highlighting('type', item.type.id)">
                 {{ item.type.name }}
               </span>
@@ -92,20 +185,12 @@
               <span [ngClass]="statusHighlighting(item.status.id)">
                 {{ item.status.name }}
               </span>
-              <span>-</span>
-              <span
-                class="global-search--wp-project"
-                [attr.title]="item.project.name"
-                >
-                {{ item.project.name }}
-              </span>
-            </div>
-            <span class="global-search--wp-subject">
-              {{ item.subject }}
-            </span>
+            }
           </div>
-        </a>
-      }
+          <span class="global-search--result-title">{{ resultTitle(item) }}</span>
+          <span class="global-search--result-project">{{ item.project.name }}</span>
+        </div>
+      </a>
     </ng-template>
   </op-autocompleter>
 </div>

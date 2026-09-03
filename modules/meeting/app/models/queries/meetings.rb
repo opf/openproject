@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,6 +37,8 @@ module Queries::Meetings
     filter Filters::AuthorFilter
     filter Filters::DatesIntervalFilter
     filter Filters::RecurringFilter
+    filter Filters::SearchFilter
+    filter Filters::UpdatedAtFilter
 
     order Orders::DefaultOrder
   end

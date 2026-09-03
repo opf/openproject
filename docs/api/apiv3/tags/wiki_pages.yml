@@ -2,8 +2,6 @@
 description: |-
   Represents an individual page in a project's wiki.
 
-  *This resource is currently a stub*
-
   ## Actions
 
   | Link                | Description                                                          | Condition                                                                                                                        |
@@ -17,6 +15,7 @@ description: |-
   | self             | This wiki page                                         | WikiPage    | not null       | READ                 |
   | attachments      | The files attached to this wiki page                   | Collection  |                | READ                 |
   | project          | The project the wiki page belongs to                   | Project     | not null       | READ                 |
+  | showWikiPage     | Open the wiki page in the web application              | Link        | not null       | READ                 |
 
   ## Local Properties
 

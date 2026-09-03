@@ -28,14 +28,77 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { GlobalSearchInputComponent } from './global-search-input.component';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import { WikiPageResource } from 'core-app/features/hal/resources/wiki-page-resource';
+import {
+  GlobalSearchInputComponent,
+  lastUpdatedRange,
+  searchResultMatchesType,
+} from './global-search-input.component';
+
+describe('lastUpdatedRange', () => {
+  const now = new Date(2026, 8, 5, 14, 30);
+  const startOfToday = new Date(2026, 8, 5);
+
+  it('does not add a range for any time', () => {
+    expect(lastUpdatedRange('any_time', now)).toBeUndefined();
+  });
+
+  it('uses the local start of today for today', () => {
+    expect(lastUpdatedRange('today', now)).toEqual([
+      startOfToday.toISOString(),
+      '',
+    ]);
+  });
+
+  it('bounds yesterday between two local midnights', () => {
+    expect(lastUpdatedRange('yesterday', now)).toEqual([
+      new Date(2026, 8, 4).toISOString(),
+      startOfToday.toISOString(),
+    ]);
+  });
+
+  it('includes today in the rolling day presets', () => {
+    expect(lastUpdatedRange('past_7_days', now)?.[0]).toBe(
+      new Date(2026, 7, 30).toISOString(),
+    );
+    expect(lastUpdatedRange('past_30_days', now)?.[0]).toBe(
+      new Date(2026, 7, 7).toISOString(),
+    );
+  });
+});
+
+describe('searchResultMatchesType', () => {
+  const workPackage = Object.create(WorkPackageResource.prototype) as WorkPackageResource;
+  const meeting = Object.create(MeetingResource.prototype) as MeetingResource;
+  const wikiPage = Object.create(WikiPageResource.prototype) as WikiPageResource;
+
+  it('shows every resource in the all tab', () => {
+    expect([workPackage, meeting, wikiPage].every((item) => searchResultMatchesType('all', item))).toBe(true);
+  });
+
+  it('shows only work packages in the work packages tab', () => {
+    expect(searchResultMatchesType('work_packages', workPackage)).toBe(true);
+    expect(searchResultMatchesType('work_packages', meeting)).toBe(false);
+    expect(searchResultMatchesType('work_packages', wikiPage)).toBe(false);
+  });
+
+  it('shows only the selected content type in the other tabs', () => {
+    expect(searchResultMatchesType('meetings', meeting)).toBe(true);
+    expect(searchResultMatchesType('meetings', wikiPage)).toBe(false);
+    expect(searchResultMatchesType('wiki_pages', wikiPage)).toBe(true);
+    expect(searchResultMatchesType('wiki_pages', meeting)).toBe(false);
+  });
+});
 
 // followItem is verified through the prototype against a stand-in context, avoiding
 // a real component instance whose many injected dependencies this branch never uses.
 describe('GlobalSearchInputComponent#followItem', () => {
   let wpPathArgs:string[];
-  let searchInScopeArgs:string[];
-  let context:Pick<GlobalSearchInputComponent, 'wpPath'|'selectedItem'> & { searchInScope:(scope:string) => void };
+  let context:Pick<
+    GlobalSearchInputComponent,
+    'wpPath'|'selectedItem'|'isWorkPackage'|'isMeeting'|'isWikiPage'
+  >;
 
   function callFollowItem(item:Parameters<GlobalSearchInputComponent['followItem']>[0]):void {
     GlobalSearchInputComponent.prototype.followItem.call(context, item);
@@ -43,7 +106,6 @@ describe('GlobalSearchInputComponent#followItem', () => {
 
   beforeEach(() => {
     wpPathArgs = [];
-    searchInScopeArgs = [];
     context = {
       wpPath: (id:string):string => {
         wpPathArgs.push(id);
@@ -51,9 +113,9 @@ describe('GlobalSearchInputComponent#followItem', () => {
         return '#stub';
       },
       selectedItem: undefined,
-      searchInScope: (scope:string):void => {
-        searchInScopeArgs.push(scope);
-      },
+      isWorkPackage: (item):item is WorkPackageResource => item instanceof WorkPackageResource,
+      isMeeting: (_item):_item is MeetingResource => false,
+      isWikiPage: (_item):_item is WikiPageResource => false,
     };
   });
 
@@ -97,19 +159,46 @@ describe('GlobalSearchInputComponent#followItem', () => {
     });
   });
 
-  describe('when item is a scope option (not a HalResource)', () => {
-    it('delegates to searchInScope and does not call wpPath', () => {
-      callFollowItem({ projectScope: 'current_project', text: 'In this project ↵' });
-      expect(searchInScopeArgs).toEqual(['current_project']);
-      expect(wpPathArgs).toEqual([]);
-    });
-  });
-
   describe('when item is undefined', () => {
     it('does nothing', () => {
       callFollowItem(undefined);
       expect(wpPathArgs).toEqual([]);
-      expect(searchInScopeArgs).toEqual([]);
     });
+  });
+});
+
+describe('GlobalSearchInputComponent#onFocusOut', () => {
+  it('keeps the search open when focus moves to the project scope selector', () => {
+    const componentElement = document.createElement('div');
+    const projectScopeSelect = document.createElement('select');
+    componentElement.append(projectScopeSelect);
+
+    let setOpenCalled = false;
+    const context = {
+      elementRef: { nativeElement: componentElement },
+      ngSelectComponent: {
+        ngSelectInstance: {
+          isOpen: {
+            set: (_value:boolean):void => {
+              setOpenCalled = true;
+            },
+          },
+        },
+      },
+    };
+    const event = { relatedTarget: null } as unknown as FocusEvent;
+    const mouseDownEvent = new MouseEvent('mousedown');
+
+    GlobalSearchInputComponent.prototype.onProjectScopeMouseDown.call(
+      context as unknown as GlobalSearchInputComponent,
+      mouseDownEvent,
+    );
+
+    GlobalSearchInputComponent.prototype.onFocusOut.call(
+      context as unknown as GlobalSearchInputComponent,
+      event,
+    );
+
+    expect(setOpenCalled).toBe(false);
   });
 });
