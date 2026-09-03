@@ -547,6 +547,8 @@ zh-CN:
         is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
         ldap_managed: 此部门通过 LDAP 同步进行管理，无法手动更改。
         less_than_or_equal_to: 必须小于或等于 %{count}。
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
         not_a_number: 不是一个数字。
@@ -813,6 +815,7 @@ zh-CN:
               hours_per_day_are_missing: 必须定义每天的小时数
               hours_per_day_is_out_of_bounds: 每天小时数不能超过24
               journal_aggregation_time_minutes_is_out_of_bounds: 聚合期必须在 %{min} 到 %{max} 分钟之间。
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
               working_days_are_missing: 每周必须至少有一天定义为工作日。
         status:
@@ -5096,19 +5099,18 @@ zh-CN:
           type_label: 类型
           type_placeholder: 选择类型
         add_type: 添加类型
-        add_variant: Add a variant for this project
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: 添加一种类型，以便用户可以在此项目中创建该类型的工作包。
           title: 此项目中没有有效的类型
         form:
           enable_type_in_project: 启用类型“%{type}”
-        in_use: In use
         no_results_title_text: 目前有可用的类型。
-        only_available_here: Only available in this project
+        project_specific_variant: Project-specific variant
         remove_from_project: 从项目中移除
         switch:
           apply: 应用
-          description: 选择要在此项目中使用的此类型的其他变体。
           impact:
             hidden_heading: 将不再显示的字段
             missing_statuses_description: 您正在切换的工作流不存在从这些状态转出的过渡路径，因此所有用户都无法继续推进这些工作包。
@@ -5125,9 +5127,10 @@ zh-CN:
           success: 项目现在使用 %{type}。
           target_label: 变体
           title: "%{type}：切换变体"
-        switch_type: 切换变体
         type_not_found: 找不到所选类型。
-        variant_prefix: 变体：
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: 创建一个新的版本
         no_results_title_text: 目前这个项目没有版本。
@@ -5438,6 +5441,14 @@ zh-CN:
   setting_password_active_rules: 密码要求
   setting_password_count_former_banned: 禁止重复使用最近使用密码的数量
   setting_password_days_valid: 强制更改密码的天数
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: 最小长度
   setting_per_page_options: 每页对象选项
   setting_percent_complete_on_status_closed: 状态关闭时"完成%"的值
@@ -5572,6 +5583,15 @@ zh-CN:
     authentication:
       login: 登录
       omniauth_direct_login_hint_html: '如果激活该选项，登录请求将重定向到已配置的 omniauth 提供商。登录下拉菜单和登录页面将被禁用。 <br/> <strong>注意：</strong>除非同时禁用密码登录，否则启用此选项后，用户仍可通过访问 <code>%{internal_path}</code>登录页面。
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: 注册
@@ -6061,7 +6081,7 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
-      add_variant: 将变体添加到 %{name}
+      add_variant: Add a variant to %{name}
       create_type: 创建类型
       create_variant: 创建变体
       fields:
@@ -6179,12 +6199,12 @@ zh-CN:
           label_disable_all: 全部禁用
           label_enable_all: 全部启用
         blankslate:
-          independent:
-            description: 在您[创建项目特性](administration_url)后，这些特性将显示在此处，并且可以添加到类型中。
-            title: 没有可用的项目特性
-          linked:
-            description: 此类型没有与之相关联的任何项目特性。
-            title: 未配置任何项目特性
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
         disabled: 已禁用
         exclusions:
@@ -6214,65 +6234,82 @@ zh-CN:
             description_html: 如果从 %{source_name} 复制数据，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
             title: 是否复制配置？
           dialog:
-            description: 从源类型复制配置，并将其用作一次性基础。这并不会永久关联这两种类型。
-            source_label: 复制源类型
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: 选择类型或变体
             submit: 保存并复制
             title: 复制配置
           invalid_source: 无法从所选类型复制该配置。请选择其他源类型。
           success: 配置已复制。
-        exclusions:
-          not_linked: 此类型拥有其针对此分区的配置，因此无需排除任何内容。请直接编辑该配置。
-          unknown_aspect: 未知的配置分区“%{aspect}”。
-        independent:
-          confirm_dialog:
-            check_box: 我明白，这会覆盖当前设置
-            description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-            heading: 切换配置模式？
-            title: 切换配置模式
-          copy_from_type: 从类型复制
-          description: 任何设置都不会继承。如果需要，您仍可以从另一种类型中一次性复制设置。
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: 切换
-            title: 独立模式
-          invalid_mode: 所选模式对此配置不可用。请选择其他模式。
-          modes:
-            copy:
-              caption: 首先对关联模式下设定的当前设置进行一次性复制。
-              label: 从关联模式复制
-            default:
-              caption: 对新类型使用默认设置。
-              label: 默认设置
-            empty:
-              caption: 以空白配置为起点，从头开始设置所有内容。
-              label: 空
-          success: 配置模式已切换。
-          switch_to_linked: 切换为关联模式
-          title: 独立模式
-        linked:
-          change_source: 更改源类型
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: 未知的配置分区“%{aspect}”。
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: 如果将源类型更改为 %{source_name}，您将会覆盖当前设置，并可能影响有关此类型的工作包的现有信息。
-              heading: 更改源类型？
-              title: 更改源类型
-            check_box: 我明白，这会覆盖当前设置
-            from_independent:
-              description: 所有当前选择的设置都将被覆盖，并可能影响有关此类型的工作包的现有信息。
-              heading: 切换配置模式？
-              title: 切换配置模式
-          description: 此配置已与源类型 [%{source_name}](source_url)%{source_suffix} 建立关联，并继承其设置。
-          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: 从源类型中复制并继承此设置。源类型中添加的任何新配置也会添加到此处。
-            source_label: 关联的源类型
-            source_placeholder: 选择类型或变体
-            submit: 切换
-            title: 关联的模式
-          invalid_source: 无法将配置关联到所选类型。请选择其他源类型。
-          success: 配置模式已切换。
-          switch_to_independent: 切换为独立模式
-          title: 关联的模式
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: "（父项）"
       variants:
         blankslate:
@@ -6280,12 +6317,22 @@ zh-CN:
 
             '
           title: 此类型不存在变体
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: 按文本筛选
         filter_no_results: 没有任何变体匹配此筛选条件
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: 工作流
     index:
-      add_variant: 将变体添加到 %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: 添加变体
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
@@ -6297,16 +6344,12 @@ zh-CN:
       make_default_notice: "%{name} 现已在新项目中激活。"
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
-      owned_by: Owned by %{project}
       project_variants_count:
-        other: "%{count} variants owned by projects"
+        other: "%{count} project-specific variants"
       remove_default: 不在新项目中激活
       remove_default_notice: "%{name} 不再在新项目中激活。"
       type_label: 类型
-      variant_enabled_in_new_projects: 变体 %{name} 在新项目中处于有效状态
       variant_label: 变体
-      variants_count:
-        other: "%{count} 个变体"
     milestone_indicator: 里程碑
   unsupported_browser:
     close_warning: 请忽略这个警告。

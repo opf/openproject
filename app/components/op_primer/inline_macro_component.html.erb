@@ -28,8 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::BaseComponent.new(tag: :span, **@system_arguments)) do %>
-  <%= render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :center)) do %>
-    <%= leading_visual_icon %>
-    <%= content %>
-  <% end %>
+  <%= leading_visual_icon %>
+  <%= content -%>
 <% end %>

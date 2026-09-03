@@ -115,6 +115,7 @@ module RecurringMeetings
       ::RecurringMeetings::ResetToTemplateService
         .new(user:, meeting:, params: { state: :open })
         .call
+        .on_success { recurring_meeting.bump_ical_sequence! }
     end
 
     def copy_from_template(start_time)

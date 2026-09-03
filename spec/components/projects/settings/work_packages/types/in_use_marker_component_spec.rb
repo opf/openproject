@@ -28,23 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ parameter used
-# by the work package move and bulk-edit forms. It is pulled out of the generic
-# scalar "none"/blank attribute transforms (which are built for scalar values)
-# and normalized here instead.
-module WorkPackages::TargetVersionNormalization
-  extend ActiveSupport::Concern
+require "rails_helper"
 
-  included do
-    private
+RSpec.describe Projects::Settings::WorkPackages::Types::InUseMarkerComponent, type: :component do
+  subject(:rendered_component) { render_inline(described_class.new(label: "Variant in this project")) }
 
-    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-    #   * blank selection  -> nil  (leave existing target_versions untouched)
-    #   * "none" selection -> []   (clear all target_versions)
-    #   * a version id      -> [id]
-    def normalized_target_version_ids(raw)
-      values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
-    end
+  it "says what is in use" do
+    expect(rendered_component).to have_text("Variant in this project")
+  end
+
+  it "checks it off, so the reader finds it without reading" do
+    expect(rendered_component).to have_css(".octicon-check-circle-fill")
+  end
+
+  it "sets the words in the colour that means so" do
+    expect(rendered_component).to have_css(".color-fg-success", text: "Variant in this project")
+  end
+
+  it "leaves the words in normal weight" do
+    expect(rendered_component).to have_css(".text-normal", text: "Variant in this project")
+  end
+
+  it "is addressable by its own test selector" do
+    expect(rendered_component).to have_css("[data-test-selector='in-use-marker']", text: "Variant in this project")
   end
 end

@@ -547,6 +547,8 @@ ko:
         is_for_all_cannot_modify: "- 모든 프로젝트용므로 수정할 수 없습니다."
         ldap_managed: 이 부서는 LDAP 동기화를 통해 관리되며 수동으로 변경할 수 없습니다.
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: 은(는) 유효한 날짜가 아닙니다.
         not_a_datetime: 은(는) 유효한 날짜가 아닙니다.
         not_a_number: 은(는) 숫자가 아닙니다.
@@ -813,6 +815,7 @@ ko:
               hours_per_day_are_missing: 일별 시간을 정의해야 합니다.
               hours_per_day_is_out_of_bounds: 일별 시간은 24시간을 초과할 수 없습니다
               journal_aggregation_time_minutes_is_out_of_bounds: 집계 기간은 %{min}분 ~ %{max}분 사이여야 합니다.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: 근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.
               working_days_are_missing: 적어도 일주일의 하루는 근무일로 정의해야 합니다.
         status:
@@ -5109,19 +5112,18 @@ ko:
           type_label: 유형
           type_placeholder: 유형 선택
         add_type: 유형 추가
-        add_variant: Add a variant for this project
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: 이 프로젝트에서 해당 유형의 작업 패키지를 사용자가 생성할 수 있도록 유형을 추가하세요.
           title: 이 프로젝트에는 활성화된 유형이 없습니다.
         form:
           enable_type_in_project: 유형 "%{type}" 사용
-        in_use: In use
         no_results_title_text: 사용 가능한 타입이 없습니다.
-        only_available_here: Only available in this project
+        project_specific_variant: Project-specific variant
         remove_from_project: 프로젝트에서 제거
         switch:
           apply: 적용
-          description: 이 프로젝트에서 사용할 해당 유형의 다른 변형을 선택하세요.
           impact:
             hidden_heading: 더 이상 표시되지 않는 필드
             missing_statuses_description: 전환하려는 워크플로는 이러한 상태에서 벗어나는 전환 과정이 없으므로, 아무도 이러한 작업 패키지를 다음 단계로 이동할 수 없습니다.
@@ -5138,9 +5140,10 @@ ko:
           success: 지금 이 프로젝트는 %{type}을(를) 사용합니다.
           target_label: 변형
           title: "%{type}: 변형 전환"
-        switch_type: 변형 전환
         type_not_found: 선택한 유형을 찾을 수 없습니다.
-        variant_prefix: '변형:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: 새 버전 생성
         no_results_title_text: 프로젝트에 버전이 없습니다.
@@ -5455,6 +5458,14 @@ ko:
   setting_password_active_rules: 비밀번호 요구 사항
   setting_password_count_former_banned: 재사용 금지된 최근에 사용한 암호 수
   setting_password_days_valid: 암호 변경을 적용할 경과 일 수
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: 최소 길이
   setting_per_page_options: 페이지당 개체 옵션
   setting_percent_complete_on_status_closed: 상태가 닫힘인 경우 완료 %
@@ -5587,6 +5598,15 @@ ko:
     authentication:
       login: 로그인
       omniauth_direct_login_hint_html: '이 옵션이 활성화된 경우, 로그인 요청은 구성된 omniauth 공급자로 리디렉션됩니다. 로그인 드롭다운 및 로그인 페이지가 비활성화됩니다. <br/> <strong>참고:</strong> 또한 암호 로그인을 비활성화하지 않는 경우에는 이 옵션이 활성화된 상태에서 사용자가 <code>%{internal_path}</code> 로그인 페이지를 방문하여 내부에서 계속 로그인할 수 있습니다.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: 등록
@@ -6077,7 +6097,7 @@ ko:
   total_progress: 총 진행률
   types:
     creation_wizard:
-      add_variant: "%{name}에 변형 추가"
+      add_variant: Add a variant to %{name}
       create_type: 유형 만들기
       create_variant: 변형 만들기
       fields:
@@ -6195,12 +6215,12 @@ ko:
           label_disable_all: 모두 비활성화
           label_enable_all: 모두 활성화
         blankslate:
-          independent:
-            description: "[프로젝트 특성을 생성](administration_url)하면, 해당 특성이 여기에 표시되며 유형에 추가할 수 있습니다."
-            title: 사용 가능한 프로젝트 특성 없음
-          linked:
-            description: 이 유형에는 관련 프로젝트 특성이 없습니다.
-            title: 구성된 프로젝트 특성 없음
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: 이 작업 패키지 유형에 대해 활성화할 프로젝트 특성을 선택하세요. 활성화된 프로젝트 특성은 이 유형의 작업 패키지에서 별도의 탭에 표시됩니다. 필요한 권한을 가진 사용자는 해당 탭에서 이러한 특성을 보고 편집할 수 있습니다.
         disabled: 비활성화됨
         exclusions:
@@ -6230,65 +6250,82 @@ ko:
             description_html: "%{source_name}에서 데이터를 복사하면 현재 설정이 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다."
             title: 구성 복사?
           dialog:
-            description: 소스 유형의 구성을 복사하여 일회성 기본값으로 사용하세요. 이렇게 해도 두 유형이 영구적으로 연결되지는 않습니다.
-            source_label: 소스 복사
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: 유형 또는 변형 선택
             submit: 저장 및 복사
             title: 구성 복사
           invalid_source: 선택한 유형에서 이 구성을 복사할 수 없습니다. 다른 소스 유형을 선택하세요.
           success: 구성이 복사되었습니다.
-        exclusions:
-          not_linked: 이 유형은 해당 섹션에 대한 구성 정보를 가지고 있으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
-          unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
-        independent:
-          confirm_dialog:
-            check_box: 본인은 이렇게 하면 현재 설정을 덮어쓰게 된다는 것을 이해합니다
-            description: 현재 선택된 모든 설정을 덮어쓰며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: 유형에서 복사
-          description: 설정이 상속되지 않습니다. 원하는 경우 다른 유형의 설정을 한 번만 복사할 수 있습니다.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
           dialog:
-            submit: 전환
-            title: 독립 모드
-          invalid_mode: 선택한 모드는 이 구성에 사용할 수 없습니다. 다른 모드를 선택하세요.
-          modes:
-            copy:
-              caption: 연결 모드에서 지정된 현재 설정을 일회성으로 복사하여 시작하세요.
-              label: 연결 모드에서 복사
-            default:
-              caption: 새로운 유형에 기본 설정을 사용하세요.
-              label: 기본 설정
-            empty:
-              caption: 빈 구성에서 시작하여 처음부터 모든 것을 설정하세요.
-              label: 비어 있음
-          success: 구성 모드가 전환되었습니다.
-          switch_to_linked: 연결 모드로 전환
-          title: 독립 모드
-        linked:
-          change_source: 소스 유형 변경
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            other: "%{count} dependent types"
+          view: View dependent types
+        exclusions:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
           confirm_dialog:
             change_source:
-              description_html: 소스 유형을 %{source_name}(으)로 변경하면 현재 설정이 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
               heading: Change source type?
               title: Change source type
-            check_box: 본인은 이렇게 하면 현재 설정을 덮어쓰게 된다는 것을 이해합니다
-            from_independent:
-              description: 현재 선택된 모든 설정을 덮어쓰며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: 이 구성은 소스 유형 [%{source_name}](source_url)%{source_suffix}에서 연결되어 있으며, 해당 설정을 상속받고 있습니다.
-          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
-            description: 소스에서 이 설정을 복사하여 상속받으세요. 소스에 추가된 새로운 구성은 여기에도 추가됩니다.
-            source_label: 연결된 소스
-            source_placeholder: 유형 또는 변형 선택
-            submit: 전환
-            title: 연결 모드
-          invalid_source: 선택한 유형에 이 구성을 연결할 수 없습니다. 다른 소스 유형을 선택하세요.
-          success: 구성 모드가 전환되었습니다.
-          switch_to_independent: 독립 모드로 전환
-          title: 연결 모드
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
+          dialog:
+            submit: Switch
+            title: Configure manually
+          inherit_from_type: Inherit from another type
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          title: Manual configuration
         parent_suffix: " (부모)"
       variants:
         blankslate:
@@ -6296,12 +6333,22 @@ ko:
 
             '
           title: 이 유형에 대한 변형이 없습니다.
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: 텍스트로 필터링
         filter_no_results: 이 필터에 해당하는 변형이 없습니다.
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: 워크플로
     index:
-      add_variant: "%{name}에 변형 추가"
+      add_variant: Add a variant to %{name}
       add_variant_action: 변형 추가
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
@@ -6313,16 +6360,12 @@ ko:
       make_default_notice: "%{name}이(가) 이제 새 프로젝트에서 활성화되었습니다."
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
-      owned_by: Owned by %{project}
       project_variants_count:
-        other: "%{count} variants owned by projects"
+        other: "%{count} project-specific variants"
       remove_default: 새 프로젝트에서 활성화 안 함
       remove_default_notice: "%{name}이(가) 새 프로젝트에서 더 이상 활성화되지 않습니다."
       type_label: 유형
-      variant_enabled_in_new_projects: 새 프로젝트에서 활성 상태인 변형 %{name}
       variant_label: 변형
-      variants_count:
-        other: "%{count}개 변형"
     milestone_indicator: 마일스톤
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.

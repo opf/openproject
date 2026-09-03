@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Field Mapping Reference
+description: Reference for how Jira fields are mapped to OpenProject fields during migration
+keywords: Jira migration, field mapping
+---
+
 # Jira to OpenProject Field Mapping Reference
 
 ## Project-level fields
@@ -26,10 +33,10 @@ Every migrated project is created **private** and **active**, with no parent —
 | Due date                                           | Due date                  | -                                                            |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | **Not migrated**          | — (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154)) |
-| Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189))  |
+| Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189)) |
 | Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
-| Issue links (blocks/relates to/etc.)               | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
+| Issue links (blocks, relates to, etc.)             | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
 | Issue type                                         | Type                      | Matched by name (not case-sensitive); a new Type is created automatically if nothing matches, and it's attached to the right projects (mirroring Jira's per-project Issue Type Scheme). Only the name comes across. No migrated type is marked as the project's default, even if it was the default in Jira. |
 | Logged work / time entries                         | **Not migrated**          | Only the two estimate fields above come across, not actual logged time (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93)) |
 | Original time estimate                             | Estimated hours           | -                                                            |
@@ -71,7 +78,7 @@ For field type mapping, supported/unsupported types, and edge cases, see the [Cu
 - **Inline images stay pointed at the original Jira server.** Images embedded in descriptions/comments are not re-hosted in OpenProject — they'll break once the Jira instance is decommissioned, unless re-uploaded manually. Tracked as [JIM-53](https://community.openproject.org/projects/JIM/work_packages/JIM-53).
 - **The importer has no concept of LDAP.** Every new user is created as a plain local account with a random password — it's never linked to an LDAP source, even if your OpenProject uses LDAP login. If a Jira username matches a real LDAP login, that person's real LDAP password will stop working after migration, because the newly created local account "claims" the login first. This needs a manual fix per affected account — see the [Pre-Migration checklist](../pre-migration-checklist/) and [Post-Migration checklist](../post-migration-checklist/).
 - **Attachments are the one exception to "everything fails loudly."** Everywhere else, a problem during import raises an error and aborts the whole run. Attachments don't work that way: a failed download or a rejected upload is silently logged and skipped, and the import carries on and can complete successfully with some attachments simply missing. There's no summary or warning shown anywhere in the review/approval screen — see the [Post-Migration checklist](../post-migration-checklist/) for how to check for this.
-- **Re-running an import is safe for users** — previously-imported users aren't duplicated on a retry. The user account itself isn't recreated, but their group membership is re-synced each time.
+- **Re-running an import is safe for users** — previously imported users aren't duplicated on a retry. The user account itself isn't recreated, but their group membership is re-synced each time.
 - **Email/username collisions are resolved, not rejected.** If a Jira user's email already exists in OpenProject, the importer doesn't fail outright. It reuses the existing account if that account isn't already linked to a different Jira user within the same import run; otherwise, it disambiguates by appending the Jira user key to the email (e.g. `email+JIRAKEY@domain.com`) so both accounts can coexist. If a Jira user’s username already exists in OpenProject, the importer disambiguates it by appending the Jira user key to the username (e.g. `name+JIRAKEY`).
 - **User activation on Approve is conditional, not automatic.** Every imported user is created `locked`, regardless of their status in Jira. Approving the import only unlocks users who were both (a) newly created by this specific run — not reused from an existing OpenProject account — and (b) marked `active` in Jira. Reused/matched accounts are left exactly as they were.
 - **@mentions are resolved via a live API lookup, not just from already-known users.** For each distinct `[~username]` mention found in a description or comment, the importer calls Jira's user endpoint directly — even if that person isn't otherwise referenced anywhere else in the imported data (e.g. never an assignee, author, or watcher). If resolved and imported, the mention renders as a genuine OpenProject `<mention>` tag (clickable, triggers a notification); if not resolvable, it falls back to flat `@username` text.

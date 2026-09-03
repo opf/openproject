@@ -41,7 +41,7 @@ module WorkPackageTypes
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
                    variant: model,
                    aspect: TypeVariant::FORM_CONFIGURATION
                  )) +
