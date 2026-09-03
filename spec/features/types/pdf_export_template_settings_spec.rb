@@ -90,7 +90,7 @@ RSpec.describe "type PDF export template settings", :js do
 
     expect(page).to have_text(I18n.t(:notice_successful_update))
     expect(type.default_variant.reload.pdf_export_templates.settings_for("artefact"))
-      .to eq(toc: "true", include_lifecycle: "true", hyphenation: "true")
+      .to eq(toc: "true", include_lifecycle: "true", include_budget: "true", hyphenation: "true")
   end
 
   it "leaves the settings unchanged when navigating away via Cancel" do

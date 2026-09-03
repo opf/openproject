@@ -288,6 +288,196 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
+  describe "project budgets" do
+    let(:project) do
+      create(:project,
+        name: "Artefact project",
+        types: [type],
+        public: true,
+        active: true,
+        enabled_module_names: %w[budgets costs])
+    end
+    let(:permissions) do
+      %w[view_work_packages export_work_packages view_project_attributes
+         view_budgets view_cost_rates view_hourly_rates]
+    end
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+    let(:options) { { include_budget: "true" } }
+    let(:cost_type) { create(:cost_type, name: "API Development") }
+    let!(:cost_rate) { create(:cost_rate, cost_type:, rate: 1000.0, valid_from: 1.year.ago.to_date) }
+    let(:labor_user) { create(:user, firstname: "Alice", lastname: "Anderson") }
+    let!(:hourly_rate) do
+      create(:hourly_rate, user: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
+    end
+    let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
+    let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
+    let!(:labor_item) { create(:labor_budget_item, budget:, principal: labor_user, hours: 15.0) }
+
+    it "renders the section title and the column headers" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      expect(joined).to include(MaterialBudgetItem.human_attribute_name(:units))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.description"))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.cost_per_unit"))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.sum"))
+    end
+
+    it "renders the budget heading with its planned total" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include("#{budget.id} Phase 1 rollout")
+      expect(joined).to include("8,000.00")
+    end
+
+    it "renders both cost groups with their line items and subtotals" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(Budget.human_attribute_name(:material_budget))
+      expect(joined).to include("2.00")
+      expect(joined).to include("API Development")
+      expect(joined).to include("1,000.00")
+      expect(joined).to include("2,000.00")
+
+      expect(joined).to include(Budget.human_attribute_name(:labor_budget))
+      expect(joined).to include("15h")
+      expect(joined).to include(labor_user.name)
+      expect(joined).to include("400.00")
+      expect(joined).to include("6,000.00")
+    end
+
+    it "renders labor quantities as abbreviated hours even with the days_and_hours duration format" do
+      allow(Setting).to receive(:duration_format).and_return("days_and_hours")
+      joined = pdf_strings.join(" ")
+      expect(joined).to include("15h")
+      expect(joined).not_to include("1d 7h")
+    end
+
+    it "adds a table of contents entry for the budgets section" do
+      expect(pdf_strings.join(" ")).to include(I18n.t(:label_table_of_contents))
+    end
+
+    context "with a second budget" do
+      let!(:other_budget) { create(:budget, project:, subject: "Phase 2 rollout", fixed_date: Date.current) }
+      let!(:other_material_item) { create(:material_budget_item, budget: other_budget, cost_type:, units: 3.0) }
+
+      it "renders both budgets and a total across them" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("#{budget.id} Phase 1 rollout")
+        expect(joined).to include("#{other_budget.id} Phase 2 rollout")
+        expect(joined).to include(I18n.t("pdf_generator.budgets_table.total"))
+        expect(joined).to include("11,000.00")
+      end
+    end
+
+    context "when a budget has no unit cost items" do
+      let!(:material_item) { nil }
+
+      it "omits the planned unit costs group" do
+        joined = pdf_strings.join(" ")
+        expect(joined).not_to include(Budget.human_attribute_name(:material_budget))
+        expect(joined).to include(Budget.human_attribute_name(:labor_budget))
+      end
+    end
+
+    context "when an item overrides its calculated costs with a manual amount" do
+      let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0, amount: 500.0) }
+
+      it "uses the manual amount for the line sum and derives the cost per unit from it" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("500.00")
+        expect(joined).to include("250.00")
+        expect(joined).not_to include("2,000.00")
+      end
+    end
+
+    context "when an item has a zero quantity" do
+      let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 0.0) }
+
+      it "renders the item without a cost per unit" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("API Development")
+        expect(joined).not_to include("1,000.00")
+      end
+    end
+
+    context "when a budget has a base amount" do
+      let(:budget) do
+        create(:budget, :with_base_amount, project:, subject: "Phase 1 rollout", fixed_date: Date.current)
+      end
+
+      it "renders a base amount row so the groups reconcile with the budget total" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include(Budget.human_attribute_name(:base_amount))
+        expect(joined).to include("250,000.00")
+        expect(joined).to include("258,000.00")
+      end
+    end
+
+    context "when the user cannot view cost rates" do
+      let(:permissions) do
+        %w[view_work_packages export_work_packages view_project_attributes view_budgets view_hourly_rates]
+      end
+
+      it "lists the unit cost items but blanks their amounts and subtotal" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("API Development")
+        expect(joined).not_to include("2,000.00")
+        expect(joined).to include("6,000.00")
+      end
+    end
+
+    context "when the user may only view their own hourly rate" do
+      let(:permissions) do
+        %w[view_work_packages export_work_packages view_project_attributes
+           view_budgets view_own_hourly_rate work_package_assigned]
+      end
+      let(:labor_user) { user }
+
+      it "shows the amount of their own labor cost item" do
+        expect(pdf_strings.join(" ")).to include("6,000.00")
+      end
+    end
+
+    context "when the option is disabled" do
+      let(:options) { { include_budget: "false" } }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the project has no budgets" do
+      let(:budget) { nil }
+      let!(:material_item) { nil }
+      let!(:labor_item) { nil }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the budgets module is disabled" do
+      let(:project) do
+        create(:project,
+          name: "Artefact project",
+          types: [type],
+          public: true,
+          active: true,
+          enabled_module_names: %w[costs])
+      end
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the user cannot view budgets" do
+      let(:permissions) { %w[view_work_packages export_work_packages] }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+  end
+
   describe "table of contents" do
     let(:section) { create(:project_custom_field_section, name: "TOC Section") }
     let!(:string_cf) do

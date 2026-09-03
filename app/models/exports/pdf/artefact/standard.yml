@@ -329,6 +329,71 @@ wp_table:
       size: 8
       styles: [ "bold" ]
 
+budgets:
+  page_break_threshold: 300
+  table:
+    margin_top: 3
+    margin_bottom: 8
+    cell:
+      size: 9
+      color: "000000"
+      padding_left: 0
+      padding_right: 10
+      padding_top: 2
+      padding_bottom: 2
+      no_border: true
+    cell_header:
+      styles: [ "bold" ]
+      padding_left: 0
+      padding_right: 10
+      padding_top: 2
+      padding_bottom: 2
+      border_color: "000000"
+      border_width: 0.5
+      no_border_left: true
+      no_border_right: true
+      no_border_top: true
+    cell_budget_heading:
+      size: 10
+      color: "175A8E"
+      styles: [ "bold" ]
+      padding_left: 0
+      padding_right: 10
+      padding_top: 10
+      padding_bottom: 2
+      border_color: "000000"
+      border_width: 0.5
+      no_border_left: true
+      no_border_right: true
+      no_border_top: true
+    cell_group_heading:
+      padding_left: 0
+      padding_right: 10
+      padding_top: 8
+      padding_bottom: 2
+      no_border: true
+    cell_group_subtotal:
+      padding_left: 0
+      padding_right: 10
+      padding_top: 8
+      padding_bottom: 2
+      border_color: "000000"
+      border_width: 0.5
+      no_border_left: true
+      no_border_right: true
+      no_border_top: true
+    cell_total:
+      styles: [ "bold" ]
+      padding_left: 0
+      padding_right: 10
+      padding_top: 8
+      padding_bottom: 2
+      border_color: "000000"
+      border_width: 0.5
+      no_border_left: true
+      no_border_right: true
+      no_border_bottom: true
+
 work_package:
   margin_bottom: 14
   subject:

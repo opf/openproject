@@ -131,6 +131,7 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
       expect(component.artefact_settings).to eq(
         toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
         include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
+        include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET,
         hyphenation: false,
         hyphenation_language: component.hyphenation_default[:value]
       )
@@ -147,16 +148,17 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
       end
     end
 
-    context "when the type has a stored default explicitly enabling the lifecycle sections" do
+    context "when the type has a stored default explicitly enabling the lifecycle and budget sections" do
       before do
         type.default_variant.pdf_export_templates.update_settings(
-          "artefact", "include_lifecycle" => "true"
+          "artefact", "include_lifecycle" => "true", "include_budget" => "true"
         )
         type.default_variant.save!
       end
 
       it "resolves the stored string settings to real booleans, not truthy strings" do
         expect(component.artefact_settings[:include_lifecycle]).to be(true)
+        expect(component.artefact_settings[:include_budget]).to be(true)
       end
     end
   end

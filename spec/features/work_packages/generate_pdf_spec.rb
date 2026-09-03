@@ -249,12 +249,30 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
   end
 
-  context "when the type has a stored default enabling the lifecycle sections" do
+  context "with artefact template and the lifecycle/budget checkboxes enabled" do
+    let(:expected_params) do
+      {
+        template: "artefact",
+        toc: "true",
+        include_lifecycle: "true",
+        include_budget: "true"
+      }
+    end
+
+    it "downloads with both sections included" do
+      select "PMflex Artefact", from: "template"
+      expect(page).to have_checked_field("Project lifecycle")
+      expect(page).to have_checked_field("Project budgets")
+      generate!
+    end
+  end
+
+  context "when the type has a stored default enabling the lifecycle and budget sections" do
     let(:work_package) do
       build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
         variant = wp.type_variant
         variant.pdf_export_templates.update_settings(
-          "artefact", "include_lifecycle" => "true"
+          "artefact", "include_lifecycle" => "true", "include_budget" => "true"
         )
         variant.save!
       end
@@ -262,13 +280,15 @@ RSpec.describe "work package generate PDF dialog", :js do
     let(:expected_params) do
       {
         template: "artefact",
-        include_lifecycle: "true"
+        include_lifecycle: "true",
+        include_budget: "true"
       }
     end
 
     it "pre-fills both checkboxes checked and downloads with them on" do
       select "PMflex Artefact", from: "template"
       expect(page).to have_checked_field("Project lifecycle")
+      expect(page).to have_checked_field("Project budgets")
       generate!
     end
   end

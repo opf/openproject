@@ -230,15 +230,15 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:not_found)
       end
 
-      it "stores the artefact template's lifecycle defaults and resets them" do
+      it "stores the artefact template's lifecycle/budget defaults and resets them" do
         artefact_template = variant.pdf_export_templates.find("artefact")
 
         patch :update_settings,
               params: { type_id: wp_type.id, id: artefact_template.id,
-                        include_lifecycle: "true" }
+                        include_lifecycle: "true", include_budget: "true" }
 
         expect(variant.reload.pdf_export_templates.settings_for("artefact"))
-          .to eq(include_lifecycle: "true")
+          .to eq(include_lifecycle: "true", include_budget: "true")
 
         patch :update_settings, params: { type_id: wp_type.id, id: artefact_template.id, commit: "reset" }
 

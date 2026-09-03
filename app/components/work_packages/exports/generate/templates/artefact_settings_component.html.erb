@@ -31,6 +31,21 @@
       end
       fields.with_row(mt: 3) do
         render(
+          Primer::Alpha::CheckBox.new(
+            id: "include_budget_enabled",
+            name: "include_budget",
+            checked: include_budget,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.include_budget.label"),
+            caption: I18n.t("pdf_generator.dialog.include_budget.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
           WorkPackages::Exports::Generate::Templates::HyphenationFieldsComponent.new(
             template_id: TEMPLATE_ID,
             enabled: hyphenation_enabled,
