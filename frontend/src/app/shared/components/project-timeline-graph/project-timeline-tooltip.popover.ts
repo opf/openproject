@@ -59,6 +59,8 @@ export class ProjectTimelineTooltipPopover {
   private readonly host = document.createElement('div');
   private view:TooltipView = EMPTY_VIEW;
   private timer:number | null = null;
+  private readonly onItemOver = (props:ItemHoverEvent) => this.show(props);
+  private readonly onLeave = () => this.hide();
   private readonly onViewportChange = () => this.hide();
 
   constructor(
@@ -69,22 +71,25 @@ export class ProjectTimelineTooltipPopover {
     container.appendChild(this.host);
     this.render();
 
-    timeline.on('itemover', (props:ItemHoverEvent) => this.show(props));
-    timeline.on('itemout', () => this.hide());
-    timeline.on('rangechange', () => this.hide());
+    timeline.on('itemover', this.onItemOver);
+    timeline.on('itemout', this.onLeave);
+    timeline.on('rangechange', this.onLeave);
     document.addEventListener('scroll', this.onViewportChange, { capture: true, passive: true });
     window.addEventListener('resize', this.onViewportChange);
   }
 
   hide():void {
     this.clearTimer();
-    this.popover?.togglePopover(false);
+    if (this.popover?.isConnected) this.popover.togglePopover(false);
     this.view = EMPTY_VIEW;
     this.render();
   }
 
   destroy():void {
     this.hide();
+    this.timeline.off('itemover', this.onItemOver);
+    this.timeline.off('itemout', this.onLeave);
+    this.timeline.off('rangechange', this.onLeave);
     document.removeEventListener('scroll', this.onViewportChange, { capture: true });
     window.removeEventListener('resize', this.onViewportChange);
     this.host.remove();
