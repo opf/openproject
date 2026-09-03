@@ -45,17 +45,19 @@ module RecurringMeetings
       @previous = previous
     end
 
+    # Returns whether the series changed its UID, and we need to send out a historic event on the side
     def call
-      return if anchor_on_new_grid? || new_anchor.nil?
+      return false if anchor_on_new_grid? || new_anchor.nil?
 
       recurring_meeting.update_columns(new_schedule_attributes)
+      changes_schedule?
     end
 
     private
 
     def new_schedule_attributes
       attributes = { current_schedule_start: new_anchor }
-      return attributes unless history?
+      return attributes unless changes_schedule?
 
       attributes.merge(
         uid: RecurringMeeting.new_uid,
@@ -77,7 +79,7 @@ module RecurringMeetings
       @new_anchor = recurring_meeting.next_occurrence(from_time: Time.current)
     end
 
-    def history?
+    def changes_schedule?
       last_past_occurrence.present?
     end
 

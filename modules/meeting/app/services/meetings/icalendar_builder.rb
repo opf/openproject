@@ -165,7 +165,7 @@ module Meetings
         # The last instance closes the window that build_timezones has to cover.
         all_times[timezone].push(predecessor.ends_at.in_time_zone(timezone))
 
-        add_attendees(event: e, meeting: recurring_meeting.template)
+        add_attendees(event: e, meeting: recurring_meeting.template, rsvp: false)
       end
     end
 
@@ -254,7 +254,7 @@ module Meetings
       end
     end
 
-    def add_attendees(event:, meeting:, override_participation_status: {})
+    def add_attendees(event:, meeting:, override_participation_status: {}, rsvp: true)
       meeting.participants.includes(:user).find_each do |participant|
         user = participant.user
         next unless user
@@ -267,7 +267,7 @@ module Meetings
             "CN" => user.name,
             "EMAIL" => user.mail,
             "PARTSTAT" => attendee_participation_status(participant),
-            "RSVP" => attendee_rsvp_needed?(participant) ? "TRUE" : nil,
+            "RSVP" => rsvp && attendee_rsvp_needed?(participant) ? "TRUE" : nil,
             "CUTYPE" => "INDIVIDUAL",
             "ROLE" => "REQ-PARTICIPANT"
           }.compact

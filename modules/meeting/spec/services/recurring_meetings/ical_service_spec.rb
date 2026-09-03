@@ -84,6 +84,54 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
     end
   end
 
+  describe "#generate_historic_schedule" do
+    let(:new_york) { ActiveSupport::TimeZone["America/New_York"] }
+    let(:result) { service.generate_historic_schedule.result }
+
+    let(:predecessor) do
+      RecurringMeeting::ICalPredecessor.new(
+        uid: "historic@example.com",
+        dtstart: new_york.parse("2024-06-03 09:00"),
+        ends_at: new_york.parse("2024-11-25 09:00"),
+        tzid: "America/New_York",
+        duration: 1.0,
+        summary: "The old weekly schedule",
+        location: "Room 1",
+        rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
+        exdates: [],
+        sequence: 5,
+        rotated_at: DateTime.parse("2024-11-30T10:00:00Z")
+      )
+    end
+
+    context "when the series ended a previous schedule" do
+      before do
+        series.update!(ical_predecessor: predecessor)
+      end
+
+      it "carries the frozen event alone, as a REQUEST" do
+        expect(parsed_events.map(&:uid)).to contain_exactly("historic@example.com")
+        expect(result).to include("METHOD:REQUEST")
+        expect(series_ical).to include("SUMMARY:The old weekly schedule")
+        expect(series_ical).to include("LOCATION:Room 1")
+        expect(series_ical).to include("RRULE:FREQ=WEEKLY;UNTIL=20241125T140000Z")
+      end
+
+      it "asks nobody to answer again, where the live series does ask" do
+        template.participants.update_all(participation_status: "needs-action")
+
+        expect(service.generate_series.result).to include("RSVP=TRUE")
+        expect(result).not_to include("RSVP=TRUE")
+      end
+    end
+
+    context "when the series never ended a schedule" do
+      it "fails rather than sending an empty calendar" do
+        expect(service.generate_historic_schedule).to be_failure
+      end
+    end
+  end
+
   describe "series with no end_date" do
     shared_let(:series) do
       create(:recurring_meeting,

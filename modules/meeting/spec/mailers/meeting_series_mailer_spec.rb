@@ -127,6 +127,48 @@ RSpec.describe MeetingSeriesMailer do
     end
   end
 
+  describe "updated for a historic schedule" do
+    let(:changes) { { old_schedule: "some old schedule", old_location: "some old location" } }
+    let(:successor_mail) { described_class.updated(series, recipient, author, changes:) }
+    let(:predecessor_mail) do
+      described_class.updated(series, recipient, author, changes:, historic_schedule: true)
+    end
+
+    let(:predecessor) do
+      RecurringMeeting::ICalPredecessor.new(
+        uid: "historic@example.com",
+        dtstart: series.start_time - 20.weeks,
+        ends_at: series.start_time - 1.week,
+        tzid: series.time_zone.tzinfo.canonical_identifier,
+        duration: 1.0,
+        summary: "The old weekly schedule",
+        location: "Room 1",
+        rrule: "FREQ=WEEKLY;UNTIL=#{(series.start_time - 1.week).utc.strftime('%Y%m%dT%H%M%SZ')}",
+        exdates: [],
+        sequence: 5,
+        rotated_at: series.start_time - 1.day
+      )
+    end
+
+    before do
+      series.update!(ical_predecessor: predecessor)
+    end
+
+    def calendar_of(mail)
+      Icalendar::Calendar.parse(mail.attachments["meeting.ics"].body.decoded).first
+    end
+
+    it "attaches the ended series, and never together with the live one" do
+      expect(calendar_of(predecessor_mail).events.map(&:uid)).to contain_exactly("historic@example.com")
+      expect(calendar_of(successor_mail).events.map(&:uid)).to contain_exactly(series.uid)
+    end
+
+    it "groups the two messages with the same References" do
+      expect(predecessor_mail.header["References"].to_s).to be_present
+      expect(predecessor_mail.header["References"].to_s).to eq(successor_mail.header["References"].to_s)
+    end
+  end
+
   describe "icalendar attachment" do
     let(:mail) { described_class.invited(series, recipient, author) }
     let(:ical) { mail.parts.detect { |x| !x.multipart? } }
