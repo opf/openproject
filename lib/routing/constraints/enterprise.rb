@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constraints
-  class FeatureDecision
-    def initialize(flag_name)
-      @flag_name = flag_name
-    end
+module Routing
+  module Constraints
+    module Enterprise
+      module_function
 
-    def matches?(...)
-      OpenProject::FeatureDecisions.public_send(:"#{@flag_name}_active?")
+      def matches?(_request)
+        OpenProject::Configuration.ee_manager_visible?
+      end
     end
   end
 end

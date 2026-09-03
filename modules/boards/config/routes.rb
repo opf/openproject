@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   resources :boards,
             controller: "boards/boards",
             only: %i[index new create],
             as: :work_package_boards
 
-  scope "projects/:project_id", as: "project" do
+  project_scope do
     resources :boards,
               controller: "boards/boards",
               only: %i[index show new create destroy],

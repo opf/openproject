@@ -29,6 +29,8 @@
 #++
 
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
   backlogs_redirect = lambda do |params, request, target|
     query = request.query_string.presence
@@ -41,7 +43,7 @@ Rails.application.routes.draw do
     resource :backlogs, only: :show, controller: "backlogs/settings", as: "admin_backlogs_settings"
   end
 
-  scope "projects/:project_id", as: "project", module: "projects" do
+  project_scope module: "projects" do
     namespace "settings" do
       resource :backlog_sharing, only: %i[show update]
       resource :backlog_multiple_active_sprints, only: %i[show] do
@@ -119,7 +121,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope "projects/:project_id", as: "project", module: "projects" do
+  project_scope module: "projects" do
     namespace "settings" do
       resource :backlogs, only: %i[show update] do
         member do

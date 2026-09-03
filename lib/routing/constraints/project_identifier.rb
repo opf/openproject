@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,12 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constraints
-  module Enterprise
-    module_function
+module Routing
+  module Constraints
+    class ProjectIdentifier
+      REGEX = /(?!#{Regexp.union(Projects::Identifier::RESERVED_IDENTIFIERS)}\z)[\w-]+/
 
-    def matches?(_request)
-      OpenProject::Configuration.ee_manager_visible?
+      REGEX_ANCHORED = /\A#{REGEX}\z/
+      private_constant :REGEX_ANCHORED
+
+      def self.matches?(request)
+        project_id = request.path_parameters[:project_id] || request.params[:project_id]
+        REGEX_ANCHORED === project_id
+      end
     end
   end
 end

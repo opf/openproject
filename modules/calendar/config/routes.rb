@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  scope "projects/:project_id", as: "project" do
+  extend Routing::Helpers::ProjectScope
+
+  project_scope do
     resources :calendars,
               controller: "calendar/calendars",
               only: %i[index show new create destroy],
