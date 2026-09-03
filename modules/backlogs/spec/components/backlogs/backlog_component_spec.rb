@@ -41,7 +41,7 @@ RSpec.describe Backlogs::BacklogComponent, type: :component do
   current_user { user }
 
   let(:work_packages_by_backlog_id) do
-    WorkPackage.in_backlog_for(project:).group_by(&:backlog_bucket_id)
+    WorkPackage.in_backlog_for(project:).with_card_hash.group_by(&:backlog_bucket_id)
   end
 
   def render_component

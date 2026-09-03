@@ -30,19 +30,17 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::InboxComponent, type: :component do
+RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   let(:work_packages) { [] }
-  let(:wp_scope) { WorkPackage.where(id: work_packages.map(&:id)).order(:position) }
+  let(:wp_scope) { WorkPackage.where(id: work_packages.map(&:id)).with_card_hash.order(:position) }
   let(:show_all_backlog) { false }
   let(:filter_params) { {} }
 
-  current_user { user }
-
-  subject(:component) do
+  let(:component) do
     described_class.new(
       work_packages: wp_scope,
       project:,
@@ -50,17 +48,14 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     )
   end
 
-  def render_component
+  current_user { user }
+
+  subject(:rendered_component) do
     vc_test_controller.params[:all] = "1" if show_all_backlog
     filter_params.each { |k, v| vc_test_controller.params[k] = v }
 
     render_inline component
   end
-
-  subject(:rendered_component) do
-    render_component
-  end
-
 
   describe "container" do
     it "renders a Primer::Beta::BorderBox with the inbox DOM id" do
@@ -158,17 +153,29 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
     end
 
-    it "renders a row for each work package", :aggregate_failures do
-      # renders the subject of each work package
-      expect(rendered_component).to have_text("First item")
-      expect(rendered_component).to have_text("Second item")
+    it "renders a lazy card frame for each work package" do
+      work_packages.each do |work_package|
+        expect(rendered_component).to have_css("turbo-frame#card_work_package_#{work_package.id}[loading='lazy']")
+      end
+
+      # Renders but does not show the blankslate (via css)
+      expect(rendered_component).to have_css("h4", text: "Backlog inbox is empty")
     end
 
-    it "renders story points on each work package card" do
-      expect(rendered_component).to have_css("span", text: "2", aria: { hidden: true })
-      expect(rendered_component).to have_css(".sr-only", text: "2 story points")
-      expect(rendered_component).to have_css("span", text: "4", aria: { hidden: true })
-      expect(rendered_component).to have_css(".sr-only", text: "4 story points")
+    context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+      it "renders the cards inline without turbo-frames" do
+        work_packages.each do |work_package|
+          expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
+
+          expect(rendered_component).to have_text(work_package.subject)
+
+          expect(rendered_component).to have_css(".sr-only", text: "#{work_package.story_points} story points")
+          expect(rendered_component).to have_css("span", text: work_package.story_points, aria: { hidden: true })
+        end
+
+        # Renders but does not show the blankslate (via css)
+        expect(rendered_component).to have_css("h4", text: "Backlog inbox is empty")
+      end
     end
   end
 

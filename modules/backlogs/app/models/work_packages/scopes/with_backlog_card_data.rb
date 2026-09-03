@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,34 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Backlogs
-  class BucketComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include CommonHelper
-    include ContainerComponentHelper
+# Loads the data a backlog work package card needs, depending on the
+# +backlogs_lazy_cards+ feature flag.
+#
+# * On: cards are lazily loaded through turbo-frames, so only the card_hash
+#   (see WorkPackages::Scopes::WithCardHash) is needed to build the frame src;
+#   the associations are loaded per card by the cards controller.
+# * Off: cards are rendered inline, so their associations are eager loaded to
+#   avoid N+1 queries.
+module WorkPackages::Scopes::WithBacklogCardData
+  extend ActiveSupport::Concern
 
-    attr_reader :backlog_bucket, :work_packages, :project, :current_user
+  CARD_ASSOCIATIONS = %i[type status assigned_to priority parent].freeze
 
-    def initialize(backlog_bucket:, project:, work_packages: nil, current_user: User.current)
-      super()
-
-      @backlog_bucket = backlog_bucket
-      @project = project
-      @current_user = current_user
-      @work_packages = work_packages || backlog_bucket.displayed_work_packages.with_backlog_card_data
-    end
-
-    def wrapper_uniq_by
-      backlog_bucket.id
-    end
-
-    private
-
-    def list_type
-      Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
+  class_methods do
+    def with_backlog_card_data
+      if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+        with_card_hash
+      else
+        includes(*CARD_ASSOCIATIONS)
+      end
     end
   end
 end

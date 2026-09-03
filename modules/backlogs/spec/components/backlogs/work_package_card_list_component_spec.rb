@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
+RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -57,10 +57,19 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
     render_component(work_packages:, container:, drag_and_drop:)
   end
 
+  # Reloads the given work packages through the with_card_hash scope, preserving
+  # their order, so the lazily loaded card frames can read their card_hash.
+  def with_card_hash(work_packages)
+    return work_packages if work_packages.nil?
+
+    by_id = WorkPackage.where(id: work_packages.map(&:id)).with_card_hash.index_by(&:id)
+    work_packages.map { |work_package| by_id.fetch(work_package.id) }
+  end
+
   def render_component(work_packages:, container:, drag_and_drop:)
     render_inline(
       described_class.new(
-        work_packages:,
+        work_packages: with_card_hash(work_packages),
         project:,
         container:,
         drag_and_drop:,
@@ -86,9 +95,12 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
     it_behaves_like "rendering Box", row_count: 2, header: false, footer: false
 
-    it "renders one row per work package" do
-      expect(rendered_component).to have_text("WP A")
-      expect(rendered_component).to have_text("WP B")
+    it "renders one lazy card frame per work package" do
+      work_packages.each do |work_package|
+        expect(rendered_component).to have_css(
+          "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']"
+        )
+      end
     end
   end
 
@@ -101,41 +113,40 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       ]
     end
 
-    it "renders items through Backlogs::WorkPackageCardListItemComponent" do
-      work_package = work_packages.first
-
-      expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id}[data-controller~='sortable-lists--item'] " \
-        ".op-work-package-card[data-controller~='backlogs--work-package']"
-      )
-    end
-
-    it "renders Backlogs-specific row and card data attributes" do
+    it "renders Backlogs-specific row and a lazy loaded turbo frame for the work package card" do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
+        expect(row["data-controller"]).to eq("sortable-lists--item")
         expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
         expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
       end
 
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
-        expect(card["data-story"]).to be_present
-        expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
-        expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
-      end
+      expect(rendered_component).to have_css(
+        ".Box-row#work_package_#{work_package.id} " \
+        "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
+        "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
+      )
     end
 
-    it "renders the Backlogs work-package card" do
-      work_package = work_packages.first
+    context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+      it "renders Backlogs-specific row and card data attributes",
+         with_flag: { backlogs_lazy_cards: false } do
+        work_package = work_packages.first
 
-      expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id} .sr-only",
-        text: "3 story points"
-      )
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package)
-      )
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
+          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+        end
+
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
+          expect(card["data-controller"]).to include("backlogs--work-package")
+          expect(card["data-story"]).to be_present
+          expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+        end
+      end
     end
   end
 

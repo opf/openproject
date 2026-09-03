@@ -101,6 +101,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private connected = false;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -116,10 +117,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
   connect():void {
     this.warnOnMissingValues();
     this.register();
+    this.connected = true;
     this.element.addEventListener('toggle', this.onMenuToggle, true);
   }
 
   disconnect():void {
+    this.connected = false;
     // A morph can remove a hovering row mid-drag; without this the drop indicator
     // it owns on a sibling row is never cleared (no onDrop fires, and no other
     // controller may clear a foreign owner), leaving a phantom drop line.
@@ -128,6 +131,23 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.cleanupFn = undefined;
     this.element.removeEventListener('toggle', this.onMenuToggle, true);
     this.disconnectRoot();
+  }
+
+  // On reloading of the page, the item, e.g. a WorkPackageCardComponent, might be reloaded.
+  // registerDraggable() binds the dragHandle at registration
+  // time, so a reloaded card leaves the draggable pointing at a now-detached
+  // handle and the row stops being draggable. Re-register whenever a fresh
+  // handle connects so the binding follows the live element — this is what keeps
+  // dragging working after the first move.
+  //
+  // Guarded on `connected`: Stimulus starts the target observer before calling
+  // connect(), so a handle already present at connect fires this before
+  // connect() and is already covered by connect()'s own registration.
+  // Re-registering then would create a throwaway draggable.
+  handleTargetConnected():void {
+    if (!this.connected) { return; }
+
+    this.reregister();
   }
 
   // A move item entering the DOM (inline or via a deferred fragment) triggers

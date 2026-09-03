@@ -33,13 +33,28 @@ module Backlogs
     include CommonHelper
     include Concerns::WorkPackageMovability
 
+    # The list item component to use for backlog cards: a lazily loaded
+    # turbo-frame placeholder when the backlogs_lazy_cards feature is enabled,
+    # or this inline card component otherwise.
+    def self.for_current_feature
+      if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+        WorkPackageCardListItemLoadingComponent
+      else
+        self
+      end
+    end
+
     private
 
     def build_card
+      # The card wires up its own interactive behaviour and classes from the
+      # work package, project and user, so that it renders identically whether
+      # inline here or lazily through Backlogs::WorkPackages::CardsController.
       WorkPackageCardComponent.new(
         work_package:,
+        project:,
         menu_src:,
-        **card_arguments
+        current_user:
       )
     end
 
@@ -49,58 +64,8 @@ module Backlogs
       sortable?
     end
 
-    def split_url
-      url_helpers.project_backlogs_backlog_details_path(project, work_package, params)
-    end
-
-    def full_url
-      url_helpers.work_package_path(work_package)
-    end
-
     def menu_src
       url_helpers.menu_project_backlogs_work_package_path(project, work_package)
-    end
-
-    # @return [Hash] card arguments carrying the Backlogs-only keyboard wiring.
-    #   `tabindex` lives here rather than in the base because only this subclass
-    #   attaches the `backlogs--work-package` Enter handler; a focusable base card
-    #   would be a dead tab stop. The `:has(> .Box-card:focus-visible)` row rule
-    #   depends on this focusability.
-    def card_arguments
-      arguments = super
-      arguments[:tabindex] = 0
-      arguments[:data] = merge_data(arguments, { data: card_data })
-      arguments[:aria] = merge_aria(arguments, { aria: card_aria })
-      arguments
-    end
-
-    def card_data
-      data = {
-        story: true,
-        # Non-movable cards opt in too: they have no move actions, but their
-        # singular menu is still worth reaching contextually.
-        controller: "backlogs--work-package contextual-action-menu",
-        backlogs__work_package_id_value: work_package.id,
-        backlogs__work_package_display_id_value: work_package.display_id,
-        backlogs__work_package_split_url_value: split_url,
-        backlogs__work_package_full_url_value: full_url
-      }
-
-      return data unless draggable?
-
-      data.merge(sortable_lists__item_target: "preview handle")
-    end
-
-    # @return [Hash] ARIA wiring announcing the card's Enter activation and its
-    #   context-menu shortcut without claiming button or draggable semantics.
-    #   Shift+F10 is the conventional context-menu command in the WAI-ARIA APG
-    #   and is worth announcing; the dedicated Context Menu key is left out
-    #   because it needs no discovery — pressing it is its own affordance.
-    def card_aria
-      {
-        keyshortcuts: "Enter Shift+F10",
-        label: work_package.to_fs(:caption)
-      }
     end
 
     # An unmovable card registers as a sortable item like any other: it keeps

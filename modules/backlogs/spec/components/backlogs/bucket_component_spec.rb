@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::BucketComponent, type: :component do
+RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -125,14 +125,25 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         end
       end
 
-      it "renders one shared-card row per work package" do
-        expect(rendered_component).to have_text("Bucket Work Package")
-        expect(rendered_component).to have_text("##{work_package.id}")
+      it "lazily loads the work package card through a turbo-frame" do
+        expect(rendered_component).to have_css(
+          ".Box-row#work_package_#{work_package.id} " \
+          "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
+          "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
+        )
       end
 
-      it "renders story points on the work package card" do
-        expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
-        expect(rendered_component).to have_css(".sr-only", text: "3 story points")
+      context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+        it "renders the card inline without a turbo-frame" do
+          expect(rendered_component).to have_text("Bucket Work Package")
+          expect(rendered_component).to have_text("##{work_package.id}")
+
+          expect(rendered_component).to have_css(
+            ".Box-row#work_package_#{work_package.id} .sr-only", text: "3 story points"
+          )
+
+          expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
+        end
       end
 
       it "wires the list controller and value attributes for the bucket" do
@@ -147,14 +158,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         end
       end
 
-      it "renders the shared work-package row menu with inbox src" do
-        expect(rendered_component).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
-        )
-      end
-
-      it "wires draggable data through the shared row" do
+      it "wires draggable data through the shared row when lazy loading is disabled", with_flag: { backlogs_lazy_cards: false } do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
           expect(row["data-controller"]).to eq("sortable-lists--item")
           expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
@@ -180,25 +184,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       it "renders the bucket empty-state blankslate" do
         expect(rendered_component).to have_text("Backlog bucket is empty")
         expect(rendered_component).to have_text("Drag items here to add them")
-      end
-    end
-  end
-
-  context "when show_all_backlog is active" do
-    let(:show_all_backlog) { true }
-    let!(:work_package) do
-      create(:work_package,
-             project:,
-             backlog_bucket:,
-             type: type_feature,
-             status: default_status,
-             priority: default_priority,
-             position: 1)
-    end
-
-    it "includes all=true in the split-view URL" do
-      expect(rendered_component).to have_css(".op-work-package-card") do |card|
-        expect(card["data-backlogs--work-package-split-url-value"]).to include("all=true")
       end
     end
   end

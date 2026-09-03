@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::SprintComponent, type: :component do
+RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -93,16 +93,40 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         )
       end
 
-      it "renders story points on each work package card" do
-        expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
-        expect(rendered_component).to have_css(".sr-only", text: "5 story points")
-        expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
-        expect(rendered_component).to have_css(".sr-only", text: "3 story points")
+      it "lazily loads each work package card through a turbo-frame" do
+        [work_package1, work_package2].each do |work_package|
+          expect(rendered_component).to have_css(
+            ".Box-row#work_package_#{work_package.id} " \
+            "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
+            "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
+          )
+        end
       end
 
-      it "renders one Box-row per work package" do
-        expect(rendered_component).to have_text(work_package1.subject)
-        expect(rendered_component).to have_text(work_package2.subject)
+      context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+        it "renders the cards inline without turbo-frames" do
+          [work_package1, work_package2].each do |work_package|
+            expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
+
+            expect(rendered_component).to have_text(work_package.subject)
+            expect(rendered_component).to have_css(".sr-only", text: "#{work_package.story_points} story points")
+          end
+        end
+
+        it "wires draggable data on work package rows" do
+          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
+            expect(row["data-controller"]).to eq("sortable-lists--item")
+            expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
+            expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+            expect(row["draggable"]).to eq("true")
+          end
+
+          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
+            expect(card["data-controller"]).to include("backlogs--work-package")
+            expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+            expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
+          end
+        end
       end
 
       it "wires the list controller and value attributes for the sprint" do
@@ -119,21 +143,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it "passes an explicit sprint test selector to the shared box" do
         expect(rendered_component).to have_css(".Box[data-test-selector='sprint-#{sprint.id}']")
-      end
-
-      it "wires draggable data on work package rows" do
-        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-          expect(row["data-controller"]).to eq("sortable-lists--item")
-          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
-          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
-          expect(row["draggable"]).to eq("true")
-        end
-
-        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-          expect(card["data-controller"].split).to include("backlogs--work-package")
-          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
-          expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
-        end
       end
 
       it "renders the sprint kebab menu in the header" do

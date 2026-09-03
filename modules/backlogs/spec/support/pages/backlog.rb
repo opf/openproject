@@ -333,6 +333,14 @@ module Pages
 
     def within_work_package_menu(work_package, &)
       within_work_package(work_package) do
+        # With lazy cards enabled the card is a turbo-frame that reloads whenever
+        # the board is morphed (e.g. after reordering). Wait for it to settle
+        # before opening the menu, otherwise clicking the actions button races
+        # the frame swap and the menu never opens. There is no such frame when
+        # cards are rendered inline.
+        if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+          expect(page).to have_css("turbo-frame#card_work_package_#{work_package.id}[complete]:not([busy])")
+        end
         button = find(:button, accessible_name: "Work package actions")
         within(open_controlled_menu(button), &)
       end

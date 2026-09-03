@@ -33,6 +33,15 @@ import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-patte
 
 const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
+// The backlog filter state (expanded inbox, selected buckets/sprints) lives in
+// the backlog page's query string. The card's split URL is rendered
+// without it — a card is cached per work package, independent of the current
+// filter — so the current filters are carried over at navigation time. Arrays
+// are serialised by Rails as `bucket_ids[]`/`sprint_ids[]`, matching the keys
+// used here. Without this, opening a card would drop back to the unfiltered,
+// collapsed backlog.
+const BACKLOG_FILTER_PARAMS = ['all', 'bucket_ids[]', 'sprint_ids[]'];
+
 export default class WorkPackageController extends Controller<HTMLElement> implements EventListenerObject {
   static values = {
     id: Number,
@@ -178,11 +187,23 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
   }
 
   openSplitPane():void {
-    Turbo.visit(this.splitUrlValue, { frame: 'content-bodyRight', action: 'advance' });
+    Turbo.visit(this.withBacklogFilters(this.splitUrlValue), { frame: 'content-bodyRight', action: 'advance' });
   }
 
   private openFullPane():void {
     Turbo.visit(this.fullUrlValue, { frame: '_top' });
+  }
+
+  private withBacklogFilters(url:string):string {
+    const target = new URL(url, window.location.origin);
+    const current = new URLSearchParams(window.location.search);
+
+    BACKLOG_FILTER_PARAMS.forEach((param) => {
+      target.searchParams.delete(param);
+      current.getAll(param).forEach((value) => target.searchParams.append(param, value));
+    });
+
+    return `${target.pathname}${target.search}${target.hash}`;
   }
 
   private shouldIgnoreMouseTarget(target:HTMLElement):boolean {

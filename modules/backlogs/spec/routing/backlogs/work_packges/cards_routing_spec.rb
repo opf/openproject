@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,34 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Backlogs
-  class BucketComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include CommonHelper
-    include ContainerComponentHelper
+require "spec_helper"
 
-    attr_reader :backlog_bucket, :work_packages, :project, :current_user
-
-    def initialize(backlog_bucket:, project:, work_packages: nil, current_user: User.current)
-      super()
-
-      @backlog_bucket = backlog_bucket
-      @project = project
-      @current_user = current_user
-      @work_packages = work_packages || backlog_bucket.displayed_work_packages.with_backlog_card_data
+RSpec.describe Backlogs::WorkPackages::CardsController do
+  describe "routing" do
+    context "with the feature flag enabled", with_flag: { backlogs_lazy_cards: true } do
+      it {
+        expect(get("/projects/project_42/backlogs/work_packages/123/card"))
+          .to route_to(controller: "backlogs/work_packages/cards",
+                       action: "show",
+                       project_id: "project_42",
+                       work_package_id: "123")
+      }
     end
 
-    def wrapper_uniq_by
-      backlog_bucket.id
+    context "without the feature flag enabled" do
+      it {
+        expect(get("/projects/project_42/backlogs/work_packages/123/card"))
+          .not_to be_routable
+      }
     end
+  end
 
-    private
-
-    def list_type
-      Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
-    end
+  describe "named routing" do
+    it {
+      expect(project_backlogs_work_package_card_path("project_42", "123"))
+        .to eq("/projects/project_42/backlogs/work_packages/123/card")
+    }
   end
 end

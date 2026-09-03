@@ -61,10 +61,10 @@
     > ul > .Box-row:first-of-type
       border-top-color: transparent
 
-      &:has(> .Box-card[data-selected])
+      &:has(.Box-card[data-selected])
         border-top-color: var(--box-list-item-selected-border-color)
 
-      &:has(> .Box-card[aria-current="true"])
+      &:has(.Box-card[aria-current="true"])
         border-top-color: var(--box-list-item-pressed-border-color)
 
   &.op-border-box-list_transparent
@@ -182,7 +182,7 @@
 
 // Rows wrapping a card delegate their padding to the card and take their
 // colors from the box-list-item state variables.
-.Box-row:has(> .Box-card)
+.Box-row:has(.Box-card)
   padding: 0
   background-color: var(--box-list-item-bg-color)
   border-top-color: var(--box-list-item-border-color)
@@ -190,24 +190,24 @@
   &:hover
     background-color: var(--box-list-item-bg-hover-color)
 
-  &:has(> .Box-card:focus-visible)
+  &:has(.Box-card:focus-visible)
     background-color: var(--bgColor-muted)
 
 // Selected state: applied synchronously on activation by the
 // backlogs--work-package controller (single selection), so the list reacts
 // before the split screen has loaded.
-.Box-row:has(> .Box-card[data-selected])
+.Box-row:has(.Box-card[data-selected])
   background-color: var(--box-list-item-selected-bg-color)
   @include op-box-list-item-edge-borders(var(--box-list-item-selected-border-color))
 
   &:hover,
-  &:has(> .Box-card:focus-visible)
+  &:has(.Box-card:focus-visible)
     background-color: var(--box-list-item-selected-bg-hover-color)
 
 // Current state: the card is open in the split screen. aria-current is
 // maintained by the backlogs--work-package controller once the URL reflects
 // the details pane; the strong border wins over a simultaneous selected state.
-.Box-row:has(> .Box-card[aria-current="true"])
+.Box-row:has(.Box-card[aria-current="true"])
   @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
 
 // Drag-and-drop row states, scoped to the border-box list. The global

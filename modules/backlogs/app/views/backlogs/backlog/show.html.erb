@@ -48,7 +48,10 @@ See COPYRIGHT and LICENSE files for more details.
                       src: project_backlogs_backlog_path(@project, backlog_filter_params),
                       class: "op-backlogs-page",
                       data: {
-                        controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
+                        controller: "backlogs--list-refresh
+                                     backlogs--split-view-sync
+                                     sortable-lists
+                                     #{'reload-frames-on-morph' if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?}",
                         sortable_lists_optimistic_value: true,
                         action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
                         sortable_lists_move_url_template_value: backlogs_move_url_template(@project),

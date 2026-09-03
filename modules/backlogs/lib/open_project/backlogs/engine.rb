@@ -55,6 +55,7 @@ module OpenProject::Backlogs
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/work_packages": %i[index show menu],
+                     "backlogs/work_packages/cards": %i[show],
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
@@ -201,6 +202,11 @@ module OpenProject::Backlogs
     add_api_endpoint "API::V3::Projects::ProjectsAPI", :id do
       mount ::API::V3::Sprints::SprintsByProjectAPI
       mount ::API::V3::BacklogBuckets::BacklogBucketsByProjectAPI
+    end
+
+    initializer "openproject_backlogs.feature_decisions" do
+      OpenProject::FeatureDecisions.add :backlogs_lazy_cards,
+                                        description: "Lazily load and cache backlog work package cards via turbo-frames."
     end
 
     initializer "openproject_backlogs.event_subscriptions" do

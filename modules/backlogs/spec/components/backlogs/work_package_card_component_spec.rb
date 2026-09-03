@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
+RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
 
@@ -44,12 +44,23 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   subject(:rendered_component) do
-    render_inline(described_class.new(work_package:, menu_src:))
+    render_inline(described_class.new(work_package:, project:, menu_src:))
   end
 
   it "renders the common work package card" do
     expect(rendered_component).to have_text("Backlogs card")
     expect(rendered_component).to have_text("##{work_package.id}")
+  end
+
+  it "wraps the card in its turbo-frame so the lazily loaded placeholder is replaced" do
+    expect(rendered_component).to have_css("turbo-frame#card_work_package_#{work_package.id}")
+  end
+
+  context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+    it "renders the card inline without a turbo-frame" do
+      expect(rendered_component).to have_no_css("turbo-frame#card_work_package_#{work_package.id}")
+      expect(rendered_component).to have_text("Backlogs card")
+    end
   end
 
   it "renders story points as the card metric" do
@@ -58,7 +69,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "supports caller-provided metric content" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }
     end
 
@@ -72,13 +83,21 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "forwards extra system arguments to the common card root" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:, data: { test_extra: "yes" }))
 
-    expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
+    expect(rendered).to have_css("article[data-test-extra='yes']")
+  end
+
+  it "wires the interactive backlogs--work-package controller and split url onto the card" do
+    expect(rendered_component).to have_css(
+      "article[data-controller~='backlogs--work-package']" \
+      "[data-backlogs--work-package-split-url-value]" \
+      "[tabindex='0']"
+    )
   end
 
   it "supports inline menu items through the menu slot" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|
         menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
       end
