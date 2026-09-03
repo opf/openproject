@@ -29,8 +29,8 @@
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { render } from 'lit-html';
 import type { Timeline } from 'vis-timeline/standalone';
+import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
 import type { ProjectTimelineTooltipBuilder, TooltipView } from './project-timeline-tooltip.builder';
-import { caretPlacement } from './project-timeline-tooltip-caret';
 
 const TOOLTIP_DELAY_IN_MS = 500;
 
@@ -113,22 +113,14 @@ export class ProjectTimelineTooltipPopover {
     }, TOOLTIP_DELAY_IN_MS);
   }
 
-  // `anchored-position` positions the popover in a frame it requests on
-  // `beforetoggle` and does not report which side it settled on, so the caret
-  // is derived from the resulting geometry one frame after opening.
   private open(anchor:HTMLElement):void {
     if (!anchor.isConnected) return;
 
-    this.popover?.togglePopover(true);
-    requestAnimationFrame(() => this.alignCaret());
-  }
-
-  private alignCaret():void {
     const popover = this.popover;
-    const { anchor } = this.view;
-    if (!popover || !anchor || !popover.matches(':popover-open')) return;
+    if (!popover) return;
 
-    this.view = { ...this.view, caret: caretPlacement(popover.getBoundingClientRect(), anchor.getBoundingClientRect()) };
+    popover.togglePopover(true);
+    this.view = { ...this.view, caret: placePopover(popover, anchor) };
     this.render();
   }
 

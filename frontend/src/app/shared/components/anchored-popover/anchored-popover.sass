@@ -1,0 +1,20 @@
+anchored-position.op-anchored-popover--host
+  margin: 0
+  padding: 0
+  border: 0
+  background: none
+  text-align: start
+
+.op-anchored-popover
+  color: var(--fgColor-default)
+
+  &:not(.Popover-message--left):not(.Popover-message--right)
+    &::before,
+    &::after
+      left: var(--op-anchored-popover-caret-offset, 50%)
+
+  &.Popover-message--left,
+  &.Popover-message--right
+    &::before,
+    &::after
+      top: var(--op-anchored-popover-caret-offset, 50%)
