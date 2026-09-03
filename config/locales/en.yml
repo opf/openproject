@@ -1734,7 +1734,8 @@ en:
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"
       show:
-        description: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+        description: "Connect OpenProject to an LLM server so that AI features can use it."
+        description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
       tabs:
         connection: "Connection"
         models: "LLMs"
