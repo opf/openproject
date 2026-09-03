@@ -4291,7 +4291,6 @@ en:
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
-      unknown: "Unknown"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."

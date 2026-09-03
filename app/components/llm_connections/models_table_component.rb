@@ -41,8 +41,7 @@ module LlmConnections
     mobile_columns :identifier
 
     # The connection is passed in rather than derived from the first row: with a
-    # paginated, filtered list a page can legitimately be empty, and deriving it
-    # would silently degrade the kind column to "Unknown".
+    # paginated, filtered list a page can legitimately be empty.
     def initialize(connection:, **)
       super(**)
       @connection = connection

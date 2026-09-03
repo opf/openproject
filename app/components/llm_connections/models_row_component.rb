@@ -51,15 +51,13 @@ module LlmConnections
     end
 
     # Derived from the embeddings verdict rather than stored separately: a model
-    # that produces vectors is an embedding model, and that is the same fact.
+    # that produces vectors is an embedding model, and everything else is a chat
+    # model.
     def kind
-      case table.embeddings_states[llm_model.external_id]
-      when "supported"
+      if table.embeddings_states[llm_model.external_id] == "supported"
         render(Primer::Beta::Label.new(scheme: :success)) { I18n.t("llm.model_kinds.embedding") }
-      when "unsupported"
-        render(Primer::Beta::Label.new(scheme: :secondary)) { I18n.t("llm.model_kinds.chat") }
       else
-        render(Primer::Beta::Label.new(scheme: :secondary, inline: true)) { I18n.t("llm.model_kinds.unknown") }
+        render(Primer::Beta::Label.new(scheme: :secondary)) { I18n.t("llm.model_kinds.chat") }
       end
     end
 

@@ -87,6 +87,20 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).not_to include("llm-models--stale")
       end
 
+      it "shows every model as either a chat or an embedding model" do
+        connection = create(:llm_connection, base_url:)
+        create(:llm_model, llm_connection: connection, external_id: "bge-m3")
+        create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include("Embedding")
+        expect(response.body).to include("Chat")
+        expect(response.body).not_to include("Unknown")
+      end
+
       it "keeps a long model name readable through the truncation" do
         connection = create(:llm_connection, base_url:)
         long_name = "publisher/a-very-long-model-name-that-does-not-fit-the-column-32b-instruct-2026-05"
