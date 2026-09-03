@@ -315,6 +315,7 @@ class Notifications::CreateFromModelService
   def abort_sending?
     model.nil? ||
       !model.class.exists?(id: model.id) ||
+      (journal && journal.data.nil?) ||
       !supported?
   end
 
