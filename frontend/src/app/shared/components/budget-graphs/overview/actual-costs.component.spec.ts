@@ -81,6 +81,19 @@ describe('ActualCostsComponent', () => {
     expect(element.querySelector('canvas')).toBeNull();
   });
 
+  it('drops the tooltip renderer together with its host', () => {
+    renderWith([{ label: 'Labour', data: [10] }]);
+    const removeListener = vi.spyOn(document, 'removeEventListener');
+
+    renderWith([]);
+    expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
+
+    removeListener.mockClear();
+    renderWith([{ label: 'Labour', data: [10] }]);
+    fixture.destroy();
+    expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
+  });
+
   it('opens the tooltip inside its host from the Chart.js callback', () => {
     renderWith([{ label: 'Labour', data: [10] }]);
     const external = fixture.componentInstance.barChartOptions()!.plugins!.tooltip!.external as (context:BarTooltipContext) => void;

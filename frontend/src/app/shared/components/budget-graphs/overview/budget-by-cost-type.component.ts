@@ -29,10 +29,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
   Signal,
   computed,
+  effect,
   inject,
   input,
   viewChild,
@@ -56,10 +56,19 @@ export class BudgetByCostTypeComponent {
   private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
 
   private renderer:ReturnType<typeof createPieTooltipRenderer>|null = null;
-  private renderedHost:HTMLElement|null = null;
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.renderer?.destroy());
+    effect((onCleanup) => {
+      const host = this.tooltipHost()?.nativeElement;
+      if (!host) return;
+
+      const renderer = createPieTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderer = renderer;
+      onCleanup(() => {
+        renderer.destroy();
+        this.renderer = null;
+      });
+    });
   }
 
   readonly chartData = input.required<string>();
@@ -80,17 +89,7 @@ export class BudgetByCostTypeComponent {
     },
   }));
 
-  private readonly tooltipRenderer = (context:PieTooltipContext) => {
-    const host = this.tooltipHost()?.nativeElement;
-    if (!host) return;
-
-    if (host !== this.renderedHost) {
-      this.renderer?.destroy();
-      this.renderer = createPieTooltipRenderer(host, this.formatCurrency.bind(this));
-      this.renderedHost = host;
-    }
-    this.renderer?.(context);
-  };
+  private readonly tooltipRenderer = (context:PieTooltipContext) => this.renderer?.(context);
 
   private formatCurrency(value:number):string {
     const currency = this.currency();

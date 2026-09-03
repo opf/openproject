@@ -29,10 +29,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
   Signal,
   computed,
+  effect,
   inject,
   input,
   viewChild,
@@ -57,10 +57,19 @@ export class ActualCostsComponent {
   private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
 
   private renderer:ReturnType<typeof createBarTooltipRenderer>|null = null;
-  private renderedHost:HTMLElement|null = null;
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.renderer?.destroy());
+    effect((onCleanup) => {
+      const host = this.tooltipHost()?.nativeElement;
+      if (!host) return;
+
+      const renderer = createBarTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderer = renderer;
+      onCleanup(() => {
+        renderer.destroy();
+        this.renderer = null;
+      });
+    });
   }
 
   readonly chartData = input.required<string>();
@@ -97,17 +106,7 @@ export class ActualCostsComponent {
     },
   }));
 
-  private readonly tooltipRenderer = (context:BarTooltipContext) => {
-    const host = this.tooltipHost()?.nativeElement;
-    if (!host) return;
-
-    if (host !== this.renderedHost) {
-      this.renderer?.destroy();
-      this.renderer = createBarTooltipRenderer(host, this.formatCurrency.bind(this));
-      this.renderedHost = host;
-    }
-    this.renderer?.(context);
-  };
+  private readonly tooltipRenderer = (context:BarTooltipContext) => this.renderer?.(context);
 
   private formatCurrencyCompact(value:number):string {
     const currency = this.currency();

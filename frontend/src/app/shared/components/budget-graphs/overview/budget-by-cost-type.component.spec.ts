@@ -81,6 +81,19 @@ describe('BudgetByCostTypeComponent', () => {
     expect(element.querySelector('canvas')).toBeNull();
   });
 
+  it('drops the tooltip renderer together with its host', () => {
+    renderWith([{ data: [10] }]);
+    const removeListener = vi.spyOn(document, 'removeEventListener');
+
+    renderWith([{ data: [] }]);
+    expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
+
+    removeListener.mockClear();
+    renderWith([{ data: [10] }]);
+    fixture.destroy();
+    expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
+  });
+
   it('opens the tooltip inside its host from the Chart.js callback', () => {
     renderWith([{ data: [10] }]);
     const external = fixture.componentInstance.pieChartOptions()!.plugins!.tooltip!.external as (context:PieTooltipContext) => void;
