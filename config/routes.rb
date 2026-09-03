@@ -743,12 +743,17 @@ Rails.application.routes.draw do
     end
 
     resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      post :refresh_models
       delete :api_key, action: :delete_api_key
       get :delete_api_key_dialog
       get :disconnect_dialog
       post :disconnect
-      get :search_models, defaults: { format: :turbo_stream }
+    end
+
+    resources :llm_models, only: %i[index], controller: "admin/llm_models" do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        post :refresh
+      end
     end
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do

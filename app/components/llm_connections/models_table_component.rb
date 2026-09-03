@@ -52,17 +52,17 @@ module LlmConnections
 
     def has_footer? = false
 
-    def mobile_title = I18n.t("admin.llm_connections.show.models_heading")
+    def mobile_title = I18n.t("menus.admin.llm_models")
 
     # The row class is otherwise derived by convention as LlmConnections::RowComponent.
     def row_class = ModelsRowComponent
 
     def headers
       [
-        [:identifier, { caption: I18n.t("admin.llm_connections.models.identifier") }],
-        [:kind, { caption: I18n.t("admin.llm_connections.models.kind") }],
-        [:context_window, { caption: I18n.t("admin.llm_connections.models.context_window") }],
-        [:source, { caption: I18n.t("admin.llm_connections.models.source") }]
+        [:identifier, { caption: I18n.t("admin.llm_models.index.identifier") }],
+        [:kind, { caption: I18n.t("admin.llm_models.index.kind") }],
+        [:context_window, { caption: I18n.t("admin.llm_models.index.context_window") }],
+        [:source, { caption: I18n.t("admin.llm_models.index.source") }]
       ]
     end
 
@@ -76,9 +76,9 @@ module LlmConnections
       connection.capability_verdicts.for_capability(:embeddings).pluck(:model_id, :state).to_h
     end
 
-    def blank_title = I18n.t("admin.llm_connections.models.blank_title")
+    def blank_title = I18n.t("admin.llm_models.index.blank_title")
 
-    def blank_description = I18n.t("admin.llm_connections.models.blank_description")
+    def blank_description = I18n.t("admin.llm_models.index.blank_description")
 
     def blank_icon = :sparkle
   end

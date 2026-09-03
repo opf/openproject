@@ -38,7 +38,7 @@ class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::Llm
   end
 
   def human_name
-    I18n.t("admin.llm_connections.models.filter_label")
+    I18n.t("admin.llm_models.index.filter_label")
   end
 
   # Matches the identifier the server uses and the friendly name an

@@ -64,7 +64,7 @@ module LlmConnections
     def source
       scheme, key = source_label
 
-      render(Primer::Beta::Label.new(scheme:)) { I18n.t("admin.llm_connections.models.#{key}") }
+      render(Primer::Beta::Label.new(scheme:)) { I18n.t("admin.llm_models.index.#{key}") }
     end
 
     def source_label

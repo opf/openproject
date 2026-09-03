@@ -116,15 +116,16 @@ RSpec.describe "LLM connection administration",
     before { mock_llm_models_response(base_url) }
 
     it "renders the model list accessibly" do
-      visit llm_connection_path
+      visit llm_models_path
 
+      expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
       expect(page).to be_axe_clean.within("#content")
     end
 
     it "removes the stored API key" do
       visit llm_connection_path
-      expect(page).to have_test_selector("llm-model--refresh-button")
+      expect(page).to have_field("Host URL")
 
       choose_action("llm-connection--delete-api-key")
 
@@ -139,7 +140,7 @@ RSpec.describe "LLM connection administration",
 
     it "disconnects without losing the configuration" do
       visit llm_connection_path
-      expect(page).to have_test_selector("llm-model--refresh-button")
+      expect(page).to have_field("Host URL")
 
       choose_action("llm-connection--disconnect")
 

@@ -1733,34 +1733,32 @@ en:
         label_connecting: "Contacting the LLM server…"
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"
-      models:
-        blank_description: "The server reported no models. If it does not offer a model list, add the model names you want to use below."
+      show:
+        description: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+      update:
+        disabled: "Saved. LLM features are switched off for this instance."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
+        success: "Successfully connected to the LLM server."
+    llm_models:
+      index:
+        blank_description: "The server reported no models. Refresh the list once the server is reachable."
         blank_title: "No models available"
         context_window: "Context window"
-        display_name_caption: "An optional friendly name shown instead of the model id."
+        description: "Reported by the server on %{fetched_at}."
+        description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable."
         filter_label: "Filter models"
         identifier: "Model"
         kind: "Type"
+        refresh: "Refresh models"
         source: "Source"
-        source_deactivated: "Hidden by administrator"
         source_discovered: "Reported by server"
         source_manual: "Added manually"
         source_withdrawn: "No longer reported"
-        status: "Available for use"
-        toggle_aria_label: "Make %{model} available to AI features"
-      refresh_models:
+        unconfigured_description: "Connect OpenProject to an LLM server first. The models it offers are listed here once it is reachable."
+        unconfigured_title: "No LLM server configured"
+      refresh:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
-      show:
-        description: "Connect OpenProject to an LLM server so that AI features can use it."
-        models_description: "Reported by the server on %{fetched_at}."
-        models_description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable, or add the models you want to use manually."
-        models_heading: "Available models"
-        refresh_models: "Refresh models"
-      update:
-        disabled: "Saved. LLM features are switched off for this instance."
-        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1)."
-        success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -4289,9 +4287,6 @@ en:
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
       xai: "xAI"
-    context_window_sources:
-      registry: "the figure published for this model"
-      server: "reported by the server"
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
@@ -4542,6 +4537,7 @@ en:
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
+      llm_models: "LLMs"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

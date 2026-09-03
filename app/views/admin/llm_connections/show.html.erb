@@ -32,7 +32,13 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t("menus.admin.llm_connection") }
-    header.with_description { t(".description") }
+    header.with_description do
+      link_translate(
+        "admin.llm_connections.show.description",
+        links: { models_url: llm_models_path },
+        external: false
+      )
+    end
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
@@ -80,25 +86,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @connection.persisted? %>
-  <%= render(LlmConnections::FormComponent.new(@connection)) %>
-
-  <%=
-    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
-      component.with_heading(tag: :h3) { t(".models_heading") }
-      component.with_description do
-        if @connection.catalogue_fetched_at
-          t(".models_description", fetched_at: format_time(@connection.catalogue_fetched_at))
-        else
-          t(".models_description_unfetched")
-        end
-      end
-    end
-  %>
-
-  <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
-  <%= render(LlmConnections::Models::IndexComponent.new(@models, connection: @connection)) %>
-<% else %>
-  <%# Nothing to show alongside the form until a connection exists. %>
-  <%= render(LlmConnections::FormComponent.new(@connection)) %>
-<% end %>
+<%= render(LlmConnections::FormComponent.new(@connection)) %>

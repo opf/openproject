@@ -47,7 +47,7 @@ module LlmConnections
           controller: "filter--filters-form",
           "filter--filters-form-perform-turbo-requests-value": true,
           "filter--filters-form-output-format-value": "json",
-          "filter--filters-form-url-path-name-value": helpers.search_models_llm_connection_path,
+          "filter--filters-form-url-path-name-value": helpers.search_llm_models_path,
           "filter--filters-form-clear-button-id-value": clear_button_id
         }
       end

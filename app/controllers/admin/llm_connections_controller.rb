@@ -31,7 +31,6 @@
 module Admin
   class LlmConnectionsController < ApplicationController
     include OpTurbo::ComponentStream
-    include PaginationHelper
 
     layout "admin"
     menu_item :llm_connection
@@ -40,24 +39,7 @@ module Admin
     before_action :require_admin
     before_action :set_connection
 
-    def show
-      @query = ParamsToQueryService
-                 .new(LlmModel, current_user, query_class: Queries::LlmModels::LlmModelQuery)
-                 .call(params)
-      @models = @query.results.paginate(page: page_param, per_page: per_page_param)
-    end
-
-    # Answers the sub-header's filter input, replacing just the table.
-    def search_models
-      show
-
-      replace_via_turbo_stream(
-        component: LlmConnections::Models::IndexComponent.new(@models, connection: @connection)
-      )
-      turbo_streams << turbo_stream.push_state(llm_connection_path(params.permit(:filters, :page, :per_page)))
-
-      respond_with_turbo_streams
-    end
+    def show; end
 
     def update
       result = ::LlmConnections::UpdateService
@@ -66,16 +48,6 @@ module Admin
 
       result.on_success { redirect_after_save }
       result.on_failure { render_form_with_errors }
-    end
-
-    def refresh_models
-      result = ::LlmConnections::SyncModelsService.new(@connection).call
-
-      if result.success?
-        redirect_with_notice(t(".success"))
-      else
-        redirect_with_error(t(".failure"))
-      end
     end
 
     def disconnect_dialog
@@ -135,10 +107,7 @@ module Admin
     def render_form_with_errors
       update_via_turbo_stream(component: ::LlmConnections::FormComponent.new(@connection))
       respond_with_turbo_streams do |format|
-        format.html do
-          show
-          render :show
-        end
+        format.html { render :show }
       end
     end
 
