@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,9 +38,20 @@ module API
 
         self_link title_getter: ->(*) {}
 
+        link :showWikiPage do
+          next unless represented.project && represented.slug.present?
+
+          {
+            href: api_v3_paths.show_wiki_page(represented.project.identifier, represented.slug),
+            type: "text/html"
+          }
+        end
+
         property :id
 
         property :title
+
+        date_time_property :updated_at
 
         associated_project
 

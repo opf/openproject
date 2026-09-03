@@ -82,6 +82,7 @@ module OpenProject::Wikis
 
       ::Queries::Register.register(::Queries::Wikis::WikiPages::WikiPageQuery) do
         filter ::Queries::Wikis::WikiPages::Filter::NameFilter
+        filter ::Queries::Wikis::WikiPages::Filter::SearchFilter
       end
     end
 

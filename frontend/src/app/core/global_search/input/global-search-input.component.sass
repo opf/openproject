@@ -2,7 +2,7 @@
 
 // search bar has a min-width of 300px and should adapt to every screen size
 $search-input-width: calc(300px + 3vw)
-$search-input-width-expanded: 500px
+$search-input-width-expanded: min(740px, calc(100vw - 280px))
 $search-input-height: 30px
 
 .top-menu-search
@@ -109,6 +109,120 @@ $search-input-height: 30px
       &:empty
         display: none
 
+    .global-search--toolbar
+      display: flex
+      align-items: center
+      justify-content: space-between
+      margin: -0.5rem -0.75rem
+      padding: 0 var(--base-size-8) 0 var(--base-size-16)
+      border-bottom: 1px solid var(--borderColor-default)
+      text-transform: none
+
+    .global-search--tabs
+      display: flex
+      gap: var(--base-size-24)
+
+    .global-search--tab
+      @include unset-button-styles
+      padding: var(--base-size-12) 0 var(--base-size-8)
+      color: var(--fgColor-muted)
+      border-bottom: 2px solid transparent
+      font-weight: var(--base-text-weight-semibold)
+
+      &:hover
+        color: var(--fgColor-default)
+
+      &.-selected
+        color: var(--fgColor-default)
+        border-bottom-color: var(--borderColor-accent-emphasis)
+
+    .global-search--project-scope-select
+      max-width: 230px
+      padding: var(--base-size-4) var(--base-size-24) var(--base-size-4) var(--base-size-8)
+      color: var(--fgColor-default)
+      background-color: var(--bgColor-default)
+      border: 1px solid var(--borderColor-default)
+      border-radius: var(--borderRadius-small)
+      font-size: var(--text-body-size-small)
+
+    .global-search--quick-filters
+      display: flex
+      flex-direction: column
+      gap: var(--base-size-8)
+      margin: var(--base-size-8) -0.75rem -0.5rem
+      padding: var(--base-size-8) var(--base-size-16)
+      background-color: var(--bgColor-muted)
+      border-bottom: 1px solid var(--borderColor-default)
+      text-transform: none
+
+    .global-search--quick-filter-group
+      display: flex
+      align-items: center
+      flex-wrap: wrap
+      gap: var(--base-size-8)
+
+    .global-search--quick-filter-label
+      min-width: 105px
+      color: var(--fgColor-muted)
+      font-size: var(--text-body-size-small)
+      font-weight: var(--base-text-weight-semibold)
+
+    .global-search--quick-filter
+      @include unset-button-styles
+      padding: var(--base-size-4) var(--base-size-8)
+      color: var(--fgColor-muted)
+      background-color: var(--control-transparent-bgColor-rest)
+      border: 1px solid transparent
+      border-radius: 999px
+      font-size: var(--text-body-size-small)
+
+      &:hover
+        color: var(--fgColor-default)
+        background-color: var(--control-transparent-bgColor-hover)
+
+      &.-selected
+        color: var(--fgColor-accent)
+        background-color: var(--bgColor-accent-muted)
+        border-color: var(--borderColor-accent-emphasis)
+
+    .global-search--result-card,
+    .global-search--result-card:hover
+      display: flex
+      align-items: flex-start
+      gap: var(--base-size-12)
+      line-height: 1.25
+
+    .global-search--result-icon
+      display: flex
+      align-items: center
+      justify-content: center
+      width: var(--base-size-24)
+      min-width: var(--base-size-24)
+      height: var(--base-size-24)
+      margin-top: var(--base-size-4)
+      color: var(--fgColor-muted)
+
+    .global-search--result-kind-line
+      display: flex
+      align-items: center
+      gap: var(--base-size-4)
+      min-height: var(--base-size-20)
+      color: var(--fgColor-muted)
+      font-size: var(--text-body-size-small)
+
+    .global-search--result-kind
+      color: var(--fgColor-accent)
+      font-weight: var(--base-text-weight-semibold)
+      text-transform: uppercase
+
+    .global-search--result-title
+      color: var(--fgColor-default)
+      font-weight: var(--base-text-weight-medium)
+
+    .global-search--result-project
+      color: var(--fgColor-muted)
+      font-size: var(--text-body-size-small)
+
     .ng-dropdown-panel-items.scroll-host
       @include styled-scroll-bar
       max-height: 80vh
@@ -116,6 +230,8 @@ $search-input-height: 30px
 
     .ng-dropdown-panel
       width: $search-input-width-expanded !important
+      border-radius: 0 0 var(--borderRadius-medium) var(--borderRadius-medium)
+      box-shadow: var(--shadow-floating-small)
 
     .ng-option
       border-bottom: 1px solid var(--borderColor-default)
