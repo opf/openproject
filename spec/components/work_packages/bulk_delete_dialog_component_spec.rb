@@ -43,6 +43,10 @@ RSpec.describe WorkPackages::BulkDeleteDialogComponent, type: :component do
 
   subject(:component) { described_class.new(work_packages:) }
 
+  def t(key, **)
+    I18n.t("work_packages.bulk_delete_dialog.#{key}", **)
+  end
+
   before do
     User.current = user
   end
@@ -83,10 +87,6 @@ RSpec.describe WorkPackages::BulkDeleteDialogComponent, type: :component do
       page
     end
 
-    def t(key, **)
-      I18n.t("work_packages.bulk_delete_dialog.#{key}", **)
-    end
-
     context "with descendants" do
       let(:child_wp) { create(:work_package, project: main_project, parent: wp_main, subject: "Child wp") }
 
@@ -123,6 +123,29 @@ RSpec.describe WorkPackages::BulkDeleteDialogComponent, type: :component do
         expect(subject).to have_link sub_project.name, href: project_path(sub_project)
         expect(subject).to have_no_link "Descendant Project"
       end
+    end
+  end
+
+  describe "the no-descendants dialog" do
+    let(:wp_one) { create(:work_package, project: main_project, subject: "First to delete") }
+    let(:wp_two) { create(:work_package, project: sub_project, subject: "Second to delete") }
+    let(:work_packages) { [wp_one, wp_two] }
+
+    subject do
+      render_inline(component)
+      page
+    end
+
+    it "lists each selected work package and asks to confirm the deletion" do
+      expect(subject).to have_text "First to delete"
+      expect(subject).to have_text "Second to delete"
+      expect(subject).to have_text t("confirm_deletion")
+    end
+
+    it "warns when the selection spans multiple projects" do
+      expect(subject).to have_text t("cross_project_warning_html",
+                                     projects: "#{main_project.name}, #{sub_project.name}")
+      expect(subject).to have_link main_project.name, href: project_path(main_project)
     end
   end
 end
