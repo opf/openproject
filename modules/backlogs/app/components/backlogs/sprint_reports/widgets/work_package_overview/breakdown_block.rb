@@ -57,6 +57,10 @@ module Backlogs
           def text_with_defaults(system_arguments, defaults)
             Primer::Beta::Text.new(**system_arguments.reverse_merge(defaults))
           end
+
+          def render_show_all?
+            EnterpriseToken.allows_to?(:baseline_comparison)
+          end
         end
       end
     end
