@@ -35,7 +35,9 @@ module LlmConnections
     alias_method :llm_model, :model
 
     def identifier
-      render(Primer::Beta::Text.new(font_weight: :bold)) { llm_model.name }
+      render(Primer::Beta::Truncate.new(font_weight: :bold)) do |truncate|
+        truncate.with_item(expandable: true, max_width: 320, title: llm_model.name) { llm_model.name }
+      end
     end
 
     # vLLM and SGLang report the operator's real --max-model-len here, which is

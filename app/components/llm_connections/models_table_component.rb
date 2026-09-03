@@ -36,6 +36,8 @@ module LlmConnections
   class ModelsTableComponent < OpPrimer::BorderBoxTableComponent
     columns :identifier, :kind, :context_window, :source
 
+    main_column :identifier
+
     mobile_columns :identifier
 
     # The connection is passed in rather than derived from the first row: with a

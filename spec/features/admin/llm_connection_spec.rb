@@ -116,6 +116,10 @@ RSpec.describe "LLM connection administration",
     before { mock_llm_models_response(base_url) }
 
     it "renders the model list accessibly" do
+      create(:llm_model,
+             llm_connection: connection,
+             external_id: "publisher/a-very-long-model-name-that-does-not-fit-the-column-32b-instruct-2026-05")
+
       visit llm_models_path
 
       expect(page).to have_test_selector("llm-model--refresh-button")

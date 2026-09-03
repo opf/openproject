@@ -87,6 +87,17 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).not_to include("llm-models--stale")
       end
 
+      it "keeps a long model name readable through the truncation" do
+        connection = create(:llm_connection, base_url:)
+        long_name = "publisher/a-very-long-model-name-that-does-not-fit-the-column-32b-instruct-2026-05"
+        create(:llm_model, llm_connection: connection, external_id: long_name)
+
+        get llm_models_path
+
+        expect(response.body).to include("Truncate-text--expandable")
+        expect(response.body).to include("title=\"#{long_name}\"")
+      end
+
       it "points at the settings page while no connection is stored" do
         get llm_models_path
 
