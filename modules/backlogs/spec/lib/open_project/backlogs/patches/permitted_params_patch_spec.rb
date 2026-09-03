@@ -72,6 +72,14 @@ RSpec.describe PermittedParams do
       end
     end
 
+    context "with bucket_ids and sprint_ids as compact comma-delimited strings" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: "1,2", sprint_ids: "3") }
+
+      it "permits both strings" do
+        expect(permitted).to eq("bucket_ids" => "1,2", "sprint_ids" => "3")
+      end
+    end
+
     context "with the all flag" do
       let(:params) { ActionController::Parameters.new(all: "1") }
 

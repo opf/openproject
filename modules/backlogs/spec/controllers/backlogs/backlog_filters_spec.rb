@@ -55,6 +55,38 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
         expect(filters.bucket_ids).to eq([1, 2])
       end
     end
+
+    context "when bucket_ids are a comma-delimited string" do
+      let(:params) { { bucket_ids: "1, 2 ,inbox" } }
+
+      it "splits, trims and preserves the inbox sentinel" do
+        expect(filters.bucket_ids).to eq([1, 2, "inbox"])
+      end
+    end
+
+    context "when bucket_ids repeat" do
+      let(:params) { { bucket_ids: "1,1,2" } }
+
+      it "deduplicates" do
+        expect(filters.bucket_ids).to eq([1, 2])
+      end
+    end
+
+    context "when bucket_ids are a tampered nested structure (?bucket_ids[0]=5)" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: { "0" => "5" }) }
+
+      it "ignores them without raising" do
+        expect(filters.bucket_ids).to be_nil
+      end
+    end
+
+    context "when bucket_ids are a tampered array of structures (?bucket_ids[][x]=5)" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: [{ "x" => "5" }]) }
+
+      it "ignores them without raising" do
+        expect(filters.bucket_ids).to be_nil
+      end
+    end
   end
 
   describe "#sprint_ids" do
@@ -119,8 +151,8 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     context "with bucket_ids and sprint_ids" do
       let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
 
-      it "includes both" do
-        expect(filters.to_h).to eq({ bucket_ids: [1, 2], sprint_ids: [3] })
+      it "joins both into compact comma-delimited strings" do
+        expect(filters.to_h).to eq({ bucket_ids: "1,2", sprint_ids: "3" })
       end
     end
 
@@ -128,7 +160,15 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
       let(:params) { { all: "1", bucket_ids: %w[1], sprint_ids: %w[2] } }
 
       it "includes everything" do
-        expect(filters.to_h).to eq({ all: true, bucket_ids: [1], sprint_ids: [2] })
+        expect(filters.to_h).to eq({ all: true, bucket_ids: "1", sprint_ids: "2" })
+      end
+    end
+
+    context "with the inbox sentinel among bucket_ids" do
+      let(:params) { { bucket_ids: ["5", "inbox"] } }
+
+      it "keeps the sentinel in the serialized string" do
+        expect(filters.to_h).to eq({ bucket_ids: "5,inbox" })
       end
     end
   end

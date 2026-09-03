@@ -44,13 +44,16 @@ module Backlogs
 
     private
 
-    def filter_fields_for
-      backlog_filter_params
-        .except(filter_field)
-        .flat_map do |name, value|
-          field_name = value.is_a?(Array) ? "#{name}[]" : name
-          Array(value).map { |v| [field_name, v, { id: nil }] }
-        end
+    def panel_id
+      dom_target(filter_field_name, :filter_select_panel)
+    end
+
+    def backlog_show_path
+      project_backlogs_backlog_path(project)
+    end
+
+    def item_id(item)
+      dom_target(panel_id, :item, item.id.to_s)
     end
 
     def items
@@ -89,10 +92,6 @@ module Backlogs
 
     def filter_field_name
       filter_field == :sprint_ids ? "sprint" : "backlog_bucket"
-    end
-
-    def clear_form_id
-      "#{filter_field_name}-clear-form"
     end
   end
 end
