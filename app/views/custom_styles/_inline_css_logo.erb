@@ -28,75 +28,37 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <style type="text/css" data-turbo-track="reload">
-  <%
-  is_ru = I18n.locale == :ru
-  cs = apply_custom_styles? ? CustomStyle.current : nil
-
-  desktop_light_logo_url = asset_path(is_ru ? "logo-white-bg-ua.png" : "logo_openproject_white_big.png")
-  desktop_light_high_contrast_logo_url = if OpenProject::Configuration.bim?
-                                           asset_path("bim/logo_openproject_bim_big_coloured.png")
-                                         else
-                                           asset_path(is_ru ? "logo-black-bg-ua.png" : "logo_openproject.png")
-                                         end
-  desktop_dark_logo_url = desktop_light_logo_url
-
-  mobile_light_logo_url = asset_path("icon_logo.svg")
-  mobile_light_white_logo_url = asset_path("icon_logo_white.svg")
-  mobile_light_high_contrast_logo_url = asset_path("icon_logo.svg")
-  mobile_dark_logo_url = mobile_light_white_logo_url
-
-  if cs
-    desktop_custom_logo_urls = custom_logo_urls(cs)
-    mobile_custom_logo_urls = custom_logo_urls(cs, mobile: true)
-
-    unless desktop_custom_logo_urls.values.any?
-      desktop_custom_logo_urls = mobile_custom_logo_urls
-    end
-
-    theme_logo_url = asset_path(cs.theme_logo) if cs.theme_logo.present?
-
-    desktop_light_logo_url = desktop_custom_logo_urls[:light] || theme_logo_url || desktop_light_logo_url
-    desktop_light_high_contrast_logo_url = desktop_custom_logo_urls[:light_high_contrast] ||
-      desktop_light_high_contrast_logo_url
-    desktop_dark_logo_url = desktop_custom_logo_urls[:dark] || theme_logo_url || desktop_dark_logo_url
-
-    mobile_light_logo_url = mobile_custom_logo_urls[:light] || mobile_light_logo_url
-    mobile_light_white_logo_url = mobile_custom_logo_urls[:light] || mobile_light_white_logo_url
-    mobile_light_high_contrast_logo_url = mobile_custom_logo_urls[:light_high_contrast] ||
-      mobile_light_high_contrast_logo_url
-    mobile_dark_logo_url = mobile_custom_logo_urls[:dark] || mobile_dark_logo_url
-  end
-  %>
+  <% logo_urls = resolved_logo_urls %>
 
   .op-logo--link {
-    background-image: url(<%= desktop_light_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:desktop, :light) %>);
   }
 
   .op-logo--link_high_contrast {
-    background-image: url(<%= desktop_light_high_contrast_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:desktop, :light_high_contrast) %>);
   }
 
   .op-logo--icon {
-    background-image: url(<%= mobile_light_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:mobile, :light) %>);
   }
 
   .op-logo--icon_white {
-    background-image: url(<%= mobile_light_white_logo_url %>);
+    background-image: url(<%= logo_urls[:mobile_white_class] %>);
   }
 
   [data-light-theme="light_high_contrast"] .op-logo--link {
-    background-image: url(<%= desktop_light_high_contrast_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:desktop, :light_high_contrast) %>);
   }
 
   [data-light-theme="light_high_contrast"] .op-logo--icon {
-    background-image: url(<%= mobile_light_high_contrast_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:mobile, :light_high_contrast) %>);
   }
 
   [data-color-mode="dark"] .op-logo--link {
-    background-image: url(<%= desktop_dark_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:desktop, :dark) %>);
   }
 
   [data-color-mode="dark"] .op-logo--icon {
-    background-image: url(<%= mobile_dark_logo_url %>);
+    background-image: url(<%= logo_urls.dig(:mobile, :dark) %>);
   }
 </style>
