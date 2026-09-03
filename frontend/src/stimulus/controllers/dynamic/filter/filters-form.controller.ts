@@ -482,7 +482,7 @@ export default class FiltersFormController extends Controller {
     if (this.hasTurboFrameRequestValue) {
       // Turbo Drive shows its own progress bar for visits, so there is no need to
       // toggle the global loading indicator here as the other branches below do.
-      visit(url, { frame: this.turboFrameRequestValue });
+      visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
       return;
     }
 
