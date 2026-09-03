@@ -87,7 +87,7 @@ RSpec.describe WorkPackages::Exports::Generate::Templates::ArtefactSettingsCompo
       expect(rendered_component).to have_unchecked_field "Project budgets"
     end
   end
-  
+
   context "when toc, lifecycle, budget and hyphenation are stored as the string \"true\"" do
     let(:settings) do
       { toc: "true", include_lifecycle: "true", include_budget: "true", hyphenation: "true" }

@@ -291,11 +291,11 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   describe "project budgets" do
     let(:project) do
       create(:project,
-        name: "Artefact project",
-        types: [type],
-        public: true,
-        active: true,
-        enabled_module_names: %w[budgets costs])
+             name: "Artefact project",
+             types: [type],
+             public: true,
+             active: true,
+             enabled_module_names: %w[budgets costs])
     end
     let(:permissions) do
       %w[view_work_packages export_work_packages view_project_attributes
@@ -457,11 +457,11 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     context "when the budgets module is disabled" do
       let(:project) do
         create(:project,
-          name: "Artefact project",
-          types: [type],
-          public: true,
-          active: true,
-          enabled_module_names: %w[costs])
+               name: "Artefact project",
+               types: [type],
+               public: true,
+               active: true,
+               enabled_module_names: %w[costs])
       end
 
       it "does not render the section" do

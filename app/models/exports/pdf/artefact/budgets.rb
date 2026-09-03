@@ -131,7 +131,7 @@ module Exports::PDF::Artefact::Budgets
   end
 
   def budget_group_label(kind)
-    kind == :labor ? I18n.t('pdf_generator.budgets_table.labor') : I18n.t('pdf_generator.budgets_table.material')
+    kind == :labor ? I18n.t("pdf_generator.budgets_table.labor") : I18n.t("pdf_generator.budgets_table.material")
   end
 
   def budget_group_subtotal(budget, kind)
