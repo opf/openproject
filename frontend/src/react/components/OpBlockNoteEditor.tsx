@@ -39,6 +39,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -140,10 +141,12 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
+        <OpenProjectFormattingToolbar />
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
