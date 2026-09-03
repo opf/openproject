@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
@@ -228,6 +228,21 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         patch :update_settings, params: { type_id: wp_type.id, id: "bogus" }
 
         expect(response).to have_http_status(:not_found)
+      end
+
+      it "stores the artefact template's lifecycle/budget defaults and resets them" do
+        artefact_template = variant.pdf_export_templates.find("artefact")
+
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: artefact_template.id,
+                        include_lifecycle: "true", include_budget: "true" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("artefact"))
+          .to eq(include_lifecycle: "true", include_budget: "true")
+
+        patch :update_settings, params: { type_id: wp_type.id, id: artefact_template.id, commit: "reset" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("artefact")).to eq({})
       end
 
       context "when the type links its PDF export config to a source type" do

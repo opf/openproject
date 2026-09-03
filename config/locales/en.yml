@@ -4966,6 +4966,13 @@ en:
     prev: "Previous"
     prev_page: "Previous Page"
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -4980,6 +4987,12 @@ en:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation

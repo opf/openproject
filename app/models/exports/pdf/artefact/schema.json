@@ -42,6 +42,9 @@
     "wp_table": {
       "$ref": "#/$defs/wp_table"
     },
+    "budgets": {
+      "$ref": "#/$defs/budgets"
+    },
     "inline_error": {
       "description": "Styling for inline error messages",
       "$ref": "#/$defs/font"
@@ -289,6 +292,121 @@
           "$ref": "#/$defs/margin"
         }
       ]
+    },
+    "budgets": {
+      "title": "Budgets",
+      "description": "Styling for the project budgets planned cost breakdown table",
+      "type": "object",
+      "x-example": {
+        "budgets": {
+          "page_break_threshold": 300,
+          "rule": {},
+          "table": {}
+        }
+      },
+      "properties": {
+        "page_break_threshold": {
+          "title": "Page break threshold",
+          "description": "Start the budgets section on a new page unless at least this much vertical space is left",
+          "examples": [ 300 ],
+          "$ref": "#/$defs/measurement"
+        },
+        "rule": {
+          "type": "object",
+          "title": "Budgets table double rule",
+          "description": "The double rule drawn above and below the budgets table",
+          "x-example": {
+            "rule": {
+              "color": "000000",
+              "height": 0.5,
+              "spacing": 2
+            }
+          },
+          "properties": {
+            "height": {
+              "title": "Line height of a single line of the rule",
+              "examples": [ 0.5 ],
+              "$ref": "#/$defs/measurement"
+            },
+            "color": {
+              "title": "Line color of the rule",
+              "$ref": "#/$defs/color"
+            },
+            "spacing": {
+              "title": "Vertical gap between the two lines of the rule",
+              "examples": [ 2 ],
+              "$ref": "#/$defs/measurement"
+            }
+          }
+        },
+        "table": {
+          "type": "object",
+          "title": "Budgets table",
+          "x-example": {
+            "table": {
+              "margin_bottom": 3,
+              "cell": {
+                "size": 9,
+                "color": "000000",
+                "padding_bottom": 2
+              },
+              "cell_header": {
+                "styles": [ "bold" ]
+              },
+              "cell_budget_heading": {
+                "color": "175A8E",
+                "styles": [ "bold" ]
+              },
+              "cell_group_heading": {
+                "padding_top": 8
+              },
+              "cell_group_subtotal": {
+                "padding_top": 8
+              },
+              "cell_total": {
+                "styles": [ "bold" ]
+              }
+            }
+          },
+          "properties": {
+            "cell": {
+              "title": "Table cell",
+              "description": "Styling for a budget line item cell",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_header": {
+              "title": "Table header cell",
+              "description": "Styling for a column header cell",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_budget_heading": {
+              "title": "Budget heading cell",
+              "description": "Styling for the row naming a budget and its planned total",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_group_heading": {
+              "title": "Cost group heading cell",
+              "description": "Styling for the label of a planned unit costs or planned labor costs group",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_group_subtotal": {
+              "title": "Cost group subtotal cell",
+              "description": "Styling for the subtotal of a planned unit costs or planned labor costs group",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_total": {
+              "title": "Table total cell",
+              "description": "Styling for the total across all budgets of the project",
+              "$ref": "#/$defs/table_cell"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        }
+      }
     },
     "wp_table": {
       "title": "Work package table",

@@ -36,6 +36,7 @@ module Exports::PDF::Artefact::Styles
     include Exports::PDF::Components::PageStyles
     include Exports::PDF::Components::WpTableStyles
     include Exports::PDF::Artefact::CoverStyles
+    include Exports::PDF::Artefact::BudgetsStyles
     include Exports::PDF::Common::ProjectAttributesStyles
     include WorkPackage::PDFExport::Common::MarkdownFieldStyles
     include WorkPackage::PDFExport::Common::AttributesTableStyles
