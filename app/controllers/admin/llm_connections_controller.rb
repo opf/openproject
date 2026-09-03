@@ -54,10 +54,8 @@ module Admin
       respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
     end
 
-    # Clears the credential and switches the AI features off, keeping the endpoint,
-    # the catalogue and every feature binding. Deliberately not a destroy: the
-    # cascade would take the locked embedding bindings with it, and those are the
-    # only record that a vector index exists and what it was written with.
+    # Clears the credential and switches the AI features off, keeping the endpoint
+    # and the catalogue. Deliberately not a destroy.
     def disconnect
       ApplicationRecord.transaction do
         @connection.update!(api_key: nil)
