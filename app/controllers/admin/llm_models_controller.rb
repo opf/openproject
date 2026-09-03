@@ -82,7 +82,10 @@ module Admin
     # The models are a tab of the LLM settings, and that tab is offered only
     # while the connection is enabled.
     def require_enabled_connection
-      redirect_to llm_connection_path, status: :see_other unless @connection.enabled?
+      return if @connection.enabled?
+
+      flash[:notice] = t("admin.llm_connections.disabled_notice")
+      redirect_to llm_connection_path, status: :see_other
     end
   end
 end

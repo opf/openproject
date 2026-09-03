@@ -130,6 +130,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         get llm_models_path
 
         expect(response).to redirect_to(llm_connection_path)
+        expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disabled_notice"))
       end
 
       it "sends the administrator to the settings while no connection is stored" do

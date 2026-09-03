@@ -1713,6 +1713,7 @@ en:
         menu_label: "Remove API key"
         success: "The API key has been removed."
         title: "Remove API key"
+      disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
       disconnect:
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
