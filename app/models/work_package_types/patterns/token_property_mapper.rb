@@ -37,16 +37,16 @@ module WorkPackageTypes
       DURATION = ->(v) { DurationConverter.output(v) }
 
       class << self
-        def add_static_attribute(key, label_fn, value_fn, formatter = STRING_OR_NIL)
-          static_tokens << AttributeToken.new(key, label_fn, value_fn, formatter)
+        def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
+          static_tokens << AttributeToken.new(key, context, label_fn, value_fn, formatter)
         end
 
         def static_tokens
           @static_tokens ||= []
         end
 
-        def add_custom_fields(scope_fn, prefix = "")
-          custom_field_definitions << [scope_fn, prefix]
+        def add_custom_fields(scope_fn, context, prefix = "")
+          custom_field_definitions << [scope_fn, context, prefix]
         end
 
         def custom_field_definitions
@@ -62,12 +62,12 @@ module WorkPackageTypes
       private
 
       def custom_field_tokens(variant)
-        self.class.custom_field_definitions.flat_map do |scope_fn, prefix|
-          tokenize(scope_fn.call(variant), prefix)
+        self.class.custom_field_definitions.flat_map do |scope_fn, context, prefix|
+          tokenize(scope_fn.call(variant), context, prefix)
         end
       end
 
-      def tokenize(custom_field_scope, prefix = nil)
+      def tokenize(custom_field_scope, context_name, prefix = nil)
         custom_field_scope.pluck(:name, :id, :field_format, :multi_value).map do |name, id, format, multiple|
           formatter = if multiple
                         ARRAY
@@ -78,6 +78,7 @@ module WorkPackageTypes
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",
+            context_name,
             -> { name },
             ->(context) do
               key = :"custom_field_#{id}"
