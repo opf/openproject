@@ -43,6 +43,8 @@ class CustomStyle < ApplicationRecord
       dark: :logo_mobile_dark
     }
   }.freeze
+  LOGO_VARIANTS = LOGO_FIELDS.values.flat_map { |fields| fields.except(:light).values }.index_by(&:to_s).freeze
+  LOGO_VARIANT_ROUTE_CONSTRAINT = Regexp.union(LOGO_VARIANTS.keys).freeze
 
   mount_uploader :logo, OpenProject::Configuration.file_uploader
   mount_uploader :logo_dark, OpenProject::Configuration.file_uploader
