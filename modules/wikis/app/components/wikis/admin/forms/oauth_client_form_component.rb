@@ -57,6 +57,14 @@ module Wikis::Admin::Forms
         )
     end
 
+    def redirect_uri_or_instructions
+      if resolved_oauth_client.client_id.present?
+        resolved_oauth_client.redirect_uri
+      else
+        I18n.t("wikis.instructions.xwiki.missing_client_id_for_redirect_uri")
+      end
+    end
+
     def validation_message_for(attribute)
       resolved_oauth_client.errors.messages_for(attribute).to_sentence.presence
     end

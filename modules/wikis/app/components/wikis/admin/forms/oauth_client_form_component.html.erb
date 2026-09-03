@@ -17,39 +17,54 @@
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(Primer::Alpha::TextField.new(
-            name: "oauth_client[client_id]",
-            label: t(".client_id"),
-            visually_hide_label: false,
-            value: resolved_oauth_client.client_id,
-            input_width: :large,
-            required: true,
-            validation_message: validation_message_for(:client_id)
-          ))
-        end
-
-        oauth_client_row.with_row(mb: 3) do
-          render(Primer::Alpha::TextField.new(
-            name: "oauth_client[client_secret]",
-            label: t(".client_secret"),
-            visually_hide_label: false,
-            value: resolved_oauth_client.client_secret,
-            input_width: :large,
-            required: true,
-            validation_message: validation_message_for(:client_secret)
-          ))
+          render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+            input_group.with_text_input(
+              readonly: false,
+              id: "oauth_client_client_id",
+              name: "oauth_client[client_id]",
+              label: t(".client_id"),
+              visually_hide_label: false,
+              value: resolved_oauth_client.client_id,
+              required: true,
+              validation_message: validation_message_for(:client_id)
+            )
+            input_group.with_trailing_action_clipboard_copy_button(
+              for: "oauth_client_client_id",
+              aria: { label: t("button_copy_to_clipboard") }
+            )
+          end
         end
 
         oauth_client_row.with_row(mb: 3) do
           render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
             input_group.with_text_input(
+              readonly: false,
+              id: "oauth_client_client_secret",
+              name: "oauth_client[client_secret]",
+              label: t(".client_secret"),
+              visually_hide_label: false,
+              value: resolved_oauth_client.client_secret,
+              required: true,
+              validation_message: validation_message_for(:client_secret)
+            )
+            input_group.with_trailing_action_clipboard_copy_button(
+              for: "oauth_client_client_secret",
+              aria: { label: t("button_copy_to_clipboard") }
+            )
+          end
+        end
+
+        oauth_client_row.with_row(mb: 3) do
+          render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+            input_group.with_text_input(
+              id: "oauth_client_redirect_uri",
               name: "oauth_client[redirect_uri]",
               label: t(".redirect_uri"),
               visually_hide_label: false,
-              value: resolved_oauth_client.redirect_uri
+              value: redirect_uri_or_instructions
             )
             input_group.with_trailing_action_clipboard_copy_button(
-              value: resolved_oauth_client.redirect_uri,
+              for: "oauth_client_redirect_uri",
               aria: { label: t("button_copy_to_clipboard") }
             )
             input_group.with_caption { t(".redirect_uri_caption") }
