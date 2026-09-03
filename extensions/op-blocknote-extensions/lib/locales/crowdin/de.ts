@@ -4,23 +4,23 @@ export const en = {
       'title': "Vorhandenes Arbeitspaket verlinken",
       'subtext': "Link zu einem einzelnen Arbeitspaket hinzufügen",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "Neues Arbeitspaket erstellen",
+        'subtext': "Ein Arbeitspaket erstellen und hier verlinken"
       },
       'aliases': {
         'workpackage': "Arbeitspaket",
         'work package': "Arbeitspaket",
         'wp': "ap",
         'link': "verlinken",
-        'create': 'create'
+        'create': "erstellen"
       }
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
+      'title': "Neues Arbeitspaket erstellen",
+      'close': "Schließen",
+      'cancel': "Abbrechen",
+      'create': "Erstellen",
+      'creating': "Wird erstellt…",
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
       'loading': 'Loading…',
