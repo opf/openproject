@@ -27,28 +27,86 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import {
+  HttpResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { firstValueFrom, of } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpUploadService } from 'core-app/core/upload/upload.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { AttachmentsResourceService } from './attachments.service';
 
 describe('AttachmentsResourceService', () => {
+  let service:AttachmentsResourceService;
+
+  const attachment = {
+    id: '42',
+    fileName: 'a.png',
+    _links: {
+      self: { href: '/api/v3/attachments/42' },
+      delete: { href: '/api/v3/attachments/42' },
+    },
+  } as unknown as IAttachment;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AttachmentsResourceService,
         { provide: States, useValue: new States() },
         { provide: ConfigurationService, useValue: {} },
-        { provide: OpUploadService, useValue: {} },
+        { provide: I18nService, useValue: { t: () => '' } },
+        { provide: ToastService, useValue: { addUpload: vi.fn() } },
+        {
+          provide: OpUploadService,
+          useValue: { upload: vi.fn(() => [of(new HttpResponse({ body: attachment }))]) },
+        },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
+
+    service = TestBed.inject(AttachmentsResourceService);
   });
 
   it('initialises via dependency injection', () => {
-    expect(TestBed.inject(AttachmentsResourceService)).toBeTruthy();
+    expect(service).toBeTruthy();
+  });
+
+  describe('attachFiles', () => {
+    it('mirrors uploaded attachments into a new resource', async () => {
+      const resource = {
+        $source: { id: 'new' },
+        id: 'new',
+        $links: {},
+        attachments: { elements: [] },
+      } as unknown as HalResource;
+
+      await firstValueFrom(service.attachFiles(resource, [new File([''], 'a.png')]));
+
+      expect(resource.attachments).toEqual({ elements: [{ href: '/api/v3/attachments/42' }] });
+    });
+
+    it('leaves the attachments link of a persisted resource untouched', async () => {
+      const attachments = { href: '/api/v3/work_packages/5/attachments' };
+      const resource = {
+        $source: { id: '5' },
+        id: '5',
+        $links: {},
+        attachments,
+        addAttachment: { href: '/api/v3/work_packages/5/attachments' },
+      } as unknown as HalResource;
+
+      await firstValueFrom(service.attachFiles(resource, [new File([''], 'a.png')]));
+
+      expect(resource.attachments).toBe(attachments);
+    });
   });
 });
