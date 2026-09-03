@@ -532,6 +532,88 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
   end
 
+  context "with a series that ended a previous schedule" do
+    subject(:builder) { described_class.new(timezone:) }
+
+    let(:berlin) { ActiveSupport::TimeZone["Europe/Berlin"] }
+    let(:project) { create(:project) }
+    let(:user1) { create(:user, member_with_permissions: { project => [:view_meetings] }) }
+
+    let(:predecessor) do
+      RecurringMeeting::ICalPredecessor.new(
+        uid: "predecessor@example.com",
+        dtstart: berlin.parse("2026-03-02 09:00"),
+        ends_at: berlin.parse("2026-08-31 09:00"),
+        tzid: "Europe/Berlin",
+        duration: 0.5,
+        summary: "The old title",
+        location: "Room 1",
+        rrule: "FREQ=WEEKLY;UNTIL=20260831T070000Z",
+        exdates: [berlin.parse("2026-04-06 09:00")],
+        sequence: 3,
+        rotated_at: berlin.parse("2026-09-01 12:00")
+      )
+    end
+
+    let(:recurring_meeting) do
+      create(:recurring_meeting,
+             project:,
+             title: "The new title",
+             start_time: berlin.parse("2027-01-04 14:00"),
+             end_after: :never,
+             end_date: nil,
+             time_zone: "Europe/Berlin").tap do |series|
+        create(:meeting_participant, :invitee, meeting: series.template, user: user1)
+        series.update!(ical_predecessor: predecessor)
+      end
+    end
+
+    it "emits the frozen values, not the ones the series has now" do
+      builder.historic_schedule_event(recurring_meeting:)
+
+      parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+      event = parsed_calendar.events.first
+
+      expect(parsed_calendar.events.size).to eq 1
+      expect(event.uid).to eq "predecessor@example.com"
+      expect(event.summary).to eq "The old title"
+      expect(event.location).to eq "Room 1"
+      expect(event.sequence).to eq 3
+      expect(event.dtstart).to eq predecessor.dtstart
+      expect(event.dtend).to eq predecessor.dtstart + 30.minutes
+      expect(event.attendee.map(&:to_s)).to include "mailto:#{user1.mail}"
+    end
+
+    it "keeps the UNTIL and the EXDATE of the old grid" do
+      builder.historic_schedule_event(recurring_meeting:)
+
+      expect(builder.to_ical).to include "UNTIL=20260831T070000Z"
+
+      parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+      expect(parsed_calendar.events.first.exdate.map(&:value))
+        .to contain_exactly(berlin.parse("2026-04-06 09:00"))
+    end
+
+    it "stays a separate object from the live series, with no overrides of its own" do
+      builder.historic_schedule_event(recurring_meeting:)
+      builder.add_series_event(recurring_meeting:)
+
+      parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+
+      expect(parsed_calendar.events.map(&:uid))
+        .to contain_exactly("predecessor@example.com", recurring_meeting.uid)
+      expect(parsed_calendar.events.select { |e| e.recurrence_id.present? }).to be_empty
+    end
+
+    it "emits nothing while the series never ended a schedule" do
+      recurring_meeting.update!(ical_predecessor: nil)
+
+      builder.historic_schedule_event(recurring_meeting:)
+
+      expect(Icalendar::Calendar.parse(builder.to_ical).first.events).to be_empty
+    end
+  end
+
   context "with a recurring meeting and interim responses" do
     let(:project) { create(:project) }
     let(:user1) do

@@ -92,6 +92,7 @@ module RecurringMeetings
       RecurringMeeting::ICalPredecessor.new(
         uid: previous.uid,
         dtstart: previous.anchor,
+        ends_at: last_past_occurrence,
         tzid: previous.tzid,
         duration: previous.duration,
         summary: previous.summary,

@@ -502,6 +502,7 @@ RSpec.describe RecurringMeeting,
       RecurringMeeting::ICalPredecessor.new(
         uid: "old-uid@example.com",
         dtstart: ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-03-02 09:00"),
+        ends_at: ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-08-24 09:00"),
         tzid: "Europe/Berlin",
         duration: 1.5,
         summary: "Weekly sync",
