@@ -69,7 +69,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   types:any;
 
-  transitionUnregisterFn:Function|undefined;
+  transitionUnregisterFn:(() => void)|undefined;
 
   text = {
     title: this.I18n.t('js.work_packages.create.title'),
@@ -93,7 +93,9 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
       });
 
     if (this.routedFromAngular) {
-      this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
+      // uiRouter's own type declares this as the generic `Function`; it's actually a
+      // parameterless deregistration callback.
+      this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this)) as () => void;
     } else {
       this.urlParams.changed$
         .pipe(this.untilDestroyed())

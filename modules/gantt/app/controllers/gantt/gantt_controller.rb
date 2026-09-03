@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ::Gantt
   class GanttController < ApplicationController
     include Layout
@@ -14,21 +16,7 @@ module ::Gantt
 
     menu_item :gantt
     def index
-      # If there are no query_props given, redirect to the default query
-      if params[:query_props].nil? && params[:query_id].nil?
-        if @project.present?
-          return redirect_to(
-            project_gantt_index_path(
-              @project,
-              ::Gantt::DefaultQueryGeneratorService.new(with_project: @project).call
-            )
-          )
-        else
-          return redirect_to(
-            gantt_index_path(Gantt::DefaultQueryGeneratorService.new(with_project: nil).call)
-          )
-        end
-      end
+      return if redirect_to_default_query?
 
       respond_to do |format|
         format.html do
@@ -73,6 +61,16 @@ module ::Gantt
     end
 
     private
+
+    def redirect_to_default_query?
+      return false if params[:query_props].present? || params[:query_id].present?
+
+      query_props = ::Gantt::DefaultQueryGeneratorService.new(with_project: @project).call
+      path = @project.present? ? project_gantt_index_path(@project, query_props) : gantt_index_path(query_props)
+
+      redirect_to(path)
+      true
+    end
 
     def split_view_base_route
       if @project

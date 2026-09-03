@@ -150,7 +150,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
     }
 
     if (this.routedFromAngular) {
-      this.$state.go(this.stateName, { type: type.id });
+      void this.$state.go(this.stateName, { type: type.id });
     } else if (this.fullView) {
       Turbo.visit(this.buildHref(type), { action: 'advance' });
     } else {
