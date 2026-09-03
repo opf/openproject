@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { caretPlacement } from './project-timeline-tooltip-caret';
+import { caretPlacement } from './caret-placement';
 
 describe('caretPlacement', () => {
   const rect = (left:number, top:number, width:number, height:number) => new DOMRect(left, top, width, height);
