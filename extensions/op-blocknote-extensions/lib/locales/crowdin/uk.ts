@@ -4,54 +4,54 @@ export const en = {
       'title': "Додати наявні пакети робіт",
       'subtext': "Додати динамічне посилання на окремий робочий пакет",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "Створити новий робочий пакет",
+        'subtext': "Створити новий робочий пакет і додати посилання тут"
       },
       'aliases': {
         'workpackage': "робочий пакет",
         'work package': "пакет робіт",
         'wp': "пр",
         'link': "посилання",
-        'create': 'create'
+        'create': "створити"
       }
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'projectPlaceholder': 'Select a project…',
-      'loadingFields': 'Loading the fields of this work package…',
-      'loadingTypeFields': 'Loading required fields for {{type}}…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'title': "Створити новий робочий пакет",
+      'close': "Закрити",
+      'cancel': "Скасувати",
+      'create': "Створити",
+      'creating': "Створення…",
+      'selectPlaceholder': "Будь ласка, виберіть…",
+      'searchPlaceholder': "Введіть текст для пошуку…",
+      'loading': "Завантаження…",
+      'noResults': "Немає результатів",
+      'filterBy': "Фільтрувати список",
+      'allValues': "Усі",
+      'favorites': "Обране",
+      'clear': "Очистити",
+      'deselect': "Видалити вибір",
+      'openOptions': "Показати варіанти",
+      'closeOptions': "Приховати варіанти",
+      'subjectPlaceholder': "Введіть тему тут",
+      'projectPlaceholder': "Виберіть проєкт…",
+      'loadingFields': "Завантаження полів цього робочого пакета…",
+      'loadingTypeFields': "Завантаження обов'язкових полів для {{type}}…",
+      'loadFailed': "Не вдалося завантажити форму робочого пакета: {{message}}",
+      'notAllowed': "Вам не дозволено створювати робочі пакети.",
+      'validationFailed': "Будь ласка, виправте виділені поля нижче.",
+      'requiredField': "Це поле обов'язкове.",
+      'notANumber': "Будь ласка, введіть число.",
+      'notAWholeNumber': "Будь ласка, введіть ціле число без десяткового роздільника.",
+      'unsupportedField': "Поле «{{field}}» не можна встановити тут.",
+      'unsupportedRequired': "Цей робочий пакет вимагає поле, яке не можна встановити тут.",
+      'createInOpenProject': "Створити в OpenProject"
     },
     'search': {
       'label': "Додати наявні пакети робіт",
       'placeholder': "Пошук за ID робочого пакета або темою",
       'dropdownAriaLabel': "Результати пошуку робочого пакета",
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.'
+      'noResults': "Немає результатів",
+      'error': "Помилка. Не вдалося завантажити вміст."
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -61,12 +61,12 @@ export const en = {
       'unauthorized': {
         'header': "Пов'язаний робочий пакет недоступний",
         'message': "У вас немає прав щоб побачити це.",
-        'short_message': 'Work package unavailable: no permission'
+        'short_message': "Робочий пакет недоступний: немає прав доступу"
       },
       'error': {
         'header': "Помилка",
         'message': "Не вдалося завантажити робочий пакет",
-        'short_message': 'Unavailable: error'
+        'short_message': "Недоступно: помилка"
       }
     },
     'options': {
@@ -110,7 +110,7 @@ export const en = {
       'typeToSearch': "Введіть для пошуку робочих пакетів…"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Завантаження"
     }
   }
 };
