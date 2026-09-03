@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,6 +33,13 @@ module API
     module WikiPages
       class WikiPagesAPI < ::API::OpenProjectAPI
         resources :wiki_pages do
+          get &::API::V3::Utilities::Endpoints::Index
+            .new(
+              model: WikiPage,
+              query_class: ::Queries::Wikis::WikiPages::WikiPageQuery
+            )
+            .mount
+
           helpers do
             def wiki_page
               WikiPage.visible(current_user).find(params[:id])

@@ -27,8 +27,8 @@
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { catchError, first, map, switchMap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import {
@@ -55,26 +55,59 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import { WikiPageResource } from 'core-app/features/hal/resources/wiki-page-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
-interface SearchResultItem {
-  id:string;
-  subject:string;
-  status:string;
-  statusId:string;
-  href:string;
-  project:string;
-  author:HalResource;
+export type SearchResultType = 'all'|'work_packages'|'meetings'|'wiki_pages';
+type GlobalSearchResult = WorkPackageResource|MeetingResource|WikiPageResource;
+type ProjectScope = 'all_projects'|'current_project'|'current_project_and_all_descendants';
+type LastUpdatedFilter = 'any_time'|'today'|'yesterday'|'past_7_days'|'past_30_days'|'past_year';
+type WorkPackageStatusFilter = 'all'|'open'|'closed';
+type WorkPackageInvolvementFilter = 'all'|'assigned_to_me'|'created_by_me'|'accountable';
+type MeetingTimeFilter = 'all'|'upcoming'|'past';
+type MeetingInvolvementFilter = 'all'|'invited'|'created_by_me'|'attended';
+
+export function lastUpdatedRange(
+  filter:LastUpdatedFilter,
+  now = new Date(),
+):[string, string]|undefined {
+  if (filter === 'any_time') {
+    return undefined;
+  }
+
+  const startOfToday = new Date(now);
+  startOfToday.setHours(0, 0, 0, 0);
+
+  if (filter === 'today') {
+    return [startOfToday.toISOString(), ''];
+  }
+
+  if (filter === 'yesterday') {
+    const startOfYesterday = new Date(startOfToday);
+    startOfYesterday.setDate(startOfYesterday.getDate() - 1);
+    return [startOfYesterday.toISOString(), startOfToday.toISOString()];
+  }
+
+  const start = new Date(now);
+  if (filter === 'past_year') {
+    start.setFullYear(start.getFullYear() - 1);
+  } else {
+    start.setDate(start.getDate() - (filter === 'past_7_days' ? 7 : 30));
+  }
+
+  return [start.toISOString(), ''];
 }
 
-interface SearchOptionItem {
-  projectScope:string;
-  text:string;
+export function searchResultMatchesType(resultType:SearchResultType, item:GlobalSearchResult):boolean {
+  return resultType === 'all'
+    || (resultType === 'work_packages' && item instanceof WorkPackageResource)
+    || (resultType === 'meetings' && item instanceof MeetingResource)
+    || (resultType === 'wiki_pages' && item instanceof WikiPageResource);
 }
 
-interface SearchResultItems {
-  items:SearchResultItem[]|SearchOptionItem[];
-  term:string;
-}
+type GlobalSearchItem = GlobalSearchResult;
 
 @Component({
   selector: 'opce-global-search',
@@ -101,6 +134,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   readonly cdRef = inject(ChangeDetectorRef);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly recentItemsService = inject(RecentItemsService);
+  readonly currentUserService = inject(CurrentUserService);
 
   @Input() public placeholder:string;
 
@@ -111,6 +145,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public expanded = false;
 
   private _searchTermInitialized = false;
+
+  private currentSearchResults:GlobalSearchResult[] = [];
+  private currentResultQuery = '';
+  private projectScopeInteraction = false;
+  private filterRefreshVersion = 0;
 
   // Computed placeholder that changes based on expanded state
   public get effectivePlaceholder():string {
@@ -127,7 +166,30 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     map((items) => (items.length > 0)),
   );
 
-  getAutocompleterData = ():Observable<unknown[]> => this.autocompleteWorkPackages();
+  public activeResultType:SearchResultType = 'all';
+  public readonly resultTypes:SearchResultType[] = ['all', 'work_packages', 'meetings', 'wiki_pages'];
+  public readonly lastUpdatedFilters:LastUpdatedFilter[] = [
+    'any_time', 'today', 'yesterday', 'past_7_days', 'past_30_days', 'past_year',
+  ];
+
+  public readonly workPackageStatusFilters:WorkPackageStatusFilter[] = ['all', 'open', 'closed'];
+  public readonly workPackageInvolvementFilters:WorkPackageInvolvementFilter[] = [
+    'all', 'assigned_to_me', 'created_by_me', 'accountable',
+  ];
+
+  public readonly meetingTimeFilters:MeetingTimeFilter[] = ['all', 'upcoming', 'past'];
+  public readonly meetingInvolvementFilters:MeetingInvolvementFilter[] = [
+    'all', 'invited', 'created_by_me', 'attended',
+  ];
+
+  public selectedLastUpdatedFilter:LastUpdatedFilter = 'any_time';
+  public selectedWorkPackageStatusFilter:WorkPackageStatusFilter = 'all';
+  public selectedWorkPackageInvolvementFilter:WorkPackageInvolvementFilter = 'all';
+  public selectedMeetingTimeFilter:MeetingTimeFilter = 'all';
+  public selectedMeetingInvolvementFilter:MeetingInvolvementFilter = 'all';
+  public selectedProjectScope:ProjectScope;
+
+  getAutocompleterData = ():Observable<unknown[]> => this.autocompleteGlobalSearch();
 
   public autocompleterOptions = {
     filters: [],
@@ -139,7 +201,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+  public selectedItem:GlobalSearchItem|undefined = undefined;
 
   /** Remember the current value */
   public currentValue = '';
@@ -151,16 +213,43 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private unregisterGlobalListener:(() => unknown)|undefined;
 
   public text:Record<string, string> = {
+    accountable: this.I18n.t('js.global_search.quick_filters.accountable'),
+    all: this.I18n.t('js.label_all_uppercase'),
     all_projects: this.I18n.t('js.global_search.all_projects'),
+    any_time: this.I18n.t('js.global_search.quick_filters.any_time'),
+    assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
+    attended: this.I18n.t('js.global_search.quick_filters.attended'),
     close_search: this.I18n.t('js.global_search.close_search'),
+    closed: this.I18n.t('js.global_search.quick_filters.closed'),
+    created_by_me: this.I18n.t('js.work_packages.default_queries.created_by_me'),
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     current_project: this.I18n.t('js.global_search.current_project'),
     recently_viewed: this.I18n.t('js.global_search.recently_viewed'),
     search: this.I18n.t('js.autocompleter.search'),
+    work_packages: this.I18n.t('js.label_work_package_plural'),
+    meetings: this.I18n.t('js.label_meetings'),
+    meeting_date: this.I18n.t('js.global_search.quick_filters.meeting_date'),
+    involvement: this.I18n.t('js.global_search.quick_filters.involvement'),
+    invited: this.I18n.t('js.global_search.quick_filters.invited'),
+    last_updated: this.I18n.t('js.label_last_updated_on'),
+    open: this.I18n.t('js.global_search.quick_filters.open'),
+    past: this.I18n.t('js.global_search.quick_filters.past'),
+    past_7_days: this.I18n.t('js.global_search.quick_filters.past_7_days'),
+    past_30_days: this.I18n.t('js.global_search.quick_filters.past_30_days'),
+    past_year: this.I18n.t('js.global_search.quick_filters.past_year'),
+    project: this.I18n.t('js.label_project'),
+    status: this.I18n.t('js.work_packages.properties.status'),
+    today: this.I18n.t('js.label_today'),
+    upcoming: this.I18n.t('js.global_search.quick_filters.upcoming'),
+    wiki_pages: this.I18n.t('js.global_search.wiki_pages'),
+    yesterday: this.I18n.t('js.global_search.quick_filters.yesterday'),
   };
 
   constructor() {
     populateInputsFromDataset(this);
+    this.selectedProjectScope = this.currentProjectService.path
+      ? this.currentScope
+      : 'all_projects';
   }
 
   ngAfterViewInit():void {
@@ -205,7 +294,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       } else if (this.searchTerm?.length === 0) {
         this.ngSelectComponent.ngSelectInstance.focus();
       } else {
-        this.submitNonEmptySearch('');
+        this.searchInScope(this.selectedProjectScope);
       }
     }
   }
@@ -235,7 +324,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return Highlighting.inlineClass(property, id);
   }
 
-  public search(_$event:SearchResultItems):void {
+  public search(_$event:unknown):void {
+    this.filterRefreshVersion += 1;
     this.currentValue = this.searchTerm;
   }
 
@@ -250,7 +340,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     this.ngSelectComponent.openSelect();
   }
 
-  public onFocusOut():void {
+  public onFocusOut(event?:FocusEvent):void {
+    const nextFocusedElement = event?.relatedTarget;
+    if (
+      this.projectScopeInteraction
+      || (nextFocusedElement instanceof Node && this.elementRef.nativeElement.contains(nextFocusedElement))
+    ) {
+      return;
+    }
+
     if (!this.deviceService.isMobile) {
       this.expanded = (this.searchTerm !== null && this.searchTerm.length > 0);
       this.ngSelectComponent.ngSelectInstance.isOpen.set(false);
@@ -287,12 +385,14 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return Highlighting.inlineClass('status', statusId);
   }
 
-  public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
+  public followItem(item:GlobalSearchItem|undefined):void {
     this.selectedItem = item;
-    if (item instanceof WorkPackageResource) {
+    if (this.isWikiPage(item)) {
+      window.location.href = String(item.showWikiPagePath);
+    } else if (this.isWorkPackage(item)) {
       window.location.href = this.wpPath(item.displayId);
-    } else if (item) {
-      this.searchInScope(item.projectScope);
+    } else if (this.isMeeting(item)) {
+      window.location.href = this.pathHelperService.meetingPath(item.id!);
     }
   }
 
@@ -302,12 +402,128 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  // return all project scope items and all items which contain the search term
-  public customSearchFn(term:string, item:SearchResultItem):boolean {
-    return item.id === undefined || item.subject.toLowerCase().includes(term.toLowerCase());
+  public customSearchFn(term:string, item:GlobalSearchItem):boolean {
+    if (!(item instanceof HalResource)) {
+      return true;
+    }
+
+    if (!this.isActiveResult(item)) {
+      return false;
+    }
+
+    return !this.isWorkPackage(item)
+      || item.subject.toLowerCase().includes(term.toLowerCase());
   }
 
-  private autocompleteWorkPackages():Observable<(WorkPackageResource|SearchOptionItem)[]> {
+  public selectResultType(resultType:SearchResultType):void {
+    this.activeResultType = resultType;
+    this.refreshFilteredResults();
+  }
+
+  public selectLastUpdatedFilter(filter:LastUpdatedFilter):void {
+    this.selectedLastUpdatedFilter = filter;
+    this.refreshFilteredResults();
+  }
+
+  public selectWorkPackageStatusFilter(filter:WorkPackageStatusFilter):void {
+    this.selectedWorkPackageStatusFilter = filter;
+    this.refreshFilteredResults();
+  }
+
+  public selectWorkPackageInvolvementFilter(filter:WorkPackageInvolvementFilter):void {
+    this.selectedWorkPackageInvolvementFilter = filter;
+    this.refreshFilteredResults();
+  }
+
+  public selectMeetingTimeFilter(filter:MeetingTimeFilter):void {
+    this.selectedMeetingTimeFilter = filter;
+    this.refreshFilteredResults();
+  }
+
+  public selectMeetingInvolvementFilter(filter:MeetingInvolvementFilter):void {
+    this.selectedMeetingInvolvementFilter = filter;
+    this.refreshFilteredResults();
+  }
+
+  public selectProjectScope(event:Event):void {
+    this.selectedProjectScope = (event.target as HTMLSelectElement).value as ProjectScope;
+  }
+
+  public onProjectScopeMouseDown(event:MouseEvent):void {
+    this.projectScopeInteraction = true;
+    event.stopPropagation();
+  }
+
+  public onProjectScopeBlur():void {
+    this.projectScopeInteraction = false;
+  }
+
+  public get projectScopes():ProjectScope[] {
+    return this.currentProjectService.path
+      ? ['current_project_and_all_descendants', 'current_project', 'all_projects']
+      : ['all_projects'];
+  }
+
+  public resultPath(item:GlobalSearchResult):string {
+    if (this.isWikiPage(item)) {
+      return String(item.showWikiPagePath);
+    }
+
+    if (this.isWorkPackage(item)) {
+      return this.wpPath(item.displayId);
+    }
+
+    if (this.isMeeting(item)) {
+      return this.pathHelperService.meetingPath(item.id!);
+    }
+
+    return '#';
+  }
+
+  public resultTitle(item:GlobalSearchResult):string {
+    return this.isWorkPackage(item) ? item.subject : item.title;
+  }
+
+  public resultIcon(item:GlobalSearchResult):string {
+    if (this.isWorkPackage(item)) {
+      return 'op-view-list';
+    }
+
+    return this.isMeeting(item) ? 'comment-discussion' : 'book';
+  }
+
+  public resultTypeLabel(item:GlobalSearchResult):string {
+    if (this.isWorkPackage(item)) {
+      return this.text.work_packages;
+    }
+
+    return this.isMeeting(item) ? this.text.meetings : this.text.wiki_pages;
+  }
+
+  public isWorkPackage(item:GlobalSearchItem|undefined):item is WorkPackageResource {
+    return item instanceof WorkPackageResource;
+  }
+
+  public isMeeting(item:GlobalSearchItem|undefined):item is MeetingResource {
+    return item instanceof MeetingResource;
+  }
+
+  public isWikiPage(item:GlobalSearchItem|undefined):item is WikiPageResource {
+    return item instanceof WikiPageResource;
+  }
+
+  public redirectToResult(item:GlobalSearchResult, event:MouseEvent):boolean {
+    event.stopImmediatePropagation();
+    if (isClickedWithModifier(event)) {
+      return true;
+    }
+
+    window.location.href = this.resultPath(item);
+    event.preventDefault();
+    return false;
+  }
+
+  private autocompleteGlobalSearch():Observable<GlobalSearchItem[]> {
     // ng-select v21 initializes _searchTerm as null (signal). Treat null as '' so that
     // the initial typeahead emission triggers loadRecentItems() instead of returning empty.
     const query = this.searchTerm ?? '';
@@ -327,12 +543,39 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
-    return this
-      .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
-      .get()
-      .pipe(
-        map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery))
-      );
+    const workPackageFilters = this.workPackageFilters();
+    const meetingFilters = new ApiV3FilterBuilder().add('search', '**', [query]);
+    const wikiPageFilters = new ApiV3FilterBuilder().add('search', '**', [query]);
+    this.applyLastUpdatedFilter(workPackageFilters);
+    this.applyLastUpdatedFilter(meetingFilters);
+    this.applyLastUpdatedFilter(wikiPageFilters);
+    this.applyMeetingQuickFilters(meetingFilters);
+    const params = { pageSize: '20' };
+
+    return forkJoin({
+      workPackages: this.fetchSearchResults(hashFreeQuery, hashFreeQuery !== query, workPackageFilters).get().pipe(
+        map((collection) => collection.elements),
+      ),
+      meetings: this.apiV3Service.meetings.filtered(meetingFilters, params).get().pipe(
+        map((collection:CollectionResource<HalResource>) => collection.elements.filter(
+          (item):item is MeetingResource => item instanceof MeetingResource,
+        )),
+        catchError(() => of([] as MeetingResource[])),
+      ),
+      wikiPages: this.apiV3Service.wiki_pages.filtered(wikiPageFilters, params).get().pipe(
+        map((collection:CollectionResource<HalResource>) => collection.elements.filter(
+          (item):item is WikiPageResource => item instanceof WikiPageResource,
+        )),
+        catchError(() => of([] as WikiPageResource[])),
+      ),
+    }).pipe(
+      map(({ workPackages, meetings, wikiPages }) => {
+        this.currentSearchResults = [...workPackages, ...meetings, ...wikiPages];
+        this.currentResultQuery = hashFreeQuery;
+
+        return this.searchResultsToOptions(this.currentSearchResults, this.currentResultQuery);
+      }),
+    );
   }
 
   private loadRecentItems() {
@@ -347,7 +590,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
         // Ensure we only load the five recent items
         // in case none of them are available in the cache
-        const filters = new ApiV3FilterBuilder().add('id', '=', wpIds);
+        const filters = this.workPackageFilters().add('id', '=', wpIds);
+        this.applyLastUpdatedFilter(filters);
         const params = {
           offset: '1',
           pageSize: '5',
@@ -363,7 +607,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
             map((collection) => {
               // In case none of the wpIds exist anymore or are not accessible
               // this API call would return five arbitrary work packages, as that's the way valid_subset works
-              return collection.elements.filter((wp) => wpIds.includes(wp.id!));
+              const recentWorkPackages = collection.elements.filter((wp) => wpIds.includes(wp.id!));
+              this.currentSearchResults = recentWorkPackages;
+              this.currentResultQuery = '';
+
+              return this.searchResultsToOptions(recentWorkPackages, '');
             })
           );
       }),
@@ -378,48 +626,117 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return query;
   }
 
-  private fetchSearchResults(query:string, idOnly:boolean):ApiV3WorkPackageCachedSubresource {
+  private fetchSearchResults(
+    query:string,
+    idOnly:boolean,
+    filters:ApiV3FilterBuilder,
+  ):ApiV3WorkPackageCachedSubresource {
     return this
       .apiV3Service
       .work_packages
-      .filterByTypeaheadOrId(query, idOnly, { pageSize: '20' });
+      .filterByTypeaheadOrId(query, idOnly, { pageSize: '20' }, filters);
   }
 
-  private searchResultsToOptions(results:WorkPackageResource[], query:string) {
-    const searchOptions = this.detailedSearchOptions();
-    // If we have a direct hit, we choose it to be the selected element.
-    this.selectedItem = results.find((wp) => wp.id?.toString() === query) || searchOptions[0];
+  private refreshFilteredResults():void {
+    const refreshVersion = this.filterRefreshVersion + 1;
+    this.filterRefreshVersion = refreshVersion;
+    this.ngSelectComponent.loading$.next(true);
+    this.ngSelectComponent.updateItems([]);
 
-    if (this.selectedItem instanceof WorkPackageResource) {
+    this.autocompleteGlobalSearch().pipe(first()).subscribe({
+      next: (items) => {
+        if (refreshVersion !== this.filterRefreshVersion) {
+          return;
+        }
+
+        this.ngSelectComponent.updateItems(items);
+        this.ngSelectComponent.loading$.next(false);
+        this.cdRef.detectChanges();
+      },
+      error: () => {
+        if (refreshVersion === this.filterRefreshVersion) {
+          this.ngSelectComponent.loading$.next(false);
+          this.cdRef.detectChanges();
+        }
+      },
+    });
+  }
+
+  private workPackageFilters():ApiV3FilterBuilder {
+    const filters = new ApiV3FilterBuilder();
+    if (this.activeResultType !== 'work_packages') {
+      return filters;
+    }
+
+    if (this.selectedWorkPackageStatusFilter === 'open') {
+      filters.add('status', 'o', []);
+    } else if (this.selectedWorkPackageStatusFilter === 'closed') {
+      filters.add('status', 'c', []);
+    }
+
+    const involvementFilters = {
+      assigned_to_me: 'assignee',
+      created_by_me: 'author',
+      accountable: 'responsible',
+    } as const;
+    if (this.selectedWorkPackageInvolvementFilter !== 'all') {
+      filters.add(involvementFilters[this.selectedWorkPackageInvolvementFilter], '=', ['me']);
+    }
+
+    return filters;
+  }
+
+  private applyMeetingQuickFilters(filters:ApiV3FilterBuilder):void {
+    if (this.activeResultType !== 'meetings') {
+      return;
+    }
+
+    if (this.selectedMeetingTimeFilter !== 'all') {
+      filters.add('time', this.selectedMeetingTimeFilter, []);
+    }
+
+    const userId = this.currentUserService.userId;
+    const involvementFilters = {
+      invited: 'invitedUser',
+      created_by_me: 'author',
+      attended: 'attendedUser',
+    } as const;
+    if (userId && this.selectedMeetingInvolvementFilter !== 'all') {
+      filters.add(involvementFilters[this.selectedMeetingInvolvementFilter], '=', [userId]);
+    }
+  }
+
+  private applyLastUpdatedFilter(filters:ApiV3FilterBuilder):void {
+    const range = lastUpdatedRange(this.selectedLastUpdatedFilter);
+    if (range) {
+      filters.add('updatedAt', '<>d', range);
+    }
+  }
+
+  private searchResultsToOptions(results:GlobalSearchResult[], query:string) {
+    // If we have a direct hit, we choose it to be the selected element.
+    const visibleResults = results.filter((item) => this.isActiveResult(item));
+    const directHit = ['all', 'work_packages'].includes(this.activeResultType)
+      ? results.find((item) => item instanceof WorkPackageResource && item.id?.toString() === query)
+      : undefined;
+    this.selectedItem = directHit;
+
+    if (directHit) {
       void announce(this.I18n.t('js.global_search.direct_hit_available'), { politeness: 'polite' });
       this.setMarkedOption();
     }
     else {
-      const resultCount = results.length + searchOptions.length;
+      const resultCount = visibleResults.length;
       void announce(this.I18n.t('js.global_search.items_available', { count: resultCount }), { politeness: 'polite' });
     }
 
     return [
-      ...searchOptions,
-      ...results,
+      ...visibleResults,
     ];
   }
 
-  // set the possible 'search in scope' options for the current project path
-  private detailedSearchOptions():{ projectScope:string; text:string }[] {
-    const searchOptions = [];
-    // add all options when searching within a project
-    // otherwise search in 'all projects'
-    if (this.currentProjectService.path) {
-      searchOptions.push('current_project_and_all_descendants');
-      searchOptions.push('current_project');
-    }
-    if (this.currentScope === 'current_project') {
-      searchOptions.reverse();
-    }
-    searchOptions.push('all_projects');
-
-    return searchOptions.map((suggestion:string) => ({ projectScope: suggestion, text: this.text[suggestion] }));
+  private isActiveResult(item:GlobalSearchResult):boolean {
+    return searchResultMatchesType(this.activeResultType, item);
   }
 
   /*
@@ -456,7 +773,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  private searchInScope(scope:string):void {
+  private searchInScope(scope:ProjectScope):void {
     switch (scope) {
       case 'all_projects': {
         this.submitNonEmptySearch('all');
@@ -478,14 +795,18 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public submitNonEmptySearch(scope:string):void {
     if (this.currentValue.length > 0) {
       this.ngSelectComponent.ngSelectInstance.close();
-      this.globalSearchService.submitSearch(this.currentValue, scope);
+      this.globalSearchService.submitSearch(this.currentValue, scope, this.activeResultType);
     }
   }
 
-  private get currentScope():string {
+  private get currentScope():ProjectScope {
     const params = new URLSearchParams(window.location.search);
-    const serviceScope = params.get('scope') || '';
-    return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
+    const serviceScope = params.get('scope');
+    return serviceScope === 'all' || serviceScope === 'all_projects'
+      ? 'all_projects'
+      : serviceScope === 'current_project'
+        ? 'current_project'
+        : 'current_project_and_all_descendants';
   }
 
   private get currentQuery():string|null {

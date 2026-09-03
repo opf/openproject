@@ -658,6 +658,12 @@ module API
             "#{root}/wiki_pages/#{id}"
           end
 
+          index :wiki_page
+
+          def self.show_wiki_page(project_identifier, slug)
+            project_wiki_path(project_identifier, slug)
+          end
+
           resources :work_package, except: :schema
 
           def self.work_package(id, timestamps: nil)

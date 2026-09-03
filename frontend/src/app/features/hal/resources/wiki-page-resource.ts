@@ -28,13 +28,24 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 export interface WikiPageResourceLinks {
-  addAttachment(attachment:HalResource):Promise<any>;
+  addAttachment(attachment:HalResource):Promise<unknown>;
 }
 
 class WikiPageBaseResource extends HalResource {
+  title:string;
+  project:ProjectResource;
+  updatedAt:Date;
+  showWikiPage:HalResource;
   public $links:WikiPageResourceLinks;
+
+  public get showWikiPagePath():string {
+    return this.showWikiPage?.$link.href ?? '#';
+  }
 }
 
 export const WikiPageResource = Attachable(WikiPageBaseResource);
+
+export interface WikiPageResource extends WikiPageBaseResource, WikiPageResourceLinks {}

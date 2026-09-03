@@ -28,7 +28,7 @@
 
 import { pickBy } from 'lodash-es';
 
-export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow';
+export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'c'|'>t-'|'<>d'|'**'|'ow'|'upcoming'|'past';
 export const FalseValue = ['f'];
 export const TrueValue = ['t'];
 
