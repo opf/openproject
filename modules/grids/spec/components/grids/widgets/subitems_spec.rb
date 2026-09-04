@@ -52,18 +52,8 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
     end
   end
 
-  shared_examples "empty-state with action" do
-    it "renders empty blankslate with action button" do
-      expect(rendered_component).to have_test_selector("subitems-widget-empty")
-      expect(rendered_component).to have_text("This widget is currently empty.")
-      expect(rendered_component).to have_test_selector("subitems-widget-add-button")
-    end
-  end
-
   context "with no children" do
     let(:user) { build_stubbed(:user) }
-    let(:empty_selector) { "subitems-widget-empty" }
-    let(:empty_message)  { "This widget is currently empty." }
 
     before do
       mock_permissions_for(user) do |mock|
@@ -71,18 +61,28 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
       end
     end
 
-    it_behaves_like "empty-state with action"
+    context "for a project" do
+      let(:project) { create(:project) }
 
-    context "when user cannot add subprojects but can view" do
-      let(:user) { build_stubbed(:user) }
-
-      before do
-        mock_permissions_for(user) do |mock|
-          mock.allow_in_project(:view_project, project:)
-        end
+      it "does not render the widget" do
+        expect(rendered_component.to_html).to be_empty
       end
+    end
 
-      it_behaves_like "empty-state without action"
+    context "for a portfolio" do
+      let(:project) { create(:portfolio) }
+
+      it "renders the empty widget" do
+        expect(rendered_component).to have_test_selector("subitems-widget-empty")
+      end
+    end
+
+    context "for a program" do
+      let(:project) { create(:program) }
+
+      it "renders the empty widget" do
+        expect(rendered_component).to have_test_selector("subitems-widget-empty")
+      end
     end
   end
 
@@ -96,7 +96,9 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
     end
 
     context "for a regular project" do
-      let(:project) { build_stubbed(:project, workspace_type: :project) }
+      let(:project) { create(:project, workspace_type: :project) }
+
+      before { create(:project, parent: project) }
 
       it "shows the add project menu item" do
         expect(rendered_component).to have_link "Project", href: new_project_path(parent_id: project.id)
@@ -130,6 +132,7 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
 
     context "when user cannot add subprojects" do
       let(:user) { build_stubbed(:user) }
+      let(:project) { build_stubbed(:portfolio) }
 
       before do
         mock_permissions_for(user) do |mock|
@@ -137,7 +140,8 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
         end
       end
 
-      it "does not show any menu items" do
+      it "renders without creation links", :aggregate_failures do
+        expect(rendered_component).to have_test_selector("subitems-widget-empty")
         expect(rendered_component).to have_no_link "Project"
         expect(rendered_component).to have_no_link "Program"
       end
