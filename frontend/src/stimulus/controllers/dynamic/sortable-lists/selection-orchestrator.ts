@@ -36,6 +36,7 @@ import {
   liveOrderableListItems,
   neighbourItem,
   orderedItemElements,
+  orderedSelectedItemElements,
   orderedSelectedItems,
   resolveCandidate,
   resolveRangeItems,
@@ -58,6 +59,14 @@ export interface SelectionHost {
   // list's rows are.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
+
+export type ActionScope =
+  | { kind:'batch'; items:HTMLElement[] }
+  | { kind:'refused'; items:[] };
+
+// What resolving an action scope does to the selection: nothing, add the
+// card to it, or replace it with the card alone.
+type ScopeMutation = 'none'|'join'|'collapse';
 
 /**
  * Batch selection: gestures in, model and presentation out.
@@ -88,50 +97,70 @@ export class SelectionOrchestrator {
 
   constructor(private readonly host:SelectionHost) {}
 
-  // Live ordered membership, for the batch move. Full (type, id) pairs:
-  // ids collide across source tables.
+  // Live ordered membership. Full (type, id) pairs: ids collide across
+  // source tables.
   selectedItems():SelectionItem[] {
     return orderedSelectedItems(this.host.rootElement, this.selection.keys);
   }
 
-  selectedIds():string[] {
-    return this.selectedItems().map((item) => item.id);
+  get hasSelection():boolean {
+    return this.selection.size > 0;
   }
 
-  // Resolved without freezing or collapsing anything: it runs while the drag
-  // payload is built, before beginDragBatch freezes the batch.
-  prospectiveDragMates(itemElement:HTMLElement):SelectionItem[] {
+  // The cards an action invoked from this card applies to, without touching
+  // the selection: the batch when the card is a member, the card alone
+  // otherwise. Consulted while a drag payload is built, before the batch is
+  // frozen.
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, 'none');
+  }
+
+  // Same, but an unselected orderable card becomes the selection first, so
+  // a drag or a menu action on it leaves one consistent state behind.
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, 'join');
+  }
+
+  // A menu action relocates exactly this card, so a wider batch collapses
+  // onto it rather than outliving the move. It must not manufacture a
+  // selection where the user made none: a failed move would otherwise leave
+  // that card selected.
+  collapseForAction(itemElement:HTMLElement):ActionScope {
+    return this.resolveActionScope(itemElement, this.hasSelection ? 'collapse' : 'none');
+  }
+
+  private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
     const candidate = resolveCandidate(this.host.rootElement, itemElement);
     if (!candidate?.orderable) {
-      return [];
+      return { kind: 'refused', items: [] };
     }
 
-    if (this.selection.size > 0 && this.selection.has({ type: candidate.type, id: candidate.id })) {
-      return orderedSelectedItems(this.host.rootElement, this.selection.keys);
+    const key = { type: candidate.type, id: candidate.id };
+    if (mutation === 'collapse' || (mutation === 'join' && !this.selection.has(key))) {
+      this.selection.replace(key, candidate.listKey);
+      // Speaks only when a wider batch actually collapsed: selecting the
+      // card a gesture landed on is not a loss the user needs read back.
+      this.renderSelection('navigation');
     }
 
-    return [];
+    const items = this.selection.has(key)
+      ? orderedSelectedItemElements(this.host.rootElement, this.selection.keys)
+      : [candidate.itemElement];
+
+    return { kind: 'batch', items };
   }
 
-  // A menu move relocates exactly one card, so it collapses like a drag.
-  collapseForMove(itemElement:HTMLElement):void {
-    this.collapseForDrag(itemElement);
-  }
-
-  collapseForDrag(itemElement:HTMLElement):void {
-    // Nothing selected is nothing to collapse: a drag must not manufacture
-    // a one-card batch.
-    if (this.selection.size === 0) {
+  // Silent: the move announcement is the feedback, and "Selection cleared."
+  // on top of it would be noise. Also drops an anchor a deselect left
+  // behind, which a later Shift gesture would otherwise range from.
+  clearSilently():void {
+    if (this.selection.size === 0 && this.selection.anchor === null) {
       return;
     }
 
-    const candidate = resolveCandidate(this.host.rootElement, itemElement);
-    if (!candidate?.orderable) {
-      return;
-    }
-
-    this.selection.replace({ type: candidate.type, id: candidate.id }, candidate.listKey);
-    this.renderSelection('selection');
+    this.selection.clear();
+    this.syncSelectionPresentation();
+    this.lastRenderedKeys = this.selection.keys;
   }
 
   // The platform's one multi-select modifier: ⌘ on Apple platforms, Ctrl
@@ -139,37 +168,6 @@ export class SelectionOrchestrator {
   // Ctrl on Apple is the secondary click, never multi-select.
   private multiSelectModifier(event:MouseEvent|KeyboardEvent):boolean {
     return isApplePlatform() ? event.metaKey : event.ctrlKey;
-  }
-
-  // Dragging a selected item carries the whole live-ordered selection;
-  // dragging an unselected one collapses any wider selection onto it. The
-  // result is a snapshot: re-reading the selection at drop time would let
-  // Escape or a morph change what gets submitted.
-  batchForDrag(itemElement:HTMLElement):SelectionItem[] {
-    const candidate = resolveCandidate(this.host.rootElement, itemElement);
-    if (!candidate?.orderable) {
-      return [];
-    }
-
-    if (this.selection.size > 0 && this.selection.has({ type: candidate.type, id: candidate.id })) {
-      return this.selectedItems();
-    }
-
-    this.collapseForDrag(itemElement);
-    return [{ type: candidate.type, id: candidate.id }];
-  }
-
-  // Silent: the move announcement is the feedback, and "Selection cleared."
-  // on top of it would be noise. renderSelection has no silent mode for a
-  // size change, so presentation and baseline are synced directly.
-  clearAfterMove():void {
-    if (this.selection.size === 0) {
-      return;
-    }
-
-    this.selection.clear();
-    this.syncSelectionPresentation();
-    this.lastRenderedKeys = this.selection.keys;
   }
 
   readonly handleClick = (event:MouseEvent):void => {

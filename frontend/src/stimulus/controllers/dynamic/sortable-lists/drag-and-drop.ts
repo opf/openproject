@@ -106,14 +106,12 @@ export interface SortableListsRoot {
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
-  // Freezes the batch this drag represents: the full selection when the
-  // dragged item belongs to it, otherwise that item alone.
-  beginDragBatch(itemElement:HTMLElement):void;
-  // The size of the batch frozen by the most recent beginDragBatch call, for
-  // the drag preview's count badge; 0 before any drag has begun.
-  activeDragBatchCount():number;
+  // Freezes the drag's batch and returns its size; the preview renders it.
+  freezeDragBatch(itemElement:HTMLElement):number;
+  // Marks the frozen batch's rows; a no-op before freezeDragBatch.
+  markDragBatch():void;
   // Asked while the drag payload is built, which Pragmatic dispatches before
-  // beginDragBatch freezes the batch, so the answer comes from the live
+  // freezeDragBatch freezes the batch, so the answer comes from the live
   // selection in the same synchronous dragstart turn.
   dragConfined(itemElement:HTMLElement):boolean;
 }

@@ -228,9 +228,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
-        // Frozen at drag start, so nothing later in the drag changes what
-        // gets moved.
-        this.root?.beginDragBatch(this.element);
+        this.root?.markDragBatch();
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
         // text/uri-list would otherwise navigate the current tab to that URL.
@@ -244,17 +242,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
         // Pragmatic dispatches this before onDragStart, so the batch has to
-        // be frozen by the time the preview renders. beginDragBatch is
-        // idempotent, and onDragStart keeps its own call for items that skip
-        // this callback entirely.
-        this.root?.beginDragBatch(this.element);
+        // be frozen by the time the preview renders.
+        const batchSize = this.root?.freezeDragBatch(this.element) ?? 1;
 
         if (!this.hasPreviewTarget) {
           return;
         }
-
-        const frozenBatchCount = this.root?.activeDragBatchCount() ?? 0;
-        const batchSize = frozenBatchCount > 0 ? frozenBatchCount : 1;
 
         setCustomNativeDragPreview({
           nativeSetDragImage,

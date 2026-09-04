@@ -45,7 +45,7 @@ import {
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
-import { type SelectionItem } from 'core-common/batch-selection';
+import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import {
   captureRowPositions,
   isConfinedItem,
@@ -65,11 +65,18 @@ import {
   type MoveDirection,
 } from './sortable-lists/list-dom';
 import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
+
+// Reduced to a same-origin relative URL: an absolute or foreign-origin
+// template would otherwise be submitted as given.
+function relativeUrl(url:URL):string {
+  return `${url.pathname}${url.search}${url.hash}`;
+}
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
@@ -221,28 +228,26 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // Live ordered membership, for AGILE-278's batch move.
-  selectedItems():SelectionItem[] {
-    return this.selection?.selectedItems() ?? [];
-  }
-
   // Frozen at drag start and consumed exactly once per drop, cancelled ones
   // included: neither Escape nor a mid-drag morph can change what is
   // submitted, and no stale batch leaks into the next drag.
   private activeDragBatch:SelectionItem[]|null = null;
 
-  // Idempotent, because Pragmatic calls onGenerateDragPreview before
-  // onDragStart and the item controller calls this in both: a second call
-  // for the same drag re-marks the same rows. batchForDrag is idempotent
-  // too — an unselected card's first call collapses the selection onto it,
-  // so the second returns the same one-id batch.
-  beginDragBatch(itemElement:HTMLElement):void {
-    this.activeDragBatch = this.selection?.batchForDrag(itemElement) ?? null;
-    this.markDraggingRows(this.activeDragBatch ?? []);
+  // Pragmatic dispatches onGenerateDragPreview before onDragStart; the
+  // preview needs the count, the drag start marks the rows.
+  freezeDragBatch(itemElement:HTMLElement):number {
+    const scope = this.selection?.selectForAction(itemElement);
+    this.activeDragBatch = scope?.kind === 'batch'
+      ? scope.items.map((item) => itemIdentity(item)).filter((item):item is SelectionItem => item !== null)
+      : null;
+
+    return Math.max(1, this.activeDragBatch?.length ?? 0);
   }
 
-  activeDragBatchCount():number {
-    return this.activeDragBatch?.length ?? 0;
+  markDragBatch():void {
+    if (this.activeDragBatch) {
+      this.markDraggingRows(this.activeDragBatch);
+    }
   }
 
   // Confined when the item is, or when any batch-mate the drag would carry
@@ -253,19 +258,18 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return true;
     }
 
-    const mates = this.selection?.prospectiveDragMates(itemElement) ?? [];
-    return mates.some((mate) => {
-      const element = this.itemElementFor(mate);
-      return element !== null && isConfinedItem(element);
-    });
+    const scope = this.selection?.actionScopeFor(itemElement);
+    const members = scope?.kind === 'batch' ? scope.items : [itemElement];
+    return members.some((member) => isConfinedItem(member));
   }
 
   // Marked on the item element itself, the same one the item controller's
   // own onDragStart marks, so CSS keys off one convention regardless of
   // which controller did the marking.
   private markDraggingRows(items:SelectionItem[]):void {
+    const elements = this.itemElementsByKey();
     items.forEach((item) => {
-      this.itemElementFor(item)?.setAttribute('data-dragging', 'source');
+      elements.get(selectionKey(item))?.setAttribute('data-dragging', 'source');
     });
   }
 
@@ -276,16 +280,17 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.element.querySelectorAll('[data-dragging]').forEach((element) => element.removeAttribute('data-dragging'));
   }
 
-  // Matched on type as well as id: ids collide across source tables.
-  private itemElementFor({ type, id }:SelectionItem):HTMLElement|null {
-    const outlet = this.sortableListsItemOutlets.find((item) => (
-      item.element instanceof HTMLElement
-        && this.element.contains(item.element)
-        && resolveItemId(item.element) === id
-        && resolveItemType(item.element) === type
-    ));
-
-    return outlet && outlet.element instanceof HTMLElement ? outlet.element : null;
+  // One document query per callback; never kept, so a morph cannot leave it
+  // stale. Keyed on type as well as id: ids collide across source tables.
+  private itemElementsByKey():Map<SelectionKey, HTMLElement> {
+    const map = new Map<SelectionKey, HTMLElement>();
+    orderedItemElements(this.element).forEach((element) => {
+      const identity = itemIdentity(element);
+      if (identity) {
+        map.set(selectionKey(identity), element);
+      }
+    });
+    return map;
   }
 
   private takeActiveDragBatch():SelectionItem[]|null {
@@ -342,7 +347,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       this.selection?.reconcile();
 
       // A row a morph replaces mid-drag comes back as fresh server HTML that
-      // never went through beginDragBatch, so it loses data-dragging with the
+      // never went through markDragBatch, so it loses data-dragging with the
       // element it replaced.
       if (this.activeDragBatch) {
         this.markDraggingRows(this.activeDragBatch);
@@ -444,7 +449,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     // Last, after every resolution above: several of them bail, and
     // collapsing earlier would destroy the batch for a move that never runs.
-    this.selection?.collapseForMove(itemElement);
+    this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
       rows: [sourceRow],
@@ -525,6 +530,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       : this.singleSourceRow(source.element);
     if (!rows) {
       debugLog('sortable-lists: ignoring drop, could not resolve every batch row');
+      this.announceMoveFailure({ label: null, listName: null, crossList: false }, false, batch?.length ?? 1);
       return;
     }
 
@@ -541,7 +547,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // A selection-enabled root with a collection URL uses the collection
   // contract for one dragged card as well as many.
   private batchForDrop(frozenBatch:SelectionItem[]|null, sourceData:{ type:string; itemId:string }):SelectionItem[]|null {
-    if (!this.hasCollectionMoveUrlValue || this.collectionMoveUrlValue === '' || !this.selection) {
+    if (!this.collectionMoveUrl || !this.selection) {
       return null;
     }
 
@@ -550,26 +556,32 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       : [{ type: sourceData.type, id: sourceData.itemId }];
   }
 
+  private get collectionMoveUrl():string|null {
+    return this.hasCollectionMoveUrlValue && this.collectionMoveUrlValue !== '' ? this.collectionMoveUrlValue : null;
+  }
+
   private resolveCollectionMoveUrl():string|null {
-    if (!this.hasCollectionMoveUrlValue || this.collectionMoveUrlValue === '') {
+    const collectionMoveUrl = this.collectionMoveUrl;
+    if (!collectionMoveUrl) {
       return null;
     }
 
-    const url = new URL(this.collectionMoveUrlValue, window.location.href);
+    const url = new URL(collectionMoveUrl, window.location.href);
     if (this.optimisticValue) {
       url.searchParams.set('optimistic', 'true');
     }
 
-    return `${url.pathname}${url.search}${url.hash}`;
+    return relativeUrl(url);
   }
 
   // Refused whole when a row is missing: a member that vanished mid-drag
   // means a partial block would diverge from the ids the request claims.
   private rowsForItems(items:SelectionItem[]):HTMLElement[]|null {
+    const elements = this.itemElementsByKey();
     const rows:HTMLElement[] = [];
 
     for (const item of items) {
-      const itemElement = this.itemElementFor(item);
+      const itemElement = elements.get(selectionKey(item)) ?? null;
       const container = itemElement ? this.ownerRowsContainer(itemElement) : null;
       const row = container && itemElement ? rowOf(container, itemElement) : null;
       if (!row) {
@@ -632,7 +644,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     if (result.ok) {
       // Movement clears selection and anchor; failure preserves both for a
       // retry. performMove is the shared boundary for the menu path too.
-      this.selection?.clearAfterMove();
+      this.selection?.clearSilently();
       return;
     }
 
@@ -662,9 +674,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // The template must expand to a same-origin relative URL: the expansion is
-  // reduced to path + search + hash, so an absolute template's origin would
-  // be dropped silently.
   private resolveMoveUrl({ itemId, type }:{ itemId:string; type:string|null }):string|null {
     const template = this.moveUrlTemplateFor(type);
     if (!template) {
@@ -679,7 +688,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       url.searchParams.set('optimistic', 'true');
     }
 
-    return `${url.pathname}${url.search}${url.hash}`;
+    return relativeUrl(url);
   }
 
   // The dragged item's type keys the template: the move endpoint belongs to
