@@ -940,6 +940,85 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           expect(changes.keys).to include("target_versions", "observed_in_versions")
         end
       end
+
+      context "with multi-value version changes" do
+        let!(:version1) { create(:version, project:) }
+        let!(:version2) { create(:version, project:) }
+        let!(:version3) { create(:version, project:) }
+
+        let!(:journal_with_two_target_versions) do
+          work_package.target_version_ids_replacements = [version1.id, version2.id]
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        let!(:journal_with_two_target_versions_snapshot) do
+          work_package.add_journal(notes: "Just a comment")
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "excludes journal with only a multi-value target version snapshot" do
+          _pagy, records = paginator.call
+
+          expect(journal_with_two_target_versions_snapshot.reload.work_package_version_journals.count).to eq(2)
+          expect(journal_with_two_target_versions_snapshot.get_changes).to eq({})
+
+          expect(records.map(&:id)).not_to include(journal_with_two_target_versions_snapshot.id)
+        end
+
+        shared_examples "a journal with version changes" do |key|
+          it "is included with #{key} among its changes" do
+            _pagy, records = paginator.call
+
+            expect(records.map(&:id)).to include(journal.id)
+            expect(journal.reload.get_changes).to have_key(key)
+          end
+        end
+
+        context "when adding a target version to an existing selection" do
+          let!(:journal) do
+            work_package.reload.target_version_ids_replacements = [version1.id, version2.id, version3.id]
+            work_package.save!
+            work_package.journals.order(:version).last
+          end
+
+          it_behaves_like "a journal with version changes", "target_versions"
+        end
+
+        context "when removing one of several target versions" do
+          let!(:journal) do
+            work_package.reload.target_version_ids_replacements = [version1.id]
+            work_package.save!
+            work_package.journals.order(:version).last
+          end
+
+          it_behaves_like "a journal with version changes", "target_versions"
+        end
+
+        context "when swapping one of several target versions" do
+          let!(:journal) do
+            work_package.reload.target_version_ids_replacements = [version2.id, version3.id]
+            work_package.save!
+            work_package.journals.order(:version).last
+          end
+
+          it_behaves_like "a journal with version changes", "target_versions"
+        end
+
+        context "when removing one of several observed in versions" do
+          let!(:journal) do
+            work_package.reload.observed_in_version_ids_replacements = [version1.id, version2.id]
+            work_package.save!
+
+            work_package.observed_in_version_ids_replacements = [version2.id]
+            work_package.save!
+            work_package.journals.order(:version).last
+          end
+
+          it_behaves_like "a journal with version changes", "observed_in_versions"
+        end
+      end
     end
 
     context "with :hide_meetings filter" do
