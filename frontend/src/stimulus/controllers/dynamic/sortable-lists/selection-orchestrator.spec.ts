@@ -734,7 +734,7 @@ describe('SelectionOrchestrator', () => {
     it('returns the frozen ordered selection when the dragged item is selected', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.batchForDrag(item('1'))).toEqual([
         { type: 'work_package', id: '1' },
@@ -747,7 +747,7 @@ describe('SelectionOrchestrator', () => {
     it('collapses onto an unselected dragged item and returns it alone', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
       expect(orchestrator.selectedIds()).toEqual(['2']);
@@ -772,7 +772,7 @@ describe('SelectionOrchestrator', () => {
     it('is idempotent for a selected item: repeated calls freeze the same batch', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.batchForDrag(item('1'))).toEqual([
         { type: 'work_package', id: '1' },
@@ -789,7 +789,7 @@ describe('SelectionOrchestrator', () => {
     it('is idempotent for an unselected item: the collapse from the first call sticks', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
       expect(orchestrator.batchForDrag(item('2'))).toEqual([{ type: 'work_package', id: '2' }]);
@@ -802,7 +802,7 @@ describe('SelectionOrchestrator', () => {
     it('returns the ordered selection for a selected member without touching it', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.prospectiveDragMates(item('1'))).toEqual([
         { type: 'work_package', id: '1' },
@@ -814,7 +814,7 @@ describe('SelectionOrchestrator', () => {
     it('returns nothing for an unselected item and does not collapse the selection', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.prospectiveDragMates(item('2'))).toEqual([]);
       expect(orchestrator.selectedIds()).toEqual(['1', '3']);
@@ -832,7 +832,7 @@ describe('SelectionOrchestrator', () => {
     it('clears model, anchor and presentation without an announcement', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
-      orchestrator.handleClick(clickOn(item('3'), { metaKey: true }));
+      orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
       announceSpy.mockClear();
 
       orchestrator.clearAfterMove();
