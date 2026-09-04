@@ -226,5 +226,16 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
       include_examples "contract is invalid", default_chat_model_id: :cannot_chat
     end
+
+    # Curation, not enforcement: switching a model off hides it from the pickers
+    # and must never break a feature that already points at it.
+    context "with a model an administrator switched off" do
+      before do
+        connection.models.find_by(external_id: "qwen3.6-27b").update!(deactivated_at: Time.current)
+        connection.default_chat_model_id = "qwen3.6-27b"
+      end
+
+      include_examples "contract is valid"
+    end
   end
 end
