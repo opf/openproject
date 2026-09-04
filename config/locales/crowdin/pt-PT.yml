@@ -361,11 +361,11 @@ pt-PT:
       type/configuration_link:
         source: Tipo de origem
       type_variant:
-        attribute_groups: Configuração do formulário
+        attribute_groups: Form
         default_work_package_description: Texto padrão para a descrição
         defaults_source: Origem das predefinições
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Origem da configuração do formulário
+        form_configuration_source: Form source
         patterns: Padrões
         pdf_export_source: Origem da exportação para PDF
         project_attributes_source: Origem dos atributos do projeto
@@ -2762,7 +2762,7 @@ pt-PT:
         more_info: 'Nota: o logótipo usado ficará acessível ao público.'
         title: Tema e logótipo de cor personalizada
       edit_attribute_groups:
-        description: 'Personalize a configuração do formulário com estes complementos adicionais:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Adicionar novas secções de atributos
           related: Adicione uma tabela de pacotes de trabalho relacionados
@@ -3503,7 +3503,6 @@ pt-PT:
   label_float: Float
   label_folder: Pasta
   label_follows: segue
-  label_form_configuration: Configuração do formulário
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
@@ -4866,7 +4865,7 @@ pt-PT:
       caption: Dados do pacote de trabalho apresentados como artefacto do PMflex.
       label: Artefacto PMflex
     template_attributes:
-      caption: Todos os atributos presentes na configuração atual do formulário usando o modelo padrão.
+      caption: All the attributes present in the current form using the default template.
       label: Atributos e descrição
     template_contract:
       caption: Detalhes do pacote de trabalho formatados de acordo com o modelo de contrato alemão.
@@ -6244,7 +6243,7 @@ pt-PT:
       steps:
         defaults: Padrões
         details: Detalhes
-        form_configuration: Configuração do formulário
+        form_configuration: Form
         pdf: Geração de PDF
         project_attributes: Atributos do projeto
         projects: Projetos
@@ -6277,6 +6276,7 @@ pt-PT:
         inherited_from_type_html: Herdado do tipo <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos em gráficos de Gantt ou tabelas de pacotes de trabalho. Portanto é recomendado usar uma cor forte.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6315,7 +6315,7 @@ pt-PT:
         blankslate_title: Ainda sem grupos
         builtin_field: Campo incorporado
         confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
-        confirm_reset: Tem a certeza de que quer repor a configuração do formulário?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
         delete_group: Eliminar secção
         drag_to_activate: Arraste campos daqui para ativá-los
@@ -6330,21 +6330,21 @@ pt-PT:
         group_actions: Ações da secção
         group_name_label: Nome da secção
         inactive_attributes_heading: Atributos inativos
-        invalid_attribute_groups: A carga útil da configuração do formulário é inválida.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Secção
         no_inactive_attributes: Não há atributos inativos
-        not_found: Não foi possível encontrar o elemento de configuração do formulário solicitado.
+        not_found: The requested form item could not be found.
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da secção
         rename_group: Mudar o nome da secção
         reset_description: 'Isto irá redefinir os atributos para o seu grupo predefinido e desativar TODOS os campos personalizados.
 
           '
-        reset_title: Repor configuração do formulário
+        reset_title: Reset form
         reset_to_defaults: Repor formulário
         row_actions: Ações de linha
-        tab: Configuração do formulário
+        tab: Form
         untitled_group: Grupo sem título
       project_attributes:
         actions:

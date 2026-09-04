@@ -361,11 +361,11 @@ zh-CN:
       type/configuration_link:
         source: 源类型
       type_variant:
-        attribute_groups: 表单配置
+        attribute_groups: Form
         default_work_package_description: 默认描述文本
         defaults_source: 默认值来源
         enabled_in_new_projects: 在新项目中有效
-        form_configuration_source: 表单配置来源
+        form_configuration_source: Form source
         patterns: 模式
         pdf_export_source: PDF 导出来源
         project_attributes_source: 项目特性来源
@@ -2626,7 +2626,7 @@ zh-CN:
         more_info: 注：使用的 Logo 将可公开访问。
         title: 自定义颜色主题和 Logo
       edit_attribute_groups:
-        description: 使用这些附加组件自定义表单配置：
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: 添加新特性分区
           related: 添加一个相关工作包表
@@ -3363,7 +3363,6 @@ zh-CN:
   label_float: 浮点数
   label_folder: 文件夹
   label_follows: 跟踪
-  label_form_configuration: 表格配置
   label_formula: 公式
   label_forum_new: 新论坛
   label_forum_plural: 论坛
@@ -4717,7 +4716,7 @@ zh-CN:
       caption: 以 PMflex 工件形式呈现的工作包详细信息。
       label: PMflex 工件
     template_attributes:
-      caption: 目前表单配置中的所有属性均默认模板。
+      caption: All the attributes present in the current form using the default template.
       label: 属性和描述
     template_contract:
       caption: 工作包细节已格式化为德国标准合同格式。
@@ -6092,7 +6091,7 @@ zh-CN:
       steps:
         defaults: 默认值
         details: 详细信息
-        form_configuration: 表单配置
+        form_configuration: Form
         pdf: PDF 生成
         project_attributes: 项目特性
         projects: 项目
@@ -6125,6 +6124,7 @@ zh-CN:
         inherited_from_type_html: 继承自类型 <b>%{type}</b>。
         tab: 详细信息
         type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6163,7 +6163,7 @@ zh-CN:
         blankslate_title: 还没有群组
         builtin_field: 内置字段
         confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
-        confirm_reset: 确定要重置表单配置吗？
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: 自定义字段
         delete_group: 删除小节
         drag_to_activate: 从此处拖动字段，以将其激活
@@ -6178,21 +6178,21 @@ zh-CN:
         group_actions: 小节操作
         group_name_label: 小节名称
         inactive_attributes_heading: 停用的特性
-        invalid_attribute_groups: 表单配置有效载荷无效。
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: 嵌入式查询配置无效。
         label_group: 小节
         no_inactive_attributes: 没有停用的特性
-        not_found: 找不到所请求的表单配置项。
+        not_found: The requested form item could not be found.
         query_group_label: 相关的工作包表
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
           '
-        reset_title: 重置表单配置
+        reset_title: Reset form
         reset_to_defaults: 重置表单
         row_actions: 行操作
-        tab: 表单配置
+        tab: Form
         untitled_group: 无标题群组
       project_attributes:
         actions:

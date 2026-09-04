@@ -361,11 +361,11 @@ pl:
       type/configuration_link:
         source: Typ źródłowy
       type_variant:
-        attribute_groups: Konfiguracja formularza
+        attribute_groups: Form
         default_work_package_description: Domyślny tekst opisu
         defaults_source: Źródło ustawień domyślnych
         enabled_in_new_projects: Aktywne w nowych projektach
-        form_configuration_source: Źródło konfiguracji formularza
+        form_configuration_source: Form source
         patterns: Wzorce
         pdf_export_source: Źródło eksportu PDF
         project_attributes_source: Źródło atrybutów projektu
@@ -3036,7 +3036,7 @@ pl:
         more_info: 'Uwaga: użyte logo będzie ogólnodostępne.'
         title: Niestandardowy motyw kolorystyczny i logotyp
       edit_attribute_groups:
-        description: 'Dostosuj konfigurację formularza za pomocą tych dodatków:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Dodaj nowe sekcje atrybutów
           related: Dodaj tabelę powiązanych pakietów roboczych
@@ -3783,7 +3783,6 @@ pl:
   label_float: Liczba rzeczywista
   label_folder: Katalog
   label_follows: Następujący
-  label_form_configuration: Konfiguracja formularza
   label_formula: Wzór
   label_forum_new: Nowe forum
   label_forum_plural: Fora
@@ -5179,7 +5178,7 @@ pl:
       caption: Szczegóły pakietu roboczego renderowane jako artefakt PMflex.
       label: Artefakt PMflex
     template_attributes:
-      caption: Wszystkie atrybuty obecne w bieżącej konfiguracji formularza, używając szablonu domyślnego.
+      caption: All the attributes present in the current form using the default template.
       label: Atrybuty i opis
     template_contract:
       caption: Szczegóły pakietu roboczego sformatowane zgodnie ze standardowym niemiecki, formularzem umowy.
@@ -6566,7 +6565,7 @@ pl:
       steps:
         defaults: Domyślne
         details: Szczegóły
-        form_configuration: Konfiguracja formularza
+        form_configuration: Form
         pdf: Generowanie pliku PDF
         project_attributes: Atrybuty projektu
         projects: Projekty
@@ -6599,6 +6598,7 @@ pl:
         inherited_from_type_html: Dziedziczone z typu <b>%{type}</b>.
         tab: Szczegóły
         type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6637,7 +6637,7 @@ pl:
         blankslate_title: Nie ma jeszcze grup
         builtin_field: Wbudowane pole
         confirm_delete_group: Czy na pewno chcesz usunąć tę sekcję? Tego działania nie można automatycznie cofnąć.
-        confirm_reset: Czy na pewno chcesz zresetować konfigurację formularza?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Pole niestandardowe
         delete_group: Usuń sekcję
         drag_to_activate: Aby aktywować pola, przeciągaj je stąd
@@ -6652,21 +6652,21 @@ pl:
         group_actions: Działania sekcji
         group_name_label: Nazwa sekcji
         inactive_attributes_heading: Nieaktywne atrybuty
-        invalid_attribute_groups: Ładunek danych konfiguracji formularza jest nieprawidłowy.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Konfiguracja wbudowanego zapytania jest nieprawidłowa.
         label_group: Sekcja
         no_inactive_attributes: Brak nieaktywnych atrybutów
-        not_found: Nie można znaleźć żądanego elementu konfiguracji formularza.
+        not_found: The requested form item could not be found.
         query_group_label: Tabela powiązanych pakietów roboczych
         remove_attribute: Usuń z sekcji
         rename_group: Zmień nazwę sekcji
         reset_description: 'Spowoduje to zresetowanie atrybutów do ich domyślnej grupy i wyłączenie WSZYSTKICH pól niestandardowych.
 
           '
-        reset_title: Zresetuj konfigurację formularza
+        reset_title: Reset form
         reset_to_defaults: Zresetuj formularz
         row_actions: Działania wiersza
-        tab: Konfiguracja formularza
+        tab: Form
         untitled_group: Grupa bez nazwy
       project_attributes:
         actions:

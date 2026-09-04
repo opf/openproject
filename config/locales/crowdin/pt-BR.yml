@@ -361,11 +361,11 @@ pt-BR:
       type/configuration_link:
         source: Tipo de fonte
       type_variant:
-        attribute_groups: Configuração do formulário
+        attribute_groups: Form
         default_work_package_description: Texto padrão para descrição
         defaults_source: Fonte dos padrões
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Fonte da configuração do formulário
+        form_configuration_source: Form source
         patterns: Padrões
         pdf_export_source: Fonte da exportação em PDF
         project_attributes_source: Fonte dos atributos do projeto
@@ -2762,7 +2762,7 @@ pt-BR:
         more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
         title: Tema de cor e logotipo personalizados
       edit_attribute_groups:
-        description: 'Personalize a configuração do formulário com estes complementos adicionais:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Adicionar novas seções de atributo
           related: Adicionar uma tabela de pacotes de trabalho relacionados
@@ -3503,7 +3503,6 @@ pt-BR:
   label_float: Ponto flutuante
   label_folder: Pasta
   label_follows: Segue
-  label_form_configuration: Configuração do formulário
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
@@ -4869,7 +4868,7 @@ pt-BR:
       caption: Detalhes do pacote de trabalho renderizados como um artefato PMflex.
       label: Artefato PMflex
     template_attributes:
-      caption: Todos os atributos da configuração atual do formulário com o modelo padrão.
+      caption: All the attributes present in the current form using the default template.
       label: Atributos e descrição
     template_contract:
       caption: Detalhes do pacote de trabalho formatados conforme o padrão do contrato alemão.
@@ -5747,10 +5746,10 @@ pt-BR:
       password_login_bypass_principal_ids_hint: 'Mesmo quando o login por senha estiver desativado, esses usuários e grupos poderão usar suas senhas para fazer login. Isso é útil, por exemplo, caso o provedor de identidade fique indisponível. Se você incluir um grupo, o acesso será estendido a todos os usuários desse grupo.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'As seguintes configurações são definidas pelo ambiente e não podem ser editadas aqui:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'As restrições de login por senha não estão disponíveis, pois nenhum provedor de SSO está ativado no momento. Configure e ative um provedor de SSO antes de alterar essas configurações.
 
         '
       registration: Registro
@@ -6232,7 +6231,7 @@ pt-BR:
   total_progress: Progresso total
   types:
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Adicionar uma variante a %{name}
       create_type: Criar tipo
       create_variant: Criar variante
       fields:
@@ -6243,7 +6242,7 @@ pt-BR:
       steps:
         defaults: Padrões
         details: Detalhes
-        form_configuration: Configuração do formulário
+        form_configuration: Form
         pdf: Geração do PDF
         project_attributes: Atributos do projeto
         projects: Projetos
@@ -6276,6 +6275,7 @@ pt-BR:
         inherited_from_type_html: Herdado do tipo <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos nos gráficos de Gantt ou nas tabelas de pacotes de trabalho. Portanto, recomenda-se usar uma cor forte.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6301,12 +6301,12 @@ pt-BR:
           label: Modelos de exportação de PDF
         tab: Gerar PDF
         templates:
-          readonly_error: Cannot be changed while linked to a source type.
+          readonly_error: Não pode ser alterado enquanto estiver vinculado a um tipo de fonte.
           section_title: Modelos de exportação de PDF
           settings:
             edit_link: Editar configurações
             reset_to_default: Redefinir para os padrões
-            title: 'Settings: %{template}'
+            title: 'Configurações: %{template}'
       form_configuration:
         add_attribute_group: Seção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -6314,7 +6314,7 @@ pt-BR:
         blankslate_title: Nenhum grupo ainda
         builtin_field: Campo integrado
         confirm_delete_group: Tem certeza que deseja excluir esta seção? Esta ação não pode ser revertida automaticamente.
-        confirm_reset: Tem certeza de que deseja redefinir as configurações do formulário?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
         delete_group: Excluir seção
         drag_to_activate: Arraste campos daqui para ativá-los
@@ -6329,21 +6329,21 @@ pt-BR:
         group_actions: Ações da seção
         group_name_label: Nome da seção
         inactive_attributes_heading: Atributos inativos
-        invalid_attribute_groups: O payload de configuração do formulário é inválido.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
         no_inactive_attributes: Nenhum atributo inativo
-        not_found: O item de configuração de formulário solicitado não foi encontrado.
+        not_found: The requested form item could not be found.
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da seção
         rename_group: Renomear seção
         reset_description: 'Isto irá redefinir os atributos para seu grupo padrão e desativar TODOS os campos personalizados.
 
           '
-        reset_title: Redefinir a configuração do formulário
+        reset_title: Reset form
         reset_to_defaults: Redefinir formulário
         row_actions: Ações de linha
-        tab: Configuração do formulário
+        tab: Form
         untitled_group: Grupo sem título
       project_attributes:
         actions:
@@ -6351,8 +6351,8 @@ pt-BR:
           label_enable_all: Habilitar todos
         blankslate:
           inherited:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: Esse tipo não possui nenhum atributo de projeto associado a ele.
+            title: Nenhum atributo do projeto foi configurado
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
@@ -6386,7 +6386,7 @@ pt-BR:
             title: Copiar configuração?
           dialog:
             description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
-            source_label: Source type
+            source_label: Tipo de fonte
             source_placeholder: Selecione um tipo ou variante
             submit: Salvar e copiar
             title: Copiar configuração
@@ -6460,7 +6460,7 @@ pt-BR:
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Vazio
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (pai)"

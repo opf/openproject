@@ -361,11 +361,11 @@ it:
       type/configuration_link:
         source: Tipo di origine
       type_variant:
-        attribute_groups: Configurazione del modulo
+        attribute_groups: Form
         default_work_package_description: Testo predefinito per la descrizione
         defaults_source: Origine dei valori predefiniti
         enabled_in_new_projects: Attivo nei nuovi progetti
-        form_configuration_source: Origine della configurazione del modulo
+        form_configuration_source: Form source
         patterns: Pattern
         pdf_export_source: Origine dell'esportazione PDF
         project_attributes_source: Origine degli attributi del progetto
@@ -2766,7 +2766,7 @@ it:
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
         title: Tema e logo a colori personalizzati
       edit_attribute_groups:
-        description: 'Personalizza la configurazione del modulo con le seguenti aggiunte:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Aggiungi nuove sezioni di attributi
           related: Aggiungi una tabella delle relative macro-attività
@@ -3505,7 +3505,6 @@ it:
   label_float: Virgola mobile
   label_folder: Cartella
   label_follows: segue
-  label_form_configuration: Configurazione del modulo
   label_formula: Formula
   label_forum_new: Nuovo forum
   label_forum_plural: Forum
@@ -4871,7 +4870,7 @@ it:
       caption: Dettagli della macro-attività visualizzati come artefatto PMflex.
       label: Artefatto PMflex
     template_attributes:
-      caption: Tutti gli attributi presenti nella configurazione del modulo corrente utilizzano il modello predefinito.
+      caption: All the attributes present in the current form using the default template.
       label: Attributi e descrizione
     template_contract:
       caption: Dettagli della macro-attività formattati nel modulo di contratto standard tedesco.
@@ -6255,7 +6254,7 @@ it:
       steps:
         defaults: Predefiniti
         details: Dettagli
-        form_configuration: Configurazione del modulo
+        form_configuration: Form
         pdf: Generazione PDF
         project_attributes: Attributi del progetto
         projects: Progetti
@@ -6288,6 +6287,7 @@ it:
         inherited_from_type_html: Ereditato dal tipo <b>%{type}</b>.
         tab: Dettagli
         type_color_text: Il colore selezionato distingue diverse tipologie nei diagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6326,7 +6326,7 @@ it:
         blankslate_title: Ancora nessun gruppo
         builtin_field: Campo integrato
         confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
-        confirm_reset: Vuoi davvero ripristinare la configurazione del modulo?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizzato
         delete_group: Elimina sezione
         drag_to_activate: Trascina i campi da qui per attivarli
@@ -6341,21 +6341,21 @@ it:
         group_actions: Azioni di sezione
         group_name_label: Nome sezione
         inactive_attributes_heading: Attributi inattivi
-        invalid_attribute_groups: La configurazione del modulo non è valida.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: La configurazione della query incorporata non è valida.
         label_group: Sezione
         no_inactive_attributes: Nessun attributo inattivo
-        not_found: Impossibile trovare l'elemento della configurazione del modulo richiesto.
+        not_found: The requested form item could not be found.
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
-        reset_title: Reimposta la configurazione del modulo
+        reset_title: Reset form
         reset_to_defaults: Azzera modulo
         row_actions: Azioni sulle righe
-        tab: Configurazione del modulo
+        tab: Form
         untitled_group: Gruppo senza titolo
       project_attributes:
         actions:

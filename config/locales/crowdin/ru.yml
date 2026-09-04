@@ -361,11 +361,11 @@ ru:
       type/configuration_link:
         source: Тип источника
       type_variant:
-        attribute_groups: Конфигурация формы
+        attribute_groups: Form
         default_work_package_description: Текст для описания по умолчанию
         defaults_source: Источник по умолчанию
         enabled_in_new_projects: Активно в новых проектах
-        form_configuration_source: Источник конфигурации формы
+        form_configuration_source: Form source
         patterns: Шаблоны
         pdf_export_source: Источник экспорта PDF
         project_attributes_source: Источник атрибутов проекта
@@ -3040,7 +3040,7 @@ ru:
         more_info: 'Примечание: используемый логотип будет общедоступным.'
         title: Пользовательская цветовая тема и логотип
       edit_attribute_groups:
-        description: 'Настроить конфигурацию формы с помощью этих дополнений:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Добавить новые секции атрибутов
           related: Добавить таблицу связанных пакетов работ
@@ -3787,7 +3787,6 @@ ru:
   label_float: Плавающий
   label_folder: Папка
   label_follows: Следует
-  label_form_configuration: Настройка форм
   label_formula: Формула
   label_forum_new: Новый форум
   label_forum_plural: Форумы
@@ -5177,7 +5176,7 @@ ru:
       caption: Сведения о пакете работ, представлены в виде артефакта PMflex.
       label: Артефакт PMflex
     template_attributes:
-      caption: Все атрибуты, представленные в текущей форме настроек, используют шаблон по умолчанию.
+      caption: All the attributes present in the current form using the default template.
       label: Атрибуты и описание
     template_contract:
       caption: Подробности пакета работ отформатированы в стандартной договорной форме Германии.
@@ -6560,7 +6559,7 @@ ru:
       steps:
         defaults: По умолчанию
         details: Детали
-        form_configuration: Конфигурация формы
+        form_configuration: Form
         pdf: Создание PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
@@ -6593,6 +6592,7 @@ ru:
         inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
         tab: Подробности
         type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6631,7 +6631,7 @@ ru:
         blankslate_title: Нет групп
         builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
@@ -6646,21 +6646,21 @@ ru:
         group_actions: Действия с секциями
         group_name_label: Название секции
         inactive_attributes_heading: Неактивные атрибуты
-        invalid_attribute_groups: Конфигурация формы является недопустимой.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
         label_group: Секция
         no_inactive_attributes: Нет неактивных атрибутов
-        not_found: Запрашиваемый элемент конфигурации формы не найден.
+        not_found: The requested form item could not be found.
         query_group_label: Таблица связанных пакетов работ
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
-        reset_title: Сбросить настройки формы
+        reset_title: Reset form
         reset_to_defaults: Сбросить форму
         row_actions: Действия со строками
-        tab: Настройка форм
+        tab: Form
         untitled_group: Безымянная группа
       project_attributes:
         actions:
