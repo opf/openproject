@@ -1659,7 +1659,7 @@ describe('Sortable lists controller', () => {
     );
     await ctx.nextFrame();
     click(items[0]);
-    click(items[1], { metaKey: true });
+    click(items[1], { ctrlKey: true });
 
     document.dispatchEvent(new CustomEvent('sortable-lists:test-move-completed'));
 
