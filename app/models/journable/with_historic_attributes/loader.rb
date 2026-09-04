@@ -67,7 +67,8 @@ class Journable::WithHistoricAttributes
       end
 
       load_custom_value_associations(journalized, journal_ids)
-      load_target_versions_associations(journalized, journal_ids)
+      load_versions_associations(journalized, journal_ids, kind: "target", association: :target_versions)
+      load_versions_associations(journalized, journal_ids, kind: "observed_in", association: :observed_in_versions)
 
       journalized
     end
@@ -83,14 +84,14 @@ class Journable::WithHistoricAttributes
       end
     end
 
-    def load_target_versions_associations(journalized, journal_ids)
-      return unless journalized_class.method_defined?(:target_versions)
+    def load_versions_associations(journalized, journal_ids, kind:, association:)
+      return unless journalized_class.method_defined?(association)
 
-      version_journals_by_journal_id = load_version_journals_by_journal_id(journal_ids)
+      version_journals_by_journal_id = load_version_journals_by_journal_id(journal_ids, kind:)
 
       journalized.each do |work_package|
         version_journals = Array(version_journals_by_journal_id[work_package.journal_id])
-        set_target_versions_association_from_journal!(work_package:, version_journals:)
+        set_versions_association_from_journal!(work_package:, version_journals:, association:)
       end
     end
 
@@ -136,9 +137,9 @@ class Journable::WithHistoricAttributes
         .group_by(&:journal_id)
     end
 
-    def load_version_journals_by_journal_id(journal_ids)
+    def load_version_journals_by_journal_id(journal_ids, kind:)
       Journal::WorkPackageVersionJournal
-        .where(journal_id: journal_ids, kind: "target")
+        .where(journal_id: journal_ids, kind:)
         .includes(:version)
         .group_by(&:journal_id)
     end
@@ -155,11 +156,11 @@ class Journable::WithHistoricAttributes
       work_package.association(:custom_values).target = historic_custom_values
     end
 
-    def set_target_versions_association_from_journal!(work_package:, version_journals:)
+    def set_versions_association_from_journal!(work_package:, version_journals:, association:)
       historic_versions = version_journals.filter_map(&:version).sort_by(&:id)
 
-      work_package.association(:target_versions).loaded!
-      work_package.association(:target_versions).target = historic_versions
+      work_package.association(association).loaded!
+      work_package.association(association).target = historic_versions
     end
 
     attr_accessor :journables
