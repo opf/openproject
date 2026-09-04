@@ -60,9 +60,10 @@ reconciliation preserves it.
 
 ## Batch movement
 
-Dragging a selected item moves the whole batch. The root freezes the batch at
-drag start so changes to selection during the drag do not change the submitted
-items. Dragging an unselected item collapses an existing batch onto that item.
+Dragging a selected item moves the whole batch. The root freezes the batch in
+the preview callback (`freezeDragBatch`) and marks its rows at drag start
+(`markDragBatch`), so later selection changes do not change the submitted items.
+Dragging an unselected item selects it, collapsing any wider selection.
 
 A selection-enabled root with `collectionMoveUrl` submits ordered `ids[]` to the
 collection move action for one dragged item or many. The root's

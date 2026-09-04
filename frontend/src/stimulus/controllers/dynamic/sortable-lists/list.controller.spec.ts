@@ -78,8 +78,8 @@ describe('Sortable lists list controller', () => {
       moveAvailability: vi.fn(() => null),
       ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
-      beginDragBatch: vi.fn(),
-      activeDragBatchCount: vi.fn(() => 0),
+      freezeDragBatch: vi.fn(() => 1),
+      markDragBatch: vi.fn(),
       dragConfined: vi.fn(() => false),
     };
   }

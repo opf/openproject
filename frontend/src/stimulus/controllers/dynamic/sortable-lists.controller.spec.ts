@@ -1345,16 +1345,41 @@ describe('Sortable lists controller', () => {
     });
   });
 
-  // Collapsing a batch and selecting the dragged card are different things:
-  // with nothing selected, a drag must not manufacture a one-card batch.
-  it('leaves an empty selection empty when a drag starts with nothing selected', async () => {
+  // A drag selects the dragged card when nothing was selected, so a
+  // cancelled drag leaves the same state either way.
+  it('selects the dragged card when a drag starts with nothing selected', async () => {
     const { root, firstSourceItem } = renderSelectableRoot();
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
-    controller.beginDragBatch(firstSourceItem);
+    controller.freezeDragBatch(firstSourceItem);
 
-    expect(document.querySelector('[data-batch-selected]')).toBeNull();
+    expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(1);
+    expect(firstSourceItem.hasAttribute('data-batch-selected')).toBe(true);
+  });
+
+  // Unlike a drag: a failed menu move would otherwise leave behind a
+  // selection the user never made.
+  it('selects nothing for a menu move with nothing selected', async () => {
+    const { root, firstSourceItem } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    controller.moveInDirection(firstSourceItem, 'down');
+
+    expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(0);
+  });
+
+  it('collapses a wider batch onto the card a menu move names', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+
+    controller.moveInDirection(items[0], 'down');
+
+    expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0]]);
   });
 
   // A card that is not part of the batch collapses it onto itself, which is
@@ -1369,7 +1394,7 @@ describe('Sortable lists controller', () => {
     items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
     announceSpy.mockClear();
 
-    controller.beginDragBatch(items[3]);
+    controller.freezeDragBatch(items[3]);
 
     expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[3]]);
     expect(announceSpy.mock.calls.map((call) => [call[0], call[1]])).toEqual([
@@ -2285,7 +2310,7 @@ describe('Sortable lists controller', () => {
       expect(announceSpy).not.toHaveBeenCalled();
     });
 
-    // selectedIds() filters to elements still in the document, so it would
+    // selectedItems() filters to elements still in the document, so it would
     // pass even with the model unpruned. The anchor is the one place an
     // unpruned model is observable: a dangling one makes the Shift+click
     // below report an unavailable range instead of restarting the selection.
@@ -2345,10 +2370,12 @@ describe('Sortable lists controller', () => {
         .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
     }
 
-    // Mirrors item.controller.ts's onDragStart: the root freezes the batch
-    // this drag represents before anything else can happen to it.
+    // Mirrors item.controller.ts's onGenerateDragPreview and onDragStart:
+    // the root freezes the batch this drag represents, then marks its rows,
+    // before anything else can happen to it.
     function beginDrag(source:HTMLElement) {
-      controller.beginDragBatch(source);
+      controller.freezeDragBatch(source);
+      controller.markDragBatch();
     }
 
     function batchDropTargets({ targetList, targetItem, edge }:{
@@ -2625,6 +2652,20 @@ describe('Sortable lists controller', () => {
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
+    it('announces when a frozen member row vanished mid-drag', async () => {
+      selectItems(item1, item3);
+      beginDrag(item1);
+      item3.remove();
+      announceSpy.mockClear();
+
+      await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      expect(announceSpy).toHaveBeenCalledWith(
+        'Move failed. Check the items\' current positions.',
+        { politeness: 'assertive' },
+      );
+    });
+
     describe('drag presentation', () => {
       function draggingIds():string[] {
         return Array.from(root.querySelectorAll<HTMLElement>('[data-dragging]'))
@@ -2647,37 +2688,11 @@ describe('Sortable lists controller', () => {
         expect(draggingIds()).toEqual(['2']);
       });
 
-      // onGenerateDragPreview and onDragStart both call beginDragBatch, so a
-      // second call for the same drag re-marks the same rows.
-      it('re-marks the same rows idempotently on a repeated beginDragBatch call', () => {
+      it('returns the batch size from freezeDragBatch', () => {
         selectItems(item1, item3);
 
-        beginDrag(item1);
-        beginDrag(item1);
-
-        expect(draggingIds().sort()).toEqual(['1', '3']);
-      });
-
-      it('freezes the same batch idempotently for a repeated call on a selected card', async () => {
-        selectItems(item1, item3);
-
-        beginDrag(item1);
-        beginDrag(item1);
-        await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
-
-        const body = (fetchMock.mock.calls[0][1].body) as FormData;
-        expect(body.getAll('ids[]')).toEqual(['1', '3']);
-      });
-
-      it('freezes the same single-id batch idempotently for a repeated call on an unselected card', async () => {
-        selectItems(item3);
-
-        beginDrag(item2);
-        beginDrag(item2);
-        await completeDrop({ source: item2, targetList: list1, targetItem: item1, edge: 'top' });
-
-        const body = (fetchMock.mock.calls[0][1].body) as FormData;
-        expect(body.getAll('ids[]')).toEqual(['2']);
+        expect(controller.freezeDragBatch(item1)).toBe(2);
+        expect(controller.freezeDragBatch(item2)).toBe(1);
       });
 
       it('clears every dragging mark after a completed drop', async () => {
@@ -2703,7 +2718,10 @@ describe('Sortable lists controller', () => {
         controller.disconnect();
 
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
-        expect(controller.activeDragBatchCount()).toBe(0);
+        // Frozen batch nulled, not just its marks cleared: markDragBatch
+        // has nothing to mark.
+        controller.markDragBatch();
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
       });
 
       // A stray mark on an element the batch never touched stands in for a

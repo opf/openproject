@@ -105,8 +105,8 @@ describe('Sortable lists item controller', () => {
       moveAvailability: vi.fn(() => null),
       ownerListElementOf: vi.fn(() => ownerListElement),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
-      beginDragBatch: vi.fn(),
-      activeDragBatchCount: vi.fn(() => 0),
+      freezeDragBatch: vi.fn(() => 1),
+      markDragBatch: vi.fn(),
       // Mirrors the real root's fallback for a batchless drag: the item's own
       // mobility attribute is the whole answer.
       dragConfined: vi.fn((itemElement:HTMLElement) => (
@@ -991,8 +991,8 @@ describe('Sortable lists item controller', () => {
         moveAvailability: vi.fn(() => null),
         ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
-        beginDragBatch: vi.fn(),
-        activeDragBatchCount: vi.fn(() => 3),
+        freezeDragBatch: vi.fn(() => 3),
+        markDragBatch: vi.fn(),
         dragConfined: vi.fn(() => false),
       });
 
@@ -1082,8 +1082,8 @@ describe('Sortable lists item controller', () => {
         moveAvailability: vi.fn(() => null),
         ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
-        beginDragBatch: vi.fn(),
-        activeDragBatchCount: vi.fn(() => 3),
+        freezeDragBatch: vi.fn(() => 3),
+        markDragBatch: vi.fn(),
         dragConfined: vi.fn(() => false),
       });
 
@@ -1479,10 +1479,10 @@ describe('Sortable lists item controller', () => {
       expect(document.activeElement).toBe(item);
     });
 
-    it('collapses the batch onto the dragged item when a drag starts', async () => {
+    it('marks the batch on drag start', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const beginDragBatch = vi.fn();
+      const markDragBatch = vi.fn();
       const root:SortableListsRoot = {
         element: item,
         busy: false,
@@ -1490,8 +1490,8 @@ describe('Sortable lists item controller', () => {
         moveAvailability: vi.fn(() => null),
         ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
-        beginDragBatch,
-        activeDragBatchCount: vi.fn(() => 0),
+        freezeDragBatch: vi.fn(() => 1),
+        markDragBatch,
         dragConfined: vi.fn(() => false),
       };
 
@@ -1499,16 +1499,16 @@ describe('Sortable lists item controller', () => {
 
       vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
 
-      expect(beginDragBatch).toHaveBeenCalledWith(item);
+      expect(markDragBatch).toHaveBeenCalled();
     });
 
     // Pragmatic invokes onGenerateDragPreview before onDragStart, so the
     // batch has to be frozen by preview time. Proven on an item with no
     // preview target, which catches a call made past the preview guard.
-    it('begins the drag batch at the top of onGenerateDragPreview, before the preview renders', async () => {
+    it('freezes the batch at the top of onGenerateDragPreview, before the preview renders', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const beginDragBatch = vi.fn();
+      const freezeDragBatch = vi.fn(() => 1);
       const root:SortableListsRoot = {
         element: item,
         busy: false,
@@ -1516,8 +1516,8 @@ describe('Sortable lists item controller', () => {
         moveAvailability: vi.fn(() => null),
         ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
-        beginDragBatch,
-        activeDragBatchCount: vi.fn(() => 0),
+        freezeDragBatch,
+        markDragBatch: vi.fn(),
         dragConfined: vi.fn(() => false),
       };
 
@@ -1528,7 +1528,7 @@ describe('Sortable lists item controller', () => {
         nativeSetDragImage: vi.fn(),
       });
 
-      expect(beginDragBatch).toHaveBeenCalledWith(item);
+      expect(freezeDragBatch).toHaveBeenCalledWith(item);
     });
   });
 });
