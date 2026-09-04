@@ -100,7 +100,6 @@ module LlmModels
           chat.select_list(
             name: :"capability_#{capability}",
             label: Llm::Capabilities.label(capability),
-            caption: capability_caption(capability),
             include_blank: false,
             input_width: :medium,
             data: { test_selector: "llm-model--capability-#{capability}" }
@@ -139,24 +138,12 @@ module LlmModels
     # A verdict established by a probe or a registry is never loaded into the
     # field -- saving must not turn someone else's finding into the
     # administrator's assertion -- so the blank option names what applies while
-    # nothing is asserted here. Labelling it "Not specified" next to a caption
-    # reading "Currently Supported" stated two contradictory things at once.
+    # nothing is asserted here.
     def inherited_state_label(capability)
-      verdict = model.verdict_for(capability)
-      return I18n.t("admin.llm_models.form.state_unspecified") if verdict.nil? || verdict.source_admin?
+      state = model.verdict_for(capability)&.then { |verdict| verdict.state unless verdict.source_admin? }
 
       I18n.t("admin.llm_models.form.state_inherited",
-             state: I18n.t("llm.verdict_states.#{verdict.state}"),
-             source: I18n.t("llm.verdict_sources.#{verdict.source}"))
-    end
-
-    # The state is now carried by the option itself; the caption only has to say
-    # what choosing something else here means.
-    def capability_caption(capability)
-      verdict = model.verdict_for(capability)
-      return if verdict.nil? || verdict.source_admin?
-
-      I18n.t("admin.llm_models.form.capability_override_caption")
+             state: I18n.t("llm.verdict_states.#{state || 'unknown'}"))
     end
   end
 end
