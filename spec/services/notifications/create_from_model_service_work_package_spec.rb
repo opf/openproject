@@ -1388,4 +1388,23 @@ RSpec.describe Notifications::CreateFromModelService,
 
     it_behaves_like "creates no notification"
   end
+
+  context "when the journal's data was replaced by a concurrent aggregated edit " \
+          "(race between job start and journal.data being loaded)",
+          with_settings: { journal_aggregation_time_minutes: 15 } do
+    before do
+      # Force `journal` to load
+      journal
+
+      # A second edit by the same author, within the aggregation window,
+      work_package.subject = "a concurrent edit"
+      work_package.save(validate: false)
+    end
+
+    it "does not raise" do
+      expect { call }.not_to raise_error
+    end
+
+    it_behaves_like "creates no notification"
+  end
 end
