@@ -1,136 +1,128 @@
 <%=
   component_wrapper(class: "op-project-custom-field-section-container", data: { test_selector: "project-custom-field-section-container-#{@project_custom_field_section.id}" }) do
-    render(border_box_container(mt: 3, data: field_list_data)) do |component|
-      component.with_header(font_weight: :bold) do
-        flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
-          section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
-            content_container.with_column(mr: 2) do
-              render(Primer::OpenProject::DragHandle.new(classes: "handle", data: { sortable_lists__item_target: "handle" }))
+    concat(
+      render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "project-custom-field-section-#{@project_custom_field_section.id}",
+          mt: 3,
+          sortable_list: OpPrimer::SortableLists::List.for(@project_custom_field_section, type: "custom_field"),
+          sortable_handle: true
+        )
+      ) do |list|
+        list.with_header(title: @project_custom_field_section.name, show_drag_handle: true) do |header|
+          header.with_action_menu(select_variant: :single, size: :small, test_selector: "section-position-selector") do |menu|
+            menu.with_show_button(
+              aria: { label: t("settings.project_attributes.sections.display_representation.overview.label") }
+            ) do |button|
+              button.with_trailing_visual_icon(icon: :"triangle-down")
+              button.with_leading_visual_icon(icon: display_representation_icon_for_section(@project_custom_field_section))
+              display_representation_label_for_section(@project_custom_field_section)
             end
-            content_container.with_column do
-              render(Primer::Beta::Text.new(font_weight: :bold)) do
-                @project_custom_field_section.name
-              end
+
+            menu.with_item(
+              label: t("settings.project_attributes.sections.display_representation.overview.side_panel.label"),
+              active: @project_custom_field_section.shown_in_overview_sidebar?,
+              test_selector: "section-position-selector--side-panel-option",
+              **menu_item_options_for(@project_custom_field_section, ProjectCustomFieldSection::OVERVIEW__SIDEBAR_KEY)
+            ) do |item|
+              item.with_leading_visual_icon(icon: :"op-view-split")
+              item.with_description.with_content(t("settings.project_attributes.sections.display_representation.overview.side_panel.description"))
+            end
+            menu.with_item(
+              label: t("settings.project_attributes.sections.display_representation.overview.main_area.label"),
+              active: @project_custom_field_section.shown_in_overview_main_area?,
+              test_selector: "section-position-selector--main-section-option",
+              **menu_item_options_for(@project_custom_field_section, ProjectCustomFieldSection::OVERVIEW__MAIN_AREA_KEY)
+            ) do |item|
+              item.with_leading_visual_icon(icon: :"op-view-cards")
+              item.with_description.with_content(t("settings.project_attributes.sections.display_representation.overview.main_area.description"))
             end
           end
 
-          section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-            actions_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(select_variant: :single, size: :small, test_selector: "section-position-selector")) do |menu|
-                menu.with_show_button(
-                  mr: 2,
-                  aria: { label: t("settings.project_attributes.sections.display_representation.overview.label") }
-                ) do |button|
-                  button.with_trailing_visual_icon(icon: :"triangle-down")
-                  button.with_leading_visual_icon(icon: display_representation_icon_for_section(@project_custom_field_section))
-                  display_representation_label_for_section(@project_custom_field_section)
-                end
-
-                menu.with_item(
-                  label: t("settings.project_attributes.sections.display_representation.overview.side_panel.label"),
-                  active: @project_custom_field_section.shown_in_overview_sidebar?,
-                  test_selector: "section-position-selector--side-panel-option",
-                  **menu_item_options_for(@project_custom_field_section, ProjectCustomFieldSection::OVERVIEW__SIDEBAR_KEY)
-                ) do |item|
-                  item.with_leading_visual_icon(icon: :"op-view-split")
-                  item.with_description.with_content(t("settings.project_attributes.sections.display_representation.overview.side_panel.description"))
-                end
-                menu.with_item(
-                  label: t("settings.project_attributes.sections.display_representation.overview.main_area.label"),
-                  active: @project_custom_field_section.shown_in_overview_main_area?,
-                  test_selector: "section-position-selector--main-section-option",
-                  **menu_item_options_for(@project_custom_field_section, ProjectCustomFieldSection::OVERVIEW__MAIN_AREA_KEY)
-                ) do |item|
-                  item.with_leading_visual_icon(icon: :"op-view-cards")
-                  item.with_description.with_content(t("settings.project_attributes.sections.display_representation.overview.main_area.description"))
-                end
-              end
+          header.with_menu(
+            button_aria_label: t("settings.project_attributes.label_section_actions"),
+            test_selector: "project-custom-field-section-action-menu"
+          ) do |menu|
+            edit_action_item(menu)
+            move_actions(menu)
+            if @ordered_cfs.empty?
+              delete_action_item(menu)
+            else
+              disabled_delete_action_item(menu)
             end
 
-            actions_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "project-custom-field-section-action-menu" })) do |menu|
-                menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("settings.project_attributes.label_section_actions"), scheme: :invisible)
-                edit_action_item(menu)
-                move_actions(menu)
-                if @ordered_cfs.empty?
-                  delete_action_item(menu)
-                else
-                  disabled_delete_action_item(menu)
-                end
+            menu.with_divider
 
-                menu.with_divider
+            menu.with_sub_menu_item(
+              label: t("settings.project_attributes.label_new_attribute"),
+              content_arguments: {
+                aria: { label: t("settings.project_attributes.label_add_attribute") },
+                data: { test_selector: "new-project-custom-field-in-section-submenu" }
+              }
+            ) do |sub_menu|
+              sub_menu.with_leading_visual_icon(icon: :plus)
+              OpenProject::CustomFieldFormat.available_for_class_name("Project")
+                                            .sort_by(&:name)
+                                            .each do |format|
+                action_menu_item_for_custom_field_format(sub_menu, format)
+              end
+            end
+          end
+        end
 
-                menu.with_sub_menu_item(
-                  label: t("settings.project_attributes.label_new_attribute"),
-                  content_arguments: {
-                    aria: { label: t("settings.project_attributes.label_add_attribute") },
-                    data: { test_selector: "new-project-custom-field-in-section-submenu" }
-                  }
-                ) do |sub_menu|
-                  sub_menu.with_leading_visual_icon(icon: :plus)
+        if @ordered_cfs.empty?
+          list.with_item(data: { empty_list_item: true }) do
+            flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
+              empty_list_container.with_column(ml: 4, mr: 2) do
+                render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+              end
+              empty_list_container.with_column do
+                render(Primer::Alpha::ActionMenu.new(data: { test_selector: "new-project-custom-field-in-section-button" })) do |menu|
+                  menu.with_show_button(
+                    scheme: :secondary,
+                    "aria-label": t("settings.project_attributes.label_new_attribute")
+                  ) do |btn|
+                    btn.with_leading_visual_icon(icon: :plus)
+                    btn.with_trailing_visual_icon(icon: :"triangle-down")
+
+                    t("settings.project_attributes.label_new_attribute")
+                  end
+
                   OpenProject::CustomFieldFormat.available_for_class_name("Project")
                                                 .sort_by(&:name)
                                                 .each do |format|
-                    action_menu_item_for_custom_field_format(sub_menu, format)
+                    action_menu_item_for_custom_field_format(menu, format)
                   end
                 end
               end
             end
-
-            actions_container.with_column do
+          end
+        else
+          @ordered_cfs.each_with_index do |cf, index|
+            list.with_item(sortable: { id: cf.id, label: cf.name }) do
               render(
-                Primer::Alpha::Dialog.new(
-                  id: "project-custom-field-section-dialog#{@project_custom_field_section.id}", title: t("settings.project_attributes.label_new_section"),
-                  size: :medium_portrait,
-                  data: { "keep-open-on-submit": true }
+                custom_field_row_component_class.new(
+                  project_custom_field: cf,
+                  first: index == 0,
+                  last: index == @ordered_cfs.size - 1
                 )
-              ) do |_dialog|
-                render(Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new(project_custom_field_section: @project_custom_field_section))
-              end
-            end
-          end
-        end
-      end
-      if @ordered_cfs.empty?
-        component.with_row(data: { "empty-list-item": true }) do
-          flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
-            empty_list_container.with_column(ml: 4, mr: 2) do
-              render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
-            end
-            empty_list_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "new-project-custom-field-in-section-button" })) do |menu|
-                menu.with_show_button(
-                  scheme: :secondary,
-                  "aria-label": t("settings.project_attributes.label_new_attribute")
-                ) do |btn|
-                  btn.with_leading_visual_icon(icon: :plus)
-                  btn.with_trailing_visual_icon(icon: :"triangle-down")
-
-                  t("settings.project_attributes.label_new_attribute")
-                end
-
-                OpenProject::CustomFieldFormat.available_for_class_name("Project")
-                                              .sort_by(&:name)
-                                              .each do |format|
-                  action_menu_item_for_custom_field_format(menu, format)
-                end
-              end
-            end
-          end
-        end
-      else
-        @ordered_cfs.each_with_index do |cf, index|
-          component.with_row(data: field_item_data(cf)) do
-            render(
-              custom_field_row_component_class.new(
-                project_custom_field: cf,
-                first: index == 0,
-                last: index == @ordered_cfs.size - 1
               )
-            )
+            end
           end
         end
       end
-    end
+    )
+
+    concat(
+      render(
+        Primer::Alpha::Dialog.new(
+          id: "project-custom-field-section-dialog#{@project_custom_field_section.id}", title: t("settings.project_attributes.label_new_section"),
+          size: :medium_portrait,
+          data: { keep_open_on_submit: true }
+        )
+      ) do |_dialog|
+        render(Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new(project_custom_field_section: @project_custom_field_section))
+      end
+    )
   end
 %>

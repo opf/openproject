@@ -192,6 +192,28 @@ module OpenProject
         end
       end
 
+      # @label Sortable wiring (static)
+      # Emission-only preview: shows the declared wiring. Dragging needs a
+      # page-level sortable-lists root, which Lookbook does not provide.
+      #
+      # `sortable_list:` and `sortable_item:` mount on the same element and
+      # cannot be combined, so this pairs `sortable_list:` (rows are the
+      # draggable unit) with `sortable_handle:` (the group's own handle,
+      # without a full item Stimulus controller) — the same shape
+      # `Settings::ProjectCustomFieldSections::ShowComponent` uses for its
+      # custom-field rows.
+      def sortable_wiring
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-sortable-preview",
+          sortable_list: { type: "sprint", accepted_type: "task", name: "Sprint backlog" },
+          sortable_handle: true
+        ) do |list|
+          list.with_header(title: "Sprint backlog", show_drag_handle: true)
+          list.with_item(sortable: { id: 11, label: "Set up CI" }) { "Set up CI" }
+          list.with_item(sortable: { id: 12, label: "Write docs" }) { "Write docs" }
+        end
+      end
+
       # @label Playground
       # @param title_tag [Symbol] select [h2, h3, h4, h5]
       # @param count [Symbol] select [inferred, hidden, explicit, zero]

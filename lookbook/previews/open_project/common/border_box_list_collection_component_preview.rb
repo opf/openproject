@@ -28,25 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFieldSections
-    class IndexComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-
-      def initialize(project_custom_field_sections:)
-        super
-
-        @project_custom_field_sections = project_custom_field_sections
-      end
-
-      def row_component_class
-        Settings::ProjectCustomFieldSections::ShowComponent
-      end
-
-      def first_and_last
-        [@project_custom_field_sections.first, @project_custom_field_sections.last]
+module OpenProject
+  module Common
+    # @logical_path OpenProject/Common
+    class BorderBoxListCollectionComponentPreview < ViewComponent::Preview
+      # @label Default (static)
+      # Emission-only preview: a page-level collection of two rows, each a
+      # section-shaped BorderBoxListComponent box. Dragging needs a real
+      # browser and a page-level sortable-lists root outside the box being
+      # previewed, so this only shows the declared wiring — the same
+      # dual-role composition `Settings::ProjectCustomFieldSections::IndexComponent`
+      # uses: the collection owns the page-level root and the "section" row
+      # type, each row box owns its own "custom_field" list. Uses
+      # `render_with_template` (rather than nested `render` calls in Ruby)
+      # because `ViewComponent::Preview#render` only produces a real
+      # component tree at the top level of a preview method — nested calls
+      # from inside a captured slot block return an unrendered descriptor.
+      def default
+        render_with_template
       end
     end
   end

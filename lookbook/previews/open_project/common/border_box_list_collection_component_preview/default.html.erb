@@ -1,0 +1,35 @@
+<%= render(
+      OpenProject::Common::BorderBoxListCollectionComponent.new(
+        container: "border-box-list-collection-preview",
+        sortable_list: { type: "section" },
+        root: true,
+        move_urls: ->(id) { { section: "/sections/#{id}/drop", custom_field: "/custom-fields/#{id}/drop" } }
+      )
+    ) do |collection| %>
+  <% collection.with_item_row(sortable: { id: 1, label: "Team information" }) do %>
+    <%= render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "border-box-list-collection-preview-section-1",
+            sortable_list: { type: "custom_field" },
+            sortable_handle: true
+          )
+        ) do |list| %>
+      <% list.with_header(title: "Team information", show_drag_handle: true) %>
+      <% list.with_item(sortable: { id: "1-0", label: "Team size" }) { "Team size" } %>
+      <% list.with_item(sortable: { id: "1-1", label: "Time zone" }) { "Time zone" } %>
+    <% end %>
+  <% end %>
+  <% collection.with_item_row(sortable: { id: 2, label: "Delivery details" }) do %>
+    <%= render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "border-box-list-collection-preview-section-2",
+            sortable_list: { type: "custom_field" },
+            sortable_handle: true
+          )
+        ) do |list| %>
+      <% list.with_header(title: "Delivery details", show_drag_handle: true) %>
+      <% list.with_item(sortable: { id: "2-0", label: "Target date" }) { "Target date" } %>
+      <% list.with_item(sortable: { id: "2-1", label: "Release owner" }) { "Release owner" } %>
+    <% end %>
+  <% end %>
+<% end %>
