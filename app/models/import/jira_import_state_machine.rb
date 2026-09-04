@@ -107,9 +107,7 @@ module Import
           .first
 
       if last_importing_transition.nil?
-        batch = GoodJob::Batch.enqueue(on_success: Import::JiraStagedImportJob,
-                                       on_finish: Import::JiraStagedImportJob::FinishCallbackJob,
-                                       on_discard: Import::JiraStagedImportJob::DiscardCallbackJob,
+        batch = GoodJob::Batch.enqueue(on_finish: Import::JiraStagedImportJob,
                                        jira_import_id: jira_import.id,
                                        stage: nil)
       else
