@@ -33,6 +33,7 @@ module LlmConnections
   class DefaultModelsComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
     alias_method :connection, :model
 

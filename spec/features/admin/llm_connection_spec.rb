@@ -49,6 +49,12 @@ RSpec.describe "LLM connection administration",
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
   # for the item itself to become visible.
+  def offered_default_models
+    items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+
+    JSON.parse(items).pluck("id").compact_blank
+  end
+
   def choose_action(item)
     expect(page).to have_test_selector("llm-connection--actions")
     find_test_selector("llm-connection--actions").click
@@ -150,12 +156,16 @@ RSpec.describe "LLM connection administration",
       llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
 
       visit llm_models_path
+
+      expect(offered_default_models).to include("qwen3.6-27b")
+
       find_test_selector("llm-model--toggle-#{llm_model.id}").click
 
       wait_for { llm_model.reload.deactivated_at }.not_to be_nil
+      wait_for { offered_default_models }.not_to include("qwen3.6-27b")
 
-      # The toggle acknowledges with JSON rather than re-rendering the row, so
-      # the table only catches up on the next load.
+      # The toggle re-renders the pickers, not the row, so the table itself only
+      # catches up on the next load.
       visit llm_models_path
 
       within_test_selector("llm-model--toggle-#{llm_model.id}") do

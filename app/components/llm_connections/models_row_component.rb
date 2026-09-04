@@ -106,7 +106,7 @@ module LlmConnections
       {
         src: url_helpers.toggle_llm_model_path(llm_model),
         csrf_token: helpers.form_authenticity_token,
-        data: { "turbo-method": :post, "turbo-stream": true },
+        turbo: true,
         classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
       }
     end

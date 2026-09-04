@@ -38,11 +38,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models
-    items = page.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+  def offered_default_models(markup = page)
+    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
 
     JSON.parse(items).pluck("id").compact_blank
   end
+
+  # Nokogiri does not descend into a <template>, which is where a turbo stream
+  # carries its markup.
+  def streamed_markup = Capybara.string(response.body.gsub(%r{</?template>}, ""))
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -679,6 +683,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(llm_model.reload).not_to be_deactivated
       expect(connection.selectable_model_ids).to include("qwen3.6-27b")
+    end
+
+    it "offers the default pickers again without the model it just switched off" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include('target="llm-connections-default-models-component"')
+      expect(offered_default_models(streamed_markup)).not_to include("qwen3.6-27b")
     end
 
     it "refuses a model the server has withdrawn" do

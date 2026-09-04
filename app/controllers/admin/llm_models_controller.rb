@@ -146,7 +146,10 @@ module Admin
 
       llm_model.update!(deactivated_at: llm_model.deactivated? ? nil : Time.current)
 
-      render json: {}, status: :ok
+      # The default pickers offer the models that are switched on, so they go
+      # stale the moment a toggle flips.
+      update_via_turbo_stream(component: ::LlmConnections::DefaultModelsComponent.new(@connection))
+      respond_with_turbo_streams
     end
 
     private
