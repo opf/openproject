@@ -118,16 +118,12 @@ module WorkPackages
         @possible_assignees ||= Principal.possible_assignee(target_project)
       end
 
-      def selected_target_versions
-        selected_ids = Array(selected_values[:target_version_ids]).map(&:to_s)
+      def selected_target_versions = selected_versions_for(:target_version_ids, available_versions)
+      def selected_observed_in_versions = selected_versions_for(:observed_in_version_ids, available_observed_in_versions)
 
-        available_versions.select { |version| selected_ids.include?(version.id.to_s) }
-      end
-
-      def selected_observed_in_versions
-        selected_ids = Array(selected_values[:observed_in_version_ids]).map(&:to_s)
-
-        available_observed_in_versions.select { |version| selected_ids.include?(version.id.to_s) }
+      def selected_versions_for(key, available)
+        selected_ids = Array(selected_values[key]).map(&:to_s)
+        available.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
       def selected_custom_field_value(custom_field)
