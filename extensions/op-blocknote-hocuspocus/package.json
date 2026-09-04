@@ -23,14 +23,14 @@
     "node": "^24.15.0"
   },
   "dependencies": {
-    "@blocknote/server-util": "^0.51.3",
+    "@blocknote/server-util": "^0.54.0",
     "@hocuspocus/extension-logger": "^4.6.0",
     "@hocuspocus/server": "^4.2.0",
     "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.2.3/op-blocknote-extensions-0.2.3.tgz",
     "tsx": "^4.22.5"
   },
   "devDependencies": {
-    "@blocknote/core": "^0.51.3",
+    "@blocknote/core": "^0.54.0",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^2.0.1",
     "@hocuspocus/provider": "^4.6.0",
