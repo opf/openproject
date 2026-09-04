@@ -1005,6 +1005,20 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :text_transform_actions, except: :show do
+      member do
+        get :deletion_dialog
+        post :toggle
+        put :drop
+      end
+
+      collection do
+        put :enable_all
+        put :disable_all
+        post :toggle_setting
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog

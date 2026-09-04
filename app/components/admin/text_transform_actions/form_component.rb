@@ -28,32 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AI
-  class TextTransformAction < ApplicationRecord
-    SORTABLE_LIST_TYPE = "text_transform_action"
+module Admin
+  module TextTransformActions
+    class FormComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
 
-    acts_as_list
-    include Lists::MoveAfterAnchor
+      def self.wrapper_key = :text_transform_actions_form
 
-    has_many :text_transform_action_types,
-             class_name: "AI::TextTransformActionType",
-             foreign_key: :ai_text_transform_action_id,
-             inverse_of: :text_transform_action,
-             dependent: :destroy
-    has_many :types, through: :text_transform_action_types
+      private
 
-    enum :usage_scope, {
-      everywhere: "everywhere",
-      all_work_package_types: "all_work_package_types",
-      specific_work_package_types: "specific_work_package_types"
-    }, default: "everywhere", validate: true
+      def form_options
+        form_target.merge(
+          model:,
+          data: {
+            controller: "show-when-value-selected",
+            turbo_frame: "_top"
+          }
+        )
+      end
 
-    validates :label, presence: true, length: { maximum: 255 }
-    validates :prompt, presence: true
-    validates :types, presence: true, if: :specific_work_package_types?
-    validates :injects_type_template, absence: true, if: :everywhere?
-
-    scope :active, -> { where(active: true) }
-    scope :ordered, -> { order(:position, :id) }
+      def form_target
+        if model.new_record?
+          { method: :post, url: admin_text_transform_actions_path }
+        else
+          { method: :patch, url: admin_text_transform_action_path(model) }
+        end
+      end
+    end
   end
 end

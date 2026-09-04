@@ -28,32 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AI
-  class TextTransformAction < ApplicationRecord
-    SORTABLE_LIST_TYPE = "text_transform_action"
+module Admin
+  module TextTransformActions
+    class DeleteDialogComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    acts_as_list
-    include Lists::MoveAfterAnchor
+      TEST_SELECTOR = "op-text-transform-actions--delete-dialog"
 
-    has_many :text_transform_action_types,
-             class_name: "AI::TextTransformActionType",
-             foreign_key: :ai_text_transform_action_id,
-             inverse_of: :text_transform_action,
-             dependent: :destroy
-    has_many :types, through: :text_transform_action_types
-
-    enum :usage_scope, {
-      everywhere: "everywhere",
-      all_work_package_types: "all_work_package_types",
-      specific_work_package_types: "specific_work_package_types"
-    }, default: "everywhere", validate: true
-
-    validates :label, presence: true, length: { maximum: 255 }
-    validates :prompt, presence: true
-    validates :types, presence: true, if: :specific_work_package_types?
-    validates :injects_type_template, absence: true, if: :everywhere?
-
-    scope :active, -> { where(active: true) }
-    scope :ordered, -> { order(:position, :id) }
+      def form_arguments
+        {
+          action: admin_text_transform_action_path(model),
+          method: :delete
+        }
+      end
+    end
   end
 end

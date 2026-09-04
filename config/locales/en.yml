@@ -1906,6 +1906,41 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    text_transform_actions:
+      delete_dialog_component:
+        description: "Users will no longer be able to run this action in the rich text editor."
+        heading: "Are you sure you want to delete the action \"%{label}\"?"
+        title: "Delete text transform action"
+      form:
+        injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
+        label_caption: "This is the name that will be visible to users in the editor."
+        select_types: "Select types"
+        types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
+        usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
+      index:
+        description: "Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
+        label_add_action: "Action"
+        label_aria_add_action: "Add text transform action"
+      index_component:
+        blank_slate:
+          description: "Add an action to see it here"
+          title: "No text transform actions configured yet"
+        disabled_warning: "Text transform actions are disabled. The following actions will not be available anywhere."
+        label_disable_all: "Disable all"
+        label_enable_all: "Enable all"
+        title: "Actions"
+      new:
+        title: "New text transform action"
+      row_component:
+        label_actions: "Action menu"
+        label_toggle: "Toggle %{label}"
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: "All work package types"
+        everywhere: "Everywhere"
+        specific_work_package_types: "Specific work package types"
     workflows:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
@@ -4462,6 +4497,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
+      text_transform_actions: "Text transform actions"
     quick_add:
       label: "Add…"
 
@@ -5635,6 +5671,7 @@ en:
     <br/>
     Example: %{example_code}
 
+  setting_ai_text_transform_actions_enabled: "Enable text transform actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.
