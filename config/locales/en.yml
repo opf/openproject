@@ -1759,7 +1759,6 @@ en:
         context_window: "Context window"
         context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
         context_window_known: "Leave blank to use %{value}, %{source}."
-        create_submit: "+ Model"
         display_name_caption: "An optional friendly name shown instead of the model id."
         external_id_caption: "The model name exactly as the server expects it."
         model_type: "Model type"

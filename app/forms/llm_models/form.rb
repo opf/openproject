@@ -115,7 +115,7 @@ module LlmModels
 
       f.submit(
         name: :submit,
-        label: new_record? ? I18n.t("admin.llm_models.form.create_submit") : I18n.t(:button_save),
+        label: new_record? ? I18n.t(:button_create) : I18n.t(:button_save),
         scheme: :primary,
         data: { test_selector: "llm-model--submit" }
       )
