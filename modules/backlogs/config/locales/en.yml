@@ -288,6 +288,7 @@ en:
         invalid_target: "The target you are trying to add to is invalid."
         target_not_found: "The sprint or backlog you are trying to add to was not found."
       batch_update_service:
+        mixed_projects: "All work packages of a batch must belong to the same project."
         stale_batch: "At least one work package changed while the move was being prepared. Please check the current positions and try again."
         stale_predecessor: "The work package to insert after has been moved elsewhere. Please check the current positions and try again."
         unavailable_target: "The destination list is no longer available. Please reload the page and try again."

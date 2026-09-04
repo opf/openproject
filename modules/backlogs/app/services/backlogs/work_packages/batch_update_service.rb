@@ -58,9 +58,18 @@ class Backlogs::WorkPackages::BatchUpdateService
     def initial_prev_id = anchor ? anchor.id.to_s : ""
   end
 
-  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize
+  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    return empty_batch_failure if work_packages.empty?
+
+    contract = Backlogs::WorkPackages::BatchMoveParamsContract.new(
+      work_packages.first.project,
+      user,
+      params: { ids: work_packages.map(&:id), list_type:, list_id:, prev_id: }
+    )
+    return ServiceResult.failure(errors: contract.errors) unless contract.valid?
+
     target = Backlogs::Target.from_list(list_type, list_id)
-    return invalid_target_failure unless target
+    return mixed_projects_failure unless work_packages.map(&:project_id).uniq.one?
 
     # Captured once: placement resolution, anchor revalidation and the cohort
     # check must agree on one project, not re-derive it from a member a
@@ -209,19 +218,15 @@ class Backlogs::WorkPackages::BatchUpdateService
     nil
   end
 
-  # A nonblank prev_id must be a pure integer id, or Active Record would
-  # integer-cast a digit-prefixed string. The anchor is scoped to the batch
-  # project because the acts_as_list scope includes project_id: in a shared
-  # sprint another project's work package would pass a container-only
-  # comparison, yet be unresolvable for move_after, which then silently
-  # inserts at the top.
-  def resolve_placement(target, prev_id) # rubocop:disable Metrics/AbcSize
+  # The anchor is scoped to the batch project because the acts_as_list scope
+  # includes project_id: in a shared sprint another project's work package
+  # would pass a container-only comparison, yet be unresolvable for
+  # move_after, which then silently inserts at the top.
+  def resolve_placement(target, prev_id)
     return Placement.new(mode: :append, anchor: last_non_batch_member(target)) if prev_id.nil?
     return Placement.new(mode: :top, anchor: nil) if prev_id.to_s.blank?
-    return stale_predecessor_failure unless prev_id.to_s.match?(/\A\d+\z/)
-    return stale_predecessor_failure if work_packages.any? { |wp| wp.id == prev_id.to_i }
 
-    anchor = WorkPackage.where(project_id: batch_project_id).find_by(id: prev_id)
+    anchor = WorkPackage.visible(user).where(project_id: batch_project_id).find_by(id: prev_id)
     anchor ? Placement.new(mode: :explicit, anchor:) : stale_predecessor_failure
   end
 
@@ -232,6 +237,7 @@ class Backlogs::WorkPackages::BatchUpdateService
   # prev_id would then cross scopes into move_after's silent insert-at-top.
   def cohort_intact?
     current = WorkPackage
+      .visible(user)
       .where(id: work_packages.map(&:id), project_id: batch_project_id)
       .select(:id, :sprint_id, :backlog_bucket_id)
 
@@ -276,8 +282,10 @@ class Backlogs::WorkPackages::BatchUpdateService
 
   def last_non_batch_member(target)
     WorkPackage
+      .visible(user)
       .where(project_id: batch_project_id, **target.attributes)
       .where.not(id: work_packages.map(&:id))
+      .where.not(position: nil)
       .order(:position)
       .last
   end
@@ -294,8 +302,8 @@ class Backlogs::WorkPackages::BatchUpdateService
     @batch_source_targets
   end
 
-  def invalid_target_failure
-    ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
+  def empty_batch_failure
+    ServiceResult.failure(message: I18n.t("backlogs.work_packages.move_collection.invalid_ids"))
   end
 
   def stale_predecessor_failure
@@ -308,5 +316,9 @@ class Backlogs::WorkPackages::BatchUpdateService
 
   def unavailable_target_failure
     ServiceResult.failure(message: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
+  end
+
+  def mixed_projects_failure
+    ServiceResult.failure(message: I18n.t("backlogs.work_packages.batch_update_service.mixed_projects"))
   end
 end

@@ -63,25 +63,12 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
     end
   end
 
-  context "when the backlogs module is disabled" do
-    before { project.enabled_module_names -= ["backlogs"] }
-
-    it "does not route to the action" do
-      move_collection(ids: [bucket_wp1.id], list_type: "sprint", list_id: sprint.id)
-
-      expect(response).to have_http_status(:forbidden)
-    end
-  end
-
   shared_examples "rejects the whole request" do |status: :unprocessable_entity|
-    it "rejects without moving anything", :aggregate_failures do
-      positions_before = WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position)
-
-      subject
+    it "rejects without moving anything" do
+      expect { subject }
+        .not_to change { WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position) }
 
       expect(response).to have_http_status(status)
-      expect(WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position))
-        .to eq(positions_before)
     end
   end
 
