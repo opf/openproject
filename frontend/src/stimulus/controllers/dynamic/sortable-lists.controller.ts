@@ -48,8 +48,8 @@ import {
 import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import {
   captureRowPositions,
-  isConfinedItem,
   isOrderableItem,
+  itemAcceptsDestination,
   reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
@@ -61,6 +61,7 @@ import {
   rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
@@ -90,6 +91,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     announcementScope: { type: String, default: 'js.sortable_lists.selection' },
     moveAnnouncementScope: { type: String, default: 'js.sortable_lists.announcements' },
     selectionDescriptionId: { type: String, default: '' },
+    maxBatchSize: { type: Number, default: 0 },
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -107,6 +109,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly announcementScopeValue:string;
   declare readonly moveAnnouncementScopeValue:string;
   declare readonly selectionDescriptionIdValue:string;
+  declare readonly maxBatchSizeValue:number;
 
   private selection?:SelectionOrchestrator;
 
@@ -250,17 +253,50 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // Confined when the item is, or when any batch-mate the drag would carry
-  // is. Members are same-list by construction, so one confined member pins
-  // the whole block to the list they all sit in.
-  dragConfined(itemElement:HTMLElement):boolean {
-    if (isConfinedItem(itemElement)) {
-      return true;
+  // The destinations every member of the prospective batch accepts, null when
+  // the block reaches all of them. A batch may span lists, so a member that
+  // only accepts its own pins the block there, never to the dragged card's
+  // list.
+  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null {
+    const scope = this.selection?.actionScopeFor(itemElement);
+    const members = scope?.kind === 'batch' ? scope.items : [itemElement];
+    const ownerDestinationOf = (item:HTMLElement) => this.ownerDestinationOf(item);
+
+    const lists = this.ownedListOutlets();
+    const permitted = lists
+      .map((list) => this.destinationOf(list.listData))
+      .filter((destination) => members.every((member) => itemAcceptsDestination(member, destination, ownerDestinationOf)));
+
+    return permitted.length === lists.length ? null : permitted;
+  }
+
+  // Asked in canDrag, the earliest point a drag can be stopped: an oversized
+  // batch is told so before any preview or drop feedback appears.
+  dragRefused(itemElement:HTMLElement):boolean {
+    if (this.maxBatchSizeValue <= 0) {
+      return false;
     }
 
     const scope = this.selection?.actionScopeFor(itemElement);
-    const members = scope?.kind === 'batch' ? scope.items : [itemElement];
-    return members.some((member) => isConfinedItem(member));
+    const count = scope?.kind === 'batch' ? scope.items.length : 1;
+    if (count <= this.maxBatchSizeValue) {
+      return false;
+    }
+
+    void announce(
+      I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count, max: this.maxBatchSizeValue }),
+      { politeness: 'assertive' },
+    );
+    return true;
+  }
+
+  private destinationOf(listData:SortableListData):DestinationIdentity {
+    return { type: listData.type, id: listData.listId == null ? null : String(listData.listId) };
+  }
+
+  // Outlets match document-wide; another root's lists are not ours.
+  private ownedListOutlets() {
+    return this.sortableListsListOutlets.filter((list) => this.element.contains(list.element));
   }
 
   // Marked on the item element itself, the same one the item controller's
@@ -461,12 +497,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // The list element an item currently belongs to, for the confinement field
-  // on the drag payload; null outside any registered list.
-  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
-    return this.ownerListOf(itemElement)?.element ?? null;
-  }
-
   // The owning list of an item is the innermost list outlet containing its
   // element: in nested topologies (a section item hosting a field list) the
   // item is contained by every ancestor list, and only the innermost one
@@ -479,6 +509,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
     return this.ownerListOf(itemElement)?.rowsContainer ?? null;
+  }
+
+  ownerDestinationOf(element:HTMLElement):DestinationIdentity|null {
+    const listData = this.ownerListOf(element)?.listData;
+    return listData ? this.destinationOf(listData) : null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {

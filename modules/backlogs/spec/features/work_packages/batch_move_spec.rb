@@ -132,4 +132,58 @@ RSpec.describe "Backlogs batch move", :js, :selenium, :settings_reset do
     wait_for { sprint.work_packages_for(project).pluck(:id) }
       .to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id]
   end
+
+  describe "with a batch-mate confined to another list", with_ee: %i[readonly_work_packages] do
+    let!(:readonly_status) { create(:status, :readonly) }
+    let!(:other_sprint) { create(:sprint, project:) }
+    let!(:confined_wp) do
+      create(:work_package, sprint: other_sprint, position: 1, type:, project:, status: readonly_status)
+    end
+    let!(:other_sprint_wp) { create(:work_package, sprint: other_sprint, position: 2, type:, project:) }
+
+    # The outer visit renders the page before this group's own records exist.
+    before do
+      backlogs_page.visit!
+    end
+
+    it "refuses a drop in a list the confined member cannot enter" do
+      backlogs_page.expect_work_package_confined(confined_wp)
+      backlogs_page.toggle_card(confined_wp)
+      backlogs_page.toggle_card(sprint_wp1)
+
+      backlogs_page.drag_work_package_without_move(sprint_wp1, into: sprint)
+
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [sprint_wp1, sprint_wp2, sprint_wp3]
+      )
+      expect(confined_wp.reload.sprint_id).to eq(other_sprint.id)
+    end
+
+    # The mirror of the refusal above: the list the confined member already
+    # occupies is a destination the whole batch can reach, and the menus have
+    # always offered it.
+    it "moves the batch into the list its confined member occupies" do
+      backlogs_page.toggle_card(confined_wp)
+      backlogs_page.toggle_card(sprint_wp1)
+
+      backlogs_page.drag_work_package(sprint_wp1, into: other_sprint)
+
+      expect(backlogs_page.selected_card_ids).to be_empty
+      backlogs_page.expect_sprint_items_in_order(other_sprint, items: [sprint_wp1, confined_wp, other_sprint_wp]
+      )
+      wait_for { other_sprint.work_packages_for(project).pluck(:id) }
+        .to eq [sprint_wp1.id, confined_wp.id, other_sprint_wp.id]
+    end
+
+    it "refuses every drop while confined members sit in different lists" do
+      confined_in_sprint = create(:work_package, sprint:, position: 4, type:, project:, status: readonly_status)
+      backlogs_page.visit!
+      backlogs_page.toggle_card(confined_wp)
+      backlogs_page.toggle_card(confined_in_sprint)
+
+      backlogs_page.drag_work_package_without_move(confined_in_sprint, into: sprint)
+
+      expect(confined_in_sprint.reload.sprint_id).to eq(sprint.id)
+      expect(confined_wp.reload.sprint_id).to eq(other_sprint.id)
+    end
+  end
 end

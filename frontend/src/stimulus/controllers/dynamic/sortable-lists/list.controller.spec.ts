@@ -36,6 +36,7 @@ import type { dropTargetForElements as dropTargetForElementsFn } from '@atlaskit
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ListControllerType from './list.controller';
 import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { DestinationIdentity } from './list-dom';
 
 // The list controller is tested in ISOLATION: the root drives the outlet
 // hand-over in production (sortable-lists.controller.ts), so here we render only
@@ -76,11 +77,12 @@ describe('Sortable lists list controller', () => {
       busy,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
-      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
       freezeDragBatch: vi.fn(() => 1),
       markDragBatch: vi.fn(),
-      dragConfined: vi.fn(() => false),
+      dragPermittedDestinations: vi.fn(() => null),
+      ownerDestinationOf: vi.fn(() => null),
+      dragRefused: vi.fn(() => false),
     };
   }
 
@@ -122,10 +124,10 @@ describe('Sortable lists list controller', () => {
   function source(
     rootElement:HTMLElement|null,
     type = 'work_package',
-    { confined = false, sourceListElement = null }:{ confined?:boolean; sourceListElement?:HTMLElement|null } = {},
+    { permittedDestinations = null }:{ permittedDestinations?:DestinationIdentity[]|null } = {},
   ) {
     return {
-      data: sortableItemData({ itemId: '1', type, rootElement, confined, sourceListElement }),
+      data: sortableItemData({ itemId: '1', type, rootElement, permittedDestinations }),
       element: document.createElement('li'),
     } as never;
   }
@@ -242,7 +244,7 @@ describe('Sortable lists list controller', () => {
     expect(dropTargetOptionsFor(list)?.canDrop?.({
       element: list,
       input: {} as never,
-      source: source(root, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(root, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     })).toBe(true);
   });
 
@@ -305,7 +307,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     } as never);
 
     expect(list.dataset.dropContainer).toEqual('refused');
@@ -318,7 +320,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: list }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '7' }] }),
     } as never);
 
     expect(list.dataset.dropContainer).toEqual('active');
@@ -331,7 +333,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     } as never);
     expect(list.dataset.dropContainer).toEqual('refused');
 

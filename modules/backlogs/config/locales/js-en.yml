@@ -31,6 +31,7 @@ en:
   js:
     backlogs:
       announcements:
+        batch_too_large: "Cannot move %{count} work packages at once. Select no more than %{max}."
         fallback_item_label: "Work package"
         fallback_list_name: "another list"
         move_failed_check_position: "Move failed. Check the work package's current position."
