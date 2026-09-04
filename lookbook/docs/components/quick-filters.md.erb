@@ -1,10 +1,11 @@
 Quick filters are lightweight controls that let users toggle a single filter without opening the full filter panel. Each click or selection navigates to a new URL with updated `filters` and `sortBy` params,
 preserving any other active filters.
 
-There are currently three variants:
+There are currently four variants:
 * SegmentedControlComponent
 * BooleanComponent
 * SelectPanelComponent
+* ParamSelectPanelComponent
 
 ## SegmentedControlComponent
 
@@ -57,6 +58,25 @@ Note: Clicking on buttons in the above preview will break it and redirect to the
 
 Pass `src` to lazily load the panel items from an endpoint instead of providing them inline.
 The filter must implement `#value_objects`, and `src` cannot be combined with inline items or `select_variant: :single`.
+
+## ParamSelectPanelComponent
+
+A multi-select panel for pages that filter without a `Queries` object. Instead of serializing into `filters`,
+the selection lives in a plain array query parameter named by `param`, and the "Apply" button navigates to the
+current URL with that parameter rewritten. Items come from `records`, which need only `id` and `name`.
+
+The show button names the selection: `all_label` when nothing is picked, the record's name when one is, and
+`many_label_key` interpolated with `count` beyond that — so that key must accept `%{count}`.
+
+<%= embed OpPrimer::QuickFilterPreview, :param_select_panel, panels: %i[source] %>
+
+### With a selection
+
+<%= embed OpPrimer::QuickFilterPreview, :param_select_panel_with_selection, panels: %i[source] %>
+
+Note: a `SubHeader` requires an "All filters" button once it holds more than one `with_quick_filter`. Pages using
+this component have no advanced filter panel to open, so they place their panels in a single `with_filter_component`
+slot instead.
 
 ## Keeping in sync with "All filters"
 

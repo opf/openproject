@@ -60,7 +60,20 @@ module OpPrimer
       render_with_template(locals: { query: })
     end
 
+    def param_select_panel
+      render_with_template(locals: { records: preview_types, selected: [] })
+    end
+
+    def param_select_panel_with_selection
+      records = preview_types
+      render_with_template(locals: { records:, selected: records.first(2) })
+    end
+
     private
+
+    def preview_types
+      ::Type.order(:position).limit(5).to_a
+    end
 
     def meeting_query
       Queries::Meetings::MeetingQuery.new(user: User.current)

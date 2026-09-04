@@ -1,0 +1,10 @@
+<%= render(
+      OpPrimer::QuickFilter::ParamSelectPanelComponent.new(
+        title: "Filter by type",
+        param: "type_ids",
+        records: records,
+        selected: selected,
+        all_label: "All types",
+        many_label_key: "label_x_items_selected"
+      )
+    ) %>
