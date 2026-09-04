@@ -287,6 +287,18 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(connection.models.find_by(external_id: "was-discovered")).not_to be_active
         expect(connection.available_model_ids).to include("hand-typed", "qwen3.6-27b")
       end
+
+      # The server reports an id and nothing else, so a refresh that adopts the
+      # card verbatim would throw away the name an administrator gave the model.
+      it "keeps an edited display name across a refresh that reports the model" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen3.6-27b")
+        patch llm_model_path(llm_model), params: { llm_model: { display_name: "Our house model" } }
+        mock_llm_models_response(base_url)
+
+        post refresh_llm_models_path
+
+        expect(llm_model.reload.display_name).to eq("Our house model")
+      end
     end
 
     describe "PATCH /admin/llm_models/:id" do
