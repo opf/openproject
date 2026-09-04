@@ -9,6 +9,7 @@
     "src/stimulus/test-helpers.ts"
   ],
   "plugin": ["typedoc-github-theme", "./tooling/typedoc/openproject-plugin.mjs"],
+  "excludeExternals": true,
   "out": "./generated-docs",
   "disableGit": true,
   "gitRevision": "dev",
