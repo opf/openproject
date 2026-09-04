@@ -6239,13 +6239,14 @@ en:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: "Status could not be moved."
       headers:
-        excluded_from_totals: "Excluded from totals"
         is_closed: "Closed"
         is_default: "Default"
         is_readonly: "Read-only"
       no_results_content_text: Add a new status
       no_results_title_text: There are currently no work package statuses.
+      status_actions: "Status actions"
 
   # Used in array.to_sentence.
   support:
