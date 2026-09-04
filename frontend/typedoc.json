@@ -8,7 +8,7 @@
     "src/stimulus/openproject-stimulus-application.ts",
     "src/stimulus/test-helpers.ts"
   ],
-  "plugin": ["typedoc-github-theme"],
+  "plugin": ["typedoc-github-theme", "./tooling/typedoc/openproject-plugin.mjs"],
   "out": "./generated-docs",
   "projectDocuments": ["doc/**/*.md"],
   "tsconfig": "tsconfig.app.json"
